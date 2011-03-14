@@ -1,0 +1,9 @@
+{
+  try {
+    FloatBuffer buf=(FloatBuffer)mesh.getBuffer(type).getData();
+    buf.put(parseFloat(attribs.getValue("x"))).put(parseFloat(attribs.getValue("y"))).put(parseFloat(attribs.getValue("z")));
+  }
+ catch (  Exception ex) {
+    throw new SAXException("Failed to push attrib",ex);
+  }
+}

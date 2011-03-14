@@ -1,0 +1,12 @@
+{
+  if (!(collisionShape.getCShape() instanceof ConvexShape)) {
+    throw (new UnsupportedOperationException("Kinematic character nodes cannot have mesh collision shapes"));
+  }
+  super.setCollisionShape(collisionShape);
+  if (gObject == null) {
+    buildObject();
+  }
+ else {
+    gObject.setCollisionShape(collisionShape.getCShape());
+  }
+}

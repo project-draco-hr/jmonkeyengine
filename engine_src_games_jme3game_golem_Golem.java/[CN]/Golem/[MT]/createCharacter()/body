@@ -1,0 +1,11 @@
+{
+  CapsuleCollisionShape capsule=new CapsuleCollisionShape(3f,4f);
+  characterNode=new PhysicsCharacterNode(capsule,0.01f);
+  character=(Node)assetManager.loadModel("Models/Oto/Oto.mesh.xml");
+  characterNode.attachChild(character);
+  characterNode.setName("the Golem");
+  characterNode.setLocalTranslation(new Vector3f(0,10,50));
+  characterNode.setMaxSlope(FastMath.PI / 2f * 3f);
+  rootNode.attachChild(characterNode);
+  getPhysicsSpace().add(characterNode);
+}

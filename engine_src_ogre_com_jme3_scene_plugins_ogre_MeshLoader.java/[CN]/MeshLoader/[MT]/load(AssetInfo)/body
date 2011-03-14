@@ -1,0 +1,33 @@
+{
+  try {
+    AssetKey key=info.getKey();
+    meshName=key.getName();
+    folderName=key.getFolder();
+    String ext=key.getExtension();
+    meshName=meshName.substring(0,meshName.length() - ext.length() - 1);
+    if (folderName != null && folderName.length() > 0) {
+      meshName=meshName.substring(folderName.length());
+    }
+    assetManager=info.getManager();
+    OgreMeshKey meshKey=null;
+    if (key instanceof OgreMeshKey) {
+      meshKey=(OgreMeshKey)key;
+      materialList=meshKey.getMaterialList();
+    }
+ else {
+      materialList=(MaterialList)assetManager.loadAsset(folderName + meshName + ".material");
+    }
+    XMLReader xr=XMLReaderFactory.createXMLReader();
+    xr.setContentHandler(this);
+    xr.setErrorHandler(this);
+    InputStreamReader r=new InputStreamReader(info.openStream());
+    xr.parse(new InputSource(r));
+    r.close();
+    return compileModel();
+  }
+ catch (  SAXException ex) {
+    IOException ioEx=new IOException("Error while parsing Ogre3D mesh.xml");
+    ioEx.initCause(ex);
+    throw ioEx;
+  }
+}

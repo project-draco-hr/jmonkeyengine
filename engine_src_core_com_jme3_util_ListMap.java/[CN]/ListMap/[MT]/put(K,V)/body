@@ -1,0 +1,13 @@
+{
+  if (key == null)   throw new IllegalArgumentException();
+  for (int i=0; i < entries.size(); i++) {
+    ListMapEntry<K,V> entry=entries.get(i);
+    if (keyEq(entry.key,key)) {
+      V prevValue=entry.value;
+      entry.value=value;
+      return prevValue;
+    }
+  }
+  entries.add(new ListMapEntry<K,V>(key,value));
+  return null;
+}

@@ -1,0 +1,20 @@
+{
+  if (def.isUsingShaders()) {
+    DefineList newDefines=new DefineList();
+    Collection<MatParam> params=owner.getParams();
+    for (    MatParam param : params) {
+      String defineName=def.getShaderParamDefine(param.getName());
+      if (defineName != null) {
+        newDefines.set(defineName,param.getVarType(),param.getValue());
+      }
+    }
+    if (!needReload && defines.getCompiled().equals(newDefines.getCompiled())) {
+      newDefines=null;
+    }
+ else {
+      defines.clear();
+      defines.addFrom(newDefines);
+      loadShader(manager);
+    }
+  }
+}

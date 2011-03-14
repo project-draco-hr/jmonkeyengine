@@ -1,0 +1,22 @@
+{
+  Mapping mapping=mappings.get(mappingName);
+  if (mapping == null) {
+    mapping=new Mapping(mappingName);
+    mappings.put(mappingName,mapping);
+  }
+  for (  Trigger trigger : triggers) {
+    int hash=trigger.hashCode();
+    ArrayList<Mapping> names=bindings.get(hash);
+    if (names == null) {
+      names=new ArrayList<Mapping>();
+      bindings.put(hash,names);
+    }
+    if (!names.contains(mapping)) {
+      names.add(mapping);
+      mapping.triggers.add(hash);
+    }
+ else {
+      logger.log(Level.WARNING,"Attempted to add mapping '{0}' twice to trigger.",mappingName);
+    }
+  }
+}

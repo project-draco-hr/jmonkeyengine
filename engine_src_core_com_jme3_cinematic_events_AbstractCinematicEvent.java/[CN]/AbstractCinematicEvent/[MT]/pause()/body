@@ -1,0 +1,10 @@
+{
+  onPause();
+  playState=PlayState.Paused;
+  if (listeners != null) {
+    for (int i=0; i < listeners.size(); i++) {
+      CinematicEventListener cel=listeners.get(i);
+      cel.onPause(this);
+    }
+  }
+}

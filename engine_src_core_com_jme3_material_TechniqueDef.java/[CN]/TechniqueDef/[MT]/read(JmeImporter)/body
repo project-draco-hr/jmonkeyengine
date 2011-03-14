@@ -1,0 +1,12 @@
+{
+  InputCapsule ic=im.getCapsule(this);
+  name=ic.readString("name",null);
+  vertName=ic.readString("vertName",null);
+  fragName=ic.readString("fragName",null);
+  shaderLang=ic.readString("shaderLang",null);
+  presetDefines=(DefineList)ic.readSavable("presetDefines",null);
+  lightMode=ic.readEnum("lightMode",LightMode.class,LightMode.Disable);
+  shadowMode=ic.readEnum("shadowMode",ShadowMode.class,ShadowMode.Disable);
+  renderState=(RenderState)ic.readSavable("renderState",null);
+  usesShaders=ic.readBoolean("usesShaders",false);
+}

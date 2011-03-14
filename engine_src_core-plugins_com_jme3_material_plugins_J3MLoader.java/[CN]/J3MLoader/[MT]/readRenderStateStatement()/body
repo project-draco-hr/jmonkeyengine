@@ -1,0 +1,36 @@
+{
+  String word=scan.next();
+  if (word.equals("Wireframe")) {
+    renderState.setWireframe(parseBoolean(scan.next()));
+  }
+ else   if (word.equals("FaceCull")) {
+    renderState.setFaceCullMode(FaceCullMode.valueOf(scan.next()));
+  }
+ else   if (word.equals("DepthWrite")) {
+    renderState.setDepthWrite(parseBoolean(scan.next()));
+  }
+ else   if (word.equals("DepthTest")) {
+    renderState.setDepthTest(parseBoolean(scan.next()));
+  }
+ else   if (word.equals("Blend")) {
+    renderState.setBlendMode(BlendMode.valueOf(scan.next()));
+  }
+ else   if (word.equals("AlphaTestFalloff")) {
+    renderState.setAlphaTest(true);
+    renderState.setAlphaFallOff(scan.nextFloat());
+  }
+ else   if (word.equals("PolyOffset")) {
+    float factor=scan.nextFloat();
+    float units=scan.nextFloat();
+    renderState.setPolyOffset(factor,units);
+  }
+ else   if (word.equals("ColorWrite")) {
+    renderState.setColorWrite(parseBoolean(scan.next()));
+  }
+ else   if (word.equals("PointSprite")) {
+    renderState.setPointSprite(parseBoolean(scan.next()));
+  }
+ else {
+    throwIfNequal(null,word);
+  }
+}

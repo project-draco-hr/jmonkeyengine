@@ -1,0 +1,23 @@
+{
+  InputCapsule ic=im.getCapsule(this);
+  type=ic.readByte("type",(byte)0);
+switch (type) {
+case 0:
+    value=ic.readInt("intVal",0);
+  break;
+case 1:
+value=ic.readFloat("floatVal",0f);
+break;
+case 2:
+value=ic.readBoolean("boolVal",false);
+break;
+case 3:
+value=ic.readString("strVal",null);
+break;
+case 4:
+value=ic.readLong("longVal",0l);
+break;
+default :
+throw new UnsupportedOperationException();
+}
+}

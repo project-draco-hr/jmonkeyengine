@@ -1,0 +1,19 @@
+{
+  if (map == null) {
+    return;
+  }
+  if (map.equals(defVal)) {
+    return;
+  }
+  Element stringMap=appendElement(name);
+  Iterator<? extends Savable> keyIterator=map.keySet().iterator();
+  while (keyIterator.hasNext()) {
+    Savable key=keyIterator.next();
+    Element mapEntry=appendElement(XMLExporter.ELEMENT_MAPENTRY);
+    write(key,XMLExporter.ELEMENT_KEY,null);
+    Savable value=map.get(key);
+    write(value,XMLExporter.ELEMENT_VALUE,null);
+    currentElement=stringMap;
+  }
+  currentElement=(Element)stringMap.getParentNode();
+}

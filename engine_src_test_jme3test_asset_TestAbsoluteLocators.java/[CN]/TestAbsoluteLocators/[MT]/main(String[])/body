@@ -1,0 +1,13 @@
+{
+  AssetManager am=new DesktopAssetManager();
+  am.registerLoader(AWTLoader.class.getName(),"png");
+  am.registerLoader(WAVLoader.class.getName(),"wav");
+  am.registerLocator("/",ClasspathLocator.class.getName());
+  AudioData audio=am.loadAudio("Sound/Effects/Gun.wav");
+  Texture tex=am.loadTexture("Textures/Terrain/Pond/Pond.png");
+  if (audio == null)   throw new RuntimeException("Cannot find audio!");
+ else   System.out.println("Audio loaded from Sounds/Effects/Gun.wav");
+  if (tex == null)   throw new RuntimeException("Cannot find texture!");
+ else   System.out.println("Texture loaded from Textures/Terrain/Pond/Pond.png");
+  System.out.println("Success!");
+}

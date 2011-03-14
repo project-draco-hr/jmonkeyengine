@@ -1,0 +1,18 @@
+{
+  if (lng1 - lng2 == 0) {
+    return 0;
+  }
+  if (lng1 >= 0 & lng2 >= 0) {
+    return Math.abs(-(lng1 - lng2) * 60);
+  }
+  if (lng1 < 0 & lng2 < 0) {
+    return Math.abs(-(lng1 - lng2) * 60);
+  }
+  if (lng1 == 0) {
+    return Math.abs(lng2 * 60);
+  }
+  if (lng2 == 0) {
+    return Math.abs(lng1 * 60);
+  }
+  return (Math.abs(lng1) + Math.abs(lng2)) * 60;
+}

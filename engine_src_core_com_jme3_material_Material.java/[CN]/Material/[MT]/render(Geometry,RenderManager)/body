@@ -1,0 +1,48 @@
+{
+  autoSelectTechnique(rm);
+  Renderer r=rm.getRenderer();
+  TechniqueDef techDef=technique.getDef();
+  if (techDef.getLightMode() == LightMode.MultiPass && geom.getWorldLightList().size() == 0) {
+    return;
+  }
+  if (rm.getForcedRenderState() != null) {
+    r.applyRenderState(rm.getForcedRenderState());
+  }
+ else {
+    if (techDef.getRenderState() != null) {
+      r.applyRenderState(techDef.getRenderState().copyMergedTo(additionalState,mergedRenderState));
+    }
+ else {
+      r.applyRenderState(RenderState.DEFAULT.copyMergedTo(additionalState,mergedRenderState));
+    }
+  }
+  if (techDef.isUsingShaders()) {
+    clearUniformsSetByCurrent(technique.getShader());
+    rm.updateUniformBindings(technique.getWorldBindUniforms());
+  }
+  for (int i=0; i < paramValues.size(); i++) {
+    MatParam param=paramValues.getValue(i);
+    param.apply(r,technique);
+  }
+  Shader shader=technique.getShader();
+switch (techDef.getLightMode()) {
+case Disable:
+    r.setLighting(null);
+  break;
+case SinglePass:
+updateLightListUniforms(shader,geom,4);
+break;
+case FixedPipeline:
+r.setLighting(geom.getWorldLightList());
+break;
+case MultiPass:
+resetUniformsNotSetByCurrent(shader);
+renderMultipassLighting(shader,geom,r);
+return;
+}
+if (techDef.isUsingShaders()) {
+resetUniformsNotSetByCurrent(shader);
+r.setShader(shader);
+}
+r.renderMesh(geom.getMesh(),geom.getLodLevel(),1);
+}

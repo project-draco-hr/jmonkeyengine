@@ -1,0 +1,31 @@
+{
+  float[] array=new float[spline.getControlPoints().size() * 3];
+  short[] indices=new short[(spline.getControlPoints().size() - 1) * 2];
+  int i=0;
+  int cpt=0;
+  int k=0;
+  int j=0;
+  for (Iterator<Vector3f> it=spline.getControlPoints().iterator(); it.hasNext(); ) {
+    Vector3f vector3f=it.next();
+    array[i]=vector3f.getX();
+    i++;
+    array[i]=vector3f.getY();
+    i++;
+    array[i]=vector3f.getZ();
+    i++;
+    if (it.hasNext()) {
+      k=j;
+      indices[cpt]=(short)k;
+      cpt++;
+      k++;
+      indices[cpt]=(short)k;
+      cpt++;
+      j++;
+    }
+  }
+  setMode(Mesh.Mode.Lines);
+  setBuffer(VertexBuffer.Type.Position,3,array);
+  setBuffer(VertexBuffer.Type.Index,(spline.getControlPoints().size() - 1) * 2,indices);
+  updateBound();
+  updateCounts();
+}

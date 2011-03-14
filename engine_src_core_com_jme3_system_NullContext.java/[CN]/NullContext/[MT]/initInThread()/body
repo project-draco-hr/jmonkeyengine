@@ -1,0 +1,17 @@
+{
+  logger.info("NullContext created.");
+  logger.log(Level.FINE,"Running on thread: {0}",Thread.currentThread().getName());
+  Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler(){
+    public void uncaughtException(    Thread thread,    Throwable thrown){
+      listener.handleError("Uncaught exception thrown in " + thread.toString(),thrown);
+    }
+  }
+);
+  timer=new NanoTimer();
+  renderer=new NullRenderer();
+synchronized (createdLock) {
+    created.set(true);
+    createdLock.notifyAll();
+  }
+  listener.initialize();
+}

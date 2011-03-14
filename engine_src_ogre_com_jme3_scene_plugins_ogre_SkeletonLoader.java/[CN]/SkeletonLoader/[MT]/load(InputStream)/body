@@ -1,0 +1,22 @@
+{
+  try {
+    XMLReader xr=XMLReaderFactory.createXMLReader();
+    xr.setContentHandler(this);
+    xr.setErrorHandler(this);
+    InputStreamReader r=new InputStreamReader(in);
+    xr.parse(new InputSource(r));
+    if (animations == null) {
+      animations=new ArrayList<BoneAnimation>();
+    }
+    AnimData data=new AnimData(skeleton,animations);
+    skeleton=null;
+    animations=null;
+    return data;
+  }
+ catch (  SAXException ex) {
+    IOException ioEx=new IOException("Error while parsing Ogre3D dotScene");
+    ioEx.initCause(ex);
+    fullReset();
+    throw ioEx;
+  }
+}

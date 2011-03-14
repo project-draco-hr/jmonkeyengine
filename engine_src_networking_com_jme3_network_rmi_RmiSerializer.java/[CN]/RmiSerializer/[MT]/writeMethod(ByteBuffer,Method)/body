@@ -1,0 +1,9 @@
+{
+  String name=method.getName();
+  Class<?>[] paramTypes=method.getParameterTypes();
+  Class<?> returnType=method.getReturnType();
+  writeString(buffer,name);
+  writeType(buffer,returnType);
+  buffer.put((byte)paramTypes.length);
+  for (  Class<?> paramType : paramTypes)   writeType(buffer,paramType);
+}

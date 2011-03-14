@@ -1,0 +1,8 @@
+{
+  Image img=tex.getImage();
+  if (img == null)   throw new IllegalArgumentException("Texture not initialized with RTT.");
+  if (depth && !img.getFormat().isDepthFormat())   throw new IllegalArgumentException("Texture image format must be depth.");
+ else   if (!depth && img.getFormat().isDepthFormat())   throw new IllegalArgumentException("Texture image format must be color/luminance.");
+  if (width != img.getWidth() || height != img.getHeight())   throw new IllegalArgumentException("Texture image resolution " + "must match FB resolution");
+  if (samples != tex.getImage().getMultiSamples())   throw new IllegalStateException("Texture samples must match framebuffer samples");
+}

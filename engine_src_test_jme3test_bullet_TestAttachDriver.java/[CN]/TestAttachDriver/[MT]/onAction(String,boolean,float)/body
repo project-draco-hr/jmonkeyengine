@@ -1,0 +1,56 @@
+{
+  if (binding.equals("Lefts")) {
+    if (value) {
+      steeringValue+=.5f;
+    }
+ else {
+      steeringValue+=-.5f;
+    }
+    vehicle.steer(steeringValue);
+  }
+ else   if (binding.equals("Rights")) {
+    if (value) {
+      steeringValue+=-.5f;
+    }
+ else {
+      steeringValue+=.5f;
+    }
+    vehicle.steer(steeringValue);
+  }
+ else   if (binding.equals("Ups")) {
+    if (value) {
+      accelerationValue+=accelerationForce;
+    }
+ else {
+      accelerationValue-=accelerationForce;
+    }
+    vehicle.accelerate(accelerationValue);
+  }
+ else   if (binding.equals("Downs")) {
+    if (value) {
+      vehicle.brake(brakeForce);
+    }
+ else {
+      vehicle.brake(0f);
+    }
+  }
+ else   if (binding.equals("Space")) {
+    if (value) {
+      getPhysicsSpace().remove(slider);
+      slider.destroy();
+      vehicle.applyImpulse(jumpForce,Vector3f.ZERO);
+    }
+  }
+ else   if (binding.equals("Reset")) {
+    if (value) {
+      System.out.println("Reset");
+      vehicle.setPhysicsLocation(new Vector3f(0,0,0));
+      vehicle.setPhysicsRotation(new Matrix3f());
+      vehicle.setLinearVelocity(Vector3f.ZERO);
+      vehicle.setAngularVelocity(Vector3f.ZERO);
+      vehicle.resetSuspension();
+      bridge.setPhysicsLocation(new Vector3f(0,1.4f,4));
+      bridge.setPhysicsRotation(Quaternion.DIRECTION_Z.toRotationMatrix());
+    }
+  }
+}

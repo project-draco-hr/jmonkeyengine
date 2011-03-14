@@ -1,0 +1,24 @@
+{
+  for (int i=0; i < targets.length; i++) {
+    Mesh mesh=targets[i];
+    if (targets[i].getBuffer(Type.BindPosePosition) != null) {
+      VertexBuffer bi=mesh.getBuffer(Type.BoneIndex);
+      ByteBuffer bib=(ByteBuffer)bi.getData();
+      if (!bib.hasArray())       mesh.prepareForAnim(true);
+      VertexBuffer bindPos=mesh.getBuffer(Type.BindPosePosition);
+      VertexBuffer bindNorm=mesh.getBuffer(Type.BindPoseNormal);
+      VertexBuffer pos=mesh.getBuffer(Type.Position);
+      VertexBuffer norm=mesh.getBuffer(Type.Normal);
+      FloatBuffer pb=(FloatBuffer)pos.getData();
+      FloatBuffer nb=(FloatBuffer)norm.getData();
+      FloatBuffer bpb=(FloatBuffer)bindPos.getData();
+      FloatBuffer bnb=(FloatBuffer)bindNorm.getData();
+      pb.clear();
+      nb.clear();
+      bpb.clear();
+      bnb.clear();
+      pb.put(bpb).clear();
+      nb.put(bnb).clear();
+    }
+  }
+}

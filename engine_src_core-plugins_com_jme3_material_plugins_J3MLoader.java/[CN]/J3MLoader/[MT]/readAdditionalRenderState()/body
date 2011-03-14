@@ -1,0 +1,16 @@
+{
+  nextStatement();
+  String word=scan.next();
+  throwIfNequal("{",word);
+  nextStatement();
+  renderState=material.getAdditionalRenderState();
+  while (true) {
+    if (scan.hasNext("\\}")) {
+      scan.next();
+      break;
+    }
+    readRenderStateStatement();
+    nextStatement();
+  }
+  renderState=null;
+}

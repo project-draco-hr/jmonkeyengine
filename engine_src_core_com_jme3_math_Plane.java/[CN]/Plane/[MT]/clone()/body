@@ -1,0 +1,10 @@
+{
+  try {
+    Plane p=(Plane)super.clone();
+    p.normal=normal.clone();
+    return p;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
+}

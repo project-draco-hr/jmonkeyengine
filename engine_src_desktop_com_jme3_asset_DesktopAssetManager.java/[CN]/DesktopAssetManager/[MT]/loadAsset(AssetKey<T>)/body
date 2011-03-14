@@ -1,0 +1,63 @@
+{
+  if (eventListener != null)   eventListener.assetRequested(key);
+  AssetKey smartKey=null;
+  Object o=null;
+  if (key.shouldCache()) {
+    if (key.useSmartCache()) {
+      SmartAssetInfo smartInfo=cache.getFromSmartCache(key);
+      if (smartInfo != null) {
+        smartKey=smartInfo.smartKey.get();
+        if (smartKey != null) {
+          o=smartInfo.asset;
+        }
+      }
+    }
+ else {
+      o=cache.getFromCache(key);
+    }
+  }
+  if (o == null) {
+    AssetLoader loader=handler.aquireLoader(key);
+    if (loader == null) {
+      logger.log(Level.WARNING,"No loader registered for type {0}.",key.getExtension());
+      return null;
+    }
+    if (handler.getLocatorCount() == 0) {
+      logger.warning("There are no locators currently" + " registered. Use AssetManager." + "registerLocator() to register a"+ " locator.");
+      return null;
+    }
+    AssetInfo info=handler.tryLocate(key);
+    if (info == null) {
+      logger.log(Level.WARNING,"Cannot locate resource: {0}",key);
+      return null;
+    }
+    try {
+      o=loader.load(info);
+    }
+ catch (    IOException ex) {
+      logger.log(Level.WARNING,"Failed to load resource: " + key,ex);
+    }
+    if (o == null) {
+      logger.log(Level.WARNING,"Error occured while loading resource {0} using {1}",new Object[]{key,loader.getClass().getSimpleName()});
+      return null;
+    }
+ else {
+      if (logger.isLoggable(Level.FINER)) {
+        logger.log(Level.FINER,"Loaded {0} with {1}",new Object[]{key,loader.getClass().getSimpleName()});
+      }
+      o=key.postProcess(o);
+      if (key.shouldCache())       cache.addToCache(key,o);
+      if (eventListener != null)       eventListener.assetLoaded(key);
+    }
+  }
+  T clone=(T)key.createClonedInstance(o);
+  if (key.useSmartCache()) {
+    if (smartKey != null) {
+      ((Asset)clone).setKey(smartKey);
+    }
+ else {
+      ((Asset)clone).setKey(key);
+    }
+  }
+  return clone;
+}

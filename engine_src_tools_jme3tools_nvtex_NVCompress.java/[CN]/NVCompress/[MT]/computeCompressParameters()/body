@@ -1,0 +1,48 @@
+{
+  List<String> params=new ArrayList<String>();
+  if (!chkCuda.isSelected())   params.add("-nocuda");
+switch (cmbMapType.getSelectedIndex()) {
+case 0:
+    params.add("-color");
+  break;
+case 1:
+params.add("-normal");
+break;
+case 2:
+params.add("-tonormal");
+break;
+}
+if (!chkMips.isSelected()) params.add("-nomips");
+if (chkRepeat.isSelected()) params.add("-repeat");
+if (chkLowQuality.isSelected()) params.add("-fast");
+switch (cmbCompressType.getSelectedIndex()) {
+case 0:
+params.add("-rgb");
+break;
+case 1:
+params.add("-bc1");
+break;
+case 2:
+params.add("-bc1n");
+break;
+case 3:
+params.add("-bc1a");
+break;
+case 4:
+params.add("-bc2");
+break;
+case 5:
+params.add("-bc3");
+break;
+case 6:
+params.add("-bc3n");
+break;
+case 7:
+params.add("-bc4");
+break;
+case 8:
+params.add("-bc5");
+break;
+}
+return params.toArray(new String[0]);
+}

@@ -1,0 +1,73 @@
+{
+  Node mainScene=new Node("Main Scene");
+  rootNode.attachChild(mainScene);
+  createTerrain(mainScene);
+  DirectionalLight sun=new DirectionalLight();
+  sun.setDirection(lightDir);
+  sun.setColor(ColorRGBA.White.clone().multLocal(1.7f));
+  mainScene.addLight(sun);
+  DirectionalLight l=new DirectionalLight();
+  l.setDirection(Vector3f.UNIT_Y.mult(-1));
+  l.setColor(ColorRGBA.White.clone().multLocal(0.3f));
+  mainScene.addLight(l);
+  flyCam.setMoveSpeed(50);
+  cam.setFrustumFar(3000);
+  cam.setLocation(new Vector3f(-700,100,300));
+  cam.setRotation(new Quaternion().fromAngles(new float[]{FastMath.PI * 0.06f,FastMath.PI * 0.65f,0}));
+  Spatial sky=SkyFactory.createSky(assetManager,"Scenes/Beach/FullskiesSunset0068.dds",false);
+  sky.setLocalScale(350);
+  mainScene.attachChild(sky);
+  fpp=new FilterPostProcessor(assetManager);
+  dofFilter=new DepthOfFieldFilter();
+  dofFilter.setFocusDistance(0);
+  dofFilter.setFocusRange(50);
+  dofFilter.setBlurScale(1.4f);
+  fpp.addFilter(dofFilter);
+  viewPort.addProcessor(fpp);
+  inputManager.addListener(new ActionListener(){
+    public void onAction(    String name,    boolean isPressed,    float tpf){
+      if (isPressed) {
+        if (name.equals("toggle")) {
+          dofFilter.setEnabled(!dofFilter.isEnabled());
+        }
+      }
+    }
+  }
+,"toggle");
+  inputManager.addListener(new AnalogListener(){
+    public void onAnalog(    String name,    float value,    float tpf){
+      if (name.equals("blurScaleUp")) {
+        dofFilter.setBlurScale(dofFilter.getBlurScale() + 0.01f);
+        System.out.println("blurScale : " + dofFilter.getBlurScale());
+      }
+      if (name.equals("blurScaleDown")) {
+        dofFilter.setBlurScale(dofFilter.getBlurScale() - 0.01f);
+        System.out.println("blurScale : " + dofFilter.getBlurScale());
+      }
+      if (name.equals("focusRangeUp")) {
+        dofFilter.setFocusRange(dofFilter.getFocusRange() + 1f);
+        System.out.println("focusRange : " + dofFilter.getFocusRange());
+      }
+      if (name.equals("focusRangeDown")) {
+        dofFilter.setFocusRange(dofFilter.getFocusRange() - 1f);
+        System.out.println("focusRange : " + dofFilter.getFocusRange());
+      }
+      if (name.equals("focusDistanceUp")) {
+        dofFilter.setFocusDistance(dofFilter.getFocusDistance() + 1f);
+        System.out.println("focusDistance : " + dofFilter.getFocusDistance());
+      }
+      if (name.equals("focusDistanceDown")) {
+        dofFilter.setFocusDistance(dofFilter.getFocusDistance() - 1f);
+        System.out.println("focusDistance : " + dofFilter.getFocusDistance());
+      }
+    }
+  }
+,"blurScaleUp","blurScaleDown","focusRangeUp","focusRangeDown","focusDistanceUp","focusDistanceDown");
+  inputManager.addMapping("toggle",new KeyTrigger(keyInput.KEY_SPACE));
+  inputManager.addMapping("blurScaleUp",new KeyTrigger(keyInput.KEY_U));
+  inputManager.addMapping("blurScaleDown",new KeyTrigger(keyInput.KEY_J));
+  inputManager.addMapping("focusRangeUp",new KeyTrigger(keyInput.KEY_I));
+  inputManager.addMapping("focusRangeDown",new KeyTrigger(keyInput.KEY_K));
+  inputManager.addMapping("focusDistanceUp",new KeyTrigger(keyInput.KEY_O));
+  inputManager.addMapping("focusDistanceDown",new KeyTrigger(keyInput.KEY_L));
+}

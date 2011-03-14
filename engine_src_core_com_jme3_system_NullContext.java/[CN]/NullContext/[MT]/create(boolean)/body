@@ -1,0 +1,8 @@
+{
+  if (created.get()) {
+    logger.warning("create() called when NullContext is already created!");
+    return;
+  }
+  new Thread(this,"Headless Application Thread").start();
+  if (waitFor)   waitFor(true);
+}

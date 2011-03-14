@@ -1,0 +1,17 @@
+{
+  StringBuilder buf=new StringBuilder();
+  if (value == null)   return;
+  if (Arrays.deepEquals(value,defVal))   return;
+  for (  float[] bs : value) {
+    for (    float b : bs) {
+      buf.append(b);
+      buf.append(" ");
+    }
+  }
+  buf.setLength(buf.length() - 1);
+  Element el=appendElement(name);
+  el.setAttribute("size_outer",String.valueOf(value.length));
+  el.setAttribute("size_inner",String.valueOf(value[0].length));
+  el.setAttribute(dataAttributeName,buf.toString());
+  currentElement=(Element)currentElement.getParentNode();
+}

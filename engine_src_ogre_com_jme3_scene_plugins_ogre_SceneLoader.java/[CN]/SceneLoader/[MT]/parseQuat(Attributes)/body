@@ -1,0 +1,33 @@
+{
+  if (attribs.getValue("x") != null) {
+    float x=parseFloat(attribs.getValue("x"));
+    float y=parseFloat(attribs.getValue("y"));
+    float z=parseFloat(attribs.getValue("z"));
+    float w=parseFloat(attribs.getValue("w"));
+    return new Quaternion(x,y,z,w);
+  }
+ else   if (attribs.getValue("qx") != null) {
+    float x=parseFloat(attribs.getValue("qx"));
+    float y=parseFloat(attribs.getValue("qy"));
+    float z=parseFloat(attribs.getValue("qz"));
+    float w=parseFloat(attribs.getValue("qw"));
+    return new Quaternion(x,y,z,w);
+  }
+ else   if (attribs.getValue("angle") != null) {
+    float angle=parseFloat(attribs.getValue("angle"));
+    float axisX=parseFloat(attribs.getValue("axisX"));
+    float axisY=parseFloat(attribs.getValue("axisY"));
+    float axisZ=parseFloat(attribs.getValue("axisZ"));
+    Quaternion q=new Quaternion();
+    q.fromAngleAxis(angle,new Vector3f(axisX,axisY,axisZ));
+    return q;
+  }
+ else {
+    float angleX=parseFloat(attribs.getValue("angleX"));
+    float angleY=parseFloat(attribs.getValue("angleY"));
+    float angleZ=parseFloat(attribs.getValue("angleZ"));
+    Quaternion q=new Quaternion();
+    q.fromAngles(angleX,angleY,angleZ);
+    return q;
+  }
+}

@@ -1,0 +1,8 @@
+{
+  if (value == null) {
+    write(NULL_OBJECT);
+    return;
+  }
+  write(value.size());
+  for (int x=0, max=value.size(); x < max; x++)   write(value.get(x));
+}

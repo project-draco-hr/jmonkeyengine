@@ -1,0 +1,6 @@
+{
+  FilterPostProcessor fpp=new FilterPostProcessor(assetManager);
+  BloomFilter bloom=new BloomFilter(BloomFilter.GlowMode.Objects);
+  fpp.addFilter(bloom);
+  viewPort.addProcessor(fpp);
+}

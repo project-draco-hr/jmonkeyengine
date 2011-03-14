@@ -1,0 +1,11 @@
+{
+  float norm=norm();
+  if (norm > 0.0) {
+    float invNorm=1.0f / norm;
+    x*=-invNorm;
+    y*=-invNorm;
+    z*=-invNorm;
+    w*=invNorm;
+  }
+  return this;
+}

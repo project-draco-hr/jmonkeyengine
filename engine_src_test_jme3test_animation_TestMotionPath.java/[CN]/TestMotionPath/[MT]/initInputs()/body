@@ -1,0 +1,49 @@
+{
+  inputManager.addMapping("display_hidePath",new KeyTrigger(KeyInput.KEY_P));
+  inputManager.addMapping("SwitchPathInterpolation",new KeyTrigger(KeyInput.KEY_I));
+  inputManager.addMapping("tensionUp",new KeyTrigger(KeyInput.KEY_U));
+  inputManager.addMapping("tensionDown",new KeyTrigger(KeyInput.KEY_J));
+  inputManager.addMapping("play_stop",new KeyTrigger(KeyInput.KEY_SPACE));
+  ActionListener acl=new ActionListener(){
+    public void onAction(    String name,    boolean keyPressed,    float tpf){
+      if (name.equals("display_hidePath") && keyPressed) {
+        if (active) {
+          active=false;
+          path.disableDebugShape();
+        }
+ else {
+          active=true;
+          path.enableDebugShape(assetManager,rootNode);
+        }
+      }
+      if (name.equals("play_stop") && keyPressed) {
+        if (playing) {
+          playing=false;
+          motionControl.stop();
+        }
+ else {
+          playing=true;
+          motionControl.play();
+        }
+      }
+      if (name.equals("SwitchPathInterpolation") && keyPressed) {
+        if (path.getPathInterpolation() == MotionPath.PathInterpolation.CatmullRom) {
+          path.setPathInterpolation(MotionPath.PathInterpolation.Linear);
+        }
+ else {
+          path.setPathInterpolation(MotionPath.PathInterpolation.CatmullRom);
+        }
+      }
+      if (name.equals("tensionUp") && keyPressed) {
+        path.setCurveTension(path.getCurveTension() + 0.1f);
+        System.err.println("Tension : " + path.getCurveTension());
+      }
+      if (name.equals("tensionDown") && keyPressed) {
+        path.setCurveTension(path.getCurveTension() - 0.1f);
+        System.err.println("Tension : " + path.getCurveTension());
+      }
+    }
+  }
+;
+  inputManager.addListener(acl,"display_hidePath","play_stop","SwitchPathInterpolation","tensionUp","tensionDown");
+}

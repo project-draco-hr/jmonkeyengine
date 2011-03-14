@@ -1,0 +1,9 @@
+{
+  try {
+    Util.checkGLError();
+  }
+ catch (  OpenGLException ex) {
+    listener.handleError("An OpenGL error has occured!",ex);
+  }
+  return true;
+}

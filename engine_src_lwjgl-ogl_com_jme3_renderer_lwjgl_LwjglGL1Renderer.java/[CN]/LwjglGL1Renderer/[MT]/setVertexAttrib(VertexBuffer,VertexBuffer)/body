@@ -1,0 +1,47 @@
+{
+  int arrayType=convertArrayType(vb.getBufferType());
+  if (arrayType == -1) {
+    return;
+  }
+  glEnableClientState(arrayType);
+  context.boundAttribs[vb.getBufferType().ordinal()]=vb;
+  if (vb.getBufferType() == Type.Normal) {
+    if (vb.isNormalized() && !context.normalizeEnabled) {
+      glEnable(GL_NORMALIZE);
+      context.normalizeEnabled=true;
+    }
+ else     if (!vb.isNormalized() && context.normalizeEnabled) {
+      glDisable(GL_NORMALIZE);
+      context.normalizeEnabled=false;
+    }
+  }
+  Buffer data=idb != null ? idb.getData() : vb.getData();
+  int comps=vb.getNumComponents();
+  int type=convertVertexFormat(vb.getFormat());
+  data.rewind();
+switch (vb.getBufferType()) {
+case Position:
+    if (!(data instanceof FloatBuffer))     throw new UnsupportedOperationException();
+  glVertexPointer(comps,vb.getStride(),(FloatBuffer)data);
+break;
+case Normal:
+if (!(data instanceof FloatBuffer)) throw new UnsupportedOperationException();
+glNormalPointer(vb.getStride(),(FloatBuffer)data);
+break;
+case Color:
+if (data instanceof FloatBuffer) {
+glColorPointer(comps,vb.getStride(),(FloatBuffer)data);
+}
+ else if (data instanceof ByteBuffer) {
+glColorPointer(comps,true,vb.getStride(),(ByteBuffer)data);
+}
+ else {
+throw new UnsupportedOperationException();
+}
+break;
+case TexCoord:
+if (!(data instanceof FloatBuffer)) throw new UnsupportedOperationException();
+glTexCoordPointer(comps,vb.getStride(),(FloatBuffer)data);
+break;
+}
+}

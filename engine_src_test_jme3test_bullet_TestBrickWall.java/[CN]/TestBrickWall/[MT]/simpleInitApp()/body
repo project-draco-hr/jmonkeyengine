@@ -1,0 +1,18 @@
+{
+  bulletAppState=new BulletAppState();
+  bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
+  stateManager.attach(bulletAppState);
+  initMaterial();
+  initWall();
+  initFloor();
+  initCrossHairs();
+  this.cam.setLocation(new Vector3f(0,6f,6f));
+  cam.lookAt(Vector3f.ZERO,new Vector3f(0,1,0));
+  cam.setFrustumFar(15);
+  inputManager.addMapping("shoot",new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+  inputManager.addListener(actionListener,"shoot");
+  rootNode.setShadowMode(ShadowMode.Off);
+  bsr=new BasicShadowRenderer(assetManager,256);
+  bsr.setDirection(new Vector3f(-1,-1,-1).normalizeLocal());
+  viewPort.addProcessor(bsr);
+}

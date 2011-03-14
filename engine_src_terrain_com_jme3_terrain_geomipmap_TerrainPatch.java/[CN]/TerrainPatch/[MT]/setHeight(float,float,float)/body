@@ -1,0 +1,8 @@
+{
+  if (x < 0 || z < 0 || x >= size || z >= size)   return;
+  int idx=(int)(z * size + x);
+  geomap.getHeightData().put(idx,height);
+  FloatBuffer newVertexBuffer=geomap.writeVertexArray(null,stepScale,false);
+  getMesh().clearBuffer(Type.Position);
+  getMesh().setBuffer(Type.Position,3,newVertexBuffer);
+}

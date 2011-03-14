@@ -1,0 +1,7 @@
+{
+  Vector3f axis=new Vector3f();
+  float angle=rotation.toAngleAxis(axis);
+  Matrix4f matrix4f=new Matrix4f();
+  matrix4f.fromAngleAxis(angle,axis);
+  multLocal(matrix4f);
+}

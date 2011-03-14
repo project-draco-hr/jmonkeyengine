@@ -1,0 +1,17 @@
+{
+  StringBuilder buf=new StringBuilder();
+  if (value == null) {
+    value=defVal;
+  }
+  if (value != null) {
+    for (    float b : value) {
+      buf.append(b);
+      buf.append(" ");
+    }
+    buf.setLength(buf.length() - 1);
+  }
+  Element el=appendElement(name);
+  el.setAttribute("size",value == null ? "0" : String.valueOf(value.length));
+  el.setAttribute(dataAttributeName,buf.toString());
+  currentElement=(Element)currentElement.getParentNode();
+}

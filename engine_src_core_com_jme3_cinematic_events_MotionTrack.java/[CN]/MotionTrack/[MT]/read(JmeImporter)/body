@@ -1,0 +1,9 @@
+{
+  super.read(im);
+  InputCapsule in=im.getCapsule(this);
+  lookAt=(Vector3f)in.readSavable("lookAt",Vector3f.ZERO);
+  upVector=(Vector3f)in.readSavable("upVector",Vector3f.UNIT_Y);
+  rotation=(Quaternion)in.readSavable("rotation",Quaternion.IDENTITY);
+  directionType=in.readEnum("directionType",Direction.class,Direction.None);
+  path=(MotionPath)in.readSavable("path",null);
+}

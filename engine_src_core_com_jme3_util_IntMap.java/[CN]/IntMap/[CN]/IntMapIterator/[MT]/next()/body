@@ -1,0 +1,17 @@
+{
+  if (el >= size)   throw new IllegalStateException("No more elements!");
+  if (cur != null) {
+    Entry e=cur;
+    cur=cur.next;
+    el++;
+    return e;
+  }
+  do {
+    cur=table[++idx];
+  }
+ while (cur == null);
+  Entry e=cur;
+  cur=cur.next;
+  el++;
+  return e;
+}

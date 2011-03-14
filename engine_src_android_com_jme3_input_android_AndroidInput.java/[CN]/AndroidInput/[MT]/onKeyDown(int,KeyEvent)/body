@@ -1,0 +1,8 @@
+{
+  int jmeCode=ANDROID_TO_JME[keyCode];
+  String str=event.getCharacters();
+  char c=str != null && str.length() > 0 ? str.charAt(0) : 0x0;
+  KeyInputEvent evt=new KeyInputEvent(jmeCode,c,true,false);
+  processEvent(evt);
+  return false;
+}

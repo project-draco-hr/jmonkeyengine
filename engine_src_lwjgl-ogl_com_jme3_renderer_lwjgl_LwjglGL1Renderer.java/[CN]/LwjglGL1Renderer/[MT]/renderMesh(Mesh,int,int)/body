@@ -1,0 +1,27 @@
+{
+  if (mesh.getVertexCount() == 0)   return;
+  if (context.pointSize != mesh.getPointSize()) {
+    glPointSize(mesh.getPointSize());
+    context.pointSize=mesh.getPointSize();
+  }
+  if (context.lineWidth != mesh.getLineWidth()) {
+    glLineWidth(mesh.getLineWidth());
+    context.lineWidth=mesh.getLineWidth();
+  }
+  boolean dynamic=false;
+  if (mesh.getBuffer(Type.InterleavedData) != null)   throw new UnsupportedOperationException();
+  if (mesh.getNumLodLevels() == 0) {
+    IntMap<VertexBuffer> bufs=mesh.getBuffers();
+    for (    Entry<VertexBuffer> entry : bufs) {
+      if (entry.getValue().getUsage() != VertexBuffer.Usage.Static) {
+        dynamic=true;
+        break;
+      }
+    }
+  }
+ else {
+    dynamic=true;
+  }
+  statistics.onMeshDrawn(mesh,lod);
+  renderMeshDefault(mesh,lod,count);
+}

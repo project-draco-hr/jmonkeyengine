@@ -1,0 +1,39 @@
+{
+  if (!enabled)   return;
+  if (name.equals("FLYCAM_Left")) {
+    rotateCamera(value,initialUpVec);
+  }
+ else   if (name.equals("FLYCAM_Right")) {
+    rotateCamera(-value,initialUpVec);
+  }
+ else   if (name.equals("FLYCAM_Up")) {
+    rotateCamera(-value,cam.getLeft());
+  }
+ else   if (name.equals("FLYCAM_Down")) {
+    rotateCamera(value,cam.getLeft());
+  }
+ else   if (name.equals("FLYCAM_Forward")) {
+    moveCamera(value,false);
+  }
+ else   if (name.equals("FLYCAM_Backward")) {
+    moveCamera(-value,false);
+  }
+ else   if (name.equals("FLYCAM_StrafeLeft")) {
+    moveCamera(value,true);
+  }
+ else   if (name.equals("FLYCAM_StrafeRight")) {
+    moveCamera(-value,true);
+  }
+ else   if (name.equals("FLYCAM_Rise")) {
+    riseCamera(value);
+  }
+ else   if (name.equals("FLYCAM_Lower")) {
+    riseCamera(-value);
+  }
+ else   if (name.equals("FLYCAM_ZoomIn")) {
+    zoomCamera(value);
+  }
+ else   if (name.equals("FLYCAM_ZoomOut")) {
+    zoomCamera(-value);
+  }
+}

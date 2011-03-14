@@ -1,0 +1,13 @@
+{
+  detachLinkedChildren();
+  for (Iterator<ModelKey> it=assetLoaderKeys.iterator(); it.hasNext(); ) {
+    ModelKey assetKey=it.next();
+    Spatial curChild=assetChildren.get(assetKey);
+    if (curChild != null) {
+      curChild.removeFromParent();
+    }
+    Spatial child=manager.loadAsset(assetKey);
+    attachChild(child);
+    assetChildren.put(assetKey,child);
+  }
+}

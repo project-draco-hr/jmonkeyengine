@@ -1,0 +1,10 @@
+{
+  DirectionalLight dl=new DirectionalLight();
+  dl.setDirection(lightDir);
+  dl.setColor(new ColorRGBA(.9f,.9f,.9f,1));
+  rootNode.addLight(dl);
+  dl=new DirectionalLight();
+  dl.setDirection(new Vector3f(1,0,-1).normalizeLocal());
+  dl.setColor(new ColorRGBA(.4f,.4f,.4f,1));
+  rootNode.addLight(dl);
+}

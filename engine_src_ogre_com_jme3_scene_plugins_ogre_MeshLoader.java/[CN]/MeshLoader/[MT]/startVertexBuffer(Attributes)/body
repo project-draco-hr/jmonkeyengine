@@ -1,0 +1,48 @@
+{
+  if (parseBool(attribs.getValue("positions"),false)) {
+    vb=new VertexBuffer(Type.Position);
+    fb=BufferUtils.createFloatBuffer(vertCount * 3);
+    vb.setupData(Usage.Static,3,Format.Float,fb);
+    mesh.setBuffer(vb);
+  }
+  if (parseBool(attribs.getValue("normals"),false)) {
+    vb=new VertexBuffer(Type.Normal);
+    fb=BufferUtils.createFloatBuffer(vertCount * 3);
+    vb.setupData(Usage.Static,3,Format.Float,fb);
+    mesh.setBuffer(vb);
+  }
+  if (parseBool(attribs.getValue("colours_diffuse"),false)) {
+    vb=new VertexBuffer(Type.Color);
+    fb=BufferUtils.createFloatBuffer(vertCount * 4);
+    vb.setupData(Usage.Static,4,Format.Float,fb);
+    mesh.setBuffer(vb);
+  }
+  if (parseBool(attribs.getValue("tangents"),false)) {
+    int dimensions=parseInt(attribs.getValue("tangent_dimensions"),3);
+    vb=new VertexBuffer(Type.Tangent);
+    fb=BufferUtils.createFloatBuffer(vertCount * dimensions);
+    vb.setupData(Usage.Static,dimensions,Format.Float,fb);
+    mesh.setBuffer(vb);
+  }
+  if (parseBool(attribs.getValue("binormals"),false)) {
+    vb=new VertexBuffer(Type.Binormal);
+    fb=BufferUtils.createFloatBuffer(vertCount * 3);
+    vb.setupData(Usage.Static,3,Format.Float,fb);
+    mesh.setBuffer(vb);
+  }
+  int texCoords=parseInt(attribs.getValue("texture_coords"),0);
+  for (int i=0; i < texCoords; i++) {
+    int dims=parseInt(attribs.getValue("texture_coord_dimensions_" + i),2);
+    if (dims < 1 || dims > 4)     throw new SAXException("Texture coord dimensions must be 1 <= dims <= 4");
+    if (i >= 2)     throw new SAXException("More than 2 texture coordinates not supported");
+    if (i == 0) {
+      vb=new VertexBuffer(Type.TexCoord);
+    }
+ else {
+      vb=new VertexBuffer(Type.TexCoord2);
+    }
+    fb=BufferUtils.createFloatBuffer(vertCount * dims);
+    vb.setupData(Usage.Static,dims,Format.Float,fb);
+    mesh.setBuffer(vb);
+  }
+}

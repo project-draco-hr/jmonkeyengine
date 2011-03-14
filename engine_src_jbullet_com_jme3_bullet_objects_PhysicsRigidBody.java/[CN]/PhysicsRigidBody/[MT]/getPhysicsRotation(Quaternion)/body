@@ -1,0 +1,7 @@
+{
+  if (rotation == null) {
+    rotation=new Quaternion();
+  }
+  rBody.getCenterOfMassTransform(tempTrans);
+  return Converter.convert(tempTrans.basis,rotation);
+}

@@ -1,0 +1,24 @@
+{
+  if (store == null)   store=new Vector3f();
+switch (i) {
+case 0:
+    store.x=m00;
+  store.y=m10;
+store.z=m20;
+break;
+case 1:
+store.x=m01;
+store.y=m11;
+store.z=m21;
+break;
+case 2:
+store.x=m02;
+store.y=m12;
+store.z=m22;
+break;
+default :
+logger.warning("Invalid column index.");
+throw new IllegalArgumentException("Invalid column index. " + i);
+}
+return store;
+}

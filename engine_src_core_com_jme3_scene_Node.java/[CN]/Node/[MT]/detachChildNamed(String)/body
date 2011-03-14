@@ -1,0 +1,11 @@
+{
+  if (childName == null)   throw new NullPointerException();
+  for (int x=0, max=children.size(); x < max; x++) {
+    Spatial child=children.get(x);
+    if (childName.equals(child.getName())) {
+      detachChildAt(x);
+      return x;
+    }
+  }
+  return -1;
+}

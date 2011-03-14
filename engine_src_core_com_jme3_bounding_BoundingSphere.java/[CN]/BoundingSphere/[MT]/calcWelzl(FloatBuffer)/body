@@ -1,0 +1,8 @@
+{
+  if (center == null)   center=new Vector3f();
+  FloatBuffer buf=BufferUtils.createFloatBuffer(points.limit());
+  points.rewind();
+  buf.put(points);
+  buf.flip();
+  recurseMini(buf,buf.limit() / 3,0,0);
+}

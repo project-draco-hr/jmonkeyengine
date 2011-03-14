@@ -1,0 +1,32 @@
+{
+  int totalSize=0;
+  for (int i=0; i < sizes.length; i++) {
+    totalSize+=sizes[i];
+  }
+  ArrayList<ByteBuffer> allMaps=new ArrayList<ByteBuffer>();
+  if (depth > 1) {
+    for (int i=0; i < depth; i++) {
+      if (compressed) {
+        allMaps.add(readDXT2D(flip,totalSize));
+      }
+ else       if (grayscaleOrAlpha) {
+        allMaps.add(readGrayscale2D(flip,totalSize));
+      }
+ else {
+        allMaps.add(readRGB2D(flip,totalSize));
+      }
+    }
+  }
+ else {
+    if (compressed) {
+      allMaps.add(readDXT2D(flip,totalSize));
+    }
+ else     if (grayscaleOrAlpha) {
+      allMaps.add(readGrayscale2D(flip,totalSize));
+    }
+ else {
+      allMaps.add(readRGB2D(flip,totalSize));
+    }
+  }
+  return allMaps;
+}

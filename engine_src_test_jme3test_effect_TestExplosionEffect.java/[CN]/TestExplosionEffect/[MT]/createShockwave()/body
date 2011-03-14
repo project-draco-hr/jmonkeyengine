@@ -1,0 +1,20 @@
+{
+  shockwave=new ParticleEmitter("Shockwave",Type.Triangle,1 * COUNT_FACTOR);
+  shockwave.setFaceNormal(Vector3f.UNIT_Y);
+  shockwave.setStartColor(new ColorRGBA(.48f,0.17f,0.01f,(float)(.8f / COUNT_FACTOR_F)));
+  shockwave.setEndColor(new ColorRGBA(.48f,0.17f,0.01f,0f));
+  shockwave.setStartSize(0f);
+  shockwave.setEndSize(7f);
+  shockwave.setParticlesPerSec(0);
+  shockwave.setGravity(0);
+  shockwave.setLowLife(0.5f);
+  shockwave.setHighLife(0.5f);
+  shockwave.setInitialVelocity(new Vector3f(0,0,0));
+  shockwave.setVelocityVariation(0f);
+  shockwave.setImagesX(1);
+  shockwave.setImagesY(1);
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Particle.j3md");
+  mat.setTexture("Texture",assetManager.loadTexture("Effects/Explosion/shockwave.png"));
+  shockwave.setMaterial(mat);
+  explosionEffect.attachChild(shockwave);
+}

@@ -1,0 +1,13 @@
+{
+  Vector3f origin=cam.getWorldCoordinates(new Vector2f(settings.getWidth() / 2,settings.getHeight() / 2),0.0f);
+  Vector3f direction=cam.getWorldCoordinates(new Vector2f(settings.getWidth() / 2,settings.getHeight() / 2),0.3f);
+  direction.subtractLocal(origin).normalizeLocal();
+  Ray ray=new Ray(origin,direction);
+  CollisionResults results=new CollisionResults();
+  int numCollisions=terrain.collideWith(ray,results);
+  if (numCollisions > 0) {
+    CollisionResult hit=results.getClosestCollision();
+    return hit.getContactPoint();
+  }
+  return null;
+}

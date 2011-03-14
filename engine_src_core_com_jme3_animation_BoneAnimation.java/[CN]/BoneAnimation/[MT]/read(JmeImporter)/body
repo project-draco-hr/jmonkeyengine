@@ -1,0 +1,10 @@
+{
+  InputCapsule in=i.getCapsule(this);
+  name=in.readString("name",null);
+  length=in.readFloat("length",0f);
+  Savable[] sav=in.readSavableArray("tracks",null);
+  if (sav != null) {
+    tracks=new BoneTrack[sav.length];
+    System.arraycopy(sav,0,tracks,0,sav.length);
+  }
+}

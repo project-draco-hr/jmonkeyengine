@@ -1,0 +1,8 @@
+{
+  Image image=frame.getImage();
+  frame.setImage(image);
+  picture.setTexture(assetManager,frame,false);
+  renderer.setTexture(0,frame);
+  videoQueue.returnFrame(frame);
+  lastFrameTime=frame.getTime();
+}

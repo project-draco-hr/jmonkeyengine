@@ -1,0 +1,15 @@
+{
+  if (scan.hasNext("set_texture_alias")) {
+    scan.next();
+    String aliasName=scan.next();
+    String texturePath=readString("\n");
+    String jmeParamName=matExt.getTextureMapping(aliasName);
+    Texture tex=assetManager.loadTexture(texturePath);
+    if (tex == null)     throw new IOException("Cannot load texture: " + texturePath);
+    material.setTexture(jmeParamName,tex);
+    return true;
+  }
+ else {
+    return false;
+  }
+}

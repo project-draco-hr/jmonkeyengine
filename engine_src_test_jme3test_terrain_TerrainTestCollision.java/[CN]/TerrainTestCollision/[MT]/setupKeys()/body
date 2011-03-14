@@ -1,0 +1,21 @@
+{
+  flyCam.setMoveSpeed(50);
+  inputManager.addMapping("wireframe",new KeyTrigger(KeyInput.KEY_T));
+  inputManager.addListener(actionListener,"wireframe");
+  inputManager.addMapping("Lefts",new KeyTrigger(KeyInput.KEY_H));
+  inputManager.addMapping("Rights",new KeyTrigger(KeyInput.KEY_K));
+  inputManager.addMapping("Ups",new KeyTrigger(KeyInput.KEY_U));
+  inputManager.addMapping("Downs",new KeyTrigger(KeyInput.KEY_J));
+  inputManager.addMapping("Forwards",new KeyTrigger(KeyInput.KEY_Y));
+  inputManager.addMapping("Backs",new KeyTrigger(KeyInput.KEY_I));
+  inputManager.addListener(actionListener,"Lefts");
+  inputManager.addListener(actionListener,"Rights");
+  inputManager.addListener(actionListener,"Ups");
+  inputManager.addListener(actionListener,"Downs");
+  inputManager.addListener(actionListener,"Forwards");
+  inputManager.addListener(actionListener,"Backs");
+  inputManager.addMapping("shoot",new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+  inputManager.addListener(actionListener,"shoot");
+  inputManager.addMapping("cameraDown",new MouseButtonTrigger(MouseInput.BUTTON_RIGHT));
+  inputManager.addListener(actionListener,"cameraDown");
+}

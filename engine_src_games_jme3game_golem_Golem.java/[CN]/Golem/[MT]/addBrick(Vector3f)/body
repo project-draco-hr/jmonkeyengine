@@ -1,0 +1,9 @@
+{
+  Geometry reBoxg=new Geometry("brick",brick);
+  reBoxg.setMaterial(matRock);
+  PhysicsNode brickNode=new PhysicsNode(reBoxg,new BoxCollisionShape(new Vector3f(bLength,bHeight,bWidth)),1.5f);
+  brickNode.setLocalTranslation(ori);
+  brickNode.setShadowMode(ShadowMode.CastAndReceive);
+  wallNode.attachChild(brickNode);
+  this.getPhysicsSpace().add(brickNode);
+}

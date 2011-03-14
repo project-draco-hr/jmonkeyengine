@@ -1,0 +1,24 @@
+{
+switch (fmt) {
+case Byte:
+    return GL.GL_BYTE;
+case Double:
+  return GL2GL3.GL_DOUBLE;
+case Float:
+return GL.GL_FLOAT;
+case Half:
+return GL.GL_HALF_FLOAT;
+case Int:
+return GL2ES2.GL_INT;
+case Short:
+return GL.GL_SHORT;
+case UnsignedByte:
+return GL.GL_UNSIGNED_BYTE;
+case UnsignedInt:
+return GL2ES2.GL_UNSIGNED_INT;
+case UnsignedShort:
+return GL.GL_UNSIGNED_SHORT;
+default :
+throw new UnsupportedOperationException("Unrecognized vertex format: " + fmt);
+}
+}

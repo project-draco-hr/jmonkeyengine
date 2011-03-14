@@ -1,0 +1,9 @@
+{
+  if (userData == null)   userData=new HashMap<String,Savable>();
+  if (data instanceof Savable) {
+    userData.put(key,(Savable)data);
+  }
+ else {
+    userData.put(key,new UserData(UserData.getObjectType(data),data));
+  }
+}

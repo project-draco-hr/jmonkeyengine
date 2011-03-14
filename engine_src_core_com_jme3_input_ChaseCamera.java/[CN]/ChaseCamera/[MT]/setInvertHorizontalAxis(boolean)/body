@@ -1,0 +1,14 @@
+{
+  this.invertXaxis=invertXaxis;
+  inputManager.deleteMapping(ChaseCamMoveLeft);
+  inputManager.deleteMapping(ChaseCamMoveRight);
+  if (!invertXaxis) {
+    inputManager.addMapping(ChaseCamMoveLeft,new MouseAxisTrigger(MouseInput.AXIS_X,true));
+    inputManager.addMapping(ChaseCamMoveRight,new MouseAxisTrigger(MouseInput.AXIS_X,false));
+  }
+ else {
+    inputManager.addMapping(ChaseCamMoveLeft,new MouseAxisTrigger(MouseInput.AXIS_X,false));
+    inputManager.addMapping(ChaseCamMoveRight,new MouseAxisTrigger(MouseInput.AXIS_X,true));
+  }
+  inputManager.addListener(this,ChaseCamMoveLeft,ChaseCamMoveRight);
+}

@@ -1,0 +1,22 @@
+{
+  InputCapsule in=im.getCapsule(this);
+  meshBound=(BoundingVolume)in.readSavable("modelBound",null);
+  vertCount=in.readInt("vertCount",-1);
+  elementCount=in.readInt("elementCount",-1);
+  maxNumWeights=in.readInt("max_num_weights",-1);
+  mode=in.readEnum("mode",Mode.class,Mode.Triangles);
+  elementLengths=in.readIntArray("elementLengths",null);
+  modeStart=in.readIntArray("modeStart",null);
+  collisionTree=(BIHTree)in.readSavable("collisionTree",null);
+  elementLengths=in.readIntArray("elementLengths",null);
+  modeStart=in.readIntArray("modeStart",null);
+  pointSize=in.readFloat("pointSize",1f);
+  buffers=(IntMap<VertexBuffer>)in.readIntSavableMap("buffers",null);
+  Savable[] lodLevelsSavable=in.readSavableArray("lodLevels",null);
+  if (lodLevelsSavable != null) {
+    lodLevels=new VertexBuffer[lodLevelsSavable.length];
+    for (int i=0; i < lodLevels.length; i++) {
+      lodLevels[i]=(VertexBuffer)lodLevelsSavable[i];
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  renderSet.clear();
+  fastRoot.generateRenderSet(globalGeoms,renderSet,cam,octBox,true);
+  int tris=0;
+  for (  Geometry geom : renderSet) {
+    tris+=geom.getTriangleCount();
+    rq.addToQueue(geom,geom.getQueueBucket());
+  }
+}

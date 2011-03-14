@@ -1,0 +1,5 @@
+{
+  super.setLocalTransform(t);
+  ((PhysicsGhostObject)collisionObject).setPhysicsLocation(getWorldTranslation());
+  ((PhysicsGhostObject)collisionObject).setPhysicsRotation(getWorldRotation().toRotationMatrix());
+}

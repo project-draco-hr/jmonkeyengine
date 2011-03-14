@@ -1,0 +1,34 @@
+{
+  RenderImageJme jmeImage=(RenderImageJme)image;
+  Texture2D texture=jmeImage.getTexture();
+  niftyMat.getAdditionalRenderState().setBlendMode(convertBlend());
+  niftyMat.setColor("Color",ColorRGBA.White);
+  niftyMat.setTexture("Texture",texture);
+  niftyMat.setBoolean("UseTex",true);
+  setColor(color);
+  float imageWidth=texture.getImage().getWidth();
+  float imageHeight=texture.getImage().getHeight();
+  FloatBuffer texCoords=(FloatBuffer)quadModTC.getData();
+  float startX=srcX / imageWidth;
+  float startY=srcY / imageHeight;
+  float endX=startX + (srcW / imageWidth);
+  float endY=startY + (srcH / imageHeight);
+  startY=1f - startY;
+  endY=1f - endY;
+  texCoords.rewind();
+  texCoords.put(startX).put(startY);
+  texCoords.put(endX).put(startY);
+  texCoords.put(endX).put(endY);
+  texCoords.put(startX).put(endY);
+  texCoords.flip();
+  quadModTC.updateData(texCoords);
+  quad.clearBuffer(Type.TexCoord);
+  quad.setBuffer(quadModTC);
+  float x0=centerX + (x - centerX) * scale;
+  float y0=centerY + (y - centerY) * scale;
+  tempMat.loadIdentity();
+  tempMat.setTranslation(x0,getHeight() - y0,0);
+  tempMat.setScale(w * scale,h * scale,0);
+  rm.setWorldMatrix(tempMat);
+  niftyMat.render(quadGeom,rm);
+}

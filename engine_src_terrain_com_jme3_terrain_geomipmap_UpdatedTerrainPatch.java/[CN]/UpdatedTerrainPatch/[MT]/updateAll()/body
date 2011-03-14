@@ -1,0 +1,12 @@
+{
+  updatedPatch.setLod(newLod);
+  updatedPatch.setLodRight(rightLod);
+  updatedPatch.setLodTop(topLod);
+  updatedPatch.setLodLeft(leftLod);
+  updatedPatch.setLodBottom(bottomLod);
+  if (reIndexNeeded || fixEdges) {
+    updatedPatch.setPreviousLod(previousLod);
+    updatedPatch.getMesh().clearBuffer(Type.Index);
+    updatedPatch.getMesh().setBuffer(Type.Index,3,newIndexBuffer);
+  }
+}

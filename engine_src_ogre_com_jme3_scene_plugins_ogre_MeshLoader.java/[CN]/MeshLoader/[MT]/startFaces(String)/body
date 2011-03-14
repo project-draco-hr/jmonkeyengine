@@ -1,0 +1,29 @@
+{
+  int numFaces=parseInt(count);
+  int numIndices;
+  if (mesh.getMode() == Mesh.Mode.Triangles) {
+    numIndices=numFaces * 3;
+  }
+ else {
+    throw new SAXException("Triangle strip or fan not supported!");
+  }
+  int numVerts;
+  if (usesSharedGeom.size() > 0 && usesSharedGeom.get(geoms.size() - 1)) {
+    numVerts=sharedmesh.getVertexCount();
+  }
+ else {
+    numVerts=mesh.getVertexCount();
+  }
+  vb=new VertexBuffer(VertexBuffer.Type.Index);
+  if (!bigindices) {
+    sb=BufferUtils.createShortBuffer(numIndices);
+    ib=null;
+    vb.setupData(Usage.Static,3,Format.UnsignedShort,sb);
+  }
+ else {
+    ib=BufferUtils.createIntBuffer(numIndices);
+    sb=null;
+    vb.setupData(Usage.Static,3,Format.UnsignedInt,ib);
+  }
+  mesh.setBuffer(vb);
+}

@@ -1,0 +1,30 @@
+{
+  if (block.synthesis(packet) == 0) {
+    dsp.synthesis_blockin(block);
+  }
+  int samplesAvail;
+  int channels=info.channels;
+  while ((samplesAvail=dsp.synthesis_pcmout(pcmAll,index)) > 0) {
+    float[][] pcm=pcmAll[0];
+    int samplesCanRead=UNCOMP_BUFSIZE / (channels * 2);
+    int samplesToRead=(samplesAvail < samplesCanRead ? samplesAvail : samplesCanRead);
+    for (int i=0; i < channels; i++) {
+      int writeOff=i * 2;
+      int readOff=index[i];
+      for (int j=0; j < samplesToRead; j++) {
+        int val=(int)(pcm[i][readOff + j] * 32767.0);
+        if (val > 32767) {
+          val=32767;
+        }
+        if (val < -32768) {
+          val=-32768;
+        }
+        uncompBuf[writeOff]=(byte)(val);
+        uncompBuf[writeOff + 1]=(byte)(val >> 8);
+        writeOff+=2 * channels;
+      }
+    }
+    ringBuffer.write(uncompBuf,0,samplesToRead * channels * 2);
+    dsp.synthesis_read(samplesToRead);
+  }
+}

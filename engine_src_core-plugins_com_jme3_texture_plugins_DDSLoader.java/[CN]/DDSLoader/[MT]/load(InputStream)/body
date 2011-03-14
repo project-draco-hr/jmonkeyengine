@@ -1,0 +1,6 @@
+{
+  in=new LittleEndien(stream);
+  loadHeader();
+  ArrayList<ByteBuffer> data=readData(false);
+  return new Image(pixelFormat,width,height,0,data,sizes);
+}

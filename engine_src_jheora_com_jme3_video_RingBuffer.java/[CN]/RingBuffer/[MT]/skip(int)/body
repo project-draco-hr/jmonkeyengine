@@ -1,0 +1,24 @@
+{
+  if (amount <= 0)   return 0;
+  int dataLen=0;
+synchronized (lock) {
+    if (remainingForRead() <= 0)     return 0;
+    amount=Math.min(amount,remainingForRead());
+    if (readPos < writePos) {
+      int l=Math.min(amount,writePos - readPos);
+      readPos+=l;
+      if (readPos >= bufSize)       readPos=0;
+      dataLen=l;
+    }
+ else {
+      int l=Math.min(amount,bufSize - readPos);
+      readPos+=l;
+      if (readPos >= bufSize)       readPos=0;
+      dataLen=l;
+      if (amount > l)       dataLen+=skip(amount - l);
+    }
+    lock.notifyAll();
+  }
+  totalRead+=dataLen;
+  return dataLen;
+}

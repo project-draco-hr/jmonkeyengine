@@ -1,0 +1,12 @@
+{
+  int depth=0;
+  Class nextClass=array.getClass().getComponentType();
+  while (nextClass != null) {
+    depth++;
+    nextClass=nextClass.getComponentType();
+  }
+  int[] dimensions=new int[depth];
+  dimensions[0]=Array.getLength(array);
+  if (depth > 1)   collectDimensions(array,1,dimensions);
+  return dimensions;
+}

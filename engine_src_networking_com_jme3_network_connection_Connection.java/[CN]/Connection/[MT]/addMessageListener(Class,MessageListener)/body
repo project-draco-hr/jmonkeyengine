@@ -1,0 +1,10 @@
+{
+  if (individualMessageListeners.containsKey(messageClass)) {
+    individualMessageListeners.get(messageClass).add(listener);
+  }
+ else {
+    List<MessageListener> list=new ArrayList<MessageListener>();
+    list.add(listener);
+    individualMessageListeners.put(messageClass,list);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  super.read(e);
+  children=e.getCapsule(this).readSavableArrayList("children",null);
+  if (children != null) {
+    for (int x=0, cSize=children.size(); x < cSize; x++) {
+      Spatial child=children.get(x);
+      child.parent=this;
+    }
+  }
+}

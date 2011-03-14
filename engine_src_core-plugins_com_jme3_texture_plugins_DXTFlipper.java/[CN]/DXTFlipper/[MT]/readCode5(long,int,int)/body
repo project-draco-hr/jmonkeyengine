@@ -1,0 +1,8 @@
+{
+  long shift=(4 * y + x) * 3;
+  long mask=0x7;
+  mask<<=shift;
+  long code=data & mask;
+  code>>=shift;
+  return code;
+}

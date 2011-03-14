@@ -1,0 +1,15 @@
+{
+  T ret=defVal;
+  try {
+    String eVal=currentElem.getAttribute(name);
+    if (eVal != null && eVal.length() > 0) {
+      ret=Enum.valueOf(enumType,eVal);
+    }
+  }
+ catch (  Exception e) {
+    IOException io=new IOException(e.toString());
+    io.initCause(e);
+    throw io;
+  }
+  return ret;
+}

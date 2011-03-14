@@ -1,0 +1,10 @@
+{
+  if (size < 0 || !FastMath.isPowerOfTwo(size - 1)) {
+    throw new JMException("The size is negative or not of the form 2^N +1" + " (a power of two plus one)");
+  }
+  this.size=size;
+  this.range=range;
+  this.persistence=persistence;
+  this.seed=seed;
+  load();
+}

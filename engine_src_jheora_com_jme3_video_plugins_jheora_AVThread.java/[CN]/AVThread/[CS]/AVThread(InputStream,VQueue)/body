@@ -1,0 +1,9 @@
+{
+  this.oggStream=oggStream;
+  videoDecoder=new VDecoder(videoQueue);
+  audioDecoder=new ADecoder();
+  systemClock=new SystemClock();
+  masterClock=audioDecoder;
+  audioDecoder.setMasterClock(masterClock);
+  videoDecoder.setMasterClock(masterClock);
+}

@@ -1,0 +1,14 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  if (mesh.getId() != -1) {
+    gl.getGL2().glDeleteLists(mesh.getId(),mesh.getId());
+    mesh.setId(-1);
+  }
+  applyRenderState(RenderState.NULL);
+  setLighting(null);
+  int id=gl.getGL2().glGenLists(1);
+  mesh.setId(id);
+  gl.getGL2().glNewList(id,GL2.GL_COMPILE);
+  renderMeshDefault(mesh,0,1);
+  gl.getGL2().glEndList();
+}

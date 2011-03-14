@@ -1,0 +1,11 @@
+{
+  this();
+  tcp=new TCPConnection(label);
+  lastTCPAddress=new InetSocketAddress(tcpPort);
+  tcp.bind(lastTCPAddress);
+  lastUDPAddress=new InetSocketAddress(udpPort);
+  udp=new UDPConnection(label);
+  udp.bind(lastUDPAddress);
+  isBound=true;
+  registerInternalListeners();
+}

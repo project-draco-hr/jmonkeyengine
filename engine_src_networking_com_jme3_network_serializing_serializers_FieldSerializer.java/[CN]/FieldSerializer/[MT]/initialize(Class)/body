@@ -1,0 +1,28 @@
+{
+  List<Field> fields=new ArrayList<Field>();
+  Class processingClass=clazz;
+  while (processingClass != Object.class && processingClass != Message.class) {
+    Collections.addAll(fields,processingClass.getDeclaredFields());
+    processingClass=processingClass.getSuperclass();
+  }
+  List<SavedField> cachedFields=new ArrayList(fields.size());
+  for (  Field field : fields) {
+    int modifiers=field.getModifiers();
+    if (Modifier.isTransient(modifiers))     continue;
+    if (Modifier.isFinal(modifiers))     continue;
+    if (Modifier.isStatic(modifiers))     continue;
+    if (field.isSynthetic())     continue;
+    field.setAccessible(true);
+    SavedField cachedField=new SavedField();
+    cachedField.field=field;
+    if (Modifier.isFinal(field.getType().getModifiers()))     cachedField.serializer=Serializer.getSerializer(field.getType());
+    cachedFields.add(cachedField);
+  }
+  Collections.sort(cachedFields,new Comparator<SavedField>(){
+    public int compare(    SavedField o1,    SavedField o2){
+      return o1.field.getName().compareTo(o2.field.getName());
+    }
+  }
+);
+  savedFields.put(clazz,cachedFields.toArray(new SavedField[cachedFields.size()]));
+}

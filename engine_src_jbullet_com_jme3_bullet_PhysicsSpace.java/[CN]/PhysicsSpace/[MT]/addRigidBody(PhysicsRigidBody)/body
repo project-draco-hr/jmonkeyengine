@@ -1,0 +1,8 @@
+{
+  physicsNodes.put(node.getObjectId(),node);
+  dynamicsWorld.addRigidBody(node.getObjectId());
+  if (node instanceof PhysicsVehicle) {
+    ((PhysicsVehicle)node).createVehicle(this);
+    dynamicsWorld.addVehicle(((PhysicsVehicle)node).getVehicleId());
+  }
+}

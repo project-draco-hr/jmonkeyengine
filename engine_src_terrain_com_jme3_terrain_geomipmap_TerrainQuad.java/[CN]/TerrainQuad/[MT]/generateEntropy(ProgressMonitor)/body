@@ -1,0 +1,19 @@
+{
+  if (isRootQuad())   if (progressMonitor != null) {
+    int numCalc=(totalSize - 1) / (patchSize - 1);
+    progressMonitor.setMonitorMax(numCalc * numCalc);
+  }
+  if (children != null) {
+    for (int i=children.size(); --i >= 0; ) {
+      Spatial child=children.get(i);
+      if (child instanceof TerrainQuad) {
+        ((TerrainQuad)child).generateEntropy(progressMonitor);
+      }
+ else       if (child instanceof TerrainPatch) {
+        ((TerrainPatch)child).generateLodEntropies();
+        if (progressMonitor != null)         progressMonitor.incrementProgress(1);
+      }
+    }
+  }
+  if (isRootQuad())   if (progressMonitor != null)   progressMonitor.progressComplete();
+}

@@ -1,0 +1,14 @@
+{
+  boolean loadSettings=false;
+  if (settings == null) {
+    setSettings(new AppSettings(true));
+    loadSettings=true;
+  }
+  if (showSettings) {
+    if (!JmeSystem.showSettingsDialog(settings,loadSettings)) {
+      return;
+    }
+  }
+  setSettings(settings);
+  super.start();
+}

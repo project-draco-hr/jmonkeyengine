@@ -1,0 +1,10 @@
+{
+  Geometry reBoxg=new Geometry("brick",brick);
+  reBoxg.setMaterial(mat);
+  reBoxg.setLocalTranslation(ori);
+  reBoxg.addControl(new RigidBodyControl(1.5f));
+  reBoxg.setShadowMode(ShadowMode.CastAndReceive);
+  reBoxg.getControl(RigidBodyControl.class).setFriction(0.6f);
+  this.rootNode.attachChild(reBoxg);
+  this.getPhysicsSpace().add(reBoxg);
+}

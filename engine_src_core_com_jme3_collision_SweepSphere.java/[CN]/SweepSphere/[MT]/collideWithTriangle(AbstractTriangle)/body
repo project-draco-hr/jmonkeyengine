@@ -1,0 +1,112 @@
+{
+  scaledTri.get1().set(tri.get1()).multLocal(invDim);
+  scaledTri.get2().set(tri.get2()).multLocal(invDim);
+  scaledTri.get3().set(tri.get3()).multLocal(invDim);
+  velocity.mult(invDim,sVelocity);
+  center.mult(invDim,sCenter);
+  triPlane.setPlanePoints(scaledTri);
+  float normalDotVelocity=triPlane.getNormal().dot(sVelocity);
+  if (normalDotVelocity > 0f)   return null;
+  float t0, t1;
+  boolean embedded=false;
+  float signedDistanceToPlane=triPlane.pseudoDistance(sCenter);
+  if (normalDotVelocity == 0.0f) {
+    if (FastMath.abs(signedDistanceToPlane) >= 1.0f) {
+      return null;
+    }
+ else {
+      t0=0;
+      t1=1;
+      embedded=true;
+      System.out.println("EMBEDDED");
+      return null;
+    }
+  }
+ else {
+    t0=(-1f - signedDistanceToPlane) / normalDotVelocity;
+    t1=(1f - signedDistanceToPlane) / normalDotVelocity;
+    if (t0 > t1) {
+      float tf=t1;
+      t1=t0;
+      t0=tf;
+    }
+    if (t0 > 1.0f || t1 < 0.0f) {
+      return null;
+    }
+    t0=Math.max(t0,0.0f);
+    t1=Math.min(t1,1.0f);
+  }
+  boolean foundCollision=false;
+  float minT=1f;
+  Vector3f contactPoint=new Vector3f();
+  Vector3f contactNormal=new Vector3f();
+  contactPoint.set(sVelocity);
+  contactPoint.multLocal(t0);
+  contactPoint.addLocal(sCenter);
+  contactPoint.subtractLocal(triPlane.getNormal());
+  if (isPointInTriangle(contactPoint,scaledTri) && !embedded) {
+    foundCollision=true;
+    minT=t0;
+    contactPoint.multLocal(dimension);
+    contactNormal.set(velocity).multLocal(t0);
+    contactNormal.addLocal(center);
+    contactNormal.subtractLocal(contactPoint).normalizeLocal();
+    CollisionResult result=new CollisionResult();
+    result.setContactPoint(contactPoint);
+    result.setContactNormal(contactNormal);
+    result.setDistance(minT * velocity.length());
+    return result;
+  }
+  float velocitySquared=sVelocity.lengthSquared();
+  Vector3f v1=scaledTri.get1();
+  Vector3f v2=scaledTri.get2();
+  Vector3f v3=scaledTri.get3();
+  float newT;
+  newT=collideWithVertex(sCenter,sVelocity,velocitySquared,v1,minT);
+  if (!Float.isNaN(newT)) {
+    minT=newT;
+    contactPoint.set(v1);
+    foundCollision=true;
+  }
+  newT=collideWithVertex(sCenter,sVelocity,velocitySquared,v2,minT);
+  if (!Float.isNaN(newT)) {
+    minT=newT;
+    contactPoint.set(v2);
+    foundCollision=true;
+  }
+  newT=collideWithVertex(sCenter,sVelocity,velocitySquared,v3,minT);
+  if (!Float.isNaN(newT)) {
+    minT=newT;
+    contactPoint.set(v3);
+    foundCollision=true;
+  }
+  newT=collideWithSegment(sCenter,sVelocity,velocitySquared,v1,v2,minT,contactPoint);
+  if (!Float.isNaN(newT)) {
+    minT=newT;
+    foundCollision=true;
+  }
+  newT=collideWithSegment(sCenter,sVelocity,velocitySquared,v2,v3,minT,contactPoint);
+  if (!Float.isNaN(newT)) {
+    minT=newT;
+    foundCollision=true;
+  }
+  newT=collideWithSegment(sCenter,sVelocity,velocitySquared,v3,v1,minT,contactPoint);
+  if (!Float.isNaN(newT)) {
+    minT=newT;
+    foundCollision=true;
+  }
+  if (foundCollision) {
+    contactPoint.multLocal(dimension);
+    contactNormal.set(velocity).multLocal(t0);
+    contactNormal.addLocal(center);
+    contactNormal.subtractLocal(contactPoint).normalizeLocal();
+    CollisionResult result=new CollisionResult();
+    result.setContactPoint(contactPoint);
+    result.setContactNormal(contactNormal);
+    result.setDistance(minT * velocity.length());
+    return result;
+  }
+ else {
+    return null;
+  }
+}

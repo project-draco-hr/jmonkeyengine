@@ -1,0 +1,15 @@
+{
+  if (size <= 0 || jumps < 0 || peakWalk < 0 || minParticles > maxParticles || minParticles < 0 || maxParticles < 0) {
+    throw new Exception("values must be greater than zero, " + "and minParticles must be greater than maxParticles");
+  }
+  if (caldera < 0.0f || caldera > 1.0f) {
+    throw new Exception("Caldera level must be " + "between 0 and 1");
+  }
+  this.size=size;
+  this.jumps=jumps;
+  this.peakWalk=peakWalk;
+  this.minParticles=minParticles;
+  this.maxParticles=maxParticles;
+  this.caldera=caldera;
+  load();
+}

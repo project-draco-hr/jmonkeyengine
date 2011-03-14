@@ -1,0 +1,29 @@
+{
+  Savable ret=defVal;
+  Savable tmp=null;
+  if (currentElem == null || currentElem.getNodeName().equals("null")) {
+    return null;
+  }
+  String reference=currentElem.getAttribute("ref");
+  if (reference.length() > 0) {
+    ret=referencedSavables.get(reference);
+  }
+ else {
+    String className=currentElem.getNodeName();
+    if (defVal != null) {
+      className=defVal.getClass().getName();
+    }
+ else     if (currentElem.hasAttribute("class")) {
+      className=currentElem.getAttribute("class");
+    }
+    tmp=BinaryClassLoader.fromName(className,null);
+    String refID=currentElem.getAttribute("reference_ID");
+    if (refID.length() < 1)     refID=currentElem.getAttribute("id");
+    if (refID.length() > 0)     referencedSavables.put(refID,tmp);
+    if (tmp != null) {
+      tmp.read(importer);
+      ret=tmp;
+    }
+  }
+  return ret;
+}

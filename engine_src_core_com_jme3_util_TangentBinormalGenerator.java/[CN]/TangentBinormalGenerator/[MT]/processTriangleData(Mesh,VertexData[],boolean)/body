@@ -1,0 +1,97 @@
+{
+  FloatBuffer normalBuffer=(FloatBuffer)mesh.getBuffer(Type.Normal).getData();
+  FloatBuffer tangents=BufferUtils.createFloatBuffer(vertices.length * 3);
+  FloatBuffer binormals=BufferUtils.createFloatBuffer(vertices.length * 3);
+  Vector3f tangent=new Vector3f();
+  Vector3f binormal=new Vector3f();
+  Vector3f normal=new Vector3f();
+  Vector3f givenNormal=new Vector3f();
+  Vector3f tangentUnit=new Vector3f();
+  Vector3f binormalUnit=new Vector3f();
+  for (int i=0; i < vertices.length; i++) {
+    populateFromBuffer(givenNormal,normalBuffer,i);
+    givenNormal.normalizeLocal();
+    VertexData currentVertex=vertices[i];
+    List<TriangleData> triangles=currentVertex.triangles;
+    tangent.set(triangles.get(0).tangent);
+    tangent.normalizeLocal();
+    binormal.set(triangles.get(0).binormal);
+    binormal.normalizeLocal();
+    for (int j=1; j < triangles.size(); j++) {
+      TriangleData triangleData=triangles.get(j);
+      tangentUnit.set(triangleData.tangent);
+      tangentUnit.normalizeLocal();
+      if (tangent.dot(tangentUnit) < toleranceDot) {
+        break;
+      }
+      if (!approxTangent) {
+        binormalUnit.set(triangleData.binormal);
+        binormalUnit.normalizeLocal();
+        if (binormal.dot(binormalUnit) < toleranceDot) {
+          break;
+        }
+      }
+    }
+    tangent.set(0,0,0);
+    binormal.set(0,0,0);
+    boolean flippedNormal=false;
+    for (int j=0; j < triangles.size(); j++) {
+      TriangleData triangleData=triangles.get(j);
+      tangent.addLocal(triangleData.tangent);
+      binormal.addLocal(triangleData.binormal);
+      if (givenNormal.dot(triangleData.normal) < 0) {
+        flippedNormal=true;
+      }
+    }
+    if (flippedNormal && approxTangent) {
+    }
+    if (tangent.length() < ZERO_TOLERANCE) {
+      if (binormal.length() >= ZERO_TOLERANCE) {
+        binormal.cross(givenNormal,tangent);
+        tangent.normalizeLocal();
+      }
+ else {
+        tangent.set(triangles.get(0).tangent);
+      }
+    }
+ else {
+      tangent.divideLocal(triangles.size());
+    }
+    tangentUnit.set(tangent);
+    tangentUnit.normalizeLocal();
+    if (Math.abs(Math.abs(tangentUnit.dot(givenNormal)) - 1) < ZERO_TOLERANCE) {
+    }
+    if (!approxTangent) {
+      if (binormal.length() < ZERO_TOLERANCE) {
+        if (tangent.length() >= ZERO_TOLERANCE) {
+          givenNormal.cross(tangent,binormal);
+          binormal.normalizeLocal();
+        }
+ else {
+          binormal.set(triangles.get(0).binormal);
+        }
+      }
+ else {
+        binormal.divideLocal(triangles.size());
+      }
+      binormalUnit.set(binormal);
+      binormalUnit.normalizeLocal();
+      if (Math.abs(Math.abs(binormalUnit.dot(givenNormal)) - 1) < ZERO_TOLERANCE) {
+      }
+      if (Math.abs(Math.abs(binormalUnit.dot(tangentUnit)) - 1) < ZERO_TOLERANCE) {
+      }
+    }
+    if (approxTangent) {
+      givenNormal.cross(tangent,binormal);
+      binormal.cross(givenNormal,tangent);
+      tangent.normalizeLocal();
+      setInBuffer(tangent,tangents,i);
+    }
+ else {
+      setInBuffer(tangent,tangents,i);
+      setInBuffer(binormal,binormals,i);
+    }
+  }
+  mesh.setBuffer(Type.Tangent,3,tangents);
+  if (!approxTangent)   mesh.setBuffer(Type.Binormal,3,binormals);
+}

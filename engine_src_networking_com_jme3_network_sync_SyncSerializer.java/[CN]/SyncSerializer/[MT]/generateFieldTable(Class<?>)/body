@@ -1,0 +1,19 @@
+{
+  FieldTable table=new FieldTable();
+  while (clazz != null) {
+    Field[] fields=clazz.getDeclaredFields();
+    for (    Field field : fields) {
+      Sync syncAnnot=field.getAnnotation(Sync.class);
+      if (syncAnnot == null)       continue;
+      SyncFieldInfo info=new SyncFieldInfo();
+      field.setAccessible(true);
+      info.field=field;
+      info.init=syncAnnot.value() == SyncType.Init || syncAnnot.value() == SyncType.InitOnly;
+      info.sync=syncAnnot.value() != SyncType.InitOnly;
+      info.smooth=syncAnnot.smooth();
+      table.add(info);
+    }
+    clazz=clazz.getSuperclass();
+  }
+  return table;
+}

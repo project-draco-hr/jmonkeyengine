@@ -1,0 +1,17 @@
+{
+  this.rm=rm;
+  this.vp=vp;
+  loadTextures(manager);
+  createTextures();
+  applyTextures(material);
+  createPreViews();
+  material.setVector2("FrustumNearFar",new Vector2f(vp.getCamera().getFrustumNear(),vp.getCamera().getFrustumFar()));
+  if (debug) {
+    dispRefraction=new Picture("dispRefraction");
+    dispRefraction.setTexture(manager,refractionTexture,false);
+    dispReflection=new Picture("dispRefraction");
+    dispReflection.setTexture(manager,reflectionTexture,false);
+    dispDepth=new Picture("depthTexture");
+    dispDepth.setTexture(manager,depthTexture,false);
+  }
+}

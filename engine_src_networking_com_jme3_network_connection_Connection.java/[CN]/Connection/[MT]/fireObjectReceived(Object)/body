@@ -1,0 +1,11 @@
+{
+  for (  MessageListener listener : messageListeners) {
+    listener.objectReceived(data);
+  }
+  if (data == null)   return;
+  List<MessageListener> list=individualMessageListeners.get(data.getClass());
+  if (list == null)   return;
+  for (  MessageListener listener : list) {
+    listener.objectReceived(data);
+  }
+}

@@ -1,0 +1,9 @@
+{
+  if (renderer.getCaps().contains(Caps.GLSL100)) {
+    fpp=new FilterPostProcessor(assetManager);
+    CartoonEdgeFilter toon=new CartoonEdgeFilter();
+    toon.setEdgeColor(ColorRGBA.Yellow);
+    fpp.addFilter(toon);
+    viewPort.addProcessor(fpp);
+  }
+}

@@ -1,0 +1,17 @@
+{
+  inputManager.addMapping("togglePause",new KeyTrigger(keyInput.KEY_RETURN));
+  ActionListener acl=new ActionListener(){
+    public void onAction(    String name,    boolean keyPressed,    float tpf){
+      if (name.equals("togglePause") && keyPressed) {
+        if (cinematic.getPlayState() == PlayState.Playing) {
+          cinematic.pause();
+        }
+ else {
+          cinematic.play();
+        }
+      }
+    }
+  }
+;
+  inputManager.addListener(acl,"togglePause");
+}

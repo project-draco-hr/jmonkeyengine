@@ -1,0 +1,22 @@
+{
+  if (this.renderedSize != styleSet.renderedSize) {
+    throw new RuntimeException("Only support same font size");
+  }
+  for (  Entry<IntMap<BitmapCharacter>> entry : styleSet.characters) {
+    int style=entry.getKey();
+    if (style == 0) {
+      throw new RuntimeException("Style must be set first. use setStyle(int)");
+    }
+    IntMap<BitmapCharacter> charset=entry.getValue();
+    this.lineHeight=Math.max(this.lineHeight,styleSet.lineHeight);
+    IntMap<BitmapCharacter> old=this.characters.put(style,charset);
+    if (old != null) {
+      throw new RuntimeException("Can't override old style");
+    }
+    for (    Entry<BitmapCharacter> charEntry : charset) {
+      BitmapCharacter ch=charEntry.getValue();
+      ch.setPage(ch.getPage() + this.pageSize);
+    }
+  }
+  this.pageSize+=styleSet.pageSize;
+}

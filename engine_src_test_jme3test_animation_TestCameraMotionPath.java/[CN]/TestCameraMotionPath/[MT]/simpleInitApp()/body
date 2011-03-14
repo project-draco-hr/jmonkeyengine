@@ -1,0 +1,44 @@
+{
+  createScene();
+  cam.setLocation(new Vector3f(8.4399185f,11.189463f,14.267577f));
+  camNode=new CameraNode(cam);
+  camNode.setControlDir(ControlDirection.SpatialToCamera);
+  camNode.getControl(0).setEnabled(false);
+  camNode.setName("Motion cam");
+  path=new MotionPath();
+  path.setCycle(true);
+  path.addWayPoint(new Vector3f(20,3,0));
+  path.addWayPoint(new Vector3f(0,3,20));
+  path.addWayPoint(new Vector3f(-20,3,0));
+  path.addWayPoint(new Vector3f(0,3,-20));
+  path.setCurveTension(0.83f);
+  path.enableDebugShape(assetManager,rootNode);
+  cameraMotionControl=new MotionTrack(camNode,path);
+  cameraMotionControl.setLoopMode(LoopMode.Loop);
+  cameraMotionControl.setLookAt(teapot.getWorldTranslation(),Vector3f.UNIT_Y);
+  cameraMotionControl.setDirectionType(MotionTrack.Direction.LookAt);
+  rootNode.attachChild(camNode);
+  guiFont=assetManager.loadFont("Interface/Fonts/Default.fnt");
+  final BitmapText wayPointsText=new BitmapText(guiFont,false);
+  wayPointsText.setSize(guiFont.getCharSet().getRenderedSize());
+  guiNode.attachChild(wayPointsText);
+  path.addListener(new MotionPathListener(){
+    public void onWayPointReach(    MotionTrack control,    int wayPointIndex){
+      if (path.getNbWayPoints() == wayPointIndex + 1) {
+        wayPointsText.setText(control.getSpatial().getName() + " Finish!!! ");
+      }
+ else {
+        wayPointsText.setText(control.getSpatial().getName() + " Reached way point " + wayPointIndex);
+      }
+      wayPointsText.setLocalTranslation((cam.getWidth() - wayPointsText.getLineWidth()) / 2,cam.getHeight(),0);
+    }
+  }
+);
+  flyCam.setEnabled(false);
+  chaser=new ChaseCamera(cam,teapot);
+  chaser.registerWithInput(inputManager);
+  chaser.setSmoothMotion(true);
+  chaser.setMaxDistance(50);
+  chaser.setDefaultDistance(50);
+  initInputs();
+}

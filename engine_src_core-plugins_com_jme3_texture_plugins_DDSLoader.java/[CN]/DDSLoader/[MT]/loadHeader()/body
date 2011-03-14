@@ -1,0 +1,46 @@
+{
+  if (in.readInt() != 0x20534444 || in.readInt() != 124) {
+    throw new IOException("Not a DDS file");
+  }
+  flags=in.readInt();
+  if (!is(flags,DDSD_MANDATORY) && !is(flags,DDSD_MANDATORY_DX10)) {
+    throw new IOException("Mandatory flags missing");
+  }
+  height=in.readInt();
+  width=in.readInt();
+  pitchOrSize=in.readInt();
+  depth=in.readInt();
+  mipMapCount=in.readInt();
+  in.skipBytes(44);
+  pixelFormat=null;
+  directx10=false;
+  readPixelFormat();
+  caps1=in.readInt();
+  caps2=in.readInt();
+  in.skipBytes(12);
+  if (!directx10) {
+    if (!is(caps1,DDSCAPS_TEXTURE)) {
+      throw new IOException("File is not a texture");
+    }
+    if (depth <= 0)     depth=1;
+    if (is(caps2,DDSCAPS2_CUBEMAP)) {
+      depth=6;
+    }
+  }
+  int expectedMipmaps=1 + (int)Math.ceil(Math.log(Math.max(height,width)) / LOG2);
+  if (is(caps1,DDSCAPS_MIPMAP)) {
+    if (!is(flags,DDSD_MIPMAPCOUNT)) {
+      mipMapCount=expectedMipmaps;
+    }
+ else     if (mipMapCount != expectedMipmaps) {
+      logger.warning("Got " + mipMapCount + "mipmaps, expected"+ expectedMipmaps);
+    }
+  }
+ else {
+    mipMapCount=1;
+  }
+  if (directx10) {
+    loadDX10Header();
+  }
+  loadSizes();
+}

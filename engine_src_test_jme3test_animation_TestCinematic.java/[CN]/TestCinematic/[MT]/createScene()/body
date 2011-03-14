@@ -1,0 +1,34 @@
+{
+  model=(Spatial)assetManager.loadModel("Models/Oto/Oto.mesh.xml");
+  model.center();
+  model.setShadowMode(ShadowMode.CastAndReceive);
+  rootNode.attachChild(model);
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  mat.setColor("Color",ColorRGBA.Cyan);
+  teapot=assetManager.loadModel("Models/Teapot/Teapot.obj");
+  teapot.setLocalTranslation(10,0,10);
+  teapot.setMaterial(mat);
+  teapot.setShadowMode(ShadowMode.CastAndReceive);
+  rootNode.attachChild(teapot);
+  Material matSoil=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  matSoil.setBoolean("UseMaterialColors",true);
+  matSoil.setColor("Ambient",ColorRGBA.Gray);
+  matSoil.setColor("Diffuse",ColorRGBA.Green);
+  matSoil.setColor("Specular",ColorRGBA.Black);
+  Geometry soil=new Geometry("soil",new Box(new Vector3f(0,-6.0f,0),50,1,50));
+  soil.setMaterial(matSoil);
+  soil.setShadowMode(ShadowMode.Receive);
+  rootNode.attachChild(soil);
+  DirectionalLight light=new DirectionalLight();
+  light.setDirection(new Vector3f(0,-1,-1).normalizeLocal());
+  light.setColor(ColorRGBA.White.mult(1.5f));
+  rootNode.addLight(light);
+  PssmShadowRenderer pssm=new PssmShadowRenderer(assetManager,512,1);
+  pssm.setDirection(new Vector3f(0,-1,-1).normalizeLocal());
+  pssm.setShadowIntensity(0.4f);
+  viewPort.addProcessor(pssm);
+  fpp=new FilterPostProcessor(assetManager);
+  fade=new FadeFilter();
+  fpp.addFilter(fade);
+  viewPort.addProcessor(fpp);
+}

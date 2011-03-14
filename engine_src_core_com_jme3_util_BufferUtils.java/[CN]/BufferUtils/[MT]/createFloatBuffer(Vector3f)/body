@@ -1,0 +1,10 @@
+{
+  if (data == null)   return null;
+  FloatBuffer buff=createFloatBuffer(3 * data.length);
+  for (int x=0; x < data.length; x++) {
+    if (data[x] != null)     buff.put(data[x].x).put(data[x].y).put(data[x].z);
+ else     buff.put(0).put(0).put(0);
+  }
+  buff.flip();
+  return buff;
+}

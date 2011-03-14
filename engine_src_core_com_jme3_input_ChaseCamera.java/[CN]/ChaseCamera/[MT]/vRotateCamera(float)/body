@@ -1,0 +1,13 @@
+{
+  if (!canRotate || !enabled) {
+    return;
+  }
+  vRotating=true;
+  targetVRotation+=value * rotationSpeed;
+  if (targetVRotation > maxVerticalRotation) {
+    targetVRotation=maxVerticalRotation;
+  }
+  if ((targetVRotation < minVerticalRotation) && (targetDistance > (minDistance + 1.0f))) {
+    targetVRotation=minVerticalRotation;
+  }
+}

@@ -1,0 +1,6 @@
+{
+  ((SocketChannel)channel).finishConnect();
+  socketChannel.keyFor(selector).interestOps(SelectionKey.OP_READ | SelectionKey.OP_WRITE);
+  fireClientConnected(null);
+  log.log(Level.INFO,"[{0}][TCP] Connection succeeded.",label);
+}

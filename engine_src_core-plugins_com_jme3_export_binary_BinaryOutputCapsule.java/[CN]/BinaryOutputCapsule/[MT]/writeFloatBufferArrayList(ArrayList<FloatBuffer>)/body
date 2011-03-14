@@ -1,0 +1,10 @@
+{
+  if (array == null) {
+    write(NULL_OBJECT);
+    return;
+  }
+  write(array.size());
+  for (  FloatBuffer buf : array) {
+    write(buf);
+  }
+}

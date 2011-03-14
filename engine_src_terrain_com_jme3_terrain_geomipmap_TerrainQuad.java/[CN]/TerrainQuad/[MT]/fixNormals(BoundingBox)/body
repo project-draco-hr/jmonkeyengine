@@ -1,0 +1,12 @@
+{
+  if (children == null)   return;
+  for (int x=children.size(); --x >= 0; ) {
+    Spatial child=children.get(x);
+    if (child instanceof TerrainQuad) {
+      if (affectedArea != null && affectedArea.intersects(((TerrainQuad)child).getWorldBound()))       ((TerrainQuad)child).fixNormals(affectedArea);
+    }
+ else     if (child instanceof TerrainPatch) {
+      if (affectedArea != null && affectedArea.intersects(((TerrainPatch)child).getWorldBound()))       ((TerrainPatch)child).updateNormals();
+    }
+  }
+}

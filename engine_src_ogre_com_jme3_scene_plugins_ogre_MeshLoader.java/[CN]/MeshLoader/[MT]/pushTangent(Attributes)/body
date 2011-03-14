@@ -1,0 +1,13 @@
+{
+  try {
+    VertexBuffer tangentBuf=mesh.getBuffer(Type.Tangent);
+    FloatBuffer buf=(FloatBuffer)tangentBuf.getData();
+    buf.put(parseFloat(attribs.getValue("x"))).put(parseFloat(attribs.getValue("y"))).put(parseFloat(attribs.getValue("z")));
+    if (tangentBuf.getNumComponents() == 4) {
+      buf.put(parseFloat(attribs.getValue("w")));
+    }
+  }
+ catch (  Exception ex) {
+    throw new SAXException("Failed to push attrib",ex);
+  }
+}

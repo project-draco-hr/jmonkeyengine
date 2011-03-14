@@ -1,0 +1,7 @@
+{
+  super(Type.FrameBuffer);
+  if (width <= 0 || height <= 0)   throw new IllegalArgumentException("FrameBuffer must have valid size.");
+  this.width=width;
+  this.height=height;
+  this.samples=samples == 0 ? 1 : samples;
+}

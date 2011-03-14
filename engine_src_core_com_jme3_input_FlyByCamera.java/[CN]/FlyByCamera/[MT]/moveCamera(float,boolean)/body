@@ -1,0 +1,14 @@
+{
+  Vector3f vel=new Vector3f();
+  Vector3f pos=cam.getLocation().clone();
+  if (sideways) {
+    cam.getLeft(vel);
+  }
+ else {
+    cam.getDirection(vel);
+  }
+  vel.multLocal(value * moveSpeed);
+  if (motionAllowed != null)   motionAllowed.checkMotionAllowed(pos,vel);
+ else   pos.addLocal(vel);
+  cam.setLocation(pos);
+}

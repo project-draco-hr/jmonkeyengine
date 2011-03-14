@@ -1,0 +1,13 @@
+{
+  if (end - start <= 0) {
+    return;
+  }
+  Vector3f[] vertList=new Vector3f[(end - start) * 3];
+  int count=0;
+  for (int i=start; i < end; i++) {
+    vertList[count++]=tris[i].get(0);
+    vertList[count++]=tris[i].get(1);
+    vertList[count++]=tris[i].get(2);
+  }
+  averagePoints(vertList);
+}

@@ -1,0 +1,9 @@
+{
+  super.read(im);
+  InputCapsule ic=im.getCapsule(this);
+  enabled=ic.readBoolean("enabled",true);
+  kinematicSpatial=ic.readBoolean("kinematicSpatial",true);
+  spatial=(Spatial)ic.readSavable("spatial",null);
+  motionState.setApplyPhysicsLocal(ic.readBoolean("applyLocalPhysics",false));
+  setUserObject(spatial);
+}

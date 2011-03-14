@@ -1,0 +1,23 @@
+{
+  if (localObjects.size() > 0) {
+    ObjectDef[] defs=new ObjectDef[localObjects.size()];
+    int i=0;
+    for (    Entry<LocalObject> entry : localObjects) {
+      defs[i]=makeObjectDef(entry.getValue());
+      i++;
+    }
+    RemoteObjectDefMessage defMsg=new RemoteObjectDefMessage();
+    defMsg.objects=defs;
+    try {
+      if (this.client != null) {
+        this.client.send(defMsg);
+      }
+ else {
+        client.send(defMsg);
+      }
+    }
+ catch (    IOException ex) {
+      ex.printStackTrace();
+    }
+  }
+}

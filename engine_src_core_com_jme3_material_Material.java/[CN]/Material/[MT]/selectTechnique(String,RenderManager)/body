@@ -1,0 +1,40 @@
+{
+  Technique tech=techniques.get(name);
+  if (tech == null) {
+    EnumSet<Caps> rendererCaps=renderManager.getRenderer().getCaps();
+    if (name.equals("Default")) {
+      List<TechniqueDef> techDefs=def.getDefaultTechniques();
+      if (techDefs == null || techDefs.size() == 0) {
+        throw new IllegalStateException("No default techniques are available on material '" + def.getName() + "'");
+      }
+      TechniqueDef lastTech=null;
+      for (      TechniqueDef techDef : techDefs) {
+        if (rendererCaps.containsAll(techDef.getRequiredCaps())) {
+          tech=new Technique(this,techDef);
+          techniques.put(name,tech);
+          break;
+        }
+        lastTech=techDef;
+      }
+      if (tech == null) {
+        throw new UnsupportedOperationException("No default technique on material '" + def.getName() + "'\n"+ " is supported by the video hardware. The caps "+ lastTech.getRequiredCaps()+ " are required.");
+      }
+    }
+ else {
+      TechniqueDef techDef=def.getTechniqueDef(name);
+      if (techDef == null) {
+        throw new IllegalArgumentException("For material " + def.getName() + ", technique not found: "+ name);
+      }
+      if (!rendererCaps.containsAll(techDef.getRequiredCaps())) {
+        throw new UnsupportedOperationException("The explicitly chosen technique '" + name + "' on material '"+ def.getName()+ "'\n"+ "requires caps "+ techDef.getRequiredCaps()+ " which are not"+ "supported by the video renderer");
+      }
+      tech=new Technique(this,techDef);
+      techniques.put(name,tech);
+    }
+  }
+ else   if (technique == tech) {
+    return;
+  }
+  technique=tech;
+  tech.makeCurrent(def.getAssetManager());
+}

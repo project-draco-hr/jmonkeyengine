@@ -1,0 +1,38 @@
+{
+  if (packetIndex < 3) {
+    if (info.synthesis_headerin(comment,packet) < 0) {
+      System.err.println("does not contain Vorbis audio data.");
+      return;
+    }
+    if (packetIndex == 2) {
+      dsp.synthesis_init(info);
+      block.init(dsp);
+      System.out.println("vorbis: " + info);
+      System.out.println(comment.toString());
+      index=new int[info.channels];
+      if (stream == null) {
+        stream=new AudioStream();
+        stream.setupFormat(info.channels,16,info.rate);
+        stream.updateData(this,-1);
+      }
+      if (masterClock instanceof SystemClock) {
+        SystemClock clock=(SystemClock)masterClock;
+        if (clock.needReset()) {
+          clock.reset();
+          System.out.println("Note: master clock was reset by audio");
+        }
+      }
+    }
+  }
+ else {
+    long gp=packet.granulepos;
+    if (gp != -1) {
+      lastPts=(gp * Clock.SECONDS_TO_NANOS) / info.rate;
+      lastWritten=ringBuffer.getTotalWritten();
+      lastRead=ringBuffer.getTotalRead();
+      lastPtsWrite=System.nanoTime();
+    }
+    decodeDsp(packet);
+  }
+  packetIndex++;
+}

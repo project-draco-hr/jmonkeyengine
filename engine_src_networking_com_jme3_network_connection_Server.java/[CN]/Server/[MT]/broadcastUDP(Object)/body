@@ -1,0 +1,5 @@
+{
+  if (udp == null)   throw new IOException("No UDP server.");
+  if (!isBound)   throw new IOException("Not bound yet. Use bind() first.");
+  udp.sendObject(object);
+}

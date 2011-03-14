@@ -1,0 +1,72 @@
+{
+switch (fmt) {
+case Alpha16:
+    return GL_ALPHA16;
+case Alpha8:
+  return GL_ALPHA8;
+case DXT1:
+return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
+case DXT1A:
+return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+case DXT3:
+return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
+case DXT5:
+return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+case LATC:
+return GL_COMPRESSED_LUMINANCE_ALPHA_LATC2_EXT;
+case Depth:
+return GL_DEPTH_COMPONENT;
+case Depth16:
+return GL_DEPTH_COMPONENT16;
+case Depth24:
+return GL_DEPTH_COMPONENT24;
+case Depth32:
+return GL_DEPTH_COMPONENT32;
+case Depth32F:
+return ARBDepthBufferFloat.GL_DEPTH_COMPONENT32F;
+case Luminance8Alpha8:
+return GL_LUMINANCE8_ALPHA8;
+case Luminance16Alpha16:
+return GL_LUMINANCE16_ALPHA16;
+case Luminance16FAlpha16F:
+return ARBTextureFloat.GL_LUMINANCE_ALPHA16F_ARB;
+case Intensity8:
+return GL_INTENSITY8;
+case Intensity16:
+return GL_INTENSITY16;
+case Luminance8:
+return GL_LUMINANCE8;
+case Luminance16:
+return GL_LUMINANCE16;
+case Luminance16F:
+return ARBTextureFloat.GL_LUMINANCE16F_ARB;
+case Luminance32F:
+return ARBTextureFloat.GL_LUMINANCE32F_ARB;
+case RGB10:
+return GL_RGB10;
+case RGB16:
+return GL_RGB16;
+case RGB111110F:
+return EXTPackedFloat.GL_R11F_G11F_B10F_EXT;
+case RGB9E5:
+return EXTTextureSharedExponent.GL_RGB9_E5_EXT;
+case RGB16F:
+return ARBTextureFloat.GL_RGB16F_ARB;
+case RGBA16F:
+return ARBTextureFloat.GL_RGBA16F_ARB;
+case RGB32F:
+return ARBTextureFloat.GL_RGB32F_ARB;
+case RGB5A1:
+return GL_RGB5_A1;
+case BGR8:
+return GL_RGB8;
+case RGB8:
+return GL_RGB8;
+case RGBA16:
+return GL_RGBA16;
+case RGBA8:
+return GL_RGBA8;
+default :
+throw new UnsupportedOperationException("Unrecognized format: " + fmt);
+}
+}

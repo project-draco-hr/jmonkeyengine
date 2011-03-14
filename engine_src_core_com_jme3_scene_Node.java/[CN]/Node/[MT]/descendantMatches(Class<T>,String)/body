@@ -1,0 +1,9 @@
+{
+  List<T> newList=new ArrayList<T>();
+  if (getQuantity() < 1)   return newList;
+  for (  Spatial child : getChildren()) {
+    if (child.matches(spatialSubclass,nameRegex))     newList.add((T)child);
+    if (child instanceof Node)     newList.addAll(((Node)child).descendantMatches(spatialSubclass,nameRegex));
+  }
+  return newList;
+}

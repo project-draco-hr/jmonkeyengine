@@ -1,0 +1,24 @@
+{
+switch (type) {
+case TwoDimensional:
+    if (samples > 1) {
+      return ARBTextureMultisample.GL_TEXTURE_2D_MULTISAMPLE;
+    }
+ else {
+      return GL_TEXTURE_2D;
+    }
+case TwoDimensionalArray:
+  if (samples > 1) {
+    return ARBTextureMultisample.GL_TEXTURE_2D_MULTISAMPLE_ARRAY;
+  }
+ else {
+    return EXTTextureArray.GL_TEXTURE_2D_ARRAY_EXT;
+  }
+case ThreeDimensional:
+return GL_TEXTURE_3D;
+case CubeMap:
+return GL_TEXTURE_CUBE_MAP;
+default :
+throw new UnsupportedOperationException("Unknown texture type: " + type);
+}
+}

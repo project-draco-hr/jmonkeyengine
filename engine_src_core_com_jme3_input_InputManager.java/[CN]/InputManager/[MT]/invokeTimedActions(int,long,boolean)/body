@@ -1,0 +1,21 @@
+{
+  if (!bindings.containsKey(hash)) {
+    return;
+  }
+  if (pressed) {
+    pressedButtons.put(hash,time);
+  }
+ else {
+    Long pressTimeObj=pressedButtons.remove(hash);
+    if (pressTimeObj == null) {
+      return;
+    }
+    long pressTime=pressTimeObj;
+    long lastUpdate=lastLastUpdateTime;
+    long releaseTime=time;
+    long timeDelta=releaseTime - Math.max(pressTime,lastUpdate);
+    if (timeDelta > 0) {
+      invokeAnalogs(hash,computeAnalogValue(timeDelta),false);
+    }
+  }
+}

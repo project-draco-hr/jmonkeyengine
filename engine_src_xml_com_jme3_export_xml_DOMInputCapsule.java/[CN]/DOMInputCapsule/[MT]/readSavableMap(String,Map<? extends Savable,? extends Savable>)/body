@@ -1,0 +1,24 @@
+{
+  Map<Savable,Savable> ret;
+  Element tempEl;
+  if (name != null) {
+    tempEl=findChildElement(currentElem,name);
+  }
+ else {
+    tempEl=currentElem;
+  }
+  ret=new HashMap<Savable,Savable>();
+  NodeList nodes=tempEl.getChildNodes();
+  for (int i=0; i < nodes.getLength(); i++) {
+    Node n=nodes.item(i);
+    if (n instanceof Element && n.getNodeName().equals("MapEntry")) {
+      Element elem=(Element)n;
+      currentElem=elem;
+      Savable key=readSavable(XMLExporter.ELEMENT_KEY,null);
+      Savable val=readSavable(XMLExporter.ELEMENT_VALUE,null);
+      ret.put(key,val);
+    }
+  }
+  currentElem=(Element)tempEl.getParentNode();
+  return ret;
+}

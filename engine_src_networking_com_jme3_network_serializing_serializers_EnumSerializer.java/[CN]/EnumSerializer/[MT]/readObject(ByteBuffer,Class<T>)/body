@@ -1,0 +1,11 @@
+{
+  try {
+    int ordinal=data.getInt();
+    if (ordinal == -1)     return null;
+    T[] enumConstants=c.getEnumConstants();
+    return enumConstants[ordinal];
+  }
+ catch (  IndexOutOfBoundsException ex) {
+    return null;
+  }
+}

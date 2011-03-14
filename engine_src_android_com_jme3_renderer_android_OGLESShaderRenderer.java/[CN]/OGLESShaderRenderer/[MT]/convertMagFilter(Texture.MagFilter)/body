@@ -1,0 +1,10 @@
+{
+switch (filter) {
+case Bilinear:
+    return GLES20.GL_LINEAR;
+case Nearest:
+  return GLES20.GL_NEAREST;
+default :
+throw new UnsupportedOperationException("Unknown mag filter: " + filter);
+}
+}

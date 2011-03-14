@@ -1,0 +1,10 @@
+{
+  try {
+    Entry<T> clone=(Entry<T>)super.clone();
+    clone.next=next != null ? next.clone() : null;
+    return clone;
+  }
+ catch (  CloneNotSupportedException ex) {
+  }
+  return null;
+}

@@ -1,0 +1,15 @@
+{
+  BoundingSphere sphere;
+  if (store == null || store.getType() != BoundingVolume.Type.Sphere) {
+    sphere=new BoundingSphere(1,new Vector3f(0,0,0));
+  }
+ else {
+    sphere=(BoundingSphere)store;
+  }
+  trans.mult(center,sphere.center);
+  Vector3f axes=new Vector3f(1,1,1);
+  trans.mult(axes,axes);
+  float ax=getMaxAxis(axes);
+  sphere.radius=FastMath.abs(ax * radius) + RADIUS_EPSILON - 1f;
+  return sphere;
+}

@@ -1,0 +1,7 @@
+{
+  if (!context.clipRectEnabled) {
+    gl.glEnable(gl.GL_SCISSOR_TEST);
+    context.clipRectEnabled=true;
+  }
+  gl.glScissor(x,y,width,height);
+}

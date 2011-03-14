@@ -1,0 +1,23 @@
+{
+  if (other instanceof AbstractTriangle) {
+    AbstractTriangle tri=(AbstractTriangle)other;
+    CollisionResult result=collideWithTriangle(tri);
+    if (result != null) {
+      results.addCollision(result);
+      return 1;
+    }
+    return 0;
+  }
+ else   if (other instanceof SweepSphere) {
+    SweepSphere sph=(SweepSphere)other;
+    CollisionResult result=collideWithSweepSphere(sph);
+    if (result != null) {
+      results.addCollision(result);
+      return 1;
+    }
+    return 0;
+  }
+ else {
+    throw new UnsupportedCollisionException();
+  }
+}

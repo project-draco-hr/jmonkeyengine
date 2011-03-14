@@ -1,0 +1,13 @@
+{
+  if (store != null && store.getType() == Type.Sphere) {
+    BoundingSphere rVal=(BoundingSphere)store;
+    if (null == rVal.center) {
+      rVal.center=new Vector3f();
+    }
+    rVal.center.set(center);
+    rVal.radius=radius;
+    rVal.checkPlane=checkPlane;
+    return rVal;
+  }
+  return new BoundingSphere(radius,(center != null ? (Vector3f)center.clone() : null));
+}

@@ -1,0 +1,21 @@
+{
+  InputStream in=info.openStream();
+  oggStream=new UncachedOggStream(in);
+  Collection<LogicalOggStream> streams=oggStream.getLogicalStreams();
+  loStream=streams.iterator().next();
+  vorbisStream=new VorbisStream(loStream);
+  streamHdr=vorbisStream.getIdentificationHeader();
+  boolean readStream=((AudioKey)info.getKey()).isStream();
+  if (!readStream) {
+    AudioBuffer audioBuffer=new AudioBuffer();
+    audioBuffer.setupFormat(streamHdr.getChannels(),16,streamHdr.getSampleRate());
+    audioBuffer.updateData(readToBuffer());
+    return audioBuffer;
+  }
+ else {
+    AudioStream audioStream=new AudioStream();
+    audioStream.setupFormat(streamHdr.getChannels(),16,streamHdr.getSampleRate());
+    audioStream.updateData(readToStream(),-1);
+    return audioStream;
+  }
+}

@@ -1,0 +1,28 @@
+{
+  Material mat=assetManager.loadMaterial("Common/Materials/RedColor.j3m");
+  Material matSoil=new Material(assetManager,"Common/MatDefs/Misc/SolidColor.j3md");
+  matSoil.setColor("Color",ColorRGBA.Cyan);
+  teapot=new Geometry("sphere",new Sphere(30,30,2));
+  teapot.setLocalTranslation(0,0,10);
+  teapot.setMaterial(mat);
+  teapot.setShadowMode(ShadowMode.CastAndReceive);
+  rootNode.attachChild(teapot);
+  long seed=1294719330150L;
+  Random random=new Random(seed);
+  System.out.println(seed);
+  for (int i=0; i < 30; i++) {
+    Spatial t=teapot.clone(false);
+    rootNode.attachChild(t);
+    teapot.setLocalTranslation((float)random.nextFloat() * 3,(float)random.nextFloat() * 3,(i + 2));
+  }
+  Geometry soil=new Geometry("soil",new Box(new Vector3f(0,-13,550),800,10,700));
+  soil.setMaterial(matSoil);
+  soil.setShadowMode(ShadowMode.Receive);
+  rootNode.attachChild(soil);
+  for (int i=0; i < 30; i++) {
+    Spatial t=teapot.clone(false);
+    t.setLocalScale(10.0f);
+    rootNode.attachChild(t);
+    teapot.setLocalTranslation((float)random.nextFloat() * 300,(float)random.nextFloat() * 30,30 * (i + 2));
+  }
+}

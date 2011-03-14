@@ -1,0 +1,10 @@
+{
+  try {
+    PixelGrabber pg=new PixelGrabber(image,0,0,1,1,false);
+    pg.grabPixels();
+    return pg.getColorModel();
+  }
+ catch (  InterruptedException e) {
+    throw new RuntimeException("Unexpected interruption",e);
+  }
+}

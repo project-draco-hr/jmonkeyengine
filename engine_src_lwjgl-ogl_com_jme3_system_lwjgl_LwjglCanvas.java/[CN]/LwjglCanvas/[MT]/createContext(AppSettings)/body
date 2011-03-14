@@ -1,0 +1,13 @@
+{
+  frameRate=settings.getFrameRate();
+  Display.setVSyncEnabled(settings.isVSync());
+  try {
+    Display.setParent(canvas);
+    PixelFormat pf=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),settings.getSamples());
+    Display.create(pf);
+    Display.makeCurrent();
+  }
+ catch (  LWJGLException ex) {
+    listener.handleError("Failed to parent canvas to display",ex);
+  }
+}

@@ -1,0 +1,19 @@
+{
+  ByteBuffer buf=(ByteBuffer)quadColor.getData();
+  buf.rewind();
+  buf.putInt(convertColor(topRight));
+  buf.putInt(convertColor(topLeft));
+  buf.putInt(convertColor(bottomLeft));
+  buf.putInt(convertColor(bottomRight));
+  buf.flip();
+  quadColor.updateData(buf);
+  niftyMat.getAdditionalRenderState().setBlendMode(convertBlend());
+  niftyMat.setColor("Color",ColorRGBA.White);
+  niftyMat.clearParam("Texture");
+  niftyMat.setBoolean("UseTex",false);
+  tempMat.loadIdentity();
+  tempMat.setTranslation(x,getHeight() - y,0);
+  tempMat.setScale(width,height,0);
+  rm.setWorldMatrix(tempMat);
+  niftyMat.render(quadGeom,rm);
+}

@@ -1,0 +1,14 @@
+{
+  String name=readString(buffer);
+  Class<?> retType=readType(buffer);
+  int numParams=buffer.get() & 0xff;
+  Class<?>[] paramTypes=new Class<?>[numParams];
+  for (int i=0; i < numParams; i++) {
+    paramTypes[i]=readType(buffer);
+  }
+  MethodDef def=new MethodDef();
+  def.name=name;
+  def.paramTypes=paramTypes;
+  def.retType=retType;
+  return def;
+}

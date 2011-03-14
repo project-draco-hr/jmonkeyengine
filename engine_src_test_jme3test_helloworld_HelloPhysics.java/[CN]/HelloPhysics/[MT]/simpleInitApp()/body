@@ -1,0 +1,14 @@
+{
+  bulletAppState=new BulletAppState();
+  stateManager.attach(bulletAppState);
+  cam.setLocation(new Vector3f(0,6f,6f));
+  cam.lookAt(Vector3f.ZERO,new Vector3f(0,1,0));
+  cam.setFrustumFar(15);
+  inputManager.addMapping("shoot",new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+  inputManager.addListener(actionListener,"shoot");
+  initMaterials();
+  initWall();
+  initFloor();
+  initCrossHairs();
+  initShadows();
+}

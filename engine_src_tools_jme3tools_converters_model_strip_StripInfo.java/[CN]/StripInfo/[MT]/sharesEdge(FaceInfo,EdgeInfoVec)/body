@@ -1,0 +1,9 @@
+{
+  EdgeInfo currEdge=Stripifier.findEdgeInfo(edgeInfos,faceInfo.m_v0,faceInfo.m_v1);
+  if (isInStrip(currEdge.m_face0) || isInStrip(currEdge.m_face1))   return true;
+  currEdge=Stripifier.findEdgeInfo(edgeInfos,faceInfo.m_v1,faceInfo.m_v2);
+  if (isInStrip(currEdge.m_face0) || isInStrip(currEdge.m_face1))   return true;
+  currEdge=Stripifier.findEdgeInfo(edgeInfos,faceInfo.m_v2,faceInfo.m_v0);
+  if (isInStrip(currEdge.m_face0) || isInStrip(currEdge.m_face1))   return true;
+  return false;
+}

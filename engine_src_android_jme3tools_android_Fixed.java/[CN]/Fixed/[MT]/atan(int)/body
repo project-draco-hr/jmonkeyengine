@@ -1,0 +1,15 @@
+{
+  n=n + (1 << (ATAN_SHIFT - 1)) >> ATAN_SHIFT;
+  if (n < 0) {
+    if (n <= -ATAN_TABLE_LEN) {
+      return -(QUARTER_CIRCLE - 1);
+    }
+    return -ATAN_TABLE[-n];
+  }
+ else {
+    if (n >= ATAN_TABLE_LEN) {
+      return QUARTER_CIRCLE - 1;
+    }
+    return ATAN_TABLE[n];
+  }
+}

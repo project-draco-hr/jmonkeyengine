@@ -1,0 +1,21 @@
+{
+  try {
+    Mesh clone=(Mesh)super.clone();
+    clone.meshBound=meshBound != null ? meshBound.clone() : null;
+    clone.collisionTree=collisionTree != null ? collisionTree : null;
+    clone.buffers=new IntMap<VertexBuffer>();
+    for (    Entry<VertexBuffer> ent : buffers) {
+      clone.buffers.put(ent.getKey(),ent.getValue().clone());
+    }
+    clone.vertexArrayID=-1;
+    clone.vertCount=-1;
+    clone.elementCount=-1;
+    clone.maxNumWeights=-1;
+    clone.elementLengths=elementLengths != null ? elementLengths.clone() : null;
+    clone.modeStart=modeStart != null ? modeStart.clone() : null;
+    return clone;
+  }
+ catch (  CloneNotSupportedException ex) {
+    throw new AssertionError();
+  }
+}

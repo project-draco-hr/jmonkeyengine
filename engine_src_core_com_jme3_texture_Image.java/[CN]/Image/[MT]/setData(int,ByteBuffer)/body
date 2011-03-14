@@ -1,0 +1,12 @@
+{
+  if (index >= 0) {
+    while (this.data.size() <= index) {
+      this.data.add(null);
+    }
+    this.data.set(index,data);
+    setUpdateNeeded();
+  }
+ else {
+    throw new IllegalArgumentException("index must be greater than or equal to 0.");
+  }
+}

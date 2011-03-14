@@ -1,0 +1,16 @@
+{
+  InputStream in=null;
+  try {
+    in=androidManager.open(key.getName());
+    if (in == null)     return null;
+    return new AndroidAssetInfo(manager,key,in);
+  }
+ catch (  IOException ex) {
+    if (in != null)     try {
+      in.close();
+    }
+ catch (    IOException ex1) {
+    }
+  }
+  return null;
+}

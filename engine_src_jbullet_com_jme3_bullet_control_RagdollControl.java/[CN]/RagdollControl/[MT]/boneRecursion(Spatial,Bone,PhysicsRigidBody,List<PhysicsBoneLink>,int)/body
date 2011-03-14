@@ -1,0 +1,38 @@
+{
+  ArrayList<Bone> children=bone.getChildren();
+  bone.setUserControl(true);
+  for (Iterator<Bone> it=children.iterator(); it.hasNext(); ) {
+    Bone childBone=it.next();
+    Bone parentBone=bone;
+    Vector3f parentPos=parentBone.getModelSpacePosition().add(model.getWorldTranslation());
+    Vector3f childPos=childBone.getModelSpacePosition().add(model.getWorldTranslation());
+    Vector3f jointCenter=parentPos.add(childPos).multLocal(0.5f);
+    tmp_jointRotation.lookAt(childPos.subtract(parentPos),Vector3f.UNIT_Y);
+    float height=parentPos.distance(childPos);
+    float radius=height > 2f ? 0.4f : height * .2f;
+    CapsuleCollisionShape shape=new CapsuleCollisionShape(radius,height - (radius),2);
+    PhysicsRigidBody shapeNode=new PhysicsRigidBody(shape,10.0f / (float)reccount);
+    shapeNode.setPhysicsLocation(jointCenter);
+    shapeNode.setPhysicsRotation(tmp_jointRotation.toRotationMatrix());
+    PhysicsBoneLink link=new PhysicsBoneLink();
+    link.parentBone=parentBone;
+    link.childBone=childBone;
+    link.rigidBody=shapeNode;
+    link.length=height;
+    if (parent != null) {
+      float parentHeight=0.0f;
+      if (bone.getParent() != null) {
+        parentHeight=bone.getParent().getModelSpacePosition().add(model.getWorldTranslation()).distance(parentPos);
+      }
+      link.pivotA=new Vector3f(0,0,(parentHeight * .5f));
+      link.pivotB=new Vector3f(0,0,-(height * .5f));
+      ConeJoint joint=new ConeJoint(parent,shapeNode,link.pivotA,link.pivotB);
+      joint.setLimit(FastMath.HALF_PI,FastMath.HALF_PI,0.01f);
+      link.joint=joint;
+      joint.setCollisionBetweenLinkedBodys(false);
+    }
+    list.add(link);
+    boneRecursion(model,childBone,shapeNode,list,reccount++);
+  }
+  return list;
+}

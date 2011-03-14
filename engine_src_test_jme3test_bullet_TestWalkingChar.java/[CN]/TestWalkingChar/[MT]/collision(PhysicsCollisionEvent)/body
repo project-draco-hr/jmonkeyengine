@@ -1,0 +1,14 @@
+{
+  if (event.getObjectA() instanceof BombControl) {
+    final Spatial node=event.getNodeA();
+    effect.killAllParticles();
+    effect.setLocalTranslation(node.getLocalTranslation());
+    effect.emitAllParticles();
+  }
+ else   if (event.getObjectB() instanceof BombControl) {
+    final Spatial node=event.getNodeB();
+    effect.killAllParticles();
+    effect.setLocalTranslation(node.getLocalTranslation());
+    effect.emitAllParticles();
+  }
+}

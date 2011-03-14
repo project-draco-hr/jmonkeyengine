@@ -1,0 +1,15 @@
+{
+  if (keys == null || mouse == null) {
+    throw new NullPointerException("Mouse or keyboard cannot be null");
+  }
+  this.keys=keys;
+  this.mouse=mouse;
+  this.joystick=joystick;
+  keys.setInputListener(this);
+  mouse.setInputListener(this);
+  if (joystick != null) {
+    joystick.setInputListener(this);
+    joysticks=joystick.loadJoysticks(this);
+  }
+  firstTime=keys.getInputTimeNanos();
+}

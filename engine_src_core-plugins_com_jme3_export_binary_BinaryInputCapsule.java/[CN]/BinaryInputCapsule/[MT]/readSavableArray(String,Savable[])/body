@@ -1,0 +1,11 @@
+{
+  BinaryClassField field=cObj.nameFields.get(name);
+  if (field == null || !fieldData.containsKey(field.alias))   return defVal;
+  Object[] values=(Object[])fieldData.get(field.alias);
+  if (values instanceof ID[]) {
+    values=resolveIDs(values);
+    fieldData.put(field.alias,values);
+    return (Savable[])values;
+  }
+ else   return defVal;
+}

@@ -1,0 +1,28 @@
+{
+  float max=FastMath.abs(mat.m00);
+  float abs=FastMath.abs(mat.m01);
+  if (abs > max) {
+    max=abs;
+  }
+  abs=FastMath.abs(mat.m02);
+  if (abs > max) {
+    max=abs;
+  }
+  abs=FastMath.abs(mat.m11);
+  if (abs > max) {
+    max=abs;
+  }
+  abs=FastMath.abs(mat.m12);
+  if (abs > max) {
+    max=abs;
+  }
+  abs=FastMath.abs(mat.m22);
+  if (abs > max) {
+    max=abs;
+  }
+  if (max > 1f) {
+    float fInvMax=1f / max;
+    mat.multLocal(fInvMax);
+  }
+  return max;
+}

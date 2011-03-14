@@ -1,0 +1,17 @@
+{
+  int level=0;
+  int height=bitmap.getHeight();
+  int width=bitmap.getWidth();
+  while (height >= 1 || width >= 1) {
+    GLUtils.texImage2D(GL10.GL_TEXTURE_2D,level,bitmap,0);
+    if (height == 1 || width == 1) {
+      break;
+    }
+    level++;
+    height/=2;
+    width/=2;
+    Bitmap bitmap2=Bitmap.createScaledBitmap(bitmap,width,height,true);
+    bitmap.recycle();
+    bitmap=bitmap2;
+  }
+}

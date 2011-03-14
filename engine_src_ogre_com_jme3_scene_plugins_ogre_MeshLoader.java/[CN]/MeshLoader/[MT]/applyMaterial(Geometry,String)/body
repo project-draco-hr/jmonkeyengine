@@ -1,0 +1,18 @@
+{
+  Material mat=null;
+  if (matName.endsWith(".j3m")) {
+    mat=assetManager.loadMaterial(matName);
+  }
+ else {
+    if (materialList != null) {
+      mat=materialList.get(matName);
+    }
+    if (mat == null) {
+      logger.log(Level.WARNING,"Material {0} not found. Applying default material",matName);
+      mat=(Material)assetManager.loadAsset(new AssetKey("Common/Materials/RedColor.j3m"));
+    }
+  }
+  if (mat == null)   throw new RuntimeException("Cannot locate material named " + matName);
+  if (mat.isTransparent())   geom.setQueueBucket(Bucket.Transparent);
+  geom.setMaterial(mat);
+}

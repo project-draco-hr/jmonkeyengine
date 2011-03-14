@@ -1,0 +1,40 @@
+{
+  if (binding.equals("CharLeft")) {
+    if (value) {
+      left=true;
+    }
+ else {
+      left=false;
+    }
+  }
+ else   if (binding.equals("CharRight")) {
+    if (value) {
+      right=true;
+    }
+ else {
+      right=false;
+    }
+  }
+ else   if (binding.equals("CharForw")) {
+    if (value) {
+      up=true;
+    }
+ else {
+      up=false;
+    }
+  }
+ else   if (binding.equals("CharBack")) {
+    if (value) {
+      down=true;
+    }
+ else {
+      down=false;
+    }
+  }
+ else   if (binding.equals("CharJump")) {
+    characterNode.jump();
+  }
+ else   if (binding.equals("CharShoot") && !value) {
+    shootBullet();
+  }
+}

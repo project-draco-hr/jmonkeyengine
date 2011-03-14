@@ -1,0 +1,21 @@
+{
+  if (enabled) {
+    if (playing) {
+      spatial.setLocalTranslation(interpolatePath(tpf));
+      computeTargetDirection();
+      if (currentValue >= 1.0f) {
+        currentValue=0;
+        currentWayPoint++;
+        triggerWayPointReach(currentWayPoint);
+      }
+      if (currentWayPoint == wayPoints.size() - 1) {
+        if (loop) {
+          currentWayPoint=0;
+        }
+ else {
+          stop();
+        }
+      }
+    }
+  }
+}

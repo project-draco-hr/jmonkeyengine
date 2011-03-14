@@ -1,0 +1,20 @@
+{
+  buffer.putShort((short)call.objectId);
+  buffer.putShort(call.methodId);
+  buffer.putShort(call.invocationId);
+  if (call.args == null) {
+    buffer.put((byte)0);
+  }
+ else {
+    buffer.put((byte)call.args.length);
+    for (    Object obj : call.args) {
+      if (obj != null) {
+        buffer.put((byte)0x01);
+        Serializer.writeClassAndObject(buffer,obj);
+      }
+ else {
+        buffer.put((byte)0x00);
+      }
+    }
+  }
+}

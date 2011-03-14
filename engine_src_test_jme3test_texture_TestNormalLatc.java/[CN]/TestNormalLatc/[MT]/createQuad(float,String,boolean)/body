@@ -1,0 +1,15 @@
+{
+  Geometry quad=new Geometry("Textured Quad",quadMesh);
+  TextureKey key=new TextureKey(texName,true);
+  key.setGenerateMips(false);
+  Texture tex=assetManager.loadTexture(key);
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/SimpleTextured.j3md");
+  mat.setTexture("ColorMap",tex);
+  if (latc)   mat.setBoolean("LATC",true);
+  quad.setMaterial(mat);
+  float aspect=tex.getImage().getWidth() / (float)tex.getImage().getHeight();
+  quad.setLocalScale(new Vector3f(aspect * 5,5,1));
+  quad.center();
+  quad.setLocalTranslation(quad.getLocalTranslation().x + quad.getLocalScale().x * side,0,0);
+  return quad;
+}

@@ -1,0 +1,12 @@
+{
+  float[] rVal=new float[side * side];
+  int bsize=(int)FastMath.sqrt(heightMap.length);
+  int count=0;
+  for (int i=y; i < side + y; i++) {
+    for (int j=x; j < side + x; j++) {
+      if (j < bsize && i < bsize)       rVal[count]=heightMap[j + (i * bsize)];
+      count++;
+    }
+  }
+  return rVal;
+}

@@ -1,0 +1,37 @@
+{
+  int compression=in.readShort();
+  if (compression == 1) {
+  }
+ else   if (compression == 17) {
+    adpcm=true;
+  }
+ else {
+    throw new IOException("WAV Loader only supports PCM or ADPCM wave files");
+  }
+  int channels=in.readShort();
+  int sampleRate=in.readInt();
+  bytesPerSec=in.readInt();
+  int bytesPerSample=in.readShort();
+  int bitsPerSample=in.readShort();
+  int expectedBytesPerSec=(bitsPerSample * channels * sampleRate) / 8;
+  if (expectedBytesPerSec != bytesPerSec) {
+    logger.warning("Expected " + expectedBytesPerSec + " bytes per second, got "+ bytesPerSec);
+  }
+  duration=dataLength / bytesPerSec;
+  if (!adpcm) {
+    if (bitsPerSample != 8 && bitsPerSample != 16)     throw new IOException("Only 8 and 16 bits per sample are supported!");
+    if ((bitsPerSample / 8) * channels != bytesPerSample)     throw new IOException("Invalid bytes per sample value");
+    if (bytesPerSample * sampleRate != bytesPerSec)     throw new IOException("Invalid bytes per second value");
+    audioData.setupFormat(channels,bitsPerSample,sampleRate);
+    int remaining=size - 16;
+    if (remaining > 0)     in.skipBytes(remaining);
+  }
+ else {
+    if (bitsPerSample != 4)     throw new IOException("IMA ADPCM header currupt");
+    predictor=in.readShort();
+    step_index=in.readByte();
+    int what=in.readByte();
+    step=index_table[what];
+    audioData.setupFormat(channels,16,sampleRate);
+  }
+}

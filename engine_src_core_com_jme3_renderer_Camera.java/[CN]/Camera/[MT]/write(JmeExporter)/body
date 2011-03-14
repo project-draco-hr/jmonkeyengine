@@ -1,0 +1,21 @@
+{
+  OutputCapsule capsule=e.getCapsule(this);
+  capsule.write(location,"location",Vector3f.ZERO);
+  capsule.write(rotation,"rotation",Quaternion.DIRECTION_Z);
+  capsule.write(frustumNear,"frustumNear",1);
+  capsule.write(frustumFar,"frustumFar",2);
+  capsule.write(frustumLeft,"frustumLeft",-0.5f);
+  capsule.write(frustumRight,"frustumRight",0.5f);
+  capsule.write(frustumTop,"frustumTop",0.5f);
+  capsule.write(frustumBottom,"frustumBottom",-0.5f);
+  capsule.write(coeffLeft,"coeffLeft",new float[2]);
+  capsule.write(coeffRight,"coeffRight",new float[2]);
+  capsule.write(coeffBottom,"coeffBottom",new float[2]);
+  capsule.write(coeffTop,"coeffTop",new float[2]);
+  capsule.write(viewPortLeft,"viewPortLeft",0);
+  capsule.write(viewPortRight,"viewPortRight",1);
+  capsule.write(viewPortTop,"viewPortTop",1);
+  capsule.write(viewPortBottom,"viewPortBottom",0);
+  capsule.write(width,"width",0);
+  capsule.write(height,"height",0);
+}

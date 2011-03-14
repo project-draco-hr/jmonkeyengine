@@ -1,0 +1,11 @@
+{
+  Quaternion localRotation=super.getLocalRotation();
+  if (parent != null) {
+    tmp_inverseWorldRotation.set(parent.getWorldRotation()).inverseLocal().mult(rot,localRotation);
+  }
+ else {
+    localRotation.set(rot);
+  }
+  super.setLocalRotation(localRotation);
+  return localRotation;
+}

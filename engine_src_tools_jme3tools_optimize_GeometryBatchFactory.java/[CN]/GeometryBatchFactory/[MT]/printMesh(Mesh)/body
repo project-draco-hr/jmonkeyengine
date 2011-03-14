@@ -1,0 +1,20 @@
+{
+  for (int bufType=0; bufType < Type.values().length; bufType++) {
+    VertexBuffer outBuf=mesh.getBuffer(Type.values()[bufType]);
+    if (outBuf == null)     continue;
+    System.out.println(outBuf.getBufferType() + ": ");
+    for (int vert=0; vert < outBuf.getNumElements(); vert++) {
+      String str="[";
+      for (int comp=0; comp < outBuf.getNumComponents(); comp++) {
+        Object val=outBuf.getElementComponent(vert,comp);
+        outBuf.setElementComponent(vert,comp,val);
+        val=outBuf.getElementComponent(vert,comp);
+        str+=val;
+        if (comp != outBuf.getNumComponents() - 1)         str+=", ";
+      }
+      str+="]";
+      System.out.println(str);
+    }
+    System.out.println("------");
+  }
+}

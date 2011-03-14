@@ -1,0 +1,23 @@
+{
+  if (wayPoints.size() >= 2) {
+    if (this.cycle && !cycle) {
+      wayPoints.remove(wayPoints.size() - 1);
+    }
+    if (!this.cycle && cycle) {
+      wayPoints.add(wayPoints.get(0));
+      System.out.println("adding first wp");
+    }
+    this.cycle=cycle;
+    computeTotalLentgh();
+    if (debugNode != null) {
+      Node parent=debugNode.getParent();
+      debugNode.removeFromParent();
+      debugNode.detachAllChildren();
+      debugNode=null;
+      attachDebugNode(parent);
+    }
+  }
+ else {
+    this.cycle=cycle;
+  }
+}

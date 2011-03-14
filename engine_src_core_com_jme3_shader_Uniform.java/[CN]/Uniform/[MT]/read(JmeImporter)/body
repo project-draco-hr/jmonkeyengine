@@ -1,0 +1,43 @@
+{
+  super.read(im);
+  InputCapsule ic=im.getCapsule(this);
+  varType=ic.readEnum("varType",VarType.class,null);
+  binding=ic.readEnum("binding",UniformBinding.class,null);
+switch (varType) {
+case Boolean:
+    value=ic.readBoolean("valueBoolean",false);
+  break;
+case Float:
+value=ic.readFloat("valueFloat",0);
+break;
+case FloatArray:
+value=ic.readFloatBuffer("valueFloatArray",null);
+break;
+case Int:
+value=ic.readInt("valueInt",0);
+break;
+case Matrix3:
+multiData=ic.readFloatBuffer("valueMatrix3",null);
+value=multiData;
+break;
+case Matrix4:
+multiData=ic.readFloatBuffer("valueMatrix4",null);
+value=multiData;
+break;
+case Vector2:
+value=ic.readSavable("valueVector2",null);
+break;
+case Vector3:
+value=ic.readSavable("valueVector3",null);
+break;
+case Vector3Array:
+value=ic.readFloatBuffer("valueVector3Array",null);
+break;
+case Vector4:
+value=ic.readSavable("valueVector4",null);
+break;
+case Vector4Array:
+value=ic.readFloatBuffer("valueVector4Array",null);
+break;
+}
+}

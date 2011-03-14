@@ -1,0 +1,6 @@
+{
+  serializer.read(entityInfo.entity,ByteBuffer.wrap(entityInfo.lastSyncInfo.data),false);
+  entityInfo.entity.onRemoteUpdate(entityInfo.lastLatencyDelta / 1000f);
+  entityInfo.lastSyncInfo=null;
+  entityInfo.lastLatencyDelta=Long.MAX_VALUE;
+}

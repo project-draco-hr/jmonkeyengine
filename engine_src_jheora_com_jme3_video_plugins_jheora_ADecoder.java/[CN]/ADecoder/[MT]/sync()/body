@@ -1,0 +1,33 @@
+{
+  if (needToSkip > 0) {
+    int skipped=ringBuffer.skip(needToSkip);
+    System.out.println("Skipped: " + skipped);
+    needToSkip-=skipped;
+  }
+  long masterTime=masterClock.getTime();
+  long audioTime=getTime();
+  long diff=audioTime - masterTime;
+  if (diff < NOSYNC_THRESH) {
+    timeDiffSum=diff + (long)(timeDiffSum * PRODUCT_FOR_PREV);
+    if (timesDesynced < NUM_DIFFS_FOR_SYNC) {
+      timesDesynced++;
+    }
+ else {
+      long avgDiff=(long)(timeDiffSum * PRODUCT_FOR_PREV_INV);
+      if (Math.abs(avgDiff) >= AUDIO_DIFF_THRESH) {
+        if (diff < 0) {
+          int toSkip=(int)((-diff * 2 * info.channels* info.rate) / Clock.SECONDS_TO_NANOS);
+          int skipped=ringBuffer.skip(toSkip);
+          System.out.println("Skipped: " + skipped);
+          if (skipped < toSkip)           needToSkip=toSkip - skipped;
+          timeDiffSum=0;
+          timesDesynced=0;
+        }
+      }
+    }
+  }
+ else {
+    timesDesynced=0;
+    timeDiffSum=0;
+  }
+}

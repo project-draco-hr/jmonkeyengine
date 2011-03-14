@@ -1,0 +1,12 @@
+{
+  if (context != null && context.isCreated()) {
+    logger.warning("createCanvas() called when application already created!");
+    return;
+  }
+  if (settings == null) {
+    settings=new AppSettings(true);
+  }
+  logger.log(Level.FINE,"Starting application: {0}",getClass().getName());
+  context=JmeSystem.newContext(settings,JmeContext.Type.Canvas);
+  context.setSystemListener(this);
+}

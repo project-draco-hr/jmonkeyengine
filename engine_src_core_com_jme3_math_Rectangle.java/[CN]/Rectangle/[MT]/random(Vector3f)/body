@@ -1,0 +1,10 @@
+{
+  if (result == null) {
+    result=new Vector3f();
+  }
+  float s=FastMath.nextRandomFloat();
+  float t=FastMath.nextRandomFloat();
+  float aMod=1.0f - s - t;
+  result.set(a.mult(aMod).addLocal(b.mult(s).addLocal(c.mult(t))));
+  return result;
+}

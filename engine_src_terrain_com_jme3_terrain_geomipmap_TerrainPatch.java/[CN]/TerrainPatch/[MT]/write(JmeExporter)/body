@@ -1,0 +1,14 @@
+{
+  super.write(ex);
+  OutputCapsule oc=ex.getCapsule(this);
+  oc.write(size,"size",16);
+  oc.write(totalSize,"totalSize",16);
+  oc.write(quadrant,"quadrant",(short)0);
+  oc.write(stepScale,"stepScale",Vector3f.UNIT_XYZ);
+  oc.write(offset,"offset",Vector3f.UNIT_XYZ);
+  oc.write(offsetAmount,"offsetAmount",0);
+  oc.write(lodCalculator,"lodCalculator",null);
+  oc.write(lodCalculatorFactory,"lodCalculatorFactory",null);
+  oc.write(lodEntropy,"lodEntropy",null);
+  oc.write(geomap,"geomap",null);
+}

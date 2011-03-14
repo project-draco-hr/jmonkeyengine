@@ -1,0 +1,7 @@
+{
+  if (initialHandshake) {
+    doHandshake((SocketChannel)channel);
+    return;
+  }
+  super.read(channel);
+}

@@ -1,0 +1,7 @@
+{
+  if (!isConnector)   return;
+  message.setReliable(true);
+  send(message);
+  tcp.addToDisconnectionQueue(this);
+  log.log(Level.INFO,"[Server#?][???] {0} got kicked with reason: {1}.",new Object[]{this,message.getReason()});
+}

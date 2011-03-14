@@ -1,0 +1,12 @@
+{
+  LocalObject localObj=new LocalObject();
+  localObj.objectName=name;
+  localObj.objectId=objectIdCounter++;
+  localObj.theObject=obj;
+  localObj.methods=obj.getClass().getMethods();
+  localObjects.put(localObj.objectId,localObj);
+  RemoteObjectDefMessage defMsg=new RemoteObjectDefMessage();
+  defMsg.objects=new ObjectDef[]{makeObjectDef(localObj)};
+  if (client != null)   client.send(defMsg);
+ else   server.broadcast(defMsg);
+}

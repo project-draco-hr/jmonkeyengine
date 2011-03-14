@@ -1,0 +1,8 @@
+{
+  super.read(e);
+  InputCapsule capsule=e.getCapsule(this);
+  planes=capsule.readInt("planes",0);
+  radialSamples=capsule.readInt("radialSamples",0);
+  radius=capsule.readFloat("radius",0);
+  center=(Vector3f)capsule.readSavable("center",Vector3f.ZERO.clone());
+}

@@ -1,0 +1,70 @@
+{
+  int id=shader.getId();
+  boolean needRegister=false;
+  if (id == -1) {
+    if (verboseLogging)     logger.info("GLES20.glCreateProgram()");
+    id=GLES20.glCreateProgram();
+    if (id <= 0)     throw new RendererException("Invalid ID received when trying to create shader program.");
+    shader.setId(id);
+    needRegister=true;
+  }
+  for (  ShaderSource source : shader.getSources()) {
+    if (source.isUpdateNeeded()) {
+      updateShaderSourceData(source,shader.getLanguage());
+    }
+    if (!source.isUsable()) {
+      shader.setUsable(false);
+      shader.clearUpdateNeeded();
+      return;
+    }
+    if (verboseLogging)     logger.info("GLES20.glAttachShader(" + id + ", "+ source.getId()+ ")");
+    GLES20.glAttachShader(id,source.getId());
+  }
+  if (verboseLogging)   logger.info("GLES20.glLinkProgram(" + id + ")");
+  GLES20.glLinkProgram(id);
+  if (verboseLogging)   logger.info("GLES20.glGetProgramiv(" + id + ")");
+  GLES20.glGetProgramiv(id,GLES20.GL_LINK_STATUS,intBuf1);
+  boolean linkOK=intBuf1.get(0) == GLES20.GL_TRUE;
+  String infoLog=null;
+  if (VALIDATE_SHADER || !linkOK) {
+    if (verboseLogging)     logger.info("GLES20.glGetProgramiv(" + id + ", GLES20.GL_INFO_LOG_LENGTH, buffer)");
+    GLES20.glGetProgramiv(id,GLES20.GL_INFO_LOG_LENGTH,intBuf1);
+    int length=intBuf1.get(0);
+    if (length > 3) {
+      if (verboseLogging)       logger.info("GLES20.glGetProgramInfoLog(" + id + ")");
+      infoLog=GLES20.glGetProgramInfoLog(id);
+    }
+  }
+  if (linkOK) {
+    if (infoLog != null) {
+      logger.log(Level.INFO,"shader link success. \n{0}",infoLog);
+    }
+ else {
+      logger.fine("shader link success");
+    }
+  }
+ else {
+    if (infoLog != null) {
+      logger.log(Level.WARNING,"shader link failure. \n{0}",infoLog);
+    }
+ else {
+      logger.warning("shader link failure");
+    }
+  }
+  shader.clearUpdateNeeded();
+  if (!linkOK) {
+    shader.resetSources();
+    shader.setUsable(false);
+    deleteShader(shader);
+  }
+ else {
+    shader.setUsable(true);
+    if (needRegister) {
+      objManager.registerForCleanup(shader);
+      statistics.onNewShader();
+    }
+ else {
+      resetUniformLocations(shader);
+    }
+  }
+}

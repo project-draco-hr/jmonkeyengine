@@ -1,0 +1,24 @@
+{
+  FloatBuffer nhdata=ByteBuffer.allocateDirect(w * h * 4).asFloatBuffer();
+  hdata.position(y * width + x);
+  for (int cy=0; cy < height; cy++) {
+    hdata.limit(hdata.position() + w);
+    nhdata.put(hdata);
+    hdata.limit(hdata.capacity());
+    hdata.position(hdata.position() + width);
+  }
+  nhdata.flip();
+  ByteBuffer nndata=null;
+  if (ndata != null) {
+    nndata=ByteBuffer.allocateDirect(w * h * 3);
+    ndata.position((y * width + x) * 3);
+    for (int cy=0; cy < height; cy++) {
+      ndata.limit(ndata.position() + w * 3);
+      nndata.put(ndata);
+      ndata.limit(ndata.capacity());
+      ndata.position(ndata.position() + width * 3);
+    }
+    nndata.flip();
+  }
+  return new BufferGeomap(nhdata,nndata,w,h,maxval);
+}

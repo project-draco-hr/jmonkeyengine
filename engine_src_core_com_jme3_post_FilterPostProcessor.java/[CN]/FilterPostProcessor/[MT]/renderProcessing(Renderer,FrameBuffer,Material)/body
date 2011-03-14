@@ -1,0 +1,18 @@
+{
+  if (buff == null) {
+    fsQuad.setWidth(width);
+    fsQuad.setHeight(height);
+    filterCam.resize(width,height,true);
+  }
+ else {
+    fsQuad.setWidth(buff.getWidth());
+    fsQuad.setHeight(buff.getHeight());
+    filterCam.resize(buff.getWidth(),buff.getHeight(),true);
+  }
+  fsQuad.setMaterial(mat);
+  fsQuad.updateGeometricState();
+  renderManager.setCamera(filterCam,true);
+  r.setFrameBuffer(buff);
+  r.clearBuffers(true,true,true);
+  renderManager.renderGeometry(fsQuad);
+}

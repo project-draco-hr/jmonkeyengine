@@ -1,0 +1,8 @@
+{
+  InputCapsule ic=im.getCapsule(this);
+  language=ic.readString("language",null);
+  shaderList=ic.readSavableArrayList("shaderList",null);
+  attribs=(HashMap<String,Attribute>)ic.readStringSavableMap("attribs",null);
+  HashMap<String,Uniform> uniMap=(HashMap<String,Uniform>)ic.readStringSavableMap("uniforms",null);
+  uniforms=new ListMap<String,Uniform>(uniMap);
+}

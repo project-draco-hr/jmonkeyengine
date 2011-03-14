@@ -1,0 +1,8 @@
+{
+  if (bucket == null)   return -1;
+  for (int x=bucket.size(); --x >= 0; ) {
+    BinaryIdContentPair pair=bucket.get(x);
+    if (pair.getContent().equals(oldPair.getContent()))     return locationTable.get(pair.getId());
+  }
+  return -1;
+}

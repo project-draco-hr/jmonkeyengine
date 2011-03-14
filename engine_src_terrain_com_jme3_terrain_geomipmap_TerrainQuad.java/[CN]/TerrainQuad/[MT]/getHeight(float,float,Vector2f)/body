@@ -1,0 +1,13 @@
+{
+  float topLeft=getHeightmapHeight((int)FastMath.floor(x),(int)FastMath.ceil(z));
+  float topRight=getHeightmapHeight((int)FastMath.ceil(x),(int)FastMath.ceil(z));
+  float bottomLeft=getHeightmapHeight((int)FastMath.floor(x),(int)FastMath.floor(z));
+  float bottomRight=getHeightmapHeight((int)FastMath.ceil(x),(int)FastMath.floor(z));
+  float max=Math.max(Math.max(Math.max(topLeft,topRight),bottomRight),bottomLeft);
+  max=max * getWorldScale().y;
+  Ray ray=new Ray(new Vector3f(xz.x,max + 10f,xz.y),new Vector3f(0,-1,0).normalizeLocal());
+  CollisionResults cr=new CollisionResults();
+  int num=this.collideWith(ray,cr);
+  if (num > 0)   return cr.getClosestCollision().getContactPoint().y;
+ else   return 0;
+}

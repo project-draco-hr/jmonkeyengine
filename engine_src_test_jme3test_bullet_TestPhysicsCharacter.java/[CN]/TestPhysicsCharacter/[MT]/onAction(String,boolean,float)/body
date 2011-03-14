@@ -1,0 +1,37 @@
+{
+  if (binding.equals("Lefts")) {
+    if (value) {
+      walkDirection.addLocal(new Vector3f(-.1f,0,0));
+    }
+ else {
+      walkDirection.addLocal(new Vector3f(.1f,0,0));
+    }
+  }
+ else   if (binding.equals("Rights")) {
+    if (value) {
+      walkDirection.addLocal(new Vector3f(.1f,0,0));
+    }
+ else {
+      walkDirection.addLocal(new Vector3f(-.1f,0,0));
+    }
+  }
+ else   if (binding.equals("Ups")) {
+    if (value) {
+      walkDirection.addLocal(new Vector3f(0,0,-.1f));
+    }
+ else {
+      walkDirection.addLocal(new Vector3f(0,0,.1f));
+    }
+  }
+ else   if (binding.equals("Downs")) {
+    if (value) {
+      walkDirection.addLocal(new Vector3f(0,0,.1f));
+    }
+ else {
+      walkDirection.addLocal(new Vector3f(0,0,-.1f));
+    }
+  }
+ else   if (binding.equals("Space")) {
+    physicsCharacter.jump();
+  }
+}

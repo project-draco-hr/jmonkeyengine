@@ -1,0 +1,11 @@
+{
+  original=new Sphere(4,4,1);
+  original.setStatic();
+  original.setInterleaved();
+  rootNode.setCullHint(CullHint.Never);
+  solidColor=(Material)assetManager.loadAsset("Common/Materials/RedColor.j3m");
+  cam.setLocation(new Vector3f(0,5,0));
+  cam.lookAt(Vector3f.ZERO,Vector3f.UNIT_Y);
+  Logger.getLogger(Node.class.getName()).setLevel(Level.WARNING);
+  Logger.getLogger(GLObjectManager.class.getName()).setLevel(Level.WARNING);
+}

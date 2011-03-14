@@ -1,0 +1,13 @@
+{
+  String defineName=def.getShaderParamDefine(paramName);
+  if (defineName != null) {
+    defines.remove(defineName);
+    needReload=true;
+  }
+  if (shader != null) {
+    if (!paramName.startsWith("m_")) {
+      paramName="m_" + paramName;
+    }
+    shader.removeUniform(paramName);
+  }
+}

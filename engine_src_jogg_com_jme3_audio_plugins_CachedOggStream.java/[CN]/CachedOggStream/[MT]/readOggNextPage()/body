@@ -1,0 +1,31 @@
+{
+  if (eos)   return -1;
+  OggPage op=OggPage.create(sourceStream);
+  int listSize=pageOffsets.size();
+  long pos=listSize > 0 ? pageOffsets.get(listSize - 1) + pageLengths.get(listSize - 1) : 0;
+  byte[] arr1=op.getHeader();
+  byte[] arr2=op.getSegmentTable();
+  byte[] arr3=op.getData();
+  System.arraycopy(arr1,0,memoryCache,(int)pos,arr1.length);
+  System.arraycopy(arr2,0,memoryCache,(int)pos + arr1.length,arr2.length);
+  System.arraycopy(arr3,0,memoryCache,(int)pos + arr1.length + arr2.length,arr3.length);
+  pageOffsets.add(pos);
+  pageLengths.add((long)(arr1.length + arr2.length + arr3.length));
+  if (op.isBos()) {
+    bos=true;
+  }
+  if (op.isEos()) {
+    eos=true;
+  }
+  LogicalOggStreamImpl los=(LogicalOggStreamImpl)logicalStreams.get(op.getStreamSerialNumber());
+  if (los == null) {
+    los=new LogicalOggStreamImpl(this,op.getStreamSerialNumber());
+    logicalStreams.put(op.getStreamSerialNumber(),los);
+    los.checkFormat(op);
+  }
+  los.addPageNumberMapping(pageNumber);
+  los.addGranulePosition(op.getAbsoluteGranulePosition());
+  pageNumber++;
+  cacheLength=op.getAbsoluteGranulePosition();
+  return pageNumber - 1;
+}

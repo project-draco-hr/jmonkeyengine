@@ -1,0 +1,9 @@
+{
+  float oldX=x, oldY=y, oldZ=z, oldW=w;
+  fromRotationMatrix(matrix);
+  float tempX=x, tempY=y, tempZ=z, tempW=w;
+  x=oldX * tempW + oldY * tempZ - oldZ * tempY + oldW * tempX;
+  y=-oldX * tempZ + oldY * tempW + oldZ * tempX + oldW * tempY;
+  z=oldX * tempY - oldY * tempX + oldZ * tempW + oldW * tempZ;
+  w=-oldX * tempX - oldY * tempY - oldZ * tempZ + oldW * tempW;
+}

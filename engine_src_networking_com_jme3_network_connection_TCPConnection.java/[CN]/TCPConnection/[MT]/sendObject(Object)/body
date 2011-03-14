@@ -1,0 +1,10 @@
+{
+  if (serverSocketChannel == null) {
+    send(socketChannel,object);
+  }
+ else {
+    for (    Client connector : connections) {
+      send(connector.getSocketChannel(),object);
+    }
+  }
+}

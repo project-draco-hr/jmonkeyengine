@@ -1,0 +1,30 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  int bufId=vb.getId();
+  if (bufId == -1) {
+    gl.glGenBuffers(1,intBuf1);
+    bufId=intBuf1.get(0);
+    vb.setId(bufId);
+    objManager.registerForCleanup(vb);
+  }
+  int target;
+  if (vb.getBufferType() == VertexBuffer.Type.Index) {
+    target=GL.GL_ELEMENT_ARRAY_BUFFER;
+    if (context.boundElementArrayVBO != bufId) {
+      gl.glBindBuffer(target,bufId);
+      context.boundElementArrayVBO=bufId;
+    }
+  }
+ else {
+    target=GL.GL_ARRAY_BUFFER;
+    if (context.boundArrayVBO != bufId) {
+      gl.glBindBuffer(target,bufId);
+      context.boundArrayVBO=bufId;
+    }
+  }
+  int usage=convertUsage(vb.getUsage());
+  Buffer data=vb.getData();
+  data.rewind();
+  gl.glBufferData(target,data.capacity() * vb.getFormat().getComponentSize(),data,usage);
+  vb.clearUpdateNeeded();
+}

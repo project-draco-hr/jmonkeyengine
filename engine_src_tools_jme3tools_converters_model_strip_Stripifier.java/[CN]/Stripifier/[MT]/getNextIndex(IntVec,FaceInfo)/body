@@ -1,0 +1,33 @@
+{
+  int numIndices=indices.size();
+  int v0=indices.get(numIndices - 2);
+  int v1=indices.get(numIndices - 1);
+  int fv0=face.m_v0;
+  int fv1=face.m_v1;
+  int fv2=face.m_v2;
+  if (fv0 != v0 && fv0 != v1) {
+    if ((fv1 != v0 && fv1 != v1) || (fv2 != v0 && fv2 != v1)) {
+      logger.info("GetNextIndex: Triangle doesn't have all of its vertices\n");
+      logger.info("GetNextIndex: Duplicate triangle probably got us derailed\n");
+    }
+    return fv0;
+  }
+  if (fv1 != v0 && fv1 != v1) {
+    if ((fv0 != v0 && fv0 != v1) || (fv2 != v0 && fv2 != v1)) {
+      logger.info("GetNextIndex: Triangle doesn't have all of its vertices\n");
+      logger.info("GetNextIndex: Duplicate triangle probably got us derailed\n");
+    }
+    return fv1;
+  }
+  if (fv2 != v0 && fv2 != v1) {
+    if ((fv0 != v0 && fv0 != v1) || (fv1 != v0 && fv1 != v1)) {
+      logger.info("GetNextIndex: Triangle doesn't have all of its vertices\n");
+      logger.info("GetNextIndex: Duplicate triangle probably got us derailed\n");
+    }
+    return fv2;
+  }
+  if ((fv0 == fv1) || (fv0 == fv2))   return fv0;
+ else   if ((fv1 == fv0) || (fv1 == fv2))   return fv1;
+ else   if ((fv2 == fv0) || (fv2 == fv1))   return fv2;
+ else   return -1;
+}

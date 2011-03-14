@@ -1,0 +1,7 @@
+{
+  Image clone=(Image)super.clone();
+  clone.mipMapSizes=mipMapSizes != null ? mipMapSizes.clone() : null;
+  clone.data=data != null ? new ArrayList<ByteBuffer>(data) : null;
+  clone.setUpdateNeeded();
+  return clone;
+}

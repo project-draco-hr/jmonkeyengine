@@ -1,0 +1,18 @@
+{
+  if (scene instanceof Geometry) {
+    List<Geometry> geomList=new ArrayList<Geometry>(1);
+    geomList.add((Geometry)scene);
+    return geomList;
+  }
+ else   if (scene instanceof Node) {
+    Node n=(Node)scene;
+    List<Geometry> geoms=new ArrayList<Geometry>();
+    for (    Spatial child : n.getChildren()) {
+      geoms.addAll(getGeometries(child));
+    }
+    return geoms;
+  }
+ else {
+    throw new UnsupportedOperationException("Unsupported scene element class");
+  }
+}

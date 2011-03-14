@@ -1,0 +1,53 @@
+{
+  int gridX=(int)x;
+  int gridY=(int)z;
+  int index=findClosestHeightIndex(gridX,gridY);
+  if (index < 0)   return null;
+  Triangle t=new Triangle(new Vector3f(),new Vector3f(),new Vector3f());
+  Triangle t2=new Triangle(new Vector3f(),new Vector3f(),new Vector3f());
+  float h1=hdata.get(index);
+  float h2=hdata.get(index + 1);
+  float h3=hdata.get(index + width);
+  float h4=hdata.get(index + width + 1);
+  if ((gridX == 0 && gridY == 0) || (gridX == width - 1 && gridY == width - 1)) {
+    t.get(0).x=(gridX);
+    t.get(0).y=(h1);
+    t.get(0).z=(gridY);
+    t.get(1).x=(gridX);
+    t.get(1).y=(h3);
+    t.get(1).z=(gridY + 1);
+    t.get(2).x=(gridX + 1);
+    t.get(2).y=(h4);
+    t.get(2).z=(gridY + 1);
+    t2.get(0).x=(gridX);
+    t2.get(0).y=(h1);
+    t2.get(0).z=(gridY);
+    t2.get(1).x=(gridX + 1);
+    t2.get(1).y=(h4);
+    t2.get(1).z=(gridY + 1);
+    t2.get(2).x=(gridX + 1);
+    t2.get(2).y=(h2);
+    t2.get(2).z=(gridY);
+  }
+ else {
+    t.get(0).x=(gridX);
+    t.get(0).y=(h1);
+    t.get(0).z=(gridY);
+    t.get(1).x=(gridX);
+    t.get(1).y=(h3);
+    t.get(1).z=(gridY + 1);
+    t.get(2).x=(gridX + 1);
+    t.get(2).y=(h2);
+    t.get(2).z=(gridY);
+    t2.get(0).x=(gridX + 1);
+    t2.get(0).y=(h2);
+    t2.get(0).z=(gridY);
+    t2.get(1).x=(gridX);
+    t2.get(1).y=(h3);
+    t2.get(1).z=(gridY + 1);
+    t2.get(2).x=(gridX + 1);
+    t2.get(2).y=(h4);
+    t2.get(2).z=(gridY + 1);
+  }
+  return new Triangle[]{t,t2};
+}

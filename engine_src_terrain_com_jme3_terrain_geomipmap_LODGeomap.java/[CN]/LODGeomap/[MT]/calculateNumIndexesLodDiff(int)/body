@@ -1,0 +1,13 @@
+{
+  if (lod == 0)   lod=1;
+  int length=getWidth() - 1;
+  int side=(length / lod) + 1 - (2);
+  int num=side * side * 2;
+  num-=2 * side;
+  int degenerates=2 * (side - (2));
+  num+=degenerates;
+  num+=(getWidth() / lod) * 2 * 4;
+  num++;
+  num+=10;
+  return num;
+}

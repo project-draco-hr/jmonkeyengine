@@ -1,0 +1,31 @@
+{
+  xLines-=2;
+  yLines-=2;
+  int lineCount=xLines + yLines + 4;
+  FloatBuffer fpb=BufferUtils.createFloatBuffer(6 * lineCount);
+  ShortBuffer sib=BufferUtils.createShortBuffer(2 * lineCount);
+  float xLineLen=(yLines + 1) * lineDist;
+  float yLineLen=(xLines + 1) * lineDist;
+  int curIndex=0;
+  for (int i=0; i < xLines + 2; i++) {
+    float y=(i) * lineDist;
+    fpb.put(0).put(0).put(y);
+    fpb.put(xLineLen).put(0).put(y);
+    sib.put((short)(curIndex++));
+    sib.put((short)(curIndex++));
+  }
+  for (int i=0; i < yLines + 2; i++) {
+    float x=(i) * lineDist;
+    fpb.put(x).put(0).put(0);
+    fpb.put(x).put(0).put(yLineLen);
+    sib.put((short)(curIndex++));
+    sib.put((short)(curIndex++));
+  }
+  fpb.flip();
+  sib.flip();
+  setBuffer(Type.Position,3,fpb);
+  setBuffer(Type.Index,2,sib);
+  setMode(Mode.Lines);
+  updateBound();
+  updateCounts();
+}

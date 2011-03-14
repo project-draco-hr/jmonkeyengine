@@ -1,0 +1,13 @@
+{
+  cam=new Camera(settings.getWidth(),settings.getHeight());
+  cam.setFrustumPerspective(45f,(float)cam.getWidth() / cam.getHeight(),1f,1000f);
+  cam.setLocation(new Vector3f(0f,0f,10f));
+  cam.lookAt(new Vector3f(0f,0f,0f),Vector3f.UNIT_Y);
+  renderManager=new RenderManager(renderer);
+  renderManager.setTimer(timer);
+  viewPort=renderManager.createMainView("Default",cam);
+  viewPort.setClearEnabled(true);
+  Camera guiCam=new Camera(settings.getWidth(),settings.getHeight());
+  guiViewPort=renderManager.createPostView("Gui Default",guiCam);
+  guiViewPort.setClearEnabled(false);
+}

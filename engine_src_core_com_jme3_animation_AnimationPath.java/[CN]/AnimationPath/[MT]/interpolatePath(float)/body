@@ -1,0 +1,29 @@
+{
+  Vector3f temp=null;
+  float val;
+switch (pathInterpolation) {
+case CatmullRom:
+    val=tpf * speed;
+  currentValue+=eps;
+temp=FastMath.interpolateCatmullRom(currentValue,curveTension,CRcontrolPoints.get(currentWayPoint),CRcontrolPoints.get(currentWayPoint + 1),CRcontrolPoints.get(currentWayPoint + 2),CRcontrolPoints.get(currentWayPoint + 3));
+float dist=temp.subtract(spatial.getLocalTranslation()).length();
+while (dist < val) {
+currentValue+=eps;
+temp=FastMath.interpolateCatmullRom(currentValue,curveTension,CRcontrolPoints.get(currentWayPoint),CRcontrolPoints.get(currentWayPoint + 1),CRcontrolPoints.get(currentWayPoint + 2),CRcontrolPoints.get(currentWayPoint + 3));
+dist=temp.subtract(spatial.getLocalTranslation()).length();
+}
+if (directionType == Direction.Path || directionType == Direction.PathAndRotation) {
+curveDirection=temp.subtract(spatial.getLocalTranslation()).normalizeLocal();
+}
+break;
+case Linear:
+val=duration * segmentsLength.get(currentWayPoint) / totalLength;
+currentValue=Math.min(currentValue + tpf / val,1.0f);
+temp=FastMath.interpolateLinear(currentValue,wayPoints.get(currentWayPoint),wayPoints.get(currentWayPoint + 1));
+curveDirection=wayPoints.get(currentWayPoint + 1).subtract(wayPoints.get(currentWayPoint)).normalizeLocal();
+break;
+default :
+break;
+}
+return temp;
+}

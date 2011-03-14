@@ -1,0 +1,17 @@
+{
+  for (Iterator<PhysicsCollisionObject> it=ghostObject.getOverlappingObjects().iterator(); it.hasNext(); ) {
+    PhysicsCollisionObject physicsCollisionObject=it.next();
+    if (physicsCollisionObject instanceof PhysicsRigidBody) {
+      PhysicsRigidBody rBody=(PhysicsRigidBody)physicsCollisionObject;
+      rBody.getPhysicsLocation(vector2);
+      vector2.subtractLocal(vector);
+      float force=explosionRadius - vector2.length();
+      force*=forceFactor;
+      vector2.normalizeLocal();
+      vector2.multLocal(force);
+      ((PhysicsRigidBody)physicsCollisionObject).applyImpulse(vector2,Vector3f.ZERO);
+    }
+  }
+  space.removeTickListener(this);
+  space.remove(ghostObject);
+}

@@ -1,0 +1,25 @@
+{
+  int vertCount=mesh.getVertexCount();
+  VertexBuffer vb=mesh.getBuffer(Type.Index);
+  Format targetFmt;
+  if (vb.getFormat() == Format.UnsignedInt && vertCount <= 0xffff) {
+    if (vertCount <= 256)     targetFmt=Format.UnsignedByte;
+ else     targetFmt=Format.UnsignedShort;
+  }
+ else   if (vb.getFormat() == Format.UnsignedShort && vertCount <= 0xff) {
+    targetFmt=Format.UnsignedByte;
+  }
+ else {
+    return;
+  }
+  IndexBuffer src=mesh.getIndexBuffer();
+  Buffer newBuf=VertexBuffer.createBuffer(targetFmt,vb.getNumComponents(),src.size());
+  VertexBuffer newVb=new VertexBuffer(Type.Index);
+  newVb.setupData(vb.getUsage(),vb.getNumComponents(),targetFmt,newBuf);
+  mesh.clearBuffer(Type.Index);
+  mesh.setBuffer(newVb);
+  IndexBuffer dst=mesh.getIndexBuffer();
+  for (int i=0; i < src.size(); i++) {
+    dst.put(i,src.get(i));
+  }
+}

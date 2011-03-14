@@ -1,0 +1,31 @@
+{
+  if (objArray == null || objArray.length == 0)   return;
+  invalid=true;
+  int base=0;
+  if (index == null) {
+    index=new int[objArray.length];
+  }
+ else {
+    if (indexPool.isEmpty()) {
+      throw new RuntimeException("Internal is already fixed");
+    }
+    base=index.length;
+    int[] tmp=new int[base + objArray.length];
+    System.arraycopy(index,0,tmp,0,index.length);
+    index=tmp;
+  }
+  for (int j=0; j < objArray.length; j++) {
+    T obj=objArray[j];
+    if (obj == null) {
+      index[base + j]=-1;
+    }
+ else {
+      Integer i=indexPool.get(obj);
+      if (i == null) {
+        i=indexPool.size();
+        indexPool.put(obj,i);
+      }
+      index[base + j]=i;
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  TechniqueDef techDef=technique.getDef();
+  if (techDef.isUsingShaders()) {
+    technique.updateUniformParam(getName(),getVarType(),getValue(),true);
+  }
+  if (ffBinding != null && r instanceof GL1Renderer) {
+    ((GL1Renderer)r).setFixedFuncBinding(ffBinding,getValue());
+  }
+}

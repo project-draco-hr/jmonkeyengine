@@ -1,0 +1,15 @@
+{
+  clientSyncServ.update(tpf);
+  if (serverBox.getLocalTranslation().distance(targetPos) < 0.1f) {
+    randomPosSphere.getRandomPoint(targetPos);
+  }
+ else {
+    Vector3f velocity=new Vector3f(targetPos);
+    velocity.subtractLocal(serverBox.getLocalTranslation());
+    velocity.normalizeLocal().multLocal(boxSpeed);
+    Vector3f newPos=serverBox.getLocalTranslation().clone();
+    newPos.addLocal(velocity.mult(tpf));
+    serverBox.setPosVel(newPos,velocity);
+  }
+  serverSyncServ.update(tpf);
+}

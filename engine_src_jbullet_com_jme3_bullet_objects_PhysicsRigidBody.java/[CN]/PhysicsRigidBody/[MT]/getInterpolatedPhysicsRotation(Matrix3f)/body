@@ -1,0 +1,7 @@
+{
+  if (rotation == null) {
+    rotation=new Matrix3f();
+  }
+  rBody.getInterpolationWorldTransform(tempTrans);
+  return Converter.convert(tempTrans.basis,rotation);
+}

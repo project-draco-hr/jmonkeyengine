@@ -1,0 +1,12 @@
+{
+  ArrayList<String> resolutions=new ArrayList<String>(modes.length);
+  for (int i=0; i < modes.length; i++) {
+    String res=modes[i].getWidth() + " x " + modes[i].getHeight();
+    if (!resolutions.contains(res)) {
+      resolutions.add(res);
+    }
+  }
+  String[] res=new String[resolutions.size()];
+  resolutions.toArray(res);
+  return res;
+}

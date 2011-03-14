@@ -1,0 +1,28 @@
+{
+  SavedField[] fields=savedFields.get(c);
+  T object;
+  try {
+    object=c.newInstance();
+  }
+ catch (  Exception e) {
+    throw new IOException(e.toString());
+  }
+  for (  SavedField savedField : fields) {
+    Field field=savedField.field;
+    Serializer serializer=savedField.serializer;
+    Object value;
+    if (serializer != null) {
+      value=serializer.readObject(data,field.getType());
+    }
+ else {
+      value=Serializer.readClassAndObject(data);
+    }
+    try {
+      field.set(object,value);
+    }
+ catch (    IllegalAccessException e) {
+      throw new IOException(e.toString());
+    }
+  }
+  return object;
+}

@@ -1,0 +1,11 @@
+{
+  int numHits=0;
+  int numFaces=0;
+  for (int i=0; i < strip.m_faces.size(); i++) {
+    if (vcache.inCache(strip.m_faces.at(i).m_v0))     ++numHits;
+    if (vcache.inCache(strip.m_faces.at(i).m_v1))     ++numHits;
+    if (vcache.inCache(strip.m_faces.at(i).m_v2))     ++numHits;
+    numFaces++;
+  }
+  return ((float)numHits / (float)numFaces);
+}

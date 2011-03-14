@@ -1,0 +1,11 @@
+{
+  super.setCollisionShape(collisionShape);
+  if (rBody == null) {
+    rebuildRigidBody();
+  }
+ else {
+    collisionShape.calculateLocalInertia(mass,localInertia);
+    constructionInfo.collisionShape=collisionShape.getCShape();
+    rBody.setCollisionShape(collisionShape.getCShape());
+  }
+}

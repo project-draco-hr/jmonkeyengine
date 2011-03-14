@@ -1,0 +1,41 @@
+{
+  if (matrix.length != 16) {
+    throw new IllegalArgumentException("Array must be of size 16.");
+  }
+  if (rowMajor) {
+    matrix[0]=m00;
+    matrix[1]=m01;
+    matrix[2]=m02;
+    matrix[3]=m03;
+    matrix[4]=m10;
+    matrix[5]=m11;
+    matrix[6]=m12;
+    matrix[7]=m13;
+    matrix[8]=m20;
+    matrix[9]=m21;
+    matrix[10]=m22;
+    matrix[11]=m23;
+    matrix[12]=m30;
+    matrix[13]=m31;
+    matrix[14]=m32;
+    matrix[15]=m33;
+  }
+ else {
+    matrix[0]=m00;
+    matrix[4]=m01;
+    matrix[8]=m02;
+    matrix[12]=m03;
+    matrix[1]=m10;
+    matrix[5]=m11;
+    matrix[9]=m12;
+    matrix[13]=m13;
+    matrix[2]=m20;
+    matrix[6]=m21;
+    matrix[10]=m22;
+    matrix[14]=m23;
+    matrix[3]=m30;
+    matrix[7]=m31;
+    matrix[11]=m32;
+    matrix[15]=m33;
+  }
+}

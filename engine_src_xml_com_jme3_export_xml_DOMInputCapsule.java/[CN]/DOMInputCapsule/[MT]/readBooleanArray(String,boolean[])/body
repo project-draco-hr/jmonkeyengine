@@ -1,0 +1,33 @@
+{
+  try {
+    Element tmpEl;
+    if (name != null) {
+      tmpEl=findChildElement(currentElem,name);
+    }
+ else {
+      tmpEl=currentElem;
+    }
+    if (tmpEl == null) {
+      return defVal;
+    }
+    String sizeString=tmpEl.getAttribute("size");
+    String[] strings=parseTokens(tmpEl.getAttribute("data"));
+    if (sizeString.length() > 0) {
+      int requiredSize=Integer.parseInt(sizeString);
+      if (strings.length != requiredSize)       throw new IOException("Wrong number of bools for '" + name + "'.  size says "+ requiredSize+ ", data contains "+ strings.length);
+    }
+    boolean[] tmp=new boolean[strings.length];
+    for (int i=0; i < tmp.length; i++) {
+      tmp[i]=Boolean.parseBoolean(strings[i]);
+    }
+    return tmp;
+  }
+ catch (  IOException ioe) {
+    throw ioe;
+  }
+catch (  DOMException de) {
+    IOException io=new IOException(de.toString());
+    io.initCause(de);
+    throw io;
+  }
+}

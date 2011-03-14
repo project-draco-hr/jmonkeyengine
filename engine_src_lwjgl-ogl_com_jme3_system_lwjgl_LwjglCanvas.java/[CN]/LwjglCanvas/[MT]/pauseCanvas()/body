@@ -1,0 +1,8 @@
+{
+  if (Mouse.isCreated() && Mouse.isGrabbed()) {
+    Mouse.setGrabbed(false);
+    mouseWasGrabbed=true;
+  }
+  logger.log(Level.INFO,"OGL: Destroying display (temporarily)");
+  Display.destroy();
+}

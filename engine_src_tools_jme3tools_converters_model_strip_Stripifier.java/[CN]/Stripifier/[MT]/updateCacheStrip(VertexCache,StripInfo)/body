@@ -1,0 +1,7 @@
+{
+  for (int i=0; i < strip.m_faces.size(); ++i) {
+    if (!vcache.inCache(strip.m_faces.at(i).m_v0))     vcache.addEntry(strip.m_faces.at(i).m_v0);
+    if (!vcache.inCache(strip.m_faces.at(i).m_v1))     vcache.addEntry(strip.m_faces.at(i).m_v1);
+    if (!vcache.inCache(strip.m_faces.at(i).m_v2))     vcache.addEntry(strip.m_faces.at(i).m_v2);
+  }
+}

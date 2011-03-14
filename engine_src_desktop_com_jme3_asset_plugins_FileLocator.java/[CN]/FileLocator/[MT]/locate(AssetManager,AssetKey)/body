@@ -1,0 +1,10 @@
+{
+  String name=key.getName();
+  File file=new File(root,name);
+  if (file.exists() && file.isFile()) {
+    return new AssetInfoFile(manager,key,file);
+  }
+ else {
+    return null;
+  }
+}

@@ -1,0 +1,160 @@
+{
+  if (state.isDepthTest() && !context.depthTestEnabled) {
+    if (verboseLogging)     logger.info("GLES20.glEnable(GLES20.GL_DEPTH_TEST)");
+    GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+    checkGLError();
+    if (verboseLogging)     logger.info("GLES20.glDepthFunc(GLES20.GL_LEQUAL)");
+    GLES20.glDepthFunc(GLES20.GL_LEQUAL);
+    checkGLError();
+    context.depthTestEnabled=true;
+  }
+ else   if (!state.isDepthTest() && context.depthTestEnabled) {
+    if (verboseLogging)     logger.info("GLES20.glDisable(GLES20.GL_DEPTH_TEST)");
+    GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+    checkGLError();
+    context.depthTestEnabled=false;
+  }
+  if (state.isAlphaTest() && !context.alphaTestEnabled) {
+    context.alphaTestEnabled=true;
+  }
+ else   if (!state.isAlphaTest() && context.alphaTestEnabled) {
+    context.alphaTestEnabled=false;
+  }
+  if (state.isDepthWrite() && !context.depthWriteEnabled) {
+    if (verboseLogging)     logger.info("GLES20.glDepthMask(true)");
+    GLES20.glDepthMask(true);
+    checkGLError();
+    context.depthWriteEnabled=true;
+  }
+ else   if (!state.isDepthWrite() && context.depthWriteEnabled) {
+    if (verboseLogging)     logger.info("GLES20.glDepthMask(false)");
+    GLES20.glDepthMask(false);
+    checkGLError();
+    context.depthWriteEnabled=false;
+  }
+  if (state.isColorWrite() && !context.colorWriteEnabled) {
+    if (verboseLogging)     logger.info("GLES20.glColorMask(true, true, true, true)");
+    GLES20.glColorMask(true,true,true,true);
+    checkGLError();
+    context.colorWriteEnabled=true;
+  }
+ else   if (!state.isColorWrite() && context.colorWriteEnabled) {
+    if (verboseLogging)     logger.info("GLES20.glColorMask(false, false, false, false)");
+    GLES20.glColorMask(false,false,false,false);
+    checkGLError();
+    context.colorWriteEnabled=false;
+  }
+  if (state.isPointSprite() && !context.pointSprite) {
+  }
+ else   if (!state.isPointSprite() && context.pointSprite) {
+  }
+  if (state.isPolyOffset()) {
+    if (!context.polyOffsetEnabled) {
+      if (verboseLogging)       logger.info("GLES20.glEnable(GLES20.GL_POLYGON_OFFSET_FILL)");
+      GLES20.glEnable(GLES20.GL_POLYGON_OFFSET_FILL);
+      checkGLError();
+      if (verboseLogging)       logger.info("GLES20.glPolygonOffset(" + state.getPolyOffsetFactor() + ", "+ state.getPolyOffsetUnits()+ ")");
+      GLES20.glPolygonOffset(state.getPolyOffsetFactor(),state.getPolyOffsetUnits());
+      checkGLError();
+      context.polyOffsetEnabled=true;
+      context.polyOffsetFactor=state.getPolyOffsetFactor();
+      context.polyOffsetUnits=state.getPolyOffsetUnits();
+    }
+ else {
+      if (state.getPolyOffsetFactor() != context.polyOffsetFactor || state.getPolyOffsetUnits() != context.polyOffsetUnits) {
+        if (verboseLogging)         logger.info("GLES20.glPolygonOffset(" + state.getPolyOffsetFactor() + ", "+ state.getPolyOffsetUnits()+ ")");
+        GLES20.glPolygonOffset(state.getPolyOffsetFactor(),state.getPolyOffsetUnits());
+        checkGLError();
+        context.polyOffsetFactor=state.getPolyOffsetFactor();
+        context.polyOffsetUnits=state.getPolyOffsetUnits();
+      }
+    }
+  }
+ else {
+    if (context.polyOffsetEnabled) {
+      if (verboseLogging)       logger.info("GLES20.glDisable(GLES20.GL_POLYGON_OFFSET_FILL)");
+      GLES20.glDisable(GLES20.GL_POLYGON_OFFSET_FILL);
+      checkGLError();
+      context.polyOffsetEnabled=false;
+      context.polyOffsetFactor=0;
+      context.polyOffsetUnits=0;
+    }
+  }
+  if (state.getFaceCullMode() != context.cullMode) {
+    if (state.getFaceCullMode() == RenderState.FaceCullMode.Off) {
+      if (verboseLogging)       logger.info("GLES20.glDisable(GLES20.GL_CULL_FACE)");
+      GLES20.glDisable(GLES20.GL_CULL_FACE);
+    }
+ else {
+      if (verboseLogging)       logger.info("GLES20.glEnable(GLES20.GL_CULL_FACE)");
+      GLES20.glEnable(GLES20.GL_CULL_FACE);
+    }
+    checkGLError();
+switch (state.getFaceCullMode()) {
+case Off:
+      break;
+case Back:
+    if (verboseLogging)     logger.info("GLES20.glCullFace(GLES20.GL_BACK)");
+  GLES20.glCullFace(GLES20.GL_BACK);
+break;
+case Front:
+if (verboseLogging) logger.info("GLES20.glCullFace(GLES20.GL_FRONT)");
+GLES20.glCullFace(GLES20.GL_FRONT);
+break;
+case FrontAndBack:
+if (verboseLogging) logger.info("GLES20.glCullFace(GLES20.GL_FRONT_AND_BACK)");
+GLES20.glCullFace(GLES20.GL_FRONT_AND_BACK);
+break;
+default :
+throw new UnsupportedOperationException("Unrecognized face cull mode: " + state.getFaceCullMode());
+}
+checkGLError();
+context.cullMode=state.getFaceCullMode();
+}
+if (state.getBlendMode() != context.blendMode) {
+if (state.getBlendMode() == RenderState.BlendMode.Off) {
+if (verboseLogging) logger.info("GLES20.glDisable(GLES20.GL_BLEND)");
+GLES20.glDisable(GLES20.GL_BLEND);
+}
+ else {
+if (verboseLogging) logger.info("GLES20.glEnable(GLES20.GL_BLEND)");
+GLES20.glEnable(GLES20.GL_BLEND);
+switch (state.getBlendMode()) {
+case Off:
+break;
+case Additive:
+if (verboseLogging) logger.info("GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE)");
+GLES20.glBlendFunc(GLES20.GL_ONE,GLES20.GL_ONE);
+break;
+case AlphaAdditive:
+if (verboseLogging) logger.info("GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE)");
+GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA,GLES20.GL_ONE);
+break;
+case Color:
+if (verboseLogging) logger.info("GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_COLOR)");
+GLES20.glBlendFunc(GLES20.GL_ONE,GLES20.GL_ONE_MINUS_SRC_COLOR);
+break;
+case Alpha:
+if (verboseLogging) logger.info("GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA)");
+GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA,GLES20.GL_ONE_MINUS_SRC_ALPHA);
+break;
+case PremultAlpha:
+if (verboseLogging) logger.info("GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA)");
+GLES20.glBlendFunc(GLES20.GL_ONE,GLES20.GL_ONE_MINUS_SRC_ALPHA);
+break;
+case Modulate:
+if (verboseLogging) logger.info("GLES20.glBlendFunc(GLES20.GL_DST_COLOR, GLES20.GL_ZERO)");
+GLES20.glBlendFunc(GLES20.GL_DST_COLOR,GLES20.GL_ZERO);
+break;
+case ModulateX2:
+if (verboseLogging) logger.info("GLES20.glBlendFunc(GLES20.GL_DST_COLOR, GLES20.GL_SRC_COLOR)");
+GLES20.glBlendFunc(GLES20.GL_DST_COLOR,GLES20.GL_SRC_COLOR);
+break;
+default :
+throw new UnsupportedOperationException("Unrecognized blend mode: " + state.getBlendMode());
+}
+}
+checkGLError();
+context.blendMode=state.getBlendMode();
+}
+}

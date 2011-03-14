@@ -1,0 +1,20 @@
+{
+  Technique t=getActiveTechnique();
+  if (sortingId == -1 && t != null && t.getShader() != null) {
+    int texId=-1;
+    for (int i=0; i < paramValues.size(); i++) {
+      MatParam param=paramValues.getValue(i);
+      if (param instanceof MatParamTexture) {
+        MatParamTexture tex=(MatParamTexture)param;
+        if (tex.getTextureValue() != null && tex.getTextureValue().getImage() != null) {
+          if (texId == -1) {
+            texId=0;
+          }
+          texId+=tex.getTextureValue().getImage().getId() % 0xff;
+        }
+      }
+    }
+    sortingId=texId + t.getShader().getId() * 1000;
+  }
+  return sortingId;
+}

@@ -1,0 +1,10 @@
+{
+  VertexBuffer ib=getBuffer(Type.Index);
+  if (ib.getFormat() == Format.UnsignedShort) {
+    ShortBuffer sib=(ShortBuffer)ib.getData();
+    int vertIndex=index * 3;
+    indices[0]=sib.get(vertIndex);
+    indices[1]=sib.get(vertIndex + 1);
+    indices[2]=sib.get(vertIndex + 2);
+  }
+}

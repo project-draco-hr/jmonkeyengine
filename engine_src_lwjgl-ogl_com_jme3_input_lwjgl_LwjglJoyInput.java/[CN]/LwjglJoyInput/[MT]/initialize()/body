@@ -1,0 +1,14 @@
+{
+  try {
+    Controllers.create();
+    if (Controllers.getControllerCount() == 0 || !Controllers.isCreated()) {
+      logger.warning("Joysticks disabled.");
+      return;
+    }
+    logger.info("Joysticks created.");
+    enabled=true;
+  }
+ catch (  LWJGLException ex) {
+    logger.log(Level.SEVERE,"Failed to create joysticks",ex);
+  }
+}

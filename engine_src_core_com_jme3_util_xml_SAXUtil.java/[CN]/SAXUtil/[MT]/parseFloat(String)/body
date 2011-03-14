@@ -1,0 +1,11 @@
+{
+  if (f == null)   throw new SAXException("Expected a decimal");
+ else {
+    try {
+      return Float.parseFloat(f);
+    }
+ catch (    NumberFormatException ex) {
+      throw new SAXException("Expected a decimal, got '" + f + "'");
+    }
+  }
+}

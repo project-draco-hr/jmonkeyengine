@@ -1,0 +1,18 @@
+{
+  while (true) {
+    if (scan.hasNext("\\}")) {
+      break;
+    }
+ else     if (scan.hasNext("[\n;]")) {
+      scan.next();
+    }
+ else     if (scan.hasNext("//")) {
+      scan.useDelimiter("\n");
+      scan.next();
+      scan.useDelimiter("\\p{javaWhitespace}+");
+    }
+ else {
+      break;
+    }
+  }
+}

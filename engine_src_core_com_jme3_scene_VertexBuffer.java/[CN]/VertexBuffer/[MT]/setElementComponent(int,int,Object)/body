@@ -1,0 +1,33 @@
+{
+  int inPos=elementIndex * components;
+  int elementPos=componentIndex;
+  if (format == Format.Half) {
+    inPos*=2;
+    elementPos*=2;
+  }
+  data.clear();
+switch (format) {
+case Byte:
+case UnsignedByte:
+case Half:
+    ByteBuffer bin=(ByteBuffer)data;
+  bin.put(inPos + elementPos,(Byte)val);
+break;
+case Short:
+case UnsignedShort:
+ShortBuffer sin=(ShortBuffer)data;
+sin.put(inPos + elementPos,(Short)val);
+break;
+case Int:
+case UnsignedInt:
+IntBuffer iin=(IntBuffer)data;
+iin.put(inPos + elementPos,(Integer)val);
+break;
+case Float:
+FloatBuffer fin=(FloatBuffer)data;
+fin.put(inPos + elementPos,(Float)val);
+break;
+default :
+throw new UnsupportedOperationException("Unrecognized buffer format: " + format);
+}
+}

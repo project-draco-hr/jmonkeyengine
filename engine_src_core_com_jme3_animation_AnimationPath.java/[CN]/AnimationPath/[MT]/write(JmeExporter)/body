@@ -1,0 +1,22 @@
+{
+  super.write(ex);
+  OutputCapsule oc=ex.getCapsule(this);
+  oc.writeSavableArrayList((ArrayList)wayPoints,"wayPoints",null);
+  oc.write(lookAt,"lookAt",Vector3f.ZERO);
+  oc.write(upVector,"upVector",Vector3f.UNIT_Y);
+  oc.write(rotation,"rotation",Quaternion.IDENTITY);
+  oc.write(duration,"duration",5f);
+  oc.write(directionType,"directionType",Direction.None);
+  oc.write(pathInterpolation,"pathInterpolation",PathInterpolation.CatmullRom);
+  float list[]=new float[segmentsLength.size()];
+  for (int i=0; i < segmentsLength.size(); i++) {
+    list[i]=segmentsLength.get(i);
+  }
+  oc.write(list,"segmentsLength",null);
+  oc.write(totalLength,"totalLength",0);
+  oc.writeSavableArrayList((ArrayList)CRcontrolPoints,"CRControlPoints",null);
+  oc.write(speed,"speed",0);
+  oc.write(curveTension,"curveTension",0.5f);
+  oc.write(cycle,"cycle",false);
+  oc.write(loop,"loop",false);
+}

@@ -1,0 +1,28 @@
+{
+  vertex[0]=-1;
+  vertex[1]=-1;
+  int facev0=faceB.m_v0;
+  if (facev0 == faceA.m_v0 || facev0 == faceA.m_v1 || facev0 == faceA.m_v2) {
+    if (vertex[0] == -1)     vertex[0]=facev0;
+ else {
+      vertex[1]=facev0;
+      return;
+    }
+  }
+  int facev1=faceB.m_v1;
+  if (facev1 == faceA.m_v0 || facev1 == faceA.m_v1 || facev1 == faceA.m_v2) {
+    if (vertex[0] == -1)     vertex[0]=facev1;
+ else {
+      vertex[1]=facev1;
+      return;
+    }
+  }
+  int facev2=faceB.m_v2;
+  if (facev2 == faceA.m_v0 || facev2 == faceA.m_v1 || facev2 == faceA.m_v2) {
+    if (vertex[0] == -1)     vertex[0]=facev2;
+ else {
+      vertex[1]=facev2;
+      return;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  if (swAnim) {
+    VertexBuffer indices=getBuffer(Type.BoneIndex);
+    ByteBuffer originalIndex=(ByteBuffer)indices.getData();
+    ByteBuffer arrayIndex=ByteBuffer.allocate(originalIndex.capacity());
+    originalIndex.clear();
+    arrayIndex.put(originalIndex);
+    indices.updateData(arrayIndex);
+    VertexBuffer weights=getBuffer(Type.BoneWeight);
+    FloatBuffer originalWeight=(FloatBuffer)weights.getData();
+    FloatBuffer arrayWeight=FloatBuffer.allocate(originalWeight.capacity());
+    originalWeight.clear();
+    arrayWeight.put(originalWeight);
+    weights.updateData(arrayWeight);
+  }
+}

@@ -1,0 +1,28 @@
+{
+  FloatBuffer vertexBuffer=(FloatBuffer)mesh.getBuffer(Type.Position).getData();
+  FloatBuffer normalBuffer=(FloatBuffer)mesh.getBuffer(Type.Normal).getData();
+  ColorRGBA originColor=ColorRGBA.White;
+  ColorRGBA normalColor=ColorRGBA.Blue;
+  Mesh lineMesh=new Mesh();
+  lineMesh.setMode(Mesh.Mode.Lines);
+  Vector3f origin=new Vector3f();
+  Vector3f point=new Vector3f();
+  FloatBuffer lineVertex=BufferUtils.createFloatBuffer(vertexBuffer.capacity() * 2);
+  FloatBuffer lineColor=BufferUtils.createFloatBuffer(vertexBuffer.capacity() / 3 * 4 * 2);
+  for (int i=0; i < vertexBuffer.capacity() / 3; i++) {
+    populateFromBuffer(origin,vertexBuffer,i);
+    populateFromBuffer(point,normalBuffer,i);
+    int index=i * 2;
+    setInBuffer(origin,lineVertex,index);
+    setInBuffer(originColor,lineColor,index);
+    point.multLocal(scale);
+    point.addLocal(origin);
+    setInBuffer(point,lineVertex,index + 1);
+    setInBuffer(normalColor,lineColor,index + 1);
+  }
+  lineMesh.setBuffer(Type.Position,3,lineVertex);
+  lineMesh.setBuffer(Type.Color,4,lineColor);
+  lineMesh.setStatic();
+  lineMesh.setInterleaved();
+  return lineMesh;
+}

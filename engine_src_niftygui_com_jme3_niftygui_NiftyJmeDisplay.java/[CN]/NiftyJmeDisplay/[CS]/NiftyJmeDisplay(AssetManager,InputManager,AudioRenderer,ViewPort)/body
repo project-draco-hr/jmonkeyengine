@@ -1,0 +1,11 @@
+{
+  this.assetManager=assetManager;
+  w=vp.getCamera().getWidth();
+  h=vp.getCamera().getHeight();
+  soundDev=new SoundDeviceJme(assetManager,audioRenderer);
+  renderDev=new RenderDeviceJme(this);
+  inputSys=new InputSystemJme(inputManager);
+  if (inputManager != null)   inputManager.addRawInputListener(inputSys);
+  nifty=new Nifty(renderDev,soundDev,inputSys,this);
+  inputSys.setNifty(nifty);
+}

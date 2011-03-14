@@ -1,0 +1,13 @@
+{
+switch (info.type) {
+case EntitySyncInfo.TYPE_NEW:
+    createEntity(info);
+  break;
+case EntitySyncInfo.TYPE_SYNC:
+syncEntity(info,latencyDelta);
+break;
+case EntitySyncInfo.TYPE_DELETE:
+deleteEntity(info);
+break;
+}
+}

@@ -1,0 +1,19 @@
+{
+  if (obj == null) {
+    return false;
+  }
+  if (getClass() != obj.getClass()) {
+    return false;
+  }
+  final Vertex other=(Vertex)obj;
+  if (this.v != other.v && (this.v == null || !this.v.equals(other.v))) {
+    return false;
+  }
+  if (this.vt != other.vt && (this.vt == null || !this.vt.equals(other.vt))) {
+    return false;
+  }
+  if (this.vn != other.vn && (this.vn == null || !this.vn.equals(other.vn))) {
+    return false;
+  }
+  return true;
+}

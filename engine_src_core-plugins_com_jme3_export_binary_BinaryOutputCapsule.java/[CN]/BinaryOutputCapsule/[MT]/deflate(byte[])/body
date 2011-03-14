@@ -1,0 +1,17 @@
+{
+  int size=bytes.length;
+  if (size == 4) {
+    int possibleMagic=ByteUtils.convertIntFromBytes(bytes);
+    if (possibleMagic == NULL_OBJECT)     return NULL_BYTES;
+ else     if (possibleMagic == DEFAULT_OBJECT)     return DEFAULT_BYTES;
+  }
+  for (int x=0; x < bytes.length; x++) {
+    if (bytes[x] != 0)     break;
+    size--;
+  }
+  if (size == 0)   return new byte[1];
+  byte[] rVal=new byte[1 + size];
+  rVal[0]=(byte)size;
+  for (int x=1; x < rVal.length; x++)   rVal[x]=bytes[bytes.length - size - 1 + x];
+  return rVal;
+}

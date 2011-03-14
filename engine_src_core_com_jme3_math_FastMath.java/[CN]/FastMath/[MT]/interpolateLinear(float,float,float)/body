@@ -1,0 +1,12 @@
+{
+  if (startValue == endValue) {
+    return startValue;
+  }
+  if (scale <= 0f) {
+    return startValue;
+  }
+  if (scale >= 1f) {
+    return endValue;
+  }
+  return ((1f - scale) * startValue) + (scale * endValue);
+}

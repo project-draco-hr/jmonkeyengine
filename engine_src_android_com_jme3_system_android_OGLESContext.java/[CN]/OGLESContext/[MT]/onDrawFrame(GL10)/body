@@ -1,0 +1,11 @@
+{
+  if (needClose.get()) {
+    deinitInThread();
+    return;
+  }
+  if (!created.get())   throw new IllegalStateException();
+  listener.update();
+  if (frameRate > 0) {
+  }
+  if (autoFlush)   renderer.onFrame();
+}

@@ -1,0 +1,11 @@
+{
+  int length=readInt(content);
+  if (length == BinaryOutputCapsule.NULL_OBJECT) {
+    return null;
+  }
+  ArrayList<FloatBuffer> rVal=new ArrayList<FloatBuffer>(length);
+  for (int x=0; x < length; x++) {
+    rVal.add(readFloatBuffer(content));
+  }
+  return rVal;
+}

@@ -1,0 +1,13 @@
+{
+  Collection<Caps> caps=renderer.getCaps();
+  if (numSamples > 1 && caps.contains(Caps.FrameBufferMultisample) && caps.contains(Caps.OpenGL31)) {
+    renderFrameBuffer=new FrameBuffer(width,height,numSamples);
+    renderedTexture=new Texture2D(width,height,numSamples,textureFormat);
+  }
+ else {
+    renderFrameBuffer=new FrameBuffer(width,height,1);
+    renderedTexture=new Texture2D(width,height,textureFormat);
+  }
+  renderFrameBuffer.setColorTexture(renderedTexture);
+  renderFrameBuffer.setDepthBuffer(depthBufferFormat);
+}

@@ -1,0 +1,22 @@
+{
+  String os=System.getProperty("os.name").toLowerCase();
+  String arch=System.getProperty("os.arch").toLowerCase();
+  boolean is64=is64Bit(arch);
+  if (os.contains("windows")) {
+    return is64 ? Platform.Windows64 : Platform.Windows32;
+  }
+ else   if (os.contains("linux") || os.contains("freebsd") || os.contains("sunos")) {
+    return is64 ? Platform.Linux64 : Platform.Linux32;
+  }
+ else   if (os.contains("mac os x")) {
+    if (arch.startsWith("ppc")) {
+      return is64 ? Platform.MacOSX_PPC64 : Platform.MacOSX_PPC32;
+    }
+ else {
+      return is64 ? Platform.MacOSX64 : Platform.MacOSX32;
+    }
+  }
+ else {
+    throw new UnsupportedOperationException("The specified platform: " + os + " is not supported.");
+  }
+}

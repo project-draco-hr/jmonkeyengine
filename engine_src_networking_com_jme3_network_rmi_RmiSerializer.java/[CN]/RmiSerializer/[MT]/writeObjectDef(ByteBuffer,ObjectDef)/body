@@ -1,0 +1,9 @@
+{
+  buffer.putShort((short)def.objectId);
+  writeString(buffer,def.objectName);
+  Method[] methods=def.methods;
+  buffer.put((byte)methods.length);
+  for (  Method method : methods) {
+    writeMethod(buffer,method);
+  }
+}

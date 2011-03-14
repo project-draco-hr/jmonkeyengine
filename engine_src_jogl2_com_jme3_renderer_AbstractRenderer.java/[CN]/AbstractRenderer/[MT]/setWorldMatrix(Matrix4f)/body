@@ -1,0 +1,11 @@
+{
+  if (glslVer == -1) {
+    this.worldMatrix.set(worldMatrix);
+    if (context.matrixMode != Helper.MatrixMode.MODELVIEW.getGLConstant()) {
+      helper.setMatrixMode(Helper.MatrixMode.MODELVIEW);
+      context.matrixMode=Helper.MatrixMode.MODELVIEW.getGLConstant();
+    }
+    helper.loadMatrixf(storeMatrix(viewMatrix,fb16));
+    helper.multMatrixf(storeMatrix(worldMatrix,fb16));
+  }
+}

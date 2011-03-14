@@ -1,0 +1,24 @@
+{
+  if (store == null)   store=new Vector3f();
+switch (i) {
+case 0:
+    store.x=m00;
+  store.y=m01;
+store.z=m02;
+break;
+case 1:
+store.x=m10;
+store.y=m11;
+store.z=m12;
+break;
+case 2:
+store.x=m20;
+store.y=m21;
+store.z=m22;
+break;
+default :
+logger.warning("Invalid row index.");
+throw new IllegalArgumentException("Invalid row index. " + i);
+}
+return store;
+}

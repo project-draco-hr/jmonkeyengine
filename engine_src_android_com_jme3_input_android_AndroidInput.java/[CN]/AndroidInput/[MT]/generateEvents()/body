@@ -1,0 +1,16 @@
+{
+synchronized (currentEvents) {
+    for (    Object event : currentEvents) {
+      if (event instanceof MouseButtonEvent) {
+        listener.onMouseButtonEvent((MouseButtonEvent)event);
+      }
+ else       if (event instanceof MouseMotionEvent) {
+        listener.onMouseMotionEvent((MouseMotionEvent)event);
+      }
+ else       if (event instanceof KeyInputEvent) {
+        listener.onKeyEvent((KeyInputEvent)event);
+      }
+    }
+    currentEvents.clear();
+  }
+}

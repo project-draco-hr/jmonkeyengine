@@ -1,0 +1,11 @@
+{
+  OutputCapsule capsule=ex.getCapsule(this);
+  capsule.write(tuning.frictionSlip,"frictionSlip",10.5f);
+  capsule.write(tuning.maxSuspensionTravelCm,"maxSuspensionTravelCm",500f);
+  capsule.write(tuning.maxSuspensionForce,"maxSuspensionForce",6000f);
+  capsule.write(tuning.suspensionCompression,"suspensionCompression",0.83f);
+  capsule.write(tuning.suspensionDamping,"suspensionDamping",0.88f);
+  capsule.write(tuning.suspensionStiffness,"suspensionStiffness",5.88f);
+  capsule.writeSavableArrayList(wheels,"wheelsList",new ArrayList<VehicleWheel>());
+  super.write(ex);
+}

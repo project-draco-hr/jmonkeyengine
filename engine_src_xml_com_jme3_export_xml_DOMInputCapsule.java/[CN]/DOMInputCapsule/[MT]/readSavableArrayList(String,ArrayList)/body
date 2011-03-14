@@ -1,0 +1,27 @@
+{
+  try {
+    Element tmpEl=findChildElement(currentElem,name);
+    if (tmpEl == null) {
+      return defVal;
+    }
+    String sizeString=tmpEl.getAttribute("size");
+    ArrayList<Savable> savables=new ArrayList<Savable>();
+    for (currentElem=findFirstChildElement(tmpEl); currentElem != null; currentElem=findNextSiblingElement(currentElem)) {
+      savables.add(readSavableFromCurrentElem(null));
+    }
+    if (sizeString.length() > 0) {
+      int requiredSize=Integer.parseInt(sizeString);
+      if (savables.size() != requiredSize)       throw new IOException("Wrong number of Savable arrays for '" + name + "'.  size says "+ requiredSize+ ", data contains "+ savables.size());
+    }
+    currentElem=(Element)tmpEl.getParentNode();
+    return savables;
+  }
+ catch (  IOException ioe) {
+    throw ioe;
+  }
+catch (  Exception e) {
+    IOException io=new IOException(e.toString());
+    io.initCause(e);
+    throw io;
+  }
+}

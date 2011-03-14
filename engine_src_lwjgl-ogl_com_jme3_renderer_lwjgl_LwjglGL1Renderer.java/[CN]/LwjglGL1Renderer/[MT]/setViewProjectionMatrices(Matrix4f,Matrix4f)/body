@@ -1,0 +1,9 @@
+{
+  if (context.matrixMode != GL_PROJECTION) {
+    glMatrixMode(GL_PROJECTION);
+    context.matrixMode=GL_PROJECTION;
+  }
+  storeMatrix(projMatrix,fb16);
+  glLoadMatrix(fb16);
+  this.viewMatrix.set(viewMatrix);
+}

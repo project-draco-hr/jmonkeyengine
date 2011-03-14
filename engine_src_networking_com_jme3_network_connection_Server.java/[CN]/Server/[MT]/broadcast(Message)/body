@@ -1,0 +1,11 @@
+{
+  if (!isBound)   throw new IOException("Not bound yet. Use bind() first.");
+  if (message.isReliable()) {
+    if (tcp == null)     throw new IOException("No TCP server.");
+    tcp.sendObject(message);
+  }
+ else {
+    if (udp == null)     throw new IOException("No UDP server.");
+    udp.sendObject(message);
+  }
+}

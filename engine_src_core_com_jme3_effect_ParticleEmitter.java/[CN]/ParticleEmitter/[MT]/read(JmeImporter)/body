@@ -1,0 +1,39 @@
+{
+  super.read(im);
+  InputCapsule ic=im.getCapsule(this);
+  shape=(EmitterShape)ic.readSavable("shape",DEFAULT_SHAPE);
+  meshType=ic.readEnum("meshType",ParticleMesh.Type.class,ParticleMesh.Type.Triangle);
+  int numParticles=ic.readInt("numParticles",0);
+  setNumParticles(numParticles);
+  enabled=ic.readBoolean("enabled",true);
+  particlesPerSec=ic.readFloat("particlesPerSec",0);
+  lowLife=ic.readFloat("lowLife",0);
+  highLife=ic.readFloat("highLife",0);
+  gravity=ic.readFloat("gravity",0);
+  variation=ic.readFloat("variation",0);
+  imagesX=ic.readInt("imagesX",1);
+  imagesY=ic.readInt("imagesY",1);
+  startVel=(Vector3f)ic.readSavable("startVel",null);
+  startColor=(ColorRGBA)ic.readSavable("startColor",null);
+  endColor=(ColorRGBA)ic.readSavable("endColor",null);
+  startSize=ic.readFloat("startSize",0);
+  endSize=ic.readFloat("endSize",0);
+  worldSpace=ic.readBoolean("worldSpace",false);
+  facingVelocity=ic.readBoolean("facingVelocity",false);
+  selectRandomImage=ic.readBoolean("selectRandomImage",false);
+  randomAngle=ic.readBoolean("randomAngle",false);
+  rotateSpeed=ic.readFloat("rotateSpeed",0);
+switch (meshType) {
+case Point:
+    particleMesh=new ParticlePointMesh();
+  setMesh(particleMesh);
+break;
+case Triangle:
+particleMesh=new ParticleTriMesh();
+setMesh(particleMesh);
+break;
+default :
+throw new IllegalStateException("Unrecognized particle type: " + meshType);
+}
+particleMesh.initParticleData(this,particles.length);
+}

@@ -1,0 +1,14 @@
+{
+  nextStatement();
+  String word=scan.next();
+  throwIfNequal("{",word);
+  nextStatement();
+  while (true) {
+    if (scan.hasNext("\\}")) {
+      scan.next();
+      break;
+    }
+    readParam();
+    nextStatement();
+  }
+}

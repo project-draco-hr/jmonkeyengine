@@ -1,0 +1,18 @@
+{
+switch (filter) {
+case Trilinear:
+    return GLES20.GL_LINEAR_MIPMAP_LINEAR;
+case BilinearNearestMipMap:
+  return GLES20.GL_LINEAR_MIPMAP_NEAREST;
+case NearestLinearMipMap:
+return GLES20.GL_NEAREST_MIPMAP_LINEAR;
+case NearestNearestMipMap:
+return GLES20.GL_NEAREST_MIPMAP_NEAREST;
+case BilinearNoMipMaps:
+return GLES20.GL_LINEAR;
+case NearestNoMipMaps:
+return GLES20.GL_NEAREST;
+default :
+throw new UnsupportedOperationException("Unknown min filter: " + filter);
+}
+}

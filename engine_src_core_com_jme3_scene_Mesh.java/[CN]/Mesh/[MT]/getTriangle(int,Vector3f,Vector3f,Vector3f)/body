@@ -1,0 +1,17 @@
+{
+  VertexBuffer pb=getBuffer(Type.Position);
+  VertexBuffer ib=getBuffer(Type.Index);
+  if (pb.getFormat() == Format.Float) {
+    FloatBuffer fpb=(FloatBuffer)pb.getData();
+    if (ib.getFormat() == Format.UnsignedShort) {
+      ShortBuffer sib=(ShortBuffer)ib.getData();
+      int vertIndex=index * 3;
+      int vert1=sib.get(vertIndex);
+      int vert2=sib.get(vertIndex + 1);
+      int vert3=sib.get(vertIndex + 2);
+      BufferUtils.populateFromBuffer(v1,fpb,vert1);
+      BufferUtils.populateFromBuffer(v2,fpb,vert2);
+      BufferUtils.populateFromBuffer(v3,fpb,vert3);
+    }
+  }
+}

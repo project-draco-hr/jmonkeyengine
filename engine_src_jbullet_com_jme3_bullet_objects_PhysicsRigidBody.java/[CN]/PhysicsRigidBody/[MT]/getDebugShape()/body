@@ -1,0 +1,28 @@
+{
+  Spatial shape=super.getDebugShape();
+  Node node=null;
+  if (shape instanceof Node) {
+    node=(Node)shape;
+  }
+ else {
+    node=new Node("DebugShapeNode");
+    node.attachChild(shape);
+  }
+  int i=0;
+  for (Iterator<PhysicsJoint> it=joints.iterator(); it.hasNext(); ) {
+    PhysicsJoint physicsJoint=it.next();
+    Vector3f pivot=null;
+    if (physicsJoint.getBodyA() == this) {
+      pivot=physicsJoint.getPivotA();
+    }
+ else {
+      pivot=physicsJoint.getPivotB();
+    }
+    Arrow arrow=new Arrow(pivot);
+    Geometry geom=new Geometry("DebugBone" + i,arrow);
+    geom.setMaterial(debugMaterialGreen);
+    node.attachChild(geom);
+    i++;
+  }
+  return node;
+}

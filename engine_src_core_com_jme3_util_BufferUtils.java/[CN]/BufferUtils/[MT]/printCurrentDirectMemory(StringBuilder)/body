@@ -1,0 +1,46 @@
+{
+  long totalHeld=0;
+  ArrayList<Buffer> bufs=new ArrayList<Buffer>(trackingHash.keySet());
+  int fBufs=0, bBufs=0, iBufs=0, sBufs=0, dBufs=0;
+  int fBufsM=0, bBufsM=0, iBufsM=0, sBufsM=0, dBufsM=0;
+  for (  Buffer b : bufs) {
+    if (b instanceof ByteBuffer) {
+      totalHeld+=b.capacity();
+      bBufsM+=b.capacity();
+      bBufs++;
+    }
+ else     if (b instanceof FloatBuffer) {
+      totalHeld+=b.capacity() * 4;
+      fBufsM+=b.capacity() * 4;
+      fBufs++;
+    }
+ else     if (b instanceof IntBuffer) {
+      totalHeld+=b.capacity() * 4;
+      iBufsM+=b.capacity() * 4;
+      iBufs++;
+    }
+ else     if (b instanceof ShortBuffer) {
+      totalHeld+=b.capacity() * 2;
+      sBufsM+=b.capacity() * 2;
+      sBufs++;
+    }
+ else     if (b instanceof DoubleBuffer) {
+      totalHeld+=b.capacity() * 8;
+      dBufsM+=b.capacity() * 8;
+      dBufs++;
+    }
+  }
+  long heapMem=Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+  boolean printStout=store == null;
+  if (store == null) {
+    store=new StringBuilder();
+  }
+  store.append("Existing buffers: ").append(bufs.size()).append("\n");
+  store.append("(b: ").append(bBufs).append("  f: ").append(fBufs).append("  i: ").append(iBufs).append("  s: ").append(sBufs).append("  d: ").append(dBufs).append(")").append("\n");
+  store.append("Total   heap memory held: ").append(heapMem / 1024).append("kb\n");
+  store.append("Total direct memory held: ").append(totalHeld / 1024).append("kb\n");
+  store.append("(b: ").append(bBufsM / 1024).append("kb  f: ").append(fBufsM / 1024).append("kb  i: ").append(iBufsM / 1024).append("kb  s: ").append(sBufsM / 1024).append("kb  d: ").append(dBufsM / 1024).append("kb)").append("\n");
+  if (printStout) {
+    System.out.println(store.toString());
+  }
+}

@@ -1,0 +1,9 @@
+{
+  getPhysicsSpace().remove(node);
+  if (!node.getName().equals("terrain")) {
+    node.removeFromParent();
+  }
+  effect.killAllParticles();
+  effect.setLocalTranslation(node.getLocalTranslation());
+  effect.emitAllParticles();
+}

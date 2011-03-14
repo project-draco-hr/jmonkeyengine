@@ -1,0 +1,8 @@
+{
+  if (transparentCursor == null) {
+    BufferedImage cursorImage=new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
+    cursorImage.setRGB(0,0,0);
+    transparentCursor=Toolkit.getDefaultToolkit().createCustomCursor(cursorImage,new Point(0,0),"empty cursor");
+  }
+  return transparentCursor;
+}

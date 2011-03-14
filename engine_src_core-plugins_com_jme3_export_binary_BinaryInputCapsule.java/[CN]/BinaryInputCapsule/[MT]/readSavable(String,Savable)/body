@@ -1,0 +1,12 @@
+{
+  BinaryClassField field=cObj.nameFields.get(name);
+  if (field == null || !fieldData.containsKey(field.alias))   return defVal;
+  Object value=fieldData.get(field.alias);
+  if (value == null)   return null;
+ else   if (value instanceof ID) {
+    value=importer.readObject(((ID)value).id);
+    fieldData.put(field.alias,value);
+    return (Savable)value;
+  }
+ else   return defVal;
+}

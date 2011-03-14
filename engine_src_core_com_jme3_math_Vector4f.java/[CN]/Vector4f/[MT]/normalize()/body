@@ -1,0 +1,8 @@
+{
+  float length=x * x + y * y + z * z + w * w;
+  if (length != 1f && length != 0f) {
+    length=1.0f / FastMath.sqrt(length);
+    return new Vector4f(x * length,y * length,z * length,w * length);
+  }
+  return clone();
+}

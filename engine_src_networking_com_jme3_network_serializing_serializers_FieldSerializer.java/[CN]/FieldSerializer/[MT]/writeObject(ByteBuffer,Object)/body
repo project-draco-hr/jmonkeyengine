@@ -1,0 +1,29 @@
+{
+  SavedField[] fields=savedFields.get(object.getClass());
+  if (fields == null)   throw new IOException("The " + object.getClass() + " is not registered"+ " in the serializer!");
+  for (  SavedField savedField : fields) {
+    Object val=null;
+    try {
+      val=savedField.field.get(object);
+    }
+ catch (    IllegalAccessException e) {
+      e.printStackTrace();
+    }
+    Serializer serializer=savedField.serializer;
+    try {
+      if (serializer != null) {
+        serializer.writeObject(buffer,val);
+      }
+ else {
+        Serializer.writeClassAndObject(buffer,val);
+      }
+    }
+ catch (    BufferOverflowException boe) {
+      throw boe;
+    }
+catch (    Exception e) {
+      log.log(Level.WARNING,"[FieldSerializer][???] Exception occurred on writing. Maybe you've forgotten to register a class, or maybe a class member does not have a serializer.");
+      throw new IOException(e.toString());
+    }
+  }
+}

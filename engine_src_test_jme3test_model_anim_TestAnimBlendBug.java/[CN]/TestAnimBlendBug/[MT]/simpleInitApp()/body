@@ -1,0 +1,32 @@
+{
+  inputManager.addMapping("One",new KeyTrigger(KeyInput.KEY_1));
+  inputManager.addListener(this,"One");
+  flyCam.setMoveSpeed(100f);
+  cam.setLocation(new Vector3f(0f,150f,-325f));
+  cam.lookAt(new Vector3f(0f,100f,0f),Vector3f.UNIT_Y);
+  DirectionalLight dl=new DirectionalLight();
+  dl.setDirection(new Vector3f(-0.1f,-0.7f,1).normalizeLocal());
+  dl.setColor(new ColorRGBA(1f,1f,1f,1.0f));
+  rootNode.addLight(dl);
+  Node model1=(Node)assetManager.loadModel("Models/Ninja/Ninja.mesh.xml");
+  Node model2=(Node)assetManager.loadModel("Models/Ninja/Ninja.mesh.xml");
+  model1.setLocalTranslation(-60,0,0);
+  model2.setLocalTranslation(60,0,0);
+  AnimControl control1=model1.getControl(AnimControl.class);
+  animNames=control1.getAnimationNames().toArray(new String[0]);
+  channel1=control1.createChannel();
+  AnimControl control2=model2.getControl(AnimControl.class);
+  channel2=control2.createChannel();
+  SkeletonDebugger skeletonDebug=new SkeletonDebugger("skeleton1",control1.getSkeleton());
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  mat.getAdditionalRenderState().setWireframe(true);
+  mat.setColor("Color",ColorRGBA.Green);
+  mat.getAdditionalRenderState().setDepthTest(false);
+  skeletonDebug.setMaterial(mat);
+  model1.attachChild(skeletonDebug);
+  skeletonDebug=new SkeletonDebugger("skeleton2",control2.getSkeleton());
+  skeletonDebug.setMaterial(mat);
+  model2.attachChild(skeletonDebug);
+  rootNode.attachChild(model1);
+  rootNode.attachChild(model2);
+}

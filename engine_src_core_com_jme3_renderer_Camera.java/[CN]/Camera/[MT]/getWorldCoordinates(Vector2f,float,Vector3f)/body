@@ -1,0 +1,11 @@
+{
+  if (store == null) {
+    store=new Vector3f();
+  }
+  Matrix4f inverseMat=new Matrix4f(viewProjectionMatrix);
+  inverseMat.invertLocal();
+  store.set((screenPosition.x / getWidth() - viewPortLeft) / (viewPortRight - viewPortLeft) * 2 - 1,(screenPosition.y / getHeight() - viewPortBottom) / (viewPortTop - viewPortBottom) * 2 - 1,zPos * 2 - 1);
+  float w=inverseMat.multProj(store,store);
+  store.multLocal(1f / w);
+  return store;
+}

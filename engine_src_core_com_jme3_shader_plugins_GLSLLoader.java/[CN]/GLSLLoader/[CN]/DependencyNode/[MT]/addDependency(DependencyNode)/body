@@ -1,0 +1,5 @@
+{
+  if (this.dependsOn.contains(node))   return;
+  this.dependsOn.add(node);
+  node.dependOnMe.add(this);
+}

@@ -1,0 +1,21 @@
+{
+  scan.next();
+  matName=readString(":").trim();
+  scan.next();
+  String extendedMat=readString("\\{").trim();
+  scan.next();
+  matExt=matExts.getMaterialExtension(extendedMat);
+  if (matExt == null) {
+    logger.log(Level.WARNING,"Cannot find MaterialExtension for: {0}. Ignoring material.",extendedMat);
+    readString("\\}");
+    scan.next();
+    matExt=null;
+    return null;
+  }
+  material=new Material(assetManager,matExt.getJmeMatDefName());
+  material.setFloat("Shininess",16f);
+  while (!scan.hasNext("\\}")) {
+    readExtendingMaterialStatement();
+  }
+  return material;
+}

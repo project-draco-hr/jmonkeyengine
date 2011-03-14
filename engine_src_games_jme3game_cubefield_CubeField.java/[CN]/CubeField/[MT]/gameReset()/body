@@ -1,0 +1,26 @@
+{
+  Score=0;
+  lowCap=10;
+  colorInt=0;
+  highCap=40;
+  difficulty=highCap;
+  for (  Geometry cube : cubeField) {
+    cube.removeFromParent();
+  }
+  cubeField.clear();
+  if (fcube != null) {
+    fcube.removeFromParent();
+  }
+  fcube=createFirstCube();
+  obstacleColors.clear();
+  obstacleColors.add(ColorRGBA.Orange);
+  obstacleColors.add(ColorRGBA.Red);
+  obstacleColors.add(ColorRGBA.Yellow);
+  renderer.setBackgroundColor(ColorRGBA.White);
+  boxSolid="Common/MatDefs/Misc/SolidColor.j3md";
+  speed=lowCap / 400f;
+  coreTime=20.0f;
+  coreTime2=10.0f;
+  diffHelp=lowCap;
+  player.setLocalTranslation(0,0,0);
+}

@@ -1,0 +1,12 @@
+{
+switch (usage) {
+case Static:
+    return GL_STATIC_DRAW;
+case Dynamic:
+  return GL_DYNAMIC_DRAW;
+case Stream:
+return GL_STREAM_DRAW;
+default :
+throw new RuntimeException("Unknown usage type.");
+}
+}

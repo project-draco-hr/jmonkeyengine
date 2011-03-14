@@ -1,0 +1,14 @@
+{
+  UpdatedTerrainPatch utp=updated.get(getName());
+  if (utp != null && (utp.isReIndexNeeded() || utp.isFixEdges())) {
+    int pow=(int)Math.pow(2,utp.getNewLod());
+    boolean left=utp.getLeftLod() > utp.getNewLod();
+    boolean top=utp.getTopLod() > utp.getNewLod();
+    boolean right=utp.getRightLod() > utp.getNewLod();
+    boolean bottom=utp.getBottomLod() > utp.getNewLod();
+    IntBuffer ib=null;
+    if (lodCalculator.usesVariableLod())     ib=geomap.writeIndexArrayLodVariable(null,pow,(int)Math.pow(2,utp.getRightLod()),(int)Math.pow(2,utp.getTopLod()),(int)Math.pow(2,utp.getLeftLod()),(int)Math.pow(2,utp.getBottomLod()));
+ else     ib=geomap.writeIndexArrayLodDiff(null,pow,right,top,left,bottom);
+    utp.setNewIndexBuffer(ib);
+  }
+}

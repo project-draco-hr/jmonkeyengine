@@ -1,0 +1,24 @@
+{
+  int[] index=new int[3];
+  Vector3f[] v=new Vector3f[3];
+  Vector2f[] t=new Vector2f[3];
+  for (int i=0; i < 3; i++) {
+    v[i]=new Vector3f();
+    t[i]=new Vector2f();
+  }
+  VertexData[] vertices;
+switch (mesh.getMode()) {
+case Triangles:
+    vertices=processTriangles(mesh,index,v,t);
+  break;
+case TriangleStrip:
+vertices=processTriangleStrip(mesh,index,v,t);
+break;
+case TriangleFan:
+vertices=processTriangleFan(mesh,index,v,t);
+break;
+default :
+throw new UnsupportedOperationException(mesh.getMode() + " is not supported.");
+}
+processTriangleData(mesh,vertices,approxTangents);
+}

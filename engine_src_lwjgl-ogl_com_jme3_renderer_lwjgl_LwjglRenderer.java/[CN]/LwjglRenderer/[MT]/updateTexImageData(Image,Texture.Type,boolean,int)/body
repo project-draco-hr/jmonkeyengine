@@ -1,0 +1,68 @@
+{
+  int texId=img.getId();
+  if (texId == -1) {
+    glGenTextures(intBuf1);
+    texId=intBuf1.get(0);
+    img.setId(texId);
+    objManager.registerForCleanup(img);
+    statistics.onNewTexture();
+  }
+  int target=convertTextureType(type,img.getMultiSamples());
+  if (context.boundTextureUnit != unit) {
+    glActiveTexture(GL_TEXTURE0 + unit);
+    context.boundTextureUnit=unit;
+  }
+  if (context.boundTextures[unit] != img) {
+    glBindTexture(target,texId);
+    context.boundTextures[unit]=img;
+    statistics.onTextureUse(img,true);
+  }
+  if (!img.hasMipmaps() && mips) {
+    if (!GLContext.getCapabilities().OpenGL30) {
+      glTexParameteri(target,GL_GENERATE_MIPMAP,GL_TRUE);
+    }
+  }
+ else {
+    if (img.getMipMapSizes() != null) {
+      glTexParameteri(target,GL_TEXTURE_MAX_LEVEL,img.getMipMapSizes().length);
+    }
+  }
+  int imageSamples=img.getMultiSamples();
+  if (imageSamples > 1) {
+    if (img.getFormat().isDepthFormat()) {
+      img.setMultiSamples(Math.min(maxDepthTexSamples,imageSamples));
+    }
+ else {
+      img.setMultiSamples(Math.min(maxColorTexSamples,imageSamples));
+    }
+  }
+  if (target == GL_TEXTURE_CUBE_MAP) {
+    List<ByteBuffer> data=img.getData();
+    if (data.size() != 6) {
+      logger.log(Level.WARNING,"Invalid texture: {0}\n" + "Cubemap textures must contain 6 data units.",img);
+      return;
+    }
+    for (int i=0; i < 6; i++) {
+      TextureUtil.uploadTexture(img,GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,i,0,tdc);
+    }
+  }
+ else   if (target == EXTTextureArray.GL_TEXTURE_2D_ARRAY_EXT) {
+    List<ByteBuffer> data=img.getData();
+    TextureUtil.uploadTexture(img,target,-1,0,tdc);
+    for (int i=0; i < data.size(); i++) {
+      TextureUtil.uploadTexture(img,target,i,0,tdc);
+    }
+  }
+ else {
+    TextureUtil.uploadTexture(img,target,0,0,tdc);
+  }
+  if (img.getMultiSamples() != imageSamples) {
+    img.setMultiSamples(imageSamples);
+  }
+  if (GLContext.getCapabilities().OpenGL30) {
+    if (!img.hasMipmaps() && mips && img.getData() != null) {
+      glGenerateMipmapEXT(target);
+    }
+  }
+  img.clearUpdateNeeded();
+}

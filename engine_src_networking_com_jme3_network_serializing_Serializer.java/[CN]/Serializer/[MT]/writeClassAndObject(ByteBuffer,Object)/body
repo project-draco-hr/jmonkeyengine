@@ -1,0 +1,8 @@
+{
+  if (object == null) {
+    buffer.putShort((short)-1);
+    return;
+  }
+  SerializerRegistration reg=writeClass(buffer,object.getClass());
+  reg.getSerializer().writeObject(buffer,object);
+}

@@ -1,0 +1,9 @@
+{
+  LetterQuad cursor=head.getNext();
+  while (!cursor.isTail()) {
+    if (cursor.getIndex() >= start && cursor.getIndex() < end) {
+      cursor.setStyle(style);
+    }
+    cursor=cursor.getNext();
+  }
+}

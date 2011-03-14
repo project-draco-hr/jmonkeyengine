@@ -1,0 +1,20 @@
+{
+  if (mesh != sharedmesh && usesSharedGeom.get(geoms.size() - 1)) {
+    return;
+  }
+  if (HARDWARE_SKINNING) {
+    weightsFloatData=BufferUtils.createFloatBuffer(vertCount * 4);
+    indicesData=BufferUtils.createByteBuffer(vertCount * 4);
+  }
+ else {
+    weightsFloatData=FloatBuffer.allocate(vertCount * 4);
+    indicesData=ByteBuffer.allocate(vertCount * 4);
+  }
+  VertexBuffer weights=new VertexBuffer(Type.BoneWeight);
+  VertexBuffer indices=new VertexBuffer(Type.BoneIndex);
+  Usage usage=HARDWARE_SKINNING ? Usage.Static : Usage.CpuOnly;
+  weights.setupData(usage,4,Format.Float,weightsFloatData);
+  indices.setupData(usage,4,Format.UnsignedByte,indicesData);
+  mesh.setBuffer(weights);
+  mesh.setBuffer(indices);
+}

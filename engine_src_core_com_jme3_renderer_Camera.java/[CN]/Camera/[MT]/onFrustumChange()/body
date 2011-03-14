@@ -1,0 +1,33 @@
+{
+  if (!isParallelProjection()) {
+    float nearSquared=frustumNear * frustumNear;
+    float leftSquared=frustumLeft * frustumLeft;
+    float rightSquared=frustumRight * frustumRight;
+    float bottomSquared=frustumBottom * frustumBottom;
+    float topSquared=frustumTop * frustumTop;
+    float inverseLength=FastMath.invSqrt(nearSquared + leftSquared);
+    coeffLeft[0]=frustumNear * inverseLength;
+    coeffLeft[1]=-frustumLeft * inverseLength;
+    inverseLength=FastMath.invSqrt(nearSquared + rightSquared);
+    coeffRight[0]=-frustumNear * inverseLength;
+    coeffRight[1]=frustumRight * inverseLength;
+    inverseLength=FastMath.invSqrt(nearSquared + bottomSquared);
+    coeffBottom[0]=frustumNear * inverseLength;
+    coeffBottom[1]=-frustumBottom * inverseLength;
+    inverseLength=FastMath.invSqrt(nearSquared + topSquared);
+    coeffTop[0]=-frustumNear * inverseLength;
+    coeffTop[1]=frustumTop * inverseLength;
+  }
+ else {
+    coeffLeft[0]=1;
+    coeffLeft[1]=0;
+    coeffRight[0]=-1;
+    coeffRight[1]=0;
+    coeffBottom[0]=1;
+    coeffBottom[1]=0;
+    coeffTop[0]=-1;
+    coeffTop[1]=0;
+  }
+  projectionMatrix.fromFrustum(frustumNear,frustumFar,frustumLeft,frustumRight,frustumTop,frustumBottom,parallelProjection);
+  onFrameChange();
+}

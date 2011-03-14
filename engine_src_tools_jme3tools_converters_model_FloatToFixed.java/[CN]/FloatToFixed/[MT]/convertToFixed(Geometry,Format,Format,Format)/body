@@ -1,0 +1,37 @@
+{
+  geom.updateModelBound();
+  BoundingBox bbox=(BoundingBox)geom.getModelBound();
+  Mesh mesh=geom.getMesh();
+  VertexBuffer positions=mesh.getBuffer(Type.Position);
+  VertexBuffer normals=mesh.getBuffer(Type.Normal);
+  VertexBuffer texcoords=mesh.getBuffer(Type.TexCoord);
+  VertexBuffer indices=mesh.getBuffer(Type.Index);
+  FloatBuffer fb=(FloatBuffer)positions.getData();
+  if (posFmt != Format.Float) {
+    Buffer newBuf=VertexBuffer.createBuffer(posFmt,positions.getNumComponents(),mesh.getVertexCount());
+    Transform t=convertPositions(fb,bbox,newBuf);
+    t.combineWithParent(geom.getLocalTransform());
+    geom.setLocalTransform(t);
+    VertexBuffer newPosVb=new VertexBuffer(Type.Position);
+    newPosVb.setupData(positions.getUsage(),positions.getNumComponents(),posFmt,newBuf);
+    mesh.clearBuffer(Type.Position);
+    mesh.setBuffer(newPosVb);
+  }
+  fb=(FloatBuffer)normals.getData();
+  ByteBuffer bb=BufferUtils.createByteBuffer(fb.capacity());
+  convertNormals(fb,bb);
+  normals=new VertexBuffer(Type.Normal);
+  normals.setupData(Usage.Static,3,Format.Byte,bb);
+  normals.setNormalized(true);
+  mesh.clearBuffer(Type.Normal);
+  mesh.setBuffer(normals);
+  fb=(FloatBuffer)texcoords.getData();
+  if (tcFmt != Format.Float) {
+    Buffer newBuf=VertexBuffer.createBuffer(tcFmt,texcoords.getNumComponents(),mesh.getVertexCount());
+    convertTexCoords2D(fb,newBuf);
+    VertexBuffer newTcVb=new VertexBuffer(Type.TexCoord);
+    newTcVb.setupData(texcoords.getUsage(),texcoords.getNumComponents(),tcFmt,newBuf);
+    mesh.clearBuffer(Type.TexCoord);
+    mesh.setBuffer(newTcVb);
+  }
+}

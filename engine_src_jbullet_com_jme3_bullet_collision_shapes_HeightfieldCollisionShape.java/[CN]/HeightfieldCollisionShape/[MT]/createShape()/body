@@ -1,0 +1,7 @@
+{
+  HeightfieldTerrainShape shape=new HeightfieldTerrainShape(heightStickWidth,heightStickLength,heightfieldData,heightScale,minHeight,maxHeight,upAxis,flipQuadEdges);
+  shape.setLocalScaling(new javax.vecmath.Vector3f(scale.x,scale.y,scale.z));
+  cShape=shape;
+  cShape.setLocalScaling(Converter.convert(getScale()));
+  cShape.setMargin(margin);
+}

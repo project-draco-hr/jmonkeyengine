@@ -1,0 +1,33 @@
+{
+  float lineWidth=0f;
+  float maxLineWidth=0f;
+  char lastChar=0;
+  boolean firstCharOfLine=true;
+  float sizeScale=1f;
+  for (int i=0; i < text.length(); i++) {
+    char theChar=text.charAt(i);
+    if (theChar == '\n') {
+      maxLineWidth=Math.max(maxLineWidth,lineWidth);
+      lineWidth=0f;
+    }
+    BitmapCharacter c=charSet.getCharacter((int)theChar);
+    if (c != null) {
+      if (theChar == '\\' && i < text.length() - 1 && text.charAt(i + 1) == '#') {
+        if (i + 5 < text.length() && text.charAt(i + 5) == '#') {
+          i+=5;
+          continue;
+        }
+ else         if (i + 8 < text.length() && text.charAt(i + 8) == '#') {
+          i+=8;
+          continue;
+        }
+      }
+      if (!firstCharOfLine) {
+        lineWidth+=findKerningAmount(lastChar,theChar) * sizeScale;
+      }
+      float xAdvance=c.getXAdvance() * sizeScale;
+      lineWidth+=xAdvance;
+    }
+  }
+  return Math.max(maxLineWidth,lineWidth);
+}

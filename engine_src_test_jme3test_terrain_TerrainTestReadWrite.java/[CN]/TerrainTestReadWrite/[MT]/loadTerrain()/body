@@ -1,0 +1,38 @@
+{
+  FileInputStream fis=null;
+  try {
+    long start=System.currentTimeMillis();
+    if (terrain != null) {
+      terrain.removeFromParent();
+      terrain.removeControl(TerrainLodControl.class);
+      terrain.detachAllChildren();
+      terrain=null;
+    }
+    fis=new FileInputStream(new File("terrainsave.jme"));
+    BinaryImporter imp=BinaryImporter.getInstance();
+    imp.setAssetManager(assetManager);
+    terrain=(TerrainQuad)imp.load(new BufferedInputStream(fis));
+    rootNode.attachChild(terrain);
+    float duration=(System.currentTimeMillis() - start) / 1000.0f;
+    System.out.println("Load took " + duration + " seconds");
+    List<Camera> cameras=new ArrayList<Camera>();
+    cameras.add(getCamera());
+    TerrainLodControl lodControl=terrain.getControl(TerrainLodControl.class);
+    if (lodControl != null) {
+      lodControl.setCameras(cameras);
+    }
+  }
+ catch (  IOException ex) {
+    Logger.getLogger(TerrainTestReadWrite.class.getName()).log(Level.SEVERE,null,ex);
+  }
+ finally {
+    try {
+      if (fis != null) {
+        fis.close();
+      }
+    }
+ catch (    IOException ex) {
+      Logger.getLogger(TerrainTestReadWrite.class.getName()).log(Level.SEVERE,null,ex);
+    }
+  }
+}

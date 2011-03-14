@@ -1,0 +1,24 @@
+{
+  Spatial signpost=(Spatial)assetManager.loadAsset(new OgreMeshKey("Models/Sign Post/Sign Post.mesh.xml",null));
+  signpost.setMaterial((Material)assetManager.loadAsset(new AssetKey("Models/Sign Post/Sign Post.j3m")));
+  TangentBinormalGenerator.generate(signpost);
+  rootNode.attachChild(signpost);
+  lightMdl=new Geometry("Light",new Sphere(10,10,0.1f));
+  lightMdl.setMaterial((Material)assetManager.loadAsset(new AssetKey("Common/Materials/RedColor.j3m")));
+  rootNode.attachChild(lightMdl);
+  pl=new PointLight();
+  pl.setColor(new ColorRGBA(0.88f,0.92f,0.95f,1.0f));
+  rootNode.addLight(pl);
+  DirectionalLight dl=new DirectionalLight();
+  dl.setDirection(new Vector3f(-0.1f,-0.7f,1).normalizeLocal());
+  dl.setColor(new ColorRGBA(0.44f,0.30f,0.20f,1.0f));
+  rootNode.addLight(dl);
+  dl=new DirectionalLight();
+  dl.setDirection(new Vector3f(-0.6f,-1,-0.6f).normalizeLocal());
+  dl.setColor(new ColorRGBA(0.10f,0.22f,0.44f,1.0f));
+  rootNode.addLight(dl);
+  dl=new DirectionalLight();
+  dl.setDirection(new Vector3f(1,-0.5f,-0.1f).normalizeLocal());
+  dl.setColor(new ColorRGBA(0.50f,0.40f,0.50f,1.0f));
+  rootNode.addLight(dl);
+}

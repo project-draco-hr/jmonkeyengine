@@ -1,0 +1,21 @@
+{
+  if (str.length() == 0)   return;
+  if (font instanceof RenderFontNull)   return;
+  RenderFontJme jmeFont=(RenderFontJme)font;
+  BitmapText text=jmeFont.getText();
+  niftyMat.setColor("Color",convertColor(color,tempColor));
+  niftyMat.setBoolean("UseTex",true);
+  niftyMat.getAdditionalRenderState().setBlendMode(convertBlend());
+  text.setMaterial(niftyMat);
+  text.setText(str);
+  text.updateLogicalState(0);
+  float width=text.getLineWidth();
+  float height=text.getLineHeight();
+  float x0=x + 0.5f * width * (1f - size);
+  float y0=y + 0.5f * height * (1f - size);
+  tempMat.loadIdentity();
+  tempMat.setTranslation(x0,getHeight() - y0,0);
+  tempMat.setScale(size,size,0);
+  rm.setWorldMatrix(tempMat);
+  text.render(rm);
+}

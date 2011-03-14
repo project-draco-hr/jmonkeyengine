@@ -1,0 +1,18 @@
+{
+  this.flyCam.setMoveSpeed(10);
+  rootNode.attachChild(SkyFactory.createSky(assetManager,"Textures/Sky/Bright/BrightSky.dds",false));
+  if (useHttp) {
+    assetManager.registerLocator("http://jmonkeyengine.googlecode.com/files/wildhouse.zip",HttpZipLocator.class.getName());
+  }
+ else {
+    assetManager.registerLocator("wildhouse.zip",ZipLocator.class.getName());
+  }
+  Spatial scene=assetManager.loadModel("main.scene");
+  AmbientLight al=new AmbientLight();
+  scene.addLight(al);
+  DirectionalLight sun=new DirectionalLight();
+  sun.setDirection(new Vector3f(0.69077975f,-0.6277887f,-0.35875428f).normalizeLocal());
+  sun.setColor(ColorRGBA.White.clone().multLocal(2));
+  scene.addLight(sun);
+  rootNode.attachChild(scene);
+}

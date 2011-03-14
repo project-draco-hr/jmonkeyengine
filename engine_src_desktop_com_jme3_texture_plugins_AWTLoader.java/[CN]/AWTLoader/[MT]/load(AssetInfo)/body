@@ -1,0 +1,10 @@
+{
+  if (ImageIO.getImageWritersBySuffix(info.getKey().getExtension()) != null) {
+    InputStream in=info.openStream();
+    boolean flip=((TextureKey)info.getKey()).isFlipY();
+    Image img=load(in,flip);
+    in.close();
+    return img;
+  }
+  return null;
+}

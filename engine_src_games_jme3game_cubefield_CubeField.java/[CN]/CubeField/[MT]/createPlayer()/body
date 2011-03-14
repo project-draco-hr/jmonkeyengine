@@ -1,0 +1,18 @@
+{
+  Dome b=new Dome(Vector3f.ZERO,10,100,1);
+  Geometry playerMesh=new Geometry("Box",b);
+  playerMaterial=new Material(assetManager,"Common/MatDefs/Misc/SolidColor.j3md");
+  playerMaterial.setColor("Color",ColorRGBA.Red);
+  playerMesh.setMaterial(playerMaterial);
+  playerMesh.setName("player");
+  Box floor=new Box(Vector3f.ZERO.add(playerMesh.getLocalTranslation().getX(),playerMesh.getLocalTranslation().getY() - 1,0),100,0,100);
+  Geometry floorMesh=new Geometry("Box",floor);
+  floorMaterial=new Material(assetManager,"Common/MatDefs/Misc/SolidColor.j3md");
+  floorMaterial.setColor("Color",ColorRGBA.LightGray);
+  floorMesh.setMaterial(floorMaterial);
+  floorMesh.setName("floor");
+  Node playerNode=new Node();
+  playerNode.attachChild(playerMesh);
+  playerNode.attachChild(floorMesh);
+  return playerNode;
+}

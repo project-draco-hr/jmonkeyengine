@@ -1,0 +1,8 @@
+{
+  if (safeMode || frameDelta == 0) {
+    return 1f;
+  }
+ else {
+    return FastMath.clamp((float)timeDelta / (float)frameDelta,0,1);
+  }
+}

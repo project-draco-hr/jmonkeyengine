@@ -1,0 +1,9 @@
+{
+  hdrRender=new HDRRenderer(assetManager,renderer);
+  hdrRender.setSamples(0);
+  hdrRender.setMaxIterations(20);
+  hdrRender.setExposure(0.87f);
+  hdrRender.setThrottle(0.33f);
+  viewPort.addProcessor(hdrRender);
+  rootNode.attachChild(createHDRBox());
+}

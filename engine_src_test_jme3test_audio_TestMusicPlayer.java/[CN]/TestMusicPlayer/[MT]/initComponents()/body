@@ -1,0 +1,80 @@
+{
+  pnlButtons=new javax.swing.JPanel();
+  sldVolume=new javax.swing.JSlider();
+  btnRewind=new javax.swing.JButton();
+  btnStop=new javax.swing.JButton();
+  btnPlay=new javax.swing.JButton();
+  btnFF=new javax.swing.JButton();
+  btnOpen=new javax.swing.JButton();
+  pnlBar=new javax.swing.JPanel();
+  lblTime=new javax.swing.JLabel();
+  sldBar=new javax.swing.JSlider();
+  setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+  addWindowListener(new java.awt.event.WindowAdapter(){
+    public void windowClosing(    java.awt.event.WindowEvent evt){
+      formWindowClosing(evt);
+    }
+  }
+);
+  pnlButtons.setLayout(new javax.swing.BoxLayout(pnlButtons,javax.swing.BoxLayout.LINE_AXIS));
+  sldVolume.setMajorTickSpacing(20);
+  sldVolume.setOrientation(javax.swing.JSlider.VERTICAL);
+  sldVolume.setPaintTicks(true);
+  sldVolume.setValue(100);
+  sldVolume.addChangeListener(new javax.swing.event.ChangeListener(){
+    public void stateChanged(    javax.swing.event.ChangeEvent evt){
+      sldVolumeStateChanged(evt);
+    }
+  }
+);
+  pnlButtons.add(sldVolume);
+  btnRewind.setText("<<");
+  pnlButtons.add(btnRewind);
+  btnStop.setText("[  ]");
+  btnStop.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      btnStopActionPerformed(evt);
+    }
+  }
+);
+  pnlButtons.add(btnStop);
+  btnPlay.setText("II / >");
+  btnPlay.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      btnPlayActionPerformed(evt);
+    }
+  }
+);
+  pnlButtons.add(btnPlay);
+  btnFF.setText(">>");
+  btnFF.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      btnFFActionPerformed(evt);
+    }
+  }
+);
+  pnlButtons.add(btnFF);
+  btnOpen.setText("Open ...");
+  btnOpen.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      btnOpenActionPerformed(evt);
+    }
+  }
+);
+  pnlButtons.add(btnOpen);
+  getContentPane().add(pnlButtons,java.awt.BorderLayout.CENTER);
+  pnlBar.setLayout(new javax.swing.BoxLayout(pnlBar,javax.swing.BoxLayout.LINE_AXIS));
+  lblTime.setText("0:00-0:00");
+  lblTime.setBorder(javax.swing.BorderFactory.createEmptyBorder(3,3,3,3));
+  pnlBar.add(lblTime);
+  sldBar.setValue(0);
+  sldBar.addChangeListener(new javax.swing.event.ChangeListener(){
+    public void stateChanged(    javax.swing.event.ChangeEvent evt){
+      sldBarStateChanged(evt);
+    }
+  }
+);
+  pnlBar.add(sldBar);
+  getContentPane().add(pnlBar,java.awt.BorderLayout.PAGE_START);
+  pack();
+}

@@ -1,0 +1,48 @@
+{
+  DisplayMode displayMode;
+  if (settings.getWidth() <= 0 || settings.getHeight() <= 0) {
+    displayMode=device.getDisplayMode();
+    settings.setResolution(displayMode.getWidth(),displayMode.getHeight());
+  }
+ else   if (settings.isFullscreen()) {
+    displayMode=getFullscreenDisplayMode(device.getDisplayModes(),settings.getWidth(),settings.getHeight(),settings.getBitsPerPixel(),settings.getFrequency());
+    if (displayMode == null) {
+      throw new RuntimeException("Unable to find fullscreen display mode matching settings");
+    }
+  }
+ else {
+    displayMode=getFullscreenDisplayMode(device.getDisplayModes(),settings.getWidth(),settings.getHeight(),settings.getBitsPerPixel(),settings.getFrequency());
+  }
+  settings.setWidth(displayMode.getWidth());
+  settings.setHeight(displayMode.getHeight());
+  settings.setBitsPerPixel(displayMode.getBitDepth());
+  settings.setFrequency(displayMode.getRefreshRate());
+  frameRate=settings.getFrameRate();
+  logger.log(Level.INFO,"Selected display mode: {0}x{1}x{2} @{3}",new Object[]{settings.getWidth(),settings.getHeight(),settings.getBitsPerPixel(),settings.getFrequency()});
+  canvas.setSize(settings.getWidth(),settings.getHeight());
+  DisplayMode prevDisplayMode=device.getDisplayMode();
+  frame.setUndecorated(settings.isFullscreen());
+  if (settings.isFullscreen()) {
+    if (device.isFullScreenSupported()) {
+      try {
+        device.setFullScreenWindow(frame);
+        if (!prevDisplayMode.equals(displayMode) && device.isDisplayChangeSupported()) {
+          device.setDisplayMode(displayMode);
+        }
+      }
+ catch (      Throwable t) {
+        logger.log(Level.SEVERE,"Failed to enter fullscreen mode",t);
+        device.setFullScreenWindow(null);
+      }
+    }
+ else {
+      logger.warning("Fullscreen not supported.");
+    }
+  }
+ else {
+    if (device.getFullScreenWindow() == frame) {
+      device.setFullScreenWindow(null);
+    }
+  }
+  frame.setVisible(true);
+}

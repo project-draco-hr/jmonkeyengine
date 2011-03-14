@@ -1,0 +1,28 @@
+{
+  try {
+    Camera cam=(Camera)super.clone();
+    cam.viewportChanged=true;
+    cam.planeState=0;
+    cam.worldPlane=new Plane[MAX_WORLD_PLANES];
+    for (int i=0; i < worldPlane.length; i++) {
+      cam.worldPlane[i]=worldPlane[i].clone();
+    }
+    cam.coeffLeft=new float[2];
+    cam.coeffRight=new float[2];
+    cam.coeffBottom=new float[2];
+    cam.coeffTop=new float[2];
+    cam.location=location.clone();
+    cam.rotation=rotation.clone();
+    if (projectionMatrixOverride != null) {
+      cam.projectionMatrixOverride=projectionMatrixOverride.clone();
+    }
+    cam.viewMatrix=viewMatrix.clone();
+    cam.projectionMatrix=projectionMatrix.clone();
+    cam.viewProjectionMatrix=viewProjectionMatrix.clone();
+    cam.update();
+    return cam;
+  }
+ catch (  CloneNotSupportedException ex) {
+    throw new AssertionError();
+  }
+}

@@ -1,0 +1,16 @@
+{
+  if (spat == null)   return Float.NEGATIVE_INFINITY;
+  if (spat.queueDistance != Float.NEGATIVE_INFINITY)   return spat.queueDistance;
+  Vector3f camPosition=cam.getLocation();
+  Vector3f viewVector=cam.getDirection();
+  Vector3f spatPosition=null;
+  if (spat.getWorldBound() != null) {
+    spatPosition=spat.getWorldBound().getCenter();
+  }
+ else {
+    spatPosition=spat.getWorldTranslation();
+  }
+  spatPosition.subtract(camPosition,tempVec);
+  spat.queueDistance=tempVec.dot(viewVector);
+  return spat.queueDistance;
+}

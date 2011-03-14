@@ -1,0 +1,15 @@
+{
+  if (mesh.getVertexCount() == 0) {
+    return;
+  }
+  if (context.pointSize != mesh.getPointSize()) {
+    glPointSize(mesh.getPointSize());
+    context.pointSize=mesh.getPointSize();
+  }
+  if (context.lineWidth != mesh.getLineWidth()) {
+    glLineWidth(mesh.getLineWidth());
+    context.lineWidth=mesh.getLineWidth();
+  }
+  statistics.onMeshDrawn(mesh,lod);
+  renderMeshDefault(mesh,lod,count);
+}

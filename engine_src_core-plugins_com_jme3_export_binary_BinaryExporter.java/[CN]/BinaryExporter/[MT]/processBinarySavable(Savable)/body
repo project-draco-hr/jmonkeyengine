@@ -1,0 +1,23 @@
+{
+  if (object == null) {
+    return -1;
+  }
+  BinaryClassObject bco=classes.get(object.getClass().getName());
+  if (bco == null) {
+    bco=new BinaryClassObject();
+    bco.alias=generateTag();
+    bco.nameFields=new HashMap<String,BinaryClassField>();
+    classes.put(object.getClass().getName(),bco);
+  }
+  if (contentTable.get(object) != null) {
+    return (contentTable.get(object).getId());
+  }
+  BinaryIdContentPair newPair=generateIdContentPair(bco);
+  BinaryIdContentPair old=contentTable.put(object,newPair);
+  if (old == null) {
+    contentKeys.add(object);
+  }
+  object.write(this);
+  newPair.getContent().finish();
+  return newPair.getId();
+}

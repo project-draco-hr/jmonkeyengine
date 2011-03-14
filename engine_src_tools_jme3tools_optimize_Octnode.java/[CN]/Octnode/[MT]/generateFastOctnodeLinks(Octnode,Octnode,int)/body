@@ -1,0 +1,12 @@
+{
+  fastNode.setSide(side);
+  fastNode.next=nextSibling != null ? nextSibling.fastNode : null;
+  Octnode prev=null;
+  for (int i=7; i >= 0; i--) {
+    if (children[i] != null) {
+      children[i].generateFastOctnodeLinks(this,prev,i);
+      prev=children[i];
+    }
+  }
+  fastNode.child=prev != null ? prev.fastNode : null;
+}

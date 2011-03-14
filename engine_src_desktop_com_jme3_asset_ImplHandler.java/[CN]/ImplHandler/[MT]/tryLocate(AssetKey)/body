@@ -1,0 +1,14 @@
+{
+synchronized (genericLocators) {
+    if (genericLocators.size() == 0)     return null;
+    for (    ImplThreadLocal local : genericLocators) {
+      AssetLocator locator=(AssetLocator)local.get();
+      if (local.getPath() != null) {
+        locator.setRootPath((String)local.getPath());
+      }
+      AssetInfo info=locator.locate(owner,key);
+      if (info != null)       return info;
+    }
+  }
+  return null;
+}

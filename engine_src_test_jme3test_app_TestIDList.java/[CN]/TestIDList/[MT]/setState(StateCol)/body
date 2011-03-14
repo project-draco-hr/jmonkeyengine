@@ -1,0 +1,8 @@
+{
+  state.print();
+  for (  Map.Entry<Integer,Object> entry : state.objs.entrySet()) {
+    setSlot(entry.getKey(),entry.getValue());
+  }
+  clearSlots();
+  checkSlots(state);
+}

@@ -1,0 +1,9 @@
+{
+  super.updateLogicalState(tpf);
+  if (applyForce) {
+    ((PhysicsRigidBody)collisionObject).applyForce(continuousForce,continuousForceLocation);
+  }
+  if (applyTorque) {
+    ((PhysicsRigidBody)collisionObject).applyTorque(continuousTorque);
+  }
+}

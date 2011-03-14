@@ -1,0 +1,14 @@
+{
+switch (bucket) {
+case Gui:
+    return guiList.size() == 0;
+case Opaque:
+  return opaqueList.size() == 0;
+case Sky:
+return skyList.size() == 0;
+case Transparent:
+return transparentList.size() == 0;
+default :
+throw new UnsupportedOperationException("Unsupported bucket type: " + bucket);
+}
+}

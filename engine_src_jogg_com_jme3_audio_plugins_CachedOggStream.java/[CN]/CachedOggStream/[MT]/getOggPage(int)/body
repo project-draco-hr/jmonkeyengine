@@ -1,0 +1,7 @@
+{
+  Long offset=(Long)pageOffsets.get(index);
+  Long length=(Long)pageLengths.get(index);
+  byte[] tmpArray=new byte[length.intValue()];
+  System.arraycopy(memoryCache,offset.intValue(),tmpArray,0,length.intValue());
+  return OggPage.create(tmpArray);
+}

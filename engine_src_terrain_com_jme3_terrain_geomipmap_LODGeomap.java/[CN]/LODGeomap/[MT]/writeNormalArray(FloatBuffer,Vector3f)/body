@@ -1,0 +1,92 @@
+{
+  if (!isLoaded())   throw new NullPointerException();
+  if (store != null) {
+    if (store.remaining() < getWidth() * getHeight() * 3)     throw new BufferUnderflowException();
+  }
+ else {
+    store=BufferUtils.createFloatBuffer(getWidth() * getHeight() * 3);
+  }
+  store.rewind();
+  Vector3f rootPoint=new Vector3f();
+  Vector3f rightPoint=new Vector3f();
+  Vector3f leftPoint=new Vector3f();
+  Vector3f topPoint=new Vector3f();
+  Vector3f bottomPoint=new Vector3f();
+  for (int r=0; r < getHeight(); r++) {
+    for (int c=0; c < getWidth(); c++) {
+      rootPoint.set(c,getValue(c,r),r);
+      Vector3f normal=new Vector3f();
+      if (r == 0) {
+        if (c == 0) {
+          rightPoint.set(c + 1,getValue(c + 1,r),r);
+          bottomPoint.set(c,getValue(c,r + 1),r + 1);
+          normal.set(getNormal(bottomPoint,rootPoint,rightPoint));
+        }
+ else         if (c == getWidth() - 1) {
+          leftPoint.set(c - 1,getValue(c - 1,r),r);
+          bottomPoint.set(c,getValue(c,r + 1),r + 1);
+          normal.set(getNormal(leftPoint,rootPoint,bottomPoint));
+        }
+ else {
+          leftPoint.set(c - 1,getValue(c - 1,r),r);
+          rightPoint.set(c + 1,getValue(c + 1,r),r);
+          bottomPoint.set(c,getValue(c,r + 1),r + 1);
+          Vector3f n1=getNormal(leftPoint,rootPoint,bottomPoint);
+          Vector3f n2=getNormal(bottomPoint,rootPoint,rightPoint);
+          normal.set(n1.add(n2).normalizeLocal());
+        }
+      }
+ else       if (r == getHeight() - 1) {
+        if (c == 0) {
+          topPoint.set(c,getValue(c,r - 1),r - 1);
+          rightPoint.set(c + 1,getValue(c + 1,r),r);
+          normal.set(getNormal(rightPoint,rootPoint,topPoint));
+        }
+ else         if (c == getWidth() - 1) {
+          topPoint.set(c,getValue(c,r - 1),r - 1);
+          leftPoint.set(c - 1,getValue(c - 1,r),r);
+          normal.set(getNormal(topPoint,rootPoint,leftPoint));
+        }
+ else {
+          topPoint.set(c,getValue(c,r - 1),r - 1);
+          leftPoint.set(c - 1,getValue(c - 1,r),r);
+          rightPoint.set(c + 1,getValue(c + 1,r),r);
+          Vector3f n1=getNormal(topPoint,rootPoint,leftPoint);
+          Vector3f n2=getNormal(rightPoint,rootPoint,topPoint);
+          normal.set(n1.add(n2).normalizeLocal());
+        }
+      }
+ else {
+        if (c == 0) {
+          topPoint.set(c,getValue(c,r - 1),r - 1);
+          rightPoint.set(c + 1,getValue(c + 1,r),r);
+          bottomPoint.set(c,getValue(c,r + 1),r + 1);
+          Vector3f n1=getNormal(rightPoint,rootPoint,topPoint);
+          Vector3f n2=getNormal(bottomPoint,rootPoint,rightPoint);
+          normal.set(n1.add(n2).normalizeLocal());
+        }
+ else         if (c == getWidth() - 1) {
+          topPoint.set(c,getValue(c,r - 1),r - 1);
+          leftPoint.set(c - 1,getValue(c - 1,r),r);
+          bottomPoint.set(c,getValue(c,r + 1),r + 1);
+          Vector3f n1=getNormal(topPoint,rootPoint,leftPoint);
+          Vector3f n2=getNormal(leftPoint,rootPoint,bottomPoint);
+          normal.set(n1.add(n2).normalizeLocal());
+        }
+ else {
+          topPoint.set(c,getValue(c,r - 1),r - 1);
+          leftPoint.set(c - 1,getValue(c - 1,r),r);
+          rightPoint.set(c + 1,getValue(c + 1,r),r);
+          bottomPoint.set(c,getValue(c,r + 1),r + 1);
+          Vector3f n1=getNormal(topPoint,rootPoint,leftPoint);
+          Vector3f n2=getNormal(leftPoint,rootPoint,bottomPoint);
+          Vector3f n3=getNormal(bottomPoint,rootPoint,rightPoint);
+          Vector3f n4=getNormal(rightPoint,rootPoint,topPoint);
+          normal.set(n1.add(n2).add(n3).add(n4).normalizeLocal());
+        }
+      }
+      BufferUtils.setInBuffer(normal,store,(r * getWidth() + c));
+    }
+  }
+  return store;
+}

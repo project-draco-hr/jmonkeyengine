@@ -1,0 +1,19 @@
+{
+  if (null != heightData) {
+    unloadHeightMap();
+  }
+  heightData=new float[size * size];
+  float[][] tempBuffer=new float[size][size];
+  Random random=new Random(seed);
+  for (int i=0; i < iterations; i++) {
+    addHill(tempBuffer,random);
+  }
+  for (int i=0; i < size; i++) {
+    for (int j=0; j < size; j++) {
+      setHeightAtPoint((float)tempBuffer[i][j],j,i);
+    }
+  }
+  normalizeTerrain(NORMALIZE_RANGE);
+  logger.info("Created Heightmap using the Hill Algorithm");
+  return true;
+}

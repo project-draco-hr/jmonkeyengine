@@ -1,0 +1,30 @@
+{
+  int texId=image.getId();
+  if (texId == -1) {
+    gl.glGenTextures(1,ib1);
+    texId=ib1.get(0);
+    image.setId(texId);
+    objManager.registerForCleanup(image);
+    statistics.onNewTexture();
+  }
+  int target=convertTextureType(type);
+  if (context.boundTextures[0] != image) {
+    if (context.boundTextureUnit != 0) {
+      gl.glActiveTexture(gl.GL_TEXTURE0);
+      context.boundTextureUnit=0;
+    }
+    gl.glBindTexture(target,texId);
+    context.boundTextures[0]=image;
+  }
+  boolean generateMips=false;
+  if (!image.hasMipmaps() && mips) {
+    if (hardwareMips) {
+      gl.glTexParameteri(target,GL.GL_GENERATE_MIPMAP,gl.GL_TRUE);
+    }
+ else {
+      generateMips=true;
+    }
+  }
+  TextureUtil.uploadTexture(gl,image,0,generateMips,powerOf2);
+  image.clearUpdateNeeded();
+}

@@ -1,0 +1,11 @@
+{
+  Quad quadMesh=new Quad(512,512);
+  Geometry quad=new Geometry("Quad",quadMesh);
+  quad.setQueueBucket(Bucket.Gui);
+  mat=new Material(assetManager,"Common/MatDefs/Misc/ColoredTextured.j3md");
+  mat.setTexture("ColorMap",assetManager.loadTexture("Textures/ColoredTex/Monkey.png"));
+  quad.setMaterial(mat);
+  guiNode.attachChildAt(quad,0);
+  nextColor=ColorRGBA.randomColor();
+  prevColor=ColorRGBA.Black;
+}

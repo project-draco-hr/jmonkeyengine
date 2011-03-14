@@ -1,0 +1,16 @@
+{
+  if (value == null) {
+    throw new NullPointerException();
+  }
+  name=checkSetParam(type,name);
+  MatParamTexture val=getTextureParam(name);
+  if (val == null) {
+    paramValues.put(name,new MatParamTexture(type,name,value,nextTexUnit++));
+  }
+ else {
+    val.setTextureValue(value);
+  }
+  if (technique != null) {
+    technique.notifySetParam(name,type,nextTexUnit - 1);
+  }
+}

@@ -1,0 +1,30 @@
+{
+  flyCam.setMoveSpeed(50);
+  mat_terrain=new Material(assetManager,"Common/MatDefs/Terrain/Terrain.j3md");
+  mat_terrain.setTexture("Alpha",assetManager.loadTexture("Textures/Terrain/splat/alphamap.png"));
+  Texture grass=assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
+  grass.setWrap(WrapMode.Repeat);
+  mat_terrain.setTexture("Tex1",grass);
+  mat_terrain.setFloat("Tex1Scale",64f);
+  Texture dirt=assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
+  dirt.setWrap(WrapMode.Repeat);
+  mat_terrain.setTexture("Tex2",dirt);
+  mat_terrain.setFloat("Tex2Scale",32f);
+  Texture rock=assetManager.loadTexture("Textures/Terrain/splat/road.jpg");
+  rock.setWrap(WrapMode.Repeat);
+  mat_terrain.setTexture("Tex3",rock);
+  mat_terrain.setFloat("Tex3Scale",128f);
+  AbstractHeightMap heightmap=null;
+  Texture heightMapImage=assetManager.loadTexture("Textures/Terrain/splat/mountains512.png");
+  heightmap=new ImageBasedHeightMap(ImageToAwt.convert(heightMapImage.getImage(),false,true,0));
+  heightmap.load();
+  terrain=new TerrainQuad("my terrain",65,513,heightmap.getHeightMap());
+  terrain.setMaterial(mat_terrain);
+  terrain.setLocalTranslation(0,-100,0);
+  terrain.setLocalScale(2f,1f,2f);
+  rootNode.attachChild(terrain);
+  List<Camera> cameras=new ArrayList<Camera>();
+  cameras.add(getCamera());
+  TerrainLodControl control=new TerrainLodControl(terrain,cameras);
+  terrain.addControl(control);
+}

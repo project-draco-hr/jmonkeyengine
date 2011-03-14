@@ -1,0 +1,11 @@
+{
+  if (source.getId() < 0) {
+    logger.warning("Shader source is not uploaded to GPU, cannot delete.");
+    return;
+  }
+  source.setUsable(false);
+  source.clearUpdateNeeded();
+  if (verboseLogging)   logger.info("GLES20.glDeleteShader(" + source.getId() + ")");
+  GLES20.glDeleteShader(source.getId());
+  source.resetObject();
+}

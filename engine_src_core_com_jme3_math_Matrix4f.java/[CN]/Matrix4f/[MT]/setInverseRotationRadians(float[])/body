@@ -1,0 +1,22 @@
+{
+  if (angles.length != 3) {
+    throw new IllegalArgumentException("Angles must be of size 3.");
+  }
+  double cr=FastMath.cos(angles[0]);
+  double sr=FastMath.sin(angles[0]);
+  double cp=FastMath.cos(angles[1]);
+  double sp=FastMath.sin(angles[1]);
+  double cy=FastMath.cos(angles[2]);
+  double sy=FastMath.sin(angles[2]);
+  m00=(float)(cp * cy);
+  m10=(float)(cp * sy);
+  m20=(float)(-sp);
+  double srsp=sr * sp;
+  double crsp=cr * sp;
+  m01=(float)(srsp * cy - cr * sy);
+  m11=(float)(srsp * sy + cr * cy);
+  m21=(float)(sr * cp);
+  m02=(float)(crsp * cy + sr * sy);
+  m12=(float)(crsp * sy - sr * cy);
+  m22=(float)(cr * cp);
+}

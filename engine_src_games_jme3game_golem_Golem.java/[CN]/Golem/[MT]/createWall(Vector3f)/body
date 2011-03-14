@@ -1,0 +1,15 @@
+{
+  wallNode=new Node("the wall");
+  matRock=new Material(assetManager,"Common/MatDefs/Misc/SimpleTextured.j3md");
+  Texture tex_ml=assetManager.loadTexture("Textures/Terrain/BrickWall/BrickWall.jpg");
+  matRock.setTexture("ColorMap",tex_ml);
+  brick=new Box(Vector3f.ZERO,bLength,bHeight,bWidth);
+  brick.scaleTextureCoordinates(new Vector2f(1f,1f));
+  for (int row=0; row < 4; row++) {
+    for (int col=0; col < 10; col++) {
+      Vector3f vt=new Vector3f(off.x + (col + 1f) * bLength * 2.01f,off.y + (row + 1f) * bHeight * 2.01f,off.z);
+      addBrick(vt);
+    }
+  }
+  this.rootNode.attachChild(wallNode);
+}

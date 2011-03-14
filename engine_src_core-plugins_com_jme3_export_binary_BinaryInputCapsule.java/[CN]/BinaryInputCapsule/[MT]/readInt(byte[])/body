@@ -1,0 +1,8 @@
+{
+  byte[] bytes=inflateFrom(content,index);
+  index+=1 + bytes.length;
+  bytes=ByteUtils.rightAlignBytes(bytes,4);
+  int value=ByteUtils.convertIntFromBytes(bytes);
+  if (value == BinaryOutputCapsule.NULL_OBJECT || value == BinaryOutputCapsule.DEFAULT_OBJECT)   index-=4;
+  return value;
+}

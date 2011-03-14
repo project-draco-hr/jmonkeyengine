@@ -1,0 +1,26 @@
+{
+  if (matrix.length != 9)   throw new IllegalArgumentException("Array must be of size 9.");
+  if (rowMajor) {
+    m00=matrix[0];
+    m01=matrix[1];
+    m02=matrix[2];
+    m10=matrix[3];
+    m11=matrix[4];
+    m12=matrix[5];
+    m20=matrix[6];
+    m21=matrix[7];
+    m22=matrix[8];
+  }
+ else {
+    m00=matrix[0];
+    m01=matrix[3];
+    m02=matrix[6];
+    m10=matrix[1];
+    m11=matrix[4];
+    m12=matrix[7];
+    m20=matrix[2];
+    m21=matrix[5];
+    m22=matrix[8];
+  }
+  return this;
+}

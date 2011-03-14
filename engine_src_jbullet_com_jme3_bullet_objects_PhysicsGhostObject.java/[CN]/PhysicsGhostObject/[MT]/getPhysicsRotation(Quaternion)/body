@@ -1,0 +1,8 @@
+{
+  if (rot == null) {
+    rot=new Quaternion();
+  }
+  gObject.getWorldTransform(tempTrans);
+  Converter.convert(tempTrans.getRotation(tempRot),physicsLocation.getRotation());
+  return rot.set(physicsLocation.getRotation());
+}

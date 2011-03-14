@@ -1,0 +1,39 @@
+{
+  if (object == null) {
+    return;
+  }
+  if (object.equals(defVal)) {
+    return;
+  }
+  Element old=currentElement;
+  Element el=writtenSavables.get(object);
+  String className=null;
+  if (!object.getClass().getName().equals(name)) {
+    className=object.getClass().getName();
+  }
+  try {
+    doc.createElement(name);
+  }
+ catch (  DOMException e) {
+    name="Object";
+    className=object.getClass().getName();
+  }
+  if (el != null) {
+    String refID=el.getAttribute("reference_ID");
+    if (refID.length() == 0) {
+      refID=object.getClass().getName() + "@" + object.hashCode();
+      el.setAttribute("reference_ID",refID);
+    }
+    el=appendElement(name);
+    el.setAttribute("ref",refID);
+  }
+ else {
+    el=appendElement(name);
+    writtenSavables.put(object,el);
+    object.write(exporter);
+  }
+  if (className != null) {
+    el.setAttribute("class",className);
+  }
+  currentElement=old;
+}

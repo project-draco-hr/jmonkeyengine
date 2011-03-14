@@ -1,0 +1,73 @@
+{
+  int id=shader.getId();
+  boolean needRegister=false;
+  if (id == -1) {
+    id=glCreateProgram();
+    if (id <= 0) {
+      throw new RendererException("Invalid ID (" + id + ") received when trying to create shader program.");
+    }
+    shader.setId(id);
+    needRegister=true;
+  }
+  for (  ShaderSource source : shader.getSources()) {
+    if (source.isUpdateNeeded()) {
+      updateShaderSourceData(source,shader.getLanguage());
+    }
+    if (!source.isUsable()) {
+      shader.setUsable(false);
+      shader.clearUpdateNeeded();
+      return;
+    }
+    glAttachShader(id,source.getId());
+  }
+  if (caps.contains(Caps.OpenGL30)) {
+    GL30.glBindFragDataLocation(id,0,"outFragColor");
+  }
+  glLinkProgram(id);
+  glGetProgram(id,GL_LINK_STATUS,intBuf1);
+  boolean linkOK=intBuf1.get(0) == GL_TRUE;
+  String infoLog=null;
+  if (VALIDATE_SHADER || !linkOK) {
+    glGetProgram(id,GL_INFO_LOG_LENGTH,intBuf1);
+    int length=intBuf1.get(0);
+    if (length > 3) {
+      ByteBuffer logBuf=BufferUtils.createByteBuffer(length);
+      glGetProgramInfoLog(id,null,logBuf);
+      byte[] logBytes=new byte[length];
+      logBuf.get(logBytes,0,length);
+      infoLog=new String(logBytes);
+    }
+  }
+  if (linkOK) {
+    if (infoLog != null) {
+      logger.log(Level.INFO,"shader link success. \n{0}",infoLog);
+    }
+ else {
+      logger.fine("shader link success");
+    }
+  }
+ else {
+    if (infoLog != null) {
+      throw new RendererException("Shader link failure, shader:" + shader + " info:"+ infoLog);
+    }
+ else {
+      throw new RendererException("Shader link failure, shader:" + shader + " info: <not provided>");
+    }
+  }
+  shader.clearUpdateNeeded();
+  if (!linkOK) {
+    shader.resetSources();
+    shader.setUsable(false);
+    deleteShader(shader);
+  }
+ else {
+    shader.setUsable(true);
+    if (needRegister) {
+      objManager.registerForCleanup(shader);
+      statistics.onNewShader();
+    }
+ else {
+      resetUniformLocations(shader);
+    }
+  }
+}

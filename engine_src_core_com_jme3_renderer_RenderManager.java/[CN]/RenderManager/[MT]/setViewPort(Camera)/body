@@ -1,0 +1,19 @@
+{
+  if (cam != prevCam || cam.isViewportChanged()) {
+    viewX=(int)(cam.getViewPortLeft() * cam.getWidth());
+    viewY=(int)(cam.getViewPortBottom() * cam.getHeight());
+    viewWidth=(int)((cam.getViewPortRight() - cam.getViewPortLeft()) * cam.getWidth());
+    viewHeight=(int)((cam.getViewPortTop() - cam.getViewPortBottom()) * cam.getHeight());
+    renderer.setViewPort(viewX,viewY,viewWidth,viewHeight);
+    renderer.setClipRect(viewX,viewY,viewWidth,viewHeight);
+    cam.clearViewportChanged();
+    prevCam=cam;
+    float translateX=viewWidth == viewX ? 0 : -(viewWidth + viewX) / (viewWidth - viewX);
+    float translateY=viewHeight == viewY ? 0 : -(viewHeight + viewY) / (viewHeight - viewY);
+    float scaleX=viewWidth == viewX ? 1f : 2f / (viewWidth - viewX);
+    float scaleY=viewHeight == viewY ? 1f : 2f / (viewHeight - viewY);
+    orthoMatrix.loadIdentity();
+    orthoMatrix.setTranslation(translateX,translateY,0);
+    orthoMatrix.setScale(scaleX,scaleY,0f);
+  }
+}

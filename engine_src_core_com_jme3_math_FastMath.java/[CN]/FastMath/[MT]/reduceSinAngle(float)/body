@@ -1,0 +1,10 @@
+{
+  radians%=TWO_PI;
+  if (Math.abs(radians) > PI) {
+    radians=radians - (TWO_PI);
+  }
+  if (Math.abs(radians) > HALF_PI) {
+    radians=PI - radians;
+  }
+  return radians;
+}

@@ -1,0 +1,12 @@
+{
+synchronized (collisionEvents) {
+    for (Iterator<PhysicsCollisionEvent> it=collisionEvents.iterator(); it.hasNext(); ) {
+      PhysicsCollisionEvent physicsCollisionEvent=it.next();
+      for (      PhysicsCollisionListener listener : collisionListeners) {
+        listener.collision(physicsCollisionEvent);
+      }
+      eventFactory.recycle(physicsCollisionEvent);
+      it.remove();
+    }
+  }
+}

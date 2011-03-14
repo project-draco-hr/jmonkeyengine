@@ -1,0 +1,15 @@
+{
+  DisplayMode[] validModes=new DisplayMode[modes.length];
+  System.arraycopy(modes,0,validModes,0,modes.length);
+  Dimension validDisplaySize=getClosestValidDisplaySize(validModes,width,height);
+  bpp=getClosestValidBitDepth(validModes,bpp);
+  width=validDisplaySize.width;
+  height=validDisplaySize.height;
+  freq=getClosestValidRefreshRate(validModes,freq);
+  for (  DisplayMode mode : validModes) {
+    if (mode != null && (mode.getWidth() == width && mode.getHeight() == height && mode.getBitDepth() == bpp || (mode.getBitDepth() == 32 && bpp == 24) && mode.getRefreshRate() == freq)) {
+      return mode;
+    }
+  }
+  return null;
+}

@@ -1,0 +1,15 @@
+{
+  SwingUtilities.invokeLater(new Runnable(){
+    public void run(){
+      JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+      createFrame();
+      createCanvas(appClass);
+      frame.getContentPane().add(canvas);
+      frame.pack();
+      startApp();
+      frame.setLocationRelativeTo(null);
+      frame.setVisible(true);
+    }
+  }
+);
+}

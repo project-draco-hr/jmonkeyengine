@@ -1,0 +1,12 @@
+{
+  if (musicSource != null && !sldBar.getValueIsAdjusting()) {
+    curTime=sldBar.getValue() / 100f;
+    if (curTime < 0)     curTime=0;
+    musicSource.setTimeOffset(curTime);
+    if (musicSource.getStatus() == Status.Playing) {
+      ar.stopSource(musicSource);
+      ar.playSource(musicSource);
+    }
+    updateTime();
+  }
+}

@@ -1,0 +1,16 @@
+{
+  for (  OCTTriangle t : tris) {
+    float d=r.intersects(t.get1(),t.get2(),t.get3());
+    if (Float.isInfinite(d))     continue;
+    Vector3f contactPoint=new Vector3f(r.getDirection()).multLocal(d).addLocal(r.getOrigin());
+    CollisionResult result=new CollisionResult(geoms[t.getGeometryIndex()],contactPoint,d,t.getTriangleIndex());
+    results.addCollision(result);
+  }
+  for (int i=0; i < 8; i++) {
+    Octnode child=children[i];
+    if (child == null)     continue;
+    if (child.bbox.intersects(r)) {
+      child.intersectWhere(r,geoms,sceneMin,sceneMax,results);
+    }
+  }
+}

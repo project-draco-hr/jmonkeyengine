@@ -1,0 +1,17 @@
+{
+  this.assetManager=info.getManager();
+  folderName=info.getKey().getFolder();
+  InputStream in=info.openStream();
+  scan=new Scanner(in);
+  scan.useLocale(Locale.US);
+  matList=new MaterialList();
+  while (readLine())   ;
+  MaterialList list=matList;
+  reset();
+  try {
+    in.close();
+  }
+ catch (  IOException ex) {
+  }
+  return list;
+}

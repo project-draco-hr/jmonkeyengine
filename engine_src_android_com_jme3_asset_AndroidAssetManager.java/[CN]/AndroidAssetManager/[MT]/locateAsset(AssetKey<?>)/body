@@ -1,0 +1,8 @@
+{
+  AssetInfo info=locator.locate(this,key);
+  if (info == null) {
+    logger.log(Level.WARNING,"Cannot locate resource: " + key.getName());
+    return null;
+  }
+  return info;
+}

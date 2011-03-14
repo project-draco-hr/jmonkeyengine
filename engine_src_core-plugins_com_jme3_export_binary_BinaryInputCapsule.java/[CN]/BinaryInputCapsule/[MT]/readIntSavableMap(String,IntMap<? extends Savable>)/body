@@ -1,0 +1,12 @@
+{
+  BinaryClassField field=cObj.nameFields.get(name);
+  if (field == null || !fieldData.containsKey(field.alias))   return defVal;
+  Object value=fieldData.get(field.alias);
+  if (value instanceof IntIDMap) {
+    IntIDMap in=(IntIDMap)value;
+    Savable[] values=resolveIDs(in.values);
+    value=intSavableMapFromKV(in.keys,values);
+    fieldData.put(field.alias,value);
+  }
+  return (IntMap<Savable>)value;
+}

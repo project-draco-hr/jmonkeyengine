@@ -1,0 +1,15 @@
+{
+  int bits=0;
+  if (color) {
+    bits=Helper.BufferBit.COLOR_BUFFER.getGLConstant();
+  }
+  if (depth) {
+    bits|=Helper.BufferBit.DEPTH_BUFFER.getGLConstant();
+  }
+  if (stencil) {
+    bits|=Helper.BufferBit.STENCIL_BUFFER.getGLConstant();
+  }
+  if (bits != 0) {
+    GLContext.getCurrentGL().glClear(bits);
+  }
+}

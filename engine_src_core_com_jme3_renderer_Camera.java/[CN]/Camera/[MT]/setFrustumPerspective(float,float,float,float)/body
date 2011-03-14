@@ -1,0 +1,15 @@
+{
+  if (Float.isNaN(aspect) || Float.isInfinite(aspect)) {
+    logger.log(Level.WARNING,"Invalid aspect given to setFrustumPerspective: {0}",aspect);
+    return;
+  }
+  float h=FastMath.tan(fovY * FastMath.DEG_TO_RAD * .5f) * near;
+  float w=h * aspect;
+  frustumLeft=-w;
+  frustumRight=w;
+  frustumBottom=-h;
+  frustumTop=h;
+  frustumNear=near;
+  frustumFar=far;
+  onFrustumChange();
+}

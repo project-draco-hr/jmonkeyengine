@@ -1,0 +1,8 @@
+{
+  if (executor != null) {
+    executor.shutdown();
+    executor=null;
+  }
+  pSpace.removeTickListener(this);
+  pSpace.destroy();
+}

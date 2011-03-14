@@ -1,0 +1,17 @@
+{
+  AnimControl animControl=model.getControl(AnimControl.class);
+  skeleton=animControl.getSkeleton();
+  skeleton.resetAndUpdate();
+  for (int i=0; i < skeleton.getBoneCount(); i++) {
+    Bone childBone=skeleton.getBone(i);
+    childBone.setUserControl(true);
+    if (childBone.getParent() == null) {
+      Vector3f parentPos=childBone.getModelSpacePosition().add(model.getWorldTranslation());
+      logger.log(Level.INFO,"Found root bone in skeleton {0}",skeleton);
+      baseRigidBody=new PhysicsRigidBody(new BoxCollisionShape(Vector3f.UNIT_XYZ.mult(.1f)),1);
+      baseRigidBody.setPhysicsLocation(parentPos);
+      boneLinks=boneRecursion(model,childBone,baseRigidBody,boneLinks,1);
+      return;
+    }
+  }
+}

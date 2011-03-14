@@ -1,0 +1,26 @@
+{
+  bulletAppState=new BulletAppState();
+  bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
+  stateManager.attach(bulletAppState);
+  bulletAppState.getPhysicsSpace().setAccuracy(1f / 30f);
+  rootNode.attachChild(SkyFactory.createSky(assetManager,"Textures/Sky/Bright/BrightSky.dds",false));
+  PssmShadowRenderer pssmr=new PssmShadowRenderer(assetManager,2048,3);
+  pssmr.setDirection(new Vector3f(-0.5f,-0.3f,-0.3f).normalizeLocal());
+  pssmr.setLambda(0.55f);
+  pssmr.setShadowIntensity(0.6f);
+  pssmr.setCompareMode(CompareMode.Hardware);
+  pssmr.setFilterMode(FilterMode.Bilinear);
+  viewPort.addProcessor(pssmr);
+  setupKeys();
+  createTerrain();
+  buildPlayer();
+  DirectionalLight dl=new DirectionalLight();
+  dl.setColor(new ColorRGBA(1.0f,0.94f,0.8f,1f).multLocal(1.3f));
+  dl.setDirection(new Vector3f(-0.5f,-0.3f,-0.3f).normalizeLocal());
+  rootNode.addLight(dl);
+  Vector3f lightDir2=new Vector3f(0.70518064f,0.5902297f,-0.39287305f);
+  DirectionalLight dl2=new DirectionalLight();
+  dl2.setColor(new ColorRGBA(0.7f,0.85f,1.0f,1f));
+  dl2.setDirection(lightDir2);
+  rootNode.addLight(dl2);
+}

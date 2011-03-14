@@ -1,0 +1,7 @@
+{
+  if (tcp != null) {
+    tcp.addConnectionListener(this);
+    tcp.socketChannel.keyFor(tcp.selector).attach(this);
+  }
+  addMessageListener(this,DisconnectMessage.class);
+}

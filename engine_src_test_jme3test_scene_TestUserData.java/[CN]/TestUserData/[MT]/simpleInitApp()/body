@@ -1,0 +1,9 @@
+{
+  Node scene=(Node)assetManager.loadModel("Scenes/DotScene/DotScene.scene");
+  System.out.println("Scene: " + scene);
+  Spatial testNode=scene.getChild("TestNode");
+  System.out.println("TestNode: " + testNode);
+  for (  String key : testNode.getUserDataKeys()) {
+    System.out.println("Property " + key + " = "+ testNode.getUserData(key));
+  }
+}

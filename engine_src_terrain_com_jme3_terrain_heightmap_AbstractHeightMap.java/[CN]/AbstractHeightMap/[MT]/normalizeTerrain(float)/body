@@ -1,0 +1,25 @@
+{
+  float currentMin, currentMax;
+  float height;
+  currentMin=heightData[0];
+  currentMax=heightData[0];
+  for (int i=0; i < size; i++) {
+    for (int j=0; j < size; j++) {
+      if (heightData[i + j * size] > currentMax) {
+        currentMax=heightData[i + j * size];
+      }
+ else       if (heightData[i + j * size] < currentMin) {
+        currentMin=heightData[i + j * size];
+      }
+    }
+  }
+  if (currentMax <= currentMin) {
+    return;
+  }
+  height=currentMax - currentMin;
+  for (int i=0; i < size; i++) {
+    for (int j=0; j < size; j++) {
+      heightData[i + j * size]=((heightData[i + j * size] - currentMin) / height) * value;
+    }
+  }
+}

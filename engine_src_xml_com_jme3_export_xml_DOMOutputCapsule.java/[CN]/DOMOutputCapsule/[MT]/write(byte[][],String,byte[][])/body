@@ -1,0 +1,19 @@
+{
+  StringBuilder buf=new StringBuilder();
+  if (value == null) {
+    value=defVal;
+  }
+  for (  byte[] bs : value) {
+    for (    byte b : bs) {
+      buf.append(b);
+      buf.append(" ");
+    }
+    buf.append(" ");
+  }
+  buf.setLength(buf.length() - 2);
+  Element el=appendElement(name);
+  el.setAttribute("size_outer",String.valueOf(value.length));
+  el.setAttribute("size_inner",String.valueOf(value[0].length));
+  el.setAttribute(dataAttributeName,buf.toString());
+  currentElement=(Element)currentElement.getParentNode();
+}

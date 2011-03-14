@@ -1,0 +1,10 @@
+{
+  ArrayList<Geometry> geoms=new ArrayList<Geometry>();
+  gatherGeoms(scene,geoms);
+  List<Geometry> batchedGeoms=makeBatches(geoms);
+  Node node=new Node(scene.getName());
+  for (  Geometry geom : batchedGeoms) {
+    node.attachChild(geom);
+  }
+  return node;
+}

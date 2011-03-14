@@ -1,0 +1,13 @@
+{
+  Vector3f pos=new Vector3f();
+  offset*=3;
+  for (int i=0; i < inBuf.capacity() / 3; i++) {
+    pos.x=inBuf.get(i * 3 + 0);
+    pos.y=inBuf.get(i * 3 + 1);
+    pos.z=inBuf.get(i * 3 + 2);
+    transform.mult(pos,pos);
+    outBuf.put(offset + i * 3 + 0,pos.x);
+    outBuf.put(offset + i * 3 + 1,pos.y);
+    outBuf.put(offset + i * 3 + 2,pos.z);
+  }
+}

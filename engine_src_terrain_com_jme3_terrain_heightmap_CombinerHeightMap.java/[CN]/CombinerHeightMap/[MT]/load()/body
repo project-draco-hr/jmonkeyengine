@@ -1,0 +1,24 @@
+{
+  if (null != heightData) {
+    unloadHeightMap();
+  }
+  heightData=new float[size * size];
+  float[] temp1=map1.getHeightMap();
+  float[] temp2=map2.getHeightMap();
+  if (mode == ADDITION) {
+    for (int i=0; i < size; i++) {
+      for (int j=0; j < size; j++) {
+        heightData[i + (j * size)]=(int)(temp1[i + (j * size)] * factor1 + temp2[i + (j * size)] * factor2);
+      }
+    }
+  }
+ else   if (mode == SUBTRACTION) {
+    for (int i=0; i < size; i++) {
+      for (int j=0; j < size; j++) {
+        heightData[i + (j * size)]=(int)(temp1[i + (j * size)] * factor1 - temp2[i + (j * size)] * factor2);
+      }
+    }
+  }
+  logger.info("Created heightmap using Combiner");
+  return true;
+}

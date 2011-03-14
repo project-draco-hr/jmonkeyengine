@@ -1,0 +1,25 @@
+{
+switch (fmt) {
+case Alpha16:
+case Alpha8:
+    return GL10.GL_ALPHA;
+case Luminance8Alpha8:
+case Luminance16Alpha16:
+  return GL10.GL_LUMINANCE_ALPHA;
+case Luminance8:
+case Luminance16:
+return GL10.GL_LUMINANCE;
+case RGB10:
+case RGB16:
+case BGR8:
+case RGB8:
+case RGB565:
+return GL10.GL_RGB;
+case RGB5A1:
+case RGBA16:
+case RGBA8:
+return GL10.GL_RGBA;
+default :
+throw new UnsupportedOperationException("Unrecognized format: " + fmt);
+}
+}

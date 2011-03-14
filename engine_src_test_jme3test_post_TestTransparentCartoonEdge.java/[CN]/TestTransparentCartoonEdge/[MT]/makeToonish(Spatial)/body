@@ -1,0 +1,18 @@
+{
+  if (spatial instanceof Node) {
+    Node n=(Node)spatial;
+    for (    Spatial child : n.getChildren())     makeToonish(child);
+  }
+ else   if (spatial instanceof Geometry) {
+    Geometry g=(Geometry)spatial;
+    Material m=g.getMaterial();
+    if (m.getMaterialDef().getName().equals("Phong Lighting")) {
+      Texture t=assetManager.loadTexture("Textures/ColorRamp/toon.png");
+      m.setTexture("ColorRamp",t);
+      m.setBoolean("UseMaterialColors",true);
+      m.setColor("Specular",ColorRGBA.Black);
+      m.setColor("Diffuse",ColorRGBA.White);
+      m.setBoolean("VertexLighting",true);
+    }
+  }
+}

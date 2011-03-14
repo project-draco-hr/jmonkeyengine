@@ -1,0 +1,10 @@
+{
+  InputCapsule capsule=e.getCapsule(this);
+  format=capsule.readEnum("format",Format.class,Format.RGBA8);
+  width=capsule.readInt("width",0);
+  height=capsule.readInt("height",0);
+  depth=capsule.readInt("depth",0);
+  mipMapSizes=capsule.readIntArray("mipMapSizes",null);
+  multiSamples=capsule.readInt("multiSamples",1);
+  data=(ArrayList<ByteBuffer>)capsule.readByteBufferArrayList("data",null);
+}

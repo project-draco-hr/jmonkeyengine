@@ -1,0 +1,7 @@
+{
+  if (this.visible != visible) {
+    component.setCursor(visible ? null : getTransparentCursor());
+    this.visible=visible;
+    if (!visible)     recenterMouse(component);
+  }
+}

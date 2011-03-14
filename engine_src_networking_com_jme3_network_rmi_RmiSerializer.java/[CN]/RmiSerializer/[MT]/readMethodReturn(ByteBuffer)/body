@@ -1,0 +1,8 @@
+{
+  RemoteMethodReturnMessage ret=new RemoteMethodReturnMessage();
+  ret.invocationID=buffer.getShort();
+  if (buffer.get() == (byte)0x01) {
+    ret.retVal=Serializer.readClassAndObject(buffer);
+  }
+  return ret;
+}

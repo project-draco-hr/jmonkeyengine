@@ -1,0 +1,95 @@
+{
+  if (verboseLogging)   logger.info("updateBufferData(" + vb + ")");
+  int bufId=vb.getId();
+  boolean created=false;
+  if (bufId == -1) {
+    if (verboseLogging)     logger.info("GLES20.glGenBuffers(" + 1 + ", buffer)");
+    GLES20.glGenBuffers(1,intBuf1);
+    bufId=intBuf1.get(0);
+    vb.setId(bufId);
+    objManager.registerForCleanup(vb);
+    created=true;
+  }
+  int target;
+  if (vb.getBufferType() == VertexBuffer.Type.Index) {
+    target=GLES20.GL_ELEMENT_ARRAY_BUFFER;
+    if (verboseLogging)     logger.info("vb.getBufferType() == VertexBuffer.Type.Index");
+    if (context.boundElementArrayVBO != bufId) {
+      if (verboseLogging)       logger.info("GLES20.glBindBuffer(" + target + ", "+ bufId+ ")");
+      GLES20.glBindBuffer(target,bufId);
+      context.boundElementArrayVBO=bufId;
+    }
+  }
+ else {
+    if (verboseLogging)     logger.info("vb.getBufferType() != VertexBuffer.Type.Index");
+    target=GLES20.GL_ARRAY_BUFFER;
+    if (context.boundArrayVBO != bufId) {
+      if (verboseLogging)       logger.info("GLES20.glBindBuffer(" + target + ", "+ bufId+ ")");
+      GLES20.glBindBuffer(target,bufId);
+      context.boundArrayVBO=bufId;
+    }
+  }
+  int usage=convertUsage(vb.getUsage());
+  vb.getData().clear();
+  if (created || vb.hasDataSizeChanged()) {
+    int size=vb.getData().capacity() * vb.getFormat().getComponentSize();
+switch (vb.getFormat()) {
+case Byte:
+case UnsignedByte:
+      if (verboseLogging)       logger.info("GLES20.glBufferData(" + target + ", "+ size+ ", (data), "+ usage+ ")");
+    GLES20.glBufferData(target,size,(ByteBuffer)vb.getData(),usage);
+  break;
+case Short:
+case UnsignedShort:
+if (verboseLogging) logger.info("GLES20.glBufferData(" + target + ", "+ size+ ", (data), "+ usage+ ")");
+GLES20.glBufferData(target,size,(ShortBuffer)vb.getData(),usage);
+break;
+case Int:
+case UnsignedInt:
+if (verboseLogging) logger.info("GLES20.glBufferData(" + target + ", "+ size+ ", (data), "+ usage+ ")");
+GLES20.glBufferData(target,size,(IntBuffer)vb.getData(),usage);
+break;
+case Float:
+if (verboseLogging) logger.info("GLES20.glBufferData(" + target + ", "+ size+ ", (data), "+ usage+ ")");
+GLES20.glBufferData(target,size,(FloatBuffer)vb.getData(),usage);
+break;
+case Double:
+if (verboseLogging) logger.info("GLES20.glBufferData(" + target + ", "+ size+ ", (data), "+ usage+ ")");
+GLES20.glBufferData(target,size,(DoubleBuffer)vb.getData(),usage);
+break;
+default :
+throw new RuntimeException("Unknown buffer format.");
+}
+}
+ else {
+int size=vb.getData().capacity() * vb.getFormat().getComponentSize();
+switch (vb.getFormat()) {
+case Byte:
+case UnsignedByte:
+if (verboseLogging) logger.info("GLES20.glBufferSubData(" + target + ", 0, "+ size+ ", (data))");
+GLES20.glBufferSubData(target,0,size,(ByteBuffer)vb.getData());
+break;
+case Short:
+case UnsignedShort:
+if (verboseLogging) logger.info("GLES20.glBufferSubData(" + target + ", 0, "+ size+ ", (data))");
+GLES20.glBufferSubData(target,0,size,(ShortBuffer)vb.getData());
+break;
+case Int:
+case UnsignedInt:
+if (verboseLogging) logger.info("GLES20.glBufferSubData(" + target + ", 0, "+ size+ ", (data))");
+GLES20.glBufferSubData(target,0,size,(IntBuffer)vb.getData());
+break;
+case Float:
+if (verboseLogging) logger.info("GLES20.glBufferSubData(" + target + ", 0, "+ size+ ", (data))");
+GLES20.glBufferSubData(target,0,size,(FloatBuffer)vb.getData());
+break;
+case Double:
+if (verboseLogging) logger.info("GLES20.glBufferSubData(" + target + ", 0, "+ size+ ", (data))");
+GLES20.glBufferSubData(target,0,size,(DoubleBuffer)vb.getData());
+break;
+default :
+throw new RuntimeException("Unknown buffer format.");
+}
+}
+vb.clearUpdateNeeded();
+}

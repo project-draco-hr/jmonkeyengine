@@ -1,0 +1,9 @@
+{
+  rBody.setUserPointer(this);
+  if (mass == 0.0f) {
+    rBody.setCollisionFlags(rBody.getCollisionFlags() | CollisionFlags.STATIC_OBJECT);
+  }
+ else {
+    rBody.setCollisionFlags(rBody.getCollisionFlags() & ~CollisionFlags.STATIC_OBJECT);
+  }
+}

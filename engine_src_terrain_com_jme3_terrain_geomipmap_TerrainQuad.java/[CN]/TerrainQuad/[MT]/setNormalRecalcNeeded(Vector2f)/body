@@ -1,0 +1,12 @@
+{
+  if (changedPoint == null) {
+    affectedAreaBBox=null;
+    return;
+  }
+  if (affectedAreaBBox == null) {
+    affectedAreaBBox=new BoundingBox(new Vector3f(changedPoint.x,0,changedPoint.y),0.5f,Float.MAX_VALUE,0.5f);
+  }
+ else {
+    affectedAreaBBox.mergeLocal(new BoundingBox(new Vector3f(changedPoint.x,0,changedPoint.y),0.5f,Float.MAX_VALUE,0.5f));
+  }
+}

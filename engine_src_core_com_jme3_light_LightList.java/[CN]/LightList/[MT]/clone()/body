@@ -1,0 +1,13 @@
+{
+  try {
+    LightList clone=(LightList)super.clone();
+    clone.owner=null;
+    clone.list=list.clone();
+    clone.distToOwner=distToOwner.clone();
+    clone.tlist=null;
+    return clone;
+  }
+ catch (  CloneNotSupportedException ex) {
+    throw new AssertionError();
+  }
+}

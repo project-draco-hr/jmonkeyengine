@@ -1,0 +1,8 @@
+{
+  if (context.matrixMode != GL_MODELVIEW) {
+    glMatrixMode(GL_MODELVIEW);
+    context.matrixMode=GL_MODELVIEW;
+  }
+  glLoadMatrix(storeMatrix(viewMatrix,fb16));
+  glMultMatrix(storeMatrix(worldMatrix,fb16));
+}

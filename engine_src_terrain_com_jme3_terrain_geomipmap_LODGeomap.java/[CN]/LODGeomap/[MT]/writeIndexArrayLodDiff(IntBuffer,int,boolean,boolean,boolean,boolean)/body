@@ -1,0 +1,137 @@
+{
+  IntBuffer buffer2=store;
+  int numIndexes=calculateNumIndexesLodDiff(lod);
+  if (store == null)   buffer2=BufferUtils.createIntBuffer(numIndexes);
+  VerboseIntBuffer buffer=new VerboseIntBuffer(buffer2);
+  for (int r=lod; r < getWidth() - (2 * lod); r+=lod) {
+    int rowIdx=r * getWidth();
+    int nextRowIdx=(r + 1 * lod) * getWidth();
+    for (int c=lod; c < getWidth() - (1 * lod); c+=lod) {
+      int idx=rowIdx + c;
+      buffer.put(idx);
+      idx=nextRowIdx + c;
+      buffer.put(idx);
+    }
+    if (r < getWidth() - (3 * lod)) {
+      int idx=nextRowIdx + getWidth() - (1 * lod) - 1;
+      buffer.put(idx);
+      idx=nextRowIdx + (1 * lod);
+      buffer.put(idx);
+    }
+  }
+  int br=getWidth() * (getWidth() - lod) - 1 - lod;
+  buffer.put(br);
+  int corner=getWidth() * getWidth() - 1;
+  buffer.put(corner);
+  if (rightLod) {
+    for (int row=getWidth() - lod; row >= 1 + lod; row-=2 * lod) {
+      int idx=(row) * getWidth() - 1 - lod;
+      buffer.put(idx);
+      idx=(row - lod) * getWidth() - 1;
+      buffer.put(idx);
+      if (row > lod + 1) {
+        idx=(row - lod) * getWidth() - 1 - lod;
+        buffer.put(idx);
+        idx=(row - lod) * getWidth() - 1;
+        buffer.put(idx);
+      }
+ else {
+      }
+    }
+  }
+ else {
+    buffer.put(corner);
+    for (int row=getWidth() - lod; row > lod; row-=lod) {
+      int idx=row * getWidth() - 1;
+      buffer.put(idx);
+      buffer.put(idx - lod);
+    }
+  }
+  buffer.put(getWidth() - 1);
+  if (topLod) {
+    if (rightLod)     buffer.put(getWidth() - 1);
+    for (int col=getWidth() - 1; col >= lod; col-=2 * lod) {
+      int idx=(lod * getWidth()) + col - lod;
+      buffer.put(idx);
+      idx=col - 2 * lod;
+      buffer.put(idx);
+      if (col > lod * 2) {
+        idx=(lod * getWidth()) + col - 2 * lod;
+        buffer.put(idx);
+        idx=col - 2 * lod;
+        buffer.put(idx);
+      }
+ else {
+      }
+    }
+  }
+ else {
+    if (rightLod)     buffer.put(getWidth() - 1);
+    for (int col=getWidth() - 1 - lod; col > 0; col-=lod) {
+      int idx=col + (lod * getWidth());
+      buffer.put(idx);
+      idx=col;
+      buffer.put(idx);
+    }
+    buffer.put(0);
+  }
+  buffer.put(0);
+  if (leftLod) {
+    if (topLod)     buffer.put(0);
+    for (int row=0; row < getWidth() - lod; row+=2 * lod) {
+      int idx=(row + lod) * getWidth() + lod;
+      buffer.put(idx);
+      idx=(row + 2 * lod) * getWidth();
+      buffer.put(idx);
+      if (row < getWidth() - lod - 2- 1) {
+        idx=(row + 2 * lod) * getWidth() + lod;
+        buffer.put(idx);
+        idx=(row + 2 * lod) * getWidth();
+        buffer.put(idx);
+      }
+ else {
+      }
+    }
+  }
+ else {
+    if (!topLod)     buffer.put(0);
+    for (int row=lod; row < getWidth() - lod; row+=lod) {
+      int idx=row * getWidth();
+      buffer.put(idx);
+      idx=row * getWidth() + lod;
+      buffer.put(idx);
+    }
+  }
+  buffer.put(getWidth() * (getWidth() - 1));
+  if (bottomLod) {
+    if (leftLod)     buffer.put(getWidth() * (getWidth() - 1));
+    for (int col=0; col < getWidth() - lod; col+=2 * lod) {
+      int idx=getWidth() * (getWidth() - 1 - lod) + col + lod;
+      buffer.put(idx);
+      idx=getWidth() * (getWidth() - 1) + col + 2 * lod;
+      buffer.put(idx);
+      if (col < getWidth() - 1 - 2 * lod) {
+        idx=getWidth() * (getWidth() - 1 - lod) + col + 2 * lod;
+        buffer.put(idx);
+        idx=getWidth() * (getWidth() - 1) + col + 2 * lod;
+        buffer.put(idx);
+      }
+ else {
+      }
+    }
+  }
+ else {
+    if (leftLod) {
+      buffer.put(getWidth() * (getWidth() - 1));
+    }
+    for (int col=lod; col < getWidth() - lod; col+=lod) {
+      int idx=getWidth() * (getWidth() - 1 - lod) + col;
+      buffer.put(idx);
+      idx=getWidth() * (getWidth() - 1) + col;
+      buffer.put(idx);
+    }
+  }
+  buffer.put(getWidth() * getWidth() - 1);
+  for (int i=buffer.getCount(); i < numIndexes; i++)   buffer.put(getWidth() * getWidth() - 1);
+  return buffer.delegate;
+}

@@ -1,0 +1,24 @@
+{
+  long timeNow;
+  long gapTo;
+  long savedTimeLate;
+  gapTo=timer.getResolution() / fps + timeThen;
+  timeNow=timer.getTime();
+  savedTimeLate=timeLate;
+  try {
+    while (gapTo > timeNow + savedTimeLate) {
+      Thread.sleep(1);
+      timeNow=timer.getTime();
+    }
+  }
+ catch (  InterruptedException e) {
+    Thread.currentThread().interrupt();
+  }
+  if (gapTo < timeNow) {
+    timeLate=timeNow - gapTo;
+  }
+ else {
+    timeLate=0;
+  }
+  timeThen=timeNow;
+}

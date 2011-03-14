@@ -1,0 +1,35 @@
+{
+  try {
+    Element tmpEl;
+    if (name != null) {
+      tmpEl=findChildElement(currentElem,name);
+    }
+ else {
+      tmpEl=currentElem;
+    }
+    if (tmpEl == null) {
+      return defVal;
+    }
+    int size_outer=Integer.parseInt(tmpEl.getAttribute("size_outer"));
+    int size_inner=Integer.parseInt(tmpEl.getAttribute("size_outer"));
+    float[][] tmp=new float[size_outer][size_inner];
+    String[] strings=parseTokens(tmpEl.getAttribute("data"));
+    for (int i=0; i < size_outer; i++) {
+      tmp[i]=new float[size_inner];
+      for (int k=0; k < size_inner; k++) {
+        tmp[i][k]=Float.parseFloat(strings[i]);
+      }
+    }
+    return tmp;
+  }
+ catch (  NumberFormatException nfe) {
+    IOException io=new IOException(nfe.toString());
+    io.initCause(nfe);
+    throw io;
+  }
+catch (  DOMException de) {
+    IOException io=new IOException(de.toString());
+    io.initCause(de);
+    throw io;
+  }
+}

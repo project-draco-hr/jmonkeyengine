@@ -1,0 +1,11 @@
+{
+  this.worldMatrix.set(worldMatrix);
+  if (context.matrixMode != gl.GL_MODELVIEW) {
+    gl.glMatrixMode(gl.GL_MODELVIEW);
+    context.matrixMode=gl.GL_MODELVIEW;
+  }
+  viewMatrix.fillFloatArray(fa16,true);
+  gl.glLoadMatrixf(fa16,0);
+  worldMatrix.fillFloatArray(fa16,true);
+  gl.glMultMatrixf(fa16,0);
+}

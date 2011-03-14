@@ -1,0 +1,5 @@
+{
+  BinaryClassField field=cObj.nameFields.get(name);
+  if (field == null || !fieldData.containsKey(field.alias))   return defVal;
+  return (byte[][])fieldData.get(field.alias);
+}

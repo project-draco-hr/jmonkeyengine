@@ -1,0 +1,29 @@
+{
+  ControllerEnvironment ce=ControllerEnvironment.getDefaultEnvironment();
+  int joyIndex=0;
+  controllerToIndices=new HashMap<Controller,Integer>();
+  indicesToController=new IntMap<Controller>();
+  Controller[] cs=ce.getControllers();
+  for (int i=0; i < cs.length; i++) {
+    Controller c=cs[i];
+    if (c.getType() == Controller.Type.UNKNOWN || c.getType() == Controller.Type.KEYBOARD || c.getType() == Controller.Type.MOUSE)     continue;
+    controllerToIndices.put(c,joyIndex);
+    indicesToController.put(joyIndex,c);
+    joyIndex++;
+  }
+  buttonIdsToIndices=new HashMap[joyIndex];
+  axisIdsToIndices=new HashMap[joyIndex];
+  joysticks=new Joystick[joyIndex];
+  joyIndex=0;
+  for (int i=0; i < cs.length; i++) {
+    Controller c=cs[i];
+    if (c.getType() == Controller.Type.UNKNOWN || c.getType() == Controller.Type.KEYBOARD || c.getType() == Controller.Type.MOUSE)     continue;
+    buttonIdsToIndices[joyIndex]=new HashMap<Button,Integer>();
+    axisIdsToIndices[joyIndex]=new HashMap<Axis,Integer>();
+    loadIdentifiers(joyIndex,c);
+    Joystick joy=new Joystick(inputManager,this,joyIndex,c.getName(),buttonIdsToIndices[joyIndex].size(),axisIdsToIndices[joyIndex].size(),xAxis,yAxis);
+    joysticks[joyIndex]=joy;
+    joyIndex++;
+  }
+  return joysticks;
+}

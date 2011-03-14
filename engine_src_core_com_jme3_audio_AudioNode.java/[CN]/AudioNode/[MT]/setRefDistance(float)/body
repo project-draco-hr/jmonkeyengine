@@ -1,0 +1,7 @@
+{
+  if (refDistance < 0) {
+    throw new IllegalArgumentException("Reference distance cannot be negative");
+  }
+  this.refDistance=refDistance;
+  if (renderer != null)   renderer.updateSourceParam(this,AudioParam.RefDistance);
+}

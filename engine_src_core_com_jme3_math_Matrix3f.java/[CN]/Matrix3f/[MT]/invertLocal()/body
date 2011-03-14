@@ -1,0 +1,24 @@
+{
+  float det=determinant();
+  if (FastMath.abs(det) <= FastMath.FLT_EPSILON)   return zero();
+  float f00=m11 * m22 - m12 * m21;
+  float f01=m02 * m21 - m01 * m22;
+  float f02=m01 * m12 - m02 * m11;
+  float f10=m12 * m20 - m10 * m22;
+  float f11=m00 * m22 - m02 * m20;
+  float f12=m02 * m10 - m00 * m12;
+  float f20=m10 * m21 - m11 * m20;
+  float f21=m01 * m20 - m00 * m21;
+  float f22=m00 * m11 - m01 * m10;
+  m00=f00;
+  m01=f01;
+  m02=f02;
+  m10=f10;
+  m11=f11;
+  m12=f12;
+  m20=f20;
+  m21=f21;
+  m22=f22;
+  multLocal(1f / det);
+  return this;
+}

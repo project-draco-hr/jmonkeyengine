@@ -1,0 +1,24 @@
+{
+  Client receiver=stream.getReceiver();
+  try {
+    InputStream data=stream.getData();
+    byte[] buffer=new byte[1024];
+    int length;
+    StreamDataMessage msg=new StreamDataMessage(stream.getMessage().getStreamID());
+    msg.setReliable(true);
+    while ((length=data.read(buffer)) != -1) {
+      byte[] newBuffer=new byte[length];
+      for (int i=0; i != length; ++i) {
+        newBuffer[i]=buffer[i];
+      }
+      msg.setData(newBuffer);
+      receiver.send(msg);
+    }
+    data.close();
+    receiver.send(stream.getMessage());
+  }
+ catch (  Exception ex) {
+    ex.printStackTrace();
+    log.log(Level.WARNING,"[StreamSender][TCP] Could not send stream with message {0} to {1}. Reason: {2}.",new Object[]{stream,receiver,ex.getMessage()});
+  }
+}

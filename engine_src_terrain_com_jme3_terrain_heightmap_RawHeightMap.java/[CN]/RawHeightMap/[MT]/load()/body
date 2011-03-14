@@ -1,0 +1,56 @@
+{
+  if (null == stream || size <= 0) {
+    throw new RuntimeException("Must supply valid stream and " + "size (> 0)");
+  }
+  if (null != heightData) {
+    unloadHeightMap();
+  }
+  heightData=new float[size * size];
+  BufferedInputStream bis=null;
+  try {
+    bis=new BufferedInputStream(stream);
+    if (format == RawHeightMap.FORMAT_16BITLE) {
+      LittleEndien dis=new LittleEndien(bis);
+      int index;
+      for (int i=0; i < size; i++) {
+        for (int j=0; j < size; j++) {
+          if (swapxy) {
+            index=i + j * size;
+          }
+ else {
+            index=(i * size) + j;
+          }
+          heightData[index]=dis.readUnsignedShort();
+        }
+      }
+      dis.close();
+    }
+ else {
+      DataInputStream dis=new DataInputStream(bis);
+      for (int i=0; i < size; i++) {
+        for (int j=0; j < size; j++) {
+          int index;
+          if (swapxy) {
+            index=i + j * size;
+          }
+ else {
+            index=(i * size) + j;
+          }
+          if (format == RawHeightMap.FORMAT_16BITBE) {
+            heightData[index]=dis.readUnsignedShort();
+          }
+ else {
+            heightData[index]=dis.readUnsignedByte();
+          }
+        }
+      }
+      dis.close();
+    }
+    bis.close();
+  }
+ catch (  IOException e1) {
+    logger.warning("Error reading height data from stream.");
+    return false;
+  }
+  return true;
+}

@@ -1,0 +1,10 @@
+{
+  if (!thread.isAlive()) {
+    thread.setDaemon(true);
+    thread.setPriority(Thread.NORM_PRIORITY + 1);
+    thread.start();
+  }
+ else {
+    throw new IllegalStateException("Initialize already called");
+  }
+}

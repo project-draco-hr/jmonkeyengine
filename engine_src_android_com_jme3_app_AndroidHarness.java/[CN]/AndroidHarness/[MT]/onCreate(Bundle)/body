@@ -1,0 +1,21 @@
+{
+  super.onCreate(savedInstanceState);
+  JmeSystem.setResources(getResources());
+  requestWindowFeature(Window.FEATURE_NO_TITLE);
+  getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+  AppSettings settings=new AppSettings(true);
+  String appClass="jme3test.android.Test";
+  Application app=null;
+  try {
+    Class<? extends Application> clazz=(Class<? extends Application>)Class.forName(appClass);
+    app=clazz.newInstance();
+  }
+ catch (  Exception ex) {
+    ex.printStackTrace();
+  }
+  app.setSettings(settings);
+  app.start();
+  ctx=(OGLESContext)app.getContext();
+  view=ctx.createView(this);
+  setContentView(view);
+}

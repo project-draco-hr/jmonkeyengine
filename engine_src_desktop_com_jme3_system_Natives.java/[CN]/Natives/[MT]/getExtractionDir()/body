@@ -1,0 +1,18 @@
+{
+  URL temp=Natives.class.getResource("");
+  if (temp != null) {
+    StringBuilder sb=new StringBuilder(temp.toString());
+    if (sb.indexOf("jar:") == 0) {
+      sb.delete(0,4);
+      sb.delete(sb.indexOf("!"),sb.length());
+      sb.delete(sb.lastIndexOf("/") + 1,sb.length());
+    }
+    try {
+      return new URL(sb.toString()).toString();
+    }
+ catch (    MalformedURLException ex) {
+      return null;
+    }
+  }
+  return null;
+}

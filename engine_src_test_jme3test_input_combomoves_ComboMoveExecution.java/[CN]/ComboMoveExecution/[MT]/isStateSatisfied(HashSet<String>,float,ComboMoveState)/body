@@ -1,0 +1,14 @@
+{
+  if (state.getTimeElapsed() != -1f) {
+    if (moveTime + state.getTimeElapsed() >= time) {
+      return false;
+    }
+  }
+  for (  String mapping : state.getPressedMappings()) {
+    if (!pressedMappings.contains(mapping))     return false;
+  }
+  for (  String mapping : state.getUnpressedMappings()) {
+    if (pressedMappings.contains(mapping))     return false;
+  }
+  return true;
+}

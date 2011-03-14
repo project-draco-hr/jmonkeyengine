@@ -1,0 +1,7 @@
+{
+  if (buf != null && buf.limit() == 2 * vertices) {
+    buf.rewind();
+    return buf;
+  }
+  return createFloatBuffer(2 * vertices);
+}

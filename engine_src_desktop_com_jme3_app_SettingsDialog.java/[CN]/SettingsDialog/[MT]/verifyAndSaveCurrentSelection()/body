@@ -1,0 +1,63 @@
+{
+  String display=(String)displayResCombo.getSelectedItem();
+  boolean fullscreen=fullscreenBox.isSelected();
+  boolean vsync=vsyncBox.isSelected();
+  int width=Integer.parseInt(display.substring(0,display.indexOf(" x ")));
+  display=display.substring(display.indexOf(" x ") + 3);
+  int height=Integer.parseInt(display);
+  String depthString=(String)colorDepthCombo.getSelectedItem();
+  int depth=-1;
+  if (depthString.equals("???")) {
+    depth=0;
+  }
+ else {
+    depth=Integer.parseInt(depthString.substring(0,depthString.indexOf(' ')));
+  }
+  String freqString=(String)displayFreqCombo.getSelectedItem();
+  int freq=-1;
+  if (fullscreen) {
+    if (freqString.equals("???")) {
+      freq=0;
+    }
+ else {
+      freq=Integer.parseInt(freqString.substring(0,freqString.indexOf(' ')));
+    }
+  }
+  String aaString=(String)antialiasCombo.getSelectedItem();
+  int multisample=-1;
+  if (aaString.equals("Disabled")) {
+    multisample=0;
+  }
+ else {
+    multisample=Integer.parseInt(aaString.substring(0,aaString.indexOf('x')));
+  }
+  String renderer="LWJGL-OpenGL2";
+  boolean valid=false;
+  if (!fullscreen) {
+    valid=true;
+  }
+ else {
+    GraphicsDevice device=GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+    valid=device.isFullScreenSupported();
+  }
+  if (valid) {
+    source.setWidth(width);
+    source.setHeight(height);
+    source.setBitsPerPixel(depth);
+    source.setFrequency(freq);
+    source.setFullscreen(fullscreen);
+    source.setVSync(vsync);
+    source.setSamples(multisample);
+    String appTitle=source.getTitle();
+    try {
+      source.save(appTitle);
+    }
+ catch (    BackingStoreException ex) {
+      logger.log(Level.WARNING,"Failed to save setting changes",ex);
+    }
+  }
+ else {
+    showError(this,"Your monitor claims to not support the display mode you've selected.\n" + "The combination of bit depth and refresh rate is not supported.");
+  }
+  return valid;
+}

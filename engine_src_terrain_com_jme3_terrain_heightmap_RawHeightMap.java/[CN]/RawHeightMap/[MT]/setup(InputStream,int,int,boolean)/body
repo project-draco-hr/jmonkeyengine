@@ -1,0 +1,10 @@
+{
+  if (null == stream || size <= 0) {
+    throw new Exception("Must supply valid stream and " + "size (> 0)");
+  }
+  this.stream=stream;
+  this.size=size;
+  this.format=format;
+  this.swapxy=swapxy;
+  load();
+}

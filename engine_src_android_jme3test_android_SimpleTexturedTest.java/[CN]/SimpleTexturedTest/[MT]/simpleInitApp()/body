@@ -1,0 +1,46 @@
+{
+  guiNode.detachAllChildren();
+  Mesh shape=null;
+  if (spheres) {
+    shape=new Sphere(16,16,.5f);
+  }
+ else {
+    shape=new Box(Vector3f.ZERO,0.3f,0.3f,0.3f);
+  }
+  Texture texture=assetManager.loadTexture(new TextureKey("icons/textured.png"));
+  Material material=null;
+  if (texturedEnabled) {
+    if (lightingEnabled) {
+      material=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+      material.setBoolean("VertexLighting",true);
+      material.setFloat("Shininess",127);
+      material.setBoolean("LowQuality",true);
+      material.setTexture("DiffuseMap",texture);
+    }
+ else {
+      material=new Material(assetManager,"Common/MatDefs/Misc/SimpleTextured.j3md");
+      material.setTexture("ColorMap",texture);
+    }
+  }
+ else {
+    material=new Material(assetManager,"Common/MatDefs/Misc/SolidColor.j3md");
+    material.setColor("Color",ColorRGBA.Red);
+  }
+  TangentBinormalGenerator.generate(shape);
+  for (int y=-1; y < 2; y++) {
+    for (int x=-1; x < 2; x++) {
+      Geometry geomClone=new Geometry("geometry-" + y + "-"+ x,shape);
+      geomClone.setMaterial(material);
+      geomClone.setLocalTranslation(x,y,0);
+      spheresContainer.attachChild(geomClone);
+    }
+  }
+  spheresContainer.setLocalTranslation(new Vector3f(0,0,-4f));
+  spheresContainer.setLocalScale(2.0f);
+  rootNode.attachChild(spheresContainer);
+  PointLight pointLight=new PointLight();
+  pointLight.setColor(new ColorRGBA(0.7f,0.7f,1.0f,1.0f));
+  pointLight.setPosition(new Vector3f(0f,0f,0f));
+  pointLight.setRadius(8);
+  rootNode.addLight(pointLight);
+}

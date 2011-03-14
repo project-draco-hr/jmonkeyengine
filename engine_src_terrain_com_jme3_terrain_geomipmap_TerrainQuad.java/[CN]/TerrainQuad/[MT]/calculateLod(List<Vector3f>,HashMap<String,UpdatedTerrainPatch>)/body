@@ -1,0 +1,17 @@
+{
+  boolean lodChanged=false;
+  if (children != null) {
+    for (int i=children.size(); --i >= 0; ) {
+      Spatial child=children.get(i);
+      if (child instanceof TerrainQuad) {
+        boolean b=((TerrainQuad)child).calculateLod(location,updates);
+        if (b)         lodChanged=true;
+      }
+ else       if (child instanceof TerrainPatch) {
+        boolean b=((TerrainPatch)child).calculateLod(location,updates);
+        if (b)         lodChanged=true;
+      }
+    }
+  }
+  return lodChanged;
+}

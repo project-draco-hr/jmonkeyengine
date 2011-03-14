@@ -1,0 +1,11 @@
+{
+  label=name;
+  createSSLEngine();
+  SSLSession session=sslEngine.getSession();
+  incDataDecrypted=ByteBuffer.allocateDirect(session.getApplicationBufferSize());
+  incDataEncrypted=ByteBuffer.allocateDirect(session.getPacketBufferSize());
+  outDataEncrypted=ByteBuffer.allocateDirect(session.getPacketBufferSize());
+  incDataEncrypted.position(incDataEncrypted.limit());
+  outDataEncrypted.position(outDataEncrypted.limit());
+  dummy=ByteBuffer.allocate(0);
+}

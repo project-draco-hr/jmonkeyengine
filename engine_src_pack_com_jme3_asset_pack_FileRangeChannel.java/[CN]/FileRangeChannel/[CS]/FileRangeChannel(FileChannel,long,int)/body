@@ -1,0 +1,7 @@
+{
+  if (channel == null)   throw new NullPointerException();
+  if (position < 0 || length <= 0)   throw new IllegalArgumentException();
+  this.channel=channel;
+  this.position=position;
+  this.limit=position + length;
+}

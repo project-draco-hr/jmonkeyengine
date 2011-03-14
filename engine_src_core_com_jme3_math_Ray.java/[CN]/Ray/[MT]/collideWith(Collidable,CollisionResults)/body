@@ -1,0 +1,17 @@
+{
+  if (other instanceof BoundingVolume) {
+    BoundingVolume bv=(BoundingVolume)other;
+    return bv.collideWith(this,results);
+  }
+ else   if (other instanceof AbstractTriangle) {
+    AbstractTriangle tri=(AbstractTriangle)other;
+    float d=intersects(tri.get1(),tri.get2(),tri.get3());
+    if (Float.isInfinite(d) || Float.isNaN(d))     return 0;
+    Vector3f point=new Vector3f(direction).multLocal(d).addLocal(origin);
+    results.addCollision(new CollisionResult(point,d));
+    return 1;
+  }
+ else {
+    throw new UnsupportedCollisionException();
+  }
+}

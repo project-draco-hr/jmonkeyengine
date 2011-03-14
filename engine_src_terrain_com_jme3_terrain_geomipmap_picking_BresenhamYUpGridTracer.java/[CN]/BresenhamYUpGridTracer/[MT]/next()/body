@@ -1,0 +1,35 @@
+{
+  if (distToNextXIntersection < distToNextZIntersection) {
+    rayLength=distToNextXIntersection;
+    gridLocation.x+=stepXDirection;
+    distToNextXIntersection+=distBetweenXIntersections;
+switch (stepXDirection) {
+case -1:
+      stepDirection=Direction.NegativeX;
+    break;
+case 0:
+  stepDirection=Direction.None;
+break;
+case 1:
+stepDirection=Direction.PositiveX;
+break;
+}
+}
+ else {
+rayLength=distToNextZIntersection;
+gridLocation.y+=stepZDirection;
+distToNextZIntersection+=distBetweenZIntersections;
+switch (stepZDirection) {
+case -1:
+stepDirection=Direction.NegativeZ;
+break;
+case 0:
+stepDirection=Direction.None;
+break;
+case 1:
+stepDirection=Direction.PositiveZ;
+break;
+}
+}
+rayLocation.set(walkRay.direction).multLocal(rayLength).addLocal(walkRay.origin);
+}

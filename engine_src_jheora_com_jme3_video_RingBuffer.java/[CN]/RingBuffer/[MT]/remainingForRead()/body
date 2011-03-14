@@ -1,0 +1,5 @@
+{
+  if (writePos < readPos)   return bufSize - (readPos - writePos);
+  if (writePos == readPos)   return 0;
+  return writePos - readPos;
+}

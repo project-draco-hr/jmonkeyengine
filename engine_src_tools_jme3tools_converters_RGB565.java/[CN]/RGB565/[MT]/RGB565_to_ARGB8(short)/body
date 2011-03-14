@@ -1,0 +1,10 @@
+{
+  int a=0xff;
+  int r=(rgb565 & 0xf800) >> 11;
+  int g=(rgb565 & 0x07e0) >> 5;
+  int b=(rgb565 & 0x001f);
+  r=r << 3;
+  g=g << 2;
+  b=b << 3;
+  return (a << 24) | (r << 16) | (g << 8)| (b);
+}

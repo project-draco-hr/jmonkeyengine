@@ -1,0 +1,50 @@
+{
+  screenWidth=(int)(w / downSamplingFactor);
+  screenHeight=(int)(h / downSamplingFactor);
+  if (glowMode != GlowMode.Scene) {
+    preGlowPass=new Pass();
+    preGlowPass.init(renderManager.getRenderer(),screenWidth,screenHeight,Format.RGBA8,Format.Depth);
+  }
+  postRenderPasses=new ArrayList<Pass>();
+  extractMat=new Material(manager,"Common/MatDefs/Post/BloomExtract.j3md");
+  extractPass=new Pass(){
+    @Override public boolean requiresSceneAsTexture(){
+      return true;
+    }
+    @Override public void beforeRender(){
+      extractMat.setFloat("ExposurePow",exposurePower);
+      extractMat.setFloat("ExposureCutoff",exposureCutOff);
+      if (glowMode != GlowMode.Scene) {
+        extractMat.setTexture("GlowMap",preGlowPass.getRenderedTexture());
+      }
+      extractMat.setBoolean("Extract",glowMode != GlowMode.Objects);
+    }
+  }
+;
+  extractPass.init(renderManager.getRenderer(),screenWidth,screenHeight,Format.RGBA8,Format.Depth,1,extractMat);
+  postRenderPasses.add(extractPass);
+  hBlurMat=new Material(manager,"Common/MatDefs/Blur/HGaussianBlur.j3md");
+  horizontalBlur=new Pass(){
+    @Override public void beforeRender(){
+      hBlurMat.setTexture("Texture",extractPass.getRenderedTexture());
+      hBlurMat.setFloat("Size",screenWidth);
+      hBlurMat.setFloat("Scale",blurScale);
+    }
+  }
+;
+  horizontalBlur.init(renderManager.getRenderer(),screenWidth,screenHeight,Format.RGBA8,Format.Depth,1,hBlurMat);
+  postRenderPasses.add(horizontalBlur);
+  vBlurMat=new Material(manager,"Common/MatDefs/Blur/VGaussianBlur.j3md");
+  verticalalBlur=new Pass(){
+    @Override public void beforeRender(){
+      vBlurMat.setTexture("Texture",horizontalBlur.getRenderedTexture());
+      vBlurMat.setFloat("Size",screenHeight);
+      vBlurMat.setFloat("Scale",blurScale);
+    }
+  }
+;
+  verticalalBlur.init(renderManager.getRenderer(),screenWidth,screenHeight,Format.RGBA8,Format.Depth,1,vBlurMat);
+  postRenderPasses.add(verticalalBlur);
+  material=new Material(manager,"Common/MatDefs/Post/BloomFinal.j3md");
+  material.setTexture("BloomTex",verticalalBlur.getRenderedTexture());
+}

@@ -1,0 +1,23 @@
+{
+  if (t < 0f) {
+switch (loopMode) {
+case DontLoop:
+      return 0;
+case Cycle:
+    return t;
+case Loop:
+  return max - t;
+}
+}
+ else if (t > max) {
+switch (loopMode) {
+case DontLoop:
+return max;
+case Cycle:
+return -(2f * max - t);
+case Loop:
+return t - max;
+}
+}
+return t;
+}

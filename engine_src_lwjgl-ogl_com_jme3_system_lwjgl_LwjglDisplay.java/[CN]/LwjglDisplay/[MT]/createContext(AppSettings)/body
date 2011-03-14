@@ -1,0 +1,51 @@
+{
+  DisplayMode displayMode=null;
+  if (settings.getWidth() <= 0 || settings.getHeight() <= 0) {
+    displayMode=Display.getDesktopDisplayMode();
+    settings.setResolution(displayMode.getWidth(),displayMode.getHeight());
+  }
+ else   if (settings.isFullscreen()) {
+    displayMode=getFullscreenDisplayMode(settings.getWidth(),settings.getHeight(),settings.getBitsPerPixel(),settings.getFrequency());
+    if (displayMode == null)     throw new RuntimeException("Unable to find fullscreen display mode matching settings");
+  }
+ else {
+    displayMode=new DisplayMode(settings.getWidth(),settings.getHeight());
+  }
+  PixelFormat pf=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),settings.getSamples());
+  frameRate=settings.getFrameRate();
+  logger.log(Level.INFO,"Selected display mode: {0}",displayMode);
+  boolean pixelFormatChanged=false;
+  if (created.get() && (pixelFormat.getBitsPerPixel() != pf.getBitsPerPixel() || pixelFormat.getDepthBits() != pf.getDepthBits() || pixelFormat.getStencilBits() != pf.getStencilBits() || pixelFormat.getSamples() != pf.getSamples())) {
+    Display.destroy();
+    renderer.resetGLObjects();
+    pixelFormatChanged=true;
+  }
+  pixelFormat=pf;
+  Display.setTitle(settings.getTitle());
+  if (displayMode != null)   Display.setDisplayMode(displayMode);
+  if (settings.getIcons() != null)   Display.setIcon(imagesToByteBuffers(settings.getIcons()));
+  Display.setFullscreen(settings.isFullscreen());
+  Display.setVSyncEnabled(settings.isVSync());
+  if (!created.get() || pixelFormatChanged) {
+    if (settings.getBoolean("GraphicsDebug") || settings.getRenderer().equals(AppSettings.LWJGL_OPENGL3)) {
+      ContextAttribs attr;
+      if (settings.getRenderer().equals(AppSettings.LWJGL_OPENGL3)) {
+        attr=new ContextAttribs(3,3);
+        attr=attr.withProfileCore(true).withForwardCompatible(true).withProfileCompatibility(false);
+      }
+ else {
+        attr=new ContextAttribs();
+      }
+      if (settings.getBoolean("GraphicsDebug")) {
+        attr=attr.withDebug(true);
+      }
+      Display.create(pixelFormat,attr);
+    }
+ else {
+      Display.create(pixelFormat);
+    }
+    if (pixelFormatChanged && pixelFormat.getSamples() > 1) {
+      GL11.glEnable(ARBMultisample.GL_MULTISAMPLE_ARB);
+    }
+  }
+}

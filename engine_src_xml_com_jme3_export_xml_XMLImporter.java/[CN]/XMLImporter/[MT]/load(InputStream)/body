@@ -1,0 +1,16 @@
+{
+  try {
+    domIn=new DOMInputCapsule(DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f),this);
+    return domIn.readSavable(null,null);
+  }
+ catch (  SAXException e) {
+    IOException ex=new IOException();
+    ex.initCause(e);
+    throw ex;
+  }
+catch (  ParserConfigurationException e) {
+    IOException ex=new IOException();
+    ex.initCause(e);
+    throw ex;
+  }
+}

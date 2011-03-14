@@ -1,0 +1,19 @@
+{
+  if (!isLoaded())   throw new NullPointerException();
+  if (store != null) {
+    if (store.remaining() < getWidth() * getHeight() * 3)     throw new BufferUnderflowException();
+  }
+ else {
+    store=BufferUtils.createFloatBuffer(getWidth() * getHeight() * 3);
+  }
+  Vector3f offset=new Vector3f(-getWidth() * scale.x,0,-getWidth() * scale.z);
+  if (!center)   offset.zero();
+  for (int z=0; z < getHeight(); z++) {
+    for (int x=0; x < getWidth(); x++) {
+      store.put((float)x * scale.x + offset.x);
+      store.put((float)getValue(x,z) * scale.y);
+      store.put((float)z * scale.z + offset.y);
+    }
+  }
+  return store;
+}

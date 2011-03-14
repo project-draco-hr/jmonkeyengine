@@ -1,0 +1,23 @@
+{
+  if (client == null)   return;
+  Client localClient=null;
+synchronized (connections) {
+    for (    Client locClient : connections) {
+      if (locClient.getPlayerID() == client.getPlayerID()) {
+        localClient=locClient;
+        break;
+      }
+    }
+  }
+  if (localClient == null)   localClient=client;
+  SocketChannel chan=localClient.getSocketChannel();
+  if (chan != null) {
+    SelectionKey key=chan.keyFor(selector);
+    if (key != null)     key.cancel();
+    chan.close();
+  }
+synchronized (connections) {
+    connections.remove(localClient);
+  }
+  fireClientDisconnected(client);
+}

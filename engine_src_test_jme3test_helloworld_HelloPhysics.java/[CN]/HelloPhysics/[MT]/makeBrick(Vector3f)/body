@@ -1,0 +1,10 @@
+{
+  Geometry brick_geo=new Geometry("brick",box);
+  brick_geo.setMaterial(wall_mat);
+  rootNode.attachChild(brick_geo);
+  brick_geo.setLocalTranslation(loc);
+  brick_geo.setShadowMode(ShadowMode.CastAndReceive);
+  brick_phy=new RigidBodyControl(2f);
+  brick_geo.addControl(brick_phy);
+  bulletAppState.getPhysicsSpace().add(brick_phy);
+}

@@ -1,0 +1,17 @@
+{
+  this.boneList=boneList;
+  List<Bone> rootBoneList=new ArrayList<Bone>();
+  for (int i=boneList.length - 1; i >= 0; i--) {
+    Bone b=boneList[i];
+    if (b.getParent() == null) {
+      rootBoneList.add(b);
+    }
+  }
+  rootBones=rootBoneList.toArray(new Bone[rootBoneList.size()]);
+  createSkinningMatrices();
+  for (int i=rootBones.length - 1; i >= 0; i--) {
+    Bone rootBone=rootBones[i];
+    rootBone.update();
+    rootBone.setBindingPose();
+  }
+}

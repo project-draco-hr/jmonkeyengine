@@ -1,0 +1,13 @@
+{
+  app.startCanvas();
+  app.enqueue(new Callable<Void>(){
+    public Void call(){
+      if (app instanceof SimpleApplication) {
+        SimpleApplication simpleApp=(SimpleApplication)app;
+        simpleApp.getFlyByCamera().setDragToRotate(true);
+      }
+      return null;
+    }
+  }
+);
+}

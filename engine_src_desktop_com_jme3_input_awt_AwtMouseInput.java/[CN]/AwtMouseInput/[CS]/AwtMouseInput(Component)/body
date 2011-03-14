@@ -1,0 +1,13 @@
+{
+  this.component=comp;
+  location=new Point();
+  centerLocation=new Point();
+  centerLocationOnScreen=new Point();
+  lastKnownLocation=new Point();
+  try {
+    robot=new Robot();
+  }
+ catch (  java.awt.AWTException e) {
+    logger.log(Level.SEVERE,"Could not create a robot, so the mouse cannot be grabbed! ",e);
+  }
+}

@@ -1,0 +1,13 @@
+{
+  String defineName=readString("[\n;:(//)(\\})]");
+  if (defineName.equals(""))   return;
+  String matParamName=null;
+  if (scan.hasNext(":")) {
+    scan.next();
+    matParamName=readString("[\n;(//)(\\})]");
+    technique.addShaderParamDefine(matParamName,defineName);
+  }
+ else {
+    technique.addShaderPresetDefine(defineName,VarType.Boolean,true);
+  }
+}

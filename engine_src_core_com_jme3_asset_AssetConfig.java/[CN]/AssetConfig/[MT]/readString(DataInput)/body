@@ -1,0 +1,8 @@
+{
+  int length=dataIn.readUnsignedShort();
+  char[] chrs=new char[length];
+  for (int i=0; i < length; i++) {
+    chrs[i]=(char)dataIn.readUnsignedByte();
+  }
+  return String.valueOf(chrs);
+}

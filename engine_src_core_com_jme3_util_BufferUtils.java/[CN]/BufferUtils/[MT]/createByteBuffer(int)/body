@@ -1,0 +1,8 @@
+{
+  ByteBuffer buf=ByteBuffer.allocateDirect(size).order(ByteOrder.nativeOrder());
+  buf.clear();
+  if (trackDirectMemory) {
+    trackingHash.put(buf,ref);
+  }
+  return buf;
+}

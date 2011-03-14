@@ -1,0 +1,12 @@
+{
+  Mapping mapping=mappings.remove(mappingName);
+  if (mapping == null) {
+    throw new IllegalArgumentException("Cannot find mapping: " + mappingName);
+  }
+  ArrayList<Integer> triggers=mapping.triggers;
+  for (int i=triggers.size() - 1; i >= 0; i--) {
+    int hash=triggers.get(i);
+    ArrayList<Mapping> maps=bindings.get(hash);
+    maps.remove(mapping);
+  }
+}

@@ -1,0 +1,16 @@
+{
+  if (object == null) {
+    buffer.put((byte)0);
+    return;
+  }
+  int[] dimensions=getDimensions(object);
+  buffer.put((byte)dimensions.length);
+  for (  int dimension : dimensions)   buffer.putInt(dimension);
+  Serializer elementSerializer=null;
+  Class elementClass=object.getClass();
+  while (elementClass.getComponentType() != null) {
+    elementClass=elementClass.getComponentType();
+  }
+  if (Modifier.isFinal(elementClass.getModifiers()))   elementSerializer=Serializer.getSerializer(elementClass);
+  writeArray(elementSerializer,buffer,object,0,dimensions.length);
+}

@@ -1,0 +1,7 @@
+{
+  InputStream in=readData(entry.offset,entry.compSize);
+  if (entry.deflate) {
+    return new InflaterInputStream(in,new Inflater(true));
+  }
+  return in;
+}

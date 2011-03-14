@@ -1,0 +1,18 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  if (fb != null) {
+    RenderBuffer rb=fb.getColorBuffer();
+    if (rb == null) {
+      throw new IllegalArgumentException("Specified framebuffer" + " does not have a colorbuffer");
+    }
+    setFrameBuffer(fb);
+    if (context.boundReadBuf != rb.getSlot()) {
+      gl.getGL2().glReadBuffer(GL.GL_COLOR_ATTACHMENT0 + rb.getSlot());
+      context.boundReadBuf=rb.getSlot();
+    }
+  }
+ else {
+    setFrameBuffer(null);
+  }
+  gl.glReadPixels(vpX,vpY,vpW,vpH,GL2GL3.GL_BGRA,GL.GL_UNSIGNED_BYTE,byteBuf);
+}

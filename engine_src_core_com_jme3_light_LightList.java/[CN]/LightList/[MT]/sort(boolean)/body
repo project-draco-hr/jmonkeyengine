@@ -1,0 +1,16 @@
+{
+  if (listSize > 1) {
+    if (tlist == null || tlist.length != list.length) {
+      tlist=list.clone();
+    }
+ else {
+      System.arraycopy(list,0,tlist,0,list.length);
+    }
+    if (transformChanged) {
+      for (int i=0; i < listSize; i++) {
+        list[i].computeLastDistance(owner);
+      }
+    }
+    SortUtil.msort(tlist,list,0,listSize,c);
+  }
+}

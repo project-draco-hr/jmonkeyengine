@@ -1,0 +1,16 @@
+{
+  short streamID=++nextStreamID;
+  msg.setStreamID(streamID);
+  msg.setReliable(true);
+  Stream stream=new Stream();
+  stream.setData(data);
+  stream.setMessage(msg);
+  stream.setReceiver(client);
+  streams.add(stream);
+  try {
+    client.send(msg);
+  }
+ catch (  IOException e) {
+    e.printStackTrace();
+  }
+}

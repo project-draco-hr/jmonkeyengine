@@ -1,0 +1,16 @@
+{
+  InputCapsule ic=im.getCapsule(this);
+  c=(char)ic.readInt("c",0);
+  x=ic.readInt("x",0);
+  y=ic.readInt("y",0);
+  width=ic.readInt("width",0);
+  height=ic.readInt("height",0);
+  xOffset=ic.readInt("xOffset",0);
+  yOffset=ic.readInt("yOffset",0);
+  xAdvance=ic.readInt("xAdvance",0);
+  int[] seconds=ic.readIntArray("seconds",null);
+  int[] amounts=ic.readIntArray("amounts",null);
+  for (int i=0; i < seconds.length; i++) {
+    kerning.put(seconds[i],amounts[i]);
+  }
+}

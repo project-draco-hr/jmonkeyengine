@@ -1,0 +1,16 @@
+{
+  if (!enabled) {
+    return;
+  }
+  zooming=true;
+  targetDistance+=value * zoomSpeed;
+  if (targetDistance > maxDistance) {
+    targetDistance=maxDistance;
+  }
+  if (targetDistance < minDistance) {
+    targetDistance=minDistance;
+  }
+  if ((targetVRotation < minVerticalRotation) && (targetDistance > (minDistance + 1.0f))) {
+    targetVRotation=minVerticalRotation;
+  }
+}

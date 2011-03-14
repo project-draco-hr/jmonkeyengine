@@ -1,0 +1,15 @@
+{
+  super.read(e);
+  InputCapsule capsule=e.getCapsule(this);
+  stepHeight=capsule.readFloat("stepHeight",1.0f);
+  buildObject();
+  character=new KinematicCharacterController(gObject,(ConvexShape)collisionShape.getCShape(),stepHeight);
+  setGravity(capsule.readFloat("gravity",9.8f * 3));
+  setMaxSlope(capsule.readFloat("maxSlope",1.0f));
+  setFallSpeed(capsule.readFloat("fallSpeed",55.0f));
+  setJumpSpeed(capsule.readFloat("jumpSpeed",10.0f));
+  setUpAxis(capsule.readInt("upAxis",1));
+  setCcdMotionThreshold(capsule.readFloat("ccdMotionThreshold",0));
+  setCcdSweptSphereRadius(capsule.readFloat("ccdSweptSphereRadius",0));
+  setPhysicsLocation((Vector3f)capsule.readSavable("physicsLocation",new Vector3f()));
+}

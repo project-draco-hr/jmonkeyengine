@@ -1,0 +1,15 @@
+{
+  InputCapsule ic=im.getCapsule(this);
+  pointSprite=ic.readBoolean("pointSprite",false);
+  wireframe=ic.readBoolean("wireframe",false);
+  cullMode=ic.readEnum("cullMode",FaceCullMode.class,FaceCullMode.Back);
+  depthWrite=ic.readBoolean("depthWrite",true);
+  depthTest=ic.readBoolean("depthTest",true);
+  colorWrite=ic.readBoolean("colorWrite",true);
+  blendMode=ic.readEnum("blendMode",BlendMode.class,BlendMode.Off);
+  alphaTest=ic.readBoolean("alphaTest",false);
+  alphaFallOff=ic.readFloat("alphaFallOff",0);
+  offsetEnabled=ic.readBoolean("offsetEnabled",false);
+  offsetFactor=ic.readFloat("offsetFactor",0);
+  offsetUnits=ic.readFloat("offsetUnits",0);
+}

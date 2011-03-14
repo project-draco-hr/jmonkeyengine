@@ -1,0 +1,25 @@
+{
+  BoundingVolume bv=spatial.getWorldBound();
+  Camera cam=vp.getCamera();
+  float atanNH=FastMath.atan(cam.getFrustumNear() * cam.getFrustumTop());
+  float ratio=(FastMath.PI / (8f * atanNH));
+  float newDistance=bv.distanceTo(vp.getCamera().getLocation()) / ratio;
+  int level;
+  if (Math.abs(newDistance - lastDistance) <= distTolerance)   level=lastLevel;
+ else   if (lastDistance > newDistance && lastLevel == 0)   level=lastLevel;
+ else   if (lastDistance < newDistance && lastLevel == numLevels - 1)   level=lastLevel;
+ else {
+    lastDistance=newDistance;
+    float area=AreaUtils.calcScreenArea(bv,lastDistance,cam.getWidth());
+    float trisToDraw=area * trisPerPixel;
+    level=numLevels - 1;
+    for (int i=numLevels; --i >= 0; ) {
+      if (trisToDraw - numTris[i] < 0) {
+        break;
+      }
+      level=i;
+    }
+    lastLevel=level;
+  }
+  spatial.setLodLevel(level);
+}

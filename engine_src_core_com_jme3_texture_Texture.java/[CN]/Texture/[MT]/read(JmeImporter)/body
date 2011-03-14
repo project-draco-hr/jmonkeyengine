@@ -1,0 +1,17 @@
+{
+  InputCapsule capsule=e.getCapsule(this);
+  name=capsule.readString("name",null);
+  key=(TextureKey)capsule.readSavable("key",null);
+  if (key != null) {
+    Texture loadedTex=e.getAssetManager().loadTexture(key);
+    if (loadedTex == null) {
+      Logger.getLogger(Texture.class.getName()).log(Level.SEVERE,"Could not load texture: {0}",key.toString());
+    }
+ else {
+      image=loadedTex.getImage();
+    }
+  }
+  anisotropicFilter=capsule.readInt("anisotropicFilter",1);
+  minificationFilter=capsule.readEnum("minificationFilter",MinFilter.class,MinFilter.BilinearNoMipMaps);
+  magnificationFilter=capsule.readEnum("magnificationFilter",MagFilter.class,MagFilter.Bilinear);
+}

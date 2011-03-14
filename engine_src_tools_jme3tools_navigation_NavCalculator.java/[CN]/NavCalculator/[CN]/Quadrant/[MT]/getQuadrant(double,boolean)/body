@@ -1,0 +1,26 @@
+{
+  if (invert) {
+    if (degrees >= 0 && degrees <= 90) {
+      return FOURTH;
+    }
+ else     if (degrees > 90 && degrees <= 180) {
+      return THIRD;
+    }
+ else     if (degrees > 180 && degrees <= 270) {
+      return SECOND;
+    }
+    return FIRST;
+  }
+ else {
+    if (degrees >= 0 && degrees <= 90) {
+      return FIRST;
+    }
+ else     if (degrees > 90 && degrees <= 180) {
+      return SECOND;
+    }
+ else     if (degrees > 180 && degrees <= 270) {
+      return THIRD;
+    }
+    return FOURTH;
+  }
+}

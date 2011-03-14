@@ -1,0 +1,19 @@
+{
+  this.owner=info.getManager();
+  InputStream in=info.openStream();
+  try {
+    scan=new Scanner(in);
+    scan.useLocale(Locale.US);
+    this.fileName=info.getKey().getName();
+    loadFromScanner();
+  }
+  finally {
+    if (in != null)     in.close();
+  }
+  if (material != null) {
+    return material;
+  }
+ else {
+    return materialDef;
+  }
+}

@@ -1,0 +1,10 @@
+{
+  listener.destroy();
+  if (renderer != null) {
+    renderer.cleanup();
+    logger.info("Display destroyed.");
+    created.set(false);
+    renderer=null;
+    timer=null;
+  }
+}

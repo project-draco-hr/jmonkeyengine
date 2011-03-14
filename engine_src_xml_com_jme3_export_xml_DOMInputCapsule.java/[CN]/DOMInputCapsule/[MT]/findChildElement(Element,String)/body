@@ -1,0 +1,10 @@
+{
+  if (parent == null) {
+    return null;
+  }
+  Node ret=parent.getFirstChild();
+  while (ret != null && (!(ret instanceof Element) || !ret.getNodeName().equals(name))) {
+    ret=ret.getNextSibling();
+  }
+  return (Element)ret;
+}

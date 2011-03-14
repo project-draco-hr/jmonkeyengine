@@ -1,0 +1,92 @@
+{
+  if (!scan.hasNext()) {
+    return false;
+  }
+  String cmd=scan.next();
+  if (cmd.startsWith("#")) {
+  }
+ else   if (cmd.equals("newmtl")) {
+    String name=scan.next();
+    startMaterial(name);
+  }
+ else   if (cmd.equals("Ka") || cmd.equals("Ke") || cmd.equals("Ni")|| cmd.equals("illum")) {
+  }
+ else   if (cmd.equals("Kd")) {
+    ColorRGBA color=readColor();
+    MatParam param=material.getParam("Diffuse");
+    if (param != null) {
+      color.a=((ColorRGBA)param.getValue()).getAlpha();
+    }
+    material.setColor("Diffuse",color);
+  }
+ else   if (cmd.equals("Ks")) {
+    material.setColor("Specular",readColor());
+  }
+ else   if (cmd.equals("Ns")) {
+    material.setFloat("Shininess",scan.nextFloat());
+  }
+ else   if (cmd.equals("d")) {
+    float alpha=scan.nextFloat();
+  }
+ else   if (cmd.equals("map_Ka")) {
+  }
+ else   if (cmd.equals("map_Kd")) {
+    String path=scan.next();
+    String name=new File(path).getName();
+    TextureKey key=new TextureKey(folderName + name);
+    key.setGenerateMips(true);
+    Texture texture=assetManager.loadTexture(key);
+    if (texture != null) {
+      texture.setWrap(WrapMode.Repeat);
+      material.setTexture("DiffuseMap",texture);
+    }
+  }
+ else   if (cmd.equals("map_bump") || cmd.equals("bump")) {
+    if (material.getParam("NormalMap") == null) {
+      String path=scan.next();
+      String name=new File(path).getName();
+      TextureKey key=new TextureKey(folderName + name);
+      key.setGenerateMips(true);
+      Texture texture=assetManager.loadTexture(key);
+      if (texture != null) {
+        texture.setWrap(WrapMode.Repeat);
+        material.setTexture("NormalMap",texture);
+        if (texture.getImage().getFormat() == Format.LATC) {
+          material.setBoolean("LATC",true);
+        }
+      }
+    }
+  }
+ else   if (cmd.equals("map_Ks")) {
+    String path=scan.next();
+    String name=new File(path).getName();
+    TextureKey key=new TextureKey(folderName + name);
+    key.setGenerateMips(true);
+    Texture texture=assetManager.loadTexture(key);
+    if (texture != null) {
+      texture.setWrap(WrapMode.Repeat);
+      material.setTexture("SpecularMap",texture);
+      material.setColor("Specular",ColorRGBA.White);
+    }
+  }
+ else   if (cmd.equals("map_d")) {
+    String path=scan.next();
+    String name=new File(path).getName();
+    TextureKey key=new TextureKey(folderName + name);
+    key.setGenerateMips(true);
+    Texture texture=assetManager.loadTexture(key);
+    if (texture != null) {
+      texture.setWrap(WrapMode.Repeat);
+      material.setTexture("AlphaMap",texture);
+      material.setTransparent(true);
+      material.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+      material.getAdditionalRenderState().setAlphaTest(true);
+      material.getAdditionalRenderState().setAlphaFallOff(0.01f);
+    }
+  }
+ else {
+    System.out.println("Unknown statement in MTL! " + cmd);
+  }
+  nextStatement();
+  return true;
+}

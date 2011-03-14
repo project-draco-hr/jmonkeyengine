@@ -1,0 +1,9 @@
+{
+  for (Iterator<Filter> it=filters.iterator(); it.hasNext(); ) {
+    if (it.next() == filter) {
+      it.remove();
+    }
+  }
+  filter.cleanup(renderer);
+  updateLastFilterIndex();
+}

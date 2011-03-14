@@ -1,0 +1,29 @@
+{
+  if (buff instanceof ShortBuffer) {
+    return new IndexWrapper(){
+      private ShortBuffer buf=(ShortBuffer)buff;
+      public int get(      int i){
+        return ((int)buf.get(i)) & (0x0000FFFF);
+      }
+      public int size(){
+        return buf.capacity();
+      }
+    }
+;
+  }
+ else   if (buff instanceof IntBuffer) {
+    return new IndexWrapper(){
+      private IntBuffer buf=(IntBuffer)buff;
+      public int get(      int i){
+        return buf.get(i);
+      }
+      public int size(){
+        return buf.capacity();
+      }
+    }
+;
+  }
+ else {
+    throw new IllegalArgumentException();
+  }
+}

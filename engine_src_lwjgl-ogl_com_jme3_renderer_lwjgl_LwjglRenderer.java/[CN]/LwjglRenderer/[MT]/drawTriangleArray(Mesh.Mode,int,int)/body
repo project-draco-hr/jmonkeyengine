@@ -1,0 +1,8 @@
+{
+  if (count > 1) {
+    ARBDrawInstanced.glDrawArraysInstancedARB(convertElementMode(mode),0,vertCount,count);
+  }
+ else {
+    glDrawArrays(convertElementMode(mode),0,vertCount);
+  }
+}

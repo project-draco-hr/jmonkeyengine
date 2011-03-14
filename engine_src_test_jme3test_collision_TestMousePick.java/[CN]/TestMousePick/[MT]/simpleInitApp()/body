@@ -1,0 +1,12 @@
+{
+  flyCam.setEnabled(false);
+  initMark();
+  shootables=new Node("Shootables");
+  rootNode.attachChild(shootables);
+  shootables.attachChild(makeCube("a Dragon",-2f,0f,1f));
+  shootables.attachChild(makeCube("a tin can",1f,-2f,0f));
+  shootables.attachChild(makeCube("the Sheriff",0f,1f,-2f));
+  shootables.attachChild(makeCube("the Deputy",1f,0f,-4f));
+  shootables.attachChild(makeFloor());
+  shootables.attachChild(makeCharacter());
+}

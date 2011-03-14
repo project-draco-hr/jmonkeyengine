@@ -1,0 +1,18 @@
+{
+  if (store == null) {
+    store=new Vector3f();
+  }
+switch (type) {
+case CatmullRom:
+    FastMath.interpolateCatmullRom(value,curveTension,CRcontrolPoints.get(currentControlPoint),CRcontrolPoints.get(currentControlPoint + 1),CRcontrolPoints.get(currentControlPoint + 2),CRcontrolPoints.get(currentControlPoint + 3),store);
+  break;
+case Linear:
+FastMath.interpolateLinear(value,controlPoints.get(currentControlPoint),controlPoints.get(currentControlPoint + 1),store);
+break;
+case Bezier:
+FastMath.interpolateBezier(value,controlPoints.get(currentControlPoint),controlPoints.get(currentControlPoint + 1),controlPoints.get(currentControlPoint + 2),controlPoints.get(currentControlPoint + 3),store);
+default :
+break;
+}
+return store;
+}

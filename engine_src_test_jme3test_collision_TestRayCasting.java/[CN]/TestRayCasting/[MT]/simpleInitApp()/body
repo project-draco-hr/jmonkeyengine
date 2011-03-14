@@ -1,0 +1,15 @@
+{
+  Material mat=(Material)assetManager.loadAsset(new AssetKey("Interface/Logo/Logo.j3m"));
+  Mesh q=new Mesh();
+  q.setBuffer(Type.Position,3,new float[]{1,0,0,0,1.5f,0,-1,0,0});
+  q.setBuffer(Type.Index,3,new int[]{0,1,2});
+  q.setBound(new BoundingSphere());
+  q.updateBound();
+  teapot=assetManager.loadModel("Models/Teapot/Teapot.mesh.xml");
+  teapot.rotate(FastMath.HALF_PI,FastMath.HALF_PI,FastMath.HALF_PI);
+  teapot.setMaterial(mat);
+  rootNode.attachChild(teapot);
+  tracer=new RayTrace(rootNode,cam,160,128);
+  tracer.show();
+  tracer.update();
+}

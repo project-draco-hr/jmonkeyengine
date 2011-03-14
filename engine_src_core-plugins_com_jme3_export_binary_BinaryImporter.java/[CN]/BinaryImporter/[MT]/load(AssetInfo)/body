@@ -1,0 +1,14 @@
+{
+  if (!(info.getKey() instanceof ModelKey))   throw new IllegalArgumentException("Model assets must be loaded using a ModelKey");
+  assetManager=info.getManager();
+  try {
+    InputStream is=info.openStream();
+    Savable s=load(is);
+    is.close();
+    return s;
+  }
+ catch (  IOException ex) {
+    logger.log(Level.SEVERE,"An error occured while loading jME binary object",ex);
+  }
+  return null;
+}

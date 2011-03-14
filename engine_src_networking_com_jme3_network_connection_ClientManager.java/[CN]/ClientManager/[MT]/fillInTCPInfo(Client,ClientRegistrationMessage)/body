@@ -1,0 +1,5 @@
+{
+  client.setSocketChannel(msg.getClient().getSocketChannel());
+  client.setTCPConnection((TCPConnection)msg.getConnection());
+  client.getSocketChannel().keyFor(msg.getConnection().selector).attach(client);
+}

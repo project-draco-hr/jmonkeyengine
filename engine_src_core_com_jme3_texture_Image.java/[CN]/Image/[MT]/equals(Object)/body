@@ -1,0 +1,18 @@
+{
+  if (other == this) {
+    return true;
+  }
+  if (!(other instanceof Image)) {
+    return false;
+  }
+  Image that=(Image)other;
+  if (this.getFormat() != that.getFormat())   return false;
+  if (this.getWidth() != that.getWidth())   return false;
+  if (this.getHeight() != that.getHeight())   return false;
+  if (this.getData() != null && !this.getData().equals(that.getData()))   return false;
+  if (this.getData() == null && that.getData() != null)   return false;
+  if (this.getMipMapSizes() != null && !Arrays.equals(this.getMipMapSizes(),that.getMipMapSizes()))   return false;
+  if (this.getMipMapSizes() == null && that.getMipMapSizes() != null)   return false;
+  if (this.getMultiSamples() != that.getMultiSamples())   return false;
+  return true;
+}

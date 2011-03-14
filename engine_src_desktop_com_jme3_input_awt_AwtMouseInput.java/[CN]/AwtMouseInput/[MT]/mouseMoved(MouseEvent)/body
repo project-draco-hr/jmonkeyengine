@@ -1,0 +1,20 @@
+{
+  if (isRecentering) {
+    if ((centerLocation.x == arg0.getX() && centerLocation.y == arg0.getY()) || eventsSinceRecenter++ == 5) {
+      lastKnownLocation.x=arg0.getX();
+      lastKnownLocation.y=arg0.getY();
+      isRecentering=false;
+    }
+  }
+ else {
+    int dx=arg0.getX() - lastKnownLocation.x;
+    int dy=arg0.getY() - lastKnownLocation.y;
+    location.x+=dx;
+    location.y+=dy;
+    if (!visible) {
+      recenterMouse(arg0.getComponent());
+    }
+    lastKnownLocation.x=arg0.getX();
+    lastKnownLocation.y=arg0.getY();
+  }
+}

@@ -1,0 +1,10 @@
+{
+  if (savables == null) {
+    return null;
+  }
+  Map<Savable,Savable> map=new HashMap<Savable,Savable>(savables.length);
+  for (int x=0; x < savables.length; x++) {
+    map.put(savables[x][0],savables[x][1]);
+  }
+  return map;
+}

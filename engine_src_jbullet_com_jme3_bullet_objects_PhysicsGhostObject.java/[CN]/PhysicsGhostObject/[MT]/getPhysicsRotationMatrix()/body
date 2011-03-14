@@ -1,0 +1,5 @@
+{
+  gObject.getWorldTransform(tempTrans);
+  Converter.convert(tempTrans.getRotation(tempRot),physicsLocation.getRotation());
+  return physicsLocation.getRotation().toRotationMatrix();
+}

@@ -1,0 +1,6 @@
+{
+  if (store == null)   store=new Vector3f(v2);
+ else   store.set(v2);
+  store.subtractLocal(v1).crossLocal(v3.x - v1.x,v3.y - v1.y,v3.z - v1.z);
+  return store.normalizeLocal();
+}

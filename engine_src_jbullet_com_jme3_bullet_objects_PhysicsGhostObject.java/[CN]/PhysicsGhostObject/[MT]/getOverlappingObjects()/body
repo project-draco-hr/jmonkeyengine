@@ -1,0 +1,7 @@
+{
+  overlappingObjects.clear();
+  for (  com.bulletphysics.collision.dispatch.CollisionObject collObj : gObject.getOverlappingPairs()) {
+    overlappingObjects.add((PhysicsCollisionObject)collObj.getUserPointer());
+  }
+  return overlappingObjects;
+}

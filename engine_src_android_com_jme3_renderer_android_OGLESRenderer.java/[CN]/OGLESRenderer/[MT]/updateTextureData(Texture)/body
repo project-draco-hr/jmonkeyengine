@@ -1,0 +1,44 @@
+{
+  int texId=tex.getId();
+  if (texId == -1) {
+    gl.glGenTextures(1,intBuf1);
+    texId=intBuf1.get(0);
+    tex.setId(texId);
+    objManager.registerForCleanup(tex);
+  }
+  int target=convertTextureType(tex.getType());
+  if (context.boundTextures[0] != tex) {
+    if (context.boundTextureUnit != 0) {
+      gl.glActiveTexture(gl.GL_TEXTURE0);
+      context.boundTextureUnit=0;
+    }
+    gl.glBindTexture(target,texId);
+    context.boundTextures[0]=tex;
+  }
+  int minFilter=convertMinFilter(tex.getMinFilter());
+  int magFilter=convertMagFilter(tex.getMagFilter());
+  gl.glTexParameterx(target,gl.GL_TEXTURE_MIN_FILTER,minFilter);
+  gl.glTexParameterx(target,gl.GL_TEXTURE_MAG_FILTER,magFilter);
+switch (tex.getType()) {
+case TwoDimensional:
+    gl.glTexParameterx(target,gl.GL_TEXTURE_WRAP_T,convertWrapMode(tex.getWrap(WrapAxis.T)));
+  gl.glTexParameterx(target,gl.GL_TEXTURE_WRAP_S,convertWrapMode(tex.getWrap(WrapAxis.S)));
+break;
+default :
+throw new UnsupportedOperationException("Unknown texture type: " + tex.getType());
+}
+Image img=tex.getImage();
+if (img != null) {
+boolean generateMips=false;
+if (!img.hasMipmaps() && tex.getMinFilter().usesMipMapLevels()) {
+if (gl11 != null) {
+gl.glTexParameterx(target,GL11.GL_GENERATE_MIPMAP,gl.GL_TRUE);
+}
+ else {
+generateMips=true;
+}
+}
+TextureUtil.uploadTexture(gl,img,tex.getImageDataIndex(),generateMips,powerOf2);
+}
+tex.clearUpdateNeeded();
+}

@@ -1,0 +1,19 @@
+{
+  if (audioDisabled) {
+    AL.destroy();
+    return;
+  }
+  ib.clear();
+  ib.put(channels);
+  ib.flip();
+  alDeleteSources(ib);
+  if (supportEfx) {
+    ib.position(0).limit(1);
+    ib.put(0,reverbFx);
+    EFX10.alDeleteEffects(ib);
+    ib.position(0).limit(1);
+    ib.put(0,reverbFxSlot);
+    EFX10.alDeleteAuxiliaryEffectSlots(ib);
+  }
+  AL.destroy();
+}

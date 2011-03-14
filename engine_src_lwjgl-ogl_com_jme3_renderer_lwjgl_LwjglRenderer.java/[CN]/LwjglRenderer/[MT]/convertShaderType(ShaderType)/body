@@ -1,0 +1,10 @@
+{
+switch (type) {
+case Fragment:
+    return GL_FRAGMENT_SHADER;
+case Vertex:
+  return GL_VERTEX_SHADER;
+default :
+throw new RuntimeException("Unrecognized shader type.");
+}
+}

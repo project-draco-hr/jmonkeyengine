@@ -1,0 +1,10 @@
+{
+  flyCam.setMoveSpeed(50);
+  cam.setLocation(new Vector3f(0,100,0));
+  inputManager.addMapping("save",new KeyTrigger(KeyInput.KEY_T));
+  inputManager.addListener(saveActionListener,"save");
+  inputManager.addMapping("load",new KeyTrigger(KeyInput.KEY_Y));
+  inputManager.addListener(loadActionListener,"load");
+  inputManager.addMapping("clone",new KeyTrigger(KeyInput.KEY_C));
+  inputManager.addListener(cloneActionListener,"clone");
+}

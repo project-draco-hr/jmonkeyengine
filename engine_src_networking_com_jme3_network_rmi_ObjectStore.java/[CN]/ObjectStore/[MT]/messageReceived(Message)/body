@@ -1,0 +1,58 @@
+{
+  if (message instanceof RemoteObjectDefMessage) {
+    RemoteObjectDefMessage defMsg=(RemoteObjectDefMessage)message;
+    ObjectDef[] defs=defMsg.objects;
+    for (    ObjectDef def : defs) {
+      RemoteObject remoteObject=new RemoteObject(this,message.getClient());
+      remoteObject.objectId=(short)def.objectId;
+      remoteObject.methodDefs=def.methodDefs;
+      remoteObjects.put(def.objectName,remoteObject);
+      remoteObjectsById.put(def.objectId,remoteObject);
+    }
+synchronized (receiveObjectLock) {
+      receiveObjectLock.notifyAll();
+    }
+  }
+ else   if (message instanceof RemoteMethodCallMessage) {
+    RemoteMethodCallMessage call=(RemoteMethodCallMessage)message;
+    LocalObject localObj=localObjects.get(call.objectId);
+    Object obj=localObj.theObject;
+    Method method=localObj.methods[call.methodId];
+    Object[] args=call.args;
+    Object ret;
+    try {
+      ret=method.invoke(obj,args);
+    }
+ catch (    Exception ex) {
+      throw new RuntimeException(ex);
+    }
+    if (method.getReturnType() != void.class) {
+      RemoteMethodReturnMessage retMsg=new RemoteMethodReturnMessage();
+      retMsg.invocationID=invocationIdCounter++;
+      retMsg.retVal=ret;
+      try {
+        if (server != null) {
+          call.getClient().send(retMsg);
+        }
+ else {
+          client.send(retMsg);
+        }
+      }
+ catch (      IOException ex) {
+        ex.printStackTrace();
+      }
+    }
+  }
+ else   if (message instanceof RemoteMethodReturnMessage) {
+    RemoteMethodReturnMessage retMsg=(RemoteMethodReturnMessage)message;
+    Invocation invoke=pendingInvocations.get(retMsg.invocationID);
+    if (invoke == null) {
+      throw new RuntimeException("Cannot find invocation ID: " + retMsg.invocationID);
+    }
+synchronized (invoke) {
+      invoke.retVal=retMsg.retVal;
+      invoke.available=true;
+      invoke.notifyAll();
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  ArrayList<String> freqs=new ArrayList<String>(4);
+  for (int i=0; i < modes.length; i++) {
+    String res=modes[i].getWidth() + " x " + modes[i].getHeight();
+    String freq;
+    if (modes[i].getRefreshRate() == DisplayMode.REFRESH_RATE_UNKNOWN) {
+      freq="???";
+    }
+ else {
+      freq=modes[i].getRefreshRate() + " Hz";
+    }
+    if (res.equals(resolution) && !freqs.contains(freq)) {
+      freqs.add(freq);
+    }
+  }
+  String[] res=new String[freqs.size()];
+  freqs.toArray(res);
+  return res;
+}

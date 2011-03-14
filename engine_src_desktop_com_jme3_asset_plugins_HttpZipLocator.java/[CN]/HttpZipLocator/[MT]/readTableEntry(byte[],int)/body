@@ -1,0 +1,31 @@
+{
+  if (get32(table,offset) != ZipEntry.CENSIG) {
+    throw new IOException("Central directory error, expected 'PK12'");
+  }
+  int nameLen=get16(table,offset + ZipEntry.CENNAM);
+  int extraLen=get16(table,offset + ZipEntry.CENEXT);
+  int commentLen=get16(table,offset + ZipEntry.CENCOM);
+  int newOffset=offset + ZipEntry.CENHDR + nameLen+ extraLen+ commentLen;
+  int flags=get16(table,offset + ZipEntry.CENFLG);
+  if ((flags & 1) == 1) {
+    return newOffset;
+  }
+  int method=get16(table,offset + ZipEntry.CENHOW);
+  if (method != ZipEntry.DEFLATED && method != ZipEntry.STORED) {
+    return newOffset;
+  }
+  String name=getUTF8String(table,offset + ZipEntry.CENHDR,nameLen);
+  if (name.charAt(name.length() - 1) == '/') {
+    return newOffset;
+  }
+  ZipEntry2 entry=new ZipEntry2();
+  entry.name=name;
+  entry.deflate=(method == ZipEntry.DEFLATED);
+  entry.crc=getu32(table,offset + ZipEntry.CENCRC);
+  entry.length=get32(table,offset + ZipEntry.CENLEN);
+  entry.compSize=get32(table,offset + ZipEntry.CENSIZ);
+  entry.offset=get32(table,offset + ZipEntry.CENOFF);
+  entry.offset+=ZipEntry.LOCHDR + nameLen + extraLen;
+  entries.put(entry.name,entry);
+  return newOffset;
+}

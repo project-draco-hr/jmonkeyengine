@@ -1,0 +1,9 @@
+{
+  if (getMaterial() == null) {
+    Material mat=new Material(manager,"Common/MatDefs/Gui/Gui.j3md");
+    mat.setColor("Color",ColorRGBA.White);
+    setMaterial(mat);
+  }
+  material.getAdditionalRenderState().setBlendMode(useAlpha ? BlendMode.Alpha : BlendMode.Off);
+  material.setTexture("Texture",tex);
+}

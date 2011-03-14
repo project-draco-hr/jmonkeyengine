@@ -1,0 +1,32 @@
+{
+  float val;
+switch (spline.getType()) {
+case CatmullRom:
+    val=tpf * (spline.getTotalLength() / control.getDuration());
+  control.setCurrentValue(control.getCurrentValue() + eps);
+spline.interpolate(control.getCurrentValue(),control.getCurrentWayPoint(),temp);
+float dist=getDist(control);
+while (dist < val) {
+control.setCurrentValue(control.getCurrentValue() + eps);
+spline.interpolate(control.getCurrentValue(),control.getCurrentWayPoint(),temp);
+dist=getDist(control);
+}
+if (control.needsDirection()) {
+tmpVector.set(temp);
+control.setDirection(tmpVector.subtractLocal(control.getSpatial().getLocalTranslation()).normalizeLocal());
+}
+break;
+case Linear:
+val=control.getDuration() * spline.getSegmentsLength().get(control.getCurrentWayPoint()) / spline.getTotalLength();
+control.setCurrentValue(Math.min(control.getCurrentValue() + tpf / val,1.0f));
+spline.interpolate(control.getCurrentValue(),control.getCurrentWayPoint(),temp);
+if (control.needsDirection()) {
+tmpVector.set(spline.getControlPoints().get(control.getCurrentWayPoint() + 1));
+control.setDirection(tmpVector.subtractLocal(spline.getControlPoints().get(control.getCurrentWayPoint())).normalizeLocal());
+}
+break;
+default :
+break;
+}
+return temp;
+}

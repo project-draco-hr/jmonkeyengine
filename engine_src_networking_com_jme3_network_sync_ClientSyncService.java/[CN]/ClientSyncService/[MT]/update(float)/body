@@ -1,0 +1,26 @@
+{
+  long time=System.currentTimeMillis();
+synchronized (entities) {
+    for (    Entry<ClientEntityInfo> entry : entities) {
+      ClientEntityInfo info=entry.getValue();
+      if (info.lastSyncInfo != null) {
+        if (!inLoopApplySyncInfo(entry.getKey(),info))         continue;
+      }
+      long timeSinceUpdate=time - info.lastUpdate;
+      if (timeSinceUpdate >= info.lastUpdateRate) {
+        if (info.lastExtrapolate == -1) {
+          info.entity.interpolate(1);
+          info.lastExtrapolate=info.lastUpdate + info.lastUpdateRate;
+        }
+        long timeSinceExtrapolate=time - info.lastExtrapolate;
+        info.lastExtrapolate=time;
+        float tpf=timeSinceExtrapolate / 1000f;
+        info.entity.extrapolate(tpf);
+      }
+ else {
+        float blendAmount=(float)timeSinceUpdate / (float)info.lastUpdateRate;
+        info.entity.interpolate(blendAmount);
+      }
+    }
+  }
+}

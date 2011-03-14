@@ -1,0 +1,9 @@
+{
+  if (playState == PlayState.Playing) {
+    time+=tpf * speed;
+    onUpdate(tpf);
+    if (time >= duration && loopMode == loopMode.DontLoop) {
+      stop();
+    }
+  }
+}

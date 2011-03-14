@@ -1,0 +1,11 @@
+{
+  if (!channel.isOpen())   throw new ClosedChannelException();
+  if (dst == null || !dst.hasRemaining())   return 0;
+  int prevLim=dst.limit();
+  int toRead=(int)Math.min(dst.remaining(),limit - position);
+  dst.limit(dst.position() + toRead);
+  int read=channel.read(dst,position);
+  position+=read;
+  dst.limit(prevLim);
+  return read;
+}

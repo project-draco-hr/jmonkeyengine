@@ -1,0 +1,23 @@
+{
+  String word=scan.next();
+  VarType type;
+  if (word.equals("Color")) {
+    type=VarType.Vector4;
+  }
+ else {
+    type=VarType.valueOf(word);
+  }
+  word=readString("[\n;(//)(\\})]");
+  FixedFuncBinding ffBinding=null;
+  if (word.contains(":")) {
+    String[] split=word.split(":");
+    word=split[0].trim();
+    try {
+      ffBinding=FixedFuncBinding.valueOf(split[1].trim());
+    }
+ catch (    IllegalArgumentException ex) {
+      throw new IOException("FixedFuncBinding '" + split[1] + "' does not exist!");
+    }
+  }
+  materialDef.addMaterialParam(type,word,null,ffBinding);
+}

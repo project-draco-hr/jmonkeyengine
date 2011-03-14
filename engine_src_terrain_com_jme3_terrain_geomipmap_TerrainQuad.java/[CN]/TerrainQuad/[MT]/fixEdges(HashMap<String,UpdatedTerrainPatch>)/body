@@ -1,0 +1,59 @@
+{
+  if (children != null) {
+    for (int x=children.size(); --x >= 0; ) {
+      Spatial child=children.get(x);
+      if (child instanceof TerrainQuad) {
+        ((TerrainQuad)child).fixEdges(updated);
+      }
+ else       if (child instanceof TerrainPatch) {
+        TerrainPatch patch=(TerrainPatch)child;
+        UpdatedTerrainPatch utp=updated.get(patch.getName());
+        if (utp.lodChanged()) {
+          if (!patch.searchedForNeighboursAlready) {
+            patch.rightNeighbour=findRightPatch(patch);
+            patch.bottomNeighbour=findDownPatch(patch);
+            patch.leftNeighbour=findLeftPatch(patch);
+            patch.topNeighbour=findTopPatch(patch);
+            patch.searchedForNeighboursAlready=true;
+          }
+          TerrainPatch right=patch.rightNeighbour;
+          TerrainPatch down=patch.bottomNeighbour;
+          TerrainPatch top=patch.topNeighbour;
+          TerrainPatch left=patch.leftNeighbour;
+          if (right != null) {
+            UpdatedTerrainPatch utpR=updated.get(right.getName());
+            if (utpR == null) {
+              utpR=new UpdatedTerrainPatch(right,right.lod);
+              updated.put(utpR.getName(),utpR);
+            }
+            utpR.setFixEdges(true);
+          }
+          if (down != null) {
+            UpdatedTerrainPatch utpD=updated.get(down.getName());
+            if (utpD == null) {
+              utpD=new UpdatedTerrainPatch(down,down.lod);
+              updated.put(utpD.getName(),utpD);
+            }
+            utpD.setFixEdges(true);
+          }
+          if (top != null) {
+            UpdatedTerrainPatch utpT=updated.get(top.getName());
+            if (utpT == null) {
+              utpT=new UpdatedTerrainPatch(top,top.lod);
+              updated.put(utpT.getName(),utpT);
+            }
+            utpT.setFixEdges(true);
+          }
+          if (left != null) {
+            UpdatedTerrainPatch utpL=updated.get(left.getName());
+            if (utpL == null) {
+              utpL=new UpdatedTerrainPatch(left,left.lod);
+              updated.put(utpL.getName(),utpL);
+            }
+            utpL.setFixEdges(true);
+          }
+        }
+      }
+    }
+  }
+}

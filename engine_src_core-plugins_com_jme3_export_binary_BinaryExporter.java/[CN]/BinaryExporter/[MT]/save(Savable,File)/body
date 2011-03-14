@@ -1,0 +1,10 @@
+{
+  File parentDirectory=f.getParentFile();
+  if (parentDirectory != null && !parentDirectory.exists()) {
+    parentDirectory.mkdirs();
+  }
+  FileOutputStream fos=new FileOutputStream(f);
+  boolean rVal=save(object,fos);
+  fos.close();
+  return rVal;
+}

@@ -1,0 +1,10 @@
+{
+  float sx=x0 + alignX;
+  float sy=y0 - alignY;
+  float ex=sx + width;
+  float ey=sy - height;
+  fb.put(sx).put(sy).put(0f);
+  fb.put(sx).put(ey).put(0f);
+  fb.put(ex).put(ey).put(0f);
+  fb.put(ex).put(sy).put(0f);
+}

@@ -1,0 +1,8 @@
+{
+  this.imagesX=imagesX;
+  this.imagesY=imagesY;
+  if (imagesX != 1 || imagesY != 1) {
+    uniqueTexCoords=true;
+    getBuffer(VertexBuffer.Type.TexCoord).setUsage(Usage.Stream);
+  }
+}

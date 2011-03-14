@@ -1,0 +1,19 @@
+{
+  try {
+    Material mat=(Material)super.clone();
+    if (additionalState != null) {
+      mat.additionalState=additionalState.clone();
+    }
+    mat.technique=null;
+    mat.techniques=new HashMap<String,Technique>();
+    mat.paramValues=new ListMap<String,MatParam>();
+    for (int i=0; i < paramValues.size(); i++) {
+      Map.Entry<String,MatParam> entry=paramValues.getEntry(i);
+      mat.paramValues.put(entry.getKey(),entry.getValue().clone());
+    }
+    return mat;
+  }
+ catch (  CloneNotSupportedException ex) {
+    throw new AssertionError();
+  }
+}

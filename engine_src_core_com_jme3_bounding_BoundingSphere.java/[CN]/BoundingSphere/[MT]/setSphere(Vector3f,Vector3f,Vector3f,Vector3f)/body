@@ -1,0 +1,15 @@
+{
+  Vector3f a=A.subtract(O);
+  Vector3f b=B.subtract(O);
+  Vector3f c=C.subtract(O);
+  float Denominator=2.0f * (a.x * (b.y * c.z - c.y * b.z) - b.x * (a.y * c.z - c.y * a.z) + c.x * (a.y * b.z - b.y * a.z));
+  if (Denominator == 0) {
+    center.set(0,0,0);
+    radius=0;
+  }
+ else {
+    Vector3f o=a.cross(b).multLocal(c.lengthSquared()).addLocal(c.cross(a).multLocal(b.lengthSquared())).addLocal(b.cross(c).multLocal(a.lengthSquared())).divideLocal(Denominator);
+    radius=o.length() * RADIUS_EPSILON;
+    O.add(o,center);
+  }
+}

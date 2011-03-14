@@ -1,0 +1,7 @@
+{
+  byte[] newData=new byte[data.length];
+  for (int y=0; y < height; y++) {
+    System.arraycopy(data,y * scanlineSize,newData,(height - y - 1) * scanlineSize,scanlineSize);
+  }
+  return newData;
+}

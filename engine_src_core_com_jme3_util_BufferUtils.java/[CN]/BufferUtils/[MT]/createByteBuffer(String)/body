@@ -1,0 +1,7 @@
+{
+  byte[] bytes=data.getBytes();
+  ByteBuffer bb=createByteBuffer(bytes.length);
+  bb.put(bytes);
+  bb.flip();
+  return bb;
+}

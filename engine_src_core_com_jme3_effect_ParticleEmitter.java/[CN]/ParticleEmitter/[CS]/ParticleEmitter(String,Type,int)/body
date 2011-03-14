@@ -1,0 +1,22 @@
+{
+  super(name);
+  setIgnoreTransform(true);
+  setShadowMode(ShadowMode.Off);
+  setQueueBucket(Bucket.Transparent);
+  meshType=type;
+  setNumParticles(numParticles);
+  controls.add(this);
+switch (meshType) {
+case Point:
+    particleMesh=new ParticlePointMesh();
+  setMesh(particleMesh);
+break;
+case Triangle:
+particleMesh=new ParticleTriMesh();
+setMesh(particleMesh);
+break;
+default :
+throw new IllegalStateException("Unrecognized particle type: " + meshType);
+}
+particleMesh.initParticleData(this,particles.length);
+}

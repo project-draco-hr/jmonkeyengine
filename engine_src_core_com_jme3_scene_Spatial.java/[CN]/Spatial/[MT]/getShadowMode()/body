@@ -1,0 +1,5 @@
+{
+  if (shadowMode != RenderQueue.ShadowMode.Inherit)   return shadowMode;
+ else   if (parent != null)   return parent.getShadowMode();
+ else   return ShadowMode.Off;
+}

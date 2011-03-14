@@ -1,0 +1,13 @@
+{
+  if (buffer == null || (buffer.remaining() < required)) {
+    int position=(buffer != null ? buffer.position() : 0);
+    FloatBuffer newVerts=createFloatBuffer(position + required);
+    if (buffer != null) {
+      buffer.rewind();
+      newVerts.put(buffer);
+      newVerts.position(position);
+    }
+    buffer=newVerts;
+  }
+  return buffer;
+}

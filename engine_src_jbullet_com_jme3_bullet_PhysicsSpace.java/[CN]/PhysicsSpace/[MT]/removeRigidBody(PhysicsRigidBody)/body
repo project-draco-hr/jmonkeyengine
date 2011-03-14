@@ -1,0 +1,7 @@
+{
+  if (node instanceof PhysicsVehicle) {
+    dynamicsWorld.removeVehicle(((PhysicsVehicle)node).getVehicleId());
+  }
+  physicsNodes.remove(node.getObjectId());
+  dynamicsWorld.removeRigidBody(node.getObjectId());
+}

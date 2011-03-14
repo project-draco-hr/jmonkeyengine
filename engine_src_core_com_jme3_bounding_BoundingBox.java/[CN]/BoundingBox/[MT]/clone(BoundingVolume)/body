@@ -1,0 +1,13 @@
+{
+  if (store != null && store.getType() == Type.AABB) {
+    BoundingBox rVal=(BoundingBox)store;
+    rVal.center.set(center);
+    rVal.xExtent=xExtent;
+    rVal.yExtent=yExtent;
+    rVal.zExtent=zExtent;
+    rVal.checkPlane=checkPlane;
+    return rVal;
+  }
+  BoundingBox rVal=new BoundingBox(center.clone(),xExtent,yExtent,zExtent);
+  return rVal;
+}

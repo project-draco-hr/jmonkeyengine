@@ -1,0 +1,65 @@
+{
+  eigenVectors[0]=new Vector3f();
+  eigenVectors[1]=new Vector3f();
+  eigenVectors[2]=new Vector3f();
+  Matrix3f scaledData=new Matrix3f(data);
+  float maxMagnitude=scaleMatrix(scaledData);
+  double roots[]=new double[3];
+  computeRoots(scaledData,roots);
+  eigenValues[0]=(float)roots[0];
+  eigenValues[1]=(float)roots[1];
+  eigenValues[2]=(float)roots[2];
+  float[] maxValues=new float[3];
+  Vector3f[] maxRows=new Vector3f[3];
+  maxRows[0]=new Vector3f();
+  maxRows[1]=new Vector3f();
+  maxRows[2]=new Vector3f();
+  for (int i=0; i < 3; i++) {
+    Matrix3f tempMatrix=new Matrix3f(scaledData);
+    tempMatrix.m00-=eigenValues[i];
+    tempMatrix.m11-=eigenValues[i];
+    tempMatrix.m22-=eigenValues[i];
+    float[] val=new float[1];
+    val[0]=maxValues[i];
+    if (!positiveRank(tempMatrix,val,maxRows[i])) {
+      if (maxMagnitude > 1f) {
+        for (int j=0; j < 3; j++) {
+          eigenValues[j]*=maxMagnitude;
+        }
+      }
+      eigenVectors[0].set(Vector3f.UNIT_X);
+      eigenVectors[1].set(Vector3f.UNIT_Y);
+      eigenVectors[2].set(Vector3f.UNIT_Z);
+      return;
+    }
+    maxValues[i]=val[0];
+  }
+  float maxCompare=maxValues[0];
+  int i=0;
+  if (maxValues[1] > maxCompare) {
+    maxCompare=maxValues[1];
+    i=1;
+  }
+  if (maxValues[2] > maxCompare) {
+    i=2;
+  }
+switch (i) {
+case 0:
+    maxRows[0].normalizeLocal();
+  computeVectors(scaledData,maxRows[0],1,2,0);
+break;
+case 1:
+maxRows[1].normalizeLocal();
+computeVectors(scaledData,maxRows[1],2,0,1);
+break;
+case 2:
+maxRows[2].normalizeLocal();
+computeVectors(scaledData,maxRows[2],0,1,2);
+break;
+}
+if (maxMagnitude > 1f) {
+for (i=0; i < 3; i++) {
+eigenValues[i]*=maxMagnitude;
+}
+}
+}

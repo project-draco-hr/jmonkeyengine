@@ -1,0 +1,13 @@
+{
+  if (jmeLocationDirty) {
+    return;
+  }
+  motionStateTrans.set(worldTrans);
+  Converter.convert(worldTrans.origin,worldLocation);
+  Converter.convert(worldTrans.basis,worldRotation);
+  worldRotationQuat.fromRotationMatrix(worldRotation);
+  physicsLocationDirty=true;
+  if (vehicle != null) {
+    vehicle.updateWheels();
+  }
+}

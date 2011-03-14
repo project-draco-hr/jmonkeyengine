@@ -1,0 +1,9 @@
+{
+synchronized (updatePatchesLock) {
+    if (updatedPatches == null || updatedPatches.isEmpty())     return;
+    for (    UpdatedTerrainPatch utp : updatedPatches.values()) {
+      utp.updateAll();
+    }
+    updatedPatches.clear();
+  }
+}

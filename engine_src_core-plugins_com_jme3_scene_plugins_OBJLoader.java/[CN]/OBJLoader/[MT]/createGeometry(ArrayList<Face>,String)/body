@@ -1,0 +1,17 @@
+{
+  if (faceList.size() == 0)   throw new IOException("No geometry data to generate mesh");
+  Mesh mesh=constructMesh(faceList);
+  Geometry geom=new Geometry(objName + "-geom-" + (geomIndex++),mesh);
+  Material material=null;
+  if (matName != null && matList != null) {
+    material=matList.get(matName);
+  }
+  if (material == null) {
+    material=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+    material.setFloat("Shininess",64);
+  }
+  geom.setMaterial(material);
+  if (material.isTransparent())   geom.setQueueBucket(Bucket.Transparent);
+ else   geom.setQueueBucket(Bucket.Opaque);
+  return geom;
+}

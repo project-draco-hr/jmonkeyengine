@@ -1,0 +1,15 @@
+{
+  scan.next();
+  String name;
+  if (scan.hasNext("\\{")) {
+    name=null;
+  }
+ else {
+    name=readString("\\{");
+  }
+  scan.next();
+  while (!scan.hasNext("\\}")) {
+    readPassStatement();
+  }
+  scan.next();
+}

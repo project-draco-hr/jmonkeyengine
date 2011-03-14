@@ -1,0 +1,8 @@
+{
+  int[] index=new int[objArray.length];
+  for (int i=0; i < index.length; i++) {
+    T obj=objArray[i];
+    index[i]=obj != null ? indexPool.get(obj) : -1;
+  }
+  return index;
+}

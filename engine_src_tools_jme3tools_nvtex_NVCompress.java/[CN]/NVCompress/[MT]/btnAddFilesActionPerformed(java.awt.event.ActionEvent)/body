@@ -1,0 +1,16 @@
+{
+  JFileChooser chooser=new JFileChooser();
+  chooser.setDialogTitle("Add input files");
+  chooser.setMultiSelectionEnabled(true);
+  chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+  chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+  if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+    File[] files=chooser.getSelectedFiles();
+    for (    File file : files) {
+      if (file.exists() && !file.isDirectory()) {
+        DefaultListModel listModel=(DefaultListModel)lstFileList.getModel();
+        if (!listModel.contains(file))         listModel.addElement(file);
+      }
+    }
+  }
+}

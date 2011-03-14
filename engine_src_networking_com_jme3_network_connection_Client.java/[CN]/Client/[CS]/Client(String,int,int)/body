@@ -1,0 +1,9 @@
+{
+  this();
+  tcp=new TCPConnection(label);
+  tcp.connect(new InetSocketAddress(ip,tcpPort));
+  udp=new UDPConnection(label);
+  udp.connect(new InetSocketAddress(ip,udpPort));
+  isConnected=true;
+  registerInternalListeners();
+}

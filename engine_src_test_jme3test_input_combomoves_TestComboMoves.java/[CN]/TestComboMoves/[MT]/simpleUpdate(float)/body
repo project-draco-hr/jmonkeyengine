@@ -1,0 +1,20 @@
+{
+  time+=tpf;
+  secondCounter=0;
+  shurikenExec.updateExpiration(time);
+  shurikenText.setText("Shuriken Exec: " + shurikenExec.getDebugString());
+  fireballExec.updateExpiration(time);
+  fireballText.setText("Fireball Exec: " + fireballExec.getDebugString());
+  jabExec.updateExpiration(time);
+  jabText.setText("Jab Exec: " + jabExec.getDebugString());
+  punchExec.updateExpiration(time);
+  punchText.setText("Punch Exec: " + punchExec.getDebugString());
+  if (currentMove != null) {
+    currentMoveCastTime-=tpf;
+    if (currentMoveCastTime <= 0) {
+      System.out.println("DONE CASTING " + currentMove.getMoveName());
+      currentMoveCastTime=0;
+      currentMove=null;
+    }
+  }
+}

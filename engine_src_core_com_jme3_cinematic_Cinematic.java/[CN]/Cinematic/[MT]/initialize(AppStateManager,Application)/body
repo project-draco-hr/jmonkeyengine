@@ -1,0 +1,12 @@
+{
+  if (niftyXmlPath != null) {
+    NiftyJmeDisplay niftyDisplay=new NiftyJmeDisplay(app.getAssetManager(),app.getInputManager(),app.getAudioRenderer(),app.getGuiViewPort());
+    nifty=niftyDisplay.getNifty();
+    nifty.fromXmlWithoutStartScreen(niftyXmlPath);
+    app.getGuiViewPort().addProcessor(niftyDisplay);
+  }
+  for (  CinematicEvent cinematicEvent : cinematicEvents) {
+    cinematicEvent.initEvent(app,this);
+  }
+  initialized=true;
+}

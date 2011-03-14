@@ -1,0 +1,14 @@
+{
+  if (capture) {
+    capture=false;
+    shotIndex++;
+    renderer.readFrameBuffer(out,outBuf);
+    Screenshots.convertScreenShot(outBuf,awtImage);
+    try {
+      ImageIO.write(awtImage,"png",new File(appName + shotIndex + ".png"));
+    }
+ catch (    IOException ex) {
+      logger.log(Level.SEVERE,"Error while saving screenshot",ex);
+    }
+  }
+}

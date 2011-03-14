@@ -1,0 +1,29 @@
+{
+  JPanel search=new JPanel();
+  search.setLayout(new BorderLayout());
+  search.add(new JLabel("Choose a Demo to start:      Find: "),BorderLayout.WEST);
+  final javax.swing.JTextField jtf=new javax.swing.JTextField();
+  jtf.getDocument().addDocumentListener(new DocumentListener(){
+    public void removeUpdate(    DocumentEvent e){
+      classes.setFilter(jtf.getText());
+    }
+    public void insertUpdate(    DocumentEvent e){
+      classes.setFilter(jtf.getText());
+    }
+    public void changedUpdate(    DocumentEvent e){
+      classes.setFilter(jtf.getText());
+    }
+  }
+);
+  jtf.addActionListener(new ActionListener(){
+    public void actionPerformed(    ActionEvent e){
+      if (classes.getModel().getSize() == 1) {
+        selectedClass=(Class)classes.getModel().getElementAt(0);
+        TestChooser.this.dispose();
+      }
+    }
+  }
+);
+  search.add(jtf);
+  return search;
+}

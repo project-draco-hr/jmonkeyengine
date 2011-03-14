@@ -1,0 +1,10 @@
+{
+  super.write(ex);
+  OutputCapsule capsule=ex.getCapsule(this);
+  capsule.write(numVertices,"numVertices",0);
+  capsule.write(numTriangles,"numTriangles",0);
+  capsule.write(vertexStride,"vertexStride",0);
+  capsule.write(triangleIndexStride,"triangleIndexStride",0);
+  capsule.write(triangleIndexBase.array(),"triangleIndexBase",new byte[0]);
+  capsule.write(vertexBase.array(),"vertexBase",new byte[0]);
+}

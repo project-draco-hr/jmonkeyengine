@@ -1,0 +1,39 @@
+{
+  if (depth > 3) {
+    return;
+  }
+  if (newVel.length() < veryCloseDist)   return;
+  Vector3f destination=newPos.add(0,sphCenter,0).add(newVel);
+  ss.setCenter(newPos.add(0,sphCenter,0));
+  ss.setVelocity(newVel);
+  ss.setDimension(dimension);
+  results.clear();
+  scene.collideWith(ss,results);
+  if (results.size() == 0) {
+    newPos.addLocal(newVel);
+    return;
+  }
+  for (int i=0; i < results.size(); i++) {
+    CollisionResult collision=results.getCollision(i);
+    Vector3f contactPoint=collision.getContactPoint().clone();
+    float dist=collision.getDistance();
+    if (dist >= veryCloseDist) {
+      Vector3f tmp=new Vector3f(newVel);
+      tmp.normalizeLocal().multLocal(dist - veryCloseDist);
+      newPos.addLocal(tmp);
+      tmp.normalizeLocal();
+      tmp.multLocal(veryCloseDist);
+      contactPoint.subtractLocal(tmp);
+    }
+    Vector3f normal=collision.getContactNormal();
+    Plane p=new Plane();
+    p.setOriginNormal(contactPoint,normal);
+    Vector3f destinationOnPlane=p.getClosestPoint(destination);
+    newVel.set(destinationOnPlane).subtractLocal(contactPoint);
+    if (newVel.length() < veryCloseDist) {
+      return;
+    }
+  }
+  depth=depth + 1;
+  collideWithWorld();
+}

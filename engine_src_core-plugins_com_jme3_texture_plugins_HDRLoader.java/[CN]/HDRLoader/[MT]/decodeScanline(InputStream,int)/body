@@ -1,0 +1,15 @@
+{
+  if (width < 8 || width > 0x7fff) {
+    decodeScanlineUncompressed(in,width);
+  }
+  byte[] data=new byte[4];
+  in.read(data);
+  if (data[0] != 0x02 || data[1] != 0x02 || (data[2] & 0x80) != 0) {
+    decodeScanlineUncompressed(in,width - 1);
+  }
+ else {
+    int readWidth=(data[2] & 0xFF) << 8 | (data[3] & 0xFF);
+    if (readWidth != width)     throw new IOException("Illegal scanline width in HDR file: " + width + " != "+ readWidth);
+    decodeScanlineRLE(in,width);
+  }
+}

@@ -1,0 +1,8 @@
+{
+  if (tcp == null)   throw new IOException("No TCP server.");
+  if (!isBound)   throw new IOException("Not bound yet. Use bind() first.");
+  for (  Client con : tcp.getConnectors()) {
+    if (con == except)     continue;
+    con.sendTCP(object);
+  }
+}

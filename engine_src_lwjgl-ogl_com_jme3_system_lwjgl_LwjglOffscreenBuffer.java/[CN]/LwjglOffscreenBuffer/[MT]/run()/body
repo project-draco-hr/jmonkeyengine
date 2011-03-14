@@ -1,0 +1,8 @@
+{
+  logger.log(Level.INFO,"Using LWJGL {0}",Sys.getVersion());
+  initInThread();
+  while (!needClose.get()) {
+    runLoop();
+  }
+  deinitInThread();
+}

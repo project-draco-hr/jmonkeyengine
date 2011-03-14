@@ -1,0 +1,6 @@
+{
+  Preferences prefs=Preferences.userRoot().node(preferencesKey);
+  for (  String key : keySet()) {
+    prefs.put(key,get(key).toString());
+  }
+}

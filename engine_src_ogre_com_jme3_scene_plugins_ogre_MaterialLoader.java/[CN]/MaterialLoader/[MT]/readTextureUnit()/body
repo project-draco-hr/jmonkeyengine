@@ -1,0 +1,14 @@
+{
+  if (!scan.hasNext("\\{")) {
+    texName=readString("\\{");
+  }
+ else {
+    texName=null;
+  }
+  scan.next();
+  texture=new Texture2D();
+  while (!scan.hasNext("\\}")) {
+    readTextureUnitStatement();
+  }
+  scan.next();
+}

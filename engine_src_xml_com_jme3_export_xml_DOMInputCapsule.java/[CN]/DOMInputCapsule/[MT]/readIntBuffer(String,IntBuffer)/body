@@ -1,0 +1,31 @@
+{
+  try {
+    Element tmpEl=findChildElement(currentElem,name);
+    if (tmpEl == null) {
+      return defVal;
+    }
+    String sizeString=tmpEl.getAttribute("size");
+    String[] strings=parseTokens(tmpEl.getAttribute("data"));
+    if (sizeString.length() > 0) {
+      int requiredSize=Integer.parseInt(sizeString);
+      if (strings.length != requiredSize)       throw new IOException("Wrong number of int buffers for '" + name + "'.  size says "+ requiredSize+ ", data contains "+ strings.length);
+    }
+    IntBuffer tmp=BufferUtils.createIntBuffer(strings.length);
+    for (    String s : strings)     tmp.put(Integer.parseInt(s));
+    tmp.flip();
+    return tmp;
+  }
+ catch (  IOException ioe) {
+    throw ioe;
+  }
+catch (  NumberFormatException nfe) {
+    IOException io=new IOException(nfe.toString());
+    io.initCause(nfe);
+    throw io;
+  }
+catch (  DOMException de) {
+    IOException io=new IOException(de.toString());
+    io.initCause(de);
+    throw io;
+  }
+}

@@ -1,0 +1,4 @@
+{
+  Vector3f[] axes={Vector3f.UNIT_X.mult(xExtent),Vector3f.UNIT_Y.mult(yExtent),Vector3f.UNIT_Z.mult(zExtent)};
+  return new Vector3f[]{center.subtract(axes[0]).subtractLocal(axes[1]).subtractLocal(axes[2]),center.add(axes[0]).subtractLocal(axes[1]).subtractLocal(axes[2]),center.add(axes[0]).addLocal(axes[1]).subtractLocal(axes[2]),center.subtract(axes[0]).addLocal(axes[1]).subtractLocal(axes[2]),center.add(axes[0]).subtractLocal(axes[1]).addLocal(axes[2]),center.subtract(axes[0]).subtractLocal(axes[1]).addLocal(axes[2]),center.add(axes[0]).addLocal(axes[1]).addLocal(axes[2]),center.subtract(axes[0]).addLocal(axes[1]).addLocal(axes[2])};
+}

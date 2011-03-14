@@ -1,0 +1,18 @@
+{
+  if (channel == null) {
+    Object s=cinematic.getEventData("modelChannels",modelName);
+    if (s != null && s instanceof AnimChannel) {
+      this.channel=(AnimChannel)s;
+    }
+ else     if (s == null) {
+      Spatial model=cinematic.getScene().getChild(modelName);
+      if (model != null) {
+        channel=model.getControl(AnimControl.class).createChannel();
+        cinematic.putEventData("modelChannels",modelName,channel);
+      }
+ else {
+        log.log(Level.WARNING,"spatial {0} not found in the scene, cannot perform animation",modelName);
+      }
+    }
+  }
+}

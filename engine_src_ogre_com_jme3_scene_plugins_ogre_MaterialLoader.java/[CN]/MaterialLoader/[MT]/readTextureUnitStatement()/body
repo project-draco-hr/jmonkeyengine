@@ -1,0 +1,32 @@
+{
+  String keyword=scan.next();
+  if (keyword.equals("texture")) {
+    readTextureImage();
+  }
+ else   if (keyword.equals("tex_address_mode")) {
+    String mode=scan.next();
+    if (mode.equals("wrap")) {
+      texture.setWrap(WrapMode.Repeat);
+    }
+ else     if (mode.equals("clamp")) {
+      texture.setWrap(WrapMode.Clamp);
+    }
+ else     if (mode.equals("mirror")) {
+      texture.setWrap(WrapMode.MirroredRepeat);
+    }
+ else     if (mode.equals("border")) {
+      texture.setWrap(WrapMode.BorderClamp);
+    }
+  }
+ else   if (keyword.equals("filtering")) {
+    readString("\n");
+  }
+ else   if (keyword.equals("max_anisotropy")) {
+    int amount=scan.nextInt();
+    texture.setAnisotropicFilter(amount);
+  }
+ else {
+    logger.log(Level.WARNING,"Unsupported texture_unit directive: {0}",keyword);
+    readString("\n");
+  }
+}

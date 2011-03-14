@@ -1,0 +1,17 @@
+{
+  CameraNode camNode=cinematic.bindCamera("topView",cam);
+  camNode.setLocalTranslation(new Vector3f(0,50,0));
+  camNode.lookAt(model.getLocalTranslation(),Vector3f.UNIT_Y);
+  CameraNode camNode2=cinematic.bindCamera("aroundCam",cam);
+  path=new MotionPath();
+  path.setCycle(true);
+  path.addWayPoint(new Vector3f(20,3,0));
+  path.addWayPoint(new Vector3f(0,3,20));
+  path.addWayPoint(new Vector3f(-20,3,0));
+  path.addWayPoint(new Vector3f(0,3,-20));
+  path.setCurveTension(0.83f);
+  cameraMotionTrack=new MotionTrack(camNode2,path);
+  cameraMotionTrack.setLoopMode(LoopMode.Loop);
+  cameraMotionTrack.setLookAt(model.getWorldTranslation(),Vector3f.UNIT_Y);
+  cameraMotionTrack.setDirectionType(MotionTrack.Direction.LookAt);
+}

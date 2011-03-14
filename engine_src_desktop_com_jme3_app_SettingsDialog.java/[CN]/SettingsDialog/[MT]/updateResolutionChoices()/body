@@ -1,0 +1,13 @@
+{
+  if (!fullscreenBox.isSelected()) {
+    displayResCombo.setModel(new DefaultComboBoxModel(windowedResolutions));
+    colorDepthCombo.setModel(new DefaultComboBoxModel(new String[]{"24 bpp","16 bpp"}));
+    displayFreqCombo.setModel(new DefaultComboBoxModel(new String[]{"n/a"}));
+    displayFreqCombo.setEnabled(false);
+  }
+ else {
+    displayResCombo.setModel(new DefaultComboBoxModel(getResolutions(modes)));
+    displayFreqCombo.setEnabled(true);
+    updateDisplayChoices();
+  }
+}

@@ -1,0 +1,7 @@
+{
+  int length=readInt(content);
+  if (length == BinaryOutputCapsule.NULL_OBJECT)   return null;
+  int[][] value=new int[length][];
+  for (int x=0; x < length; x++)   value[x]=readIntArray(content);
+  return value;
+}

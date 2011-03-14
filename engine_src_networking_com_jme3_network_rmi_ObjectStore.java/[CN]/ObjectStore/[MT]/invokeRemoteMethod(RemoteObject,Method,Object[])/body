@@ -1,0 +1,45 @@
+{
+  Integer methodIdInt=remoteObj.methodMap.get(method);
+  if (methodIdInt == null)   throw new RuntimeException("Method not implemented by remote object owner: " + method);
+  boolean needReturn=method.getReturnType() != void.class;
+  short objectId=remoteObj.objectId;
+  short methodId=methodIdInt.shortValue();
+  RemoteMethodCallMessage call=new RemoteMethodCallMessage();
+  call.methodId=methodId;
+  call.objectId=objectId;
+  call.args=args;
+  Invocation invoke=null;
+  if (needReturn) {
+    call.invocationId=invocationIdCounter++;
+    invoke=new Invocation();
+    pendingInvocations.put(call.invocationId,invoke);
+  }
+  try {
+    if (server != null) {
+      remoteObj.client.send(call);
+    }
+ else {
+      client.send(call);
+    }
+  }
+ catch (  IOException ex) {
+    ex.printStackTrace();
+  }
+  if (invoke != null) {
+synchronized (invoke) {
+      while (!invoke.available) {
+        try {
+          invoke.wait();
+        }
+ catch (        InterruptedException ex) {
+          ex.printStackTrace();
+        }
+      }
+    }
+    pendingInvocations.remove(call.invocationId);
+    return invoke.retVal;
+  }
+ else {
+    return null;
+  }
+}

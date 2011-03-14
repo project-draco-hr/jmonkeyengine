@@ -1,0 +1,14 @@
+{
+  stateLock.lock();
+  try {
+    if (result != null) {
+      return false;
+    }
+    cancelled=true;
+    finishedCondition.signalAll();
+    return true;
+  }
+  finally {
+    stateLock.unlock();
+  }
+}

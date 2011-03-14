@@ -1,0 +1,28 @@
+{
+  if (animation == null)   return;
+  if (blendFrom != null) {
+    blendFrom.setTime(timeBlendFrom,control.skeleton,1f - blendAmount,affectedBones);
+    timeBlendFrom+=tpf * speedBlendFrom;
+    timeBlendFrom=clampWrapTime(timeBlendFrom,blendFrom.getLength(),loopModeBlendFrom);
+    if (timeBlendFrom < 0) {
+      timeBlendFrom=-timeBlendFrom;
+      speedBlendFrom=-speedBlendFrom;
+    }
+    blendAmount+=tpf * blendRate;
+    if (blendAmount > 1f) {
+      blendAmount=1f;
+      blendFrom=null;
+    }
+  }
+  animation.setTime(time,control.skeleton,blendAmount,affectedBones);
+  time+=tpf * speed;
+  if (animation.getLength() > 0) {
+    if (time >= animation.getLength())     control.notifyAnimCycleDone(this,animation.getName());
+ else     if (time < 0)     control.notifyAnimCycleDone(this,animation.getName());
+  }
+  time=clampWrapTime(time,animation.getLength(),loopMode);
+  if (time < 0) {
+    time=-time;
+    speed=-speed;
+  }
+}

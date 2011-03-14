@@ -1,0 +1,12 @@
+{
+  Mesh mesh=null;
+  if (shape.getCShape() instanceof ConvexShape) {
+    mesh=new Mesh();
+    mesh.setBuffer(Type.Position,3,getVertices((ConvexShape)shape.getCShape()));
+  }
+ else   if (shape.getCShape() instanceof ConcaveShape) {
+    mesh=new Mesh();
+    mesh.setBuffer(Type.Position,3,getVertices((ConcaveShape)shape.getCShape()));
+  }
+  return mesh;
+}

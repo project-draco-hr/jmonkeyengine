@@ -1,0 +1,10 @@
+{
+  SerializerRegistration existingReg=getExactSerializerRegistration(cls);
+  short id=--nextId;
+  if (existingReg != null)   id=existingReg.getId();
+  SerializerRegistration reg=new SerializerRegistration(serializer,cls,id);
+  idRegistrations.put(id,reg);
+  classRegistrations.put(cls,reg);
+  serializer.initialize(cls);
+  return reg;
+}

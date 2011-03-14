@@ -1,0 +1,9 @@
+{
+  Material material=new Material(assetManager,"Common/MatDefs/Misc/SimpleTextured.j3md");
+  material.setTexture("ColorMap",assetManager.loadTexture("Interface/Logo/Monkey.jpg"));
+  Sphere sphere=new Sphere(8,8,0.25f);
+  Geometry boxGeometry=new Geometry("Sphere",sphere);
+  boxGeometry.setMaterial(material);
+  boxGeometry.addControl(new RigidBodyControl(2));
+  return boxGeometry;
+}

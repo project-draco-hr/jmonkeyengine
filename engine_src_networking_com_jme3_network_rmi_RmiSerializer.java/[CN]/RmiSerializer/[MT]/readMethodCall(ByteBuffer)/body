@@ -1,0 +1,17 @@
+{
+  RemoteMethodCallMessage call=new RemoteMethodCallMessage();
+  call.objectId=buffer.getShort();
+  call.methodId=buffer.getShort();
+  call.invocationId=buffer.getShort();
+  int numArgs=buffer.get() & 0xff;
+  if (numArgs > 0) {
+    Object[] args=new Object[numArgs];
+    for (int i=0; i < numArgs; i++) {
+      if (buffer.get() == (byte)0x01) {
+        args[i]=Serializer.readClassAndObject(buffer);
+      }
+    }
+    call.args=args;
+  }
+  return call;
+}

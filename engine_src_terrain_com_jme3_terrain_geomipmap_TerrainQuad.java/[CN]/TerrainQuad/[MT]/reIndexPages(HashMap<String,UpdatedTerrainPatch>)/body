@@ -1,0 +1,13 @@
+{
+  if (children != null) {
+    for (int i=children.size(); --i >= 0; ) {
+      Spatial child=children.get(i);
+      if (child instanceof TerrainQuad) {
+        ((TerrainQuad)child).reIndexPages(updated);
+      }
+ else       if (child instanceof TerrainPatch) {
+        ((TerrainPatch)child).reIndexGeometry(updated);
+      }
+    }
+  }
+}

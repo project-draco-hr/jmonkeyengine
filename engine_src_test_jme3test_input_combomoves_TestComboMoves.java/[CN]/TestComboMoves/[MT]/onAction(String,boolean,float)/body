@@ -1,0 +1,36 @@
+{
+  if (isPressed) {
+    pressedMappings.add(name);
+  }
+ else {
+    pressedMappings.remove(name);
+  }
+  List<ComboMove> invokedMoves=new ArrayList<ComboMove>();
+  if (shurikenExec.updateState(pressedMappings,time)) {
+    invokedMoves.add(shuriken);
+  }
+  if (fireballExec.updateState(pressedMappings,time)) {
+    invokedMoves.add(fireball);
+  }
+  if (jabExec.updateState(pressedMappings,time)) {
+    invokedMoves.add(jab);
+  }
+  if (punchExec.updateState(pressedMappings,time)) {
+    invokedMoves.add(punch);
+  }
+  if (invokedMoves.size() > 0) {
+    float priority=0;
+    ComboMove toExec=null;
+    for (    ComboMove move : invokedMoves) {
+      if (move.getPriority() > priority) {
+        priority=move.getPriority();
+        toExec=move;
+      }
+    }
+    if (currentMove != null && currentMove.getPriority() > toExec.getPriority()) {
+      return;
+    }
+    currentMove=toExec;
+    currentMoveCastTime=currentMove.getCastTime();
+  }
+}

@@ -1,0 +1,20 @@
+{
+  log.log(Level.INFO,"[{0}][???] Server is shutting down..",label);
+  if (message.getReason() == null) {
+    message.setReason("Server shut down.");
+  }
+  if (message.getType() == null) {
+    message.setType(DisconnectMessage.KICK);
+  }
+  message.setReliable(true);
+  broadcast(message);
+  for (  Client client : getConnectors()) {
+    tcp.addToDisconnectionQueue(client);
+  }
+  tcp.selector.wakeup();
+  log.log(Level.FINE,"[{0}][???] Sent disconnection messages to all clients.",label);
+  thread.setKeepAlive(false);
+  thread=null;
+  log.log(Level.INFO,"[{0}][???] Server shut down.",label);
+  isBound=false;
+}

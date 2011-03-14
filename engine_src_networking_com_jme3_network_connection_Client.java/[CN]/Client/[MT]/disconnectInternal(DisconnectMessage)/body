@@ -1,0 +1,9 @@
+{
+  DisconnectMessage dcMessage=(DisconnectMessage)message;
+  String type=dcMessage.getType();
+  String reason=dcMessage.getReason();
+  log.log(Level.INFO,"[{0}][???] We got disconnected from the server ({1}: {2}).",new Object[]{label,type,reason});
+  thread.setKeepAlive(false);
+  thread=null;
+  isConnected=false;
+}

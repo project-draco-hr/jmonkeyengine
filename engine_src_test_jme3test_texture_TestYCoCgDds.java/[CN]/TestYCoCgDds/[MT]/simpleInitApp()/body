@@ -1,0 +1,12 @@
+{
+  BitmapFont font=assetManager.loadFont("Interface/Fonts/Default.fnt");
+  BitmapText txt=new BitmapText(font,false);
+  txt.setText("Left: Original, Middle: DXT5-YCoCg, Right: DXT1");
+  txt.setLocalTranslation(0,txt.getLineHeight() * 2,0);
+  guiNode.attachChild(txt);
+  quadMesh=new Quad(1,1);
+  quadMesh.updateGeometry(1,1,false);
+  rootNode.attachChild(createQuad(-1f,"Textures/Sky/Night/Night.png",false));
+  rootNode.attachChild(createQuad(0,"Textures/Sky/Night/Night_ycc.dds",true));
+  rootNode.attachChild(createQuad(1f,"Textures/Sky/Night/Night_dxt1.dds",false));
+}

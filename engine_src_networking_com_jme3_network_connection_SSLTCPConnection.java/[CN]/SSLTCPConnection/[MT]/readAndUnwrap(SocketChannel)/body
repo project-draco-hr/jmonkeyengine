@@ -1,0 +1,36 @@
+{
+  incDataEncrypted.flip();
+  int bytesRead=channel.read(incDataEncrypted);
+  if (bytesRead == 0) {
+    System.out.println("BUFFER INFO: " + incDataEncrypted);
+  }
+  if (bytesRead == -1) {
+    log.log(Level.FINE,"[{0}][TCP] -1 bytes read, closing stream.",new Object[]{label,bytesRead});
+    return;
+  }
+  log.log(Level.FINE,"[{0}][TCP] Read {1} bytes.",new Object[]{label,bytesRead});
+  incDataDecrypted.clear();
+  incDataEncrypted.flip();
+  SSLEngineResult result;
+  do {
+    result=sslEngine.unwrap(incDataEncrypted,incDataDecrypted);
+    log.log(Level.FINE,"[{0}][TCP] Unwrap result: {1}.",new Object[]{label,result});
+  }
+ while (result.getStatus() == SSLEngineResult.Status.OK && result.getHandshakeStatus() == SSLEngineResult.HandshakeStatus.NEED_UNWRAP && result.bytesProduced() == 0);
+  if (result.getHandshakeStatus() == SSLEngineResult.HandshakeStatus.FINISHED) {
+    initialHandshake=false;
+    channel.keyFor(selector).interestOps(SelectionKey.OP_READ);
+  }
+  if (incDataDecrypted.position() == 0 && result.getStatus() == SSLEngineResult.Status.OK && incDataEncrypted.hasRemaining()) {
+    result=sslEngine.unwrap(incDataEncrypted,incDataDecrypted);
+    log.log(Level.FINE,"[{0}][TCP] Unwrap result: {1}.",new Object[]{label,result});
+  }
+  status=result.getStatus();
+  handshakeStatus=result.getHandshakeStatus();
+  incDataEncrypted.compact();
+  incDataDecrypted.flip();
+  if (handshakeStatus == SSLEngineResult.HandshakeStatus.NEED_TASK || handshakeStatus == SSLEngineResult.HandshakeStatus.NEED_WRAP || handshakeStatus == SSLEngineResult.HandshakeStatus.FINISHED) {
+    log.log(Level.FINE,"[{0}][TCP] Rehandshaking..",label);
+    doHandshake(channel);
+  }
+}

@@ -1,0 +1,15 @@
+{
+  if (playing) {
+    value+=tpf * direction / duration;
+    if (direction > 0 && value > 1) {
+      value=1;
+      playing=false;
+      processor.setFilterEnabled(this,false);
+    }
+    if (direction < 0 && value < 0) {
+      value=0;
+      playing=false;
+      processor.setFilterEnabled(this,false);
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+switch (shadBucket) {
+case Inherit:
+    break;
+case Off:
+  break;
+case Cast:
+shadowCast.add(g);
+break;
+case Receive:
+shadowRecv.add(g);
+break;
+case CastAndReceive:
+shadowCast.add(g);
+shadowRecv.add(g);
+break;
+default :
+throw new UnsupportedOperationException("Unrecognized shadow bucket type: " + shadBucket);
+}
+}

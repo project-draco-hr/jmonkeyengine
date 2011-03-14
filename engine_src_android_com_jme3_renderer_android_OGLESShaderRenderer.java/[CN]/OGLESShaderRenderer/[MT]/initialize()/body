@@ -1,0 +1,68 @@
+{
+  logger.info("Vendor: " + GLES20.glGetString(GLES20.GL_VENDOR));
+  logger.info("Renderer: " + GLES20.glGetString(GLES20.GL_RENDERER));
+  logger.info("Version: " + GLES20.glGetString(GLES20.GL_VERSION));
+  String shadingLanguageVersion=GLES20.glGetString(GLES20.GL_SHADING_LANGUAGE_VERSION);
+  logger.info("GLES20.Shading Language Version: " + shadingLanguageVersion);
+  String versionStr=GLES20.glGetString(GLES20.GL_SHADING_LANGUAGE_VERSION);
+  if (versionStr == null || versionStr.equals("")) {
+    glslVer=-1;
+    throw new UnsupportedOperationException("GLSL and OpenGL2 is " + "required for the LWJGL " + "renderer!");
+  }
+  int spaceIdx=versionStr.lastIndexOf(" ");
+  if (spaceIdx >= 1)   versionStr=versionStr.substring(spaceIdx,versionStr.length());
+  float version=Float.parseFloat(versionStr);
+  glslVer=(int)(version * 100);
+switch (glslVer) {
+default :
+    if (glslVer < 400)     break;
+case 400:
+case 330:
+case 150:
+  caps.add(Caps.GLSL150);
+case 140:
+caps.add(Caps.GLSL140);
+case 130:
+caps.add(Caps.GLSL130);
+case 120:
+caps.add(Caps.GLSL120);
+case 110:
+caps.add(Caps.GLSL110);
+case 100:
+caps.add(Caps.GLSL100);
+break;
+}
+if (!caps.contains(Caps.GLSL100)) {
+logger.info("Force-adding GLSL100 support, since OpenGL is supported.");
+caps.add(Caps.GLSL100);
+}
+GLES20.glGetIntegerv(GLES20.GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS,intBuf16);
+vertexTextureUnits=intBuf16.get(0);
+logger.info("VTF Units: " + vertexTextureUnits);
+if (vertexTextureUnits > 0) caps.add(Caps.VertexTextureFetch);
+GLES20.glGetIntegerv(GLES20.GL_MAX_TEXTURE_IMAGE_UNITS,intBuf16);
+fragTextureUnits=intBuf16.get(0);
+logger.info("Texture Units: " + fragTextureUnits);
+GLES20.glGetIntegerv(GLES20.GL_MAX_VERTEX_ATTRIBS,intBuf16);
+vertexAttribs=intBuf16.get(0);
+logger.info("Vertex Attributes: " + vertexAttribs);
+GLES20.glGetIntegerv(GLES20.GL_SUBPIXEL_BITS,intBuf16);
+int subpixelBits=intBuf16.get(0);
+logger.info("Subpixel Bits: " + subpixelBits);
+GLES20.glGetIntegerv(GLES20.GL_MAX_TEXTURE_SIZE,intBuf16);
+maxTexSize=intBuf16.get(0);
+logger.info("Maximum Texture Resolution: " + maxTexSize);
+GLES20.glGetIntegerv(GLES20.GL_MAX_CUBE_MAP_TEXTURE_SIZE,intBuf16);
+maxCubeTexSize=intBuf16.get(0);
+logger.info("Maximum CubeMap Resolution: " + maxCubeTexSize);
+String extensions=GLES20.glGetString(GLES20.GL_EXTENSIONS);
+logger.info("GL_EXTENSIONS: " + extensions);
+if (extensions.contains("GL_OES_texture_npot")) powerOf2=true;
+applyRenderState(RenderState.DEFAULT);
+if (verboseLogging) logger.info("GLES20.glDisable(GL10.GL_DITHER)");
+GLES20.glDisable(GL10.GL_DITHER);
+checkGLError();
+if (verboseLogging) logger.info("GLES20.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST)");
+GLES20.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT,GL10.GL_FASTEST);
+logger.log(Level.INFO,"Caps: " + caps);
+}

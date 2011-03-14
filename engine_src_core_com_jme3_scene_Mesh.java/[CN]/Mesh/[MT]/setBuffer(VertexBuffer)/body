@@ -1,0 +1,5 @@
+{
+  if (buffers.containsKey(vb.getBufferType().ordinal()))   throw new IllegalArgumentException("Buffer type already set: " + vb.getBufferType());
+  buffers.put(vb.getBufferType().ordinal(),vb);
+  updateCounts();
+}

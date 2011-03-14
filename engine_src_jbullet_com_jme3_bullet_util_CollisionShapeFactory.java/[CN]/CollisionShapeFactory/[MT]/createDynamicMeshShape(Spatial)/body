@@ -1,0 +1,11 @@
+{
+  if (spatial instanceof Geometry) {
+    return createSingleDynamicMeshShape((Geometry)spatial);
+  }
+ else   if (spatial instanceof Node) {
+    return createCompoundShape((Node)spatial,new CompoundCollisionShape(),true,true);
+  }
+ else {
+    throw new IllegalArgumentException("Supplied spatial must either be Node or Geometry!");
+  }
+}

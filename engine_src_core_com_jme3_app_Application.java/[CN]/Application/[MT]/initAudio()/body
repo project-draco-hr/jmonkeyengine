@@ -1,0 +1,8 @@
+{
+  if (settings.getAudioRenderer() != null) {
+    audioRenderer=JmeSystem.newAudioRenderer(settings);
+    audioRenderer.initialize();
+    listener=new Listener();
+    audioRenderer.setListener(listener);
+  }
+}

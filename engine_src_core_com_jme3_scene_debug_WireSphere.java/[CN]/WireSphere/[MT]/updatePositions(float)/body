@@ -1,0 +1,45 @@
+{
+  VertexBuffer pvb=getBuffer(Type.Position);
+  FloatBuffer pb;
+  if (pvb == null) {
+    pvb=new VertexBuffer(Type.Position);
+    pb=BufferUtils.createVector3Buffer(samples * 2 + samples * zSamples);
+    pvb.setupData(Usage.Dynamic,3,Format.Float,pb);
+    setBuffer(pvb);
+  }
+ else {
+    pb=(FloatBuffer)pvb.getData();
+  }
+  pb.rewind();
+  float rate=FastMath.TWO_PI / (float)samples;
+  float angle=0;
+  for (int i=0; i < samples; i++) {
+    float x=radius * FastMath.cos(angle);
+    float y=radius * FastMath.sin(angle);
+    pb.put(x).put(y).put(0);
+    angle+=rate;
+  }
+  angle=0;
+  for (int i=0; i < samples; i++) {
+    float x=radius * FastMath.cos(angle);
+    float y=radius * FastMath.sin(angle);
+    pb.put(0).put(x).put(y);
+    angle+=rate;
+  }
+  float zRate=(radius * 2) / (float)(zSamples);
+  float zHeight=-radius + (zRate / 2f);
+  float rb=1f / zSamples;
+  float b=rb / 2f;
+  for (int k=0; k < zSamples; k++) {
+    angle=0;
+    float scale=FastMath.sin(b * FastMath.PI);
+    for (int i=0; i < samples; i++) {
+      float x=radius * FastMath.cos(angle);
+      float y=radius * FastMath.sin(angle);
+      pb.put(x * scale).put(zHeight).put(y * scale);
+      angle+=rate;
+    }
+    zHeight+=zRate;
+    b+=rb;
+  }
+}

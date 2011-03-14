@@ -1,0 +1,15 @@
+{
+  BoundingBox bbox;
+  if (bv instanceof BoundingSphere) {
+    BoundingSphere sphere=(BoundingSphere)bv;
+    bbox=new BoundingBox(bv.getCenter().clone(),sphere.getRadius(),sphere.getRadius(),sphere.getRadius());
+  }
+ else   if (bv instanceof BoundingBox) {
+    bbox=new BoundingBox((BoundingBox)bv);
+  }
+ else {
+    throw new UnsupportedCollisionException();
+  }
+  bbox.transform(worldMatrix.invert(),bbox);
+  return root.intersectWhere(bv,bbox,worldMatrix,this,results);
+}

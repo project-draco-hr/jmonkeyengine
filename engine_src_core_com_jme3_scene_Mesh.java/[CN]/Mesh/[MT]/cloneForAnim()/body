@@ -1,0 +1,16 @@
+{
+  Mesh clone=clone();
+  if (getBuffer(Type.BindPosePosition) != null) {
+    VertexBuffer oldPos=getBuffer(Type.Position);
+    VertexBuffer newPos=oldPos.clone();
+    clone.clearBuffer(Type.Position);
+    clone.setBuffer(newPos);
+    if (getBuffer(Type.BindPoseNormal) != null) {
+      VertexBuffer oldNorm=getBuffer(Type.Normal);
+      VertexBuffer newNorm=oldNorm.clone();
+      clone.clearBuffer(Type.Normal);
+      clone.setBuffer(newNorm);
+    }
+  }
+  return clone;
+}

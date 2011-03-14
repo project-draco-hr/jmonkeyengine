@@ -1,0 +1,17 @@
+{
+  Bone b=control.getSkeleton().getBone("spinehigh");
+  Bone b2=control.getSkeleton().getBone("uparm.left");
+  angle+=tpf * rate;
+  if (angle > FastMath.HALF_PI / 2f) {
+    angle=FastMath.HALF_PI / 2f;
+    rate=-1;
+  }
+ else   if (angle < -FastMath.HALF_PI / 2f) {
+    angle=-FastMath.HALF_PI / 2f;
+    rate=1;
+  }
+  Quaternion q=new Quaternion();
+  q.fromAngles(0,angle,0);
+  b.setUserControl(true);
+  b.setUserTransforms(Vector3f.ZERO,q,new Vector3f(angle,angle,angle));
+}

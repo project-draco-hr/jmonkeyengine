@@ -1,0 +1,15 @@
+{
+  if (filter == null || filter.length() == 0) {
+    super.setModel(originalModel);
+  }
+  DefaultListModel v=new DefaultListModel();
+  for (int i=0; i < originalModel.getSize(); i++) {
+    Object o=originalModel.getElementAt(i);
+    String s=String.valueOf(o).toLowerCase();
+    if (s.contains(filter)) {
+      v.addElement(o);
+    }
+  }
+  super.setModel(v);
+  revalidate();
+}

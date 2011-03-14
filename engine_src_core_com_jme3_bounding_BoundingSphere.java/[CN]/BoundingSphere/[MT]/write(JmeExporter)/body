@@ -1,0 +1,9 @@
+{
+  super.write(e);
+  try {
+    e.getCapsule(this).write(radius,"radius",0);
+  }
+ catch (  IOException ex) {
+    logger.logp(Level.SEVERE,this.getClass().toString(),"write(JMEExporter)","Exception",ex);
+  }
+}

@@ -1,0 +1,11 @@
+{
+  Geometry ball_geo=new Geometry("cannon ball",sphere);
+  ball_geo.setMaterial(stone_mat);
+  rootNode.attachChild(ball_geo);
+  ball_geo.setLocalTranslation(cam.getLocation());
+  ball_geo.setShadowMode(ShadowMode.CastAndReceive);
+  ball_phy=new RigidBodyControl(1f);
+  ball_geo.addControl(ball_phy);
+  bulletAppState.getPhysicsSpace().add(ball_phy);
+  ball_phy.setLinearVelocity(cam.getDirection().mult(25));
+}

@@ -1,0 +1,15 @@
+{
+switch (clientInfo.lastSyncInfo.type) {
+case EntitySyncInfo.TYPE_NEW:
+    inLoopCreateEntity(entityId,clientInfo);
+  return true;
+case EntitySyncInfo.TYPE_SYNC:
+inLoopSyncEntity(entityId,clientInfo);
+return true;
+case EntitySyncInfo.TYPE_DELETE:
+inLoopDeleteEntity(entityId,clientInfo);
+return false;
+default :
+throw new UnsupportedOperationException();
+}
+}

@@ -1,0 +1,10 @@
+{
+  String str="------------------".substring(0,indent) + toString() + "\n";
+  if (child == null)   return str;
+  FastOctnode children=child;
+  while (children != null) {
+    str+=children.toStringVerbose(indent + 1);
+    children=children.next;
+  }
+  return str;
+}

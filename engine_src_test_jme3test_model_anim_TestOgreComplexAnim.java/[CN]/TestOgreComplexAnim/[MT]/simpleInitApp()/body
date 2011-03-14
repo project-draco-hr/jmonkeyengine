@@ -1,0 +1,37 @@
+{
+  flyCam.setMoveSpeed(10f);
+  cam.setLocation(new Vector3f(6.4013605f,7.488437f,12.843031f));
+  cam.setRotation(new Quaternion(-0.060740203f,0.93925786f,-0.2398315f,-0.2378785f));
+  DirectionalLight dl=new DirectionalLight();
+  dl.setDirection(new Vector3f(-0.1f,-0.7f,-1).normalizeLocal());
+  dl.setColor(new ColorRGBA(1f,1f,1f,1.0f));
+  rootNode.addLight(dl);
+  Node model=(Node)assetManager.loadModel("Models/Oto/Oto.mesh.xml");
+  control=model.getControl(AnimControl.class);
+  AnimChannel feet=control.createChannel();
+  AnimChannel leftHand=control.createChannel();
+  AnimChannel rightHand=control.createChannel();
+  feet.addFromRootBone("hip.right");
+  feet.addFromRootBone("hip.left");
+  feet.setAnim("Dodge");
+  feet.setSpeed(2);
+  feet.setLoopMode(LoopMode.Cycle);
+  feet.setAnim("Walk",15);
+  feet.setSpeed(0.25f);
+  feet.setLoopMode(LoopMode.Cycle);
+  leftHand.addFromRootBone("uparm.right");
+  leftHand.setAnim("pull");
+  leftHand.setSpeed(.5f);
+  leftHand.setAnim("stand",15);
+  rightHand.addBone("spinehigh");
+  rightHand.addFromRootBone("uparm.left");
+  rightHand.setAnim("push");
+  SkeletonDebugger skeletonDebug=new SkeletonDebugger("skeleton",control.getSkeleton());
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  mat.getAdditionalRenderState().setWireframe(true);
+  mat.setColor("Color",ColorRGBA.Green);
+  mat.getAdditionalRenderState().setDepthTest(false);
+  skeletonDebug.setMaterial(mat);
+  model.attachChild(skeletonDebug);
+  rootNode.attachChild(model);
+}

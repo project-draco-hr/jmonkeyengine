@@ -1,0 +1,10 @@
+{
+  PhysicsCollisionEvent event=eventBuffer.poll();
+  if (event == null) {
+    event=new PhysicsCollisionEvent(type,source,nodeB,cp);
+  }
+ else {
+    event.refactor(type,source,nodeB,cp);
+  }
+  return event;
+}

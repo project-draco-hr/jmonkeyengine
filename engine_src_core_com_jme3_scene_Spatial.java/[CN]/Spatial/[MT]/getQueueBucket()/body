@@ -1,0 +1,5 @@
+{
+  if (queueBucket != RenderQueue.Bucket.Inherit)   return queueBucket;
+ else   if (parent != null)   return parent.getQueueBucket();
+ else   return RenderQueue.Bucket.Opaque;
+}

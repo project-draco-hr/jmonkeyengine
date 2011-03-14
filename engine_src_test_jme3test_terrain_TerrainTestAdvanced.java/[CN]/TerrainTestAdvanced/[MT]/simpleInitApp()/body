@@ -1,0 +1,59 @@
+{
+  setupKeys();
+  matTerrain=new Material(assetManager,"Common/MatDefs/Terrain/TerrainLighting.j3md");
+  matTerrain.setBoolean("useTriPlanarMapping",false);
+  matTerrain.setBoolean("WardIso",true);
+  matTerrain.setTexture("AlphaMap",assetManager.loadTexture("Textures/Terrain/splat/alphamap.png"));
+  Texture heightMapImage=assetManager.loadTexture("Textures/Terrain/splat/mountains512.png");
+  Texture grass=assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
+  grass.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("DiffuseMap",grass);
+  matTerrain.setFloat("DiffuseMap_0_scale",grassScale);
+  Texture dirt=assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
+  dirt.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("DiffuseMap_1",dirt);
+  matTerrain.setFloat("DiffuseMap_1_scale",dirtScale);
+  Texture rock=assetManager.loadTexture("Textures/Terrain/splat/road.jpg");
+  rock.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("DiffuseMap_2",rock);
+  matTerrain.setFloat("DiffuseMap_2_scale",rockScale);
+  Texture normalMap0=assetManager.loadTexture("Textures/Terrain/splat/grass_normal.png");
+  normalMap0.setWrap(WrapMode.Repeat);
+  Texture normalMap1=assetManager.loadTexture("Textures/Terrain/splat/dirt_normal.png");
+  normalMap1.setWrap(WrapMode.Repeat);
+  Texture normalMap2=assetManager.loadTexture("Textures/Terrain/splat/road_normal.png");
+  normalMap2.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("NormalMap",normalMap0);
+  matTerrain.setTexture("NormalMap_1",normalMap2);
+  matTerrain.setTexture("NormalMap_2",normalMap2);
+  matWire=new Material(assetManager,"Common/MatDefs/Misc/WireColor.j3md");
+  matWire.setColor("Color",ColorRGBA.Green);
+  createSky();
+  AbstractHeightMap heightmap=null;
+  try {
+    heightmap=new ImageBasedHeightMap(ImageToAwt.convert(heightMapImage.getImage(),false,true,0),1f);
+    heightmap.load();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  terrain=new TerrainQuad("terrain",65,513,heightmap.getHeightMap());
+  List<Camera> cameras=new ArrayList<Camera>();
+  cameras.add(getCamera());
+  TerrainLodControl control=new TerrainLodControl(terrain,cameras);
+  terrain.addControl(control);
+  terrain.setMaterial(matTerrain);
+  terrain.setModelBound(new BoundingBox());
+  terrain.updateModelBound();
+  terrain.setLocalTranslation(0,-100,0);
+  terrain.setLocalScale(1f,1f,1f);
+  rootNode.attachChild(terrain);
+  DirectionalLight light=new DirectionalLight();
+  light.setDirection((new Vector3f(-0.5f,-1f,-0.5f)).normalize());
+  rootNode.addLight(light);
+  AmbientLight ambLight=new AmbientLight();
+  ambLight.setColor(new ColorRGBA(1f,1f,0.8f,0.2f));
+  rootNode.addLight(ambLight);
+  getCamera().getLocation().y=10;
+  getCamera().setDirection(new Vector3f(0,-1.5f,-1));
+}

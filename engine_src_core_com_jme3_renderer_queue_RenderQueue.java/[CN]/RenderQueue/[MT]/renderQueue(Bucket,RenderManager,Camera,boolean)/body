@@ -1,0 +1,18 @@
+{
+switch (bucket) {
+case Gui:
+    renderGeometryList(guiList,rm,cam,clear);
+  break;
+case Opaque:
+renderGeometryList(opaqueList,rm,cam,clear);
+break;
+case Sky:
+renderGeometryList(skyList,rm,cam,clear);
+break;
+case Transparent:
+renderGeometryList(transparentList,rm,cam,clear);
+break;
+default :
+throw new UnsupportedOperationException("Unsupported bucket type: " + bucket);
+}
+}

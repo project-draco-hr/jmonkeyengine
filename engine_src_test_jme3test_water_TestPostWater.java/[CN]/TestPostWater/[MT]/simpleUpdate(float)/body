@@ -1,0 +1,6 @@
+{
+  super.simpleUpdate(tpf);
+  time+=tpf;
+  waterHeight=(float)Math.cos(((time * 0.6f) % FastMath.TWO_PI)) * 1.5f;
+  water.setWaterHeight(initialWaterHeight + waterHeight);
+}

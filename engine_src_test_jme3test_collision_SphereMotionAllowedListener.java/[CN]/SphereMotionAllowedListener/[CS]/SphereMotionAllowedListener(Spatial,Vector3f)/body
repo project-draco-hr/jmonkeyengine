@@ -1,0 +1,11 @@
+{
+  if (scene == null || dimension == null)   throw new NullPointerException();
+  this.scene=scene;
+  charHeight=dimension.getY();
+  footHeight=charHeight / 3f;
+  footStart=-(charHeight / 2f) + footHeight;
+  sphHeight=charHeight - footHeight;
+  sphCenter=(charHeight / 2f) - (sphHeight / 2f);
+  this.dimension.set(dimension);
+  this.dimension.setY(sphHeight);
+}

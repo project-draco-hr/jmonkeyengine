@@ -1,0 +1,24 @@
+{
+switch (format) {
+case Byte:
+    return GL_BYTE;
+case UnsignedByte:
+  return GL_UNSIGNED_BYTE;
+case Short:
+return GL_SHORT;
+case UnsignedShort:
+return GL_UNSIGNED_SHORT;
+case Int:
+return GL_INT;
+case UnsignedInt:
+return GL_UNSIGNED_INT;
+case Half:
+return NVHalfFloat.GL_HALF_FLOAT_NV;
+case Float:
+return GL_FLOAT;
+case Double:
+return GL_DOUBLE;
+default :
+throw new RuntimeException("Unknown buffer format.");
+}
+}

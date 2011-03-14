@@ -1,0 +1,8 @@
+{
+  ArrayList<Spatial> childs=children;
+  children=new ArrayList<Spatial>();
+  super.write(e);
+  OutputCapsule capsule=e.getCapsule(this);
+  capsule.writeSavableArrayList(assetLoaderKeys,"assetLoaderKeyList",null);
+  children=childs;
+}

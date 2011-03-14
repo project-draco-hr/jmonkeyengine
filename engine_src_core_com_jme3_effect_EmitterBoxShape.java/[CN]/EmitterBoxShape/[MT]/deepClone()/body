@@ -1,0 +1,11 @@
+{
+  try {
+    EmitterBoxShape clone=(EmitterBoxShape)super.clone();
+    clone.min=min.clone();
+    clone.len=len.clone();
+    return clone;
+  }
+ catch (  CloneNotSupportedException ex) {
+    throw new AssertionError();
+  }
+}

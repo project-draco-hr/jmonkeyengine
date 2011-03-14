@@ -1,0 +1,6 @@
+{
+  if (renderFrameBufferMS != null && !renderer.getCaps().contains(Caps.OpenGL31)) {
+    renderer.copyFrameBuffer(renderFrameBufferMS,renderFrameBuffer);
+  }
+  renderFilterChain(renderer);
+}

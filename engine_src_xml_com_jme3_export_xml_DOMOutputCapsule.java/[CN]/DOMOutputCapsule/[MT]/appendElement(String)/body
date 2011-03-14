@@ -1,0 +1,12 @@
+{
+  Element ret=null;
+  ret=doc.createElement(name);
+  if (currentElement == null) {
+    doc.appendChild(ret);
+  }
+ else {
+    currentElement.appendChild(ret);
+  }
+  currentElement=ret;
+  return ret;
+}

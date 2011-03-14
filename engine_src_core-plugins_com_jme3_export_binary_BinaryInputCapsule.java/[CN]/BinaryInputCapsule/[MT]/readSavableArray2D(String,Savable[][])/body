@@ -1,0 +1,17 @@
+{
+  BinaryClassField field=cObj.nameFields.get(name);
+  if (field == null || !fieldData.containsKey(field.alias))   return defVal;
+  Object[][] values=(Object[][])fieldData.get(field.alias);
+  if (values instanceof ID[][]) {
+    Savable[][] savables=new Savable[values.length][];
+    for (int i=0; i < values.length; i++) {
+      if (values[i] != null) {
+        savables[i]=resolveIDs(values[i]);
+      }
+ else       savables[i]=null;
+    }
+    values=savables;
+    fieldData.put(field.alias,values);
+  }
+  return (Savable[][])values;
+}

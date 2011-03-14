@@ -1,0 +1,14 @@
+{
+  super.initialize();
+  System.out.println("Initialize");
+  RootNodeState state=new RootNodeState();
+  viewPort.attachScene(state.getRootNode());
+  stateManager.attach(state);
+  Spatial model=assetManager.loadModel("Models/Teapot/Teapot.obj");
+  model.scale(3);
+  model.setMaterial(assetManager.loadMaterial("Interface/Logo/Logo.j3m"));
+  state.getRootNode().attachChild(model);
+  NiftyJmeDisplay niftyDisplay=new NiftyJmeDisplay(assetManager,inputManager,audioRenderer,guiViewPort);
+  niftyDisplay.getNifty().fromXml("jme3test/niftygui/hellojme.xml","start");
+  guiViewPort.addProcessor(niftyDisplay);
+}

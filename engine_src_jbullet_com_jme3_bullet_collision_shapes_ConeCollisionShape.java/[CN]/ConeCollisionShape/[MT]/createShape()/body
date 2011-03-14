@@ -1,0 +1,13 @@
+{
+  if (axis == PhysicsSpace.AXIS_X) {
+    cShape=new ConeShapeX(radius,height);
+  }
+ else   if (axis == PhysicsSpace.AXIS_Y) {
+    cShape=new ConeShape(radius,height);
+  }
+ else   if (axis == PhysicsSpace.AXIS_Z) {
+    cShape=new ConeShapeZ(radius,height);
+  }
+  cShape.setLocalScaling(Converter.convert(getScale()));
+  cShape.setMargin(margin);
+}

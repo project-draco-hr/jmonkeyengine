@@ -1,0 +1,11 @@
+{
+  BinaryClassField field=cObj.nameFields.get(name);
+  if (field == null || !fieldData.containsKey(field.alias))   return defVal;
+  Object value=fieldData.get(field.alias);
+  if (value instanceof ID[][]) {
+    Savable[][] savables=readSavableArray2D(name,null);
+    value=savableMapFrom2DArray(savables);
+    fieldData.put(field.alias,value);
+  }
+  return (Map<? extends Savable,? extends Savable>)value;
+}

@@ -1,0 +1,16 @@
+{
+  if (flattening <= 1) {
+    return;
+  }
+  normalizeTerrain(1f);
+  for (int x=0; x < size; x++) {
+    for (int y=0; y < size; y++) {
+      float flat=1.0f;
+      float original=heightData[x + y * size];
+      for (int i=0; i < flattening; i++) {
+        flat*=original;
+      }
+      heightData[x + y * size]=flat;
+    }
+  }
+}

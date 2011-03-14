@@ -1,0 +1,8 @@
+{
+  super.read(im);
+  InputCapsule ic=im.getCapsule(this);
+  flipY=ic.readBoolean("flip_y",false);
+  generateMips=ic.readBoolean("generate_mips",false);
+  asCube=ic.readBoolean("as_cubemap",false);
+  anisotropy=ic.readInt("anisotropy",0);
+}

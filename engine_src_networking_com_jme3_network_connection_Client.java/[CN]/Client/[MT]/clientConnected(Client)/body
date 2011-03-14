@@ -1,0 +1,22 @@
+{
+  if (!isConnected)   return;
+  long time=System.currentTimeMillis();
+  playerID=time;
+  ClientRegistrationMessage message=new ClientRegistrationMessage();
+  message.setId(time);
+  try {
+    message.setReliable(false);
+    send(message);
+    message.setReliable(true);
+    send(message);
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    log.log(Level.SEVERE,"[{0}][???] Could not sent client registration message. Disconnecting.",label);
+    try {
+      disconnect(DisconnectMessage.ERROR);
+    }
+ catch (    IOException ie) {
+    }
+  }
+}

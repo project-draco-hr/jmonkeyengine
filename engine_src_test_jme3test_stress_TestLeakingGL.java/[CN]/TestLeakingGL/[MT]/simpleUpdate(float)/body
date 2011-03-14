@@ -1,0 +1,12 @@
+{
+  rootNode.detachAllChildren();
+  for (int y=-15; y < 15; y++) {
+    for (int x=-15; x < 15; x++) {
+      Mesh sphMesh=original.deepClone();
+      Geometry sphere=new Geometry("sphere",sphMesh);
+      sphere.setMaterial(solidColor);
+      sphere.setLocalTranslation(x * 1.5f,0,y * 1.5f);
+      rootNode.attachChild(sphere);
+    }
+  }
+}

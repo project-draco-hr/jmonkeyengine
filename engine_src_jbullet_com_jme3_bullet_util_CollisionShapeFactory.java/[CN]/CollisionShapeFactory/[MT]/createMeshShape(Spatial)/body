@@ -1,0 +1,15 @@
+{
+  if (spatial instanceof TerrainQuad) {
+    TerrainQuad terrain=(TerrainQuad)spatial;
+    return new HeightfieldCollisionShape(terrain.getHeightMap(),terrain.getLocalScale());
+  }
+ else   if (spatial instanceof Geometry) {
+    return createSingleMeshShape((Geometry)spatial);
+  }
+ else   if (spatial instanceof Node) {
+    return createMeshCompoundShape((Node)spatial);
+  }
+ else {
+    throw new IllegalArgumentException("Supplied spatial must either be Node or Geometry!");
+  }
+}

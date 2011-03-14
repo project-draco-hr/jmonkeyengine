@@ -1,0 +1,14 @@
+{
+  Geometry bombGeo=new Geometry("bomb",bomb);
+  bombGeo.setMaterial(matBomb);
+  PhysicsNode bombNode=new PhysicsNode(bombGeo,bombCollisionShape,1);
+  bombNode.setCcdMotionThreshold(0.1f);
+  bombNode.setName("bomb");
+  bombNode.setLocalTranslation(enemyLoc);
+  bombNode.setShadowMode(ShadowMode.Cast);
+  Vector3f w=wallNode.getWorldTranslation();
+  Vector3f c=characterNode.getWorldTranslation();
+  bombNode.setLinearVelocity(w.subtract(c).normalize().mult(30));
+  rootNode.attachChild(bombNode);
+  getPhysicsSpace().add(bombNode);
+}

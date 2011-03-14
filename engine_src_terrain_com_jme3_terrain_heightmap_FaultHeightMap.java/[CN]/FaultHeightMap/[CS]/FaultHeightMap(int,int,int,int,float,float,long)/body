@@ -1,0 +1,17 @@
+{
+  if (size < 0 || iterations < 0) {
+    throw new Exception("Size and iterations must be greater than 0!");
+  }
+  this.size=size;
+  this.iterations=iterations;
+  this.faultType=faultType;
+  this.faultShape=faultShape;
+  this.minFaultHeight=minFaultHeight;
+  this.maxFaultHeight=maxFaultHeight;
+  this.seed=seed;
+  this.minRange=minFaultHeight;
+  this.maxRange=maxFaultHeight;
+  this.minRadius=size / 10;
+  this.maxRadius=size / 4;
+  load();
+}

@@ -1,0 +1,21 @@
+{
+  super.initialize();
+  guiNode.setQueueBucket(Bucket.Gui);
+  guiNode.setCullHint(CullHint.Never);
+  loadFPSText();
+  loadStatsView();
+  viewPort.attachScene(rootNode);
+  guiViewPort.attachScene(guiNode);
+  if (inputManager != null) {
+    flyCam=new FlyByCamera(cam);
+    flyCam.setMoveSpeed(1f);
+    flyCam.registerWithInput(inputManager);
+    if (context.getType() == Type.Display) {
+      inputManager.addMapping("SIMPLEAPP_Exit",new KeyTrigger(KeyInput.KEY_ESCAPE));
+    }
+    inputManager.addMapping("SIMPLEAPP_CameraPos",new KeyTrigger(KeyInput.KEY_C));
+    inputManager.addMapping("SIMPLEAPP_Memory",new KeyTrigger(KeyInput.KEY_M));
+    inputManager.addListener(actionListener,"SIMPLEAPP_Exit","SIMPLEAPP_CameraPos","SIMPLEAPP_Memory");
+  }
+  simpleInitApp();
+}

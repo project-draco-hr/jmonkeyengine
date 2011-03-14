@@ -1,0 +1,27 @@
+{
+  int faceN=(getWidth() - 1) * (getHeight() - 1) * 2;
+  final int lod2=32;
+  final int lod=1;
+  if (store != null) {
+    if (store.remaining() < faceN * 3)     throw new BufferUnderflowException();
+  }
+ else {
+    store=BufferUtils.createIntBuffer(faceN * 3);
+  }
+  for (int z=0; z < getHeight() - 1; z+=lod) {
+    for (int x=0; x < getWidth() - 1; x+=lod) {
+      int i=x + z * getWidth();
+      store.put(i).put(i + getWidth() * lod).put(i + getWidth() * lod + lod);
+      store.put(i + getWidth() * lod + lod).put(i + lod).put(i);
+    }
+  }
+  store.flip();
+  for (int i=0; i < store.limit(); i++) {
+    int index=store.get();
+    if (index < getWidth() - 3 && index % lod2 != 0) {
+      store.position(store.position() - 1);
+      store.put(index - index % lod2);
+    }
+  }
+  return store;
+}

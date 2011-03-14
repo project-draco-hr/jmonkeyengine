@@ -1,0 +1,7 @@
+{
+  if (spatial != null) {
+    value+=Math.min(tpf * speed / duration,1.0f);
+    Vector3f pos=FastMath.interpolateLinear(value,startPosition,endPosition);
+    spatial.setLocalTranslation(pos);
+  }
+}

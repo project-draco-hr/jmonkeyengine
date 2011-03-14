@@ -1,0 +1,17 @@
+{
+  Particle p=particles[idx];
+  p.life=0;
+  p.size=0f;
+  p.color.set(0,0,0,0);
+  p.imageIndex=0;
+  p.angle=0;
+  p.rotateSpeed=0;
+  if (idx == lastUsed) {
+    while (lastUsed >= 0 && particles[lastUsed].life == 0) {
+      lastUsed--;
+    }
+  }
+  if (idx < firstUnUsed) {
+    firstUnUsed=idx;
+  }
+}

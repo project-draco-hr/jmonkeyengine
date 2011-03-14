@@ -1,0 +1,8 @@
+{
+  if (keys == null || values == null) {
+    return null;
+  }
+  Map<String,Savable> map=new HashMap<String,Savable>(keys.length);
+  for (int x=0; x < keys.length; x++)   map.put(keys[x],values[x]);
+  return map;
+}

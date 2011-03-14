@@ -1,0 +1,43 @@
+{
+  int newX=getWidth() - (int)motionEvent.getX();
+  int newY=(int)motionEvent.getY();
+switch (motionEvent.getAction()) {
+case MotionEvent.ACTION_DOWN:
+    MouseButtonEvent btn=new MouseButtonEvent(0,true,newX,newY);
+  btn.setTime(motionEvent.getEventTime());
+processEvent(btn);
+lastX=-1;
+lastY=-1;
+return true;
+case MotionEvent.ACTION_UP:
+MouseButtonEvent btn2=new MouseButtonEvent(0,false,newX,newY);
+btn2.setTime(motionEvent.getEventTime());
+processEvent(btn2);
+lastX=-1;
+lastY=-1;
+return true;
+case MotionEvent.ACTION_MOVE:
+int dx;
+int dy;
+if (lastX != -1) {
+dx=newX - lastX;
+dy=newY - lastY;
+}
+ else {
+dx=0;
+dy=0;
+}
+lastX=newX;
+lastY=newY;
+MouseMotionEvent mot=new MouseMotionEvent(newX,newY,dx,dy,0,0);
+mot.setTime(motionEvent.getEventTime());
+processEvent(mot);
+try {
+Thread.sleep(15);
+}
+ catch (InterruptedException ex) {
+}
+return true;
+}
+return false;
+}

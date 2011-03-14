@@ -1,0 +1,10 @@
+{
+  needClose.set(true);
+  if (renderThread != null && renderThread.isAlive()) {
+    renderThread.interrupt();
+synchronized (reinitAuthLock) {
+      reinitAuthLock.notifyAll();
+    }
+  }
+  if (waitFor)   waitFor(false);
+}

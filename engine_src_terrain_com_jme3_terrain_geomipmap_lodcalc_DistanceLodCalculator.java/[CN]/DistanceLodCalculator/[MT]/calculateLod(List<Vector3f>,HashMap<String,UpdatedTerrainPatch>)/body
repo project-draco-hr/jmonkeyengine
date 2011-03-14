@@ -1,0 +1,21 @@
+{
+  float distance=getCenterLocation().distance(locations.get(0));
+  for (int i=0; i <= terrainPatch.getMaxLod(); i++) {
+    if (distance < lodThresholdCalculator.getLodDistanceThreshold() * (i + 1) * terrainPatch.getWorldScale().x || i == terrainPatch.getMaxLod()) {
+      boolean reIndexNeeded=false;
+      if (i != terrainPatch.getLod()) {
+        reIndexNeeded=true;
+      }
+      int prevLOD=terrainPatch.getLod();
+      UpdatedTerrainPatch utp=updates.get(terrainPatch.getName());
+      if (utp == null) {
+        utp=new UpdatedTerrainPatch(terrainPatch,i);
+        updates.put(utp.getName(),utp);
+      }
+      utp.setPreviousLod(prevLOD);
+      utp.setReIndexNeeded(reIndexNeeded);
+      return reIndexNeeded;
+    }
+  }
+  return false;
+}

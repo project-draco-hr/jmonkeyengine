@@ -1,0 +1,6 @@
+{
+  ByteBuffer bb=BufferUtils.createByteBuffer(1 * 1 * 2);
+  bb.put((byte)0xff).put((byte)0xff);
+  bb.clear();
+  return new Image(Format.RGB5A1,1,1,bb);
+}

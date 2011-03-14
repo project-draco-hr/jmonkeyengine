@@ -1,0 +1,25 @@
+{
+  flyCam.setMoveSpeed(10f);
+  DirectionalLight dl=new DirectionalLight();
+  dl.setDirection(new Vector3f(-0.1f,-0.7f,1).normalizeLocal());
+  dl.setColor(new ColorRGBA(1f,1f,1f,1.0f));
+  rootNode.addLight(dl);
+  lightMdl=new Geometry("Light",new Sphere(10,10,0.1f));
+  lightMdl.setMaterial((Material)assetManager.loadAsset("Common/Materials/RedColor.j3m"));
+  rootNode.attachChild(lightMdl);
+  lightMd2=new Geometry("Light",new Sphere(10,10,0.1f));
+  lightMd2.setMaterial((Material)assetManager.loadAsset("Common/Materials/WhiteColor.j3m"));
+  rootNode.attachChild(lightMd2);
+  pl=new PointLight();
+  pl.setColor(new ColorRGBA(1,0.9f,0.9f,0));
+  pl.setPosition(new Vector3f(0f,0f,4f));
+  rootNode.addLight(pl);
+  p2=new PointLight();
+  p2.setColor(new ColorRGBA(0.9f,1,0.9f,0));
+  p2.setPosition(new Vector3f(0f,0f,3f));
+  rootNode.addLight(p2);
+  Spatial elephant=(Spatial)assetManager.loadModel("Models/Elephant/Elephant.mesh.xml");
+  float scale=0.05f;
+  elephant.scale(scale,scale,scale);
+  rootNode.attachChild(elephant);
+}

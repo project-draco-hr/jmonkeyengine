@@ -1,0 +1,26 @@
+{
+  if (name.endsWith(".class") && name.indexOf("Test") >= 0 && name.indexOf('$') < 0) {
+    String classname=name.substring(0,name.length() - ".class".length());
+    if (classname.startsWith("/")) {
+      classname=classname.substring(1);
+    }
+    classname=classname.replace('/','.');
+    try {
+      final Class<?> cls=Class.forName(classname);
+      cls.getMethod("main",new Class[]{String[].class});
+      if (!getClass().equals(cls)) {
+        return cls;
+      }
+    }
+ catch (    NoClassDefFoundError e) {
+      return null;
+    }
+catch (    ClassNotFoundException e) {
+      return null;
+    }
+catch (    NoSuchMethodException e) {
+      return null;
+    }
+  }
+  return null;
+}

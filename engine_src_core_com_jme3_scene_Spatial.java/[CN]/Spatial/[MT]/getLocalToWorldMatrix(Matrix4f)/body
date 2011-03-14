@@ -1,0 +1,12 @@
+{
+  if (store == null) {
+    store=new Matrix4f();
+  }
+ else {
+    store.loadIdentity();
+  }
+  store.scale(getWorldScale());
+  store.multLocal(getWorldRotation());
+  store.setTranslation(getWorldTranslation());
+  return store;
+}

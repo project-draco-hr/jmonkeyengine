@@ -1,0 +1,10 @@
+{
+  try {
+    Mouse.create();
+    logger.info("Mouse created.");
+    supportHardwareCursor=(Cursor.getCapabilities() & Cursor.CURSOR_ONE_BIT_TRANSPARENCY) != 0;
+  }
+ catch (  LWJGLException ex) {
+    logger.log(Level.SEVERE,"Error while creating mouse",ex);
+  }
+}

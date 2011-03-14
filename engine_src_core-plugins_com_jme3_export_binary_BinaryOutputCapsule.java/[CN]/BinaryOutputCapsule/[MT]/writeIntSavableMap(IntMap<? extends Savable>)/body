@@ -1,0 +1,17 @@
+{
+  if (array == null) {
+    write(NULL_OBJECT);
+    return;
+  }
+  write(array.size());
+  int[] keys=new int[array.size()];
+  Savable[] values=new Savable[keys.length];
+  int i=0;
+  for (  Entry<? extends Savable> entry : array) {
+    keys[i]=entry.getKey();
+    values[i]=entry.getValue();
+    i++;
+  }
+  write(keys);
+  write(values);
+}

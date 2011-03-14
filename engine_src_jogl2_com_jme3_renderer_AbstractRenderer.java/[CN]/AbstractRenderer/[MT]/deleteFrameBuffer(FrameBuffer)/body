@@ -1,0 +1,18 @@
+{
+  if (fb.getId() != -1) {
+    if (context.boundFBO == fb.getId()) {
+      bindFramebuffer(0);
+      context.boundFBO=0;
+    }
+    if (fb.getDepthBuffer() != null) {
+      deleteRenderBuffer(fb,fb.getDepthBuffer());
+    }
+    if (fb.getColorBuffer() != null) {
+      deleteRenderBuffer(fb,fb.getColorBuffer());
+    }
+    intBuf1.put(0,fb.getId());
+    deleteFramebuffer();
+    fb.resetObject();
+    statistics.onDeleteFrameBuffer();
+  }
+}

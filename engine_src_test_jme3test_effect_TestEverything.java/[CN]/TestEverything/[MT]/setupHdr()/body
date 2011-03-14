@@ -1,0 +1,11 @@
+{
+  if (renderer.getCaps().contains(Caps.GLSL100)) {
+    hdrRender=new HDRRenderer(assetManager,renderer);
+    hdrRender.setMaxIterations(40);
+    hdrRender.setSamples(settings.getSamples());
+    hdrRender.setWhiteLevel(3);
+    hdrRender.setExposure(0.72f);
+    hdrRender.setThrottle(1);
+    viewPort.addProcessor(hdrRender);
+  }
+}

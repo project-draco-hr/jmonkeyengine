@@ -1,0 +1,21 @@
+{
+  Camera sceneCam=rm.getCurrentCamera();
+  ray.setOrigin(sceneCam.getLocation());
+  ray.setDirection(sceneCam.getDirection());
+  refractionCam.setLocation(sceneCam.getLocation());
+  refractionCam.setRotation(sceneCam.getRotation());
+  refractionCam.setFrustum(sceneCam.getFrustumNear(),sceneCam.getFrustumFar(),sceneCam.getFrustumLeft(),sceneCam.getFrustumRight(),sceneCam.getFrustumTop(),sceneCam.getFrustumBottom());
+  boolean inv=false;
+  if (!ray.intersectsWherePlane(plane,targetLocation)) {
+    ray.setDirection(ray.getDirection().negateLocal());
+    ray.intersectsWherePlane(plane,targetLocation);
+    inv=true;
+  }
+  Vector3f loc=plane.reflect(sceneCam.getLocation(),new Vector3f());
+  reflectionCam.setLocation(loc);
+  reflectionCam.setFrustum(sceneCam.getFrustumNear(),sceneCam.getFrustumFar(),sceneCam.getFrustumLeft(),sceneCam.getFrustumRight(),sceneCam.getFrustumTop(),sceneCam.getFrustumBottom());
+  reflectionCam.lookAt(targetLocation,Vector3f.UNIT_Y);
+  if (inv) {
+    reflectionCam.setAxes(reflectionCam.getLeft().negateLocal(),reflectionCam.getUp(),reflectionCam.getDirection().negateLocal());
+  }
+}

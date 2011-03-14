@@ -1,0 +1,22 @@
+{
+  TimestampMessage timeMsg=(TimestampMessage)msg;
+  try {
+    if (timeMsg.timeReceived == 0) {
+      TimestampMessage outMsg=new TimestampMessage(timeMsg.timeSent,getTime());
+      msg.getClient().send(outMsg);
+    }
+ else {
+      long curTime=getTime();
+      long latency=(curTime - timeMsg.timeSent);
+      System.out.println("Latency: " + (latency) + " ms");
+      average.add(latency);
+      System.out.println("Average latency: " + average.getAverage());
+      long latencyOffset=latency - average.getAverage();
+      System.out.println("Latency offset: " + latencyOffset);
+      client.send(new TimestampMessage(getTime(),0));
+    }
+  }
+ catch (  IOException ex) {
+    ex.printStackTrace();
+  }
+}

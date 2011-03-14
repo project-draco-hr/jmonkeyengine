@@ -1,0 +1,18 @@
+{
+  rootNode.updateGeometricState();
+  Vector3f pos=spaceCraft.getWorldTranslation().clone();
+  Quaternion rot=spaceCraft.getWorldRotation();
+  Vector3f dir=rot.getRotationColumn(2);
+  Vector3f camPos=new Vector3f(dir);
+  camPos.setY(0);
+  camPos.normalizeLocal();
+  camPos.negateLocal();
+  camPos.multLocal(15);
+  camPos.setY(2);
+  camPos.addLocal(pos);
+  cam.setLocation(camPos);
+  Vector3f lookAt=new Vector3f(dir);
+  lookAt.multLocal(7);
+  lookAt.addLocal(pos);
+  cam.lookAt(lookAt,Vector3f.UNIT_Y);
+}

@@ -1,0 +1,7 @@
+{
+  super.initialize();
+  System.out.println("Initialize");
+  boxGeom=new Geometry("Box",new Box(Vector3f.ZERO,2,2,2));
+  boxGeom.setMaterial(assetManager.loadMaterial("Interface/Logo/Logo.j3m"));
+  viewPort.attachScene(boxGeom);
+}

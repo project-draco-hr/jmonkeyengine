@@ -1,0 +1,13 @@
+{
+  Keyboard.poll();
+  while (Keyboard.next()) {
+    int keyCode=Keyboard.getEventKey();
+    char keyChar=Keyboard.getEventCharacter();
+    boolean pressed=Keyboard.getEventKeyState();
+    boolean down=Keyboard.isRepeatEvent();
+    long time=Keyboard.getEventNanoseconds();
+    KeyInputEvent evt=new KeyInputEvent(keyCode,keyChar,pressed,down);
+    evt.setTime(time);
+    listener.onKeyEvent(evt);
+  }
+}

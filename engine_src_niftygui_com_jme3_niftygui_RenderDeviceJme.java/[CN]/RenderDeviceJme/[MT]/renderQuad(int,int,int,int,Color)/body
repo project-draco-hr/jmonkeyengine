@@ -1,0 +1,12 @@
+{
+  niftyMat.getAdditionalRenderState().setBlendMode(convertBlend());
+  niftyMat.setColor("Color",ColorRGBA.White);
+  niftyMat.clearParam("Texture");
+  niftyMat.setBoolean("UseTex",false);
+  setColor(color);
+  tempMat.loadIdentity();
+  tempMat.setTranslation(x,getHeight() - y,0);
+  tempMat.setScale(width,height,0);
+  rm.setWorldMatrix(tempMat);
+  niftyMat.render(quadGeom,rm);
+}

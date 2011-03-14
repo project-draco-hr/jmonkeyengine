@@ -1,0 +1,8 @@
+{
+  if (store == null)   store=new Triangle();
+  Mesh m=geometry.getMesh();
+  m.getTriangle(triangleIndex,store);
+  store.calculateCenter();
+  store.calculateNormal();
+  return store;
+}

@@ -1,0 +1,10 @@
+{
+  AppSettings settings=new AppSettings(true);
+  settings.setRenderer(null);
+  settings.setAudioRenderer(AppSettings.LWJGL_OPENAL);
+  ar=JmeSystem.newAudioRenderer(settings);
+  ar.initialize();
+  manager=new DesktopAssetManager(true);
+  listener=new Listener();
+  ar.setListener(listener);
+}

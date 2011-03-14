@@ -1,0 +1,11 @@
+{
+  if (isConnector)   return;
+  DisconnectMessage msg=new DisconnectMessage();
+  msg.setType(type);
+  tcp.sendObject(msg);
+  udp.sendObject(msg);
+  thread.setKeepAlive(false);
+  thread=null;
+  log.log(Level.INFO,"[{0}][???] Disconnected.",label);
+  isConnected=false;
+}

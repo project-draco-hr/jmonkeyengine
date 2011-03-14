@@ -1,0 +1,30 @@
+{
+  if (!enabled)   return;
+  renderer=rm.getRenderer();
+  renderManager=rm;
+  viewPort=vp;
+  fsQuad=new Picture("HDR Fullscreen Quad");
+  Format lumFmt=Format.Luminance8;
+  scene64FB=new FrameBuffer(64,64,1);
+  scene64=new Texture2D(64,64,lumFmt);
+  scene64FB.setColorTexture(scene64);
+  scene64.setMagFilter(fbMagFilter);
+  scene64.setMinFilter(fbMinFilter);
+  scene8FB=new FrameBuffer(8,8,1);
+  scene8=new Texture2D(8,8,lumFmt);
+  scene8FB.setColorTexture(scene8);
+  scene8.setMagFilter(fbMagFilter);
+  scene8.setMinFilter(fbMinFilter);
+  scene1FB[0]=new FrameBuffer(1,1,1);
+  scene1[0]=new Texture2D(1,1,lumFmt);
+  scene1FB[0].setColorTexture(scene1[0]);
+  scene1FB[1]=new FrameBuffer(1,1,1);
+  scene1[1]=new Texture2D(1,1,lumFmt);
+  scene1FB[1].setColorTexture(scene1[1]);
+  tone=new Material(manager,"Common/MatDefs/Hdr/ToneMap.j3md");
+  tone.setFloat("A",0.18f);
+  tone.setFloat("White",100);
+  int w=vp.getCamera().getWidth();
+  int h=vp.getCamera().getHeight();
+  reshape(vp,w,h);
+}

@@ -1,0 +1,38 @@
+{
+  if (SwingUtilities.isEventDispatchThread())   throw new IllegalStateException("Cannot run from EDT");
+  final AppSettings settings=new AppSettings(false);
+  settings.copyFrom(sourceSettings);
+  final URL iconUrl=JmeSystem.class.getResource(sourceSettings.getSettingsDialogImage());
+  final AtomicBoolean done=new AtomicBoolean();
+  final AtomicInteger result=new AtomicInteger();
+  final Object lock=new Object();
+  final SelectionListener selectionListener=new SelectionListener(){
+    public void onSelection(    int selection){
+synchronized (lock) {
+        done.set(true);
+        result.set(selection);
+        lock.notifyAll();
+      }
+    }
+  }
+;
+  SwingUtilities.invokeLater(new Runnable(){
+    public void run(){
+synchronized (lock) {
+        SettingsDialog dialog=new SettingsDialog(settings,iconUrl,loadFromRegistry);
+        dialog.setSelectionListener(selectionListener);
+        dialog.showDialog();
+      }
+    }
+  }
+);
+synchronized (lock) {
+    while (!done.get())     try {
+      lock.wait();
+    }
+ catch (    InterruptedException ex) {
+    }
+  }
+  sourceSettings.copyFrom(settings);
+  return result.get() == SettingsDialog.APPROVE_SELECTION;
+}

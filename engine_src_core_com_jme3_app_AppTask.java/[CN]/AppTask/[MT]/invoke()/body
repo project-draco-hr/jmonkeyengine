@@ -1,0 +1,25 @@
+{
+  try {
+    final V tmpResult=callable.call();
+    stateLock.lock();
+    try {
+      result=tmpResult;
+      finished=true;
+      finishedCondition.signalAll();
+    }
+  finally {
+      stateLock.unlock();
+    }
+  }
+ catch (  Exception e) {
+    logger.logp(Level.SEVERE,this.getClass().toString(),"invoke()","Exception",e);
+    stateLock.lock();
+    try {
+      exception=new ExecutionException(e);
+      finishedCondition.signalAll();
+    }
+  finally {
+      stateLock.unlock();
+    }
+  }
+}

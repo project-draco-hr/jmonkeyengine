@@ -1,0 +1,17 @@
+{
+  Sphere sphMesh=new Sphere(32,32,1);
+  sphMesh.setTextureMode(Sphere.TextureMode.Projected);
+  sphMesh.updateGeometry(32,32,1,false,false);
+  TangentBinormalGenerator.generate(sphMesh);
+  Geometry sphere=new Geometry("Rock Ball",sphMesh);
+  Material mat=assetManager.loadMaterial("Textures/Terrain/Pond/Pond.j3m");
+  sphere.setMaterial(mat);
+  rootNode.attachChild(sphere);
+  lightMdl=new Geometry("Light",new Sphere(10,10,0.1f));
+  lightMdl.setMaterial(assetManager.loadMaterial("Common/Materials/RedColor.j3m"));
+  rootNode.attachChild(lightMdl);
+  pl=new PointLight();
+  pl.setColor(ColorRGBA.White);
+  pl.setPosition(new Vector3f(0f,0f,4f));
+  rootNode.addLight(pl);
+}

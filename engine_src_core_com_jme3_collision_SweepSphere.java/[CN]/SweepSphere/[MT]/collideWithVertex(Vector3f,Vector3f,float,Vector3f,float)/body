@@ -1,0 +1,8 @@
+{
+  temp1.set(sCenter).subtractLocal(vertex);
+  float a=velocitySquared;
+  float b=2f * sVelocity.dot(temp1);
+  float c=temp1.negateLocal().lengthSquared() - 1f;
+  float newT=getLowestRoot(a,b,c,t);
+  return newT;
+}

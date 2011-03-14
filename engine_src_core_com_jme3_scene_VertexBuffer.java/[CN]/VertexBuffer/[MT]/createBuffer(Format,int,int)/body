@@ -1,0 +1,23 @@
+{
+  if (components < 1 || components > 4)   throw new IllegalArgumentException("Num components must be between 1 and 4");
+  int total=numElements * components;
+switch (format) {
+case Byte:
+case UnsignedByte:
+    return BufferUtils.createByteBuffer(total);
+case Half:
+  return BufferUtils.createByteBuffer(total * 2);
+case Short:
+case UnsignedShort:
+return BufferUtils.createShortBuffer(total);
+case Int:
+case UnsignedInt:
+return BufferUtils.createIntBuffer(total);
+case Float:
+return BufferUtils.createFloatBuffer(total);
+case Double:
+return BufferUtils.createDoubleBuffer(total);
+default :
+throw new UnsupportedOperationException("Unrecoginized buffer format: " + format);
+}
+}

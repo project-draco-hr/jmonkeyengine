@@ -1,0 +1,18 @@
+{
+  TerrainQuad quadClone=(TerrainQuad)super.clone(cloneMaterials);
+  quadClone.name=name.toString();
+  quadClone.size=size;
+  quadClone.totalSize=totalSize;
+  quadClone.stepScale=stepScale.clone();
+  quadClone.offset=offset.clone();
+  quadClone.offsetAmount=offsetAmount;
+  quadClone.quadrant=quadrant;
+  quadClone.lodCalculatorFactory=lodCalculatorFactory.clone();
+  TerrainLodControl lodControl=quadClone.getControl(TerrainLodControl.class);
+  if (lodControl != null && !(getParent() instanceof TerrainQuad)) {
+    lodControl.setTerrain(quadClone);
+  }
+  NormalRecalcControl normalControl=getControl(NormalRecalcControl.class);
+  if (normalControl != null)   normalControl.setTerrain(this);
+  return quadClone;
+}

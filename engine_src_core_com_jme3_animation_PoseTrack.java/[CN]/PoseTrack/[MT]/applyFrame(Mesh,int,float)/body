@@ -1,0 +1,10 @@
+{
+  PoseFrame frame=frames[frameIndex];
+  VertexBuffer pb=target.getBuffer(Type.Position);
+  for (int i=0; i < frame.poses.length; i++) {
+    Pose pose=frame.poses[i];
+    float poseWeight=frame.weights[i] * weight;
+    pose.apply(poseWeight,(FloatBuffer)pb.getData());
+  }
+  pb.updateData(pb.getData());
+}

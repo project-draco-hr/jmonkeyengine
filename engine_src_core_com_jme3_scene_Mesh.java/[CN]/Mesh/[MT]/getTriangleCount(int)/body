@@ -1,0 +1,13 @@
+{
+  if (lodLevels != null) {
+    if (lod < 0)     throw new IllegalArgumentException("LOD level cannot be < 0");
+    if (lod >= lodLevels.length)     throw new IllegalArgumentException("LOD level " + lod + " does not exist!");
+    return computeNumElements(lodLevels[lod].getData().capacity());
+  }
+ else   if (lod == 0) {
+    return elementCount;
+  }
+ else {
+    throw new IllegalArgumentException("There are no LOD levels on the mesh!");
+  }
+}

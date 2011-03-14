@@ -1,0 +1,5 @@
+{
+  val-=255;
+  val=-(255 + ((val >> (31)) & val));
+  return (short)-((val >> 31) & val);
+}

@@ -1,0 +1,21 @@
+{
+  System.out.println("Server: Client connected: " + id);
+  SyncMessage msg=new SyncMessage();
+  msg.setReliable(true);
+  msg.heartbeat=heartbeat;
+  EntitySyncInfo[] infos=new EntitySyncInfo[npcs.size()];
+  msg.infos=infos;
+synchronized (npcs) {
+    for (int i=0; i < npcs.size(); i++) {
+      SyncEntity entity=npcs.get(i);
+      EntitySyncInfo info=generateInitInfo(entity,false);
+      infos[i]=info;
+    }
+    try {
+      id.send(msg);
+    }
+ catch (    IOException ex) {
+      ex.printStackTrace();
+    }
+  }
+}

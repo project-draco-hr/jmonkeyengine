@@ -1,0 +1,18 @@
+{
+  int mipWidth=width;
+  int mipHeight=height;
+  sizes=new int[mipMapCount];
+  int outBpp=pixelFormat.getBitsPerPixel();
+  for (int i=0; i < mipMapCount; i++) {
+    int size;
+    if (compressed) {
+      size=((mipWidth + 3) / 4) * ((mipHeight + 3) / 4) * outBpp* 2;
+    }
+ else {
+      size=mipWidth * mipHeight * outBpp / 8;
+    }
+    sizes[i]=((size + 3) / 4) * 4;
+    mipWidth=Math.max(mipWidth / 2,1);
+    mipHeight=Math.max(mipHeight / 2,1);
+  }
+}

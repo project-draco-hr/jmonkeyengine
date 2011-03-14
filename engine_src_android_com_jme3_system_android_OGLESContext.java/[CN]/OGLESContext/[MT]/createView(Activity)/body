@@ -1,0 +1,12 @@
+{
+  view=new AndroidInput(activity);
+  logger.info("setEGLContextClientVersion(2)");
+  view.setEGLContextClientVersion(2);
+  logger.info("setEGLContextClientVersion(2) ... done.");
+  view.setEGLConfigChooser(5,6,5,0,16,0);
+  view.setFocusableInTouchMode(true);
+  view.setFocusable(true);
+  view.getHolder().setType(SurfaceHolder.SURFACE_TYPE_GPU);
+  view.setRenderer(this);
+  return view;
+}

@@ -1,0 +1,10 @@
+{
+  boolean accept=false;
+  for (  StreamListener listener : streamListeners) {
+    if (listener.streamOffered(message)) {
+      accept=true;
+      stream.addDataListener(listener);
+    }
+  }
+  return accept;
+}

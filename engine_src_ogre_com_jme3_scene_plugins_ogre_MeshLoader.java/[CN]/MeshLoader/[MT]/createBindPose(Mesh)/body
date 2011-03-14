@@ -1,0 +1,17 @@
+{
+  VertexBuffer pos=mesh.getBuffer(Type.Position);
+  if (pos == null || mesh.getBuffer(Type.BoneIndex) == null) {
+    return;
+  }
+  VertexBuffer bindPos=new VertexBuffer(Type.BindPosePosition);
+  bindPos.setupData(Usage.CpuOnly,3,Format.Float,BufferUtils.clone(pos.getData()));
+  mesh.setBuffer(bindPos);
+  pos.setUsage(Usage.Stream);
+  VertexBuffer norm=mesh.getBuffer(Type.Normal);
+  if (norm != null) {
+    VertexBuffer bindNorm=new VertexBuffer(Type.BindPoseNormal);
+    bindNorm.setupData(Usage.CpuOnly,3,Format.Float,BufferUtils.clone(norm.getData()));
+    mesh.setBuffer(bindNorm);
+    norm.setUsage(Usage.Stream);
+  }
+}

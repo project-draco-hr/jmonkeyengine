@@ -1,0 +1,8 @@
+{
+  InputCapsule ic=im.getCapsule(this);
+  ArrayList list=ic.readSavableArrayList("keyFrames",null);
+  for (Iterator it=list.iterator(); it.hasNext(); ) {
+    KeyFrame keyFrame=(KeyFrame)it.next();
+    addKeyFrameAtIndex(keyFrame.getIndex(),keyFrame);
+  }
+}

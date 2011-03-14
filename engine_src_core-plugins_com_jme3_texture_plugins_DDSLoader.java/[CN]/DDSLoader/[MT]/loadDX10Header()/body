@@ -1,0 +1,20 @@
+{
+  int dxgiFormat=in.readInt();
+  if (dxgiFormat != 83) {
+    throw new IOException("Only DXGI_FORMAT_BC5_UNORM " + "is supported for DirectX10 DDS! Got: " + dxgiFormat);
+  }
+  pixelFormat=Format.LATC;
+  bpp=8;
+  compressed=true;
+  int resDim=in.readInt();
+  if (resDim == DX10DIM_TEXTURE3D) {
+  }
+  int miscFlag=in.readInt();
+  int arraySize=in.readInt();
+  if (is(miscFlag,DX10MISC_TEXTURECUBE)) {
+    if (arraySize != 6) {
+      throw new IOException("Cubemaps should consist of 6 images!");
+    }
+  }
+  in.skipBytes(4);
+}

@@ -1,0 +1,67 @@
+{
+  bulletAppState=new BulletAppState();
+  bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
+  stateManager.attach(bulletAppState);
+  setupKeys();
+  matRock=new Material(assetManager,"Common/MatDefs/Terrain/Terrain.j3md");
+  matRock.setTexture("Alpha",assetManager.loadTexture("Textures/Terrain/splat/alphamap.png"));
+  Texture heightMapImage=assetManager.loadTexture("Textures/Terrain/splat/mountains512.png");
+  Texture grass=assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
+  grass.setWrap(WrapMode.Repeat);
+  matRock.setTexture("Tex1",grass);
+  matRock.setFloat("Tex1Scale",64f);
+  Texture dirt=assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
+  dirt.setWrap(WrapMode.Repeat);
+  matRock.setTexture("Tex2",dirt);
+  matRock.setFloat("Tex2Scale",32f);
+  Texture rock=assetManager.loadTexture("Textures/Terrain/splat/road.jpg");
+  rock.setWrap(WrapMode.Repeat);
+  matRock.setTexture("Tex3",rock);
+  matRock.setFloat("Tex3Scale",128f);
+  matWire=new Material(assetManager,"Common/MatDefs/Misc/WireColor.j3md");
+  matWire.setColor("Color",ColorRGBA.Green);
+  AbstractHeightMap heightmap=null;
+  try {
+    heightmap=new ImageBasedHeightMap(ImageToAwt.convert(heightMapImage.getImage(),false,true,0),0.25f);
+    heightmap.load();
+  }
+ catch (  Exception e) {
+  }
+  terrain=new TerrainQuad("terrain",65,513,heightmap.getHeightMap());
+  List<Camera> cameras=new ArrayList<Camera>();
+  cameras.add(getCamera());
+  TerrainLodControl control=new TerrainLodControl(terrain,cameras);
+  terrain.addControl(control);
+  terrain.setMaterial(matRock);
+  terrain.setLocalScale(new Vector3f(2,2,2));
+  terrain.setModelBound(new BoundingBox());
+  terrain.updateModelBound();
+  terrain.setLocked(false);
+  rootNode.attachChild(terrain);
+  terrain.addControl(new RigidBodyControl(0));
+  bulletAppState.getPhysicsSpace().addAll(terrain);
+  for (int i=0; i < 5; i++) {
+    float r=(float)(8 * Math.random());
+    Geometry sphere=new Geometry("cannonball",new Sphere(10,10,r));
+    sphere.setMaterial(matWire);
+    float x=(float)(20 * Math.random()) - 40;
+    float y=(float)(20 * Math.random()) - 40;
+    float z=(float)(20 * Math.random()) - 40;
+    sphere.setLocalTranslation(new Vector3f(x,100 + y,z));
+    sphere.addControl(new RigidBodyControl(new SphereCollisionShape(r),2));
+    rootNode.attachChild(sphere);
+    bulletAppState.getPhysicsSpace().add(sphere);
+  }
+  collisionBox=new Geometry("collisionBox",new Box(2,2,2));
+  collisionBox.setModelBound(new BoundingBox());
+  collisionBox.setLocalTranslation(new Vector3f(20,95,30));
+  collisionBox.setMaterial(matWire);
+  rootNode.attachChild(collisionBox);
+  selectedCollisionObject=collisionBox;
+  DirectionalLight dl=new DirectionalLight();
+  dl.setDirection(new Vector3f(1,-0.5f,-0.1f).normalizeLocal());
+  dl.setColor(new ColorRGBA(0.50f,0.40f,0.50f,1.0f));
+  rootNode.addLight(dl);
+  getCamera().getLocation().y=25;
+  getCamera().setDirection(new Vector3f(0,-1,0));
+}

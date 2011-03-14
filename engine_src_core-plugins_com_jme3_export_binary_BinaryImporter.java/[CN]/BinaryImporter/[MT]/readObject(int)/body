@@ -1,0 +1,41 @@
+{
+  if (contentTable.get(id) != null) {
+    return contentTable.get(id);
+  }
+  try {
+    int loc=locationTable.get(id);
+    String alias=readString(aliasWidth,loc);
+    loc+=aliasWidth;
+    BinaryClassObject bco=classes.get(alias);
+    if (bco == null) {
+      logger.logp(Level.SEVERE,this.getClass().toString(),"readObject(int id)","NULL class object: " + alias);
+      return null;
+    }
+    int dataLength=ByteUtils.convertIntFromBytes(dataArray,loc);
+    loc+=4;
+    BinaryInputCapsule cap=new BinaryInputCapsule(this,bco);
+    cap.setContent(dataArray,loc,loc + dataLength);
+    Savable out=BinaryClassLoader.fromName(bco.className,cap);
+    capsuleTable.put(out,cap);
+    contentTable.put(id,out);
+    out.read(this);
+    capsuleTable.remove(out);
+    return out;
+  }
+ catch (  IOException e) {
+    logger.logp(Level.SEVERE,this.getClass().toString(),"readObject(int id)","Exception",e);
+    return null;
+  }
+catch (  ClassNotFoundException e) {
+    logger.logp(Level.SEVERE,this.getClass().toString(),"readObject(int id)","Exception",e);
+    return null;
+  }
+catch (  InstantiationException e) {
+    logger.logp(Level.SEVERE,this.getClass().toString(),"readObject(int id)","Exception",e);
+    return null;
+  }
+catch (  IllegalAccessException e) {
+    logger.logp(Level.SEVERE,this.getClass().toString(),"readObject(int id)","Exception",e);
+    return null;
+  }
+}

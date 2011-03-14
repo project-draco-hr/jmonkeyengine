@@ -1,0 +1,29 @@
+{
+  super.write(ex);
+  OutputCapsule capsule=ex.getCapsule(this);
+  capsule.write(angularUpperLimit,"angularUpperLimit",new Vector3f(Vector3f.POSITIVE_INFINITY));
+  capsule.write(angularLowerLimit,"angularLowerLimit",new Vector3f(Vector3f.NEGATIVE_INFINITY));
+  capsule.write(linearUpperLimit,"linearUpperLimit",new Vector3f(Vector3f.POSITIVE_INFINITY));
+  capsule.write(linearLowerLimit,"linearLowerLimit",new Vector3f(Vector3f.NEGATIVE_INFINITY));
+  int i=0;
+  for (Iterator<RotationalLimitMotor> it=rotationalMotors.iterator(); it.hasNext(); ) {
+    RotationalLimitMotor rotationalLimitMotor=it.next();
+    capsule.write(rotationalLimitMotor.getBounce(),"rotMotor" + i + "_Bounce",0.0f);
+    capsule.write(rotationalLimitMotor.getDamping(),"rotMotor" + i + "_Damping",1.0f);
+    capsule.write(rotationalLimitMotor.getERP(),"rotMotor" + i + "_ERP",0.5f);
+    capsule.write(rotationalLimitMotor.getHiLimit(),"rotMotor" + i + "_HiLimit",Float.POSITIVE_INFINITY);
+    capsule.write(rotationalLimitMotor.getLimitSoftness(),"rotMotor" + i + "_LimitSoftness",0.5f);
+    capsule.write(rotationalLimitMotor.getLoLimit(),"rotMotor" + i + "_LoLimit",Float.NEGATIVE_INFINITY);
+    capsule.write(rotationalLimitMotor.getMaxLimitForce(),"rotMotor" + i + "_MaxLimitForce",300.0f);
+    capsule.write(rotationalLimitMotor.getMaxMotorForce(),"rotMotor" + i + "_MaxMotorForce",0.1f);
+    capsule.write(rotationalLimitMotor.getTargetVelocity(),"rotMotor" + i + "_TargetVelocity",0);
+    capsule.write(rotationalLimitMotor.isEnableMotor(),"rotMotor" + i + "_EnableMotor",false);
+    i++;
+  }
+  capsule.write(getTranslationalLimitMotor().getAccumulatedImpulse(),"transMotor_AccumulatedImpulse",Vector3f.ZERO);
+  capsule.write(getTranslationalLimitMotor().getDamping(),"transMotor_Damping",1.0f);
+  capsule.write(getTranslationalLimitMotor().getLimitSoftness(),"transMotor_LimitSoftness",0.7f);
+  capsule.write(getTranslationalLimitMotor().getLowerLimit(),"transMotor_LowerLimit",Vector3f.ZERO);
+  capsule.write(getTranslationalLimitMotor().getRestitution(),"transMotor_Restitution",0.5f);
+  capsule.write(getTranslationalLimitMotor().getUpperLimit(),"transMotor_UpperLimit",Vector3f.ZERO);
+}

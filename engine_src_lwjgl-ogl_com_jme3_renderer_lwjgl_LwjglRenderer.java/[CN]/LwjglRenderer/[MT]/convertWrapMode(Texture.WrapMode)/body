@@ -1,0 +1,16 @@
+{
+switch (mode) {
+case BorderClamp:
+    return GL_CLAMP_TO_BORDER;
+case Clamp:
+  return GL_CLAMP;
+case EdgeClamp:
+return GL_CLAMP_TO_EDGE;
+case Repeat:
+return GL_REPEAT;
+case MirroredRepeat:
+return GL_MIRRORED_REPEAT;
+default :
+throw new UnsupportedOperationException("Unknown wrap mode: " + mode);
+}
+}

@@ -1,0 +1,11 @@
+{
+  try {
+    Line line=(Line)super.clone();
+    line.direction=direction.clone();
+    line.origin=origin.clone();
+    return line;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
+}

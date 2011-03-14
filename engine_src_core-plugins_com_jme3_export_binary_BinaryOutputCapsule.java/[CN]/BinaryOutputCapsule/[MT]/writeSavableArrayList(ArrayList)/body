@@ -1,0 +1,10 @@
+{
+  if (array == null) {
+    write(NULL_OBJECT);
+    return;
+  }
+  write(array.size());
+  for (  Object bs : array) {
+    write((Savable)bs);
+  }
+}

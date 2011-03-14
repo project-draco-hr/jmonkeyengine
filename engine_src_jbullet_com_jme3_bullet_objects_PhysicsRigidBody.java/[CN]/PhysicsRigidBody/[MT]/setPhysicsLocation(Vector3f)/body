@@ -1,0 +1,6 @@
+{
+  rBody.getCenterOfMassTransform(tempTrans);
+  Converter.convert(location,tempTrans.origin);
+  rBody.setCenterOfMassTransform(tempTrans);
+  motionState.setWorldTransform(tempTrans);
+}

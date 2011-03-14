@@ -1,0 +1,10 @@
+{
+  super.update(tpf);
+  if (enabled && curTime >= 0) {
+    curTime+=tpf;
+    if (curTime > fxTime) {
+      curTime=-1;
+      effect.removeFromParent();
+    }
+  }
+}

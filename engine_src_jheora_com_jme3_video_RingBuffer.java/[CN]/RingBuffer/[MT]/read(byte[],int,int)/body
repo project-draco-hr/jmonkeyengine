@@ -1,0 +1,29 @@
+{
+  if (len == 0)   return 0;
+  int dataLen=0;
+synchronized (lock) {
+    if (remainingForRead() <= 0) {
+      System.out.println("Warning: Audio starved. Not enough data.");
+      return 0;
+    }
+    len=Math.min(len,remainingForRead());
+    if (readPos < writePos) {
+      int l=Math.min(len,writePos - readPos);
+      System.arraycopy(buf,readPos,data,offset,l);
+      readPos+=l;
+      if (readPos >= bufSize)       readPos=0;
+      dataLen=l;
+    }
+ else {
+      int l=Math.min(len,bufSize - readPos);
+      System.arraycopy(buf,readPos,data,offset,l);
+      readPos+=l;
+      if (readPos >= bufSize)       readPos=0;
+      dataLen=l;
+      if (len > l)       dataLen+=read(data,offset + l,len - l);
+    }
+    lock.notifyAll();
+  }
+  totalRead+=dataLen;
+  return dataLen;
+}

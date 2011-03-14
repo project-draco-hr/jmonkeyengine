@@ -1,0 +1,10 @@
+{
+  buffer.putShort(ret.invocationID);
+  if (ret.retVal != null) {
+    buffer.put((byte)0x01);
+    Serializer.writeClassAndObject(buffer,ret.retVal);
+  }
+ else {
+    buffer.put((byte)0x00);
+  }
+}

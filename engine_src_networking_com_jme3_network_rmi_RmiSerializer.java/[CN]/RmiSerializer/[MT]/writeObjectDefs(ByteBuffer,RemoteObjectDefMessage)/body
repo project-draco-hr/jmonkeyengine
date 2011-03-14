@@ -1,0 +1,5 @@
+{
+  ObjectDef[] defs=defMsg.objects;
+  buffer.put((byte)defs.length);
+  for (  ObjectDef def : defs)   writeObjectDef(buffer,def);
+}

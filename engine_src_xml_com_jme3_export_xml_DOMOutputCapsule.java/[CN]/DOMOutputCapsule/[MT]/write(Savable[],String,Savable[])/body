@@ -1,0 +1,25 @@
+{
+  if (objects == null) {
+    return;
+  }
+  if (Arrays.equals(objects,defVal)) {
+    return;
+  }
+  Element old=currentElement;
+  Element el=appendElement(name);
+  el.setAttribute("size",String.valueOf(objects.length));
+  for (int i=0; i < objects.length; i++) {
+    Savable o=objects[i];
+    if (o == null) {
+      if (!name.equals("renderStateList")) {
+        Element before=currentElement;
+        appendElement("null");
+        currentElement=before;
+      }
+    }
+ else {
+      write(o,o.getClass().getName(),null);
+    }
+  }
+  currentElement=old;
+}

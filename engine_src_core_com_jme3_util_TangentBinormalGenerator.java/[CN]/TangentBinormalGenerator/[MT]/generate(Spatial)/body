@@ -1,0 +1,12 @@
+{
+  if (scene instanceof Node) {
+    Node node=(Node)scene;
+    for (    Spatial child : node.getChildren()) {
+      generate(child);
+    }
+  }
+ else {
+    Geometry geom=(Geometry)scene;
+    generate(geom.getMesh());
+  }
+}

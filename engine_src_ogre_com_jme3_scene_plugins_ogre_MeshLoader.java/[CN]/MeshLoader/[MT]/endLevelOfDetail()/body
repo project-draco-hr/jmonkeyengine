@@ -1,0 +1,9 @@
+{
+  for (  Entry<List<VertexBuffer>> entry : lodLevels) {
+    Mesh m=geoms.get(entry.getKey()).getMesh();
+    List<VertexBuffer> levels=entry.getValue();
+    VertexBuffer[] levelArray=new VertexBuffer[levels.size()];
+    levels.toArray(levelArray);
+    m.setLodLevels(levelArray);
+  }
+}

@@ -1,0 +1,11 @@
+{
+  Spatial child=children.remove(index);
+  if (child != null) {
+    child.setParent(null);
+    logger.info("Child removed.");
+    setBoundRefresh();
+    child.setTransformRefresh();
+    child.setLightListRefresh();
+  }
+  return child;
+}

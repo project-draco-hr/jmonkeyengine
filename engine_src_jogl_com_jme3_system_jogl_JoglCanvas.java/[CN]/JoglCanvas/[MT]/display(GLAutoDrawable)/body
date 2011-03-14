@@ -1,0 +1,24 @@
+{
+  if (!created.get() && renderer != null) {
+    listener.destroy();
+    logger.info("Canvas destroyed.");
+    super.internalDestroy();
+    return;
+  }
+  if (width != canvas.getWidth() || height != canvas.getHeight()) {
+    width=canvas.getWidth();
+    height=canvas.getHeight();
+    if (listener != null)     listener.reshape(width,height);
+  }
+  boolean flush=autoFlush.get();
+  if (flush && !wasAnimating) {
+    animator.start();
+    wasAnimating=true;
+  }
+ else   if (!flush && wasAnimating) {
+    animator.stop();
+    wasAnimating=false;
+  }
+  listener.update();
+  renderer.onFrame();
+}

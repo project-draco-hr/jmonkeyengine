@@ -1,0 +1,12 @@
+{
+  if (target == null) {
+synchronized (connections) {
+      for (      Client connector : connections) {
+        send(connector.getDatagramReceiver(),object);
+      }
+    }
+  }
+ else {
+    send(target,object);
+  }
+}

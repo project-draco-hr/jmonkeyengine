@@ -1,0 +1,19 @@
+{
+  if (map == null) {
+    return;
+  }
+  if (map.equals(defVal)) {
+    return;
+  }
+  Element stringMap=appendElement(name);
+  Iterator<String> keyIterator=map.keySet().iterator();
+  while (keyIterator.hasNext()) {
+    String key=keyIterator.next();
+    Element mapEntry=appendElement("MapEntry");
+    mapEntry.setAttribute("key",key);
+    Savable s=map.get(key);
+    write(s,"Savable",null);
+    currentElement=stringMap;
+  }
+  currentElement=(Element)stringMap.getParentNode();
+}

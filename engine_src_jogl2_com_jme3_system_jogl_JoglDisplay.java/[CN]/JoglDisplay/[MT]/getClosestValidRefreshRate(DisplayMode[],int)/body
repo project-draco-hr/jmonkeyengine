@@ -1,0 +1,34 @@
+{
+  final int validRefreshRate;
+  boolean isRefreshRateValid=false;
+  for (  DisplayMode mode : modes) {
+    if (mode != null && mode.getRefreshRate() == freq) {
+      isRefreshRateValid=true;
+      break;
+    }
+  }
+  if (!isRefreshRateValid) {
+    int bestSupportedRefreshRate=Integer.MAX_VALUE;
+    int biggestRefreshRate=-Integer.MIN_VALUE;
+    for (    DisplayMode mode : modes) {
+      if (mode != null) {
+        if (Math.abs(mode.getRefreshRate() - freq) < Math.abs(bestSupportedRefreshRate - freq)) {
+          bestSupportedRefreshRate=mode.getRefreshRate();
+        }
+        if (mode.getRefreshRate() > biggestRefreshRate) {
+          biggestRefreshRate=mode.getRefreshRate();
+        }
+      }
+    }
+    if (bestSupportedRefreshRate == Integer.MAX_VALUE) {
+      validRefreshRate=biggestRefreshRate;
+    }
+ else {
+      validRefreshRate=bestSupportedRefreshRate;
+    }
+  }
+ else {
+    validRefreshRate=freq;
+  }
+  return validRefreshRate;
+}

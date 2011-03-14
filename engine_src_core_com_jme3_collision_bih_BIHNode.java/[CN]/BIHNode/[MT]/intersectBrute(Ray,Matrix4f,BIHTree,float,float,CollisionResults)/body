@@ -1,0 +1,37 @@
+{
+  float tHit=Float.POSITIVE_INFINITY;
+  Vector3f v1=new Vector3f(), v2=new Vector3f(), v3=new Vector3f();
+  int cols=0;
+  ArrayList<BIHStackData> stack=TempVars.get().bihStack;
+  stack.clear();
+  stack.add(new BIHStackData(this,0,0));
+  stackloop:   while (stack.size() > 0) {
+    BIHStackData data=stack.remove(stack.size() - 1);
+    BIHNode node=data.node;
+    leafloop:     while (node.axis != 3) {
+      BIHNode nearNode, farNode;
+      nearNode=node.left;
+      farNode=node.right;
+      stack.add(new BIHStackData(farNode,0,0));
+      node=nearNode;
+    }
+    for (int i=node.leftIndex; i <= node.rightIndex; i++) {
+      tree.getTriangle(i,v1,v2,v3);
+      if (worldMatrix != null) {
+        worldMatrix.mult(v1,v1);
+        worldMatrix.mult(v2,v2);
+        worldMatrix.mult(v3,v3);
+      }
+      float t=r.intersects(v1,v2,v3);
+      if (t < tHit) {
+        tHit=t;
+        Vector3f contactPoint=new Vector3f(r.direction).multLocal(tHit).addLocal(r.origin);
+        CollisionResult cr=new CollisionResult(contactPoint,tHit);
+        cr.setTriangleIndex(tree.getTriangleIndex(i));
+        results.addCollision(cr);
+        cols++;
+      }
+    }
+  }
+  return cols;
+}

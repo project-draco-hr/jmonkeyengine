@@ -1,0 +1,10 @@
+{
+  KeyFrame keyFrame=timeLine.getKeyFrameAtTime(timeStamp);
+  if (keyFrame == null) {
+    keyFrame=new KeyFrame();
+    timeLine.addKeyFrameAtTime(timeStamp,keyFrame);
+  }
+  keyFrame.cinematicEvents.add(cinematicEvent);
+  cinematicEvents.add(cinematicEvent);
+  return keyFrame;
+}

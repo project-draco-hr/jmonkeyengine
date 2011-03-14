@@ -1,0 +1,20 @@
+{
+  temp1.set(velocity).subtractLocal(other.velocity);
+  temp2.set(center).subtractLocal(other.center);
+  temp3.set(dimension).addLocal(other.dimension);
+  float a=temp1.lengthSquared();
+  float b=2f * temp1.dot(temp2);
+  float c=temp2.lengthSquared() - temp3.getX() * temp3.getX();
+  float t=getLowestRoot(a,b,c,1);
+  if (Float.isNaN(t))   return null;
+  CollisionResult result=new CollisionResult();
+  result.setDistance(velocity.length() * t);
+  temp1.set(velocity).multLocal(t).addLocal(center);
+  temp2.set(other.velocity).multLocal(t).addLocal(other.center);
+  temp3.set(temp2).subtractLocal(temp1);
+  temp2.set(temp3).normalizeLocal();
+  result.setContactNormal(new Vector3f(temp2));
+  temp3.set(temp2).multLocal(dimension).addLocal(temp1);
+  result.setContactPoint(new Vector3f(temp3));
+  return result;
+}

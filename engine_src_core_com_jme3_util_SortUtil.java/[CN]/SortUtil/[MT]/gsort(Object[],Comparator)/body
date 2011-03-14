@@ -1,0 +1,16 @@
+{
+  int p=0;
+  int l=a.length;
+  while (p < l) {
+    int pm1=p - 1;
+    if (p == 0 || comp.compare(a[p],a[pm1]) >= 0) {
+      p++;
+    }
+ else {
+      Object t=a[p];
+      a[p]=a[pm1];
+      a[pm1]=t;
+      p--;
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  InputCapsule ic=im.getCapsule(this);
+  String defName=ic.readString("material_def",null);
+  def=(MaterialDef)im.getAssetManager().loadAsset(new AssetKey(defName));
+  additionalState=(RenderState)ic.readSavable("render_state",null);
+  transparent=ic.readBoolean("is_transparent",false);
+  HashMap<String,MatParam> params=(HashMap<String,MatParam>)ic.readStringSavableMap("parameters",null);
+  paramValues=new ListMap<String,MatParam>();
+  for (  Map.Entry<String,MatParam> entry : params.entrySet()) {
+    MatParam param=entry.getValue();
+    if (param instanceof MatParamTexture) {
+      MatParamTexture texVal=(MatParamTexture)param;
+      if (nextTexUnit < texVal.getUnit() + 1) {
+        nextTexUnit=texVal.getUnit() + 1;
+      }
+      if (texVal.texture == null || texVal.texture.getImage() == null) {
+        continue;
+      }
+    }
+    param.setName(checkSetParam(param.getVarType(),param.getName()));
+    paramValues.put(param.getName(),param);
+  }
+}

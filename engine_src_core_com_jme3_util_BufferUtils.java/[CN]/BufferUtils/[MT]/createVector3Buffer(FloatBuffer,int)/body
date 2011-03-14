@@ -1,0 +1,7 @@
+{
+  if (buf != null && buf.limit() == 3 * vertices) {
+    buf.rewind();
+    return buf;
+  }
+  return createFloatBuffer(3 * vertices);
+}

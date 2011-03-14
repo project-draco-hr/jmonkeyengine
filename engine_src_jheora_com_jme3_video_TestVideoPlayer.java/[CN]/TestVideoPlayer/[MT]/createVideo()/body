@@ -1,0 +1,14 @@
+{
+  try {
+    InputStream fis=new URL("http://mirrorblender.top-ix.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_stereo.ogg").openStream();
+    videoQueue=new VQueue(5);
+    decoder=new AVThread(fis,videoQueue);
+    videoThread=new Thread(decoder,"Jheora Video Decoder");
+    videoThread.setDaemon(true);
+    videoThread.start();
+    masterClock=decoder.getMasterClock();
+  }
+ catch (  IOException ex) {
+    ex.printStackTrace();
+  }
+}

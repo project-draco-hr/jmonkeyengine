@@ -1,0 +1,99 @@
+{
+  int blocksX=(int)FastMath.ceil((float)w / 4f);
+  int blocksY=(int)FastMath.ceil((float)h / 4f);
+  int type;
+switch (format) {
+case DXT1:
+case DXT1A:
+    type=1;
+  break;
+case DXT3:
+type=2;
+break;
+case DXT5:
+type=3;
+break;
+case LATC:
+type=4;
+break;
+case LTC:
+type=5;
+break;
+default :
+throw new IllegalArgumentException();
+}
+int bpb=type == 1 || type == 5 ? 8 : 16;
+ByteBuffer retImg=BufferUtils.createByteBuffer(blocksX * blocksY * bpb);
+if (h == 1) {
+retImg.put(img);
+retImg.rewind();
+return retImg;
+}
+ else if (h == 2) {
+byte[] colorBlock=new byte[8];
+byte[] alphaBlock=type != 1 && type != 5 ? new byte[8] : null;
+for (int x=0; x < blocksX; x++) {
+int blockByteOffset=x * bpb;
+img.position(blockByteOffset);
+img.limit(blockByteOffset + bpb);
+img.get(colorBlock);
+if (type == 4 || type == 5) flipDXT5Block(colorBlock,h);
+ else flipDXT1Block(colorBlock,h);
+retImg.put(colorBlock);
+if (alphaBlock != null) {
+img.get(alphaBlock);
+switch (type) {
+case 2:
+flipDXT3Block(alphaBlock,h);
+break;
+case 3:
+case 4:
+flipDXT5Block(alphaBlock,h);
+break;
+}
+retImg.put(alphaBlock);
+}
+}
+retImg.rewind();
+return retImg;
+}
+ else if (h >= 4) {
+byte[] colorBlock=new byte[8];
+byte[] alphaBlock=type != 1 && type != 5 ? new byte[8] : null;
+for (int y=0; y < blocksY; y++) {
+for (int x=0; x < blocksX; x++) {
+int blockIdx=y * blocksX + x;
+int blockByteOffset=blockIdx * bpb;
+img.position(blockByteOffset);
+img.limit(blockByteOffset + bpb);
+blockIdx=(blocksY - y - 1) * blocksX + x;
+blockByteOffset=blockIdx * bpb;
+retImg.position(blockByteOffset);
+retImg.limit(blockByteOffset + bpb);
+if (alphaBlock != null) {
+img.get(alphaBlock);
+switch (type) {
+case 2:
+flipDXT3Block(alphaBlock,h);
+break;
+case 3:
+case 4:
+flipDXT5Block(alphaBlock,h);
+break;
+}
+retImg.put(alphaBlock);
+}
+img.get(colorBlock);
+if (type == 4 || type == 5) flipDXT5Block(colorBlock,h);
+ else flipDXT1Block(colorBlock,h);
+retImg.put(colorBlock);
+}
+}
+retImg.limit(retImg.capacity());
+retImg.position(0);
+return retImg;
+}
+ else {
+return null;
+}
+}

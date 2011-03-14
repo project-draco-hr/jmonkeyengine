@@ -1,0 +1,18 @@
+{
+  cam.setLocation(new Vector3f(0,10,10));
+  cam.lookAt(Vector3f.ZERO,Vector3f.UNIT_Y);
+  sceneNode=new Node("Scene");
+  mat=new Material(assetManager,"Common/MatDefs/Misc/SimpleTextured.j3md");
+  mat.setTexture("ColorMap",assetManager.loadTexture("Interface/Logo/Monkey.jpg"));
+  Box b=new Box(1,1,1);
+  Geometry geom=new Geometry("Box",b);
+  geom.setMaterial(mat);
+  sceneNode.attachChild(geom);
+  sceneNode.attachChild(SkyFactory.createSky(assetManager,"Textures/Sky/Bright/BrightSky.dds",false));
+  rootNode.attachChild(sceneNode);
+  Sphere lite=new Sphere(8,8,3.0f);
+  lightSphere=new Geometry("lightsphere",lite);
+  lightSphere.setMaterial(mat);
+  lightSphere.setLocalTranslation(lightPos);
+  rootNode.attachChild(lightSphere);
+}

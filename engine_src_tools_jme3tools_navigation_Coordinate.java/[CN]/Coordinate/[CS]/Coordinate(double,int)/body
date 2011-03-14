@@ -1,0 +1,17 @@
+{
+  DecimalFormat form=new DecimalFormat("#.#######");
+  this.decCoordinate=decCoordinate;
+  this.coOrdinate=coOrdinate;
+  if (verify()) {
+    deg=new Float(decCoordinate).intValue();
+    if (deg < 0) {
+      minsDecMins=Double.parseDouble(form.format((Math.abs(decCoordinate) - Math.abs(deg)) * 60));
+    }
+ else {
+      minsDecMins=Double.parseDouble(form.format((decCoordinate - deg) * 60));
+    }
+  }
+ else {
+    throw new InvalidPositionException();
+  }
+}

@@ -1,0 +1,60 @@
+{
+  logger.info("loadAsset(" + key + ")");
+  Object asset;
+  if (key.shouldCache()) {
+    asset=cache.get(key);
+    if (asset != null)     return key.createClonedInstance(asset);
+  }
+  AssetInfo info=locator.locate(this,key);
+  if (info == null) {
+    logger.log(Level.WARNING,"Cannot locate resource: " + key.getName());
+    return null;
+  }
+  String ex=key.getExtension();
+  logger.log(Level.INFO,"Loading asset: " + key.getName());
+  try {
+    if (ex.equals("png") || ex.equals("jpg") || ex.equals("jpeg")|| ex.equals("j3i")) {
+      Image image;
+      if (ex.equals("j3i")) {
+        image=(Image)modelLoader.load(info);
+      }
+ else {
+        image=(Image)imageLoader.load(info);
+      }
+      TextureKey tkey=(TextureKey)key;
+      asset=image;
+      Texture tex=(Texture)tkey.postProcess(asset);
+      tex.setMagFilter(Texture.MagFilter.Nearest);
+      tex.setAnisotropicFilter(0);
+      if (tex.getMinFilter().usesMipMapLevels()) {
+        tex.setMinFilter(Texture.MinFilter.NearestNearestMipMap);
+      }
+ else {
+        tex.setMinFilter(Texture.MinFilter.NearestNoMipMaps);
+      }
+      asset=tex;
+    }
+ else     if (ex.equals("j3o")) {
+      asset=modelLoader.load(info);
+    }
+ else     if (ex.equals("fnt")) {
+      asset=fontLoader.load(info);
+    }
+ else     if (ex.equals("j3md")) {
+      asset=j3mdLoader.load(info);
+    }
+ else     if (ex.equals("j3m")) {
+      asset=j3mLoader.load(info);
+    }
+ else {
+      logger.info("loading asset as glsl shader ...");
+      asset=glslLoader.load(info);
+    }
+    if (key.shouldCache())     cache.put(key,asset);
+    return key.createClonedInstance(asset);
+  }
+ catch (  Exception e) {
+    logger.log(Level.WARNING,"Failed to load resource: " + key.getName(),e);
+  }
+  return null;
+}

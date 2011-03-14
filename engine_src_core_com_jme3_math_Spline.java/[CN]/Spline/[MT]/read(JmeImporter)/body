@@ -1,0 +1,16 @@
+{
+  InputCapsule in=im.getCapsule(this);
+  controlPoints=(ArrayList<Vector3f>)in.readSavableArrayList("wayPoints",null);
+  float list[]=in.readFloatArray("segmentsLength",null);
+  if (list != null) {
+    segmentsLength=new ArrayList<Float>();
+    for (int i=0; i < list.length; i++) {
+      segmentsLength.add(new Float(list[i]));
+    }
+  }
+  type=in.readEnum("pathSplineType",SplineType.class,SplineType.CatmullRom);
+  totalLength=in.readFloat("totalLength",0);
+  CRcontrolPoints=(ArrayList<Vector3f>)in.readSavableArrayList("CRControlPoints",null);
+  curveTension=in.readFloat("curveTension",0.5f);
+  cycle=in.readBoolean("cycle",false);
+}

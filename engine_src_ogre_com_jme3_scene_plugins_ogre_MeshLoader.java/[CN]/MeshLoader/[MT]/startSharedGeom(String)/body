@@ -1,0 +1,11 @@
+{
+  sharedmesh=new Mesh();
+  vertCount=parseInt(vertexcount);
+  if (meshName == null)   sharedgeom=new Geometry("Ogre-SharedGeom",sharedmesh);
+ else   sharedgeom=new Geometry(meshName + "-sharedgeom",sharedmesh);
+  sharedgeom.setCullHint(CullHint.Always);
+  geoms.add(sharedgeom);
+  usesSharedGeom.add(false);
+  geom=sharedgeom;
+  mesh=sharedmesh;
+}

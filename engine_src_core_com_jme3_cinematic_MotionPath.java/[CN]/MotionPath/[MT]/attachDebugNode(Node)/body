@@ -1,0 +1,24 @@
+{
+  if (debugNode == null) {
+    debugNode=new Node();
+    Material m=assetManager.loadMaterial("Common/Materials/RedColor.j3m");
+    for (Iterator<Vector3f> it=spline.getControlPoints().iterator(); it.hasNext(); ) {
+      Vector3f cp=it.next();
+      Geometry geo=new Geometry("box",new Box(cp,0.3f,0.3f,0.3f));
+      geo.setMaterial(m);
+      debugNode.attachChild(geo);
+    }
+switch (spline.getType()) {
+case CatmullRom:
+      debugNode.attachChild(CreateCatmullRomPath());
+    break;
+case Linear:
+  debugNode.attachChild(CreateLinearPath());
+break;
+default :
+debugNode.attachChild(CreateLinearPath());
+break;
+}
+root.attachChild(debugNode);
+}
+}

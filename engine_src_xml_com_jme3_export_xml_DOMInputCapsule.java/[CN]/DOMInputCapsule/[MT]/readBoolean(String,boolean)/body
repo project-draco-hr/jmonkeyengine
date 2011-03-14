@@ -1,0 +1,12 @@
+{
+  String tmpString=currentElem.getAttribute(name);
+  if (tmpString == null || tmpString.length() < 1)   return defVal;
+  try {
+    return Boolean.parseBoolean(tmpString);
+  }
+ catch (  DOMException de) {
+    IOException io=new IOException(de.toString());
+    io.initCause(de);
+    throw io;
+  }
+}

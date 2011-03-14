@@ -1,0 +1,24 @@
+{
+  Serializer.registerClass(SyncMessage.class);
+  try {
+    server=new Server(5110,5110);
+    server.start();
+  }
+ catch (  IOException ex) {
+    ex.printStackTrace();
+  }
+  serverSyncServ=server.getService(ServerSyncService.class);
+  serverBox=new BoxEntity(assetManager,ColorRGBA.Red);
+  serverSyncServ.addNpc(serverBox);
+  rootNode.attachChild(serverBox);
+  serverSyncServ.setNetworkSimulationParams(0.1f,200);
+  try {
+    client=new Client("localhost",5110,5110);
+    client.start();
+  }
+ catch (  IOException ex) {
+    ex.printStackTrace();
+  }
+  clientSyncServ=client.getService(ClientSyncService.class);
+  clientSyncServ.setEntityFactory(this);
+}

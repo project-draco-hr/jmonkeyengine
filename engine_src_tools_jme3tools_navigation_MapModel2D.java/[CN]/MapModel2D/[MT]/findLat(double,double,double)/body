@@ -1,0 +1,23 @@
+{
+  DecimalFormat form=new DecimalFormat("#.####");
+  mp=Math.round(mp);
+  double midLat=(low + high) / 2.0;
+  double guessMP=NavCalculator.computeDMPClarkeSpheroid(0,(float)midLat);
+  while (low <= high) {
+    if (guessMP == mp) {
+      return midLat;
+    }
+ else {
+      if (guessMP > mp) {
+        high=midLat - 0.0001;
+      }
+ else {
+        low=midLat + 0.0001;
+      }
+    }
+    midLat=Double.valueOf(form.format(((low + high) / 2.0)));
+    guessMP=NavCalculator.computeDMPClarkeSpheroid(0,(float)midLat);
+    guessMP=Math.round(guessMP);
+  }
+  return -1000;
+}

@@ -1,0 +1,12 @@
+{
+synchronized (states) {
+    if (states.contains(state)) {
+      state.stateDetached(this);
+      states.remove(state);
+      return true;
+    }
+ else {
+      return false;
+    }
+  }
+}

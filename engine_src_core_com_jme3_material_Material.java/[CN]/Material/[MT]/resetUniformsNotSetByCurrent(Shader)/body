@@ -1,0 +1,9 @@
+{
+  ListMap<String,Uniform> uniforms=shader.getUniformMap();
+  for (int i=0; i < uniforms.size(); i++) {
+    Uniform u=uniforms.getValue(i);
+    if (!u.isSetByCurrentMaterial()) {
+      u.clearValue();
+    }
+  }
+}

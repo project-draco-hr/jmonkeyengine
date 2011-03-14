@@ -1,0 +1,21 @@
+{
+  InputCapsule capsule=e.getCapsule(this);
+  location=(Vector3f)capsule.readSavable("location",Vector3f.ZERO.clone());
+  rotation=(Quaternion)capsule.readSavable("rotation",Quaternion.DIRECTION_Z);
+  frustumNear=capsule.readFloat("frustumNear",1);
+  frustumFar=capsule.readFloat("frustumFar",2);
+  frustumLeft=capsule.readFloat("frustumLeft",-0.5f);
+  frustumRight=capsule.readFloat("frustumRight",0.5f);
+  frustumTop=capsule.readFloat("frustumTop",0.5f);
+  frustumBottom=capsule.readFloat("frustumBottom",-0.5f);
+  coeffLeft=capsule.readFloatArray("coeffLeft",new float[2]);
+  coeffRight=capsule.readFloatArray("coeffRight",new float[2]);
+  coeffBottom=capsule.readFloatArray("coeffBottom",new float[2]);
+  coeffTop=capsule.readFloatArray("coeffTop",new float[2]);
+  viewPortLeft=capsule.readFloat("viewPortLeft",0);
+  viewPortRight=capsule.readFloat("viewPortRight",1);
+  viewPortTop=capsule.readFloat("viewPortTop",1);
+  viewPortBottom=capsule.readFloat("viewPortBottom",0);
+  width=capsule.readInt("width",0);
+  height=capsule.readInt("height",0);
+}

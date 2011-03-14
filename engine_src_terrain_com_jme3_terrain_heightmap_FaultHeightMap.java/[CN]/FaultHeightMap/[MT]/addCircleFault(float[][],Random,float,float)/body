@@ -1,0 +1,23 @@
+{
+  float radius=random.nextFloat() * (maxRadius - minRadius) + minRadius;
+  int intRadius=(int)FastMath.floor(radius);
+  int x=random.nextInt(size + 2 * intRadius) - intRadius;
+  int y=random.nextInt(size + 2 * intRadius) - intRadius;
+  for (int i=0; i < size; i++) {
+    for (int j=0; j < size; j++) {
+      float dist;
+      if (i != x || j != y) {
+        int dx=i - x;
+        int dy=j - y;
+        float dmag=FastMath.sqrt(FastMath.sqr(dx) + FastMath.sqr(dy));
+        float rx=x + dx / dmag * radius;
+        float ry=y + dy / dmag * radius;
+        dist=FastMath.sign(dmag - radius) * FastMath.sqrt(FastMath.sqr(i - rx) + FastMath.sqr(j - ry));
+      }
+ else {
+        dist=0;
+      }
+      tempBuffer[i][j]+=calcHeight(dist,random,faultHeight,range);
+    }
+  }
+}

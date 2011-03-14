@@ -1,0 +1,11 @@
+{
+  if (frameRate > 0) {
+    animator=new FPSAnimator(canvas,frameRate);
+  }
+ else {
+    animator=new Animator(canvas);
+    ((Animator)animator).setRunAsFastAsPossible(true);
+  }
+  animator.start();
+  wasAnimating=true;
+}

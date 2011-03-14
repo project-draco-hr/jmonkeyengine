@@ -1,0 +1,14 @@
+{
+  IDList textureList=context.textureIndexList;
+  Texture[] textures=context.boundTextures;
+  for (int i=0; i < textureList.oldLen; i++) {
+    int idx=textureList.oldList[i];
+    if (context.boundTextureUnit != idx) {
+      setActiveTexture(Helper.TEXTURE0 + idx);
+      context.boundTextureUnit=idx;
+    }
+    disable(convertTextureType(textures[idx].getType()));
+    textures[idx]=null;
+  }
+  context.textureIndexList.copyNewToOld();
+}

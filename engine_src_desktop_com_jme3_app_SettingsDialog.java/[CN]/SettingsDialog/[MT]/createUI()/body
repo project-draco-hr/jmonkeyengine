@@ -1,0 +1,97 @@
+{
+  try {
+    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+  }
+ catch (  Exception e) {
+    logger.warning("Could not set native look and feel.");
+  }
+  addWindowListener(new WindowAdapter(){
+    public void windowClosing(    WindowEvent e){
+      setUserSelection(CANCEL_SELECTION);
+      dispose();
+    }
+  }
+);
+  if (source.getIcons() != null) {
+    safeSetIconImages(Arrays.asList(source.getIcons()));
+  }
+  setTitle("Select Display Settings");
+  JPanel mainPanel=new JPanel();
+  JPanel centerPanel=new JPanel();
+  JPanel optionsPanel=new JPanel();
+  JPanel buttonPanel=new JPanel();
+  JButton ok=new JButton("Ok");
+  JButton cancel=new JButton("Cancel");
+  icon=new JLabel(imageFile != null ? new ImageIcon(imageFile) : null);
+  mainPanel.setLayout(new BorderLayout());
+  centerPanel.setLayout(new BorderLayout());
+  KeyListener aListener=new KeyAdapter(){
+    public void keyPressed(    KeyEvent e){
+      if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (verifyAndSaveCurrentSelection()) {
+          setUserSelection(APPROVE_SELECTION);
+          dispose();
+        }
+      }
+ else       if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        setUserSelection(CANCEL_SELECTION);
+        dispose();
+      }
+    }
+  }
+;
+  displayResCombo=setUpResolutionChooser();
+  displayResCombo.addKeyListener(aListener);
+  colorDepthCombo=new JComboBox();
+  colorDepthCombo.addKeyListener(aListener);
+  displayFreqCombo=new JComboBox();
+  displayFreqCombo.addKeyListener(aListener);
+  antialiasCombo=new JComboBox();
+  antialiasCombo.addKeyListener(aListener);
+  fullscreenBox=new JCheckBox("Fullscreen?");
+  fullscreenBox.setSelected(source.isFullscreen());
+  fullscreenBox.addActionListener(new ActionListener(){
+    public void actionPerformed(    ActionEvent e){
+      updateResolutionChoices();
+    }
+  }
+);
+  vsyncBox=new JCheckBox("VSync?");
+  vsyncBox.setSelected(source.isVSync());
+  updateResolutionChoices();
+  updateAntialiasChoices();
+  displayResCombo.setSelectedItem(source.getWidth() + " x " + source.getHeight());
+  colorDepthCombo.setSelectedItem(source.getBitsPerPixel() + " bpp");
+  optionsPanel.add(displayResCombo);
+  optionsPanel.add(colorDepthCombo);
+  optionsPanel.add(displayFreqCombo);
+  optionsPanel.add(antialiasCombo);
+  optionsPanel.add(fullscreenBox);
+  optionsPanel.add(vsyncBox);
+  ok.addActionListener(new ActionListener(){
+    public void actionPerformed(    ActionEvent e){
+      if (verifyAndSaveCurrentSelection()) {
+        setUserSelection(APPROVE_SELECTION);
+        dispose();
+      }
+    }
+  }
+);
+  cancel.addActionListener(new ActionListener(){
+    public void actionPerformed(    ActionEvent e){
+      setUserSelection(CANCEL_SELECTION);
+      dispose();
+    }
+  }
+);
+  buttonPanel.add(ok);
+  buttonPanel.add(cancel);
+  if (icon != null) {
+    centerPanel.add(icon,BorderLayout.NORTH);
+  }
+  centerPanel.add(optionsPanel,BorderLayout.SOUTH);
+  mainPanel.add(centerPanel,BorderLayout.CENTER);
+  mainPanel.add(buttonPanel,BorderLayout.SOUTH);
+  this.getContentPane().add(mainPanel);
+  pack();
+}

@@ -1,0 +1,54 @@
+{
+  if (src.isPositional()) {
+    Vector3f pos=src.getWorldTranslation();
+    Vector3f vel=src.getVelocity();
+    alSource3f(id,AL_POSITION,pos.x,pos.y,pos.z);
+    alSource3f(id,AL_VELOCITY,vel.x,vel.y,vel.z);
+    alSourcef(id,AL_MAX_DISTANCE,src.getMaxDistance());
+    alSourcef(id,AL_REFERENCE_DISTANCE,src.getRefDistance());
+    if (src.isReverbEnabled()) {
+      int filter=EFX10.AL_FILTER_NULL;
+      if (src.getReverbFilter() != null) {
+        Filter f=src.getReverbFilter();
+        if (f.isUpdateNeeded()) {
+          updateFilter(f);
+        }
+        filter=f.getId();
+      }
+      AL11.alSource3i(id,EFX10.AL_AUXILIARY_SEND_FILTER,reverbFxSlot,0,filter);
+    }
+  }
+ else {
+    alSourcei(id,AL_SOURCE_RELATIVE,AL_TRUE);
+    alSource3f(id,AL_POSITION,0,0,0);
+    alSource3f(id,AL_VELOCITY,0,0,0);
+  }
+  if (src.getDryFilter() != null) {
+    Filter f=src.getDryFilter();
+    if (f.isUpdateNeeded()) {
+      updateFilter(f);
+      alSourcei(id,EFX10.AL_DIRECT_FILTER,f.getId());
+    }
+  }
+  if (forceNonLoop) {
+    alSourcei(id,AL_LOOPING,AL_FALSE);
+  }
+ else {
+    alSourcei(id,AL_LOOPING,src.isLooping() ? AL_TRUE : AL_FALSE);
+  }
+  alSourcef(id,AL_GAIN,src.getVolume());
+  alSourcef(id,AL_PITCH,src.getPitch());
+  alSourcef(id,AL11.AL_SEC_OFFSET,src.getTimeOffset());
+  if (src.isDirectional()) {
+    Vector3f dir=src.getDirection();
+    alSource3f(id,AL_DIRECTION,dir.x,dir.y,dir.z);
+    alSourcef(id,AL_CONE_INNER_ANGLE,src.getInnerAngle());
+    alSourcef(id,AL_CONE_OUTER_ANGLE,src.getOuterAngle());
+    alSourcef(id,AL_CONE_OUTER_GAIN,0);
+  }
+ else {
+    alSourcef(id,AL_CONE_INNER_ANGLE,360);
+    alSourcef(id,AL_CONE_OUTER_ANGLE,360);
+    alSourcef(id,AL_CONE_OUTER_GAIN,1f);
+  }
+}

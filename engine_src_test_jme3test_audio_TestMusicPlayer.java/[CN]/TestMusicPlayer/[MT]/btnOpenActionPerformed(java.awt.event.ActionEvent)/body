@@ -1,0 +1,31 @@
+{
+  JFileChooser chooser=new JFileChooser();
+  chooser.setAcceptAllFileFilterUsed(true);
+  chooser.setDialogTitle("Select OGG file");
+  chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+  chooser.setMultiSelectionEnabled(false);
+  if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+    btnStopActionPerformed(null);
+    final File selected=chooser.getSelectedFile();
+    OGGLoader loader=new OGGLoader();
+    AudioKey key=new AudioKey(selected.getName(),true);
+    try {
+      musicData=(AudioData)loader.load(new AssetInfo(null,key){
+        @Override public InputStream openStream(){
+          try {
+            return new FileInputStream(selected);
+          }
+ catch (          FileNotFoundException ex) {
+          }
+          return null;
+        }
+      }
+);
+    }
+ catch (    IOException ex) {
+    }
+    musicSource=new AudioNode(musicData,key);
+    musicLength=musicData.getDuration();
+    updateTime();
+  }
+}

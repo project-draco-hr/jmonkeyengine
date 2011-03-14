@@ -1,0 +1,10 @@
+{
+switch (mode) {
+case EdgeClamp:
+    return gl.GL_CLAMP_TO_EDGE;
+case Repeat:
+  return gl.GL_REPEAT;
+default :
+throw new UnsupportedOperationException("Unknown wrap mode: " + mode);
+}
+}

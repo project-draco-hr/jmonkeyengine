@@ -1,0 +1,15 @@
+{
+  if (result == null) {
+    result=new Vector3f();
+  }
+  float inner2=innerRadius * innerRadius, outer2=outerRadius * outerRadius, r=FastMath.sqrt(inner2 + FastMath.nextRandomFloat() * (outer2 - inner2)), theta=FastMath.nextRandomFloat() * FastMath.TWO_PI;
+  up.cross(Vector3f.UNIT_X,b1);
+  if (b1.lengthSquared() < FastMath.FLT_EPSILON) {
+    up.cross(Vector3f.UNIT_Y,b1);
+  }
+  b1.normalizeLocal();
+  up.cross(b1,b2);
+  result.set(b1).multLocal(r * FastMath.cos(theta)).addLocal(center);
+  result.scaleAdd(r * FastMath.sin(theta),b2,result);
+  return result;
+}

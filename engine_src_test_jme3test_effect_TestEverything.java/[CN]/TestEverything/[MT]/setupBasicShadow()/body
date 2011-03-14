@@ -1,0 +1,7 @@
+{
+  if (renderer.getCaps().contains(Caps.GLSL100)) {
+    bsr=new BasicShadowRenderer(assetManager,1024);
+    bsr.setDirection(lightDir);
+    viewPort.addProcessor(bsr);
+  }
+}

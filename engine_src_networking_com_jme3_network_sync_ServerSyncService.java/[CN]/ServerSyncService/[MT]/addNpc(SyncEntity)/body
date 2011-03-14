@@ -1,0 +1,17 @@
+{
+  EntitySyncInfo info=generateInitInfo(entity,true);
+  SyncMessage syncMsg=new SyncMessage();
+  syncMsg.setReliable(true);
+  syncMsg.heartbeat=heartbeat;
+  syncMsg.infos=new EntitySyncInfo[]{info};
+  try {
+    server.broadcast(syncMsg);
+  }
+ catch (  IOException ex) {
+    ex.printStackTrace();
+  }
+synchronized (npcs) {
+    npcs.add(entity);
+    npcToId.put(entity,info.id);
+  }
+}

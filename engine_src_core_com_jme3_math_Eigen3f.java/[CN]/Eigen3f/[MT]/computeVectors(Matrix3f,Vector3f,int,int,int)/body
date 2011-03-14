@@ -1,0 +1,81 @@
+{
+  Vector3f vectorU=new Vector3f(), vectorV=new Vector3f();
+  Vector3f.generateComplementBasis(vectorU,vectorV,vect);
+  Vector3f tempVect=mat.mult(vectorU);
+  float p00=eigenValues[index3] - vectorU.dot(tempVect);
+  float p01=vectorV.dot(tempVect);
+  float p11=eigenValues[index3] - vectorV.dot(mat.mult(vectorV));
+  float invLength;
+  float max=FastMath.abs(p00);
+  int row=0;
+  float fAbs=FastMath.abs(p01);
+  if (fAbs > max) {
+    max=fAbs;
+  }
+  fAbs=FastMath.abs(p11);
+  if (fAbs > max) {
+    max=fAbs;
+    row=1;
+  }
+  if (max >= FastMath.ZERO_TOLERANCE) {
+    if (row == 0) {
+      invLength=FastMath.invSqrt(p00 * p00 + p01 * p01);
+      p00*=invLength;
+      p01*=invLength;
+      vectorU.mult(p01,eigenVectors[index3]).addLocal(vectorV.mult(p00));
+    }
+ else {
+      invLength=FastMath.invSqrt(p11 * p11 + p01 * p01);
+      p11*=invLength;
+      p01*=invLength;
+      vectorU.mult(p11,eigenVectors[index3]).addLocal(vectorV.mult(p01));
+    }
+  }
+ else {
+    if (row == 0) {
+      eigenVectors[index3]=vectorV;
+    }
+ else {
+      eigenVectors[index3]=vectorU;
+    }
+  }
+  Vector3f vectorS=vect.cross(eigenVectors[index3]);
+  mat.mult(vect,tempVect);
+  p00=eigenValues[index1] - vect.dot(tempVect);
+  p01=vectorS.dot(tempVect);
+  p11=eigenValues[index1] - vectorS.dot(mat.mult(vectorS));
+  max=FastMath.abs(p00);
+  row=0;
+  fAbs=FastMath.abs(p01);
+  if (fAbs > max) {
+    max=fAbs;
+  }
+  fAbs=FastMath.abs(p11);
+  if (fAbs > max) {
+    max=fAbs;
+    row=1;
+  }
+  if (max >= FastMath.ZERO_TOLERANCE) {
+    if (row == 0) {
+      invLength=FastMath.invSqrt(p00 * p00 + p01 * p01);
+      p00*=invLength;
+      p01*=invLength;
+      eigenVectors[index1]=vect.mult(p01).add(vectorS.mult(p00));
+    }
+ else {
+      invLength=FastMath.invSqrt(p11 * p11 + p01 * p01);
+      p11*=invLength;
+      p01*=invLength;
+      eigenVectors[index1]=vect.mult(p11).add(vectorS.mult(p01));
+    }
+  }
+ else {
+    if (row == 0) {
+      eigenVectors[index1].set(vectorS);
+    }
+ else {
+      eigenVectors[index1].set(vect);
+    }
+  }
+  eigenVectors[index3].cross(eigenVectors[index1],eigenVectors[index2]);
+}

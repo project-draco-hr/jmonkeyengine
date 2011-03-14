@@ -1,0 +1,8 @@
+{
+  SerializerRegistration reg=getSerializerRegistration(type);
+  if (reg == null) {
+    reg=classRegistrations.get(Message.class);
+  }
+  buffer.putShort(reg.getId());
+  return reg;
+}

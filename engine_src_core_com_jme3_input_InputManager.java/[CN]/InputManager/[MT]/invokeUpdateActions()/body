@@ -1,0 +1,15 @@
+{
+  for (  Entry<Long> pressedButton : pressedButtons) {
+    int hash=pressedButton.getKey();
+    long pressTime=pressedButton.getValue();
+    long timeDelta=lastUpdateTime - Math.max(lastLastUpdateTime,pressTime);
+    if (timeDelta > 0) {
+      invokeAnalogs(hash,computeAnalogValue(timeDelta),false);
+    }
+  }
+  for (  Entry<Float> axisValue : axisValues) {
+    int hash=axisValue.getKey();
+    float value=axisValue.getValue();
+    invokeAnalogs(hash,value * frameTPF,true);
+  }
+}

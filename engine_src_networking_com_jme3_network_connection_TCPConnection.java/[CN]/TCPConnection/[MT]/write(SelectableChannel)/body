@@ -1,0 +1,51 @@
+{
+  SocketChannel socketChannel=(SocketChannel)channel;
+  Client client=(Client)socketChannel.keyFor(selector).attachment();
+  MessageQueue queue=client.getMessageQueue();
+  Map<Message,Short> sizeMap=new LinkedHashMap<Message,Short>();
+  for (Iterator<Message> it=queue.iterator(); it.hasNext(); ) {
+    Message message=it.next();
+    if (!message.isReliable())     continue;
+    int pos=writeBuffer.position();
+    try {
+      writeBuffer.position(pos + 2);
+      Serializer.writeClassAndObject(writeBuffer,message);
+      short dataLength=(short)(writeBuffer.position() - pos - 2);
+      writeBuffer.position(pos);
+      writeBuffer.putShort(dataLength);
+      writeBuffer.position(pos + dataLength + 2);
+      sizeMap.put(message,dataLength);
+      it.remove();
+    }
+ catch (    Exception bfe) {
+      writeBuffer.position(pos);
+      break;
+    }
+  }
+  writeBuffer.flip();
+  int written=0;
+  while (writeBuffer.hasRemaining()) {
+    int wrote=socketChannel.write(writeBuffer);
+    written+=wrote;
+    if (wrote == 0) {
+      break;
+    }
+  }
+  log.log(Level.FINE,"[{1}][TCP] Wrote {0} bytes.",new Object[]{written,label});
+  if (writeBuffer.hasRemaining()) {
+    for (Iterator<Map.Entry<Message,Short>> it=sizeMap.entrySet().iterator(); it.hasNext(); ) {
+      Map.Entry<Message,Short> entry=it.next();
+      written-=entry.getValue();
+      if (written > 0) {
+        it.remove();
+      }
+ else {
+        client.getMessageQueue().add(entry.getKey());
+      }
+    }
+  }
+  if (queue.isEmpty()) {
+    channel.keyFor(selector).interestOps(SelectionKey.OP_READ);
+  }
+  writeBuffer.clear();
+}

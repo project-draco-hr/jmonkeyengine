@@ -1,0 +1,18 @@
+{
+  long start=System.currentTimeMillis();
+  if (isLodCalcRunning()) {
+    return;
+  }
+  setLodCalcRunning(true);
+  HashMap<String,UpdatedTerrainPatch> updated=new HashMap<String,UpdatedTerrainPatch>();
+  boolean lodChanged=calculateLod(camLocations,updated);
+  if (!lodChanged) {
+    setLodCalcRunning(false);
+    return;
+  }
+  findNeighboursLod(updated);
+  fixEdges(updated);
+  reIndexPages(updated);
+  setUpdateQuadLODs(updated);
+  setLodCalcRunning(false);
+}

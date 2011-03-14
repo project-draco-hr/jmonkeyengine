@@ -1,0 +1,12 @@
+{
+  this.owner=info.getManager();
+  if (info.getKey().getExtension().equals("glsllib")) {
+    return info.openStream();
+  }
+ else {
+    DependencyNode rootNode=loadNode(info.openStream(),"[main]");
+    String code=resolveDependencies(rootNode);
+    dependCache.clear();
+    return code;
+  }
+}

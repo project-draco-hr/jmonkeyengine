@@ -1,0 +1,45 @@
+{
+  final JPanel mainPanel=new JPanel();
+  mainPanel.setLayout(new BorderLayout());
+  getContentPane().setLayout(new BorderLayout());
+  getContentPane().add(mainPanel,BorderLayout.CENTER);
+  mainPanel.setBorder(new EmptyBorder(10,10,10,10));
+  final FilteredJList list=new FilteredJList();
+  DefaultListModel model=new DefaultListModel();
+  for (  Class c : classes) {
+    model.addElement(c);
+  }
+  list.setModel(model);
+  mainPanel.add(createSearchPanel(list),BorderLayout.NORTH);
+  mainPanel.add(new JScrollPane(list),BorderLayout.CENTER);
+  list.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+    public void valueChanged(    ListSelectionEvent e){
+      selectedClass=(Class)list.getSelectedValue();
+    }
+  }
+);
+  final JPanel buttonPanel=new JPanel(new FlowLayout(FlowLayout.CENTER));
+  mainPanel.add(buttonPanel,BorderLayout.PAGE_END);
+  final JButton okButton=new JButton("Ok");
+  okButton.setMnemonic('O');
+  buttonPanel.add(okButton);
+  getRootPane().setDefaultButton(okButton);
+  okButton.addActionListener(new ActionListener(){
+    public void actionPerformed(    ActionEvent e){
+      startApp(selectedClass);
+      dispose();
+    }
+  }
+);
+  final JButton cancelButton=new JButton("Cancel");
+  cancelButton.setMnemonic('C');
+  buttonPanel.add(cancelButton);
+  cancelButton.addActionListener(new ActionListener(){
+    public void actionPerformed(    ActionEvent e){
+      dispose();
+    }
+  }
+);
+  pack();
+  center();
+}

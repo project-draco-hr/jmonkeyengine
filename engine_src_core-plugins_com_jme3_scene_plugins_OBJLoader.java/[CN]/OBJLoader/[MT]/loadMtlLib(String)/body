@@ -1,0 +1,12 @@
+{
+  if (!name.toLowerCase().endsWith(".mtl"))   throw new IOException("Expected .mtl file! Got: " + name);
+  matList=(MaterialList)assetManager.loadAsset(key.getFolder() + name);
+  if (matList != null) {
+    for (    String matName : matList.keySet()) {
+      matFaces.put(matName,new ArrayList<Face>());
+    }
+  }
+ else {
+    logger.log(Level.WARNING,"Can't find MTL file. " + "Using default material for OBJ.");
+  }
+}

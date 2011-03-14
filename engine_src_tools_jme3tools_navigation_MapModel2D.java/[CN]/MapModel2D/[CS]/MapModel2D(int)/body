@@ -1,0 +1,13 @@
+{
+  try {
+    this.centre=new Position(0,0);
+  }
+ catch (  InvalidPositionException e) {
+    e.printStackTrace();
+  }
+  this.viewportWidth=viewportWidth;
+  calculateMinutesPerPixel(DEFAULT_MAP_WIDTH_LONGITUDE);
+  viewportHeight=((int)NavCalculator.computeDMPClarkeSpheroid(0,85) / (int)minutesPerPixel) * 2;
+  xCentre=viewportWidth / 2;
+  yCentre=viewportHeight / 2;
+}

@@ -1,0 +1,9 @@
+{
+  super.accept(channel);
+  Client con=connections.get(connections.size() - 1);
+  handshakingConnectors.add(con);
+  initialHandshake=true;
+  sslEngine.beginHandshake();
+  handshakeStatus=sslEngine.getHandshakeStatus();
+  doHandshake(con.getSocketChannel());
+}

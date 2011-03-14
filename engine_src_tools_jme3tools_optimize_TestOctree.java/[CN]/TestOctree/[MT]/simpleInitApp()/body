@@ -1,0 +1,29 @@
+{
+  MeshLoader.AUTO_INTERLEAVE=false;
+  assetManager.registerLocator("quake3level.zip","com.jme3.asset.plugins.ZipLocator");
+  MaterialList matList=(MaterialList)assetManager.loadAsset("Scene.material");
+  OgreMeshKey key=new OgreMeshKey("main.meshxml",matList);
+  Spatial scene=assetManager.loadModel(key);
+  DirectionalLight dl=new DirectionalLight();
+  dl.setColor(ColorRGBA.White);
+  dl.setDirection(new Vector3f(-1,-1,-1).normalize());
+  rootNode.addLight(dl);
+  DirectionalLight dl2=new DirectionalLight();
+  dl2.setColor(ColorRGBA.White);
+  dl2.setDirection(new Vector3f(1,-1,1).normalize());
+  rootNode.addLight(dl2);
+  tree=new Octree(scene,50);
+  tree.construct();
+  ArrayList<Geometry> globalGeomList=new ArrayList<Geometry>();
+  tree.createFastOctnodes(globalGeomList);
+  tree.generateFastOctnodeLinks();
+  for (  Geometry geom : globalGeomList) {
+    geom.addLight(dl);
+    geom.addLight(dl2);
+    geom.updateGeometricState();
+  }
+  globalGeoms=globalGeomList.toArray(new Geometry[0]);
+  fastRoot=tree.getFastRoot();
+  octBox=tree.getBound();
+  viewPort.addProcessor(this);
+}

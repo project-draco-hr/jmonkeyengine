@@ -1,0 +1,7 @@
+{
+  for (  Bone child : bone.getChildren()) {
+    indexBuf.put((short)skeleton.getBoneIndex(bone));
+    indexBuf.put((short)skeleton.getBoneIndex(child));
+    writeConnections(indexBuf,child);
+  }
+}

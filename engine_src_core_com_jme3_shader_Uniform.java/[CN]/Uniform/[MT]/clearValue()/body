@@ -1,0 +1,39 @@
+{
+  updateNeeded=true;
+  if (multiData != null) {
+    ZERO_BUF.clear();
+    multiData.clear();
+    while (multiData.remaining() > 0) {
+      ZERO_BUF.limit(Math.min(multiData.remaining(),16));
+      multiData.put(ZERO_BUF);
+    }
+    multiData.clear();
+    return;
+  }
+  if (varType == null)   return;
+switch (varType) {
+case Int:
+    this.value=ZERO_INT;
+  break;
+case Boolean:
+this.value=Boolean.FALSE;
+break;
+case Float:
+this.value=ZERO_FLT;
+break;
+case Vector2:
+this.value=Vector2f.ZERO;
+break;
+case Vector3:
+this.value=Vector3f.ZERO;
+break;
+case Vector4:
+if (this.value instanceof ColorRGBA) {
+this.value=ColorRGBA.BlackNoAlpha;
+}
+ else {
+this.value=Quaternion.ZERO;
+}
+break;
+}
+}

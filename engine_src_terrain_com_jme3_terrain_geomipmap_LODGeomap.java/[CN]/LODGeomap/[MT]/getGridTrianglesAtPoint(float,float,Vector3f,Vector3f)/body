@@ -1,0 +1,12 @@
+{
+  Triangle[] tris=getGridTrianglesAtPoint(x,z);
+  if (tris != null) {
+    tris[0].get1().multLocal(scale).addLocal(translation);
+    tris[0].get2().multLocal(scale).addLocal(translation);
+    tris[0].get3().multLocal(scale).addLocal(translation);
+    tris[1].get1().multLocal(scale).addLocal(translation);
+    tris[1].get2().multLocal(scale).addLocal(translation);
+    tris[1].get3().multLocal(scale).addLocal(translation);
+  }
+  return tris;
+}

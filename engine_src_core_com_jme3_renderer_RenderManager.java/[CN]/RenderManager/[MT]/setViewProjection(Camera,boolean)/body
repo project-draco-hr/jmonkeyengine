@@ -1,0 +1,28 @@
+{
+  if (shader) {
+    if (ortho) {
+      viewMatrix.set(Matrix4f.IDENTITY);
+      projMatrix.set(orthoMatrix);
+      viewProjMatrix.set(orthoMatrix);
+    }
+ else {
+      viewMatrix.set(cam.getViewMatrix());
+      projMatrix.set(cam.getProjectionMatrix());
+      viewProjMatrix.set(cam.getViewProjectionMatrix());
+    }
+    camLoc.set(cam.getLocation());
+    cam.getLeft(camLeft);
+    cam.getUp(camUp);
+    cam.getDirection(camDir);
+    near=cam.getFrustumNear();
+    far=cam.getFrustumFar();
+  }
+ else {
+    if (ortho) {
+      renderer.setViewProjectionMatrices(Matrix4f.IDENTITY,orthoMatrix);
+    }
+ else {
+      renderer.setViewProjectionMatrices(cam.getViewMatrix(),cam.getProjectionMatrix());
+    }
+  }
+}

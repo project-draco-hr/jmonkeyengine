@@ -1,0 +1,12 @@
+{
+switch (usage) {
+case Static:
+    return GLES20.GL_STATIC_DRAW;
+case Dynamic:
+  return GLES20.GL_DYNAMIC_DRAW;
+case Stream:
+return GLES20.GL_STREAM_DRAW;
+default :
+throw new RuntimeException("Unknown usage type.");
+}
+}

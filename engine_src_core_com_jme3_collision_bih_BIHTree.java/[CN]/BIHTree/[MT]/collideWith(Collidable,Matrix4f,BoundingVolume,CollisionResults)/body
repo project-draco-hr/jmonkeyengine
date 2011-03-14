@@ -1,0 +1,17 @@
+{
+  if (other instanceof SweepSphere) {
+    SweepSphere ss=(SweepSphere)other;
+    return collideWithSweepSphere(ss,worldMatrix,worldBound,results);
+  }
+ else   if (other instanceof Ray) {
+    Ray ray=(Ray)other;
+    return collideWithRay(ray,worldMatrix,worldBound,results);
+  }
+ else   if (other instanceof BoundingVolume) {
+    BoundingVolume bv=(BoundingVolume)other;
+    return collideWithBoundingVolume(bv,worldMatrix,results);
+  }
+ else {
+    throw new UnsupportedCollisionException();
+  }
+}

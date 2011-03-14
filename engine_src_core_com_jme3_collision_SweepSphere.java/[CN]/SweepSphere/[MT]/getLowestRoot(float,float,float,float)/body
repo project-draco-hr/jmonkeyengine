@@ -1,0 +1,21 @@
+{
+  float determinant=b * b - 4f * a * c;
+  if (determinant < 0) {
+    return Float.NaN;
+  }
+  float sqrtd=FastMath.sqrt(determinant);
+  float r1=(-b - sqrtd) / (2f * a);
+  float r2=(-b + sqrtd) / (2f * a);
+  if (r1 > r2) {
+    float temp=r2;
+    r2=r1;
+    r1=temp;
+  }
+  if (r1 > 0 && r1 < maxR) {
+    return r1;
+  }
+  if (r2 > 0 && r2 < maxR) {
+    return r2;
+  }
+  return Float.NaN;
+}

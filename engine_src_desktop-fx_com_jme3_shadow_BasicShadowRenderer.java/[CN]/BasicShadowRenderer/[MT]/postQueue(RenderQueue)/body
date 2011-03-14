@@ -1,0 +1,35 @@
+{
+  GeometryList occluders=rq.getShadowQueueContent(ShadowMode.Cast);
+  if (occluders.size() == 0) {
+    noOccluders=true;
+    return;
+  }
+ else {
+    noOccluders=false;
+  }
+  GeometryList receivers=rq.getShadowQueueContent(ShadowMode.Receive);
+  Camera viewCam=viewPort.getCamera();
+  ShadowUtil.updateFrustumPoints(viewCam,viewCam.getFrustumNear(),viewCam.getFrustumFar(),1.0f,points);
+  Vector3f frustaCenter=new Vector3f();
+  for (  Vector3f point : points) {
+    frustaCenter.addLocal(point);
+  }
+  frustaCenter.multLocal(1f / 8f);
+  shadowCam.setProjectionMatrix(null);
+  shadowCam.setParallelProjection(true);
+  shadowCam.setDirection(direction);
+  shadowCam.update();
+  shadowCam.setLocation(frustaCenter);
+  shadowCam.update();
+  shadowCam.updateViewProjection();
+  ShadowUtil.updateShadowCamera(occluders,receivers,shadowCam,points);
+  Renderer r=renderManager.getRenderer();
+  renderManager.setCamera(shadowCam,false);
+  renderManager.setForcedMaterial(preshadowMat);
+  r.setFrameBuffer(shadowFB);
+  r.clearBuffers(false,true,false);
+  viewPort.getQueue().renderShadowQueue(ShadowMode.Cast,renderManager,shadowCam,true);
+  r.setFrameBuffer(viewPort.getOutputFrameBuffer());
+  renderManager.setForcedMaterial(null);
+  renderManager.setCamera(viewCam,false);
+}

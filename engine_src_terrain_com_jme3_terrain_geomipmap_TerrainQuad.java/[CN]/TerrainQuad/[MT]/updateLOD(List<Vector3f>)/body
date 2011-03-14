@@ -1,0 +1,19 @@
+{
+  updateQuadLODs();
+  if (lastCameraLocations != null) {
+    if (lastCameraLocationsTheSame(locations))     return;
+ else     lastCameraLocations=cloneVectorList(locations);
+  }
+ else {
+    lastCameraLocations=cloneVectorList(locations);
+    return;
+  }
+  if (isLodCalcRunning()) {
+    return;
+  }
+  if (getParent() instanceof TerrainQuad) {
+    return;
+  }
+  UpdateLOD updateLodThread=new UpdateLOD(locations);
+  executor.execute(updateLodThread);
+}

@@ -1,0 +1,9 @@
+{
+  stateLock.lock();
+  try {
+    return finished || cancelled || (exception != null);
+  }
+  finally {
+    stateLock.unlock();
+  }
+}

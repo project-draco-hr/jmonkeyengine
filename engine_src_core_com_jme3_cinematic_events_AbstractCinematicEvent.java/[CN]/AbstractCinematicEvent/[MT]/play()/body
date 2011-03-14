@@ -1,0 +1,10 @@
+{
+  onPlay();
+  playState=PlayState.Playing;
+  if (listeners != null) {
+    for (int i=0; i < listeners.size(); i++) {
+      CinematicEventListener cel=listeners.get(i);
+      cel.onPlay(this);
+    }
+  }
+}

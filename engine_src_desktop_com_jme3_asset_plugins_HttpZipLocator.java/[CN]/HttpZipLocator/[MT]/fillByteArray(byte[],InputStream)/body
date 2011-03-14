@@ -1,0 +1,9 @@
+{
+  int total=0;
+  int length=array.length;
+  while (total < length) {
+    int read=source.read(array,total,length - total);
+    if (read < 0)     throw new IOException("Failed to read entire array");
+    total+=read;
+  }
+}

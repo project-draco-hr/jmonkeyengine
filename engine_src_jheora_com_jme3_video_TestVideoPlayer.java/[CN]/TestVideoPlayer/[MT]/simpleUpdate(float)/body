@@ -1,0 +1,62 @@
+{
+  if (source == null) {
+    if (decoder.getAudioStream() != null) {
+      source=new AudioNode(decoder.getAudioStream(),null);
+      source.setPositional(false);
+      source.setReverbEnabled(false);
+      audioRenderer.playSource(source);
+    }
+ else {
+      return;
+    }
+  }
+  if (waitTime > 0) {
+    waitTime-=tpf;
+    if (waitTime > 0)     return;
+ else {
+      waitTime=0;
+      drawFrame(frameToDraw);
+      frameToDraw=null;
+    }
+  }
+ else {
+    VFrame frame;
+    try {
+      frame=videoQueue.take();
+    }
+ catch (    InterruptedException ex) {
+      stop();
+      return;
+    }
+    if (frame.getTime() < lastFrameTime) {
+      videoQueue.returnFrame(frame);
+      return;
+    }
+    if (frame.getTime() == -2) {
+      System.out.println("End of stream");
+      stop();
+      return;
+    }
+    long AV_SYNC_THRESHOLD=1 * Clock.MILLIS_TO_NANOS;
+    long delay=frame.getTime() - lastFrameTime;
+    long diff=frame.getTime() - masterClock.getTime();
+    long syncThresh=delay > AV_SYNC_THRESHOLD ? delay : AV_SYNC_THRESHOLD;
+    if (Math.abs(diff) < Clock.SECONDS_TO_NANOS) {
+      if (diff <= -syncThresh) {
+        delay=0;
+      }
+ else       if (diff >= syncThresh) {
+        delay=2 * delay;
+      }
+    }
+    System.out.println("M: " + decoder.getSystemClock().getTimeSeconds() + ", V: "+ decoder.getVideoClock().getTimeSeconds()+ ", A: "+ decoder.getAudioClock().getTimeSeconds());
+    if (delay > 0) {
+      waitNanos(delay);
+      drawFrame(frame);
+    }
+ else {
+      videoQueue.returnFrame(frame);
+      lastFrameTime=frame.getTime();
+    }
+  }
+}

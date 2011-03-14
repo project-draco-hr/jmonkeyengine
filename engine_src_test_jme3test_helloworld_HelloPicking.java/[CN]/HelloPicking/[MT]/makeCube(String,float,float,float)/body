@@ -1,0 +1,8 @@
+{
+  Box box=new Box(new Vector3f(x,y,z),1,1,1);
+  Geometry cube=new Geometry(name,box);
+  Material mat1=new Material(assetManager,"Common/MatDefs/Misc/SolidColor.j3md");
+  mat1.setColor("Color",ColorRGBA.randomColor());
+  cube.setMaterial(mat1);
+  return cube;
+}

@@ -1,0 +1,18 @@
+{
+  Preferences prefs=Preferences.userRoot().node(preferencesKey);
+  String[] keys=prefs.keys();
+  if (keys != null) {
+    for (    String key : keys) {
+      Object defaultValue=defaults.get(key);
+      if (defaultValue instanceof Integer) {
+        put(key,prefs.getInt(key,(Integer)defaultValue));
+      }
+ else       if (defaultValue instanceof String) {
+        put(key,prefs.get(key,(String)defaultValue));
+      }
+ else       if (defaultValue instanceof Boolean) {
+        put(key,prefs.getBoolean(key,(Boolean)defaultValue));
+      }
+    }
+  }
+}

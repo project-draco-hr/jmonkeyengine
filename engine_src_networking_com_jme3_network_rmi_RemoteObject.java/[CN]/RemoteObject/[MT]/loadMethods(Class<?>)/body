@@ -1,0 +1,22 @@
+{
+  HashMap<String,ArrayList<Method>> nameToMethods=new HashMap<String,ArrayList<Method>>();
+  for (  Method method : interfaceClass.getDeclaredMethods()) {
+    ArrayList<Method> list=nameToMethods.get(method.getName());
+    if (list == null) {
+      list=new ArrayList<Method>();
+      nameToMethods.put(method.getName(),list);
+    }
+    list.add(method);
+  }
+  mapping_search:   for (int i=0; i < methodDefs.length; i++) {
+    MethodDef methodDef=methodDefs[i];
+    ArrayList<Method> methods=nameToMethods.get(methodDef.name);
+    if (methods == null)     continue;
+    for (    Method method : methods) {
+      if (methodEquals(methodDef,method)) {
+        methodMap.put(method,i);
+        continue mapping_search;
+      }
+    }
+  }
+}

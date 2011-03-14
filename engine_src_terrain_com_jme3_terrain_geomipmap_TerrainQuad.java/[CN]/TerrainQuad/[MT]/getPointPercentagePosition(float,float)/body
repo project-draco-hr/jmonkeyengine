@@ -1,0 +1,7 @@
+{
+  Vector2f uv=new Vector2f(worldX,worldY);
+  uv.subtractLocal(getLocalTranslation().x,getLocalTranslation().z);
+  uv.addLocal(totalSize / 2,totalSize / 2);
+  uv.divideLocal(totalSize);
+  return uv;
+}

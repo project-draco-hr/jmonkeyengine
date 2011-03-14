@@ -1,0 +1,41 @@
+{
+  updateWork(statusStr,0);
+  if (manager == null)   manager=JmeSystem.newAssetManager();
+  manager.registerLocator(input.getParent().toString(),FileLocator.class.getName());
+  String format=(String)cmbCompressType.getSelectedItem();
+  if (format.equals("PNG-RGBE")) {
+    HDRLoader loader=new HDRLoader(true);
+    try {
+      FileInputStream in=new FileInputStream(input);
+      Image image=loader.load(in,false);
+      in.close();
+      BufferedImage rgbeImage=ImageToAwt.convert(image,false,true,0);
+      if (output == null) {
+        output=new File(input.getParent(),input.getName() + ".png");
+      }
+      ImageIO.write(rgbeImage,"png",output);
+    }
+ catch (    IOException ex) {
+      ex.printStackTrace();
+    }
+  }
+ else {
+    Texture tex=manager.loadTexture(input.getName());
+    Image image=tex.getImage();
+    boolean mips=chkMips.isSelected();
+    if (mips && !image.hasMipmaps()) {
+      MipMapGenerator.generateMipMaps(image);
+    }
+    if (output == null) {
+      output=new File(input.getParent(),input.getName() + ".j3i");
+    }
+    try {
+      BinaryExporter.getInstance().save(image,output);
+      BufferedImage preview=ImageToAwt.convert(image,false,true,0);
+      ImageIO.write(preview,"png",new File(output + ".png"));
+    }
+ catch (    IOException ex) {
+      ex.printStackTrace();
+    }
+  }
+}

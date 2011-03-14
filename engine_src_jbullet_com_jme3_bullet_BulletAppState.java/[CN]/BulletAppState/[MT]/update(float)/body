@@ -1,0 +1,9 @@
+{
+  if (!active) {
+    return;
+  }
+  if (threadingType != ThreadingType.DETACHED) {
+    pSpace.distributeEvents();
+  }
+  this.tpf=tpf;
+}

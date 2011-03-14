@@ -1,0 +1,9 @@
+{
+  List<PhysicsSweepTestResult> results=new LinkedList<PhysicsSweepTestResult>();
+  if (!(shape.getCShape() instanceof ConvexShape)) {
+    Logger.getLogger(PhysicsSpace.class.getName()).log(Level.WARNING,"Trying to sweep test with incompatible mesh shape!");
+    return results;
+  }
+  dynamicsWorld.convexSweepTest((ConvexShape)shape.getCShape(),Converter.convert(start,sweepTrans1),Converter.convert(end,sweepTrans2),new InternalSweepListener(results));
+  return results;
+}

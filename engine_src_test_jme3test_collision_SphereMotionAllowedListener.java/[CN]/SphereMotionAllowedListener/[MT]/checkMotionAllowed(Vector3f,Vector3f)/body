@@ -1,0 +1,17 @@
+{
+  if (velocity.getX() == 0 && velocity.getZ() == 0)   return;
+  depth=0;
+  newPos.set(position);
+  newVel.set(velocity);
+  velocity.setY(0);
+  collideWithWorld();
+  ray.setOrigin(newPos.add(0,footStart,0));
+  ray.setDirection(new Vector3f(0,-1,0));
+  results.clear();
+  scene.collideWith(ray,results);
+  CollisionResult result=results.getClosestCollision();
+  if (result != null) {
+    newPos.y=result.getContactPoint().getY() + charHeight / 2f;
+  }
+  position.set(newPos);
+}

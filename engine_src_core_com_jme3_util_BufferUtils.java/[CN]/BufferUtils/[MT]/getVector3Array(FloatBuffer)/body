@@ -1,0 +1,9 @@
+{
+  buff.clear();
+  Vector3f[] verts=new Vector3f[buff.limit() / 3];
+  for (int x=0; x < verts.length; x++) {
+    Vector3f v=new Vector3f(buff.get(),buff.get(),buff.get());
+    verts[x]=v;
+  }
+  return verts;
+}

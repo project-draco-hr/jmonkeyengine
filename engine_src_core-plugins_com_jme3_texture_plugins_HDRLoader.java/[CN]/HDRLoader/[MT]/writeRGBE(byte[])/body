@@ -1,0 +1,9 @@
+{
+  if (writeRGBE) {
+    dataStore.put(rgbe);
+  }
+ else {
+    convertRGBEtoFloat(rgbe,tempF);
+    dataStore.putShort(FastMath.convertFloatToHalf(tempF[0])).putShort(FastMath.convertFloatToHalf(tempF[1])).putShort(FastMath.convertFloatToHalf(tempF[2]));
+  }
+}

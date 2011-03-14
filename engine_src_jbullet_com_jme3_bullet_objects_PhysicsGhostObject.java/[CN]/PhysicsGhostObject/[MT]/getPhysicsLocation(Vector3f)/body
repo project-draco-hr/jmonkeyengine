@@ -1,0 +1,8 @@
+{
+  if (trans == null) {
+    trans=new Vector3f();
+  }
+  gObject.getWorldTransform(tempTrans);
+  Converter.convert(tempTrans.origin,physicsLocation.getTranslation());
+  return trans.set(physicsLocation.getTranslation());
+}

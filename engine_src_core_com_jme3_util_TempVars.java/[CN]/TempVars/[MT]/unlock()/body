@@ -1,0 +1,15 @@
+{
+  if (!locked) {
+    System.err.println("INTERNAL ERROR");
+    System.err.println("Attempted to release non-existent lock: ");
+    StackTraceElement[] stack=new Throwable().getStackTrace();
+    for (int i=1; i < stack.length; i++) {
+      System.err.println("\tat " + stack[i].toString());
+    }
+    System.exit(1);
+    return false;
+  }
+  lockerStack=null;
+  locked=false;
+  return true;
+}

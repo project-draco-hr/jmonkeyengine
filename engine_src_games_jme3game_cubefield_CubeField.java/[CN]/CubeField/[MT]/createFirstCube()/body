@@ -1,0 +1,10 @@
+{
+  Vector3f loc=player.getLocalTranslation();
+  loc.addLocal(4,0,0);
+  Box b=new Box(loc,1,1,1);
+  Geometry geom=new Geometry("Box",b);
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/SolidColor.j3md");
+  mat.setColor("Color",ColorRGBA.Blue);
+  geom.setMaterial(mat);
+  return geom;
+}

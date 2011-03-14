@@ -1,0 +1,17 @@
+{
+  if (location > 10) {
+    location=10;
+    rate=-rate;
+    ufo.setVelocity(new Vector3f(rate * 10,0,0));
+  }
+ else   if (location < -10) {
+    location=-10;
+    rate=-rate;
+    ufo.setVelocity(new Vector3f(rate * 10,0,0));
+  }
+ else {
+    location+=rate * tpf * 10;
+  }
+  ufo.setLocalTranslation(location,0,2);
+  ufo.updateGeometricState();
+}

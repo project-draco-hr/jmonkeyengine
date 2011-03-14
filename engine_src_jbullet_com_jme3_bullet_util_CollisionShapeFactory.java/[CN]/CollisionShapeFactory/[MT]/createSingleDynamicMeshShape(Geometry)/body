@@ -1,0 +1,11 @@
+{
+  Mesh mesh=geom.getMesh();
+  if (mesh != null) {
+    HullCollisionShape dynamicShape=new HullCollisionShape(mesh);
+    dynamicShape.setScale(geom.getWorldScale());
+    return dynamicShape;
+  }
+ else {
+    return null;
+  }
+}

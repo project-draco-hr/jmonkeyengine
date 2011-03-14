@@ -1,0 +1,18 @@
+{
+  stateLock.lock();
+  try {
+    if (!isDone()) {
+      finishedCondition.await(timeout,unit);
+    }
+    if (exception != null) {
+      throw exception;
+    }
+    if (result == null) {
+      throw new TimeoutException("Object not returned in time allocated.");
+    }
+    return result;
+  }
+  finally {
+    stateLock.unlock();
+  }
+}

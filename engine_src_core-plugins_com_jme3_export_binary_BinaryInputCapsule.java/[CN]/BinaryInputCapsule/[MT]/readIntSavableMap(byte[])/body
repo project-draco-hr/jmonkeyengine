@@ -1,0 +1,10 @@
+{
+  int elements=readInt(content);
+  if (elements == BinaryOutputCapsule.NULL_OBJECT)   return null;
+  int[] keys=readIntArray(content);
+  ID[] values=readSavableArray(content);
+  IntIDMap rVal=new IntIDMap();
+  rVal.keys=keys;
+  rVal.values=values;
+  return rVal;
+}

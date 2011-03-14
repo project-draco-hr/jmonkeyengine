@@ -1,0 +1,14 @@
+{
+  bulletMesh=new IndexedMesh();
+  bulletMesh.numVertices=numVertices;
+  bulletMesh.numTriangles=numTriangles;
+  bulletMesh.vertexStride=vertexStride;
+  bulletMesh.triangleIndexStride=triangleIndexStride;
+  bulletMesh.triangleIndexBase=triangleIndexBase;
+  bulletMesh.vertexBase=vertexBase;
+  bulletMesh.triangleIndexBase=triangleIndexBase;
+  TriangleIndexVertexArray tiv=new TriangleIndexVertexArray(numTriangles,triangleIndexBase,triangleIndexStride,numVertices,vertexBase,vertexStride);
+  cShape=new BvhTriangleMeshShape(tiv,true);
+  cShape.setLocalScaling(Converter.convert(getScale()));
+  cShape.setMargin(margin);
+}

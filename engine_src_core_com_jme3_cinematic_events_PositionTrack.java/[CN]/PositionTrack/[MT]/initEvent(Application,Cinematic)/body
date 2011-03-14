@@ -1,0 +1,11 @@
+{
+  super.initEvent(app,cinematic);
+  if (spatial == null) {
+    spatial=cinematic.getScene().getChild(spatialName);
+    if (spatial == null) {
+    }
+ else {
+      log.log(Level.WARNING,"spatial {0} not found in the scene",spatialName);
+    }
+  }
+}

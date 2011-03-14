@@ -1,0 +1,11 @@
+{
+  Serializer.registerClass(TimestampMessage.class);
+  Server server=new Server(5110,5110);
+  server.start();
+  client=new Client("localhost",5110,5110);
+  client.start();
+  client.addMessageListener(new TestLatency(),TimestampMessage.class);
+  server.addMessageListener(new TestLatency(),TimestampMessage.class);
+  Thread.sleep(1);
+  client.send(new TimestampMessage(getTime(),0));
+}

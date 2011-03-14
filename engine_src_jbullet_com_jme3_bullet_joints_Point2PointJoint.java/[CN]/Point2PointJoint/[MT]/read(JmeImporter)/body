@@ -1,0 +1,8 @@
+{
+  super.read(im);
+  createJoint();
+  InputCapsule cap=im.getCapsule(this);
+  setDamping(cap.readFloat("damping",1.0f));
+  setDamping(cap.readFloat("tau",0.3f));
+  setDamping(cap.readFloat("impulseClamp",0f));
+}

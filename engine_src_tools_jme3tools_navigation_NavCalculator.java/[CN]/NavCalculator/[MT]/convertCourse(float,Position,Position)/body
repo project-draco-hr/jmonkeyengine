@@ -1,0 +1,17 @@
+{
+  double dLat=p1.getLatitude() - p2.getLatitude();
+  double dLong=p1.getLongitude() - p2.getLongitude();
+  if (dLong >= 0 & dLat >= 0) {
+    return Math.abs(tc);
+  }
+  if (dLong >= 0 & dLat < 0) {
+    return 180 - Math.abs(tc);
+  }
+  if (dLong < 0 & dLat < 0) {
+    return 180 + Math.abs(tc);
+  }
+  if (dLong < 0 & dLat >= 0) {
+    return 360 - Math.abs(tc);
+  }
+  return -1;
+}

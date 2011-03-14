@@ -1,0 +1,84 @@
+{
+  Format format=image.getFormat();
+  DecodeParams p=params.get(image.getFormat());
+  if (p == null)   throw new UnsupportedOperationException();
+  int width=image.getWidth();
+  int height=image.getHeight();
+  int level=mipLevel;
+  while (--level >= 0) {
+    width/=2;
+    height/=2;
+  }
+  ByteBuffer buf=image.getData(0);
+  buf.order(ByteOrder.LITTLE_ENDIAN);
+  BufferedImage out;
+  boolean alpha=false;
+  boolean luminance=false;
+  boolean rgb=false;
+  if (p.am != 0)   alpha=true;
+  if (p.rm != 0 && p.gm == 0 && p.bm == 0)   luminance=true;
+ else   if (p.rm != 0 && p.gm != 0 && p.bm != 0)   rgb=true;
+  if ((alpha && !rgb && !luminance) || (luminance && !alpha && !rgb)) {
+    out=new BufferedImage(width,height,BufferedImage.TYPE_BYTE_GRAY);
+  }
+ else   if ((rgb && alpha) || (luminance && alpha)) {
+    if (do16bit) {
+      if (fullalpha) {
+        ColorModel model=AWTLoader.AWT_RGBA4444;
+        WritableRaster raster=model.createCompatibleWritableRaster(width,width);
+        out=new BufferedImage(model,raster,false,null);
+      }
+ else {
+        ColorSpace cs=ColorSpace.getInstance(ColorSpace.CS_sRGB);
+        int[] nBits={5,5,5,1};
+        int[] bOffs={0,1,2,3};
+        ColorModel colorModel=new ComponentColorModel(cs,nBits,true,false,Transparency.BITMASK,DataBuffer.TYPE_BYTE);
+        WritableRaster raster=Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,width,height,width * 2,2,bOffs,null);
+        out=new BufferedImage(colorModel,raster,false,null);
+      }
+    }
+ else {
+      out=new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
+    }
+  }
+ else {
+    if (do16bit) {
+      out=new BufferedImage(width,height,BufferedImage.TYPE_USHORT_565_RGB);
+    }
+ else {
+      out=new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+    }
+  }
+  int expansionA=8 - Integer.bitCount(p.am);
+  int expansionR=8 - Integer.bitCount(p.rm);
+  int expansionG=8 - Integer.bitCount(p.gm);
+  int expansionB=8 - Integer.bitCount(p.bm);
+  int mipPos=0;
+  for (int i=0; i < mipLevel; i++) {
+    mipPos+=image.getMipMapSizes()[i];
+  }
+  int inputPixel;
+  for (int y=0; y < height; y++) {
+    for (int x=0; x < width; x++) {
+      int i=mipPos + (Ix(x,y,width) * p.bpp);
+      inputPixel=(readPixel(buf,i,p.bpp) & p.im) >> p.is;
+      int a=(inputPixel & p.am) >> p.as;
+      int r=(inputPixel & p.rm) >> p.rs;
+      int g=(inputPixel & p.gm) >> p.gs;
+      int b=(inputPixel & p.bm) >> p.bs;
+      r=r & 0xff;
+      g=g & 0xff;
+      b=b & 0xff;
+      a=a & 0xff;
+      a=a << expansionA;
+      r=r << expansionR;
+      g=g << expansionG;
+      b=b << expansionB;
+      if (luminance)       b=g=r;
+      if (!alpha)       a=0xff;
+      int argb=(a << 24) | (r << 16) | (g << 8)| b;
+      out.setRGB(x,y,argb);
+    }
+  }
+  return out;
+}

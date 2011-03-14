@@ -1,0 +1,12 @@
+{
+  if (!key.getExtension().equals("fnt"))   return;
+  File f=new File("/sdcard/" + key.getName() + ".opt");
+  try {
+    BitmapFont font=(BitmapFont)data;
+    OutputStream stream=new FileOutputStream(f);
+    exporter.save(font,stream);
+    stream.close();
+  }
+ catch (  IOException ex) {
+  }
+}

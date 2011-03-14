@@ -1,0 +1,22 @@
+{
+  OutputCapsule oc=ex.getCapsule(this);
+  oc.write(type,"varType",null);
+  oc.write(name,"name",null);
+  oc.write(ffBinding,"ff_binding",null);
+  if (value instanceof Savable) {
+    Savable s=(Savable)value;
+    oc.write(s,"value_savable",null);
+  }
+ else   if (value instanceof Float) {
+    Float f=(Float)value;
+    oc.write(f.floatValue(),"value_float",0f);
+  }
+ else   if (value instanceof Integer) {
+    Integer i=(Integer)value;
+    oc.write(i.intValue(),"value_int",0);
+  }
+ else   if (value instanceof Boolean) {
+    Boolean b=(Boolean)value;
+    oc.write(b.booleanValue(),"value_bool",false);
+  }
+}

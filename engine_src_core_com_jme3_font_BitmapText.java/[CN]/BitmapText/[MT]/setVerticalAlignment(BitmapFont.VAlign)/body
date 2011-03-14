@@ -1,0 +1,8 @@
+{
+  if (block.getTextBox() == null && align != VAlign.Top) {
+    throw new RuntimeException("Bound is not set");
+  }
+  block.setVerticalAlignment(align);
+  letters.invalidate();
+  needRefresh=true;
+}

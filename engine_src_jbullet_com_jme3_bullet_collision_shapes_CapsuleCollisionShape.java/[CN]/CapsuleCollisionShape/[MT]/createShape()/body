@@ -1,0 +1,15 @@
+{
+switch (axis) {
+case 0:
+    cShape=new CapsuleShapeX(radius,height);
+  break;
+case 1:
+cShape=new CapsuleShape(radius,height);
+break;
+case 2:
+cShape=new CapsuleShapeZ(radius,height);
+break;
+}
+cShape.setLocalScaling(Converter.convert(getScale()));
+cShape.setMargin(margin);
+}

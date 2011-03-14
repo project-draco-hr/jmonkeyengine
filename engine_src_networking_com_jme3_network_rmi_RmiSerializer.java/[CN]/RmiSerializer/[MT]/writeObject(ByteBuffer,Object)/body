@@ -1,0 +1,14 @@
+{
+  if (object instanceof RemoteObjectDefMessage) {
+    RemoteObjectDefMessage def=(RemoteObjectDefMessage)object;
+    writeObjectDefs(buffer,def);
+  }
+ else   if (object instanceof RemoteMethodCallMessage) {
+    RemoteMethodCallMessage call=(RemoteMethodCallMessage)object;
+    writeMethodCall(buffer,call);
+  }
+ else   if (object instanceof RemoteMethodReturnMessage) {
+    RemoteMethodReturnMessage ret=(RemoteMethodReturnMessage)object;
+    writeMethodReturn(buffer,ret);
+  }
+}

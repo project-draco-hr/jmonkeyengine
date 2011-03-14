@@ -1,0 +1,19 @@
+{
+  Vector3f origin=cam.getWorldCoordinates(inputManager.getCursorPosition(),0.0f);
+  Vector3f direction=cam.getWorldCoordinates(inputManager.getCursorPosition(),0.3f);
+  direction.subtractLocal(origin).normalizeLocal();
+  Ray ray=new Ray(origin,direction);
+  CollisionResults results=new CollisionResults();
+  shootables.collideWith(ray,results);
+  if (results.size() > 0) {
+    CollisionResult closest=results.getClosestCollision();
+    mark.setLocalTranslation(closest.getContactPoint());
+    Quaternion q=new Quaternion();
+    q.lookAt(closest.getContactNormal(),Vector3f.UNIT_Y);
+    mark.setLocalRotation(q);
+    rootNode.attachChild(mark);
+  }
+ else {
+    rootNode.detachChild(mark);
+  }
+}

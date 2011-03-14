@@ -1,0 +1,9 @@
+{
+  if (bbox.intersects(t.get1(),t.get2(),t.get3())) {
+    float d1=bbox.distanceToEdge(t.get1());
+    float d2=bbox.distanceToEdge(t.get2());
+    float d3=bbox.distanceToEdge(t.get3());
+    return d1 + d2 + d3;
+  }
+  return Float.POSITIVE_INFINITY;
+}

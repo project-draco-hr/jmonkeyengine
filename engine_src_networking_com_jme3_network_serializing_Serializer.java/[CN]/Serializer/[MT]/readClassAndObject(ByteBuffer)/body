@@ -1,0 +1,5 @@
+{
+  SerializerRegistration reg=readClass(buffer);
+  if (reg == null)   return null;
+  return reg.getSerializer().readObject(buffer,reg.getType());
+}

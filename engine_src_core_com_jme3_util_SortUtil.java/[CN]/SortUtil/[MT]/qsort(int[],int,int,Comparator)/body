@@ -1,0 +1,34 @@
+{
+  if (hi0 <= lo0) {
+    return;
+  }
+  int t;
+  if (hi0 - lo0 == 1) {
+    if (comp.compare(a[hi0],a[lo0]) < 0) {
+      t=a[lo0];
+      a[lo0]=a[hi0];
+      a[hi0]=t;
+    }
+    return;
+  }
+  int mid=a[(lo0 + hi0) / 2];
+  int lo=lo0 - 1, hi=hi0 + 1;
+  for (; ; ) {
+    while (comp.compare(a[++lo],mid) < 0)     ;
+    while (comp.compare(mid,a[--hi]) < 0)     ;
+    if (hi > lo) {
+      t=a[lo];
+      a[lo]=a[hi];
+      a[hi]=t;
+    }
+ else {
+      break;
+    }
+  }
+  if (lo0 < lo - 1) {
+    qsort(a,lo0,lo - 1,comp);
+  }
+  if (hi + 1 < hi0) {
+    qsort(a,hi + 1,hi0,comp);
+  }
+}

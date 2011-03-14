@@ -1,0 +1,10 @@
+{
+  if (udp == null)   throw new IOException("No UDP client/server.");
+  if (!isConnected)   throw new IOException("Not connected yet. Use connect() first.");
+  if (isConnector) {
+    udp.sendObject(this,object);
+  }
+ else {
+    udp.sendObject(object);
+  }
+}

@@ -1,0 +1,15 @@
+{
+  if (glslVer != -1) {
+    stringBuf.setLength(0);
+    stringBuf.append(uniform.getName()).append('\0');
+    updateNameBuffer();
+    int loc=getUniformLocation(shader);
+    if (loc < 0) {
+      uniform.setLocation(-1);
+      logger.log(Level.WARNING,"Uniform {0} is not declared in shader.",uniform.getName());
+    }
+ else {
+      uniform.setLocation(loc);
+    }
+  }
+}

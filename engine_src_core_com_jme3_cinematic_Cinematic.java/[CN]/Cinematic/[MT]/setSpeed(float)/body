@@ -1,0 +1,8 @@
+{
+  super.setSpeed(speed);
+  duration=initialDuration / speed;
+  for (int i=0; i < cinematicEvents.size(); i++) {
+    CinematicEvent ce=cinematicEvents.get(i);
+    ce.setSpeed(speed);
+  }
+}

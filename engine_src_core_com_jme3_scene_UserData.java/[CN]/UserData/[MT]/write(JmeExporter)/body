@@ -1,0 +1,28 @@
+{
+  OutputCapsule oc=ex.getCapsule(this);
+  oc.write(type,"type",(byte)0);
+switch (type) {
+case 0:
+    int i=(Integer)value;
+  oc.write(i,"intVal",0);
+break;
+case 1:
+float f=(Float)value;
+oc.write(f,"floatVal",0f);
+break;
+case 2:
+boolean b=(Boolean)value;
+oc.write(b,"boolVal",false);
+break;
+case 3:
+String s=(String)value;
+oc.write(s,"strVal",null);
+break;
+case 4:
+Long l=(Long)value;
+oc.write(l,"longVal",0l);
+break;
+default :
+throw new UnsupportedOperationException();
+}
+}

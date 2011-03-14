@@ -1,0 +1,20 @@
+{
+  DefineList allDefines=new DefineList();
+  allDefines.addFrom(def.getShaderPresetDefines());
+  allDefines.addFrom(defines);
+  ShaderKey key=new ShaderKey(def.getVertName(),def.getFragName(),allDefines,def.getShaderLanguage());
+  shader=manager.loadShader(key);
+  if (shader == null) {
+    logger.warning("Failed to reload shader!");
+    return;
+  }
+  worldBindUniforms.clear();
+  for (  UniformBinding binding : def.getWorldBindings()) {
+    Uniform uniform=shader.getUniform("g_" + binding.name());
+    uniform.setBinding(binding);
+    if (uniform != null) {
+      worldBindUniforms.add(uniform);
+    }
+  }
+  needReload=false;
+}

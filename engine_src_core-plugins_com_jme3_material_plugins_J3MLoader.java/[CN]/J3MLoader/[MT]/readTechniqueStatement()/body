@@ -1,0 +1,28 @@
+{
+  String word=scan.next();
+  if (word.equals("VertexShader")) {
+    readShaderStatement(ShaderType.Vertex);
+  }
+ else   if (word.equals("FragmentShader")) {
+    readShaderStatement(ShaderType.Fragment);
+  }
+ else   if (word.equals("LightMode")) {
+    readLightMode();
+  }
+ else   if (word.equals("ShadowMode")) {
+    readShadowMode();
+  }
+ else   if (word.equals("WorldParameters")) {
+    readWorldParams();
+  }
+ else   if (word.equals("RenderState")) {
+    readRenderState();
+  }
+ else   if (word.equals("Defines")) {
+    readDefines();
+  }
+ else {
+    throwIfNequal(null,word);
+  }
+  nextStatement();
+}

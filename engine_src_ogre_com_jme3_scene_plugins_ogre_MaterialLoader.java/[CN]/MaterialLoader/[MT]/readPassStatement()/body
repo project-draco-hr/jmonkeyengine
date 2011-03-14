@@ -1,0 +1,63 @@
+{
+  String keyword=scan.next();
+  if (keyword.equals(""))   return;
+  if (keyword.equals("diffuse")) {
+    if (scan.hasNext("vertexcolour")) {
+      diffuse=ColorRGBA.White;
+      vcolor=true;
+      scan.next();
+    }
+ else {
+      diffuse=readColor();
+    }
+  }
+ else   if (keyword.equals("ambient")) {
+    ambient=readColor();
+  }
+ else   if (keyword.equals("specular")) {
+    specular=new ColorRGBA();
+    specular.r=scan.nextFloat();
+    specular.g=scan.nextFloat();
+    specular.b=scan.nextFloat();
+    float unknown=scan.nextFloat();
+    if (scan.hasNextFloat()) {
+      specular.a=unknown;
+      shinines=scan.nextFloat();
+    }
+ else {
+      specular.a=1f;
+      shinines=unknown;
+    }
+  }
+ else   if (keyword.equals("texture_unit")) {
+    readTextureUnit();
+  }
+ else   if (keyword.equals("scene_blend")) {
+    String mode=scan.next();
+    if (mode.equals("alpha_blend")) {
+      blend=true;
+    }
+  }
+ else   if (keyword.equals("cull_hardware")) {
+    String mode=scan.next();
+    if (mode.equals("none")) {
+      twoSide=true;
+    }
+  }
+ else   if (keyword.equals("cull_software")) {
+    scan.next();
+  }
+ else   if (keyword.equals("lighting")) {
+    String isOn=scan.next();
+    if (isOn.equals("on")) {
+      noLight=false;
+    }
+ else     if (isOn.equals("off")) {
+      noLight=true;
+    }
+  }
+ else {
+    logger.log(Level.WARNING,"Unsupported pass directive: {0}",keyword);
+    readString("\n");
+  }
+}

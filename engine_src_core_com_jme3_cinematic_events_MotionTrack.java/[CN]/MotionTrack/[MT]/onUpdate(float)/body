@@ -1,0 +1,17 @@
+{
+  spatial.setLocalTranslation(path.interpolatePath(tpf,this));
+  computeTargetDirection();
+  if (currentValue >= 1.0f) {
+    currentValue=0;
+    currentWayPoint++;
+    path.triggerWayPointReach(currentWayPoint,this);
+  }
+  if (currentWayPoint == path.getNbWayPoints() - 1) {
+    if (loopMode == LoopMode.Loop) {
+      currentWayPoint=0;
+    }
+ else {
+      stop();
+    }
+  }
+}

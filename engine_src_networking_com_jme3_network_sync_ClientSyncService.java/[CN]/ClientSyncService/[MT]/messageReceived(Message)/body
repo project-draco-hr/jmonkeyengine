@@ -1,0 +1,34 @@
+{
+  if (!(msg instanceof SyncMessage)) {
+    return;
+  }
+  int latencyDelta=0;
+  if (lastSyncMsgTime == 0) {
+    lastSyncMsgTime=System.currentTimeMillis();
+  }
+ else {
+    long time=System.currentTimeMillis();
+    long delta=time - lastSyncMsgTime;
+    averageLatency.add(delta);
+    lastSyncMsgTime=time;
+    latencyDelta=(int)(delta - averageLatency.getAverage());
+  }
+  SyncMessage sync=(SyncMessage)msg;
+  boolean isOldMessage=false;
+  int newHeartbeat=sync.heartbeat;
+  if (lastHeartbeat > newHeartbeat) {
+    if (lastHeartbeat > Integer.MAX_VALUE - 1000 && newHeartbeat < 1000) {
+      lastHeartbeat=newHeartbeat;
+    }
+ else {
+      isOldMessage=true;
+    }
+  }
+ else {
+    lastHeartbeat=newHeartbeat;
+  }
+  for (  EntitySyncInfo info : sync.infos) {
+    if (info.type == EntitySyncInfo.TYPE_SYNC && isOldMessage)     continue;
+    applySyncInfo(info,latencyDelta);
+  }
+}

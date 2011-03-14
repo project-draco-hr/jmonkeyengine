@@ -1,0 +1,49 @@
+{
+  reflectionPass=new Pass();
+  reflectionPass.init(renderManager.getRenderer(),reflectionMapSize,reflectionMapSize,Format.RGBA8,Format.Depth);
+  reflectionCam=new Camera(reflectionMapSize,reflectionMapSize);
+  reflectionView=new ViewPort("reflectionView",reflectionCam);
+  reflectionView.setClearEnabled(true);
+  reflectionView.attachScene(reflectionScene);
+  reflectionView.setOutputFrameBuffer(reflectionPass.getRenderFrameBuffer());
+  plane=new Plane(Vector3f.UNIT_Y,new Vector3f(0,waterHeight,0).dot(Vector3f.UNIT_Y));
+  reflectionProcessor=new ReflectionProcessor(reflectionCam,reflectionPass.getRenderFrameBuffer(),plane);
+  reflectionView.addProcessor(reflectionProcessor);
+  normalTexture=(Texture2D)manager.loadTexture("Common/MatDefs/Water/Textures/gradient_map.jpg");
+  if (foamTexture == null) {
+    foamTexture=(Texture2D)manager.loadTexture("Common/MatDefs/Water/Textures/foam.jpg");
+  }
+  heightTexture=(Texture2D)manager.loadTexture("Common/MatDefs/Water/Textures/heightmap.jpg");
+  normalTexture.setWrap(WrapMode.Repeat);
+  foamTexture.setWrap(WrapMode.Repeat);
+  heightTexture.setWrap(WrapMode.Repeat);
+  material=new Material(manager,"Common/MatDefs/Water/Water.j3md");
+  material.setTexture("HeightMap",heightTexture);
+  material.setTexture("FoamMap",foamTexture);
+  material.setTexture("NormalMap",normalTexture);
+  material.setTexture("ReflectionMap",reflectionPass.getRenderedTexture());
+  material.setFloat("WaterTransparency",waterTransparency);
+  material.setFloat("NormalScale",normalScale);
+  material.setFloat("R0",refractionConstant);
+  material.setFloat("MaxAmplitude",maxAmplitude);
+  material.setVector3("LightDir",lightDirection);
+  material.setColor("LightColor",lightColor);
+  material.setFloat("ShoreHardness",shoreHardness);
+  material.setFloat("RefractionStrength",refractionStrength);
+  material.setFloat("WaveScale",waveScale);
+  material.setVector3("FoamExistence",foamExistence);
+  material.setFloat("SunScale",sunScale);
+  material.setVector3("ColorExtinction",colorExtinction);
+  material.setFloat("Shininess",shininess);
+  material.setColor("WaterColor",waterColor);
+  material.setColor("DeepWaterColor",deepWaterColor);
+  material.setVector2("WindDirection",windDirection);
+  material.setFloat("FoamHardness",foamHardness);
+  material.setBoolean("UseRipples",useRipples);
+  material.setBoolean("UseHQShoreline",useHQShoreline);
+  material.setBoolean("UseSpecular",useSpecular);
+  material.setBoolean("UseFoam",useFoam);
+  material.setBoolean("UseRefraction",useRefraction);
+  material.setFloat("m_ReflectionDisplace",reflectionDisplace);
+  material.setFloat("m_FoamIntensity",foamIntensity);
+}

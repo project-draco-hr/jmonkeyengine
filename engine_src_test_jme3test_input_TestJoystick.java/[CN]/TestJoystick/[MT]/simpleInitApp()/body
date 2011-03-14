@@ -1,0 +1,16 @@
+{
+  Joystick[] joysticks=inputManager.getJoysticks();
+  for (  Joystick joy : joysticks) {
+    System.out.println(joy.toString());
+  }
+  inputManager.addMapping("DPAD Left",new JoyAxisTrigger(0,JoyInput.AXIS_POV_X,true));
+  inputManager.addMapping("DPAD Right",new JoyAxisTrigger(0,JoyInput.AXIS_POV_X,false));
+  inputManager.addMapping("DPAD Down",new JoyAxisTrigger(0,JoyInput.AXIS_POV_Y,true));
+  inputManager.addMapping("DPAD Up",new JoyAxisTrigger(0,JoyInput.AXIS_POV_Y,false));
+  inputManager.addListener(this,"DPAD Left","DPAD Right","DPAD Down","DPAD Up");
+  inputManager.addMapping("Joy Left",new JoyAxisTrigger(0,0,true));
+  inputManager.addMapping("Joy Right",new JoyAxisTrigger(0,0,false));
+  inputManager.addMapping("Joy Down",new JoyAxisTrigger(0,1,true));
+  inputManager.addMapping("Joy Up",new JoyAxisTrigger(0,1,false));
+  inputManager.addListener(this,"Joy Left","Joy Right","Joy Down","Joy Up");
+}

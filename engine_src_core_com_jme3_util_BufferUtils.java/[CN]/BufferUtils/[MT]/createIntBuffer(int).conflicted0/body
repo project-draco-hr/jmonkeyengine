@@ -1,0 +1,8 @@
+{
+  if (data == null)   return null;
+  IntBuffer buff=createIntBuffer(data.length);
+  buff.clear();
+  buff.put(data);
+  buff.flip();
+  return buff;
+}

@@ -1,0 +1,7 @@
+{
+  pressed=evt.isPressed();
+  MouseInputEvent niftyEvt=new MouseInputEvent(x,y,pressed);
+  if (nic.processMouseEvent(niftyEvt)) {
+    evt.setConsumed();
+  }
+}

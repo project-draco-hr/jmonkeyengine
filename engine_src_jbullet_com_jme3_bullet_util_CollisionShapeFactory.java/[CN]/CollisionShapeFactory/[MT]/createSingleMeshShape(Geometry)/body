@@ -1,0 +1,11 @@
+{
+  Mesh mesh=geom.getMesh();
+  if (mesh != null) {
+    MeshCollisionShape mColl=new MeshCollisionShape(mesh);
+    mColl.setScale(geom.getWorldScale());
+    return mColl;
+  }
+ else {
+    return null;
+  }
+}

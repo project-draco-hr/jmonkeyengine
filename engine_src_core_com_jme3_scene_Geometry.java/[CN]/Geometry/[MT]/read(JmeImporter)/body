@@ -1,0 +1,7 @@
+{
+  super.read(im);
+  InputCapsule ic=im.getCapsule(this);
+  mesh=(Mesh)ic.readSavable("mesh",null);
+  material=(Material)ic.readSavable("material",null);
+  ignoreTransform=ic.readBoolean("ignoreTransform",false);
+}

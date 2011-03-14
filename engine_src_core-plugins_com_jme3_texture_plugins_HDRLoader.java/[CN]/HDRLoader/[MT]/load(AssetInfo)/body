@@ -1,0 +1,8 @@
+{
+  if (!(info.getKey() instanceof TextureKey))   throw new IllegalArgumentException("Texture assets must be loaded using a TextureKey");
+  boolean flip=((TextureKey)info.getKey()).isFlipY();
+  InputStream in=info.openStream();
+  Image img=load(in,flip);
+  in.close();
+  return img;
+}

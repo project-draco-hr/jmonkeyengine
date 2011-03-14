@@ -1,0 +1,24 @@
+{
+  boolean hdr=false;
+  if (hdrRender != null) {
+    hdr=hdrRender.isEnabled();
+  }
+  DirectionalLight dl=new DirectionalLight();
+  dl.setDirection(lightDir);
+  if (hdr) {
+    dl.setColor(new ColorRGBA(3,3,3,1));
+  }
+ else {
+    dl.setColor(new ColorRGBA(.9f,.9f,.9f,1));
+  }
+  rootNode.addLight(dl);
+  dl=new DirectionalLight();
+  dl.setDirection(new Vector3f(1,0,-1).normalizeLocal());
+  if (hdr) {
+    dl.setColor(new ColorRGBA(1,1,1,1));
+  }
+ else {
+    dl.setColor(new ColorRGBA(.4f,.4f,.4f,1));
+  }
+  rootNode.addLight(dl);
+}

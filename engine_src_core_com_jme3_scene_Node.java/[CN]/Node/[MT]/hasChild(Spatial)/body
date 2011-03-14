@@ -1,0 +1,8 @@
+{
+  if (children.contains(spat))   return true;
+  for (int i=0, max=getQuantity(); i < max; i++) {
+    Spatial child=children.get(i);
+    if (child instanceof Node && ((Node)child).hasChild(spat))     return true;
+  }
+  return false;
+}

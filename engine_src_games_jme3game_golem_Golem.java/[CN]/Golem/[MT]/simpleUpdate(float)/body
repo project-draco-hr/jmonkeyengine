@@ -1,0 +1,54 @@
+{
+  rootNode.updateLogicalState(tpf);
+  rootNode.updateGeometricState();
+  Vector3f camDir=cam.getDirection().clone().multLocal(0.2f);
+  Vector3f camLeft=cam.getLeft().clone().multLocal(0.2f);
+  camDir.y=0;
+  camLeft.y=0;
+  walkDirection.set(0,0,0);
+  modelDirection.set(0,0,2);
+  if (left) {
+    walkDirection.addLocal(camLeft);
+  }
+  if (right) {
+    walkDirection.addLocal(camLeft.negate());
+  }
+  if (up) {
+    walkDirection.addLocal(camDir);
+  }
+  if (down) {
+    walkDirection.addLocal(camDir.negate());
+  }
+  if (!characterNode.onGround()) {
+    airTime=airTime + tpf;
+  }
+ else {
+    airTime=0;
+  }
+  if (walkDirection.length() == 0) {
+    if (!"stand".equals(animationChannel.getAnimationName())) {
+      animationChannel.setAnim("stand",1f);
+    }
+  }
+ else {
+    modelRotation.lookAt(walkDirection,Vector3f.UNIT_Y);
+    if (airTime > .3f) {
+      if (!"stand".equals(animationChannel.getAnimationName())) {
+        animationChannel.setAnim("stand");
+      }
+    }
+ else     if (!"Walk".equals(animationChannel.getAnimationName())) {
+      animationChannel.setAnim("Walk",0.7f);
+    }
+  }
+  character.setLocalRotation(modelRotation);
+  modelRotation.multLocal(modelDirection);
+  modelRight.set(modelDirection);
+  ROTATE_LEFT.multLocal(modelRight);
+  characterNode.setWalkDirection(walkDirection);
+  myTimer+=tpf;
+  if (myTimer > 10) {
+    shootBomb();
+    myTimer=0;
+  }
+}

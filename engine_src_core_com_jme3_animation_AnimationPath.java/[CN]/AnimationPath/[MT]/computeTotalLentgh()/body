@@ -1,0 +1,23 @@
+{
+  totalLength=0;
+  float l=0;
+  if (segmentsLength == null) {
+    segmentsLength=new ArrayList<Float>();
+  }
+ else {
+    segmentsLength.clear();
+  }
+  if (pathInterpolation == PathInterpolation.Linear) {
+    if (wayPoints.size() > 1) {
+      for (int i=0; i < wayPoints.size() - 1; i++) {
+        l=wayPoints.get(i + 1).subtract(wayPoints.get(i)).length();
+        segmentsLength.add(l);
+        totalLength+=l;
+      }
+    }
+  }
+ else {
+    initCatmullRomWayPoints(wayPoints);
+    computeCatmulLength();
+  }
+}

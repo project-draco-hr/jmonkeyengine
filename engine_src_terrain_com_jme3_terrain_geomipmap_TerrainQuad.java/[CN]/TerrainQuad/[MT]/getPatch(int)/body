@@ -1,0 +1,10 @@
+{
+  if (children != null)   for (int x=children.size(); --x >= 0; ) {
+    Spatial child=children.get(x);
+    if (child instanceof TerrainPatch) {
+      TerrainPatch tb=(TerrainPatch)child;
+      if (tb.getQuadrant() == quad)       return tb;
+    }
+  }
+  return null;
+}

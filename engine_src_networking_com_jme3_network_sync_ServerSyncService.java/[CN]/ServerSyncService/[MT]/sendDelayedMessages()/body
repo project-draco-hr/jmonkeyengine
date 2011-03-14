@@ -1,0 +1,17 @@
+{
+  ArrayList<Long> removeList=new ArrayList<Long>();
+  for (  Map.Entry<Long,SyncMessage> entry : latencyQueue.entrySet()) {
+    if (entry.getKey() > System.currentTimeMillis())     continue;
+    removeList.add(entry.getKey());
+    if (packetDropRate > FastMath.nextRandomFloat())     continue;
+    for (    Client id : server.getConnectors()) {
+      try {
+        id.send(entry.getValue());
+      }
+ catch (      IOException ex) {
+        ex.printStackTrace();
+      }
+    }
+  }
+  for (  Long removeEntry : removeList)   latencyQueue.remove(removeEntry);
+}

@@ -1,0 +1,21 @@
+{
+  int bpp=image.getFormat().getBitsPerPixel();
+  int w=image.getWidth();
+  int h=image.getHeight();
+  if (!mipmaps) {
+    image.setData(BufferUtils.createByteBuffer(w * h * bpp / 8));
+    return;
+  }
+  int expectedMipmaps=1 + (int)Math.ceil(Math.log(Math.max(h,w)) / LOG2);
+  int[] mipMapSizes=new int[expectedMipmaps];
+  int total=0;
+  for (int i=0; i < mipMapSizes.length; i++) {
+    int size=(w * h * bpp) / 8;
+    total+=size;
+    mipMapSizes[i]=size;
+    w/=2;
+    h/=2;
+  }
+  image.setMipMapSizes(mipMapSizes);
+  image.setData(BufferUtils.createByteBuffer(total));
+}

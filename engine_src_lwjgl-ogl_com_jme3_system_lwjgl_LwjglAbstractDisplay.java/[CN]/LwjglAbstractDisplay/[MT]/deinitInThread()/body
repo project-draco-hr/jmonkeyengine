@@ -1,0 +1,12 @@
+{
+  if (Display.isCreated()) {
+    renderer.cleanup();
+    Display.destroy();
+  }
+ else {
+    renderer.resetGLObjects();
+  }
+  listener.destroy();
+  logger.info("Display destroyed.");
+  super.internalDestroy();
+}

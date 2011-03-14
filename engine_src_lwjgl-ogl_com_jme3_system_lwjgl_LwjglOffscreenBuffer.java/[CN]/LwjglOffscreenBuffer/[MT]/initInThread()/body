@@ -1,0 +1,39 @@
+{
+  if ((Pbuffer.getCapabilities() & Pbuffer.PBUFFER_SUPPORTED) == 0) {
+    logger.severe("Offscreen surfaces are not supported.");
+    return;
+  }
+  pixelFormat=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),settings.getSamples());
+  width=settings.getWidth();
+  height=settings.getHeight();
+  try {
+    pbuffer=new Pbuffer(width,height,pixelFormat,null);
+    pbuffer.makeCurrent();
+    logger.info("Offscreen buffer created.");
+    logger.log(Level.FINE,"Running on thread: {0}",Thread.currentThread().getName());
+    Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler(){
+      public void uncaughtException(      Thread thread,      Throwable thrown){
+        listener.handleError("Uncaught exception thrown in " + thread.toString(),thrown);
+      }
+    }
+);
+    String vendor=GL11.glGetString(GL11.GL_VENDOR);
+    logger.log(Level.INFO,"Vendor: {0}",vendor);
+    String version=GL11.glGetString(GL11.GL_VERSION);
+    logger.log(Level.INFO,"OpenGL Version: {0}",version);
+    String renderer=GL11.glGetString(GL11.GL_RENDERER);
+    logger.log(Level.INFO,"Renderer: {0}",renderer);
+    if (GLContext.getCapabilities().OpenGL20) {
+      String shadingLang=GL11.glGetString(GL20.GL_SHADING_LANGUAGE_VERSION);
+      logger.log(Level.INFO,"GLSL Ver: {0}",shadingLang);
+    }
+    created.set(true);
+  }
+ catch (  LWJGLException ex) {
+    listener.handleError("Failed to create display",ex);
+  }
+ finally {
+  }
+  super.internalCreate();
+  listener.initialize();
+}

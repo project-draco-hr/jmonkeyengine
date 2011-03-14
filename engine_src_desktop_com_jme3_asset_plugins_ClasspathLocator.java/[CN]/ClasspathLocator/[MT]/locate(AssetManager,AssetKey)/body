@@ -1,0 +1,21 @@
+{
+  URL url;
+  String name=key.getName();
+  if (name.startsWith("/"))   name=name.substring(1);
+  name=root + name;
+  if (JmeSystem.isLowPermissions()) {
+    url=ClasspathLocator.class.getResource("/" + name);
+  }
+ else {
+    url=Thread.currentThread().getContextClassLoader().getResource(name);
+  }
+  if (url == null)   return null;
+  try {
+    URLConnection conn=url.openConnection();
+    conn.setUseCaches(false);
+    return new ClasspathAssetInfo(manager,key,conn);
+  }
+ catch (  IOException ex) {
+    return null;
+  }
+}

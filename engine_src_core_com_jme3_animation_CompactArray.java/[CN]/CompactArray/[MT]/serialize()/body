@@ -1,0 +1,14 @@
+{
+  if (invalid) {
+    int newSize=indexPool.size() * getTupleSize();
+    if (array == null || Array.getLength(array) < newSize) {
+      array=ensureCapacity(array,newSize);
+      for (      Map.Entry<T,Integer> entry : indexPool.entrySet()) {
+        int i=entry.getValue();
+        T obj=entry.getKey();
+        serialize(i,obj);
+      }
+    }
+    invalid=false;
+  }
+}

@@ -1,0 +1,11 @@
+{
+  try {
+    Ring r=(Ring)super.clone();
+    r.center=center.clone();
+    r.up=up.clone();
+    return r;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
+}

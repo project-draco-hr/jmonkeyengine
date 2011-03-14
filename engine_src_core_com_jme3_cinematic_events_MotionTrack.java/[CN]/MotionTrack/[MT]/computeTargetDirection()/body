@@ -1,0 +1,31 @@
+{
+switch (directionType) {
+case Path:
+    Quaternion q=new Quaternion();
+  q.lookAt(direction,Vector3f.UNIT_Y);
+spatial.setLocalRotation(q);
+break;
+case LookAt:
+if (lookAt != null) {
+spatial.lookAt(lookAt,upVector);
+}
+break;
+case PathAndRotation:
+if (rotation != null) {
+Quaternion q2=new Quaternion();
+q2.lookAt(direction,Vector3f.UNIT_Y);
+q2.multLocal(rotation);
+spatial.setLocalRotation(q2);
+}
+break;
+case Rotation:
+if (rotation != null) {
+spatial.setLocalRotation(rotation);
+}
+break;
+case None:
+break;
+default :
+break;
+}
+}

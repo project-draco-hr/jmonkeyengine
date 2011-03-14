@@ -1,0 +1,8 @@
+{
+  FieldTable table=classFieldTables.get(clazz);
+  if (table == null) {
+    table=generateFieldTable(clazz);
+    classFieldTables.put(clazz,table);
+  }
+  return table;
+}

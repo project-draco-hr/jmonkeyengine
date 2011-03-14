@@ -1,0 +1,8 @@
+{
+  if (evt.isRepeating()) {
+    return;
+  }
+  int hash=KeyTrigger.keyHash(evt.getKeyCode());
+  invokeActions(hash,evt.isPressed());
+  invokeTimedActions(hash,evt.getTime(),evt.isPressed());
+}

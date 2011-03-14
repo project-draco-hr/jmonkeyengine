@@ -1,0 +1,8 @@
+{
+  if (key.useSmartCache()) {
+    throw new UnsupportedOperationException("You cannot delete from the smart cache");
+  }
+synchronized (regularCache) {
+    return regularCache.remove(key) != null;
+  }
+}

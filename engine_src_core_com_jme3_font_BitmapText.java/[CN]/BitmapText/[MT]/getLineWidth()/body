@@ -1,0 +1,10 @@
+{
+  if (needRefresh) {
+    assemble();
+  }
+  Rectangle textBox=block.getTextBox();
+  if (textBox != null) {
+    return Math.max(letters.getTotalWidth(),textBox.width);
+  }
+  return letters.getTotalWidth();
+}

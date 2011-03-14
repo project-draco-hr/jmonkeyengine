@@ -1,0 +1,8 @@
+{
+  if (block.getTextBox() == null && align != Align.Left) {
+    throw new RuntimeException("Bound is not set");
+  }
+  block.setAlignment(align);
+  letters.invalidate();
+  needRefresh=true;
+}

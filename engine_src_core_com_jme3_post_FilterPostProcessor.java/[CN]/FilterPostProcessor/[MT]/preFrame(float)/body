@@ -1,0 +1,19 @@
+{
+  if (filters.isEmpty() || lastFilterIndex == -1) {
+    viewPort.setOutputFrameBuffer(outputBuffer);
+  }
+ else {
+    if (renderFrameBufferMS != null) {
+      viewPort.setOutputFrameBuffer(renderFrameBufferMS);
+    }
+ else {
+      viewPort.setOutputFrameBuffer(renderFrameBuffer);
+    }
+  }
+  for (Iterator<Filter> it=filters.iterator(); it.hasNext(); ) {
+    Filter filter=it.next();
+    if (filter.isEnabled()) {
+      filter.preFrame(tpf);
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  if (children != null) {
+    for (int x=children.size(); --x >= 0; ) {
+      Spatial child=children.get(x);
+      if (child instanceof TerrainQuad) {
+        ((TerrainQuad)child).findNeighboursLod(updated);
+      }
+ else       if (child instanceof TerrainPatch) {
+        TerrainPatch patch=(TerrainPatch)child;
+        if (!patch.searchedForNeighboursAlready) {
+          patch.rightNeighbour=findRightPatch(patch);
+          patch.bottomNeighbour=findDownPatch(patch);
+          patch.leftNeighbour=findLeftPatch(patch);
+          patch.topNeighbour=findTopPatch(patch);
+          patch.searchedForNeighboursAlready=true;
+        }
+        TerrainPatch right=patch.rightNeighbour;
+        TerrainPatch down=patch.bottomNeighbour;
+        UpdatedTerrainPatch utp=updated.get(patch.getName());
+        if (utp == null) {
+          utp=new UpdatedTerrainPatch(patch,patch.lod);
+          updated.put(utp.getName(),utp);
+        }
+        if (right != null) {
+          UpdatedTerrainPatch utpR=updated.get(right.getName());
+          if (utpR == null) {
+            utpR=new UpdatedTerrainPatch(right,right.lod);
+            updated.put(utpR.getName(),utpR);
+          }
+          utp.setRightLod(utpR.getNewLod());
+          utpR.setLeftLod(utp.getNewLod());
+        }
+        if (down != null) {
+          UpdatedTerrainPatch utpD=updated.get(down.getName());
+          if (utpD == null) {
+            utpD=new UpdatedTerrainPatch(down,down.lod);
+            updated.put(utpD.getName(),utpD);
+          }
+          utp.setBottomLod(utpD.getNewLod());
+          utpD.setTopLod(utp.getNewLod());
+        }
+      }
+    }
+  }
+}

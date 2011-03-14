@@ -1,0 +1,19 @@
+{
+  if (parent != null) {
+    parent.worldRot.mult(localRot,worldRot);
+    parent.worldScale.mult(localScale,worldScale);
+    parent.worldRot.mult(localPos,worldPos);
+    worldPos.multLocal(parent.worldScale);
+    worldPos.addLocal(parent.worldPos);
+  }
+ else {
+    worldRot.set(localRot);
+    worldPos.set(localPos);
+    worldScale.set(localScale);
+  }
+  if (attachNode != null) {
+    attachNode.setLocalTranslation(worldPos);
+    attachNode.setLocalRotation(worldRot);
+    attachNode.setLocalScale(worldScale);
+  }
+}

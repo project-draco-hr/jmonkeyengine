@@ -1,0 +1,11 @@
+{
+  this.curveTension=curveTension;
+  computeTotalLentgh();
+  if (debugNode != null) {
+    Node parent=debugNode.getParent();
+    debugNode.removeFromParent();
+    debugNode.detachAllChildren();
+    debugNode=null;
+    attachDebugNode(parent);
+  }
+}

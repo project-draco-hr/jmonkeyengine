@@ -1,0 +1,29 @@
+{
+  Map<String,Savable> ret=null;
+  Element tempEl;
+  if (name != null) {
+    tempEl=findChildElement(currentElem,name);
+  }
+ else {
+    tempEl=currentElem;
+  }
+  if (tempEl != null) {
+    ret=new HashMap<String,Savable>();
+    NodeList nodes=tempEl.getChildNodes();
+    for (int i=0; i < nodes.getLength(); i++) {
+      Node n=nodes.item(i);
+      if (n instanceof Element && n.getNodeName().equals("MapEntry")) {
+        Element elem=(Element)n;
+        currentElem=elem;
+        String key=currentElem.getAttribute("key");
+        Savable val=readSavable("Savable",null);
+        ret.put(key,val);
+      }
+    }
+  }
+ else {
+    return defVal;
+  }
+  currentElem=(Element)tempEl.getParentNode();
+  return ret;
+}

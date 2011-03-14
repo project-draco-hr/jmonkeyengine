@@ -1,0 +1,20 @@
+{
+  int length=-1;
+  byte type=data.get();
+  if (type == (byte)0) {
+    return null;
+  }
+ else   if (type == (byte)1) {
+    length=data.get();
+  }
+ else   if (type == (byte)2) {
+    length=data.getShort();
+  }
+ else   if (type == (byte)3) {
+    length=data.getInt();
+  }
+  if (length == -1)   throw new IOException("Could not read String: Invalid length identifier.");
+  byte[] buffer=new byte[length];
+  data.get(buffer);
+  return new String(buffer,"UTF-8");
+}

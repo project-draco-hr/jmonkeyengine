@@ -1,0 +1,8 @@
+{
+  Bone b=skeleton.getBone(boneName);
+  if (b == null)   throw new IllegalArgumentException("Given bone name does not exist " + "in the skeleton.");
+  Node n=b.getAttachmentsNode();
+  Node model=(Node)spatial;
+  model.attachChild(n);
+  return n;
+}

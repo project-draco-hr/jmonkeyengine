@@ -1,0 +1,8 @@
+{
+  super.update();
+  float tpf=timer.getTimePerFrame();
+  boxGeom.rotate(tpf * 2,tpf * 4,tpf * 3);
+  boxGeom.updateLogicalState(tpf);
+  boxGeom.updateGeometricState();
+  renderManager.render(tpf);
+}

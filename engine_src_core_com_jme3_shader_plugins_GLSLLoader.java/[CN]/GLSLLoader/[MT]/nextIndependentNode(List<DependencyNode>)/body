@@ -1,0 +1,13 @@
+{
+  Collection<DependencyNode> allNodes=dependCache.values();
+  if (allNodes == null || allNodes.size() == 0)   return null;
+  for (  DependencyNode node : allNodes) {
+    if (node.dependsOn.size() == 0) {
+      return node;
+    }
+  }
+  for (  DependencyNode node : allNodes) {
+    System.out.println(node.shaderName);
+  }
+  throw new RuntimeException("Circular dependency.");
+}

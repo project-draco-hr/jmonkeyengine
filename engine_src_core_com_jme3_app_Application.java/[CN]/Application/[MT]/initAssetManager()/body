@@ -1,0 +1,24 @@
+{
+  if (settings != null) {
+    String assetCfg=settings.getString("AssetConfigURL");
+    if (assetCfg != null) {
+      URL url=null;
+      try {
+        url=new URL(assetCfg);
+      }
+ catch (      MalformedURLException ex) {
+      }
+      if (url == null) {
+        url=Application.class.getResource(assetCfg);
+        if (url == null) {
+          logger.log(Level.SEVERE,"Unable to access AssetConfigURL in asset config:{0}",assetCfg);
+          return;
+        }
+      }
+      assetManager=JmeSystem.newAssetManager(url);
+    }
+  }
+  if (assetManager == null) {
+    assetManager=JmeSystem.newAssetManager(Thread.currentThread().getContextClassLoader().getResource("com/jme3/asset/Desktop.cfg"));
+  }
+}

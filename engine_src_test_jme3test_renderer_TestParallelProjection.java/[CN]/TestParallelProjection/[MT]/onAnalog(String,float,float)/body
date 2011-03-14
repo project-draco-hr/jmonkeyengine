@@ -1,0 +1,6 @@
+{
+  if (name.equals("Size-"))   frustumSize+=0.3f * tpf;
+ else   frustumSize-=0.3f * tpf;
+  float aspect=(float)cam.getWidth() / cam.getHeight();
+  cam.setFrustum(-1000,1000,-aspect * frustumSize,aspect * frustumSize,frustumSize,-frustumSize);
+}

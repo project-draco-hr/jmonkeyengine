@@ -1,0 +1,17 @@
+{
+  nextStatement();
+  String word=scan.next();
+  throwIfNequal("{",word);
+  nextStatement();
+  while (true) {
+    if (scan.hasNext("\\}")) {
+      scan.next();
+      break;
+    }
+    word=readString("[\n;(//)(\\})]");
+    if (word != null && !word.equals("")) {
+      technique.addWorldParam(word);
+    }
+    nextStatement();
+  }
+}
