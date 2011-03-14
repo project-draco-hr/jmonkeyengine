@@ -9,6 +9,8 @@
     if (theChar == '\n') {
       maxLineWidth=Math.max(maxLineWidth,lineWidth);
       lineWidth=0f;
+      firstCharOfLine=true;
+      continue;
     }
     BitmapCharacter c=charSet.getCharacter((int)theChar);
     if (c != null) {
@@ -23,10 +25,19 @@
         }
       }
       if (!firstCharOfLine) {
+        lineWidth+=c.getXOffset() * sizeScale;
         lineWidth+=findKerningAmount(lastChar,theChar) * sizeScale;
       }
+ else {
+        firstCharOfLine=false;
+      }
       float xAdvance=c.getXAdvance() * sizeScale;
-      lineWidth+=xAdvance;
+      if (i == text.length() - 1) {
+        lineWidth+=c.getWidth() * sizeScale;
+      }
+ else {
+        lineWidth+=xAdvance;
+      }
     }
   }
   return Math.max(maxLineWidth,lineWidth);
