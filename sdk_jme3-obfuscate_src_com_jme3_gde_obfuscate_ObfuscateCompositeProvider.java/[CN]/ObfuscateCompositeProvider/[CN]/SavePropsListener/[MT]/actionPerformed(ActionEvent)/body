@@ -1,0 +1,15 @@
+{
+  if ("true".equals(properties.getProperty("obfuscate"))) {
+    manager.loadTargets("nbres:/com/jme3/gde/obfuscate/pro-guard-targets.xml");
+    manager.checkExtension(project);
+  }
+ else {
+    manager.removeExtension(project);
+  }
+  try {
+    properties.store();
+  }
+ catch (  IOException ioe) {
+    Exceptions.printStackTrace(ioe);
+  }
+}
