@@ -1,0 +1,24 @@
+{
+  if (selectedSpat == null) {
+    return;
+  }
+  try {
+    final Spatial node=selectedSpat.getLookup().lookup(Spatial.class);
+    setNeedsSave(true);
+    if (node != null) {
+      SceneApplication.getApplication().enqueue(new Callable(){
+        public Object call() throws Exception {
+          doCreatePhysicsMesh(node);
+          return null;
+        }
+      }
+).get();
+    }
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

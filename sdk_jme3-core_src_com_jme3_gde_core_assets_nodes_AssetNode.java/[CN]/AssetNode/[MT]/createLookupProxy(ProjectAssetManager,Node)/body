@@ -1,0 +1,7 @@
+{
+  DataObject obj=node.getLookup().lookup(DataObject.class);
+  if (obj instanceof AssetDataObject && obj.getLookup().lookup(ProjectAssetManager.class) == null) {
+    ((AssetDataObject)obj).getLookupContents().add(manager);
+  }
+  return new ProxyLookup(new Lookup[]{node.getLookup()});
+}

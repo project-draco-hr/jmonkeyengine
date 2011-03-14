@@ -1,0 +1,11 @@
+{
+  if (request == currentRequest) {
+    SceneApplication.getApplication().removeSceneListener(this);
+    currentRequest.getRootNode().getParent().removeLight(dirLight);
+    editorController.cleanupApplication();
+    SceneApplication.getApplication().getStateManager().detach(editorController.getBulletState());
+    setLoadedScene(null,false);
+    currentRequest=null;
+  }
+  return true;
+}

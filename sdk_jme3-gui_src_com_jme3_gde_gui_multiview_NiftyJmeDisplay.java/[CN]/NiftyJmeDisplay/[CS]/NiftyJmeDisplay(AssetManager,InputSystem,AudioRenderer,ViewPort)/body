@@ -1,0 +1,9 @@
+{
+  this.assetManager=assetManager;
+  this.inputSys=new InputSystemJme(SceneApplication.getApplication().getInputManager());
+  w=vp.getCamera().getWidth();
+  h=vp.getCamera().getHeight();
+  soundDev=new SoundDeviceJme(assetManager,audioRenderer);
+  renderDev=new RenderDeviceJme(this);
+  nifty=new Nifty(renderDev,soundDev,inputManager,this);
+}

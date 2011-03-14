@@ -1,0 +1,36 @@
+{
+  final JPanel display=new JPanel(){
+    @Override protected void paintComponent(    Graphics g){
+      super.paintComponent(g);
+      int w3=getWidth() / 3;
+      int h3=getHeight() / 3;
+      g.setColor(ColorController.this.getBackground());
+      g.fillRect(w3,h3,2 * w3,2 * h3);
+      g.setColor(Color.BLACK);
+      g.drawRect(w3,h3,2 * w3,2 * h3);
+      g.setColor(ColorController.this.getForeground());
+      g.fillRect(0,0,2 * w3,2 * h3);
+      g.setColor(Color.BLACK);
+      g.drawRect(0,0,2 * w3,2 * h3);
+    }
+  }
+;
+  display.addMouseListener(new MouseAdapter(){
+    @Override public void mouseReleased(    MouseEvent e){
+      int w3=display.getWidth() / 3;
+      int h3=display.getHeight() / 3;
+      if (new Rectangle(0,0,2 * w3,2 * h3).contains(e.getPoint())) {
+        chooseColor(foreground);
+      }
+ else       if (new Rectangle(w3,h3,2 * w3,2 * h3).contains(e.getPoint())) {
+        chooseColor(background);
+      }
+    }
+  }
+);
+  Dimension dim=new Dimension(40,40);
+  display.setMinimumSize(dim);
+  display.setPreferredSize(dim);
+  display.setMaximumSize(dim);
+  COMPONENT=display;
+}

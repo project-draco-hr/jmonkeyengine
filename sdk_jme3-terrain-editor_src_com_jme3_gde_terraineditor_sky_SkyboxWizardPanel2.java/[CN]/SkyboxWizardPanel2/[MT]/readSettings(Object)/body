@@ -1,0 +1,13 @@
+{
+  WizardDescriptor wiz=(WizardDescriptor)settings;
+  multipleTextures=(Boolean)wiz.getProperty("multipleTextures");
+  SkyboxVisualPanel2 comp=(SkyboxVisualPanel2)getComponent();
+  if (multipleTextures) {
+    comp.getMultipleTexturePanel().setVisible(true);
+    comp.getSingleTexturePanel().setVisible(false);
+  }
+ else {
+    comp.getMultipleTexturePanel().setVisible(false);
+    comp.getSingleTexturePanel().setVisible(true);
+  }
+}

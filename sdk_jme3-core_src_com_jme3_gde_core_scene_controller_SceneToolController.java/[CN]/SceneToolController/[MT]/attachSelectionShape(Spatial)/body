@@ -1,0 +1,15 @@
+{
+  if (selectionShape != null) {
+    selectionShape.removeFromParent();
+    selectionShape=null;
+  }
+  if (spat instanceof Geometry) {
+    attachGeometrySelection((Geometry)spat);
+  }
+ else   if (spat.getControl(PhysicsControl.class) != null) {
+    attachPhysicsSelection(spat);
+  }
+ else {
+    attachBoxSelection(spat);
+  }
+}

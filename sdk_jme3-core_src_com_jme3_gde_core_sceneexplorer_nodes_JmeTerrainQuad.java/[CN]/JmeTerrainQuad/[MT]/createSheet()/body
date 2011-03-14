@@ -1,0 +1,14 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("TerrainQuad");
+  set.setName(TerrainQuad.class.getName());
+  TerrainQuad obj=geom;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,int.class,"getMaxLod","Max Lod"));
+  set.put(makeProperty(obj,short.class,"getQuadrant","setQuadrant","Quadrant"));
+  sheet.put(set);
+  return sheet;
+}

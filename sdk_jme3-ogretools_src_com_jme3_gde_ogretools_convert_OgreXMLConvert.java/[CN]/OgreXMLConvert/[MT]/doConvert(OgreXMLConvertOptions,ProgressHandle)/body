@@ -1,0 +1,60 @@
+{
+  if (!checkTools()) {
+    return false;
+  }
+  String[] cmdOptions=getCommandString(options);
+  Process proc=null;
+  if (!options.isBinaryFile()) {
+    handle.progress("Optimizing Mesh / Creating LOD meshes",1);
+    try {
+      proc=Runtime.getRuntime().exec(cmdOptions);
+      OutputReader outReader=new OutputReader(proc.getInputStream());
+      outReader.setProgress(handle);
+      OutputReader errReader=new OutputReader(proc.getErrorStream());
+      errReader.setProgress(handle);
+      outReader.start();
+      errReader.start();
+      try {
+        proc.waitFor();
+      }
+ catch (      InterruptedException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+      if (proc.exitValue() != 0) {
+        return false;
+      }
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+      cleanUp(options);
+      return false;
+    }
+  }
+  handle.progress("Converting Binary Mesh",2);
+  cmdOptions=getBackCommandString(options);
+  try {
+    proc=Runtime.getRuntime().exec(cmdOptions);
+    OutputReader outReader=new OutputReader(proc.getInputStream());
+    outReader.setProgress(handle);
+    OutputReader errReader=new OutputReader(proc.getErrorStream());
+    errReader.setProgress(handle);
+    outReader.start();
+    errReader.start();
+    try {
+      proc.waitFor();
+    }
+ catch (    InterruptedException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+    if (proc.exitValue() != 0) {
+      return false;
+    }
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+    cleanUp(options);
+    return false;
+  }
+  cleanUp(options);
+  return true;
+}

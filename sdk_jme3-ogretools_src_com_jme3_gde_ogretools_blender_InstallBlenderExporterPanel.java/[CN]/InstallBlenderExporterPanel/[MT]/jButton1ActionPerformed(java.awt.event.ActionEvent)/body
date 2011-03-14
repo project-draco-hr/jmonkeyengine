@@ -1,0 +1,9 @@
+{
+  FileChooserBuilder builder=new FileChooserBuilder("");
+  builder.setDirectoriesOnly(true);
+  builder.setTitle("Select Blender Scripts Directory");
+  File file=builder.showOpenDialog();
+  if (file != null) {
+    jTextField1.setText(file.getPath());
+  }
+}

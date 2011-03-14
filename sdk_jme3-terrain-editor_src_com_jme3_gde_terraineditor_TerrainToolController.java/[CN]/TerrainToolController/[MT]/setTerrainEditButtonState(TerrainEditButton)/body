@@ -1,0 +1,12 @@
+{
+  currentEditButtonState=state;
+  if (state == TerrainEditButton.none) {
+    hideEditTool();
+  }
+ else   if (state == TerrainEditButton.raiseTerrain || state == TerrainEditButton.lowerTerrain) {
+    showEditTool(state);
+  }
+ else   if (state == TerrainEditButton.paintTerrain || state == TerrainEditButton.eraseTerrain) {
+    showEditTool(state);
+  }
+}

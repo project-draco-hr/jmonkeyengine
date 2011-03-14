@@ -1,0 +1,30 @@
+{
+  Spatial node=null;
+  Vector3f wheelLocation=vehicle.worldToLocal(selected.getWorldBound().getCenter(),new Vector3f());
+  wheelLocation.add(0,settings.getRestLength(),0);
+  if (settings.getBoundingScale() > 0) {
+    BoundingBox worldBound=null;
+    if (selected.getWorldBound() instanceof BoundingBox) {
+      worldBound=(BoundingBox)selected.getWorldBound();
+      settings.setRadius(worldBound.getYExtent() * settings.getBoundingScale());
+    }
+ else {
+      Logger.getLogger(VehicleEditorController.class.getName()).log(Level.WARNING,"Cannot get bounding box!");
+    }
+  }
+  if (settings.isCreateNode()) {
+    node=new Node(selected.getName() + "-WheelNode");
+  }
+ else {
+    node=selected;
+  }
+  node.setLocalTranslation(selected.worldToLocal(selected.getWorldBound().getCenter(),new Vector3f()));
+  VehicleWheel wheel=vehicleControl.addWheel(node,wheelLocation,settings.getDirection(),settings.getAxle(),settings.getRestLength(),settings.getRadius(),settings.isFrontWheel());
+  settings.applyData(wheel);
+  if (settings.isCreateNode()) {
+    selected.center();
+    Node parent=selected.getParent();
+    ((Node)node).attachChild(selected);
+    parent.attachChild(node);
+  }
+}

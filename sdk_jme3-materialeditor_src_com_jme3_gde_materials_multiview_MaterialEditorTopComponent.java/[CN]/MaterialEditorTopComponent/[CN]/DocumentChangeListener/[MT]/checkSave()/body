@@ -1,0 +1,17 @@
+{
+  if (saveImmediate) {
+    try {
+      saveCookie.save();
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+ else {
+    dataObject.setModified(true);
+  }
+  if (updateProperties) {
+    updateProperties();
+    updateProperties=false;
+  }
+}

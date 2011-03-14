@@ -1,0 +1,18 @@
+{
+  try {
+    ZipInputStream str=new ZipInputStream(source);
+    ZipEntry entry;
+    while ((entry=str.getNextEntry()) != null) {
+      if (entry.isDirectory()) {
+        FileUtil.createFolder(projectRoot,entry.getName());
+      }
+ else {
+        FileObject fo=FileUtil.createData(projectRoot,entry.getName());
+        writeFile(str,fo);
+      }
+    }
+  }
+  finally {
+    source.close();
+  }
+}

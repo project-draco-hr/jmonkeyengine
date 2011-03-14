@@ -1,0 +1,13 @@
+{
+  LinkedList<String> strings=new LinkedList<String>();
+  for (Iterator<FileDescription> it=list.iterator(); it.hasNext(); ) {
+    FileDescription fileDescription=it.next();
+    if ("material".equals(fileDescription.getType())) {
+      strings.add(fileDescription.getPath() + fileDescription.getName());
+    }
+  }
+  for (int i=0; i < jPanel1.getComponents().length; i++) {
+    SingleAssetFilePanel component=(SingleAssetFilePanel)jPanel1.getComponents()[i];
+    component.setModelList(strings);
+  }
+}

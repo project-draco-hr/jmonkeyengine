@@ -1,0 +1,15 @@
+{
+  AssetManager manager=SceneApplication.getApplication().getAssetManager();
+  String assetFolder=null;
+  if (manager != null && manager instanceof ProjectAssetManager)   assetFolder=((ProjectAssetManager)manager).getAssetFolderName();
+  if (assetFolder == null)   throw new IllegalStateException("AssetManager was not a ProjectAssetManager. Could not locate image save directories.");
+  Texture alpha=doGetAlphaTexture(terrain,0);
+  BufferedImage bi=ImageToAwt.convert(alpha.getImage(),false,true,0);
+  File imageFile=new File(assetFolder + alpha.getKey().getName());
+  try {
+    ImageIO.write(bi,"png",imageFile);
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

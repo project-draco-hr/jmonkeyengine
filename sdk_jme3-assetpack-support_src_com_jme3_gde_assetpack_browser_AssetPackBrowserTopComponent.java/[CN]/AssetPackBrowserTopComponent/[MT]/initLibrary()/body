@@ -1,0 +1,9 @@
+{
+  lib=new AssetPackLibrary();
+  rootNode=lib.getRootNode();
+  explorerManager.setRootContext(rootNode);
+  List<String> cats=lib.getCategories();
+  for (Iterator<String> it=cats.iterator(); it.hasNext(); ) {
+    jComboBox1.addItem(it.next());
+  }
+}

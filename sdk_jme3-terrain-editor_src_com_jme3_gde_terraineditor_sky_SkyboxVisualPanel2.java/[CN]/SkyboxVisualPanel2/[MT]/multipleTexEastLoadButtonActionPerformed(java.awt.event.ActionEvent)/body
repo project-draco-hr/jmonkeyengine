@@ -1,0 +1,9 @@
+{
+  Component view=editorEast.getCustomEditor();
+  view.setVisible(true);
+  if (editorEast.getValue() != null) {
+    Texture tex=(Texture)editorEast.getValue();
+    Icon newicon=ImageUtilities.image2Icon(ImageToAwt.convert(tex.getImage(),false,true,0));
+    eastPic.setIcon(newicon);
+  }
+}

@@ -1,0 +1,27 @@
+{
+  try {
+    if (undo) {
+      try {
+        Object oldValue=getSuperValue();
+        if (oldValue.getClass().getMethod("clone",null) != null) {
+          addUndo(oldValue.getClass().getMethod("clone",null).invoke(oldValue,null),val);
+          Logger.getLogger(SceneExplorerProperty.class.getName()).log(Level.INFO,"Add cloned undo {0}",oldValue.getClass().getMethod("clone",null).invoke(oldValue,null));
+        }
+      }
+ catch (      Exception e) {
+        addUndo(getSuperValue(),val);
+        Logger.getLogger(SceneExplorerProperty.class.getName()).log(Level.INFO,"Add undo {0}",getSuperValue());
+      }
+    }
+    super.setValue(val);
+  }
+ catch (  IllegalAccessException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  IllegalArgumentException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  InvocationTargetException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

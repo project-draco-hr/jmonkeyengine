@@ -1,0 +1,6 @@
+{
+  String string=project.getProjectDirectory().getPath() + "/" + relativePath+ "/";
+  Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Add locator:{0}",string);
+  registerLocator(string,"com.jme3.asset.plugins.FileLocator");
+  folderName.add(relativePath);
+}

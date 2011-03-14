@@ -1,0 +1,16 @@
+{
+  RigidBodyControl control=selected.getControl(RigidBodyControl.class);
+  if (control != null) {
+    selected.removeControl(control);
+  }
+  Node parent=selected.getParent();
+  selected.removeFromParent();
+  control=new RigidBodyControl(0);
+  selected.addControl(new RigidBodyControl(0));
+  if (parent != null) {
+    parent.attachChild(selected);
+  }
+  refreshSelected();
+  AbstractSceneExplorerNode selectedSpat=this.selectedSpat;
+  addControlUndo(parent,control,selectedSpat);
+}

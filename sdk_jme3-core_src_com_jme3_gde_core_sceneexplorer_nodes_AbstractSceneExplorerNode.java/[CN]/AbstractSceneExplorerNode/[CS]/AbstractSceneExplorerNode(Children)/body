@@ -1,0 +1,8 @@
+{
+  super(children,children instanceof SceneExplorerChildren ? (((SceneExplorerChildren)children).getDataObject() != null ? new ProxyLookup(((SceneExplorerChildren)children).getDataObject().getLookup(),new SceneExplorerLookup(new InstanceContent())) : new SceneExplorerLookup(new InstanceContent())) : new SceneExplorerLookup(new InstanceContent()));
+  this.jmeChildren=children;
+  lookupContents=getLookup().lookup(SceneExplorerLookup.class).getInstanceContent();
+  if (children instanceof SceneExplorerChildren) {
+    this.dataObject=((SceneExplorerChildren)children).getDataObject();
+  }
+}

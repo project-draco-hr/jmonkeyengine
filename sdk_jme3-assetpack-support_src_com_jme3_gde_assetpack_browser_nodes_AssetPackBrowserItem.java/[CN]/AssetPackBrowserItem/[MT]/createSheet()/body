@@ -1,0 +1,12 @@
+{
+  Sheet sheet=super.createSheet();
+  Set set=Sheet.createPropertiesSet();
+  set.put(new ElementAttributeProperty(project,item,"name"));
+  set.put(new ElementNodeTextProperty(project,item,"description"));
+  set.put(new ElementAttributeProperty(project,item,"categories"));
+  set.put(new ElementAttributeProperty(project,item,"tags"));
+  set.put(new ElementNodeTextProperty(project,item,"license"));
+  set.put(new ElementAttributeProperty(project,item,"type",ASSET_TYPES));
+  sheet.put(set);
+  return sheet;
+}

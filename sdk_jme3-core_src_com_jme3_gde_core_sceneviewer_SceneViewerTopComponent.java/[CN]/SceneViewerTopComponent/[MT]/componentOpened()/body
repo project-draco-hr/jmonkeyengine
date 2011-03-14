@@ -1,0 +1,13 @@
+{
+  super.componentOpened();
+  try {
+    oGLPanel.add(((JmeCanvasContext)app.getContext()).getCanvas());
+    app.setSceneActive(true);
+  }
+ catch (  Exception e) {
+    showOpenGLError(e.toString());
+  }
+catch (  Error err) {
+    showOpenGLError(err.toString());
+  }
+}

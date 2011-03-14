@@ -1,0 +1,24 @@
+{
+  Runnable run=new Runnable(){
+    public void run(){
+      ProgressHandle progressHandle=ProgressHandleFactory.createHandle("Converting Model");
+      progressHandle.start();
+      for (      SpatialAssetDataObject spatialAssetDataObject : context) {
+        if (!(spatialAssetDataObject instanceof BinaryModelDataObject)) {
+          try {
+            spatialAssetDataObject.loadAsset();
+            spatialAssetDataObject.saveAsset();
+          }
+ catch (          Exception ex) {
+            Exceptions.printStackTrace(ex);
+            Confirmation msg=new NotifyDescriptor.Confirmation("Error converting " + spatialAssetDataObject.getName() + "\n"+ ex.toString(),NotifyDescriptor.OK_CANCEL_OPTION,NotifyDescriptor.ERROR_MESSAGE);
+            DialogDisplayer.getDefault().notifyLater(msg);
+          }
+        }
+      }
+      progressHandle.finish();
+    }
+  }
+;
+  new Thread(run).start();
+}

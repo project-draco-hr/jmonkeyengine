@@ -1,0 +1,7 @@
+{
+  Geometry geom=rootNode.getLookup().lookup(Geometry.class);
+  Mesh mesh=geom.getMesh();
+  if (mesh != null) {
+    mesh.clearBuffer(Type.Tangent);
+  }
+}

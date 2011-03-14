@@ -1,0 +1,15 @@
+{
+  String folder=(String)wiz.getProperty("publish_folder");
+  if (folder == null) {
+    return;
+  }
+  String zipFilename=context.getProjectDirectory().getPath() + "/" + wiz.getProperty("filename");
+  try {
+    FileObject source=FileUtil.toFileObject(new File(zipFilename));
+    FileObject destination=FileUtil.toFileObject(new File(folder));
+    source.copy(destination,source.getName(),source.getExt());
+  }
+ catch (  Exception ex) {
+    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,"Error copying ZIP file!");
+  }
+}

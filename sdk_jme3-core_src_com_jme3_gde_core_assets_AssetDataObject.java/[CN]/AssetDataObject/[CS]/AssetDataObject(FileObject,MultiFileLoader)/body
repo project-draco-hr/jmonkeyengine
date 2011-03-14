@@ -1,0 +1,6 @@
+{
+  super(pf,loader);
+  lookup=new ProxyLookup(getCookieSet().getLookup(),new AbstractLookup(getLookupContents()),Lookups.fixed(new AssetData(this)));
+  setSaveCookie(saveCookie);
+  findAssetManager();
+}

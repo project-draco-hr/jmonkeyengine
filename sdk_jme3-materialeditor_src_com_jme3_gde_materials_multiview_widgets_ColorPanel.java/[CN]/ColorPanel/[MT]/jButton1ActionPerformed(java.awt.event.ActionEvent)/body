@@ -1,0 +1,10 @@
+{
+  ColorRGBADialog dialog=new ColorRGBADialog(new JFrame(),true);
+  dialog.setLocationRelativeTo(null);
+  dialog.setVisible(true);
+  if (dialog.getColor() != null) {
+    jTextField1.setText(dialog.getColor());
+    property.setValue(jTextField1.getText());
+    fireChanged();
+  }
+}

@@ -1,0 +1,9 @@
+{
+  Dimension s=new Dimension((int)(editedImage.getWidth() * scaleX),(int)(editedImage.getHeight() * scaleY));
+  imageScreen.setPreferredSize(s);
+  imageScreen.setMinimumSize(s);
+  imageScreen.setMaximumSize(s);
+  COMPONENT.revalidate();
+  COMPONENT.repaint();
+  scroller.setViewportView(imageContainer);
+}

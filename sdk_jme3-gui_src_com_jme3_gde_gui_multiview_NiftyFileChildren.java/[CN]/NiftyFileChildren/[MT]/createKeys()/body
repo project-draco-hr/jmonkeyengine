@@ -1,0 +1,11 @@
+{
+  LinkedList<Element> ret=new LinkedList<Element>();
+  Element curElement=XmlHelper.findFirstChildElement(xmlNode);
+  while (curElement != null) {
+    if (checkElement(curElement)) {
+      ret.add(curElement);
+    }
+    curElement=XmlHelper.findNextSiblingElement(curElement);
+  }
+  return ret;
+}

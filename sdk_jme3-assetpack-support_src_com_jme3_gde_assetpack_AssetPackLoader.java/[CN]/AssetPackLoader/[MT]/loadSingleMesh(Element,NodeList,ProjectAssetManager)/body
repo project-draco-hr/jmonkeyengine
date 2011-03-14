@@ -1,0 +1,86 @@
+{
+  ModelKey key=null;
+  Material mat=null;
+  Spatial model;
+  MaterialList matList=null;
+  String name=fileElement.getAttribute("path");
+  String materialName=fileElement.getAttribute("material");
+  if ("".equals(materialName)) {
+    materialName=null;
+  }
+  MaterialExtensionSet matExts=new MaterialExtensionSet();
+  MaterialExtension baseLightExt=new MaterialExtension("/base/normalmap/specular","Common/MatDefs/Light/Lighting.j3md");
+  baseLightExt.setTextureMapping("DiffuseMap","DiffuseMap");
+  baseLightExt.setTextureMapping("NormalHeightMap","NormalMap");
+  baseLightExt.setTextureMapping("SpecularMap","SpecularMap");
+  matExts.addMaterialExtension(baseLightExt);
+  MaterialExtension baseLightExt2=new MaterialExtension("/base/normalmap","Common/MatDefs/Light/Lighting.j3md");
+  baseLightExt2.setTextureMapping("DiffuseMap","DiffuseMap");
+  baseLightExt2.setTextureMapping("NormalHeightMap","NormalMap");
+  baseLightExt2.setTextureMapping("SpecularMap","SpecularMap");
+  matExts.addMaterialExtension(baseLightExt2);
+  MaterialExtension baseLightExt3=new MaterialExtension("/base/simple","Common/MatDefs/Light/Lighting.j3md");
+  baseLightExt3.setTextureMapping("DiffuseMap","DiffuseMap");
+  baseLightExt3.setTextureMapping("NormalHeightMap","NormalMap");
+  baseLightExt3.setTextureMapping("SpecularMap","SpecularMap");
+  matExts.addMaterialExtension(baseLightExt3);
+  if (hasExtension(name,"xml") || hasExtension(name,"scene")) {
+    for (int i=0; i < fileNodeList.getLength(); i++) {
+      Element fileElem=(Element)fileNodeList.item(i);
+      String type=fileElem.getAttribute("type");
+      String path=fileElem.getAttribute("path");
+      if ("material".equals(type) && (materialName == null || materialName.equals(path))) {
+        if (hasExtension(path,"j3m")) {
+          mat=pm.getManager().loadMaterial(path);
+        }
+ else         if (hasExtension(path,"material")) {
+          if (matList == null) {
+            Logger.getLogger(AssetPackLoader.class.getName()).log(Level.INFO,"Load Ogre Material");
+            OgreMaterialKey matKey=new OgreMaterialKey(path);
+            matKey.setMaterialExtensionSet(matExts);
+            matList=pm.getManager().loadAsset(matKey);
+            key=new OgreMeshKey(name,matList);
+          }
+ else {
+            Logger.getLogger(AssetPackLoader.class.getName()).log(Level.INFO,"Add Ogre Material");
+            OgreMaterialKey matKey=new OgreMaterialKey(path);
+            matKey.setMaterialExtensionSet(matExts);
+            MaterialList newMatList=pm.getManager().loadAsset(matKey);
+            matList.putAll(newMatList);
+          }
+        }
+      }
+    }
+  }
+ else   if (hasExtension(name,"obj")) {
+    for (int i=0; i < fileNodeList.getLength(); i++) {
+      Element fileElem=(Element)fileNodeList.item(i);
+      String type=fileElem.getAttribute("type");
+      String path=fileElem.getAttribute("path");
+      if ("material".equals(type) && (materialName == null || materialName.equals(path))) {
+        if (hasExtension(path,"j3m")) {
+          mat=pm.getManager().loadMaterial(path);
+        }
+      }
+    }
+  }
+ else   if (hasExtension(name,"j3o")) {
+  }
+  if (key != null && mat != null) {
+    Logger.getLogger(AddAssetAction.class.getName()).log(Level.WARNING,"j3m and ogre material defined for asset {0}.",name);
+  }
+  if (key != null) {
+    model=pm.getManager().loadAsset(key);
+  }
+ else {
+    model=pm.getManager().loadModel(name);
+  }
+  if (model == null) {
+    Logger.getLogger(AddAssetAction.class.getName()).log(Level.SEVERE,"Could not load model {0}!",name);
+    return null;
+  }
+  if (mat != null) {
+    model.setMaterial(mat);
+  }
+  return model;
+}

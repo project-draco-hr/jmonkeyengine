@@ -1,0 +1,134 @@
+{
+  boolean params=false;
+  boolean states=false;
+  boolean addedstates=false;
+  int level=0;
+  try {
+    List<String> matLines=material.asLines();
+    StringWriter out=new StringWriter();
+    List<String> setValues=new LinkedList<String>();
+    List<String> setStates=new LinkedList<String>();
+    for (    String line : matLines) {
+      String newLine=line;
+      line=trimLine(line);
+      if (line.startsWith("Material ") || line.startsWith("Material\t") && level == 0) {
+        String suffix="";
+        if (line.indexOf("{") > -1) {
+          suffix="{";
+        }
+        newLine="Material " + getName() + " : "+ matDefName+ " "+ suffix;
+      }
+      if (line.startsWith("MaterialParameters ") || line.startsWith("MaterialParameters\t") || line.startsWith("MaterialParameters{") && level == 1) {
+        params=true;
+      }
+      if (line.startsWith("AdditionalRenderState ") || line.startsWith("AdditionalRenderState\t") || line.startsWith("AdditionalRenderState{") && level == 1) {
+        states=true;
+        addedstates=true;
+      }
+      if (line.indexOf("{") != -1) {
+        level++;
+      }
+      if (line.indexOf("}") != -1) {
+        level--;
+        if (params) {
+          for (Iterator<Map.Entry<String,MaterialProperty>> it=materialParameters.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry<String,MaterialProperty> entry=it.next();
+            if (!setValues.contains(entry.getKey()) && matDefEntries.contains(entry.getKey())) {
+              MaterialProperty prop=entry.getValue();
+              if (prop.getValue() != null && prop.getValue().length() > 0) {
+                String myLine="        " + prop.getName() + " : "+ prop.getValue()+ "\n";
+                out.write(myLine,0,myLine.length());
+              }
+            }
+          }
+          params=false;
+        }
+        if (states) {
+          for (Iterator<Map.Entry<String,MaterialProperty>> it=additionalRenderStates.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry<String,MaterialProperty> entry=it.next();
+            if (!setStates.contains(entry.getKey())) {
+              MaterialProperty prop=entry.getValue();
+              if (prop.getValue() != null && prop.getValue().length() > 0) {
+                String myLine="        " + prop.getName() + " "+ prop.getValue()+ "\n";
+                out.write(myLine,0,myLine.length());
+              }
+            }
+          }
+          states=false;
+        }
+        if (level == 0) {
+          if (!addedstates) {
+            String myLine="    AdditionalRenderState {\n";
+            out.write(myLine,0,myLine.length());
+            for (Iterator<Map.Entry<String,MaterialProperty>> it=additionalRenderStates.entrySet().iterator(); it.hasNext(); ) {
+              Map.Entry<String,MaterialProperty> entry=it.next();
+              if (!setStates.contains(entry.getKey())) {
+                MaterialProperty prop=entry.getValue();
+                if (prop.getValue() != null && prop.getValue().length() > 0) {
+                  myLine="        " + prop.getName() + " "+ prop.getValue()+ "\n";
+                  out.write(myLine,0,myLine.length());
+                }
+              }
+            }
+            myLine="    }\n";
+            out.write(myLine,0,myLine.length());
+          }
+        }
+      }
+      if (level == 2 && params) {
+        int colonIdx=newLine.indexOf(":");
+        if (colonIdx != -1) {
+          String[] lines=newLine.split(":");
+          String myName=lines[0].trim();
+          if (materialParameters.containsKey(myName)) {
+            setValues.add(myName);
+            MaterialProperty prop=materialParameters.get(myName);
+            if (prop.getValue() != null && prop.getValue().length() > 0 && prop.getType() != null) {
+              newLine=lines[0] + ": " + prop.getValue();
+            }
+ else {
+              newLine=null;
+            }
+          }
+ else           if (!matDefEntries.contains(myName)) {
+            newLine=null;
+          }
+        }
+      }
+      if (level == 2 && states) {
+        String cutLine=newLine.trim();
+        String[] lines=null;
+        int colonIdx=cutLine.indexOf(" ");
+        if (colonIdx != -1) {
+          lines=cutLine.split(" ");
+        }
+        colonIdx=cutLine.indexOf("\t");
+        if (colonIdx != -1) {
+          lines=cutLine.split("\t");
+        }
+        if (lines != null) {
+          String myName=lines[0].trim();
+          if (additionalRenderStates.containsKey(myName)) {
+            setStates.add(myName);
+            MaterialProperty prop=additionalRenderStates.get(myName);
+            if (prop.getValue() != null && prop.getValue().length() > 0 && prop.getType() != null) {
+              newLine="      " + lines[0] + " "+ prop.getValue();
+            }
+ else {
+              newLine=null;
+            }
+          }
+        }
+      }
+      if (newLine != null) {
+        out.write(newLine + "\n",0,newLine.length() + 1);
+      }
+    }
+    out.close();
+    return out.toString();
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return "";
+}

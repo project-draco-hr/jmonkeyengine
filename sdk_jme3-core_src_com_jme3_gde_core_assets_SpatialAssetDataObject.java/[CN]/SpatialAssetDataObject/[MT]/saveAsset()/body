@@ -1,0 +1,30 @@
+{
+  super.saveAsset();
+  ProjectAssetManager mgr=getLookup().lookup(ProjectAssetManager.class);
+  if (mgr == null) {
+    return;
+  }
+  FileObject outFile=null;
+  if (saveExtension == null) {
+    outFile=getPrimaryFile();
+  }
+ else {
+    outFile=getPrimaryFile().getParent().getFileObject(getPrimaryFile().getName(),saveExtension);
+    if (outFile == null) {
+      Logger.getLogger(SpatialAssetDataObject.class.getName()).log(Level.SEVERE,"Could not locate saved file.");
+      return;
+    }
+  }
+  try {
+    DataObject targetModel=DataObject.find(outFile);
+    AssetData properties=targetModel.getLookup().lookup(AssetData.class);
+    if (properties != null) {
+      properties.loadProperties();
+      properties.setProperty("ORIGINAL_PATH",mgr.getRelativeAssetPath(outFile.getPath()));
+      properties.saveProperties();
+    }
+  }
+ catch (  Exception ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

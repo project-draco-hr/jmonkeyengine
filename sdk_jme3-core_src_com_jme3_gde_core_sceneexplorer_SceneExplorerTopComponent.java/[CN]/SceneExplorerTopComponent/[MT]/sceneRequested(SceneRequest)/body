@@ -1,0 +1,8 @@
+{
+  this.request=request;
+  JmeNode node=request.getJmeNode();
+  if (node != null) {
+    explorerManager.setRootContext(node);
+    explorerManager.getRootContext().setDisplayName(node.getName());
+  }
+}

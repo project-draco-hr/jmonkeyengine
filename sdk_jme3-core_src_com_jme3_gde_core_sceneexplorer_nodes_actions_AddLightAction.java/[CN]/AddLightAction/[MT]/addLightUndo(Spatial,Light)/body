@@ -1,0 +1,21 @@
+{
+  if (undoParent != null && undoLight != null) {
+    Lookup.getDefault().lookup(SceneUndoRedoManager.class).addEdit(this,new AbstractUndoableSceneEdit(){
+      @Override public void sceneUndo() throws CannotUndoException {
+        undoParent.removeLight(undoLight);
+      }
+      @Override public void sceneRedo() throws CannotRedoException {
+        undoParent.addLight(undoLight);
+      }
+      @Override public void awtRedo(){
+        dataObject.setModified(true);
+        jmeNode.refresh(true);
+      }
+      @Override public void awtUndo(){
+        dataObject.setModified(true);
+        jmeNode.refresh(true);
+      }
+    }
+);
+  }
+}

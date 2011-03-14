@@ -1,0 +1,13 @@
+{
+  if (textureList.getSelectedIndex() > -1) {
+    textureList.getSelectedValue();
+    String selected=(String)textureList.getSelectedValue();
+    Texture tex=assetManager.loadTexture(selected);
+    editor.setValue(tex);
+    editor.setAsText(selected);
+  }
+ else {
+    editor.setValue(null);
+    editor.setAsText(null);
+  }
+}

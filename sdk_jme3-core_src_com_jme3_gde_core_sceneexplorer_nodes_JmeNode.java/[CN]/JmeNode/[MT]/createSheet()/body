@@ -1,0 +1,12 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("Node");
+  set.setName(Node.class.getName());
+  Node obj=node;
+  if (obj == null) {
+    return sheet;
+  }
+  sheet.put(set);
+  return sheet;
+}

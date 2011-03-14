@@ -1,0 +1,12 @@
+{
+  FileObject result=projectDir.getFileObject(assetsFolder);
+  try {
+    if (result == null) {
+      result=projectDir.createFolder(assetsFolder);
+    }
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return result;
+}

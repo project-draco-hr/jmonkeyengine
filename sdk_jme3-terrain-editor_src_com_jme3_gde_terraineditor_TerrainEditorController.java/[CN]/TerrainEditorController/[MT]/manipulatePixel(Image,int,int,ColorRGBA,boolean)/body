@@ -1,0 +1,26 @@
+{
+  ByteBuffer buf=image.getData(0);
+  int width=image.getWidth();
+  int position=(y * width + x) * 4;
+  if (position > buf.capacity() - 1 || position < 0)   return;
+  if (write) {
+switch (image.getFormat()) {
+case RGBA8:
+      buf.position(position);
+    buf.put(float2byte(color.r)).put(float2byte(color.g)).put(float2byte(color.b)).put(float2byte(color.a));
+  return;
+default :
+throw new UnsupportedOperationException("Image format: " + image.getFormat());
+}
+}
+ else {
+switch (image.getFormat()) {
+case RGBA8:
+buf.position(position);
+color.set(byte2float(buf.get()),byte2float(buf.get()),byte2float(buf.get()),byte2float(buf.get()));
+return;
+default :
+throw new UnsupportedOperationException("Image format: " + image.getFormat());
+}
+}
+}

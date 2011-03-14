@@ -1,0 +1,25 @@
+{
+  cleanupControllers();
+  SceneApplication.getApplication().addSceneListener(this);
+  result.addLookupListener(this);
+  Node node;
+  if (spat instanceof Node) {
+    node=(Node)spat;
+  }
+ else {
+    node=new Node();
+    node.attachChild(spat);
+  }
+  JmeNode jmeNode=NodeUtility.createNode(node,file,false);
+  SceneRequest request=new SceneRequest(this,jmeNode,manager);
+  request.setDataObject(file);
+  request.setHelpCtx(ctx);
+  if (editorController != null) {
+    editorController.cleanup();
+  }
+  editorController=new SceneEditorController(jmeNode,file);
+  this.currentRequest=request;
+  request.setWindowTitle("SceneComposer - " + manager.getRelativeAssetPath(file.getPrimaryFile().getPath()));
+  request.setToolNode(new Node("SceneComposerToolNode"));
+  SceneApplication.getApplication().requestScene(request);
+}

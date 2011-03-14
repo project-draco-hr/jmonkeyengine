@@ -1,0 +1,11 @@
+{
+  try {
+    BinaryImporter importer=BinaryImporter.getInstance();
+    importer.setAssetManager(SceneApplication.getApplication().getCurrentSceneRequest().getManager().getManager());
+    return (Spatial)importer.load(data);
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return null;
+}

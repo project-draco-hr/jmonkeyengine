@@ -1,0 +1,18 @@
+{
+  try {
+    Float scale=SceneApplication.getApplication().enqueue(new Callable<Float>(){
+      public Float call() throws Exception {
+        return doGetTextureScale(layer);
+      }
+    }
+).get();
+    return scale;
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return null;
+}

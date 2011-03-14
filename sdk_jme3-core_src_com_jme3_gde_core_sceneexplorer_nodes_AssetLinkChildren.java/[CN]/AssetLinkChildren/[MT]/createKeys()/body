@@ -1,0 +1,22 @@
+{
+  try {
+    return SceneApplication.getApplication().enqueue(new Callable<List<Object>>(){
+      public List<Object> call() throws Exception {
+        List<Object> keys=new LinkedList<Object>();
+        if (spatial instanceof AssetLinkNode) {
+          keys.addAll(((AssetLinkNode)spatial).getAssetLoaderKeys());
+          return keys;
+        }
+        return keys;
+      }
+    }
+).get();
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return null;
+}

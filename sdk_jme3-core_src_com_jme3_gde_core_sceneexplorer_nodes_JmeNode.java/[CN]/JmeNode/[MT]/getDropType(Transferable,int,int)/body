@@ -1,0 +1,39 @@
+{
+  Object data=null;
+  try {
+    data=t.getTransferData(SPATIAL_FLAVOR);
+  }
+ catch (  Exception ex) {
+  }
+  if (data == null) {
+    return null;
+  }
+  if (data instanceof ClipboardSpatial) {
+    final Spatial spat=((ClipboardSpatial)data).createSpatial();
+    return new PasteType(){
+      @Override public Transferable paste() throws IOException {
+        try {
+          fireSave(true);
+          SceneApplication.getApplication().enqueue(new Callable<Void>(){
+            public Void call() throws Exception {
+              node.attachChild(spat);
+              return null;
+            }
+          }
+).get();
+          refresh(false);
+          return t;
+        }
+ catch (        InterruptedException ex) {
+          Exceptions.printStackTrace(ex);
+        }
+catch (        ExecutionException ex) {
+          Exceptions.printStackTrace(ex);
+        }
+        return null;
+      }
+    }
+;
+  }
+  return null;
+}

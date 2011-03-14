@@ -1,0 +1,15 @@
+{
+  TextureCellRendererEditor rendererTexturer=new TextureCellRendererEditor();
+  textureTable.getColumnModel().getColumn(1).setCellRenderer(rendererTexturer);
+  textureTable.getColumnModel().getColumn(1).setCellEditor(rendererTexturer);
+  NormalCellRendererEditor rendererNormal=new NormalCellRendererEditor();
+  textureTable.getColumnModel().getColumn(2).setCellRenderer(rendererNormal);
+  textureTable.getColumnModel().getColumn(2).setCellEditor(rendererNormal);
+  if (editorController.getTerrain(null) == null)   return;
+  getTableModel().initModel();
+  if (textureTable.getRowCount() > 0)   toolController.setSelectedTextureIndex(0);
+ else   toolController.setSelectedTextureIndex(-1);
+  currentTextureCount=editorController.getNumUsedTextures();
+  remainingTexturesLabel.setText("" + (editorController.MAX_TEXTURE_LAYERS - currentTextureCount));
+  triPlanarCheckBox.setSelected(editorController.isTriPlanarEnabled());
+}

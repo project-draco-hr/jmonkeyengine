@@ -1,0 +1,17 @@
+{
+  this.wiz=wiz;
+  index=0;
+  panels=createPanels();
+  String[] steps=createSteps();
+  for (int i=0; i < panels.length; i++) {
+    Component c=panels[i].getComponent();
+    if (steps[i] == null) {
+      steps[i]=c.getName();
+    }
+    if (c instanceof JComponent) {
+      JComponent jc=(JComponent)c;
+      jc.putClientProperty("WizardPanel_contentSelectedIndex",new Integer(i));
+      jc.putClientProperty("WizardPanel_contentData",steps);
+    }
+  }
+}

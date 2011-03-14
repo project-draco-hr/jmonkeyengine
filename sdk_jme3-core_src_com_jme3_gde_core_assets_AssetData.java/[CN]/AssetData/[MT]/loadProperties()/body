@@ -1,0 +1,28 @@
+{
+  clear();
+  FileObject myFile=FileUtil.findBrother(file.getPrimaryFile(),extension);
+  if (myFile == null) {
+    return;
+  }
+  InputStream in=null;
+  try {
+    in=myFile.getInputStream();
+    try {
+      load(in);
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+ catch (  FileNotFoundException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+ finally {
+    try {
+      in.close();
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+}

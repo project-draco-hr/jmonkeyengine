@@ -1,0 +1,17 @@
+{
+  enqueue(new Callable(){
+    public Object call() throws Exception {
+      if (request == currentSceneRequest) {
+        if (closeCurrentScene()) {
+          if (request.getRequester() instanceof SceneApplication) {
+            camController.disable();
+          }
+          currentSceneRequest=null;
+          setWindowTitle("SceneViewer");
+        }
+      }
+      return null;
+    }
+  }
+);
+}

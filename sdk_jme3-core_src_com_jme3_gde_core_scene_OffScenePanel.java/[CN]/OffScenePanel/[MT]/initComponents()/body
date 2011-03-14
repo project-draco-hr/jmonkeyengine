@@ -1,0 +1,18 @@
+{
+  addComponentListener(new java.awt.event.ComponentAdapter(){
+    public void componentHidden(    java.awt.event.ComponentEvent evt){
+      OffScenePanel.this.componentHidden(evt);
+    }
+  }
+);
+  addContainerListener(new java.awt.event.ContainerAdapter(){
+    public void componentRemoved(    java.awt.event.ContainerEvent evt){
+      OffScenePanel.this.componentRemoved(evt);
+    }
+  }
+);
+  javax.swing.GroupLayout layout=new javax.swing.GroupLayout(this);
+  this.setLayout(layout);
+  layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0,400,Short.MAX_VALUE));
+  layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0,300,Short.MAX_VALUE));
+}

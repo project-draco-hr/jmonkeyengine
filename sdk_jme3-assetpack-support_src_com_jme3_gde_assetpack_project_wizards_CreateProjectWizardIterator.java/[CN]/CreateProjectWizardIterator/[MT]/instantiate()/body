@@ -1,0 +1,14 @@
+{
+  Set<FileObject> mySet=new LinkedHashSet<FileObject>();
+  File dirF=FileUtil.normalizeFile(new File((String)wiz.getProperty("folder")));
+  dirF.mkdirs();
+  FileObject template=Templates.getTemplate(wiz);
+  FileObject dir=FileUtil.toFileObject(dirF);
+  unZipFile(template.getInputStream(),dir);
+  mySet.add(dir);
+  File parent=dirF.getParentFile();
+  if (parent != null && parent.exists()) {
+    ProjectChooser.setProjectsFolder(parent);
+  }
+  return mySet;
+}

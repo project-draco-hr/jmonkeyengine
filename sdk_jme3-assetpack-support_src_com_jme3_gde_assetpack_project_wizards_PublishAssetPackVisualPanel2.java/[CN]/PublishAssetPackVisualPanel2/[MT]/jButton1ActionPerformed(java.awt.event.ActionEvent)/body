@@ -1,0 +1,13 @@
+{
+  FileChooserBuilder builder=new FileChooserBuilder(this.getClass());
+  builder.setDirectoriesOnly(true);
+  builder.setTitle("Select Export Folder");
+  File file=builder.showOpenDialog();
+  if (file != null) {
+    try {
+      jTextField1.setText(file.getAbsolutePath());
+    }
+ catch (    Exception e) {
+    }
+  }
+}

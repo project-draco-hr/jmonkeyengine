@@ -1,0 +1,10 @@
+{
+  if (selected instanceof Geometry) {
+    Geometry geom=(Geometry)selected;
+    Mesh mesh=geom.getMesh();
+    if (mesh != null) {
+      TangentBinormalGenerator.generate(mesh);
+      createTrangentsUndo(mesh);
+    }
+  }
+}

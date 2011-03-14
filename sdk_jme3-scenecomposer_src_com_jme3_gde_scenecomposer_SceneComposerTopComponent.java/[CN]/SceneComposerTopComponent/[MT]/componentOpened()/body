@@ -1,0 +1,9 @@
+{
+  super.componentOpened();
+  Toolbar tb=ToolbarPool.getDefault().findToolbar("SceneComposer-Tools");
+  if (tb != null) {
+    if (!tb.isVisible()) {
+      tb.setVisible(true);
+    }
+  }
+}

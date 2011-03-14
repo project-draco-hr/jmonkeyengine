@@ -1,0 +1,21 @@
+{
+  CharacterControl control=selected.getControl(CharacterControl.class);
+  if (control != null) {
+    selected.removeControl(control);
+  }
+  Node parent=selected.getParent();
+  selected.removeFromParent();
+  if (!auto) {
+    control=new CharacterControl(new CapsuleCollisionShape(radius,height),0.03f);
+  }
+ else {
+    control=new CharacterControl(new CapsuleCollisionShape(radius,height),0.03f);
+  }
+  selected.addControl(control);
+  if (parent != null) {
+    parent.attachChild(selected);
+  }
+  refreshSelected();
+  AbstractSceneExplorerNode selectedSpat=this.selectedSpat;
+  addControlUndo(parent,control,selectedSpat);
+}

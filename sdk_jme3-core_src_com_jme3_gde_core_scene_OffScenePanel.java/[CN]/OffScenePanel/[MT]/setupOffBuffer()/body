@@ -1,0 +1,9 @@
+{
+  image=new BufferedImage(width,height,BufferedImage.TYPE_4BYTE_ABGR);
+  cpuBuf=BufferUtils.createByteBuffer(width * height * 4);
+  offBuffer=new FrameBuffer(width,height,0);
+  offBuffer.setDepthBuffer(Format.Depth);
+  offBuffer.setColorBuffer(Format.RGBA8);
+  viewPort.setOutputFrameBuffer(offBuffer);
+  camera.resize(width,height,false);
+}

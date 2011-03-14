@@ -1,0 +1,26 @@
+{
+  if (isModified() && savable != null) {
+    return savable;
+  }
+  ProjectAssetManager mgr=getLookup().lookup(ProjectAssetManager.class);
+  if (mgr == null) {
+    return null;
+  }
+  String assetKey=mgr.getRelativeAssetPath(getPrimaryFile().getPath());
+  FileLock lock=null;
+  try {
+    lock=getPrimaryFile().lock();
+    Savable spatial=(Savable)mgr.loadAsset(new AssetKey(assetKey));
+    savable=spatial;
+    lock.releaseLock();
+  }
+ catch (  Exception ex) {
+    Exceptions.printStackTrace(ex);
+  }
+ finally {
+    if (lock != null) {
+      lock.releaseLock();
+    }
+  }
+  return savable;
+}

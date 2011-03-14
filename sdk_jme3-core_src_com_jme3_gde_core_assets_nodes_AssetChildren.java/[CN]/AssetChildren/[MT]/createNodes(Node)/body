@@ -1,0 +1,9 @@
+{
+  List<Node> result=new ArrayList<Node>();
+  for (  Node node : super.createNodes(object)) {
+    if (accept(node)) {
+      result.add(node);
+    }
+  }
+  return result.toArray(new Node[0]);
+}

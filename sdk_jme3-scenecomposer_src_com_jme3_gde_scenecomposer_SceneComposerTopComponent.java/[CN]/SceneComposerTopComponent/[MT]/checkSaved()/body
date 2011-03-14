@@ -1,0 +1,17 @@
+{
+  if (editorController != null && editorController.isNeedSave()) {
+    Confirmation msg=new NotifyDescriptor.Confirmation("Your Scene is not saved, do you want to save?",NotifyDescriptor.YES_NO_OPTION,NotifyDescriptor.WARNING_MESSAGE);
+    Object result=DialogDisplayer.getDefault().notify(msg);
+    if (NotifyDescriptor.CANCEL_OPTION.equals(result)) {
+      return false;
+    }
+ else     if (NotifyDescriptor.YES_OPTION.equals(result)) {
+      editorController.saveScene();
+      return true;
+    }
+ else     if (NotifyDescriptor.NO_OPTION.equals(result)) {
+      return true;
+    }
+  }
+  return true;
+}

@@ -1,0 +1,32 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("VehicleControl");
+  set.setName(VehicleControl.class.getName());
+  VehicleControl obj=vehicle;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,Vector3f.class,"getPhysicsLocation","setPhysicsLocation","Physics Location"));
+  set.put(makeProperty(obj,Quaternion.class,"getPhysicsRotation","setPhysicsRotation","Physics Rotation"));
+  set.put(makeProperty(obj,CollisionShape.class,"getCollisionShape","setCollisionShape","Collision Shape"));
+  set.put(makeProperty(obj,int.class,"getCollisionGroup","setCollisionGroup","Collision Group"));
+  set.put(makeProperty(obj,int.class,"getCollideWithGroups","setCollideWithGroups","Collide With Groups"));
+  set.put(makeProperty(obj,float.class,"getFriction","setFriction","Friction"));
+  set.put(makeProperty(obj,float.class,"getMass","setMass","Mass"));
+  set.put(makeProperty(obj,boolean.class,"isKinematic","setKinematic","Kinematic"));
+  set.put(makeProperty(obj,Vector3f.class,"getGravity","setGravity","Gravity"));
+  set.put(makeProperty(obj,float.class,"getLinearDamping","setLinearDamping","Linear Damping"));
+  set.put(makeProperty(obj,float.class,"getAngularDamping","setAngularDamping","Angular Damping"));
+  set.put(makeProperty(obj,float.class,"getRestitution","setRestitution","Restitution"));
+  set.put(makeProperty(obj,float.class,"getLinearSleepingThreshold","setLinearSleepingThreshold","Linear Sleeping Threshold"));
+  set.put(makeProperty(obj,float.class,"getAngularSleepingThreshold","setAngularSleepingThreshold","Angular Sleeping Threshold"));
+  set.put(makeProperty(obj,float.class,"getFrictionSlip","setFrictionSlip","Friction Slip"));
+  set.put(makeProperty(obj,float.class,"getMaxSuspensionTravelCm","setMaxSuspensionTravelCm","Max Suspension Travel Cm"));
+  set.put(makeProperty(obj,float.class,"getMaxSuspensionForce","setMaxSuspensionForce","Max Suspension Force"));
+  set.put(makeProperty(obj,float.class,"getSuspensionCompression","setSuspensionCompression","Suspension Compression"));
+  set.put(makeProperty(obj,float.class,"getSuspensionDamping","setSuspensionDamping","Suspension Damping"));
+  set.put(makeProperty(obj,float.class,"getSuspensionStiffness","setSuspensionStiffness","Suspension Stiffness"));
+  sheet.put(set);
+  return sheet;
+}

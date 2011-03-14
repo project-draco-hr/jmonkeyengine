@@ -1,0 +1,45 @@
+{
+  try {
+    super.initialize();
+    getProgressHandle().progress("Setup Camera Controller",2);
+    camController=new SceneCameraController(cam,inputManager);
+    getProgressHandle().progress("Setup Preview Scene",3);
+    previewProcessor=new ScenePreviewProcessor();
+    previewProcessor.setupPreviewView();
+    renderer.applyRenderState(RenderState.DEFAULT);
+    getProgressHandle().progress("Prepare Camera",4);
+    camLight=new PointLight();
+    camLight.setColor(ColorRGBA.White);
+    getProgressHandle().progress("Prepare Stats View",5);
+    guiNode.setQueueBucket(Bucket.Gui);
+    guiNode.setCullHint(CullHint.Never);
+    loadFPSText();
+    loadStatsView();
+    getProgressHandle().progress("Attach Scene to Viewport",6);
+    viewPort.attachScene(rootNode);
+    viewPort.attachScene(toolsNode);
+    guiViewPort.attachScene(guiNode);
+    cam.setLocation(new Vector3f(0,0,10));
+    getProgressHandle().progress("Create",6);
+    wireProcessor=new WireProcessor(assetManager);
+    getProgressHandle().finish();
+    inputManager.addMapping("MouseAxisX",new MouseAxisTrigger(MouseInput.AXIS_X,false));
+    inputManager.addMapping("MouseAxisY",new MouseAxisTrigger(MouseInput.AXIS_Y,false));
+    inputManager.addMapping("MouseAxisX-",new MouseAxisTrigger(MouseInput.AXIS_X,true));
+    inputManager.addMapping("MouseAxisY-",new MouseAxisTrigger(MouseInput.AXIS_Y,true));
+    inputManager.addMapping("MouseWheel",new MouseAxisTrigger(MouseInput.AXIS_WHEEL,false));
+    inputManager.addMapping("MouseWheel-",new MouseAxisTrigger(MouseInput.AXIS_WHEEL,true));
+    inputManager.addMapping("MouseButtonLeft",new MouseButtonTrigger(0));
+    inputManager.addMapping("MouseButtonMiddle",new MouseButtonTrigger(2));
+    inputManager.addMapping("MouseButtonRight",new MouseButtonTrigger(1));
+    started=true;
+  }
+ catch (  Exception e) {
+    getProgressHandle().finish();
+    SceneViewerTopComponent.showOpenGLError(e.toString());
+  }
+catch (  Error e) {
+    getProgressHandle().finish();
+    SceneViewerTopComponent.showOpenGLError(e.toString());
+  }
+}

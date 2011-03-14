@@ -1,0 +1,17 @@
+{
+  Material mat=new Material(SceneApplication.getApplication().getAssetManager(),"Common/MatDefs/Misc/WireColor.j3md");
+  mat.setColor("Color",ColorRGBA.Blue);
+  BoundingVolume bound=geom.getWorldBound();
+  if (bound instanceof BoundingBox) {
+    BoundingBox bbox=(BoundingBox)bound;
+    Vector3f extent=new Vector3f();
+    bbox.getExtent(extent);
+    WireBox wireBox=new WireBox();
+    wireBox.fromBoundingBox(bbox);
+    Geometry selectionGeometry=new Geometry("selection_geometry_sceneviewer",wireBox);
+    selectionGeometry.setMaterial(mat);
+    selectionGeometry.setLocalTransform(geom.getWorldTransform());
+    toolsNode.attachChild(selectionGeometry);
+    selectionShape=selectionGeometry;
+  }
+}

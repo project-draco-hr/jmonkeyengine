@@ -1,0 +1,24 @@
+{
+  progressHandle.start(7);
+  try {
+    AppSettings newSetting=new AppSettings(true);
+    newSetting.setFrameRate(30);
+    setSettings(newSetting);
+    Logger.getLogger("com.jme3").addHandler(logHandler);
+    setPauseOnLostFocus(false);
+    nodeSelectionResult=Utilities.actionsGlobalContext().lookupResult(JmeSpatial.class);
+    nodeSelectionResult.addLookupListener(this);
+    createCanvas();
+    getContext().setAutoFlushFrames(true);
+    getContext().setSystemListener(this);
+    progressHandle.progress("initialize Base Application",1);
+  }
+ catch (  Exception e) {
+    getProgressHandle().finish();
+    SceneViewerTopComponent.showOpenGLError(e.toString());
+  }
+catch (  Error e) {
+    getProgressHandle().finish();
+    SceneViewerTopComponent.showOpenGLError(e.toString());
+  }
+}

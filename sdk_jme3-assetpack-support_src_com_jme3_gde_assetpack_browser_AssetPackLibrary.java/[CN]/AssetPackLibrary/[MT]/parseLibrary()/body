@@ -1,0 +1,55 @@
+{
+  initLibrary();
+  categories.clear();
+  FileObject[] object=library.getChildren();
+  List<Element> assetElements=new LinkedList<Element>();
+  for (int i=0; i < object.length; i++) {
+    FileObject fileObject=object[i];
+    if (fileObject.isFolder()) {
+      FileObject config=fileObject.getFileObject("assetpack.xml");
+      if (config != null) {
+        InputStream in;
+        try {
+          in=config.getInputStream();
+          Document doc=XMLUtil.parse(new InputSource(in),false,false,null,null);
+          in.close();
+          Element assets=XmlHelper.findChildElement(doc.getDocumentElement(),"assets");
+          if (assets != null) {
+            assetElements.add(assets);
+          }
+        }
+ catch (        Exception ex) {
+          Exceptions.printStackTrace(ex);
+        }
+        if (projectAssetManager == null) {
+          projectAssetManager=new ProjectAssetManager(this,fileObject.getNameExt() + "/assets/");
+          content.add(projectAssetManager);
+        }
+ else {
+          projectAssetManager.addFileLocator(fileObject.getNameExt() + "/assets/");
+        }
+      }
+ else {
+        Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,"Error in assetpack, could not load assetpack.xml!");
+      }
+    }
+  }
+  this.assetElements=new Element[assetElements.size()];
+  for (int i=0; i < assetElements.size(); i++) {
+    Element element=assetElements.get(i);
+    this.assetElements[i]=element;
+    Element child=XmlHelper.findChildElement(element,"asset");
+    while (child != null) {
+      String cats=child.getAttribute("categories");
+      String[] categs=cats.split(",");
+      for (int j=0; j < categs.length; j++) {
+        String string=categs[j];
+        string=string.trim();
+        if (!categories.contains(string)) {
+          categories.add(string);
+        }
+      }
+      child=XmlHelper.findNextElement(child,"asset");
+    }
+  }
+}

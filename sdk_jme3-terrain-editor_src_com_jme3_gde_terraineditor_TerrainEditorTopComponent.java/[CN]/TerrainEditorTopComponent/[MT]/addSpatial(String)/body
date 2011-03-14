@@ -1,0 +1,20 @@
+{
+  if (selectedSpat == null) {
+    Confirmation msg=new NotifyDescriptor.Confirmation("You must select a Node to add the " + name + " to in the Scene Explorer window",NotifyDescriptor.OK_CANCEL_OPTION,NotifyDescriptor.ERROR_MESSAGE);
+    DialogDisplayer.getDefault().notify(msg);
+    return;
+  }
+  final Spatial node=selectedSpat.getLookup().lookup(Spatial.class);
+  if (node != null) {
+    if ("Terrain".equals(name)) {
+      if (terrainWizard == null)       terrainWizard=new CreateTerrainWizardAction(this);
+      terrainWizard.performAction();
+    }
+ else     if ("Skybox".equals(name)) {
+      if (skyboxWizard == null)       skyboxWizard=new SkyboxWizardAction(this);
+      skyboxWizard.performAction();
+    }
+ else     if ("Ocean".equals(name)) {
+    }
+  }
+}

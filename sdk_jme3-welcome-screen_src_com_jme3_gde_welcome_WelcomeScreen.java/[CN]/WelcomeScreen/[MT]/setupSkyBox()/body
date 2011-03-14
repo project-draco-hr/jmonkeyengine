@@ -1,0 +1,15 @@
+{
+  Mesh sphere=new Sphere(32,32,10f);
+  sphere.setStatic();
+  skyBox=new Geometry("SkyBox",sphere);
+  skyBox.setQueueBucket(Bucket.Sky);
+  skyBox.setShadowMode(ShadowMode.Off);
+  Image cube=SceneApplication.getApplication().getAssetManager().loadTexture("Textures/blue-glow-1024.dds").getImage();
+  TextureCubeMap cubemap=new TextureCubeMap(cube);
+  Material mat=new Material(SceneApplication.getApplication().getAssetManager(),"Common/MatDefs/Misc/Sky.j3md");
+  mat.setBoolean("SphereMap",false);
+  mat.setTexture("Texture",cubemap);
+  mat.setVector3("NormalScale",new Vector3f(1,1,1));
+  skyBox.setMaterial(mat);
+  ((Node)SceneApplication.getApplication().getViewPort().getScenes().get(0)).attachChild(skyBox);
+}

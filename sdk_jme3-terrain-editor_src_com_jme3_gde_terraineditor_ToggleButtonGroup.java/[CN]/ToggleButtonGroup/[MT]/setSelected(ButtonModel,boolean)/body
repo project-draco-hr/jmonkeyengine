@@ -1,0 +1,14 @@
+{
+  if (!b && m == modifiedSelection) {
+    modifiedSelection=null;
+    return;
+  }
+  if (b && m != null && m != modifiedSelection) {
+    ButtonModel oldSelection=modifiedSelection;
+    modifiedSelection=m;
+    if (oldSelection != null) {
+      oldSelection.setSelected(false);
+    }
+    m.setSelected(true);
+  }
+}

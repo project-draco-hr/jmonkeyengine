@@ -1,0 +1,7 @@
+{
+  super(new ProjectChildren(project),new ProjectLookup(new InstanceContent()));
+  this.project=project;
+  instanceContent=((ProjectLookup)getLookup()).getInstanceContent();
+  instanceContent.add(project);
+  instanceContent.add(project.getProjectAssetManager());
+}

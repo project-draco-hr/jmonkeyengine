@@ -1,0 +1,11 @@
+{
+  ProjectAssetManager currentProjectAssetManager=null;
+  if (manager instanceof ProjectAssetManager) {
+    currentProjectAssetManager=(ProjectAssetManager)manager;
+  }
+  if (currentProjectAssetManager == null) {
+    currentProjectAssetManager=(ProjectAssetManager)SceneApplication.getApplication().getAssetManager();
+  }
+  TextureBrowser textureBrowser=new TextureBrowser(null,true,currentProjectAssetManager,this);
+  return textureBrowser;
+}

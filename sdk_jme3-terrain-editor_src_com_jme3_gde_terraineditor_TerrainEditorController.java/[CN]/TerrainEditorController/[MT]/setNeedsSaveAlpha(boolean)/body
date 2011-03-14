@@ -1,0 +1,8 @@
+{
+  if (alphaDataObject == null)   doCreateAlphaSaveDataObject();
+  Terrain terrain=(Terrain)getTerrain(null);
+  AlphaTextureSaveCookie cookie=new AlphaTextureSaveCookie(terrain);
+  if (!alphaDataObject.getDataObject().isModified()) {
+    alphaDataObject.setSaveCookie(cookie);
+  }
+}

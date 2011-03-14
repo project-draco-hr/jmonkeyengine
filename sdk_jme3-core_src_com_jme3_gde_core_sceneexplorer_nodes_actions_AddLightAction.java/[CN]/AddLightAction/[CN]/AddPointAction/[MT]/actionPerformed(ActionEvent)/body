@@ -1,0 +1,12 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable<Void>(){
+    public Void call() throws Exception {
+      PointLight light=new PointLight();
+      light.setColor(ColorRGBA.White);
+      addLightUndo(node,light);
+      setModified();
+      return null;
+    }
+  }
+);
+}

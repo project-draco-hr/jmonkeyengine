@@ -1,0 +1,50 @@
+{
+  FileChooserBuilder builder=new FileChooserBuilder(ImageEditorComponent.class);
+  builder.addFileFilter(FileFilters.JPG);
+  builder.addFileFilter(FileFilters.TGA);
+  builder.addFileFilter(FileFilters.PNG);
+  JFileChooser fc=builder.createFileChooser();
+  fc.setFileSelectionMode(fc.SAVE_DIALOG);
+  fc.setAcceptAllFileFilterUsed(false);
+  int a=fc.showOpenDialog(COMPONENT);
+  if (a == JFileChooser.APPROVE_OPTION) {
+    File file=fc.getSelectedFile();
+    String name=file.getName().toLowerCase();
+    String type;
+    if (name.endsWith(".png")) {
+      type="png";
+    }
+ else     if (name.endsWith(".jpg") || name.endsWith(".jpeg")) {
+      type="jpg";
+    }
+ else     if (name.endsWith(".bmp")) {
+      type="bmp";
+    }
+ else     if (name.endsWith(".tga")) {
+      type="tga";
+    }
+ else {
+      ExtensionFileFilter filter=(ExtensionFileFilter)fc.getFileFilter();
+      file=new File(file.getParentFile(),file.getName() + filter.getExtension());
+      type=filter.getExtension().substring(1);
+    }
+    if (file.exists()) {
+      a=JOptionPane.showConfirmDialog(COMPONENT,"Overwrite existing file?","Confirm",JOptionPane.YES_NO_OPTION);
+      if (a != JOptionPane.YES_OPTION) {
+        return;
+      }
+    }
+    try {
+      IOModule.create().store(editedImage,type,file);
+      Message msg=new NotifyDescriptor.Message("Image saved.");
+      DialogDisplayer.getDefault().notify(msg);
+      editedFile=FileUtil.toFileObject(file);
+      newFile=false;
+      owner.setName("PixelHead - " + editedFile.getName());
+      disableSaving();
+    }
+ catch (    Exception ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+}

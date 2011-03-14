@@ -1,0 +1,6 @@
+{
+  Quaternion before=new Quaternion(selected.getLocalRotation());
+  selected.rotate(rotation);
+  Quaternion after=new Quaternion(selected.getLocalRotation());
+  rotateUndo(selected,before,after,selectedSpat);
+}

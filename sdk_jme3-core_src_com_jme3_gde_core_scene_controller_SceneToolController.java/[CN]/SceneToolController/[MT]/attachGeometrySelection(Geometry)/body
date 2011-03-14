@@ -1,0 +1,13 @@
+{
+  Mesh mesh=geom.getMesh();
+  if (mesh == null) {
+    return;
+  }
+  Material mat=new Material(SceneApplication.getApplication().getAssetManager(),"Common/MatDefs/Misc/WireColor.j3md");
+  mat.setColor("Color",ColorRGBA.Blue);
+  Geometry selectionGeometry=new Geometry("selection_geometry_sceneviewer",mesh);
+  selectionGeometry.setMaterial(mat);
+  selectionGeometry.setLocalTransform(geom.getWorldTransform());
+  toolsNode.attachChild(selectionGeometry);
+  selectionShape=selectionGeometry;
+}

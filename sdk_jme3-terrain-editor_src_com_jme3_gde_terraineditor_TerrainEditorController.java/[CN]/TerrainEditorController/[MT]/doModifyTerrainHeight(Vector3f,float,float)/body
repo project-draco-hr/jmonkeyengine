@@ -1,0 +1,20 @@
+{
+  Terrain terrain=(Terrain)getTerrain(null);
+  if (terrain == null)   return;
+  setNeedsSave(true);
+  int radiusStepsX=(int)(radius / ((Node)terrain).getLocalScale().x);
+  int radiusStepsZ=(int)(radius / ((Node)terrain).getLocalScale().z);
+  float xStepAmount=((Node)terrain).getLocalScale().x;
+  float zStepAmount=((Node)terrain).getLocalScale().z;
+  for (int z=-radiusStepsZ; z < radiusStepsZ; z++) {
+    for (int x=-radiusStepsZ; x < radiusStepsX; x++) {
+      float locX=worldLoc.x + (x * xStepAmount);
+      float locZ=worldLoc.z + (z * zStepAmount);
+      if (isInRadius(locX - worldLoc.x,locZ - worldLoc.z,radius)) {
+        float h=calculateHeight(radius,heightFactor,locX - worldLoc.x,locZ - worldLoc.z);
+        terrain.adjustHeight(new Vector2f(locX,locZ),h);
+      }
+    }
+  }
+  ((Node)terrain).updateModelBound();
+}

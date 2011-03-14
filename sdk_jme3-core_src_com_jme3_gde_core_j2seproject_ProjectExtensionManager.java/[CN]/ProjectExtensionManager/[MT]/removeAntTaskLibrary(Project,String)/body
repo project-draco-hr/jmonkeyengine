@@ -1,0 +1,16 @@
+{
+  if (name == null) {
+    return;
+  }
+  try {
+    AntBuildExtender extender=proj.getLookup().lookup(AntBuildExtender.class);
+    if (extender != null) {
+      LibraryManager.getDefault();
+      extender.removeLibrary(LibraryManager.getDefault().getLibrary(name));
+      ProjectManager.getDefault().saveProject(proj);
+    }
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

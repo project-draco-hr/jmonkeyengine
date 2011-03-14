@@ -1,0 +1,14 @@
+{
+  if (editorController != null) {
+    if (jCheckBox1.isSelected()) {
+      try {
+        editorController.createDynamicPhysicsMeshForSelectedSpatial(Float.parseFloat(jTextField1.getText()));
+      }
+ catch (      Exception e) {
+      }
+    }
+ else {
+      editorController.createPhysicsMeshForSelectedSpatial();
+    }
+  }
+}

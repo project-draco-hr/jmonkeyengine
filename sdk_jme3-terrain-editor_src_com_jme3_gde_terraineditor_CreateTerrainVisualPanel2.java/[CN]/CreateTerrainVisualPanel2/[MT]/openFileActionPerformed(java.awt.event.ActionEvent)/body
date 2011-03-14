@@ -1,0 +1,10 @@
+{
+  int returnVal=imageFileChooser.showOpenDialog(this);
+  if (returnVal == imageFileChooser.APPROVE_OPTION) {
+    File file=imageFileChooser.getSelectedFile();
+    _imageBrowseTextField.setText(file.getAbsolutePath());
+  }
+ else {
+    System.out.println("File access cancelled by user.");
+  }
+}

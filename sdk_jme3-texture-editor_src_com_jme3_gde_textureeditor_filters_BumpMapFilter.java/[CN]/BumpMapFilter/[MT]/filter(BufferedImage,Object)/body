@@ -1,0 +1,13 @@
+{
+  float a=(Float)args[0];
+  BufferedImage heightMap=new BufferedImage(sourceImage.getWidth(),sourceImage.getHeight(),BufferedImage.TYPE_INT_ARGB);
+  BufferedImage bumpMap=new BufferedImage(sourceImage.getWidth(),sourceImage.getHeight(),BufferedImage.TYPE_INT_ARGB);
+  ColorConvertOp gscale=new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY),null);
+  gscale.filter(sourceImage,heightMap);
+  for (int x=0; x < bumpMap.getWidth(); x++) {
+    for (int y=0; y < bumpMap.getHeight(); y++) {
+      bumpMap.setRGB(x,y,generateBumpPixel(heightMap,x,y,a));
+    }
+  }
+  return bumpMap;
+}

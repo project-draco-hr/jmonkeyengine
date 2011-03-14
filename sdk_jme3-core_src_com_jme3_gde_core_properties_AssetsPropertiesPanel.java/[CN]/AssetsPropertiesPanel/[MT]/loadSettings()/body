@@ -1,0 +1,16 @@
+{
+  EditableProperties properties=AssetsLookupProvider.getProperties(project);
+  if (properties == null) {
+    Logger.getLogger(AssetsPropertiesPanel.class.getName()).log(Level.WARNING,"Could not obtain properties!");
+    return;
+  }
+  jTextField1.setText(properties.getProperty("assets.jar.name"));
+  jTextField2.setText(properties.getProperty("assets.excludes"));
+  jTextField3.setText(properties.getProperty("assets.folder.name"));
+  if ("true".equals(properties.getProperty("assets.compress"))) {
+    jCheckBox1.setSelected(true);
+  }
+ else {
+    jCheckBox1.setSelected(false);
+  }
+}

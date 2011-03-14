@@ -1,0 +1,12 @@
+{
+  for (Iterator<MouseInputEvent> it=mouseEvents.iterator(); it.hasNext(); ) {
+    MouseInputEvent mouseInputEvent=it.next();
+    nic.processMouseEvent(mouseInputEvent);
+    it.remove();
+  }
+  for (Iterator<KeyboardInputEvent> it=keyEvents.iterator(); it.hasNext(); ) {
+    KeyboardInputEvent keyInputEvent=it.next();
+    nic.processKeyboardEvent(keyInputEvent);
+    it.remove();
+  }
+}

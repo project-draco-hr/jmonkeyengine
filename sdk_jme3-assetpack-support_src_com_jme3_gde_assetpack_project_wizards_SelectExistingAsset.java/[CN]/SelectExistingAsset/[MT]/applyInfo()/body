@@ -1,0 +1,15 @@
+{
+  Node[] nodes=explorerManager.getSelectedNodes();
+  for (int i=0; i < nodes.length; i++) {
+    Node node=nodes[i];
+    String path=node.getLookup().lookup(DataObject.class).getPrimaryFile().getPath();
+    FileObject file1=FileUtil.toFileObject(new File(path));
+    FileDescription description=AssetPackLoader.getFileDescription(file1);
+    description.setExisting(true);
+    String pathName=project.getProjectAssetManager().getRelativeAssetPath(path);
+    pathName=pathName.replaceAll("\\\\","/");
+    pathName=pathName.substring(0,pathName.lastIndexOf("/") + 1);
+    description.setPath(pathName);
+    list.add(description);
+  }
+}

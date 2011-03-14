@@ -1,0 +1,12 @@
+{
+  initComponents();
+  this.lib=lib;
+  jEditorPane1.addHyperlinkListener(this);
+  try {
+    URL url=new URL("http://jmonkeyengine.org/assetpacks/list.php");
+    jEditorPane1.setPage(url);
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

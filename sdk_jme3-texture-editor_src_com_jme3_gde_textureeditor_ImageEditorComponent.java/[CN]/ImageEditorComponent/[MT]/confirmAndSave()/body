@@ -1,0 +1,14 @@
+{
+  Confirmation msg=new NotifyDescriptor.Confirmation("Confirm overwriting?",NotifyDescriptor.OK_CANCEL_OPTION,NotifyDescriptor.QUESTION_MESSAGE);
+  Object result=DialogDisplayer.getDefault().notify(msg);
+  if (NotifyDescriptor.YES_OPTION.equals(result)) {
+    String name=editedFile.getExt();
+    try {
+      IOModule.create().store(editedImage,name,new File(editedFile.getURL().toURI()));
+      disableSaving();
+    }
+ catch (    Exception ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+}

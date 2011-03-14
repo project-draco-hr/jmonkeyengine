@@ -1,0 +1,14 @@
+{
+  if (request.equals(currentRequest)) {
+    SceneApplication.getApplication().removeSceneListener(this);
+    currentRequest=null;
+    setSceneInfo(null,null,false);
+    java.awt.EventQueue.invokeLater(new Runnable(){
+      public void run(){
+        cleanupControllers();
+      }
+    }
+);
+  }
+  return true;
+}

@@ -1,0 +1,58 @@
+{
+  final File icon;
+  final File executable;
+  if (SystemUtils.isWindows()) {
+    icon=new File(location,ICON_WINDOWS);
+  }
+ else   if (SystemUtils.isMacOS()) {
+    icon=new File(location,ICON_MACOSX);
+  }
+ else {
+    icon=new File(location,ICON_UNIX);
+    LogManager.log("... icon file: " + icon);
+    if (!FileUtils.exists(icon)) {
+      LogManager.log("... icon file does not exist: " + icon);
+      InputStream is=null;
+      is=ResourceUtils.getResource(ICON_UNIX_RESOURCE,this.getClass().getClassLoader());
+      if (is != null) {
+        FileOutputStream fos=null;
+        try {
+          fos=new FileOutputStream(icon);
+          StreamUtils.transferData(is,fos);
+          is.close();
+          fos.close();
+          getProduct().getInstalledFiles().add(icon);
+        }
+ catch (        IOException e) {
+          LogManager.log(e);
+        }
+ finally {
+          if (fos != null) {
+            try {
+              fos.close();
+            }
+ catch (            IOException e) {
+            }
+          }
+        }
+      }
+    }
+  }
+  if (SystemUtils.isWindows()) {
+    executable=new File(location,EXECUTABLE_WINDOWS);
+  }
+ else {
+    executable=new File(location,EXECUTABLE_UNIX);
+  }
+  final String name=names.get(new Locale(StringUtils.EMPTY_STRING));
+  final FileShortcut shortcut=new FileShortcut(name,executable);
+  shortcut.setNames(names);
+  shortcut.setDescriptions(descriptions);
+  shortcut.setCategories(SHORTCUT_CATEGORIES);
+  shortcut.setFileName(SHORTCUT_FILENAME);
+  shortcut.setIcon(icon);
+  shortcut.setRelativePath(relativePath);
+  shortcut.setWorkingDirectory(location);
+  shortcut.setModifyPath(true);
+  return shortcut;
+}

@@ -1,0 +1,24 @@
+{
+  if (selectedSpat == null) {
+    return;
+  }
+  try {
+    final Spatial node=selectedSpat.getLookup().lookup(Spatial.class);
+    Logger.getLogger(VehicleEditorController.class.getName()).log(Level.INFO,"Creating hull shape");
+    final VehicleControl control=vehicleControl;
+    SceneApplication.getApplication().enqueue(new Callable(){
+      public Object call() throws Exception {
+        doCreateHullShapeFromSelected(control,node);
+        return null;
+      }
+    }
+).get();
+    currentFileObject.setModified(true);
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

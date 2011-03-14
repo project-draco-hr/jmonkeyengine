@@ -1,0 +1,21 @@
+{
+  if (Utilities.isWindows()) {
+    File file=new File(windows_path + "OgreXMLConverter.exe");
+    if (!file.exists()) {
+      return extractToolsWindows();
+    }
+  }
+ else   if (Utilities.isMac()) {
+    File file=new File(osx_path + "bin/OgreXMLConverter");
+    if (!file.exists()) {
+      return extractToolsOSX();
+    }
+  }
+ else {
+    File file=new File(linux_path + "OgreXMLConverter");
+    if (!file.exists()) {
+      return extractToolsLinux();
+    }
+  }
+  return true;
+}

@@ -1,0 +1,7 @@
+{
+  Terrain terrain=(Terrain)getTerrain(null);
+  if (terrain == null)   return 1f;
+  MatParam matParam=null;
+  matParam=terrain.getMaterial().getParam("DiffuseMap_" + layer + "_scale");
+  return (Float)matParam.getValue();
+}

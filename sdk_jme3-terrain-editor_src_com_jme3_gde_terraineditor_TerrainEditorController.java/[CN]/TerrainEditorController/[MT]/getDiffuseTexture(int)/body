@@ -1,0 +1,18 @@
+{
+  try {
+    Texture tex=SceneApplication.getApplication().enqueue(new Callable<Texture>(){
+      public Texture call() throws Exception {
+        return doGetDiffuseTexture(layer);
+      }
+    }
+).get();
+    return tex;
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return null;
+}

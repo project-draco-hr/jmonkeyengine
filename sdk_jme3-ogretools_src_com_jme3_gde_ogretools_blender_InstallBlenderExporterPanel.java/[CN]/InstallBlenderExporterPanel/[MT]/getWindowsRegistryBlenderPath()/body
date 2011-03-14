@@ -1,0 +1,40 @@
+{
+  final int HKEY_CURRENT_USER=0x80000001;
+  final int KEY_QUERY_VALUE=1;
+  final int KEY_SET_VALUE=2;
+  final int KEY_READ=0x20019;
+  String value=null;
+  final Preferences userRoot=Preferences.userRoot();
+  final Class clz=userRoot.getClass();
+  try {
+    Class[] parms1={byte[].class,int.class,int.class};
+    final Method mOpenKey=clz.getDeclaredMethod("openKey",parms1);
+    mOpenKey.setAccessible(true);
+    Class[] parms2={int.class};
+    final Method mCloseKey=clz.getDeclaredMethod("closeKey",parms2);
+    mCloseKey.setAccessible(true);
+    Class[] parms3={int.class,byte[].class};
+    final Method mWinRegQueryValue=clz.getDeclaredMethod("WindowsRegQueryValueEx",parms3);
+    mWinRegQueryValue.setAccessible(true);
+    Class[] parms4={int.class,int.class,int.class};
+    final Method mWinRegEnumValue=clz.getDeclaredMethod("WindowsRegEnumValue1",parms4);
+    mWinRegEnumValue.setAccessible(true);
+    Class[] parms5={int.class};
+    final Method mWinRegQueryInfo=clz.getDeclaredMethod("WindowsRegQueryInfoKey1",parms5);
+    mWinRegQueryInfo.setAccessible(true);
+    final String subKey="Volatile Environment";
+    Object[] objects1={toByteArray(subKey),new Integer(KEY_READ),new Integer(KEY_READ)};
+    Integer hSettings=(Integer)mOpenKey.invoke(userRoot,objects1);
+    Object[] objects2={hSettings,toByteArray("NWUSERNAME")};
+    byte[] b=(byte[])mWinRegQueryValue.invoke(userRoot,objects2);
+    value=(b != null ? new String(b).trim() : null);
+    System.out.println(value);
+    Object[] objects3={hSettings};
+    mCloseKey.invoke(Preferences.userRoot(),objects3);
+  }
+ catch (  Exception e) {
+    System.out.println("Error getting value Windows registry: ");
+    e.printStackTrace();
+  }
+  return value;
+}

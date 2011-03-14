@@ -1,0 +1,10 @@
+{
+  ByteArrayOutputStream out=new ByteArrayOutputStream();
+  try {
+    BinaryExporter.getInstance().save(spat,out);
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  data=out.toByteArray();
+}

@@ -1,0 +1,18 @@
+{
+  if (emitter == null) {
+    return "null";
+  }
+  if (emitter instanceof EmitterBoxShape) {
+    EmitterBoxShape shape=(EmitterBoxShape)emitter;
+    return "[Box, " + shape.getMin().x + ", "+ shape.getMin().y+ ", "+ shape.getMin().z+ ", "+ shape.getMin().x+ shape.getLen().x+ ", "+ shape.getMin().x+ shape.getLen().y+ ", "+ shape.getMin().x+ shape.getLen().z+ "]";
+  }
+ else   if (emitter instanceof EmitterPointShape) {
+    EmitterPointShape shape=(EmitterPointShape)emitter;
+    return "[Point, " + shape.getPoint().x + ", "+ shape.getPoint().y+ ", "+ shape.getPoint().z+ "]";
+  }
+ else   if (emitter instanceof EmitterSphereShape) {
+    EmitterSphereShape shape=(EmitterSphereShape)emitter;
+    return "[Sphere, " + shape.getCenter().x + ", "+ shape.getCenter().y+ ", "+ shape.getCenter().z+ ", "+ shape.getRadius()+ "]";
+  }
+  return emitter.toString();
+}

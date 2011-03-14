@@ -1,0 +1,23 @@
+{
+  FileObject file=getPrimaryFile();
+  ProjectManager pm=ProjectManager.getDefault();
+  while (file != null) {
+    if (file.isFolder() && pm.isProject(file)) {
+      try {
+        Project project=ProjectManager.getDefault().findProject(file);
+        if (project != null) {
+          ProjectAssetManager mgr=project.getLookup().lookup(ProjectAssetManager.class);
+          if (mgr != null) {
+            getLookupContents().add(mgr);
+            return;
+          }
+        }
+      }
+ catch (      IOException ex) {
+      }
+catch (      IllegalArgumentException ex) {
+      }
+    }
+    file=file.getParent();
+  }
+}

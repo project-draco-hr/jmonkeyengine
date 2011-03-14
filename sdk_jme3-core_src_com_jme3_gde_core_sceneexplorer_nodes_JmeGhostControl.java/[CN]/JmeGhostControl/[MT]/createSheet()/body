@@ -1,0 +1,17 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("GhostControl");
+  set.setName(GhostControl.class.getName());
+  GhostControl obj=geom;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,Vector3f.class,"getPhysicsLocation","setPhysicsLocation","Physics Location"));
+  set.put(makeProperty(obj,Quaternion.class,"getPhysicsRotation","setPhysicsRotation","Physics Rotation"));
+  set.put(makeProperty(obj,CollisionShape.class,"getCollisionShape","setCollisionShape","Collision Shape"));
+  set.put(makeProperty(obj,int.class,"getCollisionGroup","setCollisionGroup","Collision Group"));
+  set.put(makeProperty(obj,int.class,"getCollideWithGroups","setCollideWithGroups","Collide With Groups"));
+  sheet.put(set);
+  return sheet;
+}

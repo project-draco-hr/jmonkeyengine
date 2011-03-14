@@ -1,0 +1,15 @@
+{
+  JToolBar bottomBar=new JToolBar();
+  bottomBar.setFloatable(false);
+  bottomBar.add(COLOR_CONTROLLER.getComponent());
+  createToolBar();
+  createMenuBar();
+  imageContainer=new JPanel(new GridBagLayout());
+  GridBagConstraints lim=new GridBagConstraints();
+  lim.gridx=lim.gridy=0;
+  imageContainer.add(imageScreen,lim);
+  scroller=new JScrollPane(imageContainer);
+  COMPONENT.add(scroller);
+  COMPONENT.add(topContainer,BorderLayout.NORTH);
+  COMPONENT.add(bottomBar,BorderLayout.SOUTH);
+}

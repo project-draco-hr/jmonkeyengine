@@ -1,0 +1,10 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      SceneApplication.getApplication().getRenderManager().removePreView(viewPort);
+      return null;
+    }
+  }
+);
+  Logger.getLogger(OffScenePanel.class.getName()).log(Level.INFO,"Component hidden");
+}

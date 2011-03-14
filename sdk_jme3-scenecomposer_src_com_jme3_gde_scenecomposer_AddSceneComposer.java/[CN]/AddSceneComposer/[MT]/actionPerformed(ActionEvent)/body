@@ -1,0 +1,9 @@
+{
+  for (Iterator<SpatialAssetDataObject> it=context.iterator(); it.hasNext(); ) {
+    SpatialAssetDataObject spatialAssetDataObject=it.next();
+    ProjectAssetManager manager=spatialAssetDataObject.getLookup().lookup(ProjectAssetManager.class);
+    if (manager == null)     return;
+    SceneComposerTopComponent composer=SceneComposerTopComponent.findInstance();
+    composer.addModel(spatialAssetDataObject);
+  }
+}

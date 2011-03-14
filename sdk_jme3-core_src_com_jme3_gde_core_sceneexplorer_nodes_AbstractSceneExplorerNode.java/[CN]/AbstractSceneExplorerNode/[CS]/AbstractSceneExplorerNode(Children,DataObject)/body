@@ -1,0 +1,5 @@
+{
+  super(children,new ProxyLookup(dataObject.getLookup(),new SceneExplorerLookup(new InstanceContent())));
+  this.dataObject=dataObject;
+  lookupContents=getLookup().lookup(SceneExplorerLookup.class).getInstanceContent();
+}

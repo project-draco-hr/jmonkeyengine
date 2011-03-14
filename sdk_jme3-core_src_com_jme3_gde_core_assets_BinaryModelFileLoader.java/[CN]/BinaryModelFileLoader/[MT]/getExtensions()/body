@@ -1,0 +1,11 @@
+{
+  ExtensionList extensions=(ExtensionList)getProperty(PROP_EXTENSIONS);
+  if (extensions == null) {
+    extensions=new ExtensionList();
+    extensions.addExtension(FILE_EXTENSION);
+    extensions.addExtension(INFO_EXTENSION);
+    extensions.addMimeType(MIME_TYPE);
+    putProperty(PROP_EXTENSIONS,extensions,false);
+  }
+  return extensions;
+}

@@ -1,0 +1,8 @@
+{
+  super(factory);
+  this.jmeChildren=factory;
+  this.spatial=spatial;
+  getLookupContents().add(spatial);
+  getLookupContents().add(this);
+  super.setName(spatial.getName());
+}

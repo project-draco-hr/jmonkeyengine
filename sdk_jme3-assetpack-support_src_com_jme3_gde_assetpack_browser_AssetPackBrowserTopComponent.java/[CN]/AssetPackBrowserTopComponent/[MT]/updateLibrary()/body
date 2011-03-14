@@ -1,0 +1,10 @@
+{
+  rootNode=lib.getRootNode();
+  getExplorerManager().setRootContext(rootNode);
+  jComboBox1.removeAllItems();
+  jComboBox1.addItem("All Categories");
+  List<String> cats=lib.getCategories();
+  for (Iterator<String> it=cats.iterator(); it.hasNext(); ) {
+    jComboBox1.addItem(it.next());
+  }
+}

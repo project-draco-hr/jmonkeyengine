@@ -1,0 +1,8 @@
+{
+  if (request == currentRequest) {
+    editorController.prepareApplication();
+    SceneApplication.getApplication().getStateManager().attach(editorController.getBulletState());
+    setLoadedScene(currentRequest.getJmeNode(),true);
+    currentRequest.getRootNode().getParent().addLight(dirLight);
+  }
+}

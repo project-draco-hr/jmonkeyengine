@@ -1,0 +1,9 @@
+{
+  Component view=editorSouth.getCustomEditor();
+  view.setVisible(true);
+  if (editorSouth.getValue() != null) {
+    Texture tex=(Texture)editorSouth.getValue();
+    Icon newicon=ImageUtilities.image2Icon(ImageToAwt.convert(tex.getImage(),false,true,0));
+    southPic.setIcon(newicon);
+  }
+}

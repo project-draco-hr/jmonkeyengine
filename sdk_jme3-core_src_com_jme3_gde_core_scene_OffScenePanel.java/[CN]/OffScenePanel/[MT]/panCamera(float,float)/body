@@ -1,0 +1,13 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      camera.getLeft().mult(left,vector);
+      vector.scaleAdd(up,camera.getUp(),vector);
+      vector.multLocal(camera.getLocation().distance(focus));
+      camera.setLocation(camera.getLocation().add(vector));
+      focus.addLocal(vector);
+      return null;
+    }
+  }
+);
+}

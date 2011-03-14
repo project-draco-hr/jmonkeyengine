@@ -1,0 +1,6 @@
+{
+  FileObject projectRoot=project.getProjectDirectory();
+  if (projectRoot.getFileObject(CONFIG_NAME) == null) {
+    throw new IOException("Project Settings " + projectRoot.getPath() + " deleted,"+ " cannot save project");
+  }
+}

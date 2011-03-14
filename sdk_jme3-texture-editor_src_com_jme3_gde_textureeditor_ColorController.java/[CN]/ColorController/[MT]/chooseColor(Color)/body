@@ -1,0 +1,14 @@
+{
+  Color initial=source;
+  String title=source == foreground ? "Foreground Color" : "Background Color";
+  Frame parent=JOptionPane.getFrameForComponent(COMPONENT);
+  Color choice=JColorChooser.showDialog(parent,title,initial);
+  if (choice != null) {
+    if (source == foreground) {
+      setForeground(choice);
+    }
+ else {
+      setBackground(choice);
+    }
+  }
+}

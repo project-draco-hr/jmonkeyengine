@@ -1,0 +1,10 @@
+{
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      if (getSelectedSpat() != null) {
+        ((JmeSpatial)getSelectedSpat().getParentNode()).refresh(false);
+      }
+    }
+  }
+);
+}

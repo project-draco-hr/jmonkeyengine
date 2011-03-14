@@ -1,0 +1,37 @@
+{
+  enqueue(new Callable(){
+    public Object call() throws Exception {
+      if (!closeCurrentScene()) {
+        return null;
+      }
+      if (request.getManager() != null) {
+        assetManager=request.getManager().getManager();
+      }
+      if (request.getRequester() instanceof SceneApplication) {
+        camController.enable();
+      }
+ else {
+        camController.disable();
+      }
+      currentSceneRequest=request;
+      if (request.getDataObject() != null) {
+        setSelectedNode(request.getDataObject().getNodeDelegate());
+      }
+      setHelpContext(request.getHelpCtx());
+      getCurrentSceneRequest().setDisplayed(true);
+      Spatial model=request.getRootNode();
+      if (model == null) {
+        StatusDisplayer.getDefault().setStatusText("could not load Spatial from request: " + getCurrentSceneRequest().getWindowTitle());
+        return null;
+      }
+      rootNode.attachChild(model);
+      if (request.getToolNode() != null) {
+        toolsNode.attachChild(request.getToolNode());
+      }
+      notifySceneListeners();
+      setWindowTitle(request.getWindowTitle());
+      return null;
+    }
+  }
+);
+}

@@ -1,0 +1,22 @@
+{
+  super(instance,valueType,getter,setter);
+  addPropertyChangeListener(listener);
+  if (valueType == Vector3f.class) {
+    setPropertyEditorClass(Vector3fPropertyEditor.class);
+  }
+ else   if (valueType == Quaternion.class) {
+    setPropertyEditorClass(QuaternionPropertyEditor.class);
+  }
+ else   if (valueType == Matrix3f.class) {
+    setPropertyEditorClass(Matrix3fPropertyEditor.class);
+  }
+ else   if (valueType == ColorRGBA.class) {
+    setPropertyEditorClass(ColorRGBAPropertyEditor.class);
+  }
+ else   if (valueType == Material.class) {
+    setPropertyEditorClass(MaterialPropertyEditor.class);
+  }
+ else   if (valueType == EmitterShape.class) {
+    setPropertyEditorClass(EmitterShapePropertyEditor.class);
+  }
+}

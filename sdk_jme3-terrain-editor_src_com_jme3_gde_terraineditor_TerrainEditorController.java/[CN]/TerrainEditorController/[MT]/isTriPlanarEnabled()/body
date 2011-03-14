@@ -1,0 +1,18 @@
+{
+  try {
+    Boolean isEnabled=SceneApplication.getApplication().enqueue(new Callable<Boolean>(){
+      public Boolean call() throws Exception {
+        return doIsTriPlanarEnabled();
+      }
+    }
+).get();
+    return isEnabled;
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return false;
+}

@@ -1,0 +1,11 @@
+{
+  Collection collection=nodeSelectionResult.allInstances();
+  for (Iterator it=collection.iterator(); it.hasNext(); ) {
+    Object object=it.next();
+    if (object instanceof AbstractSceneExplorerNode) {
+      selectedSpatial=(AbstractSceneExplorerNode)object;
+      return;
+    }
+  }
+  selectedSpatial=null;
+}

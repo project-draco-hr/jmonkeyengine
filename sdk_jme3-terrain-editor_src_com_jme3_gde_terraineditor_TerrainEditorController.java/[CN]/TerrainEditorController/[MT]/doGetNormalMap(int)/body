@@ -1,0 +1,12 @@
+{
+  Terrain terrain=(Terrain)getTerrain(null);
+  if (terrain == null)   return null;
+  MatParam matParam=null;
+  if (layer == 0)   matParam=terrain.getMaterial().getParam("NormalMap");
+ else   matParam=terrain.getMaterial().getParam("NormalMap_" + layer);
+  if (matParam == null || matParam.getValue() == null) {
+    return null;
+  }
+  Texture tex=(Texture)matParam.getValue();
+  return tex;
+}

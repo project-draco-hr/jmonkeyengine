@@ -1,0 +1,7 @@
+{
+  this.projectDir=projectDir;
+  this.state=state;
+  Properties properties=getProperties();
+  String assetsFolder=properties.getProperty("assets.folder.name","assets");
+  projectAssetManager=new ProjectAssetManager(this,assetsFolder);
+}

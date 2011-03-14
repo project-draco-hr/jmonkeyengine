@@ -1,0 +1,10 @@
+{
+  if (b == null) {
+    return;
+  }
+  buttons.removeElement(b);
+  if (b.getModel() == modifiedSelection) {
+    modifiedSelection=null;
+  }
+  b.getModel().setGroup(null);
+}

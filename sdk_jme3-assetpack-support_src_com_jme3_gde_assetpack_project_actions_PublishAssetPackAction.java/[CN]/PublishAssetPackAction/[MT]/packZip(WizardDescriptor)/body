@@ -1,0 +1,11 @@
+{
+  try {
+    String outFilename=context.getProjectDirectory().getPath() + "/" + wiz.getProperty("filename");
+    ZipOutputStream out=new ZipOutputStream(new FileOutputStream(new File(outFilename)));
+    zipDir(((AssetPackProject)context).getProjectDirectory(),out,(String)wiz.getProperty("filename"));
+    out.close();
+  }
+ catch (  IOException e) {
+    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,"Error creating ZIP file!");
+  }
+}

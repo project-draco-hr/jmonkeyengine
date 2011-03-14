@@ -1,0 +1,26 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("RigidBodyControl");
+  set.setName(RigidBodyControl.class.getName());
+  RigidBodyControl obj=geom;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,Vector3f.class,"getPhysicsLocation","setPhysicsLocation","Physics Location"));
+  set.put(makeProperty(obj,Quaternion.class,"getPhysicsRotation","setPhysicsRotation","Physics Rotation"));
+  set.put(makeProperty(obj,CollisionShape.class,"getCollisionShape","setCollisionShape","Collision Shape"));
+  set.put(makeProperty(obj,int.class,"getCollisionGroup","setCollisionGroup","Collision Group"));
+  set.put(makeProperty(obj,int.class,"getCollideWithGroups","setCollideWithGroups","Collide With Groups"));
+  set.put(makeProperty(obj,float.class,"getFriction","setFriction","Friction"));
+  set.put(makeProperty(obj,float.class,"getMass","setMass","Mass"));
+  set.put(makeProperty(obj,boolean.class,"isKinematic","setKinematic","Kinematic"));
+  set.put(makeProperty(obj,Vector3f.class,"getGravity","setGravity","Gravity"));
+  set.put(makeProperty(obj,float.class,"getLinearDamping","setLinearDamping","Linear Damping"));
+  set.put(makeProperty(obj,float.class,"getAngularDamping","setAngularDamping","Angular Damping"));
+  set.put(makeProperty(obj,float.class,"getRestitution","setRestitution","Restitution"));
+  set.put(makeProperty(obj,float.class,"getLinearSleepingThreshold","setLinearSleepingThreshold","Linear Sleeping Threshold"));
+  set.put(makeProperty(obj,float.class,"getAngularSleepingThreshold","setAngularSleepingThreshold","Angular Sleeping Threshold"));
+  sheet.put(set);
+  return sheet;
+}

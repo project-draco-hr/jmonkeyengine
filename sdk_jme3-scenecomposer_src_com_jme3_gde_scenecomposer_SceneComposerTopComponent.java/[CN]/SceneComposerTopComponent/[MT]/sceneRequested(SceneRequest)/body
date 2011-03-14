@@ -1,0 +1,15 @@
+{
+  if (request.equals(currentRequest)) {
+    setSceneInfo(currentRequest.getJmeNode(),editorController.getCurrentFileObject(),true);
+    if (camController != null) {
+      camController.disable();
+    }
+    if (toolController != null) {
+      toolController.cleanup();
+    }
+    toolController=new SceneToolController(currentRequest.getToolNode(),currentRequest.getManager().getManager());
+    camController=new ComposerCameraController(SceneApplication.getApplication().getCamera(),request.getJmeNode());
+    camController.setMaster(this);
+    camController.enable();
+  }
+}

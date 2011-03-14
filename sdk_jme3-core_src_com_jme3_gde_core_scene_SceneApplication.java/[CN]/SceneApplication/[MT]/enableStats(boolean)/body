@@ -1,0 +1,14 @@
+{
+  enqueue(new Callable(){
+    public Object call() throws Exception {
+      if (enabled) {
+        guiNode.attachChild(statsGuiNode);
+      }
+ else {
+        guiNode.detachChild(statsGuiNode);
+      }
+      return null;
+    }
+  }
+);
+}

@@ -1,0 +1,10 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      camera.getDirection().mult(forward,vector);
+      camera.setLocation(camera.getLocation().add(vector));
+      return null;
+    }
+  }
+);
+}

@@ -1,0 +1,47 @@
+{
+  jToolBar1=new javax.swing.JToolBar();
+  jLabel1=new javax.swing.JLabel();
+  jPanel1=new javax.swing.JPanel();
+  jTextField1=new javax.swing.JTextField();
+  jButton1=new javax.swing.JButton();
+  setBackground(new java.awt.Color(204,204,204));
+  jToolBar1.setBackground(new java.awt.Color(204,204,204));
+  jToolBar1.setFloatable(false);
+  jToolBar1.setRollover(true);
+  jLabel1.setText(org.openide.util.NbBundle.getMessage(ColorPanel.class,"ColorPanel.jLabel1.text"));
+  jLabel1.setPreferredSize(new java.awt.Dimension(100,0));
+  jToolBar1.add(jLabel1);
+  jPanel1.setBackground(new java.awt.Color(204,204,204));
+  jPanel1.setMinimumSize(new java.awt.Dimension(0,0));
+  jPanel1.setPreferredSize(new java.awt.Dimension(10,0));
+  javax.swing.GroupLayout jPanel1Layout=new javax.swing.GroupLayout(jPanel1);
+  jPanel1.setLayout(jPanel1Layout);
+  jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0,8,Short.MAX_VALUE));
+  jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0,28,Short.MAX_VALUE));
+  jToolBar1.add(jPanel1);
+  jTextField1.setText(org.openide.util.NbBundle.getMessage(ColorPanel.class,"ColorPanel.jTextField1.text"));
+  jTextField1.setMaximumSize(new java.awt.Dimension(110,2147483647));
+  jTextField1.setPreferredSize(new java.awt.Dimension(110,28));
+  jTextField1.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      textChanged(evt);
+    }
+  }
+);
+  jToolBar1.add(jTextField1);
+  jButton1.setText(org.openide.util.NbBundle.getMessage(ColorPanel.class,"ColorPanel.jButton1.text"));
+  jButton1.setFocusable(false);
+  jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+  jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+  jButton1.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      jButton1ActionPerformed(evt);
+    }
+  }
+);
+  jToolBar1.add(jButton1);
+  javax.swing.GroupLayout layout=new javax.swing.GroupLayout(this);
+  this.setLayout(layout);
+  layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jToolBar1,javax.swing.GroupLayout.DEFAULT_SIZE,248,Short.MAX_VALUE));
+  layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jToolBar1,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE));
+}

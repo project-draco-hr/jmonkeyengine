@@ -1,0 +1,19 @@
+{
+  Terrain terrain=(Terrain)getTerrain(null);
+  if (terrain == null)   return;
+  terrain.getMaterial().setBoolean("useTriPlanarMapping",enabled);
+  float texCoordSize=1 / terrain.getTextureCoordinateScale();
+  if (enabled) {
+    for (int i=0; i < doGetNumUsedTextures(); i++) {
+      float scale=1f / (float)(texCoordSize / doGetTextureScale(i));
+      doSetTextureScale(i,scale);
+    }
+  }
+ else {
+    for (int i=0; i < doGetNumUsedTextures(); i++) {
+      float scale=(float)(texCoordSize * doGetTextureScale(i));
+      doSetTextureScale(i,scale);
+    }
+  }
+  setNeedsSave(true);
+}

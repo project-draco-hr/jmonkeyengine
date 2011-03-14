@@ -1,0 +1,20 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      ViewPort guiViewPort=offPanel.getViewPort();
+      ProjectAssetManager pm=niftyObject.getLookup().lookup(ProjectAssetManager.class);
+      if (pm == null) {
+        Logger.getLogger(NiftyPreviewPanel.class.getName()).log(Level.WARNING,"No Project AssetManager found!");
+        return null;
+      }
+      AssetManager assetManager=pm.getManager();
+      AudioRenderer audioRenderer=SceneApplication.getApplication().getAudioRenderer();
+      niftyDisplay=new NiftyJmeDisplay(assetManager,inputHandler,audioRenderer,guiViewPort);
+      nifty=niftyDisplay.getNifty();
+      de.lessvoid.nifty.tools.resourceloader.ResourceLoader.addResourceLocation(new FileSystemLocation(new File(pm.getAssetFolderName())));
+      guiViewPort.addProcessor(niftyDisplay);
+      return null;
+    }
+  }
+);
+}

@@ -1,0 +1,36 @@
+{
+  inputHandler=new NiftyPreviewInputHandler();
+  offPanel.addMouseMotionListener(new MouseMotionListener(){
+    public void mouseDragged(    MouseEvent e){
+      inputHandler.addMouseEvent(e.getX(),e.getY(),e.getButton() == MouseEvent.NOBUTTON ? false : true);
+    }
+    public void mouseMoved(    MouseEvent e){
+      inputHandler.addMouseEvent(e.getX(),e.getY(),e.getButton() == MouseEvent.NOBUTTON ? false : true);
+    }
+  }
+);
+  offPanel.addMouseListener(new MouseListener(){
+    public void mouseClicked(    MouseEvent e){
+    }
+    public void mousePressed(    MouseEvent e){
+      inputHandler.addMouseEvent(e.getX(),e.getY(),e.getButton() == MouseEvent.NOBUTTON ? false : true);
+    }
+    public void mouseReleased(    MouseEvent e){
+    }
+    public void mouseEntered(    MouseEvent e){
+    }
+    public void mouseExited(    MouseEvent e){
+    }
+  }
+);
+  offPanel.addKeyListener(new KeyListener(){
+    public void keyTyped(    KeyEvent e){
+    }
+    public void keyPressed(    KeyEvent e){
+      inputHandler.addKeyEvent(e.getKeyCode(),e.getKeyChar(),true,e.isShiftDown(),e.isControlDown());
+    }
+    public void keyReleased(    KeyEvent e){
+    }
+  }
+);
+}

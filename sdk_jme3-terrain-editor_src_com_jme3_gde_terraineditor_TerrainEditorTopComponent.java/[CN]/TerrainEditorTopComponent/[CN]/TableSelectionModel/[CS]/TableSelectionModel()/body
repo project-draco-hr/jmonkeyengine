@@ -1,0 +1,9 @@
+{
+  super.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+  addListSelectionListener(new ListSelectionListener(){
+    public void valueChanged(    ListSelectionEvent e){
+      if (toolController != null)       toolController.setSelectedTextureIndex(textureTable.getSelectedRow());
+    }
+  }
+);
+}

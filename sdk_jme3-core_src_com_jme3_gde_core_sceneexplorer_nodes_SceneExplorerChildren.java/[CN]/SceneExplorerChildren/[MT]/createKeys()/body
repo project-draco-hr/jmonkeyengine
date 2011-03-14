@@ -1,0 +1,39 @@
+{
+  try {
+    return SceneApplication.getApplication().enqueue(new Callable<List<Object>>(){
+      public List<Object> call() throws Exception {
+        List<Object> keys=new LinkedList<Object>();
+        if (spatial != null && spatial instanceof com.jme3.scene.Node) {
+          keys.addAll(((com.jme3.scene.Node)spatial).getChildren());
+        }
+        if (spatial instanceof Geometry) {
+          Geometry geom=(Geometry)spatial;
+          Mesh mesh=geom.getMesh();
+          if (mesh != null) {
+            keys.add(new MeshGeometryPair(mesh,geom));
+          }
+        }
+        LightList lights=spatial.getLocalLightList();
+        for (int i=0; i < lights.size(); i++) {
+          Light light=lights.get(i);
+          if (light != null) {
+            keys.add(new LightSpatialPair(light,spatial));
+          }
+        }
+        for (int i=0; i < spatial.getNumControls(); i++) {
+          Control control=spatial.getControl(i);
+          keys.add(control);
+        }
+        return keys;
+      }
+    }
+).get();
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return null;
+}

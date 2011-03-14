@@ -1,0 +1,7 @@
+{
+  SceneApplication.getApplication().getRenderer().readFrameBuffer(offBuffer,cpuBuf);
+synchronized (imageLock) {
+    Screenshots.convertScreenShot(cpuBuf,image);
+  }
+  repaint();
+}

@@ -1,0 +1,10 @@
+{
+  try {
+    if (null == palette)     palette=PaletteFactory.createPalette(JAVA_PALETTE_FOLDER,new MyActions());
+    return palette;
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return null;
+}

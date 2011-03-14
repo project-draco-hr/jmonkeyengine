@@ -1,0 +1,21 @@
+{
+  jTextField1.setText(desc.getPath());
+  jTextField2.setText(desc.getName());
+  jComboBox1.setSelectedItem(desc.getType());
+  jCheckBox1.setSelected(desc.isMainFile());
+  jComboBox2.setSelectedItem(desc.getMaterial());
+  if (desc.isExisting()) {
+    jTextField1.setEditable(false);
+  }
+ else {
+    jTextField1.setEditable(true);
+  }
+  if (!"mesh".equals(desc.getType()) && !"scene".equals(desc.getType())) {
+    jToolBar2.setVisible(false);
+    setPreferredSize(new Dimension(100,25));
+  }
+ else {
+    jToolBar2.setVisible(true);
+    setPreferredSize(new Dimension(100,50));
+  }
+}

@@ -1,0 +1,15 @@
+{
+  if (f.isDirectory()) {
+    return true;
+  }
+  String extension=utils.getExtension(f);
+  if (extension != null) {
+    if (extension.equals(utils.tiff) || extension.equals(utils.tif) || extension.equals(utils.gif)|| extension.equals(utils.jpeg)|| extension.equals(utils.jpg)|| extension.equals(utils.png)) {
+      return true;
+    }
+ else {
+      return false;
+    }
+  }
+  return false;
+}

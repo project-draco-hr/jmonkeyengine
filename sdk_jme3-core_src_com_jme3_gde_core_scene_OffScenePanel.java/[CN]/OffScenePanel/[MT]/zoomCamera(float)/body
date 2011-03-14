@@ -1,0 +1,15 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      float amount=amount_;
+      amount=camera.getLocation().distance(focus) * amount;
+      float dist=camera.getLocation().distance(focus);
+      amount=dist - Math.max(0f,dist - amount);
+      Vector3f loc=camera.getLocation().clone();
+      loc.scaleAdd(amount,camera.getDirection(),loc);
+      camera.setLocation(loc);
+      return null;
+    }
+  }
+);
+}

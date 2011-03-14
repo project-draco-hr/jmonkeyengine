@@ -1,0 +1,25 @@
+{
+  if (jmeRootNode == null) {
+    return;
+  }
+  try {
+    final Node node=jmeRootNode.getLookup().lookup(Node.class);
+    if (node != null) {
+      if (SceneApplication.getApplication().enqueue(new Callable<Boolean>(){
+        public Boolean call() throws Exception {
+          return doCheckVehicle(node);
+        }
+      }
+).get().booleanValue()) {
+        currentFileObject.setModified(true);
+        refreshRoot();
+      }
+    }
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

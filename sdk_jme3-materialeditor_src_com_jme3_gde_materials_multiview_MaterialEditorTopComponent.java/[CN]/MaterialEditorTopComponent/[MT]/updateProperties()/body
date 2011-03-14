@@ -1,0 +1,72 @@
+{
+  for (int i=0; i < optionsPanel.getComponents().length; i++) {
+    Component component=optionsPanel.getComponents()[i];
+    if (component instanceof MaterialPropertyWidget) {
+      ((MaterialPropertyWidget)component).registerChangeListener(null);
+    }
+  }
+  for (int i=0; i < texturePanel.getComponents().length; i++) {
+    Component component=texturePanel.getComponents()[i];
+    if (component instanceof MaterialPropertyWidget) {
+      ((MaterialPropertyWidget)component).registerChangeListener(null);
+    }
+  }
+  optionsPanel.removeAll();
+  texturePanel.removeAll();
+  List<Component> optionList=new LinkedList<Component>();
+  List<Component> colorList=new LinkedList<Component>();
+  List<Component> valueList=new LinkedList<Component>();
+  List<Component> textureList=new LinkedList<Component>();
+  List<Component> otherList=new LinkedList<Component>();
+  for (Iterator<Entry<String,MaterialProperty>> it=properties.getParameterMap().entrySet().iterator(); it.hasNext(); ) {
+    Entry<String,MaterialProperty> entry=it.next();
+    MaterialPropertyWidget widget=WidgetFactory.getWidget(entry.getValue(),manager);
+    widget.registerChangeListener(this);
+    if ("Boolean".equals(entry.getValue().getType())) {
+      optionList.add(widget);
+    }
+ else     if ("Texture2D".equals(entry.getValue().getType())) {
+      textureList.add(widget);
+    }
+ else     if ("Color".equals(entry.getValue().getType())) {
+      colorList.add(widget);
+    }
+ else     if ("Float".equals(entry.getValue().getType())) {
+      valueList.add(widget);
+    }
+ else     if ("Int".equals(entry.getValue().getType())) {
+      valueList.add(widget);
+    }
+ else {
+      otherList.add(widget);
+    }
+  }
+  for (Iterator<Component> it=textureList.iterator(); it.hasNext(); ) {
+    Component component=it.next();
+    texturePanel.add(component);
+  }
+  for (Iterator<Component> it=optionList.iterator(); it.hasNext(); ) {
+    Component component=it.next();
+    optionsPanel.add(component);
+  }
+  for (Iterator<Component> it=colorList.iterator(); it.hasNext(); ) {
+    Component component=it.next();
+    texturePanel.add(component);
+  }
+  for (Iterator<Component> it=valueList.iterator(); it.hasNext(); ) {
+    Component component=it.next();
+    optionsPanel.add(component);
+  }
+  for (Iterator<Component> it=otherList.iterator(); it.hasNext(); ) {
+    Component component=it.next();
+    optionsPanel.add(component);
+  }
+  jScrollPane2.repaint();
+  jScrollPane3.repaint();
+  setDisplayName(properties.getName() + " - " + properties.getMaterialPath());
+  MaterialProperties prop=properties;
+  properties=null;
+  jTextField1.setText(prop.getName());
+  properties=prop;
+  updateStates();
+}

@@ -1,0 +1,36 @@
+{
+  File path=new File(osx_path);
+  if (!path.exists()) {
+    path.mkdirs();
+  }
+  try {
+    BufferedInputStream in=new BufferedInputStream(getClass().getResourceAsStream("/com/jme3/gde/ogretools/convert/OgreTools-Mac-Intel.zip"));
+    BufferedOutputStream out=new BufferedOutputStream(new FileOutputStream(osx_path + "tools.zip"));
+    int inbyte=in.read();
+    while (inbyte != -1) {
+      out.write(inbyte);
+      inbyte=in.read();
+    }
+    in.close();
+    out.close();
+    String[] cmdStrings=new String[]{"unzip","-o","-q",osx_path + "tools.zip","-d",osx_path};
+    Process p=Runtime.getRuntime().exec(cmdStrings);
+    OutputReader outReader=new OutputReader(p.getInputStream());
+    OutputReader errReader=new OutputReader(p.getErrorStream());
+    outReader.start();
+    errReader.start();
+    p.waitFor();
+    File zipFile=new File(osx_path + "tools.zip");
+    zipFile.delete();
+    if (p.exitValue() != 0) {
+      return false;
+    }
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    Confirmation msg=new NotifyDescriptor.Confirmation("Error extracting OgreTools!",NotifyDescriptor.DEFAULT_OPTION,NotifyDescriptor.ERROR_MESSAGE);
+    DialogDisplayer.getDefault().notify(msg);
+    return false;
+  }
+  return true;
+}

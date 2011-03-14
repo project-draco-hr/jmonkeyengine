@@ -1,0 +1,8 @@
+{
+  amount=cam.getLocation().distance(focus) * amount;
+  float dist=cam.getLocation().distance(focus);
+  amount=dist - Math.max(0f,dist - amount);
+  Vector3f loc=cam.getLocation().clone();
+  loc.scaleAdd(amount,cam.getDirection(),loc);
+  cam.setLocation(loc);
+}

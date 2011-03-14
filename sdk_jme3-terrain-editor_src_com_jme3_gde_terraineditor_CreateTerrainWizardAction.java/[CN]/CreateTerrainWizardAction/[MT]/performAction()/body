@@ -1,0 +1,12 @@
+{
+  WizardDescriptor wizardDescriptor=new WizardDescriptor(getPanels());
+  wizardDescriptor.setTitleFormat(new MessageFormat("{0}"));
+  wizardDescriptor.setTitle("Terrain Wizard");
+  Dialog dialog=DialogDisplayer.getDefault().createDialog(wizardDescriptor);
+  dialog.setVisible(true);
+  dialog.toFront();
+  boolean cancelled=wizardDescriptor.getValue() != WizardDescriptor.FINISH_OPTION;
+  if (!cancelled) {
+    controller.generateTerrain(wizardDescriptor);
+  }
+}

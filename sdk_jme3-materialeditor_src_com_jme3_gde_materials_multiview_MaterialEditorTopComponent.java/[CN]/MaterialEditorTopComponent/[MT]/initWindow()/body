@@ -1,0 +1,25 @@
+{
+  initComponents();
+  setName(NbBundle.getMessage(MaterialEditorTopComponent.class,"CTL_MaterialEditorTopComponent"));
+  setToolTipText(NbBundle.getMessage(MaterialEditorTopComponent.class,"HINT_MaterialEditorTopComponent"));
+  setActivatedNodes(new Node[]{dataObject.getNodeDelegate()});
+  ((AssetDataObject)dataObject).setSaveCookie(saveCookie);
+  manager=dataObject.getLookup().lookup(ProjectAssetManager.class);
+  properties=new MaterialProperties(dataObject.getPrimaryFile(),dataObject.getLookup().lookup(ProjectAssetManager.class));
+  properties.read();
+  setMatDefList(manager.getMatDefs(),properties.getMatDefName());
+  try {
+    jTextArea1.setText(dataObject.getPrimaryFile().asText());
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  jTextArea1.getDocument().addDocumentListener(new DocumentChangeListener());
+  SceneApplication.getApplication().addSceneListener(this);
+  sphMesh=new Sphere(32,32,2.5f);
+  sphMesh.setTextureMode(Sphere.TextureMode.Projected);
+  sphMesh.updateGeometry(32,32,2.5f,false,false);
+  TangentBinormalGenerator.generate(sphMesh);
+  updateProperties();
+  showMaterial();
+}

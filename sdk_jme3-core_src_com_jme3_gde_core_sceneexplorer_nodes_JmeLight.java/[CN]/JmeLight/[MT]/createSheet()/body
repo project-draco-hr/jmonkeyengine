@@ -1,0 +1,14 @@
+{
+  Sheet sheet=Sheet.createDefault();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("Light");
+  set.setName(Light.class.getName());
+  Light obj=light;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,ColorRGBA.class,"getColor","setColor","Color"));
+  set.put(makeProperty(obj,float.class,"getLastDistance","setLastDistance","Last Distance"));
+  sheet.put(set);
+  return sheet;
+}

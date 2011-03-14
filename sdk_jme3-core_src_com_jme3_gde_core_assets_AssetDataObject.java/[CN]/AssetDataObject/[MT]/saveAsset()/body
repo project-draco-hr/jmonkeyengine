@@ -1,0 +1,36 @@
+{
+  if (savable == null) {
+    Logger.getLogger(AssetDataObject.class.getName()).log(Level.WARNING,"Trying to save asset that has not been loaded before or does not support saving!");
+    return;
+  }
+  final Savable savable=this.savable;
+  ProgressHandle progressHandle=ProgressHandleFactory.createHandle("Saving File..");
+  progressHandle.start();
+  BinaryExporter exp=BinaryExporter.getInstance();
+  FileLock lock=null;
+  OutputStream out=null;
+  try {
+    if (saveExtension == null) {
+      out=getPrimaryFile().getOutputStream();
+    }
+ else {
+      FileObject outFileObject=getPrimaryFile().getParent().getFileObject(getPrimaryFile().getName(),saveExtension);
+      if (outFileObject == null) {
+        outFileObject=getPrimaryFile().getParent().createData(getPrimaryFile().getName(),saveExtension);
+      }
+      out=outFileObject.getOutputStream();
+    }
+    exp.save(savable,out);
+  }
+  finally {
+    if (lock != null) {
+      lock.releaseLock();
+    }
+    if (out != null) {
+      out.close();
+    }
+  }
+  progressHandle.finish();
+  StatusDisplayer.getDefault().setStatusText(getPrimaryFile().getNameExt() + " saved.");
+  setModified(false);
+}

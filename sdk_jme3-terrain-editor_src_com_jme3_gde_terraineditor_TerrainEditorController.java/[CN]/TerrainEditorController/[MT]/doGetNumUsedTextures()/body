@@ -1,0 +1,12 @@
+{
+  Terrain terrain=(Terrain)getTerrain(null);
+  if (terrain == null)   return 0;
+  int count=0;
+  for (int i=0; i < MAX_TEXTURE_LAYERS; i++) {
+    Texture tex=doGetDiffuseTexture(i);
+    if (tex != null)     count++;
+    tex=doGetNormalMap(i);
+    if (tex != null)     count++;
+  }
+  return count;
+}

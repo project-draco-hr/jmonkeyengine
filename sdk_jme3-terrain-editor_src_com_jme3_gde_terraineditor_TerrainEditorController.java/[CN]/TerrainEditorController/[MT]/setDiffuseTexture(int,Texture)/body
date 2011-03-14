@@ -1,0 +1,17 @@
+{
+  try {
+    SceneApplication.getApplication().enqueue(new Callable(){
+      public Object call() throws Exception {
+        doSetDiffuseTexture(layer,texture);
+        return null;
+      }
+    }
+).get();
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

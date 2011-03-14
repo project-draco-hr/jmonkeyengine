@@ -1,0 +1,23 @@
+{
+  if (undoParent != null && undoControl != null) {
+    Lookup.getDefault().lookup(SceneUndoRedoManager.class).addEdit(this,new AbstractUndoableSceneEdit(){
+      @Override public void sceneUndo() throws CannotUndoException {
+        undoParent.removeControl(undoControl);
+      }
+      @Override public void sceneRedo() throws CannotRedoException {
+        undoParent.addControl(undoControl);
+      }
+      @Override public void awtRedo(){
+        if (parentNode != null) {
+          parentNode.refresh(true);
+        }
+      }
+      @Override public void awtUndo(){
+        if (parentNode != null) {
+          parentNode.refresh(true);
+        }
+      }
+    }
+);
+  }
+}

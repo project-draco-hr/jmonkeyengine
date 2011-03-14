@@ -1,0 +1,19 @@
+{
+  try {
+    Boolean result=SceneApplication.getApplication().enqueue(new Callable<Boolean>(){
+      public Boolean call() throws Exception {
+        Texture tex=doGetDiffuseTexture(i);
+        return tex != null;
+      }
+    }
+).get();
+    return result;
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return false;
+}

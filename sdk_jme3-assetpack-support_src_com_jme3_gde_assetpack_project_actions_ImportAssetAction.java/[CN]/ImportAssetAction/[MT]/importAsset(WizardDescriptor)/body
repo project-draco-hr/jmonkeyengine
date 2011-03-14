@@ -1,0 +1,45 @@
+{
+  ProjectAssetManager pm=context.getProjectAssetManager();
+  Element asset=context.getConfiguration().createElement("asset");
+  asset.setAttribute("name",(String)desc.getProperty("name"));
+  asset.setAttribute("type",(String)desc.getProperty("type"));
+  asset.setAttribute("tags",(String)desc.getProperty("tags"));
+  asset.setAttribute("categories",(String)desc.getProperty("categories"));
+  Element description=context.getConfiguration().createElement("description");
+  description.setTextContent((String)desc.getProperty("description"));
+  asset.appendChild(description);
+  Element license=context.getConfiguration().createElement("license");
+  license.setTextContent((String)desc.getProperty("license"));
+  asset.appendChild(license);
+  List<FileDescription> files=(List<FileDescription>)desc.getProperty("filelist");
+  for (Iterator<FileDescription> it=files.iterator(); it.hasNext(); ) {
+    FileDescription fileObject=it.next();
+    Element file=context.getConfiguration().createElement("file");
+    asset.appendChild(file);
+    file.setAttribute("path",fileObject.getPath() + fileObject.getFile().getNameExt());
+    file.setAttribute("type",fileObject.getType());
+    if (fileObject.isMainFile()) {
+      file.setAttribute("main","true");
+    }
+    if (!"default".equals(fileObject.getMaterial())) {
+      file.setAttribute("material",fileObject.getMaterial());
+    }
+    String[] extraProps=fileObject.getExtraPropsNames();
+    String[] extraValues=fileObject.getExtraPropsValues();
+    for (int i=0; i < extraProps.length; i++) {
+      file.setAttribute(extraProps[i],extraValues[i]);
+    }
+    if (!fileObject.isExisting()) {
+      File ffile=new File(context.getAssetsFolder().getPath() + "/" + fileObject.getPath());
+      try {
+        ffile.mkdirs();
+        fileObject.getFile().copy(FileUtil.toFileObject(ffile),fileObject.getFile().getName(),fileObject.getFile().getExt());
+      }
+ catch (      Exception e) {
+      }
+    }
+  }
+  context.getProjectAssets().appendChild(asset);
+  context.saveSettings();
+  context.getAssetPackFolder().refresh();
+}

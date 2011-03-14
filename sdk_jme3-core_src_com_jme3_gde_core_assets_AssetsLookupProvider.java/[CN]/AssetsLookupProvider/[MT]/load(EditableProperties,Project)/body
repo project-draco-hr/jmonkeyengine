@@ -1,0 +1,13 @@
+{
+  J2SEPropertyEvaluator eval=project.getLookup().lookup(J2SEPropertyEvaluator.class);
+  if (eval == null) {
+    return;
+  }
+  for (int i=0; i < keyList.length; i++) {
+    String string=keyList[i];
+    String value=eval.evaluator().getProperty(string);
+    if (value != null) {
+      ep.setProperty(string,value);
+    }
+  }
+}

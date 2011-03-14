@@ -1,0 +1,9 @@
+{
+  while (getRowCount() > 0)   removeRow(0);
+  for (int i=0; i < editorController.MAX_TEXTURE_LAYERS; i++) {
+    if (!editorController.hasTextureAt(i))     continue;
+    Float scale=editorController.getTextureScale(i);
+    if (scale == null)     scale=editorController.DEFAULT_TEXTURE_SCALE;
+    addRow(new Object[]{"",i,i,scale});
+  }
+}

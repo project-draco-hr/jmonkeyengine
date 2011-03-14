@@ -1,0 +1,7 @@
+{
+  currentPreviewRequest=previewQueue.poll();
+  if (currentPreviewRequest != null) {
+    previewNode.attachChild(currentPreviewRequest.getSpatial());
+  }
+  update(f);
+}

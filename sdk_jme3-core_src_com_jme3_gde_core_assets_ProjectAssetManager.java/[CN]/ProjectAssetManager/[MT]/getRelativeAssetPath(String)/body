@@ -1,0 +1,8 @@
+{
+  String prefix=project.getProjectDirectory().getFileObject(getFolderName() + "/").getPath();
+  int idx=absolutePath.indexOf(prefix);
+  if (idx == 0) {
+    return absolutePath.substring(prefix.length() + 1);
+  }
+  return absolutePath;
+}

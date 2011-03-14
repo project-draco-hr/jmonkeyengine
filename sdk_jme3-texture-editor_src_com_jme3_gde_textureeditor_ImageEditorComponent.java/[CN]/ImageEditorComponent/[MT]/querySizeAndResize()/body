@@ -1,0 +1,24 @@
+{
+  final SpinnerNumberModel w=new SpinnerNumberModel(editedImage.getWidth(),1,10000,1);
+  final SpinnerNumberModel h=new SpinnerNumberModel(editedImage.getHeight(),1,10000,1);
+  final JSpinner ws=new JSpinner(w);
+  final JSpinner hs=new JSpinner(h);
+  final JPanel lab=new JPanel(new GridLayout(2,1,8,8));
+  final JPanel spi=new JPanel(new GridLayout(2,1,8,8));
+  lab.add(new JLabel("New Width"));
+  lab.add(new JLabel("New Height"));
+  spi.add(ws);
+  spi.add(hs);
+  final JPanel box=new JPanel(new BorderLayout(8,8));
+  box.add(lab,BorderLayout.LINE_START);
+  box.add(spi,BorderLayout.CENTER);
+  final Object[] options={"Ok","Cancel"};
+  int a=JOptionPane.showOptionDialog(COMPONENT,box,"Resize Image",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE,null,options,options[1]);
+  if (a == 0) {
+    int newWidth=w.getNumber().intValue();
+    int newHeight=h.getNumber().intValue();
+    if (newWidth != editedImage.getWidth() || newHeight != editedImage.getHeight()) {
+      spawnEditor(ResizeFilter.create().filter(editedImage,newWidth,newHeight));
+    }
+  }
+}

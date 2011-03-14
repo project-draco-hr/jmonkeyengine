@@ -1,0 +1,14 @@
+{
+  if (this.selectedSpat == selectedSpat) {
+    return;
+  }
+  if (this.selectedSpat != null) {
+    this.selectedSpat.removePropertyChangeListener(this);
+    this.selectedSpat.removeNodeListener(this);
+  }
+  this.selectedSpat=selectedSpat;
+  if (selectedSpat != null) {
+    selectedSpat.addPropertyChangeListener(this);
+    selectedSpat.addNodeListener(this);
+  }
+}

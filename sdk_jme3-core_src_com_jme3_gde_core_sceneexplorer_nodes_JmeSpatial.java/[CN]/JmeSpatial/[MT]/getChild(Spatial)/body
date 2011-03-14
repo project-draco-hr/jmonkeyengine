@@ -1,0 +1,20 @@
+{
+  if (spat == null) {
+    return null;
+  }
+  if (getLookup().lookup(spat.getClass()) == spat) {
+    return this;
+  }
+  Node[] children=getChildren().getNodes();
+  for (int i=0; i < children.length; i++) {
+    Node node=children[i];
+    if (node instanceof JmeSpatial) {
+      JmeSpatial jmeSpatial=(JmeSpatial)node;
+      JmeSpatial found=jmeSpatial.getChild(spat);
+      if (found != null) {
+        return found;
+      }
+    }
+  }
+  return null;
+}

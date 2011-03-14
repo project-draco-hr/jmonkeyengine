@@ -1,0 +1,8 @@
+{
+  wiz.putProperty("path",currentPath);
+  wiz.putProperty("assetlist",requestedAssets);
+  wiz.putProperty("mainkey",mainKey);
+  if (mainKey != null) {
+    wiz.putProperty("destpath","Models/" + mainKey.getName().replaceAll(mainKey.getExtension(),"").replaceAll("\\.","") + "/");
+  }
+}

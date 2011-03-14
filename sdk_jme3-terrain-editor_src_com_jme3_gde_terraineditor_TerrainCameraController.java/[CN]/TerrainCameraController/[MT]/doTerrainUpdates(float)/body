@@ -1,0 +1,9 @@
+{
+  if (terrainEditToolActivated) {
+    if (app.getContext().getTimer().getTime() >= lastModifyTime + (toolModifyRate * 1000)) {
+      toolController.doTerrainEditToolActivated();
+      terrainEditToolActivated=false;
+      lastModifyTime=app.getContext().getTimer().getTime();
+    }
+  }
+}

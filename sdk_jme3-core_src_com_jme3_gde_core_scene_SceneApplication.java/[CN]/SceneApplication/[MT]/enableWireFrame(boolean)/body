@@ -1,0 +1,14 @@
+{
+  enqueue(new Callable(){
+    public Object call() throws Exception {
+      if (selected) {
+        viewPort.addProcessor(wireProcessor);
+      }
+ else {
+        viewPort.removeProcessor(wireProcessor);
+      }
+      return null;
+    }
+  }
+);
+}

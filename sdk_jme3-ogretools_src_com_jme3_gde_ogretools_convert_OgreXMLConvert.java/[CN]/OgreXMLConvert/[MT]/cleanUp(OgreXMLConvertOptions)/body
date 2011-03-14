@@ -1,0 +1,8 @@
+{
+  if (!options.isBinaryFile()) {
+    File file=new File(options.getBinaryFileName());
+    if (file.exists()) {
+      file.delete();
+    }
+  }
+}

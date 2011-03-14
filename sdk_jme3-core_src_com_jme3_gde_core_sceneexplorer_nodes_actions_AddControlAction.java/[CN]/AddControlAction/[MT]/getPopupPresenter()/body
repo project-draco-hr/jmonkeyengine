@@ -1,0 +1,7 @@
+{
+  JMenu result=new JMenu("Add Control..");
+  for (  NewControlAction di : Lookup.getDefault().lookupAll(NewControlAction.class)) {
+    result.add(new JMenuItem(di.getAction(jmeSpatial,dataObject)));
+  }
+  return result;
+}

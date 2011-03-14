@@ -1,0 +1,10 @@
+{
+  if (!"All Categories".equals((String)jComboBox1.getSelectedItem())) {
+    rootNode=lib.getRootNode((String)jComboBox1.getSelectedItem());
+    getExplorerManager().setRootContext(rootNode);
+  }
+ else {
+    rootNode=lib.getRootNode();
+    getExplorerManager().setRootContext(rootNode);
+  }
+}

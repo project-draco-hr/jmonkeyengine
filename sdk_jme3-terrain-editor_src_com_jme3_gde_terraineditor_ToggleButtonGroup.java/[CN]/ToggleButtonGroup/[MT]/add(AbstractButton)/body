@@ -1,0 +1,15 @@
+{
+  if (b == null) {
+    return;
+  }
+  buttons.addElement(b);
+  if (b.isSelected()) {
+    if (modifiedSelection == null) {
+      modifiedSelection=b.getModel();
+    }
+ else {
+      b.setSelected(false);
+    }
+  }
+  b.getModel().setGroup(this);
+}

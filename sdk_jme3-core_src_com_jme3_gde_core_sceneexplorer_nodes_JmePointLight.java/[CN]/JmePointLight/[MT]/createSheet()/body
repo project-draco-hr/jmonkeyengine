@@ -1,0 +1,14 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("PointLight");
+  set.setName(PointLight.class.getName());
+  PointLight obj=pointLight;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,Vector3f.class,"getPosition","setPosition","Position"));
+  set.put(makeProperty(obj,float.class,"getRadius","setRadius","Radius"));
+  sheet.put(set);
+  return sheet;
+}

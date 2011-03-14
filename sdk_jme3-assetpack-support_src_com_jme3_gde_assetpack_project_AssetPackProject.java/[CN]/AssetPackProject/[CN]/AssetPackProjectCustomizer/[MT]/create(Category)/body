@@ -1,0 +1,13 @@
+{
+  if (category.getName().equals("General")) {
+    panel1=new GeneralSettingsPanel(project);
+    return panel1;
+  }
+ else   if (category.getName().equals("License")) {
+    panel2=new LicensePanel(project);
+    return panel2;
+  }
+ else {
+    return new JPanel();
+  }
+}

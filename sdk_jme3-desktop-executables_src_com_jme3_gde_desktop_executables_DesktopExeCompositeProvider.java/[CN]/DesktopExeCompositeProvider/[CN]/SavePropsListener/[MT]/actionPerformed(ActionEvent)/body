@@ -1,0 +1,37 @@
+{
+  if ("true".equals(properties.getProperty("launch4j.exe.enabled"))) {
+    launch4j.loadTargets("nbres:/com/jme3/gde/desktop/executables/launch4j-targets.xml");
+    launch4j.checkExtension(project);
+  }
+ else {
+    launch4j.removeExtension(project);
+  }
+  if ("true".equals(properties.getProperty("linux.launcher.enabled"))) {
+    linux.loadTargets("nbres:/com/jme3/gde/desktop/executables/linux-targets.xml");
+    linux.checkExtension(project);
+  }
+ else {
+    linux.removeExtension(project);
+  }
+  if ("true".equals(properties.getProperty("mac.app.enabled"))) {
+    macapp.loadTargets("nbres:/com/jme3/gde/desktop/executables/macapp-targets.xml");
+    macapp.checkExtension(project);
+    if (project.getProjectDirectory().getFileObject("osx-stub") == null) {
+      try {
+        unZipFile(new URL("nbres:/com/jme3/gde/desktop/executables/macapp-data.zip").openStream(),project.getProjectDirectory());
+      }
+ catch (      Exception ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+  }
+ else {
+    macapp.removeExtension(project);
+  }
+  try {
+    properties.store();
+  }
+ catch (  IOException ioe) {
+    Exceptions.printStackTrace(ioe);
+  }
+}

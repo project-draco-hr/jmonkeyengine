@@ -1,0 +1,18 @@
+{
+  BufferedImage dest=new BufferedImage(source.getWidth(),source.getHeight(),BufferedImage.TYPE_INT_ARGB);
+  for (int i=0; i < source.getWidth(); i++) {
+    for (int j=0; j < source.getHeight(); j++) {
+      int rgb=source.getRGB(i,j);
+      int a=(rgb >> 24) & 0xff;
+      int r=(rgb >> 16) & 0xff;
+      int g=(rgb >> 8) & 0xff;
+      int b=rgb & 0xff;
+      r=Math.min(255,Math.round(lookup[r] * factor));
+      g=Math.min(255,Math.round(lookup[g] * factor));
+      b=Math.min(255,Math.round(lookup[b] * factor));
+      rgb=(a << 24) + (r << 16) + (g << 8)+ b;
+      dest.setRGB(i,j,rgb);
+    }
+  }
+  return dest;
+}

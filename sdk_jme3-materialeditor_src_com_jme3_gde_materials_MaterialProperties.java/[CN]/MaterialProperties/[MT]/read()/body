@@ -1,0 +1,72 @@
+{
+  prepareAdditionalStates();
+  materialParameters.clear();
+  int level=0;
+  boolean params=false;
+  boolean states=false;
+  try {
+    for (    String line : material.asLines()) {
+      line=trimLine(line);
+      if (line.startsWith("Material ") || line.startsWith("Material\t") && level == 0) {
+        parseMaterialProperties(line);
+      }
+      if (line.startsWith("MaterialParameters ") || line.startsWith("MaterialParameters\t") || line.startsWith("MaterialParameters{") && level == 1) {
+        params=true;
+      }
+      if (line.startsWith("AdditionalRenderState ") || line.startsWith("AdditionalRenderState\t") || line.startsWith("AdditionalRenderState{") && level == 1) {
+        states=true;
+      }
+      if (line.indexOf("{") != -1) {
+        level++;
+      }
+      if (line.indexOf("}") != -1) {
+        level--;
+        if (params) {
+          params=false;
+        }
+        if (states) {
+          states=false;
+        }
+      }
+      if (level == 2 && params) {
+        int colonIdx=line.indexOf(":");
+        if (colonIdx != -1) {
+          String[] lines=line.split(":");
+          MaterialProperty prop=new MaterialProperty();
+          prop.setName(lines[0].trim());
+          if (lines.length > 1) {
+            prop.setValue(lines[lines.length - 1].trim());
+          }
+          materialParameters.put(prop.getName(),prop);
+        }
+      }
+      if (level == 2 && states) {
+        String[] lines=null;
+        int colonIdx=line.indexOf(" ");
+        if (colonIdx != -1) {
+          lines=line.split(" ");
+        }
+        colonIdx=line.indexOf("\t");
+        if (colonIdx != -1) {
+          lines=line.split("\t");
+        }
+        if (lines != null) {
+          MaterialProperty prop=new MaterialProperty();
+          String name=lines[0].trim();
+          prop.setName(name);
+          if (additionalRenderStates.get(name) != null) {
+            prop.setType(additionalRenderStates.get(name).getType());
+            if (lines.length > 1) {
+              prop.setValue(lines[lines.length - 1].trim());
+            }
+            additionalRenderStates.put(prop.getName(),prop);
+          }
+        }
+      }
+    }
+    parseMatDef();
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

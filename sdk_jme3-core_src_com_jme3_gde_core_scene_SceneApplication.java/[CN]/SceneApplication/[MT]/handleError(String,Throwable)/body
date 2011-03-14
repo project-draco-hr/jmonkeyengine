@@ -1,0 +1,15 @@
+{
+  progressHandle.finish();
+  if (!started) {
+    SceneViewerTopComponent.showOpenGLError(msg);
+    Exceptions.printStackTrace(t);
+  }
+ else {
+    if (lastError != null && !lastError.equals(msg)) {
+      Message mesg=new NotifyDescriptor.Message("Error in scene!\n" + "(" + t + ")",NotifyDescriptor.WARNING_MESSAGE);
+      DialogDisplayer.getDefault().notifyLater(mesg);
+      Exceptions.printStackTrace(t);
+      lastError=msg;
+    }
+  }
+}

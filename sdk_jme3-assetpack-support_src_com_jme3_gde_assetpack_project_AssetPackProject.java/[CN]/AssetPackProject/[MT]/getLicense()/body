@@ -1,0 +1,8 @@
+{
+  Element properties=null;
+  properties=XmlHelper.findChildElement(configuration.getDocumentElement(),"license");
+  if (properties == null) {
+    return "";
+  }
+  return properties.getTextContent().trim();
+}

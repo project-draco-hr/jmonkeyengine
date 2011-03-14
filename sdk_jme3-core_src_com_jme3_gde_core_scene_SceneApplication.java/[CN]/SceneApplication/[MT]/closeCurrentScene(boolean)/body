@@ -1,0 +1,27 @@
+{
+  if (currentSceneRequest != null) {
+    if (!notifySceneListeners(currentSceneRequest)) {
+      if (!force) {
+        return false;
+      }
+    }
+    currentSceneRequest.setDisplayed(false);
+  }
+  toolsNode.detachAllChildren();
+  rootNode.detachAllChildren();
+  setSelectedNode(null);
+  setHelpContext(null);
+  resetCam();
+  currentSceneRequest=null;
+  lastError="";
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      SceneUndoRedoManager manager=Lookup.getDefault().lookup(SceneUndoRedoManager.class);
+      if (manager != null) {
+        manager.discardAllEdits();
+      }
+    }
+  }
+);
+  return true;
+}

@@ -1,0 +1,18 @@
+{
+  if (alphaDataObject != null)   return;
+  Terrain terrain=(Terrain)getTerrain(null);
+  if (terrain == null)   return;
+  String assetFolder="";
+  AssetManager manager=SceneApplication.getApplication().getAssetManager();
+  if (manager != null && manager instanceof ProjectAssetManager)   assetFolder=((ProjectAssetManager)manager).getAssetFolderName();
+  Texture alpha0=doGetAlphaTexture(terrain,0);
+  String path=alpha0.getKey().getName();
+  Logger.getLogger(TerrainEditorController.class.getName()).info("Creating AlphaSaveDataObject, path: " + assetFolder + path);
+  FileObject fb=FileUtil.toFileObject(new File(assetFolder + path));
+  try {
+    alphaDataObject=new DataObjectSaveNode(DataObject.find(fb));
+  }
+ catch (  DataObjectNotFoundException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

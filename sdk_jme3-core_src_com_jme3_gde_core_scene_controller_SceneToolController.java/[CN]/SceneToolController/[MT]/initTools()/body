@@ -1,0 +1,27 @@
+{
+  Material redMat=new Material(manager,"Common/MatDefs/Misc/WireColor.j3md");
+  redMat.setColor("Color",ColorRGBA.Red);
+  Material greenMat=new Material(manager,"Common/MatDefs/Misc/WireColor.j3md");
+  greenMat.setColor("Color",ColorRGBA.Green);
+  Material blueMat=new Material(manager,"Common/MatDefs/Misc/WireColor.j3md");
+  blueMat.setColor("Color",ColorRGBA.Blue);
+  Material grayMat=new Material(manager,"Common/MatDefs/Misc/WireColor.j3md");
+  grayMat.setColor("Color",ColorRGBA.Gray);
+  if (cursor == null) {
+    cursor=new Node();
+  }
+  cursor.detachAllChildren();
+  Geometry cursorArrowX=new Geometry("cursorArrowX",new Arrow(Vector3f.UNIT_X));
+  Geometry cursorArrowY=new Geometry("cursorArrowY",new Arrow(Vector3f.UNIT_Y));
+  Geometry cursorArrowZ=new Geometry("cursorArrowZ",new Arrow(Vector3f.UNIT_Z));
+  cursorArrowX.setMaterial(redMat);
+  cursorArrowY.setMaterial(greenMat);
+  cursorArrowZ.setMaterial(blueMat);
+  cursor.attachChild(cursorArrowX);
+  cursor.attachChild(cursorArrowY);
+  cursor.attachChild(cursorArrowZ);
+  toolsNode.attachChild(cursor);
+  grid=new Geometry("grid",new Grid(20,20,1.0f));
+  grid.setMaterial(grayMat);
+  grid.setLocalTranslation(-10,0,-10);
+}

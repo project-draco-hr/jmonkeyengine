@@ -1,0 +1,39 @@
+{
+  final String format=(String)jComboBox1.getSelectedItem();
+  final String data=jTextField1.getText();
+  final String name=jTextField2.getText();
+  if (name.trim().length() == 0) {
+    return;
+  }
+  final Spatial spatial=spat.getLookup().lookup(Spatial.class);
+  try {
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        if (format.equals("String")) {
+          spatial.setUserData(name,data);
+        }
+ else         if (format.equals("Int")) {
+          spatial.setUserData(name,Integer.parseInt(data));
+        }
+ else         if (format.equals("Float")) {
+          spatial.setUserData(name,Float.parseFloat(data));
+        }
+ else         if (format.equals("Boolean")) {
+          spatial.setUserData(name,Boolean.parseBoolean(data));
+        }
+ else         if (format.equals("Long")) {
+          spatial.setUserData(name,Long.parseLong(data));
+        }
+        return null;
+      }
+    }
+).get();
+  }
+ catch (  InterruptedException ex) {
+  }
+catch (  ExecutionException ex) {
+  }
+  spat.refreshProperties();
+  spat.getLookup().lookup(DataObject.class).setModified(true);
+  setVisible(false);
+}
