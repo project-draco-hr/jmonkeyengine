@@ -21,8 +21,8 @@
     int i;
     for (i=0; i < lastFrame && times[i] < time; i++) {
       startFrame=i;
+      endFrame=i + 1;
     }
-    endFrame=i;
     float blend=(time - times[startFrame]) / (times[endFrame] - times[startFrame]);
     rotations.get(startFrame,tempQ);
     translations.get(startFrame,tempV);
