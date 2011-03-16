@@ -27,9 +27,9 @@ synchronized (npcs) {
     latencyQueue.put(timeToSend,msg);
   }
  else {
-    for (    Client id : server.getConnectors()) {
+    for (    Client client : server.getConnectors()) {
       try {
-        id.send(msg);
+        client.send(msg);
       }
  catch (      IOException ex) {
         ex.printStackTrace();

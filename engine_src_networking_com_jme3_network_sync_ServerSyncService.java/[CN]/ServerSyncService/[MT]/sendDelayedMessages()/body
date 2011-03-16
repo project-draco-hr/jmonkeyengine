@@ -4,9 +4,9 @@
     if (entry.getKey() > System.currentTimeMillis())     continue;
     removeList.add(entry.getKey());
     if (packetDropRate > FastMath.nextRandomFloat())     continue;
-    for (    Client id : server.getConnectors()) {
+    for (    Client client : server.getConnectors()) {
       try {
-        id.send(entry.getValue());
+        client.send(entry.getValue());
       }
  catch (      IOException ex) {
         ex.printStackTrace();
