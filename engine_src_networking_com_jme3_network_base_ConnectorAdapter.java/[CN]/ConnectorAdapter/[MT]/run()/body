@@ -1,0 +1,25 @@
+{
+  ByteBuffer current=null;
+  int size=0;
+  while (go.get()) {
+    ByteBuffer buffer=connector.read();
+    while (buffer.remaining() > 0) {
+      if (current == null) {
+        size=buffer.getShort();
+        current=ByteBuffer.allocate(size);
+      }
+      if (current.remaining() <= buffer.remaining()) {
+        int extra=buffer.remaining() - current.remaining();
+        buffer.limit(buffer.position() + current.remaining());
+        current.put(buffer);
+        current.flip();
+        buffer.limit(buffer.position() + extra);
+        createAndDispatch(current);
+        current=null;
+      }
+ else {
+        current.put(buffer);
+      }
+    }
+  }
+}

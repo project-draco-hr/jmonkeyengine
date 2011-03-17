@@ -1,0 +1,19 @@
+{
+  Connection removed=null;
+synchronized (this) {
+    connecting.values().remove(p);
+    removed=(Connection)endpointConnections.remove(p);
+    if (removed != null) {
+      connections.remove(removed.getId());
+    }
+  }
+  if (removed != null) {
+    if (removed.reliable != null && removed.reliable.isConnected()) {
+      removed.reliable.close();
+    }
+    if (removed.fast != null && removed.fast.isConnected()) {
+      removed.fast.close();
+    }
+    fireConnectionRemoved(removed);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  ByteBuffer buffer=messageToBuffer(message);
+  if (message.isReliable() || fast == null) {
+    if (reliable == null)     throw new RuntimeException("No reliable kernel configured");
+    reliable.broadcast(filter,buffer,true);
+  }
+ else {
+    fast.broadcast(filter,buffer,false);
+  }
+}

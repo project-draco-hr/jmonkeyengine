@@ -1,0 +1,24 @@
+{
+  if (isRunning)   throw new IllegalStateException("Client is already started.");
+  if (reliableAdapter != null) {
+    reliableAdapter.start();
+  }
+  if (fastAdapter != null) {
+    fastAdapter.start();
+  }
+  long tempId=System.currentTimeMillis() ^ System.nanoTime();
+  isRunning=true;
+  ClientRegistrationMessage reg;
+  if (reliable != null) {
+    reg=new ClientRegistrationMessage();
+    reg.setId(tempId);
+    reg.setReliable(true);
+    send(reg);
+  }
+  if (fast != null) {
+    reg=new ClientRegistrationMessage();
+    reg.setId(tempId);
+    reg.setReliable(false);
+    send(reg);
+  }
+}

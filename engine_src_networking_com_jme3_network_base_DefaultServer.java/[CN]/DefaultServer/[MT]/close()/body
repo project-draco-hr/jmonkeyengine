@@ -1,0 +1,15 @@
+{
+  if (!isRunning)   throw new IllegalStateException("Server is not started.");
+  try {
+    if (fastAdapter != null) {
+      fastAdapter.close();
+    }
+    if (reliableAdapter != null) {
+      reliableAdapter.close();
+      isRunning=false;
+    }
+  }
+ catch (  InterruptedException e) {
+    throw new RuntimeException("Interrupted while closing",e);
+  }
+}

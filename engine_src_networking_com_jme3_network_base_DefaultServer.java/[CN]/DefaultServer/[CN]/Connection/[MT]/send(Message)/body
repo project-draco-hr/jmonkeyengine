@@ -1,0 +1,9 @@
+{
+  ByteBuffer buffer=messageToBuffer(message);
+  if (message.isReliable() || fast == null) {
+    reliable.send(buffer);
+  }
+ else {
+    fast.send(buffer);
+  }
+}

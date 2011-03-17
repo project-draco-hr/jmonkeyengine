@@ -1,0 +1,8 @@
+{
+  for (  MessageListener<? super S> l : listeners) {
+    l.messageReceived(source,m);
+  }
+  for (  MessageListener<? super S> l : getListeners(m.getClass(),false)) {
+    l.messageReceived(source,m);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  this.reliable=reliable;
+  this.fast=fast;
+  if (reliable != null) {
+    reliableAdapter=new KernelAdapter(this,reliable,dispatcher);
+  }
+  if (fast != null) {
+    fastAdapter=new KernelAdapter(this,fast,dispatcher);
+  }
+}

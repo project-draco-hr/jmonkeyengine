@@ -1,0 +1,14 @@
+{
+  while (go.get()) {
+    try {
+      flushEvents();
+      Envelope e=kernel.read();
+      flushEvents();
+      createAndDispatch(e);
+    }
+ catch (    InterruptedException ex) {
+      if (!go.get())       return;
+      throw new RuntimeException("Unexpected interruption",ex);
+    }
+  }
+}

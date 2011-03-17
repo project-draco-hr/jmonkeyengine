@@ -1,0 +1,9 @@
+{
+  if (m instanceof ClientRegistrationMessage) {
+    this.id=((ClientRegistrationMessage)m).getId();
+    log.log(Level.INFO,"Connection established, id:{0}.",this.id);
+    fireConnected();
+    return;
+  }
+  messageListeners.messageReceived(this,m);
+}

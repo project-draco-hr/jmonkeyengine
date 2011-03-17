@@ -1,0 +1,38 @@
+{
+  Connection addedConnection=null;
+synchronized (this) {
+    long tempId=m.getId();
+    Connection c=connecting.remove(tempId);
+    if (c == null) {
+      c=new Connection();
+    }
+    if (ka == fastAdapter) {
+      c.fast=p;
+      if (c.reliable == null) {
+        connecting.put(tempId,c);
+      }
+    }
+ else {
+      c.reliable=p;
+      if (c.fast == null && fastAdapter != null) {
+        connecting.put(tempId,c);
+      }
+    }
+    if (!connecting.containsKey(tempId)) {
+      if (connections.put(c.getId(),c) == null) {
+        if (c.fast != null) {
+          endpointConnections.put(c.fast,c);
+        }
+        endpointConnections.put(c.reliable,c);
+        addedConnection=c;
+      }
+    }
+  }
+  if (addedConnection != null) {
+    fireConnectionAdded(addedConnection);
+    m=new ClientRegistrationMessage();
+    m.setId(addedConnection.getId());
+    m.setReliable(true);
+    addedConnection.send(m);
+  }
+}

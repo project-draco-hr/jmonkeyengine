@@ -1,0 +1,11 @@
+{
+  List<MessageListener<? super S>> result=typeListeners.get(c);
+  if (result == null && create) {
+    result=new CopyOnWriteArrayList<MessageListener<? super S>>();
+    typeListeners.put(c,result);
+  }
+  if (result == null) {
+    result=Collections.emptyList();
+  }
+  return result;
+}
