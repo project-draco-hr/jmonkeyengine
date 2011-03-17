@@ -1,0 +1,16 @@
+{
+  while (go.get()) {
+    setupSelectorOptions();
+    try {
+      select();
+    }
+ catch (    ClosedSelectorException e) {
+      if (!go.get())       return;
+      throw new KernelException("Premature selector closing",e);
+    }
+catch (    IOException e) {
+      if (!go.get())       return;
+      reportError(e);
+    }
+  }
+}

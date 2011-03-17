@@ -1,0 +1,14 @@
+{
+  checkClosed();
+  try {
+    int count=in.read(buffer);
+    if (count < 0) {
+      close();
+      return null;
+    }
+    return ByteBuffer.wrap(buffer,0,count);
+  }
+ catch (  IOException e) {
+    throw new ConnectorException("Error reading from connection to:" + remoteAddress,e);
+  }
+}

@@ -1,0 +1,6 @@
+{
+  if (reliable)   throw new UnsupportedOperationException("Reliable send not supported by this kernel.");
+  for (  UdpEndpoint p : socketEndpoints.values()) {
+    p.send(data);
+  }
+}

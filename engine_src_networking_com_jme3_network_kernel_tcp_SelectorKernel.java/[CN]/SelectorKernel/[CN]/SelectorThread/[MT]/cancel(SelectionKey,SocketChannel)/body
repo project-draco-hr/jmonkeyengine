@@ -1,0 +1,7 @@
+{
+  NioEndpoint p=(NioEndpoint)key.attachment();
+  endpointKeys.remove(p);
+  key.cancel();
+  c.close();
+  removeEndpoint(p,c);
+}

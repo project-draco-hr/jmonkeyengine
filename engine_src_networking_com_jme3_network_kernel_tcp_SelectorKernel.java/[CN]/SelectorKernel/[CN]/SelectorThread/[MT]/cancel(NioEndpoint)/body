@@ -1,0 +1,7 @@
+{
+  SelectionKey key=endpointKeys.remove(p);
+  SocketChannel c=(SocketChannel)key.channel();
+  key.cancel();
+  c.close();
+  removeEndpoint(p,c);
+}

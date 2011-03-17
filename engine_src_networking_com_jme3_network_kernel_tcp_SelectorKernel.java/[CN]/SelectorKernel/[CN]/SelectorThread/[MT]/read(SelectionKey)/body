@@ -1,0 +1,18 @@
+{
+  NioEndpoint p=(NioEndpoint)key.attachment();
+  SocketChannel c=(SocketChannel)key.channel();
+  working.clear();
+  int size;
+  try {
+    size=c.read(working);
+  }
+ catch (  IOException e) {
+    cancel(key,c);
+    return;
+  }
+  if (size == -1) {
+    cancel(key,c);
+    return;
+  }
+  newData(p,c,working,size);
+}

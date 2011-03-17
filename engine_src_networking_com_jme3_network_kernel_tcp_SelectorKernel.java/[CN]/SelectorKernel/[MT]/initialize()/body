@@ -1,0 +1,11 @@
+{
+  if (thread != null)   throw new IllegalStateException("Kernel already initialized.");
+  thread=createSelectorThread();
+  try {
+    thread.connect();
+    thread.start();
+  }
+ catch (  IOException e) {
+    throw new KernelException("Error hosting:" + host + " port:"+ port,e);
+  }
+}

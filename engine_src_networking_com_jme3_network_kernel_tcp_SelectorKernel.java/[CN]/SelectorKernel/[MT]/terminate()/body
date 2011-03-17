@@ -1,0 +1,10 @@
+{
+  if (thread == null)   throw new IllegalStateException("Kernel not initialized.");
+  try {
+    thread.close();
+    thread=null;
+  }
+ catch (  IOException e) {
+    throw new KernelException("Error closing host connection:" + host + " port:"+ port,e);
+  }
+}

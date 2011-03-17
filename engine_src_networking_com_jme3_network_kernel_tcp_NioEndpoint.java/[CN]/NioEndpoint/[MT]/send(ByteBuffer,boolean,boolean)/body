@@ -1,0 +1,13 @@
+{
+  ByteBuffer buffer;
+  if (!copy) {
+    buffer=data;
+  }
+ else {
+    buffer=ByteBuffer.allocate(data.remaining());
+    buffer.put(data);
+    buffer.flip();
+  }
+  outbound.add(buffer);
+  if (wakeup)   kernel.wakeupSelector();
+}

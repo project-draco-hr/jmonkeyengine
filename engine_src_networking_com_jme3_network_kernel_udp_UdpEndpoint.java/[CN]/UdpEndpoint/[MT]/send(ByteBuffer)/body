@@ -1,0 +1,9 @@
+{
+  try {
+    DatagramPacket p=new DatagramPacket(data.array(),data.position(),data.remaining(),address);
+    socket.send(p);
+  }
+ catch (  IOException e) {
+    throw new KernelException("Error sending datagram to:" + address,e);
+  }
+}

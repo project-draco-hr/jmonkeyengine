@@ -1,0 +1,9 @@
+{
+  UdpEndpoint p=socketEndpoints.get(address);
+  if (p == null && create) {
+    p=new UdpEndpoint(this,nextEndpointId(),address,thread.getSocket());
+    socketEndpoints.put(address,p);
+    addEvent(EndpointEvent.createAdd(this,p));
+  }
+  return p;
+}
