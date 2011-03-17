@@ -4,11 +4,13 @@
     return;
   }
   float tpf=timer.getTimePerFrame() * speed;
-  secondCounter+=timer.getTimePerFrame();
-  int fps=(int)timer.getFrameRate();
-  if (secondCounter >= 1.0f) {
-    fpsText.setText("Frames per second: " + fps);
-    secondCounter=0.0f;
+  if (showFps) {
+    secondCounter+=timer.getTimePerFrame();
+    int fps=(int)timer.getFrameRate();
+    if (secondCounter >= 1.0f) {
+      fpsText.setText("Frames per second: " + fps);
+      secondCounter=0.0f;
+    }
   }
   stateManager.update(tpf);
   simpleUpdate(tpf);
