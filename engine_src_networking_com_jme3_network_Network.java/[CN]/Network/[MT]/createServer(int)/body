@@ -1,6 +1,3 @@
 {
-  InetAddress local=InetAddress.getLocalHost();
-  UdpKernel fast=new UdpKernel(local,port);
-  SelectorKernel reliable=new SelectorKernel(local,port);
-  return new DefaultServer(reliable,fast);
+  return createServer(port,port);
 }

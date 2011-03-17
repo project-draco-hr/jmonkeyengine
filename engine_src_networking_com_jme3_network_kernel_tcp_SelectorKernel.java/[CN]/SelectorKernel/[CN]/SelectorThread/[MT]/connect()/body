@@ -2,7 +2,6 @@
   this.selector=SelectorProvider.provider().openSelector();
   this.serverChannel=ServerSocketChannel.open();
   serverChannel.configureBlocking(false);
-  InetSocketAddress isa=new InetSocketAddress(host,port);
-  serverChannel.socket().bind(isa);
+  serverChannel.socket().bind(address);
   serverChannel.register(selector,SelectionKey.OP_ACCEPT);
 }
