@@ -1,0 +1,14 @@
+{
+  Serializer.registerClass(TestMessage.class);
+  Server server=Network.createServer(5110);
+  server.start();
+  Client client=Network.connectToServer("hydra",5110,5000);
+  client.start();
+  client.addMessageListener(new TestThroughput(false),TestMessage.class);
+  server.addMessageListener(new TestThroughput(true),TestMessage.class);
+  Thread.sleep(1);
+  TestMessage test=new TestMessage();
+  while (true) {
+    client.send(test);
+  }
+}
