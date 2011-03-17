@@ -1,0 +1,12 @@
+{
+  if (reliable == null)   throw new IllegalArgumentException("The reliable connector cannot be null.");
+  if (isRunning)   throw new IllegalStateException("Client is already started.");
+  this.reliable=reliable;
+  this.fast=fast;
+  if (reliable != null) {
+    reliableAdapter=new ConnectorAdapter(reliable,dispatcher);
+  }
+  if (fast != null) {
+    fastAdapter=new ConnectorAdapter(fast,dispatcher);
+  }
+}
