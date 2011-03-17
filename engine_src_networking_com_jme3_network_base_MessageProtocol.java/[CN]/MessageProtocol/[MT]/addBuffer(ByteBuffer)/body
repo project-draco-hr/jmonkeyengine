@@ -1,0 +1,21 @@
+{
+  while (buffer.remaining() > 0) {
+    if (current == null) {
+      size=buffer.getShort();
+      current=ByteBuffer.allocate(size);
+    }
+    if (current.remaining() <= buffer.remaining()) {
+      int extra=buffer.remaining() - current.remaining();
+      buffer.limit(buffer.position() + current.remaining());
+      current.put(buffer);
+      current.flip();
+      buffer.limit(buffer.position() + extra);
+      createMessage(current);
+      current=null;
+    }
+ else {
+      current.put(buffer);
+    }
+  }
+  return messages.size();
+}

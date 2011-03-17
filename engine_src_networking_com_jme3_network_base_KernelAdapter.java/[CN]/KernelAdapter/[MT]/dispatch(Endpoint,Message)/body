@@ -1,0 +1,8 @@
+{
+  if (m instanceof ClientRegistrationMessage) {
+    server.registerClient(this,p,(ClientRegistrationMessage)m);
+    return;
+  }
+  HostedConnection source=getConnection(p);
+  messageDispatcher.messageReceived(source,m);
+}

@@ -1,5 +1,5 @@
 {
-  ByteBuffer buffer=ByteBuffer.allocate(32767 + 2);
+  ByteBuffer buffer=target == null ? ByteBuffer.allocate(32767 + 2) : target;
   try {
     buffer.position(2);
     Serializer.writeClassAndObject(buffer,message);
