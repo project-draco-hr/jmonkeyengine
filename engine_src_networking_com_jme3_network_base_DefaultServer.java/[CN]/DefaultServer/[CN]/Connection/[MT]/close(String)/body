@@ -1,4 +1,9 @@
 {
+  DisconnectMessage m=new DisconnectMessage();
+  m.setType(DisconnectMessage.KICK);
+  m.setReason(reason);
+  m.setReliable(true);
+  send(m);
   if (reliable != null) {
     reliable.close();
   }
