@@ -1,6 +1,6 @@
 {
   if (m instanceof ClientRegistrationMessage) {
-    this.id=((ClientRegistrationMessage)m).getId();
+    this.id=(int)((ClientRegistrationMessage)m).getId();
     log.log(Level.INFO,"Connection established, id:{0}.",this.id);
     fireConnected();
     return;
