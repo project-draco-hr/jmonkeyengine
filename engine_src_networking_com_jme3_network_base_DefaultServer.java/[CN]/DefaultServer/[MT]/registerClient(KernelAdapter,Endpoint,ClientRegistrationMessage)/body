@@ -5,6 +5,10 @@ synchronized (this) {
     Connection c=connecting.remove(tempId);
     if (c == null) {
       c=new Connection();
+      log.log(Level.FINE,"Registering client for endpoint, pass 1:{0}.",p);
+    }
+ else {
+      log.log(Level.FINE,"Refining client registration for endpoint:{0}.",p);
     }
     if (ka == fastAdapter) {
       c.fast=p;
@@ -29,6 +33,7 @@ synchronized (this) {
     }
   }
   if (addedConnection != null) {
+    log.log(Level.INFO,"Client registered:{0}.",addedConnection);
     fireConnectionAdded(addedConnection);
     m=new ClientRegistrationMessage();
     m.setId(addedConnection.getId());
