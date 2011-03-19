@@ -17,9 +17,11 @@
   try {
     if (server != null) {
       remoteObj.client.send(call);
+      logger.log(Level.INFO,"Server: Sending {0}",call);
     }
  else {
       client.send(call);
+      logger.log(Level.INFO,"Client: Sending {0}",call);
     }
   }
  catch (  IOException ex) {

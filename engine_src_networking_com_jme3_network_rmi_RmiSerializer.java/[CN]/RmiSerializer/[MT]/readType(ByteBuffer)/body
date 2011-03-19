@@ -2,8 +2,13 @@
   SerializerRegistration reg=Serializer.readClass(buffer);
   if (reg == null) {
     short id=buffer.getShort(buffer.position() - 2);
-    if (id == 0)     return void.class;
- else     throw new IOException("Undefined class ID: " + id);
+    if (id == 0) {
+      return void.class;
+    }
+ else {
+      logger.log(Level.WARNING,"Undefined class ID: {0}",id);
+      throw new IOException();
+    }
   }
   return reg.getType();
 }

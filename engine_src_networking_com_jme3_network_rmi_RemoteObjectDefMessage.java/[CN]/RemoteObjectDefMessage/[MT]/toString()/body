@@ -1,0 +1,9 @@
+{
+  StringBuilder sb=new StringBuilder();
+  sb.append("RemoteObjectDefMessage[\n");
+  for (  ObjectDef def : objects) {
+    sb.append("\t").append(def).append("\n");
+  }
+  sb.append("]");
+  return sb.toString();
+}

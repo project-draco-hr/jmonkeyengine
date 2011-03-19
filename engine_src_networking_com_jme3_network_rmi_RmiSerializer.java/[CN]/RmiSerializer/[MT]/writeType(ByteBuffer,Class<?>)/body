@@ -4,7 +4,10 @@
   }
  else {
     SerializerRegistration reg=Serializer.getSerializerRegistration(clazz);
-    if (reg == null)     throw new IOException("Unknown class: " + clazz);
+    if (reg == null) {
+      logger.log(Level.WARNING,"Unknown class: {0}",clazz);
+      throw new IOException();
+    }
     buffer.putShort(reg.getId());
   }
 }
