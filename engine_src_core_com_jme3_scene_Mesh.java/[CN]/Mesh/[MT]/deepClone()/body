@@ -2,7 +2,7 @@
   try {
     Mesh clone=(Mesh)super.clone();
     clone.meshBound=meshBound != null ? meshBound.clone() : null;
-    clone.collisionTree=collisionTree != null ? collisionTree : null;
+    clone.collisionTree=null;
     clone.buffers=new IntMap<VertexBuffer>();
     for (    Entry<VertexBuffer> ent : buffers) {
       clone.buffers.put(ent.getKey(),ent.getValue().clone());

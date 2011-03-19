@@ -1,0 +1,6 @@
+{
+  if (message instanceof PingMessage) {
+    System.out.println("Server: Received ping message!");
+    source.send(new PongMessage());
+  }
+}
