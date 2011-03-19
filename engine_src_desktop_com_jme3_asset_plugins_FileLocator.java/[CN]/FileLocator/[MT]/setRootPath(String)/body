@@ -1,5 +1,5 @@
 {
   if (rootPath == null)   throw new NullPointerException();
   root=new File(rootPath);
-  if (!root.isDirectory())   throw new RuntimeException("Given root path not a directory");
+  if (!root.isDirectory())   throw new IllegalArgumentException("Given root path \"" + root + "\" not a directory");
 }
