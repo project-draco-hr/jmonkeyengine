@@ -3,7 +3,7 @@
   byte[] copy=new byte[data.remaining()];
   System.arraycopy(data.array(),data.position(),copy,0,data.remaining());
   for (  NioEndpoint p : endpoints.values()) {
-    if (!filter.apply(p))     continue;
+    if (filter != null && !filter.apply(p))     continue;
     p.send(data,false,false);
   }
   wakeupSelector();
