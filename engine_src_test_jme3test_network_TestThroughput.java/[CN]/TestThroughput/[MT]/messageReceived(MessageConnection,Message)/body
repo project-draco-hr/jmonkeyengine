@@ -20,6 +20,7 @@
       System.out.println("Received a message from a not fully connected source, msg:" + msg);
     }
  else {
+      ((com.jme3.network.message.Message)msg).setReliable(testReliable);
       source.send(msg);
     }
   }
