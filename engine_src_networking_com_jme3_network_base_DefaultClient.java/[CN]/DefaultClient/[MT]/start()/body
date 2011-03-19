@@ -15,12 +15,12 @@
     reg.setGameName(getGameName());
     reg.setVersion(getVersion());
     reg.setReliable(true);
-    send(reg);
+    send(reg,false);
   }
   if (fast != null) {
     reg=new ClientRegistrationMessage();
     reg.setId(tempId);
     reg.setReliable(false);
-    send(reg);
+    send(reg,false);
   }
 }

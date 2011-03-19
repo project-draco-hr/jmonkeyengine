@@ -1,0 +1,14 @@
+{
+  checkRunning();
+  if (waitForConnected) {
+    waitForConnected();
+  }
+  ByteBuffer buffer=MessageProtocol.messageToBuffer(message,null);
+  if (message.isReliable() || fast == null) {
+    if (reliable == null)     throw new RuntimeException("No reliable connector configured");
+    reliable.write(buffer);
+  }
+ else {
+    fast.write(buffer);
+  }
+}

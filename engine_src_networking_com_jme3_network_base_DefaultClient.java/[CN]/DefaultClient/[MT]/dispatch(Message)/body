@@ -2,6 +2,7 @@
   if (m instanceof ClientRegistrationMessage) {
     this.id=(int)((ClientRegistrationMessage)m).getId();
     log.log(Level.INFO,"Connection established, id:{0}.",this.id);
+    connecting.countDown();
     fireConnected();
     return;
   }
