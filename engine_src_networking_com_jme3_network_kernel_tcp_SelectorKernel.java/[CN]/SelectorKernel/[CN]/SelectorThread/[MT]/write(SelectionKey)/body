@@ -2,6 +2,10 @@
   NioEndpoint p=(NioEndpoint)key.attachment();
   SocketChannel c=(SocketChannel)key.channel();
   ByteBuffer current=p.peekPending();
+  if (current == NioEndpoint.CLOSE_MARKER) {
+    closeEndpoint(p);
+    return;
+  }
   c.write(current);
   if (current.remaining() == 0) {
     p.removePending();

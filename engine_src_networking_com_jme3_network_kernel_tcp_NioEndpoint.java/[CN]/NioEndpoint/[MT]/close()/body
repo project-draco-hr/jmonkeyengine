@@ -1,8 +1,3 @@
 {
-  try {
-    kernel.closeEndpoint(this);
-  }
- catch (  IOException e) {
-    throw new KernelException("Error closing endpoint for socket:" + socket,e);
-  }
+  close(false);
 }
