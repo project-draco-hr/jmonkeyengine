@@ -12,6 +12,8 @@
   if (reliable != null) {
     reg=new ClientRegistrationMessage();
     reg.setId(tempId);
+    reg.setGameName(getGameName());
+    reg.setVersion(getVersion());
     reg.setReliable(true);
     send(reg);
   }

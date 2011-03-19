@@ -1,5 +1,6 @@
 {
   Connection addedConnection=null;
+  Connection bootedConnection=null;
 synchronized (this) {
     long tempId=m.getId();
     Connection c=connecting.remove(tempId);
@@ -18,6 +19,11 @@ synchronized (this) {
     }
  else {
       c.reliable=p;
+      if (!getGameName().equals(m.getGameName()) || getVersion() != m.getVersion()) {
+        log.log(Level.INFO,"Kicking client due to name/version mismatch:{0}.",c);
+        c.close("Server client mismatch, server:" + getGameName() + " v"+ getVersion()+ "  client:"+ m.getGameName()+ " v"+ m.getVersion());
+        return;
+      }
       if (c.fast == null && fastAdapter != null) {
         connecting.put(tempId,c);
       }
