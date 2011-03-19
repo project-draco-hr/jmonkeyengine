@@ -1,10 +1,11 @@
 {
   ByteBuffer buffer=MessageProtocol.messageToBuffer(message,null);
+  FilterAdapter adapter=filter == null ? null : new FilterAdapter(filter);
   if (message.isReliable() || fast == null) {
     if (reliable == null)     throw new RuntimeException("No reliable kernel configured");
-    reliable.broadcast(filter,buffer,true);
+    reliable.broadcast(adapter,buffer,true);
   }
  else {
-    fast.broadcast(filter,buffer,false);
+    fast.broadcast(adapter,buffer,false);
   }
 }
