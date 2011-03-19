@@ -8,6 +8,9 @@
   if (m instanceof DisconnectMessage) {
     String reason=((DisconnectMessage)m).getReason();
     log.log(Level.SEVERE,"Connection terminated, reason:{0}.",reason);
+    DisconnectInfo info=new DisconnectInfo();
+    info.reason=reason;
+    fireDisconnected(info);
     close();
   }
   messageListeners.messageReceived(this,m);
