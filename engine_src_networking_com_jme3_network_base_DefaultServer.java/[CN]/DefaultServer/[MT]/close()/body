@@ -4,10 +4,8 @@
     if (fastAdapter != null) {
       fastAdapter.close();
     }
-    if (reliableAdapter != null) {
-      reliableAdapter.close();
-      isRunning=false;
-    }
+    reliableAdapter.close();
+    isRunning=false;
   }
  catch (  InterruptedException e) {
     throw new RuntimeException("Interrupted while closing",e);

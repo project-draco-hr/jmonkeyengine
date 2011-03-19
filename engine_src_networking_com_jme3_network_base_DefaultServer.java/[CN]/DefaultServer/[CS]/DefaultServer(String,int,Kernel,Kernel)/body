@@ -1,11 +1,10 @@
 {
+  if (reliable == null)   throw new IllegalArgumentException("Default server reqiures a reliable kernel instance.");
   this.gameName=gameName;
   this.version=version;
   this.reliable=reliable;
   this.fast=fast;
-  if (reliable != null) {
-    reliableAdapter=new KernelAdapter(this,reliable,dispatcher);
-  }
+  reliableAdapter=new KernelAdapter(this,reliable,dispatcher);
   if (fast != null) {
     fastAdapter=new KernelAdapter(this,fast,dispatcher);
   }

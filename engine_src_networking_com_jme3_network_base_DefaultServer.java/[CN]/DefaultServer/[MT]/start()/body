@@ -1,14 +1,10 @@
 {
   if (isRunning)   throw new IllegalStateException("Server is already started.");
-  if (reliable != null) {
-    reliable.initialize();
-  }
+  reliable.initialize();
   if (fast != null) {
     fast.initialize();
   }
-  if (reliableAdapter != null) {
-    reliableAdapter.start();
-  }
+  reliableAdapter.start();
   if (fastAdapter != null) {
     fastAdapter.start();
   }
