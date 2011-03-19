@@ -1,5 +1,7 @@
 {
-  this.sock=new DatagramSocket(localPort,local);
+  InetSocketAddress localSocketAddress=new InetSocketAddress(localPort);
+  this.sock=new DatagramSocket(localSocketAddress);
   remoteAddress=new InetSocketAddress(remote,remotePort);
+  sock.connect(remoteAddress);
   connected.set(true);
 }
