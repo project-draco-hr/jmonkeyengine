@@ -1,5 +1,3 @@
 {
-  UdpKernel fast=new UdpKernel(udpPort);
-  SelectorKernel reliable=new SelectorKernel(tcpPort);
-  return new DefaultServer(reliable,fast);
+  return createServer("Unnamed Game",42,tcpPort,udpPort);
 }

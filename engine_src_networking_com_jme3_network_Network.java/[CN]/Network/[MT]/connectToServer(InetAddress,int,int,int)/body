@@ -1,6 +1,5 @@
 {
-  InetAddress local=InetAddress.getLocalHost();
-  UdpConnector fast=new UdpConnector(local,localUdpPort,address,port);
+  UdpConnector fast=new UdpConnector(localUdpPort,address,port);
   SocketConnector reliable=new SocketConnector(address,port);
   return new DefaultClient(reliable,fast);
 }
