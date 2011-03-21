@@ -16,6 +16,9 @@
       }
     }
   }
+ else   if (type == SplineType.Bezier) {
+    this.computeBezierLength();
+  }
  else {
     initCatmullRomWayPoints(controlPoints);
     computeCatmulLength();
