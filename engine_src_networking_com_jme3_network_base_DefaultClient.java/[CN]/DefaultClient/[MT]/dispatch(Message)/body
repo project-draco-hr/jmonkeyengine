@@ -14,5 +14,7 @@
     fireDisconnected(info);
     close();
   }
-  messageListeners.messageReceived(this,m);
+synchronized (this) {
+    messageListeners.messageReceived(this,m);
+  }
 }
