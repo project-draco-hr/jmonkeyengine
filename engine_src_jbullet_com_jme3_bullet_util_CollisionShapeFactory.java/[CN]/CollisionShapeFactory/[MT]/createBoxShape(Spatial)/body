@@ -1,6 +1,6 @@
 {
   if (spatial instanceof Geometry) {
-    return createSingleBoxShape((Geometry)spatial);
+    return createSingleBoxShape((Geometry)spatial,spatial);
   }
  else   if (spatial instanceof Node) {
     return createBoxCompoundShape((Node)spatial);

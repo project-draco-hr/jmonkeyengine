@@ -1,0 +1,21 @@
+{
+  for (  Spatial spatial : rootNode.getChildren()) {
+    if (spatial instanceof Node) {
+      createCompoundShape(realRootNode,(Node)spatial,shape,meshAccurate,dynamic);
+    }
+ else     if (spatial instanceof Geometry) {
+      if (meshAccurate) {
+        CollisionShape childShape=dynamic ? createSingleDynamicMeshShape((Geometry)spatial,realRootNode) : createSingleMeshShape((Geometry)spatial,realRootNode);
+        if (childShape != null) {
+          Transform trans=getTransform(spatial,realRootNode);
+          shape.addChildShape(childShape,trans.getTranslation(),trans.getRotation().toRotationMatrix());
+        }
+      }
+ else {
+        Transform trans=getTransform(spatial,realRootNode);
+        shape.addChildShape(createSingleBoxShape(spatial,realRootNode),trans.getTranslation(),trans.getRotation().toRotationMatrix());
+      }
+    }
+  }
+  return shape;
+}

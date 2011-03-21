@@ -4,7 +4,7 @@
     return new HeightfieldCollisionShape(terrain.getHeightMap(),terrain.getLocalScale());
   }
  else   if (spatial instanceof Geometry) {
-    return createSingleMeshShape((Geometry)spatial);
+    return createSingleMeshShape((Geometry)spatial,spatial);
   }
  else   if (spatial instanceof Node) {
     return createMeshCompoundShape((Node)spatial);
