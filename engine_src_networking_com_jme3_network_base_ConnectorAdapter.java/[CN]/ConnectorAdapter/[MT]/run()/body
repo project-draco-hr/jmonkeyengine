@@ -13,6 +13,7 @@
     protocol.addBuffer(buffer);
     Message m=null;
     while ((m=protocol.getMessage()) != null) {
+      m.setReliable(reliable);
       dispatch(m);
     }
   }
