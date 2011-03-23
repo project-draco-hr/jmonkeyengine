@@ -1,5 +1,5 @@
 {
-  InetSocketAddress localSocketAddress=new InetSocketAddress(localPort);
+  InetSocketAddress localSocketAddress=new InetSocketAddress(0);
   this.sock=new DatagramSocket(localSocketAddress);
   remoteAddress=new InetSocketAddress(remote,remotePort);
   sock.connect(remoteAddress);

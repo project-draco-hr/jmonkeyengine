@@ -1,3 +1,6 @@
 {
-  return connectToServer(gameName,version,host,hostPort,hostPort,localUdpPort);
+  InetAddress remoteAddress=InetAddress.getByName(host);
+  UdpConnector fast=new UdpConnector(remoteAddress,remoteUdpPort);
+  SocketConnector reliable=new SocketConnector(remoteAddress,hostPort);
+  return new DefaultClient(gameName,version,reliable,fast);
 }
