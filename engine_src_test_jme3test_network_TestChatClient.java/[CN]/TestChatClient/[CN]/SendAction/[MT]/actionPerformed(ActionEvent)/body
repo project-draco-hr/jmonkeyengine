@@ -1,0 +1,8 @@
+{
+  String name=nameField.getText();
+  String message=messageField.getText();
+  ChatMessage chat=new ChatMessage(name,message);
+  chat.setReliable(reliable);
+  System.out.println("Sending:" + chat);
+  client.send(chat);
+}

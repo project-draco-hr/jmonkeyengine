@@ -1,0 +1,10 @@
+{
+  TestChatServer.initializeClasses();
+  String s=getString(null,"Host Info","Enter chat host:","localhost");
+  if (s == null) {
+    System.out.println("User cancelled.");
+    return;
+  }
+  TestChatClient test=new TestChatClient(s);
+  test.setVisible(true);
+}

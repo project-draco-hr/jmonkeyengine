@@ -1,0 +1,10 @@
+{
+  if (m instanceof ChatMessage) {
+    source.setAttribute("name",((ChatMessage)m).getName());
+    System.out.println("Broadcasting:" + m);
+    source.getServer().broadcast(m);
+  }
+ else {
+    System.err.println("Received odd message:" + m);
+  }
+}
