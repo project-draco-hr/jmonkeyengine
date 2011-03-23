@@ -1,0 +1,13 @@
+{
+  float delta=KNOTS_MINIMUM_DELTA;
+  for (int i=1; i < basisFunctionDegree && knots.get(i).equals(knots.get(0)); ++i) {
+    knots.set(i,Float.valueOf(knots.get(i).floatValue() + delta));
+    delta+=KNOTS_MINIMUM_DELTA;
+  }
+  float lastKnot=knots.get(knots.size() - 1);
+  delta=KNOTS_MINIMUM_DELTA;
+  for (int i=knots.size() - basisFunctionDegree + 1; i < knots.size() && knots.get(i).equals(lastKnot); ++i) {
+    knots.set(i,Float.valueOf(knots.get(i).floatValue() + delta));
+    delta+=KNOTS_MINIMUM_DELTA;
+  }
+}

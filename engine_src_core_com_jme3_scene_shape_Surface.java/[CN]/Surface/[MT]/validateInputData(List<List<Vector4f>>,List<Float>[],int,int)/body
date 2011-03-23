@@ -1,0 +1,24 @@
+{
+  int uPointsAmount=controlPoints.get(0).size();
+  for (int i=1; i < controlPoints.size(); ++i) {
+    if (controlPoints.get(i).size() != uPointsAmount) {
+      throw new IllegalArgumentException("The amount of 'U' control points is invalid!");
+    }
+  }
+  if (uSegments <= 0) {
+    throw new IllegalArgumentException("U segments amount should be positive!");
+  }
+  if (vSegments < 0) {
+    throw new IllegalArgumentException("V segments amount cannot be negative!");
+  }
+  if (nurbKnots.length != 2) {
+    throw new IllegalArgumentException("Nurb surface should have two rows of knots!");
+  }
+  for (int i=0; i < nurbKnots.length; ++i) {
+    for (int j=0; j < nurbKnots[i].size() - 1; ++j) {
+      if (nurbKnots[i].get(j) > nurbKnots[i].get(j + 1)) {
+        throw new IllegalArgumentException("The knots' values cannot decrease!");
+      }
+    }
+  }
+}

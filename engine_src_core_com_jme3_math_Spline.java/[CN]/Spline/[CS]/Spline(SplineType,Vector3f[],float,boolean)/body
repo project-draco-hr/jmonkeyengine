@@ -1,4 +1,7 @@
 {
+  if (splineType == SplineType.Nurb) {
+    throw new IllegalArgumentException("To create NURBS spline use: 'public Spline(Vector3f[] controlPoints, float[] weights, float[] nurbKnots)' constructor!");
+  }
   for (int i=0; i < controlPoints.length; i++) {
     Vector3f vector3f=controlPoints[i];
     this.controlPoints.add(vector3f);
@@ -6,5 +9,5 @@
   type=splineType;
   this.curveTension=curveTension;
   this.cycle=cycle;
-  computeTotalLentgh();
+  this.computeTotalLentgh();
 }

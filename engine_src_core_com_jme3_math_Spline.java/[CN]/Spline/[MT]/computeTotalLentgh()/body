@@ -19,8 +19,11 @@
  else   if (type == SplineType.Bezier) {
     this.computeBezierLength();
   }
+ else   if (type == SplineType.Nurb) {
+    this.computeNurbLength();
+  }
  else {
-    initCatmullRomWayPoints(controlPoints);
-    computeCatmulLength();
+    this.initCatmullRomWayPoints(controlPoints);
+    this.computeCatmulLength();
   }
 }
