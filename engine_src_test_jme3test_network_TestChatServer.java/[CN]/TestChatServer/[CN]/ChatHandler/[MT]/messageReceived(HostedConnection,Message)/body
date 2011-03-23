@@ -1,7 +1,7 @@
 {
   if (m instanceof ChatMessage) {
     source.setAttribute("name",((ChatMessage)m).getName());
-    System.out.println("Broadcasting:" + m);
+    System.out.println("Broadcasting:" + m + "  reliable:"+ m.isReliable());
     source.getServer().broadcast(m);
   }
  else {
