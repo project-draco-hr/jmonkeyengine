@@ -1,0 +1,24 @@
+{
+  AppSettings settings=new AppSettings(true);
+  settings.setWidth(640);
+  settings.setHeight(480);
+  final TestSafeCanvas app=new TestSafeCanvas();
+  app.setPauseOnLostFocus(false);
+  app.setSettings(settings);
+  app.createCanvas();
+  JmeCanvasContext context=(JmeCanvasContext)app.getContext();
+  Canvas canvas=context.getCanvas();
+  canvas.setSize(settings.getWidth(),settings.getHeight());
+  JFrame frame=new JFrame("Test");
+  frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+  frame.addWindowListener(new WindowAdapter(){
+    @Override public void windowClosing(    WindowEvent e){
+      app.stop();
+    }
+  }
+);
+  frame.getContentPane().add(canvas);
+  frame.pack();
+  frame.setLocationRelativeTo(null);
+  frame.setVisible(true);
+}
