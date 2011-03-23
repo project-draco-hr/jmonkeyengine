@@ -4,6 +4,14 @@
   setName(NbBundle.getMessage(SceneViewerTopComponent.class,"CTL_SceneViewerTopComponent"));
   setToolTipText(NbBundle.getMessage(SceneViewerTopComponent.class,"HINT_SceneViewerTopComponent"));
   setIcon(ImageUtilities.loadImage(ICON_PATH,true));
-  putClientProperty(TopComponent.PROP_CLOSING_DISABLED,Boolean.TRUE);
-  app=SceneApplication.getApplication();
+  try {
+    app=SceneApplication.getApplication();
+    oGLPanel.add(((JmeCanvasContext)app.getContext()).getCanvas());
+  }
+ catch (  Exception e) {
+    showOpenGLError(e.toString());
+  }
+catch (  Error err) {
+    showOpenGLError(err.toString());
+  }
 }
