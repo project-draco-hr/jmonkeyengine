@@ -1,5 +1,8 @@
 {
   progressHandle.finish();
+  if (msg == null) {
+    return;
+  }
   if (!started) {
     SceneViewerTopComponent.showOpenGLError(msg);
     Exceptions.printStackTrace(t);
