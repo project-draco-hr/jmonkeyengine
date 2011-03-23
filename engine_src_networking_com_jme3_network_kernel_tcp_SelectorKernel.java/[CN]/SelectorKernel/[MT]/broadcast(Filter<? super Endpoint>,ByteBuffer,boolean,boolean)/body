@@ -1,10 +1,13 @@
 {
   if (!reliable)   throw new UnsupportedOperationException("Unreliable send not supported by this kernel.");
-  byte[] copy=new byte[data.remaining()];
-  System.arraycopy(data.array(),data.position(),copy,0,data.remaining());
+  if (copy) {
+    byte[] temp=new byte[data.remaining()];
+    System.arraycopy(data.array(),data.position(),temp,0,data.remaining());
+    data=ByteBuffer.wrap(temp);
+  }
   for (  NioEndpoint p : endpoints.values()) {
     if (filter != null && !filter.apply(p))     continue;
-    p.send(data,false,false);
+    p.send(data.duplicate(),false,false);
   }
   wakeupSelector();
 }

@@ -1,5 +1,7 @@
 {
   for (  Map.Entry<NioEndpoint,SelectionKey> e : endpointKeys.entrySet()) {
-    if (e.getKey().hasPending())     e.getValue().interestOps(SelectionKey.OP_WRITE);
+    if (e.getKey().hasPending()) {
+      e.getValue().interestOps(SelectionKey.OP_WRITE);
+    }
   }
 }

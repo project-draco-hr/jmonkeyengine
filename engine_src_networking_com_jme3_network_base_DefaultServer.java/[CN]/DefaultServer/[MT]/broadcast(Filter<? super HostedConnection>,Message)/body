@@ -2,9 +2,9 @@
   ByteBuffer buffer=MessageProtocol.messageToBuffer(message,null);
   FilterAdapter adapter=filter == null ? null : new FilterAdapter(filter);
   if (message.isReliable() || fast == null) {
-    reliable.broadcast(adapter,buffer,true);
+    reliable.broadcast(adapter,buffer,true,false);
   }
  else {
-    fast.broadcast(adapter,buffer,false);
+    fast.broadcast(adapter,buffer,false,false);
   }
 }
