@@ -10,6 +10,7 @@
   }
   renderer.resetGLObjects();
   logger.log(Level.INFO,"OGL: Creating display..");
+  renderable.set(true);
   createContext(settings);
   logger.log(Level.INFO,"OGL: Waiting for display to become active..");
   while (!Display.isCreated()) {
@@ -22,20 +23,25 @@
   }
   logger.log(Level.INFO,"OGL: Display is active!");
   try {
-    if (mouseWasGrabbed) {
+    if (mouseActive) {
       Mouse.create();
-      Mouse.setGrabbed(true);
-      mouseWasGrabbed=false;
-    }
-    SwingUtilities.invokeLater(new Runnable(){
-      public void run(){
-        canvas.requestFocus();
+      if (mouseWasGrabbed) {
+        Mouse.setGrabbed(true);
+        mouseWasGrabbed=false;
       }
     }
-);
+    if (keyboardActive) {
+      Keyboard.create();
+    }
+    logger.log(Level.INFO,"OGL: Input has been reinitialized");
   }
  catch (  LWJGLException ex) {
-    logger.log(Level.SEVERE,"restoreCanvas()",ex);
+    logger.log(Level.SEVERE,"Failed to re-init input",ex);
   }
-  listener.gainFocus();
+  SwingUtilities.invokeLater(new Runnable(){
+    public void run(){
+      canvas.requestFocus();
+    }
+  }
+);
 }

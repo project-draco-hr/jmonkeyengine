@@ -9,30 +9,18 @@
 );
     }
     createContext(settings);
-    logger.info("Display created.");
-    logger.log(Level.FINE,"Running on thread: {0}",Thread.currentThread().getName());
-    logger.log(Level.INFO,"Adapter: {0}",Display.getAdapter());
-    logger.log(Level.INFO,"Driver Version: {0}",Display.getVersion());
-    String vendor=GL11.glGetString(GL11.GL_VENDOR);
-    logger.log(Level.INFO,"Vendor: {0}",vendor);
-    String version=GL11.glGetString(GL11.GL_VERSION);
-    logger.log(Level.INFO,"OpenGL Version: {0}",version);
-    String renderer=GL11.glGetString(GL11.GL_RENDERER);
-    logger.log(Level.INFO,"Renderer: {0}",renderer);
-    if (GLContext.getCapabilities().OpenGL20) {
-      String shadingLang=GL11.glGetString(GL20.GL_SHADING_LANGUAGE_VERSION);
-      logger.log(Level.INFO,"GLSL Ver: {0}",shadingLang);
-    }
+    if (renderable.get())     printContextInitInfo();
     created.set(true);
   }
  catch (  Exception ex) {
-    listener.handleError("Failed to create display",ex);
-  }
- finally {
-    if (!created.get()) {
+    try {
       if (Display.isCreated())       Display.destroy();
-      return;
     }
+ catch (    Exception ex2) {
+      logger.log(Level.WARNING,null,ex2);
+    }
+    listener.handleError("Failed to create display",ex);
+    return;
   }
   super.internalCreate();
   listener.initialize();

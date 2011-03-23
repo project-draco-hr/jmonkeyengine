@@ -27,24 +27,15 @@
   Display.setFullscreen(settings.isFullscreen());
   Display.setVSyncEnabled(settings.isVSync());
   if (!created.get() || pixelFormatChanged) {
-    if (settings.getBoolean("GraphicsDebug") || settings.getRenderer().equals(AppSettings.LWJGL_OPENGL3)) {
-      ContextAttribs attr;
-      if (settings.getRenderer().equals(AppSettings.LWJGL_OPENGL3)) {
-        attr=new ContextAttribs(3,3);
-        attr=attr.withProfileCore(true).withForwardCompatible(true).withProfileCompatibility(false);
-      }
- else {
-        attr=new ContextAttribs();
-      }
-      if (settings.getBoolean("GraphicsDebug")) {
-        attr=attr.withDebug(true);
-      }
+    ContextAttribs attr=createContextAttribs();
+    if (attr != null) {
       Display.create(pixelFormat,attr);
     }
  else {
       Display.create(pixelFormat);
     }
-    if (pixelFormatChanged && pixelFormat.getSamples() > 1) {
+    renderable.set(true);
+    if (pixelFormatChanged && pixelFormat.getSamples() > 1 && GLContext.getCapabilities().GL_ARB_multisample) {
       GL11.glEnable(ARBMultisample.GL_MULTISAMPLE_ARB);
     }
   }

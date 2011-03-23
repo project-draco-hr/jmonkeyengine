@@ -1,18 +1,2 @@
 {
-  timer=new LwjglTimer();
-  if (settings.getRenderer().equals(AppSettings.LWJGL_OPENGL2) || settings.getRenderer().equals(AppSettings.LWJGL_OPENGL3)) {
-    renderer=new LwjglRenderer();
-    ((LwjglRenderer)renderer).initialize();
-  }
- else   if (settings.getRenderer().equals(AppSettings.LWJGL_OPENGL1)) {
-    renderer=new LwjglGL1Renderer();
-    ((LwjglGL1Renderer)renderer).initialize();
-  }
- else {
-    throw new UnsupportedOperationException("Unsupported renderer: " + settings.getRenderer());
-  }
-synchronized (createdLock) {
-    created.set(true);
-    createdLock.notifyAll();
-  }
 }

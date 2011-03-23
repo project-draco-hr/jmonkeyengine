@@ -3,43 +3,37 @@
   canvas=new Canvas(){
     @Override public void addNotify(){
       super.addNotify();
-      if (renderThread == null || renderThread.getState() == Thread.State.TERMINATED) {
-        if (renderThread != null && renderThread.getState() == Thread.State.TERMINATED) {
-          logger.log(Level.INFO,"EDT: Creating OGL thread. Was terminated.");
-        }
- else {
-          logger.log(Level.INFO,"EDT: Creating OGL thread.");
-        }
+      if (renderThread != null && renderThread.getState() == Thread.State.TERMINATED)       return;
+      if (renderThread == null) {
+        logger.log(Level.INFO,"EDT: Creating OGL thread.");
         renderThread=new Thread(LwjglCanvas.this,"LWJGL Renderer Thread");
         renderThread.start();
       }
- else {
-        if (needClose.get())         return;
-        logger.log(Level.INFO,"EDT: Sending re-init authorization..");
-synchronized (reinitAuthLock) {
-          reinitAuth.set(true);
-          reinitAuthLock.notifyAll();
-        }
+ else       if (needClose.get()) {
+        return;
       }
+      logger.log(Level.INFO,"EDT: Notifying OGL that canvas is visible..");
+      needRestoreCanvas.set(true);
     }
     @Override public void removeNotify(){
       if (needClose.get()) {
-        logger.log(Level.INFO,"EDT: Close requested. Not re-initing.");
+        logger.log(Level.INFO,"EDT: Application is stopped. Not restoring canvas.");
+        super.removeNotify();
         return;
       }
-      logger.log(Level.INFO,"EDT: Sending re-init request..");
-synchronized (reinitReqLock) {
-        reinitReq.set(true);
-        while (reinitReq.get()) {
-          try {
-            reinitReqLock.wait();
-          }
- catch (          InterruptedException ex) {
-            logger.log(Level.SEVERE,"EDT: Interrupted! ",ex);
-          }
-        }
+      logger.log(Level.INFO,"EDT: Sending destroy request..");
+      needDestroyCanvas.set(true);
+      try {
+        actionRequiredBarrier.await();
       }
-      logger.log(Level.INFO,"EDT: Acknowledged receipt of re-init request!");
+ catch (      InterruptedException ex) {
+        logger.log(Level.SEVERE,"EDT: Interrupted! ",ex);
+      }
+catch (      BrokenBarrierException ex) {
+        logger.log(Level.SEVERE,"EDT: Broken barrier! ",ex);
+      }
+      logger.log(Level.INFO,"EDT: Acknowledged receipt of destroy request!");
+      actionRequiredBarrier.reset();
       super.removeNotify();
     }
   }

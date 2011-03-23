@@ -1,55 +1,26 @@
 {
-  boolean reinitNeeded;
-synchronized (reinitReqLock) {
-    reinitNeeded=reinitReq.get();
-  }
-  if (reinitNeeded) {
-    logger.log(Level.INFO,"OGL: Re-init request received!");
-    listener.loseFocus();
-    boolean mouseActive=Mouse.isCreated();
-    boolean keyboardActive=Keyboard.isCreated();
-    boolean joyActive=Controllers.isCreated();
-    if (mouseActive)     Mouse.destroy();
-    if (keyboardActive)     Keyboard.destroy();
-    if (joyActive)     Controllers.destroy();
-    pauseCanvas();
-synchronized (reinitReqLock) {
-      reinitReq.set(false);
-      reinitReqLock.notifyAll();
-    }
-    logger.log(Level.INFO,"OGL: Waiting for re-init authorization..");
-synchronized (reinitAuthLock) {
-      while (!reinitAuth.get()) {
-        try {
-          reinitAuthLock.wait();
-          if (Thread.interrupted())           throw new InterruptedException();
-        }
- catch (        InterruptedException ex) {
-          if (needClose.get()) {
-            logger.log(Level.INFO,"OGL: Re-init aborted. Closing display..");
-            return;
-          }
-          logger.log(Level.SEVERE,"OGL: Interrupted! ",ex);
-        }
-      }
-      reinitAuth.set(false);
-    }
-    logger.log(Level.INFO,"OGL: Re-init authorization received. Re-initializing..");
-    restoreCanvas();
+  if (needDestroyCanvas.getAndSet(false)) {
+    logger.log(Level.INFO,"OGL: Received destroy request! Complying..");
     try {
-      if (mouseActive) {
-        Mouse.create();
+      listener.loseFocus();
+      pauseCanvas();
+    }
+  finally {
+      try {
+        actionRequiredBarrier.await();
       }
-      if (keyboardActive) {
-        Keyboard.create();
+ catch (      InterruptedException ex) {
+        logger.log(Level.SEVERE,"OGL: Interrupted! ",ex);
       }
-      if (joyActive) {
-        Controllers.create();
+catch (      BrokenBarrierException ex) {
+        logger.log(Level.SEVERE,"OGL: Broken barrier! ",ex);
       }
     }
- catch (    LWJGLException ex) {
-      listener.handleError("Failed to re-init input",ex);
-    }
+  }
+ else   if (needRestoreCanvas.getAndSet(false)) {
+    logger.log(Level.INFO,"OGL: Canvas is now visible! Re-initializing..");
+    restoreCanvas();
+    listener.gainFocus();
   }
   if (width != canvas.getWidth() || height != canvas.getHeight()) {
     width=canvas.getWidth();

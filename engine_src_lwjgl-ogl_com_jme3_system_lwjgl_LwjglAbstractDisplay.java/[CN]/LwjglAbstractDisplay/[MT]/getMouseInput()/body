@@ -1,3 +1,6 @@
 {
-  return new LwjglMouseInput();
+  if (mouseInput == null) {
+    mouseInput=new LwjglMouseInput(this);
+  }
+  return mouseInput;
 }

@@ -3,15 +3,17 @@
   logger.log(Level.INFO,"Using LWJGL {0}",Sys.getVersion());
   initInThread();
   while (true) {
-    if (Display.isCloseRequested())     listener.requestClose(false);
-    if (wasActive != Display.isActive()) {
-      if (!wasActive) {
-        listener.gainFocus();
-        wasActive=true;
-      }
+    if (renderable.get()) {
+      if (Display.isCloseRequested())       listener.requestClose(false);
+      if (wasActive != Display.isActive()) {
+        if (!wasActive) {
+          listener.gainFocus();
+          wasActive=true;
+        }
  else {
-        listener.loseFocus();
-        wasActive=false;
+          listener.loseFocus();
+          wasActive=false;
+        }
       }
     }
     runLoop();

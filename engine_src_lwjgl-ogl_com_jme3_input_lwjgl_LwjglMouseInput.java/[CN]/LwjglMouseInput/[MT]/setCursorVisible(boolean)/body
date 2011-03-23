@@ -1,4 +1,5 @@
 {
-  Mouse.setGrabbed(!visible);
   cursorVisible=visible;
+  if (!context.isRenderable())   return;
+  Mouse.setGrabbed(!visible);
 }

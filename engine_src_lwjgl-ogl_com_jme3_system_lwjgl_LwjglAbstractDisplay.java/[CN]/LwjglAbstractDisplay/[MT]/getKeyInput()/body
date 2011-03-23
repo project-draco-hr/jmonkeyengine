@@ -1,3 +1,6 @@
 {
-  return new LwjglKeyInput();
+  if (keyInput == null) {
+    keyInput=new LwjglKeyInput(this);
+  }
+  return keyInput;
 }

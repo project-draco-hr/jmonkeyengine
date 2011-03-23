@@ -1,4 +1,5 @@
 {
+  if (!context.isRenderable())   return;
   Keyboard.poll();
   while (Keyboard.next()) {
     int keyCode=Keyboard.getEventKey();

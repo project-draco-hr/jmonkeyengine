@@ -19,7 +19,9 @@
   rootNode.updateGeometricState();
   guiNode.updateGeometricState();
   stateManager.render(renderManager);
-  renderManager.render(tpf);
+  if (context.isRenderable()) {
+    renderManager.render(tpf);
+  }
   simpleRender(renderManager);
   stateManager.postRender();
 }
