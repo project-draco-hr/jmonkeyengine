@@ -20,7 +20,9 @@
     guiNode.updateGeometricState();
     toolsNode.updateGeometricState();
     getStateManager().render(renderManager);
-    renderManager.render(tpf);
+    if (context.isRenderable()) {
+      renderManager.render(tpf);
+    }
     getStateManager().postRender();
   }
  catch (  Exception e) {
