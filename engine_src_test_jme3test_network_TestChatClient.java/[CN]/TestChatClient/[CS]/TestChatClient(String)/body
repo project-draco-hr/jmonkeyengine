@@ -20,7 +20,7 @@
   p.add(new JButton(new SendAction(true)));
   p.add(new JButton(new SendAction(false)));
   getContentPane().add(p,"South");
-  client=Network.connectToServer(TestChatServer.NAME,TestChatServer.VERSION,host,TestChatServer.PORT);
+  client=Network.connectToServer(TestChatServer.NAME,TestChatServer.VERSION,host,TestChatServer.PORT,TestChatServer.UDP_PORT);
   client.addMessageListener(new ChatHandler(),ChatMessage.class);
   client.start();
 }
