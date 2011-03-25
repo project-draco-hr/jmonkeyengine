@@ -1,11 +1,5 @@
 {
   x=evt.getX();
   y=height - evt.getY();
-  MouseInputEventQueue niftyEvtQueue=nifty.getMouseInputEventQueue();
-  NiftyMouseInputEvent niftyEvt=new NiftyMouseInputEvent();
-  if (niftyEvtQueue.hasLastMouseDownEvent()) {
-    niftyEvt=niftyEvtQueue.getLastMouseDownEvent();
-  }
-  niftyEvt.initialize(x,y,evt.getDeltaWheel(),niftyEvt.isButton0Down(),niftyEvt.isButton1Down(),niftyEvt.isButton2Down());
-  niftyEvtQueue.process(niftyEvt);
+  nic.processMouseEvent(x,y,evt.getDeltaWheel(),buttonIndex,pressed);
 }

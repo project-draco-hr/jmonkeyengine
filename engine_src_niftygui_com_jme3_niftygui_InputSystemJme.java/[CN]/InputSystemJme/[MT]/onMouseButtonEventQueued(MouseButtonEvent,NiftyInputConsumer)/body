@@ -1,11 +1,6 @@
 {
+  buttonIndex=evt.getButtonIndex();
   pressed=evt.isPressed();
-  MouseInputEventQueue niftyEvtQueue=nifty.getMouseInputEventQueue();
-  NiftyMouseInputEvent niftyEvt=new NiftyMouseInputEvent();
-  if (niftyEvtQueue.hasLastMouseDownEvent()) {
-    niftyEvt=niftyEvtQueue.getLastMouseDownEvent();
-  }
-  niftyEvt.initialize(x,y,0,evt.getButtonIndex() == 0 && evt.isPressed(),evt.getButtonIndex() == 1 && evt.isPressed(),evt.getButtonIndex() == 2 && evt.isPressed());
-  niftyEvtQueue.process(niftyEvt);
+  nic.processMouseEvent(x,y,0,buttonIndex,pressed);
   evt.setConsumed();
 }
