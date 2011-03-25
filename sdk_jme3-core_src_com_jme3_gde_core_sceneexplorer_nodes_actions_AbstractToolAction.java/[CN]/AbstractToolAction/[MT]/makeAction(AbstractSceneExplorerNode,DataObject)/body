@@ -3,10 +3,11 @@
     public void actionPerformed(    ActionEvent e){
       SceneApplication.getApplication().enqueue(new Callable<Void>(){
         public Void call() throws Exception {
-          if (doApplyTool(rootNode)) {
+          final Object object=doApplyTool(rootNode);
+          if (object != null) {
             Lookup.getDefault().lookup(SceneUndoRedoManager.class).addEdit(this,new AbstractUndoableSceneEdit(){
               @Override public void sceneUndo() throws CannotUndoException {
-                doUndoTool(rootNode);
+                doUndoTool(rootNode,object);
                 setModified();
               }
               @Override public void sceneRedo() throws CannotRedoException {
