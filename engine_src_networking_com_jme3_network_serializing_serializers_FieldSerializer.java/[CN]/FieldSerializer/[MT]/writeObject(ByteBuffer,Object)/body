@@ -1,4 +1,8 @@
 {
+  buffer.put((byte)(object != null ? 0x1 : 0x0));
+  if (object == null) {
+    return;
+  }
   SavedField[] fields=savedFields.get(object.getClass());
   if (fields == null)   throw new IOException("The " + object.getClass() + " is not registered"+ " in the serializer!");
   for (  SavedField savedField : fields) {
