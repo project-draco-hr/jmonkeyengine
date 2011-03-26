@@ -21,7 +21,7 @@
       field.set(object,value);
     }
  catch (    IllegalAccessException e) {
-      throw new IOException(e.toString());
+      throw new SerializerException("Error reading object",e);
     }
   }
   return object;
