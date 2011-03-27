@@ -1,17 +1,21 @@
 {
   String name=(String)wizard.getProperty("font_name");
+  int fontSize=(Integer)wizard.getProperty("font_size");
+  int imageSize=(Integer)wizard.getProperty("image_size");
   Project project=(Project)wizard.getProperty("project");
   ProjectAssetManager pm=project.getLookup().lookup(ProjectAssetManager.class);
   if (pm == null) {
     Logger.getLogger(AngelFontWizardIterator.class.getName()).log(Level.WARNING,"No ProjectAssetManager found!");
     return Collections.EMPTY_SET;
   }
-  BufferedImage fontImage=FontCreator.buildFont(name);
+  AngelFont font=FontCreator.buildFont(name,imageSize,fontSize);
+  BufferedImage fontImage=font.getImage();
   ByteBuffer scratch=ByteBuffer.allocateDirect(4 * fontImage.getWidth() * fontImage.getHeight());
   byte[] data=(byte[])fontImage.getRaster().getDataElements(0,0,fontImage.getWidth(),fontImage.getHeight(),null);
   scratch.clear();
   scratch.put(data);
   scratch.rewind();
+  name=name.replaceAll(" ","");
   File outputFile;
   try {
     if (pm.getAssetFolder().getFileObject("Interface") == null) {
@@ -22,9 +26,16 @@
     }
     outputFile=FileUtil.toFile(pm.getAssetFolder().getFileObject("Interface/Fonts"));
     if (!outputFile.getName().endsWith(".png")) {
-      outputFile=new File(outputFile.getAbsoluteFile() + File.separator + name.replaceAll(" ","")+ ".png");
+      outputFile=new File(outputFile.getAbsoluteFile() + File.separator + name+ ".png");
     }
     ImageIO.write(fontImage,"PNG",outputFile);
+    FileObject object=pm.getAssetFolder().getFileObject("Interface/Fonts/" + name,"fnt");
+    if (object == null) {
+      object=pm.getAssetFolder().getFileObject("Interface/Fonts").createData(name,"fnt");
+    }
+    OutputStreamWriter out=new OutputStreamWriter(object.getOutputStream());
+    out.write(font.getDescription());
+    out.close();
   }
  catch (  Exception e) {
     Exceptions.printStackTrace(e);
