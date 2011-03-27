@@ -1,7 +1,7 @@
 {
   for (Iterator<MouseInputEvent> it=mouseEvents.iterator(); it.hasNext(); ) {
     MouseInputEvent mouseInputEvent=it.next();
-    nic.processMouseEvent(mouseInputEvent);
+    nic.processMouseEvent(mouseInputEvent.x,mouseInputEvent.y,mouseInputEvent.button,mouseInputEvent.huh,mouseInputEvent.pressed);
     it.remove();
   }
   for (Iterator<KeyboardInputEvent> it=keyEvents.iterator(); it.hasNext(); ) {
