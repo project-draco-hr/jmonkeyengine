@@ -40,6 +40,6 @@
     charLocs=charLocs + "char id=" + i+ "    x="+ xPos+ "    y="+ (yPos - fm.getAscent())+ "    width="+ (int)bounds.getWidth()+ "    height="+ (int)bounds.getHeight()+ "    xoffset=0"+ "    yoffset=0"+ "    xadvance="+ ((int)bounds.getWidth() - 1)+ " "+ "    page=0"+ "    chnl=0\n";
     xPos+=bounds.getWidth();
   }
-  charLocs="info face=null " + "size=" + fontSize + " "+ "bold=0 "+ "italic=0 "+ "charset=ASCII "+ "unicode=0 "+ "stretchH=100 "+ "smooth=1 "+ "aa=1 "+ "paiing=0,0,0,0 "+ "spacing=1,1 "+ "\n"+ "common lineHeight="+ height+ " "+ "base=26 "+ "scaleW="+ bitmapSize+ " "+ "scaleH="+ bitmapSize+ " "+ "pages=1 "+ "packed=0 "+ "\n"+ "page id=0 file=\""+ fontName.replaceAll(" ","")+ ".png\"\n"+ "chars count=255\n"+ charLocs;
+  charLocs="info face=null " + "size=" + fontSize + " "+ "bold=0 "+ "italic=0 "+ "charset=ASCII "+ "unicode=0 "+ "stretchH=100 "+ "smooth=1 "+ "aa=1 "+ "padding=0,0,0,0 "+ "spacing=1,1 "+ "\n"+ "common lineHeight="+ height+ " "+ "base=26 "+ "scaleW="+ bitmapSize+ " "+ "scaleH="+ bitmapSize+ " "+ "pages=1 "+ "packed=0 "+ "\n"+ "page id=0 file=\""+ fontName.replaceAll(" ","")+ ".png\"\n"+ "chars count=255\n"+ charLocs;
   return new AngelFont(fontImage,charLocs);
 }
