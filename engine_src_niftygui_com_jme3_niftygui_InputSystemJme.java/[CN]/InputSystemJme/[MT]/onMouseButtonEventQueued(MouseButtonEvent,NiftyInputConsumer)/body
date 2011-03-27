@@ -1,6 +1,7 @@
 {
   buttonIndex=evt.getButtonIndex();
   pressed=evt.isPressed();
-  nic.processMouseEvent(x,y,0,buttonIndex,pressed);
-  evt.setConsumed();
+  if (nic.processMouseEvent(x,y,0,buttonIndex,pressed)) {
+    evt.setConsumed();
+  }
 }
