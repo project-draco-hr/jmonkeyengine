@@ -7,6 +7,7 @@
       vector2.subtractLocal(vector);
       float force=explosionRadius - vector2.length();
       force*=forceFactor;
+      force=force > 0 ? force : 0;
       vector2.normalizeLocal();
       vector2.multLocal(force);
       ((PhysicsRigidBody)physicsCollisionObject).applyImpulse(vector2,Vector3f.ZERO);
