@@ -3,6 +3,7 @@
     try {
       flushEvents();
       Envelope e=kernel.read();
+      if (e == Kernel.EVENTS_PENDING)       continue;
       flushEvents();
       createAndDispatch(e);
     }

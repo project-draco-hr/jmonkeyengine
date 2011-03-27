@@ -3,7 +3,10 @@
   for (Iterator<SelectionKey> i=selector.selectedKeys().iterator(); i.hasNext(); ) {
     SelectionKey key=i.next();
     i.remove();
-    if (!key.isValid())     continue;
+    if (!key.isValid()) {
+      log.log(Level.INFO,"Key is not valid:{0}.",key);
+      continue;
+    }
     if (key.isAcceptable())     accept(key);
  else     if (key.isWritable())     write(key);
  else     if (key.isReadable())     read(key);

@@ -2,7 +2,8 @@
   MessageProtocol protocol=new MessageProtocol();
   byte[] data=env.getData();
   ByteBuffer buffer=ByteBuffer.wrap(data);
-  protocol.addBuffer(buffer);
+  int count=protocol.addBuffer(buffer);
+  if (count == 0)   throw new RuntimeException("Envelope contained incomplete data:" + env);
   Message m=null;
   while ((m=protocol.getMessage()) != null) {
     m.setReliable(reliable);
