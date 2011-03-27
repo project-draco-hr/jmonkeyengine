@@ -17,8 +17,8 @@
   scratch.put(data);
   scratch.rewind();
   name=name.replaceAll(" ","");
-  File outputFile;
-  FileObject object;
+  FileObject imageFile;
+  FileObject descriptionFile;
   try {
     if (pm.getAssetFolder().getFileObject("Interface") == null) {
       pm.getAssetFolder().createFolder("Interface");
@@ -26,25 +26,27 @@
     if (pm.getAssetFolder().getFileObject("Interface/Fonts") == null) {
       pm.getAssetFolder().getFileObject("Interface").createFolder("Fonts");
     }
-    outputFile=FileUtil.toFile(pm.getAssetFolder().getFileObject("Interface/Fonts"));
-    if (!outputFile.getName().endsWith(".png")) {
-      outputFile=new File(outputFile.getAbsoluteFile() + File.separator + name+ ".png");
+    imageFile=pm.getAssetFolder().getFileObject("Interface/Fonts" + name,"png");
+    if (imageFile == null) {
+      imageFile=pm.getAssetFolder().getFileObject("Interface/Fonts").createData(name,"png");
     }
-    ImageIO.write(fontImage,"PNG",outputFile);
-    object=pm.getAssetFolder().getFileObject("Interface/Fonts/" + name,"fnt");
-    if (object == null) {
-      object=pm.getAssetFolder().getFileObject("Interface/Fonts").createData(name,"fnt");
-    }
-    OutputStreamWriter out=new OutputStreamWriter(object.getOutputStream());
-    out.write(font.getDescription());
+    OutputStream out=imageFile.getOutputStream();
+    ImageIO.write(fontImage,"PNG",out);
     out.close();
+    descriptionFile=pm.getAssetFolder().getFileObject("Interface/Fonts/" + name,"fnt");
+    if (descriptionFile == null) {
+      descriptionFile=pm.getAssetFolder().getFileObject("Interface/Fonts").createData(name,"fnt");
+    }
+    OutputStreamWriter out2=new OutputStreamWriter(descriptionFile.getOutputStream());
+    out2.write(font.getDescription());
+    out2.close();
   }
  catch (  Exception e) {
     Exceptions.printStackTrace(e);
     return Collections.EMPTY_SET;
   }
   Set<FileObject> set=new HashSet<FileObject>();
-  set.add(FileUtil.toFileObject(outputFile));
-  set.add(object);
+  set.add(imageFile);
+  set.add(descriptionFile);
   return set;
 }
