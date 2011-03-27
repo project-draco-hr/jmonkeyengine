@@ -1,6 +1,11 @@
 {
   EndpointEvent event;
   while ((event=kernel.nextEvent()) != null) {
-    createAndDispatch(event);
+    try {
+      createAndDispatch(event);
+    }
+ catch (    Exception e) {
+      reportError(e);
+    }
   }
 }

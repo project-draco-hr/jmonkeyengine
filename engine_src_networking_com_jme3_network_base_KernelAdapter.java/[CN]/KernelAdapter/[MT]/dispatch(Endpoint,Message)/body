@@ -3,6 +3,11 @@
     server.registerClient(this,p,(ClientRegistrationMessage)m);
     return;
   }
-  HostedConnection source=getConnection(p);
-  messageDispatcher.messageReceived(source,m);
+  try {
+    HostedConnection source=getConnection(p);
+    messageDispatcher.messageReceived(source,m);
+  }
+ catch (  Exception e) {
+    reportError(e);
+  }
 }
