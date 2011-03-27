@@ -1,4 +1,5 @@
 {
+  log.log(Level.INFO,"Connection closed:{0}.",p);
   Connection removed=null;
 synchronized (this) {
     connecting.values().remove(p);
@@ -8,6 +9,7 @@ synchronized (this) {
     }
   }
   if (removed != null) {
+    log.log(Level.INFO,"Client closed:{0}.",removed);
     if (removed.reliable != null && removed.reliable.isConnected()) {
       removed.reliable.close();
     }
