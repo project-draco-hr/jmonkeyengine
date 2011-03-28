@@ -1,4 +1,12 @@
 {
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      if (!SceneViewerTopComponent.findInstance().isOpened()) {
+        SceneViewerTopComponent.findInstance().open();
+      }
+    }
+  }
+);
   SceneApplication.getApplication().enqueue(new Callable<Object>(){
     public Object call() throws Exception {
       setupOffView();
