@@ -1,6 +1,7 @@
 {
   if (texCoordIdx >= 1)   return;
-  VertexBuffer tcvb=mesh.getBuffer(Type.TexCoord);
+  Type type=texCoordIdx == 0 ? Type.TexCoord : Type.TexCoord2;
+  VertexBuffer tcvb=mesh.getBuffer(type);
   FloatBuffer buf=(FloatBuffer)tcvb.getData();
   buf.put(parseFloat(attribs.getValue("u")));
   if (tcvb.getNumComponents() >= 2) {
