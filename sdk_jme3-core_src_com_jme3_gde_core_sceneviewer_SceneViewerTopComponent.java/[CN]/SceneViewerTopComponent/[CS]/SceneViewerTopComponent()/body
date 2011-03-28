@@ -6,7 +6,8 @@
   setIcon(ImageUtilities.loadImage(ICON_PATH,true));
   try {
     app=SceneApplication.getApplication();
-    oGLPanel.add(((JmeCanvasContext)app.getContext()).getCanvas());
+    oglCanvas=((JmeCanvasContext)app.getContext()).getCanvas();
+    oGLPanel.add(oglCanvas);
   }
  catch (  Exception e) {
     showOpenGLError(e.toString());
