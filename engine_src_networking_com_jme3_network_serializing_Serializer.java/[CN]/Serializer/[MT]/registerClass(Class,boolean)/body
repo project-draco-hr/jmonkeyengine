@@ -12,6 +12,7 @@
     idRegistrations.put(classId,reg);
     classRegistrations.put(cls,reg);
     serializer.initialize(cls);
+    log.log(Level.INFO,"Registered class:{0}.",cls);
     return reg;
   }
   if (failOnMiss) {
