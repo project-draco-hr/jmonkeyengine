@@ -1,0 +1,18 @@
+{
+switch (bucket) {
+case Gui:
+    guiList=new GeometryList(c);
+  break;
+case Opaque:
+opaqueList=new GeometryList(c);
+break;
+case Sky:
+skyList=new GeometryList(c);
+break;
+case Transparent:
+transparentList=new GeometryList(c);
+break;
+default :
+throw new UnsupportedOperationException("Unknown bucket type: " + bucket);
+}
+}
