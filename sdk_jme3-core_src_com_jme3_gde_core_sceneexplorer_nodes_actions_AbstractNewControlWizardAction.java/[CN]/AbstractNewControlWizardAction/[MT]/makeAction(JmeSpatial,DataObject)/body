@@ -1,0 +1,46 @@
+{
+  final Spatial spatial=rootNode.getLookup().lookup(Spatial.class);
+  return new AbstractAction(name){
+    public void actionPerformed(    ActionEvent e){
+      final Object obj=showWizard(spatial);
+      SceneApplication.getApplication().enqueue(new Callable<Void>(){
+        public Void call() throws Exception {
+          final Control attachControl=doCreateControl(spatial,obj);
+          if (spatial != null && attachControl != null) {
+            spatial.addControl(attachControl);
+            Lookup.getDefault().lookup(SceneUndoRedoManager.class).addEdit(this,new AbstractUndoableSceneEdit(){
+              @Override public void sceneUndo() throws CannotUndoException {
+                spatial.removeControl(attachControl);
+              }
+              @Override public void sceneRedo() throws CannotRedoException {
+                spatial.addControl(attachControl);
+              }
+              @Override public void awtRedo(){
+                dataObject.setModified(true);
+                rootNode.refresh(true);
+              }
+              @Override public void awtUndo(){
+                dataObject.setModified(true);
+                rootNode.refresh(true);
+              }
+            }
+);
+            setModified();
+          }
+          return null;
+        }
+      }
+);
+    }
+    protected void setModified(){
+      java.awt.EventQueue.invokeLater(new Runnable(){
+        public void run(){
+          dataObject.setModified(true);
+          rootNode.refresh(true);
+        }
+      }
+);
+    }
+  }
+;
+}
