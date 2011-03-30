@@ -17,13 +17,20 @@
 );
   jtf.addActionListener(new ActionListener(){
     public void actionPerformed(    ActionEvent e){
-      if (classes.getModel().getSize() == 1) {
-        selectedClass=(Class)classes.getModel().getElementAt(0);
-        TestChooser.this.dispose();
-      }
+      selectedClass=classes.getSelectedValues();
+      startApp(selectedClass);
+    }
+  }
+);
+  final JCheckBox showSettingCheck=new JCheckBox("Show Setting");
+  showSettingCheck.setSelected(true);
+  showSettingCheck.addActionListener(new ActionListener(){
+    public void actionPerformed(    ActionEvent e){
+      showSetting=showSettingCheck.isSelected();
     }
   }
 );
   search.add(jtf);
+  search.add(showSettingCheck);
   return search;
 }

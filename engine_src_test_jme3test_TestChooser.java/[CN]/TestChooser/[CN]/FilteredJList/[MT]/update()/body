@@ -11,5 +11,8 @@
     }
   }
   super.setModel(v);
+  if (v.getSize() == 1) {
+    setSelectedIndex(0);
+  }
   revalidate();
 }

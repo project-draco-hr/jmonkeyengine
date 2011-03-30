@@ -5,6 +5,7 @@
   getContentPane().add(mainPanel,BorderLayout.CENTER);
   mainPanel.setBorder(new EmptyBorder(10,10,10,10));
   final FilteredJList list=new FilteredJList();
+  list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
   DefaultListModel model=new DefaultListModel();
   for (  Class c : classes) {
     model.addElement(c);
@@ -14,7 +15,26 @@
   mainPanel.add(new JScrollPane(list),BorderLayout.CENTER);
   list.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
     public void valueChanged(    ListSelectionEvent e){
-      selectedClass=(Class)list.getSelectedValue();
+      selectedClass=list.getSelectedValues();
+    }
+  }
+);
+  list.addMouseListener(new MouseAdapter(){
+    public void mouseClicked(    MouseEvent e){
+      if (e.getClickCount() == 2 && selectedClass != null) {
+        startApp(selectedClass);
+      }
+    }
+  }
+);
+  list.addKeyListener(new KeyAdapter(){
+    @Override public void keyTyped(    KeyEvent e){
+      if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+        startApp(selectedClass);
+      }
+ else       if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        dispose();
+      }
     }
   }
 );
@@ -27,7 +47,6 @@
   okButton.addActionListener(new ActionListener(){
     public void actionPerformed(    ActionEvent e){
       startApp(selectedClass);
-      dispose();
     }
   }
 );

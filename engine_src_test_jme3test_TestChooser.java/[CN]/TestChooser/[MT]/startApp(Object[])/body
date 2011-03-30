@@ -1,0 +1,53 @@
+{
+  if (appClass == null) {
+    JOptionPane.showMessageDialog(rootPane,"Please select a test from the list","Error",JOptionPane.ERROR_MESSAGE);
+    return;
+  }
+  new Thread(new Runnable(){
+    public void run(){
+      for (int i=0; i < appClass.length; i++) {
+        Class<?> clazz=(Class)appClass[i];
+        try {
+          Object app=clazz.newInstance();
+          final Method settingMethod=clazz.getMethod("setShowSettings",boolean.class);
+          settingMethod.invoke(app,showSetting);
+          final Method mainMethod=clazz.getMethod("start",null);
+          mainMethod.invoke(app,null);
+          Field contextField=Application.class.getDeclaredField("context");
+          contextField.setAccessible(true);
+          JmeContext context=null;
+          while (context == null) {
+            context=(JmeContext)contextField.get(app);
+            Thread.sleep(100);
+          }
+          while (!context.isCreated()) {
+            Thread.sleep(100);
+          }
+          while (context.isCreated()) {
+            Thread.sleep(100);
+          }
+        }
+ catch (        IllegalAccessException ex) {
+          logger.log(Level.SEVERE,"Cannot access constructor: " + clazz.getName(),ex);
+        }
+catch (        IllegalArgumentException ex) {
+          logger.log(Level.SEVERE,"main() had illegal argument: " + clazz.getName(),ex);
+        }
+catch (        InvocationTargetException ex) {
+          logger.log(Level.SEVERE,"main() method had exception: " + clazz.getName(),ex);
+        }
+catch (        InstantiationException ex) {
+          logger.log(Level.SEVERE,"Failed to create app: " + clazz.getName(),ex);
+        }
+catch (        NoSuchMethodException ex) {
+          logger.log(Level.SEVERE,"Test class doesn't have main method: " + clazz.getName(),ex);
+        }
+catch (        Exception ex) {
+          logger.log(Level.SEVERE,"Cannot start test: " + clazz.getName(),ex);
+          ex.printStackTrace();
+        }
+      }
+    }
+  }
+).start();
+}
