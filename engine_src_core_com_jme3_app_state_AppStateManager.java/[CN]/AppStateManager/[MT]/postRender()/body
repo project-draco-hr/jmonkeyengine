@@ -4,7 +4,7 @@ synchronized (states) {
     for (int i=0; i < num; i++) {
       AppState state=states.get(i);
       if (!state.isInitialized())       state.initialize(this,app);
-      if (state.isActive()) {
+      if (state.isEnabled()) {
         state.postRender();
       }
     }
