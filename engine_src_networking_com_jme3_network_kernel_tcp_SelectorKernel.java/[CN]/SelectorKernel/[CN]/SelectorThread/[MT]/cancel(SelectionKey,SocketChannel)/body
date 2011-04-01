@@ -1,5 +1,6 @@
 {
   NioEndpoint p=(NioEndpoint)key.attachment();
+  log.log(Level.INFO,"Closing channel endpoint:{0}.",p);
   endpointKeys.remove(p);
   key.cancel();
   c.close();
