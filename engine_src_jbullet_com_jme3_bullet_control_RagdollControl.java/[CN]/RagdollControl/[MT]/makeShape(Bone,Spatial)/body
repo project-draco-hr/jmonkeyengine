@@ -1,0 +1,23 @@
+{
+  int boneIndex=skeleton.getBoneIndex(bone);
+  System.out.println(boneIndex);
+  ArrayList<Float> points=new ArrayList<Float>();
+  if (model instanceof Geometry) {
+    Geometry g=(Geometry)model;
+    points.addAll(getPoints(g.getMesh(),boneIndex,bone.getModelSpacePosition()));
+  }
+ else   if (model instanceof Node) {
+    Node node=(Node)model;
+    for (    Spatial s : node.getChildren()) {
+      if (s instanceof Geometry) {
+        Geometry g=(Geometry)s;
+        points.addAll(getPoints(g.getMesh(),boneIndex,bone.getModelSpacePosition()));
+      }
+    }
+  }
+  float[] p=new float[points.size()];
+  for (int i=0; i < points.size(); i++) {
+    p[i]=points.get(i);
+  }
+  return new HullCollisionShape(p);
+}

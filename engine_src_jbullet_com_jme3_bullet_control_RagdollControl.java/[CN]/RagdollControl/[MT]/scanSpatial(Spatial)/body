@@ -1,12 +1,15 @@
 {
   AnimControl animControl=model.getControl(AnimControl.class);
+  initPosition=model.getLocalTranslation();
+  initRotation=model.getLocalRotation();
+  initScale=model.getLocalScale();
   skeleton=animControl.getSkeleton();
   skeleton.resetAndUpdate();
-  for (int i=0; i < skeleton.getBoneCount(); i++) {
-    Bone childBone=skeleton.getBone(i);
+  for (int i=0; i < skeleton.getRoots().length; i++) {
+    Bone childBone=skeleton.getRoots()[i];
     childBone.setUserControl(true);
     if (childBone.getParent() == null) {
-      Vector3f parentPos=childBone.getModelSpacePosition().add(model.getWorldTranslation());
+      Vector3f parentPos=childBone.getModelSpacePosition().add(initPosition);
       logger.log(Level.INFO,"Found root bone in skeleton {0}",skeleton);
       baseRigidBody=new PhysicsRigidBody(new BoxCollisionShape(Vector3f.UNIT_XYZ.mult(.1f)),1);
       baseRigidBody.setPhysicsLocation(parentPos);

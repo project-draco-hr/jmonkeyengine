@@ -1,20 +1,49 @@
 {
+  initCrossHairs();
+  initMaterial();
   bulletAppState=new BulletAppState();
+  bulletAppState.setEnabled(false);
   stateManager.attach(bulletAppState);
   bulletAppState.getPhysicsSpace().enableDebug(assetManager);
   PhysicsTestHelper.createPhysicsTestWorld(rootNode,assetManager,bulletAppState.getPhysicsSpace());
   setupLight();
-  Node model=(Node)assetManager.loadModel("Models/Oto/Oto.mesh.xml");
+  model=(Node)assetManager.loadModel("Models/Oto/Oto.mesh.xml");
   AnimControl control=model.getControl(AnimControl.class);
   SkeletonDebugger skeletonDebug=new SkeletonDebugger("skeleton",control.getSkeleton());
   Material mat2=new Material(assetManager,"Common/MatDefs/Misc/WireColor.j3md");
   mat2.setColor("Color",ColorRGBA.Green);
   mat2.getAdditionalRenderState().setDepthTest(false);
   skeletonDebug.setMaterial(mat2);
+  skeletonDebug.setLocalTranslation(model.getLocalTranslation());
+  control.createChannel().setAnim("Dodge");
   RagdollControl ragdoll=new RagdollControl();
-  model.addControl(ragdoll);
-  getPhysicsSpace().add(ragdoll);
-  speed=.2f;
+  ragdoll.setSpatial(model);
+  ragdoll.setPhysicsSpace(getPhysicsSpace());
+  control.setRagdoll(ragdoll);
+  speed=1f;
   rootNode.attachChild(model);
   rootNode.attachChild(skeletonDebug);
+  flyCam.setEnabled(false);
+  ChaseCamera chaseCamera=new ChaseCamera(cam,inputManager);
+  model.addControl(chaseCamera);
+  inputManager.addListener(new ActionListener(){
+    public void onAction(    String name,    boolean isPressed,    float tpf){
+      if (name.equals("toggle") && isPressed) {
+        bulletAppState.setEnabled(!bulletAppState.isEnabled());
+      }
+      if (name.equals("shoot") && !isPressed) {
+        Geometry bulletg=new Geometry("bullet",bullet);
+        bulletg.setMaterial(matBullet);
+        bulletg.setLocalTranslation(cam.getLocation());
+        RigidBodyControl bulletNode=new BombControl(assetManager,bulletCollisionShape,1);
+        bulletNode.setLinearVelocity(cam.getDirection().mult(60));
+        bulletg.addControl(bulletNode);
+        rootNode.attachChild(bulletg);
+        getPhysicsSpace().add(bulletNode);
+      }
+    }
+  }
+,"toggle","shoot");
+  inputManager.addMapping("toggle",new KeyTrigger(KeyInput.KEY_SPACE));
+  inputManager.addMapping("shoot",new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
 }
