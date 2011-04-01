@@ -1,8 +1,14 @@
 {
+  boolean delivered=false;
   for (  MessageListener<? super S> l : listeners) {
     l.messageReceived(source,m);
+    delivered=true;
   }
   for (  MessageListener<? super S> l : getListeners(m.getClass(),false)) {
     l.messageReceived(source,m);
+    delivered=true;
+  }
+  if (!delivered) {
+    log.log(Level.INFO,"Received message had no registered listeners: {0}",m);
   }
 }
