@@ -1,5 +1,7 @@
 {
-  if ((refreshFlags & RF_BOUND) == 0)   return;
+  if ((refreshFlags & RF_BOUND) == 0) {
+    return;
+  }
   checkDoTransformUpdate();
   if (this instanceof Node) {
     Node node=(Node)this;

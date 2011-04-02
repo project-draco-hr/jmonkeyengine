@@ -1,5 +1,7 @@
 {
-  if (ignoreUntilEnd != null)   return;
+  if (ignoreUntilEnd != null) {
+    return;
+  }
   if (qName.equals("texcoord")) {
     pushTexCoord(attribs);
   }
@@ -32,7 +34,9 @@
   }
  else   if (qName.equals("geometry")) {
     String count=attribs.getValue("vertexcount");
-    if (count == null)     count=attribs.getValue("count");
+    if (count == null) {
+      count=attribs.getValue("count");
+    }
     startGeometry(count);
   }
  else   if (qName.equals("vertexbuffer")) {
@@ -55,8 +59,12 @@
   }
  else   if (qName.equals("sharedgeometry")) {
     String count=attribs.getValue("vertexcount");
-    if (count == null)     count=attribs.getValue("count");
-    if (count != null && !count.equals("0"))     startSharedGeom(count);
+    if (count == null) {
+      count=attribs.getValue("count");
+    }
+    if (count != null && !count.equals("0")) {
+      startSharedGeom(count);
+    }
   }
  else   if (qName.equals("submeshes")) {
   }

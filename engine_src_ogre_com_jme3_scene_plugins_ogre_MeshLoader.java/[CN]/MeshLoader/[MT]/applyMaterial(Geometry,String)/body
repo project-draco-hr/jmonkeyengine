@@ -12,7 +12,11 @@
       mat=(Material)assetManager.loadAsset(new AssetKey("Common/Materials/RedColor.j3m"));
     }
   }
-  if (mat == null)   throw new RuntimeException("Cannot locate material named " + matName);
-  if (mat.isTransparent())   geom.setQueueBucket(Bucket.Transparent);
+  if (mat == null) {
+    throw new RuntimeException("Cannot locate material named " + matName);
+  }
+  if (mat.isTransparent()) {
+    geom.setQueueBucket(Bucket.Transparent);
+  }
   geom.setMaterial(mat);
 }

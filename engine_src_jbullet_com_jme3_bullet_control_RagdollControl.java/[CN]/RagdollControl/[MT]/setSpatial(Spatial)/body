@@ -1,5 +1,8 @@
 {
   targetModel=model;
+  SkeletonControl sc=model.getControl(SkeletonControl.class);
+  model.removeControl(sc);
+  model.addControl(sc);
   removeFromPhysicsSpace();
   clearData();
   scanSpatial(model);

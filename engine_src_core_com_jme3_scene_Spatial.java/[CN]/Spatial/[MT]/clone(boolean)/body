@@ -1,7 +1,9 @@
 {
   try {
     Spatial clone=(Spatial)super.clone();
-    if (worldBound != null)     clone.worldBound=worldBound.clone();
+    if (worldBound != null) {
+      clone.worldBound=worldBound.clone();
+    }
     clone.worldLights=worldLights.clone();
     clone.localLights=localLights.clone();
     clone.localLights.setOwner(clone);

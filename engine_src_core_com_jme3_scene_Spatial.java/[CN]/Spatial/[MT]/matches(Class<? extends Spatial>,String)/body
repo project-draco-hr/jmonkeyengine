@@ -1,5 +1,9 @@
 {
-  if (spatialSubclass != null && !spatialSubclass.isInstance(this))   return false;
-  if (nameRegex != null && (name == null || !name.matches(nameRegex)))   return false;
+  if (spatialSubclass != null && !spatialSubclass.isInstance(this)) {
+    return false;
+  }
+  if (nameRegex != null && (name == null || !name.matches(nameRegex))) {
+    return false;
+  }
   return true;
 }

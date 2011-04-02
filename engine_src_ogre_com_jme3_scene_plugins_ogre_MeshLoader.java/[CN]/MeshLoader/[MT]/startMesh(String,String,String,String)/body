@@ -21,8 +21,12 @@
  else {
     usesSharedGeom.add(false);
   }
-  if (meshName == null)   geom=new Geometry("OgreSubmesh-" + (++geomIdx),mesh);
- else   geom=new Geometry(meshName + "-geom-" + (++geomIdx),mesh);
+  if (meshName == null) {
+    geom=new Geometry("OgreSubmesh-" + (++geomIdx),mesh);
+  }
+ else {
+    geom=new Geometry(meshName + "-geom-" + (++geomIdx),mesh);
+  }
   applyMaterial(geom,matName);
   geoms.add(geom);
 }

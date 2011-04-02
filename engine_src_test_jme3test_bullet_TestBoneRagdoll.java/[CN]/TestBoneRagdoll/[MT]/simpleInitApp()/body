@@ -17,9 +17,8 @@
   skeletonDebug.setLocalTranslation(model.getLocalTranslation());
   control.createChannel().setAnim("Dodge");
   RagdollControl ragdoll=new RagdollControl();
-  ragdoll.setSpatial(model);
-  ragdoll.setPhysicsSpace(getPhysicsSpace());
-  control.setRagdoll(ragdoll);
+  model.addControl(ragdoll);
+  getPhysicsSpace().add(ragdoll);
   speed=1f;
   rootNode.attachChild(model);
   rootNode.attachChild(skeletonDebug);

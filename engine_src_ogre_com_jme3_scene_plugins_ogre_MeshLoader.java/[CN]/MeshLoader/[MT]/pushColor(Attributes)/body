@@ -2,12 +2,18 @@
   FloatBuffer buf=(FloatBuffer)mesh.getBuffer(Type.Color).getData();
   String value=parseString(attribs.getValue("value"));
   String[] vals=value.split(" ");
-  if (vals.length != 3 && vals.length != 4)   throw new SAXException("Color value must contain 3 or 4 components");
+  if (vals.length != 3 && vals.length != 4) {
+    throw new SAXException("Color value must contain 3 or 4 components");
+  }
   ColorRGBA color=new ColorRGBA();
   color.r=parseFloat(vals[0]);
   color.g=parseFloat(vals[1]);
   color.b=parseFloat(vals[2]);
-  if (vals.length == 3)   color.a=1f;
- else   color.a=parseFloat(vals[3]);
+  if (vals.length == 3) {
+    color.a=1f;
+  }
+ else {
+    color.a=parseFloat(vals[3]);
+  }
   buf.put(color.r).put(color.g).put(color.b).put(color.a);
 }

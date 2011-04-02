@@ -1,4 +1,6 @@
 {
-  if (!animationMap.containsKey(anim.getName()))   throw new IllegalArgumentException("Given animation does not exist " + "in this AnimControl");
+  if (!animationMap.containsKey(anim.getName())) {
+    throw new IllegalArgumentException("Given animation does not exist " + "in this AnimControl");
+  }
   animationMap.remove(anim.getName());
 }

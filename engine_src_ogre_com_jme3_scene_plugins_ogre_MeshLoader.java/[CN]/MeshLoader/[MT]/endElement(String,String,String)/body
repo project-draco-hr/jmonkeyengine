@@ -1,6 +1,8 @@
 {
   if (ignoreUntilEnd != null) {
-    if (ignoreUntilEnd.equals(qName))     ignoreUntilEnd=null;
+    if (ignoreUntilEnd.equals(qName)) {
+      ignoreUntilEnd=null;
+    }
     return;
   }
   if (qName.equals("submesh")) {
@@ -13,8 +15,12 @@
     mesh=sharedmesh;
   }
  else   if (qName.equals("faces")) {
-    if (ib != null)     ib.flip();
- else     sb.flip();
+    if (ib != null) {
+      ib.flip();
+    }
+ else {
+      sb.flip();
+    }
     vb=null;
     ib=null;
     sb=null;
@@ -27,7 +33,9 @@
     IntMap<VertexBuffer> bufs=mesh.getBuffers();
     for (    Entry<VertexBuffer> entry : bufs) {
       Buffer data=entry.getValue().getData();
-      if (data.position() != 0)       data.flip();
+      if (data.position() != 0) {
+        data.flip();
+      }
     }
     mesh.updateBound();
     mesh.setStatic();

@@ -8,6 +8,6 @@
   localTransform=(Transform)ic.readSavable("transform",Transform.Identity);
   localLights=(LightList)ic.readSavable("lights",null);
   localLights.setOwner(this);
-  controls=ic.readSavableArrayList("controlsList",null);
+  controls.addAll(0,ic.readSavableArrayList("controlsList",null));
   userData=(HashMap<String,Savable>)ic.readStringSavableMap("user_data",null);
 }

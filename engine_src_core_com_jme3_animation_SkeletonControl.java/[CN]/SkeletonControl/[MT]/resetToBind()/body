@@ -4,7 +4,9 @@
     if (targets[i].getBuffer(Type.BindPosePosition) != null) {
       VertexBuffer bi=mesh.getBuffer(Type.BoneIndex);
       ByteBuffer bib=(ByteBuffer)bi.getData();
-      if (!bib.hasArray())       mesh.prepareForAnim(true);
+      if (!bib.hasArray()) {
+        mesh.prepareForAnim(true);
+      }
       VertexBuffer bindPos=mesh.getBuffer(Type.BindPosePosition);
       VertexBuffer bindNorm=mesh.getBuffer(Type.BindPoseNormal);
       VertexBuffer pos=mesh.getBuffer(Type.Position);
