@@ -13,6 +13,7 @@ synchronized (threadLock) {
       this.listener.setRenderer(null);
     }
     this.listener=listener;
+    this.listener.setRenderer(this);
     setListenerParams(listener);
   }
 }
