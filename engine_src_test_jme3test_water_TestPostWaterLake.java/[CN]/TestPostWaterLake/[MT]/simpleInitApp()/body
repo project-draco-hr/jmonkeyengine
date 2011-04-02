@@ -2,6 +2,10 @@
   this.flyCam.setMoveSpeed(10);
   cam.setLocation(new Vector3f(-27.0f,1.0f,75.0f));
   rootNode.attachChild(SkyFactory.createSky(assetManager,"Textures/Sky/Bright/BrightSky.dds",false));
+  File file=new File("wildhouse.zip");
+  if (file.exists()) {
+    useHttp=false;
+  }
   if (useHttp) {
     assetManager.registerLocator("http://jmonkeyengine.googlecode.com/files/wildhouse.zip",HttpZipLocator.class.getName());
   }
