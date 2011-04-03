@@ -57,6 +57,8 @@
       }
     }
   }
-  FileObject dest=FileUtil.toFileObject(new File(manager.getAssetFolderName() + "/" + importPath).getParentFile());
-  dest.refresh();
+  FileObject importFolder=manager.getAssetFolder().getFileObject(importPath);
+  FileObject importParentFolder=importFolder.getParent();
+  importParentFolder.refresh();
+  importFolder.refresh();
 }
