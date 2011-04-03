@@ -1,7 +1,7 @@
 {
   super.setTransformRefresh();
   for (  Spatial child : children) {
-    if ((child.refreshFlags & RF_TRANSFORM) != 0)     return;
+    if ((child.refreshFlags & RF_TRANSFORM) != 0)     continue;
     child.setTransformRefresh();
   }
 }
