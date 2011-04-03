@@ -1,4 +1,10 @@
 {
   glShadeModel(GL_SMOOTH);
   glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
+  if (GLContext.getCapabilities().GL_ARB_texture_non_power_of_two) {
+    caps.add(Caps.NonPowerOfTwoTextures);
+  }
+ else {
+    logger.log(Level.WARNING,"Your graphics card does not " + "support non-power-of-2 textures. " + "Some features might not work.");
+  }
 }

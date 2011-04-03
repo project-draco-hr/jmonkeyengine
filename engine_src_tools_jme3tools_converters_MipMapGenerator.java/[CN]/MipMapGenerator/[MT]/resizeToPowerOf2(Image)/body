@@ -1,0 +1,15 @@
+{
+  BufferedImage original=ImageToAwt.convert(image,false,true,0);
+  int potWidth=FastMath.nearestPowerOfTwo(image.getWidth());
+  int potHeight=FastMath.nearestPowerOfTwo(image.getHeight());
+  int potSize=Math.max(potWidth,potHeight);
+  BufferedImage scaled=scaleDown(original,potSize,potSize);
+  AWTLoader loader=new AWTLoader();
+  Image output=loader.load(scaled,false);
+  image.setWidth(potSize);
+  image.setHeight(potSize);
+  image.setDepth(0);
+  image.setData(output.getData(0));
+  image.setFormat(output.getFormat());
+  image.setMipMapSizes(null);
+}

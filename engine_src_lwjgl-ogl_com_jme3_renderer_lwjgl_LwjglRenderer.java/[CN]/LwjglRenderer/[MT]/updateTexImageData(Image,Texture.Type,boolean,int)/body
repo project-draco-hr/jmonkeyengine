@@ -36,6 +36,13 @@
       img.setMultiSamples(Math.min(maxColorTexSamples,imageSamples));
     }
   }
+  if (!GLContext.getCapabilities().GL_ARB_texture_non_power_of_two) {
+    if (img.getWidth() != 0 && img.getHeight() != 0) {
+      if (!FastMath.isPowerOfTwo(img.getWidth()) || !FastMath.isPowerOfTwo(img.getHeight()) || img.getWidth() != img.getHeight()) {
+        logger.log(Level.WARNING,"Encountered NPOT texture {0}, " + "it might not display correctly.",img);
+      }
+    }
+  }
   if (target == GL_TEXTURE_CUBE_MAP) {
     List<ByteBuffer> data=img.getData();
     if (data.size() != 6) {

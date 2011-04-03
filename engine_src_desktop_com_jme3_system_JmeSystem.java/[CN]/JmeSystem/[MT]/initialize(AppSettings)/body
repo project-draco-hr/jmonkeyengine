@@ -1,6 +1,18 @@
 {
   if (initialized)   return;
   initialized=true;
+  try {
+    if (!lowPermissions) {
+      JmeFormatter formatter=new JmeFormatter();
+      Handler consoleHandler=new ConsoleHandler();
+      consoleHandler.setFormatter(formatter);
+      Logger.getLogger("").removeHandler(Logger.getLogger("").getHandlers()[0]);
+      Logger.getLogger("").addHandler(consoleHandler);
+    }
+  }
+ catch (  SecurityException ex) {
+    logger.log(Level.SEVERE,"Security error in creating log file",ex);
+  }
   logger.log(Level.INFO,"Running on {0}",getFullName());
   if (!lowPermissions) {
     try {

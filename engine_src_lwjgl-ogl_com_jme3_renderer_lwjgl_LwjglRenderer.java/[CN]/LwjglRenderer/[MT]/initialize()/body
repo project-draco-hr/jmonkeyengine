@@ -114,6 +114,12 @@ caps.add(Caps.FloatTexture);
 if (ctxCaps.GL_ARB_vertex_array_object) {
 caps.add(Caps.VertexBufferArray);
 }
+if (ctxCaps.GL_ARB_texture_non_power_of_two) {
+caps.add(Caps.NonPowerOfTwoTextures);
+}
+ else {
+logger.log(Level.WARNING,"Your graphics card does not " + "support non-power-of-2 textures. " + "Some features might not work.");
+}
 boolean latc=ctxCaps.GL_EXT_texture_compression_latc;
 boolean atdc=ctxCaps.GL_ATI_texture_compression_3dc;
 if (latc || atdc) {
