@@ -5,7 +5,7 @@
   cullHint=ic.readEnum("cull_mode",CullHint.class,CullHint.Inherit);
   queueBucket=ic.readEnum("queue",RenderQueue.Bucket.class,RenderQueue.Bucket.Inherit);
   shadowMode=ic.readEnum("shadow_mode",ShadowMode.class,ShadowMode.Inherit);
-  localTransform=(Transform)ic.readSavable("transform",Transform.Identity);
+  localTransform=(Transform)ic.readSavable("transform",Transform.IDENTITY);
   localLights=(LightList)ic.readSavable("lights",null);
   localLights.setOwner(this);
   controls.addAll(0,ic.readSavableArrayList("controlsList",null));
