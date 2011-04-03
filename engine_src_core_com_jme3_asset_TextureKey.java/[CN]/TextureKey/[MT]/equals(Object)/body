@@ -1,0 +1,6 @@
+{
+  if (!(other instanceof TextureKey)) {
+    return false;
+  }
+  return super.equals(other) && isFlipY() == ((TextureKey)other).isFlipY();
+}
