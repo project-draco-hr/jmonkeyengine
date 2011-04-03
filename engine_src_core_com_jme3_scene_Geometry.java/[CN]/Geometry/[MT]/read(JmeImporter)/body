@@ -2,6 +2,18 @@
   super.read(im);
   InputCapsule ic=im.getCapsule(this);
   mesh=(Mesh)ic.readSavable("mesh",null);
-  material=(Material)ic.readSavable("material",null);
+  material=null;
+  String matName=ic.readString("materialName",null);
+  if (matName != null) {
+    try {
+      material=im.getAssetManager().loadMaterial(matName);
+    }
+ catch (    AssetNotFoundException ex) {
+      logger.log(Level.FINE,"Could not load J3M file {0} for Geometry.",matName);
+    }
+  }
+  if (material == null) {
+    material=(Material)ic.readSavable("material",null);
+  }
   ignoreTransform=ic.readBoolean("ignoreTransform",false);
 }

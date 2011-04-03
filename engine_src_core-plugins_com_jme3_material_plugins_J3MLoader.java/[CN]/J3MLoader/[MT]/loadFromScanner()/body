@@ -26,6 +26,7 @@
     MaterialDef def=(MaterialDef)owner.loadAsset(new AssetKey(extendedMat));
     if (def == null)     throw new IOException("Extended material " + extendedMat + " cannot be found.");
     material=new Material(def);
+    material.setAssetName(fileName);
   }
  else   if (scan.hasNext("\\{")) {
     if (extending) {
