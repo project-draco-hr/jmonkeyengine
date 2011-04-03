@@ -1,6 +1,6 @@
 {
   super.updateLogicalState(tpf);
-  for (int i=children.size(); i >= 0; i--) {
+  for (int i=children.size() - 1; i >= 0; i--) {
     Spatial child=children.get(i);
     child.updateLogicalState(tpf);
   }
