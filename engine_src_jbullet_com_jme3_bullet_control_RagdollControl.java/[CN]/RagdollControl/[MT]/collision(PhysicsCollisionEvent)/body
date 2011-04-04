@@ -1,0 +1,36 @@
+{
+  PhysicsCollisionObject objA=event.getObjectA();
+  PhysicsCollisionObject objB=event.getObjectB();
+  if (event == null) {
+    return;
+  }
+  if (event.getNodeA() != null && "Floor".equals(event.getNodeA().getName())) {
+    return;
+  }
+  if (event.getNodeB() != null && "Floor".equals(event.getNodeB().getName())) {
+    return;
+  }
+  if (event.getAppliedImpulse() < 3.0) {
+    return;
+  }
+  boolean hit=false;
+  if (objA instanceof PhysicsRigidBody) {
+    PhysicsRigidBody prb=(PhysicsRigidBody)objA;
+    for (    PhysicsBoneLink physicsBoneLink : boneLinks) {
+      if (physicsBoneLink.rigidBody == prb) {
+        hit=true;
+      }
+    }
+  }
+  if (objB instanceof PhysicsRigidBody) {
+    PhysicsRigidBody prb=(PhysicsRigidBody)objB;
+    for (    PhysicsBoneLink physicsBoneLink : boneLinks) {
+      if (physicsBoneLink.rigidBody == prb) {
+        hit=false;
+      }
+    }
+  }
+  if (hit && event.getAppliedImpulse() > 10.0) {
+    control=true;
+  }
+}
