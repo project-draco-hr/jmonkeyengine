@@ -1,3 +1,7 @@
 {
-  return material.toString();
+  String name=material.getAssetName();
+  if (name == null) {
+    name="stored in file";
+  }
+  return name;
 }
