@@ -3,7 +3,7 @@
   final Node node=rootNode.getLookup().lookup(Node.class);
   return new AbstractAction(name){
     public void actionPerformed(    ActionEvent e){
-      final Object obj=showWizard(node);
+      final Object obj=showWizard(rootNode);
       SceneApplication.getApplication().enqueue(new Callable<Void>(){
         public Void call() throws Exception {
           final Spatial attachSpatial=doCreateSpatial(node,obj);
