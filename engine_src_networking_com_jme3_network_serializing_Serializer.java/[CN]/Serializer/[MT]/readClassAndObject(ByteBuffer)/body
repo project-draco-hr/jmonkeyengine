@@ -1,5 +1,6 @@
 {
   SerializerRegistration reg=readClass(buffer);
-  if (reg == null)   return null;
+  if (reg == NULL_CLASS)   return null;
+  if (reg == null)   throw new SerializerException("Class not found for buffer data.");
   return reg.getSerializer().readObject(buffer,reg.getType());
 }
