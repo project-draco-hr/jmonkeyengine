@@ -1,0 +1,54 @@
+{
+  if ("create j3m file".equals(text)) {
+    AbstractSceneExplorerNode geom=SceneExplorerTopComponent.findInstance().getLastSelected();
+    assert(geom != null);
+    ProjectAssetManager pm=geom.getLookup().lookup(ProjectAssetManager.class);
+    assert(pm != null);
+    DataObject obj=geom.getLookup().lookup(DataObject.class);
+    assert(obj != null);
+    FileObject currentFile=obj.getPrimaryFile();
+    FileObject currentFolder=currentFile.getParent();
+    try {
+      Material old=material.clone();
+      int i=1;
+      FileObject newFile=currentFolder.getFileObject(currentFile.getName() + "_" + i,"j3m");
+      while (newFile != null) {
+        i++;
+        newFile=currentFolder.getFileObject(currentFile.getName() + "_" + i,"j3m");
+      }
+      newFile=currentFolder.createData(currentFile.getName() + "_" + i,"j3m");
+      MaterialProperties properties=new MaterialProperties(newFile,pm);
+      material.setAssetName(pm.getRelativeAssetPath(newFile.getPath()));
+      properties.setAsMaterial(material);
+      notifyListeners(old,material);
+      currentFolder.refresh();
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+      return;
+    }
+    return;
+  }
+  try {
+    Material old=material;
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        SceneRequest request=SceneApplication.getApplication().getCurrentSceneRequest();
+        ((DesktopAssetManager)request.getManager().getManager()).deleteFromCache(new AssetKey(text));
+        Material localMaterial=(Material)request.getManager().getManager().loadAsset(text);
+        if (localMaterial != null) {
+          material=localMaterial;
+        }
+        return null;
+      }
+    }
+).get();
+    notifyListeners(old,material);
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

@@ -1,0 +1,19 @@
+{
+  SceneRequest request=SceneApplication.getApplication().getCurrentSceneRequest();
+  if (request == null) {
+    return new String[]{};
+  }
+  if (material.getAssetName() == null) {
+    String[] materials=request.getManager().getMaterials();
+    String[] mats=new String[materials.length + 1];
+    mats[0]=("create j3m file");
+    for (int i=0; i < materials.length; i++) {
+      String string=materials[i];
+      mats[i + 1]=string;
+    }
+    return mats;
+  }
+ else {
+    return request.getManager().getMaterials();
+  }
+}

@@ -1,0 +1,23 @@
+{
+  assert(mat.getMaterialDef().getAssetName() != null);
+  setName("MyMaterial");
+  setMatDefName(mat.getMaterialDef().getAssetName());
+  createBaseMaterialFile();
+  materialParameters.clear();
+  Collection<MatParam> params=mat.getParams();
+  for (Iterator<MatParam> it=params.iterator(); it.hasNext(); ) {
+    MatParam matParam=it.next();
+    materialParameters.put(matParam.getName(),new MaterialProperty(matParam));
+  }
+  additionalRenderStates.put("Wireframe",new MaterialProperty("OnOff","Wireframe",mat.getAdditionalRenderState().isWireframe() ? "On" : "Off"));
+  additionalRenderStates.put("DepthWrite",new MaterialProperty("OnOff","DepthWrite",mat.getAdditionalRenderState().isDepthWrite() ? "On" : "Off"));
+  additionalRenderStates.put("DepthTest",new MaterialProperty("OnOff","DepthTest",mat.getAdditionalRenderState().isDepthTest() ? "On" : "Off"));
+  additionalRenderStates.put("ColorWrite",new MaterialProperty("OnOff","ColorWrite",mat.getAdditionalRenderState().isColorWrite() ? "On" : "Off"));
+  additionalRenderStates.put("PointSprite",new MaterialProperty("OnOff","PointSprite",mat.getAdditionalRenderState().isPointSprite() ? "On" : "Off"));
+  additionalRenderStates.put("FaceCull",new MaterialProperty("FaceCullMode","FaceCull",mat.getAdditionalRenderState().getFaceCullMode().name()));
+  additionalRenderStates.put("Blend",new MaterialProperty("BlendMode","Blend",mat.getAdditionalRenderState().getBlendMode().name()));
+  additionalRenderStates.put("AlphaTestFalloff",new MaterialProperty("Float","AlphaTestFalloff",mat.getAdditionalRenderState().getAlphaFallOff() + ""));
+  additionalRenderStates.put("PolyOffset",new MaterialProperty("Float,Float","PolyOffset",mat.getAdditionalRenderState().getPolyOffsetUnits() + ", " + mat.getAdditionalRenderState().getPolyOffsetFactor()));
+  parseMatDef();
+  setAsText(getUpdatedContent());
+}
