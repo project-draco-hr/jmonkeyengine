@@ -18,7 +18,7 @@
   List<Component> valueList=new LinkedList<Component>();
   List<Component> textureList=new LinkedList<Component>();
   List<Component> otherList=new LinkedList<Component>();
-  for (Iterator<Entry<String,MaterialProperty>> it=properties.getParameterMap().entrySet().iterator(); it.hasNext(); ) {
+  for (Iterator<Entry<String,MaterialProperty>> it=materialFile.getParameterMap().entrySet().iterator(); it.hasNext(); ) {
     Entry<String,MaterialProperty> entry=it.next();
     MaterialPropertyWidget widget=WidgetFactory.getWidget(entry.getValue(),manager);
     widget.registerChangeListener(this);
@@ -63,10 +63,10 @@
   }
   jScrollPane2.repaint();
   jScrollPane3.repaint();
-  setDisplayName(properties.getName() + " - " + properties.getMaterialPath());
-  MaterialProperties prop=properties;
-  properties=null;
+  setDisplayName(materialFile.getName() + " - " + materialFile.getMaterialPath());
+  EditableMaterialFile prop=materialFile;
+  materialFile=null;
   jTextField1.setText(prop.getName());
-  properties=prop;
+  materialFile=prop;
   updateStates();
 }

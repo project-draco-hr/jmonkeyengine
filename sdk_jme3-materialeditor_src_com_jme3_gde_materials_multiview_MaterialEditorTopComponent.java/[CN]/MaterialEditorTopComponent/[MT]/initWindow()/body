@@ -5,9 +5,9 @@
   setActivatedNodes(new Node[]{dataObject.getNodeDelegate()});
   ((AssetDataObject)dataObject).setSaveCookie(saveCookie);
   manager=dataObject.getLookup().lookup(ProjectAssetManager.class);
-  properties=new MaterialProperties(dataObject.getPrimaryFile(),dataObject.getLookup().lookup(ProjectAssetManager.class));
-  properties.read();
-  setMatDefList(manager.getMatDefs(),properties.getMatDefName());
+  materialFile=new EditableMaterialFile(dataObject.getPrimaryFile(),dataObject.getLookup().lookup(ProjectAssetManager.class));
+  materialFile.read();
+  setMatDefList(manager.getMatDefs(),materialFile.getMatDefName());
   try {
     jTextArea1.setText(dataObject.getPrimaryFile().asText());
   }

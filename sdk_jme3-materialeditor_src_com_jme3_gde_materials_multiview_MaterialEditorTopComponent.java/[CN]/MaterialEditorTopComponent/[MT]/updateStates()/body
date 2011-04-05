@@ -6,7 +6,7 @@
     }
   }
   statesPanel.removeAll();
-  for (Iterator<Entry<String,MaterialProperty>> it=properties.getStateMap().entrySet().iterator(); it.hasNext(); ) {
+  for (Iterator<Entry<String,MaterialProperty>> it=materialFile.getStateMap().entrySet().iterator(); it.hasNext(); ) {
     Entry<String,MaterialProperty> entry=it.next();
     MaterialPropertyWidget widget=WidgetFactory.getWidget(entry.getValue(),manager);
     widget.registerChangeListener(this);
