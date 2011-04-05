@@ -4,9 +4,9 @@
   }
   Savable s=userData.get(key);
   if (s instanceof UserData) {
-    return ((UserData)s).getValue();
+    return (T)((UserData)s).getValue();
   }
  else {
-    return s;
+    return (T)s;
   }
 }
