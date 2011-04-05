@@ -1,5 +1,13 @@
 {
   this.type=param.getVarType().name();
   this.name=param.getName();
-  this.value=param.getValue().toString();
+  Object obj=param.getValue();
+  this.value=obj.toString();
+  if (obj instanceof ColorRGBA) {
+    value=value.replaceAll("Color\\[([^\\]]*)\\]","$1");
+    value=value.replaceAll(",","");
+  }
+ else   if (obj instanceof Texture2D) {
+    value=value.replaceAll("Texture2D\\[name=([^,]*)\\,([^\\]]*)]","$1");
+  }
 }

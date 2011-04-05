@@ -9,7 +9,6 @@
     FileObject currentFile=obj.getPrimaryFile();
     FileObject currentFolder=currentFile.getParent();
     try {
-      Material old=material.clone();
       int i=1;
       FileObject newFile=currentFolder.getFileObject(currentFile.getName() + "_" + i,"j3m");
       while (newFile != null) {
@@ -20,35 +19,15 @@
       MaterialProperties properties=new MaterialProperties(newFile,pm);
       material.setAssetName(pm.getRelativeAssetPath(newFile.getPath()));
       properties.setAsMaterial(material);
-      notifyListeners(old,material);
       currentFolder.refresh();
+      applyMaterial(material.getAssetName());
     }
  catch (    IOException ex) {
       Exceptions.printStackTrace(ex);
       return;
     }
-    return;
   }
-  try {
-    Material old=material;
-    SceneApplication.getApplication().enqueue(new Callable<Void>(){
-      public Void call() throws Exception {
-        SceneRequest request=SceneApplication.getApplication().getCurrentSceneRequest();
-        ((DesktopAssetManager)request.getManager().getManager()).deleteFromCache(new AssetKey(text));
-        Material localMaterial=(Material)request.getManager().getManager().loadAsset(text);
-        if (localMaterial != null) {
-          material=localMaterial;
-        }
-        return null;
-      }
-    }
-).get();
-    notifyListeners(old,material);
-  }
- catch (  InterruptedException ex) {
-    Exceptions.printStackTrace(ex);
-  }
-catch (  ExecutionException ex) {
-    Exceptions.printStackTrace(ex);
+ else {
+    applyMaterial(text);
   }
 }
