@@ -8,6 +8,13 @@
     value=value.replaceAll(",","");
   }
  else   if (obj instanceof Texture2D) {
-    value=value.replaceAll("Texture2D\\[name=([^,]*)\\,([^\\]]*)]","$1");
+    AssetKey key=((Texture2D)obj).getKey();
+    String flip="";
+    if (key instanceof TextureKey) {
+      if (((TextureKey)key).isFlipY()) {
+        flip="Flip ";
+      }
+    }
+    value=value.replaceAll("Texture2D\\[name=([^,]*)\\,([^\\]]*)]",flip + "$1");
   }
 }
