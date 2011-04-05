@@ -1,5 +1,4 @@
 {
-  bone.setUserControl(true);
   Vector3f pos=bone.getModelSpacePosition().add(model.getLocalTranslation());
   Quaternion rot=bone.getModelSpaceRotation().mult(initRotation);
   PhysicsRigidBody shapeNode=new PhysicsRigidBody(makeShape(bone,model),10.0f / (float)reccount);
@@ -8,6 +7,7 @@
   link.bone=bone;
   link.rigidBody=shapeNode;
   link.initalWorldRotation=bone.getModelSpaceRotation().clone();
+  link.mass=10.0f / (float)reccount;
   if (parent != null) {
     Vector3f posToParent=new Vector3f();
     if (bone.getParent() != null) {

@@ -14,11 +14,15 @@
     return;
   }
   boolean hit=false;
+  Bone hitBone=null;
+  PhysicsCollisionObject hitObject=null;
   if (objA instanceof PhysicsRigidBody) {
     PhysicsRigidBody prb=(PhysicsRigidBody)objA;
     for (    PhysicsBoneLink physicsBoneLink : boneLinks) {
       if (physicsBoneLink.rigidBody == prb) {
         hit=true;
+        hitBone=physicsBoneLink.bone;
+        hitObject=objB;
       }
     }
   }
@@ -27,10 +31,15 @@
     for (    PhysicsBoneLink physicsBoneLink : boneLinks) {
       if (physicsBoneLink.rigidBody == prb) {
         hit=false;
+        hitBone=physicsBoneLink.bone;
+        hitObject=objA;
       }
     }
   }
   if (hit && event.getAppliedImpulse() > 10.0) {
-    control=true;
+    System.out.println("trigger impact " + event.getNodeA() + " "+ event.getNodeB()+ " "+ event.getAppliedImpulse());
+    for (    RagdollCollisionListener listener : listeners) {
+      listener.collide(hitBone,hitObject);
+    }
   }
 }

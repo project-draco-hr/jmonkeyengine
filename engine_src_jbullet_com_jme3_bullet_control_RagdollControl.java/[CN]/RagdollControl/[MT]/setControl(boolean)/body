@@ -1,0 +1,8 @@
+{
+  this.control=control;
+  AnimControl animControl=targetModel.getControl(AnimControl.class);
+  animControl.setEnabled(!control);
+  for (  PhysicsBoneLink link : boneLinks) {
+    link.bone.setUserControl(control);
+  }
+}
