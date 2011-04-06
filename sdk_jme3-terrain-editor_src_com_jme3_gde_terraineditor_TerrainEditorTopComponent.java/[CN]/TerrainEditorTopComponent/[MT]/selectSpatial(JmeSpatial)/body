@@ -1,3 +1,7 @@
 {
   selectedSpat=spatial;
+  if (selectedSpat instanceof JmeTerrainQuad) {
+    selectedSpat.removeNodeListener(terrainDeletedNodeListener);
+    selectedSpat.addNodeListener(terrainDeletedNodeListener);
+  }
 }
