@@ -21,16 +21,19 @@ case i_fmt:
       readFormatChunk(len);
     break;
 case i_data:
-  if (readStream) {
-    audioStream.updateData(in,duration);
-  }
+  duration=len / bytesPerSec;
+if (readStream) {
+  readDataChunkForStream(len);
+}
  else {
-    readDataChunkForBuffer(len);
-  }
+  readDataChunkForBuffer(len);
+}
 return audioData;
 default :
 int skipped=in.skipBytes(len);
-if (skipped <= 0) return null;
+if (skipped <= 0) {
+return null;
+}
 break;
 }
 }
