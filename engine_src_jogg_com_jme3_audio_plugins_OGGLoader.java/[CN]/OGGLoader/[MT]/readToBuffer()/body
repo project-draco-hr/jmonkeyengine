@@ -11,8 +11,10 @@
   }
   byte[] dataBytes=baos.toByteArray();
   swapBytes(dataBytes,0,dataBytes.length);
-  ByteBuffer data=BufferUtils.createByteBuffer(dataBytes.length);
-  data.put(dataBytes).flip();
+  int numSamples=(int)oggStream.getLastOggPage().getAbsoluteGranulePosition();
+  int totalBytes=numSamples * streamHdr.getChannels() * 2;
+  ByteBuffer data=BufferUtils.createByteBuffer(totalBytes);
+  data.put(dataBytes,0,totalBytes).flip();
   vorbisStream.close();
   loStream.close();
   oggStream.close();

@@ -5,6 +5,7 @@
   }
   if (op.isEos()) {
     eos=true;
+    lastPage=op;
   }
   LogicalOggStreamImpl los=(LogicalOggStreamImpl)getLogicalStream(op.getStreamSerialNumber());
   if (los == null) {
