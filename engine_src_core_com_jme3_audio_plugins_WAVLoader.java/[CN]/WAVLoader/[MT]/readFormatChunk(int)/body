@@ -15,7 +15,7 @@
   int bitsPerSample=in.readShort();
   int expectedBytesPerSec=(bitsPerSample * channels * sampleRate) / 8;
   if (expectedBytesPerSec != bytesPerSec) {
-    logger.warning("Expected " + expectedBytesPerSec + " bytes per second, got "+ bytesPerSec);
+    logger.log(Level.WARNING,"Expected {0} bytes per second, got {1}",new Object[]{expectedBytesPerSec,bytesPerSec});
   }
   duration=dataLength / bytesPerSec;
   if (!adpcm) {

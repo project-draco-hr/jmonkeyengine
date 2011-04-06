@@ -1,6 +1,5 @@
 {
-  this.stream=info.openStream();
-  in=new LittleEndien(stream);
+  this.in=new LittleEndien(info.openStream());
   int sig=in.readInt();
   if (sig != i_RIFF)   throw new IOException("File is not a WAVE file");
   in.readInt();
@@ -23,7 +22,7 @@ case i_fmt:
     break;
 case i_data:
   if (readStream) {
-    audioStream.updateData(stream,duration);
+    audioStream.updateData(in,duration);
   }
  else {
     readDataChunkForBuffer(len);
