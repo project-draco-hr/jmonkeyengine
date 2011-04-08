@@ -1,8 +1,6 @@
 {
-synchronized (states) {
-    for (int i=0; i < states.size(); i++) {
-      AppState state=states.get(i);
-      state.cleanup();
-    }
+  AppState[] array=getArray();
+  for (  AppState state : array) {
+    state.cleanup();
   }
 }

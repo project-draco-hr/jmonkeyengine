@@ -3,6 +3,7 @@ synchronized (states) {
     if (states.contains(state)) {
       state.stateDetached(this);
       states.remove(state);
+      stateArray=null;
       return true;
     }
  else {

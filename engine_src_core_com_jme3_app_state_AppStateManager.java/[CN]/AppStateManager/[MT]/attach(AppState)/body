@@ -3,6 +3,7 @@ synchronized (states) {
     if (!states.contains(state)) {
       state.stateAttached(this);
       states.add(state);
+      stateArray=null;
       return true;
     }
  else {
