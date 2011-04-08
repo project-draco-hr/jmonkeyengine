@@ -5,7 +5,7 @@
     Collections.addAll(fields,processingClass.getDeclaredFields());
     processingClass=processingClass.getSuperclass();
   }
-  List<SavedField> cachedFields=new ArrayList(fields.size());
+  List<SavedField> cachedFields=new ArrayList<SavedField>(fields.size());
   for (  Field field : fields) {
     int modifiers=field.getModifiers();
     if (Modifier.isTransient(modifiers))     continue;
