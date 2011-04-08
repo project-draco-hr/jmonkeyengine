@@ -2,6 +2,7 @@
   Node clonedNode=(Node)spatial;
   AnimControl ctrl=spatial.getControl(AnimControl.class);
   SkeletonControl clone=new SkeletonControl();
+  clone.setSpatial(clonedNode);
   clone.skeleton=ctrl.getSkeleton();
   Mesh[] meshes=new Mesh[targets.length];
   for (int i=0; i < meshes.length; i++) {
