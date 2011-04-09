@@ -4,7 +4,7 @@
     Class serializerClass=serializable.serializer();
     short classId=serializable.id();
     if (classId == 0)     classId=--nextId;
-    Serializer serializer=getSerializer(serializerClass);
+    Serializer serializer=getSerializer(serializerClass,false);
     if (serializer == null)     serializer=fieldSerializer;
     SerializerRegistration existingReg=getExactSerializerRegistration(cls);
     if (existingReg != null)     classId=existingReg.getId();
