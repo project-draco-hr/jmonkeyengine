@@ -1,13 +1,11 @@
 {
   Vector3f pos=bone.getModelSpacePosition().add(model.getLocalTranslation());
-  Quaternion rot=bone.getModelSpaceRotation().mult(initRotation);
   PhysicsRigidBody shapeNode=new PhysicsRigidBody(makeShape(bone,model),10.0f / (float)reccount);
   shapeNode.setPhysicsLocation(pos);
   PhysicsBoneLink link=new PhysicsBoneLink();
   link.bone=bone;
   link.rigidBody=shapeNode;
   link.initalWorldRotation=bone.getModelSpaceRotation().clone();
-  link.mass=10.0f / (float)reccount;
   if (parent != null) {
     Vector3f posToParent=new Vector3f();
     if (bone.getParent() != null) {
@@ -15,12 +13,12 @@
     }
     link.pivotA=posToParent;
     link.pivotB=new Vector3f(0,0,0f);
-    ConeJoint joint=new ConeJoint(parent,shapeNode,link.pivotA,link.pivotB);
-    joint.setLimit(FastMath.HALF_PI,FastMath.HALF_PI,0.01f);
+    SixDofJoint joint=new SixDofJoint(parent,shapeNode,link.pivotA,link.pivotB,true);
+    setJointLimit(joint,0,0,0,0,0,0);
     link.joint=joint;
     joint.setCollisionBetweenLinkedBodys(false);
   }
-  list.add(link);
+  list.put(bone.getName(),link);
   for (Iterator<Bone> it=bone.getChildren().iterator(); it.hasNext(); ) {
     Bone childBone=it.next();
     boneRecursion(model,childBone,shapeNode,list,reccount++);

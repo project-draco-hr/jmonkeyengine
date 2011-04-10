@@ -1,8 +1,5 @@
 {
   AnimControl animControl=model.getControl(AnimControl.class);
-  initPosition=model.getLocalTranslation();
-  initRotation=model.getLocalRotation();
-  initScale=model.getLocalScale();
   skeleton=animControl.getSkeleton();
   skeleton.resetAndUpdate();
   for (int i=0; i < skeleton.getRoots().length; i++) {

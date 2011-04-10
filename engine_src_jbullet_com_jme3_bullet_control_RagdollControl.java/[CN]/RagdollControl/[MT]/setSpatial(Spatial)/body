@@ -1,10 +1,26 @@
 {
   targetModel=model;
+  Node parent=model.getParent();
+  initPosition=model.getLocalTranslation().clone();
+  initRotation=model.getLocalRotation().clone();
+  invInitRotation=initRotation.inverse();
+  initScale=model.getLocalScale().clone();
+  model.removeFromParent();
+  model.setLocalTranslation(Vector3f.ZERO);
+  model.setLocalRotation(Quaternion.ZERO);
+  model.setLocalScale(1);
   SkeletonControl sc=model.getControl(SkeletonControl.class);
   model.removeControl(sc);
   model.addControl(sc);
   removeFromPhysicsSpace();
   clearData();
   scanSpatial(model);
+  System.out.println("parent " + parent);
+  if (parent != null) {
+    parent.attachChild(model);
+  }
+  model.setLocalTranslation(initPosition);
+  model.setLocalRotation(initRotation);
+  model.setLocalScale(initScale);
   logger.log(Level.INFO,"Create physics ragdoll for skeleton {0}",skeleton);
 }
