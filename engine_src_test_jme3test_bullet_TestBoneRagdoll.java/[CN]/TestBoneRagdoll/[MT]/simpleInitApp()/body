@@ -19,7 +19,8 @@
   ragdoll=new RagdollControl(1.0f);
   ragdoll.addCollisionListener(this);
   model.addControl(ragdoll);
-  ragdoll.setJointLimit("head",FastMath.QUARTER_PI,-FastMath.QUARTER_PI,FastMath.QUARTER_PI,-FastMath.QUARTER_PI,FastMath.QUARTER_PI,-FastMath.QUARTER_PI);
+  float eighth_pi=FastMath.PI * 0.125f;
+  ragdoll.setJointLimit("head",eighth_pi,-eighth_pi,eighth_pi,-eighth_pi,eighth_pi,-eighth_pi);
   ragdoll.setJointLimit("spinehigh",FastMath.QUARTER_PI,-FastMath.QUARTER_PI,0,0,FastMath.QUARTER_PI,-FastMath.QUARTER_PI);
   ragdoll.setJointLimit("hip.right",FastMath.PI,-FastMath.QUARTER_PI,FastMath.QUARTER_PI,-FastMath.QUARTER_PI,FastMath.QUARTER_PI,-FastMath.QUARTER_PI);
   ragdoll.setJointLimit("hip.left",FastMath.PI,-FastMath.QUARTER_PI,FastMath.QUARTER_PI,-FastMath.QUARTER_PI,FastMath.QUARTER_PI,-FastMath.QUARTER_PI);
@@ -52,6 +53,7 @@
         bulletg.setLocalScale(timer);
         bulletCollisionShape=new SphereCollisionShape(timer);
         RigidBodyControl bulletNode=new RigidBodyControl(bulletCollisionShape,timer * 10);
+        bulletNode.setCcdMotionThreshold(0.001f);
         bulletNode.setLinearVelocity(cam.getDirection().mult(80));
         bulletg.addControl(bulletNode);
         rootNode.attachChild(bulletg);
