@@ -18,6 +18,6 @@
   additionalRenderStates.put("Blend",new MaterialProperty("BlendMode","Blend",mat.getAdditionalRenderState().getBlendMode().name()));
   additionalRenderStates.put("AlphaTestFalloff",new MaterialProperty("Float","AlphaTestFalloff",mat.getAdditionalRenderState().getAlphaFallOff() + ""));
   additionalRenderStates.put("PolyOffset",new MaterialProperty("Float,Float","PolyOffset",mat.getAdditionalRenderState().getPolyOffsetUnits() + " " + mat.getAdditionalRenderState().getPolyOffsetFactor()));
-  parseMatDef();
+  checkWithMatDef();
   setAsText(getUpdatedContent());
 }
