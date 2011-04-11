@@ -16,6 +16,7 @@
             return new FileInputStream(selected);
           }
  catch (          FileNotFoundException ex) {
+            ex.printStackTrace();
           }
           return null;
         }
@@ -23,6 +24,7 @@
 );
     }
  catch (    IOException ex) {
+      ex.printStackTrace();
     }
     musicSource=new AudioNode(musicData,key);
     musicLength=musicData.getDuration();
