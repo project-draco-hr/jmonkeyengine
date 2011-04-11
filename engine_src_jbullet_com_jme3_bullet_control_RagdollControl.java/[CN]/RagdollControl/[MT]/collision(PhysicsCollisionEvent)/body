@@ -1,40 +1,32 @@
 {
   PhysicsCollisionObject objA=event.getObjectA();
   PhysicsCollisionObject objB=event.getObjectB();
-  if (event.getNodeA() != null && "Floor".equals(event.getNodeA().getName())) {
+  if (event.getNodeA() == null && event.getNodeB() == null) {
     return;
   }
-  if (event.getNodeB() != null && "Floor".equals(event.getNodeB().getName())) {
-    return;
-  }
-  if (event.getAppliedImpulse() < 3.0) {
+  if (event.getAppliedImpulse() < eventDiscardImpulseThreshold) {
     return;
   }
   boolean hit=false;
   Bone hitBone=null;
   PhysicsCollisionObject hitObject=null;
-  if (objA instanceof PhysicsRigidBody) {
-    PhysicsRigidBody prb=(PhysicsRigidBody)objA;
-    for (    PhysicsBoneLink physicsBoneLink : boneLinks.values()) {
-      if (physicsBoneLink.rigidBody == prb) {
-        hit=true;
-        hitBone=physicsBoneLink.bone;
-        hitObject=objB;
-      }
+  if (objA.getUserObject() instanceof PhysicsBoneLink) {
+    PhysicsBoneLink link=(PhysicsBoneLink)objA.getUserObject();
+    if (link != null) {
+      hit=true;
+      hitBone=link.bone;
+      hitObject=objB;
     }
   }
-  if (objB instanceof PhysicsRigidBody) {
-    PhysicsRigidBody prb=(PhysicsRigidBody)objB;
-    for (    PhysicsBoneLink physicsBoneLink : boneLinks.values()) {
-      if (physicsBoneLink.rigidBody == prb) {
-        hit=false;
-        hitBone=physicsBoneLink.bone;
-        hitObject=objA;
-      }
+  if (objB.getUserObject() instanceof PhysicsBoneLink) {
+    PhysicsBoneLink link=(PhysicsBoneLink)objB.getUserObject();
+    if (link != null) {
+      hit=true;
+      hitBone=link.bone;
+      hitObject=objA;
     }
   }
-  if (hit && event.getAppliedImpulse() > 10.0) {
-    System.out.println("trigger impact " + event.getNodeA() + " "+ event.getNodeB()+ " "+ event.getAppliedImpulse());
+  if (hit && event.getAppliedImpulse() > eventDispatchImpulseThreshold) {
     for (    RagdollCollisionListener listener : listeners) {
       listener.collide(hitBone,hitObject);
     }

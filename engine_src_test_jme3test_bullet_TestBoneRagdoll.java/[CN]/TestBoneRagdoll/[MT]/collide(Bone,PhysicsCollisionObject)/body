@@ -1,4 +1,10 @@
 {
+  if (object.getUserObject() != null && object.getUserObject() instanceof Geometry) {
+    Geometry geom=(Geometry)object.getUserObject();
+    if ("Floor".equals(geom.getName())) {
+      return;
+    }
+  }
   if (!ragdoll.hasControl()) {
     ragdoll.setControl(true);
   }

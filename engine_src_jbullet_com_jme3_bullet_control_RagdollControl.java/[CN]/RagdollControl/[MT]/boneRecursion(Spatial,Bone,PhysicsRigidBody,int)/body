@@ -1,7 +1,6 @@
 {
   Vector3f pos=bone.getModelSpacePosition().add(model.getLocalTranslation());
   PhysicsRigidBody shapeNode=new PhysicsRigidBody(makeShape(bone,model),10.0f / (float)reccount);
-  shapeNode.setPhysicsLocation(pos);
   PhysicsBoneLink link=new PhysicsBoneLink();
   link.bone=bone;
   link.rigidBody=shapeNode;
@@ -14,14 +13,14 @@
     link.pivotA=posToParent;
     link.pivotB=new Vector3f(0,0,0f);
     SixDofJoint joint=new SixDofJoint(parent,shapeNode,link.pivotA,link.pivotB,true);
-    setJointLimit(joint,0,0,0,0,0,0);
+    preset.setupJointForBone(bone.getName(),joint);
     link.joint=joint;
     joint.setCollisionBetweenLinkedBodys(false);
   }
-  list.put(bone.getName(),link);
+  boneLinks.put(bone.getName(),link);
+  shapeNode.setUserObject(link);
   for (Iterator<Bone> it=bone.getChildren().iterator(); it.hasNext(); ) {
     Bone childBone=it.next();
-    boneRecursion(model,childBone,shapeNode,list,reccount++);
+    boneRecursion(model,childBone,shapeNode,reccount++);
   }
-  return list;
 }

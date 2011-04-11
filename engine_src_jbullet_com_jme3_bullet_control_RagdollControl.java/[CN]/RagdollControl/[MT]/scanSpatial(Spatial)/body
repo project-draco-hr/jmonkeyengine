@@ -9,7 +9,7 @@
       logger.log(Level.INFO,"Found root bone in skeleton {0}",skeleton);
       baseRigidBody=new PhysicsRigidBody(new BoxCollisionShape(Vector3f.UNIT_XYZ.mult(.1f)),1);
       baseRigidBody.setPhysicsLocation(parentPos);
-      boneLinks=boneRecursion(model,childBone,baseRigidBody,boneLinks,1);
+      boneRecursion(model,childBone,baseRigidBody,1);
       return;
     }
   }
