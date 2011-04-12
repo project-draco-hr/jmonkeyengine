@@ -8,7 +8,7 @@
   stateManager.attach(bulletAppState);
   PhysicsTestHelper.createPhysicsTestWorld(rootNode,assetManager,bulletAppState.getPhysicsSpace());
   setupLight();
-  model=(Node)assetManager.loadModel("Models/Oto/Oto.mesh.xml");
+  model=(Node)assetManager.loadModel("Models/Sinbad/Sinbad.mesh.xml");
   AnimControl control=model.getControl(AnimControl.class);
   SkeletonDebugger skeletonDebug=new SkeletonDebugger("skeleton",control.getSkeleton());
   Material mat2=new Material(assetManager,"Common/MatDefs/Misc/WireColor.j3md");
@@ -16,17 +16,17 @@
   mat2.getAdditionalRenderState().setDepthTest(false);
   skeletonDebug.setMaterial(mat2);
   skeletonDebug.setLocalTranslation(model.getLocalTranslation());
-  ragdoll=new RagdollControl(1.0f);
+  ragdoll=new RagdollControl(0.7f);
+  setupSinbad(ragdoll);
   ragdoll.addCollisionListener(this);
   model.addControl(ragdoll);
   float eighth_pi=FastMath.PI * 0.125f;
-  ragdoll.setJointLimit("head",0,0,eighth_pi,-eighth_pi,0,0);
   getPhysicsSpace().add(ragdoll);
   speed=1.3f;
   rootNode.attachChild(model);
   flyCam.setMoveSpeed(50);
   final AnimChannel channel=control.createChannel();
-  channel.setAnim("Walk");
+  channel.setAnim("Dance");
   inputManager.addListener(new ActionListener(){
     public void onAction(    String name,    boolean isPressed,    float tpf){
       if (name.equals("toggle") && isPressed) {
@@ -34,6 +34,9 @@
       }
       if (name.equals("shoot") && isPressed) {
         timer=0;
+      }
+      if (name.equals("stop") && isPressed) {
+        bulletAppState.setEnabled(!bulletAppState.isEnabled());
       }
       if (name.equals("shoot") && !isPressed) {
         Geometry bulletg=new Geometry("bullet",bullet);
@@ -50,7 +53,8 @@
       }
     }
   }
-,"toggle","shoot");
+,"toggle","shoot","stop");
   inputManager.addMapping("toggle",new KeyTrigger(KeyInput.KEY_SPACE));
   inputManager.addMapping("shoot",new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+  inputManager.addMapping("stop",new KeyTrigger(KeyInput.KEY_H));
 }

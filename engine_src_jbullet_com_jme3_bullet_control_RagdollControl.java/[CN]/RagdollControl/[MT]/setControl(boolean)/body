@@ -3,7 +3,9 @@
   animControl.setEnabled(!control);
   this.control=control;
   for (  PhysicsBoneLink link : boneLinks.values()) {
-    link.bone.setUserControl(control);
     link.rigidBody.setKinematic(!control);
+  }
+  for (  Bone bone : skeleton.getRoots()) {
+    setUserControl(bone,control);
   }
 }

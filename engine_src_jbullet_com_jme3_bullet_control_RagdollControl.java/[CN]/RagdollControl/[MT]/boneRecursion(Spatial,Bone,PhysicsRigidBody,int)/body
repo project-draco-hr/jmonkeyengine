@@ -1,26 +1,32 @@
 {
-  Vector3f pos=bone.getModelSpacePosition().add(model.getLocalTranslation());
-  PhysicsRigidBody shapeNode=new PhysicsRigidBody(makeShape(bone,model),10.0f / (float)reccount);
-  PhysicsBoneLink link=new PhysicsBoneLink();
-  link.bone=bone;
-  link.rigidBody=shapeNode;
-  link.initalWorldRotation=bone.getModelSpaceRotation().clone();
-  if (parent != null) {
-    Vector3f posToParent=new Vector3f();
-    if (bone.getParent() != null) {
-      bone.getModelSpacePosition().subtract(bone.getParent().getModelSpacePosition(),posToParent);
+  PhysicsRigidBody parentShape=parent;
+  if (boneList.isEmpty() || boneList.contains(bone.getName())) {
+    Vector3f pos=bone.getModelSpacePosition().add(model.getLocalTranslation());
+    PhysicsRigidBody shapeNode=new PhysicsRigidBody(makeShape(bone,model),10.0f / (float)reccount);
+    PhysicsBoneLink link=new PhysicsBoneLink();
+    link.bone=bone;
+    link.rigidBody=shapeNode;
+    link.initalWorldRotation=bone.getModelSpaceRotation().clone();
+    if (parent != null) {
+      Vector3f posToParent=new Vector3f();
+      if (bone.getParent() != null) {
+        bone.getModelSpacePosition().subtract(bone.getParent().getModelSpacePosition(),posToParent);
+      }
+      link.pivotA=posToParent;
+      link.pivotB=new Vector3f(0,0,0f);
+      SixDofJoint joint=new SixDofJoint(parent,shapeNode,link.pivotA,link.pivotB,true);
+      joint.getTranslationalLimitMotor().setUpperLimit(new Vector3f(0,0,0));
+      joint.getTranslationalLimitMotor().setLowerLimit(new Vector3f(0,0,0));
+      preset.setupJointForBone(bone.getName(),joint);
+      link.joint=joint;
+      joint.setCollisionBetweenLinkedBodys(false);
     }
-    link.pivotA=posToParent;
-    link.pivotB=new Vector3f(0,0,0f);
-    SixDofJoint joint=new SixDofJoint(parent,shapeNode,link.pivotA,link.pivotB,true);
-    preset.setupJointForBone(bone.getName(),joint);
-    link.joint=joint;
-    joint.setCollisionBetweenLinkedBodys(false);
+    boneLinks.put(bone.getName(),link);
+    shapeNode.setUserObject(link);
+    parentShape=shapeNode;
   }
-  boneLinks.put(bone.getName(),link);
-  shapeNode.setUserObject(link);
   for (Iterator<Bone> it=bone.getChildren().iterator(); it.hasNext(); ) {
     Bone childBone=it.next();
-    boneRecursion(model,childBone,shapeNode,reccount++);
+    boneRecursion(model,childBone,parentShape,reccount++);
   }
 }

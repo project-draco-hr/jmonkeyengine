@@ -1,16 +1,27 @@
 {
-  int boneIndex=skeleton.getBoneIndex(bone);
+  List<Integer> boneIndices=null;
+  if (boneList.isEmpty()) {
+    boneIndices=new LinkedList<Integer>();
+    boneIndices.add(skeleton.getBoneIndex(bone));
+  }
+ else {
+    boneIndices=getBoneIndices(bone,skeleton);
+  }
   ArrayList<Float> points=new ArrayList<Float>();
   if (model instanceof Geometry) {
     Geometry g=(Geometry)model;
-    points.addAll(getPoints(g.getMesh(),boneIndex,bone.getModelSpacePosition()));
+    for (    Integer index : boneIndices) {
+      points.addAll(getPoints(g.getMesh(),index,bone.getModelSpacePosition()));
+    }
   }
  else   if (model instanceof Node) {
     Node node=(Node)model;
     for (    Spatial s : node.getChildren()) {
       if (s instanceof Geometry) {
         Geometry g=(Geometry)s;
-        points.addAll(getPoints(g.getMesh(),boneIndex,bone.getModelSpacePosition()));
+        for (        Integer index : boneIndices) {
+          points.addAll(getPoints(g.getMesh(),index,bone.getModelSpacePosition()));
+        }
       }
     }
   }
