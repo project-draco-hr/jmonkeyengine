@@ -13,8 +13,9 @@
   swapBytes(dataBytes,0,dataBytes.length);
   int numSamples=(int)oggStream.getLastOggPage().getAbsoluteGranulePosition();
   int totalBytes=numSamples * streamHdr.getChannels() * 2;
-  ByteBuffer data=BufferUtils.createByteBuffer(totalBytes);
-  data.put(dataBytes,0,totalBytes).flip();
+  int bytesToCopy=Math.min(totalBytes,dataBytes.length);
+  ByteBuffer data=BufferUtils.createByteBuffer(bytesToCopy);
+  data.put(dataBytes,0,bytesToCopy).flip();
   vorbisStream.close();
   loStream.close();
   oggStream.close();
