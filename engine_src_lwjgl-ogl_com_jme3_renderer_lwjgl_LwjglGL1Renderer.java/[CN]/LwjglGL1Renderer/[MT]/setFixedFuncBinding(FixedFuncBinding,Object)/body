@@ -5,5 +5,17 @@ case Color:
   glColor4f(color.r,color.g,color.b,color.a);
 colorSet=true;
 break;
+case MaterialAmbient:
+ColorRGBA ambient=(ColorRGBA)val;
+setMaterialColor(GL_AMBIENT,ambient);
+break;
+case MaterialDiffuse:
+ColorRGBA diffuse=(ColorRGBA)val;
+setMaterialColor(GL_DIFFUSE,diffuse);
+break;
+case MaterialSpecular:
+ColorRGBA specular=(ColorRGBA)val;
+setMaterialColor(GL_SPECULAR,specular);
+break;
 }
 }

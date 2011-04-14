@@ -46,6 +46,12 @@ for (int comp=0; comp < vb.components; comp++) {
 dataBuf.putInt(ib.get());
 }
 break;
+case Double:
+DoubleBuffer db=(DoubleBuffer)vb.getData();
+for (int comp=0; comp < vb.components; comp++) {
+dataBuf.putDouble(db.get());
+}
+break;
 }
 }
 }

@@ -1,0 +1,11 @@
+{
+  int hash=7;
+  hash=97 * hash + (this.format != null ? this.format.hashCode() : 0);
+  hash=97 * hash + this.width;
+  hash=97 * hash + this.height;
+  hash=97 * hash + this.depth;
+  hash=97 * hash + Arrays.hashCode(this.mipMapSizes);
+  hash=97 * hash + (this.data != null ? this.data.hashCode() : 0);
+  hash=97 * hash + this.multiSamples;
+  return hash;
+}

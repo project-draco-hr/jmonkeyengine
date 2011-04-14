@@ -1,0 +1,25 @@
+{
+  if (obj == null) {
+    return false;
+  }
+  if (getClass() != obj.getClass()) {
+    return false;
+  }
+  final Texture other=(Texture)obj;
+  if (this.image != other.image && (this.image == null || !this.image.equals(other.image))) {
+    return false;
+  }
+  if (this.minificationFilter != other.minificationFilter) {
+    return false;
+  }
+  if (this.magnificationFilter != other.magnificationFilter) {
+    return false;
+  }
+  if (this.shadowCompareMode != other.shadowCompareMode) {
+    return false;
+  }
+  if (this.anisotropicFilter != other.anisotropicFilter) {
+    return false;
+  }
+  return true;
+}

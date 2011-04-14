@@ -1,8 +1,0 @@
-{
-  if (thread.isAlive()) {
-    enqueueCommand(new Command(CmdType.Cleanup,(Object)null));
-  }
- else {
-    throw new IllegalStateException("Already cleaned up or not initialized");
-  }
-}
