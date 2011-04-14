@@ -2,10 +2,10 @@
   if (!value) {
     return;
   }
-  if (name.equals("SIMPLEAPP_Exit")) {
+  if (name.equals(INPUT_MAPPING_EXIT)) {
     stop();
   }
- else   if (name.equals("SIMPLEAPP_CameraPos")) {
+ else   if (name.equals(INPUT_MAPPING_CAMERA_POS)) {
     if (cam != null) {
       Vector3f loc=cam.getLocation();
       Quaternion rot=cam.getRotation();
@@ -14,7 +14,7 @@
       System.out.println("Camera Direction: " + cam.getDirection());
     }
   }
- else   if (name.equals("SIMPLEAPP_Memory")) {
+ else   if (name.equals(INPUT_MAPPING_MEMORY)) {
     BufferUtils.printCurrentDirectMemory(null);
   }
 }
