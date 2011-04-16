@@ -22,7 +22,7 @@
       pos.x=vertices.get(i);
       pos.y=vertices.get(i + 1);
       pos.z=vertices.get(i + 2);
-      pos.subtractLocal(offset);
+      pos.subtractLocal(offset).multLocal(initScale);
       results.add(pos.x);
       results.add(pos.y);
       results.add(pos.z);

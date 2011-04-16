@@ -1,7 +1,6 @@
 {
   PhysicsRigidBody parentShape=parent;
   if (boneList.isEmpty() || boneList.contains(bone.getName())) {
-    Vector3f pos=bone.getModelSpacePosition().add(model.getLocalTranslation());
     PhysicsRigidBody shapeNode=new PhysicsRigidBody(makeShape(bone,model),10.0f / (float)reccount);
     PhysicsBoneLink link=new PhysicsBoneLink();
     link.bone=bone;
@@ -10,7 +9,7 @@
     if (parent != null) {
       Vector3f posToParent=new Vector3f();
       if (bone.getParent() != null) {
-        bone.getModelSpacePosition().subtract(bone.getParent().getModelSpacePosition(),posToParent);
+        bone.getModelSpacePosition().subtract(bone.getParent().getModelSpacePosition(),posToParent).multLocal(initScale);
       }
       link.pivotA=posToParent;
       link.pivotB=new Vector3f(0,0,0f);

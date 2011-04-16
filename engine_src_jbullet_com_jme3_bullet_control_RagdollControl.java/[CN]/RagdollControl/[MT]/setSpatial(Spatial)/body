@@ -1,9 +1,8 @@
 {
   targetModel=model;
   Node parent=model.getParent();
-  initPosition=model.getLocalTranslation().clone();
-  initRotation=model.getLocalRotation().clone();
-  invInitRotation=initRotation.inverse();
+  Vector3f initPosition=model.getLocalTranslation().clone();
+  Quaternion initRotation=model.getLocalRotation().clone();
   initScale=model.getLocalScale().clone();
   model.removeFromParent();
   model.setLocalTranslation(Vector3f.ZERO);
