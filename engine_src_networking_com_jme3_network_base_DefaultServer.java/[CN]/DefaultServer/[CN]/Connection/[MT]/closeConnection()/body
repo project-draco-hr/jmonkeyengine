@@ -1,0 +1,11 @@
+{
+  if (closed)   return;
+  closed=true;
+  if (reliable != null && reliable.isConnected()) {
+    reliable.close();
+  }
+  if (fast != null && fast.isConnected()) {
+    fast.close();
+  }
+  fireConnectionRemoved(this);
+}

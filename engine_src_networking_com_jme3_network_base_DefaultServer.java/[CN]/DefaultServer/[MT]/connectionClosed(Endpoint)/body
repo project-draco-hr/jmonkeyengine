@@ -10,12 +10,6 @@ synchronized (this) {
   }
   if (removed != null) {
     log.log(Level.INFO,"Client closed:{0}.",removed);
-    if (removed.reliable != null && removed.reliable.isConnected()) {
-      removed.reliable.close();
-    }
-    if (removed.fast != null && removed.fast.isConnected()) {
-      removed.fast.close();
-    }
-    fireConnectionRemoved(removed);
+    removed.closeConnection();
   }
 }
