@@ -2,6 +2,7 @@
   if (thread == null)   throw new IllegalStateException("Kernel not initialized.");
   try {
     thread.close();
+    writer.shutdown();
     thread=null;
   }
  catch (  IOException e) {
