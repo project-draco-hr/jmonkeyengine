@@ -1,4 +1,7 @@
 {
+  if (!isConnected()) {
+    throw new KernelException("Endpoint is not connected:" + this);
+  }
   try {
     DatagramPacket p=new DatagramPacket(data.array(),data.position(),data.remaining(),address);
     socket.send(p);
