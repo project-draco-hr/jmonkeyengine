@@ -5,7 +5,12 @@
       Envelope e=kernel.read();
       if (e == Kernel.EVENTS_PENDING)       continue;
       flushEvents();
-      createAndDispatch(e);
+      try {
+        createAndDispatch(e);
+      }
+ catch (      Exception ex) {
+        reportError(e.getSource(),e,ex);
+      }
     }
  catch (    InterruptedException ex) {
       if (!go.get())       return;
