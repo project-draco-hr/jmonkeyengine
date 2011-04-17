@@ -31,9 +31,15 @@
     public void onAction(    String name,    boolean isPressed,    float tpf){
       if (name.equals("toggle") && isPressed) {
         ragdoll.setControl(false);
+        model.setLocalTranslation(0,0,0);
+      }
+      if (name.equals("bullet+") && isPressed) {
+        bulletSize+=0.1f;
+      }
+      if (name.equals("bullet-") && isPressed) {
+        bulletSize-=0.1f;
       }
       if (name.equals("shoot") && isPressed) {
-        timer=0;
       }
       if (name.equals("stop") && isPressed) {
         bulletAppState.setEnabled(!bulletAppState.isEnabled());
@@ -42,9 +48,9 @@
         Geometry bulletg=new Geometry("bullet",bullet);
         bulletg.setMaterial(matBullet);
         bulletg.setLocalTranslation(cam.getLocation());
-        bulletg.setLocalScale(timer);
-        bulletCollisionShape=new SphereCollisionShape(timer);
-        RigidBodyControl bulletNode=new RigidBodyControl(bulletCollisionShape,timer * 10);
+        bulletg.setLocalScale(bulletSize);
+        bulletCollisionShape=new SphereCollisionShape(bulletSize);
+        RigidBodyControl bulletNode=new RigidBodyControl(bulletCollisionShape,bulletSize * 10);
         bulletNode.setCcdMotionThreshold(0.001f);
         bulletNode.setLinearVelocity(cam.getDirection().mult(80));
         bulletg.addControl(bulletNode);
@@ -53,8 +59,10 @@
       }
     }
   }
-,"toggle","shoot","stop");
+,"toggle","shoot","stop","bullet+","bullet-");
   inputManager.addMapping("toggle",new KeyTrigger(KeyInput.KEY_SPACE));
   inputManager.addMapping("shoot",new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
   inputManager.addMapping("stop",new KeyTrigger(KeyInput.KEY_H));
+  inputManager.addMapping("bullet-",new KeyTrigger(KeyInput.KEY_COMMA));
+  inputManager.addMapping("bullet+",new KeyTrigger(KeyInput.KEY_PERIOD));
 }

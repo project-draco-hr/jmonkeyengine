@@ -1,7 +1,17 @@
 {
-  elTime+=tpf;
-  if (elTime > 0.05f && speed < 1.0f) {
-    speed+=tpf * 8;
+  fpsText.setText("Bullet Size: " + bulletSize);
+  if (!ragdoll.hasControl()) {
+    if (model.getLocalTranslation().getZ() < -10) {
+      forward=true;
+    }
+ else     if (model.getLocalTranslation().getZ() > 10) {
+      forward=false;
+    }
+    if (forward) {
+      model.move(-tpf,0,tpf);
+    }
+ else {
+      model.move(tpf,0,-tpf);
+    }
   }
-  timer+=tpf;
 }
