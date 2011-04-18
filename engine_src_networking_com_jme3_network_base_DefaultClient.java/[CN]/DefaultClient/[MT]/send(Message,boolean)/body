@@ -3,7 +3,16 @@
   if (waitForConnected) {
     waitForConnected();
   }
-  ByteBuffer buffer=MessageProtocol.messageToBuffer(message,null);
+  ByteBuffer buffer=dataBuffer.get();
+  if (buffer == null) {
+    buffer=ByteBuffer.allocate(65536 + 2);
+    dataBuffer.set(buffer);
+  }
+  buffer.clear();
+  buffer=MessageProtocol.messageToBuffer(message,buffer);
+  byte[] temp=new byte[buffer.remaining()];
+  System.arraycopy(buffer.array(),buffer.position(),temp,0,buffer.remaining());
+  buffer=ByteBuffer.wrap(temp);
   if (message.isReliable() || fast == null) {
     if (reliable == null)     throw new RuntimeException("No reliable connector configured");
     reliableAdapter.write(buffer);
