@@ -7,16 +7,13 @@
   }
   String resultName="";
   int resultScore=0;
-  System.out.println("-------------- " + boneName);
   for (  String key : lexicon.keySet()) {
     int score=lexicon.get(key).getScore(boneName);
-    System.out.println(key + " " + score);
     if (score > resultScore) {
       resultScore=score;
       resultName=key;
     }
   }
-  System.out.println("-------------- ");
   JointPreset preset=boneMap.get(resultName);
   if (preset != null && resultScore >= 50) {
     logger.log(Level.INFO,"Found matching joint for bone {0} : {1} with score {2}",new Object[]{boneName,resultName,resultScore});

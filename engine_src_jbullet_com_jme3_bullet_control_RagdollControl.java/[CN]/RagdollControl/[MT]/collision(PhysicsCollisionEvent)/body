@@ -28,7 +28,7 @@
   }
   if (hit && event.getAppliedImpulse() > eventDispatchImpulseThreshold) {
     for (    RagdollCollisionListener listener : listeners) {
-      listener.collide(hitBone,hitObject);
+      listener.collide(hitBone,hitObject,event);
     }
   }
 }

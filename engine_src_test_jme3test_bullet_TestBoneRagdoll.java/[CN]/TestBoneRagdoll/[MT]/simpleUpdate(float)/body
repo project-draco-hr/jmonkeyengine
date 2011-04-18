@@ -1,17 +1,40 @@
 {
-  fpsText.setText("Bullet Size: " + bulletSize);
-  if (!ragdoll.hasControl()) {
-    if (model.getLocalTranslation().getZ() < -10) {
-      forward=true;
+  elTime+=tpf;
+  if (elTime > 3) {
+    elTime=0;
+    if (dance) {
+      rotate.multLocal(direction);
     }
- else     if (model.getLocalTranslation().getZ() > 10) {
-      forward=false;
-    }
-    if (forward) {
-      model.move(-tpf,0,tpf);
+    if (Math.random() > 0.80) {
+      dance=true;
+      animChannel.setAnim("Dance");
     }
  else {
-      model.move(tpf,0,-tpf);
+      dance=false;
+      animChannel.setAnim("RunBase");
+      rotate.fromAngleAxis(FastMath.QUARTER_PI * ((float)Math.random() - 0.5f),Vector3f.UNIT_Y);
+      rotate.multLocal(direction);
     }
+  }
+  if (!ragdoll.hasControl() && !dance) {
+    if (model.getLocalTranslation().getZ() < -10) {
+      direction.z=1;
+      direction.normalizeLocal();
+    }
+ else     if (model.getLocalTranslation().getZ() > 10) {
+      direction.z=-1;
+      direction.normalizeLocal();
+    }
+    if (model.getLocalTranslation().getX() < -10) {
+      direction.x=1;
+      direction.normalizeLocal();
+    }
+ else     if (model.getLocalTranslation().getX() > 10) {
+      direction.x=-1;
+      direction.normalizeLocal();
+    }
+    model.move(direction.multLocal(tpf * 8));
+    direction.normalizeLocal();
+    model.lookAt(model.getLocalTranslation().add(direction),Vector3f.UNIT_Y);
   }
 }

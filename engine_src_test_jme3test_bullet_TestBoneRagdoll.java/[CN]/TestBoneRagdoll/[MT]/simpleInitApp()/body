@@ -16,17 +16,19 @@
   mat2.getAdditionalRenderState().setDepthTest(false);
   skeletonDebug.setMaterial(mat2);
   skeletonDebug.setLocalTranslation(model.getLocalTranslation());
-  ragdoll=new RagdollControl(0.7f);
+  ragdoll=new RagdollControl(0.5f);
   setupSinbad(ragdoll);
   ragdoll.addCollisionListener(this);
   model.addControl(ragdoll);
   float eighth_pi=FastMath.PI * 0.125f;
+  ragdoll.setJointLimit("Waist",eighth_pi,eighth_pi,eighth_pi,eighth_pi,eighth_pi,eighth_pi);
+  ragdoll.setJointLimit("Chest",eighth_pi,eighth_pi,0,0,eighth_pi,eighth_pi);
   getPhysicsSpace().add(ragdoll);
   speed=1.3f;
   rootNode.attachChild(model);
   flyCam.setMoveSpeed(50);
-  final AnimChannel channel=control.createChannel();
-  channel.setAnim("Dance");
+  animChannel=control.createChannel();
+  animChannel.setAnim("Dance");
   inputManager.addListener(new ActionListener(){
     public void onAction(    String name,    boolean isPressed,    float tpf){
       if (name.equals("toggle") && isPressed) {
@@ -52,16 +54,32 @@
         bulletCollisionShape=new SphereCollisionShape(bulletSize);
         RigidBodyControl bulletNode=new RigidBodyControl(bulletCollisionShape,bulletSize * 10);
         bulletNode.setCcdMotionThreshold(0.001f);
-        bulletNode.setLinearVelocity(cam.getDirection().mult(80));
+        bulletNode.setLinearVelocity(cam.getDirection().mult(180));
+        bulletg.addControl(bulletNode);
+        rootNode.attachChild(bulletg);
+        getPhysicsSpace().add(bulletNode);
+      }
+      if (name.equals("boom") && !isPressed) {
+        Geometry bulletg=new Geometry("bullet",bullet);
+        bulletg.setMaterial(matBullet);
+        bulletg.setLocalTranslation(cam.getLocation());
+        bulletg.setLocalScale(bulletSize);
+        bulletCollisionShape=new SphereCollisionShape(bulletSize);
+        BombControl bulletNode=new BombControl(assetManager,bulletCollisionShape,1);
+        bulletNode.setForceFactor(10);
+        bulletNode.setExplosionRadius(30);
+        bulletNode.setCcdMotionThreshold(0.001f);
+        bulletNode.setLinearVelocity(cam.getDirection().mult(180));
         bulletg.addControl(bulletNode);
         rootNode.attachChild(bulletg);
         getPhysicsSpace().add(bulletNode);
       }
     }
   }
-,"toggle","shoot","stop","bullet+","bullet-");
+,"toggle","shoot","stop","bullet+","bullet-","boom");
   inputManager.addMapping("toggle",new KeyTrigger(KeyInput.KEY_SPACE));
   inputManager.addMapping("shoot",new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+  inputManager.addMapping("boom",new MouseButtonTrigger(MouseInput.BUTTON_RIGHT));
   inputManager.addMapping("stop",new KeyTrigger(KeyInput.KEY_H));
   inputManager.addMapping("bullet-",new KeyTrigger(KeyInput.KEY_COMMA));
   inputManager.addMapping("bullet+",new KeyTrigger(KeyInput.KEY_PERIOD));

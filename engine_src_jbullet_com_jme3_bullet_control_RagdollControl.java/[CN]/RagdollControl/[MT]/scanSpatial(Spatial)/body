@@ -6,9 +6,8 @@
     Bone childBone=skeleton.getRoots()[i];
     if (childBone.getParent() == null) {
       logger.log(Level.INFO,"Found root bone in skeleton {0}",skeleton);
-      baseRigidBody=new PhysicsRigidBody(new BoxCollisionShape(Vector3f.UNIT_XYZ.mult(.1f)),1);
+      baseRigidBody=new PhysicsRigidBody(new BoxCollisionShape(Vector3f.UNIT_XYZ.mult(0.1f)),1);
       boneRecursion(model,childBone,baseRigidBody,1);
-      return;
     }
   }
 }
