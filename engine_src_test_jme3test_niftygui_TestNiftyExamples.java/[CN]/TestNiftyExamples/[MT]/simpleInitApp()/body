@@ -1,0 +1,7 @@
+{
+  NiftyJmeDisplay niftyDisplay=new NiftyJmeDisplay(assetManager,inputManager,audioRenderer,guiViewPort);
+  nifty=niftyDisplay.getNifty();
+  nifty.fromXml("all/intro.xml","start");
+  guiViewPort.addProcessor(niftyDisplay);
+  flyCam.setEnabled(false);
+}
