@@ -15,7 +15,9 @@
     field.setAccessible(true);
     SavedField cachedField=new SavedField();
     cachedField.field=field;
-    if (Modifier.isFinal(field.getType().getModifiers()))     cachedField.serializer=Serializer.getSerializer(field.getType());
+    if (Modifier.isFinal(field.getType().getModifiers())) {
+      cachedField.serializer=Serializer.getSerializer(field.getType(),false);
+    }
     cachedFields.add(cachedField);
   }
   Collections.sort(cachedFields,new Comparator<SavedField>(){
