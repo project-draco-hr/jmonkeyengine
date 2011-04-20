@@ -8,7 +8,7 @@
     Mesh[] tg=null;
     tg=new Mesh[sav.length];
     System.arraycopy(sav,0,tg,0,sav.length);
-    skeletonControl=new SkeletonControl((Node)spatial,tg,skeleton);
+    skeletonControl=new SkeletonControl(tg,skeleton);
     spatial.addControl(skeletonControl);
   }
 }

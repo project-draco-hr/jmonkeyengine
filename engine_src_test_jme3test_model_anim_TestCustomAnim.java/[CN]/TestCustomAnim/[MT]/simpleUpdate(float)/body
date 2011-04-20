@@ -1,0 +1,7 @@
+{
+  Quaternion rotate=new Quaternion();
+  rotate.fromAngleAxis(tpf,Vector3f.UNIT_X);
+  rotation.multLocal(rotate);
+  bone.setUserTransforms(Vector3f.ZERO,rotation,Vector3f.UNIT_XYZ);
+  skeleton.updateWorldVectors();
+}

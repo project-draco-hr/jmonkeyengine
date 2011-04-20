@@ -1,0 +1,20 @@
+{
+  if (swAnim) {
+    VertexBuffer pos=getBuffer(Type.Position);
+    if (pos == null || getBuffer(Type.BoneIndex) == null) {
+      return;
+    }
+    VertexBuffer bindPos=new VertexBuffer(Type.BindPosePosition);
+    bindPos.setupData(Usage.CpuOnly,3,Format.Float,BufferUtils.clone(pos.getData()));
+    setBuffer(bindPos);
+    pos.setUsage(Usage.Stream);
+    VertexBuffer norm=getBuffer(Type.Normal);
+    if (norm != null) {
+      VertexBuffer bindNorm=new VertexBuffer(Type.BindPoseNormal);
+      bindNorm.setupData(Usage.CpuOnly,3,Format.Float,BufferUtils.clone(norm.getData()));
+      setBuffer(bindNorm);
+      norm.setUsage(Usage.Stream);
+    }
+    norm.setUsage(Usage.Stream);
+  }
+}

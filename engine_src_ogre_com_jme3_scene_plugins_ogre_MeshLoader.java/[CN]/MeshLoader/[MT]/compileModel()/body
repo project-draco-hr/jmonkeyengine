@@ -14,7 +14,7 @@
       Mesh m=geoms.get(i).getMesh();
       boolean useShared=usesSharedGeom.get(i);
       if (!useShared) {
-        createBindPose(m);
+        m.generateBindPose(!HARDWARE_SKINNING);
         newMeshes.add(m);
       }
  else {
