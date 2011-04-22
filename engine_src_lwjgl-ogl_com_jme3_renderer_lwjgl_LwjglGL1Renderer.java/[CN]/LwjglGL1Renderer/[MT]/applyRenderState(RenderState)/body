@@ -128,4 +128,5 @@ throw new UnsupportedOperationException("Unrecognized blend mode: " + state.getB
 }
 context.blendMode=state.getBlendMode();
 }
+if (state.isStencilTest()) throw new UnsupportedOperationException("OpenGL 1.1 doesn't support two sided stencil operations.");
 }

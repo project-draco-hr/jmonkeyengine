@@ -12,4 +12,13 @@
   offsetEnabled=ic.readBoolean("offsetEnabled",false);
   offsetFactor=ic.readFloat("offsetFactor",0);
   offsetUnits=ic.readFloat("offsetUnits",0);
+  stencilTest=ic.readBoolean("stencilTest",false);
+  frontStencilStencilFailOperation=ic.readEnum("frontStencilStencilFailOperation",StencilOperation.class,StencilOperation.Keep);
+  frontStencilDepthFailOperation=ic.readEnum("frontStencilDepthFailOperation",StencilOperation.class,StencilOperation.Keep);
+  frontStencilDepthPassOperation=ic.readEnum("frontStencilDepthPassOperation",StencilOperation.class,StencilOperation.Keep);
+  backStencilStencilFailOperation=ic.readEnum("backStencilStencilFailOperation",StencilOperation.class,StencilOperation.Keep);
+  backStencilDepthFailOperation=ic.readEnum("backStencilDepthFailOperation",StencilOperation.class,StencilOperation.Keep);
+  backStencilDepthPassOperation=ic.readEnum("backStencilDepthPassOperation",StencilOperation.class,StencilOperation.Keep);
+  frontStencilFunction=ic.readEnum("frontStencilFunction",StencilFunction.class,StencilFunction.Always);
+  backStencilFunction=ic.readEnum("backStencilFunction",StencilFunction.class,StencilFunction.Always);
 }

@@ -12,4 +12,13 @@
   oc.write(offsetEnabled,"offsetEnabled",false);
   oc.write(offsetFactor,"offsetFactor",0);
   oc.write(offsetUnits,"offsetUnits",0);
+  oc.write(stencilTest,"stencilTest",false);
+  oc.write(frontStencilStencilFailOperation,"frontStencilStencilFailOperation",StencilOperation.Keep);
+  oc.write(frontStencilDepthFailOperation,"frontStencilDepthFailOperation",StencilOperation.Keep);
+  oc.write(frontStencilDepthPassOperation,"frontStencilDepthPassOperation",StencilOperation.Keep);
+  oc.write(backStencilStencilFailOperation,"frontStencilStencilFailOperation",StencilOperation.Keep);
+  oc.write(backStencilDepthFailOperation,"backStencilDepthFailOperation",StencilOperation.Keep);
+  oc.write(backStencilDepthPassOperation,"backStencilDepthPassOperation",StencilOperation.Keep);
+  oc.write(frontStencilFunction,"frontStencilFunction",StencilFunction.Always);
+  oc.write(backStencilFunction,"backStencilFunction",StencilFunction.Always);
 }
