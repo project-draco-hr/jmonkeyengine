@@ -1,6 +1,7 @@
 {
   if (store == null)   store=new Vector3f();
-  in.subtract(translation,store).divideLocal(scale);
+  in.subtract(translation,store);
   rot.inverse().mult(store,store);
+  store.divideLocal(scale);
   return store;
 }
