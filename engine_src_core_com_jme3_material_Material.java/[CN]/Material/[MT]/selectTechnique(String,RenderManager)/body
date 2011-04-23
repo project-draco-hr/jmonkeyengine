@@ -4,7 +4,7 @@
     EnumSet<Caps> rendererCaps=renderManager.getRenderer().getCaps();
     if (name.equals("Default")) {
       List<TechniqueDef> techDefs=def.getDefaultTechniques();
-      if (techDefs == null || techDefs.size() == 0) {
+      if (techDefs == null || techDefs.isEmpty()) {
         throw new IllegalStateException("No default techniques are available on material '" + def.getName() + "'");
       }
       TechniqueDef lastTech=null;
@@ -26,7 +26,7 @@
         throw new IllegalArgumentException("For material " + def.getName() + ", technique not found: "+ name);
       }
       if (!rendererCaps.containsAll(techDef.getRequiredCaps())) {
-        throw new UnsupportedOperationException("The explicitly chosen technique '" + name + "' on material '"+ def.getName()+ "'\n"+ "requires caps "+ techDef.getRequiredCaps()+ " which are not"+ "supported by the video renderer");
+        throw new UnsupportedOperationException("The explicitly chosen technique '" + name + "' on material '"+ def.getName()+ "'\n"+ "requires caps "+ techDef.getRequiredCaps()+ " which are not "+ "supported by the video renderer");
       }
       tech=new Technique(this,techDef);
       techniques.put(name,tech);
