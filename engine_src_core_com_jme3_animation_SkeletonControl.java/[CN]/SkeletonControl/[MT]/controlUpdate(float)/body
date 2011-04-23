@@ -1,9 +1,3 @@
 {
-  resetToBind();
-  Matrix4f[] offsetMatrices=skeleton.computeSkinningMatrices();
-  for (int i=0; i < targets.length; i++) {
-    if (targets[i].getBuffer(Type.BoneIndex) != null) {
-      softwareSkinUpdate(targets[i],offsetMatrices);
-    }
-  }
+  wasMeshUpdated=false;
 }
