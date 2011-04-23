@@ -13,11 +13,12 @@
   channel=control.createChannel();
   for (  String anim : control.getAnimationNames())   System.out.println(anim);
   channel.setAnim("stand");
+  SkeletonControl skeletonControl=model.getControl(SkeletonControl.class);
   Box b=new Box(.25f,3f,.25f);
   Geometry item=new Geometry("Item",b);
   item.move(0,1.5f,0);
   item.setMaterial(assetManager.loadMaterial("Common/Materials/RedColor.j3m"));
-  Node n=control.getAttachmentsNode("hand.right");
+  Node n=skeletonControl.getAttachmentsNode("hand.right");
   n.attachChild(item);
   rootNode.attachChild(model);
   inputManager.addListener(this,"Attack");
