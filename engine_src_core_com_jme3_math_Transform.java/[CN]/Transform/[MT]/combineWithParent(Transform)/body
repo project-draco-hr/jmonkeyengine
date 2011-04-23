@@ -1,6 +1,7 @@
 {
   scale.multLocal(parent.scale);
   parent.rot.mult(rot,rot);
-  parent.rot.multLocal(translation).multLocal(parent.scale).addLocal(parent.translation);
+  translation.multLocal(parent.scale);
+  parent.rot.multLocal(translation).addLocal(parent.translation);
   return this;
 }
