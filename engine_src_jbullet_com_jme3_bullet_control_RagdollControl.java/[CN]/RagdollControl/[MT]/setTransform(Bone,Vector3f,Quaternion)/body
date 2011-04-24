@@ -3,11 +3,8 @@
   bone.setUserTransformsWorld(pos,rot);
   for (  Bone childBone : bone.getChildren()) {
     if (!boneList.contains(childBone.getName())) {
-      Vector3f tmpVec=childBone.getTmpVec();
-      Quaternion tmpQuat=childBone.getTmpQuat();
-      rot.mult(childBone.getLocalPosition(),tmpVec).addLocal(pos);
-      tmpQuat.set(rot).multLocal(childBone.getLocalRotation());
-      setTransform(childBone,tmpVec,tmpQuat);
+      Transform t=childBone.getCombinedTransform(pos,rot);
+      setTransform(childBone,t.getTranslation(),t.getRotation());
     }
   }
 }
