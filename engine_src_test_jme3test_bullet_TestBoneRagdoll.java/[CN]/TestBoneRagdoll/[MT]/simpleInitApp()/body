@@ -42,7 +42,13 @@
         model.getLocalRotation().toAngles(angles);
         q.fromAngleAxis(angles[1],Vector3f.UNIT_Y);
         model.setLocalRotation(q);
-        ragdoll.blendControlToAnim("StandUpFront",animChannel);
+        System.out.println(angles[0] + " " + angles[2]);
+        if (angles[0] < 0) {
+          ragdoll.blendControlToAnim("StandUpBack",animChannel);
+        }
+ else {
+          ragdoll.blendControlToAnim("StandUpFront",animChannel);
+        }
       }
       if (name.equals("bullet+") && isPressed) {
         bulletSize+=0.1f;
