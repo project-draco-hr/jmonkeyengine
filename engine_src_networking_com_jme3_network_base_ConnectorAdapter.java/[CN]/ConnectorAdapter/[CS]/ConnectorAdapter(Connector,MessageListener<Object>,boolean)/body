@@ -4,5 +4,5 @@
   this.dispatcher=dispatcher;
   this.reliable=reliable;
   setDaemon(true);
-  writer=Executors.newFixedThreadPool(1,new NamedThreadFactory(String.valueOf(connector) + "-writer"));
+  writer=Executors.newFixedThreadPool(1,new NamedThreadFactory(String.valueOf(connector) + "-writer",true));
 }
