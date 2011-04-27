@@ -1,6 +1,9 @@
 {
   bulletAppState=new BulletAppState();
   stateManager.attach(bulletAppState);
+  bullet=new Sphere(32,32,0.4f,true,false);
+  bullet.setTextureMode(TextureMode.Projected);
+  bulletCollisionShape=new SphereCollisionShape(0.4f);
   PhysicsTestHelper.createPhysicsTestWorld(rootNode,assetManager,bulletAppState.getPhysicsSpace());
   setupKeys();
   physicsCharacter=new CharacterControl(new CapsuleCollisionShape(0.5f,1.8f),.1f);

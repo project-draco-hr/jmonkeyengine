@@ -2,6 +2,9 @@
   bulletAppState=new BulletAppState();
   stateManager.attach(bulletAppState);
   bulletAppState.getPhysicsSpace().enableDebug(assetManager);
+  bullet=new Sphere(32,32,0.4f,true,false);
+  bullet.setTextureMode(TextureMode.Projected);
+  bulletCollisionShape=new SphereCollisionShape(0.1f);
   setupKeys();
   mat=new Material(getAssetManager(),"Common/MatDefs/Misc/WireColor.j3md");
   mat.setColor("Color",ColorRGBA.Green);

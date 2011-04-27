@@ -2,6 +2,11 @@
   bulletAppState=new BulletAppState();
   bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
   stateManager.attach(bulletAppState);
+  bullet=new Sphere(32,32,0.4f,true,false);
+  bullet.setTextureMode(TextureMode.Projected);
+  bulletCollisionShape=new SphereCollisionShape(0.4f);
+  brick=new Box(Vector3f.ZERO,brickWidth,brickHeight,brickDepth);
+  brick.scaleTextureCoordinates(new Vector2f(1f,.5f));
   initMaterial();
   initTower();
   initFloor();

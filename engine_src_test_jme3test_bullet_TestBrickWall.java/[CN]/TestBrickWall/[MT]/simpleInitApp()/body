@@ -1,7 +1,15 @@
 {
+  System.loadLibrary("bulletjme");
+  PhysicsSpace.initNativePhysics();
+  System.out.println("processors: " + Runtime.getRuntime().availableProcessors());
   bulletAppState=new BulletAppState();
   bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
   stateManager.attach(bulletAppState);
+  bullet=new Sphere(32,32,0.4f,true,false);
+  bullet.setTextureMode(TextureMode.Projected);
+  bulletCollisionShape=new SphereCollisionShape(0.4f);
+  brick=new Box(Vector3f.ZERO,bLength,bHeight,bWidth);
+  brick.scaleTextureCoordinates(new Vector2f(1f,.5f));
   initMaterial();
   initWall();
   initFloor();
@@ -11,6 +19,8 @@
   cam.setFrustumFar(15);
   inputManager.addMapping("shoot",new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
   inputManager.addListener(actionListener,"shoot");
+  inputManager.addMapping("gc",new KeyTrigger(KeyInput.KEY_X));
+  inputManager.addListener(actionListener,"gc");
   rootNode.setShadowMode(ShadowMode.Off);
   bsr=new BasicShadowRenderer(assetManager,256);
   bsr.setDirection(new Vector3f(-1,-1,-1).normalizeLocal());
