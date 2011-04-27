@@ -3,5 +3,5 @@
     throw new IllegalStateException("Filter already set");
   }
   this.reverbFilter=reverbFilter;
-  if (renderer != null)   renderer.updateSourceParam(this,AudioParam.ReverbFilter);
+  if (channel >= 0)   renderer.updateSourceParam(this,AudioParam.ReverbFilter);
 }

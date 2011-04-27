@@ -3,5 +3,5 @@
     throw new IllegalArgumentException("Pitch must be between 0.5 and 2.0");
   }
   this.pitch=pitch;
-  if (renderer != null)   renderer.updateSourceParam(this,AudioParam.Pitch);
+  if (channel >= 0)   renderer.updateSourceParam(this,AudioParam.Pitch);
 }

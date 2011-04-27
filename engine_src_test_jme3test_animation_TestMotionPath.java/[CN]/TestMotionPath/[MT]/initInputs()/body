@@ -27,11 +27,11 @@
         }
       }
       if (name.equals("SwitchPathInterpolation") && keyPressed) {
-        if (path.getPathInterpolation() == MotionPath.PathInterpolation.CatmullRom) {
-          path.setPathInterpolation(MotionPath.PathInterpolation.Linear);
+        if (path.getPathSplineType() == SplineType.CatmullRom) {
+          path.setPathSplineType(SplineType.Linear);
         }
  else {
-          path.setPathInterpolation(MotionPath.PathInterpolation.CatmullRom);
+          path.setPathSplineType(SplineType.CatmullRom);
         }
       }
       if (name.equals("tensionUp") && keyPressed) {

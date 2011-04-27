@@ -1,9 +1,5 @@
 {
-  if (other instanceof SweepSphere) {
-    SweepSphere ss=(SweepSphere)other;
-    return collideWithSweepSphere(ss,worldMatrix,worldBound,results);
-  }
- else   if (other instanceof Ray) {
+  if (other instanceof Ray) {
     Ray ray=(Ray)other;
     return collideWithRay(ray,worldMatrix,worldBound,results);
   }
