@@ -1,4 +1,9 @@
 {
+  if (model == null) {
+    removeFromPhysicsSpace();
+    clearData();
+    return;
+  }
   targetModel=model;
   Node parent=model.getParent();
   Vector3f initPosition=model.getLocalTranslation().clone();
