@@ -11,6 +11,12 @@
       image=loadedTex.getImage();
     }
   }
+ else {
+    image=(Image)capsule.readSavable("image",null);
+    if (image == null) {
+      Logger.getLogger(Texture.class.getName()).log(Level.SEVERE,"Could not load embedded image: {0}",toString());
+    }
+  }
   anisotropicFilter=capsule.readInt("anisotropicFilter",1);
   minificationFilter=capsule.readEnum("minificationFilter",MinFilter.class,MinFilter.BilinearNoMipMaps);
   magnificationFilter=capsule.readEnum("magnificationFilter",MagFilter.class,MagFilter.Bilinear);

@@ -1,7 +1,12 @@
 {
   OutputCapsule capsule=e.getCapsule(this);
   capsule.write(name,"name",null);
-  capsule.write(key,"key",null);
+  if (key == null) {
+    capsule.write(image,"image",null);
+  }
+ else {
+    capsule.write(key,"key",null);
+  }
   capsule.write(anisotropicFilter,"anisotropicFilter",1);
   capsule.write(minificationFilter,"minificationFilter",MinFilter.BilinearNoMipMaps);
   capsule.write(magnificationFilter,"magnificationFilter",MagFilter.Bilinear);
