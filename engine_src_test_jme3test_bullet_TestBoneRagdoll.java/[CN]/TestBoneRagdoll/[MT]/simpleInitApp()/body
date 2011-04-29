@@ -47,10 +47,10 @@
         q.fromAngleAxis(angles[1],Vector3f.UNIT_Y);
         model.setLocalRotation(q);
         if (angles[0] < 0) {
-          ragdoll.blendControlToAnim("StandUpBack",animChannel);
+          ragdoll.blendRagdollToAnim("StandUpBack",animChannel,1);
         }
  else {
-          ragdoll.blendControlToAnim("StandUpFront",animChannel);
+          ragdoll.blendRagdollToAnim("StandUpFront",animChannel,1);
         }
       }
       if (name.equals("bullet+") && isPressed) {

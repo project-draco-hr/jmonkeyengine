@@ -1,11 +1,15 @@
 {
-  bone.setUserControl(true);
+  if (restoreBoneControl) {
+    bone.setUserControl(true);
+  }
   bone.setUserTransformsWorld(pos,rot);
   for (  Bone childBone : bone.getChildren()) {
     if (!boneList.contains(childBone.getName())) {
       Transform t=childBone.getCombinedTransform(pos,rot);
-      setTransform(childBone,t.getTranslation(),t.getRotation());
+      setTransform(childBone,t.getTranslation(),t.getRotation(),restoreBoneControl);
     }
   }
-  bone.setUserControl(false);
+  if (restoreBoneControl) {
+    bone.setUserControl(false);
+  }
 }

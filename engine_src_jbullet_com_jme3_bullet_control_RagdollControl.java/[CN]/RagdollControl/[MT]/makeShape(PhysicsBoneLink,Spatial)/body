@@ -12,7 +12,7 @@
   if (model instanceof Geometry) {
     Geometry g=(Geometry)model;
     for (    Integer index : boneIndices) {
-      points.addAll(getPoints(g.getMesh(),index,bone.getModelSpacePosition(),link));
+      points.addAll(getPoints(g.getMesh(),index,bone.getModelSpacePosition()));
     }
   }
  else   if (model instanceof Node) {
@@ -21,7 +21,7 @@
       if (s instanceof Geometry) {
         Geometry g=(Geometry)s;
         for (        Integer index : boneIndices) {
-          points.addAll(getPoints(g.getMesh(),index,bone.getModelSpacePosition(),link));
+          points.addAll(getPoints(g.getMesh(),index,bone.getModelSpacePosition()));
         }
       }
     }

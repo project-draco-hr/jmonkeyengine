@@ -1,11 +1,11 @@
 {
   AnimControl animControl=targetModel.getControl(AnimControl.class);
-  animControl.setEnabled(!control);
-  this.control=control;
+  animControl.setEnabled(!ragdollEnabled);
+  this.control=ragdollEnabled;
   for (  PhysicsBoneLink link : boneLinks.values()) {
-    link.rigidBody.setKinematic(!control);
+    link.rigidBody.setKinematic(!ragdollEnabled);
   }
   for (  Bone bone : skeleton.getRoots()) {
-    setUserControl(bone,control);
+    setUserControl(bone,ragdollEnabled);
   }
 }

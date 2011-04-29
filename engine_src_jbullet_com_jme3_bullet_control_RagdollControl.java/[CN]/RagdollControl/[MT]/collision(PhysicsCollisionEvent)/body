@@ -4,7 +4,7 @@
   if (event.getNodeA() == null && event.getNodeB() == null) {
     return;
   }
-  if (event.getAppliedImpulse() < eventDiscardImpulseThreshold) {
+  if (event.getAppliedImpulse() < eventDispatchImpulseThreshold) {
     return;
   }
   boolean hit=false;
@@ -26,7 +26,7 @@
       hitObject=objA;
     }
   }
-  if (hit && event.getAppliedImpulse() > eventDispatchImpulseThreshold) {
+  if (hit) {
     for (    RagdollCollisionListener listener : listeners) {
       listener.collide(hitBone,hitObject,event);
     }
