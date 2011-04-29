@@ -15,9 +15,11 @@
  catch (  Exception e) {
     getProgressHandle().finish();
     SceneViewerTopComponent.showOpenGLError(e.toString());
+    Exceptions.printStackTrace(e);
   }
 catch (  Error e) {
     getProgressHandle().finish();
     SceneViewerTopComponent.showOpenGLError(e.toString());
+    Exceptions.printStackTrace(e);
   }
 }

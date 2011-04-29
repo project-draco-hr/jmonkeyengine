@@ -35,10 +35,12 @@
   }
  catch (  Exception e) {
     getProgressHandle().finish();
+    Exceptions.printStackTrace(e);
     SceneViewerTopComponent.showOpenGLError(e.toString());
   }
 catch (  Error e) {
     getProgressHandle().finish();
+    Exceptions.printStackTrace(e);
     SceneViewerTopComponent.showOpenGLError(e.toString());
   }
 }

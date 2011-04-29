@@ -10,9 +10,11 @@
     oGLPanel.add(oglCanvas);
   }
  catch (  Exception e) {
+    Exceptions.printStackTrace(e);
     showOpenGLError(e.toString());
   }
 catch (  Error err) {
+    Exceptions.printStackTrace(err);
     showOpenGLError(err.toString());
   }
 }
