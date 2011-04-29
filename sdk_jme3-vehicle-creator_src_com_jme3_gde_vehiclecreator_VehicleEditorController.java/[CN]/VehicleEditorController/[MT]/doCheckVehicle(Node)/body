@@ -2,13 +2,13 @@
   VehicleControl control=rootNode.getControl(VehicleControl.class);
   if (control == null) {
     vehicleControl=new VehicleControl(new BoxCollisionShape(Vector3f.UNIT_XYZ),200);
-    vehicleControl.attachDebugShape(SceneApplication.getApplication().getAssetManager());
+    vehicleControl.createDebugShape(SceneApplication.getApplication().getAssetManager());
     rootNode.addControl(vehicleControl);
     return true;
   }
  else {
     vehicleControl=control;
-    vehicleControl.attachDebugShape(SceneApplication.getApplication().getAssetManager());
+    vehicleControl.createDebugShape(SceneApplication.getApplication().getAssetManager());
     return false;
   }
 }

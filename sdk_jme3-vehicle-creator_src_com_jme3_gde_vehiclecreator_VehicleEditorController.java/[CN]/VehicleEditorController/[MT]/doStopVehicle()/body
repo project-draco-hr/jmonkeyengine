@@ -5,7 +5,7 @@
   vehicleControl.setLinearVelocity(Vector3f.ZERO);
   vehicleControl.setAngularVelocity(Vector3f.ZERO);
   vehicleControl.resetSuspension();
-  vehicleControl.attachDebugShape(SceneApplication.getApplication().getAssetManager());
+  vehicleControl.createDebugShape(SceneApplication.getApplication().getAssetManager());
   bulletState.getPhysicsSpace().removeAll(toolsNode);
   bulletState.getPhysicsSpace().remove(vehicleControl);
 }
