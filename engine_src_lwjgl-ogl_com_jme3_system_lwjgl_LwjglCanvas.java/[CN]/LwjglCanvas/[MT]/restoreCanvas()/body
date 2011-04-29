@@ -8,10 +8,10 @@
       logger.log(Level.SEVERE,"OGL: Interrupted! ",ex);
     }
   }
-  renderer.resetGLObjects();
   logger.log(Level.INFO,"OGL: Creating display..");
   renderable.set(true);
   createContext(settings);
+  renderer.resetGLObjects();
   logger.log(Level.INFO,"OGL: Waiting for display to become active..");
   while (!Display.isCreated()) {
     try {
