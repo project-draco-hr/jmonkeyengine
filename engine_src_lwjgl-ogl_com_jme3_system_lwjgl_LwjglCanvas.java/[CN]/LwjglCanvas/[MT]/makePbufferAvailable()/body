@@ -1,0 +1,10 @@
+{
+  if (pbuffer == null || pbuffer.isBufferLost()) {
+    if (pbuffer != null && pbuffer.isBufferLost()) {
+      pbuffer.releaseContext();
+      pbuffer.destroy();
+    }
+    pbuffer=new Pbuffer(1,1,new PixelFormat(0,0,0),null);
+    logger.log(Level.INFO,"OGL: Pbuffer has been created");
+  }
+}

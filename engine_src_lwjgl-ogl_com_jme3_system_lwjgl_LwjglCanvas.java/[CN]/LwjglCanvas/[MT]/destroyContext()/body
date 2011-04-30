@@ -1,0 +1,26 @@
+{
+  try {
+    renderer.resetGLObjects();
+    if (Display.isCreated()) {
+      Display.releaseContext();
+      Display.destroy();
+    }
+  }
+ catch (  LWJGLException ex) {
+    listener.handleError("Failed to destroy context",ex);
+  }
+  try {
+    if (!needClose.get()) {
+      makePbufferAvailable();
+      pbuffer.makeCurrent();
+    }
+ else {
+      if (pbuffer != null) {
+        pbuffer.destroy();
+      }
+    }
+  }
+ catch (  LWJGLException ex) {
+    listener.handleError("Failed make pbuffer available",ex);
+  }
+}

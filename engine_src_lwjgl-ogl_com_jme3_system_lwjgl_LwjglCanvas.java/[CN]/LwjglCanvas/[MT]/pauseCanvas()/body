@@ -1,15 +1,13 @@
 {
   mouseActive=Mouse.isCreated();
   keyboardActive=Keyboard.isCreated();
-  joyActive=Controllers.isCreated();
   if (mouseActive && Mouse.isGrabbed()) {
     Mouse.setGrabbed(false);
     mouseWasGrabbed=true;
   }
   if (mouseActive)   Mouse.destroy();
   if (keyboardActive)   Keyboard.destroy();
-  if (joyActive)   Controllers.destroy();
-  logger.log(Level.INFO,"OGL: Destroying display (temporarily)");
-  Display.destroy();
+  logger.log(Level.INFO,"OGL: Canvas will become invisible! Destroying ..");
   renderable.set(false);
+  destroyContext();
 }

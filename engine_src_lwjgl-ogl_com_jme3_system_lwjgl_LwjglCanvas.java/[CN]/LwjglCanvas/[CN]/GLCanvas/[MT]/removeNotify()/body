@@ -1,0 +1,21 @@
+{
+  if (needClose.get()) {
+    logger.log(Level.INFO,"EDT: Application is stopped. Not restoring canvas.");
+    super.removeNotify();
+    return;
+  }
+  logger.log(Level.INFO,"EDT: Notifying OGL that canvas is about to become invisible..");
+  needDestroyCanvas.set(true);
+  try {
+    actionRequiredBarrier.await();
+  }
+ catch (  InterruptedException ex) {
+    logger.log(Level.SEVERE,"EDT: Interrupted! ",ex);
+  }
+catch (  BrokenBarrierException ex) {
+    logger.log(Level.SEVERE,"EDT: Broken barrier! ",ex);
+  }
+  logger.log(Level.INFO,"EDT: Acknowledged receipt of canvas death");
+  actionRequiredBarrier.reset();
+  super.removeNotify();
+}

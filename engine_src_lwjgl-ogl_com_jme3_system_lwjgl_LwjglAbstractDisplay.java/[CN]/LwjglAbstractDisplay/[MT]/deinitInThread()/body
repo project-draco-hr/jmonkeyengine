@@ -1,11 +1,5 @@
 {
-  if (Display.isCreated()) {
-    renderer.cleanup();
-    Display.destroy();
-  }
- else {
-    renderer.resetGLObjects();
-  }
+  destroyContext();
   listener.destroy();
   logger.info("Display destroyed.");
   super.internalDestroy();

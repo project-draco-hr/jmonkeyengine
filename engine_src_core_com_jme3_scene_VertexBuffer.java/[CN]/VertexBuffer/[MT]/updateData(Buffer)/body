@@ -1,8 +1,9 @@
 {
   if (id != -1) {
   }
-  if (this.data.capacity() != data.capacity()) {
+  if (this.data.getClass() != data.getClass() || data.limit() != lastLimit) {
     dataSizeChanged=true;
+    lastLimit=data.limit();
   }
   this.data=data;
   setUpdateNeeded();

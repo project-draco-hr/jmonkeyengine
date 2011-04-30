@@ -1,5 +1,7 @@
 {
   VertexBuffer vb=(VertexBuffer)super.clone();
+  vb.handleRef=new Object();
+  vb.id=-1;
   if (data != null)   vb.updateData(BufferUtils.clone(data));
   return vb;
 }

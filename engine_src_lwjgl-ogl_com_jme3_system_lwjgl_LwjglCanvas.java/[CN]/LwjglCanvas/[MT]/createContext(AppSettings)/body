@@ -1,18 +1,26 @@
 {
   frameRate=settings.getFrameRate();
-  if (!renderable.get())   return;
-  Display.setVSyncEnabled(settings.isVSync());
   try {
-    Display.setParent(canvas);
-    PixelFormat pf=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),settings.getSamples());
-    Display.create(pf);
-    Display.makeCurrent();
+    makePbufferAvailable();
+    if (renderable.get()) {
+      if (pbuffer.isCurrent()) {
+        pbuffer.releaseContext();
+      }
+      Display.setVSyncEnabled(settings.isVSync());
+      Display.setParent(canvas);
+      PixelFormat pf=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),settings.getSamples());
+      Display.create(pf,pbuffer);
+      Display.makeCurrent();
+    }
+ else {
+      pbuffer.makeCurrent();
+    }
     if (runningFirstTime) {
       initContextFirstTime();
       runningFirstTime=false;
     }
   }
  catch (  LWJGLException ex) {
-    listener.handleError("Failed to parent canvas to display",ex);
+    listener.handleError("Failed to initialize OpenGL context",ex);
   }
 }
