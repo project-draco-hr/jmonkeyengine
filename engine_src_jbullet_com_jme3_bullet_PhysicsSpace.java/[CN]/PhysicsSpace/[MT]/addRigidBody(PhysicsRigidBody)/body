@@ -1,6 +1,14 @@
 {
   physicsNodes.put(node.getObjectId(),node);
+  boolean kinematic=false;
+  if (node.isKinematic()) {
+    kinematic=true;
+    node.setKinematic(false);
+  }
   dynamicsWorld.addRigidBody(node.getObjectId());
+  if (kinematic) {
+    node.setKinematic(true);
+  }
   Logger.getLogger(PhysicsSpace.class.getName()).log(Level.INFO,"Adding RigidBody {0} to physics space.",node.getObjectId());
   if (node instanceof PhysicsVehicle) {
     Logger.getLogger(PhysicsSpace.class.getName()).log(Level.INFO,"Adding vehicle constraint {0} to physics space.",((PhysicsVehicle)node).getVehicleId());
