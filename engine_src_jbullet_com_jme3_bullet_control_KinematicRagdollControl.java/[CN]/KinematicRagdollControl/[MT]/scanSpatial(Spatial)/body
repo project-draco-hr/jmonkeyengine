@@ -7,6 +7,7 @@
     if (childBone.getParent() == null) {
       logger.log(Level.INFO,"Found root bone in skeleton {0}",skeleton);
       baseRigidBody=new PhysicsRigidBody(new BoxCollisionShape(Vector3f.UNIT_XYZ.mult(0.1f)),1);
+      baseRigidBody.setKinematic(mode == Mode.Kinetmatic);
       boneRecursion(model,childBone,baseRigidBody,1);
     }
   }

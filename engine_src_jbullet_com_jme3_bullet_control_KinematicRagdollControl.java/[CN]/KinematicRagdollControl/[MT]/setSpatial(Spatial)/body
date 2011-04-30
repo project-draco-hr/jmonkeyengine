@@ -11,7 +11,7 @@
   initScale=model.getLocalScale().clone();
   model.removeFromParent();
   model.setLocalTranslation(Vector3f.ZERO);
-  model.setLocalRotation(Quaternion.ZERO);
+  model.setLocalRotation(Quaternion.IDENTITY);
   model.setLocalScale(1);
   SkeletonControl sc=model.getControl(SkeletonControl.class);
   model.removeControl(sc);

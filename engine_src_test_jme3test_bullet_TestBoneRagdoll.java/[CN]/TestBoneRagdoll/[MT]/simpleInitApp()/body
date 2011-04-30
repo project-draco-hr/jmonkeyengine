@@ -20,7 +20,7 @@
   mat2.getAdditionalRenderState().setDepthTest(false);
   skeletonDebug.setMaterial(mat2);
   skeletonDebug.setLocalTranslation(model.getLocalTranslation());
-  ragdoll=new RagdollControl(0.5f);
+  ragdoll=new KinematicRagdollControl(0.5f);
   setupSinbad(ragdoll);
   ragdoll.addCollisionListener(this);
   model.addControl(ragdoll);
@@ -47,10 +47,12 @@
         q.fromAngleAxis(angles[1],Vector3f.UNIT_Y);
         model.setLocalRotation(q);
         if (angles[0] < 0) {
-          ragdoll.blendRagdollToAnim("StandUpBack",animChannel,1);
+          animChannel.setAnim("StandUpBack");
+          ragdoll.blendToKinematicMode(0.5f);
         }
  else {
-          ragdoll.blendRagdollToAnim("StandUpFront",animChannel,1);
+          animChannel.setAnim("StandUpFront");
+          ragdoll.blendToKinematicMode(0.5f);
         }
       }
       if (name.equals("bullet+") && isPressed) {
@@ -62,7 +64,8 @@
       if (name.equals("shoot") && isPressed) {
       }
       if (name.equals("stop") && isPressed) {
-        bulletAppState.setEnabled(!bulletAppState.isEnabled());
+        ragdoll.setEnabled(!ragdoll.isEnabled());
+        ragdoll.setRagdollMode();
       }
       if (name.equals("shoot") && !isPressed) {
         Geometry bulletg=new Geometry("bullet",bullet);

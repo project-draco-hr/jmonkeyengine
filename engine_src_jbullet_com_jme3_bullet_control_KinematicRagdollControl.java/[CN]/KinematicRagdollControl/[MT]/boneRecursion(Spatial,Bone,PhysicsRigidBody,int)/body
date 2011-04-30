@@ -4,6 +4,7 @@
     PhysicsBoneLink link=new PhysicsBoneLink();
     link.bone=bone;
     PhysicsRigidBody shapeNode=new PhysicsRigidBody(makeShape(link,model),rootMass / (float)reccount);
+    shapeNode.setKinematic(mode == Mode.Kinetmatic);
     totalMass+=rootMass / (float)reccount;
     link.rigidBody=shapeNode;
     link.initalWorldRotation=bone.getModelSpaceRotation().clone();
