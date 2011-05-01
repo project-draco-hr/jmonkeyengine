@@ -1,5 +1,6 @@
 {
   Image.Format fmt=img.getFormat();
+  checkFormatSupported(fmt);
   ByteBuffer data;
   if (index >= 0 && img.getData() != null && img.getData().size() > 0) {
     data=img.getData(index);

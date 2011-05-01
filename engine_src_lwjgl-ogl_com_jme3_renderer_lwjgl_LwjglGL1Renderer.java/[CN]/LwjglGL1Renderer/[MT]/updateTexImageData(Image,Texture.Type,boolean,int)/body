@@ -14,11 +14,9 @@
     context.boundTextures[unit]=img;
     statistics.onTextureUse(img,true);
   }
-  if (!GLContext.getCapabilities().GL_ARB_texture_non_power_of_two) {
-    if (img.getWidth() != 0 && img.getHeight() != 0) {
-      if (!FastMath.isPowerOfTwo(img.getWidth()) || !FastMath.isPowerOfTwo(img.getHeight()) || img.getWidth() != img.getHeight()) {
-        MipMapGenerator.resizeToPowerOf2(img);
-      }
+  if (img.getWidth() != 0 && img.getHeight() != 0) {
+    if (!FastMath.isPowerOfTwo(img.getWidth()) || !FastMath.isPowerOfTwo(img.getHeight()) || img.getWidth() != img.getHeight()) {
+      MipMapGenerator.resizeToPowerOf2(img);
     }
   }
   if (!img.hasMipmaps() && mips) {

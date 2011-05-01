@@ -46,7 +46,7 @@ case Double:
 glBufferData(target,(DoubleBuffer)vb.getData(),usage);
 break;
 default :
-throw new RuntimeException("Unknown buffer format.");
+throw new UnsupportedOperationException("Unknown buffer format.");
 }
 }
  else {
@@ -70,7 +70,7 @@ case Double:
 glBufferSubData(target,0,(DoubleBuffer)vb.getData());
 break;
 default :
-throw new RuntimeException("Unknown buffer format.");
+throw new UnsupportedOperationException("Unknown buffer format.");
 }
 }
 vb.clearUpdateNeeded();
