@@ -3,7 +3,14 @@
   if (boneList.isEmpty() || boneList.contains(bone.getName())) {
     PhysicsBoneLink link=new PhysicsBoneLink();
     link.bone=bone;
-    PhysicsRigidBody shapeNode=new PhysicsRigidBody(makeShape(link,model),rootMass / (float)reccount);
+    HullCollisionShape shape=null;
+    if (pointsMap != null) {
+      shape=RagdollUtils.makeShapeFromPointMap(pointsMap,RagdollUtils.getBoneIndices(link.bone,skeleton,boneList),initScale,link.bone.getModelSpacePosition());
+    }
+ else {
+      shape=RagdollUtils.makeShapeFromVerticeWeights(model,RagdollUtils.getBoneIndices(link.bone,skeleton,boneList),initScale,link.bone.getModelSpacePosition(),weightThreshold);
+    }
+    PhysicsRigidBody shapeNode=new PhysicsRigidBody(shape,rootMass / (float)reccount);
     shapeNode.setKinematic(mode == Mode.Kinetmatic);
     totalMass+=rootMass / (float)reccount;
     link.rigidBody=shapeNode;
@@ -13,9 +20,7 @@
       if (bone.getParent() != null) {
         bone.getModelSpacePosition().subtract(bone.getParent().getModelSpacePosition(),posToParent).multLocal(initScale);
       }
-      link.pivotA=posToParent;
-      link.pivotB=new Vector3f(0,0,0f);
-      SixDofJoint joint=new SixDofJoint(parent,shapeNode,link.pivotA,link.pivotB,true);
+      SixDofJoint joint=new SixDofJoint(parent,shapeNode,posToParent,new Vector3f(0,0,0f),true);
       preset.setupJointForBone(bone.getName(),joint);
       link.joint=joint;
       joint.setCollisionBetweenLinkedBodys(false);
@@ -26,6 +31,6 @@
   }
   for (Iterator<Bone> it=bone.getChildren().iterator(); it.hasNext(); ) {
     Bone childBone=it.next();
-    boneRecursion(model,childBone,parentShape,reccount + 1);
+    boneRecursion(model,childBone,parentShape,reccount + 1,pointsMap);
   }
 }

@@ -6,7 +6,7 @@
   for (  Bone childBone : bone.getChildren()) {
     if (!boneList.contains(childBone.getName())) {
       Transform t=childBone.getCombinedTransform(pos,rot);
-      setTransform(childBone,t.getTranslation(),t.getRotation(),restoreBoneControl);
+      setTransform(childBone,t.getTranslation(),t.getRotation(),restoreBoneControl,boneList);
     }
   }
   if (restoreBoneControl) {

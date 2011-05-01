@@ -9,7 +9,6 @@
   bullet=new Sphere(32,32,1.0f,true,false);
   bullet.setTextureMode(TextureMode.Projected);
   bulletCollisionShape=new SphereCollisionShape(1.0f);
-  bulletAppState.getPhysicsSpace().enableDebug(assetManager);
   PhysicsTestHelper.createPhysicsTestWorld(rootNode,assetManager,bulletAppState.getPhysicsSpace());
   setupLight();
   model=(Node)assetManager.loadModel("Models/Sinbad/Sinbad.mesh.xml");
@@ -61,8 +60,6 @@
       if (name.equals("bullet-") && isPressed) {
         bulletSize-=0.1f;
       }
-      if (name.equals("shoot") && isPressed) {
-      }
       if (name.equals("stop") && isPressed) {
         ragdoll.setEnabled(!ragdoll.isEnabled());
         ragdoll.setRagdollMode();
@@ -87,8 +84,8 @@
         bulletg.setLocalScale(bulletSize);
         bulletCollisionShape=new SphereCollisionShape(bulletSize);
         BombControl bulletNode=new BombControl(assetManager,bulletCollisionShape,1);
-        bulletNode.setForceFactor(10);
-        bulletNode.setExplosionRadius(30);
+        bulletNode.setForceFactor(8);
+        bulletNode.setExplosionRadius(20);
         bulletNode.setCcdMotionThreshold(0.001f);
         bulletNode.setLinearVelocity(cam.getDirection().mult(180));
         bulletg.addControl(bulletNode);
