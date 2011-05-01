@@ -14,13 +14,20 @@
     context.boundTextures[unit]=img;
     statistics.onTextureUse(img,true);
   }
-  if (img.getWidth() != 0 && img.getHeight() != 0) {
-    if (!FastMath.isPowerOfTwo(img.getWidth()) || !FastMath.isPowerOfTwo(img.getHeight()) || img.getWidth() != img.getHeight()) {
-      MipMapGenerator.resizeToPowerOf2(img);
+  if (!GLContext.getCapabilities().GL_ARB_texture_non_power_of_two) {
+    if (img.getWidth() != 0 && img.getHeight() != 0) {
+      if (!FastMath.isPowerOfTwo(img.getWidth()) || !FastMath.isPowerOfTwo(img.getHeight()) || img.getWidth() != img.getHeight()) {
+        MipMapGenerator.resizeToPowerOf2(img);
+      }
     }
   }
   if (!img.hasMipmaps() && mips) {
-    MipMapGenerator.generateMipMaps(img);
+    if (GLContext.getCapabilities().OpenGL14) {
+      glTexParameteri(target,GL14.GL_GENERATE_MIPMAP,GL_TRUE);
+    }
+ else {
+      MipMapGenerator.generateMipMaps(img);
+    }
   }
  else {
   }
