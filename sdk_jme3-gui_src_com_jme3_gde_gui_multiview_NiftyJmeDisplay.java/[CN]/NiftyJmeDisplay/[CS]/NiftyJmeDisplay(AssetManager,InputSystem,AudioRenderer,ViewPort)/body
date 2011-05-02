@@ -5,5 +5,5 @@
   h=vp.getCamera().getHeight();
   soundDev=new SoundDeviceJme(assetManager,audioRenderer);
   renderDev=new RenderDeviceJme(this);
-  nifty=new Nifty(renderDev,soundDev,inputManager,this);
+  nifty=new Nifty(renderDev,soundDev,inputManager,new TimeProvider());
 }
