@@ -1,0 +1,34 @@
+{
+  String fullname=System.mapLibraryName(name);
+  String path="native/" + sysName + "/"+ fullname;
+  InputStream in=Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
+  if (in == null) {
+    if (name != "bulletjme") {
+      logger.log(Level.WARNING,"Cannot locate native library: {0}/{1}",new String[]{sysName,fullname});
+    }
+    return;
+  }
+  File targetFile=new File(workingDir,fullname);
+  try {
+    OutputStream out=new FileOutputStream(targetFile);
+    int len;
+    while ((len=in.read(buf)) > 0) {
+      out.write(buf,0,len);
+    }
+    in.close();
+    out.close();
+  }
+ catch (  FileNotFoundException ex) {
+    if (ex.getMessage().contains("used by another process")) {
+      if (load) {
+        System.load(targetFile.getAbsolutePath());
+      }
+      return;
+    }
+    throw ex;
+  }
+  if (load) {
+    System.load(targetFile.getAbsolutePath());
+  }
+  logger.log(Level.FINE,"Copied {0} to {1}",new Object[]{fullname,targetFile});
+}
