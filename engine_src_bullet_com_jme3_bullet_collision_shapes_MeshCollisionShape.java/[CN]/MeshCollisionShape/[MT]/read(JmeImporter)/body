@@ -1,0 +1,11 @@
+{
+  super.read(im);
+  InputCapsule capsule=im.getCapsule(this);
+  numVertices=capsule.readInt("numVertices",0);
+  numTriangles=capsule.readInt("numTriangles",0);
+  vertexStride=capsule.readInt("vertexStride",0);
+  triangleIndexStride=capsule.readInt("triangleIndexStride",0);
+  triangleIndexBase=ByteBuffer.wrap(capsule.readByteArray("triangleIndexBase",new byte[0]));
+  vertexBase=ByteBuffer.wrap(capsule.readByteArray("vertexBase",new byte[0])).order(ByteOrder.nativeOrder());
+  createShape();
+}

@@ -1,0 +1,5 @@
+{
+  super.finalize();
+  Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Finalizing Wheel {0}",Long.toHexString(wheelId));
+  finalizeNative(wheelId);
+}

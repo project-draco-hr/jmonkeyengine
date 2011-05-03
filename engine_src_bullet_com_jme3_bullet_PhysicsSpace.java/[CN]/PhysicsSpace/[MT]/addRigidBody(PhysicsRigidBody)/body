@@ -1,0 +1,18 @@
+{
+  physicsNodes.put(node.getObjectId(),node);
+  boolean kinematic=false;
+  if (node.isKinematic()) {
+    kinematic=true;
+    node.setKinematic(false);
+  }
+  addRigidBody(physicsSpaceId,node.getObjectId());
+  if (kinematic) {
+    node.setKinematic(true);
+  }
+  Logger.getLogger(PhysicsSpace.class.getName()).log(Level.INFO,"Adding RigidBody {0} to physics space.",node.getObjectId());
+  if (node instanceof PhysicsVehicle) {
+    Logger.getLogger(PhysicsSpace.class.getName()).log(Level.INFO,"Adding vehicle constraint {0} to physics space.",Long.toHexString(((PhysicsVehicle)node).getVehicleId()));
+    ((PhysicsVehicle)node).createVehicle(this);
+    addVehicle(physicsSpaceId,((PhysicsVehicle)node).getVehicleId());
+  }
+}

@@ -1,0 +1,7 @@
+{
+  if (shape instanceof CompoundCollisionShape) {
+    throw new IllegalStateException("CompoundCollisionShapes cannot have CompoundCollisionShapes as children!");
+  }
+  children.add(new ChildCollisionShape(location.clone(),rotation.clone(),shape));
+  addChildShape(objectId,shape.getObjectId(),location,rotation);
+}

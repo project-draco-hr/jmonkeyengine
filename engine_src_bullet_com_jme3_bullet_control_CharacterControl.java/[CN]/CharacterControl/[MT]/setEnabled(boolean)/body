@@ -1,0 +1,16 @@
+{
+  this.enabled=enabled;
+  if (space != null) {
+    if (enabled && !added) {
+      if (spatial != null) {
+        warp(getSpatialTranslation());
+      }
+      space.addCollisionObject(this);
+      added=true;
+    }
+ else     if (!enabled && added) {
+      space.removeCollisionObject(this);
+      added=false;
+    }
+  }
+}

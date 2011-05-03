@@ -1,0 +1,12 @@
+{
+  Mesh mesh=geom.getMesh();
+  Transform trans=getTransform(geom,parent);
+  if (mesh != null) {
+    HullCollisionShape dynamicShape=new HullCollisionShape(mesh);
+    dynamicShape.setScale(trans.getScale());
+    return dynamicShape;
+  }
+ else {
+    return null;
+  }
+}

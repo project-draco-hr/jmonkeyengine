@@ -1,0 +1,9 @@
+{
+  if (node instanceof PhysicsVehicle) {
+    Logger.getLogger(PhysicsSpace.class.getName()).log(Level.INFO,"Removing vehicle constraint {0} from physics space.",Long.toHexString(((PhysicsVehicle)node).getVehicleId()));
+    removeVehicle(physicsSpaceId,((PhysicsVehicle)node).getVehicleId());
+  }
+  Logger.getLogger(PhysicsSpace.class.getName()).log(Level.INFO,"Removing RigidBody {0} from physics space.",Long.toHexString(node.getObjectId()));
+  physicsNodes.remove(node.getObjectId());
+  removeRigidBody(physicsSpaceId,node.getObjectId());
+}

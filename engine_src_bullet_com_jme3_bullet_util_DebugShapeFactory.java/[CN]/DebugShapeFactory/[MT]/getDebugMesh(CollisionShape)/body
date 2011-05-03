@@ -1,0 +1,9 @@
+{
+  Mesh mesh=new Mesh();
+  mesh=new Mesh();
+  DebugMeshCallback callback=new DebugMeshCallback();
+  getVertices(shape.getObjectId(),callback);
+  mesh.setBuffer(Type.Position,3,callback.getVertices());
+  mesh.getFloatBuffer(Type.Position).clear();
+  return mesh;
+}

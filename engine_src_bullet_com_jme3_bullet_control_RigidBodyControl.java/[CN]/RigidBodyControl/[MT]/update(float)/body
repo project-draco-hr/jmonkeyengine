@@ -1,0 +1,11 @@
+{
+  if (enabled && spatial != null) {
+    if (isKinematic() && kinematicSpatial) {
+      super.setPhysicsLocation(getSpatialTranslation());
+      super.setPhysicsRotation(getSpatialRotation());
+    }
+ else {
+      getMotionState().applyTransform(spatial);
+    }
+  }
+}

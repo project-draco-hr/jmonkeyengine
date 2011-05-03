@@ -1,0 +1,12 @@
+{
+  GhostControl control=new GhostControl(collisionShape);
+  control.setCcdMotionThreshold(getCcdMotionThreshold());
+  control.setCcdSweptSphereRadius(getCcdSweptSphereRadius());
+  control.setCollideWithGroups(getCollideWithGroups());
+  control.setCollisionGroup(getCollisionGroup());
+  control.setPhysicsLocation(getPhysicsLocation());
+  control.setPhysicsRotation(getPhysicsRotationMatrix());
+  control.setApplyPhysicsLocal(isApplyPhysicsLocal());
+  control.setSpatial(spatial);
+  return control;
+}

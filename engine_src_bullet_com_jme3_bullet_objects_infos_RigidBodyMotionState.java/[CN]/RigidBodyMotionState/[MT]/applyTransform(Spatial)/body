@@ -1,0 +1,24 @@
+{
+  Vector3f localLocation=spatial.getLocalTranslation();
+  Quaternion localRotationQuat=spatial.getLocalRotation();
+  boolean physicsLocationDirty=applyTransform(motionStateId,localLocation,localRotationQuat);
+  if (!physicsLocationDirty) {
+    return false;
+  }
+  if (!applyPhysicsLocal && spatial.getParent() != null) {
+    localLocation.subtractLocal(spatial.getParent().getWorldTranslation());
+    localLocation.divideLocal(spatial.getParent().getWorldScale());
+    tmp_inverseWorldRotation.set(spatial.getParent().getWorldRotation()).inverseLocal().multLocal(localLocation);
+    tmp_inverseWorldRotation.mult(localRotationQuat,localRotationQuat);
+    spatial.setLocalTranslation(localLocation);
+    spatial.setLocalRotation(localRotationQuat);
+  }
+ else {
+    spatial.setLocalTranslation(localLocation);
+    spatial.setLocalRotation(localRotationQuat);
+  }
+  if (vehicle != null) {
+    vehicle.updateWheels();
+  }
+  return true;
+}

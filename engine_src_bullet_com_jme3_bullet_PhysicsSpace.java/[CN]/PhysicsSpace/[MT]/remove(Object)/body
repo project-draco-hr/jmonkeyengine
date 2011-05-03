@@ -1,0 +1,19 @@
+{
+  if (obj instanceof PhysicsControl) {
+    ((PhysicsControl)obj).setPhysicsSpace(null);
+  }
+ else   if (obj instanceof Spatial) {
+    Spatial node=(Spatial)obj;
+    PhysicsControl control=node.getControl(PhysicsControl.class);
+    control.setPhysicsSpace(null);
+  }
+ else   if (obj instanceof PhysicsCollisionObject) {
+    removeCollisionObject((PhysicsCollisionObject)obj);
+  }
+ else   if (obj instanceof PhysicsJoint) {
+    removeJoint((PhysicsJoint)obj);
+  }
+ else {
+    throw (new UnsupportedOperationException("Cannot remove this kind of object from the physics space."));
+  }
+}

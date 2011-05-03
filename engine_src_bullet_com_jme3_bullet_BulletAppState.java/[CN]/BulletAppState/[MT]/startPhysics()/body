@@ -1,0 +1,10 @@
+{
+  if (threadingType == ThreadingType.PARALLEL) {
+    startPhysicsOnExecutor();
+  }
+ else {
+    pSpace=new PhysicsSpace(worldMin,worldMax,broadphaseType);
+  }
+  pSpace.addTickListener(this);
+  initialized=true;
+}

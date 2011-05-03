@@ -1,0 +1,12 @@
+{
+  Mesh mesh=geom.getMesh();
+  Transform trans=getTransform(geom,parent);
+  if (mesh != null) {
+    MeshCollisionShape mColl=new MeshCollisionShape(mesh);
+    mColl.setScale(trans.getScale());
+    return mColl;
+  }
+ else {
+    return null;
+  }
+}

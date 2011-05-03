@@ -1,0 +1,17 @@
+{
+  if (enabled && space != null && space.getDebugManager() != null) {
+    if (!debug) {
+      attachDebugShape(space.getDebugManager());
+    }
+    for (Iterator<PhysicsBoneLink> it=boneLinks.values().iterator(); it.hasNext(); ) {
+      PhysicsBoneLink physicsBoneLink=it.next();
+      Spatial debugShape=physicsBoneLink.rigidBody.debugShape();
+      if (debugShape != null) {
+        debugShape.setLocalTranslation(physicsBoneLink.rigidBody.getMotionState().getWorldLocation());
+        debugShape.setLocalRotation(physicsBoneLink.rigidBody.getMotionState().getWorldRotationQuat());
+        debugShape.updateGeometricState();
+        rm.renderScene(debugShape,vp);
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  FloatBuffer buf=BufferUtils.createFloatBuffer(list.size() * 3);
+  for (int i=0; i < list.size(); i++) {
+    Vector3f vector3f=list.get(i);
+    buf.put(vector3f.x);
+    buf.put(vector3f.y);
+    buf.put(vector3f.z);
+  }
+  return buf;
+}

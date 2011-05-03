@@ -1,0 +1,8 @@
+{
+  super.write(e);
+  OutputCapsule capsule=e.getCapsule(this);
+  capsule.write(getPhysicsLocation(new Vector3f()),"physicsLocation",new Vector3f());
+  capsule.write(getPhysicsRotationMatrix(new Matrix3f()),"physicsRotation",new Matrix3f());
+  capsule.write(getCcdMotionThreshold(),"ccdMotionThreshold",0);
+  capsule.write(getCcdSweptSphereRadius(),"ccdSweptSphereRadius",0);
+}

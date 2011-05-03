@@ -1,0 +1,27 @@
+{
+  if (executor != null) {
+    executor.shutdown();
+  }
+  executor=new ScheduledThreadPoolExecutor(1);
+  final BulletAppState app=this;
+  Callable<Boolean> call=new Callable<Boolean>(){
+    public Boolean call() throws Exception {
+      detachedPhysicsLastUpdate=System.currentTimeMillis();
+      pSpace=new PhysicsSpace(worldMin,worldMax,broadphaseType);
+      pSpace.addTickListener(app);
+      return true;
+    }
+  }
+;
+  try {
+    return executor.submit(call).get();
+  }
+ catch (  InterruptedException ex) {
+    Logger.getLogger(BulletAppState.class.getName()).log(Level.SEVERE,null,ex);
+    return false;
+  }
+catch (  ExecutionException ex) {
+    Logger.getLogger(BulletAppState.class.getName()).log(Level.SEVERE,null,ex);
+    return false;
+  }
+}

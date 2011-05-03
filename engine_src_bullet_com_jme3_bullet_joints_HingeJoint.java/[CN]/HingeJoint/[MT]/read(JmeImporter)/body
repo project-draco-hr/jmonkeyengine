@@ -1,0 +1,18 @@
+{
+  super.read(im);
+  InputCapsule capsule=im.getCapsule(this);
+  this.axisA=(Vector3f)capsule.readSavable("axisA",new Vector3f());
+  this.axisB=(Vector3f)capsule.readSavable("axisB",new Vector3f());
+  this.angularOnly=capsule.readBoolean("angularOnly",false);
+  float lowerLimit=capsule.readFloat("lowerLimit",1e30f);
+  float upperLimit=capsule.readFloat("upperLimit",-1e30f);
+  this.biasFactor=capsule.readFloat("biasFactor",0.3f);
+  this.relaxationFactor=capsule.readFloat("relaxationFactor",1f);
+  this.limitSoftness=capsule.readFloat("limitSoftness",0.9f);
+  boolean enableAngularMotor=capsule.readBoolean("enableAngularMotor",false);
+  float targetVelocity=capsule.readFloat("targetVelocity",0.0f);
+  float maxMotorImpulse=capsule.readFloat("maxMotorImpulse",0.0f);
+  createJoint();
+  enableMotor(enableAngularMotor,targetVelocity,maxMotorImpulse);
+  setLimit(lowerLimit,upperLimit,limitSoftness,biasFactor,relaxationFactor);
+}

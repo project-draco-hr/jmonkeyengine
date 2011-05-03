@@ -1,0 +1,12 @@
+{
+  ByteBuffer bbuf=ByteBuffer.allocateDirect(points.length * 4).order(ByteOrder.nativeOrder());
+  for (int i=0; i < points.length; i++) {
+    float f=points[i];
+    bbuf.putFloat(f);
+  }
+  bbuf.rewind();
+  objectId=createShape(bbuf);
+  Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Created Shape {0}",Long.toHexString(objectId));
+  setScale(scale);
+  setMargin(margin);
+}

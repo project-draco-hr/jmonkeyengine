@@ -1,0 +1,9 @@
+{
+  removeChildShape(objectId,shape.getObjectId());
+  for (Iterator<ChildCollisionShape> it=children.iterator(); it.hasNext(); ) {
+    ChildCollisionShape childCollisionShape=it.next();
+    if (childCollisionShape.shape == shape) {
+      it.remove();
+    }
+  }
+}

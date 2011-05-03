@@ -1,0 +1,25 @@
+{
+  ArrayList<Float> points=new ArrayList<Float>();
+  if (model instanceof Geometry) {
+    Geometry g=(Geometry)model;
+    for (    Integer index : boneIndices) {
+      points.addAll(getPoints(g.getMesh(),index,initialScale,initialPosition,weightThreshold));
+    }
+  }
+ else   if (model instanceof Node) {
+    Node node=(Node)model;
+    for (    Spatial s : node.getChildren()) {
+      if (s instanceof Geometry) {
+        Geometry g=(Geometry)s;
+        for (        Integer index : boneIndices) {
+          points.addAll(getPoints(g.getMesh(),index,initialScale,initialPosition,weightThreshold));
+        }
+      }
+    }
+  }
+  float[] p=new float[points.size()];
+  for (int i=0; i < points.size(); i++) {
+    p[i]=points.get(i);
+  }
+  return new HullCollisionShape(p);
+}
