@@ -8,7 +8,7 @@
  else   if (os.contains("linux") || os.contains("freebsd") || os.contains("sunos")) {
     return is64 ? Platform.Linux64 : Platform.Linux32;
   }
- else   if (os.contains("mac os x")) {
+ else   if (os.contains("mac os x") || os.contains("darwin")) {
     if (arch.startsWith("ppc")) {
       return is64 ? Platform.MacOSX_PPC64 : Platform.MacOSX_PPC32;
     }
