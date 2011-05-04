@@ -8,8 +8,7 @@
       }
       Display.setVSyncEnabled(settings.isVSync());
       Display.setParent(canvas);
-      PixelFormat pf=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),settings.getSamples());
-      Display.create(pf,pbuffer);
+      Display.create(acquirePixelFormat(),pbuffer);
       renderer.invalidateState();
     }
  else {
