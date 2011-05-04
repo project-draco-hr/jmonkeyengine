@@ -1,5 +1,11 @@
 {
   if (Display.isCreated()) {
+    try {
+      Display.setParent(null);
+    }
+ catch (    LWJGLException ex) {
+      logger.log(Level.SEVERE,"Encountered exception when setting parent to null",ex);
+    }
     Display.destroy();
   }
   try {
