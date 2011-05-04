@@ -1,4 +1,5 @@
 {
+  if (components < 1 || components > 4)   throw new IllegalArgumentException("components must be between 1 and 4");
   VertexBuffer vb=buffers.get(type.ordinal());
   if (vb == null) {
     if (buf == null)     return;
