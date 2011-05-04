@@ -1,12 +1,8 @@
 {
-  mouseActive=Mouse.isCreated();
-  keyboardActive=Keyboard.isCreated();
-  if (mouseActive && Mouse.isGrabbed()) {
+  if (Mouse.isCreated() && Mouse.isGrabbed()) {
     Mouse.setGrabbed(false);
     mouseWasGrabbed=true;
   }
-  if (mouseActive)   Mouse.destroy();
-  if (keyboardActive)   Keyboard.destroy();
   logger.log(Level.INFO,"OGL: Canvas will become invisible! Destroying ..");
   renderable.set(false);
   destroyContext();

@@ -15,7 +15,7 @@
 catch (  BrokenBarrierException ex) {
     logger.log(Level.SEVERE,"EDT: Broken barrier! ",ex);
   }
-  logger.log(Level.INFO,"EDT: Acknowledged receipt of canvas death");
   actionRequiredBarrier.reset();
+  logger.log(Level.INFO,"EDT: Acknowledged receipt of canvas death");
   super.removeNotify();
 }

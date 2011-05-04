@@ -11,31 +11,10 @@
   logger.log(Level.INFO,"OGL: Creating display..");
   renderable.set(true);
   createContext(settings);
-  logger.log(Level.INFO,"OGL: Waiting for display to become active..");
-  while (!Display.isCreated()) {
-    try {
-      Thread.sleep(10);
-    }
- catch (    InterruptedException ex) {
-      logger.log(Level.SEVERE,"OGL: Interrupted! ",ex);
-    }
-  }
   logger.log(Level.INFO,"OGL: Display is active!");
-  try {
-    if (mouseActive) {
-      Mouse.create();
-      if (mouseWasGrabbed) {
-        Mouse.setGrabbed(true);
-        mouseWasGrabbed=false;
-      }
-    }
-    if (keyboardActive) {
-      Keyboard.create();
-    }
-    logger.log(Level.INFO,"OGL: Input has been reinitialized");
-  }
- catch (  LWJGLException ex) {
-    listener.handleError("Failed to re-init input",ex);
+  if (Mouse.isCreated() && mouseWasGrabbed) {
+    Mouse.setGrabbed(true);
+    mouseWasGrabbed=false;
   }
   SwingUtilities.invokeLater(new Runnable(){
     public void run(){

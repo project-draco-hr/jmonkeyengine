@@ -1,4 +1,9 @@
 {
+  JmeFormatter formatter=new JmeFormatter();
+  Handler consoleHandler=new ConsoleHandler();
+  consoleHandler.setFormatter(formatter);
+  Logger.getLogger("").removeHandler(Logger.getLogger("").getHandlers()[0]);
+  Logger.getLogger("").addHandler(consoleHandler);
   SwingUtilities.invokeLater(new Runnable(){
     public void run(){
       JPopupMenu.setDefaultLightWeightPopupEnabled(false);

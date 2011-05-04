@@ -1,7 +1,7 @@
 {
   if (pbuffer == null || pbuffer.isBufferLost()) {
     if (pbuffer != null && pbuffer.isBufferLost()) {
-      pbuffer.releaseContext();
+      logger.log(Level.WARNING,"PBuffer was lost!");
       pbuffer.destroy();
     }
     pbuffer=new Pbuffer(1,1,new PixelFormat(0,0,0),null);

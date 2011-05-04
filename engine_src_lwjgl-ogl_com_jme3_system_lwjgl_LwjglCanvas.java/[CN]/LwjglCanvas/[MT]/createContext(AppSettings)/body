@@ -10,7 +10,7 @@
       Display.setParent(canvas);
       PixelFormat pf=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),settings.getSamples());
       Display.create(pf,pbuffer);
-      Display.makeCurrent();
+      renderer.invalidateState();
     }
  else {
       pbuffer.makeCurrent();
