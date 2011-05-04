@@ -12,7 +12,13 @@
     }
   }
  else   if (keyword.equals("ambient")) {
-    ambient=readColor();
+    if (scan.hasNext("vertexcolour")) {
+      ambient=ColorRGBA.White;
+      scan.next();
+    }
+ else {
+      ambient=readColor();
+    }
   }
  else   if (keyword.equals("specular")) {
     specular=new ColorRGBA();
