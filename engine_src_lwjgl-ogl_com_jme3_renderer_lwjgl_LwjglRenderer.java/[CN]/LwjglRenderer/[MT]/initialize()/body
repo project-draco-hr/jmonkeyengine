@@ -23,8 +23,8 @@
     glslVer=-1;
     throw new UnsupportedOperationException("GLSL and OpenGL2 is " + "required for the LWJGL " + "renderer!");
   }
-  initialDrawBuf=glGetInteger(GL_DRAW_BUFFER);
-  initialReadBuf=glGetInteger(GL_READ_BUFFER);
+  initialDrawBuf=GL_BACK;
+  initialReadBuf=GL_BACK;
   int spaceIdx=versionStr.indexOf(" ");
   if (spaceIdx >= 1) {
     versionStr=versionStr.substring(0,spaceIdx);
