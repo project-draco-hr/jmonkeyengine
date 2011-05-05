@@ -1,0 +1,12 @@
+{
+  if (errorListeners.isEmpty()) {
+    DisconnectInfo info=new DisconnectInfo();
+    info.reason="Connection Error";
+    info.error=t;
+    closeConnections(info);
+    return;
+  }
+  for (  ErrorListener l : errorListeners) {
+    l.handleError(this,t);
+  }
+}

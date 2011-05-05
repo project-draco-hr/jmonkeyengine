@@ -1,0 +1,12 @@
+{
+  if (!isRunning)   return;
+  if (fastAdapter != null) {
+    fastAdapter.close();
+  }
+  if (reliableAdapter != null) {
+    reliableAdapter.close();
+  }
+  connecting.countDown();
+  fireDisconnected(info);
+  isRunning=false;
+}

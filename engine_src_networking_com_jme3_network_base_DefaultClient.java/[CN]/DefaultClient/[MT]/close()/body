@@ -1,12 +1,4 @@
 {
   checkRunning();
-  if (fastAdapter != null) {
-    fastAdapter.close();
-  }
-  if (reliableAdapter != null) {
-    reliableAdapter.close();
-  }
-  connecting.countDown();
-  fireDisconnected(null);
-  isRunning=false;
+  closeConnections(null);
 }

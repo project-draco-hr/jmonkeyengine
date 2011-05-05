@@ -3,8 +3,8 @@
   if (isRunning)   throw new IllegalStateException("Client is already started.");
   this.reliable=reliable;
   this.fast=fast;
-  reliableAdapter=new ConnectorAdapter(reliable,dispatcher,true);
+  reliableAdapter=new ConnectorAdapter(reliable,dispatcher,dispatcher,true);
   if (fast != null) {
-    fastAdapter=new ConnectorAdapter(fast,dispatcher,false);
+    fastAdapter=new ConnectorAdapter(fast,dispatcher,dispatcher,false);
   }
 }

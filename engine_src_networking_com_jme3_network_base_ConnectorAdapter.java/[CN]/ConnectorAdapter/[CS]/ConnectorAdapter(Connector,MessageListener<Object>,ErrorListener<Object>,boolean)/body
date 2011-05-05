@@ -2,6 +2,7 @@
   super(String.valueOf(connector));
   this.connector=connector;
   this.dispatcher=dispatcher;
+  this.errorHandler=errorHandler;
   this.reliable=reliable;
   setDaemon(true);
   writer=Executors.newFixedThreadPool(1,new NamedThreadFactory(String.valueOf(connector) + "-writer",true));

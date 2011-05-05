@@ -1,4 +1,9 @@
 {
   if (!go.get())   return;
-  connector.write(data);
+  try {
+    connector.write(data);
+  }
+ catch (  Exception e) {
+    handleError(e);
+  }
 }
