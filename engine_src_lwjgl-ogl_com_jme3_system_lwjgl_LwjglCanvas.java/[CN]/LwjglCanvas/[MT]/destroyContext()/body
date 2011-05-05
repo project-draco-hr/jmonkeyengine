@@ -1,7 +1,9 @@
 {
   if (Display.isCreated()) {
     try {
-      Display.setParent(null);
+      if (JmeSystem.getPlatform() == Platform.Windows32 || JmeSystem.getPlatform() == Platform.Windows64) {
+        Display.setParent(null);
+      }
     }
  catch (    LWJGLException ex) {
       logger.log(Level.SEVERE,"Encountered exception when setting parent to null",ex);
