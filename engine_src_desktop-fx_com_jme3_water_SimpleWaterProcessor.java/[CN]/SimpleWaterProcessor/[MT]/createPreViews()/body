@@ -1,7 +1,7 @@
 {
   reflectionCam=new Camera(renderWidth,renderHeight);
   refractionCam=new Camera(renderWidth,renderHeight);
-  reflectionView=rm.createPreView("Reflection View",reflectionCam);
+  reflectionView=new ViewPort("Reflection View",reflectionCam);
   reflectionView.setClearEnabled(true);
   reflectionView.setBackgroundColor(ColorRGBA.Black);
   reflectionBuffer=new FrameBuffer(renderWidth,renderHeight,1);
@@ -10,7 +10,7 @@
   reflectionView.setOutputFrameBuffer(reflectionBuffer);
   reflectionView.addProcessor(new ReflectionProcessor(reflectionCam,reflectionBuffer,reflectionClipPlane));
   reflectionView.attachScene(reflectionScene);
-  refractionView=rm.createPreView("Refraction View",refractionCam);
+  refractionView=new ViewPort("Refraction View",refractionCam);
   refractionView.setClearEnabled(true);
   refractionView.setBackgroundColor(ColorRGBA.Black);
   refractionBuffer=new FrameBuffer(renderWidth,renderHeight,1);

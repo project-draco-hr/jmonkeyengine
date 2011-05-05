@@ -22,4 +22,8 @@
   if (inv) {
     reflectionCam.setAxes(reflectionCam.getLeft().negateLocal(),reflectionCam.getUp(),reflectionCam.getDirection().negateLocal());
   }
+  rm.renderViewPort(reflectionView,savedTpf);
+  rm.renderViewPort(refractionView,savedTpf);
+  rm.getRenderer().setFrameBuffer(vp.getOutputFrameBuffer());
+  rm.setCamera(sceneCam,false);
 }
