@@ -3,5 +3,8 @@
   renderer=rm.getRenderer();
   viewPort=vp;
   fsQuad=new Picture("filter full screen quad");
-  reshape(vp,vp.getCamera().getWidth(),vp.getCamera().getHeight());
+  Camera cam=vp.getCamera();
+  filterCam.setViewPort(cam.getViewPortLeft(),cam.getViewPortRight(),cam.getViewPortBottom(),cam.getViewPortTop());
+  cam.setViewPort(0,1,0,1);
+  reshape(vp,cam.getWidth(),cam.getHeight());
 }
