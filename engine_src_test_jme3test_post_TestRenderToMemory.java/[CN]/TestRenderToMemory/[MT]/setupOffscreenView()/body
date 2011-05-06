@@ -2,7 +2,7 @@
   offCamera=new Camera(width,height);
   offView=renderManager.createPreView("Offscreen View",offCamera);
   offView.setBackgroundColor(ColorRGBA.DarkGray);
-  offView.setClearEnabled(true);
+  offView.setClearFlags(true,true,true);
   offView.addProcessor(this);
   offBuffer=new FrameBuffer(width,height,1);
   offCamera.setFrustumPerspective(45f,1f,1f,1000f);

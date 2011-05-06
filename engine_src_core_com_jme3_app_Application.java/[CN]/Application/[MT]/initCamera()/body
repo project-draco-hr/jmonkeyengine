@@ -6,8 +6,8 @@
   renderManager=new RenderManager(renderer);
   renderManager.setTimer(timer);
   viewPort=renderManager.createMainView("Default",cam);
-  viewPort.setClearEnabled(true);
+  viewPort.setClearFlags(true,true,true);
   Camera guiCam=new Camera(settings.getWidth(),settings.getHeight());
   guiViewPort=renderManager.createPostView("Gui Default",guiCam);
-  guiViewPort.setClearEnabled(false);
+  guiViewPort.setClearFlags(false,false,false);
 }
