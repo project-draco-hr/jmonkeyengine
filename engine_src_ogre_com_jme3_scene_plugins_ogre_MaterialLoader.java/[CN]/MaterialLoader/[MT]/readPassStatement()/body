@@ -39,6 +39,10 @@
     readTextureUnit();
   }
  else   if (keyword.equals("scene_blend")) {
+    if (scan.hasNextInt()) {
+      readString("\n");
+      return;
+    }
     String mode=scan.next();
     if (mode.equals("alpha_blend")) {
       blend=true;
