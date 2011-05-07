@@ -2,16 +2,18 @@
   if (!scan.hasNext()) {
     return false;
   }
-  String cmd=scan.next();
+  String cmd=scan.next().toLowerCase();
   if (cmd.startsWith("#")) {
+    nextStatement();
   }
  else   if (cmd.equals("newmtl")) {
     String name=scan.next();
     startMaterial(name);
   }
- else   if (cmd.equals("Ka") || cmd.equals("Ke") || cmd.equals("Ni")|| cmd.equals("illum")) {
+ else   if (cmd.equals("ka")) {
+    material.setColor("Ambient",readColor());
   }
- else   if (cmd.equals("Kd")) {
+ else   if (cmd.equals("kd")) {
     ColorRGBA color=readColor();
     MatParam param=material.getParam("Diffuse");
     if (param != null) {
@@ -19,37 +21,36 @@
     }
     material.setColor("Diffuse",color);
   }
- else   if (cmd.equals("Ks")) {
+ else   if (cmd.equals("ks")) {
     material.setColor("Specular",readColor());
   }
- else   if (cmd.equals("Ns")) {
+ else   if (cmd.equals("ns")) {
     material.setFloat("Shininess",scan.nextFloat());
   }
- else   if (cmd.equals("d")) {
+ else   if (cmd.equals("d") || cmd.equals("tr")) {
     float alpha=scan.nextFloat();
-  }
- else   if (cmd.equals("map_Ka")) {
-  }
- else   if (cmd.equals("map_Kd")) {
-    String path=scan.next();
-    String name=new File(path).getName();
-    TextureKey key=new TextureKey(folderName + name);
-    key.setGenerateMips(true);
-    Texture texture=assetManager.loadTexture(key);
-    if (texture != null) {
-      texture.setWrap(WrapMode.Repeat);
-      material.setTexture("DiffuseMap",texture);
+    if (alpha < 1f) {
+      MatParam param=material.getParam("Diffuse");
+      ColorRGBA color;
+      if (param != null)       color=(ColorRGBA)param.getValue();
+ else       color=new ColorRGBA(ColorRGBA.White);
+      color.a=scan.nextFloat();
+      material.setColor("Diffuse",color);
+      material.setTransparent(true);
+      material.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
     }
+  }
+ else   if (cmd.equals("map_ka")) {
+  }
+ else   if (cmd.equals("map_kd")) {
+    String path=scan.next();
+    material.setTexture("DiffuseMap",loadTexture(path));
   }
  else   if (cmd.equals("map_bump") || cmd.equals("bump")) {
     if (material.getParam("NormalMap") == null) {
       String path=scan.next();
-      String name=new File(path).getName();
-      TextureKey key=new TextureKey(folderName + name);
-      key.setGenerateMips(true);
-      Texture texture=assetManager.loadTexture(key);
+      Texture texture=loadTexture(path);
       if (texture != null) {
-        texture.setWrap(WrapMode.Repeat);
         material.setTexture("NormalMap",texture);
         if (texture.getImage().getFormat() == Format.LATC) {
           material.setBoolean("LATC",true);
@@ -57,26 +58,27 @@
       }
     }
   }
- else   if (cmd.equals("map_Ks")) {
+ else   if (cmd.equals("map_ks")) {
     String path=scan.next();
-    String name=new File(path).getName();
-    TextureKey key=new TextureKey(folderName + name);
-    key.setGenerateMips(true);
-    Texture texture=assetManager.loadTexture(key);
+    Texture texture=loadTexture(path);
     if (texture != null) {
-      texture.setWrap(WrapMode.Repeat);
       material.setTexture("SpecularMap",texture);
-      material.setColor("Specular",ColorRGBA.White);
+      MatParam specParam=material.getParam("Specular");
+      if (specParam == null) {
+        material.setColor("Specular",ColorRGBA.White);
+      }
+ else {
+        ColorRGBA spec=(ColorRGBA)specParam.getValue();
+        if (spec.equals(ColorRGBA.Black)) {
+          material.setColor("Specular",ColorRGBA.White);
+        }
+      }
     }
   }
  else   if (cmd.equals("map_d")) {
     String path=scan.next();
-    String name=new File(path).getName();
-    TextureKey key=new TextureKey(folderName + name);
-    key.setGenerateMips(true);
-    Texture texture=assetManager.loadTexture(key);
+    Texture texture=loadTexture(path);
     if (texture != null) {
-      texture.setWrap(WrapMode.Repeat);
       material.setTexture("AlphaMap",texture);
       material.setTransparent(true);
       material.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
@@ -84,9 +86,27 @@
       material.getAdditionalRenderState().setAlphaFallOff(0.01f);
     }
   }
+ else   if (cmd.equals("illum")) {
+    int mode=scan.nextInt();
+switch (mode) {
+case 0:
+      material.setColor("Ambient",ColorRGBA.Black);
+    break;
+case 4:
+case 6:
+case 7:
+case 9:
+  material.setTransparent(true);
+material.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+break;
+}
+}
+ else if (cmd.equals("ke") || cmd.equals("ni")) {
+nextStatement();
+}
  else {
-    System.out.println("Unknown statement in MTL! " + cmd);
-  }
-  nextStatement();
-  return true;
+System.out.println("Unknown statement in MTL! " + cmd);
+nextStatement();
+}
+return true;
 }

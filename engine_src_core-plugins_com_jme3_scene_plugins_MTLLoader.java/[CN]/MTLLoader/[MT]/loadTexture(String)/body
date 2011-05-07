@@ -1,0 +1,10 @@
+{
+  String name=new File(path).getName();
+  TextureKey key=new TextureKey(folderName + name);
+  key.setGenerateMips(true);
+  Texture texture=assetManager.loadTexture(key);
+  if (texture != null) {
+    texture.setWrap(WrapMode.Repeat);
+  }
+  return texture;
+}
