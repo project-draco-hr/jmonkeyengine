@@ -4,7 +4,7 @@
       logger.log(Level.WARNING,"PBuffer was lost!");
       pbuffer.destroy();
     }
-    pbuffer=new Pbuffer(1,1,acquirePixelFormat(),null);
+    pbuffer=new Pbuffer(1,1,new PixelFormat(0,0,0,0,0),null);
     logger.log(Level.INFO,"OGL: Pbuffer has been created");
   }
 }
