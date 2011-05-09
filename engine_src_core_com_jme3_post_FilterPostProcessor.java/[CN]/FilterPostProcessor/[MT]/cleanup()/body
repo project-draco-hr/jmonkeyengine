@@ -1,6 +1,7 @@
 {
   if (viewPort != null) {
-    viewPort.getCamera().setViewPort(filterCam.getViewPortLeft(),filterCam.getViewPortRight(),filterCam.getViewPortBottom(),filterCam.getViewPortTop());
+    viewPort.getCamera().resize(originalWidth,originalHeight,true);
+    viewPort.getCamera().setViewPort(left,right,bottom,top);
     viewPort.setOutputFrameBuffer(outputBuffer);
     viewPort=null;
   }

@@ -1,19 +1,20 @@
 {
-  if (buff == null) {
+  if (buff == outputBuffer) {
     fsQuad.setWidth(width);
     fsQuad.setHeight(height);
-    filterCam.resize(width,height,true);
+    filterCam.resize(originalWidth,originalHeight,true);
+    fsQuad.setPosition(left * originalWidth,bottom * originalHeight);
   }
  else {
     fsQuad.setWidth(buff.getWidth());
     fsQuad.setHeight(buff.getHeight());
     filterCam.resize(buff.getWidth(),buff.getHeight(),true);
+    fsQuad.setPosition(0,0);
   }
   fsQuad.setMaterial(mat);
   fsQuad.updateGeometricState();
-  filterCam.setName("filterCam");
   renderManager.setCamera(filterCam,true);
   r.setFrameBuffer(buff);
-  r.clearBuffers(true,true,true);
+  r.clearBuffers(false,true,true);
   renderManager.renderGeometry(fsQuad);
 }

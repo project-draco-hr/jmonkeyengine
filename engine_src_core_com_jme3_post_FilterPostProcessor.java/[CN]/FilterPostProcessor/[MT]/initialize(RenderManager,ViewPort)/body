@@ -4,7 +4,12 @@
   viewPort=vp;
   fsQuad=new Picture("filter full screen quad");
   Camera cam=vp.getCamera();
-  filterCam.setViewPort(cam.getViewPortLeft(),cam.getViewPortRight(),cam.getViewPortBottom(),cam.getViewPortTop());
+  left=cam.getViewPortLeft();
+  right=cam.getViewPortRight();
+  top=cam.getViewPortTop();
+  bottom=cam.getViewPortBottom();
+  originalWidth=cam.getWidth();
+  originalHeight=cam.getHeight();
   cam.setViewPort(0,1,0,1);
   reshape(vp,cam.getWidth(),cam.getHeight());
 }

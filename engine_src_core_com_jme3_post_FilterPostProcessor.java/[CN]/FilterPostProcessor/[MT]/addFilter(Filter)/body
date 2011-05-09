@@ -1,9 +1,8 @@
 {
   filters.add(filter);
+  filter.setProcessor(this);
   if (isInitialized()) {
     initFilter(filter,viewPort);
   }
-  if (filter.isEnabled()) {
-    lastFilterIndex=filters.size() - 1;
-  }
+  setFilterState(filter,filter.isEnabled());
 }

@@ -1,5 +1,5 @@
 {
-  filter.init(this,assetManager,renderManager,vp,width,height);
+  filter.init(assetManager,renderManager,vp,width,height);
   if (filter.isRequiresDepthTexture()) {
     if (!computeDepth && renderFrameBuffer != null) {
       depthTexture=new Texture2D(width,height,Format.Depth24);

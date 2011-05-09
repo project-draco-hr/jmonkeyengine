@@ -1,6 +1,11 @@
 {
   if (filters.isEmpty() || lastFilterIndex == -1) {
-    viewPort.setOutputFrameBuffer(outputBuffer);
+    if (cameraInit) {
+      viewPort.getCamera().resize(originalWidth,originalHeight,true);
+      viewPort.getCamera().setViewPort(left,right,bottom,top);
+      viewPort.setOutputFrameBuffer(outputBuffer);
+      cameraInit=false;
+    }
   }
  else {
     if (renderFrameBufferMS != null) {
@@ -8,6 +13,10 @@
     }
  else {
       viewPort.setOutputFrameBuffer(renderFrameBuffer);
+    }
+    if (!cameraInit) {
+      viewPort.getCamera().resize(width,height,true);
+      viewPort.getCamera().setViewPort(0,1,0,1);
     }
   }
   for (Iterator<Filter> it=filters.iterator(); it.hasNext(); ) {
