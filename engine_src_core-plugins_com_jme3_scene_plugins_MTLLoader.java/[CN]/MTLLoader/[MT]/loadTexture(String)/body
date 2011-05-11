@@ -1,4 +1,6 @@
 {
+  String[] split=path.trim().split("\\p{javaWhitespace}+");
+  path=split[split.length - 1];
   String name=new File(path).getName();
   TextureKey key=new TextureKey(folderName + name);
   key.setGenerateMips(true);

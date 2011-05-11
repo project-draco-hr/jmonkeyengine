@@ -41,14 +41,15 @@
     }
   }
  else   if (cmd.equals("map_ka")) {
+    nextStatement();
   }
  else   if (cmd.equals("map_kd")) {
-    String path=scan.next();
+    String path=nextStatement();
     material.setTexture("DiffuseMap",loadTexture(path));
   }
  else   if (cmd.equals("map_bump") || cmd.equals("bump")) {
     if (material.getParam("NormalMap") == null) {
-      String path=scan.next();
+      String path=nextStatement();
       Texture texture=loadTexture(path);
       if (texture != null) {
         material.setTexture("NormalMap",texture);
@@ -59,7 +60,7 @@
     }
   }
  else   if (cmd.equals("map_ks")) {
-    String path=scan.next();
+    String path=nextStatement();
     Texture texture=loadTexture(path);
     if (texture != null) {
       material.setTexture("SpecularMap",texture);
