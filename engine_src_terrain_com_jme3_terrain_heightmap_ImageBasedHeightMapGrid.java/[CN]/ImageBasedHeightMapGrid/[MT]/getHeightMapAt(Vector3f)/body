@@ -1,0 +1,23 @@
+{
+  int x=(int)(FastMath.floor(location.x / this.size) * this.size);
+  int z=(int)(FastMath.floor(location.z / this.size) * this.size);
+  AbstractHeightMap heightmap=null;
+  try {
+    final InputStream stream=Thread.currentThread().getContextClassLoader().getResourceAsStream(textureBase + "_" + x+ "_"+ z+ "."+ textureExt);
+    BufferedImage im=null;
+    if (stream != null) {
+      im=ImageIO.read(stream);
+    }
+ else {
+      im=new BufferedImage(size,size,BufferedImage.TYPE_USHORT_GRAY);
+    }
+    heightmap=new Grayscale16BitHeightMap(im);
+    heightmap.setHeightScale(256);
+    heightmap.load();
+  }
+ catch (  IOException e) {
+  }
+catch (  AssetNotFoundException e) {
+  }
+  return heightmap;
+}

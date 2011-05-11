@@ -1,0 +1,19 @@
+{
+  Vector3f camDir=this.cam.getDirection().clone().multLocal(0.6f);
+  Vector3f camLeft=this.cam.getLeft().clone().multLocal(0.4f);
+  this.walkDirection.set(0,0,0);
+  if (this.left) {
+    this.walkDirection.addLocal(camLeft);
+  }
+  if (this.right) {
+    this.walkDirection.addLocal(camLeft.negate());
+  }
+  if (this.up) {
+    this.walkDirection.addLocal(camDir);
+  }
+  if (this.down) {
+    this.walkDirection.addLocal(camDir.negate());
+  }
+  this.player3.setWalkDirection(this.walkDirection);
+  this.cam.setLocation(this.player3.getPhysicsLocation());
+}

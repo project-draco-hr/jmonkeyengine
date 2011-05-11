@@ -1,0 +1,11 @@
+{
+  Vector3f cam=locations.get(0);
+  Vector3f camCell=this.getCell(cam);
+  if (!camCell.equals(this.currentCell)) {
+    this.updateChildrens(camCell);
+    for (    TerrainGridListener l : this.listeners.values()) {
+      l.gridMoved(camCell);
+    }
+  }
+  super.update(locations);
+}

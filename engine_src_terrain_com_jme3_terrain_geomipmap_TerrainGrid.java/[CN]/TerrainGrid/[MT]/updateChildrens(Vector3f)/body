@@ -1,0 +1,64 @@
+{
+  RigidBodyControl control=getControl(RigidBodyControl.class);
+  PhysicsSpace space=null;
+  if (control != null) {
+    space=control.getPhysicsSpace();
+    space.remove(this);
+    this.removeControl(control);
+  }
+  int dx=(int)cam.x;
+  int dz=(int)cam.z;
+  if (this.currentCell != null) {
+    dx-=(int)(this.currentCell.x);
+    dz-=(int)(this.currentCell.z);
+  }
+  if (this.currentCell == null || FastMath.abs(dx) > 1 || FastMath.abs(dz) > 1 || (dx != 0 && dz != 0)) {
+    if (this.currentCell != null) {
+      this.removeQuad(1);
+      this.removeQuad(2);
+      this.removeQuad(3);
+      this.removeQuad(4);
+    }
+    this.attachChild(this.createQuadAt(cam.add(this.quadIndex[0]).mult(this.quadSize - 1),1));
+    this.attachChild(this.createQuadAt(cam.add(this.quadIndex[1]).mult(this.quadSize - 1),2));
+    this.attachChild(this.createQuadAt(cam.add(this.quadIndex[2]).mult(this.quadSize - 1),3));
+    this.attachChild(this.createQuadAt(cam.add(this.quadIndex[3]).mult(this.quadSize - 1),4));
+  }
+ else   if (dx == 0) {
+    if (dz < 0) {
+      this.moveQuad(1,2);
+      this.moveQuad(3,4);
+      this.attachChild(this.createQuadAt(cam.add(this.quadIndex[0]).mult(this.quadSize - 1),1));
+      this.attachChild(this.createQuadAt(cam.add(this.quadIndex[2]).mult(this.quadSize - 1),3));
+    }
+ else {
+      this.moveQuad(2,1);
+      this.moveQuad(4,3);
+      this.attachChild(this.createQuadAt(cam.add(this.quadIndex[1]).mult(this.quadSize - 1),2));
+      this.attachChild(this.createQuadAt(cam.add(this.quadIndex[3]).mult(this.quadSize - 1),4));
+    }
+  }
+ else   if (dz == 0) {
+    if (dx < 0) {
+      this.moveQuad(1,3);
+      this.moveQuad(2,4);
+      this.attachChild(this.createQuadAt(cam.add(this.quadIndex[0]).mult(this.quadSize - 1),1));
+      this.attachChild(this.createQuadAt(cam.add(this.quadIndex[1]).mult(this.quadSize - 1),2));
+    }
+ else {
+      this.moveQuad(3,1);
+      this.moveQuad(4,2);
+      this.attachChild(this.createQuadAt(cam.add(this.quadIndex[2]).mult(this.quadSize - 1),3));
+      this.attachChild(this.createQuadAt(cam.add(this.quadIndex[3]).mult(this.quadSize - 1),4));
+    }
+  }
+ else {
+  }
+  this.currentCell=cam;
+  this.setLocalTranslation(cam.mult(2 * this.quadSize));
+  if (control != null) {
+    control=new RigidBodyControl(new HeightfieldCollisionShape(getHeightMap(),getLocalScale()),0);
+    this.addControl(control);
+    space.add(this);
+  }
+}

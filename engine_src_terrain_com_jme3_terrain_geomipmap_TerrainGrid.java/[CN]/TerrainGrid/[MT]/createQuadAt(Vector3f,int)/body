@@ -1,0 +1,8 @@
+{
+  final HeightMap heightMapAt=this.heightMapGrid.getHeightMapAt(location);
+  TerrainQuad q=new TerrainQuad(this.getName() + "Quad" + location,this.patchSize,this.quadSize,heightMapAt == null ? null : heightMapAt.getHeightMap(),this.lodCalculatorFactory);
+  q.setLocalTranslation(this.quadOrigins[quadrant - 1]);
+  q.setMaterial(this.material);
+  q.setQuadrant((short)quadrant);
+  return q;
+}
