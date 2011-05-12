@@ -28,17 +28,19 @@
   this.terrain.addControl(control);
   BulletAppState bulletAppState=new BulletAppState();
   stateManager.attach(bulletAppState);
-  RigidBodyControl body=new RigidBodyControl(new HeightfieldCollisionShape(terrain.getHeightMap(),terrain.getLocalScale()),0);
-  terrain.addControl(body);
-  bulletAppState.getPhysicsSpace().add(terrain);
   this.getCamera().setLocation(new Vector3f(0,256,0));
   this.viewPort.setBackgroundColor(new ColorRGBA(0.7f,0.8f,1f,1f));
-  CapsuleCollisionShape capsuleShape=new CapsuleCollisionShape(0.5f,1.8f,1);
-  this.player3=new CharacterControl(capsuleShape,0.5f);
-  this.player3.setJumpSpeed(20);
-  this.player3.setFallSpeed(30);
-  this.player3.setGravity(30);
-  this.player3.setPhysicsLocation(new Vector3f(0,256,0));
-  bulletAppState.getPhysicsSpace().add(this.player3);
+  if (usePhysics) {
+    RigidBodyControl body=new RigidBodyControl(new HeightfieldCollisionShape(terrain.getHeightMap(),terrain.getLocalScale()),0);
+    terrain.addControl(body);
+    bulletAppState.getPhysicsSpace().add(terrain);
+    CapsuleCollisionShape capsuleShape=new CapsuleCollisionShape(0.5f,1.8f,1);
+    this.player3=new CharacterControl(capsuleShape,0.5f);
+    this.player3.setJumpSpeed(20);
+    this.player3.setFallSpeed(30);
+    this.player3.setGravity(30);
+    this.player3.setPhysicsLocation(new Vector3f(0,256,0));
+    bulletAppState.getPhysicsSpace().add(this.player3);
+  }
   this.initKeys();
 }
