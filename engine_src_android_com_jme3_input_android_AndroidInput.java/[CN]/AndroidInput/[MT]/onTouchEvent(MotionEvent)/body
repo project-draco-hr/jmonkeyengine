@@ -1,43 +1,71 @@
 {
-  int newX=getWidth() - (int)motionEvent.getX();
-  int newY=(int)motionEvent.getY();
-switch (motionEvent.getAction()) {
+  boolean bWasHandled=false;
+  MouseButtonEvent btn;
+  TouchEvent touch;
+  processEvent(event);
+  this.detector.onTouchEvent(event);
+  this.scaledetector.onTouchEvent(event);
+switch (event.getAction()) {
 case MotionEvent.ACTION_DOWN:
-    MouseButtonEvent btn=new MouseButtonEvent(0,true,newX,newY);
-  btn.setTime(motionEvent.getEventTime());
-processEvent(btn);
-lastX=-1;
-lastY=-1;
-return true;
+    lastPos.set(event.getX(),event.getY());
+  if (FIRE_MOUSE_EVENTS) {
+    btn=new MouseButtonEvent(0,true,(int)lastPos.getX(),(int)lastPos.getY());
+    btn.setTime(event.getEventTime());
+    processEvent(btn);
+  }
+touch=new TouchEvent(TouchEvent.Type.GRABBED,TouchEvent.Operation.NOP,event.getX(),event.getY(),0,0,null);
+processEvent(touch);
+bWasHandled=true;
+break;
 case MotionEvent.ACTION_UP:
-MouseButtonEvent btn2=new MouseButtonEvent(0,false,newX,newY);
-btn2.setTime(motionEvent.getEventTime());
-processEvent(btn2);
-lastX=-1;
-lastY=-1;
-return true;
+if (FIRE_MOUSE_EVENTS) {
+btn=new MouseButtonEvent(0,false,(int)event.getX(),(int)event.getY());
+btn.setTime(event.getEventTime());
+processEvent(btn);
+}
+if (dragging) {
+touch=new TouchEvent(TouchEvent.Type.DRAGGED,TouchEvent.Operation.STOPPED,event.getX(),event.getY(),event.getX() - lastPos.getX(),event.getY() - lastPos.getY(),null);
+processEvent(touch);
+}
+touch=new TouchEvent(TouchEvent.Type.RELEASED,TouchEvent.Operation.NOP,event.getX(),event.getY(),0,0,null);
+processEvent(touch);
+dragging=false;
+bWasHandled=true;
+break;
 case MotionEvent.ACTION_MOVE:
+if (!scaledetector.isInProgress()) {
+if (!dragging) touch=new TouchEvent(TouchEvent.Type.DRAGGED,TouchEvent.Operation.STARTED,event.getX(),event.getY(),event.getX() - lastPos.getX(),event.getY() - lastPos.getY(),null);
+ else touch=new TouchEvent(TouchEvent.Type.DRAGGED,TouchEvent.Operation.RUNNING,event.getX(),event.getY(),event.getX() - lastPos.getX(),event.getY() - lastPos.getY(),null);
+processEvent(touch);
+dragging=true;
+}
+if (FIRE_MOUSE_EVENTS) {
+int newX=getWidth() - (int)event.getX();
+int newY=(int)event.getY();
 int dx;
 int dy;
-if (lastX != -1) {
-dx=newX - lastX;
-dy=newY - lastY;
+if (lastPos.getX() != -1) {
+dx=newX - (int)lastPos.getX();
+dy=newY - (int)lastPos.getY();
 }
  else {
 dx=0;
 dy=0;
 }
-lastX=newX;
-lastY=newY;
 MouseMotionEvent mot=new MouseMotionEvent(newX,newY,dx,dy,0,0);
-mot.setTime(motionEvent.getEventTime());
+mot.setTime(event.getEventTime());
 processEvent(mot);
-try {
-Thread.sleep(15);
 }
- catch (InterruptedException ex) {
+bWasHandled=true;
+break;
+case MotionEvent.ACTION_POINTER_UP:
+break;
+case MotionEvent.ACTION_POINTER_DOWN:
+break;
+case MotionEvent.ACTION_OUTSIDE:
+break;
+case MotionEvent.ACTION_CANCEL:
+break;
 }
-return true;
-}
-return false;
+return bWasHandled;
 }

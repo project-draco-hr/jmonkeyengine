@@ -1,0 +1,16 @@
+{
+  String s="";
+  if (t != null && t.getStackTrace() != null) {
+    for (    StackTraceElement ste : t.getStackTrace()) {
+      s+=ste.getClassName() + "." + ste.getMethodName()+ "("+ +ste.getLineNumber()+ ") ";
+    }
+  }
+  final String sTrace=s;
+  activity.runOnUiThread(new Runnable(){
+    @Override public void run(){
+      AlertDialog dialog=new AlertDialog.Builder(activity).setTitle(t != null ? t.toString() : "Failed").setPositiveButton("Kill",AndroidApplication.this).setMessage((errorMsg != null ? errorMsg + ": " : "") + sTrace).create();
+      dialog.show();
+    }
+  }
+);
+}

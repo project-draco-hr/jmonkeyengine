@@ -1,11 +1,22 @@
 {
+  if (!created.get())   throw new IllegalStateException("onDrawFrame without create");
   if (needClose.get()) {
     deinitInThread();
     return;
   }
-  if (!created.get())   throw new IllegalStateException();
-  listener.update();
-  if (frameRate > 0) {
+  if (renderable.get()) {
+    milliStart=System.currentTimeMillis();
+    listener.update();
+    if (autoFlush) {
+      renderer.onFrame();
+    }
+    milliDelta=System.currentTimeMillis() - milliStart;
+    if (milliDelta < minFrameDuration) {
+      try {
+        Thread.sleep(minFrameDuration - milliDelta);
+      }
+ catch (      InterruptedException e) {
+      }
+    }
   }
-  if (autoFlush)   renderer.onFrame();
 }

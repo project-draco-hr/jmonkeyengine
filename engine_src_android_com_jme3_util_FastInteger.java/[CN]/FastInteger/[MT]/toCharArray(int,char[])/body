@@ -1,0 +1,89 @@
+{
+  if (value == 0) {
+    output[0]='0';
+    output[1]=0;
+    return true;
+  }
+  if (value < 1000 && value > -1000) {
+    int positive_value=value < 0 ? -value : value;
+    int first_digit=0;
+    if (value < 0) {
+      output[0]='-';
+      first_digit++;
+    }
+    int last_digit=first_digit;
+    int quot=positive_value;
+    do {
+      int res=quot / 10;
+      int digit_value=quot - ((res << 3) + (res << 1));
+      digit_value+='0';
+      output[last_digit++]=(char)digit_value;
+      quot=res;
+    }
+ while (quot != 0);
+    int count=last_digit--;
+    do {
+      char tmp=output[last_digit];
+      output[last_digit--]=output[first_digit];
+      output[first_digit++]=tmp;
+    }
+ while (first_digit < last_digit);
+    output[count]=0;
+    return true;
+  }
+  if (value == MIN_VALUE) {
+    System.arraycopy("-2147483648".toCharArray(),0,output,0,12);
+    output[12]=0;
+    return true;
+  }
+  int positive_value=value < 0 ? -value : value;
+  byte first_digit=0;
+  if (value < 0) {
+    output[0]='-';
+    first_digit++;
+  }
+  byte last_digit=first_digit;
+  byte count;
+  int number;
+  boolean start=false;
+  for (int i=0; i < 9; i++) {
+    count=0;
+    if (positive_value < (number=decimalScale[i])) {
+      if (start) {
+        output[last_digit++]='0';
+      }
+      continue;
+    }
+    if (i > 0) {
+      number=(decimalScale[i] << 3);
+      if (positive_value >= number) {
+        positive_value-=number;
+        count+=8;
+      }
+      number=(decimalScale[i] << 2);
+      if (positive_value >= number) {
+        positive_value-=number;
+        count+=4;
+      }
+    }
+    number=(decimalScale[i] << 1);
+    if (positive_value >= number) {
+      positive_value-=number;
+      count+=2;
+    }
+    if (positive_value >= decimalScale[i]) {
+      positive_value-=decimalScale[i];
+      count++;
+    }
+    if (count > 0 && !start) {
+      start=true;
+    }
+    if (start) {
+      output[last_digit++]=(char)(count + '0');
+    }
+  }
+  output[last_digit++]=(char)(positive_value + '0');
+  output[last_digit]=0;
+  count=last_digit--;
+  return true;
+}

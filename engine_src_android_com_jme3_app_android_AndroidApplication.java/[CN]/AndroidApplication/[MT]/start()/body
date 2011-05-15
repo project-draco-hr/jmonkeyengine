@@ -1,0 +1,10 @@
+{
+  System.setProperty("org.xml.sax.driver","org.xmlpull.v1.sax2.Driver");
+  if (settings == null) {
+    settings=new AppSettings(true);
+  }
+  settings.putBoolean("USE_VA",true);
+  settings.putBoolean("VERBOSE_LOGGING",false);
+  setSettings(settings);
+  super.start();
+}

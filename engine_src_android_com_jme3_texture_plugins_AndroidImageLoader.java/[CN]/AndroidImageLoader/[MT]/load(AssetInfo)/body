@@ -13,27 +13,33 @@
   }
   int width=bitmap.getWidth();
   int height=bitmap.getHeight();
-  int bytesPerPixel=-1;
   Format fmt;
 switch (bitmap.getConfig()) {
 case ALPHA_8:
-    bytesPerPixel=1;
-  fmt=Format.Alpha8;
-break;
+    fmt=Format.Alpha8;
+  break;
 case ARGB_4444:
-bytesPerPixel=2;
 fmt=Format.ARGB4444;
 break;
 case ARGB_8888:
-bytesPerPixel=4;
 fmt=Format.RGBA8;
 break;
 case RGB_565:
-bytesPerPixel=2;
 fmt=Format.RGB565;
 break;
 default :
 return null;
+}
+if (((TextureKey)info.getKey()).isFlipY()) {
+Bitmap newBitmap=null;
+Matrix flipMat=new Matrix();
+flipMat.preScale(1.0f,-1.0f);
+newBitmap=Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),flipMat,false);
+bitmap.recycle();
+bitmap=newBitmap;
+if (bitmap == null) {
+throw new IOException("Failed to flip image: " + info.getKey().getName());
+}
 }
 Image image=new Image(fmt,width,height,null);
 image.setEfficentData(bitmap);

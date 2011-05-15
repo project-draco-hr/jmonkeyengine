@@ -1,0 +1,18 @@
+{
+  logger.info("OGLESContext create");
+  logger.fine("Running on thread: " + Thread.currentThread().getName());
+  Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler(){
+    public void uncaughtException(    Thread thread,    Throwable thrown){
+      listener.handleError("Uncaught exception thrown in " + thread.toString(),thrown);
+    }
+  }
+);
+  timer=new AndroidTimer();
+  renderer=new OGLESShaderRenderer();
+  renderer.setUseVA(true);
+  renderer.setVerboseLogging(false);
+  renderer.initialize();
+  listener.initialize();
+  created.set(true);
+  needClose.set(false);
+}

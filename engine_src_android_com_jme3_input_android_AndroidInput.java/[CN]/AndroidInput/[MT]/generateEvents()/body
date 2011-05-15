@@ -1,16 +1,28 @@
 {
+  if (listenerRaw != null) {
 synchronized (currentEvents) {
-    for (    Object event : currentEvents) {
-      if (event instanceof MouseButtonEvent) {
-        listener.onMouseButtonEvent((MouseButtonEvent)event);
+      for (int i=0; i < currentEvents.size(); i++) {
+        event=currentEvents.get(i);
+        if (event instanceof MouseButtonEvent) {
+          listenerRaw.onMouseButtonEvent((MouseButtonEvent)event);
+        }
+ else         if (event instanceof MouseMotionEvent) {
+          listenerRaw.onMouseMotionEvent((MouseMotionEvent)event);
+        }
+ else         if (event instanceof KeyInputEvent) {
+          listenerRaw.onKeyEvent((KeyInputEvent)event);
+        }
+ else         if (event instanceof TouchEvent) {
+          if (listenerTouch != null)           listenerTouch.onTouchEvent((TouchEvent)event);
+        }
+ else         if (event instanceof MotionEvent) {
+          if (listenerTouch != null)           listenerTouch.onMotionEvent((MotionEvent)event);
+        }
+ else         if (event instanceof KeyEvent) {
+          if (listenerTouch != null)           listenerTouch.onAndroidKeyEvent((KeyEvent)event);
+        }
       }
- else       if (event instanceof MouseMotionEvent) {
-        listener.onMouseMotionEvent((MouseMotionEvent)event);
-      }
- else       if (event instanceof KeyInputEvent) {
-        listener.onKeyEvent((KeyInputEvent)event);
-      }
+      currentEvents.clear();
     }
-    currentEvents.clear();
   }
 }

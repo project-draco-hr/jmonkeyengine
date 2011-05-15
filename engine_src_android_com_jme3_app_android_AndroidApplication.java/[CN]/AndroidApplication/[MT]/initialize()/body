@@ -1,0 +1,24 @@
+{
+  assetManager=JmeSystem.newAssetManager(null);
+  super.initialize();
+  guiNode.setQueueBucket(Bucket.Gui);
+  guiNode.setCullHint(CullHint.Never);
+  loadFPSText();
+  viewPort.attachScene(rootNode);
+  guiViewPort.attachScene(guiNode);
+  init();
+  Thread t=new Thread(new Runnable(){
+    @Override public void run(){
+      try {
+        asyncload();
+      }
+ catch (      Exception e) {
+        handleError("AsyncLoad failed",e);
+      }
+      loadingFinished.set(true);
+    }
+  }
+);
+  t.setDaemon(true);
+  t.start();
+}
