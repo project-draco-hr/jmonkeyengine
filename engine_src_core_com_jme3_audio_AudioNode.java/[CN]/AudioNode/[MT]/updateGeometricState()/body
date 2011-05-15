@@ -4,5 +4,5 @@
     updatePos=true;
   }
   super.updateGeometricState();
-  if (updatePos && renderer != null)   renderer.updateSourceParam(this,AudioParam.Position);
+  if (updatePos && channel >= 0)   renderer.updateSourceParam(this,AudioParam.Position);
 }
