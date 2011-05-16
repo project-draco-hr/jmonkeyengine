@@ -1,4 +1,5 @@
 {
+  this();
   location=new Vector3f();
   rotation=new Quaternion();
   frustumNear=1.0f;
@@ -15,10 +16,6 @@
   viewPortRight=1.0f;
   viewPortTop=1.0f;
   viewPortBottom=0.0f;
-  worldPlane=new Plane[MAX_WORLD_PLANES];
-  for (int i=0; i < MAX_WORLD_PLANES; i++) {
-    worldPlane[i]=new Plane();
-  }
   this.width=width;
   this.height=height;
   onFrustumChange();
