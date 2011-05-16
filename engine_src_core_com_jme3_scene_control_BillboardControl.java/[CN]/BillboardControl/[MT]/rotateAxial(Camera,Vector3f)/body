@@ -1,6 +1,6 @@
 {
   look.set(camera.getLocation()).subtractLocal(spatial.getWorldTranslation());
-  spatial.getWorldRotation().mult(look,left);
+  spatial.getParent().getWorldRotation().mult(look,left);
   left.x*=1.0f / spatial.getWorldScale().x;
   left.y*=1.0f / spatial.getWorldScale().y;
   left.z*=1.0f / spatial.getWorldScale().z;
