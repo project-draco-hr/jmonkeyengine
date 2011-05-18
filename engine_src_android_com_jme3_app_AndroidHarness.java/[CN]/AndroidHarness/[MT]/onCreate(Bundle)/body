@@ -4,10 +4,9 @@
   requestWindowFeature(Window.FEATURE_NO_TITLE);
   getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
   AppSettings settings=new AppSettings(true);
-  String appClass="jme3test.android.Test";
-  Application app=null;
+  AndroidInput input=new AndroidInput(this);
   try {
-    Class<? extends Application> clazz=(Class<? extends Application>)Class.forName(appClass);
+    @SuppressWarnings("unchecked") Class<? extends Application> clazz=(Class<? extends Application>)Class.forName(appClass);
     app=clazz.newInstance();
   }
  catch (  Exception ex) {
@@ -16,6 +15,6 @@
   app.setSettings(settings);
   app.start();
   ctx=(OGLESContext)app.getContext();
-  view=ctx.createView(this);
+  view=ctx.createView(input);
   setContentView(view);
 }
