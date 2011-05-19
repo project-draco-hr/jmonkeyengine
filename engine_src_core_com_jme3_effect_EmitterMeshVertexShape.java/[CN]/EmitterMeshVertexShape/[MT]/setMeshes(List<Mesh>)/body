@@ -1,0 +1,8 @@
+{
+  this.vertices=new float[meshes.size()][];
+  int i=0;
+  for (  Mesh mesh : meshes) {
+    FloatBuffer floatBuffer=mesh.getFloatBuffer(Type.Position);
+    vertices[i++]=BufferUtils.getFloatArray(floatBuffer);
+  }
+}

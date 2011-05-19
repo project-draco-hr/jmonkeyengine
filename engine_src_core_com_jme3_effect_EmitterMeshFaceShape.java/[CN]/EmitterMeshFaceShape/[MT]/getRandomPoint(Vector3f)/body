@@ -1,0 +1,8 @@
+{
+  int meshIndex=FastMath.nextRandomInt(0,vertices.length - 1);
+  int vertIndex=FastMath.nextRandomInt(0,vertices[meshIndex].length / 9 - 1) * 9;
+  float moveFactor=FastMath.nextRandomFloat();
+  store.set(vertices[meshIndex][vertIndex] + (vertices[meshIndex][vertIndex + 3] - vertices[meshIndex][vertIndex]) * moveFactor,vertices[meshIndex][vertIndex + 1] + (vertices[meshIndex][vertIndex + 4] - vertices[meshIndex][vertIndex + 1]) * moveFactor,vertices[meshIndex][vertIndex + 2] + (vertices[meshIndex][vertIndex + 5] - vertices[meshIndex][vertIndex + 2]) * moveFactor);
+  moveFactor=FastMath.nextRandomFloat();
+  store.addLocal((vertices[meshIndex][vertIndex + 6] - store.x) * moveFactor,(vertices[meshIndex][vertIndex + 7] - store.y) * moveFactor,(vertices[meshIndex][vertIndex + 8] - store.z) * moveFactor);
+}

@@ -1,0 +1,10 @@
+{
+  try {
+    EmitterMeshVertexShape clone=(EmitterMeshVertexShape)super.clone();
+    clone.vertices=vertices == null ? null : vertices.clone();
+    return clone;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
+}
