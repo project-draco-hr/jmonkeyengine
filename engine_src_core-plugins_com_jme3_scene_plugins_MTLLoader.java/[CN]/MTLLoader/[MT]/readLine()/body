@@ -11,94 +11,59 @@
     startMaterial(name);
   }
  else   if (cmd.equals("ka")) {
-    material.setColor("Ambient",readColor());
+    ambient.set(readColor());
   }
  else   if (cmd.equals("kd")) {
-    ColorRGBA color=readColor();
-    MatParam param=material.getParam("Diffuse");
-    if (param != null) {
-      color.a=((ColorRGBA)param.getValue()).getAlpha();
-    }
-    material.setColor("Diffuse",color);
+    diffuse.set(readColor());
   }
  else   if (cmd.equals("ks")) {
-    material.setColor("Specular",readColor());
+    specular.set(readColor());
   }
  else   if (cmd.equals("ns")) {
-    material.setFloat("Shininess",scan.nextFloat());
+    shininess=scan.nextFloat();
   }
  else   if (cmd.equals("d") || cmd.equals("tr")) {
-    float alpha=scan.nextFloat();
-    if (alpha < 1f) {
-      MatParam param=material.getParam("Diffuse");
-      ColorRGBA color;
-      if (param != null)       color=(ColorRGBA)param.getValue();
- else       color=new ColorRGBA(ColorRGBA.White);
-      color.a=alpha;
-      material.setColor("Diffuse",color);
-      material.setTransparent(true);
-      material.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
-    }
+    alpha=scan.nextFloat();
+    transparent=true;
   }
  else   if (cmd.equals("map_ka")) {
     nextStatement();
   }
  else   if (cmd.equals("map_kd")) {
     String path=nextStatement();
-    material.setTexture("DiffuseMap",loadTexture(path));
+    diffuseMap=loadTexture(path);
   }
  else   if (cmd.equals("map_bump") || cmd.equals("bump")) {
-    if (material.getParam("NormalMap") == null) {
+    if (normalMap == null) {
       String path=nextStatement();
-      Texture texture=loadTexture(path);
-      if (texture != null) {
-        material.setTexture("NormalMap",texture);
-        if (texture.getImage().getFormat() == Format.LATC) {
-          material.setBoolean("LATC",true);
-        }
-      }
+      normalMap=loadTexture(path);
     }
   }
  else   if (cmd.equals("map_ks")) {
     String path=nextStatement();
-    Texture texture=loadTexture(path);
-    if (texture != null) {
-      material.setTexture("SpecularMap",texture);
-      MatParam specParam=material.getParam("Specular");
-      if (specParam == null) {
-        material.setColor("Specular",ColorRGBA.White);
-      }
- else {
-        ColorRGBA spec=(ColorRGBA)specParam.getValue();
-        if (spec.equals(ColorRGBA.Black)) {
-          material.setColor("Specular",ColorRGBA.White);
-        }
+    specularMap=loadTexture(path);
+    if (specularMap != null) {
+      if (specular.equals(ColorRGBA.Black)) {
+        specular.set(ColorRGBA.White);
       }
     }
   }
  else   if (cmd.equals("map_d")) {
     String path=scan.next();
-    Texture texture=loadTexture(path);
-    if (texture != null) {
-      material.setTexture("AlphaMap",texture);
-      material.setTransparent(true);
-      material.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
-      material.getAdditionalRenderState().setAlphaTest(true);
-      material.getAdditionalRenderState().setAlphaFallOff(0.01f);
-    }
+    alphaMap=loadTexture(path);
+    transparent=true;
   }
  else   if (cmd.equals("illum")) {
     int mode=scan.nextInt();
 switch (mode) {
 case 0:
-      material.setColor("Ambient",ColorRGBA.Black);
+      shadeless=true;
     break;
 case 4:
 case 6:
 case 7:
 case 9:
-  material.setTransparent(true);
-material.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+  transparent=true;
 break;
 }
 }

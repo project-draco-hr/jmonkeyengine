@@ -1,5 +1,5 @@
 {
-  if (faceList.size() == 0)   throw new IOException("No geometry data to generate mesh");
+  if (faceList.isEmpty())   throw new IOException("No geometry data to generate mesh");
   Mesh mesh=constructMesh(faceList);
   Geometry geom=new Geometry(objName + "-geom-" + (geomIndex++),mesh);
   Material material=null;

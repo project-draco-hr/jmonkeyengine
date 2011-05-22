@@ -1,9 +1,7 @@
 {
-  material=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
-  material.setBoolean("UseMaterialColors",true);
-  material.setColor("Ambient",ColorRGBA.DarkGray);
-  material.setColor("Diffuse",ColorRGBA.White);
-  material.setColor("Specular",ColorRGBA.Black);
-  material.setFloat("Shininess",16f);
-  matList.put(name,material);
+  if (matName != null) {
+    createMaterial();
+  }
+  resetMaterial();
+  matName=name;
 }

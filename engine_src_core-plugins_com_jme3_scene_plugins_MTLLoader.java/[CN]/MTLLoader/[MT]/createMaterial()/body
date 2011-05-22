@@ -1,0 +1,30 @@
+{
+  Material material;
+  if (alpha < 1f) {
+    diffuse.a=alpha;
+  }
+  if (shadeless) {
+    material=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+    material.setColor("Color",diffuse);
+    material.setTexture("ColorMap",diffuseMap);
+  }
+ else {
+    material=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+    material.setBoolean("UseMaterialColors",true);
+    material.setColor("Ambient",ambient);
+    material.setColor("Diffuse",diffuse);
+    material.setColor("Specular",specular);
+    material.setFloat("Shininess",shininess);
+    if (diffuseMap != null)     material.setTexture("DiffuseMap",diffuseMap);
+    if (specularMap != null)     material.setTexture("SpecularMap",specularMap);
+    if (normalMap != null)     material.setTexture("NormalMap",normalMap);
+    if (alphaMap != null)     material.setTexture("AlphaMap",alphaMap);
+  }
+  if (transparent) {
+    material.setTransparent(true);
+    material.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+    material.getAdditionalRenderState().setAlphaTest(true);
+    material.getAdditionalRenderState().setAlphaFallOff(0.01f);
+  }
+  matList.put(matName,material);
+}
