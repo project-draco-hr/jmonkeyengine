@@ -1,8 +1,14 @@
 {
-  if (SwingUtilities.isEventDispatchThread())   throw new IllegalStateException("Cannot run from EDT");
+  if (SwingUtilities.isEventDispatchThread()) {
+    throw new IllegalStateException("Cannot run from EDT");
+  }
   final AppSettings settings=new AppSettings(false);
   settings.copyFrom(sourceSettings);
-  final URL iconUrl=JmeSystem.class.getResource(sourceSettings.getSettingsDialogImage());
+  String iconPath=sourceSettings.getSettingsDialogImage();
+  final URL iconUrl=JmeSystem.class.getResource(iconPath.startsWith("/") ? iconPath : "/" + iconPath);
+  if (iconUrl == null) {
+    throw new AssetNotFoundException(sourceSettings.getSettingsDialogImage());
+  }
   final AtomicBoolean done=new AtomicBoolean();
   final AtomicInteger result=new AtomicInteger();
   final Object lock=new Object();
@@ -27,10 +33,12 @@ synchronized (lock) {
   }
 );
 synchronized (lock) {
-    while (!done.get())     try {
-      lock.wait();
-    }
- catch (    InterruptedException ex) {
+    while (!done.get()) {
+      try {
+        lock.wait();
+      }
+ catch (      InterruptedException ex) {
+      }
     }
   }
   sourceSettings.copyFrom(settings);
