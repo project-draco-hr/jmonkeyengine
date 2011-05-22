@@ -1,17 +1,20 @@
 {
   VertexBuffer pb=getBuffer(Type.Position);
-  VertexBuffer ib=getBuffer(Type.Index);
+  IndexBuffer ib=getIndexBuffer();
+  if (ib == null) {
+    ib=new VirtualIndexBuffer(vertCount,mode);
+  }
+ else   if (mode != Mode.Triangles) {
+    ib=new WrappedIndexBuffer(this);
+  }
   if (pb.getFormat() == Format.Float) {
     FloatBuffer fpb=(FloatBuffer)pb.getData();
-    if (ib.getFormat() == Format.UnsignedShort) {
-      ShortBuffer sib=(ShortBuffer)ib.getData();
-      int vertIndex=index * 3;
-      int vert1=sib.get(vertIndex);
-      int vert2=sib.get(vertIndex + 1);
-      int vert3=sib.get(vertIndex + 2);
-      BufferUtils.populateFromBuffer(v1,fpb,vert1);
-      BufferUtils.populateFromBuffer(v2,fpb,vert2);
-      BufferUtils.populateFromBuffer(v3,fpb,vert3);
-    }
+    int vertIndex=index * 3;
+    int vert1=ib.get(vertIndex);
+    int vert2=ib.get(vertIndex + 1);
+    int vert3=ib.get(vertIndex + 2);
+    BufferUtils.populateFromBuffer(v1,fpb,vert1);
+    BufferUtils.populateFromBuffer(v2,fpb,vert2);
+    BufferUtils.populateFromBuffer(v3,fpb,vert3);
   }
 }
