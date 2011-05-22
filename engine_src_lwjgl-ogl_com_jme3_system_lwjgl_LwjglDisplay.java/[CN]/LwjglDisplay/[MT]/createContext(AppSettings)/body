@@ -16,8 +16,8 @@
   logger.log(Level.INFO,"Selected display mode: {0}",displayMode);
   boolean pixelFormatChanged=false;
   if (created.get() && (pixelFormat.getBitsPerPixel() != pf.getBitsPerPixel() || pixelFormat.getDepthBits() != pf.getDepthBits() || pixelFormat.getStencilBits() != pf.getStencilBits() || pixelFormat.getSamples() != pf.getSamples())) {
-    Display.destroy();
     renderer.resetGLObjects();
+    Display.destroy();
     pixelFormatChanged=true;
   }
   pixelFormat=pf;
