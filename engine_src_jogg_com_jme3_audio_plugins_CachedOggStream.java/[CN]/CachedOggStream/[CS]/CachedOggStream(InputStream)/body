@@ -1,0 +1,9 @@
+{
+  sourceStream=in;
+  long time=System.nanoTime();
+  while (!eos) {
+    readOggNextPage();
+  }
+  long dt=System.nanoTime() - time;
+  Logger.getLogger(CachedOggStream.class.getName()).log(Level.INFO,"Took {0} ms to load OGG",dt / 1000000);
+}

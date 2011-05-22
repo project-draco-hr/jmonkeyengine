@@ -1,11 +1,21 @@
 {
+  if (!(info.getKey() instanceof AudioKey)) {
+    throw new IllegalArgumentException("Audio assets must be loaded using an AudioKey");
+  }
+  AudioKey key=(AudioKey)info.getKey();
+  boolean readStream=key.isStream();
+  boolean streamCache=key.useStreamCache();
   InputStream in=info.openStream();
-  oggStream=new UncachedOggStream(in);
+  if (readStream && streamCache) {
+    oggStream=new CachedOggStream(in);
+  }
+ else {
+    oggStream=new UncachedOggStream(in);
+  }
   Collection<LogicalOggStream> streams=oggStream.getLogicalStreams();
   loStream=streams.iterator().next();
   vorbisStream=new VorbisStream(loStream);
   streamHdr=vorbisStream.getIdentificationHeader();
-  boolean readStream=((AudioKey)info.getKey()).isStream();
   if (!readStream) {
     AudioBuffer audioBuffer=new AudioBuffer();
     audioBuffer.setupFormat(streamHdr.getChannels(),16,streamHdr.getSampleRate());
@@ -15,7 +25,8 @@
  else {
     AudioStream audioStream=new AudioStream();
     audioStream.setupFormat(streamHdr.getChannels(),16,streamHdr.getSampleRate());
-    audioStream.updateData(readToStream(),-1);
+    float streamDuration=computeStreamDuration();
+    audioStream.updateData(readToStream(),streamDuration);
     return audioStream;
   }
 }
