@@ -1,5 +1,10 @@
 {
-  logger.info("GL Surface created");
-  initInThread();
-  renderable.set(true);
+  if (created.get() && renderer != null) {
+    renderer.resetGLObjects();
+  }
+ else {
+    logger.info("GL Surface created");
+    initInThread();
+    renderable.set(true);
+  }
 }

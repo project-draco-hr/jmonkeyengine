@@ -1,10 +1,3 @@
 {
-  this.view=view;
-  view.setEGLContextClientVersion(2);
-  view.setEGLConfigChooser(5,6,5,0,16,0);
-  view.setFocusableInTouchMode(true);
-  view.setFocusable(true);
-  view.getHolder().setType(SurfaceHolder.SURFACE_TYPE_GPU);
-  view.setRenderer(this);
-  return view;
+  return createView(view,0);
 }

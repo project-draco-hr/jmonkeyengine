@@ -15,6 +15,11 @@
   app.setSettings(settings);
   app.start();
   ctx=(OGLESContext)app.getContext();
-  view=ctx.createView(input);
+  if (debug) {
+    view=ctx.createView(input,GLSurfaceView.DEBUG_CHECK_GL_ERROR | GLSurfaceView.DEBUG_LOG_GL_CALLS);
+  }
+ else {
+    view=ctx.createView(input);
+  }
   setContentView(view);
 }
