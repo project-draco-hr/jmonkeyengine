@@ -1,5 +1,6 @@
 {
   if (errorListeners.isEmpty()) {
+    log.log(Level.SEVERE,"Termining connection due to unhandled error",t);
     DisconnectInfo info=new DisconnectInfo();
     info.reason="Connection Error";
     info.error=t;
