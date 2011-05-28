@@ -1,0 +1,12 @@
+{
+  for (int i=centerOnly ? 1 : 0; i < (centerOnly ? 3 : 4); i++) {
+    for (int j=centerOnly ? 1 : 0; j < (centerOnly ? 3 : 4); j++) {
+      Vector3f temp=location.add(quadIndex[i * 4 + j]);
+      if (cache.get(temp) == null) {
+        HeightMap heightMapAt=heightMapGrid.getHeightMapAt(temp);
+        TerrainQuad q=new TerrainQuad(getName() + "Quad" + temp,patchSize,quadSize,heightMapAt == null ? null : heightMapAt.getHeightMap(),lodCalculatorFactory);
+        cache.put(temp,q);
+      }
+    }
+  }
+}

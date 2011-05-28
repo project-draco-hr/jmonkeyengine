@@ -1,8 +1,9 @@
 {
-  int x=(int)(FastMath.floor(location.x / this.size) * this.size);
-  int z=(int)(FastMath.floor(location.z / this.size) * this.size);
+  int x=(int)location.x;
+  int z=(int)location.z;
   AbstractHeightMap heightmap=null;
   try {
+    Logger.getLogger(ImageBasedHeightMapGrid.class.getCanonicalName()).log(Level.INFO,"Loading heightmap from file: " + textureBase + "_"+ x+ "_"+ z+ "."+ textureExt);
     final InputStream stream=Thread.currentThread().getContextClassLoader().getResourceAsStream(textureBase + "_" + x+ "_"+ z+ "."+ textureExt);
     BufferedImage im=null;
     if (stream != null) {
@@ -10,6 +11,7 @@
     }
  else {
       im=new BufferedImage(size,size,BufferedImage.TYPE_USHORT_GRAY);
+      Logger.getLogger(ImageBasedHeightMapGrid.class.getCanonicalName()).log(Level.INFO,"File: " + textureBase + "_"+ x+ "_"+ z+ "."+ textureExt+ " not found, loading zero heightmap instead");
     }
     heightmap=new Grayscale16BitHeightMap(im);
     heightmap.setHeightScale(256);

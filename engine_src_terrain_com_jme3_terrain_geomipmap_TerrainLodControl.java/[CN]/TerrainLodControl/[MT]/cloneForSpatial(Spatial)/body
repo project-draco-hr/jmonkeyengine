@@ -2,7 +2,9 @@
   if (spatial instanceof Terrain) {
     List<Camera> cameraClone=new ArrayList<Camera>();
     if (cameras != null) {
-      for (      Camera c : cameras)       cameraClone.add(c);
+      for (      Camera c : cameras) {
+        cameraClone.add(c);
+      }
     }
     return new TerrainLodControl((TerrainQuad)spatial,cameraClone);
   }
