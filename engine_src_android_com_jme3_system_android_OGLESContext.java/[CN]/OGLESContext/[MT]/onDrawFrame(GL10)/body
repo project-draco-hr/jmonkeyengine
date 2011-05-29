@@ -1,10 +1,10 @@
 {
-  if (!created.get())   throw new IllegalStateException("onDrawFrame without create");
   if (needClose.get()) {
     deinitInThread();
     return;
   }
   if (renderable.get()) {
+    if (!created.get())     throw new IllegalStateException("onDrawFrame without create");
     milliStart=System.currentTimeMillis();
     listener.update();
     if (autoFlush) {
