@@ -1,0 +1,18 @@
+{
+  Geometry sky=new Geometry("Sky",sphereMesh);
+  sky.setQueueBucket(Bucket.Sky);
+  sky.setCullHint(Spatial.CullHint.Never);
+  Material skyMat=new Material(assetManager,"Common/MatDefs/Misc/Sky.j3md");
+  skyMat.setVector3("NormalScale",normalScale);
+  if (sphereMap) {
+    skyMat.setBoolean("SphereMap",sphereMap);
+  }
+ else   if (!(texture instanceof TextureCubeMap)) {
+    Image img=texture.getImage();
+    texture=new TextureCubeMap();
+    texture.setImage(img);
+  }
+  skyMat.setTexture("Texture",texture);
+  sky.setMaterial(skyMat);
+  return sky;
+}

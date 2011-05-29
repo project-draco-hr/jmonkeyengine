@@ -6,8 +6,6 @@
   GLES20.glTexParameteri(target,GLES20.GL_TEXTURE_MIN_FILTER,minFilter);
   if (verboseLogging)   logger.info("GLES20.glTexParameteri(" + target + ", GLES20.GL_TEXTURE_MAG_FILTER, "+ magFilter+ ")");
   GLES20.glTexParameteri(target,GLES20.GL_TEXTURE_MAG_FILTER,magFilter);
-  if (tex.getAnisotropicFilter() > 1) {
-  }
 switch (tex.getType()) {
 case ThreeDimensional:
 case CubeMap:

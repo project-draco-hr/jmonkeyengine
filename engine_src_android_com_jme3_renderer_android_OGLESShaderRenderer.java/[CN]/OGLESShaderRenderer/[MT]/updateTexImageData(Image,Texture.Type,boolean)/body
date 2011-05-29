@@ -19,28 +19,22 @@
     GLES20.glBindTexture(target,texId);
     context.boundTextures[0]=img;
   }
-  if (!img.hasMipmaps() && mips) {
-    if (verboseLogging)     logger.info("GLES20.glTexParameteri(" + target + "GLES11.GL_GENERATE_MIMAP, GLES20.GL_TRUE)");
-    GLES20.glTexParameteri(target,GLES11.GL_GENERATE_MIPMAP,GLES20.GL_TRUE);
-  }
- else {
-    if (img.getMipMapSizes() != null) {
-    }
-  }
   if (target == GLES20.GL_TEXTURE_CUBE_MAP) {
-    List<ByteBuffer> data=img.getData();
-    if (data.size() != 6) {
-      logger.log(Level.WARNING,"Invalid texture: {0}\n" + "Cubemap textures must contain 6 data units.",img);
-      return;
+    @SuppressWarnings("unchecked") List<Bitmap> bmps=(List<Bitmap>)img.getEfficentData();
+    if (bmps.size() != 6) {
+      throw new UnsupportedOperationException("Invalid texture: " + img + "Cubemap textures must contain 6 data units.");
     }
     for (int i=0; i < 6; i++) {
-      TextureUtil.uploadTexture(img,GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,i,0,tdc,true,powerOf2);
+      TextureUtil.uploadTextureBitmap(GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,bmps.get(i),false,powerOf2);
     }
   }
  else {
-    TextureUtil.uploadTexture(img,target,0,0,tdc,true,powerOf2);
+    TextureUtil.uploadTexture(img,target,0,0,tdc,false,powerOf2);
     if (verboseLogging)     logger.info("GLES20.glTexParameteri(" + target + "GLES11.GL_GENERATE_MIMAP, GLES20.GL_TRUE)");
-    GLES20.glTexParameteri(target,GLES11.GL_GENERATE_MIPMAP,GLES20.GL_TRUE);
+    if (!img.hasMipmaps() && mips) {
+      if (verboseLogging)       logger.info("GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D)");
+      GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
+    }
   }
   img.clearUpdateNeeded();
 }
