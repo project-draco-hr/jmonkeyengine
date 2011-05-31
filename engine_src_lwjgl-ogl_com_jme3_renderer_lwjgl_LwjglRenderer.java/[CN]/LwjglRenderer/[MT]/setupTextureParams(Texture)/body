@@ -10,7 +10,9 @@
       glTexParameterf(target,EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT,tex.getAnisotropicFilter());
     }
   }
-  if (context.pointSprite)   return;
+  if (context.pointSprite) {
+    return;
+  }
 switch (tex.getType()) {
 case ThreeDimensional:
 case CubeMap:

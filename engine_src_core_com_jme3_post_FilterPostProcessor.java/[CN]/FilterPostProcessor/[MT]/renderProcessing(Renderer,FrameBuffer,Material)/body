@@ -11,6 +11,9 @@
     filterCam.resize(buff.getWidth(),buff.getHeight(),true);
     fsQuad.setPosition(0,0);
   }
+  if (mat.getAdditionalRenderState().isDepthWrite()) {
+    mat.getAdditionalRenderState().setDepthWrite(false);
+  }
   fsQuad.setMaterial(mat);
   fsQuad.updateGeometricState();
   renderManager.setCamera(filterCam,true);

@@ -21,11 +21,15 @@
   data.rewind();
 switch (vb.getBufferType()) {
 case Position:
-    if (!(data instanceof FloatBuffer))     throw new UnsupportedOperationException();
+    if (!(data instanceof FloatBuffer)) {
+      throw new UnsupportedOperationException();
+    }
   glVertexPointer(comps,vb.getStride(),(FloatBuffer)data);
 break;
 case Normal:
-if (!(data instanceof FloatBuffer)) throw new UnsupportedOperationException();
+if (!(data instanceof FloatBuffer)) {
+throw new UnsupportedOperationException();
+}
 glNormalPointer(vb.getStride(),(FloatBuffer)data);
 break;
 case Color:
@@ -40,7 +44,9 @@ throw new UnsupportedOperationException();
 }
 break;
 case TexCoord:
-if (!(data instanceof FloatBuffer)) throw new UnsupportedOperationException();
+if (!(data instanceof FloatBuffer)) {
+throw new UnsupportedOperationException();
+}
 glTexCoordPointer(comps,vb.getStride(),(FloatBuffer)data);
 break;
 default :

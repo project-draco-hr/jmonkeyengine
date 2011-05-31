@@ -1,5 +1,7 @@
 {
-  if (mesh.getVertexCount() == 0)   return;
+  if (mesh.getVertexCount() == 0) {
+    return;
+  }
   if (context.pointSize != mesh.getPointSize()) {
     glPointSize(mesh.getPointSize());
     context.pointSize=mesh.getPointSize();
@@ -9,7 +11,9 @@
     context.lineWidth=mesh.getLineWidth();
   }
   boolean dynamic=false;
-  if (mesh.getBuffer(Type.InterleavedData) != null)   throw new UnsupportedOperationException();
+  if (mesh.getBuffer(Type.InterleavedData) != null) {
+    throw new UnsupportedOperationException();
+  }
   if (mesh.getNumLodLevels() == 0) {
     IntMap<VertexBuffer> bufs=mesh.getBuffers();
     for (    Entry<VertexBuffer> entry : bufs) {

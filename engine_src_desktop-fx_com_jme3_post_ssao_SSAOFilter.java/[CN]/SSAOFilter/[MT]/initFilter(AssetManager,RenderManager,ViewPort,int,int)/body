@@ -3,7 +3,7 @@
   int screenHeight=h;
   postRenderPasses=new ArrayList<Pass>();
   normalPass=new Pass();
-  normalPass.init(renderManager.getRenderer(),screenWidth / downSampleFactor,screenHeight / downSampleFactor,Format.RGBA8,Format.Depth);
+  normalPass.init(renderManager.getRenderer(),(int)(screenWidth / downSampleFactor),(int)(screenHeight / downSampleFactor),Format.RGBA8,Format.Depth);
   frustumNearFar=new Vector2f();
   float farY=(vp.getCamera().getFrustumTop() / vp.getCamera().getFrustumNear()) * vp.getCamera().getFrustumFar();
   float farX=farY * ((float)screenWidth / (float)screenHeight);
@@ -17,11 +17,11 @@
   ssaoMat.setTexture("RandomMap",random);
   ssaoPass=new Pass(){
     @Override public boolean requiresDepthAsTexture(){
-      return downSampleFactor == 1;
+      return true;
     }
   }
 ;
-  ssaoPass.init(renderManager.getRenderer(),screenWidth / downSampleFactor,screenHeight / downSampleFactor,Format.RGBA8,Format.Depth,1,ssaoMat);
+  ssaoPass.init(renderManager.getRenderer(),(int)(screenWidth / downSampleFactor),(int)(screenHeight / downSampleFactor),Format.RGBA8,Format.Depth,1,ssaoMat);
   ssaoPass.getRenderedTexture().setMinFilter(Texture.MinFilter.Trilinear);
   ssaoPass.getRenderedTexture().setMagFilter(Texture.MagFilter.Bilinear);
   postRenderPasses.add(ssaoPass);
@@ -39,7 +39,7 @@
   ssaoMat.setParam("Samples",VarType.Vector2Array,samples);
   float xScale=1.0f / w;
   float yScale=1.0f / h;
-  float blurScale=2.0f;
+  float blurScale=2f;
   material.setFloat("XScale",blurScale * xScale);
   material.setFloat("YScale",blurScale * yScale);
 }

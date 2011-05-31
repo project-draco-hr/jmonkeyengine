@@ -1,0 +1,6 @@
+{
+  renderManager.setCamera(viewPort.getCamera(),false);
+  renderManager.getRenderer().copyFrameBuffer(prevFilterBuffer,sceneBuffer,false);
+  renderManager.getRenderer().setFrameBuffer(sceneBuffer);
+  viewPort.getQueue().renderQueue(RenderQueue.Bucket.Translucent,renderManager,viewPort.getCamera());
+}

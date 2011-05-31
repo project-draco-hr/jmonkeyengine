@@ -1,0 +1,36 @@
+{
+  Camera sceneCam=viewPort.getCamera();
+  biasMatrix.mult(sceneCam.getViewProjectionMatrix(),textureProjMatrix);
+  material.setMatrix4("TextureProjMatrix",textureProjMatrix);
+  material.setVector3("CameraPosition",sceneCam.getLocation());
+  material.setMatrix4("ViewProjectionMatrixInverse",sceneCam.getViewProjectionMatrix().invert());
+  material.setFloat("WaterHeight",waterHeight);
+  ray.setOrigin(sceneCam.getLocation());
+  ray.setDirection(sceneCam.getDirection());
+  plane=new Plane(Vector3f.UNIT_Y,new Vector3f(0,waterHeight,0).dot(Vector3f.UNIT_Y));
+  reflectionProcessor.setReflectionClipPlane(plane);
+  boolean inv=false;
+  if (!ray.intersectsWherePlane(plane,targetLocation)) {
+    ray.setDirection(ray.getDirection().negateLocal());
+    ray.intersectsWherePlane(plane,targetLocation);
+    inv=true;
+  }
+  Vector3f loc=plane.reflect(sceneCam.getLocation(),new Vector3f());
+  reflectionCam.setLocation(loc);
+  reflectionCam.setFrustum(sceneCam.getFrustumNear(),sceneCam.getFrustumFar(),sceneCam.getFrustumLeft(),sceneCam.getFrustumRight(),sceneCam.getFrustumTop(),sceneCam.getFrustumBottom());
+  reflectionCam.lookAt(targetLocation,Vector3f.UNIT_Y);
+  if (inv) {
+    reflectionCam.setAxes(reflectionCam.getLeft().negateLocal(),reflectionCam.getUp(),reflectionCam.getDirection().negateLocal());
+  }
+  boolean rtb=true;
+  if (!renderManager.isHandleTranslucentBucket()) {
+    renderManager.setHandleTranslucentBucket(true);
+    rtb=false;
+  }
+  renderManager.renderViewPort(reflectionView,savedTpf);
+  if (!rtb) {
+    renderManager.setHandleTranslucentBucket(false);
+  }
+  renderManager.getRenderer().setFrameBuffer(viewPort.getOutputFrameBuffer());
+  renderManager.setCamera(sceneCam,false);
+}
