@@ -3,9 +3,11 @@
   if (mouseInput != null)   mouseInput.initialize();
   keyInput=context.getKeyInput();
   if (keyInput != null)   keyInput.initialize();
+  touchInput=context.getTouchInput();
+  if (touchInput != null)   touchInput.initialize();
   if (!settings.getBoolean("DisableJoysticks")) {
     joyInput=context.getJoyInput();
     if (joyInput != null)     joyInput.initialize();
   }
-  inputManager=new InputManager(mouseInput,keyInput,joyInput);
+  inputManager=new InputManager(mouseInput,keyInput,joyInput,touchInput);
 }

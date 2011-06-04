@@ -5,11 +5,15 @@
   this.keys=keys;
   this.mouse=mouse;
   this.joystick=joystick;
+  this.touch=touch;
   keys.setInputListener(this);
   mouse.setInputListener(this);
   if (joystick != null) {
     joystick.setInputListener(this);
     joysticks=joystick.loadJoysticks(this);
+  }
+  if (touch != null) {
+    touch.setInputListener(this);
   }
   firstTime=keys.getInputTimeNanos();
 }
