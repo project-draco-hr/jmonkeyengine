@@ -1,28 +1,56 @@
 {
-  if (listenerRaw != null) {
-synchronized (currentEvents) {
-      for (int i=0; i < currentEvents.size(); i++) {
-        event=currentEvents.get(i);
-        if (event instanceof MouseButtonEvent) {
-          listenerRaw.onMouseButtonEvent((MouseButtonEvent)event);
-        }
- else         if (event instanceof MouseMotionEvent) {
-          listenerRaw.onMouseMotionEvent((MouseMotionEvent)event);
-        }
- else         if (event instanceof KeyInputEvent) {
-          listenerRaw.onKeyEvent((KeyInputEvent)event);
-        }
- else         if (event instanceof TouchEvent) {
-          if (listenerTouch != null)           listenerTouch.onTouchEvent((TouchEvent)event);
-        }
- else         if (event instanceof MotionEvent) {
-          if (listenerTouch != null)           listenerTouch.onMotionEvent((MotionEvent)event);
-        }
- else         if (event instanceof KeyEvent) {
-          if (listenerTouch != null)           listenerTouch.onAndroidKeyEvent((KeyEvent)event);
-        }
+  if (listener != null) {
+    TouchEvent event;
+    MouseButtonEvent btn;
+    int newX;
+    int newY;
+    while (!eventQueue.isEmpty()) {
+synchronized (eventQueue) {
+        event=eventQueue.pop();
       }
-      currentEvents.clear();
-    }
-  }
+      if (event != null) {
+        listener.onTouchEvent(event);
+        if (fireMouseEvents) {
+          newX=getWidth() - (int)event.getX();
+          newY=(int)event.getY();
+switch (event.getType()) {
+case DOWN:
+            btn=new MouseButtonEvent(0,true,newX,newY);
+          btn.setTime(event.getTime());
+        listener.onMouseButtonEvent(btn);
+      lastX=-1;
+    lastY=-1;
+  break;
+case UP:
+btn=new MouseButtonEvent(0,false,newX,newY);
+btn.setTime(event.getTime());
+listener.onMouseButtonEvent(btn);
+lastX=-1;
+lastY=-1;
+break;
+case MOVE:
+int dx;
+int dy;
+if (lastX != -1) {
+dx=newX - lastX;
+dy=newY - lastY;
+}
+ else {
+dx=0;
+dy=0;
+}
+MouseMotionEvent mot=new MouseMotionEvent(newX,newY,dx,dy,0,0);
+mot.setTime(event.getTime());
+listener.onMouseMotionEvent(mot);
+lastX=newX;
+lastY=newY;
+break;
+}
+}
+}
+synchronized (eventPool) {
+eventPool.push(event);
+}
+}
+}
 }

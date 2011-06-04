@@ -1,3 +1,8 @@
 {
+  TouchEvent touch=getNextFreeTouchEvent();
+  touch.set(Type.SCROLL,e1.getX(),e1.getY(),distanceX,distanceY);
+  touch.setPointerId(0);
+  touch.setTime(e1.getEventTime());
+  processEvent(touch);
   return false;
 }

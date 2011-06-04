@@ -1,4 +1,7 @@
 {
-  TouchEvent touch=new TouchEvent(TouchEvent.Type.LONGPRESSED,TouchEvent.Operation.NOP,event.getX(),event.getY(),0,0,null);
+  TouchEvent touch=getNextFreeTouchEvent();
+  touch.set(Type.LONGPRESSED,event.getX(),event.getY(),0f,0f);
+  touch.setPointerId(0);
+  touch.setTime(event.getEventTime());
   processEvent(touch);
 }

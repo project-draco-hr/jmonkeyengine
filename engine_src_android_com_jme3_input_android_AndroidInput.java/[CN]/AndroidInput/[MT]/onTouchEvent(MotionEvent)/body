@@ -1,66 +1,43 @@
 {
   boolean bWasHandled=false;
-  MouseButtonEvent btn;
   TouchEvent touch;
-  processEvent(event);
   this.detector.onTouchEvent(event);
   this.scaledetector.onTouchEvent(event);
-  int newX=getWidth() - (int)event.getX();
-  int newY=(int)event.getY();
 switch (event.getAction()) {
 case MotionEvent.ACTION_DOWN:
-    if (FIRE_MOUSE_EVENTS) {
-      btn=new MouseButtonEvent(0,true,newX,newY);
-      btn.setTime(event.getEventTime());
-      processEvent(btn);
+    for (int p=0; p < event.getPointerCount(); p++) {
+      touch=getNextFreeTouchEvent();
+      touch.set(Type.DOWN,event.getX(p),event.getY(p),0,0);
+      touch.setPointerId(event.getPointerId(p));
+      touch.setTime(event.getEventTime());
+      processEvent(touch);
     }
-  lastX=-1;
-lastY=-1;
-touch=new TouchEvent(TouchEvent.Type.GRABBED,TouchEvent.Operation.NOP,event.getX(),event.getY(),0,0,null);
-processEvent(touch);
-bWasHandled=true;
+  bWasHandled=true;
 break;
 case MotionEvent.ACTION_UP:
-if (FIRE_MOUSE_EVENTS) {
-btn=new MouseButtonEvent(0,false,newX,newY);
-btn.setTime(event.getEventTime());
-processEvent(btn);
-}
-lastX=-1;
-lastY=-1;
-if (dragging) {
-touch=new TouchEvent(TouchEvent.Type.DRAGGED,TouchEvent.Operation.STOPPED,event.getX(),event.getY(),event.getX() - lastX,event.getY() - lastY,null);
+for (int p=0; p < event.getPointerCount(); p++) {
+touch=getNextFreeTouchEvent();
+touch.set(Type.UP,event.getX(p),event.getY(p),0,0);
+touch.setPointerId(event.getPointerId(p));
+touch.setTime(event.getEventTime());
 processEvent(touch);
 }
-touch=new TouchEvent(TouchEvent.Type.RELEASED,TouchEvent.Operation.NOP,event.getX(),event.getY(),0,0,null);
-processEvent(touch);
-dragging=false;
 bWasHandled=true;
 break;
 case MotionEvent.ACTION_MOVE:
-if (!scaledetector.isInProgress()) {
-if (!dragging) touch=new TouchEvent(TouchEvent.Type.DRAGGED,TouchEvent.Operation.STARTED,event.getX(),event.getY(),event.getX() - lastX,event.getY() - lastY,null);
- else touch=new TouchEvent(TouchEvent.Type.DRAGGED,TouchEvent.Operation.RUNNING,event.getX(),event.getY(),event.getX() - lastX,event.getY() - lastY,null);
+for (int p=0; p < event.getPointerCount(); p++) {
+Vector2f lastPos=lastPositions.get(event.getPointerId(p));
+if (lastPos == null) {
+lastPos=new Vector2f(event.getX(p),event.getY(p));
+lastPositions.put(event.getPointerId(p),lastPos);
+}
+touch=getNextFreeTouchEvent();
+touch.set(Type.MOVE,event.getX(p),event.getY(p),event.getX(p) - lastPos.x,event.getY(p) - lastPos.y);
+touch.setPointerId(event.getPointerId(p));
+touch.setTime(event.getEventTime());
 processEvent(touch);
-dragging=true;
+lastPos.set(event.getX(p),event.getY(p));
 }
-if (FIRE_MOUSE_EVENTS) {
-int dx;
-int dy;
-if (lastX != -1) {
-dx=newX - lastX;
-dy=newY - lastY;
-}
- else {
-dx=0;
-dy=0;
-}
-MouseMotionEvent mot=new MouseMotionEvent(newX,newY,dx,dy,0,0);
-mot.setTime(event.getEventTime());
-processEvent(mot);
-}
-lastX=newX;
-lastY=newY;
 bWasHandled=true;
 break;
 case MotionEvent.ACTION_POINTER_UP:

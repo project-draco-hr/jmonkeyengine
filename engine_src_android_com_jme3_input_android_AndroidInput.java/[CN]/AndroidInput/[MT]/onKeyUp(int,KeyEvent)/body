@@ -1,13 +1,11 @@
 {
-  processEvent(event);
-  int jmeCode=ANDROID_TO_JME[keyCode];
-  if (jmeCode != 0) {
-    String str=event.getCharacters();
-    char c=str != null && str.length() > 0 ? str.charAt(0) : 0x0;
-    KeyInputEvent evt=new KeyInputEvent(jmeCode,c,false,false);
-    logger.info("onKeyUp " + evt);
-    processEvent(evt);
-  }
+  TouchEvent evt;
+  evt=getNextFreeTouchEvent();
+  evt.set(TouchEvent.Type.KEY_UP);
+  evt.setKeyCode(keyCode);
+  evt.setCharacters(event.getCharacters());
+  evt.setTime(event.getEventTime());
+  processEvent(evt);
   if (keyCode == 4)   return false;
  else   return true;
 }
