@@ -1,0 +1,19 @@
+{
+  Structure curvebase=(Structure)ipoStructure.getFieldValue("curve");
+  Ipo result=null;
+  List<Structure> curves=curvebase.evaluateListBase(dataRepository);
+  if (curves.size() > 0) {
+    BezierCurve[] bezierCurves=new BezierCurve[curves.size()];
+    int frame=0;
+    for (    Structure curve : curves) {
+      Pointer pBezTriple=(Pointer)curve.getFieldValue("bezt");
+      List<Structure> bezTriples=pBezTriple.fetchData(dataRepository.getInputStream());
+      int type=((Number)curve.getFieldValue("adrcode")).intValue();
+      bezierCurves[frame++]=new BezierCurve(type,bezTriples,2);
+    }
+    curves.clear();
+    result=new Ipo(bezierCurves);
+    dataRepository.addLoadedFeatures(ipoStructure.getOldMemoryAddress(),ipoStructure.getName(),ipoStructure,result);
+  }
+  return result;
+}

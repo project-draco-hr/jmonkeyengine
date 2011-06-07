@@ -1,0 +1,10 @@
+{
+  if (oldMemoryAddress == null || structure == null || feature == null) {
+    throw new IllegalArgumentException("One of the given arguments is null!");
+  }
+  Object[] storedData=new Object[]{structure,feature};
+  loadedFeatures.put(oldMemoryAddress,storedData);
+  if (featureName != null) {
+    loadedFeaturesByName.put(featureName,storedData);
+  }
+}

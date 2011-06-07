@@ -1,0 +1,15 @@
+{
+  if (dataRepository.getAssetManager() == null) {
+    throw new IllegalArgumentException("Cannot find asset manager!");
+  }
+  if (dataRepository.getBlenderKey() == null) {
+    throw new IllegalArgumentException("Cannot find blender key!");
+  }
+  if (dataRepository.getDnaBlockData() == null) {
+    throw new IllegalArgumentException("Cannot find dna block!");
+  }
+  if (dataRepository.getInputStream() == null) {
+    throw new IllegalArgumentException("Cannot find blender file stream!");
+  }
+  this.dataRepository=dataRepository;
+}

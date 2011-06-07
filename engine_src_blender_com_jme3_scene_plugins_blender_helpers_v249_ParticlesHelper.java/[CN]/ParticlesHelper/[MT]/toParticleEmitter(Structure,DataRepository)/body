@@ -1,0 +1,36 @@
+{
+  ParticleEmitter result=null;
+  Pointer pParticleSettings=(Pointer)particleSystem.getFieldValue("part");
+  if (!pParticleSettings.isNull()) {
+    Structure particleSettings=pParticleSettings.fetchData(dataRepository.getInputStream()).get(0);
+    int totPart=((Number)particleSettings.getFieldValue("totpart")).intValue();
+    result=new ParticleEmitter(particleSettings.getName(),Type.Triangle,totPart);
+    int from=((Number)particleSettings.getFieldValue("from")).intValue();
+switch (from) {
+case PART_FROM_VERT:
+      result.setShape(new EmitterMeshVertexShape());
+    break;
+case PART_FROM_FACE:
+  result.setShape(new EmitterMeshFaceShape());
+break;
+case PART_FROM_VOLUME:
+result.setShape(new EmitterMeshConvexHullShape());
+break;
+default :
+LOGGER.warning("Default shape used! Unknown emitter shape value ('from' parameter): " + from);
+}
+DynamicArray<Number> acc=(DynamicArray<Number>)particleSettings.getFieldValue("acc");
+result.setInitialVelocity(new Vector3f(acc.get(0).floatValue(),acc.get(1).floatValue(),acc.get(2).floatValue()));
+result.setGravity(0);
+result.setImagesX(2);
+result.setImagesY(2);
+result.setEndColor(new ColorRGBA(1f,0f,0f,1f));
+result.setStartColor(new ColorRGBA(1f,1f,0f,0.5f));
+result.setStartSize(1.5f);
+result.setEndSize(0.1f);
+result.setLowLife(0.5f);
+result.setHighLife(3f);
+result.setVelocityVariation(0.3f);
+}
+return result;
+}

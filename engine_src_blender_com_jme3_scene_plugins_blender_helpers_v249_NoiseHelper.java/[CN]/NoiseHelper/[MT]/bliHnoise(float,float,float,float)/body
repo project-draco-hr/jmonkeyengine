@@ -1,0 +1,9 @@
+{
+  if (noisesize == 0.0) {
+    return 0.0f;
+  }
+  x=(1.0f + x) / noisesize;
+  y=(1.0f + y) / noisesize;
+  z=(1.0f + z) / noisesize;
+  return noiseFunctions.get(0).execute(x,y,z);
+}

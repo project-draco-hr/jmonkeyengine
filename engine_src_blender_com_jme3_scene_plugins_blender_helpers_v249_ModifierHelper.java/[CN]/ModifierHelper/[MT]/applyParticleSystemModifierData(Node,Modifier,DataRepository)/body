@@ -1,0 +1,24 @@
+{
+  MaterialHelper materialHelper=dataRepository.getHelper(MaterialHelper.class);
+  ParticleEmitter emitter=(ParticleEmitter)modifier.getJmeModifierRepresentation();
+  emitter=emitter.clone();
+  EmitterShape emitterShape=emitter.getShape();
+  if (emitterShape instanceof EmitterMeshVertexShape) {
+    List<Mesh> meshes=new ArrayList<Mesh>();
+    for (    Spatial spatial : node.getChildren()) {
+      if (spatial instanceof Geometry) {
+        Mesh mesh=((Geometry)spatial).getMesh();
+        if (mesh != null) {
+          meshes.add(mesh);
+          Material material=materialHelper.getParticlesMaterial(((Geometry)spatial).getMaterial(),dataRepository);
+          emitter.setMaterial(material);
+        }
+      }
+    }
+    if (meshes.size() > 0) {
+      ((EmitterMeshVertexShape)emitterShape).setMeshes(meshes);
+    }
+  }
+  node.attachChild(emitter);
+  return node;
+}

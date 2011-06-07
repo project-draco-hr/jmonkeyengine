@@ -1,0 +1,25 @@
+{
+  if (type == KEY_LINEAR) {
+    data[0]=0.0f;
+    data[1]=1.0f - d;
+    data[2]=d;
+    data[3]=0.0f;
+  }
+ else {
+    float d2=d * d;
+    float d3=d2 * d;
+    if (type == KEY_CARDINAL) {
+      float fc=0.71f;
+      data[0]=-fc * d3 + 2.0f * fc * d2 - fc * d;
+      data[1]=(2.0f - fc) * d3 + (fc - 3.0f) * d2 + 1.0f;
+      data[2]=(fc - 2.0f) * d3 + (3.0f - 2.0f * fc) * d2 + fc * d;
+      data[3]=fc * d3 - fc * d2;
+    }
+ else     if (type == KEY_BSPLINE) {
+      data[0]=-0.16666666f * d3 + 0.5f * d2 - 0.5f * d + 0.16666666f;
+      data[1]=0.5f * d3 - d2 + 0.6666666f;
+      data[2]=-0.5f * d3 + 0.5f * d2 + 0.5f * d + 0.16666666f;
+      data[3]=0.16666666f * d3;
+    }
+  }
+}

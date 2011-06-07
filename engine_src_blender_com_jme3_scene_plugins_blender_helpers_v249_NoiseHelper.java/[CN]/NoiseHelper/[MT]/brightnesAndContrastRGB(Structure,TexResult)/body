@@ -1,0 +1,19 @@
+{
+  float contrast=((Number)tex.getFieldValue("contrast")).floatValue();
+  float bright=((Number)tex.getFieldValue("bright")).floatValue();
+  float rfac=((Number)tex.getFieldValue("rfac")).floatValue();
+  float gfac=((Number)tex.getFieldValue("gfac")).floatValue();
+  float bfac=((Number)tex.getFieldValue("bfac")).floatValue();
+  texres.tr=rfac * ((texres.tr - 0.5f) * contrast + bright - 0.5f);
+  if (texres.tr < 0.0f) {
+    texres.tr=0.0f;
+  }
+  texres.tg=gfac * ((texres.tg - 0.5f) * contrast + bright - 0.5f);
+  if (texres.tg < 0.0f) {
+    texres.tg=0.0f;
+  }
+  texres.tb=bfac * ((texres.tb - 0.5f) * contrast + bright - 0.5f);
+  if (texres.tb < 0.0f) {
+    texres.tb=0.0f;
+  }
+}

@@ -1,0 +1,14 @@
+{
+  Spatial spatial=super.rotate(rot);
+  this.updateWorldTransforms();
+  if (this.getChildren() != null && this.getChildren().size() > 0) {
+    CalculationBone child=(CalculationBone)this.getChild(0);
+    child.updateWorldTransforms();
+  }
+  rotations[frame].set(this.getLocalRotation());
+  translations[frame].set(this.getLocalTranslation());
+  if (scales != null) {
+    scales[frame].set(this.getLocalScale());
+  }
+  return spatial;
+}

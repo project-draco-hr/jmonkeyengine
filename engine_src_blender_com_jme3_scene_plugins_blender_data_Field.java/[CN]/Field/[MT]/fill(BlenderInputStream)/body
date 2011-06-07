@@ -1,0 +1,122 @@
+{
+  int dataToRead=1;
+  if (tableSizes != null && tableSizes.length > 0) {
+    for (    int size : tableSizes) {
+      if (size <= 0) {
+        throw new BlenderFileException("The field " + name + " has invalid table size: "+ size);
+      }
+      dataToRead*=size;
+    }
+  }
+  DataType dataType=pointerLevel == 0 ? DataType.getDataType(type,dataRepository) : DataType.POINTER;
+switch (dataType) {
+case POINTER:
+    if (dataToRead == 1) {
+      Pointer pointer=new Pointer(pointerLevel,function,dataRepository);
+      pointer.fill(blenderInputStream);
+      value=pointer;
+    }
+ else {
+      Pointer[] data=new Pointer[dataToRead];
+      for (int i=0; i < dataToRead; ++i) {
+        Pointer pointer=new Pointer(pointerLevel,function,dataRepository);
+        pointer.fill(blenderInputStream);
+        data[i]=pointer;
+      }
+      value=new DynamicArray<Pointer>(tableSizes,data);
+    }
+  break;
+case CHARACTER:
+if (dataToRead == 1) {
+  value=Byte.valueOf((byte)blenderInputStream.readByte());
+}
+ else {
+  Character[] data=new Character[dataToRead];
+  for (int i=0; i < dataToRead; ++i) {
+    data[i]=Character.valueOf((char)blenderInputStream.readByte());
+  }
+  value=new DynamicArray<Character>(tableSizes,data);
+}
+break;
+case SHORT:
+if (dataToRead == 1) {
+value=Integer.valueOf(blenderInputStream.readShort());
+}
+ else {
+Number[] data=new Number[dataToRead];
+for (int i=0; i < dataToRead; ++i) {
+data[i]=Integer.valueOf(blenderInputStream.readShort());
+}
+value=new DynamicArray<Number>(tableSizes,data);
+}
+break;
+case INTEGER:
+if (dataToRead == 1) {
+value=Integer.valueOf(blenderInputStream.readInt());
+}
+ else {
+Number[] data=new Number[dataToRead];
+for (int i=0; i < dataToRead; ++i) {
+data[i]=Integer.valueOf(blenderInputStream.readInt());
+}
+value=new DynamicArray<Number>(tableSizes,data);
+}
+break;
+case LONG:
+if (dataToRead == 1) {
+value=Long.valueOf(blenderInputStream.readLong());
+}
+ else {
+Number[] data=new Number[dataToRead];
+for (int i=0; i < dataToRead; ++i) {
+data[i]=Long.valueOf(blenderInputStream.readLong());
+}
+value=new DynamicArray<Number>(tableSizes,data);
+}
+break;
+case FLOAT:
+if (dataToRead == 1) {
+value=Float.valueOf(blenderInputStream.readFloat());
+}
+ else {
+Number[] data=new Number[dataToRead];
+for (int i=0; i < dataToRead; ++i) {
+data[i]=Float.valueOf(blenderInputStream.readFloat());
+}
+value=new DynamicArray<Number>(tableSizes,data);
+}
+break;
+case DOUBLE:
+if (dataToRead == 1) {
+value=Double.valueOf(blenderInputStream.readDouble());
+}
+ else {
+Number[] data=new Number[dataToRead];
+for (int i=0; i < dataToRead; ++i) {
+data[i]=Double.valueOf(blenderInputStream.readDouble());
+}
+value=new DynamicArray<Number>(tableSizes,data);
+}
+break;
+case VOID:
+break;
+case STRUCTURE:
+if (dataToRead == 1) {
+Structure structure=dataRepository.getDnaBlockData().getStructure(type);
+structure.fill(blenderInputStream);
+value=structure;
+}
+ else {
+Structure[] data=new Structure[dataToRead];
+for (int i=0; i < dataToRead; ++i) {
+Structure structure=dataRepository.getDnaBlockData().getStructure(type);
+structure.fill(blenderInputStream);
+data[i]=structure;
+}
+value=new DynamicArray<Structure>(tableSizes,data);
+}
+break;
+default :
+throw new IllegalStateException("Unimplemented filling of type: " + type);
+}
+}

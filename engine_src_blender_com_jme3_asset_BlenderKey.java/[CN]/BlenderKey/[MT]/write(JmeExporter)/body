@@ -1,0 +1,25 @@
+{
+  super.write(e);
+  OutputCapsule oc=e.getCapsule(this);
+  oc.write(animations == null ? 0 : animations.size(),"anim-size",0);
+  if (animations != null) {
+    int objectCounter=0;
+    for (    Entry<String,Map<String,int[]>> animEntry : animations.entrySet()) {
+      oc.write(animEntry.getKey(),"animated-object-" + objectCounter,null);
+      int animsAmount=animEntry.getValue().size();
+      oc.write(animsAmount,"anims-amount-" + objectCounter,0);
+      for (      Entry<String,int[]> animsEntry : animEntry.getValue().entrySet()) {
+        oc.write(animsEntry.getKey(),"anim-name-" + objectCounter,null);
+        oc.write(animsEntry.getValue(),"anim-frames-" + objectCounter,null);
+      }
+      ++objectCounter;
+    }
+  }
+  oc.write(fps,"fps",DEFAULT_FPS);
+  oc.write(featuresToLoad,"features-to-load",FeaturesToLoad.ALL);
+  oc.write(assetRootPath,"asset-root-path",null);
+  oc.write(fixUpAxis,"fix-up-axis",true);
+  oc.write(usedWorld,"used-world",null);
+  oc.write(defaultMaterial,"default-material",null);
+  oc.write(faceCullMode,"face-cull-mode",FaceCullMode.Off);
+}

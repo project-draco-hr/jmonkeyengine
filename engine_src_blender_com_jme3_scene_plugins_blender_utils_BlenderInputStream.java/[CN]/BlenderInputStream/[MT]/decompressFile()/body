@@ -1,0 +1,20 @@
+{
+  GZIPInputStream gis=null;
+  try {
+    gis=new GZIPInputStream(new ByteArrayInputStream(cachedBuffer));
+    this.readStreamToCache(gis);
+  }
+ catch (  IOException e) {
+    throw new IllegalStateException("IO errors occured where they should NOT! " + "The data is already buffered at this point!",e);
+  }
+ finally {
+    try {
+      if (gis != null) {
+        gis.close();
+      }
+    }
+ catch (    IOException e) {
+      LOGGER.warning(e.getMessage());
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  this.tableSizes=tableSizes;
+  int totalSize=1;
+  for (  int size : tableSizes) {
+    if (size <= 0) {
+      throw new BlenderFileException("The size of the table must be positive!");
+    }
+    totalSize*=size;
+  }
+  if (totalSize != data.length) {
+    throw new IllegalArgumentException("The size of the table does not match the size of the given data!");
+  }
+  this.array=data;
+}

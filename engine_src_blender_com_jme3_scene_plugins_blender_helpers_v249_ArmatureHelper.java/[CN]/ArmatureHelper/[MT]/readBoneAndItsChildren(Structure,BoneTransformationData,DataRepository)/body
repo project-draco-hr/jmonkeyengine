@@ -1,0 +1,20 @@
+{
+  String name=boneStructure.getFieldValue("name").toString();
+  Bone bone=new Bone(name);
+  int bonesAmount=bonesOMAs.size();
+  bonesOMAs.put(bone,boneStructure.getOldMemoryAddress());
+  if (bonesAmount == bonesOMAs.size()) {
+    throw new IllegalStateException("Two bones has the same hash value and thereforw a bone was overriden in the bones<->OMA map! Improve the hash algorithm!");
+  }
+  Matrix4f boneArmatureMatrix=this.getArmatureMatrix(boneStructure);
+  DynamicArray<Float> sizeArray=(DynamicArray<Float>)boneStructure.getFieldValue("size");
+  Vector3f size=new Vector3f(sizeArray.get(0),sizeArray.get(1),sizeArray.get(2));
+  BoneTransformationData boneTransformationData=new BoneTransformationData(boneArmatureMatrix,size,bone,parent);
+  dataRepository.addLoadedFeatures(boneStructure.getOldMemoryAddress(),name,boneStructure,bone);
+  Structure childbase=(Structure)boneStructure.getFieldValue("childbase");
+  List<Structure> children=childbase.evaluateListBase(dataRepository);
+  for (  Structure boneChild : children) {
+    this.readBoneAndItsChildren(boneChild,boneTransformationData,dataRepository);
+  }
+  return boneTransformationData;
+}

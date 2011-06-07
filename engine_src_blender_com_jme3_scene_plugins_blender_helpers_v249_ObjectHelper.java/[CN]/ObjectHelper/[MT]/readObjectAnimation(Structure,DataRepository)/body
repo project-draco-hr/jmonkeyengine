@@ -1,0 +1,43 @@
+{
+  Pointer pIpo=(Pointer)objectStructure.getFieldValue("ipo");
+  if (!pIpo.isNull()) {
+    String objectAnimationName=null;
+    List<FileBlockHeader> actionBlocks=dataRepository.getFileBlocks(Integer.valueOf(FileBlockHeader.BLOCK_AC00));
+    for (    FileBlockHeader actionBlock : actionBlocks) {
+      Structure action=actionBlock.getStructure(dataRepository);
+      List<Structure> actionChannels=((Structure)action.getFieldValue("chanbase")).evaluateListBase(dataRepository);
+      if (actionChannels.size() == 1) {
+        Pointer pChannelIpo=(Pointer)actionChannels.get(0).getFieldValue("ipo");
+        if (pChannelIpo.equals(pIpo)) {
+          objectAnimationName=action.getName();
+          break;
+        }
+      }
+    }
+    String objectName=objectStructure.getName();
+    if (objectAnimationName == null) {
+      objectAnimationName=objectName;
+    }
+    IpoHelper ipoHelper=dataRepository.getHelper(IpoHelper.class);
+    Structure ipoStructure=pIpo.fetchData(dataRepository.getInputStream()).get(0);
+    Ipo ipo=ipoHelper.createIpo(ipoStructure,dataRepository);
+    int[] animationFrames=dataRepository.getBlenderKey().getAnimationFrames(objectName,objectAnimationName);
+    if (animationFrames == null) {
+      animationFrames=new int[]{1,ipo.getLastFrame()};
+    }
+    int fps=dataRepository.getBlenderKey().getFps();
+    float start=(float)animationFrames[0] / (float)fps;
+    float stop=(float)animationFrames[1] / (float)fps;
+    BoneTrack[] tracks=new BoneTrack[1];
+    tracks[0]=ipo.calculateTrack(0,animationFrames[0],animationFrames[1],fps);
+    BoneAnimation boneAnimation=new BoneAnimation(objectAnimationName,stop - start);
+    boneAnimation.setTracks(tracks);
+    ArrayList<BoneAnimation> animations=new ArrayList<BoneAnimation>(1);
+    animations.add(boneAnimation);
+    Transform t=this.getTransformation(objectStructure);
+    Bone bone=new Bone(null);
+    bone.setBindTransforms(t.getTranslation(),t.getRotation(),t.getScale());
+    return new Modifier(Modifier.ARMATURE_MODIFIER_DATA,new AnimData(new Skeleton(new Bone[]{bone}),animations),null);
+  }
+  return null;
+}

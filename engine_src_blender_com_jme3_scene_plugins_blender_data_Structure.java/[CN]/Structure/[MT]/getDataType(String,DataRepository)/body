@@ -1,0 +1,10 @@
+{
+  DataType result=PRIMARY_TYPES.get(type);
+  if (result != null) {
+    return result;
+  }
+  if (dataRepository.getDnaBlockData().hasStructure(type)) {
+    return STRUCTURE;
+  }
+  throw new BlenderFileException("Unknown data type: " + type);
+}

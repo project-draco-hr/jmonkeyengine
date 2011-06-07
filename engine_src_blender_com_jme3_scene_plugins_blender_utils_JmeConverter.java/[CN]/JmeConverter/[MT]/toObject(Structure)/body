@@ -1,0 +1,7 @@
+{
+  if ((dataRepository.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.OBJECTS) == 0) {
+    return null;
+  }
+  ObjectHelper objectHelper=dataRepository.getHelper(ObjectHelper.class);
+  return objectHelper.toObject(structure,dataRepository);
+}

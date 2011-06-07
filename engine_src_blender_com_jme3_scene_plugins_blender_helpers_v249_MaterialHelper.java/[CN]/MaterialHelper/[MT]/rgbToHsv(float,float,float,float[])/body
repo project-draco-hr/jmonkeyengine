@@ -1,0 +1,42 @@
+{
+  float cmax=r;
+  float cmin=r;
+  cmax=g > cmax ? g : cmax;
+  cmin=g < cmin ? g : cmin;
+  cmax=b > cmax ? b : cmax;
+  cmin=b < cmin ? b : cmin;
+  hsv[2]=cmax;
+  if (cmax != 0.0) {
+    hsv[1]=(cmax - cmin) / cmax;
+  }
+ else {
+    hsv[1]=0.0f;
+    hsv[0]=0.0f;
+  }
+  if (hsv[1] == 0.0) {
+    hsv[0]=-1.0f;
+  }
+ else {
+    float cdelta=cmax - cmin;
+    float rc=(cmax - r) / cdelta;
+    float gc=(cmax - g) / cdelta;
+    float bc=(cmax - b) / cdelta;
+    if (r == cmax) {
+      hsv[0]=bc - gc;
+    }
+ else     if (g == cmax) {
+      hsv[0]=2.0f + rc - bc;
+    }
+ else {
+      hsv[0]=4.0f + gc - rc;
+    }
+    hsv[0]*=60.0f;
+    if (hsv[0] < 0.0f) {
+      hsv[0]+=360.0f;
+    }
+  }
+  hsv[0]/=360.0f;
+  if (hsv[0] < 0.0f) {
+    hsv[0]=0.0f;
+  }
+}

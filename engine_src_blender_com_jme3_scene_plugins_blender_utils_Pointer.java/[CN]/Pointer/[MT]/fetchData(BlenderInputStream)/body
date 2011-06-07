@@ -1,0 +1,35 @@
+{
+  if (oldMemoryAddress == 0) {
+    throw new NullPointerException("The pointer points to nothing!");
+  }
+  List<Structure> structures=null;
+  FileBlockHeader dataFileBlock=dataRepository.getFileBlock(oldMemoryAddress);
+  if (pointerLevel > 1) {
+    int pointersAmount=dataFileBlock.getSize() / inputStream.getPointerSize() * dataFileBlock.getCount();
+    for (int i=0; i < pointersAmount; ++i) {
+      inputStream.setPosition(dataFileBlock.getBlockPosition() + inputStream.getPointerSize() * i);
+      long oldMemoryAddress=inputStream.readPointer();
+      if (oldMemoryAddress != 0L) {
+        Pointer p=new Pointer(pointerLevel - 1,this.function,dataRepository);
+        p.oldMemoryAddress=oldMemoryAddress;
+        if (structures == null) {
+          structures=p.fetchData(inputStream);
+        }
+ else {
+          structures.addAll(p.fetchData(inputStream));
+        }
+      }
+    }
+  }
+ else {
+    inputStream.setPosition(dataFileBlock.getBlockPosition());
+    structures=new ArrayList<Structure>(dataFileBlock.getCount());
+    for (int i=0; i < dataFileBlock.getCount(); ++i) {
+      Structure structure=dataRepository.getDnaBlockData().getStructure(dataFileBlock.getSdnaIndex());
+      structure.fill(inputStream);
+      structures.add(structure);
+    }
+    return structures;
+  }
+  return structures;
+}

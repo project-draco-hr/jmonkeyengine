@@ -1,0 +1,11 @@
+{
+  float s, d=0.5f, div=1.0f;
+  s=FastMath.abs((-1.0f + 2.0f * this.bliHnoise(noisesize,x,y,z)));
+  while (nr > 0) {
+    s+=Math.abs(d * (-1.0f + 2.0f * this.bliHnoise(noisesize * d,x,y,z)));
+    div+=d;
+    d*=0.5;
+    --nr;
+  }
+  return s / div;
+}

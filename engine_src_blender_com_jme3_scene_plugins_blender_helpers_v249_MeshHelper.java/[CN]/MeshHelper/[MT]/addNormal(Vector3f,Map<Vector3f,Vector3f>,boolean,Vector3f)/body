@@ -1,0 +1,11 @@
+{
+  for (  Vector3f v : vertices) {
+    Vector3f n=normalMap.get(v);
+    if (!smooth || n == null) {
+      normalMap.put(v,normalToAdd.clone());
+    }
+ else {
+      n.addLocal(normalToAdd).normalizeLocal();
+    }
+  }
+}

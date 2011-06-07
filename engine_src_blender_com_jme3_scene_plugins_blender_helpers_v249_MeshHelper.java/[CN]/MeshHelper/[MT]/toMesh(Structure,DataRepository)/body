@@ -1,0 +1,212 @@
+{
+  List<Geometry> geometries=(List<Geometry>)dataRepository.getLoadedFeature(structure.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
+  if (geometries != null) {
+    List<Geometry> copiedGeometries=new ArrayList<Geometry>(geometries.size());
+    for (    Geometry geometry : geometries) {
+      copiedGeometries.add(geometry.clone());
+    }
+    return copiedGeometries;
+  }
+  TextureHelper textureHelper=dataRepository.getHelper(TextureHelper.class);
+  String name=structure.getName();
+  Vector3f[] vertices=this.getVertices(structure,dataRepository);
+  int verticesAmount=vertices.length;
+  List<float[]> verticesColors=this.getVerticesColors(structure,dataRepository);
+  Map<Integer,List<Integer>> meshesMap=new HashMap<Integer,List<Integer>>();
+  Pointer pMFace=(Pointer)structure.getFieldValue("mface");
+  List<Structure> mFaces=pMFace.fetchData(dataRepository.getInputStream());
+  Pointer pMTFace=(Pointer)structure.getFieldValue("mtface");
+  List<Vector2f> uvCoordinates=null;
+  List<Structure> mtFaces=null;
+  if (!pMTFace.isNull()) {
+    mtFaces=pMTFace.fetchData(dataRepository.getInputStream());
+    int facesAmount=((Number)structure.getFieldValue("totface")).intValue();
+    if (mtFaces.size() != facesAmount) {
+      throw new BlenderFileException("The amount of faces uv coordinates is not equal to faces amount!");
+    }
+    uvCoordinates=new ArrayList<Vector2f>();
+  }
+  Map<Vector3f,Vector3f> normalMap=new HashMap<Vector3f,Vector3f>(verticesAmount);
+  List<Vector3f> normalList=new ArrayList<Vector3f>();
+  List<Vector3f> vertexList=new ArrayList<Vector3f>();
+  Map<Integer,Texture> materialNumberToTexture=new HashMap<Integer,Texture>();
+  Map<Integer,List<Integer>> vertexReferenceMap=new HashMap<Integer,List<Integer>>(verticesAmount);
+  int vertexColorIndex=0;
+  for (int i=0; i < mFaces.size(); ++i) {
+    Structure mFace=mFaces.get(i);
+    boolean smooth=(((Number)mFace.getFieldValue("flag")).byteValue() & 0x01) != 0x00;
+    DynamicArray<Number> uvs=null;
+    boolean materialWithoutTextures=false;
+    Pointer pImage=null;
+    if (mtFaces != null) {
+      Structure mtFace=mtFaces.get(i);
+      pImage=(Pointer)mtFace.getFieldValue("tpage");
+      materialWithoutTextures=pImage.isNull();
+      uvs=(DynamicArray<Number>)mtFace.getFieldValue("uv");
+      uvCoordinates.add(new Vector2f(uvs.get(0,0).floatValue(),uvs.get(0,1).floatValue()));
+      uvCoordinates.add(new Vector2f(uvs.get(1,0).floatValue(),uvs.get(1,1).floatValue()));
+      uvCoordinates.add(new Vector2f(uvs.get(2,0).floatValue(),uvs.get(2,1).floatValue()));
+    }
+    int matNr=((Number)mFace.getFieldValue("mat_nr")).intValue();
+    Integer materialNumber=Integer.valueOf(materialWithoutTextures ? -1 * matNr - 1 : matNr);
+    List<Integer> indexList=meshesMap.get(materialNumber);
+    if (indexList == null) {
+      indexList=new ArrayList<Integer>();
+      meshesMap.put(materialNumber,indexList);
+    }
+    if (pImage != null && !pImage.isNull() && !materialNumberToTexture.containsKey(materialNumber)) {
+      Texture texture=textureHelper.getTextureFromImage(pImage.fetchData(dataRepository.getInputStream()).get(0),dataRepository);
+      if (texture != null) {
+        materialNumberToTexture.put(materialNumber,texture);
+      }
+    }
+    int v1=((Number)mFace.getFieldValue("v1")).intValue();
+    int v2=((Number)mFace.getFieldValue("v2")).intValue();
+    int v3=((Number)mFace.getFieldValue("v3")).intValue();
+    int v4=((Number)mFace.getFieldValue("v4")).intValue();
+    Vector3f n=FastMath.computeNormal(vertices[v1],vertices[v2],vertices[v3]);
+    this.addNormal(n,normalMap,smooth,vertices[v1],vertices[v2],vertices[v3]);
+    normalList.add(normalMap.get(vertices[v1]));
+    normalList.add(normalMap.get(vertices[v2]));
+    normalList.add(normalMap.get(vertices[v3]));
+    this.appendVertexReference(v1,vertexList.size(),vertexReferenceMap);
+    indexList.add(vertexList.size());
+    vertexList.add(vertices[v1]);
+    this.appendVertexReference(v2,vertexList.size(),vertexReferenceMap);
+    indexList.add(vertexList.size());
+    vertexList.add(vertices[v2]);
+    this.appendVertexReference(v3,vertexList.size(),vertexReferenceMap);
+    indexList.add(vertexList.size());
+    vertexList.add(vertices[v3]);
+    if (v4 > 0) {
+      if (uvs != null) {
+        uvCoordinates.add(new Vector2f(uvs.get(0,0).floatValue(),uvs.get(0,1).floatValue()));
+        uvCoordinates.add(new Vector2f(uvs.get(2,0).floatValue(),uvs.get(2,1).floatValue()));
+        uvCoordinates.add(new Vector2f(uvs.get(3,0).floatValue(),uvs.get(3,1).floatValue()));
+      }
+      this.appendVertexReference(v1,vertexList.size(),vertexReferenceMap);
+      indexList.add(vertexList.size());
+      vertexList.add(vertices[v1]);
+      this.appendVertexReference(v3,vertexList.size(),vertexReferenceMap);
+      indexList.add(vertexList.size());
+      vertexList.add(vertices[v3]);
+      this.appendVertexReference(v4,vertexList.size(),vertexReferenceMap);
+      indexList.add(vertexList.size());
+      vertexList.add(vertices[v4]);
+      this.addNormal(n,normalMap,smooth,vertices[v4]);
+      normalList.add(normalMap.get(vertices[v1]));
+      normalList.add(normalMap.get(vertices[v3]));
+      normalList.add(normalMap.get(vertices[v4]));
+      if (verticesColors != null) {
+        verticesColors.add(vertexColorIndex + 3,verticesColors.get(vertexColorIndex));
+        verticesColors.add(vertexColorIndex + 4,verticesColors.get(vertexColorIndex + 2));
+      }
+      vertexColorIndex+=6;
+    }
+ else {
+      if (verticesColors != null) {
+        verticesColors.remove(vertexColorIndex + 3);
+        vertexColorIndex+=3;
+      }
+    }
+  }
+  Vector3f[] normals=normalList.toArray(new Vector3f[normalList.size()]);
+  Structure parent=dataRepository.peekParent();
+  Structure defbase=(Structure)parent.getFieldValue("defbase");
+  List<Structure> defs=defbase.evaluateListBase(dataRepository);
+  String[] verticesGroups=new String[defs.size()];
+  int defIndex=0;
+  for (  Structure def : defs) {
+    verticesGroups[defIndex++]=def.getFieldValue("name").toString();
+  }
+  ArmatureHelper armatureHelper=dataRepository.getHelper(ArmatureHelper.class);
+  Structure defBase=(Structure)parent.getFieldValue("defbase");
+  Map<Integer,Integer> groupToBoneIndexMap=armatureHelper.getGroupToBoneIndexMap(defBase,dataRepository);
+  VertexBuffer verticesWeights=null, verticesWeightsIndices=null;
+  int[] bonesGroups=new int[]{0};
+  VertexBuffer[] boneWeightsAndIndex=this.getBoneWeightAndIndexBuffer(structure,vertexList.size(),bonesGroups,vertexReferenceMap,groupToBoneIndexMap,dataRepository);
+  verticesWeights=boneWeightsAndIndex[0];
+  verticesWeightsIndices=boneWeightsAndIndex[1];
+  MaterialHelper materialHelper=dataRepository.getHelper(MaterialHelper.class);
+  Material[] materials=null;
+  Material[] nonTexturedMaterials=null;
+  if ((dataRepository.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.MATERIALS) != 0) {
+    materials=materialHelper.getMaterials(structure,dataRepository);
+    nonTexturedMaterials=materials == null ? null : new Material[materials.length];
+  }
+  geometries=new ArrayList<Geometry>(meshesMap.size());
+  VertexBuffer verticesBuffer=new VertexBuffer(Type.Position);
+  verticesBuffer.setupData(Usage.Stream,3,Format.Float,BufferUtils.createFloatBuffer(vertexList.toArray(new Vector3f[vertexList.size()])));
+  VertexBuffer verticesBind=new VertexBuffer(Type.BindPosePosition);
+  verticesBind.setupData(Usage.CpuOnly,3,Format.Float,BufferUtils.clone(verticesBuffer.getData()));
+  VertexBuffer normalsBuffer=new VertexBuffer(Type.Normal);
+  normalsBuffer.setupData(Usage.Stream,3,Format.Float,BufferUtils.createFloatBuffer(normals));
+  VertexBuffer normalsBind=new VertexBuffer(Type.BindPoseNormal);
+  normalsBind.setupData(Usage.CpuOnly,3,Format.Float,BufferUtils.clone(normalsBuffer.getData()));
+  VertexBuffer uvCoordsBuffer=null;
+  if (uvCoordinates != null) {
+    uvCoordsBuffer=new VertexBuffer(Type.TexCoord);
+    uvCoordsBuffer.setupData(Usage.Static,2,Format.Float,BufferUtils.createFloatBuffer(uvCoordinates.toArray(new Vector2f[uvCoordinates.size()])));
+  }
+  FloatBuffer verticesColorsBuffer=this.createFloatBuffer(verticesColors);
+  for (  Entry<Integer,List<Integer>> meshEntry : meshesMap.entrySet()) {
+    Mesh mesh=new Mesh();
+    List<Integer> indexList=meshEntry.getValue();
+    int[] indices=new int[indexList.size()];
+    for (int i=0; i < indexList.size(); ++i) {
+      indices[i]=indexList.get(i).intValue();
+    }
+    mesh.setBuffer(Type.Index,1,BufferUtils.createIntBuffer(indices));
+    mesh.setBuffer(verticesBuffer);
+    mesh.setBuffer(verticesBind);
+    if (verticesColorsBuffer != null) {
+      mesh.setBuffer(Type.Color,4,verticesColorsBuffer);
+    }
+    if (verticesWeights != null) {
+      mesh.setMaxNumWeights(bonesGroups[0]);
+      mesh.setBuffer(verticesWeights);
+      mesh.setBuffer(verticesWeightsIndices);
+    }
+    mesh.setBuffer(normalsBuffer);
+    mesh.setBuffer(normalsBind);
+    if (uvCoordsBuffer != null) {
+      mesh.setBuffer(uvCoordsBuffer);
+    }
+    Geometry geometry=new Geometry(name + (geometries.size() + 1),mesh);
+    if (materials != null) {
+      int materialNumber=meshEntry.getKey().intValue();
+      Material material;
+      if (materialNumber >= 0) {
+        material=materials[materialNumber];
+        if (materialNumberToTexture.containsKey(Integer.valueOf(materialNumber))) {
+          if (material.getMaterialDef().getAssetName().contains("Lighting")) {
+            if (!materialHelper.hasTexture(material,MaterialHelper.TEXTURE_TYPE_DIFFUSE)) {
+              material=material.clone();
+              material.setTexture(MaterialHelper.TEXTURE_TYPE_DIFFUSE,materialNumberToTexture.get(Integer.valueOf(materialNumber)));
+            }
+          }
+ else {
+            if (!materialHelper.hasTexture(material,MaterialHelper.TEXTURE_TYPE_COLOR)) {
+              material=material.clone();
+              material.setTexture(MaterialHelper.TEXTURE_TYPE_COLOR,materialNumberToTexture.get(Integer.valueOf(materialNumber)));
+            }
+          }
+        }
+      }
+ else {
+        materialNumber=-1 * (materialNumber + 1);
+        if (nonTexturedMaterials[materialNumber] == null) {
+          nonTexturedMaterials[materialNumber]=materialHelper.getNonTexturedMaterial(materials[materialNumber],TextureHelper.TEX_IMAGE);
+        }
+        material=nonTexturedMaterials[materialNumber];
+      }
+      geometry.setMaterial(material);
+    }
+ else {
+      geometry.setMaterial(dataRepository.getDefaultMaterial());
+    }
+    geometries.add(geometry);
+  }
+  dataRepository.addLoadedFeatures(structure.getOldMemoryAddress(),structure.getName(),structure,geometries);
+  return geometries;
+}

@@ -1,0 +1,9 @@
+{
+  VertexBuffer boneIndices=meshes[0].getBuffer(Type.BoneIndex);
+  ByteBuffer data=(ByteBuffer)boneIndices.getData();
+  for (int i=0; i < boneIndices.getNumElements(); ++i) {
+    if (data.get(i) == -1) {
+      data.put(i,immovableBoneIndex);
+    }
+  }
+}

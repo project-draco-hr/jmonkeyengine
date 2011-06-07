@@ -1,0 +1,17 @@
+{
+  if (!"ListBase".equals(this.type)) {
+    throw new IllegalStateException("This structure is not of type: 'ListBase'");
+  }
+  Pointer first=(Pointer)this.getFieldValue("first");
+  Pointer last=(Pointer)this.getFieldValue("last");
+  long currentAddress=0;
+  long lastAddress=last.getOldMemoryAddress();
+  List<Structure> result=new LinkedList<Structure>();
+  while (currentAddress != lastAddress) {
+    currentAddress=first.getOldMemoryAddress();
+    Structure structure=first.fetchData(dataRepository.getInputStream()).get(0);
+    result.add(structure);
+    first=(Pointer)structure.getFlatFieldValue("next");
+  }
+  return result;
+}

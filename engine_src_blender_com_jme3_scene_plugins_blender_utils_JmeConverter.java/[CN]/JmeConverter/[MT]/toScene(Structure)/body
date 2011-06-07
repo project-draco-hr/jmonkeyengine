@@ -1,0 +1,8 @@
+{
+  if ((dataRepository.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.SCENES) == 0) {
+    return null;
+  }
+  Structure id=(Structure)structure.getFieldValue("id");
+  String sceneName=id.getFieldValue("name").toString();
+  return new Node(sceneName);
+}

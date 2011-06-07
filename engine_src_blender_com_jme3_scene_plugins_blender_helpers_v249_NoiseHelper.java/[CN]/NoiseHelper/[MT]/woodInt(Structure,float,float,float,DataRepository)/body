@@ -1,0 +1,29 @@
+{
+  int noisebasis2=((Number)tex.getFieldValue("noisebasis2")).intValue();
+  int noisebasis=((Number)tex.getFieldValue("noisebasis")).intValue();
+  int stype=((Number)tex.getFieldValue("stype")).intValue();
+  float noisesize=((Number)tex.getFieldValue("noisesize")).floatValue();
+  float turbul=((Number)tex.getFieldValue("turbul")).floatValue();
+  int noiseType=((Number)tex.getFieldValue("noisetype")).intValue();
+  float wi=0;
+  int waveform=noisebasis2;
+  int wt=stype;
+  if (waveform > TEX_TRI || waveform < TEX_SIN) {
+    waveform=0;
+  }
+  if (wt == TEX_BAND) {
+    wi=waveformFunctions[waveform].execute((x + y + z) * 10.0f);
+  }
+ else   if (wt == TEX_RING) {
+    wi=waveformFunctions[waveform].execute((float)Math.sqrt(x * x + y * y + z * z) * 20.0f);
+  }
+ else   if (wt == TEX_BANDNOISE) {
+    wi=turbul * this.bliGNoise(noisesize,x,y,z,noiseType != TEX_NOISESOFT,noisebasis);
+    wi=waveformFunctions[waveform].execute((x + y + z) * 10.0f + wi);
+  }
+ else   if (wt == TEX_RINGNOISE) {
+    wi=turbul * this.bliGNoise(noisesize,x,y,z,noiseType != TEX_NOISESOFT,noisebasis);
+    wi=waveformFunctions[waveform].execute((float)Math.sqrt(x * x + y * y + z * z) * 20.0f + wi);
+  }
+  return wi;
+}

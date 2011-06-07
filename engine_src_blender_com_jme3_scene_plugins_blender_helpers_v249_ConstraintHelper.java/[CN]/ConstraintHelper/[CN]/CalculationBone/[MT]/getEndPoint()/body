@@ -1,0 +1,9 @@
+{
+  if (this.getParent() == null) {
+    return new Vector3f(0,this.getLocalScale().y,0);
+  }
+ else {
+    Node parent=this.getParent();
+    return parent.getWorldTranslation().subtract(this.getWorldTranslation()).multLocal(this.getWorldScale());
+  }
+}

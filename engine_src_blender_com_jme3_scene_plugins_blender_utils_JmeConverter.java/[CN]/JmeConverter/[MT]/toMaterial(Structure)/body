@@ -1,0 +1,7 @@
+{
+  if ((dataRepository.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.MATERIALS) == 0) {
+    return null;
+  }
+  MaterialHelper materialHelper=dataRepository.getHelper(MaterialHelper.class);
+  return materialHelper.toMaterial(structure,dataRepository);
+}

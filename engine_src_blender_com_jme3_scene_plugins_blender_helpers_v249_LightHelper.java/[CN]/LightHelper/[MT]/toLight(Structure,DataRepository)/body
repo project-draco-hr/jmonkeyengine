@@ -1,0 +1,35 @@
+{
+  Light result=(Light)dataRepository.getLoadedFeature(structure.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
+  if (result != null) {
+    return result;
+  }
+  int type=((Number)structure.getFieldValue("type")).intValue();
+switch (type) {
+case 0:
+    result=new PointLight();
+  float distance=((Number)structure.getFieldValue("dist")).floatValue();
+((PointLight)result).setRadius(distance);
+break;
+case 1:
+LOGGER.log(Level.WARNING,"'Sun' lamp is not supported in jMonkeyEngine.");
+break;
+case 2:
+LOGGER.log(Level.WARNING,"'Spot' lamp is not supported in jMonkeyEngine.");
+break;
+case 3:
+LOGGER.log(Level.WARNING,"'Hemi' lamp is not supported in jMonkeyEngine.");
+break;
+case 4:
+result=new DirectionalLight();
+break;
+default :
+throw new BlenderFileException("Unknown light source type: " + type);
+}
+if (result != null) {
+float r=((Number)structure.getFieldValue("r")).floatValue();
+float g=((Number)structure.getFieldValue("g")).floatValue();
+float b=((Number)structure.getFieldValue("b")).floatValue();
+result.setColor(new ColorRGBA(r,g,b,0.0f));
+}
+return result;
+}

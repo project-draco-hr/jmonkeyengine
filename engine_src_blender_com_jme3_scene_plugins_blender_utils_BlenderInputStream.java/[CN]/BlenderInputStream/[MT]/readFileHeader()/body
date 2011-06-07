@@ -1,0 +1,31 @@
+{
+  byte[] identifier=new byte[7];
+  int bytesRead=this.readBytes(identifier);
+  if (bytesRead != 7) {
+    throw new BlenderFileException("Error reading header identifier. Only " + bytesRead + " bytes read and there should be 7!");
+  }
+  String strIdentifier=new String(identifier);
+  if (!"BLENDER".equals(strIdentifier)) {
+    throw new BlenderFileException("Wrong file identifier: " + strIdentifier + "! Should be 'BLENDER'!");
+  }
+  char pointerSizeSign=(char)this.readByte();
+  if (pointerSizeSign == '-') {
+    pointerSize=8;
+  }
+ else   if (pointerSizeSign == '_') {
+    pointerSize=4;
+  }
+ else {
+    throw new BlenderFileException("Invalid pointer size character! Should be '_' or '-' and there is: " + pointerSizeSign);
+  }
+  endianess=(char)this.readByte();
+  if (endianess != 'v' && endianess != 'V') {
+    throw new BlenderFileException("Unknown endianess value! 'v' or 'V' expected and found: " + endianess);
+  }
+  byte[] versionNumber=new byte[3];
+  bytesRead=this.readBytes(versionNumber);
+  if (bytesRead != 3) {
+    throw new BlenderFileException("Error reading version numberr. Only " + bytesRead + " bytes read and there should be 3!");
+  }
+  this.versionNumber=new String(versionNumber);
+}

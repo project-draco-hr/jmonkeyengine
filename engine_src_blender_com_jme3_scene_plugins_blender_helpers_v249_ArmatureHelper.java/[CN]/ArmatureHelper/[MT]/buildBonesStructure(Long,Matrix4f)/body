@@ -1,0 +1,8 @@
+{
+  List<Bone> bones=new ArrayList<Bone>(boneDataRoots.size() + 1);
+  bones.add(new Bone(null));
+  for (  BoneTransformationData btd : boneDataRoots) {
+    this.assignBonesMatrices(btd,additionalRootBoneTransformation,bones);
+  }
+  return bones.toArray(new Bone[bones.size()]);
+}

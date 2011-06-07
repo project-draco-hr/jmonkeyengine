@@ -1,0 +1,9 @@
+{
+  Long targetOMA=((Pointer)constraint.getData().getFieldValue("tar")).getOldMemoryAddress();
+  Object targetObject=dataRepository.getLoadedFeature(targetOMA,loadedFeatureDataType);
+  String subtargetName=constraint.getData().getFieldValue("subtarget").toString();
+  if (subtargetName.length() > 0) {
+    return dataRepository.getLoadedFeature(subtargetName,loadedFeatureDataType);
+  }
+  return targetObject;
+}

@@ -1,0 +1,57 @@
+{
+  if (this == obj) {
+    return true;
+  }
+  if (!super.equals(obj)) {
+    return false;
+  }
+  if (this.getClass() != obj.getClass()) {
+    return false;
+  }
+  BlenderKey other=(BlenderKey)obj;
+  if (animations == null) {
+    if (other.animations != null) {
+      return false;
+    }
+  }
+ else   if (!animations.equals(other.animations)) {
+    return false;
+  }
+  if (assetRootPath == null) {
+    if (other.assetRootPath != null) {
+      return false;
+    }
+  }
+ else   if (!assetRootPath.equals(other.assetRootPath)) {
+    return false;
+  }
+  if (defaultMaterial == null) {
+    if (other.defaultMaterial != null) {
+      return false;
+    }
+  }
+ else   if (!defaultMaterial.equals(other.defaultMaterial)) {
+    return false;
+  }
+  if (faceCullMode != other.faceCullMode) {
+    return false;
+  }
+  if (featuresToLoad != other.featuresToLoad) {
+    return false;
+  }
+  if (fixUpAxis != other.fixUpAxis) {
+    return false;
+  }
+  if (fps != other.fps) {
+    return false;
+  }
+  if (usedWorld == null) {
+    if (other.usedWorld != null) {
+      return false;
+    }
+  }
+ else   if (!usedWorld.equals(other.usedWorld)) {
+    return false;
+  }
+  return true;
+}

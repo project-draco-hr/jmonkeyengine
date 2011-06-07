@@ -1,0 +1,12 @@
+{
+  long part1=this.readInt();
+  long part2=this.readInt();
+  long result=-1;
+  if (endianess == 'v') {
+    result=part2 << 32 | part1;
+  }
+ else {
+    result=part1 << 32 | part2;
+  }
+  return result;
+}

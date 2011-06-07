@@ -1,0 +1,27 @@
+{
+  if (texres.nor != null) {
+    TexResult fakeTexresult;
+    try {
+      fakeTexresult=(TexResult)texres.clone();
+    }
+ catch (    CloneNotSupportedException e) {
+      throw new IllegalStateException("Texture result class MUST support cloning!",e);
+    }
+    float fac0=fakeTexresult.tr + fakeTexresult.tg + fakeTexresult.tb;
+    fakeTexresult.tin=texres.nor[0];
+    this.doColorband(colorBand,fakeTexresult,dataRepository);
+    float fac1=fakeTexresult.tr + fakeTexresult.tg + fakeTexresult.tb;
+    fakeTexresult.tin=texres.nor[1];
+    this.doColorband(colorBand,fakeTexresult,dataRepository);
+    float fac2=fakeTexresult.tr + fakeTexresult.tg + fakeTexresult.tb;
+    fakeTexresult.tin=texres.nor[2];
+    this.doColorband(colorBand,fakeTexresult,dataRepository);
+    float fac3=fakeTexresult.tr + fakeTexresult.tg + fakeTexresult.tb;
+    texres.nor[0]=0.3333f * (fac0 - fac1);
+    texres.nor[1]=0.3333f * (fac0 - fac2);
+    texres.nor[2]=0.3333f * (fac0 - fac3);
+    texres.nor[0]=texres.tin - texres.nor[0];
+    texres.nor[1]=texres.tin - texres.nor[1];
+    texres.nor[2]=texres.tin - texres.nor[2];
+  }
+}

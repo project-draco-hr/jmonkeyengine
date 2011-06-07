@@ -1,0 +1,24 @@
+{
+  this.featuresToLoad=featuresToLoad;
+  if ((featuresToLoad & FeaturesToLoad.SCENES) != 0) {
+    scenes=new ArrayList<Node>();
+  }
+  if ((featuresToLoad & FeaturesToLoad.OBJECTS) != 0) {
+    objects=new ArrayList<Node>();
+    if ((featuresToLoad & FeaturesToLoad.MATERIALS) != 0) {
+      materials=new ArrayList<Material>();
+      if ((featuresToLoad & FeaturesToLoad.TEXTURES) != 0) {
+        textures=new ArrayList<Texture>();
+      }
+    }
+    if ((featuresToLoad & FeaturesToLoad.ANIMATIONS) != 0) {
+      animations=new ArrayList<AnimData>();
+    }
+  }
+  if ((featuresToLoad & FeaturesToLoad.CAMERAS) != 0) {
+    cameras=new ArrayList<Camera>();
+  }
+  if ((featuresToLoad & FeaturesToLoad.LIGHTS) != 0) {
+    lights=new ArrayList<Light>();
+  }
+}

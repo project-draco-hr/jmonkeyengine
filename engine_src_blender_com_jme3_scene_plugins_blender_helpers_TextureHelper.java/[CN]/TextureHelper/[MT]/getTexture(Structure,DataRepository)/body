@@ -1,0 +1,21 @@
+{
+  if (blenderVersion < 250) {
+    return super.getTexture(tex,dataRepository);
+  }
+  Texture result=(Texture)dataRepository.getLoadedFeature(tex.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
+  if (result != null) {
+    return result;
+  }
+  int type=((Number)tex.getFieldValue("type")).intValue();
+switch (type) {
+case TEX_POINTDENSITY:
+    LOGGER.warning("Point density texture loading currently not supported!");
+  break;
+case TEX_VOXELDATA:
+LOGGER.warning("Voxel data texture loading currently not supported!");
+break;
+default :
+result=super.getTexture(tex,dataRepository);
+}
+return result;
+}

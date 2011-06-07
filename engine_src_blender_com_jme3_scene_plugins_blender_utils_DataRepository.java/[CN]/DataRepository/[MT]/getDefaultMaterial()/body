@@ -1,0 +1,8 @@
+{
+  if (blenderKey.getDefaultMaterial() == null) {
+    Material defaultMaterial=new Material(assetManager,"Common/MatDefs/Misc/SolidColor.j3md");
+    defaultMaterial.setColor("Color",ColorRGBA.DarkGray);
+    blenderKey.setDefaultMaterial(defaultMaterial);
+  }
+  return blenderKey.getDefaultMaterial();
+}

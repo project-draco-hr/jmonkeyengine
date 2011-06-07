@@ -1,0 +1,12 @@
+{
+  if (rnaPath.endsWith(".location")) {
+    return Ipo.AC_LOC_X + arrayIndex;
+  }
+  if (rnaPath.endsWith(".rotation_quaternion")) {
+    return Ipo.AC_QUAT_W + arrayIndex;
+  }
+  if (rnaPath.endsWith(".scale")) {
+    return Ipo.AC_SIZE_X + arrayIndex;
+  }
+  throw new IllegalStateException("Unknown curve rna path: " + rnaPath);
+}

@@ -1,0 +1,31 @@
+{
+  super.read(e);
+  InputCapsule ic=e.getCapsule(this);
+  int animSize=ic.readInt("anim-size",0);
+  if (animSize > 0) {
+    if (animations == null) {
+      animations=new HashMap<String,Map<String,int[]>>(animSize);
+    }
+ else {
+      animations.clear();
+    }
+    for (int i=0; i < animSize; ++i) {
+      String objectName=ic.readString("animated-object-" + i,null);
+      int animationsAmount=ic.readInt("anims-amount-" + i,0);
+      Map<String,int[]> objectAnimations=new HashMap<String,int[]>(animationsAmount);
+      for (int j=0; j < animationsAmount; ++j) {
+        String animName=ic.readString("anim-name-" + i,null);
+        int[] animFrames=ic.readIntArray("anim-frames-" + i,null);
+        objectAnimations.put(animName,animFrames);
+      }
+      animations.put(objectName,objectAnimations);
+    }
+  }
+  fps=ic.readInt("fps",DEFAULT_FPS);
+  featuresToLoad=ic.readInt("features-to-load",FeaturesToLoad.ALL);
+  assetRootPath=ic.readString("asset-root-path",null);
+  fixUpAxis=ic.readBoolean("fix-up-axis",true);
+  usedWorld=ic.readString("used-world",null);
+  defaultMaterial=(Material)ic.readSavable("default-material",null);
+  faceCullMode=ic.readEnum("face-cull-mode",FaceCullMode.class,FaceCullMode.Off);
+}

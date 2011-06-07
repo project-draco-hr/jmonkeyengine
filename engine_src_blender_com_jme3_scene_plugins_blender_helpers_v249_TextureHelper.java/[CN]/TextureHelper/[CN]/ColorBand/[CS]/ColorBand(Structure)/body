@@ -1,0 +1,10 @@
+{
+  this.flag=((Number)colorbandStructure.getFieldValue("flag")).intValue();
+  this.tot=((Number)colorbandStructure.getFieldValue("tot")).intValue();
+  this.cur=((Number)colorbandStructure.getFieldValue("cur")).intValue();
+  this.ipotype=((Number)colorbandStructure.getFieldValue("ipotype")).intValue();
+  DynamicArray<Structure> data=(DynamicArray<Structure>)colorbandStructure.getFieldValue("data");
+  for (int i=0; i < data.getTotalSize(); ++i) {
+    this.data[i]=new CBData(data.get(i));
+  }
+}

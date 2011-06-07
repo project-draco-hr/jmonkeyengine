@@ -1,0 +1,17 @@
+{
+  float nsOutscale=((Number)tex.getFieldValue("ns_outscale")).floatValue();
+  float nabla=((Number)tex.getFieldValue("nabla")).floatValue();
+  float noisesize=((Number)tex.getFieldValue("noisesize")).floatValue();
+  float contrast=((Number)tex.getFieldValue("contrast")).floatValue();
+  float brightness=((Number)tex.getFieldValue("bright")).floatValue();
+  IMusgraveFunction musgraveFunction=musgraveFunctions.get(Integer.valueOf(TEX_HTERRAIN));
+  texres.tin=nsOutscale * musgraveFunction.execute(tex,texvec[0],texvec[1],texvec[2]);
+  if (texres.nor != null) {
+    float offs=nabla / noisesize;
+    texres.nor[0]=nsOutscale * musgraveFunction.execute(tex,texvec[0] + offs,texvec[1],texvec[2]);
+    texres.nor[1]=nsOutscale * musgraveFunction.execute(tex,texvec[0],texvec[1] + offs,texvec[2]);
+    texres.nor[2]=nsOutscale * musgraveFunction.execute(tex,texvec[0],texvec[1],texvec[2] + offs);
+    this.texNormalDerivate(colorBand,texres,dataRepository);
+  }
+  this.brightnesAndContrast(texres,contrast,brightness);
+}

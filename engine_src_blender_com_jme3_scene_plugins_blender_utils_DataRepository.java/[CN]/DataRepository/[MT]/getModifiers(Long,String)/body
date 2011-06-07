@@ -1,0 +1,12 @@
+{
+  List<Modifier> result=new ArrayList<Modifier>();
+  List<Modifier> readModifiers=modifiers.get(objectOMA);
+  if (readModifiers != null && readModifiers.size() > 0) {
+    for (    Modifier modifier : readModifiers) {
+      if (type == null || type.isEmpty() || modifier.getType().equals(type)) {
+        result.add(modifier);
+      }
+    }
+  }
+  return result;
+}

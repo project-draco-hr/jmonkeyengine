@@ -1,0 +1,30 @@
+{
+  int maxWeightsPerVert=0;
+  weightsFloatData.rewind();
+  for (int v=0; v < vertCount; ++v) {
+    float w0=weightsFloatData.get(), w1=weightsFloatData.get(), w2=weightsFloatData.get(), w3=weightsFloatData.get();
+    if (w3 != 0) {
+      maxWeightsPerVert=Math.max(maxWeightsPerVert,4);
+    }
+ else     if (w2 != 0) {
+      maxWeightsPerVert=Math.max(maxWeightsPerVert,3);
+    }
+ else     if (w1 != 0) {
+      maxWeightsPerVert=Math.max(maxWeightsPerVert,2);
+    }
+ else     if (w0 != 0) {
+      maxWeightsPerVert=Math.max(maxWeightsPerVert,1);
+    }
+    float sum=w0 + w1 + w2+ w3;
+    if (sum != 1f && sum != 0.0f) {
+      weightsFloatData.position(weightsFloatData.position() - 4);
+      float sumToB=1f / sum;
+      weightsFloatData.put(w0 * sumToB);
+      weightsFloatData.put(w1 * sumToB);
+      weightsFloatData.put(w2 * sumToB);
+      weightsFloatData.put(w3 * sumToB);
+    }
+  }
+  weightsFloatData.rewind();
+  return maxWeightsPerVert;
+}

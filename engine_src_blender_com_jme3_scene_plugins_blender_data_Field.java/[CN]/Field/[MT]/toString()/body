@@ -1,0 +1,35 @@
+{
+  StringBuilder result=new StringBuilder();
+  if (function) {
+    result.append('(');
+  }
+  for (int i=0; i < pointerLevel; ++i) {
+    result.append('*');
+  }
+  result.append(name);
+  if (tableSizes != null) {
+    for (int i=0; i < tableSizes.length; ++i) {
+      result.append('[').append(tableSizes[i]).append(']');
+    }
+  }
+  if (function) {
+    result.append(")()");
+  }
+  int nameLength=result.length();
+  result.append(' ');
+  for (int i=1; i < NAME_LENGTH - nameLength; ++i) {
+    result.append(' ');
+  }
+  result.append(type);
+  nameLength=result.length();
+  for (int i=0; i < NAME_LENGTH + TYPE_LENGTH - nameLength; ++i) {
+    result.append(' ');
+  }
+  if (value instanceof Character) {
+    result.append(" = ").append((int)((Character)value).charValue());
+  }
+ else {
+    result.append(" = ").append(value != null ? value.toString() : "null");
+  }
+  return result.toString();
+}

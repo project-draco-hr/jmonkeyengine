@@ -1,0 +1,53 @@
+{
+  IpoHelper ipoHelper=dataRepository.getHelper(IpoHelper.class);
+  Map<String,Map<String,Ipo>> constraintsIpos=new HashMap<String,Map<String,Ipo>>();
+  Pointer pActions=(Pointer)objectStructure.getFieldValue("action");
+  if (!pActions.isNull()) {
+    List<Structure> actions=pActions.fetchData(dataRepository.getInputStream());
+    for (    Structure action : actions) {
+      Structure chanbase=(Structure)action.getFieldValue("chanbase");
+      List<Structure> actionChannels=chanbase.evaluateListBase(dataRepository);
+      for (      Structure actionChannel : actionChannels) {
+        Map<String,Ipo> ipos=new HashMap<String,Ipo>();
+        Structure constChannels=(Structure)actionChannel.getFieldValue("constraintChannels");
+        List<Structure> constraintChannels=constChannels.evaluateListBase(dataRepository);
+        for (        Structure constraintChannel : constraintChannels) {
+          Pointer pIpo=(Pointer)constraintChannel.getFieldValue("ipo");
+          if (!pIpo.isNull()) {
+            String constraintName=constraintChannel.getFieldValue("name").toString();
+            Ipo ipo=ipoHelper.createIpo(pIpo.fetchData(dataRepository.getInputStream()).get(0),dataRepository);
+            ipos.put(constraintName,ipo);
+          }
+        }
+        String actionName=actionChannel.getFieldValue("name").toString();
+        constraintsIpos.put(actionName,ipos);
+      }
+    }
+  }
+  List<Constraint> constraintsList=new ArrayList<Constraint>();
+  Pointer pPose=(Pointer)objectStructure.getFieldValue("pose");
+  if (!pPose.isNull()) {
+    List<Structure> poseChannels=((Structure)pPose.fetchData(dataRepository.getInputStream()).get(0).getFieldValue("chanbase")).evaluateListBase(dataRepository);
+    for (    Structure poseChannel : poseChannels) {
+      Long boneOMA=Long.valueOf(((Pointer)poseChannel.getFieldValue("bone")).getOldMemoryAddress());
+      String name=dataRepository.getFileBlock(boneOMA).getStructure(dataRepository).getFieldValue("name").toString();
+      List<Structure> constraints=((Structure)poseChannel.getFieldValue("constraints")).evaluateListBase(dataRepository);
+      for (      Structure constraint : constraints) {
+        int type=((Number)constraint.getFieldValue("type")).intValue();
+        String constraintName=constraint.getFieldValue("name").toString();
+        Ipo ipo=constraintsIpos.get(name).get(constraintName);
+        if (ipo == null) {
+          float enforce=((Number)constraint.getFieldValue("enforce")).floatValue();
+          ipo=ipoHelper.createIpo(enforce);
+        }
+        Space ownerSpace=Space.valueOf(((Number)constraint.getFieldValue("ownspace")).byteValue());
+        Space targetSpace=Space.valueOf(((Number)constraint.getFieldValue("tarspace")).byteValue());
+        Constraint c=new Constraint(constraint,influenceFunctions[type],boneOMA,ownerSpace,targetSpace,ipo,dataRepository);
+        constraintsList.add(c);
+      }
+    }
+  }
+  if (constraintsList.size() > 0) {
+    this.constraints.put(objectStructure.getOldMemoryAddress(),constraintsList.toArray(new Constraint[constraintsList.size()]));
+  }
+}

@@ -1,0 +1,119 @@
+{
+  float[] curvePoints=BufferUtils.getFloatArray(curve.getFloatBuffer(Type.Position));
+  MeshHelper meshHelper=dataRepository.getHelper(MeshHelper.class);
+  float curveLength=curve.getLength();
+  float[] taperPoints=null;
+  float taperLength=0;
+  if (taperObject != null) {
+    taperPoints=BufferUtils.getFloatArray(taperObject.getFloatBuffer(Type.Position));
+    taperLength=taperObject.getLength();
+  }
+  Vector3f p=new Vector3f();
+  Vector3f z=new Vector3f(0,0,1);
+  Vector3f negativeY=new Vector3f(0,-1,0);
+  Matrix4f m=new Matrix4f();
+  float lengthAlongCurve=0, taperScale=1.0f;
+  Quaternion planeRotation=new Quaternion();
+  Quaternion zRotation=new Quaternion();
+  float[] temp=new float[]{0,0,0,1};
+  Map<Vector3f,Vector3f> normalMap=new HashMap<Vector3f,Vector3f>();
+  FloatBuffer[] vertexBuffers=new FloatBuffer[bevelObject.size()];
+  FloatBuffer[] normalBuffers=new FloatBuffer[bevelObject.size()];
+  IntBuffer[] indexBuffers=new IntBuffer[bevelObject.size()];
+  for (int geomIndex=0; geomIndex < bevelObject.size(); ++geomIndex) {
+    Mesh mesh=bevelObject.get(geomIndex).getMesh();
+    FloatBuffer positions=mesh.getFloatBuffer(Type.Position);
+    float[] vertices=BufferUtils.getFloatArray(positions);
+    for (int i=0; i < curvePoints.length; i+=3) {
+      p.set(curvePoints[i],curvePoints[i + 1],curvePoints[i + 2]);
+      Vector3f v;
+      if (i == 0) {
+        v=new Vector3f(curvePoints[3] - p.x,curvePoints[4] - p.y,curvePoints[5] - p.z);
+      }
+ else       if (i + 3 >= curvePoints.length) {
+        v=new Vector3f(p.x - curvePoints[i - 3],p.y - curvePoints[i - 2],p.z - curvePoints[i - 1]);
+        lengthAlongCurve+=v.length();
+      }
+ else {
+        v=new Vector3f(curvePoints[i + 3] - curvePoints[i - 3],curvePoints[i + 4] - curvePoints[i - 2],curvePoints[i + 5] - curvePoints[i - 1]);
+        lengthAlongCurve+=new Vector3f(curvePoints[i + 3] - p.x,curvePoints[i + 4] - p.y,curvePoints[i + 5] - p.z).length();
+      }
+      v.normalizeLocal();
+      float angle=FastMath.acos(v.dot(z));
+      v.crossLocal(z).normalizeLocal();
+      planeRotation.fromAngleAxis(angle,v);
+      Vector3f zAxisRotationVector=negativeY.cross(v).normalizeLocal();
+      float zAxisRotationAngle=FastMath.acos(negativeY.dot(v));
+      zRotation.fromAngleAxis(zAxisRotationAngle,zAxisRotationVector);
+      if (taperPoints != null) {
+        taperScale=this.getTaperScale(taperPoints,taperLength,lengthAlongCurve / curveLength);
+      }
+      m.set(Matrix4f.IDENTITY);
+      m.setRotationQuaternion(planeRotation.multLocal(zRotation));
+      m.setTranslation(p);
+      Vector3f[] verts=new Vector3f[vertices.length / 3];
+      for (int j=0; j < verts.length; ++j) {
+        temp[0]=vertices[j * 3] * taperScale;
+        temp[1]=vertices[j * 3 + 1] * taperScale;
+        temp[2]=0;
+        m.mult(temp);
+        if (fixUpAxis) {
+          verts[j]=new Vector3f(temp[0],temp[1],temp[2]);
+        }
+ else {
+          verts[j]=new Vector3f(temp[0],temp[2],-temp[1]);
+        }
+      }
+      if (vertexBuffers[geomIndex] == null) {
+        vertexBuffers[geomIndex]=BufferUtils.createFloatBuffer(verts.length * curvePoints.length);
+      }
+      FloatBuffer buffer=BufferUtils.createFloatBuffer(verts);
+      vertexBuffers[geomIndex].put(buffer);
+      IntBuffer indexBuffer=indexBuffers[geomIndex];
+      if (indexBuffer == null) {
+        int bevelCurveEdgesAmount=verts.length - 1;
+        indexBuffer=BufferUtils.createIntBuffer(((bevelCurveEdgesAmount << 1) * curvePoints.length - bevelCurveEdgesAmount << 1) * 3);
+        indexBuffers[geomIndex]=indexBuffer;
+      }
+      int pointOffset=i / 3 * verts.length;
+      if (i + 3 < curvePoints.length) {
+        for (int index=0; index < verts.length - 1; ++index) {
+          indexBuffer.put(index + pointOffset);
+          indexBuffer.put(index + pointOffset + 1);
+          indexBuffer.put(verts.length + index + pointOffset);
+          indexBuffer.put(verts.length + index + pointOffset);
+          indexBuffer.put(index + pointOffset + 1);
+          indexBuffer.put(verts.length + index + pointOffset+ 1);
+        }
+      }
+    }
+  }
+  for (int geomIndex=0; geomIndex < bevelObject.size(); ++geomIndex) {
+    Vector3f[] allVerts=BufferUtils.getVector3Array(vertexBuffers[geomIndex]);
+    int[] allIndices=BufferUtils.getIntArray(indexBuffers[geomIndex]);
+    for (int i=0; i < allIndices.length - 3; i+=3) {
+      Vector3f n=FastMath.computeNormal(allVerts[allIndices[i]],allVerts[allIndices[i + 1]],allVerts[allIndices[i + 2]]);
+      meshHelper.addNormal(n,normalMap,smooth,allVerts[allIndices[i]],allVerts[allIndices[i + 1]],allVerts[allIndices[i + 2]]);
+    }
+    if (normalBuffers[geomIndex] == null) {
+      normalBuffers[geomIndex]=BufferUtils.createFloatBuffer(allVerts.length * 3);
+    }
+    for (    Vector3f v : allVerts) {
+      Vector3f n=normalMap.get(v);
+      normalBuffers[geomIndex].put(n.x);
+      normalBuffers[geomIndex].put(n.y);
+      normalBuffers[geomIndex].put(n.z);
+    }
+  }
+  List<Geometry> result=new ArrayList<Geometry>(vertexBuffers.length);
+  for (int i=0; i < vertexBuffers.length; ++i) {
+    Mesh mesh=new Mesh();
+    mesh.setBuffer(Type.Position,3,vertexBuffers[i]);
+    mesh.setBuffer(Type.Index,3,indexBuffers[i]);
+    mesh.setBuffer(Type.Normal,3,normalBuffers[i]);
+    Geometry g=new Geometry("g" + i,mesh);
+    g.updateModelBound();
+    result.add(g);
+  }
+  return result;
+}

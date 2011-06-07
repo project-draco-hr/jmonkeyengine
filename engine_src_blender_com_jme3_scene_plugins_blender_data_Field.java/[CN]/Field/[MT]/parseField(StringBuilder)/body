@@ -1,0 +1,42 @@
+{
+  this.removeWhitespaces(nameBuilder);
+  int pointerIndex=nameBuilder.indexOf("*");
+  while (pointerIndex >= 0) {
+    ++pointerLevel;
+    nameBuilder.deleteCharAt(pointerIndex);
+    pointerIndex=nameBuilder.indexOf("*");
+  }
+  if (nameBuilder.indexOf("(") >= 0) {
+    function=true;
+    this.removeCharacter(nameBuilder,'(');
+    this.removeCharacter(nameBuilder,')');
+  }
+ else {
+    int tableStartIndex=0;
+    List<Integer> lengths=new ArrayList<Integer>(3);
+    do {
+      tableStartIndex=nameBuilder.indexOf("[");
+      if (tableStartIndex > 0) {
+        int tableStopIndex=nameBuilder.indexOf("]");
+        if (tableStopIndex < 0) {
+          throw new BlenderFileException("Invalid structure name: " + name);
+        }
+        try {
+          lengths.add(Integer.valueOf(nameBuilder.substring(tableStartIndex + 1,tableStopIndex)));
+        }
+ catch (        NumberFormatException e) {
+          throw new BlenderFileException("Invalid structure name caused by invalid table length: " + name,e);
+        }
+        nameBuilder.delete(tableStartIndex,tableStopIndex + 1);
+      }
+    }
+ while (tableStartIndex > 0);
+    if (!lengths.isEmpty()) {
+      tableSizes=new int[lengths.size()];
+      for (int i=0; i < tableSizes.length; ++i) {
+        tableSizes[i]=lengths.get(i).intValue();
+      }
+    }
+  }
+  name=nameBuilder.toString();
+}

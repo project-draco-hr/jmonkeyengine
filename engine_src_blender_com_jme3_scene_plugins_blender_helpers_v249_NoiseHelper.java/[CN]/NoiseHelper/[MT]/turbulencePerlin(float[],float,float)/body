@@ -1,0 +1,10 @@
+{
+  float freq, t=0, p[]=new float[]{point[0] + 123.456f,point[1],point[2]};
+  for (freq=lofreq; freq < hifreq; freq*=2.) {
+    t+=Math.abs(noiseFunctions.get(Integer.valueOf(0)).noise3Perlin(p)) / freq;
+    p[0]*=2.0f;
+    p[1]*=2.0f;
+    p[2]*=2.0f;
+  }
+  return t - 0.3f;
+}
