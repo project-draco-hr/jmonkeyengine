@@ -1,0 +1,16 @@
+{
+  boolean debug=false;
+  for (  String arg : args) {
+    if ("-debug".equalsIgnoreCase(arg)) {
+      debug=true;
+      break;
+    }
+  }
+  final boolean debugMode=debug;
+  new ConfigDialog("./src/test-data/Blender",new IConfigExecutable(){
+    @Override public void execute(    ModelKey modelKey,    Level logLevel){
+      new ManualBlenderTester(modelKey,logLevel,debugMode).start();
+    }
+  }
+);
+}

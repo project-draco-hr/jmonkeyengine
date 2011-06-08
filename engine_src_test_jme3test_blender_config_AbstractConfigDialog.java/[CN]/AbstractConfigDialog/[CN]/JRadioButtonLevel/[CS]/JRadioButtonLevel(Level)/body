@@ -1,0 +1,11 @@
+{
+  super(level.getName());
+  this.level=level;
+  radioButtons.put(level,this);
+  this.addActionListener(new ActionListener(){
+    @Override public void actionPerformed(    ActionEvent e){
+      JRadioButtonLevel.selectedLevel=JRadioButtonLevel.this.level;
+    }
+  }
+);
+}

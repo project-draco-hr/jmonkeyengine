@@ -1,0 +1,23 @@
+{
+  this.lastValue=value;
+  if (value instanceof Boolean) {
+    jCheckBox.setSelected(((Boolean)value).booleanValue());
+    return jCheckBox;
+  }
+ else   if (value instanceof String || value instanceof Number || value instanceof Character) {
+    jTextField.setText(value.toString());
+    return jTextField;
+  }
+ else   if (value instanceof Enum<?>) {
+    DefaultComboBoxModel defaultComboBoxModel=(DefaultComboBoxModel)jComboBox.getModel();
+    defaultComboBoxModel.removeAllElements();
+    for (    Object object : value.getClass().getEnumConstants()) {
+      defaultComboBoxModel.addElement(object);
+    }
+    return jComboBox;
+  }
+ else {
+    jTextField.setText(value == null ? "" : value.toString());
+    return jTextField;
+  }
+}

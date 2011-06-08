@@ -1,0 +1,27 @@
+{
+  if (baseFolderName == null) {
+    throw new IllegalArgumentException("No test asset folder given!");
+  }
+  if (configExecutable == null) {
+    throw new IllegalArgumentException("No config executable given!");
+  }
+  this.baseFolderName=baseFolderName;
+  this.configExecutable=configExecutable;
+  this.configMap=new HashMap<String,ConfigDialog.BlenderKeyConfiguration>();
+  File baseFolder=new File(baseFolderName);
+  if (!baseFolder.exists() || !baseFolder.isDirectory()) {
+    throw new IllegalArgumentException("The given base folder path either does not exists or does not point to a directory!");
+  }
+  File[] folders=baseFolder.listFiles(new FileFilter(){
+    @Override public boolean accept(    File file){
+      return file.isDirectory() && file.getName().charAt(0) != '.';
+    }
+  }
+);
+  for (  File folder : folders) {
+    ((DefaultComboBoxModel)jComboBoxVersionSelection.getModel()).addElement(folder.getName());
+    configMap.put(folder.getName(),null);
+  }
+  this.initListeners();
+  jComboBoxVersionSelection.setSelectedIndex(0);
+}

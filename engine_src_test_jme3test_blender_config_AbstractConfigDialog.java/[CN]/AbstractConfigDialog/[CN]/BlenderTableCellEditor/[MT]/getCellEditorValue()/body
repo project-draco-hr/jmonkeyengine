@@ -1,0 +1,33 @@
+{
+  if (lastValue instanceof Boolean) {
+    return Boolean.valueOf(jCheckBox.isSelected());
+  }
+ else   if (lastValue instanceof String) {
+    return jTextField.getText();
+  }
+ else   if (lastValue instanceof Character) {
+    return Character.valueOf(jTextField.getText().charAt(0));
+  }
+ else   if (lastValue instanceof Byte) {
+    return Byte.valueOf(jTextField.getText());
+  }
+ else   if (lastValue instanceof Short) {
+    return Short.valueOf(jTextField.getText());
+  }
+ else   if (lastValue instanceof Integer) {
+    return Integer.valueOf(jTextField.getText());
+  }
+ else   if (lastValue instanceof Long) {
+    return Long.valueOf(jTextField.getText());
+  }
+ else   if (lastValue instanceof Float) {
+    return Float.valueOf(jTextField.getText());
+  }
+ else   if (lastValue instanceof Double) {
+    return Double.valueOf(jTextField.getText());
+  }
+ else   if (lastValue instanceof Enum<?>) {
+    return jComboBox.getSelectedItem();
+  }
+  return null;
+}

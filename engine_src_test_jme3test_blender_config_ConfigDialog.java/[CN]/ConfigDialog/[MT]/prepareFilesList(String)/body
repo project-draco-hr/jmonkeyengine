@@ -1,0 +1,63 @@
+{
+  File testAssetsFolder=new File(testAssetsFolderName);
+  File[] blenderFiles=testAssetsFolder.listFiles(new FileFilter(){
+    @Override public boolean accept(    File file){
+      return file.isFile() && file.canRead() && file.getName().endsWith(".blend");
+    }
+  }
+);
+  File[] files=testAssetsFolder.listFiles(new FileFilter(){
+    @Override public boolean accept(    File file){
+      return file.isFile() && file.canRead() && file.getName().endsWith(".conf");
+    }
+  }
+);
+  if (files == null || files.length == 0) {
+    blenderKeyConfiguration=new BlenderKeyConfiguration(blenderFiles.length);
+  }
+ else {
+    BinaryImporter jmeImporter=new BinaryImporter();
+    String instructionToUser=files.length == 1 ? "No other config file to load! No configuration set!" : "Please choose different config file!";
+    do {
+      if (files.length > 1) {
+        configFile=(File)JOptionPane.showInputDialog(null,"Choose the config file!","Config file selection",JOptionPane.INFORMATION_MESSAGE,null,files,files[0]);
+      }
+ else {
+        configFile=files[0];
+      }
+      if (configFile == null) {
+        JOptionPane.showMessageDialog(this,"No config file selected!\nEmpty configuration will be created!","No configuration selected",JOptionPane.INFORMATION_MESSAGE);
+        blenderKeyConfiguration=new BlenderKeyConfiguration(blenderFiles.length);
+      }
+ else {
+        try {
+          Savable loadedData=jmeImporter.load(configFile);
+          if (loadedData instanceof BlenderKeyConfiguration) {
+            blenderKeyConfiguration=(BlenderKeyConfiguration)loadedData;
+          }
+ else {
+            LOGGER.warning("Cannot load data drom the given file!");
+            JOptionPane.showMessageDialog(this,"The data stored in the config file is of invalid type!\n" + instructionToUser,"Config data error",JOptionPane.ERROR_MESSAGE);
+          }
+        }
+ catch (        IOException e) {
+          JOptionPane.showMessageDialog(this,"Unable to load configuration! Reason: " + e.getLocalizedMessage(),"Loading data error",JOptionPane.ERROR_MESSAGE);
+          LOGGER.severe("Unable to load configuration");
+        }
+catch (        Exception e) {
+          JOptionPane.showMessageDialog(this,"Unable to load configuration!","Loading data error",JOptionPane.ERROR_MESSAGE);
+          LOGGER.log(Level.SEVERE,"Unable to load configuration due to unpredicted error!",e);
+        }
+      }
+    }
+ while (blenderKeyConfiguration == null && files.length > 1);
+  }
+  configFile=new File(testAssetsFolder,"test.conf");
+  jCheckBoxUseModelKey.setSelected(blenderKeyConfiguration.useModelKey);
+  DefaultListModel defaultListModel=(DefaultListModel)jListBlenderFiles.getModel();
+  defaultListModel.removeAllElements();
+  for (int i=0; i < blenderFiles.length; ++i) {
+    defaultListModel.addElement(new FileListItem(blenderFiles[i]));
+  }
+  return blenderFiles;
+}

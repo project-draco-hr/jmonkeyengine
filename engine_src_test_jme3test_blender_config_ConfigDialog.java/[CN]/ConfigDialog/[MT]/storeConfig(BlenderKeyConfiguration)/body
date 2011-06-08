@@ -1,0 +1,33 @@
+{
+  if (configuration.lastUsedKey != null) {
+    DefaultTableModel animationsTableModel=(DefaultTableModel)jTableAnimations.getModel();
+    if (configuration.lastUsedKey.getAnimations() != null) {
+      configuration.lastUsedKey.getAnimations().clear();
+    }
+    int animCounter=0;
+    for (int i=0; i < animationsTableModel.getRowCount(); ++i) {
+      String objectName=(String)animationsTableModel.getValueAt(i,0);
+      String animName=(String)animationsTableModel.getValueAt(i,1);
+      Number startFrame=(Number)animationsTableModel.getValueAt(i,2);
+      Number stopFrame=(Number)animationsTableModel.getValueAt(i,3);
+      if (objectName != null && animName != null && startFrame.intValue() <= stopFrame.intValue()) {
+        configuration.lastUsedKey.addAnimation(objectName,animName,startFrame.intValue(),stopFrame.intValue());
+        ++animCounter;
+      }
+    }
+    if (animCounter < animationsTableModel.getRowCount()) {
+      JOptionPane.showMessageDialog(ConfigDialog.this,"Some animations had errors!\nThey had not been added!","Invalid animations definitions",JOptionPane.WARNING_MESSAGE);
+    }
+  }
+  configuration.useModelKey=jCheckBoxUseModelKey.isSelected();
+  configuration.logLevel=JRadioButtonLevel.getSelectedLevel();
+  JmeExporter jmeExporter=new BinaryExporter();
+  try {
+    if (!jmeExporter.save(configuration,configFile)) {
+      JOptionPane.showMessageDialog(ConfigDialog.this,"Unable to save the config data!","Config save problem",JOptionPane.ERROR_MESSAGE);
+    }
+  }
+ catch (  IOException e) {
+    JOptionPane.showMessageDialog(ConfigDialog.this,"Error occured during config saving!\nReason: " + e.getLocalizedMessage(),"Config save problem",JOptionPane.ERROR_MESSAGE);
+  }
+}

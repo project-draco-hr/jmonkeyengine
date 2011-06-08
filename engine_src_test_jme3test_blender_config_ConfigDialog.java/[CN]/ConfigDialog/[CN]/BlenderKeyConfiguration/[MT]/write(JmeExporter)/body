@@ -1,0 +1,7 @@
+{
+  OutputCapsule oc=ex.getCapsule(this);
+  oc.writeStringSavableMap(blenderKeys,"keys",null);
+  oc.write(lastUsedKey,"last-key",null);
+  oc.write(useModelKey,"use-model-key",false);
+  oc.write(logLevel == null ? null : logLevel.getName(),"log-level",Level.INFO.getName());
+}

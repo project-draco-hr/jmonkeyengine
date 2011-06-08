@@ -1,0 +1,18 @@
+{
+  Material defaultMaterial=new Material(assetManager,"Common/MatDefs/Misc/SolidColor.j3md");
+  defaultMaterial.setColor("m_Color",ColorRGBA.DarkGray);
+  for (int i=-10; i <= 10; ++i) {
+    Geometry g=new Geometry("",new Sphere(3,3,0.05f));
+    g.setLocalTranslation(i,0,0);
+    g.setMaterial(defaultMaterial);
+    this.attachChild(g);
+    g=new Geometry("",new Sphere(3,3,0.05f));
+    g.setLocalTranslation(0,i,0);
+    g.setMaterial(defaultMaterial);
+    this.attachChild(g);
+    g=new Geometry("",new Sphere(3,3,0.05f));
+    g.setLocalTranslation(0,0,i);
+    g.setMaterial(defaultMaterial);
+    this.attachChild(g);
+  }
+}

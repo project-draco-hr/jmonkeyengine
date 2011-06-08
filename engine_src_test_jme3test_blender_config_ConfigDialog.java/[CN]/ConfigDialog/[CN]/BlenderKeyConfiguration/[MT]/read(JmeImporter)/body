@@ -1,0 +1,8 @@
+{
+  InputCapsule ic=im.getCapsule(this);
+  blenderKeys=(Map<String,BlenderKey>)ic.readStringSavableMap("keys",null);
+  lastUsedKey=(BlenderKey)ic.readSavable("last-key",null);
+  useModelKey=ic.readBoolean("use-model-key",false);
+  String logLevelName=ic.readString("log-level",Level.INFO.getName());
+  logLevel=logLevelName == null ? Level.INFO : Level.parse(logLevelName);
+}

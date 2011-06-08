@@ -1,0 +1,14 @@
+{
+  BlenderModelLoader blenderLoader=new BlenderModelLoader();
+  try {
+    Spatial loadingResults=blenderLoader.load(assetInfo);
+    this.rootNode.attachChild(loadingResults);
+    if (loadingResults instanceof Node) {
+      return (Node)loadingResults;
+    }
+  }
+ catch (  IOException e) {
+    LOGGER.log(Level.SEVERE,e.getMessage(),e);
+  }
+  return null;
+}

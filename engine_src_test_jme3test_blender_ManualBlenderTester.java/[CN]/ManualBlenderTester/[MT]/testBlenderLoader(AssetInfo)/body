@@ -1,0 +1,21 @@
+{
+  Node blenderModel=null;
+  BlenderLoader blenderLoader=new BlenderLoader();
+  try {
+    LoadingResults loadingResults=blenderLoader.load(assetInfo);
+    for (    Node object : loadingResults.getObjects()) {
+      this.rootNode.attachChild(object);
+      blenderModel=object;
+    }
+    for (    Light light : loadingResults.getLights()) {
+      this.rootNode.addLight(light);
+    }
+    for (    Camera camera : loadingResults.getCameras()) {
+      LOGGER.info(camera.toString());
+    }
+  }
+ catch (  IOException e) {
+    LOGGER.log(Level.SEVERE,e.getMessage(),e);
+  }
+  return blenderModel;
+}

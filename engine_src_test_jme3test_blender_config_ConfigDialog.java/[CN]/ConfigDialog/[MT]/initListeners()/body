@@ -1,0 +1,116 @@
+{
+  jComboBoxVersionSelection.addActionListener(new ActionListener(){
+    @Override public void actionPerformed(    ActionEvent evt){
+      if (blenderKeyConfiguration != null) {
+        ConfigDialog.this.storeConfig(blenderKeyConfiguration);
+        blenderKeyConfiguration=null;
+      }
+      File[] blenderFiles=ConfigDialog.this.prepareFilesList(baseFolderName + '/' + jComboBoxVersionSelection.getSelectedItem().toString());
+      if (blenderKeyConfiguration.lastUsedKey != null) {
+        for (int i=0; i < blenderFiles.length; ++i) {
+          if (blenderFiles[i].getPath().equalsIgnoreCase(blenderKeyConfiguration.lastUsedKey.getName())) {
+            jListBlenderFiles.setSelectedIndex(i);
+            break;
+          }
+        }
+      }
+      if (blenderKeyConfiguration.logLevel == null) {
+        blenderKeyConfiguration.logLevel=Level.INFO;
+      }
+      JRadioButtonLevel.setSelectedLevel(blenderKeyConfiguration.logLevel);
+    }
+  }
+);
+  jListBlenderFiles.addListSelectionListener(new ListSelectionListener(){
+    @Override public void valueChanged(    ListSelectionEvent evt){
+      BlenderKeyConfiguration config=ConfigDialog.this.blenderKeyConfiguration;
+      FileListItem selectedItem=(FileListItem)ConfigDialog.this.jListBlenderFiles.getSelectedValue();
+      if (selectedItem != null) {
+        String fileName=selectedItem.getFile().getName();
+        config.lastUsedKey=config.blenderKeys.get(fileName);
+        if (config.lastUsedKey == null) {
+          config.lastUsedKey=new BlenderKey(selectedItem.getFile().getPath());
+          config.blenderKeys.put(fileName,config.lastUsedKey);
+        }
+        ConfigDialog.this.setBlenderKey(config.lastUsedKey);
+      }
+ else {
+        config.lastUsedKey=null;
+      }
+    }
+  }
+);
+  jTableProperties.getModel().addTableModelListener(new TableModelListener(){
+    @Override public void tableChanged(    TableModelEvent evt){
+      if (evt.getType() == TableModelEvent.UPDATE) {
+        BlenderKeyConfiguration config=ConfigDialog.this.blenderKeyConfiguration;
+        int row=evt.getFirstRow();
+        String name=(String)jTableProperties.getModel().getValueAt(row,0);
+        Object value=jTableProperties.getModel().getValueAt(row,1);
+        try {
+          Field field=config.lastUsedKey.getClass().getDeclaredField(name);
+          field.setAccessible(true);
+          field.set(config.lastUsedKey,value);
+        }
+ catch (        IllegalArgumentException e) {
+          LOGGER.log(Level.SEVERE,e.getMessage(),e);
+        }
+catch (        SecurityException e) {
+          LOGGER.log(Level.SEVERE,e.getMessage(),e);
+        }
+catch (        IllegalAccessException e) {
+          LOGGER.log(Level.SEVERE,e.getMessage(),e);
+        }
+catch (        NoSuchFieldException e) {
+          LOGGER.log(Level.SEVERE,e.getMessage(),e);
+        }
+      }
+    }
+  }
+);
+  jTableAnimations.getModel().addTableModelListener(new TableModelListener(){
+    @Override public void tableChanged(    TableModelEvent evt){
+      if (evt.getType() == TableModelEvent.INSERT) {
+        jButtonRemoveAnimation.setEnabled(true);
+      }
+ else       if (evt.getType() == TableModelEvent.DELETE && jTableAnimations.getModel().getRowCount() == 0) {
+        jButtonRemoveAnimation.setEnabled(false);
+      }
+    }
+  }
+);
+  jButtonAddAnimation.addActionListener(new ActionListener(){
+    @Override public void actionPerformed(    ActionEvent evt){
+      ((DefaultTableModel)jTableAnimations.getModel()).addRow(new Object[]{"","",Integer.valueOf(-1),Integer.valueOf(-1)});
+    }
+  }
+);
+  jButtonRemoveAnimation.addActionListener(new ActionListener(){
+    @Override public void actionPerformed(    ActionEvent evt){
+      int row=jTableAnimations.getSelectedRow();
+      if (row >= 0) {
+        ((DefaultTableModel)jTableAnimations.getModel()).removeRow(row);
+      }
+    }
+  }
+);
+  jButtonOK.addActionListener(new ActionListener(){
+    @Override public void actionPerformed(    ActionEvent evt){
+      ConfigDialog.this.storeConfig(blenderKeyConfiguration);
+      SwingUtilities.invokeLater(new Runnable(){
+        @Override public void run(){
+          configExecutable.execute(ConfigDialog.this.blenderKeyConfiguration.getKeyToUse(),ConfigDialog.this.blenderKeyConfiguration.logLevel);
+        }
+      }
+);
+      ConfigDialog.this.dispose();
+    }
+  }
+);
+  jButtonCancel.addActionListener(new ActionListener(){
+    @Override public void actionPerformed(    ActionEvent evt){
+      ConfigDialog.this.dispose();
+    }
+  }
+);
+}

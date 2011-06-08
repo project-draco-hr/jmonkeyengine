@@ -1,0 +1,39 @@
+{
+  BlenderTableModel propertiesModel=(BlenderTableModel)jTableProperties.getModel();
+  int rowCount=propertiesModel.getRowCount();
+  for (int i=0; i < rowCount; ++i) {
+    propertiesModel.removeRow(0);
+  }
+  Field[] fields=blenderKey.getClass().getDeclaredFields();
+  for (  Field field : fields) {
+    field.setAccessible(true);
+    if (!"animations".equalsIgnoreCase(field.getName()) && (field.getModifiers() & Modifier.STATIC) == 0) {
+      try {
+        propertiesModel.addRow(new Object[]{field.getName(),field.get(blenderKey)});
+      }
+ catch (      IllegalArgumentException e) {
+        LOGGER.log(Level.SEVERE,e.getMessage(),e);
+      }
+catch (      IllegalAccessException e) {
+        LOGGER.log(Level.SEVERE,e.getMessage(),e);
+      }
+    }
+  }
+  DefaultTableModel animationsModel=(DefaultTableModel)jTableAnimations.getModel();
+  rowCount=animationsModel.getRowCount();
+  for (int i=0; i < rowCount; ++i) {
+    animationsModel.removeRow(0);
+  }
+  Map<String,Map<String,int[]>> animations=blenderKey.getAnimations();
+  if (animations != null) {
+    for (    Entry<String,Map<String,int[]>> animationEntry : animations.entrySet()) {
+      for (      Entry<String,int[]> animDataEntry : animationEntry.getValue().entrySet()) {
+        int[] frames=animDataEntry.getValue();
+        animationsModel.addRow(new Object[]{animationEntry.getKey(),animDataEntry.getKey(),Integer.valueOf(frames[0]),Integer.valueOf(frames[1])});
+      }
+    }
+  }
+  this.jButtonOK.setEnabled(true);
+  this.jButtonOK.requestFocusInWindow();
+  this.jButtonAddAnimation.setEnabled(true);
+}

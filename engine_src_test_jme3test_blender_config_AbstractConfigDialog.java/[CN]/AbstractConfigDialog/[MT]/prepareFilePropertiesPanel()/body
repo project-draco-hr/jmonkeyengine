@@ -1,0 +1,45 @@
+{
+  JPanel jPanelProperties=new JPanel();
+  jPanelProperties.setBorder(new EmptyBorder(new Insets(0,5,0,5)));
+  jPanelProperties.setLayout(new BorderLayout());
+  jPanelProperties.add(new JLabel("Properties"),BorderLayout.NORTH);
+  jTableProperties=new JTable();
+  jTableProperties.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+  jTableProperties.setModel(new BlenderTableModel(new Object[]{"Name","Value"}));
+  jTableProperties.getColumnModel().getColumn(1).setCellEditor(new BlenderTableCellEditor());
+  JScrollPane jScrollPaneProperties=new JScrollPane(jTableProperties);
+  jTableProperties.setFillsViewportHeight(true);
+  jPanelProperties.add(jScrollPaneProperties,BorderLayout.CENTER);
+  JPanel jPanelAnimations=new JPanel();
+  jPanelAnimations.setBorder(new EmptyBorder(new Insets(0,5,0,5)));
+  jPanelAnimations.setLayout(new BorderLayout());
+  jPanelAnimations.add(new JLabel("Animations"),BorderLayout.NORTH);
+  jTableAnimations=new JTable();
+  jTableAnimations.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+  jTableAnimations.setModel(new DefaultTableModel(new Object[]{"Object","Name","Start frame","Stop frame"},0));
+  for (int i=0; i < jTableAnimations.getColumnModel().getColumnCount(); ++i) {
+    jTableAnimations.getColumnModel().getColumn(i).setCellEditor(new BlenderTableCellEditor());
+  }
+  JScrollPane jScrollPaneAnimations=new JScrollPane(jTableAnimations);
+  jTableAnimations.setFillsViewportHeight(true);
+  JPanel jPanelTableButtons=new JPanel();
+  jPanelTableButtons.setLayout(new FlowLayout(FlowLayout.LEFT));
+  jButtonAddAnimation=new JButton("Add animation");
+  jButtonAddAnimation.setEnabled(false);
+  jButtonRemoveAnimation=new JButton("Remove animation");
+  jButtonRemoveAnimation.setEnabled(false);
+  jPanelTableButtons.add(jButtonAddAnimation);
+  jPanelTableButtons.add(jButtonRemoveAnimation);
+  jPanelAnimations.add(jScrollPaneAnimations,BorderLayout.CENTER);
+  jPanelAnimations.add(jPanelTableButtons,BorderLayout.SOUTH);
+  jCheckBoxUseModelKey=new JCheckBox();
+  jCheckBoxUseModelKey.setText("Use ModelKey to start the test");
+  jCheckBoxUseModelKey.setToolTipText("All BlenderKey settings will remain here, but the application will be " + "started using a model key. So only the path to the file will be given!");
+  JPanel jPanelResult=new JPanel();
+  jPanelResult.setBorder(new TitledBorder("Loading properties"));
+  jPanelResult.setLayout(new BorderLayout());
+  jPanelResult.add(jPanelProperties,BorderLayout.WEST);
+  jPanelResult.add(jPanelAnimations,BorderLayout.CENTER);
+  jPanelResult.add(jCheckBoxUseModelKey,BorderLayout.SOUTH);
+  return jPanelResult;
+}
