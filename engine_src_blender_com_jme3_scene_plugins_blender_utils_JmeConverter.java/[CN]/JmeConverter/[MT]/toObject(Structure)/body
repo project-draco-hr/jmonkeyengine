@@ -1,5 +1,6 @@
 {
-  if ((dataRepository.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.OBJECTS) == 0) {
+  int lay=((Number)structure.getFieldValue("lay")).intValue();
+  if ((lay & dataRepository.getBlenderKey().getLayersToLoad()) == 0 || (dataRepository.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.OBJECTS) == 0) {
     return null;
   }
   ObjectHelper objectHelper=dataRepository.getHelper(ObjectHelper.class);
