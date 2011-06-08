@@ -2,6 +2,7 @@
   if (flattening <= 1) {
     return;
   }
+  float[] minmax=findMinMaxHeights();
   normalizeTerrain(1f);
   for (int x=0; x < size; x++) {
     for (int y=0; y < size; y++) {
@@ -13,4 +14,6 @@
       heightData[x + y * size]=flat;
     }
   }
+  float height=minmax[1] - minmax[0];
+  normalizeTerrain(height);
 }
