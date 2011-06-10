@@ -5,7 +5,7 @@
       BufferedImage im=null;
       im=ImageIO.read(new File(this.cacheDir,"terrain_" + (int)location.x + "_"+ (int)location.z+ ".png"));
       heightmap=new Grayscale16BitHeightMap(im);
-      heightmap.setHeightScale(256);
+      heightmap.setHeightScale(heightScale);
     }
  catch (    IOException e) {
     }
