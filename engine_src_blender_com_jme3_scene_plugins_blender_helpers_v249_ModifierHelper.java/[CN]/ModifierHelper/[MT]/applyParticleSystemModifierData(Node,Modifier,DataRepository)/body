@@ -2,22 +2,26 @@
   MaterialHelper materialHelper=dataRepository.getHelper(MaterialHelper.class);
   ParticleEmitter emitter=(ParticleEmitter)modifier.getJmeModifierRepresentation();
   emitter=emitter.clone();
+  Integer alphaFunction=MaterialHelper.ALPHA_MASK_HYPERBOLE;
+  char nameSuffix=emitter.getName().charAt(emitter.getName().length() - 1);
+  if (nameSuffix == 'B' || nameSuffix == 'N') {
+    alphaFunction=MaterialHelper.ALPHA_MASK_NONE;
+  }
+  emitter.setName(emitter.getName().substring(0,emitter.getName().length() - 1));
   EmitterShape emitterShape=emitter.getShape();
-  if (emitterShape instanceof EmitterMeshVertexShape) {
-    List<Mesh> meshes=new ArrayList<Mesh>();
-    for (    Spatial spatial : node.getChildren()) {
-      if (spatial instanceof Geometry) {
-        Mesh mesh=((Geometry)spatial).getMesh();
-        if (mesh != null) {
-          meshes.add(mesh);
-          Material material=materialHelper.getParticlesMaterial(((Geometry)spatial).getMaterial(),dataRepository);
-          emitter.setMaterial(material);
-        }
+  List<Mesh> meshes=new ArrayList<Mesh>();
+  for (  Spatial spatial : node.getChildren()) {
+    if (spatial instanceof Geometry) {
+      Mesh mesh=((Geometry)spatial).getMesh();
+      if (mesh != null) {
+        meshes.add(mesh);
+        Material material=materialHelper.getParticlesMaterial(((Geometry)spatial).getMaterial(),alphaFunction,dataRepository);
+        emitter.setMaterial(material);
       }
     }
-    if (meshes.size() > 0) {
-      ((EmitterMeshVertexShape)emitterShape).setMeshes(meshes);
-    }
+  }
+  if (meshes.size() > 0 && emitterShape instanceof EmitterMeshVertexShape) {
+    ((EmitterMeshVertexShape)emitterShape).setMeshes(meshes);
   }
   node.attachChild(emitter);
   return node;

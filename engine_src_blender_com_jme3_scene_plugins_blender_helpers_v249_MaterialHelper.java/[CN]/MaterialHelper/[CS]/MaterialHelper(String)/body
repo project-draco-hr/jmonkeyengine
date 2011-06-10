@@ -1,3 +1,50 @@
 {
   super(blenderVersion);
+  alphaMasks.put(ALPHA_MASK_NONE,new IAlphaMask(){
+    @Override public void setImageSize(    int width,    int height){
+    }
+    @Override public byte getAlpha(    float x,    float y){
+      return (byte)255;
+    }
+  }
+);
+  alphaMasks.put(ALPHA_MASK_CIRCLE,new IAlphaMask(){
+    private float r;
+    private float[] center;
+    @Override public void setImageSize(    int width,    int height){
+      r=Math.min(width,height) * 0.5f;
+      center=new float[]{width * 0.5f,height * 0.5f};
+    }
+    @Override public byte getAlpha(    float x,    float y){
+      float d=FastMath.abs(FastMath.sqrt((x - center[0]) * (x - center[0]) + (y - center[1]) * (y - center[1])));
+      return (byte)(d >= r ? 0 : 255);
+    }
+  }
+);
+  alphaMasks.put(ALPHA_MASK_CONE,new IAlphaMask(){
+    private float r;
+    private float[] center;
+    @Override public void setImageSize(    int width,    int height){
+      r=Math.min(width,height) * 0.5f;
+      center=new float[]{width * 0.5f,height * 0.5f};
+    }
+    @Override public byte getAlpha(    float x,    float y){
+      float d=FastMath.abs(FastMath.sqrt((x - center[0]) * (x - center[0]) + (y - center[1]) * (y - center[1])));
+      return (byte)(d >= r ? 0 : -255.0f * d / r + 255.0f);
+    }
+  }
+);
+  alphaMasks.put(ALPHA_MASK_HYPERBOLE,new IAlphaMask(){
+    private float r;
+    private float[] center;
+    @Override public void setImageSize(    int width,    int height){
+      r=Math.min(width,height) * 0.5f;
+      center=new float[]{width * 0.5f,height * 0.5f};
+    }
+    @Override public byte getAlpha(    float x,    float y){
+      float d=FastMath.abs(FastMath.sqrt((x - center[0]) * (x - center[0]) + (y - center[1]) * (y - center[1]))) / r;
+      return d >= 1.0f ? 0 : (byte)((-FastMath.sqrt((2.0f - d) * d) + 1.0f) * 255.0f);
+    }
+  }
+);
 }
