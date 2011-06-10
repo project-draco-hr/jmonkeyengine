@@ -1,0 +1,7 @@
+{
+  temp.set(FastMath.nextRandomFloat(),FastMath.nextRandomFloat(),FastMath.nextRandomFloat());
+  temp.multLocal(2f);
+  temp.subtractLocal(1f,1f,1f);
+  temp.multLocal(startVelocity.length());
+  particle.velocity.interpolate(temp,velocityVariation);
+}

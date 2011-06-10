@@ -1,0 +1,12 @@
+{
+  int meshIndex=FastMath.nextRandomInt(0,vertices.size() - 1);
+  int faceIndex=FastMath.nextRandomInt(0,vertices.get(meshIndex).size() / 3 - 1);
+  int vertIndex=faceIndex * 3;
+  float moveFactor=FastMath.nextRandomFloat();
+  store.set(Vector3f.ZERO);
+  store.addLocal(vertices.get(meshIndex).get(vertIndex));
+  store.addLocal((vertices.get(meshIndex).get(vertIndex + 1).x - vertices.get(meshIndex).get(vertIndex).x) * moveFactor,(vertices.get(meshIndex).get(vertIndex + 1).y - vertices.get(meshIndex).get(vertIndex).y) * moveFactor,(vertices.get(meshIndex).get(vertIndex + 1).z - vertices.get(meshIndex).get(vertIndex).z) * moveFactor);
+  moveFactor=FastMath.nextRandomFloat();
+  store.addLocal((vertices.get(meshIndex).get(vertIndex + 2).x - store.x) * moveFactor,(vertices.get(meshIndex).get(vertIndex + 2).y - store.y) * moveFactor,(vertices.get(meshIndex).get(vertIndex + 2).z - store.z) * moveFactor);
+  normal.set(normals.get(meshIndex).get(faceIndex));
+}

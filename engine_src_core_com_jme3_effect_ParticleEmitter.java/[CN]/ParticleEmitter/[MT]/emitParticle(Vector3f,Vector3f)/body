@@ -4,28 +4,28 @@
     return false;
   }
   Particle p=particles[idx];
-  if (selectRandomImage)   p.imageIndex=(FastMath.nextRandomInt(0,imagesY - 1) * imagesX) + FastMath.nextRandomInt(0,imagesX - 1);
+  if (selectRandomImage) {
+    p.imageIndex=FastMath.nextRandomInt(0,imagesY - 1) * imagesX + FastMath.nextRandomInt(0,imagesX - 1);
+  }
   p.startlife=lowLife + FastMath.nextRandomFloat() * (highLife - lowLife);
   p.life=p.startlife;
   p.color.set(startColor);
   p.size=startSize;
-  shape.getRandomPoint(p.position);
+  particleInfluencer.influenceParticle(p,shape);
   if (worldSpace) {
     p.position.addLocal(worldTransform.getTranslation());
   }
-  p.velocity.set(startVel);
-  if (randomAngle)   p.angle=FastMath.nextRandomFloat() * FastMath.TWO_PI;
-  if (rotateSpeed != 0)   p.rotateSpeed=rotateSpeed * (0.2f + (FastMath.nextRandomFloat() * 2f - 1f) * .8f);
-  temp.set(FastMath.nextRandomFloat(),FastMath.nextRandomFloat(),FastMath.nextRandomFloat());
-  temp.multLocal(2f);
-  temp.subtractLocal(1f,1f,1f);
-  temp.multLocal(startVel.length());
-  p.velocity.interpolate(temp,variation);
+  if (randomAngle) {
+    p.angle=FastMath.nextRandomFloat() * FastMath.TWO_PI;
+  }
+  if (rotateSpeed != 0) {
+    p.rotateSpeed=rotateSpeed * (0.2f + (FastMath.nextRandomFloat() * 2f - 1f) * .8f);
+  }
   temp.set(p.position).addLocal(p.size,p.size,p.size);
   max.maxLocal(temp);
   temp.set(p.position).subtractLocal(p.size,p.size,p.size);
   min.minLocal(temp);
-  lastUsed++;
+  ++lastUsed;
   firstUnUsed=idx + 1;
   return true;
 }

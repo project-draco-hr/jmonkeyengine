@@ -2,10 +2,10 @@
   ParticleEmitter clone=(ParticleEmitter)super.clone();
   clone.shape=shape.deepClone();
   clone.setNumParticles(particles.length);
-  clone.startVel=startVel.clone();
   clone.faceNormal=faceNormal.clone();
   clone.startColor=startColor.clone();
   clone.endColor=endColor.clone();
+  clone.particleInfluencer=particleInfluencer.clone();
   clone.controls.add(clone);
   return clone;
 }

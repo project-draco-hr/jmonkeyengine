@@ -1,7 +1,26 @@
 {
   try {
     EmitterMeshVertexShape clone=(EmitterMeshVertexShape)super.clone();
-    clone.vertices=vertices == null ? null : vertices.clone();
+    if (this.vertices != null) {
+      clone.vertices=new ArrayList<List<Vector3f>>(vertices.size());
+      for (      List<Vector3f> list : vertices) {
+        List<Vector3f> vectorList=new ArrayList<Vector3f>(list.size());
+        for (        Vector3f vector : list) {
+          vectorList.add(vector.clone());
+        }
+        clone.vertices.add(vectorList);
+      }
+    }
+    if (this.normals != null) {
+      clone.normals=new ArrayList<List<Vector3f>>(normals.size());
+      for (      List<Vector3f> list : normals) {
+        List<Vector3f> vectorList=new ArrayList<Vector3f>(list.size());
+        for (        Vector3f vector : list) {
+          vectorList.add(vector.clone());
+        }
+        clone.normals.add(vectorList);
+      }
+    }
     return clone;
   }
  catch (  CloneNotSupportedException e) {

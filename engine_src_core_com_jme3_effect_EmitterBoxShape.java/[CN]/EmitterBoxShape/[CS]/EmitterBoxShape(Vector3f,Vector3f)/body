@@ -1,5 +1,7 @@
 {
-  if (min == null || max == null)   throw new NullPointerException();
+  if (min == null || max == null) {
+    throw new NullPointerException();
+  }
   this.min=min;
   this.len=new Vector3f();
   this.len.set(max).subtractLocal(min);

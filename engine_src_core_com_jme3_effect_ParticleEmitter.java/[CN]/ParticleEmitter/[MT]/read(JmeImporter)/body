@@ -4,16 +4,14 @@
   shape=(EmitterShape)ic.readSavable("shape",DEFAULT_SHAPE);
   meshType=ic.readEnum("meshType",ParticleMesh.Type.class,ParticleMesh.Type.Triangle);
   int numParticles=ic.readInt("numParticles",0);
-  setNumParticles(numParticles);
+  this.setNumParticles(numParticles);
   enabled=ic.readBoolean("enabled",true);
   particlesPerSec=ic.readFloat("particlesPerSec",0);
   lowLife=ic.readFloat("lowLife",0);
   highLife=ic.readFloat("highLife",0);
-  gravity=ic.readFloat("gravity",0);
-  variation=ic.readFloat("variation",0);
+  gravity=(Vector3f)ic.readSavable("gravity",null);
   imagesX=ic.readInt("imagesX",1);
   imagesY=ic.readInt("imagesY",1);
-  startVel=(Vector3f)ic.readSavable("startVel",null);
   startColor=(ColorRGBA)ic.readSavable("startColor",null);
   endColor=(ColorRGBA)ic.readSavable("endColor",null);
   startSize=ic.readFloat("startSize",0);
@@ -26,14 +24,15 @@
 switch (meshType) {
 case Point:
     particleMesh=new ParticlePointMesh();
-  setMesh(particleMesh);
+  this.setMesh(particleMesh);
 break;
 case Triangle:
 particleMesh=new ParticleTriMesh();
-setMesh(particleMesh);
+this.setMesh(particleMesh);
 break;
 default :
 throw new IllegalStateException("Unrecognized particle type: " + meshType);
 }
 particleMesh.initParticleData(this,particles.length);
+particleInfluencer=(ParticleInfluencer)ic.readSavable("influencer",DEFAULT_INFLUENCER);
 }
