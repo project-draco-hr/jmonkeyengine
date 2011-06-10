@@ -1,0 +1,90 @@
+{
+  float tin=0.0f;
+  byte pixelValue=data.get();
+  float firstPixelValue=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
+switch (imageFormat) {
+case ABGR8:
+    pixelValue=data.get();
+  materialColor[2]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
+pixelValue=data.get();
+materialColor[1]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
+pixelValue=data.get();
+materialColor[0]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
+break;
+case BGR8:
+materialColor[2]=firstPixelValue;
+pixelValue=data.get();
+materialColor[1]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
+pixelValue=data.get();
+materialColor[0]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
+break;
+case RGB8:
+materialColor[0]=firstPixelValue;
+pixelValue=data.get();
+materialColor[1]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
+pixelValue=data.get();
+materialColor[2]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
+break;
+case RGBA8:
+materialColor[0]=firstPixelValue;
+pixelValue=data.get();
+materialColor[1]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
+pixelValue=data.get();
+materialColor[2]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
+data.get();
+break;
+case Luminance8:
+tin=neg ? 1.0f - firstPixelValue : firstPixelValue;
+neg=false;
+break;
+case Luminance8Alpha8:
+tin=neg ? 1.0f - firstPixelValue : firstPixelValue;
+neg=false;
+data.get();
+break;
+case Luminance16:
+case Luminance16Alpha16:
+case Alpha16:
+case Alpha8:
+case ARGB4444:
+case Depth:
+case Depth16:
+case Depth24:
+case Depth32:
+case Depth32F:
+case DXT1:
+case DXT1A:
+case DXT3:
+case DXT5:
+case Intensity16:
+case Intensity8:
+case LATC:
+case LTC:
+case Luminance16F:
+case Luminance16FAlpha16F:
+case Luminance32F:
+case RGB10:
+case RGB111110F:
+case RGB16:
+case RGB16F:
+case RGB16F_to_RGB111110F:
+case RGB16F_to_RGB9E5:
+case RGB32F:
+case RGB565:
+case RGB5A1:
+case RGB9E5:
+case RGBA16:
+case RGBA16F:
+case RGBA32F:
+LOGGER.warning("Image type not yet supported for blending: " + imageFormat);
+break;
+default :
+throw new IllegalStateException("Unknown image format type: " + imageFormat);
+}
+if (neg) {
+materialColor[0]=1.0f - materialColor[0];
+materialColor[1]=1.0f - materialColor[1];
+materialColor[2]=1.0f - materialColor[2];
+}
+return tin;
+}
