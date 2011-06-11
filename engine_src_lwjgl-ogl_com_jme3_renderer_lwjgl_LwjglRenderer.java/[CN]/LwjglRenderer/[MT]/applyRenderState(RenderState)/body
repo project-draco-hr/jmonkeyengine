@@ -146,10 +146,10 @@ context.frontStencilFunction=state.getFrontStencilFunction();
 context.backStencilFunction=state.getBackStencilFunction();
 if (state.isStencilTest()) {
 glEnable(GL_STENCIL_TEST);
-glStencilOpSeparate(GL_FRONT,glStencilOpFromStencilOp(state.getFrontStencilStencilFailOperation()),glStencilOpFromStencilOp(state.getFrontStencilDepthFailOperation()),glStencilOpFromStencilOp(state.getFrontStencilDepthPassOperation()));
-glStencilOpSeparate(GL_BACK,glStencilOpFromStencilOp(state.getBackStencilStencilFailOperation()),glStencilOpFromStencilOp(state.getBackStencilDepthFailOperation()),glStencilOpFromStencilOp(state.getBackStencilDepthPassOperation()));
-glStencilFuncSeparate(GL_FRONT,glStencilFuncFromStencilFunc(state.getFrontStencilFunction()),0,Integer.MAX_VALUE);
-glStencilFuncSeparate(GL_BACK,glStencilFuncFromStencilFunc(state.getBackStencilFunction()),0,Integer.MAX_VALUE);
+glStencilOpSeparate(GL_FRONT,convertStencilOperation(state.getFrontStencilStencilFailOperation()),convertStencilOperation(state.getFrontStencilDepthFailOperation()),convertStencilOperation(state.getFrontStencilDepthPassOperation()));
+glStencilOpSeparate(GL_BACK,convertStencilOperation(state.getBackStencilStencilFailOperation()),convertStencilOperation(state.getBackStencilDepthFailOperation()),convertStencilOperation(state.getBackStencilDepthPassOperation()));
+glStencilFuncSeparate(GL_FRONT,convertTestFunction(state.getFrontStencilFunction()),0,Integer.MAX_VALUE);
+glStencilFuncSeparate(GL_BACK,convertTestFunction(state.getBackStencilFunction()),0,Integer.MAX_VALUE);
 }
  else {
 glDisable(GL_STENCIL_TEST);

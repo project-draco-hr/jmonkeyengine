@@ -1,5 +1,5 @@
 {
-switch (s) {
+switch (stencilOp) {
 case Keep:
     return GL_KEEP;
 case Zero:
@@ -17,6 +17,6 @@ return GL_DECR_WRAP;
 case Invert:
 return GL_INVERT;
 default :
-throw new UnsupportedOperationException("Unrecognized front stencil operation: " + s);
+throw new UnsupportedOperationException("Unrecognized stencil operation: " + stencilOp);
 }
 }

@@ -1,14 +1,14 @@
 {
-switch (s) {
+switch (testFunc) {
 case Never:
     return GL_NEVER;
 case Less:
   return GL_LESS;
-case LessEqual:
+case LessOrEqual:
 return GL_LEQUAL;
 case Greater:
 return GL_GREATER;
-case GreaterEqual:
+case GreaterOrEqual:
 return GL_GEQUAL;
 case Equal:
 return GL_EQUAL;
@@ -17,6 +17,6 @@ return GL_NOTEQUAL;
 case Always:
 return GL_ALWAYS;
 default :
-throw new UnsupportedOperationException("Unrecognized front stencil functin: " + s);
+throw new UnsupportedOperationException("Unrecognized test function: " + testFunc);
 }
 }

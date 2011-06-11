@@ -27,4 +27,13 @@
   boundTextureUnit=0;
   for (int i=0; i < boundAttribs.length; i++)   boundAttribs[i]=null;
   attribIndexList.reset();
+  stencilTest=false;
+  frontStencilStencilFailOperation=RenderState.StencilOperation.Keep;
+  frontStencilDepthFailOperation=RenderState.StencilOperation.Keep;
+  frontStencilDepthPassOperation=RenderState.StencilOperation.Keep;
+  backStencilStencilFailOperation=RenderState.StencilOperation.Keep;
+  backStencilDepthFailOperation=RenderState.StencilOperation.Keep;
+  backStencilDepthPassOperation=RenderState.StencilOperation.Keep;
+  frontStencilFunction=RenderState.TestFunction.Always;
+  backStencilFunction=RenderState.TestFunction.Always;
 }

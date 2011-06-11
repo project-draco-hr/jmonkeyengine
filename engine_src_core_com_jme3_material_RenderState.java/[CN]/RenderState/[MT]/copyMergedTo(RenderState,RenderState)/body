@@ -2,61 +2,61 @@
   if (additionalState == null) {
     return this;
   }
-  if (additionalState.isApplyPointSprite()) {
+  if (additionalState.applyPointSprite) {
     state.pointSprite=additionalState.pointSprite;
   }
  else {
     state.pointSprite=pointSprite;
   }
-  if (additionalState.isApplyWireFrame()) {
+  if (additionalState.applyWireFrame) {
     state.wireframe=additionalState.wireframe;
   }
  else {
     state.wireframe=wireframe;
   }
-  if (additionalState.isApplyCullMode()) {
+  if (additionalState.applyCullMode) {
     state.cullMode=additionalState.cullMode;
   }
  else {
     state.cullMode=cullMode;
   }
-  if (additionalState.isApplyDepthWrite()) {
+  if (additionalState.applyDepthWrite) {
     state.depthWrite=additionalState.depthWrite;
   }
  else {
     state.depthWrite=depthWrite;
   }
-  if (additionalState.isApplyDepthTest()) {
+  if (additionalState.applyDepthTest) {
     state.depthTest=additionalState.depthTest;
   }
  else {
     state.depthTest=depthTest;
   }
-  if (additionalState.isApplyColorWrite()) {
+  if (additionalState.applyColorWrite) {
     state.colorWrite=additionalState.colorWrite;
   }
  else {
     state.colorWrite=colorWrite;
   }
-  if (additionalState.isApplyBlendMode()) {
+  if (additionalState.applyBlendMode) {
     state.blendMode=additionalState.blendMode;
   }
  else {
     state.blendMode=blendMode;
   }
-  if (additionalState.isApplyAlphaTest()) {
+  if (additionalState.applyAlphaTest) {
     state.alphaTest=additionalState.alphaTest;
   }
  else {
     state.alphaTest=alphaTest;
   }
-  if (additionalState.isApplyAlphaFallOff()) {
+  if (additionalState.applyAlphaFallOff) {
     state.alphaFallOff=additionalState.alphaFallOff;
   }
  else {
     state.alphaFallOff=alphaFallOff;
   }
-  if (additionalState.isApplyPolyOffset()) {
+  if (additionalState.applyPolyOffset) {
     state.offsetEnabled=additionalState.offsetEnabled;
     state.offsetFactor=additionalState.offsetFactor;
     state.offsetUnits=additionalState.offsetUnits;
@@ -65,6 +65,12 @@
     state.offsetEnabled=offsetEnabled;
     state.offsetFactor=offsetFactor;
     state.offsetUnits=offsetUnits;
+  }
+  if (additionalState.applyStencilTest) {
+    state.stencilTest=additionalState.stencilTest;
+  }
+ else {
+    state.stencilTest=stencilTest;
   }
   return state;
 }
