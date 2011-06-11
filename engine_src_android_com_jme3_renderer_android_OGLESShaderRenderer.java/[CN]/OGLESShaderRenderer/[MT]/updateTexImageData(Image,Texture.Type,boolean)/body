@@ -21,11 +21,23 @@
   }
   if (target == GLES20.GL_TEXTURE_CUBE_MAP) {
     @SuppressWarnings("unchecked") List<Bitmap> bmps=(List<Bitmap>)img.getEfficentData();
-    if (bmps.size() != 6) {
-      throw new UnsupportedOperationException("Invalid texture: " + img + "Cubemap textures must contain 6 data units.");
+    if (bmps != null) {
+      if (bmps.size() != 6) {
+        throw new UnsupportedOperationException("Invalid texture: " + img + "Cubemap textures must contain 6 data units.");
+      }
+      for (int i=0; i < 6; i++) {
+        TextureUtil.uploadTextureBitmap(GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,bmps.get(i),false,powerOf2);
+      }
     }
-    for (int i=0; i < 6; i++) {
-      TextureUtil.uploadTextureBitmap(GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,bmps.get(i),false,powerOf2);
+ else {
+      List<ByteBuffer> data=img.getData();
+      if (data.size() != 6) {
+        logger.log(Level.WARNING,"Invalid texture: {0}\n" + "Cubemap textures must contain 6 data units.",img);
+        return;
+      }
+      for (int i=0; i < 6; i++) {
+        TextureUtil.uploadTexture(img,GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,i,0,tdc,false,powerOf2);
+      }
     }
   }
  else {

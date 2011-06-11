@@ -78,6 +78,9 @@ case RGBA8:
 format=GL10.GL_RGBA;
 dataType=GL10.GL_UNSIGNED_BYTE;
 break;
+case DXT1A:
+format=GLES20.GL_COMPRESSED_TEXTURE_FORMATS;
+dataType=GL10.GL_UNSIGNED_BYTE;
 default :
 throw new UnsupportedOperationException("Unrecognized format: " + fmt);
 }

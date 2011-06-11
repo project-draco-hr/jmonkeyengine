@@ -10,6 +10,7 @@ case MotionEvent.ACTION_DOWN:
       touch.set(Type.DOWN,event.getX(p),event.getY(p),0,0);
       touch.setPointerId(event.getPointerId(p));
       touch.setTime(event.getEventTime());
+      touch.setPressure(event.getPressure(p));
       processEvent(touch);
     }
   bWasHandled=true;
@@ -20,6 +21,7 @@ touch=getNextFreeTouchEvent();
 touch.set(Type.UP,event.getX(p),event.getY(p),0,0);
 touch.setPointerId(event.getPointerId(p));
 touch.setTime(event.getEventTime());
+touch.setPressure(event.getPressure(p));
 processEvent(touch);
 }
 bWasHandled=true;
@@ -35,6 +37,7 @@ touch=getNextFreeTouchEvent();
 touch.set(Type.MOVE,event.getX(p),event.getY(p),event.getX(p) - lastPos.x,event.getY(p) - lastPos.y);
 touch.setPointerId(event.getPointerId(p));
 touch.setTime(event.getEventTime());
+touch.setPressure(event.getPressure(p));
 processEvent(touch);
 lastPos.set(event.getX(p),event.getY(p));
 }

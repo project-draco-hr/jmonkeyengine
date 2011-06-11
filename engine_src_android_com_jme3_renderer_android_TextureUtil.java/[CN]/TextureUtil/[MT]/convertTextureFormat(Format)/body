@@ -19,6 +19,8 @@ case RGB5A1:
 case RGBA16:
 case RGBA8:
 return GL10.GL_RGBA;
+case DXT1A:
+throw new UnsupportedOperationException("Unsupported format: " + fmt);
 default :
 throw new UnsupportedOperationException("Unrecognized format: " + fmt);
 }

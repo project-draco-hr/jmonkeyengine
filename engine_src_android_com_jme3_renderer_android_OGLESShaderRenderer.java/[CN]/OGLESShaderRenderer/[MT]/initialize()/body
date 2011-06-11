@@ -57,6 +57,10 @@ maxCubeTexSize=intBuf16.get(0);
 logger.info("Maximum CubeMap Resolution: " + maxCubeTexSize);
 String extensions=GLES20.glGetString(GLES20.GL_EXTENSIONS);
 logger.info("GL_EXTENSIONS: " + extensions);
+GLES20.glGetIntegerv(GLES20.GL_COMPRESSED_TEXTURE_FORMATS,intBuf16);
+for (int i=0; i < intBuf16.limit(); i++) {
+logger.info("Compressed Texture Formats: " + intBuf16.get(i));
+}
 if (extensions.contains("GL_OES_texture_npot")) powerOf2=true;
 applyRenderState(RenderState.DEFAULT);
 if (verboseLogging) logger.info("GLES20.glDisable(GL10.GL_DITHER)");
