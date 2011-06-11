@@ -1,25 +1,3 @@
 {
-  ArrayList<Geometry> retVal=new ArrayList<Geometry>();
-  HashMap<Material,List<Geometry>> matToGeom=new HashMap<Material,List<Geometry>>();
-  for (  Geometry geom : geometries) {
-    List<Geometry> outList=matToGeom.get(geom.getMaterial());
-    if (outList == null) {
-      outList=new ArrayList<Geometry>();
-      matToGeom.put(geom.getMaterial(),outList);
-    }
-    outList.add(geom);
-  }
-  int batchNum=0;
-  for (  Map.Entry<Material,List<Geometry>> entry : matToGeom.entrySet()) {
-    Material mat=entry.getKey();
-    List<Geometry> geomsForMat=entry.getValue();
-    Mesh mesh=new Mesh();
-    mergeGeometries(geomsForMat,mesh);
-    mesh.updateCounts();
-    mesh.updateBound();
-    Geometry out=new Geometry("batch[" + (batchNum++) + "]",mesh);
-    out.setMaterial(mat);
-    retVal.add(out);
-  }
-  return retVal;
+  return makeBatches(geometries,false);
 }

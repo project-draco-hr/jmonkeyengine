@@ -1,13 +1,3 @@
 {
-  ArrayList<Geometry> geoms=new ArrayList<Geometry>();
-  gatherGeoms(scene,geoms);
-  List<Geometry> batchedGeoms=makeBatches(geoms);
-  for (  Geometry geom : batchedGeoms) {
-    scene.attachChild(geom);
-  }
-  for (Iterator<Geometry> it=geoms.iterator(); it.hasNext(); ) {
-    Geometry geometry=it.next();
-    geometry.removeFromParent();
-  }
-  return scene;
+  return optimize(scene,false);
 }

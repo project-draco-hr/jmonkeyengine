@@ -49,7 +49,9 @@ formatForBuf[Type.Index.ordinal()]=Format.UnsignedInt;
 formatForBuf[Type.Index.ordinal()]=Format.UnsignedShort;
 }
 for (int i=0; i < compsForBuf.length; i++) {
-if (compsForBuf[i] == 0) continue;
+if (compsForBuf[i] == 0) {
+continue;
+}
 Buffer data;
 if (i == Type.Index.ordinal()) {
 data=VertexBuffer.createBuffer(formatForBuf[i],compsForBuf[i],totalTris);
@@ -72,7 +74,9 @@ int geomTriCount=inMesh.getTriangleCount();
 for (int bufType=0; bufType < compsForBuf.length; bufType++) {
 VertexBuffer inBuf=inMesh.getBuffer(Type.values()[bufType]);
 VertexBuffer outBuf=outMesh.getBuffer(Type.values()[bufType]);
-if (outBuf == null) continue;
+if (outBuf == null) {
+continue;
+}
 if (Type.Index.ordinal() == bufType) {
 int components=compsForBuf[bufType];
 IndexBuffer inIdx=inMesh.getIndexBuffer();
