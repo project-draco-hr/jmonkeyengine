@@ -15,7 +15,7 @@
     loc+=4;
     BinaryInputCapsule cap=new BinaryInputCapsule(this,bco);
     cap.setContent(dataArray,loc,loc + dataLength);
-    Savable out=BinaryClassLoader.fromName(bco.className,cap,loaders);
+    Savable out=SavableClassFinder.fromName(bco.className,cap,loaders);
     capsuleTable.put(out,cap);
     contentTable.put(id,out);
     out.read(this);

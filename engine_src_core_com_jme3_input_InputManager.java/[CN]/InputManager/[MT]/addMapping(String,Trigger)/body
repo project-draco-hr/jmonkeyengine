@@ -5,7 +5,7 @@
     mappings.put(mappingName,mapping);
   }
   for (  Trigger trigger : triggers) {
-    int hash=trigger.hashCode();
+    int hash=trigger.triggerHashCode();
     ArrayList<Mapping> names=bindings.get(hash);
     if (names == null) {
       names=new ArrayList<Mapping>();

@@ -3,6 +3,6 @@
   if (mapping == null) {
     throw new IllegalArgumentException("Cannot find mapping: " + mappingName);
   }
-  ArrayList<Mapping> maps=bindings.get(trigger.hashCode());
+  ArrayList<Mapping> maps=bindings.get(trigger.triggerHashCode());
   maps.remove(mapping);
 }

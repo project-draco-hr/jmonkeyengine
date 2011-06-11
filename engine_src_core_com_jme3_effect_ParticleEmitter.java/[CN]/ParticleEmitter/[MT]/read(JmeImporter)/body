@@ -35,4 +35,16 @@ throw new IllegalStateException("Unrecognized particle type: " + meshType);
 }
 particleMesh.initParticleData(this,particles.length);
 particleInfluencer=(ParticleInfluencer)ic.readSavable("influencer",DEFAULT_INFLUENCER);
+for (int i=0; i < controls.size(); i++) {
+Object obj=controls.get(i);
+if (obj instanceof ParticleEmitter) {
+controls.remove(i);
+controls.add(control);
+break;
+}
+}
+if (gravity == null) {
+gravity=new Vector3f();
+gravity.y=ic.readFloat("gravity",0);
+}
 }
