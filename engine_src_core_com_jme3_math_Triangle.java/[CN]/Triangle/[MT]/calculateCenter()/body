@@ -1,5 +1,9 @@
 {
-  if (center == null)   center=new Vector3f(pointa);
- else   center.set(pointa);
+  if (center == null) {
+    center=new Vector3f(pointa);
+  }
+ else {
+    center.set(pointa);
+  }
   center.addLocal(pointb).addLocal(pointc).multLocal(FastMath.ONE_THIRD);
 }

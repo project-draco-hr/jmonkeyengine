@@ -1,6 +1,10 @@
 {
-  if (normal == null)   normal=new Vector3f(pointb);
- else   normal.set(pointb);
+  if (normal == null) {
+    normal=new Vector3f(pointb);
+  }
+ else {
+    normal.set(pointb);
+  }
   normal.subtractLocal(pointa).crossLocal(pointc.x - pointa.x,pointc.y - pointa.y,pointc.z - pointa.z);
   normal.normalizeLocal();
 }

@@ -5,7 +5,7 @@
     if (name.equals("Default")) {
       List<TechniqueDef> techDefs=def.getDefaultTechniques();
       if (techDefs == null || techDefs.isEmpty()) {
-        throw new IllegalStateException("No default techniques are available on material '" + def.getName() + "'");
+        throw new IllegalArgumentException("No default techniques are available on material '" + def.getName() + "'");
       }
       TechniqueDef lastTech=null;
       for (      TechniqueDef techDef : techDefs) {

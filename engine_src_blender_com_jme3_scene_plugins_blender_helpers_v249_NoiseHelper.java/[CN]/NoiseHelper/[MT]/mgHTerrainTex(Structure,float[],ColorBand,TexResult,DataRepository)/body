@@ -4,7 +4,7 @@
   float noisesize=((Number)tex.getFieldValue("noisesize")).floatValue();
   float contrast=((Number)tex.getFieldValue("contrast")).floatValue();
   float brightness=((Number)tex.getFieldValue("bright")).floatValue();
-  IMusgraveFunction musgraveFunction=musgraveFunctions.get(Integer.valueOf(TEX_HTERRAIN));
+  MusgraveFunction musgraveFunction=musgraveFunctions.get(Integer.valueOf(TEX_HTERRAIN));
   texres.tin=nsOutscale * musgraveFunction.execute(tex,texvec[0],texvec[1],texvec[2]);
   if (texres.nor != null) {
     float offs=nabla / noisesize;

@@ -5,7 +5,7 @@
   float noisesize=((Number)tex.getFieldValue("noisesize")).floatValue();
   float contrast=((Number)tex.getFieldValue("contrast")).floatValue();
   float brightness=((Number)tex.getFieldValue("bright")).floatValue();
-  IMusgraveFunction mgravefunc=stype == TEX_RIDGEDMF ? musgraveFunctions.get(Integer.valueOf(stype)) : musgraveFunctions.get(Integer.valueOf(TEX_HYBRIDMF));
+  MusgraveFunction mgravefunc=stype == TEX_RIDGEDMF ? musgraveFunctions.get(Integer.valueOf(stype)) : musgraveFunctions.get(Integer.valueOf(TEX_HYBRIDMF));
   texres.tin=nsOutscale * mgravefunc.execute(tex,texvec[0],texvec[1],texvec[2]);
   if (texres.nor != null) {
     float offs=nabla / noisesize;

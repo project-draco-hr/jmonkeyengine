@@ -1,6 +1,6 @@
 {
   super(blenderVersion);
-  alphaMasks.put(ALPHA_MASK_NONE,new IAlphaMask(){
+  alphaMasks.put(ALPHA_MASK_NONE,new AlphaMask(){
     @Override public void setImageSize(    int width,    int height){
     }
     @Override public byte getAlpha(    float x,    float y){
@@ -8,7 +8,7 @@
     }
   }
 );
-  alphaMasks.put(ALPHA_MASK_CIRCLE,new IAlphaMask(){
+  alphaMasks.put(ALPHA_MASK_CIRCLE,new AlphaMask(){
     private float r;
     private float[] center;
     @Override public void setImageSize(    int width,    int height){
@@ -21,7 +21,7 @@
     }
   }
 );
-  alphaMasks.put(ALPHA_MASK_CONE,new IAlphaMask(){
+  alphaMasks.put(ALPHA_MASK_CONE,new AlphaMask(){
     private float r;
     private float[] center;
     @Override public void setImageSize(    int width,    int height){
@@ -34,7 +34,7 @@
     }
   }
 );
-  alphaMasks.put(ALPHA_MASK_HYPERBOLE,new IAlphaMask(){
+  alphaMasks.put(ALPHA_MASK_HYPERBOLE,new AlphaMask(){
     private float r;
     private float[] center;
     @Override public void setImageSize(    int width,    int height){

@@ -5,7 +5,7 @@
   Camera result=new Camera(DEFAULT_CAM_WIDTH,DEFAULT_CAM_HEIGHT);
   int type=((Number)structure.getFieldValue("type")).intValue();
   if (type != 0 && type != 1) {
-    LOGGER.log(Level.WARNING,"Unknown camera type: " + type + ". Perspective camera is being used!");
+    LOGGER.log(Level.WARNING,"Unknown camera type: {0}. Perspective camera is being used!",type);
     type=0;
   }
   result.setParallelProjection(type == 1);

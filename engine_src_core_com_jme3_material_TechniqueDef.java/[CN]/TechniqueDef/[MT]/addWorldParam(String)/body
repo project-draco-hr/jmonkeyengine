@@ -2,11 +2,11 @@
   if (worldBinds == null) {
     worldBinds=new ArrayList<UniformBinding>();
   }
-  for (  UniformBinding binding : UniformBinding.values()) {
-    if (binding.name().equals(name)) {
-      worldBinds.add(binding);
-      return true;
-    }
+  try {
+    worldBinds.add(UniformBinding.valueOf(name));
+    return true;
   }
-  return false;
+ catch (  IllegalArgumentException ex) {
+    return false;
+  }
 }

@@ -2,7 +2,7 @@
   DefineList allDefines=new DefineList();
   allDefines.addFrom(def.getShaderPresetDefines());
   allDefines.addFrom(defines);
-  ShaderKey key=new ShaderKey(def.getVertName(),def.getFragName(),allDefines,def.getShaderLanguage());
+  ShaderKey key=new ShaderKey(def.getVertexShaderName(),def.getFragmentShaderName(),allDefines,def.getShaderLanguage());
   shader=manager.loadShader(key);
   if (shader == null) {
     logger.warning("Failed to reload shader!");

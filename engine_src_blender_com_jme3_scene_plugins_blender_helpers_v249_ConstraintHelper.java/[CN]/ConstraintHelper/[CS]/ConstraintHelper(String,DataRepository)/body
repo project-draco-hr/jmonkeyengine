@@ -11,7 +11,7 @@
     influenceFunctions[ConstraintType.CONSTRAINT_TYPE_CLAMPTO.getConstraintId()]=new AbstractInfluenceFunction(ConstraintType.CONSTRAINT_TYPE_CLAMPTO,dataRepository){
       @Override public void affectAnimation(      Skeleton skeleton,      BoneAnimation boneAnimation,      Constraint constraint){
         this.validateConstraintType(constraint.getData());
-        LOGGER.info(constraint.getName() + " not active! Curves not yet implemented!");
+        LOGGER.log(Level.INFO,"{0} not active! Curves not yet implemented!",constraint.getName());
       }
     }
 ;
@@ -58,7 +58,7 @@ boneTrack.setKeyframes(boneTrack.getTimes(),translations,boneTrack.getRotations(
 influenceFunctions[ConstraintType.CONSTRAINT_TYPE_FOLLOWPATH.getConstraintId()]=new AbstractInfluenceFunction(ConstraintType.CONSTRAINT_TYPE_FOLLOWPATH,dataRepository){
 @Override public void affectAnimation(Skeleton skeleton,BoneAnimation boneAnimation,Constraint constraint){
 this.validateConstraintType(constraint.getData());
-LOGGER.info(constraint.getName() + " not active! Curves not yet implemented!");
+LOGGER.log(Level.INFO,"{0} not active! Curves not yet implemented!",constraint.getName());
 }
 }
 ;
