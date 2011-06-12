@@ -13,12 +13,17 @@
   if (foamTexture == null) {
     foamTexture=(Texture2D)manager.loadTexture("Common/MatDefs/Water/Textures/foam.jpg");
   }
+  if (causticsTexture == null) {
+    causticsTexture=(Texture2D)manager.loadTexture("Common/MatDefs/Water/Textures/caustics.jpg");
+  }
   heightTexture=(Texture2D)manager.loadTexture("Common/MatDefs/Water/Textures/heightmap.jpg");
   normalTexture.setWrap(WrapMode.Repeat);
   foamTexture.setWrap(WrapMode.Repeat);
+  causticsTexture.setWrap(WrapMode.Repeat);
   heightTexture.setWrap(WrapMode.Repeat);
   material=new Material(manager,"Common/MatDefs/Water/Water.j3md");
   material.setTexture("HeightMap",heightTexture);
+  material.setTexture("CausticsMap",causticsTexture);
   material.setTexture("FoamMap",foamTexture);
   material.setTexture("NormalMap",normalTexture);
   material.setTexture("ReflectionMap",reflectionPass.getRenderedTexture());
@@ -43,6 +48,7 @@
   material.setBoolean("UseHQShoreline",useHQShoreline);
   material.setBoolean("UseSpecular",useSpecular);
   material.setBoolean("UseFoam",useFoam);
+  material.setBoolean("UseCaustics",useCaustics);
   material.setBoolean("UseRefraction",useRefraction);
   material.setFloat("ReflectionDisplace",reflectionDisplace);
   material.setFloat("FoamIntensity",foamIntensity);
