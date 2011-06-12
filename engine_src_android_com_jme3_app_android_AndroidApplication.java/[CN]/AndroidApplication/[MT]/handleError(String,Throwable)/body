@@ -10,7 +10,7 @@
   logger.severe((errorMsg != null ? errorMsg + ": " : "") + sTrace);
   activity.runOnUiThread(new Runnable(){
     @Override public void run(){
-      AlertDialog dialog=new AlertDialog.Builder(activity).setTitle(t != null ? t.toString() : "Failed").setPositiveButton("Kill",AndroidApplication.this).setMessage((errorMsg != null ? errorMsg + ": " : "") + sTrace).create();
+      AlertDialog dialog=new AlertDialog.Builder(activity).setTitle(t != null ? (t.getMessage() != null ? (t.getMessage() + ": " + t.getClass().getName()) : t.getClass().getName()) : "Exception").setPositiveButton("Kill",AndroidApplication.this).setMessage((errorMsg != null ? errorMsg + ": " : "") + sTrace).create();
       dialog.show();
     }
   }

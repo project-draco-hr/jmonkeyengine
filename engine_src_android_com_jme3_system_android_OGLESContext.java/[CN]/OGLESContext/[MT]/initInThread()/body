@@ -5,7 +5,7 @@
   if (ctx instanceof AndroidHarness) {
     Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler(){
       public void uncaughtException(      Thread thread,      Throwable thrown){
-        ((AndroidHarness)ctx).handleError("Uncaught exception thrown in " + thread.toString(),thrown);
+        ((AndroidHarness)ctx).handleError("Exception thrown in " + thread.toString(),thrown);
       }
     }
 );
@@ -13,10 +13,13 @@
  else {
     Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler(){
       public void uncaughtException(      Thread thread,      Throwable thrown){
-        listener.handleError("Uncaught exception thrown in " + thread.toString(),thrown);
+        listener.handleError("Exception thrown in " + thread.toString(),thrown);
       }
     }
 );
+  }
+  if (clientOpenGLESVersion < 2) {
+    throw new UnsupportedOperationException("OpenGL ES 2.0 is not supported on this device");
   }
   timer=new AndroidTimer();
   renderer=new OGLESShaderRenderer();
