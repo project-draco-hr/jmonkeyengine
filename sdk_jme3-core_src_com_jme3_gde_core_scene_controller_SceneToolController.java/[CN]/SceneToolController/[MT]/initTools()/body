@@ -1,11 +1,15 @@
 {
-  Material redMat=new Material(manager,"Common/MatDefs/Misc/WireColor.j3md");
+  Material redMat=new Material(manager,"Common/MatDefs/Misc/Unshaded.j3md");
+  redMat.getAdditionalRenderState().setWireframe(true);
   redMat.setColor("Color",ColorRGBA.Red);
-  Material greenMat=new Material(manager,"Common/MatDefs/Misc/WireColor.j3md");
+  Material greenMat=new Material(manager,"Common/MatDefs/Misc/Unshaded.j3md");
+  greenMat.getAdditionalRenderState().setWireframe(true);
   greenMat.setColor("Color",ColorRGBA.Green);
-  Material blueMat=new Material(manager,"Common/MatDefs/Misc/WireColor.j3md");
+  Material blueMat=new Material(manager,"Common/MatDefs/Misc/Unshaded.j3md");
+  blueMat.getAdditionalRenderState().setWireframe(true);
   blueMat.setColor("Color",ColorRGBA.Blue);
-  Material grayMat=new Material(manager,"Common/MatDefs/Misc/WireColor.j3md");
+  Material grayMat=new Material(manager,"Common/MatDefs/Misc/Unshaded.j3md");
+  grayMat.getAdditionalRenderState().setWireframe(true);
   grayMat.setColor("Color",ColorRGBA.Gray);
   if (cursor == null) {
     cursor=new Node();
