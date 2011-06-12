@@ -3,11 +3,14 @@
   Serializer.registerClass(PongMessage.class);
   Server server=Network.createServer(5110);
   server.start();
-  Client client=Network.connectToServer("192.168.1.101",5110,5111);
+  Client client=Network.connectToServer("localhost",5110);
   client.start();
   server.addMessageListener(new ServerPingResponder(),PingMessage.class);
   client.addMessageListener(new ClientPingResponder(),PongMessage.class);
-  Thread.sleep(100);
-  System.out.println("Sending ping message..");
+  System.out.println("Client: Sending ping message..");
   client.send(new PingMessage());
+  Object obj=new Object();
+synchronized (obj) {
+    obj.wait();
+  }
 }

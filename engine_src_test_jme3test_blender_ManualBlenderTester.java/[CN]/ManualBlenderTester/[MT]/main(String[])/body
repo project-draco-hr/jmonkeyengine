@@ -7,7 +7,7 @@
     }
   }
   final boolean debugMode=debug;
-  new ConfigDialog("./src/test-data/Blender",new IConfigExecutable(){
+  new ConfigDialog("./src/test-data/Blender",new ConfigExecutable(){
     @Override public void execute(    ModelKey modelKey,    Level logLevel){
       new ManualBlenderTester(modelKey,logLevel,debugMode).start();
     }

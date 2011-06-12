@@ -3,7 +3,13 @@
   localObj.objectName=name;
   localObj.objectId=objectIdCounter++;
   localObj.theObject=obj;
-  localObj.methods=obj.getClass().getMethods();
+  ArrayList<Method> methodList=new ArrayList<Method>();
+  for (  Method method : obj.getClass().getMethods()) {
+    if (method.getDeclaringClass() == obj.getClass()) {
+      methodList.add(method);
+    }
+  }
+  localObj.methods=methodList.toArray(new Method[methodList.size()]);
   localObjects.put(localObj.objectId,localObj);
   RemoteObjectDefMessage defMsg=new RemoteObjectDefMessage();
   defMsg.objects=new ObjectDef[]{makeObjectDef(localObj)};

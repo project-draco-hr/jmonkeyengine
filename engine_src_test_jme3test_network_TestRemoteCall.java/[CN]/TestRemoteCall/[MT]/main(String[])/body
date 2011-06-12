@@ -1,9 +1,10 @@
 {
   Serializer.registerClass(Savable.class,new SavableSerializer());
   createServer();
-  Client client=new Client("localhost",5110,5110);
+  Client client=Network.connectToServer("localhost",5110);
   client.start();
   ObjectStore store=new ObjectStore(client);
   ServerAccess access=store.getExposedObject("access",ServerAccess.class,true);
-  access.attachChild("Models/Ferrari/WheelBackLeft.mesh.xml");
+  boolean result=access.attachChild("Models/Oto/Oto.mesh.xml");
+  System.out.println(result);
 }

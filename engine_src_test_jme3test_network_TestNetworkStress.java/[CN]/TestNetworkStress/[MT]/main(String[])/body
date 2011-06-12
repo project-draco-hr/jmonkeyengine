@@ -1,11 +1,12 @@
 {
   Logger.getLogger("").getHandlers()[0].setLevel(Level.OFF);
-  Server server=new Server(5110,5110);
+  Server server=Network.createServer(5110);
   server.start();
   server.addConnectionListener(new TestNetworkStress());
   for (int i=0; i < 1000; i++) {
-    Client client=new Client("localhost",5110,5110);
+    Client client=Network.connectToServer("localhost",5110);
     client.start();
     Thread.sleep(10);
+    client.close();
   }
 }

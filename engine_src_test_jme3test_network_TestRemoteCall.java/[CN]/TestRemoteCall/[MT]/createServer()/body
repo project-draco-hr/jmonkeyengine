@@ -6,7 +6,7 @@
 ;
   serverApp.start();
   try {
-    Server server=new Server(5110,5110);
+    Server server=Network.createServer(5110);
     server.start();
     ObjectStore store=new ObjectStore(server);
     store.exposeObject("access",new ServerAccessImpl());

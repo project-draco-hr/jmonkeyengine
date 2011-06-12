@@ -1,4 +1,5 @@
 {
+  if (model == null)   throw new RuntimeException("Cannot be null. .. etc");
   final String finalModel=model;
   serverApp.enqueue(new Callable<Void>(){
     public Void call() throws Exception {
@@ -8,4 +9,5 @@
     }
   }
 );
+  return true;
 }

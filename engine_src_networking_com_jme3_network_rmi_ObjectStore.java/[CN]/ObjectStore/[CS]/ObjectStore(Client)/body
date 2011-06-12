@@ -1,5 +1,5 @@
 {
   this.client=client;
-  client.addMessageListener(this,RemoteObjectDefMessage.class,RemoteMethodCallMessage.class,RemoteMethodReturnMessage.class);
-  client.addConnectionListener(this);
+  client.addMessageListener(clientEventHandler,RemoteObjectDefMessage.class,RemoteMethodCallMessage.class,RemoteMethodReturnMessage.class);
+  client.addClientStateListener(clientEventHandler);
 }

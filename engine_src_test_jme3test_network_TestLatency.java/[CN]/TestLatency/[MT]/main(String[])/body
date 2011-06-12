@@ -1,11 +1,35 @@
 {
   Serializer.registerClass(TimestampMessage.class);
-  Server server=new Server(5110,5110);
+  Server server=Network.createServer(5110);
   server.start();
-  client=new Client("localhost",5110,5110);
+  client=Network.connectToServer("localhost",5110);
   client.start();
-  client.addMessageListener(new TestLatency(),TimestampMessage.class);
-  server.addMessageListener(new TestLatency(),TimestampMessage.class);
+  client.addMessageListener(new MessageListener<Client>(){
+    public void messageReceived(    Client source,    Message m){
+      TimestampMessage timeMsg=(TimestampMessage)m;
+      long curTime=getTime();
+      long latency=(curTime - timeMsg.timeSent);
+      System.out.println("Latency: " + (latency) + " ms");
+      average.add(latency);
+      System.out.println("Average latency: " + average.getAverage());
+      long latencyOffset=latency - average.getAverage();
+      System.out.println("Latency offset: " + latencyOffset);
+      client.send(new TimestampMessage(getTime(),0));
+    }
+  }
+,TimestampMessage.class);
+  server.addMessageListener(new MessageListener<HostedConnection>(){
+    public void messageReceived(    HostedConnection source,    Message m){
+      TimestampMessage timeMsg=(TimestampMessage)m;
+      TimestampMessage outMsg=new TimestampMessage(timeMsg.timeSent,getTime());
+      source.send(outMsg);
+    }
+  }
+,TimestampMessage.class);
   Thread.sleep(1);
   client.send(new TimestampMessage(getTime(),0));
+  Object obj=new Object();
+synchronized (obj) {
+    obj.wait();
+  }
 }
