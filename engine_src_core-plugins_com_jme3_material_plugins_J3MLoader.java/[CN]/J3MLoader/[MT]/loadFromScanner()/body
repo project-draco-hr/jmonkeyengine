@@ -9,6 +9,10 @@
  else   if (word.equals("MaterialDef")) {
     extending=false;
   }
+ else   if (word.equals("Exception")) {
+    String exception=scan.nextLine();
+    throw new AssetLoadException(exception);
+  }
  else {
     throw new IOException("Specified file is not a Material file");
   }

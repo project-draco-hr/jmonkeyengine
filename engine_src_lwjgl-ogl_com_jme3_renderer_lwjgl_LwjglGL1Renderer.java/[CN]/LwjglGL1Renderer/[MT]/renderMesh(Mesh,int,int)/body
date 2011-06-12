@@ -12,7 +12,7 @@
   }
   boolean dynamic=false;
   if (mesh.getBuffer(Type.InterleavedData) != null) {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Interleaved meshes are not supported");
   }
   if (mesh.getNumLodLevels() == 0) {
     IntMap<VertexBuffer> bufs=mesh.getBuffers();

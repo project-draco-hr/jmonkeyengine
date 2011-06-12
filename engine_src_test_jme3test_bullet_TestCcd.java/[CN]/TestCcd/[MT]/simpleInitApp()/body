@@ -6,9 +6,11 @@
   bullet.setTextureMode(TextureMode.Projected);
   bulletCollisionShape=new SphereCollisionShape(0.1f);
   setupKeys();
-  mat=new Material(getAssetManager(),"Common/MatDefs/Misc/WireColor.j3md");
+  mat=new Material(getAssetManager(),"Common/MatDefs/Misc/Unshaded.j3md");
+  mat.getAdditionalRenderState().setWireframe(true);
   mat.setColor("Color",ColorRGBA.Green);
-  mat2=new Material(getAssetManager(),"Common/MatDefs/Misc/WireColor.j3md");
+  mat2=new Material(getAssetManager(),"Common/MatDefs/Misc/Unshaded.j3md");
+  mat2.getAdditionalRenderState().setWireframe(true);
   mat2.setColor("Color",ColorRGBA.Red);
   Node node2=new Node();
   node2.setName("mesh");

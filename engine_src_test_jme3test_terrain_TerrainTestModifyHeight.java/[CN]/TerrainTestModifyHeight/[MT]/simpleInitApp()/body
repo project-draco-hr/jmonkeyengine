@@ -16,7 +16,8 @@
   rock.setWrap(WrapMode.Repeat);
   matTerrain.setTexture("DiffuseMap_2",rock);
   matTerrain.setFloat("DiffuseMap_2_scale",rockScale);
-  matWire=new Material(assetManager,"Common/MatDefs/Misc/WireColor.j3md");
+  matWire=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  matWire.getAdditionalRenderState().setWireframe(true);
   matWire.setColor("Color",ColorRGBA.Green);
   terrain=new TerrainQuad("terrain",65,513,null);
   List<Camera> cameras=new ArrayList<Camera>();

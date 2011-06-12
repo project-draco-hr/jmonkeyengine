@@ -1,7 +1,7 @@
 {
   Box boxMesh=new Box(Vector3f.ZERO,1,1,1);
   Geometry box=new Geometry("Box",boxMesh);
-  Material mat=new Material(assetManager,"Common/MatDefs/Misc/SimpleTextured.j3md");
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
   mat.setTexture("ColorMap",assetManager.loadTexture("Textures/HdrTest/Memorial.hdr"));
   box.setMaterial(mat);
   return box;

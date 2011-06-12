@@ -1,5 +1,6 @@
 {
-  Material mat=new Material(getAssetManager(),"Common/MatDefs/Misc/WireColor.j3md");
+  Material mat=new Material(getAssetManager(),"Common/MatDefs/Misc/Unshaded.j3md");
+  mat.getAdditionalRenderState().setWireframe(true);
   mat.setColor("Color",ColorRGBA.Red);
   CompoundCollisionShape compoundShape=new CompoundCollisionShape();
   BoxCollisionShape box=new BoxCollisionShape(new Vector3f(1.2f,0.5f,2.4f));

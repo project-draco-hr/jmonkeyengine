@@ -18,7 +18,8 @@
   rock.setWrap(WrapMode.Repeat);
   matRock.setTexture("Tex3",rock);
   matRock.setFloat("Tex3Scale",128f);
-  matWire=new Material(assetManager,"Common/MatDefs/Misc/WireColor.j3md");
+  matWire=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  matWire.getAdditionalRenderState().setWireframe(true);
   matWire.setColor("Color",ColorRGBA.Green);
   AbstractHeightMap heightmap=null;
   try {

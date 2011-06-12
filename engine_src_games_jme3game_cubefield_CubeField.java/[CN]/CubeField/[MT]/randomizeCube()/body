@@ -5,7 +5,10 @@
   float x=FastMath.nextRandomInt(playerX + difficulty + 30,playerX + difficulty + 90);
   float z=FastMath.nextRandomInt(playerZ - difficulty - 50,playerZ + difficulty + 50);
   cube.getLocalTranslation().set(x,0,z);
-  Material mat=new Material(assetManager,boxSolid);
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  if (!solidBox) {
+    mat.getAdditionalRenderState().setWireframe(true);
+  }
   mat.setColor("Color",obstacleColors.get(FastMath.nextRandomInt(0,obstacleColors.size() - 1)));
   cube.setMaterial(mat);
   rootNode.attachChild(cube);

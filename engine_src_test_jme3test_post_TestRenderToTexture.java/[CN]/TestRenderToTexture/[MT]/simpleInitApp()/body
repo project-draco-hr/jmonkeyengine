@@ -3,7 +3,7 @@
   cam.lookAt(Vector3f.ZERO,Vector3f.UNIT_Y);
   Geometry quad=new Geometry("box",new Box(Vector3f.ZERO,1,1,1));
   Texture offTex=setupOffscreenView();
-  Material mat=new Material(assetManager,"Common/MatDefs/Misc/SimpleTextured.j3md");
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
   mat.setTexture("ColorMap",offTex);
   quad.setMaterial(mat);
   rootNode.attachChild(quad);

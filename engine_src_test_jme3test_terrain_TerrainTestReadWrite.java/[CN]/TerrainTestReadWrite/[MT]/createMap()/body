@@ -25,7 +25,8 @@
   matTerrain.setTexture("NormalMap",normalMap0);
   matTerrain.setTexture("NormalMap_1",normalMap2);
   matTerrain.setTexture("NormalMap_2",normalMap2);
-  matWire=new Material(assetManager,"Common/MatDefs/Misc/WireColor.j3md");
+  matWire=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  matWire.getAdditionalRenderState().setWireframe(true);
   matWire.setColor("Color",ColorRGBA.Green);
   AbstractHeightMap heightmap=null;
   try {

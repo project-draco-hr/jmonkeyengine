@@ -14,7 +14,8 @@
   model=(Node)assetManager.loadModel("Models/Sinbad/Sinbad.mesh.xml");
   AnimControl control=model.getControl(AnimControl.class);
   SkeletonDebugger skeletonDebug=new SkeletonDebugger("skeleton",control.getSkeleton());
-  Material mat2=new Material(assetManager,"Common/MatDefs/Misc/WireColor.j3md");
+  Material mat2=new Material(getAssetManager(),"Common/MatDefs/Misc/Unshaded.j3md");
+  mat2.getAdditionalRenderState().setWireframe(true);
   mat2.setColor("Color",ColorRGBA.Green);
   mat2.getAdditionalRenderState().setDepthTest(false);
   skeletonDebug.setMaterial(mat2);
