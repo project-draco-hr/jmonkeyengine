@@ -46,12 +46,7 @@
   this.iterate.setFilter(this.therm);
   this.iterate.setIterations(1);
   ground.addPreFilter(this.iterate);
-  this.terrain=new TerrainGrid("terrain",65,1025,new ImageBasedHeightMapGrid(assetManager,new Namer(){
-    public String getName(    int x,    int y){
-      return "Textures/Terrain/grid/mountains_" + (x * 512) + "_"+ (y * 512)+ ".png";
-    }
-  }
-));
+  this.terrain=new TerrainGrid("terrain",65,257,new FractalHeightMapGrid(ground,null,256f));
   this.terrain.setMaterial(this.mat_terrain);
   this.terrain.setLocalTranslation(0,0,0);
   this.terrain.setLocalScale(2f,1f,2f);

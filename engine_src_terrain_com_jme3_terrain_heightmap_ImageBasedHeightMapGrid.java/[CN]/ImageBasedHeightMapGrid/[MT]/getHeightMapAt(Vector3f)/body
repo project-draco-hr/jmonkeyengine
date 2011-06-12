@@ -3,15 +3,16 @@
   int z=(int)location.z;
   AbstractHeightMap heightmap=null;
   try {
-    Logger.getLogger(ImageBasedHeightMapGrid.class.getCanonicalName()).log(Level.INFO,"Loading heightmap from file: " + textureBase + "_"+ x+ "_"+ z+ "."+ textureExt);
-    final InputStream stream=Thread.currentThread().getContextClassLoader().getResourceAsStream(textureBase + "_" + x+ "_"+ z+ "."+ textureExt);
+    String name=namer.getName(x,z);
+    Logger.getLogger(ImageBasedHeightMapGrid.class.getCanonicalName()).log(Level.INFO,"Loading heightmap from file: " + name);
+    final InputStream stream=Thread.currentThread().getContextClassLoader().getResourceAsStream(name);
     BufferedImage im=null;
     if (stream != null) {
       im=ImageIO.read(stream);
     }
  else {
       im=new BufferedImage(size,size,BufferedImage.TYPE_USHORT_GRAY);
-      Logger.getLogger(ImageBasedHeightMapGrid.class.getCanonicalName()).log(Level.INFO,"File: " + textureBase + "_"+ x+ "_"+ z+ "."+ textureExt+ " not found, loading zero heightmap instead");
+      Logger.getLogger(ImageBasedHeightMapGrid.class.getCanonicalName()).log(Level.WARNING,"File: " + name + " not found, loading zero heightmap instead");
     }
     heightmap=new Grayscale16BitHeightMap(im);
     heightmap.setHeightScale(256);

@@ -1,5 +1,8 @@
 {
-  this.textureBase=textureBase;
-  this.textureExt=textureExt;
-  this.assetManager=assetManager;
+  this(assetManager,new Namer(){
+    public String getName(    int x,    int y){
+      return textureBase + "_" + x+ "_"+ y+ "."+ textureExt;
+    }
+  }
+);
 }
