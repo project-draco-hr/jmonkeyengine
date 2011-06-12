@@ -12,6 +12,7 @@
     fsQuad.setPosition(0,0);
   }
   if (mat.getAdditionalRenderState().isDepthWrite()) {
+    mat.getAdditionalRenderState().setDepthTest(false);
     mat.getAdditionalRenderState().setDepthWrite(false);
   }
   fsQuad.setMaterial(mat);
@@ -20,4 +21,5 @@
   r.setFrameBuffer(buff);
   r.clearBuffers(false,true,true);
   renderManager.renderGeometry(fsQuad);
+  r.applyRenderState(RenderState.DEFAULT);
 }
