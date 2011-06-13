@@ -2,6 +2,6 @@
   camera=new Camera(width,height);
   viewPort=SceneApplication.getApplication().getRenderManager().createPreView("Offscreen View",camera);
   viewPort.setBackgroundColor(ColorRGBA.DarkGray);
-  viewPort.setClearEnabled(true);
+  viewPort.setClearFlags(true,true,true);
   viewPort.addProcessor(this);
 }
