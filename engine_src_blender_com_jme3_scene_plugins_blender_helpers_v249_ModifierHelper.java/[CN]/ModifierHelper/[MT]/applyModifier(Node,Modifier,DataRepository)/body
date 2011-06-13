@@ -8,6 +8,9 @@
  else   if (Modifier.PARTICLE_MODIFIER_DATA.equals(modifier.getType())) {
     return this.applyParticleSystemModifierData(node,modifier,dataRepository);
   }
+ else   if (Modifier.MIRROR_MODIFIER_DATA.equals(modifier.getType())) {
+    return this.applyMirrorModifierData(node,modifier,dataRepository);
+  }
  else {
     LOGGER.warning("Modifier: " + modifier.getType() + " not yet implemented!!!");
     return node;

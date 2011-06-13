@@ -1,0 +1,38 @@
+{
+  Map<String,Object> modifierData=(Map<String,Object>)modifier.getJmeModifierRepresentation();
+  int flag=((Number)modifierData.get("flag")).intValue();
+  float[] mirrorFactor=new float[]{(flag & 0x08) != 0 ? -1.0f : 1.0f,(flag & 0x10) != 0 ? -1.0f : 1.0f,(flag & 0x20) != 0 ? -1.0f : 1.0f};
+  float[] center=new float[]{0.0f,0.0f,0.0f};
+  float tolerance=((Number)modifierData.get("tolerance")).floatValue();
+  List<Geometry> geometriesToAdd=new ArrayList<Geometry>();
+  for (int mirrorIndex=0; mirrorIndex < 3; ++mirrorIndex) {
+    if (mirrorFactor[mirrorIndex] == -1.0f) {
+      for (      Spatial spatial : node.getChildren()) {
+        if (spatial instanceof Geometry) {
+          Mesh mesh=((Geometry)spatial).getMesh();
+          Mesh clone=mesh.deepClone();
+          VertexBuffer position=clone.getBuffer(Type.Position);
+          VertexBuffer bindPosePosition=clone.getBuffer(Type.BindPosePosition);
+          FloatBuffer positionBuffer=(FloatBuffer)position.getData();
+          FloatBuffer bindPosePositionBuffer=(FloatBuffer)bindPosePosition.getData();
+          positionBuffer.rewind();
+          bindPosePositionBuffer.rewind();
+          for (int i=mirrorIndex; i < positionBuffer.limit(); i+=3) {
+            float value=positionBuffer.get(i);
+            positionBuffer.put(i,Math.abs(value) <= tolerance ? 0.0f : -value);
+            value=bindPosePositionBuffer.get(i);
+            bindPosePositionBuffer.put(i,Math.abs(value) <= tolerance ? 0.0f : -value);
+          }
+          Geometry geometry=new Geometry(null,clone);
+          geometry.setMaterial(((Geometry)spatial).getMaterial());
+          geometriesToAdd.add(geometry);
+        }
+      }
+      for (      Geometry geometry : geometriesToAdd) {
+        node.attachChild(geometry);
+      }
+      geometriesToAdd.clear();
+    }
+  }
+  return node;
+}
