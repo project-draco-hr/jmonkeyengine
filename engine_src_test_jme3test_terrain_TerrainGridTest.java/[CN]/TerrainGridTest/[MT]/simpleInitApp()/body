@@ -1,4 +1,11 @@
 {
+  File file=new File("mountains.zip");
+  if (!file.exists()) {
+    assetManager.registerLocator("http://jmonkeyengine.googlecode.com/files/mountains.zip",HttpZipLocator.class.getName());
+  }
+ else {
+    assetManager.registerLocator("mountains.zip",ZipLocator.class.getName());
+  }
   this.flyCam.setMoveSpeed(100f);
   ScreenshotAppState state=new ScreenshotAppState();
   this.stateManager.attach(state);
@@ -11,7 +18,7 @@
   dirt.setWrap(WrapMode.Repeat);
   this.mat_terrain.setTexture("region2ColorMap",dirt);
   this.mat_terrain.setVector3("region2",new Vector3f(0,90,this.dirtScale));
-  Texture rock=this.assetManager.loadTexture("Textures/Terrain/grid/rock.jpg");
+  Texture rock=this.assetManager.loadTexture("Textures/Terrain/Rock2/rock.jpg");
   rock.setWrap(WrapMode.Repeat);
   this.mat_terrain.setTexture("region3ColorMap",rock);
   this.mat_terrain.setVector3("region3",new Vector3f(198,260,this.rockScale));
@@ -48,7 +55,7 @@
   ground.addPreFilter(this.iterate);
   this.terrain=new TerrainGrid("terrain",65,1025,new ImageBasedHeightMapGrid(assetManager,new Namer(){
     public String getName(    int x,    int y){
-      return "Textures/Terrain/grid/mountains_" + (x * 512) + "_"+ (y * 512)+ ".png";
+      return "Scenes/TerrainMountains/mountains_" + (x * 512) + "_"+ (y * 512)+ ".png";
     }
   }
 ));

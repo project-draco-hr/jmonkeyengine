@@ -17,7 +17,7 @@
   frustaCenter.multLocal(1f / 8f);
   shadowCam.setProjectionMatrix(null);
   shadowCam.setParallelProjection(true);
-  shadowCam.setDirection(direction);
+  shadowCam.lookAtDirection(direction,Vector3f.UNIT_Y);
   shadowCam.update();
   shadowCam.setLocation(frustaCenter);
   shadowCam.update();

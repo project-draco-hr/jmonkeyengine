@@ -2,17 +2,18 @@
   int x=(int)location.x;
   int z=(int)location.z;
   AbstractHeightMap heightmap=null;
+  BufferedImage im=null;
   try {
     String name=namer.getName(x,z);
-    Logger.getLogger(ImageBasedHeightMapGrid.class.getCanonicalName()).log(Level.INFO,"Loading heightmap from file: " + name);
-    final InputStream stream=Thread.currentThread().getContextClassLoader().getResourceAsStream(name);
-    BufferedImage im=null;
-    if (stream != null) {
-      im=ImageIO.read(stream);
+    logger.log(Level.INFO,"Loading heightmap from file: {0}",name);
+    final AssetInfo assetInfo=assetManager.locateAsset(new AssetKey(name));
+    if (assetInfo != null) {
+      InputStream in=assetInfo.openStream();
+      im=ImageIO.read(in);
     }
  else {
       im=new BufferedImage(size,size,BufferedImage.TYPE_USHORT_GRAY);
-      Logger.getLogger(ImageBasedHeightMapGrid.class.getCanonicalName()).log(Level.WARNING,"File: " + name + " not found, loading zero heightmap instead");
+      logger.log(Level.WARNING,"File: {0} not found, loading zero heightmap instead",name);
     }
     heightmap=new Grayscale16BitHeightMap(im);
     heightmap.setHeightScale(256);
