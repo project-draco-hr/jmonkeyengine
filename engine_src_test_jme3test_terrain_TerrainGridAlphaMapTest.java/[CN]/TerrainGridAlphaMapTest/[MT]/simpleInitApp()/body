@@ -1,0 +1,91 @@
+{
+  this.flyCam.setMoveSpeed(100f);
+  ScreenshotAppState state=new ScreenshotAppState();
+  this.stateManager.attach(state);
+  matRock=new Material(assetManager,"Common/MatDefs/Terrain/Terrain.j3md");
+  matRock.setBoolean("useTriPlanarMapping",false);
+  Texture grass=assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
+  grass.setWrap(WrapMode.Repeat);
+  matRock.setTexture("Tex1",grass);
+  matRock.setFloat("Tex1Scale",grassScale);
+  Texture dirt=assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
+  dirt.setWrap(WrapMode.Repeat);
+  matRock.setTexture("Tex2",dirt);
+  matRock.setFloat("Tex2Scale",dirtScale);
+  Texture rock=assetManager.loadTexture("Textures/Terrain/splat/road.jpg");
+  rock.setWrap(WrapMode.Repeat);
+  matRock.setTexture("Tex3",rock);
+  matRock.setFloat("Tex3Scale",rockScale);
+  matWire=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  matWire.getAdditionalRenderState().setWireframe(true);
+  matWire.setColor("Color",ColorRGBA.Green);
+  this.base=new FractalSum();
+  this.base.setRoughness(0.7f);
+  this.base.setFrequency(1.0f);
+  this.base.setAmplitude(1.0f);
+  this.base.setLacunarity(2.12f);
+  this.base.setOctaves(8);
+  this.base.setScale(0.02125f);
+  this.base.addModulator(new NoiseModulator(){
+    @Override public float value(    float... in){
+      return ShaderUtils.clamp(in[0] * 0.5f + 0.5f,0,1);
+    }
+  }
+);
+  FilteredBasis ground=new FilteredBasis(this.base);
+  this.perturb=new PerturbFilter();
+  this.perturb.setMagnitude(0.119f);
+  this.therm=new OptimizedErode();
+  this.therm.setRadius(5);
+  this.therm.setTalus(0.011f);
+  this.smooth=new SmoothFilter();
+  this.smooth.setRadius(1);
+  this.smooth.setEffect(0.7f);
+  this.iterate=new IterativeFilter();
+  this.iterate.addPreFilter(this.perturb);
+  this.iterate.addPostFilter(this.smooth);
+  this.iterate.setFilter(this.therm);
+  this.iterate.setIterations(1);
+  ground.addPreFilter(this.iterate);
+  this.terrain=new TerrainGrid("terrain",65,1025,new ImageBasedHeightMapGrid(assetManager,new Namer(){
+    public String getName(    int x,    int y){
+      return "Textures/Terrain/grid/terrain_" + x + "_"+ y+ ".png";
+    }
+  }
+));
+  this.terrain.setMaterial(this.matRock);
+  this.terrain.addListener("alphaListener",new TerrainGridListener(){
+    public void gridMoved(    Vector3f newCenter){
+    }
+    public Material tileLoaded(    Material material,    Vector3f cell){
+      material.setTexture("Alpha",assetManager.loadTexture("Textures/Terrain/grid/alphamap_" + (int)Math.abs(512 * (cell.x % 2)) + "_"+ (int)Math.abs(512 * (cell.z % 2))+ ".png"));
+      return material;
+    }
+  }
+);
+  this.terrain.setLocalTranslation(0,0,0);
+  this.terrain.setLocalScale(2f,1f,2f);
+  this.terrain.initialize(Vector3f.ZERO);
+  this.rootNode.attachChild(this.terrain);
+  List<Camera> cameras=new ArrayList<Camera>();
+  cameras.add(this.getCamera());
+  TerrainLodControl control=new TerrainLodControl(this.terrain,cameras);
+  this.terrain.addControl(control);
+  BulletAppState bulletAppState=new BulletAppState();
+  stateManager.attach(bulletAppState);
+  this.getCamera().setLocation(new Vector3f(0,256,0));
+  this.viewPort.setBackgroundColor(new ColorRGBA(0.7f,0.8f,1f,1f));
+  if (usePhysics) {
+    RigidBodyControl body=new RigidBodyControl(new HeightfieldCollisionShape(terrain.getHeightMap(),terrain.getLocalScale()),0);
+    terrain.addControl(body);
+    bulletAppState.getPhysicsSpace().add(terrain);
+    CapsuleCollisionShape capsuleShape=new CapsuleCollisionShape(0.5f,1.8f,1);
+    this.player3=new CharacterControl(capsuleShape,0.5f);
+    this.player3.setJumpSpeed(20);
+    this.player3.setFallSpeed(30);
+    this.player3.setGravity(30);
+    this.player3.setPhysicsLocation(new Vector3f(0,256,0));
+    bulletAppState.getPhysicsSpace().add(this.player3);
+  }
+  this.initKeys();
+}
