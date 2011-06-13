@@ -24,19 +24,14 @@
   String name=structure.getName();
   LOGGER.log(Level.INFO,"Material's name: {0}",name);
   if (vertexColor) {
-    if (shadeless) {
-      result.setBoolean("VertexColor",true);
-    }
- else {
-      result.setBoolean("UseVertexColor",true);
-    }
+    result.setBoolean(shadeless ? "VertexColor" : "UseVertexColor",true);
   }
   MaterialHelper materialHelper=dataRepository.getHelper(MaterialHelper.class);
   ColorRGBA diffuseColor=null;
   if (shadeless) {
   }
  else {
-    result.setBoolean("UseMaterialColors",true);
+    result.setBoolean("UseMaterialColors",Boolean.TRUE);
     DiffuseShader diffuseShader=materialHelper.getDiffuseShader(structure);
     result.setBoolean("Minnaert",diffuseShader == DiffuseShader.MINNAERT);
     diffuseColor=materialHelper.getDiffuseColor(structure,diffuseShader);
@@ -65,9 +60,7 @@
             Texture texture=textureHelper.getTexture(tex,dataRepository);
             if (texture != null) {
               if ((mapto & 0x01) != 0) {
-                if (!shadeless) {
-                  result.setBoolean("UseMaterialColors",false);
-                }
+                result.setBoolean("UseMaterialColors",Boolean.FALSE);
                 int blendType=((Number)textureLink.getFieldValue("blendtype")).intValue();
                 float[] color=new float[]{((Number)textureLink.getFieldValue("r")).floatValue(),((Number)textureLink.getFieldValue("g")).floatValue(),((Number)textureLink.getFieldValue("b")).floatValue()};
                 float colfac=((Number)textureLink.getFieldValue("colfac")).floatValue();
@@ -82,8 +75,11 @@
               }
               if ((mapto & 0x02) != 0) {
                 result.setTexture(TEXTURE_TYPE_NORMAL,texture);
+                if (vertexColor) {
+                  result.setBoolean(shadeless ? "VertexColor" : "UseVertexColor",false);
+                }
               }
-              if ((mapto & 0x20) != 0) {
+              if ((mapto & 0x04) != 0) {
                 result.setTexture(TEXTURE_TYPE_SPECULAR,texture);
               }
               if ((mapto & 0x40) != 0) {

@@ -52,7 +52,7 @@ default :
 throw new BlenderFileException("Unknown texture type: " + type + " for texture: "+ tex.getName());
 }
 if (result != null) {
-result.setName(String.valueOf(type));
+result.setName(tex.getName());
 result.setWrap(WrapMode.Repeat);
 }
 return result;
