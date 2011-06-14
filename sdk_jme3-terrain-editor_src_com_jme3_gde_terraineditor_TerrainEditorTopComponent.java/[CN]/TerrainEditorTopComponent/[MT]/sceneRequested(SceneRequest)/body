@@ -2,7 +2,6 @@
   if (request.equals(currentRequest)) {
     Logger.getLogger(TerrainEditorTopComponent.class.getName()).finer("Terrain sceneRequested " + request.getWindowTitle());
     setSceneInfo(currentRequest.getJmeNode(),true);
-    editorController.doGetAlphaSaveDataObject(this);
     Terrain terrain=(Terrain)editorController.getTerrain(null);
     if (terrain != null) {
       ((Node)terrain).setMaterial(terrain.getMaterial());

@@ -7,6 +7,7 @@
   int maxx=(int)(uv.x * width + radius * width);
   int miny=(int)(uv.y * height - radius * height);
   int maxy=(int)(uv.y * height + radius * height);
+  Logger.getLogger(TerrainEditorTopComponent.class.getName()).info("Paint " + uv);
   float radiusSquared=radius * radius;
   float radiusFalloff=radius * fadeFalloff;
   for (int y=miny; y < maxy; y++) {

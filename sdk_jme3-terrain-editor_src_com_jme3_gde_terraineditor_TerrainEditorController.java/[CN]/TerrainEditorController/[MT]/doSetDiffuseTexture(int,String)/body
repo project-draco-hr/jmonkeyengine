@@ -5,5 +5,6 @@
   Terrain terrain=(Terrain)getTerrain(null);
   if (layer == 0)   terrain.getMaterial().setTexture("DiffuseMap",tex);
  else   terrain.getMaterial().setTexture("DiffuseMap_" + layer,tex);
+  doSetTextureScale(layer,DEFAULT_TEXTURE_SCALE);
   setNeedsSave(true);
 }

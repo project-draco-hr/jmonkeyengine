@@ -2,7 +2,7 @@
   if (selectedTextureIndex < 0 || markerLocation == null)   return;
   Terrain terrain=(Terrain)getTerrain(null);
   if (terrain == null)   return;
-  setNeedsSaveAlpha(true);
+  setNeedsSave(true);
   Texture tex=doGetAlphaTextureFromDiffuse(terrain,selectedTextureIndex);
   Image image=tex.getImage();
   Vector2f UV=terrain.getPointPercentagePosition(markerLocation.x,markerLocation.z);
