@@ -23,7 +23,9 @@
   pixelFormat=pf;
   Display.setTitle(settings.getTitle());
   if (displayMode != null)   Display.setDisplayMode(displayMode);
-  if (settings.getIcons() != null)   Display.setIcon(imagesToByteBuffers(settings.getIcons()));
+  if (settings.getIcons() != null) {
+    Display.setIcon(imagesToByteBuffers(settings.getIcons()));
+  }
   Display.setFullscreen(settings.isFullscreen());
   Display.setVSyncEnabled(settings.isVSync());
   if (!created.get() || pixelFormatChanged) {

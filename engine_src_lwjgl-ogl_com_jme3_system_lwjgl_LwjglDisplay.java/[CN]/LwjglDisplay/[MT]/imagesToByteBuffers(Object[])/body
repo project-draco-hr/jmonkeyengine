@@ -1,7 +1,8 @@
 {
   ByteBuffer[] out=new ByteBuffer[images.length];
   for (int i=0; i < images.length; i++) {
-    out[i]=imageToByteBuffer(images[i]);
+    BufferedImage image=(BufferedImage)images[i];
+    out[i]=imageToByteBuffer(image);
   }
   return out;
 }
