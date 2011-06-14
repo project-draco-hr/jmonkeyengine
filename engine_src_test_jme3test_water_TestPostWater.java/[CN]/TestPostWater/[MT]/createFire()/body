@@ -7,14 +7,14 @@
   fire.setImagesY(2);
   fire.setEndColor(new ColorRGBA(1f,0f,0f,1f));
   fire.setStartColor(new ColorRGBA(1f,1f,0f,0.5f));
-  fire.setInitialVelocity(new Vector3f(0,2,0));
+  fire.getParticleInfluencer().setInitialVelocity(new Vector3f(0,2,0));
   fire.setStartSize(10f);
   fire.setEndSize(1f);
   fire.setGravity(0,0,0);
   fire.setLowLife(0.5f);
   fire.setHighLife(1.5f);
-  fire.setVelocityVariation(0.3f);
-  fire.setLocalTranslation(-500,30,300);
-  fire.setQueueBucket(Bucket.Translucent);
+  fire.getParticleInfluencer().setVelocityVariation(0.3f);
+  fire.setLocalTranslation(-350,40,430);
+  fire.setQueueBucket(Bucket.Transparent);
   rootNode.attachChild(fire);
 }

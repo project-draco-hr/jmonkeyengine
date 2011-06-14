@@ -11,7 +11,6 @@
   DirectionalLight l=new DirectionalLight();
   l.setDirection(Vector3f.UNIT_Y.mult(-1));
   l.setColor(ColorRGBA.White.clone().multLocal(0.3f));
-  mainScene.addLight(l);
   flyCam.setMoveSpeed(50);
   cam.setLocation(new Vector3f(-327.21957f,61.6459f,126.884346f));
   cam.setRotation(new Quaternion(0.052168474f,0.9443102f,-0.18395276f,0.2678024f));
@@ -25,6 +24,7 @@
   fpp.addFilter(water);
   BloomFilter bloom=new BloomFilter();
   bloom.setExposurePower(55);
+  bloom.setBloomIntensity(1.0f);
   fpp.addFilter(bloom);
   LightScatteringFilter lsf=new LightScatteringFilter(lightDir.mult(-300));
   lsf.setLightDensity(1.0f);
