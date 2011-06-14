@@ -1,4 +1,11 @@
 {
+  File file=new File("mountains.zip");
+  if (!file.exists()) {
+    assetManager.registerLocator("http://jmonkeyengine.googlecode.com/files/mountains.zip",HttpZipLocator.class);
+  }
+ else {
+    assetManager.registerLocator("mountains.zip",ZipLocator.class);
+  }
   this.flyCam.setMoveSpeed(100f);
   ScreenshotAppState state=new ScreenshotAppState();
   this.stateManager.attach(state);
@@ -49,7 +56,7 @@
   ground.addPreFilter(this.iterate);
   this.terrain=new TerrainGrid("terrain",65,1025,new ImageBasedHeightMapGrid(assetManager,new Namer(){
     public String getName(    int x,    int y){
-      return "Textures/Terrain/grid/terrain_" + x + "_"+ y+ ".png";
+      return "Scenes/TerrainAlphaTest/terrain_" + x + "_"+ y+ ".png";
     }
   }
 ));
@@ -58,7 +65,9 @@
     public void gridMoved(    Vector3f newCenter){
     }
     public Material tileLoaded(    Material material,    Vector3f cell){
-      material.setTexture("Alpha",assetManager.loadTexture("Textures/Terrain/grid/alphamap_" + (int)Math.abs(512 * (cell.x % 2)) + "_"+ (int)Math.abs(512 * (cell.z % 2))+ ".png"));
+      int x=(int)Math.abs(512 * (cell.x % 2));
+      int z=(int)Math.abs(512 * (cell.z % 2));
+      material.setTexture("Alpha",assetManager.loadTexture("Scenes/TerrainAlphaTest/alphamap_" + x + "_"+ z+ ".png"));
       return material;
     }
   }
