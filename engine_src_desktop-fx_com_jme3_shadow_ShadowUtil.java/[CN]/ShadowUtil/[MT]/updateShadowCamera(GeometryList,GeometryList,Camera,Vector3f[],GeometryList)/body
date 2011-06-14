@@ -58,7 +58,9 @@
   Vector3f splitMin=splitBB.getMin(null);
   Vector3f splitMax=splitBB.getMax(null);
   splitMin.z=0;
-  if (!ortho)   shadowCam.setFrustumPerspective(45,1,1,splitMax.z);
+  if (!ortho) {
+    shadowCam.setFrustumPerspective(45,1,1,splitMax.z);
+  }
   Matrix4f projMatrix=shadowCam.getProjectionMatrix();
   Vector3f cropMin=new Vector3f();
   Vector3f cropMax=new Vector3f();

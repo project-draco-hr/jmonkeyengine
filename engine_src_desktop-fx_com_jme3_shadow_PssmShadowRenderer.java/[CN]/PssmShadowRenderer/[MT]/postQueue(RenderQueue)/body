@@ -1,8 +1,12 @@
 {
   GeometryList occluders=rq.getShadowQueueContent(ShadowMode.Cast);
-  if (occluders.size() == 0)   return;
+  if (occluders.size() == 0) {
+    return;
+  }
   GeometryList receivers=rq.getShadowQueueContent(ShadowMode.Receive);
-  if (receivers.size() == 0)   return;
+  if (receivers.size() == 0) {
+    return;
+  }
   Camera viewCam=viewPort.getCamera();
   float zFar=zFarOverride;
   if (zFar == 0) {

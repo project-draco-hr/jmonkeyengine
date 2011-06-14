@@ -1,6 +1,10 @@
 {
-  if (filterMode == null)   throw new NullPointerException();
-  if (this.filterMode == filterMode)   return;
+  if (filterMode == null) {
+    throw new NullPointerException();
+  }
+  if (this.filterMode == filterMode) {
+    return;
+  }
   this.filterMode=filterMode;
   postshadowMat.setInt("FilterMode",filterMode.ordinal());
   postshadowMat.setFloat("PCFEdge",edgesThickness);
