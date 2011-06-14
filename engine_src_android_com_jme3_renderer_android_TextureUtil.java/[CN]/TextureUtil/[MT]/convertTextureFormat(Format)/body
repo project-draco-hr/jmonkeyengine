@@ -19,6 +19,14 @@ case RGB5A1:
 case RGBA16:
 case RGBA8:
 return GL10.GL_RGBA;
+case Depth:
+return GLES20.GL_DEPTH_COMPONENT;
+case Depth16:
+return GLES20.GL_DEPTH_COMPONENT16;
+case Depth24:
+case Depth32:
+case Depth32F:
+throw new UnsupportedOperationException("Unsupported depth format: " + fmt);
 case DXT1A:
 throw new UnsupportedOperationException("Unsupported format: " + fmt);
 default :
