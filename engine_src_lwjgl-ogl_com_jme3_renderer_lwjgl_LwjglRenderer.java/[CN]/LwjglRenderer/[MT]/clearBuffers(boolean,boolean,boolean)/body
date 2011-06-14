@@ -4,6 +4,10 @@
     bits=GL_COLOR_BUFFER_BIT;
   }
   if (depth) {
+    if (context.depthWriteEnabled == false) {
+      glDepthMask(true);
+      context.depthWriteEnabled=true;
+    }
     bits|=GL_DEPTH_BUFFER_BIT;
   }
   if (stencil) {
