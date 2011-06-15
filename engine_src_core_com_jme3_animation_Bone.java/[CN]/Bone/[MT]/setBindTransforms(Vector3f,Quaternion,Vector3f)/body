@@ -1,8 +1,12 @@
 {
   initialPos.set(translation);
   initialRot.set(rotation);
-  initialScale.set(scale);
+  if (scale != null) {
+    initialScale.set(scale);
+  }
   localPos.set(translation);
   localRot.set(rotation);
-  localScale.set(scale);
+  if (scale != null) {
+    localScale.set(scale);
+  }
 }
