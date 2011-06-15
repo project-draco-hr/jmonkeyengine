@@ -3,7 +3,27 @@
   int flag=((Number)modifierData.get("flag")).intValue();
   float[] mirrorFactor=new float[]{(flag & 0x08) != 0 ? -1.0f : 1.0f,(flag & 0x10) != 0 ? -1.0f : 1.0f,(flag & 0x20) != 0 ? -1.0f : 1.0f};
   float[] center=new float[]{0.0f,0.0f,0.0f};
+  Pointer pObject=(Pointer)modifierData.get("mirrorob");
+  if (pObject != null) {
+    Structure objectStructure;
+    try {
+      objectStructure=pObject.fetchData(dataRepository.getInputStream()).get(0);
+      ObjectHelper objectHelper=dataRepository.getHelper(ObjectHelper.class);
+      Node object=(Node)objectHelper.toObject(objectStructure,dataRepository);
+      if (object != null) {
+        Vector3f translation=object.getWorldTranslation();
+        center[0]=translation.x;
+        center[1]=translation.y;
+        center[2]=translation.z;
+      }
+    }
+ catch (    BlenderFileException e) {
+      LOGGER.severe("Cannot load mirror's reference object. Cause: " + e.getLocalizedMessage());
+    }
+  }
   float tolerance=((Number)modifierData.get("tolerance")).floatValue();
+  boolean mirrorU=(flag & 0x01) != 0;
+  boolean mirrorV=(flag & 0x02) != 0;
   List<Geometry> geometriesToAdd=new ArrayList<Geometry>();
   for (int mirrorIndex=0; mirrorIndex < 3; ++mirrorIndex) {
     if (mirrorFactor[mirrorIndex] == -1.0f) {
@@ -11,17 +31,39 @@
         if (spatial instanceof Geometry) {
           Mesh mesh=((Geometry)spatial).getMesh();
           Mesh clone=mesh.deepClone();
-          VertexBuffer position=clone.getBuffer(Type.Position);
-          VertexBuffer bindPosePosition=clone.getBuffer(Type.BindPosePosition);
-          FloatBuffer positionBuffer=(FloatBuffer)position.getData();
-          FloatBuffer bindPosePositionBuffer=(FloatBuffer)bindPosePosition.getData();
-          positionBuffer.rewind();
-          bindPosePositionBuffer.rewind();
-          for (int i=mirrorIndex; i < positionBuffer.limit(); i+=3) {
-            float value=positionBuffer.get(i);
-            positionBuffer.put(i,Math.abs(value) <= tolerance ? 0.0f : -value);
-            value=bindPosePositionBuffer.get(i);
-            bindPosePositionBuffer.put(i,Math.abs(value) <= tolerance ? 0.0f : -value);
+          FloatBuffer position=(FloatBuffer)mesh.getBuffer(Type.Position).getData();
+          FloatBuffer bindPosePosition=(FloatBuffer)mesh.getBuffer(Type.BindPosePosition).getData();
+          FloatBuffer clonePosition=(FloatBuffer)clone.getBuffer(Type.Position).getData();
+          FloatBuffer cloneBindPosePosition=(FloatBuffer)clone.getBuffer(Type.BindPosePosition).getData();
+          FloatBuffer cloneNormals=(FloatBuffer)clone.getBuffer(Type.Normal).getData();
+          FloatBuffer cloneBindPoseNormals=(FloatBuffer)clone.getBuffer(Type.BindPoseNormal).getData();
+          for (int i=mirrorIndex; i < clonePosition.limit(); i+=3) {
+            float value=clonePosition.get(i);
+            float d=center[mirrorIndex] - value;
+            if (Math.abs(d) <= tolerance) {
+              clonePosition.put(i,center[mirrorIndex]);
+              cloneBindPosePosition.put(i,center[mirrorIndex]);
+              position.put(i,center[mirrorIndex]);
+              bindPosePosition.put(i,center[mirrorIndex]);
+            }
+ else {
+              clonePosition.put(i,value + 2.0f * d);
+              cloneBindPosePosition.put(i,value + 2.0f * d);
+            }
+            cloneNormals.put(i,-cloneNormals.get(i));
+            cloneBindPoseNormals.put(i,-cloneNormals.get(i));
+          }
+          if (mirrorU) {
+            FloatBuffer cloneUVs=(FloatBuffer)clone.getBuffer(Type.TexCoord).getData();
+            for (int i=0; i < cloneUVs.limit(); i+=2) {
+              cloneUVs.put(i,1.0f - cloneUVs.get(i));
+            }
+          }
+          if (mirrorV) {
+            FloatBuffer cloneUVs=(FloatBuffer)clone.getBuffer(Type.TexCoord).getData();
+            for (int i=1; i < cloneUVs.limit(); i+=2) {
+              cloneUVs.put(i,1.0f - cloneUVs.get(i));
+            }
           }
           Geometry geometry=new Geometry(null,clone);
           geometry.setMaterial(((Geometry)spatial).getMaterial());
