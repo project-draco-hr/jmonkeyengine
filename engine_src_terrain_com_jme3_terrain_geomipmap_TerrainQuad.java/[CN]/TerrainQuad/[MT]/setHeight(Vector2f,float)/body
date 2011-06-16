@@ -1,6 +1,7 @@
 {
-  int x=Math.round((xz.x / getLocalScale().x) + totalSize / 2);
-  int z=Math.round((xz.y / getLocalScale().z) + totalSize / 2);
-  setHeight(x,z,height);
-  setNormalRecalcNeeded(xz);
+  List<Vector2f> coord=new ArrayList<Vector2f>();
+  coord.add(xz);
+  List<Float> h=new ArrayList<Float>();
+  h.add(height);
+  setHeight(coord,h);
 }
