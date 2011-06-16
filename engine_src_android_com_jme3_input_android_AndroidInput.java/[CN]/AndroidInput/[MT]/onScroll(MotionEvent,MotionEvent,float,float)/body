@@ -1,6 +1,6 @@
 {
   TouchEvent touch=getNextFreeTouchEvent();
-  touch.set(Type.SCROLL,e1.getX(),e1.getY(),distanceX,distanceY);
+  touch.set(Type.SCROLL,e1.getX(),this.getHeight() - e1.getY(),distanceX,distanceY * (-1));
   touch.setPointerId(0);
   touch.setTime(e1.getEventTime());
   processEvent(touch);

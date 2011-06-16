@@ -1,0 +1,15 @@
+{
+switch (evt.getType()) {
+case KEY_UP:
+    activity.runOnUiThread(new Runnable(){
+      @Override public void run(){
+        AlertDialog dialog=new AlertDialog.Builder(activity).setTitle("Do you want to exit?").setPositiveButton("Yes",AndroidApplication.this).setNegativeButton("No",AndroidApplication.this).setMessage("Use your home key to bring this app into the background or Exit to terminate it.").create();
+        dialog.show();
+      }
+    }
+);
+  break;
+default :
+break;
+}
+}

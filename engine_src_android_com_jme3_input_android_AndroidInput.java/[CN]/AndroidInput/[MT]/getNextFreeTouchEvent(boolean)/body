@@ -1,27 +1,47 @@
 {
-  TouchEvent evt;
-  if (eventPool.isEmpty() && wait) {
-    logger.warning("eventPool buffer underrun");
-    boolean isEmpty;
-    do {
+  TouchEvent evt=null;
+synchronized (eventPoolUnConsumed) {
+    int size=eventPoolUnConsumed.size();
+    while (size > 0) {
+      evt=eventPoolUnConsumed.pop();
+      if (!evt.isConsumed()) {
+        eventPoolUnConsumed.push(evt);
+        evt=null;
+      }
+ else {
+        break;
+      }
+      size--;
+    }
+  }
+  if (evt == null) {
+    if (eventPool.isEmpty() && wait) {
+      logger.warning("eventPool buffer underrun");
+      boolean isEmpty;
+      do {
 synchronized (eventPool) {
-        isEmpty=eventPool.isEmpty();
+          isEmpty=eventPool.isEmpty();
+        }
+        try {
+          Thread.sleep(50);
+        }
+ catch (        InterruptedException e) {
+        }
       }
-      try {
-        Thread.sleep(50);
-      }
- catch (      InterruptedException e) {
+ while (isEmpty);
+synchronized (eventPool) {
+        evt=eventPool.pop();
       }
     }
- while (isEmpty);
-    evt=eventPool.pop();
-  }
- else   if (eventPool.isEmpty()) {
-    evt=new TouchEvent();
-    logger.warning("eventPool buffer underrun");
-  }
+ else     if (eventPool.isEmpty()) {
+      evt=new TouchEvent();
+      logger.warning("eventPool buffer underrun");
+    }
  else {
-    evt=eventPool.pop();
+synchronized (eventPool) {
+        evt=eventPool.pop();
+      }
+    }
   }
   return evt;
 }

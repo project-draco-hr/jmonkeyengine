@@ -1,0 +1,17 @@
+{
+  if (name.equals(ESCAPE_EVENT)) {
+switch (evt.getType()) {
+case KEY_UP:
+      this.runOnUiThread(new Runnable(){
+        @Override public void run(){
+          AlertDialog dialog=new AlertDialog.Builder(AndroidHarness.this).setTitle("Do you want to exit?").setPositiveButton("Yes",AndroidHarness.this).setNegativeButton("No",AndroidHarness.this).setMessage("Use your home key to bring this app into the background or exit to terminate it.").create();
+          dialog.show();
+        }
+      }
+);
+    break;
+default :
+  break;
+}
+}
+}

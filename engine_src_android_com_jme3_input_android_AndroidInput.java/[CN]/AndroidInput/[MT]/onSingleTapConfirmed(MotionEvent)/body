@@ -1,6 +1,6 @@
 {
   TouchEvent touch=getNextFreeTouchEvent();
-  touch.set(Type.TAP,event.getX(),event.getY(),0f,0f);
+  touch.set(Type.TAP,event.getX(),this.getHeight() - event.getY(),0f,0f);
   touch.setPointerId(0);
   touch.setTime(event.getEventTime());
   processEvent(touch);

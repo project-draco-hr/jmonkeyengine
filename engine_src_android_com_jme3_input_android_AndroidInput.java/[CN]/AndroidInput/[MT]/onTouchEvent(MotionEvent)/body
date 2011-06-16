@@ -3,22 +3,48 @@
   TouchEvent touch;
   this.detector.onTouchEvent(event);
   this.scaledetector.onTouchEvent(event);
+  final int historySize=event.getHistorySize();
+  final int pointerCount=event.getPointerCount();
 switch (event.getAction()) {
 case MotionEvent.ACTION_DOWN:
-    for (int p=0; p < event.getPointerCount(); p++) {
-      touch=getNextFreeTouchEvent();
-      touch.set(Type.DOWN,event.getX(p),event.getY(p),0,0);
-      touch.setPointerId(event.getPointerId(p));
-      touch.setTime(event.getEventTime());
-      touch.setPressure(event.getPressure(p));
-      processEvent(touch);
+    if (!dontSendHistory) {
+      for (int h=0; h < historySize; h++) {
+        for (int p=0; p < pointerCount; p++) {
+          touch=getNextFreeTouchEvent();
+          touch.set(Type.DOWN,event.getHistoricalX(p,h),this.getHeight() - event.getHistoricalY(p,h),0,0);
+          touch.setPointerId(event.getPointerId(p));
+          touch.setTime(event.getHistoricalEventTime(h));
+          touch.setPressure(event.getHistoricalPressure(p,h));
+          processEvent(touch);
+        }
+      }
     }
-  bWasHandled=true;
+  for (int p=0; p < pointerCount; p++) {
+    touch=getNextFreeTouchEvent();
+    touch.set(Type.DOWN,event.getX(p),this.getHeight() - event.getY(p),0,0);
+    touch.setPointerId(event.getPointerId(p));
+    touch.setTime(event.getEventTime());
+    touch.setPressure(event.getPressure(p));
+    processEvent(touch);
+  }
+bWasHandled=true;
 break;
 case MotionEvent.ACTION_UP:
-for (int p=0; p < event.getPointerCount(); p++) {
+if (!dontSendHistory) {
+for (int h=0; h < historySize; h++) {
+for (int p=0; p < pointerCount; p++) {
+  touch=getNextFreeTouchEvent();
+  touch.set(Type.UP,event.getHistoricalX(p,h),this.getHeight() - event.getHistoricalY(p,h),0,0);
+  touch.setPointerId(event.getPointerId(p));
+  touch.setTime(event.getHistoricalEventTime(h));
+  touch.setPressure(event.getHistoricalPressure(p,h));
+  processEvent(touch);
+}
+}
+}
+for (int p=0; p < pointerCount; p++) {
 touch=getNextFreeTouchEvent();
-touch.set(Type.UP,event.getX(p),event.getY(p),0,0);
+touch.set(Type.UP,event.getX(p),this.getHeight() - event.getY(p),0,0);
 touch.setPointerId(event.getPointerId(p));
 touch.setTime(event.getEventTime());
 touch.setPressure(event.getPressure(p));
@@ -27,19 +53,37 @@ processEvent(touch);
 bWasHandled=true;
 break;
 case MotionEvent.ACTION_MOVE:
-for (int p=0; p < event.getPointerCount(); p++) {
+if (!dontSendHistory) {
+for (int h=0; h < historySize; h++) {
+for (int p=0; p < pointerCount; p++) {
 Vector2f lastPos=lastPositions.get(event.getPointerId(p));
 if (lastPos == null) {
-lastPos=new Vector2f(event.getX(p),event.getY(p));
+lastPos=new Vector2f(event.getHistoricalX(p,h),this.getHeight() - event.getHistoricalY(p,h));
 lastPositions.put(event.getPointerId(p),lastPos);
 }
 touch=getNextFreeTouchEvent();
-touch.set(Type.MOVE,event.getX(p),event.getY(p),event.getX(p) - lastPos.x,event.getY(p) - lastPos.y);
+touch.set(Type.MOVE,event.getHistoricalX(p,h),this.getHeight() - event.getHistoricalY(p,h),event.getHistoricalX(p,h) - lastPos.x,this.getHeight() - event.getHistoricalY(p,h) - lastPos.y);
+touch.setPointerId(event.getPointerId(p));
+touch.setTime(event.getHistoricalEventTime(h));
+touch.setPressure(event.getHistoricalPressure(p,h));
+processEvent(touch);
+lastPos.set(event.getHistoricalX(p,h),this.getHeight() - event.getHistoricalY(p,h));
+}
+}
+}
+for (int p=0; p < event.getPointerCount(); p++) {
+Vector2f lastPos=lastPositions.get(event.getPointerId(p));
+if (lastPos == null) {
+lastPos=new Vector2f(event.getX(p),this.getHeight() - event.getY(p));
+lastPositions.put(event.getPointerId(p),lastPos);
+}
+touch=getNextFreeTouchEvent();
+touch.set(Type.MOVE,event.getX(p),this.getHeight() - event.getY(p),event.getX(p) - lastPos.x,this.getHeight() - event.getY(p) - lastPos.y);
 touch.setPointerId(event.getPointerId(p));
 touch.setTime(event.getEventTime());
 touch.setPressure(event.getPressure(p));
 processEvent(touch);
-lastPos.set(event.getX(p),event.getY(p));
+lastPos.set(event.getX(p),this.getHeight() - event.getY(p));
 }
 bWasHandled=true;
 break;

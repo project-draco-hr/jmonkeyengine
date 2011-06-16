@@ -22,4 +22,6 @@
     view=ctx.createView(input);
   }
   setContentView(view);
+  app.inputManager.addMapping(ESCAPE_EVENT,new TouchTrigger(TouchInput.KEYCODE_BACK));
+  app.inputManager.addListener(this,new String[]{ESCAPE_EVENT});
 }

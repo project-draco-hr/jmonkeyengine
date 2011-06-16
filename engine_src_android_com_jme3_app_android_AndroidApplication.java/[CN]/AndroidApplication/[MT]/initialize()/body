@@ -6,6 +6,8 @@
   loadFPSText();
   viewPort.attachScene(rootNode);
   guiViewPort.attachScene(guiNode);
+  inputManager.addMapping("TouchEscape",new TouchTrigger(TouchInput.KEYCODE_BACK));
+  inputManager.addListener(this,new String[]{"TouchEscape"});
   init();
   Thread t=new Thread(new Runnable(){
     @Override public void run(){
