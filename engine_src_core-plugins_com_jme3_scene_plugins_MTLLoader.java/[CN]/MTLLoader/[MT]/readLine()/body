@@ -4,7 +4,7 @@
   }
   String cmd=scan.next().toLowerCase();
   if (cmd.startsWith("#")) {
-    nextStatement();
+    skipLine();
   }
  else   if (cmd.equals("newmtl")) {
     String name=scan.next();
@@ -27,7 +27,7 @@
     transparent=true;
   }
  else   if (cmd.equals("map_ka")) {
-    nextStatement();
+    skipLine();
   }
  else   if (cmd.equals("map_kd")) {
     String path=nextStatement();
@@ -68,11 +68,11 @@ break;
 }
 }
  else if (cmd.equals("ke") || cmd.equals("ni")) {
-nextStatement();
+skipLine();
 }
  else {
 System.out.println("Unknown statement in MTL! " + cmd);
-nextStatement();
+skipLine();
 }
 return true;
 }
