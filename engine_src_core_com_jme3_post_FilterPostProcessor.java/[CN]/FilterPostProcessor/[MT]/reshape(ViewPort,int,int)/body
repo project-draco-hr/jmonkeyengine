@@ -1,9 +1,19 @@
 {
+  Camera cam=vp.getCamera();
+  cam.setViewPort(left,right,bottom,top);
+  cam.resize(w,h,false);
+  left=cam.getViewPortLeft();
+  right=cam.getViewPortRight();
+  top=cam.getViewPortTop();
+  bottom=cam.getViewPortBottom();
+  originalWidth=w;
+  originalHeight=h;
+  cam.setViewPort(0,1,0,1);
   width=(int)(w * (Math.abs(right - left)));
   height=(int)(h * (Math.abs(bottom - top)));
   width=Math.max(1,width);
   height=Math.max(1,height);
-  vp.getCamera().resize(width,height,false);
+  cam.resize(width,height,false);
   cameraInit=true;
   computeDepth=false;
   if (renderFrameBuffer == null) {
