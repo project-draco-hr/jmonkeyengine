@@ -6,6 +6,7 @@
     editorController.doModifyTerrainHeight(getMarkerLocation(),heightToolRadius,-heightAmount);
   }
  else   if (TerrainEditButton.smoothTerrain == getCurrentEditButtonState()) {
+    editorController.doSmoothTerrain(getMarkerLocation(),heightToolRadius,smoothAmount);
   }
  else   if (TerrainEditButton.levelTerrain == getCurrentEditButtonState()) {
     if (editorController.doGetLevelTerrainDesiredHeight() == null) {
