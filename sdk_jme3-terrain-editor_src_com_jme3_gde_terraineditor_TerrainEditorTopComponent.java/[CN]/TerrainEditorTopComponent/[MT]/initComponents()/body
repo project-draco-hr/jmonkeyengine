@@ -59,18 +59,18 @@
   radiusSlider.setSnapToTicks(true);
   radiusSlider.setToolTipText(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.radiusSlider.toolTipText"));
   radiusSlider.setValue(5);
-  radiusSlider.addPropertyChangeListener(new java.beans.PropertyChangeListener(){
-    public void propertyChange(    java.beans.PropertyChangeEvent evt){
-      radiusSliderPropertyChange(evt);
+  radiusSlider.addChangeListener(new javax.swing.event.ChangeListener(){
+    public void stateChanged(    javax.swing.event.ChangeEvent evt){
+      radiusSliderStateChanged(evt);
     }
   }
 );
   heightSlider.setMajorTickSpacing(20);
   heightSlider.setMaximum(200);
   heightSlider.setPaintTicks(true);
-  heightSlider.addPropertyChangeListener(new java.beans.PropertyChangeListener(){
-    public void propertyChange(    java.beans.PropertyChangeEvent evt){
-      heightSliderPropertyChange(evt);
+  heightSlider.addChangeListener(new javax.swing.event.ChangeListener(){
+    public void stateChanged(    javax.swing.event.ChangeEvent evt){
+      heightSliderStateChanged(evt);
     }
   }
 );
