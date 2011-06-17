@@ -1,6 +1,4 @@
 {
-  Vector2f point=new Vector2f(x,z);
-  float val=Math.abs(point.length()) / radius;
-  val=1 - val;
+  float val=calculateRadiusPercent(radius,x,z);
   return heightFactor * val;
 }

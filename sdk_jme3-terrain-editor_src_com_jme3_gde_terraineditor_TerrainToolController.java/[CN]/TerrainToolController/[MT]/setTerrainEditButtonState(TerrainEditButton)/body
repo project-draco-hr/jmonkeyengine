@@ -1,14 +1,19 @@
 {
+  Logger.getLogger(this.getClass().getName()).info("Edit button state set: " + state);
   currentEditButtonState=state;
   if (state == TerrainEditButton.none) {
     hideEditTool();
   }
  else   if (state == TerrainEditButton.raiseTerrain || state == TerrainEditButton.lowerTerrain) {
     showEditTool(state);
-    Logger.getLogger(TerrainEditorTopComponent.class.getName()).info("TERRAIN HEIGHT state");
+  }
+ else   if (state == TerrainEditButton.levelTerrain) {
+    showEditTool(state);
+  }
+ else   if (state == TerrainEditButton.smoothTerrain) {
+    showEditTool(state);
   }
  else   if (state == TerrainEditButton.paintTerrain || state == TerrainEditButton.eraseTerrain) {
     showEditTool(state);
-    Logger.getLogger(TerrainEditorTopComponent.class.getName()).info("PAINT TERRAIN state");
   }
 }

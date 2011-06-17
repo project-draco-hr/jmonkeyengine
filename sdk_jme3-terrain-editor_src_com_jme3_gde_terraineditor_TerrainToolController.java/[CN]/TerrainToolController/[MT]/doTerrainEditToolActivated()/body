@@ -1,18 +1,23 @@
 {
   if (TerrainEditButton.raiseTerrain == getCurrentEditButtonState()) {
     editorController.doModifyTerrainHeight(getMarkerLocation(),heightToolRadius,heightAmount);
-    Logger.getLogger(TerrainEditorTopComponent.class.getName()).info("terrain raise height");
   }
  else   if (TerrainEditButton.lowerTerrain == getCurrentEditButtonState()) {
     editorController.doModifyTerrainHeight(getMarkerLocation(),heightToolRadius,-heightAmount);
-    Logger.getLogger(TerrainEditorTopComponent.class.getName()).info("terrain lower height");
+  }
+ else   if (TerrainEditButton.smoothTerrain == getCurrentEditButtonState()) {
+  }
+ else   if (TerrainEditButton.levelTerrain == getCurrentEditButtonState()) {
+    if (editorController.doGetLevelTerrainDesiredHeight() == null) {
+      Vector3f point=cameraController.getTerrainCollisionPoint();
+      if (point != null)       editorController.doSetLevelTerrainDesiredHeight(point);
+    }
+    editorController.doLevelTerrain(getMarkerLocation(),heightToolRadius,levelAmount);
   }
  else   if (TerrainEditButton.paintTerrain == getCurrentEditButtonState()) {
     editorController.doPaintTexture(selectedTextureIndex,getMarkerLocation(),heightToolRadius,paintAmount);
-    Logger.getLogger(TerrainEditorTopComponent.class.getName()).info("terrain paint");
   }
  else   if (TerrainEditButton.eraseTerrain == getCurrentEditButtonState()) {
     editorController.doPaintTexture(selectedTextureIndex,getMarkerLocation(),heightToolRadius,-paintAmount);
-    Logger.getLogger(TerrainEditorTopComponent.class.getName()).info("terrain erase");
   }
 }

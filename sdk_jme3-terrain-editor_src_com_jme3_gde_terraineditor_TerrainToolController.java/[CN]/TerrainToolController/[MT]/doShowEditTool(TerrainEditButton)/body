@@ -1,3 +1,21 @@
 {
   toolsNode.attachChild(marker);
+  markerSmall.removeFromParent();
+  editorController.doSetLevelTerrainDesiredHeight(null);
+  if (state == TerrainEditButton.raiseTerrain || state == TerrainEditButton.lowerTerrain) {
+    marker.getMaterial().setColor("Color",terrainHeightColor);
+  }
+ else   if (state == TerrainEditButton.paintTerrain) {
+    marker.getMaterial().setColor("Color",terrainPaintColor);
+  }
+ else   if (state == TerrainEditButton.eraseTerrain) {
+    marker.getMaterial().setColor("Color",terrainEraseColor);
+  }
+ else   if (state == TerrainEditButton.levelTerrain) {
+    toolsNode.attachChild(markerSmall);
+    marker.getMaterial().setColor("Color",terrainLevelColor);
+  }
+ else   if (state == TerrainEditButton.smoothTerrain) {
+    marker.getMaterial().setColor("Color",terrainSmoothColor);
+  }
 }
