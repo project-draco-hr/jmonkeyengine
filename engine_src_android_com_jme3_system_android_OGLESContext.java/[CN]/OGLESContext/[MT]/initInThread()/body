@@ -27,6 +27,13 @@
   renderer.setVerboseLogging(false);
   renderer.initialize();
   listener.initialize();
+  if (ctx instanceof AndroidHarness) {
+    Application app=((AndroidHarness)ctx).getJmeApplication();
+    if (app.getInputManager() != null) {
+      app.getInputManager().addMapping(ESCAPE_EVENT,new TouchTrigger(TouchInput.KEYCODE_BACK));
+      app.getInputManager().addListener((AndroidHarness)ctx,new String[]{ESCAPE_EVENT});
+    }
+  }
   created.set(true);
   needClose.set(false);
 }

@@ -10,7 +10,7 @@
     app=clazz.newInstance();
   }
  catch (  Exception ex) {
-    ex.printStackTrace();
+    handleError("Class " + appClass + " init failed",ex);
   }
   app.setSettings(settings);
   app.start();
@@ -22,6 +22,4 @@
     view=ctx.createView(input);
   }
   setContentView(view);
-  app.inputManager.addMapping(ESCAPE_EVENT,new TouchTrigger(TouchInput.KEYCODE_BACK));
-  app.inputManager.addListener(this,new String[]{ESCAPE_EVENT});
 }
