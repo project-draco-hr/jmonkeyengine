@@ -1,0 +1,22 @@
+{
+  int leftEnd=middle - 1;
+  int pos=low;
+  int numElements=high - low + 1;
+  while (low <= leftEnd && middle <= high) {
+    if (comp.compare(src[low],src[middle]) <= 0) {
+      dest[pos++]=src[low++];
+    }
+ else {
+      dest[pos++]=src[middle++];
+    }
+  }
+  while (low <= leftEnd) {
+    dest[pos++]=src[low++];
+  }
+  while (middle <= high) {
+    dest[pos++]=src[middle++];
+  }
+  for (int i=0; i < numElements; i++, high--) {
+    src[high]=dest[high];
+  }
+}

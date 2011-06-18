@@ -1,16 +1,28 @@
 {
-  int p=0;
-  int l=a.length;
-  while (p < l) {
-    int pm1=p - 1;
-    if (p == 0 || comp.compare(a[p],a[pm1]) >= 0) {
-      p++;
+  int pos=1;
+  int last=0;
+  int length=a.length;
+  while (pos < length) {
+    if (comp.compare(a[pos],a[pos - 1]) >= 0) {
+      if (last != 0) {
+        pos=last;
+        last=0;
+      }
+      pos++;
     }
  else {
-      Object t=a[p];
-      a[p]=a[pm1];
-      a[pm1]=t;
-      p--;
+      Object tmp=a[pos];
+      a[pos]=a[pos - 1];
+      a[pos - 1]=tmp;
+      if (pos > 1) {
+        if (last == 0) {
+          last=pos;
+        }
+        pos--;
+      }
+ else {
+        pos++;
+      }
     }
   }
 }
