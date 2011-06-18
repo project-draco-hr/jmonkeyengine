@@ -5,6 +5,6 @@ case Cast:
 case Receive:
   return shadowRecv;
 default :
-return null;
+throw new IllegalArgumentException("Only Cast or Receive are allowed");
 }
 }
