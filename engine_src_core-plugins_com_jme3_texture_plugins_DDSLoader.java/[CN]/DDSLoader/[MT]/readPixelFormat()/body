@@ -53,7 +53,7 @@ logger.warning("Must use linear size with fourcc");
 pitchOrSize=size;
 }
  else if (pitchOrSize != size) {
-logger.warning("Expected size = " + size + ", real = "+ pitchOrSize);
+logger.log(Level.WARNING,"Expected size = {0}, real = {1}",new Object[]{size,pitchOrSize});
 }
 }
  else {
@@ -125,7 +125,7 @@ logger.warning("Linear size said to contain valid value but does not");
 pitchOrSize=size;
 }
  else if (pitchOrSize != size) {
-logger.warning("Expected size = " + size + ", real = "+ pitchOrSize);
+logger.log(Level.WARNING,"Expected size = {0}, real = {1}",new Object[]{size,pitchOrSize});
 }
 }
  else {

@@ -38,7 +38,7 @@ img.position(blockByteOffset);
 img.limit(blockByteOffset + bpb);
 img.get(colorBlock);
 if (type == 4 || type == 5) flipDXT5Block(colorBlock,h);
- else flipDXT1Block(colorBlock,h);
+ else flipDXT1orDXTA3Block(colorBlock,h);
 retImg.put(colorBlock);
 if (alphaBlock != null) {
 img.get(alphaBlock);
@@ -85,7 +85,7 @@ retImg.put(alphaBlock);
 }
 img.get(colorBlock);
 if (type == 4 || type == 5) flipDXT5Block(colorBlock,h);
- else flipDXT1Block(colorBlock,h);
+ else flipDXT1orDXTA3Block(colorBlock,h);
 retImg.put(colorBlock);
 }
 }
