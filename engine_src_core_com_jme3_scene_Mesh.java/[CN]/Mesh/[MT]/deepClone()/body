@@ -4,13 +4,16 @@
     clone.meshBound=meshBound != null ? meshBound.clone() : null;
     clone.collisionTree=null;
     clone.buffers=new IntMap<VertexBuffer>();
+    clone.buffersList=new ArrayList<VertexBuffer>();
     for (    Entry<VertexBuffer> ent : buffers) {
-      clone.buffers.put(ent.getKey(),ent.getValue().clone());
+      VertexBuffer bufClone=ent.getValue().clone();
+      clone.buffers.put(ent.getKey(),bufClone);
+      clone.buffersList.add(bufClone);
     }
     clone.vertexArrayID=-1;
     clone.vertCount=-1;
     clone.elementCount=-1;
-    clone.maxNumWeights=-1;
+    clone.maxNumWeights=maxNumWeights;
     clone.elementLengths=elementLengths != null ? elementLengths.clone() : null;
     clone.modeStart=modeStart != null ? modeStart.clone() : null;
     return clone;

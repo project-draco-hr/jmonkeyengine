@@ -1,5 +1,5 @@
 {
-  if (swAnim) {
+  if (forSoftwareAnim) {
     VertexBuffer pos=getBuffer(Type.Position);
     if (pos == null || getBuffer(Type.BoneIndex) == null) {
       return;
@@ -15,6 +15,5 @@
       setBuffer(bindNorm);
       norm.setUsage(Usage.Stream);
     }
-    norm.setUsage(Usage.Stream);
   }
 }

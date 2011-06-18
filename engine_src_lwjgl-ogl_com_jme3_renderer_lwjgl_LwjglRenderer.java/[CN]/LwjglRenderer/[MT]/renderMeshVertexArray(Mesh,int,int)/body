@@ -2,23 +2,24 @@
   if (mesh.getId() == -1) {
     updateVertexArray(mesh);
   }
+ else {
+  }
   if (context.boundVertexArray != mesh.getId()) {
     ARBVertexArrayObject.glBindVertexArray(mesh.getId());
     context.boundVertexArray=mesh.getId();
   }
-  IntMap<VertexBuffer> buffers=mesh.getBuffers();
   VertexBuffer indices=null;
   if (mesh.getNumLodLevels() > 0) {
     indices=mesh.getLodLevel(lod);
   }
  else {
-    indices=buffers.get(Type.Index.ordinal());
+    indices=mesh.getBuffer(Type.Index);
   }
   if (indices != null) {
     drawTriangleList(indices,mesh,count);
   }
  else {
-    glDrawArrays(convertElementMode(mesh.getMode()),0,mesh.getVertexCount());
+    drawTriangleArray(mesh.getMode(),count,mesh.getVertexCount());
   }
   clearVertexAttribs();
   clearTextureUnits();

@@ -14,6 +14,7 @@
   ByteBuffer dataBuf=BufferUtils.createByteBuffer(stride * getVertexCount());
   allData.setupData(Usage.Static,1,Format.UnsignedByte,dataBuf);
   buffers.put(Type.InterleavedData.ordinal(),allData);
+  buffersList.add(allData);
   for (int vert=0; vert < getVertexCount(); vert++) {
     for (int i=0; i < vbs.size(); i++) {
       VertexBuffer vb=vbs.get(i);

@@ -12,6 +12,9 @@
   modeStart=in.readIntArray("modeStart",null);
   pointSize=in.readFloat("pointSize",1f);
   buffers=(IntMap<VertexBuffer>)in.readIntSavableMap("buffers",null);
+  for (  Entry<VertexBuffer> entry : buffers) {
+    buffersList.add(entry.getValue());
+  }
   Savable[] lodLevelsSavable=in.readSavableArray("lodLevels",null);
   if (lodLevelsSavable != null) {
     lodLevels=new VertexBuffer[lodLevelsSavable.length];

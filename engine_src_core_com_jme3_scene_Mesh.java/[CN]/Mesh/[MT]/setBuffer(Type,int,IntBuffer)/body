@@ -4,6 +4,7 @@
     vb=new VertexBuffer(type);
     vb.setupData(Usage.Dynamic,components,Format.UnsignedInt,buf);
     buffers.put(type.ordinal(),vb);
+    buffersList.add(vb);
     updateCounts();
   }
 }

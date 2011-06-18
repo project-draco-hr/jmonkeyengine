@@ -1,4 +1,7 @@
 {
-  buffers.remove(type.ordinal());
-  updateCounts();
+  VertexBuffer vb=buffers.remove(type.ordinal());
+  if (vb != null) {
+    buffersList.remove(vb);
+    updateCounts();
+  }
 }
