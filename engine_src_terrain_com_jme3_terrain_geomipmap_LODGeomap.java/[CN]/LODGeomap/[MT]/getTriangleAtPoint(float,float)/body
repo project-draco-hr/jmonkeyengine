@@ -8,10 +8,14 @@
   Vector2f t1=new Vector2f(triangles[0].get1().x,triangles[0].get1().z);
   Vector2f t2=new Vector2f(triangles[0].get2().x,triangles[0].get2().z);
   Vector2f t3=new Vector2f(triangles[0].get3().x,triangles[0].get3().z);
-  if (0 != FastMath.pointInsideTriangle(t1,t2,t3,point))   return triangles[0];
+  if (0 != FastMath.pointInsideTriangle(t1,t2,t3,point)) {
+    return triangles[0];
+  }
   t1.set(triangles[1].get1().x,triangles[1].get1().z);
   t1.set(triangles[1].get2().x,triangles[1].get2().z);
   t1.set(triangles[1].get3().x,triangles[1].get3().z);
-  if (0 != FastMath.pointInsideTriangle(t1,t2,t3,point))   return triangles[1];
+  if (0 != FastMath.pointInsideTriangle(t1,t2,t3,point)) {
+    return triangles[1];
+  }
   return null;
 }

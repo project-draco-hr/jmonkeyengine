@@ -2,7 +2,9 @@
   int gridX=(int)x;
   int gridY=(int)z;
   int index=findClosestHeightIndex(gridX,gridY);
-  if (index < 0)   return null;
+  if (index < 0) {
+    return null;
+  }
   Triangle t=new Triangle(new Vector3f(),new Vector3f(),new Vector3f());
   Triangle t2=new Triangle(new Vector3f(),new Vector3f(),new Vector3f());
   float h1=hdata.get(index);

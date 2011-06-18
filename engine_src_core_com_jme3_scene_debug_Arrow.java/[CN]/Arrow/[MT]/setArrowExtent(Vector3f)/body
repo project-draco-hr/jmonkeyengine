@@ -1,7 +1,7 @@
 {
   float len=extent.length();
   tempQuat.lookAt(extent,Vector3f.UNIT_Y);
-  tempQuat.normalize();
+  tempQuat.normalizeLocal();
   FloatBuffer buffer=getFloatBuffer(Type.Position);
   buffer.rewind();
   for (int i=0; i < positions.length; i+=3) {

@@ -1,7 +1,9 @@
 {
   IntBuffer buffer2=store;
   int numIndexes=calculateNumIndexesLodDiff(lod);
-  if (store == null)   buffer2=BufferUtils.createIntBuffer(numIndexes);
+  if (store == null) {
+    buffer2=BufferUtils.createIntBuffer(numIndexes);
+  }
   VerboseIntBuffer buffer=new VerboseIntBuffer(buffer2);
   for (int r=lod; r < getWidth() - (2 * lod); r+=lod) {
     int rowIdx=r * getWidth();
@@ -84,7 +86,9 @@
     }
   }
  else {
-    if (rightLod > lod)     buffer.put(getWidth() - 1);
+    if (rightLod > lod) {
+      buffer.put(getWidth() - 1);
+    }
     for (int col=getWidth() - 1 - lod; col > 0; col-=lod) {
       int idx=col + (lod * getWidth());
       buffer.put(idx);
@@ -169,6 +173,8 @@
     }
   }
   buffer.put(getWidth() * getWidth() - 1);
-  for (int i=buffer.getCount(); i < numIndexes; i++)   buffer.put(getWidth() * getWidth() - 1);
+  for (int i=buffer.getCount(); i < numIndexes; i++) {
+    buffer.put(getWidth() * getWidth() - 1);
+  }
   return buffer.delegate;
 }

@@ -1,7 +1,11 @@
 {
-  if (!isLoaded())   throw new NullPointerException();
+  if (!isLoaded()) {
+    throw new NullPointerException();
+  }
   if (store != null) {
-    if (store.remaining() < getWidth() * getHeight() * 3)     throw new BufferUnderflowException();
+    if (store.remaining() < getWidth() * getHeight() * 3) {
+      throw new BufferUnderflowException();
+    }
   }
  else {
     store=BufferUtils.createFloatBuffer(getWidth() * getHeight() * 3);
