@@ -3,7 +3,8 @@
   matTerrain=new Material(assetManager,"Common/MatDefs/Terrain/TerrainLighting.j3md");
   matTerrain.setBoolean("useTriPlanarMapping",false);
   matTerrain.setBoolean("WardIso",true);
-  matTerrain.setTexture("AlphaMap",assetManager.loadTexture("Textures/Terrain/splat/alphamap.png"));
+  matTerrain.setTexture("AlphaMap",assetManager.loadTexture("Textures/Terrain/splat/alpha1.png"));
+  matTerrain.setTexture("AlphaMap_1",assetManager.loadTexture("Textures/Terrain/splat/alpha2.png"));
   Texture heightMapImage=assetManager.loadTexture("Textures/Terrain/splat/mountains512.png");
   Texture grass=assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
   grass.setWrap(WrapMode.Repeat);
@@ -17,6 +18,14 @@
   rock.setWrap(WrapMode.Repeat);
   matTerrain.setTexture("DiffuseMap_2",rock);
   matTerrain.setFloat("DiffuseMap_2_scale",rockScale);
+  Texture brick=assetManager.loadTexture("Textures/Terrain/BrickWall/BrickWall.jpg");
+  brick.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("DiffuseMap_3",brick);
+  matTerrain.setFloat("DiffuseMap_3_scale",rockScale);
+  Texture riverRock=assetManager.loadTexture("Textures/Terrain/Pond/Pond.png");
+  riverRock.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("DiffuseMap_4",riverRock);
+  matTerrain.setFloat("DiffuseMap_4_scale",rockScale);
   Texture normalMap0=assetManager.loadTexture("Textures/Terrain/splat/grass_normal.jpg");
   normalMap0.setWrap(WrapMode.Repeat);
   Texture normalMap1=assetManager.loadTexture("Textures/Terrain/splat/dirt_normal.png");
@@ -26,6 +35,7 @@
   matTerrain.setTexture("NormalMap",normalMap0);
   matTerrain.setTexture("NormalMap_1",normalMap2);
   matTerrain.setTexture("NormalMap_2",normalMap2);
+  matTerrain.setTexture("NormalMap_4",normalMap2);
   matWire=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
   matWire.getAdditionalRenderState().setWireframe(true);
   matWire.setColor("Color",ColorRGBA.Green);
