@@ -1,5 +1,7 @@
 {
-  if (!(other instanceof MatParam))   return false;
+  if (!(other instanceof MatParam)) {
+    return false;
+  }
   MatParam otherParam=(MatParam)other;
   return otherParam.type == type && otherParam.name.equals(name);
 }
