@@ -2,12 +2,16 @@
   stringBuf.setLength(0);
   stringBuf.append(uniform.getName()).append('\0');
   updateNameBuffer();
-  if (verboseLogging)   logger.info("GLES20.glGetUniformLocation(" + shader.getId() + ", "+ uniform.getName()+ ")");
+  if (verboseLogging) {
+    logger.log(Level.INFO,"GLES20.glGetUniformLocation({0}, {1})",new Object[]{shader.getId(),uniform.getName()});
+  }
   int loc=GLES20.glGetUniformLocation(shader.getId(),uniform.getName());
   checkGLError();
   if (loc < 0) {
     uniform.setLocation(-1);
-    if (verboseLogging)     logger.warning("Uniform [" + uniform.getName() + "] is not declared in shader.");
+    if (verboseLogging) {
+      logger.log(Level.WARNING,"Uniform [{0}] is not declared in shader.",uniform.getName());
+    }
   }
  else {
     uniform.setLocation(loc);

@@ -1,10 +1,14 @@
 {
   int id=source.getId();
   if (id == -1) {
-    if (verboseLogging)     logger.info("GLES20.glCreateShader(" + source.getType() + ")");
+    if (verboseLogging) {
+      logger.info("GLES20.glCreateShader(" + source.getType() + ")");
+    }
     id=GLES20.glCreateShader(convertShaderType(source.getType()));
     checkGLError();
-    if (id <= 0)     throw new RendererException("Invalid ID received when trying to create shader.");
+    if (id <= 0) {
+      throw new RendererException("Invalid ID received when trying to create shader.");
+    }
     source.setId(id);
   }
   byte[] versionData=new byte[]{};
@@ -15,25 +19,35 @@
   codeBuf.put(definesCodeData);
   codeBuf.put(sourceCodeData);
   codeBuf.flip();
-  if (verboseLogging)   logger.info("GLES20.glShaderSource(" + id + ")");
+  if (verboseLogging) {
+    logger.info("GLES20.glShaderSource(" + id + ")");
+  }
   GLES20.glShaderSource(id,"precision mediump float;\n" + source.getDefines() + source.getSource());
   checkGLError();
-  if (verboseLogging)   logger.info("GLES20.glCompileShader(" + id + ")");
+  if (verboseLogging) {
+    logger.info("GLES20.glCompileShader(" + id + ")");
+  }
   GLES20.glCompileShader(id);
   checkGLError();
-  if (verboseLogging)   logger.info("GLES20.glGetShaderiv(" + id + ", GLES20.GL_COMPILE_STATUS)");
+  if (verboseLogging) {
+    logger.info("GLES20.glGetShaderiv(" + id + ", GLES20.GL_COMPILE_STATUS)");
+  }
   GLES20.glGetShaderiv(id,GLES20.GL_COMPILE_STATUS,intBuf1);
   checkGLError();
   boolean compiledOK=intBuf1.get(0) == GLES20.GL_TRUE;
   String infoLog=null;
   if (VALIDATE_SHADER || !compiledOK) {
-    if (verboseLogging)     logger.info("GLES20.glGetShaderiv()");
+    if (verboseLogging) {
+      logger.info("GLES20.glGetShaderiv()");
+    }
     GLES20.glGetShaderiv(id,GLES20.GL_INFO_LOG_LENGTH,intBuf1);
     checkGLError();
     int length=intBuf1.get(0);
     if (length > 3) {
       ByteBuffer logBuf=BufferUtils.createByteBuffer(length);
-      if (verboseLogging)       logger.info("GLES20.glGetShaderInfoLog(" + id + ")");
+      if (verboseLogging) {
+        logger.info("GLES20.glGetShaderInfoLog(" + id + ")");
+      }
       infoLog=GLES20.glGetShaderInfoLog(id);
     }
   }
@@ -57,7 +71,9 @@
   source.clearUpdateNeeded();
   source.setUsable(compiledOK);
   if (!compiledOK) {
-    if (verboseLogging)     logger.info("GLES20.glDeleteShader(" + id + ")");
+    if (verboseLogging) {
+      logger.info("GLES20.glDeleteShader(" + id + ")");
+    }
     GLES20.glDeleteShader(id);
     checkGLError();
   }

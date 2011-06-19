@@ -2,6 +2,8 @@
   int len=stringBuf.length();
   nameBuf.position(0);
   nameBuf.limit(len);
-  for (int i=0; i < len; i++)   nameBuf.put((byte)stringBuf.charAt(i));
+  for (int i=0; i < len; i++) {
+    nameBuf.put((byte)stringBuf.charAt(i));
+  }
   nameBuf.rewind();
 }

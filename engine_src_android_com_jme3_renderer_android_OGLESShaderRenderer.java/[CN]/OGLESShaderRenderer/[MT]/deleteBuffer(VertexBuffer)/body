@@ -3,7 +3,9 @@
   if (bufId != -1) {
     intBuf1.put(0,bufId);
     intBuf1.position(0).limit(1);
-    if (verboseLogging)     logger.info("GLES20.glDeleteBuffers(1, buffer)");
+    if (verboseLogging) {
+      logger.info("GLES20.glDeleteBuffers(1, buffer)");
+    }
     GLES20.glDeleteBuffers(1,intBuf1);
     vb.resetObject();
   }

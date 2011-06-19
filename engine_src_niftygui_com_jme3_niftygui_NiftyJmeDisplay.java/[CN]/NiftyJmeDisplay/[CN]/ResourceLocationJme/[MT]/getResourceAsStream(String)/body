@@ -1,5 +1,10 @@
 {
   AssetKey<Object> key=new AssetKey<Object>(path);
   AssetInfo info=assetManager.locateAsset(key);
-  return info.openStream();
+  if (info != null) {
+    return info.openStream();
+  }
+ else {
+    throw new AssetNotFoundException(path);
+  }
 }

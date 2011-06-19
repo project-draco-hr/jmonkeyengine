@@ -2,18 +2,26 @@
   int target=convertTextureType(tex.getType());
   int minFilter=convertMinFilter(tex.getMinFilter());
   int magFilter=convertMagFilter(tex.getMagFilter());
-  if (verboseLogging)   logger.info("GLES20.glTexParameteri(" + target + ", GLES20.GL_TEXTURE_MIN_FILTER, "+ minFilter+ ")");
+  if (verboseLogging) {
+    logger.info("GLES20.glTexParameteri(" + target + ", GLES20.GL_TEXTURE_MIN_FILTER, "+ minFilter+ ")");
+  }
   GLES20.glTexParameteri(target,GLES20.GL_TEXTURE_MIN_FILTER,minFilter);
-  if (verboseLogging)   logger.info("GLES20.glTexParameteri(" + target + ", GLES20.GL_TEXTURE_MAG_FILTER, "+ magFilter+ ")");
+  if (verboseLogging) {
+    logger.info("GLES20.glTexParameteri(" + target + ", GLES20.GL_TEXTURE_MAG_FILTER, "+ magFilter+ ")");
+  }
   GLES20.glTexParameteri(target,GLES20.GL_TEXTURE_MAG_FILTER,magFilter);
 switch (tex.getType()) {
 case ThreeDimensional:
 case CubeMap:
 case TwoDimensional:
 case TwoDimensionalArray:
-    if (verboseLogging)     logger.info("GLES20.glTexParameteri(" + target + ", GLES20.GL_TEXTURE_WRAP_T, "+ convertWrapMode(tex.getWrap(WrapAxis.T)));
+    if (verboseLogging) {
+      logger.info("GLES20.glTexParameteri(" + target + ", GLES20.GL_TEXTURE_WRAP_T, "+ convertWrapMode(tex.getWrap(WrapAxis.T)));
+    }
   GLES20.glTexParameteri(target,GLES20.GL_TEXTURE_WRAP_T,convertWrapMode(tex.getWrap(WrapAxis.T)));
-if (verboseLogging) logger.info("GLES20.glTexParameteri(" + target + ", GLES20.GL_TEXTURE_WRAP_S, "+ convertWrapMode(tex.getWrap(WrapAxis.S)));
+if (verboseLogging) {
+  logger.info("GLES20.glTexParameteri(" + target + ", GLES20.GL_TEXTURE_WRAP_S, "+ convertWrapMode(tex.getWrap(WrapAxis.S)));
+}
 GLES20.glTexParameteri(target,GLES20.GL_TEXTURE_WRAP_S,convertWrapMode(tex.getWrap(WrapAxis.S)));
 break;
 default :

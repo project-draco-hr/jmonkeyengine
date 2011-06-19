@@ -5,7 +5,9 @@
   }
   source.setUsable(false);
   source.clearUpdateNeeded();
-  if (verboseLogging)   logger.info("GLES20.glDeleteShader(" + source.getId() + ")");
+  if (verboseLogging) {
+    logger.info("GLES20.glDeleteShader(" + source.getId() + ")");
+  }
   GLES20.glDeleteShader(source.getId());
   source.resetObject();
 }

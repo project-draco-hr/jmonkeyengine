@@ -1,5 +1,7 @@
 {
-  if (verboseLogging)   logger.info("GLES20.glDepthRangef(" + start + ", "+ end+ ")");
+  if (verboseLogging) {
+    logger.log(Level.INFO,"GLES20.glDepthRangef({0}, {1})",new Object[]{start,end});
+  }
   GLES20.glDepthRangef(start,end);
   checkGLError();
 }

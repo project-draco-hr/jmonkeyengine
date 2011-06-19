@@ -1,12 +1,16 @@
 {
   if (!context.clipRectEnabled) {
-    if (verboseLogging)     logger.info("GLES20.glEnable(GLES20.GL_SCISSOR_TEST)");
+    if (verboseLogging) {
+      logger.info("GLES20.glEnable(GLES20.GL_SCISSOR_TEST)");
+    }
     GLES20.glEnable(GLES20.GL_SCISSOR_TEST);
     checkGLError();
     context.clipRectEnabled=true;
   }
   if (clipX != x || clipY != y || clipW != width || clipH != height) {
-    if (verboseLogging)     logger.info("GLES20.glScissor(" + x + ", "+ y+ ", "+ width+ ", "+ height+ ")");
+    if (verboseLogging) {
+      logger.log(Level.INFO,"GLES20.glScissor({0}, {1}, {2}, {3})",new Object[]{x,y,width,height});
+    }
     GLES20.glScissor(x,y,width,height);
     clipX=x;
     clipY=y;

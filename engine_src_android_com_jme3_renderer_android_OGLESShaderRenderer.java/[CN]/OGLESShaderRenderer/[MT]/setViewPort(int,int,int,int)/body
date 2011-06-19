@@ -1,6 +1,8 @@
 {
   if (x != vpX || vpY != y || vpW != w || vpH != h) {
-    if (verboseLogging)     logger.info("GLES20.glViewport(" + x + ", "+ y+ ", "+ w+ ", "+ h+ ")");
+    if (verboseLogging) {
+      logger.log(Level.INFO,"GLES20.glViewport({0}, {1}, {2}, {3})",new Object[]{x,y,w,h});
+    }
     GLES20.glViewport(x,y,w,h);
     checkGLError();
     vpX=x;

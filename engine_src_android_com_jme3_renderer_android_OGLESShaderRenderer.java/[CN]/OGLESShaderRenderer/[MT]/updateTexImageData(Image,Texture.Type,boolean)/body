@@ -1,7 +1,9 @@
 {
   int texId=img.getId();
   if (texId == -1) {
-    if (verboseLogging)     logger.info("GLES20.glGenTexture(1, buffer)");
+    if (verboseLogging) {
+      logger.info("GLES20.glGenTexture(1, buffer)");
+    }
     GLES20.glGenTextures(1,intBuf1);
     texId=intBuf1.get(0);
     img.setId(texId);
@@ -11,11 +13,15 @@
   int target=convertTextureType(type);
   if (context.boundTextures[0] != img) {
     if (context.boundTextureUnit != 0) {
-      if (verboseLogging)       logger.info("GLES20.glActiveTexture(GLES20.GL_TEXTURE0)");
+      if (verboseLogging) {
+        logger.info("GLES20.glActiveTexture(GLES20.GL_TEXTURE0)");
+      }
       GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
       context.boundTextureUnit=0;
     }
-    if (verboseLogging)     logger.info("GLES20.glBindTexture(" + target + ", "+ texId+ ")");
+    if (verboseLogging) {
+      logger.info("GLES20.glBindTexture(" + target + ", "+ texId+ ")");
+    }
     GLES20.glBindTexture(target,texId);
     context.boundTextures[0]=img;
   }
@@ -42,9 +48,13 @@
   }
  else {
     TextureUtil.uploadTexture(img,target,0,0,tdc,false,powerOf2);
-    if (verboseLogging)     logger.info("GLES20.glTexParameteri(" + target + "GLES11.GL_GENERATE_MIMAP, GLES20.GL_TRUE)");
+    if (verboseLogging) {
+      logger.info("GLES20.glTexParameteri(" + target + "GLES11.GL_GENERATE_MIMAP, GLES20.GL_TRUE)");
+    }
     if (!img.hasMipmaps() && mips) {
-      if (verboseLogging)       logger.info("GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D)");
+      if (verboseLogging) {
+        logger.info("GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D)");
+      }
       GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
     }
   }
