@@ -1,7 +1,7 @@
 {
   Pointer ppMaterials=(Pointer)structureWithMaterials.getFieldValue("mat");
   Material[] materials=null;
-  if (!ppMaterials.isNull()) {
+  if (ppMaterials.isNotNull()) {
     List<Structure> materialStructures=ppMaterials.fetchData(dataRepository.getInputStream());
     if (materialStructures != null && materialStructures.size() > 0) {
       MaterialHelper materialHelper=dataRepository.getHelper(MaterialHelper.class);

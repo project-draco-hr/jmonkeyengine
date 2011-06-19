@@ -2,7 +2,7 @@
   Pointer pMCol=(Pointer)meshStructure.getFieldValue("mcol");
   List<float[]> verticesColors=null;
   List<Structure> mCol=null;
-  if (!pMCol.isNull()) {
+  if (pMCol.isNotNull()) {
     verticesColors=new LinkedList<float[]>();
     mCol=pMCol.fetchData(dataRepository.getInputStream());
     for (    Structure color : mCol) {

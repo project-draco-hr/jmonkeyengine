@@ -47,7 +47,7 @@
     DynamicArray<Pointer> mtexs=(DynamicArray<Pointer>)structure.getFieldValue("mtex");
     for (int i=0; i < mtexs.getTotalSize(); ++i) {
       Pointer p=mtexs.get(i);
-      if (!p.isNull()) {
+      if (p.isNotNull()) {
         List<Structure> mtex=p.fetchData(dataRepository.getInputStream());
         if (mtex.size() == 1) {
           Structure textureLink=mtex.get(0);

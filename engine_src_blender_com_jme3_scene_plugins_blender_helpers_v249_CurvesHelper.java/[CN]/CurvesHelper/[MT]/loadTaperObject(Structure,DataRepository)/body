@@ -2,7 +2,7 @@
   List<Structure> nurbStructures=((Structure)taperStructure.getFieldValue("nurb")).evaluateListBase(dataRepository);
   for (  Structure nurb : nurbStructures) {
     Pointer pBezierTriple=(Pointer)nurb.getFieldValue("bezt");
-    if (!pBezierTriple.isNull()) {
+    if (pBezierTriple.isNotNull()) {
       BezierCurve bezierCurve=new BezierCurve(0,pBezierTriple.fetchData(dataRepository.getInputStream()),3);
       List<Vector3f> controlPoints=bezierCurve.getControlPoints();
       controlPoints.remove(0);

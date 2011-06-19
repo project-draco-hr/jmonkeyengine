@@ -2,14 +2,14 @@
   Pointer pDvert=(Pointer)meshStructure.getFieldValue("dvert");
   FloatBuffer weightsFloatData=BufferUtils.createFloatBuffer(vertexListSize * MAXIMUM_WEIGHTS_PER_VERTEX);
   ByteBuffer indicesData=BufferUtils.createByteBuffer(vertexListSize * MAXIMUM_WEIGHTS_PER_VERTEX);
-  if (!pDvert.isNull()) {
+  if (pDvert.isNotNull()) {
     List<Structure> dverts=pDvert.fetchData(dataRepository.getInputStream());
     int vertexIndex=0;
     for (    Structure dvert : dverts) {
       int totweight=((Number)dvert.getFieldValue("totweight")).intValue();
       Pointer pDW=(Pointer)dvert.getFieldValue("dw");
       List<Integer> vertexIndices=vertexReferenceMap.get(Integer.valueOf(vertexIndex));
-      if (totweight > 0 && !pDW.isNull()) {
+      if (totweight > 0 && pDW.isNotNull()) {
         int weightIndex=0;
         List<Structure> dw=pDW.fetchData(dataRepository.getInputStream());
         for (        Structure deformWeight : dw) {

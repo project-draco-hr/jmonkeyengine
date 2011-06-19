@@ -1,7 +1,7 @@
 {
   ParticleEmitter result=null;
   Pointer pParticleSettings=(Pointer)particleSystem.getFieldValue("part");
-  if (!pParticleSettings.isNull()) {
+  if (pParticleSettings.isNotNull()) {
     Structure particleSettings=pParticleSettings.fetchData(dataRepository.getInputStream()).get(0);
     int totPart=((Number)particleSettings.getFieldValue("totpart")).intValue();
     int drawAs=((Number)particleSettings.getFieldValue("draw_as")).intValue();

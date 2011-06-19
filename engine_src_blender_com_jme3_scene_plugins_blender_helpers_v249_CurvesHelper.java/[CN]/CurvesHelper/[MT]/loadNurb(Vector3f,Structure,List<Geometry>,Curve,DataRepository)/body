@@ -2,7 +2,7 @@
   List<Float>[] knots=new List[2];
   Pointer[] pKnots=new Pointer[]{(Pointer)nurb.getFieldValue("knotsu"),(Pointer)nurb.getFieldValue("knotsv")};
   for (int i=0; i < knots.length; ++i) {
-    if (!pKnots[i].isNull()) {
+    if (pKnots[i].isNotNull()) {
       FileBlockHeader fileBlockHeader=dataRepository.getFileBlock(pKnots[i].getOldMemoryAddress());
       BlenderInputStream blenderInputStream=dataRepository.getInputStream();
       blenderInputStream.setPosition(fileBlockHeader.getBlockPosition());

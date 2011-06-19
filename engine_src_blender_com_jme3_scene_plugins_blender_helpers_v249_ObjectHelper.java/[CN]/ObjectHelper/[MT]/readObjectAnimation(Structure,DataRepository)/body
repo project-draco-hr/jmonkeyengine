@@ -1,6 +1,6 @@
 {
   Pointer pIpo=(Pointer)objectStructure.getFieldValue("ipo");
-  if (!pIpo.isNull()) {
+  if (pIpo.isNotNull()) {
     String objectAnimationName=null;
     List<FileBlockHeader> actionBlocks=dataRepository.getFileBlocks(Integer.valueOf(FileBlockHeader.BLOCK_AC00));
     for (    FileBlockHeader actionBlock : actionBlocks) {

@@ -1,7 +1,7 @@
 {
   Pointer pBezierTriple=(Pointer)nurb.getFieldValue("bezt");
   List<Geometry> result=new ArrayList<Geometry>();
-  if (!pBezierTriple.isNull()) {
+  if (pBezierTriple.isNotNull()) {
     boolean smooth=(((Number)nurb.getFlatFieldValue("flag")).intValue() & 0x01) != 0;
     int resolution=((Number)nurb.getFieldValue("resolu")).intValue();
     boolean cyclic=(((Number)nurb.getFieldValue("flagu")).intValue() & 0x01) != 0;

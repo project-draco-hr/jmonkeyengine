@@ -18,7 +18,7 @@
   Pointer pMTFace=(Pointer)structure.getFieldValue("mtface");
   List<Vector2f> uvCoordinates=null;
   List<Structure> mtFaces=null;
-  if (!pMTFace.isNull()) {
+  if (pMTFace.isNotNull()) {
     mtFaces=pMTFace.fetchData(dataRepository.getInputStream());
     int facesAmount=((Number)structure.getFieldValue("totface")).intValue();
     if (mtFaces.size() != facesAmount) {
@@ -54,7 +54,7 @@
       indexList=new ArrayList<Integer>();
       meshesMap.put(materialNumber,indexList);
     }
-    if (pImage != null && !pImage.isNull() && !materialNumberToTexture.containsKey(materialNumber)) {
+    if (pImage != null && pImage.isNotNull() && !materialNumberToTexture.containsKey(materialNumber)) {
       Texture texture=textureHelper.getTextureFromImage(pImage.fetchData(dataRepository.getInputStream()).get(0),dataRepository);
       if (texture != null) {
         materialNumberToTexture.put(materialNumber,texture);
