@@ -2,7 +2,7 @@
   IndexedMesh jBulletIndexedMesh=new IndexedMesh();
   jBulletIndexedMesh.triangleIndexBase=ByteBuffer.allocate(mesh.getTriangleCount() * 3 * 4);
   jBulletIndexedMesh.vertexBase=ByteBuffer.allocate(mesh.getVertexCount() * 3 * 4);
-  IndexBuffer indices=mesh.getIndexBuffer();
+  IndexBuffer indices=mesh.getIndicesAsList();
   FloatBuffer vertices=mesh.getFloatBuffer(Type.Position);
   vertices.rewind();
   int verticesLength=mesh.getVertexCount() * 3;

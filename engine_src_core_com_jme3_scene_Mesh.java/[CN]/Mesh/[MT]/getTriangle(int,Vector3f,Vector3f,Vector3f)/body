@@ -1,13 +1,7 @@
 {
   VertexBuffer pb=getBuffer(Type.Position);
-  IndexBuffer ib=getIndexBuffer();
-  if (ib == null) {
-    ib=new VirtualIndexBuffer(vertCount,mode);
-  }
- else   if (mode != Mode.Triangles) {
-    ib=new WrappedIndexBuffer(this);
-  }
-  if (pb.getFormat() == Format.Float) {
+  IndexBuffer ib=getIndicesAsList();
+  if (pb != null && pb.getFormat() == Format.Float && pb.getNumComponents() == 3) {
     FloatBuffer fpb=(FloatBuffer)pb.getData();
     int vertIndex=index * 3;
     int vert1=ib.get(vertIndex);
@@ -16,5 +10,8 @@
     BufferUtils.populateFromBuffer(v1,fpb,vert1);
     BufferUtils.populateFromBuffer(v2,fpb,vert2);
     BufferUtils.populateFromBuffer(v3,fpb,vert3);
+  }
+ else {
+    throw new UnsupportedOperationException("Position buffer not set or " + " has incompatible format");
   }
 }
