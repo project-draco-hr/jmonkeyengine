@@ -3,13 +3,13 @@
   if (raiseTerrain) {
     Vector3f intersection=getWorldIntersection();
     if (intersection != null) {
-      adjustHeight(intersection,64,1);
+      adjustHeight(intersection,64,tpf * 60);
     }
   }
  else   if (lowerTerrain) {
     Vector3f intersection=getWorldIntersection();
     if (intersection != null) {
-      adjustHeight(intersection,64,-1);
+      adjustHeight(intersection,64,-tpf * 60);
     }
   }
 }

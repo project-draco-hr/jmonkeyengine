@@ -1,7 +1,6 @@
 {
   if (normal == null) {
-    logger.warning("Normal was null, created default normal.");
-    normal=new Vector3f();
+    throw new IllegalArgumentException("normal cannot be null");
   }
   this.normal.set(x,y,z);
 }
