@@ -121,6 +121,10 @@ LOGGER.log(Level.WARNING,"Unknown object type: {0}",type);
   finally {
 dataRepository.popParent();
 }
+Properties properties=this.loadProperties(objectStructure,dataRepository);
+if (properties != null && properties.getValue() != null) {
+((Node)result).setUserData("properties",properties);
+}
 if (result != null) {
 dataRepository.addLoadedFeatures(objectStructure.getOldMemoryAddress(),name,objectStructure,result);
 }

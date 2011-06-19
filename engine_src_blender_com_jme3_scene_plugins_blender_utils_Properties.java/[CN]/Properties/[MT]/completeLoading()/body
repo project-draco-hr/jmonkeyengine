@@ -1,0 +1,32 @@
+{
+  if (this.type == IDP_GROUP) {
+    List<Properties> groupProperties=(List<Properties>)this.value;
+    Properties rnaUI=null;
+    for (    Properties properties : groupProperties) {
+      if (properties.name.equals(RNA_PROPERTY_NAME) && properties.type == IDP_GROUP) {
+        rnaUI=properties;
+        break;
+      }
+    }
+    if (rnaUI != null) {
+      groupProperties.remove(rnaUI);
+      Map<String,String> descriptions=new HashMap<String,String>(groupProperties.size());
+      List<Properties> propertiesRNA=(List<Properties>)rnaUI.value;
+      for (      Properties properties : propertiesRNA) {
+        String name=properties.name;
+        String description=null;
+        List<Properties> rnaData=(List<Properties>)properties.value;
+        for (        Properties rna : rnaData) {
+          if ("description".equalsIgnoreCase(rna.name)) {
+            description=(String)rna.value;
+            break;
+          }
+        }
+        descriptions.put(name,description);
+      }
+      for (      Properties properties : groupProperties) {
+        properties.description=descriptions.get(properties.name);
+      }
+    }
+  }
+}

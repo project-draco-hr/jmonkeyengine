@@ -106,5 +106,11 @@
       }
     }
   }
+  Properties properties=this.loadProperties(curveStructure,dataRepository);
+  if (properties != null && properties.getValue() != null) {
+    for (    Geometry geom : result) {
+      geom.setUserData("properties",properties);
+    }
+  }
   return result;
 }

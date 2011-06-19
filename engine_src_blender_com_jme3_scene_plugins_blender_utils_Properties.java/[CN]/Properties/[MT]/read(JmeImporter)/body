@@ -1,0 +1,46 @@
+{
+  InputCapsule ic=im.getCapsule(this);
+  name=ic.readString("name",DEFAULT_NAME);
+  type=ic.readInt("type",0);
+  subType=ic.readInt("subtype",0);
+  description=ic.readString("description",null);
+switch (type) {
+case IDP_STRING:
+    value=ic.readString("value",null);
+  break;
+case IDP_INT:
+value=Integer.valueOf(ic.readInt("value",0));
+break;
+case IDP_FLOAT:
+value=Float.valueOf(ic.readFloat("value",0.0f));
+break;
+case IDP_ARRAY:
+switch (subType) {
+case IDP_INT:
+value=ic.readIntArray("value",null);
+break;
+case IDP_FLOAT:
+value=ic.readFloatArray("value",null);
+break;
+case IDP_DOUBLE:
+value=ic.readDoubleArray("value",null);
+break;
+default :
+LOGGER.warning("Cannot read the property's value! Invalid array subtype! Property: name: " + name + "; subtype: "+ subType);
+}
+case IDP_GROUP:
+value=ic.readSavable("value",null);
+break;
+case IDP_DOUBLE:
+value=Double.valueOf(ic.readDouble("value",0.0));
+break;
+case IDP_IDPARRAY:
+value=ic.readSavableArrayList("value",null);
+break;
+case IDP_NUMTYPES:
+LOGGER.warning("Numtypes value not supported! Cannot read it!");
+break;
+default :
+LOGGER.warning("Cannot read the property's value! Invalid type! Property: name: " + name + "; type: "+ type);
+}
+}

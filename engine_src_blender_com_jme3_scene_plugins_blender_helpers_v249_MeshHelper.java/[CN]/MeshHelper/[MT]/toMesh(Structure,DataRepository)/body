@@ -148,6 +148,7 @@
     uvCoordsBuffer=new VertexBuffer(Type.TexCoord);
     uvCoordsBuffer.setupData(Usage.Static,2,Format.Float,BufferUtils.createFloatBuffer(uvCoordinates.toArray(new Vector2f[uvCoordinates.size()])));
   }
+  Properties properties=this.loadProperties(structure,dataRepository);
   FloatBuffer verticesColorsBuffer=this.createFloatBuffer(verticesColors);
   for (  Entry<Integer,List<Integer>> meshEntry : meshesMap.entrySet()) {
     Mesh mesh=new Mesh();
@@ -204,6 +205,9 @@
     }
  else {
       geometry.setMaterial(dataRepository.getDefaultMaterial());
+    }
+    if (properties != null && properties.getValue() != null) {
+      geometry.setUserData("properties",properties);
     }
     geometries.add(geometry);
   }
