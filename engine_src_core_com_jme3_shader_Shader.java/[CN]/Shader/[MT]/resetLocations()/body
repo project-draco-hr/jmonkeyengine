@@ -2,7 +2,7 @@
   for (  Uniform uniform : uniforms.values()) {
     uniform.reset();
   }
-  for (  Attribute attrib : attribs.values()) {
-    attrib.location=-2;
+  for (  Entry<Attribute> entry : attribs) {
+    entry.getValue().location=-2;
   }
 }

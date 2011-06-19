@@ -8,7 +8,7 @@
   int programId=context.boundShaderProgram;
   if (programId > 0) {
     VertexBuffer[] attribs=context.boundAttribs;
-    Attribute attrib=boundShader.getAttribute(vb.getBufferType().name());
+    Attribute attrib=boundShader.getAttribute(vb.getBufferType());
     int loc=attrib.getLocation();
     if (loc == -1) {
       if (verboseLogging) {
