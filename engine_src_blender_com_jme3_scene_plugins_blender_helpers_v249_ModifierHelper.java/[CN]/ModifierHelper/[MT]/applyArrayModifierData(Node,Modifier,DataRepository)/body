@@ -79,14 +79,14 @@
     }
   }
  else   if (fittype == 2) {
-    LOGGER.warning("Fit curve mode in array modifier not yet implemented!");
+    throw new IllegalStateException("Fit curve should be transformed to Fixed Length array type!");
   }
  else {
     throw new IllegalStateException("Unknown fit type: " + fittype);
   }
   if (count > 0) {
     Node[] arrayNodes=new Node[count];
-    Vector3f newTranslation=node.getLocalTranslation().clone();
+    Vector3f newTranslation=new Vector3f();
     for (int i=0; i < count; ++i) {
       newTranslation.addLocal(translationVector);
       Node nodeClone=(Node)node.clone();
