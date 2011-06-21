@@ -1,0 +1,28 @@
+{
+  if (a == null)   return b;
+  EGLConfig result=null;
+  int[] value=new int[1];
+  egl.eglGetConfigAttrib(display,a,EGL10.EGL_RED_SIZE,value);
+  int redA=value[0];
+  egl.eglGetConfigAttrib(display,b,EGL10.EGL_RED_SIZE,value);
+  int redB=value[0];
+  if (redA > redB)   result=a;
+ else   if (redA < redB)   result=b;
+ else {
+    egl.eglGetConfigAttrib(display,a,EGL10.EGL_ALPHA_SIZE,value);
+    int alphaA=value[0];
+    egl.eglGetConfigAttrib(display,b,EGL10.EGL_ALPHA_SIZE,value);
+    int alphaB=value[0];
+    if (alphaA < alphaB)     result=a;
+ else     if (alphaA > alphaB)     result=b;
+ else {
+      egl.eglGetConfigAttrib(display,a,EGL10.EGL_STENCIL_SIZE,value);
+      int stencilA=value[0];
+      egl.eglGetConfigAttrib(display,b,EGL10.EGL_STENCIL_SIZE,value);
+      int stencilB=value[0];
+      if (stencilA < stencilB)       result=a;
+ else       result=b;
+    }
+  }
+  return result;
+}

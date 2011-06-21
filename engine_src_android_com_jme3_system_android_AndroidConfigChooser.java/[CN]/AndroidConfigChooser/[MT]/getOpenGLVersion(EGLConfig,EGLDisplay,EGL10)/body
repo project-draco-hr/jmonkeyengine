@@ -1,0 +1,9 @@
+{
+  int[] value=new int[1];
+  int result=1;
+  egl.eglGetConfigAttrib(display,conf,EGL10.EGL_RENDERABLE_TYPE,value);
+  if ((value[0] & EGL_OPENGL_ES2_BIT) != 0) {
+    result=2;
+  }
+  return result;
+}

@@ -1,0 +1,49 @@
+{
+  int[] num_conf=new int[1];
+  egl.eglGetConfigs(display,null,0,num_conf);
+  int configurations=num_conf[0];
+  EGLConfig[] conf=new EGLConfig[configurations];
+  egl.eglGetConfigs(display,conf,configurations,num_conf);
+  int[] value=new int[1];
+  for (int i=0; i < configurations; i++) {
+    if (conf[i] != null) {
+      egl.eglGetConfigAttrib(display,conf[i],EGL10.EGL_SURFACE_TYPE,value);
+      if ((value[0] & EGL10.EGL_WINDOW_BIT) != 0) {
+        egl.eglGetConfigAttrib(display,conf[i],EGL10.EGL_DEPTH_SIZE,value);
+        if (value[0] == 16) {
+          egl.eglGetConfigAttrib(display,conf[i],EGL10.EGL_RENDERABLE_TYPE,value);
+          if ((value[0] & EGL_OPENGL_ES2_BIT) != 0) {
+            clientOpenGLESVersion=2;
+            bestConfig=better(bestConfig,conf[i],egl,display);
+            fastestConfig=faster(fastestConfig,conf[i],egl,display);
+            logger.info("Supported EGL Configuration #" + i);
+            logEGLConfig(conf[i],display,egl);
+          }
+        }
+      }
+    }
+ else {
+      break;
+    }
+  }
+  if ((type == ConfigType.BEST) && (bestConfig != null)) {
+    logger.info("### JME3 ### using best EGL configuration available here: ");
+    choosenConfig=bestConfig;
+  }
+ else {
+    logger.info("### JME3 ### using fastest EGL configuration available here: ");
+    choosenConfig=fastestConfig;
+  }
+  if (choosenConfig != null) {
+    logEGLConfig(choosenConfig,display,egl);
+    pixelFormat=getPixelFormat(choosenConfig,display,egl);
+    clientOpenGLESVersion=getOpenGLVersion(choosenConfig,display,egl);
+    return true;
+  }
+ else {
+    logger.severe("Unable to get a valid OpenGL ES 2.0 config");
+    clientOpenGLESVersion=1;
+    pixelFormat=PixelFormat.UNKNOWN;
+    return false;
+  }
+}

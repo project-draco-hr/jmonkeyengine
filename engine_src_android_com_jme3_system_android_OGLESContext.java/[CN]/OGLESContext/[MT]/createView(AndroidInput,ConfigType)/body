@@ -1,0 +1,26 @@
+{
+  EGL10 egl=(EGL10)EGLContext.getEGL();
+  EGLDisplay display=egl.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY);
+  int[] version=new int[2];
+  if (egl.eglInitialize(display,version) == true) {
+    logger.info("Display EGL Version: " + version[0] + "."+ version[1]);
+  }
+  this.view=view;
+  AndroidConfigChooser configChooser=new AndroidConfigChooser(configType);
+  if (!configChooser.findConfig(egl,display)) {
+    logger.severe("Unable to find suitable EGL config");
+  }
+  clientOpenGLESVersion=configChooser.getClientOpenGLESVersion();
+  if (clientOpenGLESVersion < 2) {
+    logger.severe("OpenGL ES 2.0 is not supported on this device");
+  }
+  view.setEGLContextClientVersion(clientOpenGLESVersion);
+  view.setEGLConfigChooser(configChooser);
+  view.setFocusableInTouchMode(true);
+  view.setFocusable(true);
+  view.setZOrderOnTop(true);
+  view.getHolder().setType(SurfaceHolder.SURFACE_TYPE_GPU);
+  view.getHolder().setFormat(configChooser.getPixelFormat());
+  view.setRenderer(this);
+  return view;
+}
