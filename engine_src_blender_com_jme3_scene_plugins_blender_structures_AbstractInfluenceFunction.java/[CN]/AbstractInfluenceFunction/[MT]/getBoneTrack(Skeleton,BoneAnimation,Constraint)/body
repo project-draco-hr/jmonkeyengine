@@ -1,7 +1,7 @@
 {
   Long boneOMA=constraint.getBoneOMA();
   Bone bone=(Bone)dataRepository.getLoadedFeature(boneOMA,LoadedFeatureDataType.LOADED_FEATURE);
-  int boneIndex=skeleton.getBoneIndex(bone);
+  int boneIndex=bone == null ? 0 : skeleton.getBoneIndex(bone);
   if (boneIndex != -1) {
     for (    BoneTrack boneTrack : boneAnimation.getTracks()) {
       if (boneTrack.getTargetBoneIndex() == boneIndex) {

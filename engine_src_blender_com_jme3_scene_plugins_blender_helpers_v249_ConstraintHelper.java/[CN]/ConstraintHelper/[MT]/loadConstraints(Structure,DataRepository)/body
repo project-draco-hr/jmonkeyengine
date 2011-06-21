@@ -47,6 +47,30 @@
       }
     }
   }
+  List<Structure> constraintChannels=((Structure)objectStructure.getFieldValue("constraintChannels")).evaluateListBase(dataRepository);
+  for (  Structure constraintChannel : constraintChannels) {
+    System.out.println(constraintChannel);
+  }
+  if (!this.constraints.containsKey(objectStructure.getOldMemoryAddress())) {
+    List<Structure> constraints=((Structure)objectStructure.getFieldValue("constraints")).evaluateListBase(dataRepository);
+    Constraint[] result=new Constraint[constraints.size()];
+    int i=0;
+    for (    Structure constraint : constraints) {
+      int type=((Number)constraint.getFieldValue("type")).intValue();
+      String constraintName=constraint.getFieldValue("name").toString();
+      String objectName=objectStructure.getName();
+      Map<String,Ipo> objectConstraintsIpos=constraintsIpos.get(objectName);
+      Ipo ipo=objectConstraintsIpos != null ? objectConstraintsIpos.get(constraintName) : null;
+      if (ipo == null) {
+        float enforce=((Number)constraint.getFieldValue("enforce")).floatValue();
+        ipo=ipoHelper.createIpo(enforce);
+      }
+      Space ownerSpace=Space.valueOf(((Number)constraint.getFieldValue("ownspace")).byteValue());
+      Space targetSpace=Space.valueOf(((Number)constraint.getFieldValue("tarspace")).byteValue());
+      result[i++]=new Constraint(constraint,influenceFunctions[type],null,ownerSpace,targetSpace,ipo,dataRepository);
+    }
+    this.constraints.put(objectStructure.getOldMemoryAddress(),result);
+  }
   if (constraintsList.size() > 0) {
     this.constraints.put(objectStructure.getOldMemoryAddress(),constraintsList.toArray(new Constraint[constraintsList.size()]));
   }
