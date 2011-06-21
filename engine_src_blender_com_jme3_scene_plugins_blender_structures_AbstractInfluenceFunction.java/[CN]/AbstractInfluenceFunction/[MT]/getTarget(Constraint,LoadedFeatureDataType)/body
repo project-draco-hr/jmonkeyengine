@@ -1,9 +1,11 @@
 {
-  Long targetOMA=((Pointer)constraint.getData().getFieldValue("tar")).getOldMemoryAddress();
-  Object targetObject=dataRepository.getLoadedFeature(targetOMA,loadedFeatureDataType);
-  String subtargetName=constraint.getData().getFieldValue("subtarget").toString();
-  if (subtargetName.length() > 0) {
+  ObjectHelper objectHelper=dataRepository.getHelper(ObjectHelper.class);
+  Object subtarget=constraint.getData().getFieldValue("subtarget");
+  String subtargetName=subtarget == null ? null : subtarget.toString();
+  if (subtargetName != null && subtargetName.length() > 0) {
     return dataRepository.getLoadedFeature(subtargetName,loadedFeatureDataType);
   }
-  return targetObject;
+  Long targetOMA=((Pointer)constraint.getData().getFieldValue("target")).getOldMemoryAddress();
+  Structure objectStructure=dataRepository.getFileBlock(targetOMA).getStructure(dataRepository);
+  return objectHelper.toObject(objectStructure,dataRepository);
 }
