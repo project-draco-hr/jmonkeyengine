@@ -1,2 +1,23 @@
 {
+  Date d, d2;
+  System.err.println("NOTE: This test simulates a data corruption attempt\n" + " in the engine. If assertions are enabled (-ea VM flag), the \n" + "data corruption will be detected and displayed below.");
+  TempVars vars=TempVars.get();
+  vars.vect1.addLocal(vars.vect2);
+  vars.release();
+  d=new Date();
+  for (int i=0; i < 100000000; i++) {
+    methodThatUsesTempVars();
+  }
+  d2=new Date();
+  System.out.println("100 million calls : " + (d2.getTime() - d.getTime()) + " ms");
+  d=new Date();
+  recursiveMethod();
+  d2=new Date();
+  System.out.println("100 recursive calls : " + (d2.getTime() - d.getTime()) + " ms");
+  d=new Date();
+  for (int i=0; i < 1000000; i++) {
+    methodThatUsesTempVarsWithNoRelease();
+  }
+  d2=new Date();
+  System.out.println("1 million calls with no release : " + (d2.getTime() - d.getTime()) + " ms");
 }

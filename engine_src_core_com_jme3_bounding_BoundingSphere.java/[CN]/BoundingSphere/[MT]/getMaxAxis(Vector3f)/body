@@ -3,9 +3,13 @@
   float y=FastMath.abs(scale.y);
   float z=FastMath.abs(scale.z);
   if (x >= y) {
-    if (x >= z)     return x;
+    if (x >= z) {
+      return x;
+    }
     return z;
   }
-  if (y >= z)   return y;
+  if (y >= z) {
+    return y;
+  }
   return z;
 }

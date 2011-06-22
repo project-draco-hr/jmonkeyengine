@@ -1,2 +1,33 @@
 {
+  TempVars vars=TempVars.get();
+  vars.vect1.x=center.x - xExtent;
+  if (vars.vect1.x > boxCenter.x - boxX) {
+    vars.vect1.x=boxCenter.x - boxX;
+  }
+  vars.vect1.y=center.y - yExtent;
+  if (vars.vect1.y > boxCenter.y - boxY) {
+    vars.vect1.y=boxCenter.y - boxY;
+  }
+  vars.vect1.z=center.z - zExtent;
+  if (vars.vect1.z > boxCenter.z - boxZ) {
+    vars.vect1.z=boxCenter.z - boxZ;
+  }
+  vars.vect2.x=center.x + xExtent;
+  if (vars.vect2.x < boxCenter.x + boxX) {
+    vars.vect2.x=boxCenter.x + boxX;
+  }
+  vars.vect2.y=center.y + yExtent;
+  if (vars.vect2.y < boxCenter.y + boxY) {
+    vars.vect2.y=boxCenter.y + boxY;
+  }
+  vars.vect2.z=center.z + zExtent;
+  if (vars.vect2.z < boxCenter.z + boxZ) {
+    vars.vect2.z=boxCenter.z + boxZ;
+  }
+  center.set(vars.vect2).addLocal(vars.vect1).multLocal(0.5f);
+  xExtent=vars.vect2.x - center.x;
+  yExtent=vars.vect2.y - center.y;
+  zExtent=vars.vect2.z - center.z;
+  vars.release();
+  return rVal;
 }

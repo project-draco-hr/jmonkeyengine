@@ -1,2 +1,121 @@
 {
+  TempVars vars=TempVars.get();
+  Matrix4f tempMat4=vars.tempMat4;
+  Matrix3f tempMat3=vars.tempMat3;
+  Vector2f tempVec2=vars.vect2d;
+  Quaternion tempVec4=vars.quat1;
+  for (int i=0; i < params.size(); i++) {
+    Uniform u=params.get(i);
+switch (u.getBinding()) {
+case WorldMatrix:
+      u.setValue(VarType.Matrix4,worldMatrix);
+    break;
+case ViewMatrix:
+  u.setValue(VarType.Matrix4,viewMatrix);
+break;
+case ProjectionMatrix:
+u.setValue(VarType.Matrix4,projMatrix);
+break;
+case ViewProjectionMatrix:
+u.setValue(VarType.Matrix4,viewProjMatrix);
+break;
+case WorldViewMatrix:
+tempMat4.set(viewMatrix);
+tempMat4.multLocal(worldMatrix);
+u.setValue(VarType.Matrix4,tempMat4);
+break;
+case NormalMatrix:
+tempMat4.set(viewMatrix);
+tempMat4.multLocal(worldMatrix);
+tempMat4.toRotationMatrix(tempMat3);
+tempMat3.invertLocal();
+tempMat3.transposeLocal();
+u.setValue(VarType.Matrix3,tempMat3);
+break;
+case WorldViewProjectionMatrix:
+tempMat4.set(viewProjMatrix);
+tempMat4.multLocal(worldMatrix);
+u.setValue(VarType.Matrix4,tempMat4);
+break;
+case WorldMatrixInverse:
+tempMat4.multLocal(worldMatrix);
+tempMat4.invertLocal();
+u.setValue(VarType.Matrix4,tempMat4);
+break;
+case ViewMatrixInverse:
+tempMat4.set(viewMatrix);
+tempMat4.invertLocal();
+u.setValue(VarType.Matrix4,tempMat4);
+break;
+case ProjectionMatrixInverse:
+tempMat4.set(projMatrix);
+tempMat4.invertLocal();
+u.setValue(VarType.Matrix4,tempMat4);
+break;
+case ViewProjectionMatrixInverse:
+tempMat4.set(viewProjMatrix);
+tempMat4.invertLocal();
+u.setValue(VarType.Matrix4,tempMat4);
+break;
+case WorldViewMatrixInverse:
+tempMat4.set(viewMatrix);
+tempMat4.multLocal(worldMatrix);
+tempMat4.invertLocal();
+u.setValue(VarType.Matrix4,tempMat4);
+break;
+case NormalMatrixInverse:
+tempMat4.set(viewMatrix);
+tempMat4.multLocal(worldMatrix);
+tempMat4.toRotationMatrix(tempMat3);
+tempMat3.invertLocal();
+tempMat3.transposeLocal();
+tempMat3.invertLocal();
+u.setValue(VarType.Matrix3,tempMat3);
+break;
+case WorldViewProjectionMatrixInverse:
+tempMat4.set(viewProjMatrix);
+tempMat4.multLocal(worldMatrix);
+tempMat4.invertLocal();
+u.setValue(VarType.Matrix4,tempMat4);
+break;
+case ViewPort:
+tempVec4.set(viewX,viewY,viewWidth,viewHeight);
+u.setValue(VarType.Vector4,tempVec4);
+break;
+case Resolution:
+tempVec2.set(viewWidth,viewHeight);
+u.setValue(VarType.Vector2,tempVec2);
+break;
+case Aspect:
+float aspect=((float)viewWidth) / viewHeight;
+u.setValue(VarType.Float,aspect);
+break;
+case FrustumNearFar:
+tempVec2.set(near,far);
+u.setValue(VarType.Vector2,tempVec2);
+break;
+case CameraPosition:
+u.setValue(VarType.Vector3,camLoc);
+break;
+case CameraDirection:
+u.setValue(VarType.Vector3,camDir);
+break;
+case CameraLeft:
+u.setValue(VarType.Vector3,camLeft);
+break;
+case CameraUp:
+u.setValue(VarType.Vector3,camUp);
+break;
+case Time:
+u.setValue(VarType.Float,timer.getTimeInSeconds());
+break;
+case Tpf:
+u.setValue(VarType.Float,timer.getTimePerFrame());
+break;
+case FrameRate:
+u.setValue(VarType.Float,timer.getFrameRate());
+break;
+}
+}
+vars.release();
 }

@@ -8,17 +8,29 @@
   exteriorExt.subtractLocal(interiorExt);
   int axis=0;
   if (exteriorExt.x > exteriorExt.y) {
-    if (exteriorExt.x > exteriorExt.z)     axis=0;
- else     axis=2;
+    if (exteriorExt.x > exteriorExt.z) {
+      axis=0;
+    }
+ else {
+      axis=2;
+    }
   }
  else {
-    if (exteriorExt.y > exteriorExt.z)     axis=1;
- else     axis=2;
+    if (exteriorExt.y > exteriorExt.z) {
+      axis=1;
+    }
+ else {
+      axis=2;
+    }
   }
-  if (exteriorExt.equals(Vector3f.ZERO))   axis=0;
+  if (exteriorExt.equals(Vector3f.ZERO)) {
+    axis=0;
+  }
   float split=currentBox.getCenter().get(axis);
   int pivot=sortTriangles(l,r,split,axis);
-  if (pivot == l || pivot == r)   pivot=(r + l) / 2;
+  if (pivot == l || pivot == r) {
+    pivot=(r + l) / 2;
+  }
   if (pivot < l) {
     BoundingBox rbbox=new BoundingBox(currentBox);
     setMinMax(rbbox,true,axis,split);

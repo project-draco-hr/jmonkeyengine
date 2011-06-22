@@ -1,2 +1,10 @@
 {
+  if (light instanceof PointLight) {
+    ((PointLight)light).setPosition(spatial.getWorldTranslation());
+  }
+  TempVars vars=TempVars.get();
+  if (light instanceof DirectionalLight) {
+    ((DirectionalLight)light).setDirection(vars.vect1.set(spatial.getWorldTranslation()).multLocal(-1.0f));
+  }
+  vars.release();
 }

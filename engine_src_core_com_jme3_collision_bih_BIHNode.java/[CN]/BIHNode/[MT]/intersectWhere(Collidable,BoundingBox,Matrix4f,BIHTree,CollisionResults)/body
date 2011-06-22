@@ -1,5 +1,6 @@
 {
-  ArrayList<BIHStackData> stack=TempVars.get().bihStack;
+  TempVars vars=TempVars.get();
+  ArrayList<BIHStackData> stack=vars.bihStack;
   stack.clear();
   float[] minExts={box.getCenter().x - box.getXExtent(),box.getCenter().y - box.getYExtent(),box.getCenter().z - box.getZExtent()};
   float[] maxExts={box.getCenter().x + box.getXExtent(),box.getCenter().y + box.getYExtent(),box.getCenter().z + box.getZExtent()};
@@ -13,7 +14,9 @@
       float maxExt=maxExts[a];
       float minExt=minExts[a];
       if (node.leftPlane < node.rightPlane) {
-        if (minExt > node.leftPlane && maxExt < node.rightPlane)         continue stackloop;
+        if (minExt > node.leftPlane && maxExt < node.rightPlane) {
+          continue stackloop;
+        }
       }
       if (maxExt < node.rightPlane) {
         node=node.left;
@@ -45,5 +48,6 @@
       }
     }
   }
+  vars.release();
   return cols;
 }

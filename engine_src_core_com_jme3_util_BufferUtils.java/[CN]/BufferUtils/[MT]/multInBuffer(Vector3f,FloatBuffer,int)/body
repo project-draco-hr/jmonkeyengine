@@ -1,2 +1,8 @@
 {
+  TempVars vars=TempVars.get();
+  Vector3f tempVec3=vars.vect1;
+  populateFromBuffer(tempVec3,buf,index);
+  tempVec3.multLocal(toMult);
+  setInBuffer(tempVec3,buf,index);
+  vars.release();
 }

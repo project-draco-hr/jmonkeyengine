@@ -1,2 +1,24 @@
 {
+  BoundingBox box;
+  if (store == null || store.getType() != Type.AABB) {
+    box=new BoundingBox();
+  }
+ else {
+    box=(BoundingBox)store;
+  }
+  center.mult(trans.getScale(),box.center);
+  trans.getRotation().mult(box.center,box.center);
+  box.center.addLocal(trans.getTranslation());
+  TempVars vars=TempVars.get();
+  Matrix3f transMatrix=vars.tempMat3;
+  transMatrix.set(trans.getRotation());
+  transMatrix.absoluteLocal();
+  Vector3f scale=trans.getScale();
+  vars.vect1.set(xExtent * scale.x,yExtent * scale.y,zExtent * scale.z);
+  transMatrix.mult(vars.vect1,vars.vect2);
+  box.xExtent=FastMath.abs(vars.vect2.getX());
+  box.yExtent=FastMath.abs(vars.vect2.getY());
+  box.zExtent=FastMath.abs(vars.vect2.getZ());
+  vars.release();
+  return box;
 }

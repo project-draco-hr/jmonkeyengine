@@ -1,2 +1,8 @@
 {
+  TempVars vars=TempVars.get();
+  vars.vect3.set(direction).normalizeLocal();
+  vars.vect1.set(up).crossLocal(direction).normalizeLocal();
+  vars.vect2.set(direction).crossLocal(vars.vect1).normalizeLocal();
+  fromAxes(vars.vect1,vars.vect2,vars.vect3);
+  vars.release();
 }

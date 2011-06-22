@@ -1,2 +1,50 @@
 {
+  TempVars vars=TempVars.get();
+  Vector3f tempA=vars.vect1;
+  Vector3f tempB=vars.vect2;
+  Vector3f tempC=vars.vect3;
+  Vector3f tempD=vars.vect4;
+switch (b) {
+case 0:
+    this.radius=0;
+  this.center.set(0,0,0);
+break;
+case 1:
+this.radius=1f - RADIUS_EPSILON;
+BufferUtils.populateFromBuffer(center,points,ap - 1);
+break;
+case 2:
+BufferUtils.populateFromBuffer(tempA,points,ap - 1);
+BufferUtils.populateFromBuffer(tempB,points,ap - 2);
+setSphere(tempA,tempB);
+break;
+case 3:
+BufferUtils.populateFromBuffer(tempA,points,ap - 1);
+BufferUtils.populateFromBuffer(tempB,points,ap - 2);
+BufferUtils.populateFromBuffer(tempC,points,ap - 3);
+setSphere(tempA,tempB,tempC);
+break;
+case 4:
+BufferUtils.populateFromBuffer(tempA,points,ap - 1);
+BufferUtils.populateFromBuffer(tempB,points,ap - 2);
+BufferUtils.populateFromBuffer(tempC,points,ap - 3);
+BufferUtils.populateFromBuffer(tempD,points,ap - 4);
+setSphere(tempA,tempB,tempC,tempD);
+vars.release();
+return;
+}
+for (int i=0; i < p; i++) {
+BufferUtils.populateFromBuffer(tempA,points,i + ap);
+if (tempA.distanceSquared(center) - (radius * radius) > RADIUS_EPSILON - 1f) {
+for (int j=i; j > 0; j--) {
+BufferUtils.populateFromBuffer(tempB,points,j + ap);
+BufferUtils.populateFromBuffer(tempC,points,j - 1 + ap);
+BufferUtils.setInBuffer(tempC,points,j + ap);
+BufferUtils.setInBuffer(tempB,points,j - 1 + ap);
+}
+vars.release();
+recurseMini(points,i,b + 1,ap + 1);
+}
+}
+vars.release();
 }

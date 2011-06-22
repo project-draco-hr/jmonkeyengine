@@ -1,2 +1,23 @@
 {
+  if (end - start <= 0) {
+    return;
+  }
+  TempVars vars=TempVars.get();
+  Vector3f min=vars.vect1.set(new Vector3f(Float.POSITIVE_INFINITY,Float.POSITIVE_INFINITY,Float.POSITIVE_INFINITY));
+  Vector3f max=vars.vect2.set(new Vector3f(Float.NEGATIVE_INFINITY,Float.NEGATIVE_INFINITY,Float.NEGATIVE_INFINITY));
+  Vector3f point;
+  for (int i=start; i < end; i++) {
+    point=tris[i].get(0);
+    checkMinMax(min,max,point);
+    point=tris[i].get(1);
+    checkMinMax(min,max,point);
+    point=tris[i].get(2);
+    checkMinMax(min,max,point);
+  }
+  center.set(min.addLocal(max));
+  center.multLocal(0.5f);
+  xExtent=max.x - center.x;
+  yExtent=max.y - center.y;
+  zExtent=max.z - center.z;
+  vars.release();
 }

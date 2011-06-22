@@ -1,2 +1,18 @@
 {
+  if (userControl) {
+    return;
+  }
+  TempVars vars=TempVars.get();
+  Vector3f tmpV=vars.vect1;
+  Vector3f tmpV2=vars.vect2;
+  Quaternion tmpQ=vars.quat1;
+  tmpV.set(initialPos).addLocal(translation);
+  localPos.interpolate(tmpV,weight);
+  tmpQ.set(initialRot).multLocal(rotation);
+  localRot.nlerp(tmpQ,weight);
+  if (scale != null) {
+    tmpV2.set(initialScale).multLocal(scale);
+    localScale.interpolate(tmpV2,weight);
+  }
+  vars.release();
 }

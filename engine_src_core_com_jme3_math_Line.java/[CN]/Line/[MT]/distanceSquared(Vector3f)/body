@@ -1,2 +1,12 @@
 {
+  TempVars vars=TempVars.get();
+  Vector3f compVec1=vars.vect1;
+  Vector3f compVec2=vars.vect2;
+  point.subtract(origin,compVec1);
+  float lineParameter=direction.dot(compVec1);
+  origin.add(direction.mult(lineParameter,compVec2),compVec2);
+  compVec2.subtract(point,compVec1);
+  float len=compVec1.lengthSquared();
+  vars.release();
+  return len;
 }

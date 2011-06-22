@@ -2,8 +2,12 @@
   Geometry geomClone=(Geometry)super.clone(cloneMaterial);
   geomClone.cachedWorldMat=cachedWorldMat.clone();
   if (material != null) {
-    if (cloneMaterial)     geomClone.material=material.clone();
- else     geomClone.material=material;
+    if (cloneMaterial) {
+      geomClone.material=material.clone();
+    }
+ else {
+      geomClone.material=material;
+    }
   }
   if (mesh != null && mesh.getBuffer(Type.BindPosePosition) != null) {
     geomClone.mesh=mesh.cloneForAnim();

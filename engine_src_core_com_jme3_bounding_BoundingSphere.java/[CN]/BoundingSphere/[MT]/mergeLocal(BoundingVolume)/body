@@ -1,2 +1,27 @@
 {
+  if (volume == null) {
+    return this;
+  }
+switch (volume.getType()) {
+case Sphere:
+{
+      BoundingSphere sphere=(BoundingSphere)volume;
+      float temp_radius=sphere.getRadius();
+      Vector3f temp_center=sphere.center;
+      return merge(temp_radius,temp_center,this);
+    }
+case AABB:
+{
+    BoundingBox box=(BoundingBox)volume;
+    TempVars vars=TempVars.get();
+    Vector3f radVect=vars.vect1;
+    radVect.set(box.xExtent,box.yExtent,box.zExtent);
+    Vector3f temp_center=box.center;
+    float len=radVect.length();
+    vars.release();
+    return merge(len,temp_center,this);
+  }
+default :
+return null;
+}
 }

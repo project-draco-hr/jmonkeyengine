@@ -1,2 +1,54 @@
 {
+  this.getWorldTransform();
+  TempVars vars=TempVars.get();
+  Vector3f min=vars.vect1.set(Vector3f.POSITIVE_INFINITY);
+  Vector3f max=vars.vect2.set(Vector3f.NEGATIVE_INFINITY);
+  for (int i=0; i < particles.length; ++i) {
+    Particle p=particles[i];
+    if (p.life == 0) {
+      continue;
+    }
+    p.life-=tpf;
+    if (p.life <= 0) {
+      this.freeParticle(i);
+      continue;
+    }
+    p.velocity.x-=gravity.x * tpf;
+    p.velocity.y-=gravity.y * tpf;
+    p.velocity.z-=gravity.z * tpf;
+    temp.set(p.velocity).multLocal(tpf);
+    p.position.addLocal(temp);
+    float b=(p.startlife - p.life) / p.startlife;
+    p.color.interpolate(startColor,endColor,b);
+    p.size=FastMath.interpolateLinear(b,startSize,endSize);
+    p.angle+=p.rotateSpeed * tpf;
+    temp.set(p.position).addLocal(p.size,p.size,p.size);
+    max.maxLocal(temp);
+    temp.set(p.position).subtractLocal(p.size,p.size,p.size);
+    min.minLocal(temp);
+    if (!selectRandomImage) {
+      p.imageIndex=(int)(b * imagesX * imagesY);
+    }
+    if (firstUnUsed < i) {
+      this.swap(firstUnUsed,i);
+      if (i == lastUsed) {
+        lastUsed=firstUnUsed;
+      }
+      firstUnUsed++;
+    }
+  }
+  float particlesToEmitF=particlesPerSec * tpf;
+  int particlesToEmit=(int)particlesToEmitF;
+  emitCarry+=particlesToEmitF - particlesToEmit;
+  while (emitCarry > 1f) {
+    ++particlesToEmit;
+    emitCarry-=1f;
+  }
+  for (int i=0; i < particlesToEmit; ++i) {
+    this.emitParticle(min,max);
+  }
+  BoundingBox bbox=(BoundingBox)this.getMesh().getBound();
+  bbox.setMinMax(min,max);
+  this.setBoundRefresh();
+  vars.release();
 }

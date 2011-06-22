@@ -2,7 +2,9 @@
   float temp00, temp01, temp02;
   float temp10, temp11, temp12;
   float temp20, temp21, temp22;
-  if (product == null)   product=new Matrix3f();
+  if (product == null) {
+    product=new Matrix3f();
+  }
   temp00=m00 * mat.m00 + m01 * mat.m10 + m02 * mat.m20;
   temp01=m00 * mat.m01 + m01 * mat.m11 + m02 * mat.m21;
   temp02=m00 * mat.m02 + m01 * mat.m12 + m02 * mat.m22;

@@ -1,2 +1,15 @@
 {
+  TempVars vars=TempVars.get();
+  if (light instanceof PointLight) {
+    PointLight pLight=(PointLight)light;
+    Vector3f vecDiff=vars.vect1.set(pLight.getPosition()).subtractLocal(spatial.getWorldTranslation());
+    spatial.setLocalTranslation(vecDiff.addLocal(spatial.getLocalTranslation()));
+  }
+  if (light instanceof DirectionalLight) {
+    DirectionalLight dLight=(DirectionalLight)light;
+    vars.vect1.set(dLight.getDirection()).multLocal(-1.0f);
+    Vector3f vecDiff=vars.vect1.subtractLocal(spatial.getWorldTranslation());
+    spatial.setLocalTranslation(vecDiff.addLocal(spatial.getLocalTranslation()));
+  }
+  vars.release();
 }

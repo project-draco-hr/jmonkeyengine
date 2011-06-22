@@ -1,7 +1,9 @@
 {
   this.mesh=mesh;
   this.maxTrisPerNode=maxTrisPerNode;
-  if (maxTrisPerNode < 1 || mesh == null)   throw new IllegalArgumentException();
+  if (maxTrisPerNode < 1 || mesh == null) {
+    throw new IllegalArgumentException();
+  }
   bihSwapTmp=new float[9];
   FloatBuffer vb=(FloatBuffer)mesh.getBuffer(Type.Position).getData();
   IndexBuffer ib=mesh.getIndexBuffer();

@@ -1,3 +1,21 @@
 {
-  return varsLocal.get();
+  TempVars vars=null;
+  TempVars[] array=varsLocal.get();
+  if (stackLevel >= 0) {
+    vars=array[stackLevel];
+    array[stackLevel]=null;
+    stackLevel--;
+    if (vars == null) {
+      vars=new TempVars();
+      instanceCount++;
+    }
+  }
+ else {
+    vars=new TempVars();
+    instanceCount++;
+    if (instanceCount == array.length) {
+      log.log(Level.WARNING,"TempVars has been requested {0} times, maybe you forgot to call release()?",instanceCount);
+    }
+  }
+  return vars;
 }

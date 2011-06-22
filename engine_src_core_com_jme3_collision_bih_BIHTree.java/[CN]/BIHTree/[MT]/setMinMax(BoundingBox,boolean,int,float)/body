@@ -1,7 +1,11 @@
 {
   Vector3f min=bbox.getMin(null);
   Vector3f max=bbox.getMax(null);
-  if (doMin)   min.set(axis,value);
- else   max.set(axis,value);
+  if (doMin) {
+    min.set(axis,value);
+  }
+ else {
+    max.set(axis,value);
+  }
   bbox.setMinMax(min,max);
 }

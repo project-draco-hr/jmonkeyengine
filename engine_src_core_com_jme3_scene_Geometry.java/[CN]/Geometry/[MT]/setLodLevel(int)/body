@@ -1,5 +1,9 @@
 {
-  if (mesh.getNumLodLevels() == 0)   throw new IllegalStateException("LOD levels are not set on this mesh");
-  if (lod < 0 || lod >= mesh.getNumLodLevels())   throw new IllegalArgumentException("LOD level is out of range: " + lod);
+  if (mesh.getNumLodLevels() == 0) {
+    throw new IllegalStateException("LOD levels are not set on this mesh");
+  }
+  if (lod < 0 || lod >= mesh.getNumLodLevels()) {
+    throw new IllegalArgumentException("LOD level is out of range: " + lod);
+  }
   lodLevel=lod;
 }

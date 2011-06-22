@@ -1,2 +1,14 @@
 {
+  TempVars vars=TempVars.get();
+  Vector3f compVecA=vars.vect1;
+  Quaternion q=vars.quat1;
+  Vector3f upY=compVecA.set(Vector3f.UNIT_Y);
+  Quaternion rot=localTransform.getRotation();
+  rot.multLocal(upY);
+  float angle=upY.angleBetween(newUp);
+  Vector3f rotAxis=upY.crossLocal(newUp).normalizeLocal();
+  q.fromAngleNormalAxis(angle,rotAxis);
+  q.mult(rot,rot);
+  vars.release();
+  setTransformRefresh();
 }

@@ -1,2 +1,12 @@
 {
+  checkDoTransformUpdate();
+  cachedWorldMat.loadIdentity();
+  cachedWorldMat.setRotationQuaternion(worldTransform.getRotation());
+  cachedWorldMat.setTranslation(worldTransform.getTranslation());
+  TempVars vars=TempVars.get();
+  Matrix4f scaleMat=vars.tempMat4;
+  scaleMat.loadIdentity();
+  scaleMat.scale(worldTransform.getScale());
+  cachedWorldMat.multLocal(scaleMat);
+  vars.release();
 }

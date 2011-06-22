@@ -1,2 +1,49 @@
 {
+  TempVars vars=TempVars.get();
+  Vector3f tempVa=vars.vect1, tempVb=vars.vect2, tempVc=vars.vect3, tempVd=vars.vect4;
+  Vector3f diff=origin.subtract(v0,tempVa);
+  Vector3f edge1=v1.subtract(v0,tempVb);
+  Vector3f edge2=v2.subtract(v0,tempVc);
+  Vector3f norm=edge1.cross(edge2,tempVd);
+  float dirDotNorm=direction.dot(norm);
+  float sign;
+  if (dirDotNorm > FastMath.FLT_EPSILON) {
+    sign=1;
+  }
+ else   if (dirDotNorm < -FastMath.FLT_EPSILON) {
+    sign=-1f;
+    dirDotNorm=-dirDotNorm;
+  }
+ else {
+    vars.release();
+    return false;
+  }
+  float dirDotDiffxEdge2=sign * direction.dot(diff.cross(edge2,edge2));
+  if (dirDotDiffxEdge2 >= 0.0f) {
+    float dirDotEdge1xDiff=sign * direction.dot(edge1.crossLocal(diff));
+    if (dirDotEdge1xDiff >= 0.0f) {
+      if (!quad ? dirDotDiffxEdge2 + dirDotEdge1xDiff <= dirDotNorm : dirDotEdge1xDiff <= dirDotNorm) {
+        float diffDotNorm=-sign * diff.dot(norm);
+        if (diffDotNorm >= 0.0f) {
+          vars.release();
+          if (store == null) {
+            return true;
+          }
+          float inv=1f / dirDotNorm;
+          float t=diffDotNorm * inv;
+          if (!doPlanar) {
+            store.set(origin).addLocal(direction.x * t,direction.y * t,direction.z * t);
+          }
+ else {
+            float w1=dirDotDiffxEdge2 * inv;
+            float w2=dirDotEdge1xDiff * inv;
+            store.set(t,w1,w2);
+          }
+          return true;
+        }
+      }
+    }
+  }
+  vars.release();
+  return false;
 }

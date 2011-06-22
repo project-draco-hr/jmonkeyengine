@@ -1,2 +1,17 @@
 {
+  TempVars vars=TempVars.get();
+  Vector3f tempVa=vars.vect1, tempVb=vars.vect2;
+  point.subtract(origin,tempVa);
+  float rayParam=direction.dot(tempVa);
+  if (rayParam > 0) {
+    origin.add(direction.mult(rayParam,tempVb),tempVb);
+  }
+ else {
+    tempVb.set(origin);
+    rayParam=0.0f;
+  }
+  tempVb.subtract(point,tempVa);
+  float len=tempVa.lengthSquared();
+  vars.release();
+  return len;
 }

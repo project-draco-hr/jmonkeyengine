@@ -1,2 +1,7 @@
 {
+  TempVars vars=TempVars.get();
+  fillFloatArray(vars.matrixWrite,columnMajor);
+  fb.put(vars.matrixWrite,0,9);
+  vars.release();
+  return fb;
 }
