@@ -65,8 +65,12 @@ catch (    ExecutionException ex) {
   attachQuadAt(q4,4);
   this.currentCell=cam;
   this.setLocalTranslation(cam.mult(this.getLocalScale().mult(this.quadSize)));
+  this.updateModelBound();
   if (control != null) {
+    int currentCollisionGroup=control.getCollideWithGroups();
     control=new RigidBodyControl(new HeightfieldCollisionShape(getHeightMap(),getLocalScale()),0);
+    control.setCcdMotionThreshold(0.5f);
+    control.setCollisionGroup(currentCollisionGroup);
     this.addControl(control);
     space.add(this);
   }
