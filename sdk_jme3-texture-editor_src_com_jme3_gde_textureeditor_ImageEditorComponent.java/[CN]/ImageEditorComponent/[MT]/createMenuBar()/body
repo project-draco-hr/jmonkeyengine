@@ -10,6 +10,7 @@
   filters.add(bumpMenu);
   final JMenuItem gray=filters.add("Grayscale");
   final JMenuItem bright=filters.add("Brightness");
+  final JMenuItem spheremap=filters.add("SphereMapped");
   ActionListener al=new ActionListener(){
     public void actionPerformed(    ActionEvent e){
       Object source=e.getSource();
@@ -28,10 +29,13 @@
  else       if (source == bright) {
         spawnEditor(BrightFilter.create().filter(editedImage,ImageEditorComponent.this));
       }
+ else       if (source == spheremap) {
+        spawnEditor(SphereMappedFilter.create().filter(editedImage));
+      }
     }
   }
 ;
-  for (  AbstractButton b : Arrays.asList(bumpSoft,bumpMedium,bumpStrong,gray,bright)) {
+  for (  AbstractButton b : Arrays.asList(bumpSoft,bumpMedium,bumpStrong,gray,bright,spheremap)) {
     b.addActionListener(al);
   }
 }
