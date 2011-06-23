@@ -1,0 +1,13 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("ColorOverlay");
+  set.setName(Node.class.getName());
+  ColorOverlayFilter obj=(ColorOverlayFilter)filter;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,ColorRGBA.class,"getColor","setColor","Color"));
+  sheet.put(set);
+  return sheet;
+}

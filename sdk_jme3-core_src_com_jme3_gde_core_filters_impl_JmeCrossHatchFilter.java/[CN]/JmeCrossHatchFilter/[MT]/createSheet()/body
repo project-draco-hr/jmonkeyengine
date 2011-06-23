@@ -1,0 +1,24 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("CrossHatch");
+  set.setName(Node.class.getName());
+  CrossHatchFilter obj=(CrossHatchFilter)filter;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,float.class,"getColorInfluenceLine","setColorInfluenceLine","Color Influence Line"));
+  set.put(makeProperty(obj,float.class,"getColorInfluencePaper","setColorInfluencePaper","Color Influence Paper"));
+  set.put(makeProperty(obj,float.class,"getFillValue","setFillValue","Fill Value"));
+  set.put(makeProperty(obj,ColorRGBA.class,"getPaperColor","setPaperColor","Paper Color"));
+  set.put(makeProperty(obj,ColorRGBA.class,"getLineColor","setLineColor","Line Color"));
+  set.put(makeProperty(obj,float.class,"getLineDistance","setLineDistance","Line Distance"));
+  set.put(makeProperty(obj,float.class,"getLineThickness","setLineThickness","Line Thickness"));
+  set.put(makeProperty(obj,float.class,"getLuminance1","setLuminance1","Luminance1"));
+  set.put(makeProperty(obj,float.class,"getLuminance2","setLuminance2","Luminance2"));
+  set.put(makeProperty(obj,float.class,"getLuminance3","setLuminance3","Luminance3"));
+  set.put(makeProperty(obj,float.class,"getLuminance4","setLuminance4","Luminance4"));
+  set.put(makeProperty(obj,float.class,"getLuminance5","setLuminance5","Luminance5"));
+  sheet.put(set);
+  return sheet;
+}
