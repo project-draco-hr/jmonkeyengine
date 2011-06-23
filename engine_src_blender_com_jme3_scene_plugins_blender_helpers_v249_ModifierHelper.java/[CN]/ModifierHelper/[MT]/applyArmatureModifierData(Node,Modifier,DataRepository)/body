@@ -7,7 +7,7 @@
     Constraint[] constraints=constraintHelper.getConstraints(modifierArmatureObject);
     HashMap<String,BoneAnimation> anims=new HashMap<String,BoneAnimation>();
     for (int i=0; i < animList.size(); ++i) {
-      BoneAnimation boneAnimation=this.cloneBoneAnimation(animList.get(i));
+      BoneAnimation boneAnimation=animList.get(i).clone();
       if (constraints != null && constraints.length > 0) {
         for (        Constraint constraint : constraints) {
           constraint.affectAnimation(ad.skeleton,boneAnimation);
