@@ -9,9 +9,11 @@
       public Object call() throws Exception {
         if (enabled) {
           SceneApplication.getApplication().getViewPort().addProcessor(fpp);
+          Logger.getLogger(FilterExplorerTopComponent.class.getName()).log(Level.INFO,"Enabled post filters");
         }
  else {
           SceneApplication.getApplication().getViewPort().removeProcessor(fpp);
+          Logger.getLogger(FilterExplorerTopComponent.class.getName()).log(Level.INFO,"Disabled post filters");
         }
         return null;
       }
