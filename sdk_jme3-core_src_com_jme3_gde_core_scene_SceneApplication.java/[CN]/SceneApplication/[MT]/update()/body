@@ -25,7 +25,10 @@
     }
     getStateManager().postRender();
   }
- catch (  Exception e) {
+ catch (  NullPointerException e) {
+    handleError("NullPointerException: " + e.getMessage(),e);
+  }
+catch (  Exception e) {
     handleError(e.getMessage(),e);
   }
 catch (  Error e) {
