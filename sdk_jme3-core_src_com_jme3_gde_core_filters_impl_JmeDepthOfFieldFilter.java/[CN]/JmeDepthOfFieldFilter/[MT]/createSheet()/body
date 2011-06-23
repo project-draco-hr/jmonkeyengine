@@ -1,0 +1,15 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("DepthOfField");
+  set.setName(Node.class.getName());
+  DepthOfFieldFilter obj=(DepthOfFieldFilter)filter;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,float.class,"getBlurScale","setBlurScale","Blur Scale"));
+  set.put(makeProperty(obj,float.class,"getFocusDistance","setFocusDistance","Focus Distance"));
+  set.put(makeProperty(obj,float.class,"getFocusRange","setFocusRange","Focus Range"));
+  sheet.put(set);
+  return sheet;
+}

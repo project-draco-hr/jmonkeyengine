@@ -1,0 +1,17 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("Bloom");
+  set.setName(Node.class.getName());
+  BloomFilter obj=(BloomFilter)filter;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,float.class,"getBloomIntensity","setBloomIntensity","Intesity"));
+  set.put(makeProperty(obj,float.class,"getBlurScale","setBlurScale","Blur Scale"));
+  set.put(makeProperty(obj,float.class,"getDownSamplingFactor","setDownSamplingFactor","Downsampling Factor"));
+  set.put(makeProperty(obj,float.class,"getExposureCutoff","setExposureCutoff","Exposure Cutoff"));
+  set.put(makeProperty(obj,float.class,"getExposurePower","setExposurePower","Exposure Power"));
+  sheet.put(set);
+  return sheet;
+}
