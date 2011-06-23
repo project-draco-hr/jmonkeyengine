@@ -18,7 +18,7 @@
     float y=translation.y;
     translation.y=translation.z;
     translation.z=-y;
-    rotation.multLocal(this.upAxisRotationQuaternion);
+    rotation=this.upAxisRotationQuaternion.mult(rotation);
   }
   Transform t=new Transform(translation,rotation);
   t.setScale(scale);
