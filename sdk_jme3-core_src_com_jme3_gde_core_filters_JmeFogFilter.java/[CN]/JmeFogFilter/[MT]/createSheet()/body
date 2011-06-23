@@ -1,0 +1,15 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("Fog");
+  set.setName(Node.class.getName());
+  FogFilter obj=(FogFilter)filter;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,float.class,"getFogDistance","setFogDistance","Distance"));
+  set.put(makeProperty(obj,float.class,"getFogDensity","setFogDensity","Density"));
+  set.put(makeProperty(obj,ColorRGBA.class,"getFogColor","setFogColor","Color"));
+  sheet.put(set);
+  return sheet;
+}

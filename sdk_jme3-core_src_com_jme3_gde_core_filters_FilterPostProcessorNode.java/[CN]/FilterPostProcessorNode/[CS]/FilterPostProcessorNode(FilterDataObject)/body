@@ -1,0 +1,6 @@
+{
+  super(new FilterChildren(dataObject));
+  this.dataObject=dataObject;
+  setName(dataObject.getName());
+  ((FilterChildren)getChildren()).setFilterPostProcessorNode(this);
+}

@@ -1,5 +1,10 @@
 {
-  Lookup.getDefault().lookup(SceneUndoRedoManager.class).addEdit(this,new AbstractUndoableSceneEdit(){
+  SceneUndoRedoManager undoRedo=Lookup.getDefault().lookup(SceneUndoRedoManager.class);
+  if (undoRedo == null) {
+    Logger.getLogger(SceneExplorerProperty.class.getName()).log(Level.WARNING,"Cannot access SceneUndoRedoManager");
+    return;
+  }
+  undoRedo.addEdit(this,new AbstractUndoableSceneEdit(){
     @Override public void sceneUndo(){
       Logger.getLogger(SceneExplorerProperty.class.getName()).log(Level.INFO,"Do undo {0}",before);
       setSuperValue((T)before,false);

@@ -1,0 +1,13 @@
+{
+  explorerManager.setRootContext(object.getLookup().lookup(FilterPostProcessorNode.class));
+  node=object.getLookup().lookup(FilterPostProcessorNode.class);
+  setActivatedNodes(new Node[]{object.getNodeDelegate()});
+  open();
+  if (currentFile != null && added) {
+    setFilterEnabled(false);
+  }
+  currentFile=object;
+  if (added) {
+    setFilterEnabled(true);
+  }
+}

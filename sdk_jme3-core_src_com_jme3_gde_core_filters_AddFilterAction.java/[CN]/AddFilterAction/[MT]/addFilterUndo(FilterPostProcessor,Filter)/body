@@ -1,0 +1,19 @@
+{
+  if (fpp != null && filter != null) {
+    Lookup.getDefault().lookup(SceneUndoRedoManager.class).addEdit(this,new AbstractUndoableSceneEdit(){
+      @Override public void sceneUndo() throws CannotUndoException {
+        fpp.removeFilter(filter);
+      }
+      @Override public void sceneRedo() throws CannotRedoException {
+        fpp.addFilter(filter);
+      }
+      @Override public void awtRedo(){
+        filterNode.refresh();
+      }
+      @Override public void awtUndo(){
+        filterNode.refresh();
+      }
+    }
+);
+  }
+}
