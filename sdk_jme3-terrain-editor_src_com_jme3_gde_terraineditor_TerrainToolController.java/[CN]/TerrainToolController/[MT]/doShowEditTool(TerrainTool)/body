@@ -1,0 +1,9 @@
+{
+  if (terrainTool != null)   terrainTool.hideMarkers();
+  terrainTool=tool;
+  if (terrainTool != null) {
+    terrainTool.radiusChanged(toolRadius);
+    terrainTool.weightChanged(toolWeight);
+    terrainTool.activate(manager,toolsNode);
+  }
+}

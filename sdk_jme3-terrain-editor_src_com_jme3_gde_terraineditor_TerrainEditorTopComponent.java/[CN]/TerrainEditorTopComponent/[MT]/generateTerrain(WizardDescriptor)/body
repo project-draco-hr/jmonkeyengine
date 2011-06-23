@@ -13,7 +13,7 @@
   String[] split2=split1[split1.length - 1].split("\\.");
   Terrain terrain=null;
   try {
-    terrain=editorController.createTerrain((Node)node,totalSize,patchSize,alphaTextureSize,heightmapData,split2[0]);
+    terrain=editorController.createTerrain((Node)node,totalSize,patchSize,alphaTextureSize,heightmapData,split2[0],selectedSpat);
   }
  catch (  IOException ex) {
     Exceptions.printStackTrace(ex);
@@ -24,5 +24,4 @@
   remainingTexturesLabel.setText("" + (editorController.MAX_TEXTURE_LAYERS - currentTextureCount));
   reinitTextureTable();
   refreshSelected();
-  createTerrainButton.setEnabled(false);
 }

@@ -1,4 +1,3 @@
 {
-  for (  Entry e : marker.getMesh().getBuffers())   ((VertexBuffer)e.getValue()).resetObject();
-  ((Sphere)marker.getMesh()).updateGeometry(8,8,size);
+  if (terrainTool != null)   terrainTool.radiusChanged(size);
 }

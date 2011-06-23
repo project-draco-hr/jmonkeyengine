@@ -1,0 +1,23 @@
+{
+  if (undoParent != null && undoSpatial != null) {
+    Lookup.getDefault().lookup(SceneUndoRedoManager.class).addEdit(this,new AbstractUndoableSceneEdit(){
+      @Override public void sceneUndo() throws CannotUndoException {
+        undoSpatial.removeFromParent();
+      }
+      @Override public void sceneRedo() throws CannotRedoException {
+        undoParent.attachChild(undoSpatial);
+      }
+      @Override public void awtRedo(){
+        if (parentNode != null) {
+          parentNode.refresh(true);
+        }
+      }
+      @Override public void awtUndo(){
+        if (parentNode != null) {
+          parentNode.refresh(true);
+        }
+      }
+    }
+);
+  }
+}

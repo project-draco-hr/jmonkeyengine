@@ -1,0 +1,13 @@
+{
+  if (markerPrimary == null) {
+    markerPrimary=new Geometry("edit marker primary");
+    Mesh m=new Sphere(8,8,radius);
+    markerPrimary.setMesh(m);
+    Material mat=new Material(manager,"Common/MatDefs/Misc/Unshaded.j3md");
+    mat.getAdditionalRenderState().setWireframe(true);
+    markerPrimary.setMaterial(mat);
+    markerPrimary.setLocalTranslation(0,0,0);
+    mat.setColor("Color",ColorRGBA.LightGray);
+  }
+  parent.attachChild(markerPrimary);
+}

@@ -15,6 +15,7 @@
   request.setDataObject(file);
   request.setHelpCtx(ctx);
   addSaveNode(jmeNode);
+  SceneUndoRedoManager m=Lookup.getDefault().lookup(SceneUndoRedoManager.class);
   Logger.getLogger(TerrainEditorTopComponent.class.getName()).finer("Terrain openScene " + file.getName());
   if (editorController != null) {
     editorController.cleanup();

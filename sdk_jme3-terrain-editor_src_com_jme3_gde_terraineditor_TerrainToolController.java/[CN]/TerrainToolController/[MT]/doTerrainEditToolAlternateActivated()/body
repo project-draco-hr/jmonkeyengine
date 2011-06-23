@@ -1,10 +1,8 @@
 {
-  Logger.getLogger(this.getClass().getName()).info("Alternate tool activated ");
-  if (TerrainEditButton.levelTerrain == getCurrentEditButtonState()) {
+  if (terrainTool != null) {
     Vector3f point=cameraController.getTerrainCollisionPoint();
     if (point != null) {
-      editorController.doSetLevelTerrainDesiredHeight(point);
-      markerSmall.setLocalTranslation(point);
+      terrainTool.actionSecondary(point,selectedTextureIndex,jmeRootNode,editorController.getCurrentDataObject());
     }
   }
 }

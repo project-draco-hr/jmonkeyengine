@@ -1,10 +1,11 @@
 {
   if (smoothTerrainButton.isSelected()) {
-    toolController.setTerrainEditButtonState(TerrainEditButton.smoothTerrain);
-    setHintText(TerrainEditButton.smoothTerrain);
+    SmoothTerrainTool tool=new SmoothTerrainTool();
+    toolController.setTerrainEditButtonState(tool);
+    setHintText(tool);
   }
  else {
-    toolController.setTerrainEditButtonState(TerrainEditButton.none);
-    setHintText(TerrainEditButton.none);
+    toolController.setTerrainEditButtonState(null);
+    setHintText((TerrainTool)null);
   }
 }

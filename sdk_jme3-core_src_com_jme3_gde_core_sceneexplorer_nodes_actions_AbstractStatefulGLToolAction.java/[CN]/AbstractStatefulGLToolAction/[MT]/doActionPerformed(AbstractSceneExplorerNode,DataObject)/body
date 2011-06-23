@@ -1,0 +1,20 @@
+{
+  final Object object=doApplyTool(rootNode);
+  if (object != null) {
+    Lookup lookup=Lookup.getDefault();
+    SceneUndoRedoManager manager=lookup.lookup(SceneUndoRedoManager.class);
+    AbstractUndoableSceneEdit undoer=new AbstractUndoableSceneEdit(){
+      @Override public void sceneUndo() throws CannotUndoException {
+        doUndoTool(rootNode,object);
+        setModified(rootNode,dataObject);
+      }
+      @Override public void sceneRedo() throws CannotRedoException {
+        doApplyTool(rootNode);
+        setModified(rootNode,dataObject);
+      }
+    }
+;
+    manager.addEdit(this,undoer);
+    setModified(rootNode,dataObject);
+  }
+}
