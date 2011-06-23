@@ -122,8 +122,8 @@ LOGGER.log(Level.WARNING,"Unknown object type: {0}",type);
 dataRepository.popParent();
 }
 Properties properties=this.loadProperties(objectStructure,dataRepository);
-if (properties != null && properties.getValue() != null) {
-((Node)result).setUserData("properties",properties);
+if (result instanceof Geometry && properties != null && properties.getValue() != null) {
+((Geometry)result).setUserData("properties",properties);
 }
 if (result != null) {
 dataRepository.addLoadedFeatures(objectStructure.getOldMemoryAddress(),name,objectStructure,result);
