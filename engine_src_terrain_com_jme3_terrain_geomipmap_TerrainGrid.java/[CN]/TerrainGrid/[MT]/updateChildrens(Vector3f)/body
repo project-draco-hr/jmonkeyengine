@@ -67,10 +67,11 @@ catch (    ExecutionException ex) {
   this.setLocalTranslation(cam.mult(this.getLocalScale().mult(this.quadSize)));
   this.updateModelBound();
   if (control != null) {
-    int currentCollisionGroup=control.getCollideWithGroups();
+    int collisionGroupsCollideWith=control.getCollideWithGroups();
+    int collisionGroups=control.getCollisionGroup();
     control=new RigidBodyControl(new HeightfieldCollisionShape(getHeightMap(),getLocalScale()),0);
-    control.setCcdMotionThreshold(0.5f);
-    control.setCollisionGroup(currentCollisionGroup);
+    control.setCollideWithGroups(collisionGroupsCollideWith);
+    control.setCollisionGroup(collisionGroups);
     this.addControl(control);
     space.add(this);
   }
