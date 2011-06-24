@@ -6,7 +6,7 @@
     logger.info("Display EGL Version: " + version[0] + "."+ version[1]);
   }
   this.view=view;
-  AndroidConfigChooser configChooser=new AndroidConfigChooser(configType);
+  AndroidConfigChooser configChooser=new AndroidConfigChooser(configType,eglConfigVerboseLogging);
   if (!configChooser.findConfig(egl,display)) {
     logger.severe("Unable to find suitable EGL config");
   }

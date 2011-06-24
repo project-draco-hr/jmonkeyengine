@@ -1,0 +1,9 @@
+{
+  if (audioDisabled)   return;
+  if (src.getStatus() == Status.Playing) {
+    return;
+  }
+ else   if (src.getStatus() == Status.Stopped) {
+    playSourceInstance(src);
+  }
+}

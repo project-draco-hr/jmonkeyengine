@@ -1,6 +1,7 @@
 {
   super.onCreate(savedInstanceState);
   JmeSystem.setResources(getResources());
+  JmeSystem.setActivity(this);
   requestWindowFeature(Window.FEATURE_NO_TITLE);
   getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
   AppSettings settings=new AppSettings(true);
@@ -15,6 +16,6 @@
   app.setSettings(settings);
   app.start();
   ctx=(OGLESContext)app.getContext();
-  view=ctx.createView(input,eglConfigType);
+  view=ctx.createView(input,eglConfigType,eglConfigVerboseLogging);
   setContentView(view);
 }

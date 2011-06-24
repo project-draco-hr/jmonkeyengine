@@ -1,0 +1,8 @@
+{
+  if (audioDisabled)   return;
+  if (this.listener != null) {
+    this.listener.setRenderer(null);
+  }
+  this.listener=listener;
+  this.listener.setRenderer(this);
+}

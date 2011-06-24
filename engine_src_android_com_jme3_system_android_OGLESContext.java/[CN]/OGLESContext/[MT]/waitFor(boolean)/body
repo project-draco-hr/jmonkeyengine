@@ -1,11 +1,9 @@
 {
-synchronized (createdLock) {
-    while (created.get() != createdVal) {
-      try {
-        createdLock.wait();
-      }
- catch (      InterruptedException ex) {
-      }
+  while (created.get() != createdVal) {
+    try {
+      Thread.sleep(10);
+    }
+ catch (    InterruptedException ex) {
     }
   }
 }
