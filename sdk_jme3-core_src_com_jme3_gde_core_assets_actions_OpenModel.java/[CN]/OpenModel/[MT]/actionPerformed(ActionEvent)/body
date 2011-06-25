@@ -8,8 +8,8 @@
       ProgressHandle progressHandle=ProgressHandleFactory.createHandle("Opening Model");
       progressHandle.start();
       try {
-        ((DesktopAssetManager)manager.getManager()).clearCache();
-        final Spatial asset=(Spatial)context.loadAsset();
+        manager.clearCache();
+        final Spatial asset=context.loadAsset();
         if (asset != null) {
           Node node=null;
           if (asset instanceof Node) {
