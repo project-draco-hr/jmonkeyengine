@@ -1,10 +1,32 @@
 {
   InputCapsule ic=im.getCapsule(this);
-  String defName=ic.readString("material_def",null);
-  def=(MaterialDef)im.getAssetManager().loadAsset(new AssetKey(defName));
   additionalState=(RenderState)ic.readSavable("render_state",null);
   transparent=ic.readBoolean("is_transparent",false);
+  String defName=ic.readString("material_def",null);
   HashMap<String,MatParam> params=(HashMap<String,MatParam>)ic.readStringSavableMap("parameters",null);
+  boolean enableVcolor=false;
+  boolean separateTexCoord=false;
+  if (im.getFormatVersion() == 0) {
+    if (defName.equalsIgnoreCase("Common/MatDefs/Misc/VertexColor.j3md")) {
+      enableVcolor=true;
+      defName="Common/MatDefs/Misc/Unshaded.j3md";
+    }
+ else     if (defName.equalsIgnoreCase("Common/MatDefs/Misc/SimpleTextured.j3md") || defName.equalsIgnoreCase("Common/MatDefs/Misc/SolidColor.j3md")) {
+      defName="Common/MatDefs/Misc/Unshaded.j3md";
+    }
+ else     if (defName.equalsIgnoreCase("Common/MatDefs/Misc/WireColor.j3md")) {
+      additionalState.setWireframe(true);
+      defName="Common/MatDefs/Misc/Unshaded.j3md";
+    }
+ else     if (defName.equalsIgnoreCase("Common/MatDefs/Misc/Unshaded.j3md")) {
+      MatParam value=params.get("SeperateTexCoord");
+      if (value != null && ((Boolean)value.getValue()) == true) {
+        params.remove("SeperateTexCoord");
+        separateTexCoord=true;
+      }
+    }
+  }
+  def=(MaterialDef)im.getAssetManager().loadAsset(new AssetKey(defName));
   paramValues=new ListMap<String,MatParam>();
   for (  Map.Entry<String,MatParam> entry : params.entrySet()) {
     MatParam param=entry.getValue();
@@ -19,5 +41,11 @@
     }
     param.setName(checkSetParam(param.getVarType(),param.getName()));
     paramValues.put(param.getName(),param);
+  }
+  if (enableVcolor) {
+    setBoolean("VertexColor",true);
+  }
+  if (separateTexCoord) {
+    setBoolean("SeparateTexCoord",true);
   }
 }

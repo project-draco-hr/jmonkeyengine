@@ -1,8 +1,6 @@
 {
   IntBuffer buf=ByteBuffer.allocateDirect(4 * size).order(ByteOrder.nativeOrder()).asIntBuffer();
   buf.clear();
-  if (trackDirectMemory) {
-    trackingHash.put(buf,ref);
-  }
+  onBufferAllocated(buf);
   return buf;
 }

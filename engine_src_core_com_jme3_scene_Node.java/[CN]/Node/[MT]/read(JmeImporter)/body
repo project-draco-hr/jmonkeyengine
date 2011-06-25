@@ -1,5 +1,4 @@
 {
-  super.read(e);
   children=e.getCapsule(this).readSavableArrayList("children",null);
   if (children != null) {
     for (int x=0, cSize=children.size(); x < cSize; x++) {
@@ -7,4 +6,5 @@
       child.parent=this;
     }
   }
+  super.read(e);
 }
