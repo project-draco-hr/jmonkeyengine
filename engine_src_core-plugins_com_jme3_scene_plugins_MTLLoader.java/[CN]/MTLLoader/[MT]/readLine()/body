@@ -21,6 +21,9 @@
   }
  else   if (cmd.equals("ns")) {
     shininess=scan.nextFloat();
+    if (specular.equals(ColorRGBA.Black)) {
+      specular.set(ColorRGBA.White);
+    }
   }
  else   if (cmd.equals("d") || cmd.equals("tr")) {
     alpha=scan.nextFloat();
