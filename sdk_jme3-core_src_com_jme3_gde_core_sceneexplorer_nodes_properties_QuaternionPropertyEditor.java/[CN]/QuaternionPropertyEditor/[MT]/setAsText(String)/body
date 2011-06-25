@@ -8,7 +8,7 @@
   float[] floats=new float[3];
   for (int i=0; i < values.length; i++) {
     String string=values[i];
-    floats[i]=Float.parseFloat(string);
+    floats[i]=(float)Math.toRadians(Float.parseFloat(string));
   }
   Quaternion old=new Quaternion();
   old.set(quaternion);
