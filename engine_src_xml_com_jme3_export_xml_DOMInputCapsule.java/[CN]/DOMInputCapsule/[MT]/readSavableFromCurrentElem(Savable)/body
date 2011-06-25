@@ -17,10 +17,22 @@
       className=currentElem.getAttribute("class");
     }
     tmp=SavableClassUtil.fromName(className,null);
+    String versionsStr=currentElem.getAttribute("savable_versions");
+    if (versionsStr != null && !versionsStr.equals("")) {
+      String[] versionStr=versionsStr.split(",");
+      classHierarchyVersions=new int[versionStr.length];
+      for (int i=0; i < classHierarchyVersions.length; i++) {
+        classHierarchyVersions[i]=Integer.parseInt(versionStr[i].trim());
+      }
+    }
+ else {
+      classHierarchyVersions=null;
+    }
     String refID=currentElem.getAttribute("reference_ID");
     if (refID.length() < 1)     refID=currentElem.getAttribute("id");
     if (refID.length() > 0)     referencedSavables.put(refID,tmp);
     if (tmp != null) {
+      savable=tmp;
       tmp.read(importer);
       ret=tmp;
     }

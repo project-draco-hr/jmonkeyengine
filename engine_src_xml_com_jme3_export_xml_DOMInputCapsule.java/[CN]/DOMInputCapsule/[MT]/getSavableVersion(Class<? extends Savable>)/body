@@ -1,3 +1,8 @@
 {
-  return 0;
+  if (classHierarchyVersions != null) {
+    return SavableClassUtil.getSavedSavableVersion(savable,desiredClass,classHierarchyVersions);
+  }
+ else {
+    return 0;
+  }
 }
