@@ -29,6 +29,15 @@
   }
  else {
     el=appendElement(name);
+    int[] versions=SavableClassUtil.getSavableVersions(object.getClass());
+    StringBuilder sb=new StringBuilder();
+    for (int i=0; i < versions.length; i++) {
+      sb.append(versions[i]);
+      if (i != versions.length - 1) {
+        sb.append(", ");
+      }
+    }
+    el.setAttribute("savable_version",sb.toString());
     writtenSavables.put(object,el);
     object.write(exporter);
   }
