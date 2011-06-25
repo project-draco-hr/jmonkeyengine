@@ -1,11 +1,11 @@
 {
   Texture result=(Texture)dataRepository.getLoadedFeature(image.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
   if (result == null) {
+    String texturePath=image.getFieldValue("name").toString();
     Pointer pPackedFile=(Pointer)image.getFieldValue("packedfile");
     if (pPackedFile.isNull()) {
       LOGGER.info("Reading texture from file!");
-      String imagePath=image.getFieldValue("name").toString();
-      result=this.loadTextureFromFile(imagePath,dataRepository);
+      result=this.loadTextureFromFile(texturePath,dataRepository);
     }
  else {
       LOGGER.info("Packed texture. Reading directly from the blend file!");
@@ -20,6 +20,7 @@
       }
     }
     if (result != null) {
+      result.setName(texturePath);
       result.setWrap(Texture.WrapMode.Repeat);
       dataRepository.addLoadedFeatures(image.getOldMemoryAddress(),image.getName(),image,result);
     }
