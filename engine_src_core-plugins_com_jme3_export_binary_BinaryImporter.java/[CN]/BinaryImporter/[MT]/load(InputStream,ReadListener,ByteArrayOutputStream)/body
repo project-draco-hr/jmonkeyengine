@@ -1,17 +1,41 @@
 {
   contentTable.clear();
   BufferedInputStream bis=new BufferedInputStream(is);
-  int numClasses=ByteUtils.readInt(bis);
+  int numClasses;
+  int maybeSignature=ByteUtils.readInt(bis);
+  if (maybeSignature == FormatVersion.SIGNATURE) {
+    formatVersion=ByteUtils.readInt(bis);
+    numClasses=ByteUtils.readInt(bis);
+    if (formatVersion > FormatVersion.VERSION) {
+      throw new IOException("The binary file is of newer version than expected! " + formatVersion + " > "+ FormatVersion.VERSION);
+    }
+  }
+ else {
+    numClasses=maybeSignature;
+    formatVersion=0;
+  }
   int bytes=4;
   aliasWidth=((int)FastMath.log(numClasses,256) + 1);
   classes.clear();
   for (int i=0; i < numClasses; i++) {
     String alias=readString(bis,aliasWidth);
+    int[] classHierarchyVersions;
+    if (formatVersion >= 1) {
+      int classHierarchySize=bis.read();
+      classHierarchyVersions=new int[classHierarchySize];
+      for (int j=0; j < classHierarchySize; j++) {
+        classHierarchyVersions[j]=ByteUtils.readInt(bis);
+      }
+    }
+ else {
+      classHierarchyVersions=new int[]{0};
+    }
     int classLength=ByteUtils.readInt(bis);
     String className=readString(bis,classLength);
     BinaryClassObject bco=new BinaryClassObject();
     bco.alias=alias.getBytes();
     bco.className=className;
+    bco.classHierarchyVersions=classHierarchyVersions;
     int fields=ByteUtils.readInt(bis);
     bytes+=(8 + aliasWidth + classLength);
     bco.nameFields=new HashMap<String,BinaryClassField>(fields);
@@ -61,9 +85,9 @@
   Savable rVal=readObject(id);
   if (debug) {
     logger.info("Importer Stats: ");
-    logger.info("Tags: " + numClasses);
-    logger.info("Objects: " + numLocs);
-    logger.info("Data Size: " + dataArray.length);
+    logger.log(Level.INFO,"Tags: {0}",numClasses);
+    logger.log(Level.INFO,"Objects: {0}",numLocs);
+    logger.log(Level.INFO,"Data Size: {0}",dataArray.length);
   }
   dataArray=null;
   return rVal;

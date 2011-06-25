@@ -1,0 +1,31 @@
+{
+  mesh=new Mesh();
+  if (opType == null || opType.equals("triangle_list")) {
+    mesh.setMode(Mesh.Mode.Triangles);
+  }
+ else   if (opType.equals("triangle_strip")) {
+    mesh.setMode(Mesh.Mode.TriangleStrip);
+  }
+ else   if (opType.equals("triangle_fan")) {
+    mesh.setMode(Mesh.Mode.TriangleFan);
+  }
+  usesBigIndices=parseBool(use32bitIndices,false);
+  usesSharedVerts=parseBool(usesharedvertices,false);
+  if (usesSharedVerts) {
+    IntMap<VertexBuffer> sharedBufs=sharedMesh.getBuffers();
+    for (    Entry<VertexBuffer> entry : sharedBufs) {
+      mesh.setBuffer(entry.getValue());
+    }
+  }
+  if (meshName == null) {
+    geom=new Geometry("OgreSubmesh-" + (++meshIndex),mesh);
+  }
+ else {
+    geom=new Geometry(meshName + "-geom-" + (++meshIndex),mesh);
+  }
+  if (usesSharedVerts) {
+    geom.setUserData(UserData.JME_SHAREDMESH,sharedMesh);
+  }
+  applyMaterial(geom,matName);
+  geoms.add(geom);
+}

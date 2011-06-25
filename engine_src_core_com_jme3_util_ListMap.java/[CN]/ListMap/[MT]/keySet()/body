@@ -1,8 +1,3 @@
 {
-  HashSet<K> keys=new HashSet<K>();
-  for (int i=0; i < entries.size(); i++) {
-    ListMapEntry<K,V> entry=entries.get(i);
-    keys.add(entry.key);
-  }
-  return keys;
+  return backingMap.keySet();
 }

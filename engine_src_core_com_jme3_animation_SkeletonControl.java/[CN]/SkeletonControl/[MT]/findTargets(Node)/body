@@ -1,0 +1,31 @@
+{
+  Mesh sharedMesh=null;
+  ArrayList<Mesh> animatedMeshes=new ArrayList<Mesh>();
+  for (  Spatial child : node.getChildren()) {
+    if (!(child instanceof Geometry)) {
+      continue;
+    }
+    Geometry geom=(Geometry)child;
+    Mesh childSharedMesh=geom.getUserData(UserData.JME_SHAREDMESH);
+    if (childSharedMesh != null) {
+      if (isMeshAnimated(childSharedMesh)) {
+        if (sharedMesh == null) {
+          sharedMesh=childSharedMesh;
+        }
+ else         if (sharedMesh != childSharedMesh) {
+          throw new IllegalStateException("Two conflicting shared meshes for " + node);
+        }
+      }
+    }
+ else {
+      Mesh mesh=geom.getMesh();
+      if (isMeshAnimated(mesh)) {
+        animatedMeshes.add(mesh);
+      }
+    }
+  }
+  if (sharedMesh != null) {
+    animatedMeshes.add(sharedMesh);
+  }
+  return animatedMeshes.toArray(new Mesh[animatedMeshes.size()]);
+}

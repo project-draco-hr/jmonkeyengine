@@ -1,44 +1,24 @@
 {
-  String nodeName;
-  if (meshName == null) {
-    nodeName="OgreMesh" + (++nodeIdx);
+  Node model=new Node(meshName + "-ogremesh");
+  for (int i=0; i < geoms.size(); i++) {
+    Geometry g=geoms.get(i);
+    Mesh m=g.getMesh();
+    if (sharedMesh != null && isUsingSharedVerts(geom)) {
+      m.setBound(sharedMesh.getBound().clone());
+    }
+    model.attachChild(geoms.get(i));
   }
- else {
-    nodeName=meshName + "-ogremesh";
-  }
-  Node model=new Node(nodeName);
   if (animData != null) {
-    ArrayList<Mesh> newMeshes=new ArrayList<Mesh>(geoms.size());
+    if (sharedMesh != null) {
+      sharedMesh.generateBindPose(!HARDWARE_SKINNING);
+    }
     for (int i=0; i < geoms.size(); i++) {
       Geometry g=geoms.get(i);
       Mesh m=geoms.get(i).getMesh();
-      boolean useShared=usesSharedGeom.get(i);
+      boolean useShared=isUsingSharedVerts(g);
       if (!useShared) {
         m.generateBindPose(!HARDWARE_SKINNING);
-        newMeshes.add(m);
       }
- else {
-        VertexBuffer bindPos=sharedmesh.getBuffer(Type.BindPosePosition);
-        VertexBuffer bindNorm=sharedmesh.getBuffer(Type.BindPoseNormal);
-        VertexBuffer boneIndex=sharedmesh.getBuffer(Type.BoneIndex);
-        VertexBuffer boneWeight=sharedmesh.getBuffer(Type.BoneWeight);
-        if (bindPos != null) {
-          m.setBuffer(bindPos);
-        }
-        if (bindNorm != null) {
-          m.setBuffer(bindNorm);
-        }
-        if (boneIndex != null) {
-          m.setBuffer(boneIndex);
-        }
-        if (boneWeight != null) {
-          m.setBuffer(boneWeight);
-        }
-      }
-    }
-    Mesh[] meshes=new Mesh[newMeshes.size()];
-    for (int i=0; i < meshes.length; i++) {
-      meshes[i]=newMeshes.get(i);
     }
     HashMap<String,BoneAnimation> anims=new HashMap<String,BoneAnimation>();
     ArrayList<BoneAnimation> animList=animData.anims;
@@ -49,16 +29,8 @@
     AnimControl ctrl=new AnimControl(animData.skeleton);
     ctrl.setAnimations(anims);
     model.addControl(ctrl);
-    SkeletonControl skeletonControl=new SkeletonControl(meshes,animData.skeleton);
+    SkeletonControl skeletonControl=new SkeletonControl(animData.skeleton);
     model.addControl(skeletonControl);
-  }
-  for (int i=0; i < geoms.size(); i++) {
-    Geometry g=geoms.get(i);
-    Mesh m=g.getMesh();
-    if (sharedmesh != null && usesSharedGeom.get(i)) {
-      m.setBound(sharedmesh.getBound().clone());
-    }
-    model.attachChild(geoms.get(i));
   }
   return model;
 }

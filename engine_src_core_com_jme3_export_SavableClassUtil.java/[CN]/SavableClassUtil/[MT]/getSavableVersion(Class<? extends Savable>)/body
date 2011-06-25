@@ -1,0 +1,17 @@
+{
+  try {
+    Field field=clazz.getField("SAVABLE_VERSION");
+    return field.getInt(null);
+  }
+ catch (  IllegalAccessException ex) {
+    IOException ioEx=new IOException();
+    ioEx.initCause(ex);
+    throw ioEx;
+  }
+catch (  IllegalArgumentException ex) {
+    throw ex;
+  }
+catch (  NoSuchFieldException ex) {
+    return 0;
+  }
+}

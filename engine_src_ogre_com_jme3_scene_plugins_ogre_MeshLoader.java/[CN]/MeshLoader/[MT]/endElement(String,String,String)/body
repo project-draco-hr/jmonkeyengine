@@ -6,13 +6,14 @@
     return;
   }
   if (qName.equals("submesh")) {
-    bigindices=false;
+    usesBigIndices=false;
     geom=null;
     mesh=null;
   }
  else   if (qName.equals("submeshes")) {
-    geom=sharedgeom;
-    mesh=sharedmesh;
+    geom=null;
+    mesh=sharedMesh;
+    usesSharedVerts=false;
   }
  else   if (qName.equals("faces")) {
     if (ib != null) {

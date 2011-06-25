@@ -1,7 +1,6 @@
 {
-  for (int i=0; i < targets.length; i++) {
-    Mesh mesh=targets[i];
-    if (targets[i].getBuffer(Type.BindPosePosition) != null) {
+  for (  Mesh mesh : targets) {
+    if (isMeshAnimated(mesh)) {
       VertexBuffer bi=mesh.getBuffer(Type.BoneIndex);
       ByteBuffer bib=(ByteBuffer)bi.getData();
       if (!bib.hasArray()) {

@@ -1,0 +1,9 @@
+{
+  Class[] interfaces=clazz.getInterfaces();
+  for (  Class interfaceClass : interfaces) {
+    if (interfaceClass == Savable.class) {
+      return true;
+    }
+  }
+  return false;
+}

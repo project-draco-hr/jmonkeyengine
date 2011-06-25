@@ -1,8 +1,8 @@
 {
-  if (texCoordIdx >= 8) {
+  if (texCoordIndex >= 8) {
     return;
   }
-  Type type=TEXCOORD_TYPES[texCoordIdx];
+  Type type=TEXCOORD_TYPES[texCoordIndex];
   VertexBuffer tcvb=mesh.getBuffer(type);
   FloatBuffer buf=(FloatBuffer)tcvb.getData();
   buf.put(parseFloat(attribs.getValue("u")));
@@ -15,5 +15,5 @@
       }
     }
   }
-  texCoordIdx++;
+  texCoordIndex++;
 }

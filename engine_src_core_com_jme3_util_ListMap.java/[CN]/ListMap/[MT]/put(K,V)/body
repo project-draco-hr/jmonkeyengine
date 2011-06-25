@@ -1,13 +1,22 @@
 {
-  if (key == null)   throw new IllegalArgumentException();
-  for (int i=0; i < entries.size(); i++) {
-    ListMapEntry<K,V> entry=entries.get(i);
-    if (keyEq(entry.key,key)) {
-      V prevValue=entry.value;
-      entry.value=value;
-      return prevValue;
+  if (backingMap.containsKey(key)) {
+    int size=size();
+    for (int i=0; i < size; i++) {
+      ListMapEntry<K,V> entry=entries[i];
+      if (keyEq(entry.key,key)) {
+        entry.value=value;
+        break;
+      }
     }
   }
-  entries.add(new ListMapEntry<K,V>(key,value));
-  return null;
+ else {
+    int size=size();
+    if (size == entries.length) {
+      ListMapEntry<K,V>[] tmpEntries=entries;
+      entries=new ListMapEntry[size * 2];
+      System.arraycopy(tmpEntries,0,entries,0,size);
+    }
+    entries[size]=new ListMapEntry<K,V>(key,value);
+  }
+  return backingMap.put(key,value);
 }

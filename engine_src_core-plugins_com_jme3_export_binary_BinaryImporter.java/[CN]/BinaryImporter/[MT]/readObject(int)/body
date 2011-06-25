@@ -13,9 +13,9 @@
     }
     int dataLength=ByteUtils.convertIntFromBytes(dataArray,loc);
     loc+=4;
-    BinaryInputCapsule cap=new BinaryInputCapsule(this,bco);
+    Savable out=SavableClassUtil.fromName(bco.className,loaders);
+    BinaryInputCapsule cap=new BinaryInputCapsule(this,out,bco);
     cap.setContent(dataArray,loc,loc + dataLength);
-    Savable out=SavableClassFinder.fromName(bco.className,cap,loaders);
     capsuleTable.put(out,cap);
     contentTable.put(id,out);
     out.read(this);

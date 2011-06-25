@@ -1,15 +1,5 @@
 {
-  if (map instanceof ListMap) {
-    ListMap<K,V> listMap=(ListMap<K,V>)map;
-    ArrayList<ListMapEntry<K,V>> otherEntries=listMap.entries;
-    for (int i=0; i < otherEntries.size(); i++) {
-      ListMapEntry<K,V> entry=otherEntries.get(i);
-      put(entry.key,entry.value);
-    }
-  }
- else {
-    for (    Map.Entry<? extends K,? extends V> entry : map.entrySet()) {
-      put(entry.getKey(),entry.getValue());
-    }
+  for (  Entry<? extends K,? extends V> entry : map.entrySet()) {
+    put(entry.getKey(),entry.getValue());
   }
 }

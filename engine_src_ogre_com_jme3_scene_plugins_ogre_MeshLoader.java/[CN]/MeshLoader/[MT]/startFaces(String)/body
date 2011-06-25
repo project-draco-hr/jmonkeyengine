@@ -7,15 +7,8 @@
  else {
     throw new SAXException("Triangle strip or fan not supported!");
   }
-  int numVerts;
-  if (usesSharedGeom.size() > 0 && usesSharedGeom.get(geoms.size() - 1)) {
-    numVerts=sharedmesh.getVertexCount();
-  }
- else {
-    numVerts=mesh.getVertexCount();
-  }
   vb=new VertexBuffer(VertexBuffer.Type.Index);
-  if (!bigindices) {
+  if (!usesBigIndices) {
     sb=BufferUtils.createShortBuffer(numIndices);
     ib=null;
     vb.setupData(Usage.Static,3,Format.UnsignedShort,sb);

@@ -3,12 +3,13 @@
   InputCapsule in=im.getCapsule(this);
   skeleton=(Skeleton)in.readSavable("skeleton",null);
   animationMap=(HashMap<String,BoneAnimation>)in.readStringSavableMap("animations",null);
-  Savable[] sav=in.readSavableArray("targets",null);
-  if (sav != null) {
-    Mesh[] tg=null;
-    tg=new Mesh[sav.length];
-    System.arraycopy(sav,0,tg,0,sav.length);
-    skeletonControl=new SkeletonControl(tg,skeleton);
-    spatial.addControl(skeletonControl);
+  if (im.getFormatVersion() == 0) {
+    Savable[] sav=in.readSavableArray("targets",null);
+    if (sav != null) {
+      Mesh[] targets=new Mesh[sav.length];
+      System.arraycopy(sav,0,targets,0,sav.length);
+      skeletonControl=new SkeletonControl(targets,skeleton);
+      spatial.addControl(skeletonControl);
+    }
   }
 }
