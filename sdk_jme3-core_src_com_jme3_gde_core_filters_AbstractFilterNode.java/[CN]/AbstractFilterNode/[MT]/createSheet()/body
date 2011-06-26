@@ -1,0 +1,14 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("Filter");
+  set.setName(Node.class.getName());
+  Filter obj=filter;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,float.class,"getName","setName","Name"));
+  set.put(makeProperty(obj,boolean.class,"setEnabled","isEnabled","Enabled"));
+  sheet.put(set);
+  return sheet;
+}
