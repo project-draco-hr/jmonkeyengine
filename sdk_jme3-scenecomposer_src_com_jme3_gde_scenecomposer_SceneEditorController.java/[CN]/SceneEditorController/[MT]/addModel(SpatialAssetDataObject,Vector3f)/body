@@ -5,7 +5,7 @@
   final Node selected=selectedSpat.getLookup().lookup(Node.class);
   ProjectAssetManager manager=file.getLookup().lookup(ProjectAssetManager.class);
   if (manager != null) {
-    ((DesktopAssetManager)manager.getManager()).clearCache();
+    manager.clearCache();
   }
   if (selected != null) {
     setNeedsSave(true);
