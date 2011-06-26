@@ -1,0 +1,17 @@
+{
+  if (name.equals(propertyName)) {
+    return value;
+  }
+ else {
+    if (type == IDP_GROUP) {
+      List<Properties> props=(List<Properties>)value;
+      for (      Properties p : props) {
+        Object v=p.findValue(propertyName);
+        if (v != null) {
+          return v;
+        }
+      }
+    }
+  }
+  return null;
+}
