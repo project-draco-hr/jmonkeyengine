@@ -1,0 +1,14 @@
+{
+  for (  Light light : node.getWorldLightList()) {
+    System.out.println(light);
+    if (light instanceof DirectionalLight) {
+      return (DirectionalLight)light;
+    }
+  }
+  for (  Spatial child : node.getChildren()) {
+    if (child instanceof Node) {
+      return findLight((Node)child);
+    }
+  }
+  return null;
+}

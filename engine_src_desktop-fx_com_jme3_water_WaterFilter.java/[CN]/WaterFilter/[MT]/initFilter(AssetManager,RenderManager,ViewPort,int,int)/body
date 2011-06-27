@@ -1,4 +1,11 @@
 {
+  if (reflectionScene == null) {
+    reflectionScene=vp.getScenes().get(0);
+    DirectionalLight l=findLight((Node)reflectionScene);
+    if (l != null) {
+      lightDirection=l.getDirection();
+    }
+  }
   this.renderManager=renderManager;
   this.viewPort=vp;
   reflectionPass=new Pass();
