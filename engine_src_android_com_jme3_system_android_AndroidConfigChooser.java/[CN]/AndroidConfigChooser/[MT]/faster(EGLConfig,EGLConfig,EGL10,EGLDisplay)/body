@@ -2,12 +2,12 @@
   if (a == null)   return b;
   EGLConfig result=null;
   int[] value=new int[1];
-  egl.eglGetConfigAttrib(display,a,EGL10.EGL_RED_SIZE,value);
-  int redA=value[0];
-  egl.eglGetConfigAttrib(display,b,EGL10.EGL_RED_SIZE,value);
-  int redB=value[0];
-  if ((redA == 5) && (redB != 5))   result=a;
- else   if ((redA != 5) && (redB == 5))   result=b;
+  egl.eglGetConfigAttrib(display,a,EGL10.EGL_GREEN_SIZE,value);
+  int greenA=value[0];
+  egl.eglGetConfigAttrib(display,b,EGL10.EGL_GREEN_SIZE,value);
+  int greenB=value[0];
+  if ((greenA == 6) && (greenB != 6))   result=a;
+ else   if ((greenA != 6) && (greenB == 6))   result=b;
  else {
     egl.eglGetConfigAttrib(display,a,EGL10.EGL_DEPTH_SIZE,value);
     int depthA=value[0];

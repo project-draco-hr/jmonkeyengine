@@ -3,13 +3,10 @@
   int result=PixelFormat.RGB_565;
   egl.eglGetConfigAttrib(display,conf,EGL10.EGL_RED_SIZE,value);
   if (value[0] == 8) {
-    egl.eglGetConfigAttrib(display,conf,EGL10.EGL_ALPHA_SIZE,value);
-    if (value[0] == 8) {
-      result=PixelFormat.RGBA_8888;
-    }
- else {
-      result=PixelFormat.RGB_888;
-    }
+    result=PixelFormat.RGBA_8888;
+  }
+  if (verbose) {
+    logger.info("Using PixelFormat " + result);
   }
   return result;
 }
