@@ -1,6 +1,14 @@
 {
   try {
-    XMLReader xr=XMLReaderFactory.createXMLReader();
+    XMLReader xr;
+    if (JmeSystem.getFullName().toUpperCase().contains("ANDROID")) {
+      SAXParserFactory factory=SAXParserFactory.newInstance();
+      factory.setNamespaceAware(true);
+      xr=factory.newSAXParser().getXMLReader();
+    }
+ else {
+      xr=XMLReaderFactory.createXMLReader();
+    }
     xr.setContentHandler(this);
     xr.setErrorHandler(this);
     InputStreamReader r=new InputStreamReader(in);
@@ -14,6 +22,12 @@
     return data;
   }
  catch (  SAXException ex) {
+    IOException ioEx=new IOException("Error while parsing Ogre3D dotScene");
+    ioEx.initCause(ex);
+    fullReset();
+    throw ioEx;
+  }
+catch (  ParserConfigurationException ex) {
     IOException ioEx=new IOException("Error while parsing Ogre3D dotScene");
     ioEx.initCause(ex);
     fullReset();
