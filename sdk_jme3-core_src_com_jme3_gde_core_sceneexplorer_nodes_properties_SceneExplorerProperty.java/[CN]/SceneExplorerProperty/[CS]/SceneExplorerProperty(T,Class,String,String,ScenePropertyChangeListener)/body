@@ -16,6 +16,9 @@
  else   if (valueType == EmitterShape.class) {
     setPropertyEditorClass(EmitterShapePropertyEditor.class);
   }
+ else   if (valueType == Vector2f.class) {
+    setPropertyEditorClass(Vector2fPropertyEditor.class);
+  }
   for (  SceneExplorerPropertyEditor di : Lookup.getDefault().lookupAll(SceneExplorerPropertyEditor.class)) {
     di.setEditor(valueType,this);
   }

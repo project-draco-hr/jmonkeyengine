@@ -1,0 +1,13 @@
+{
+  for (  Field field : c.getDeclaredFields()) {
+    Filter.FilterParameter param=field.getAnnotation(Filter.FilterParameter.class);
+    if (param != null) {
+      String name=field.getName().substring(0,1).toUpperCase() + field.getName().substring(1);
+      String getter="get";
+      if (field.getType().equals(boolean.class)) {
+        getter="is";
+      }
+      set.put(makeProperty(obj,field.getType(),getter + name,"set" + name,param.name()));
+    }
+  }
+}
