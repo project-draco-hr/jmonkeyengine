@@ -4,39 +4,75 @@
   int soundId=0;
   if (src.getAudioData() instanceof AndroidAudioData) {
     audioData=(AndroidAudioData)src.getAudioData();
-    if (audioData.isUpdateNeeded() || (audioData.getSoundId() == 0)) {
-      if (audioData.getSoundId() > 0) {
-        if (src.getChannel() > 0) {
-          soundPool.stop(src.getChannel());
-          src.setChannel(-1);
+    if (audioData.getAssetKey() instanceof AudioKey) {
+      AudioKey assetKey=(AudioKey)audioData.getAssetKey();
+      if (assetKey.isStream()) {
+        MediaPlayer mp;
+        if (musicPlaying.containsKey(src)) {
+          mp=musicPlaying.get(src);
         }
-        soundPool.unload(audioData.getSoundId());
+ else {
+          mp=new MediaPlayer();
+          mp.setOnCompletionListener(this);
+          musicPlaying.put(src,mp);
+        }
+        if (!mp.isPlaying()) {
+          try {
+            AssetFileDescriptor afd=am.openFd(assetKey.getName());
+            mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+            mp.prepare();
+            mp.setLooping(src.isLooping());
+            mp.start();
+            src.setStatus(Status.Playing);
+            src.setChannel(1);
+          }
+ catch (          IllegalArgumentException e) {
+            e.printStackTrace();
+          }
+catch (          IllegalStateException e) {
+            e.printStackTrace();
+          }
+catch (          IOException e) {
+            e.printStackTrace();
+          }
+        }
       }
-      try {
-        soundId=soundPool.load(am.openFd(audioData.getAssetKey().getName()),1);
+ else {
+        if (audioData.isUpdateNeeded() || (audioData.getSoundId() <= 0)) {
+          if (audioData.getSoundId() > 0) {
+            if (src.getChannel() > 0) {
+              soundPool.stop(src.getChannel());
+              src.setChannel(-1);
+            }
+            soundPool.unload(audioData.getSoundId());
+          }
+          try {
+            soundId=soundPool.load(am.openFd(audioData.getAssetKey().getName()),1);
+          }
+ catch (          IOException e) {
+            logger.log(Level.SEVERE,"Failed to load sound " + audioData.getAssetKey().getName(),e);
+            soundId=-1;
+          }
+          audioData.setSoundId(soundId);
+        }
+        if (audioData.getSoundId() <= 0) {
+          throw new IllegalArgumentException("Failed to load: " + audioData.getAssetKey().getName());
+        }
+ else {
+          int channelIndex;
+          channelIndex=soundPool.play(audioData.getSoundId(),1f,1f,1,-1,1f);
+          if (channelIndex == 0) {
+            mapLoadingAudioNodes.put(audioData.getSoundId(),src);
+          }
+          src.setChannel(channelIndex);
+        }
+        if (src.getChannel() > 0) {
+          src.setStatus(Status.Playing);
+        }
       }
- catch (      IOException e) {
-        logger.log(Level.SEVERE,"Failed to load sound " + audioData.getAssetKey().getName(),e);
-        soundId=-1;
-      }
-      audioData.setSoundId(soundId);
     }
   }
  else {
     throw new IllegalArgumentException("AudioData is not of type AndroidAudioData for AudioNode " + src.toString());
-  }
-  if (audioData.getSoundId() <= 0) {
-    throw new IllegalArgumentException("Failed to load: " + audioData.getAssetKey().getName());
-  }
- else {
-    int channelIndex;
-    channelIndex=soundPool.play(audioData.getSoundId(),1f,1f,1,-1,1f);
-    if (channelIndex == 0) {
-      mapLoadingAudioNodes.put(audioData.getSoundId(),src);
-    }
-    src.setChannel(channelIndex);
-  }
-  if (src.getChannel() > 0) {
-    src.setStatus(Status.Playing);
   }
 }

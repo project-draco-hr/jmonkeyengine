@@ -14,4 +14,13 @@
     soundPool.release();
     soundPool=null;
   }
+  for (  AudioNode src : musicPlaying.keySet()) {
+    MediaPlayer mp=musicPlaying.get(src);
+{
+      mp.stop();
+      mp.release();
+      src.setStatus(Status.Stopped);
+    }
+  }
+  musicPlaying.clear();
 }

@@ -13,7 +13,7 @@
       egl.eglGetConfigAttrib(display,conf[i],EGL10.EGL_SURFACE_TYPE,value);
       if ((value[0] & EGL10.EGL_WINDOW_BIT) != 0) {
         egl.eglGetConfigAttrib(display,conf[i],EGL10.EGL_DEPTH_SIZE,value);
-        if (value[0] == 16) {
+        if (value[0] >= 16) {
           egl.eglGetConfigAttrib(display,conf[i],EGL10.EGL_RENDERABLE_TYPE,value);
           if ((value[0] & EGL_OPENGL_ES2_BIT) != 0) {
             clientOpenGLESVersion=2;
@@ -33,7 +33,7 @@
         }
  else {
           if (verbose) {
-            logger.info("NOT Supported EGL Configuration #" + i + " EGL_DEPTH_SIZE != 16");
+            logger.info("NOT Supported EGL Configuration #" + i + " EGL_DEPTH_SIZE < 16");
             logEGLConfig(conf[i],display,egl);
           }
         }

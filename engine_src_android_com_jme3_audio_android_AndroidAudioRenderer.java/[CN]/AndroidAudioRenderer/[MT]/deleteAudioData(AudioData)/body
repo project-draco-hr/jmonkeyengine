@@ -1,9 +1,28 @@
 {
   if (ad instanceof AndroidAudioData) {
-    if (((AndroidAudioData)ad).getSoundId() > 0) {
-      soundPool.unload(((AndroidAudioData)ad).getSoundId());
+    AndroidAudioData audioData=(AndroidAudioData)ad;
+    if (audioData.getAssetKey() instanceof AudioKey) {
+      AudioKey assetKey=(AudioKey)audioData.getAssetKey();
+      if (assetKey.isStream()) {
+        for (        AudioNode src : musicPlaying.keySet()) {
+          if (src.getAudioData() == ad) {
+            MediaPlayer mp=musicPlaying.get(src);
+            mp.stop();
+            mp.release();
+            musicPlaying.remove(src);
+            src.setStatus(Status.Stopped);
+            src.setChannel(-1);
+            break;
+          }
+        }
+      }
+ else {
+        if (audioData.getSoundId() > 0) {
+          soundPool.unload(audioData.getSoundId());
+        }
+        audioData.setSoundId(0);
+      }
     }
-    ((AndroidAudioData)ad).setSoundId(0);
   }
  else {
     throw new IllegalArgumentException("AudioData is not of type AndroidAudioData in deleteAudioData");
