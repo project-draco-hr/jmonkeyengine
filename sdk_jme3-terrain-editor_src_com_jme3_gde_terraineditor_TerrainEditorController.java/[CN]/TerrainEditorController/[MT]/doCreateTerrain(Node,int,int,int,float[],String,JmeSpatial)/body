@@ -16,6 +16,8 @@
     ImageIO.write(alphaBlend,"png",alphaImageFile);
     Texture tex=manager.loadAsset(new TextureKey(alphaBlendFileName,false));
     if (i == 0)     mat.setTexture("AlphaMap",tex);
+ else     if (i == 1)     mat.setTexture("AlphaMap_1",tex);
+ else     if (i == 2)     mat.setTexture("AlphaMap_2",tex);
   }
   Texture defaultTexture=manager.loadTexture(DEFAULT_TERRAIN_TEXTURE);
   defaultTexture.setWrap(WrapMode.Repeat);

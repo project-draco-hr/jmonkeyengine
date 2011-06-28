@@ -18,6 +18,7 @@
       alreadyChoosing=true;
       try {
         Texture selectedTex=getTextureFromModel(row);
+        if (selectedTex == null && !availableNormalTextures)         return;
         TexturePropertyEditor editor=new TexturePropertyEditor(selectedTex);
         Component view=editor.getCustomEditor();
         view.setVisible(true);

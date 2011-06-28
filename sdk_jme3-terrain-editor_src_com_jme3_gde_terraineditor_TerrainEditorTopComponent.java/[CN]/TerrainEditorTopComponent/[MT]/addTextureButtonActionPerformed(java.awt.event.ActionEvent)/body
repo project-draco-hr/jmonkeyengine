@@ -2,7 +2,5 @@
   if (editorController == null || editorController.getTerrain(null) == null)   return;
   int index=getTableModel().getRowCount();
   addNewTextureLayer(index);
-  if (currentTextureCount >= editorController.MAX_TEXTURE_LAYERS)   addTextureButton.setEnabled(false);
-  if (currentTextureCount > 0)   removeTextureButton.setEnabled(true);
-  remainingTexturesLabel.setText("" + (editorController.MAX_TEXTURE_LAYERS - currentTextureCount));
+  editorController.enableTextureButtons();
 }

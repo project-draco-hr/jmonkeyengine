@@ -1,0 +1,14 @@
+{
+  final int numAvailable=MAX_TEXTURES - doGetNumUsedTextures();
+  final boolean add=doGetNumDiffuseTextures() < MAX_DIFFUSE && numAvailable > 0;
+  final boolean remove=doGetNumDiffuseTextures() > 1;
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      topComponent.enableAddTextureButton(add);
+      topComponent.enableRemoveTextureButton(remove);
+      topComponent.updateTextureCountLabel(numAvailable);
+      topComponent.setAddNormalTextureEnabled(numAvailable > 0);
+    }
+  }
+);
+}

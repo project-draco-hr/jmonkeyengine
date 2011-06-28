@@ -1,0 +1,18 @@
+{
+  try {
+    Integer count=SceneApplication.getApplication().enqueue(new Callable<Integer>(){
+      public Integer call() throws Exception {
+        return doGetNumDiffuseTextures();
+      }
+    }
+).get();
+    return count;
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return -1;
+}
