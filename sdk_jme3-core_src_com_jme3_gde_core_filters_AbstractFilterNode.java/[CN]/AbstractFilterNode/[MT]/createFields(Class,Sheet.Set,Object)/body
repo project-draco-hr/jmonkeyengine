@@ -1,17 +1,8 @@
 {
   for (  Field field : c.getDeclaredFields()) {
-    String name=field.getName().substring(0,1).toUpperCase() + field.getName().substring(1);
-    String getter="get";
-    if (field.getType().equals(boolean.class)) {
-      getter="is";
+    PropertyDescriptor prop=PropertyUtils.getPropertyDescriptor(c,field);
+    if (prop != null) {
+      set.put(makeProperty(obj,prop.getPropertyType(),prop.getReadMethod().getName(),prop.getWriteMethod().getName(),prop.getDisplayName()));
     }
-    try {
-      Method m=c.getMethod(getter + name,null);
-      m=c.getMethod("set" + name,field.getType());
-    }
- catch (    NoSuchMethodException e) {
-      continue;
-    }
-    set.put(makeProperty(obj,field.getType(),getter + name,"set" + name,field.getName()));
   }
 }

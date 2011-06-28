@@ -1,0 +1,10 @@
+{
+  try {
+    PropertyDescriptor prop=new PropertyDescriptor(field.getName(),c);
+    prop.setDisplayName(splitCamelCase(field.getName()));
+    return prop;
+  }
+ catch (  IntrospectionException ex) {
+    return null;
+  }
+}

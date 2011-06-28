@@ -1,13 +1,13 @@
 {
   Sheet sheet=super.createSheet();
   Sheet.Set set=Sheet.createPropertiesSet();
-  set.setDisplayName("Fog");
-  set.setName(Node.class.getName());
-  FogFilter obj=(FogFilter)filter;
+  set.setDisplayName("Water");
+  set.setName("Water");
+  SSAOFilter obj=(SSAOFilter)filter;
   if (obj == null) {
     return sheet;
   }
-  createFields(FogFilter.class,set,obj);
+  createFields(SSAOFilter.class,set,obj);
   sheet.put(set);
   return sheet;
 }

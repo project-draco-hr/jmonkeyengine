@@ -7,13 +7,7 @@
   if (obj == null) {
     return sheet;
   }
-  set.put(makeProperty(obj,float.class,"getColorInfluenceLine","setColorInfluenceLine","Color Influence Line"));
-  set.put(makeProperty(obj,float.class,"getColorInfluencePaper","setColorInfluencePaper","Color Influence Paper"));
-  set.put(makeProperty(obj,float.class,"getFillValue","setFillValue","Fill Value"));
-  set.put(makeProperty(obj,ColorRGBA.class,"getPaperColor","setPaperColor","Paper Color"));
-  set.put(makeProperty(obj,ColorRGBA.class,"getLineColor","setLineColor","Line Color"));
-  set.put(makeProperty(obj,float.class,"getLineDistance","setLineDistance","Line Distance"));
-  set.put(makeProperty(obj,float.class,"getLineThickness","setLineThickness","Line Thickness"));
+  createFields(CrossHatchFilter.class,set,obj);
   sheet.put(set);
   return sheet;
 }
