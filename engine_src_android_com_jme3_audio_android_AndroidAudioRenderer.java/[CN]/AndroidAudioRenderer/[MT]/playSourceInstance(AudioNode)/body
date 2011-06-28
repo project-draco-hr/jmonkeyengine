@@ -20,20 +20,21 @@
           try {
             AssetFileDescriptor afd=am.openFd(assetKey.getName());
             mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+            mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mp.prepare();
             mp.setLooping(src.isLooping());
             mp.start();
-            src.setStatus(Status.Playing);
             src.setChannel(1);
+            src.setStatus(Status.Playing);
           }
  catch (          IllegalArgumentException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE,"Failed to play " + assetKey.getName(),e);
           }
 catch (          IllegalStateException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE,"Failed to play " + assetKey.getName(),e);
           }
 catch (          IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE,"Failed to play " + assetKey.getName(),e);
           }
         }
       }
@@ -47,16 +48,16 @@ catch (          IOException e) {
             soundPool.unload(audioData.getSoundId());
           }
           try {
-            soundId=soundPool.load(am.openFd(audioData.getAssetKey().getName()),1);
+            soundId=soundPool.load(am.openFd(assetKey.getName()),1);
           }
  catch (          IOException e) {
-            logger.log(Level.SEVERE,"Failed to load sound " + audioData.getAssetKey().getName(),e);
+            logger.log(Level.SEVERE,"Failed to load sound " + assetKey.getName(),e);
             soundId=-1;
           }
           audioData.setSoundId(soundId);
         }
         if (audioData.getSoundId() <= 0) {
-          throw new IllegalArgumentException("Failed to load: " + audioData.getAssetKey().getName());
+          throw new IllegalArgumentException("Failed to load: " + assetKey.getName());
         }
  else {
           int channelIndex;

@@ -1,8 +1,9 @@
 {
+  logger.log(Level.INFO,"updateListenerParam " + param);
   if (audioDisabled)   return;
 switch (param) {
 case Position:
-    Vector3f pos=listener.getLocation();
+    listenerPosition.set(listener.getLocation());
   break;
 case Rotation:
 Vector3f dir=listener.getDirection();

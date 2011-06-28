@@ -6,5 +6,6 @@
   evt.setCharacters(event.getCharacters());
   evt.setTime(event.getEventTime());
   processEvent(evt);
-  return true;
+  if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP) || (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN))   return false;
+ else   return true;
 }
