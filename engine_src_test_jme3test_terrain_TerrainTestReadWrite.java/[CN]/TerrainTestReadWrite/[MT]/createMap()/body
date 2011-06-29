@@ -40,15 +40,16 @@
     loadTerrain();
   }
  else {
-    terrain=new TerrainQuad("terrain",65,513,heightmap.getHeightMap());
+    TerrainQuad terrainQuad=new TerrainQuad("terrain",65,129,heightmap.getHeightMap());
     List<Camera> cameras=new ArrayList<Camera>();
     cameras.add(getCamera());
-    TerrainLodControl control=new TerrainLodControl(terrain,cameras);
-    terrain.addControl(control);
-    terrain.setMaterial(matTerrain);
-    terrain.setLocalTranslation(0,-100,0);
-    terrain.setLocalScale(2f,1f,2f);
-    rootNode.attachChild(terrain);
+    TerrainLodControl control=new TerrainLodControl(terrainQuad,cameras);
+    terrainQuad.addControl(control);
+    terrainQuad.setMaterial(matTerrain);
+    terrainQuad.setLocalTranslation(0,-100,0);
+    terrainQuad.setLocalScale(4f,0.25f,4f);
+    rootNode.attachChild(terrainQuad);
+    this.terrain=terrainQuad;
   }
   DirectionalLight light=new DirectionalLight();
   light.setDirection((new Vector3f(-0.5f,-1f,-0.5f)).normalize());

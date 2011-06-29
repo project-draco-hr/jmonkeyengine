@@ -3,24 +3,22 @@
   try {
     long start=System.currentTimeMillis();
     if (terrain != null) {
-      terrain.removeFromParent();
-      terrain.removeControl(TerrainLodControl.class);
-      terrain.detachAllChildren();
+      Node existingTerrain=(Node)terrain;
+      existingTerrain.removeFromParent();
+      existingTerrain.removeControl(TerrainLodControl.class);
+      existingTerrain.detachAllChildren();
       terrain=null;
     }
-    fis=new FileInputStream(new File("terrainsave.jme"));
+    File f=new File("terrainsave.jme");
+    fis=new FileInputStream(f);
     BinaryImporter imp=BinaryImporter.getInstance();
     imp.setAssetManager(assetManager);
     terrain=(TerrainQuad)imp.load(new BufferedInputStream(fis));
-    rootNode.attachChild(terrain);
+    rootNode.attachChild((Node)terrain);
     float duration=(System.currentTimeMillis() - start) / 1000.0f;
     System.out.println("Load took " + duration + " seconds");
-    List<Camera> cameras=new ArrayList<Camera>();
-    cameras.add(getCamera());
-    TerrainLodControl lodControl=terrain.getControl(TerrainLodControl.class);
-    if (lodControl != null) {
-      lodControl.setCameras(cameras);
-    }
+    TerrainLodControl lodControl=((Node)terrain).getControl(TerrainLodControl.class);
+    if (lodControl != null)     lodControl.setCamera(getCamera());
   }
  catch (  IOException ex) {
     Logger.getLogger(TerrainTestReadWrite.class.getName()).log(Level.SEVERE,null,ex);
