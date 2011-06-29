@@ -1,0 +1,17 @@
+{
+  text=text.replace('[',' ');
+  text=text.replace(']',' ');
+  String[] values=text.split(",");
+  if (values.length != 3) {
+    throw (new IllegalArgumentException("String not correct"));
+  }
+  float[] floats=new float[3];
+  for (int i=0; i < values.length; i++) {
+    String string=values[i];
+    floats[i]=Float.parseFloat(string);
+  }
+  Vector3f old=new Vector3f();
+  old.set(vector);
+  vector.set(floats[0],floats[1],floats[2]);
+  notifyListeners(old,vector);
+}

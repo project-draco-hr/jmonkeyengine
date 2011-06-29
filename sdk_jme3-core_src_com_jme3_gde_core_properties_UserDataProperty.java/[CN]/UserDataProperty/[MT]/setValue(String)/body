@@ -1,0 +1,39 @@
+{
+  if (spatial == null) {
+    return;
+  }
+  try {
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+switch (type) {
+case 0:
+          spatial.setUserData(name,Integer.parseInt(val));
+        break;
+case 1:
+      spatial.setUserData(name,Float.parseFloat(val));
+    break;
+case 2:
+  spatial.setUserData(name,Boolean.parseBoolean(val));
+break;
+case 3:
+spatial.setUserData(name,val);
+break;
+case 4:
+spatial.setUserData(name,Long.parseLong(val));
+break;
+default :
+throw new UnsupportedOperationException();
+}
+return null;
+}
+}
+).get();
+notifyListeners(null,val);
+}
+ catch (InterruptedException ex) {
+Exceptions.printStackTrace(ex);
+}
+catch (ExecutionException ex) {
+Exceptions.printStackTrace(ex);
+}
+}

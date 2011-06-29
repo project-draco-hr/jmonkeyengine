@@ -1,8 +1,8 @@
 {
-  if (((SceneExplorerChildren)jmeChildren).readOnly) {
+  if (((JmeSpatialChildren)jmeChildren).readOnly) {
     return new Action[]{SystemAction.get(CopyAction.class)};
   }
  else {
-    return new Action[]{new AddSpatialAction(this),new AddControlAction(this),new AddLightAction(this),Actions.alwaysEnabled(new AddUserDataAction(this),"Add User Data","",false),new UseToolAction(this),SystemAction.get(RenameAction.class),SystemAction.get(CopyAction.class),SystemAction.get(CutAction.class),SystemAction.get(PasteAction.class),SystemAction.get(DeleteAction.class)};
+    return new Action[]{new NewSpatialPopup(this),new NewControlPopup(this),new NewLightPopup(this),Actions.alwaysEnabled(new AddUserDataAction(this),"Add User Data","",false),new ToolPopup(this),SystemAction.get(RenameAction.class),SystemAction.get(CopyAction.class),SystemAction.get(CutAction.class),SystemAction.get(PasteAction.class),SystemAction.get(DeleteAction.class)};
   }
 }

@@ -1,6 +1,6 @@
 {
-  super(Children.LEAF,new ProxyLookup(dataObject.getLookup(),new SceneExplorerLookup(new InstanceContent())));
-  lookupContents=getLookup().lookup(SceneExplorerLookup.class).getInstanceContent();
+  super(Children.LEAF,new ProxyLookup(dataObject.getLookup(),new DynamicLookup(new InstanceContent())));
+  lookupContents=getLookup().lookup(DynamicLookup.class).getInstanceContent();
   this.control=control;
   this.dobject=dataObject;
   lookupContents.add(this);

@@ -1,8 +1,8 @@
 {
-  super(children,children instanceof SceneExplorerChildren ? (((SceneExplorerChildren)children).getDataObject() != null ? new ProxyLookup(((SceneExplorerChildren)children).getDataObject().getLookup(),new SceneExplorerLookup(new InstanceContent())) : new SceneExplorerLookup(new InstanceContent())) : new SceneExplorerLookup(new InstanceContent()));
+  super(children,children instanceof JmeSpatialChildren ? (((JmeSpatialChildren)children).getDataObject() != null ? new ProxyLookup(((JmeSpatialChildren)children).getDataObject().getLookup(),new DynamicLookup(new InstanceContent())) : new DynamicLookup(new InstanceContent())) : new DynamicLookup(new InstanceContent()));
   this.jmeChildren=children;
-  lookupContents=getLookup().lookup(SceneExplorerLookup.class).getInstanceContent();
-  if (children instanceof SceneExplorerChildren) {
-    this.dataObject=((SceneExplorerChildren)children).getDataObject();
+  lookupContents=getLookup().lookup(DynamicLookup.class).getInstanceContent();
+  if (children instanceof JmeSpatialChildren) {
+    this.dataObject=((JmeSpatialChildren)children).getDataObject();
   }
 }

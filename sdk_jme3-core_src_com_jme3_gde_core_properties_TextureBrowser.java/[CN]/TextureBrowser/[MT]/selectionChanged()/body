@@ -1,0 +1,25 @@
+{
+  if (textureList.getSelectedIndex() > -1) {
+    String selected=(String)textureList.getSelectedValue();
+    Texture tex=assetManager.loadTexture(selected);
+    Icon newicon=null;
+    if (selected.endsWith(".dds") || selected.endsWith(".DDS")) {
+      try {
+        File file=FileUtil.toFile(assetManager.getAssetFolder().getFileObject(selected));
+        DDSImageFile ddsImageFile=new DDSImageFile(file);
+        BufferedImage bufferedImage=ddsImageFile.getData();
+        newicon=new ImageIcon(bufferedImage);
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+ else {
+      newicon=ImageUtilities.image2Icon(ImageToAwt.convert(tex.getImage(),false,true,0));
+    }
+    imagePreviewLabel.setIcon(newicon);
+  }
+ else {
+    imagePreviewLabel.setIcon(null);
+  }
+}
