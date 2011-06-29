@@ -1,9 +1,0 @@
-{
-  if ("null".equals(material)) {
-    SceneRequest request=SceneApplication.getApplication().getCurrentSceneRequest();
-    if (request == null)     return new String[]{};
-    String[] mats=request.getManager().getSounds();
-    return mats;
-  }
-  return new String[]{"can set only once"};
-}
