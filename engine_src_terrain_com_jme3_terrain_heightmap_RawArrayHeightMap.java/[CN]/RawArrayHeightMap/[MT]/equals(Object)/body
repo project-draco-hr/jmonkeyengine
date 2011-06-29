@@ -1,0 +1,11 @@
+{
+  if (o instanceof AbstractHeightMap) {
+    RawArrayHeightMap rhm=(RawArrayHeightMap)o;
+    if ((size == rhm.size) && (heightScale == rhm.heightScale) && (filter == rhm.filter)) {
+      for (int i=0; i < heightData.length; i++)       if (heightData[i] != rhm.heightData[i])       return false;
+      return true;
+    }
+ else     return false;
+  }
+ else   return false;
+}
