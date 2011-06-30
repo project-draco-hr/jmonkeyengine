@@ -16,7 +16,7 @@
     }
  else {
       try {
-        materialList=(MaterialList)assetManager.loadAsset(folderName + meshName + ".material");
+        materialList=(MaterialList)assetManager.loadAsset(new OgreMaterialKey(folderName + meshName + ".material"));
       }
  catch (      AssetNotFoundException e) {
         logger.log(Level.WARNING,"Cannot locate {0}{1}.material for model {2}{3}.{4}",new Object[]{folderName,meshName,folderName,meshName,ext});

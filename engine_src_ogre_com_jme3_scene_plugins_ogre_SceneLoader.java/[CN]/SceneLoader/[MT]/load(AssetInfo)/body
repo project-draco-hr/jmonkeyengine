@@ -6,7 +6,7 @@
     folderName=info.getKey().getFolder();
     sceneName=sceneName.substring(0,sceneName.length() - ext.length() - 1);
     try {
-      materialList=(MaterialList)assetManager.loadAsset(new AssetKey(sceneName + ".material"));
+      materialList=(MaterialList)assetManager.loadAsset(new OgreMaterialKey(sceneName + ".material"));
     }
  catch (    AssetNotFoundException ex) {
       logger.log(Level.WARNING,"Cannot locate material file {0}",ex.getMessage());
