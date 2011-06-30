@@ -1,5 +1,8 @@
 {
   if (this.getQuad(idx) != null) {
+    if (quadControls != null) {
+      this.getQuad(idx).removeControl(RigidBodyControl.class);
+    }
     this.detachChild(this.getQuad(idx));
   }
 }

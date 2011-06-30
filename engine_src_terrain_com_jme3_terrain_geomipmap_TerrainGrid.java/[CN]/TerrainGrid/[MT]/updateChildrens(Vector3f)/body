@@ -1,4 +1,18 @@
 {
+  RigidBodyControl control=getControl(RigidBodyControl.class);
+  if (control != null) {
+    this.space=control.getPhysicsSpace();
+    space.remove(this);
+    this.removeControl(control);
+    this.quadControls=new RigidBodyControl[4];
+    for (int i=0; i < 4; i++) {
+      int collisionGroupsCollideWith=control.getCollideWithGroups();
+      int collisionGroups=control.getCollisionGroup();
+      quadControls[i]=new RigidBodyControl(new HeightfieldCollisionShape(new float[quadSize * quadSize],getLocalScale()),0);
+      quadControls[i].setCollideWithGroups(collisionGroupsCollideWith);
+      quadControls[i].setCollisionGroup(collisionGroups);
+    }
+  }
   TerrainQuad q1=cache.get(cam.add(quadIndex[5]));
   TerrainQuad q2=cache.get(cam.add(quadIndex[6]));
   TerrainQuad q3=cache.get(cam.add(quadIndex[9]));
@@ -48,31 +62,14 @@ catch (    ExecutionException ex) {
     }
   }
   executor.execute(new UpdateQuadCache(cam));
-  RigidBodyControl control=getControl(RigidBodyControl.class);
-  PhysicsSpace space=null;
-  if (control != null) {
-    space=control.getPhysicsSpace();
-    space.remove(this);
-    this.removeControl(control);
-  }
   this.removeQuad(1);
   this.removeQuad(2);
   this.removeQuad(3);
   this.removeQuad(4);
-  attachQuadAt(q1,1);
-  attachQuadAt(q2,2);
-  attachQuadAt(q3,3);
-  attachQuadAt(q4,4);
+  attachQuadAt(q1,1,cam);
+  attachQuadAt(q2,2,cam);
+  attachQuadAt(q3,3,cam);
+  attachQuadAt(q4,4,cam);
   this.currentCell=cam;
-  this.setLocalTranslation(cam.mult(this.getLocalScale().mult(this.quadSize - 1)));
   this.updateModelBound();
-  if (control != null) {
-    int collisionGroupsCollideWith=control.getCollideWithGroups();
-    int collisionGroups=control.getCollisionGroup();
-    control=new RigidBodyControl(new HeightfieldCollisionShape(getHeightMap(),getLocalScale()),0);
-    control.setCollideWithGroups(collisionGroupsCollideWith);
-    control.setCollisionGroup(collisionGroups);
-    this.addControl(control);
-    space.add(this);
-  }
 }

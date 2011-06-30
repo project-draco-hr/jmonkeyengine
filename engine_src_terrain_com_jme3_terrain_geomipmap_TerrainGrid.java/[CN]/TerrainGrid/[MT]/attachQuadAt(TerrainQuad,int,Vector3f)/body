@@ -1,0 +1,14 @@
+{
+  q.setQuadrant((short)quadrant);
+  this.attachChild(q);
+  q.setLocalTranslation(cam.mult(this.quadSize).add(quadOrigins[quadrant - 1]));
+  if (quadControls != null) {
+    quadControls[quadrant - 1].setEnabled(false);
+    quadControls[quadrant - 1].setCollisionShape(new HeightfieldCollisionShape(q.getHeightMap(),getLocalScale()));
+    q.addControl(quadControls[quadrant - 1]);
+    space.addAll(q);
+    quadControls[quadrant - 1].setEnabled(true);
+  }
+ else {
+  }
+}
