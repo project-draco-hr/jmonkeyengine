@@ -1,0 +1,42 @@
+{
+  ProjectAssetManager pm=context.getLookup().lookup(ProjectAssetManager.class);
+  if (pm == null) {
+    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,"AssetManager not found!");
+    return;
+  }
+  Element assetElement=context.getLookup().lookup(Element.class);
+  String type=assetElement.getAttribute("type");
+  try {
+    if ("model".equals(type) || "scene".equals(type)) {
+      AssetConfiguration conf=new AssetConfiguration(assetElement);
+      Spatial model=AssetPackLoader.loadAssetPackModel(pm,conf);
+      if (model != null) {
+        FileObject modelFolder=pm.getAssetFolder().getFileObject("Models");
+        if (modelFolder == null) {
+          modelFolder=pm.getAssetFolder().createFolder("Models");
+        }
+        if (modelFolder.isFolder()) {
+          AssetPackLoader.addModelFiles(pm,conf);
+          SceneComposerTopComponent.findInstance().addModel(model);
+          OutputStream out=modelFolder.createAndOpen(conf.getAssetElement().getAttribute("name") + ".j3o");
+          BinaryExporter.getInstance().save(model,out);
+          out.close();
+          modelFolder.refresh();
+        }
+ else {
+          Logger.getLogger(this.getClass().getName()).log(Level.WARNING,"Cannot copy, file 'Models' exists");
+        }
+      }
+ else {
+        Logger.getLogger(this.getClass().getName()).log(Level.WARNING,"Error loading model");
+      }
+    }
+ else {
+      AssetConfiguration conf=new AssetConfiguration(assetElement);
+      AssetPackLoader.addAllFiles(pm,conf);
+    }
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}
