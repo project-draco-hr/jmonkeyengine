@@ -1,0 +1,12 @@
+{
+  final ArrayList<String> files=scanProjectFiles(context.getConfiguration().getDocumentElement(),new ArrayList<String>());
+  new Thread(new Runnable(){
+    public void run(){
+      ProgressHandle handle=ProgressHandleFactory.createHandle("Cleanup unused assets..");
+      handle.start();
+      scanFiles(context.getAssetsFolder(),files);
+      handle.finish();
+    }
+  }
+).start();
+}

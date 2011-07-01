@@ -11,7 +11,7 @@
   Runnable run=new Runnable(){
     public void run(){
       ProgressHandle progressHandle=ProgressHandleFactory.createHandle("Converting OgreXML");
-      progressHandle.start(4);
+      progressHandle.start();
       OgreXMLConvert converter=new OgreXMLConvert();
       if (!converter.doConvert(options,progressHandle)) {
         progressHandle.finish();
@@ -35,7 +35,7 @@
       }
       FileObject file=FileUtil.toFileObject(new File(options.getDestFile()));
       try {
-        progressHandle.progress("Creating j3o file",3);
+        progressHandle.progress("Creating j3o file");
         String outputPath=file.getParent().getPath() + "/" + context.getPrimaryFile().getName()+ ".j3o";
         manager.clearCache();
         Spatial model=manager.loadModel(manager.getRelativeAssetPath(file.getPath()));

@@ -7,7 +7,7 @@
   Element assetElement=context.getLookup().lookup(Element.class);
   com.jme3.scene.Node node=new com.jme3.scene.Node("PreviewRootNode");
   Spatial model=null;
-  model=AssetPackLoader.loadAssetPackModel(assetElement,pm);
+  model=AssetPackLoader.loadAssetPackModel(pm,new AssetConfiguration(assetElement));
   node.attachChild(model);
   JmeNode jmeNode=NodeUtility.createNode(node);
   SceneApplication app=SceneApplication.getApplication();

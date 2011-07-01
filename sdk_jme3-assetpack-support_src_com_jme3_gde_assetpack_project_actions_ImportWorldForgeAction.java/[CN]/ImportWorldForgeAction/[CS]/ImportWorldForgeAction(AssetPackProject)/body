@@ -1,0 +1,7 @@
+{
+  this.project=context;
+  pm=project.getProjectAssetManager();
+  folder=pm.getAssetFolder();
+  mgr=new DesktopAssetManager(true);
+  mgr.registerLocator(folder.getPath(),"com.jme3.asset.plugins.FileLocator");
+}

@@ -5,7 +5,7 @@
   String[] cmdOptions=getCommandString(options);
   Process proc=null;
   if (!options.isBinaryFile()) {
-    handle.progress("Optimizing Mesh / Creating LOD meshes",1);
+    handle.progress("Optimizing Mesh / Creating LOD meshes");
     try {
       proc=Runtime.getRuntime().exec(cmdOptions);
       OutputReader outReader=new OutputReader(proc.getInputStream());
@@ -30,7 +30,7 @@
       return false;
     }
   }
-  handle.progress("Converting Binary Mesh",2);
+  handle.progress("Converting Binary Mesh");
   cmdOptions=getBackCommandString(options);
   try {
     proc=Runtime.getRuntime().exec(cmdOptions);

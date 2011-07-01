@@ -1,0 +1,18 @@
+{
+  jPanel1.removeAll();
+  for (Iterator<SelectionEntry> it=list.iterator(); it.hasNext(); ) {
+    final SelectionEntry selectionEntry=it.next();
+    final JComboBox box=new JComboBox();
+    for (    Element element : selectionEntry.names) {
+      box.addItem(element.getAttribute("name"));
+    }
+    box.addActionListener(new ActionListener(){
+      public void actionPerformed(      ActionEvent e){
+        selectionEntry.setSelected(box.getSelectedIndex());
+      }
+    }
+);
+    jPanel1.add(box);
+  }
+  pack();
+}

@@ -1,0 +1,46 @@
+{
+  final AtomicBoolean good=new AtomicBoolean(true);
+  mgr.clearCache();
+  mgr.setAssetEventListener(new AssetEventListener(){
+    public void assetLoaded(    AssetKey ak){
+    }
+    public void assetRequested(    AssetKey ak){
+      if (ak instanceof OgreMaterialKey) {
+        MaterialExtensionSet matExts=new MaterialExtensionSet();
+        MaterialExtension baseLightExt=new MaterialExtension("/base/normalmap/specular","Common/MatDefs/Light/Lighting.j3md");
+        baseLightExt.setTextureMapping("DiffuseMap","DiffuseMap");
+        baseLightExt.setTextureMapping("NormalHeightMap","NormalMap");
+        baseLightExt.setTextureMapping("SpecularMap","SpecularMap");
+        matExts.addMaterialExtension(baseLightExt);
+        MaterialExtension baseLightExt2=new MaterialExtension("/base/normalmap","Common/MatDefs/Light/Lighting.j3md");
+        baseLightExt2.setTextureMapping("DiffuseMap","DiffuseMap");
+        baseLightExt2.setTextureMapping("NormalHeightMap","NormalMap");
+        baseLightExt2.setTextureMapping("SpecularMap","SpecularMap");
+        matExts.addMaterialExtension(baseLightExt2);
+        MaterialExtension baseLightExt3=new MaterialExtension("/base/simple","Common/MatDefs/Light/Lighting.j3md");
+        baseLightExt3.setTextureMapping("DiffuseMap","DiffuseMap");
+        baseLightExt3.setTextureMapping("NormalHeightMap","NormalMap");
+        baseLightExt3.setTextureMapping("SpecularMap","SpecularMap");
+        matExts.addMaterialExtension(baseLightExt3);
+        ((OgreMaterialKey)ak).setMaterialExtensionSet(matExts);
+      }
+      if (!"j3md".equalsIgnoreCase(ak.getExtension()) && !"glsllib".equalsIgnoreCase(ak.getExtension()) && !"frag".equalsIgnoreCase(ak.getExtension())&& !"vert".equalsIgnoreCase(ak.getExtension())&& !"vert".equalsIgnoreCase(ak.getExtension())) {
+        assetKeys.add(ak);
+      }
+      if (ak.getName().equals("Common/Materials/RedColor.j3m")) {
+        good.set(false);
+      }
+    }
+  }
+);
+  try {
+    mgr.loadModel(key);
+  }
+ catch (  Exception e) {
+    return false;
+  }
+  if (!good.get()) {
+    return false;
+  }
+  return true;
+}

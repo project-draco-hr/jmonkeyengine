@@ -1,0 +1,10 @@
+{
+  if (!modelName.startsWith("3d_objects/")) {
+    return "";
+  }
+  int idx=modelName.indexOf("/",11);
+  if (idx == -1) {
+    return "";
+  }
+  return modelName.substring(11,idx);
+}

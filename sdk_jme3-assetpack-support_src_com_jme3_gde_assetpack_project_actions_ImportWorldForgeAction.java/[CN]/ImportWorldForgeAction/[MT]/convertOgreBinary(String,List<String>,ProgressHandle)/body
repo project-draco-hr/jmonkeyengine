@@ -1,0 +1,27 @@
+{
+  try {
+    File zipDir=new File(dir2scan);
+    String[] dirList=zipDir.list();
+    for (int i=0; i < dirList.length; i++) {
+      File f=new File(zipDir,dirList[i]);
+      if (f.isDirectory()) {
+        String filePath=f.getPath();
+        convertOgreBinary(filePath,deleteFiles,handle);
+        continue;
+      }
+      FileObject fobj=FileUtil.toFileObject(f);
+      if (fobj.getExt().equalsIgnoreCase("mesh") || fobj.getExt().equalsIgnoreCase("skeleton")) {
+        OgreXMLConvertOptions options=new OgreXMLConvertOptions(fobj.getPath());
+        options.setBinaryFile(true);
+        OgreXMLConvert conv=new OgreXMLConvert();
+        conv.doConvert(options,handle);
+        deleteFiles.add(fobj.getPath());
+      }
+    }
+  }
+ catch (  Exception e) {
+    Logger.getLogger(ConvertOgreBinaryMeshesAction.class.getName()).log(Level.SEVERE,"Error scanning directory",e);
+  }
+ finally {
+  }
+}

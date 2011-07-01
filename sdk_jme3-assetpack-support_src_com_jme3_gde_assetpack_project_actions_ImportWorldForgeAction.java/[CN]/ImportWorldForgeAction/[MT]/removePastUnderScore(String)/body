@@ -1,0 +1,13 @@
+{
+  int idx=name.lastIndexOf("/");
+  if (idx == -1) {
+    return name;
+  }
+  int idx2=name.indexOf("_",idx);
+  if (idx2 == -1) {
+    return name;
+  }
+ else {
+    return name.substring(0,idx2);
+  }
+}

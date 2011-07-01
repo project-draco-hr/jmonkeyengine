@@ -7,10 +7,18 @@
   Element assetElement=context.getLookup().lookup(Element.class);
   String type=assetElement.getAttribute("type");
   if ("model".equals(type) || "scene".equals(type)) {
-    addModelToScene(assetElement,pm);
-    AssetPackLoader.addModelFiles(assetElement,pm);
+    AssetConfiguration conf=new AssetConfiguration(assetElement);
+    Spatial model=AssetPackLoader.loadAssetPackModel(pm,conf);
+    if (model != null) {
+      SceneComposerTopComponent.findInstance().addModel(model);
+      AssetPackLoader.addModelFiles(pm,conf);
+    }
+ else {
+      Logger.getLogger(this.getClass().getName()).log(Level.WARNING,"Error loading model");
+    }
   }
  else {
-    AssetPackLoader.addAllFiles(assetElement,pm);
+    AssetConfiguration conf=new AssetConfiguration(assetElement);
+    AssetPackLoader.addAllFiles(pm,conf);
   }
 }

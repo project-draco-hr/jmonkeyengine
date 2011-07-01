@@ -1,0 +1,16 @@
+{
+  try {
+    System.out.println("MaterialScan " + file);
+    List<String> lines=file.asLines();
+    for (    String line : lines) {
+      if (line.startsWith("material") && line.contains(":")) {
+        int idx=line.indexOf(":");
+        return line.substring(9,idx).trim();
+      }
+    }
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return null;
+}

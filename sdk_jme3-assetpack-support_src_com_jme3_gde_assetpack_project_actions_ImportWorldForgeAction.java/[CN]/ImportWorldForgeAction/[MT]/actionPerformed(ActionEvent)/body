@@ -1,0 +1,96 @@
+{
+  matRefs.clear();
+  modelNames.clear();
+  new Thread(new Runnable(){
+    public void run(){
+      ProgressHandle handle=ProgressHandleFactory.createHandle("Import WorldForge Models");
+      handle.start();
+      FileObject objects=folder.getFileObject("3d_objects");
+      if (objects == null) {
+        showError("Cannot find worldforge content!\nPlease copy content of worldforge folder\ninto the assets folder of this project!");
+        handle.finish();
+        return;
+      }
+      List<String> binFiles=new ArrayList<String>();
+      convertOgreBinary(folder.getPath(),binFiles,handle);
+      deleteOgreBinary(binFiles);
+      handle.progress("Scanning folder");
+      scanFiles(folder);
+      for (Iterator<String> it=modelNames.iterator(); it.hasNext(); ) {
+        String modelName=it.next();
+        handle.progress("Scanning " + modelName);
+        Element elem=project.getConfiguration().createElement("asset");
+        elem.setAttribute("name",getFileName(modelName));
+        elem.setAttribute("type","model");
+        elem.setAttribute("format","ogrexml");
+        elem.setAttribute("categories",getCategory(modelName));
+        elem.setAttribute("tags",getTags(modelName));
+        Element description=project.getConfiguration().createElement("description");
+        elem.appendChild(description);
+        List<String> matNames=getModelMaterialNames(modelName);
+        Element variationsElement=null;
+        MaterialList keyMaterialList=new MaterialList();
+        for (        String matName : matNames) {
+          MaterialList materialList=null;
+          Element partElement=null;
+          ArrayList<String> matFiles=matRefs.get(matName);
+          if (matFiles != null) {
+            for (            String matFile : matFiles) {
+              Element variationElement=null;
+              if (variationsElement == null) {
+                variationsElement=project.getConfiguration().createElement("materialvariations");
+                elem.appendChild(variationsElement);
+              }
+              if (partElement == null) {
+                partElement=project.getConfiguration().createElement("mesh");
+                partElement.setAttribute("name",matName);
+                variationsElement.appendChild(partElement);
+              }
+              List<AssetKey<?>> list=new ArrayList<AssetKey<?>>();
+              materialList=getMaterialAssetList(matFile,list);
+              for (Iterator<AssetKey<?>> it1=list.iterator(); it1.hasNext(); ) {
+                AssetKey<? extends Object> assetKey=it1.next();
+                if (variationElement == null) {
+                  variationElement=project.getConfiguration().createElement("variation");
+                  variationElement.setAttribute("name",getFolderName(matFile));
+                  partElement.appendChild(variationElement);
+                }
+                FileDescription desc=AssetPackLoader.getFileDescription(getAbsoluteAssetPath(assetKey.getName()));
+                if (desc != null) {
+                  Element file=project.getConfiguration().createElement("file");
+                  file.setAttribute("path",assetKey.getName());
+                  file.setAttribute("type",desc.getType());
+                  variationElement.appendChild(file);
+                }
+              }
+            }
+          }
+          if (materialList != null) {
+            keyMaterialList.putAll(materialList);
+          }
+        }
+        if (keyMaterialList != null) {
+          OgreMeshKey meshKey=new OgreMeshKey(modelName,keyMaterialList);
+          List<AssetKey<?>> list=new ArrayList<AssetKey<?>>();
+          if (getModelAssetList(meshKey,list)) {
+            for (            AssetKey<?> assetKey : list) {
+              Element file=project.getConfiguration().createElement("file");
+              if (assetKey.getName().endsWith(".mesh.xml")) {
+                file.setAttribute("main","true");
+              }
+              file.setAttribute("path",assetKey.getName());
+              FileDescription descr=AssetPackLoader.getFileDescription(getAbsoluteAssetPath(assetKey.getName()));
+              file.setAttribute("type",descr.getType());
+              elem.appendChild(file);
+            }
+            project.getProjectAssets().appendChild(elem);
+            project.saveSettings();
+            project.getAssetPackFolder().refresh();
+          }
+        }
+      }
+      handle.finish();
+    }
+  }
+).start();
+}
