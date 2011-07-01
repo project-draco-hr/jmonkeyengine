@@ -4,11 +4,13 @@
   if (texturePath == null) {
     if (layer == 0)     terrain.getMaterial().clearParam("NormalMap");
  else     terrain.getMaterial().clearParam("NormalMap_" + layer);
-    return;
   }
-  Texture tex=SceneApplication.getApplication().getAssetManager().loadTexture(texturePath);
-  tex.setWrap(WrapMode.Repeat);
-  if (layer == 0)   terrain.getMaterial().setTexture("NormalMap",tex);
- else   terrain.getMaterial().setTexture("NormalMap_" + layer,tex);
+ else {
+    Texture tex=SceneApplication.getApplication().getAssetManager().loadTexture(texturePath);
+    tex.setWrap(WrapMode.Repeat);
+    if (layer == 0)     terrain.getMaterial().setTexture("NormalMap",tex);
+ else     terrain.getMaterial().setTexture("NormalMap_" + layer,tex);
+  }
+  enableTextureButtons();
   setNeedsSave(true);
 }

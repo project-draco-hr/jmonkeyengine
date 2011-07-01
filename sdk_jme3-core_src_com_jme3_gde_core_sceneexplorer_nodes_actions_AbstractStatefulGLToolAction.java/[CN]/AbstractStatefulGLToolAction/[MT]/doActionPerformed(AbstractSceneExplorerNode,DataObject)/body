@@ -14,7 +14,7 @@
       }
     }
 ;
-    manager.addEdit(this,undoer);
+    if (manager != null)     manager.addEdit(this,undoer);
     setModified(rootNode,dataObject);
   }
 }
