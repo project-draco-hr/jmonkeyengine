@@ -6,9 +6,16 @@
     texName=null;
   }
   scan.next();
-  texture=new Texture2D();
+  if (!skipIt) {
+    texture=new Texture2D();
+  }
   while (!scan.hasNext("\\}")) {
-    readTextureUnitStatement();
+    if (skipIt) {
+      readString("\n");
+    }
+ else {
+      readTextureUnitStatement();
+    }
   }
   scan.next();
 }

@@ -3,7 +3,7 @@
   for (int i=0; i < geoms.size(); i++) {
     Geometry g=geoms.get(i);
     Mesh m=g.getMesh();
-    if (sharedMesh != null && isUsingSharedVerts(geom)) {
+    if (sharedMesh != null && isUsingSharedVerts(g)) {
       m.setBound(sharedMesh.getBound().clone());
     }
     model.attachChild(geoms.get(i));

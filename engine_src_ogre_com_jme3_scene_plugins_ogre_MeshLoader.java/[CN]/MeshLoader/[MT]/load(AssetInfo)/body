@@ -22,15 +22,9 @@
         logger.log(Level.WARNING,"Cannot locate {0}{1}.material for model {2}{3}.{4}",new Object[]{folderName,meshName,folderName,meshName,ext});
       }
     }
-    XMLReader xr;
-    if (JmeSystem.getFullName().toUpperCase().contains("ANDROID")) {
-      SAXParserFactory factory=SAXParserFactory.newInstance();
-      factory.setNamespaceAware(true);
-      xr=factory.newSAXParser().getXMLReader();
-    }
- else {
-      xr=XMLReaderFactory.createXMLReader();
-    }
+    SAXParserFactory factory=SAXParserFactory.newInstance();
+    factory.setNamespaceAware(true);
+    XMLReader xr=factory.newSAXParser().getXMLReader();
     xr.setContentHandler(this);
     xr.setErrorHandler(this);
     InputStreamReader r=new InputStreamReader(info.openStream());

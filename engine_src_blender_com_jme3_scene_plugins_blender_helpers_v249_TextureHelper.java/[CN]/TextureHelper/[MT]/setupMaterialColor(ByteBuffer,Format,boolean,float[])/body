@@ -76,7 +76,7 @@ case RGB9E5:
 case RGBA16:
 case RGBA16F:
 case RGBA32F:
-LOGGER.warning("Image type not yet supported for blending: " + imageFormat);
+LOGGER.log(Level.WARNING,"Image type not yet supported for blending: {0}",imageFormat);
 break;
 default :
 throw new IllegalStateException("Unknown image format type: " + imageFormat);

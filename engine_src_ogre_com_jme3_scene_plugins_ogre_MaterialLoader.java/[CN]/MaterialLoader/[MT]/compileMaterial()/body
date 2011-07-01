@@ -22,8 +22,12 @@
     }
   }
   if (!noLight) {
-    if (shinines > 0f)     mat.setFloat("Shininess",shinines);
- else     mat.setFloat("Shininess",16f);
+    if (shinines > 0f) {
+      mat.setFloat("Shininess",shinines);
+    }
+ else {
+      mat.setFloat("Shininess",16f);
+    }
     if (vcolor)     mat.setBoolean("UseVertexColor",true);
     if (texture != null)     mat.setTexture("DiffuseMap",texture);
     mat.setBoolean("UseMaterialColors",true);
@@ -45,12 +49,22 @@
  else {
       mat.setColor("Specular",ColorRGBA.Black);
     }
+    if (emissive != null) {
+      mat.setColor("GlowColor",emissive);
+    }
   }
  else {
-    if (vcolor)     mat.setBoolean("VertexColor",true);
-    if (texture != null)     mat.setTexture("ColorMap",texture);
+    if (vcolor) {
+      mat.setBoolean("VertexColor",true);
+    }
+    if (texture != null) {
+      mat.setTexture("ColorMap",texture);
+    }
     if (diffuse != null) {
       mat.setColor("Color",diffuse);
+    }
+    if (emissive != null) {
+      mat.setColor("GlowColor",emissive);
     }
   }
   noLight=false;

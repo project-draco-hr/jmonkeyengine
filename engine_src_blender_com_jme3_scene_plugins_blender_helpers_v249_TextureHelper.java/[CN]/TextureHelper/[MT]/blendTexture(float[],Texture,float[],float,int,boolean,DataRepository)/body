@@ -5,8 +5,8 @@
   data.rewind();
   int width=texture.getImage().getWidth();
   int height=texture.getImage().getHeight();
-  ByteBuffer newData=BufferUtils.createByteBuffer(width * height * 3);
-  float[] resultPixel=new float[3];
+  ByteBuffer newData=BufferUtils.createByteBuffer(width * height * 4);
+  float[] resultPixel=new float[4];
   int dataIndex=0;
   while (data.hasRemaining()) {
     float tin=this.setupMaterialColor(data,format,neg,materialColorClone);
@@ -14,6 +14,7 @@
     newData.put(dataIndex++,(byte)(resultPixel[0] * 255.0f));
     newData.put(dataIndex++,(byte)(resultPixel[1] * 255.0f));
     newData.put(dataIndex++,(byte)(resultPixel[2] * 255.0f));
+    newData.put(dataIndex++,(byte)(1.0 * 255.0f));
   }
-  return new Texture2D(new Image(Format.RGB8,width,height,newData));
+  return new Texture2D(new Image(Format.RGBA8,width,height,newData));
 }

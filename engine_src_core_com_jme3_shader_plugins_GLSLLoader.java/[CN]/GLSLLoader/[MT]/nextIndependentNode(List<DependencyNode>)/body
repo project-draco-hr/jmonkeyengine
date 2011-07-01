@@ -1,8 +1,8 @@
 {
   Collection<DependencyNode> allNodes=dependCache.values();
-  if (allNodes == null || allNodes.size() == 0)   return null;
+  if (allNodes == null || allNodes.isEmpty())   return null;
   for (  DependencyNode node : allNodes) {
-    if (node.dependsOn.size() == 0) {
+    if (node.dependsOn.isEmpty()) {
       return node;
     }
   }

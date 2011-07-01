@@ -20,6 +20,9 @@
       ambient=readColor();
     }
   }
+ else   if (keyword.equals("emissive")) {
+    emissive=readColor();
+  }
  else   if (keyword.equals("specular")) {
     specular=new ColorRGBA();
     specular.r=scan.nextFloat();
@@ -36,7 +39,10 @@
     }
   }
  else   if (keyword.equals("texture_unit")) {
-    readTextureUnit();
+    readTextureUnit(readTexUnit);
+    if (!readTexUnit) {
+      readTexUnit=true;
+    }
   }
  else   if (keyword.equals("scene_blend")) {
     if (scan.hasNextInt()) {
