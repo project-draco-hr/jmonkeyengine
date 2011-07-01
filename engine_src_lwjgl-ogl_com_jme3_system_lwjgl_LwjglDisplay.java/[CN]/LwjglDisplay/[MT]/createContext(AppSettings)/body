@@ -38,6 +38,11 @@
     Display.setIcon(imagesToByteBuffers(settings.getIcons()));
   }
   Display.setVSyncEnabled(settings.isVSync());
+  if (created.get()) {
+    Display.releaseContext();
+    Display.makeCurrent();
+    Display.update();
+  }
   if (!created.get() || pixelFormatChanged) {
     ContextAttribs attr=createContextAttribs();
     if (attr != null) {
