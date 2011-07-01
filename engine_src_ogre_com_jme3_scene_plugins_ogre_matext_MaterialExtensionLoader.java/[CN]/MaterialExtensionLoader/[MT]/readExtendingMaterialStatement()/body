@@ -4,7 +4,8 @@
     String aliasName=scan.next();
     String texturePath=readString("\n");
     String jmeParamName=matExt.getTextureMapping(aliasName);
-    Texture tex=assetManager.loadTexture(texturePath);
+    TextureKey key=new TextureKey(texturePath,false);
+    Texture tex=assetManager.loadTexture(key);
     if (tex == null)     throw new IOException("Cannot load texture: " + texturePath);
     material.setTexture(jmeParamName,tex);
     return true;
