@@ -11,20 +11,23 @@
       AssetConfiguration conf=new AssetConfiguration(assetElement);
       Spatial model=AssetPackLoader.loadAssetPackModel(pm,conf);
       if (model != null) {
-        FileObject modelFolder=pm.getAssetFolder().getFileObject("Models");
-        if (modelFolder == null) {
-          modelFolder=pm.getAssetFolder().createFolder("Models");
-        }
-        if (modelFolder.isFolder()) {
-          AssetPackLoader.addModelFiles(pm,conf);
-          SceneComposerTopComponent.findInstance().addModel(model);
-          OutputStream out=modelFolder.createAndOpen(conf.getAssetElement().getAttribute("name") + ".j3o");
-          BinaryExporter.getInstance().save(model,out);
-          out.close();
-          modelFolder.refresh();
-        }
+        ProjectAssetManager mgr=SceneApplication.getApplication().getCurrentSceneRequest().getManager();
+        if (mgr != null) {
+          FileObject modelFolder=mgr.getAssetFolder().getFileObject("Models");
+          if (modelFolder == null) {
+            modelFolder=mgr.getAssetFolder().createFolder("Models");
+          }
+          if (modelFolder.isFolder()) {
+            AssetPackLoader.addModelFiles(pm,conf);
+            SceneComposerTopComponent.findInstance().addModel(model);
+            OutputStream out=modelFolder.createAndOpen(conf.getAssetElement().getAttribute("name") + ".j3o");
+            BinaryExporter.getInstance().save(model,out);
+            out.close();
+            modelFolder.refresh();
+          }
  else {
-          Logger.getLogger(this.getClass().getName()).log(Level.WARNING,"Cannot copy, file 'Models' exists");
+            Logger.getLogger(this.getClass().getName()).log(Level.WARNING,"Cannot copy, file 'Models' exists");
+          }
         }
       }
  else {
