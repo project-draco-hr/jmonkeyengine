@@ -29,6 +29,10 @@
             Logger.getLogger(this.getClass().getName()).log(Level.WARNING,"Cannot copy, file 'Models' exists");
           }
         }
+ else {
+          Message msg=new NotifyDescriptor.Message("Please open a model from the destination\n" + "project in the SceneExplorer\n" + "to define the project.\n"+ "(temp. workaround)",NotifyDescriptor.ERROR_MESSAGE);
+          DialogDisplayer.getDefault().notifyLater(msg);
+        }
       }
  else {
         Logger.getLogger(this.getClass().getName()).log(Level.WARNING,"Error loading model");
