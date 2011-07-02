@@ -1,7 +1,5 @@
 {
-  ProjectAssetManager currentProjectAssetManager=null;
   try {
-    currentProjectAssetManager=SceneApplication.getApplication().getCurrentSceneRequest().getManager();
     if (currentProjectAssetManager == null) {
       Logger.getLogger(AssetPackLoader.class.getName()).log(Level.SEVERE,"Could not get project asset manager!");
       return;

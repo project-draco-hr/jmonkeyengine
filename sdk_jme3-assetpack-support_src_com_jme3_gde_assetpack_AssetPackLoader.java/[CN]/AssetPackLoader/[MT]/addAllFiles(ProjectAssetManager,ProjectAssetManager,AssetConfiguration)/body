@@ -1,10 +1,8 @@
 {
   Element assetElement=config.getAssetElement();
   NodeList list=assetElement.getElementsByTagName("file");
-  ProjectAssetManager proman=null;
   try {
-    proman=SceneApplication.getApplication().getCurrentSceneRequest().getManager();
-    if (proman == null) {
+    if (dest == null) {
       Logger.getLogger(AssetPackLoader.class.getName()).log(Level.SEVERE,"Could not get project asset manager!");
       return;
     }
@@ -16,13 +14,13 @@
   for (int i=0; i < list.getLength(); i++) {
     Element fileElem=(Element)list.item(i);
     try {
-      String src=pm.getAbsoluteAssetPath(fileElem.getAttribute("path"));
+      String src=source.getAbsoluteAssetPath(fileElem.getAttribute("path"));
       if (src == null) {
         Logger.getLogger(AssetPackLoader.class.getName()).log(Level.SEVERE,"Could not find texture with manager!");
         return;
       }
       FileObject srcFile=FileUtil.toFileObject(new File(src));
-      String destName=proman.getAssetFolderName() + "/" + fileElem.getAttribute("path");
+      String destName=dest.getAssetFolderName() + "/" + fileElem.getAttribute("path");
       String destFolder=destName.replace("\\","/");
       destFolder=destFolder.substring(0,destFolder.lastIndexOf("/"));
       FileObject folder=FileUtil.createFolder(new File(destFolder));
