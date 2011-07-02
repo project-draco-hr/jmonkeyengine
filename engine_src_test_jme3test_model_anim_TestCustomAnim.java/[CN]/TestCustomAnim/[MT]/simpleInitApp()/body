@@ -33,7 +33,7 @@
   geom.setMaterial(assetManager.loadMaterial("Textures/Terrain/BrickWall/BrickWall.j3m"));
   Node model=new Node("model");
   model.attachChild(geom);
-  SkeletonControl skeletonControl=new SkeletonControl(new Mesh[]{box},skeleton);
+  SkeletonControl skeletonControl=new SkeletonControl(skeleton);
   model.addControl(skeletonControl);
   rootNode.attachChild(model);
 }
