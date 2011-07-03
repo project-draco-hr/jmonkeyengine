@@ -5,7 +5,13 @@
   set.put(new ElementNodeTextProperty(project,item,"description"));
   set.put(new ElementAttributeProperty(project,item,"categories"));
   set.put(new ElementAttributeProperty(project,item,"tags"));
-  set.put(new ElementNodeTextProperty(project,item,"license"));
+  Element elem=XmlHelper.findChildElement(item,"license");
+  if ((project.getLookup().lookup(AssetPackLibrary.class) != null) && (elem == null || elem.getTextContent().trim().length() <= 0)) {
+    set.put(new ElementNodeTextProperty(project,(Element)item.getParentNode().getParentNode(),"license"));
+  }
+ else {
+    set.put(new ElementNodeTextProperty(project,item,"license"));
+  }
   set.put(new ElementAttributeProperty(project,item,"type",ASSET_TYPES));
   sheet.put(set);
   return sheet;
