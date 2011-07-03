@@ -1,0 +1,8 @@
+{
+  spatial.updateGeometricState();
+  Spatial rootNode=spatial;
+  while (rootNode.getParent() != null) {
+    rootNode=rootNode.getParent();
+  }
+  rootNode.getWorldBound();
+}

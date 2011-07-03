@@ -15,7 +15,8 @@
     }
     inputManager.addMapping(INPUT_MAPPING_CAMERA_POS,new KeyTrigger(KeyInput.KEY_C));
     inputManager.addMapping(INPUT_MAPPING_MEMORY,new KeyTrigger(KeyInput.KEY_M));
-    inputManager.addListener(actionListener,INPUT_MAPPING_EXIT,INPUT_MAPPING_CAMERA_POS,INPUT_MAPPING_MEMORY);
+    inputManager.addMapping(INPUT_MAPPING_HIDE_STATS,new KeyTrigger(KeyInput.KEY_F5));
+    inputManager.addListener(actionListener,INPUT_MAPPING_EXIT,INPUT_MAPPING_CAMERA_POS,INPUT_MAPPING_MEMORY,INPUT_MAPPING_HIDE_STATS);
   }
   simpleInitApp();
 }

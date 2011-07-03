@@ -18,5 +18,5 @@
   orient.set(2,1,xzp.z * -look.y);
   orient.set(2,2,xzp.z * cosp);
   spatial.setLocalRotation(orient);
-  spatial.updateGeometricState();
+  fixRefreshFlags();
 }

@@ -6,8 +6,8 @@
   Quaternion rot=new Quaternion().fromRotationMatrix(orient);
   if (parent != null) {
     rot=parent.getWorldRotation().inverse().multLocal(rot);
-    rot.normalize();
+    rot.normalizeLocal();
   }
   spatial.setLocalRotation(rot);
-  spatial.updateGeometricState();
+  fixRefreshFlags();
 }

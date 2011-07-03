@@ -17,4 +17,9 @@
  else   if (name.equals(INPUT_MAPPING_MEMORY)) {
     BufferUtils.printCurrentDirectMemory(null);
   }
+ else   if (name.equals(INPUT_MAPPING_HIDE_STATS)) {
+    boolean show=showFps;
+    setDisplayFps(!show);
+    setDisplayStatView(!show);
+  }
 }
