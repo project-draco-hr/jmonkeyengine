@@ -1,0 +1,17 @@
+{
+  final Node node=NodeTransfer.node(t,action);
+  return new PasteType(){
+    @Override public Transferable paste() throws IOException {
+      FilterIndexSupport indexSupport=getLookup().lookup(FilterIndexSupport.class);
+      int nodeIndex=indexSupport.indexOf(node);
+      if (nodeIndex < index) {
+        indexSupport.move(index - 1,nodeIndex);
+      }
+ else {
+        indexSupport.move(index,nodeIndex);
+      }
+      return null;
+    }
+  }
+;
+}
