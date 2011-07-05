@@ -14,6 +14,7 @@
   if (getParent() instanceof TerrainQuad) {
     return;
   }
+  if (executor == null)   executor=createExecutorService();
   UpdateLOD updateLodThread=new UpdateLOD(locations);
   executor.execute(updateLodThread);
 }
