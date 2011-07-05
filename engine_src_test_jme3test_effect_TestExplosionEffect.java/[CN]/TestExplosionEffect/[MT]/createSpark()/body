@@ -9,8 +9,8 @@
   spark.setGravity(0,5,0);
   spark.setLowLife(1.1f);
   spark.setHighLife(1.5f);
-  spark.setInitialVelocity(new Vector3f(0,20,0));
-  spark.setVelocityVariation(1);
+  spark.getParticleInfluencer().setInitialVelocity(new Vector3f(0,20,0));
+  spark.getParticleInfluencer().setVelocityVariation(1);
   spark.setImagesX(1);
   spark.setImagesY(1);
   Material mat=new Material(assetManager,"Common/MatDefs/Misc/Particle.j3md");

@@ -5,6 +5,8 @@
   this.setQueueBucket(Bucket.Transparent);
   meshType=type;
   this.setNumParticles(numParticles);
+  shape=shape.deepClone();
+  particleInfluencer=particleInfluencer.clone();
   controls.add(control);
 switch (meshType) {
 case Point:

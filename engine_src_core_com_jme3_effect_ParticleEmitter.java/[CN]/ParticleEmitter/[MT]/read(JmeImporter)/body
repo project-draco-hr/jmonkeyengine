@@ -2,6 +2,9 @@
   super.read(im);
   InputCapsule ic=im.getCapsule(this);
   shape=(EmitterShape)ic.readSavable("shape",DEFAULT_SHAPE);
+  if (shape == DEFAULT_SHAPE) {
+    shape=shape.deepClone();
+  }
   meshType=ic.readEnum("meshType",ParticleMesh.Type.class,ParticleMesh.Type.Triangle);
   int numParticles=ic.readInt("numParticles",0);
   this.setNumParticles(numParticles);
@@ -35,6 +38,9 @@ throw new IllegalStateException("Unrecognized particle type: " + meshType);
 }
 particleMesh.initParticleData(this,particles.length);
 particleInfluencer=(ParticleInfluencer)ic.readSavable("influencer",DEFAULT_INFLUENCER);
+if (particleInfluencer == DEFAULT_INFLUENCER) {
+particleInfluencer=particleInfluencer.clone();
+}
 if (im.getFormatVersion() == 0) {
 for (int i=0; i < controls.size(); i++) {
 Object obj=controls.get(i);

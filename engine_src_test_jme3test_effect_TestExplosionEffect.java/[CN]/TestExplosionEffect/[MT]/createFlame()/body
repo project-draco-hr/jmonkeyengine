@@ -10,8 +10,8 @@
   flame.setGravity(0,-5,0);
   flame.setLowLife(.4f);
   flame.setHighLife(.5f);
-  flame.setInitialVelocity(new Vector3f(0,7,0));
-  flame.setVelocityVariation(1f);
+  flame.getParticleInfluencer().setInitialVelocity(new Vector3f(0,7,0));
+  flame.getParticleInfluencer().setVelocityVariation(1f);
   flame.setImagesX(2);
   flame.setImagesY(2);
   Material mat=new Material(assetManager,"Common/MatDefs/Misc/Particle.j3md");
