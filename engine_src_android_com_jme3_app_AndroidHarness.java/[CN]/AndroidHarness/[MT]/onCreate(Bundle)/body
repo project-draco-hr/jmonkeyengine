@@ -7,6 +7,8 @@
   setRequestedOrientation(screenOrientation);
   AppSettings settings=new AppSettings(true);
   AndroidInput input=new AndroidInput(this);
+  input.setMouseEventsInvertY(mouseEventsInvertY);
+  input.setMouseEventsEnabled(mouseEventsEnabled);
   try {
     app=null;
     view=null;

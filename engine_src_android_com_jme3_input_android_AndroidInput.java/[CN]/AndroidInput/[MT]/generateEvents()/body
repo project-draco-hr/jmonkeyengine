@@ -10,9 +10,10 @@ synchronized (eventQueue) {
       }
       if (event != null) {
         listener.onTouchEvent(event);
-        if (fireMouseEvents) {
+        if (mouseEventsEnabled) {
           newX=this.getWidth() - (int)event.getX();
-          newY=this.getHeight() - (int)event.getY();
+          if (mouseEventsInvertY)           newY=this.getHeight() - (int)event.getY();
+ else           newY=(int)event.getY();
 switch (event.getType()) {
 case DOWN:
             btn=new MouseButtonEvent(0,true,newX,newY);
