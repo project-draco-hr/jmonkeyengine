@@ -3,13 +3,13 @@
   float intX, intZ;
   float interpolation;
   low=getScaledHeightAtPoint((int)x,(int)z);
-  if (x + 1 > size) {
+  if (x + 1 >= size) {
     return low;
   }
   highX=getScaledHeightAtPoint((int)x + 1,(int)z);
   interpolation=x - (int)x;
   intX=((highX - low) * interpolation) + low;
-  if (z + 1 > size) {
+  if (z + 1 >= size) {
     return low;
   }
   highZ=getScaledHeightAtPoint((int)x,(int)z + 1);
