@@ -22,9 +22,7 @@
   matWire.getAdditionalRenderState().setWireframe(true);
   matWire.setColor("Color",ColorRGBA.Green);
   terrain=new TerrainQuad("terrain",65,513,null);
-  List<Camera> cameras=new ArrayList<Camera>();
-  cameras.add(getCamera());
-  TerrainLodControl control=new TerrainLodControl(terrain,cameras);
+  TerrainLodControl control=new TerrainLodControl(terrain,getCamera());
   terrain.addControl(control);
   terrain.setMaterial(matTerrain);
   terrain.setLocalTranslation(0,-100,0);

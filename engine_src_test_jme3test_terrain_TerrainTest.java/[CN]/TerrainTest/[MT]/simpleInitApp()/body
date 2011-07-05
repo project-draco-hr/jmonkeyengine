@@ -28,9 +28,7 @@
     e.printStackTrace();
   }
   terrain=new TerrainQuad("terrain",65,513,heightmap.getHeightMap());
-  List<Camera> cameras=new ArrayList<Camera>();
-  cameras.add(getCamera());
-  TerrainLodControl control=new TerrainLodControl(terrain,cameras);
+  TerrainLodControl control=new TerrainLodControl(terrain,getCamera());
   terrain.addControl(control);
   terrain.setMaterial(matRock);
   terrain.setLocalTranslation(0,-100,0);

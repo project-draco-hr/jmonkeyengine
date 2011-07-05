@@ -38,9 +38,7 @@
   this.terrain.setLocalScale(2f,1f,2f);
   this.terrain.initialize(Vector3f.ZERO);
   this.rootNode.attachChild(this.terrain);
-  List<Camera> cameras=new ArrayList<Camera>();
-  cameras.add(this.getCamera());
-  TerrainLodControl control=new TerrainLodControl(this.terrain,cameras);
+  TerrainLodControl control=new TerrainLodControl(this.terrain,getCamera());
   this.terrain.addControl(control);
   BulletAppState bulletAppState=new BulletAppState();
   stateManager.attach(bulletAppState);
