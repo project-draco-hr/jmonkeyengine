@@ -10,10 +10,10 @@
   tempOffset.y=offset.y;
   tempOffset.x+=origin1.x;
   tempOffset.y+=origin1.z;
-  TerrainQuad page1=new TerrainQuad(getName() + "Quad1",blockSize,split,stepScale,heightBlock1,totalSize,tempOffset,offsetAmount,lodCalculatorFactory);
-  page1.setLocalTranslation(origin1);
-  page1.quadrant=1;
-  this.attachChild(page1);
+  TerrainQuad quad1=new TerrainQuad(getName() + "Quad1",blockSize,split,stepScale,heightBlock1,totalSize,tempOffset,offsetAmount,lodCalculatorFactory);
+  quad1.setLocalTranslation(origin1);
+  quad1.quadrant=1;
+  this.attachChild(quad1);
   float[] heightBlock2=createHeightSubBlock(heightMap,0,split - 1,split);
   Vector3f origin2=new Vector3f(-quarterSize * stepScale.x,0,quarterSize * stepScale.z);
   tempOffset=new Vector2f();
@@ -21,10 +21,10 @@
   tempOffset.y=offset.y;
   tempOffset.x+=origin2.x;
   tempOffset.y+=origin2.z;
-  TerrainQuad page2=new TerrainQuad(getName() + "Quad2",blockSize,split,stepScale,heightBlock2,totalSize,tempOffset,offsetAmount,lodCalculatorFactory);
-  page2.setLocalTranslation(origin2);
-  page2.quadrant=2;
-  this.attachChild(page2);
+  TerrainQuad quad2=new TerrainQuad(getName() + "Quad2",blockSize,split,stepScale,heightBlock2,totalSize,tempOffset,offsetAmount,lodCalculatorFactory);
+  quad2.setLocalTranslation(origin2);
+  quad2.quadrant=2;
+  this.attachChild(quad2);
   float[] heightBlock3=createHeightSubBlock(heightMap,split - 1,0,split);
   Vector3f origin3=new Vector3f(quarterSize * stepScale.x,0,-quarterSize * stepScale.z);
   tempOffset=new Vector2f();
@@ -32,10 +32,10 @@
   tempOffset.y=offset.y;
   tempOffset.x+=origin3.x;
   tempOffset.y+=origin3.z;
-  TerrainQuad page3=new TerrainQuad(getName() + "Quad3",blockSize,split,stepScale,heightBlock3,totalSize,tempOffset,offsetAmount,lodCalculatorFactory);
-  page3.setLocalTranslation(origin3);
-  page3.quadrant=3;
-  this.attachChild(page3);
+  TerrainQuad quad3=new TerrainQuad(getName() + "Quad3",blockSize,split,stepScale,heightBlock3,totalSize,tempOffset,offsetAmount,lodCalculatorFactory);
+  quad3.setLocalTranslation(origin3);
+  quad3.quadrant=3;
+  this.attachChild(quad3);
   float[] heightBlock4=createHeightSubBlock(heightMap,split - 1,split - 1,split);
   Vector3f origin4=new Vector3f(quarterSize * stepScale.x,0,quarterSize * stepScale.z);
   tempOffset=new Vector2f();
@@ -43,8 +43,8 @@
   tempOffset.y=offset.y;
   tempOffset.x+=origin4.x;
   tempOffset.y+=origin4.z;
-  TerrainQuad page4=new TerrainQuad(getName() + "Quad4",blockSize,split,stepScale,heightBlock4,totalSize,tempOffset,offsetAmount,lodCalculatorFactory);
-  page4.setLocalTranslation(origin4);
-  page4.quadrant=4;
-  this.attachChild(page4);
+  TerrainQuad quad4=new TerrainQuad(getName() + "Quad4",blockSize,split,stepScale,heightBlock4,totalSize,tempOffset,offsetAmount,lodCalculatorFactory);
+  quad4.setLocalTranslation(origin4);
+  quad4.quadrant=4;
+  this.attachChild(quad4);
 }
