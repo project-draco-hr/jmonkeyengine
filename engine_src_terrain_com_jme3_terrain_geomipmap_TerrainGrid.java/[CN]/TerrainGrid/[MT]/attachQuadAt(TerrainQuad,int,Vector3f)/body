@@ -1,7 +1,9 @@
 {
+  this.removeQuad(quadrant);
   q.setQuadrant((short)quadrant);
   this.attachChild(q);
-  q.setLocalTranslation(cam.mult(this.quadSize).add(quadOrigins[quadrant - 1]));
+  Vector3f loc=cam.mult(this.quadSize - 1).subtract(quarterSize,0,quarterSize);
+  q.setLocalTranslation(loc);
   if (quadControls != null) {
     quadControls[quadrant - 1].setEnabled(false);
     quadControls[quadrant - 1].setCollisionShape(new HeightfieldCollisionShape(q.getHeightMap(),getLocalScale()));
@@ -11,4 +13,5 @@
   }
  else {
   }
+  updateModelBound();
 }

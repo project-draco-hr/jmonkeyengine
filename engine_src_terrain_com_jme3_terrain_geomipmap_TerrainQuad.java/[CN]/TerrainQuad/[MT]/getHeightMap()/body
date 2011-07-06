@@ -3,7 +3,7 @@
   int length=((size - 1) / 2) + 1;
   int area=size * size;
   hm=new float[area];
-  if (getChildren() != null) {
+  if (getChildren() != null && !getChildren().isEmpty()) {
     float[] ul=null, ur=null, bl=null, br=null;
     if (getChild(0) instanceof TerrainPatch) {
       for (      Spatial s : getChildren()) {

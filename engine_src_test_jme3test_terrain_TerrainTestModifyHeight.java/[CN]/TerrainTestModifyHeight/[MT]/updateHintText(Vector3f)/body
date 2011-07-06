@@ -1,0 +1,8 @@
+{
+  int x=(int)getCamera().getLocation().x;
+  int y=(int)getCamera().getLocation().y;
+  int z=(int)getCamera().getLocation().z;
+  String targetText="";
+  if (target != null)   targetText="  intersect: " + target.toString();
+  hintText.setText("Press left mouse button to raise terrain, press right mouse button to lower terrain.  " + x + ","+ y+ ","+ z+ targetText);
+}

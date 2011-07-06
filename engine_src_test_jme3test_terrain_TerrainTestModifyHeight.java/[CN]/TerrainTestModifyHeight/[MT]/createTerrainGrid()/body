@@ -1,0 +1,56 @@
+{
+  matTerrain=new Material(this.assetManager,"Common/MatDefs/Terrain/HeightBasedTerrain.j3md");
+  Texture grass=assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
+  grass.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("region1ColorMap",grass);
+  matTerrain.setVector3("region1",new Vector3f(88,200,this.grassScale));
+  Texture dirt=assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
+  dirt.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("region2ColorMap",dirt);
+  matTerrain.setVector3("region2",new Vector3f(0,90,this.dirtScale));
+  Texture rock=assetManager.loadTexture("Textures/Terrain/Rock2/rock.jpg");
+  rock.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("region3ColorMap",rock);
+  matTerrain.setVector3("region3",new Vector3f(198,260,this.rockScale));
+  matTerrain.setTexture("region4ColorMap",rock);
+  matTerrain.setVector3("region4",new Vector3f(198,260,this.rockScale));
+  matTerrain.setTexture("slopeColorMap",rock);
+  matTerrain.setFloat("slopeTileFactor",32);
+  matTerrain.setFloat("terrainSize",513);
+  FractalSum base=new FractalSum();
+  base.setRoughness(0.7f);
+  base.setFrequency(1.0f);
+  base.setAmplitude(1.0f);
+  base.setLacunarity(2.12f);
+  base.setOctaves(8);
+  base.setScale(0.02125f);
+  base.addModulator(new NoiseModulator(){
+    @Override public float value(    float... in){
+      return ShaderUtils.clamp(in[0] * 0.5f + 0.5f,0,1);
+    }
+  }
+);
+  FilteredBasis ground=new FilteredBasis(base);
+  PerturbFilter perturb=new PerturbFilter();
+  perturb.setMagnitude(0.119f);
+  OptimizedErode therm=new OptimizedErode();
+  therm.setRadius(5);
+  therm.setTalus(0.011f);
+  SmoothFilter smooth=new SmoothFilter();
+  smooth.setRadius(1);
+  smooth.setEffect(0.7f);
+  IterativeFilter iterate=new IterativeFilter();
+  iterate.addPreFilter(perturb);
+  iterate.addPostFilter(smooth);
+  iterate.setFilter(therm);
+  iterate.setIterations(1);
+  ground.addPreFilter(iterate);
+  this.terrain=new TerrainGrid("terrain",65,257,new FractalHeightMapGrid(ground,null,256f));
+  terrain.setMaterial(matWire);
+  terrain.setLocalTranslation(0,0,0);
+  terrain.setLocalScale(2f,1f,2f);
+  ((TerrainGrid)terrain).initialize(Vector3f.ZERO);
+  rootNode.attachChild(this.terrain);
+  TerrainLodControl control=new TerrainLodControl(this.terrain,getCamera());
+  this.terrain.addControl(control);
+}

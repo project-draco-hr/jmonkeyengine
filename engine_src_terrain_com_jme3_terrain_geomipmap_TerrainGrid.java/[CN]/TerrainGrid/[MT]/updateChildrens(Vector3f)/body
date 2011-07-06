@@ -13,10 +13,6 @@
       quadControls[i].setCollisionGroup(collisionGroups);
     }
   }
-  TerrainQuad q1=cache.get(cam.add(quadIndex[5]));
-  TerrainQuad q2=cache.get(cam.add(quadIndex[6]));
-  TerrainQuad q3=cache.get(cam.add(quadIndex[9]));
-  TerrainQuad q4=cache.get(cam.add(quadIndex[10]));
   int dx=0;
   int dy=0;
   if (currentCell != null) {
@@ -44,33 +40,7 @@
       cache.get(cam.add(quadIndex[i * 4 + j]));
     }
   }
-  if (q1 == null || q2 == null || q3 == null || q4 == null) {
-    try {
-      if (executor == null)       executor=createExecutorService();
-      executor.submit(new UpdateQuadCache(cam,true)).get();
-      q1=cache.get(cam.add(quadIndex[5]));
-      q2=cache.get(cam.add(quadIndex[6]));
-      q3=cache.get(cam.add(quadIndex[9]));
-      q4=cache.get(cam.add(quadIndex[10]));
-    }
- catch (    InterruptedException ex) {
-      Logger.getLogger(TerrainGrid.class.getName()).log(Level.SEVERE,null,ex);
-      return;
-    }
-catch (    ExecutionException ex) {
-      Logger.getLogger(TerrainGrid.class.getName()).log(Level.SEVERE,null,ex);
-      return;
-    }
-  }
-  executor.execute(new UpdateQuadCache(cam));
-  this.removeQuad(1);
-  this.removeQuad(2);
-  this.removeQuad(3);
-  this.removeQuad(4);
-  attachQuadAt(q1,1,cam);
-  attachQuadAt(q2,2,cam);
-  attachQuadAt(q3,3,cam);
-  attachQuadAt(q4,4,cam);
+  if (executor == null)   executor=createExecutorService();
+  executor.submit(new UpdateQuadCache(cam));
   this.currentCell=cam;
-  this.updateModelBound();
 }

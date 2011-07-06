@@ -1,16 +1,30 @@
 {
-  for (int i=centerOnly ? 1 : 0; i < (centerOnly ? 3 : 4); i++) {
-    for (int j=centerOnly ? 1 : 0; j < (centerOnly ? 3 : 4); j++) {
-      Vector3f temp=location.add(quadIndex[i * 4 + j]);
-      if (cache.get(temp) == null) {
+  for (int i=0; i < 4; i++) {
+    for (int j=0; j < 4; j++) {
+      int quadIdx=i * 4 + j;
+      final Vector3f temp=location.add(quadIndex[quadIdx]);
+      TerrainQuad q=cache.get(temp);
+      if (q == null) {
         HeightMap heightMapAt=heightMapGrid.getHeightMapAt(temp);
-        TerrainQuad q=new TerrainQuad(getName() + "Quad" + temp,patchSize,quadSize,heightMapAt == null ? null : heightMapAt.getHeightMap(),lodCalculatorFactory);
+        q=new TerrainQuad(getName() + "Quad" + temp,patchSize,quadSize,totalSize,heightMapAt == null ? null : heightMapAt.getHeightMap(),lodCalculatorFactory);
         Material mat=material.clone();
         for (        TerrainGridListener l : listeners.values()) {
           mat=l.tileLoaded(mat,temp);
         }
         q.setMaterial(mat);
-        cache.put(temp,q);
+        log.log(Level.FINE,"Loaded TerrainQuad {0}",q.getName());
+      }
+      cache.put(temp,q);
+      if (isCenter(quadIdx)) {
+        final int quadrant=getQuadrant(quadIdx);
+        final TerrainQuad newQuad=q;
+        getControl(UpdateControl.class).enqueue(new Callable(){
+          public Object call() throws Exception {
+            attachQuadAt(newQuad,quadrant,temp);
+            return null;
+          }
+        }
+);
       }
     }
   }

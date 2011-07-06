@@ -1,0 +1,25 @@
+{
+  matTerrain=new Material(assetManager,"Common/MatDefs/Terrain/TerrainLighting.j3md");
+  matTerrain.setBoolean("useTriPlanarMapping",false);
+  matTerrain.setBoolean("WardIso",true);
+  matTerrain.setTexture("AlphaMap",assetManager.loadTexture("Textures/Terrain/splat/alphamap.png"));
+  Texture grass=assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
+  grass.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("DiffuseMap",grass);
+  matTerrain.setFloat("DiffuseMap_0_scale",grassScale);
+  Texture dirt=assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
+  dirt.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("DiffuseMap_1",dirt);
+  matTerrain.setFloat("DiffuseMap_1_scale",dirtScale);
+  Texture rock=assetManager.loadTexture("Textures/Terrain/splat/road.jpg");
+  rock.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("DiffuseMap_2",rock);
+  matTerrain.setFloat("DiffuseMap_2_scale",rockScale);
+  terrain=new TerrainQuad("terrain",65,513,null);
+  TerrainLodControl control=new TerrainLodControl(terrain,getCamera());
+  terrain.addControl(control);
+  terrain.setMaterial(matTerrain);
+  terrain.setLocalTranslation(0,-100,0);
+  terrain.setLocalScale(2f,1f,2f);
+  rootNode.attachChild(terrain);
+}

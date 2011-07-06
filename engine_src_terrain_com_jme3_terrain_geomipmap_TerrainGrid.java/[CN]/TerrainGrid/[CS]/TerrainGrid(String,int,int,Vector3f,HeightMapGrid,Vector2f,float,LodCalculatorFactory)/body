@@ -1,0 +1,19 @@
+{
+  this.name=name;
+  this.patchSize=patchSize;
+  this.size=maxVisibleSize;
+  this.quarterSize=maxVisibleSize >> 2;
+  this.quadSize=(maxVisibleSize + 1) >> 1;
+  this.stepScale=scale;
+  this.heightMapGrid=heightMapGrid;
+  heightMapGrid.setSize(this.quadSize);
+  this.totalSize=maxVisibleSize;
+  this.offset=offset;
+  this.offsetAmount=offsetAmount;
+  this.lodCalculatorFactory=lodCalculatorFactory;
+  if (lodCalculatorFactory == null) {
+    lodCalculatorFactory=new LodDistanceCalculatorFactory();
+  }
+  this.quadIndex=new Vector3f[]{new Vector3f(-1,0,2),new Vector3f(0,0,2),new Vector3f(1,0,2),new Vector3f(2,0,2),new Vector3f(-1,0,1),new Vector3f(0,0,1),new Vector3f(1,0,1),new Vector3f(2,0,1),new Vector3f(-1,0,0),new Vector3f(0,0,0),new Vector3f(1,0,0),new Vector3f(2,0,0),new Vector3f(-1,0,-1),new Vector3f(0,0,-1),new Vector3f(1,0,-1),new Vector3f(-2,0,-1)};
+  addControl(new UpdateControl());
+}
