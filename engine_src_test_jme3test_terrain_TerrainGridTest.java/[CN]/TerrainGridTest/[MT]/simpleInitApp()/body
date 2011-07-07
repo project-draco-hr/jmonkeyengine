@@ -26,35 +26,45 @@
   this.mat_terrain.setVector3("region4",new Vector3f(198,260,this.rockScale));
   this.mat_terrain.setTexture("slopeColorMap",rock);
   this.mat_terrain.setFloat("slopeTileFactor",32);
-  this.mat_terrain.setFloat("terrainSize",513);
-  this.terrain=new TerrainGrid("terrain",65,1025,new ImageBasedHeightMapGrid(assetManager,new Namer(){
+  this.mat_terrain.setFloat("terrainSize",129);
+  this.terrain=new TerrainGrid("terrain",65,257,new ImageBasedHeightMapGrid(assetManager,new Namer(){
     public String getName(    int x,    int y){
-      return "Scenes/TerrainMountains/mountains_" + (x * 512) + "_"+ (y * 512)+ ".png";
+      return "Scenes/TerrainMountains/terrain_" + x + "_"+ y+ ".png";
     }
   }
 ));
   this.terrain.setMaterial(this.mat_terrain);
   this.terrain.setLocalTranslation(0,0,0);
   this.terrain.setLocalScale(2f,1f,2f);
-  this.terrain.initialize(Vector3f.ZERO);
   this.rootNode.attachChild(this.terrain);
   TerrainLodControl control=new TerrainLodControl(this.terrain,getCamera());
   this.terrain.addControl(control);
-  BulletAppState bulletAppState=new BulletAppState();
+  final BulletAppState bulletAppState=new BulletAppState();
   stateManager.attach(bulletAppState);
   this.getCamera().setLocation(new Vector3f(0,256,0));
   this.viewPort.setBackgroundColor(new ColorRGBA(0.7f,0.8f,1f,1f));
   if (usePhysics) {
-    RigidBodyControl body=new RigidBodyControl(new HeightfieldCollisionShape(terrain.getHeightMap(),terrain.getLocalScale()),0);
-    terrain.addControl(body);
-    bulletAppState.getPhysicsSpace().add(terrain);
-    CapsuleCollisionShape capsuleShape=new CapsuleCollisionShape(0.5f,1.8f,1);
-    this.player3=new CharacterControl(capsuleShape,0.5f);
-    this.player3.setJumpSpeed(20);
-    this.player3.setFallSpeed(30);
-    this.player3.setGravity(30);
-    this.player3.setPhysicsLocation(new Vector3f(0,256,0));
-    bulletAppState.getPhysicsSpace().add(this.player3);
+    terrain.addListener("physicsStartListener",new TerrainGridListener(){
+      public void gridMoved(      Vector3f newCenter){
+        terrain.removeListener("physicsStartListener");
+        RigidBodyControl body=new RigidBodyControl(new HeightfieldCollisionShape(terrain.getHeightMap(),terrain.getLocalScale()),0);
+        terrain.addControl(body);
+        bulletAppState.getPhysicsSpace().add(terrain);
+        CapsuleCollisionShape capsuleShape=new CapsuleCollisionShape(0.5f,1.8f,1);
+        player3=new CharacterControl(capsuleShape,0.5f);
+        player3.setJumpSpeed(20);
+        player3.setFallSpeed(30);
+        player3.setGravity(30);
+        player3.setPhysicsLocation(new Vector3f(cam.getLocation().x,256,cam.getLocation().z));
+        bulletAppState.getPhysicsSpace().add(player3);
+        physicsAdded=true;
+      }
+      public Material tileLoaded(      Material material,      Vector3f cell){
+        return material;
+      }
+    }
+);
   }
+  this.terrain.initialize(cam.getLocation());
   this.initKeys();
 }
