@@ -4,14 +4,8 @@
   this.attachChild(q);
   Vector3f loc=cam.mult(this.quadSize - 1).subtract(quarterSize,0,quarterSize);
   q.setLocalTranslation(loc);
-  if (quadControls != null) {
-    quadControls[quadrant - 1].setEnabled(false);
-    quadControls[quadrant - 1].setCollisionShape(new HeightfieldCollisionShape(q.getHeightMap(),getLocalScale()));
-    q.addControl(quadControls[quadrant - 1]);
-    space.addAll(q);
-    quadControls[quadrant - 1].setEnabled(true);
-  }
- else {
+  for (  TerrainGridListener l : listeners.values()) {
+    l.tileAttached(cam,q);
   }
   updateModelBound();
 }

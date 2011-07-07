@@ -14,7 +14,7 @@
   if (this.down) {
     this.walkDirection.addLocal(camDir.negate());
   }
-  if (usePhysics && physicsAdded) {
+  if (usePhysics) {
     this.player3.setWalkDirection(this.walkDirection);
     this.cam.setLocation(this.player3.getPhysicsLocation());
   }
