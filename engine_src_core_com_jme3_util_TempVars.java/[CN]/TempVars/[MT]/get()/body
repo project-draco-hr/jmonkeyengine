@@ -1,3 +1,11 @@
 {
-  return tempVars.get();
+  TempVarsStack stack=varsLocal.get();
+  TempVars instance=stack.tempVars[stack.index];
+  if (instance == null) {
+    instance=new TempVars();
+    stack.tempVars[stack.index]=instance;
+  }
+  stack.index++;
+  instance.isUsed=true;
+  return instance;
 }
