@@ -1,6 +1,6 @@
 {
-  triangleIndexBase=ByteBuffer.allocateDirect(mesh.getTriangleCount() * 3 * 4).order(ByteOrder.nativeOrder());
-  vertexBase=ByteBuffer.allocateDirect(mesh.getVertexCount() * 3 * 4).order(ByteOrder.nativeOrder());
+  triangleIndexBase=BufferUtils.createByteBuffer(mesh.getTriangleCount() * 3 * 4);
+  vertexBase=BufferUtils.createByteBuffer(mesh.getVertexCount() * 3 * 4);
   numVertices=mesh.getVertexCount();
   vertexStride=12;
   numTriangles=mesh.getTriangleCount();

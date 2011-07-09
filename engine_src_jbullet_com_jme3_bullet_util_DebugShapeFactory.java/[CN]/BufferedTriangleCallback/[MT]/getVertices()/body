@@ -1,7 +1,6 @@
 {
   final int numberOfFloats=vertices.size() * 3;
-  final int byteBufferSize=numberOfFloats * Float.SIZE;
-  FloatBuffer verticesBuffer=ByteBuffer.allocateDirect(byteBufferSize).order(ByteOrder.nativeOrder()).asFloatBuffer();
+  FloatBuffer verticesBuffer=BufferUtils.createFloatBuffer(numberOfFloats);
   verticesBuffer.limit(numberOfFloats);
   for (  Vector3f v : vertices) {
     verticesBuffer.put(v.x).put(v.y).put(v.z);
