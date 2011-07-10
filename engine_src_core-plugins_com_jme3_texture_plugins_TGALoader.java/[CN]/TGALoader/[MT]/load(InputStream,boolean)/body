@@ -39,7 +39,7 @@
       }
     }
   }
-  Format format=null;
+  Format format;
   byte[] rawData=null;
   int dl;
   if (pixelDepth == 32) {
@@ -263,6 +263,9 @@
       throw new IOException("TGA: unknown colormap indexing size used: " + bytesPerIndex);
     }
     format=dl == 4 ? Format.RGBA8 : Format.RGB8;
+  }
+ else {
+    throw new IOException("Grayscale TGA not supported");
   }
   in.close();
   ByteBuffer scratch=BufferUtils.createByteBuffer(rawData.length);
