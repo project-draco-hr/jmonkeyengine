@@ -1,5 +1,5 @@
 {
-  ByteBuffer bbuf=BufferUtils.createByteBuffer(points.length * 4);
+  ByteBuffer bbuf=ByteBuffer.allocateDirect(points.length * 4).order(ByteOrder.nativeOrder());
   for (int i=0; i < points.length; i++) {
     float f=points[i];
     bbuf.putFloat(f);

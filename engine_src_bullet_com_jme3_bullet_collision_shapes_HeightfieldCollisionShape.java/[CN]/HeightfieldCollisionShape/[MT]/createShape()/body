@@ -1,5 +1,5 @@
 {
-  bbuf=BufferUtils.createByteBuffer(heightfieldData.length * 4);
+  bbuf=ByteBuffer.allocateDirect(heightfieldData.length * 4).order(ByteOrder.nativeOrder());
   for (int i=0; i < heightfieldData.length; i++) {
     float f=heightfieldData[i];
     bbuf.putFloat(f);
