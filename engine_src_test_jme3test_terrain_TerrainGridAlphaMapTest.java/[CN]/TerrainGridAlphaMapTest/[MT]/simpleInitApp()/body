@@ -1,4 +1,11 @@
 {
+  DirectionalLight sun=new DirectionalLight();
+  sun.setColor(ColorRGBA.White);
+  sun.setDirection(new Vector3f(-1,-1,-1).normalizeLocal());
+  rootNode.addLight(sun);
+  AmbientLight al=new AmbientLight();
+  al.setColor(ColorRGBA.White.mult(1.3f));
+  rootNode.addLight(al);
   File file=new File("mountains.zip");
   if (!file.exists()) {
     assetManager.registerLocator("http://jmonkeyengine.googlecode.com/files/mountains.zip",HttpZipLocator.class);
@@ -9,20 +16,20 @@
   this.flyCam.setMoveSpeed(100f);
   ScreenshotAppState state=new ScreenshotAppState();
   this.stateManager.attach(state);
-  matRock=new Material(assetManager,"Common/MatDefs/Terrain/Terrain.j3md");
+  matRock=new Material(assetManager,"Common/MatDefs/Terrain/TerrainLighting.j3md");
   matRock.setBoolean("useTriPlanarMapping",false);
   Texture grass=assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
   grass.setWrap(WrapMode.Repeat);
-  matRock.setTexture("Tex1",grass);
-  matRock.setFloat("Tex1Scale",grassScale);
+  matRock.setTexture("DiffuseMap",grass);
+  matRock.setFloat("DiffuseMap_0_scale",grassScale);
   Texture dirt=assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
   dirt.setWrap(WrapMode.Repeat);
-  matRock.setTexture("Tex2",dirt);
-  matRock.setFloat("Tex2Scale",dirtScale);
+  matRock.setTexture("DiffuseMap_1",dirt);
+  matRock.setFloat("DiffuseMap_1_scale",dirtScale);
   Texture rock=assetManager.loadTexture("Textures/Terrain/splat/road.jpg");
   rock.setWrap(WrapMode.Repeat);
-  matRock.setTexture("Tex3",rock);
-  matRock.setFloat("Tex3Scale",rockScale);
+  matRock.setTexture("DiffuseMap_2",rock);
+  matRock.setFloat("DiffuseMap_2_scale",rockScale);
   matWire=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
   matWire.getAdditionalRenderState().setWireframe(true);
   matWire.setColor("Color",ColorRGBA.Green);
@@ -54,12 +61,7 @@
   this.iterate.setFilter(this.therm);
   this.iterate.setIterations(1);
   ground.addPreFilter(this.iterate);
-  this.terrain=new TerrainGrid("terrain",65,1025,new ImageBasedHeightMapGrid(assetManager,new Namer(){
-    public String getName(    int x,    int y){
-      return "Scenes/TerrainAlphaTest/terrain_" + x + "_"+ y+ ".png";
-    }
-  }
-));
+  this.terrain=new TerrainGrid("terrain",33,257,new FractalHeightMapGrid(ground,null,256));
   this.terrain.setMaterial(this.matRock);
   this.terrain.setLocalTranslation(0,0,0);
   this.terrain.setLocalScale(2f,1f,2f);
@@ -80,23 +82,29 @@
     player3.setGravity(10);
     player3.setPhysicsLocation(new Vector3f(cam.getLocation().x,256,cam.getLocation().z));
     bulletAppState.getPhysicsSpace().add(player3);
-    terrain.addListener("physicsStartListener",new TerrainGridListener(){
-      public void gridMoved(      Vector3f newCenter){
-      }
-      public Material tileLoaded(      Material material,      Vector3f cell){
-        return material;
-      }
-      public void tileAttached(      Vector3f cell,      TerrainQuad quad){
+  }
+  terrain.addListener("physicsStartListener",new TerrainGridListener(){
+    public void gridMoved(    Vector3f newCenter){
+    }
+    public Material tileLoaded(    Material material,    Vector3f cell){
+      return material;
+    }
+    public void tileAttached(    Vector3f cell,    TerrainQuad quad){
+      Texture alpha=assetManager.loadTexture("Scenes/TerrainAlphaTest/alphamap_" + Math.abs((int)(cell.x % 2)) * 512 + "_" + Math.abs((int)(cell.y % 2) * 512) + ".png");
+      quad.getMaterial().setTexture("AlphaMap",alpha);
+      if (usePhysics) {
         quad.addControl(new RigidBodyControl(new HeightfieldCollisionShape(quad.getHeightMap(),terrain.getLocalScale()),0));
         bulletAppState.getPhysicsSpace().add(quad);
       }
-      public void tileDetached(      Vector3f cell,      TerrainQuad quad){
+    }
+    public void tileDetached(    Vector3f cell,    TerrainQuad quad){
+      if (usePhysics) {
         bulletAppState.getPhysicsSpace().remove(quad);
         quad.removeControl(RigidBodyControl.class);
       }
     }
-);
   }
+);
   this.terrain.initialize(cam.getLocation());
   this.initKeys();
 }
