@@ -3,8 +3,12 @@
     renderer.resetGLObjects();
   }
  else {
-    logger.info("GL Surface created");
-    initInThread();
-    renderable.set(true);
+    if (!created.get()) {
+      logger.info("GL Surface created");
+      initInThread();
+    }
+ else {
+      logger.warning("GL Surface already created");
+    }
   }
 }

@@ -1,4 +1,5 @@
 {
+  created.set(true);
   logger.info("OGLESContext create");
   logger.info("Running on thread: " + Thread.currentThread().getName());
   final Context ctx=this.view.getContext();
@@ -34,6 +35,6 @@
       app.getInputManager().addListener((AndroidHarness)ctx,new String[]{ESCAPE_EVENT});
     }
   }
-  created.set(true);
   needClose.set(false);
+  renderable.set(true);
 }

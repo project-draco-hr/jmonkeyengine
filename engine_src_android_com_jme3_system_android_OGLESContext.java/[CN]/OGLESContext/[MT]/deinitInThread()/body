@@ -1,12 +1,12 @@
 {
   if (renderable.get()) {
-    renderable.set(false);
+    created.set(false);
     if (renderer != null)     renderer.cleanup();
     listener.destroy();
     listener=null;
     renderer=null;
     timer=null;
     logger.info("Display destroyed.");
-    created.set(false);
+    renderable.set(false);
   }
 }

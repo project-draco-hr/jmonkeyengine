@@ -7,6 +7,7 @@
   setRequestedOrientation(screenOrientation);
   AppSettings settings=new AppSettings(true);
   AndroidInput input=new AndroidInput(this);
+  input.setMouseEventsInvertX(mouseEventsInvertX);
   input.setMouseEventsInvertY(mouseEventsInvertY);
   input.setMouseEventsEnabled(mouseEventsEnabled);
   try {
@@ -19,6 +20,11 @@
     ctx=(OGLESContext)app.getContext();
     view=ctx.createView(input,eglConfigType,eglConfigVerboseLogging);
     setContentView(view);
+    WindowManager wind=this.getWindowManager();
+    Display disp=wind.getDefaultDisplay();
+    ctx.getSettings().setResolution(disp.getWidth(),disp.getHeight());
+    AppSettings s=ctx.getSettings();
+    logger.info("Settings: Width " + s.getWidth() + " Height "+ s.getHeight());
   }
  catch (  Exception ex) {
     handleError("Class " + appClass + " init failed",ex);
