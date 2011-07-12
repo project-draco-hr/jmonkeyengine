@@ -40,10 +40,10 @@ synchronized (this) {
   }
   if (addedConnection != null) {
     log.log(Level.INFO,"Client registered:{0}.",addedConnection);
-    fireConnectionAdded(addedConnection);
     m=new ClientRegistrationMessage();
     m.setId(addedConnection.getId());
     m.setReliable(true);
     addedConnection.send(m);
+    fireConnectionAdded(addedConnection);
   }
 }
