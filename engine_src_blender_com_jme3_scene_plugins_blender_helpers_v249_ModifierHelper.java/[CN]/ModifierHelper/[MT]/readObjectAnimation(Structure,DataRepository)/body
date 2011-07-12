@@ -34,10 +34,11 @@
     boneAnimation.setTracks(tracks);
     ArrayList<BoneAnimation> animations=new ArrayList<BoneAnimation>(1);
     animations.add(boneAnimation);
-    Transform t=this.getTransformation(objectStructure);
+    ObjectHelper objectHelper=dataRepository.getHelper(ObjectHelper.class);
+    Transform t=objectHelper.getTransformation(objectStructure);
     Bone bone=new Bone(null);
     bone.setBindTransforms(t.getTranslation(),t.getRotation(),t.getScale());
-    return new Modifier(Modifier.ARMATURE_MODIFIER_DATA,new AnimData(new Skeleton(new Bone[]{bone}),animations),objectStructure.getOldMemoryAddress());
+    return new Modifier(Modifier.OBJECT_ANIMATION_MODIFIER_DATA,new AnimData(new Skeleton(new Bone[]{bone}),animations),objectStructure.getOldMemoryAddress());
   }
   return null;
 }
