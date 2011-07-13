@@ -1,0 +1,11 @@
+{
+  if (backingArray != null)   return backingArray;
+  if (buffer == null) {
+    backingArray=createArray(0);
+  }
+ else {
+    backingArray=buffer.toArray(createArray(buffer.size()));
+    buffer=null;
+  }
+  return backingArray;
+}
