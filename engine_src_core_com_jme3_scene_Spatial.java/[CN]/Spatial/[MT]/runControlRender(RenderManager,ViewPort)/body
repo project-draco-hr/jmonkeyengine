@@ -2,7 +2,7 @@
   if (controls.isEmpty()) {
     return;
   }
-  for (int i=0; i < controls.size(); i++) {
-    controls.get(i).render(rm,vp);
+  for (  Control c : controls.getArray()) {
+    c.render(rm,vp);
   }
 }

@@ -1,7 +1,6 @@
 {
   if (name == null)   return null;
-  for (int x=0, cSize=getQuantity(); x < cSize; x++) {
-    Spatial child=children.get(x);
+  for (  Spatial child : children.getArray()) {
     if (name.equals(child.getName())) {
       return child;
     }

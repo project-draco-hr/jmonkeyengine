@@ -1,6 +1,6 @@
 {
   super.setLightListRefresh();
-  for (  Spatial child : children) {
+  for (  Spatial child : children.getArray()) {
     if ((child.refreshFlags & RF_LIGHTLIST) != 0)     continue;
     child.setLightListRefresh();
   }

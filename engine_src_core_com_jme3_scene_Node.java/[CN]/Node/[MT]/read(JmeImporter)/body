@@ -1,8 +1,7 @@
 {
-  children=e.getCapsule(this).readSavableArrayList("children",null);
+  children=new SafeArrayList(Spatial.class,e.getCapsule(this).readSavableArrayList("children",null));
   if (children != null) {
-    for (int x=0, cSize=children.size(); x < cSize; x++) {
-      Spatial child=children.get(x);
+    for (    Spatial child : children.getArray()) {
       child.parent=this;
     }
   }

@@ -1,6 +1,6 @@
 {
   super.setLodLevel(lod);
-  for (int i=0; i < children.size(); i++) {
-    children.get(i).setLodLevel(lod);
+  for (  Spatial child : children.getArray()) {
+    child.setLodLevel(lod);
   }
 }
