@@ -40,7 +40,7 @@
       objectOffset[2]=translation.z;
     }
  catch (    BlenderFileException e) {
-      LOGGER.warning("Problems in blender file structure! Object offset cannot be applied! The problem: " + e.getMessage());
+      LOGGER.log(Level.WARNING,"Problems in blender file structure! Object offset cannot be applied! The problem: {0}",e.getMessage());
     }
   }
   Node[] caps=new Node[]{null,null};
@@ -58,11 +58,11 @@
           ObjectHelper objectHelper=dataRepository.getHelper(ObjectHelper.class);
           caps[i]=(Node)objectHelper.toObject(capStructure,dataRepository);
           if (caps[i] == null) {
-            LOGGER.warning("Cap object '" + capStructure.getName() + "' couldn't be loaded!");
+            LOGGER.log(Level.WARNING,"Cap object ''{0}'' couldn''t be loaded!",capStructure.getName());
           }
         }
  catch (        BlenderFileException e) {
-          LOGGER.warning("Problems in blender file structure! Cap object cannot be applied! The problem: " + e.getMessage());
+          LOGGER.log(Level.WARNING,"Problems in blender file structure! Cap object cannot be applied! The problem: {0}",e.getMessage());
         }
       }
     }

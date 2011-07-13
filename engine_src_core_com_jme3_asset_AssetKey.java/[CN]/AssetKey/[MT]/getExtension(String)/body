@@ -1,6 +1,6 @@
 {
   int idx=name.lastIndexOf('.');
-  if (name.toLowerCase().indexOf(".xml") == name.length() - 4) {
+  if (name.toLowerCase().endsWith(".xml")) {
     idx=name.substring(0,idx).lastIndexOf('.');
     if (idx == -1) {
       idx=name.lastIndexOf('.');

@@ -18,7 +18,7 @@
       }
     }
  catch (    BlenderFileException e) {
-      LOGGER.severe("Cannot load mirror's reference object. Cause: " + e.getLocalizedMessage());
+      LOGGER.log(Level.SEVERE,"Cannot load mirror''s reference object. Cause: {0}",e.getLocalizedMessage());
     }
   }
   float tolerance=((Number)modifierData.get("tolerance")).floatValue();
