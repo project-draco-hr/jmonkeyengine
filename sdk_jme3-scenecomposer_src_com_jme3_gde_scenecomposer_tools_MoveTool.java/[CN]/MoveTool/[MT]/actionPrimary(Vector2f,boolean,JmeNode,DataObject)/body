@@ -1,0 +1,11 @@
+{
+  if (!pressed) {
+    setDefaultAxisMarkerColors();
+    pickedPlane=null;
+    offset=null;
+    if (wasDragging) {
+      actionPerformed(new MoveUndo(selectedSpatial,startLoc,lastLoc));
+      wasDragging=false;
+    }
+  }
+}

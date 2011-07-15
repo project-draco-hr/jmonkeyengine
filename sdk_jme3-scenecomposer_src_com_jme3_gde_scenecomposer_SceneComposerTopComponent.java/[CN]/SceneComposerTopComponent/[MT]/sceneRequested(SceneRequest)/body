@@ -7,9 +7,14 @@
     if (toolController != null) {
       toolController.cleanup();
     }
-    toolController=new SceneToolController(currentRequest.getToolNode(),currentRequest.getManager());
+    toolController=new SceneComposerToolController(currentRequest.getToolNode(),currentRequest.getManager(),request.getJmeNode());
     camController=new ComposerCameraController(SceneApplication.getApplication().getCamera(),request.getJmeNode());
+    toolController.setEditorController(editorController);
+    camController.setToolController(toolController);
     camController.setMaster(this);
     camController.enable();
+    toolController.setCameraController(camController);
+    SelectTool tool=new SelectTool();
+    toolController.showEditTool(tool);
   }
 }

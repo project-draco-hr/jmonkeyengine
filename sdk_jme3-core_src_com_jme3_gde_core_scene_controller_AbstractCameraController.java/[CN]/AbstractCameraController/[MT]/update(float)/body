@@ -1,10 +1,34 @@
 {
-  if (checkClick) {
-    checkClick(0);
-    checkClick=false;
+  if (moved) {
+    if (checkReleaseL || checkReleaseR) {
+      if (checkReleaseL)       checkDragged(0,false);
+      if (checkReleaseR)       checkDragged(1,false);
+      checkReleaseL=false;
+      checkReleaseR=false;
+    }
+ else {
+      if (buttonDownL)       checkDragged(0,true);
+ else       if (buttonDownR)       checkDragged(1,true);
+ else       checkMoved();
+    }
+    moved=false;
   }
-  if (checkClickR) {
-    checkClick(1);
-    checkClickR=false;
+ else {
+    if (checkClickL) {
+      checkClick(0,true);
+      checkClickL=false;
+    }
+    if (checkReleaseL) {
+      checkClick(0,false);
+      checkReleaseL=false;
+    }
+    if (checkClickR) {
+      checkClick(1,true);
+      checkClickR=false;
+    }
+    if (checkReleaseR) {
+      checkClick(1,false);
+      checkReleaseR=false;
+    }
   }
 }

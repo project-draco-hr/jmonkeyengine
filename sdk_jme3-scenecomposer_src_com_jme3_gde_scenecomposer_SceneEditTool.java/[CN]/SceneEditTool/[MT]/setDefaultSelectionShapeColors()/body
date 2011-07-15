@@ -1,0 +1,9 @@
+{
+  if (selectionShape != null) {
+    Material mat=new Material(SceneApplication.getApplication().getAssetManager(),"Common/MatDefs/Misc/Unshaded.j3md");
+    mat.getAdditionalRenderState().setWireframe(true);
+    mat.setColor("Color",new ColorRGBA(0.8f,0.8f,0.8f,0.3f));
+    mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+    selectionShape.setMaterial(mat);
+  }
+}

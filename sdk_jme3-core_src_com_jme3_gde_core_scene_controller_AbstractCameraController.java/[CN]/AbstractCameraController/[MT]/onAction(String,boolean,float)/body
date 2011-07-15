@@ -1,26 +1,32 @@
 {
   if ("MouseButtonLeft".equals(string)) {
-    if (bln) {
-      leftMouse=true;
-      moved=false;
-    }
- else {
-      leftMouse=false;
-      if (!moved) {
-        checkClick=true;
+    if (pressed) {
+      if (!buttonDownL) {
+        checkClickL=true;
+        checkReleaseL=false;
       }
     }
+ else {
+      if (buttonDownL) {
+        checkReleaseL=true;
+        checkClickL=false;
+      }
+    }
+    buttonDownL=pressed;
   }
   if ("MouseButtonRight".equals(string)) {
-    if (bln) {
-      rightMouse=true;
-      movedR=false;
-    }
- else {
-      rightMouse=false;
-      if (!movedR) {
+    if (pressed) {
+      if (!buttonDownR) {
         checkClickR=true;
+        checkReleaseR=false;
       }
     }
+ else {
+      if (buttonDownR) {
+        checkReleaseR=true;
+        checkClickR=false;
+      }
+    }
+    buttonDownR=pressed;
   }
 }

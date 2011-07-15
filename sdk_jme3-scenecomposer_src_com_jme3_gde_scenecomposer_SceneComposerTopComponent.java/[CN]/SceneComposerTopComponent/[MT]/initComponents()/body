@@ -1,4 +1,5 @@
 {
+  spatialModButtonGroup=new ButtonGroup();
   sceneInfoPanel=new javax.swing.JPanel();
   sceneInfoLabel1=new javax.swing.JLabel();
   sceneInfoLabel2=new javax.swing.JLabel();
@@ -6,6 +7,11 @@
   jScrollPane1=new javax.swing.JScrollPane();
   jList1=new javax.swing.JList();
   jToolBar1=new javax.swing.JToolBar();
+  selectButton=new javax.swing.JToggleButton();
+  moveButton=new javax.swing.JToggleButton();
+  rotateButton=new javax.swing.JToggleButton();
+  scaleButton=new javax.swing.JToggleButton();
+  jSeparator5=new javax.swing.JToolBar.Separator();
   addObjectButton=new javax.swing.JButton();
   addCursorButton=new javax.swing.JButton();
   moveToCursorButton=new javax.swing.JButton();
@@ -41,17 +47,65 @@
   javax.swing.GroupLayout sceneInfoPanelLayout=new javax.swing.GroupLayout(sceneInfoPanel);
   sceneInfoPanel.setLayout(sceneInfoPanelLayout);
   sceneInfoPanelLayout.setHorizontalGroup(sceneInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(sceneInfoLabel1,javax.swing.GroupLayout.DEFAULT_SIZE,133,Short.MAX_VALUE).addComponent(sceneInfoLabel2,javax.swing.GroupLayout.DEFAULT_SIZE,133,Short.MAX_VALUE));
-  sceneInfoPanelLayout.setVerticalGroup(sceneInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(sceneInfoPanelLayout.createSequentialGroup().addComponent(sceneInfoLabel1).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(sceneInfoLabel2).addContainerGap(93,Short.MAX_VALUE)));
+  sceneInfoPanelLayout.setVerticalGroup(sceneInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(sceneInfoPanelLayout.createSequentialGroup().addComponent(sceneInfoLabel1).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(sceneInfoLabel2).addContainerGap(105,Short.MAX_VALUE)));
   palettePanel.setBackground(new java.awt.Color(204,204,204));
   palettePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.palettePanel.border.title")));
   jScrollPane1.setViewportView(jList1);
   javax.swing.GroupLayout palettePanelLayout=new javax.swing.GroupLayout(palettePanel);
   palettePanel.setLayout(palettePanelLayout);
   palettePanelLayout.setHorizontalGroup(palettePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1,javax.swing.GroupLayout.Alignment.TRAILING,javax.swing.GroupLayout.DEFAULT_SIZE,211,Short.MAX_VALUE));
-  palettePanelLayout.setVerticalGroup(palettePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1,javax.swing.GroupLayout.Alignment.TRAILING,javax.swing.GroupLayout.DEFAULT_SIZE,133,Short.MAX_VALUE));
+  palettePanelLayout.setVerticalGroup(palettePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1,javax.swing.GroupLayout.Alignment.TRAILING,javax.swing.GroupLayout.DEFAULT_SIZE,139,Short.MAX_VALUE));
   jToolBar1.setBackground(new java.awt.Color(204,204,204));
   jToolBar1.setFloatable(false);
   jToolBar1.setRollover(true);
+  spatialModButtonGroup.add(selectButton);
+  selectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/scenecomposer/icon_select.png")));
+  selectButton.setSelected(true);
+  org.openide.awt.Mnemonics.setLocalizedText(selectButton,org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.selectButton.text"));
+  selectButton.setToolTipText(org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.selectButton.toolTipText"));
+  selectButton.setFocusable(false);
+  selectButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+  selectButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+  selectButton.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      selectButtonActionPerformed(evt);
+    }
+  }
+);
+  jToolBar1.add(selectButton);
+  spatialModButtonGroup.add(moveButton);
+  moveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/scenecomposer/icon_arrow_out.png")));
+  org.openide.awt.Mnemonics.setLocalizedText(moveButton,org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.moveButton.text"));
+  moveButton.setToolTipText(org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.moveButton.toolTipText"));
+  moveButton.setFocusable(false);
+  moveButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+  moveButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+  moveButton.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      moveButtonActionPerformed(evt);
+    }
+  }
+);
+  jToolBar1.add(moveButton);
+  spatialModButtonGroup.add(rotateButton);
+  rotateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/scenecomposer/icon_arrow_rotate_clockwise.png")));
+  org.openide.awt.Mnemonics.setLocalizedText(rotateButton,org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.rotateButton.text"));
+  rotateButton.setToolTipText(org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.rotateButton.toolTipText"));
+  rotateButton.setEnabled(false);
+  rotateButton.setFocusable(false);
+  rotateButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+  rotateButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+  jToolBar1.add(rotateButton);
+  spatialModButtonGroup.add(scaleButton);
+  scaleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/scenecomposer/icon_arrow_inout.png")));
+  org.openide.awt.Mnemonics.setLocalizedText(scaleButton,org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.scaleButton.text"));
+  scaleButton.setToolTipText(org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.scaleButton.toolTipText"));
+  scaleButton.setEnabled(false);
+  scaleButton.setFocusable(false);
+  scaleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+  scaleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+  jToolBar1.add(scaleButton);
+  jToolBar1.add(jSeparator5);
   addObjectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/scenecomposer/add.gif")));
   org.openide.awt.Mnemonics.setLocalizedText(addObjectButton,org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.addObjectButton.text"));
   addObjectButton.setToolTipText(org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.addObjectButton.toolTipText"));
@@ -163,8 +217,8 @@
   jPanel3.setBackground(new java.awt.Color(204,204,204));
   javax.swing.GroupLayout jPanel3Layout=new javax.swing.GroupLayout(jPanel3);
   jPanel3.setLayout(jPanel3Layout);
-  jPanel3Layout.setHorizontalGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0,190,Short.MAX_VALUE));
-  jPanel3Layout.setVerticalGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0,21,Short.MAX_VALUE));
+  jPanel3Layout.setHorizontalGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0,211,Short.MAX_VALUE));
+  jPanel3Layout.setVerticalGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0,23,Short.MAX_VALUE));
   jToolBar1.add(jPanel3);
   jPanel4.setBackground(new java.awt.Color(204,204,204));
   jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.jPanel4.border.title")));
@@ -211,6 +265,6 @@
   jPanel4Layout.setVerticalGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel4Layout.createSequentialGroup().addComponent(jToolBar2,javax.swing.GroupLayout.PREFERRED_SIZE,25,javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jToolBar3,javax.swing.GroupLayout.PREFERRED_SIZE,25,javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(83,Short.MAX_VALUE)));
   javax.swing.GroupLayout layout=new javax.swing.GroupLayout(this);
   this.setLayout(layout);
-  layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addComponent(palettePanel,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel4,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(sceneInfoPanel,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE)).addComponent(jToolBar1,javax.swing.GroupLayout.DEFAULT_SIZE,696,Short.MAX_VALUE));
+  layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addComponent(palettePanel,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel4,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(sceneInfoPanel,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE)).addComponent(jToolBar1,javax.swing.GroupLayout.DEFAULT_SIZE,708,Short.MAX_VALUE));
   layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addComponent(jToolBar1,javax.swing.GroupLayout.PREFERRED_SIZE,25,javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(jPanel4,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE).addComponent(palettePanel,javax.swing.GroupLayout.Alignment.LEADING,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE).addComponent(sceneInfoPanel,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE))));
 }

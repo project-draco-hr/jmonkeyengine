@@ -1,0 +1,9 @@
+{
+  if (!pressed && !wasDragging) {
+    final Vector3f result=pickWorldLocation(getCamera(),screenCoord,rootNode);
+    toolController.doSetCursorLocation(result);
+  }
+  if (!pressed) {
+    wasDragging=false;
+  }
+}

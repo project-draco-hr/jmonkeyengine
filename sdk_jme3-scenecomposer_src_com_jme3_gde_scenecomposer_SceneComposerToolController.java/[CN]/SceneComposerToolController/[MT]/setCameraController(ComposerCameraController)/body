@@ -1,0 +1,7 @@
+{
+  this.cameraController=cameraController;
+  onTopToolsNode=new Node("OverlayNode");
+  overlayView=SceneApplication.getApplication().getRenderManager().createMainView("Overlay",this.cameraController.getCamera());
+  overlayView.setClearFlags(false,true,false);
+  overlayView.attachScene(onTopToolsNode);
+}

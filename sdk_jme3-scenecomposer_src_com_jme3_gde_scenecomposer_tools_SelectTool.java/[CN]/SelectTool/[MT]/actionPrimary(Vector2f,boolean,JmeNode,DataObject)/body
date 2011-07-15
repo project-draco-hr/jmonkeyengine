@@ -1,0 +1,23 @@
+{
+  if (!pressed && !wasDragging) {
+    final Spatial result=pickWorldSpatial(getCamera(),screenCoord,rootNode);
+    java.awt.EventQueue.invokeLater(new Runnable(){
+      public void run(){
+        if (result != null) {
+          SceneApplication.getApplication().setCurrentFileNode(rootNode.getChild(result));
+        }
+ else {
+          SceneApplication.getApplication().setCurrentFileNode(rootNode);
+        }
+      }
+    }
+);
+    if (result != null) {
+      replaceSelectionShape(result);
+      updateToolsTransformation(selectedSpatial);
+    }
+  }
+  if (!pressed) {
+    wasDragging=false;
+  }
+}

@@ -1,0 +1,15 @@
+{
+  if (selectionShape == null)   return;
+  if (!selectionShape.getLocalTranslation().equals(spatial.getWorldTranslation()) && !selectionShape.getLocalRotation().equals(spatial.getWorldRotation()) && !selectionShape.getLocalScale().equals(spatial.getWorldScale()))   return;
+  selectionShape.setLocalTranslation(spatial.getWorldTranslation());
+  selectionShape.setLocalRotation(spatial.getWorldRotation());
+  selectionShape.setLocalScale(selectedSpatial.getWorldScale());
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      axisMarker.setLocalTranslation(spatial.getWorldTranslation());
+      axisMarker.setLocalRotation(selectedSpatial.getWorldRotation());
+      return null;
+    }
+  }
+);
+}

@@ -1,0 +1,11 @@
+{
+  setDefaultAxisMarkerColors();
+  Vector3f picked=pickAxisMarker(camera,screenCoord,axisPickType);
+  if (picked == null)   return;
+  if (picked.equals(new Vector3f(1,0,0)))   axisMarker.getChild("arrowX").setMaterial(orangeMat);
+ else   if (picked.equals(new Vector3f(0,1,0)))   axisMarker.getChild("arrowY").setMaterial(orangeMat);
+ else   if (picked.equals(new Vector3f(0,0,1)))   axisMarker.getChild("arrowZ").setMaterial(orangeMat);
+ else   if (picked.equals(new Vector3f(1,1,0)))   axisMarker.getChild("quadXY").setMaterial(orangeMat);
+ else   if (picked.equals(new Vector3f(1,0,1)))   axisMarker.getChild("quadXZ").setMaterial(orangeMat);
+ else   if (picked.equals(new Vector3f(0,1,1)))   axisMarker.getChild("quadYZ").setMaterial(orangeMat);
+}

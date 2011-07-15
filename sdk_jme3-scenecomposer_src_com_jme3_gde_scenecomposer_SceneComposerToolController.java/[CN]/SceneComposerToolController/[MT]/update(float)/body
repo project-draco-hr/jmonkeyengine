@@ -1,0 +1,8 @@
+{
+  super.update(tpf);
+  if (onTopToolsNode != null) {
+    onTopToolsNode.updateLogicalState(tpf);
+    onTopToolsNode.updateGeometricState();
+  }
+  if (editTool != null)   editTool.updateToolsTransformation(selected);
+}

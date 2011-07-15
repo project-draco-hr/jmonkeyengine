@@ -1,0 +1,15 @@
+{
+  BoundingVolume bound=geom.getWorldBound();
+  if (bound instanceof BoundingBox) {
+    BoundingBox bbox=(BoundingBox)bound;
+    Vector3f extent=new Vector3f();
+    bbox.getExtent(extent);
+    WireBox wireBox=new WireBox();
+    wireBox.fromBoundingBox(bbox);
+    Geometry selectionGeometry=new Geometry("selection_geometry_sceneviewer",wireBox);
+    selectionGeometry.setLocalTransform(geom.getWorldTransform());
+    toolNode.attachChild(selectionGeometry);
+    return selectionGeometry;
+  }
+  return null;
+}

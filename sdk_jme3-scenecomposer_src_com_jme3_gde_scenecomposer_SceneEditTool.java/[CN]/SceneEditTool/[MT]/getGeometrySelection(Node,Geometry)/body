@@ -1,0 +1,10 @@
+{
+  Mesh mesh=geom.getMesh();
+  if (mesh == null) {
+    return null;
+  }
+  Geometry selectionGeometry=new Geometry("selection_geometry_sceneviewer",mesh);
+  selectionGeometry.setLocalTransform(geom.getWorldTransform());
+  toolNode.attachChild(selectionGeometry);
+  return selectionGeometry;
+}
