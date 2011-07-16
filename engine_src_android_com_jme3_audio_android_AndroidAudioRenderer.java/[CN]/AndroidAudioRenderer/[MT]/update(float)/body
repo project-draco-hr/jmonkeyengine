@@ -10,7 +10,11 @@
       if (distance < src.getRefDistance())       distance=src.getRefDistance();
       if (distance > src.getMaxDistance())       distance=src.getMaxDistance();
       volume=src.getRefDistance() / distance;
-      mp.setVolume(volume,volume);
+      AndroidAudioData audioData=(AndroidAudioData)src.getAudioData();
+      if (FastMath.abs(audioData.getCurrentVolume() - volume) > FastMath.FLT_EPSILON) {
+        mp.setVolume(volume,volume);
+        audioData.setCurrentVolume(volume);
+      }
     }
   }
 }
