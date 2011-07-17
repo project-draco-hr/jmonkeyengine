@@ -2,6 +2,16 @@
   String name=key.getName();
   File file=new File(root,name);
   if (file.exists() && file.isFile()) {
+    try {
+      String canonical=file.getCanonicalPath();
+      String absolute=file.getAbsolutePath();
+      if (!canonical.endsWith(absolute)) {
+        throw new AssetNotFoundException("Asset name doesn't match requirements.\n" + "\"" + canonical + "\" doesn't match \""+ absolute+ "\"");
+      }
+    }
+ catch (    IOException ex) {
+      throw new AssetLoadException("Failed to get file canonical path " + file,ex);
+    }
     return new AssetInfoFile(manager,key,file);
   }
  else {
