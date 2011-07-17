@@ -2,7 +2,7 @@
   if ("MouseAxisX".equals(string)) {
     moved=true;
     movedR=true;
-    if (buttonDownL) {
+    if (buttonDownL || buttonDownM) {
       rotateCamera(Vector3f.UNIT_Y,-f1 * 2.5f);
     }
     if (buttonDownR) {
@@ -12,7 +12,7 @@
  else   if ("MouseAxisY".equals(string)) {
     moved=true;
     movedR=true;
-    if (buttonDownL) {
+    if (buttonDownL || buttonDownM) {
       rotateCamera(cam.getLeft(),-f1 * 2.5f);
     }
     if (buttonDownR) {
@@ -22,7 +22,7 @@
  else   if ("MouseAxisX-".equals(string)) {
     moved=true;
     movedR=true;
-    if (buttonDownL) {
+    if (buttonDownL || buttonDownM) {
       rotateCamera(Vector3f.UNIT_Y,f1 * 2.5f);
     }
     if (buttonDownR) {
@@ -32,7 +32,7 @@
  else   if ("MouseAxisY-".equals(string)) {
     moved=true;
     movedR=true;
-    if (buttonDownL) {
+    if (buttonDownL || buttonDownM) {
       rotateCamera(cam.getLeft(),f1 * 2.5f);
     }
     if (buttonDownR) {

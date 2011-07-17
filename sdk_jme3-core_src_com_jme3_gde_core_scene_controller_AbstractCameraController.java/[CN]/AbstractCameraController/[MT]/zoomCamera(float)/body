@@ -5,4 +5,10 @@
   Vector3f loc=cam.getLocation().clone();
   loc.scaleAdd(amount,cam.getDirection(),loc);
   cam.setLocation(loc);
+  if (cam.isParallelProjection()) {
+    float aspect=(float)cam.getWidth() / cam.getHeight();
+    float h=FastMath.tan(45f * FastMath.DEG_TO_RAD * .5f) * dist;
+    float w=h * aspect;
+    cam.setFrustum(-1000,1000,-w,w,h,-h);
+  }
 }

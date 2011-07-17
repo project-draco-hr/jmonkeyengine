@@ -29,4 +29,19 @@
     }
     buttonDownR=pressed;
   }
+  if ("MouseButtonMiddle".equals(string)) {
+    if (pressed) {
+      if (!buttonDownM) {
+        checkClickM=true;
+        checkReleaseM=false;
+      }
+    }
+ else {
+      if (buttonDownM) {
+        checkReleaseM=true;
+        checkClickM=false;
+      }
+    }
+    buttonDownM=pressed;
+  }
 }

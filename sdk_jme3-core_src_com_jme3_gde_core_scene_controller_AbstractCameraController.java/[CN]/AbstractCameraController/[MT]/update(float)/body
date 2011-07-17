@@ -1,15 +1,32 @@
 {
   if (moved) {
-    if (checkReleaseL || checkReleaseR) {
-      if (checkReleaseL)       checkDragged(0,false);
-      if (checkReleaseR)       checkDragged(1,false);
+    if (checkReleaseL || checkReleaseR || checkReleaseM) {
+      if (checkReleaseL) {
+        checkDragged(0,false);
+      }
+      if (checkReleaseR) {
+        checkDragged(1,false);
+      }
+      if (checkReleaseM) {
+        checkDragged(2,false);
+      }
       checkReleaseL=false;
       checkReleaseR=false;
+      checkReleaseM=false;
     }
  else {
-      if (buttonDownL)       checkDragged(0,true);
- else       if (buttonDownR)       checkDragged(1,true);
- else       checkMoved();
+      if (buttonDownL) {
+        checkDragged(0,true);
+      }
+ else       if (buttonDownR) {
+        checkDragged(1,true);
+      }
+ else       if (buttonDownM) {
+        checkDragged(2,true);
+      }
+ else {
+        checkMoved();
+      }
     }
     moved=false;
   }
@@ -29,6 +46,14 @@
     if (checkReleaseR) {
       checkClick(1,false);
       checkReleaseR=false;
+    }
+    if (checkClickM) {
+      checkClick(2,true);
+      checkClickM=false;
+    }
+    if (checkReleaseM) {
+      checkClick(2,false);
+      checkReleaseM=false;
     }
   }
 }

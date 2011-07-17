@@ -1,0 +1,19 @@
+{
+  float aspect=(float)cam.getWidth() / cam.getHeight();
+  if (!cam.isParallelProjection()) {
+    cam.setParallelProjection(true);
+    float h=cam.getFrustumTop();
+    float w=cam.getFrustumRight();
+    float dist=cam.getLocation().distance(focus);
+    float fovY=FastMath.atan(h) / (FastMath.DEG_TO_RAD * .5f);
+    h=FastMath.tan(fovY * FastMath.DEG_TO_RAD * .5f) * dist;
+    w=h * aspect;
+    cam.setFrustum(-1000,1000,-w,w,h,-h);
+    return true;
+  }
+ else {
+    cam.setParallelProjection(false);
+    cam.setFrustumPerspective(45f,aspect,1,1000);
+    return false;
+  }
+}

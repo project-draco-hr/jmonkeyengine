@@ -1,6 +1,7 @@
 {
   initComponents();
   oGLPanel.setMinimumSize(new java.awt.Dimension(10,10));
+  setFocusable(true);
   setName(NbBundle.getMessage(SceneViewerTopComponent.class,"CTL_SceneViewerTopComponent"));
   setToolTipText(NbBundle.getMessage(SceneViewerTopComponent.class,"HINT_SceneViewerTopComponent"));
   setIcon(ImageUtilities.loadImage(ICON_PATH,true));
@@ -8,6 +9,7 @@
     app=SceneApplication.getApplication();
     oglCanvas=((JmeCanvasContext)app.getContext()).getCanvas();
     oGLPanel.add(oglCanvas);
+    toggleOrthoPerspAction=new ToggleOrthoPerspAction();
   }
  catch (  Exception e) {
     Exceptions.printStackTrace(e);
@@ -17,4 +19,14 @@ catch (  Error err) {
     Exceptions.printStackTrace(err);
     showOpenGLError(err.toString());
   }
+  addMouseWheelListener(new MouseWheelListener(){
+    public void mouseWheelMoved(    MouseWheelEvent e){
+      String action="MouseWheel-";
+      if (e.getWheelRotation() < 0) {
+        action="MouseWheel";
+      }
+      app.getCamController().onAnalog(action,e.getWheelRotation(),0);
+    }
+  }
+);
 }

@@ -1,0 +1,7 @@
+{
+  SceneViewerTopComponent svtc=SceneViewerTopComponent.findInstance();
+  if (svtc.hasFocus()) {
+    boolean toggle=SceneApplication.getApplication().toggleOrthoPerspMode();
+    svtc.toggleOrthoModeButton(toggle);
+  }
+}
