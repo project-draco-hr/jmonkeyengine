@@ -3,5 +3,5 @@
     throw new IllegalArgumentException("Max distance cannot be negative");
   }
   this.maxDistance=maxDistance;
-  if (channel >= 0)   renderer.updateSourceParam(this,AudioParam.MaxDistance);
+  if (channel >= 0)   getRenderer().updateSourceParam(this,AudioParam.MaxDistance);
 }

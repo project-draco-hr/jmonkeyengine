@@ -1,0 +1,5 @@
+{
+  AudioRenderer result=AudioContext.getAudioRenderer();
+  if (result == null)   throw new IllegalStateException("No audio renderer available, make sure call is being performed on render thread.");
+  return result;
+}
