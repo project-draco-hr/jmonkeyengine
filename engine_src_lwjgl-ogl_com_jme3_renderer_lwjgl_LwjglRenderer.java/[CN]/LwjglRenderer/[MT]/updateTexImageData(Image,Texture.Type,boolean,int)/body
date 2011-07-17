@@ -76,7 +76,9 @@
   }
   if (GLContext.getCapabilities().OpenGL30) {
     if (!img.hasMipmaps() && mips && img.getData() != null) {
+      glEnable(target);
       glGenerateMipmapEXT(target);
+      glDisable(target);
     }
   }
   img.clearUpdateNeeded();
