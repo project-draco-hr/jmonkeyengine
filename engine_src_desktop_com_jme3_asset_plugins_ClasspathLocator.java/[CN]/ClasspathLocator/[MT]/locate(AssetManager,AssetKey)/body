@@ -10,12 +10,29 @@
     url=Thread.currentThread().getContextClassLoader().getResource(name);
   }
   if (url == null)   return null;
+  if (url.getProtocol().equals("file")) {
+    try {
+      String path=new File(url.toURI()).getCanonicalPath();
+      if (File.separatorChar == '\\') {
+        path=path.replace('\\','/');
+      }
+      if (!path.endsWith(name)) {
+        throw new AssetNotFoundException("Asset name doesn't match requirements.\n" + "\"" + path + "\" doesn't match \""+ name+ "\"");
+      }
+    }
+ catch (    URISyntaxException ex) {
+      throw new AssetLoadException("Error converting URL to URI",ex);
+    }
+catch (    IOException ex) {
+      throw new AssetLoadException("Failed to get canonical path for " + url,ex);
+    }
+  }
   try {
     URLConnection conn=url.openConnection();
     conn.setUseCaches(false);
     return new ClasspathAssetInfo(manager,key,conn);
   }
  catch (  IOException ex) {
-    return null;
+    throw new AssetLoadException("Failed to read URL " + url,ex);
   }
 }
