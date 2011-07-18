@@ -11,15 +11,15 @@
   URLConnection conn=url.openConnection();
   InputStream in=conn.getInputStream();
   File targetFile=new File(workingDir,fullname);
-  if (targetFile.exists()) {
-    long targetLastModified=targetFile.lastModified();
-    long sourceLastModified=conn.getLastModified();
-    if (targetLastModified + 1000 > sourceLastModified) {
-      logger.log(Level.FINE,"Not copying library {0}. Latest already extracted.",fullname);
-      return;
-    }
-  }
   try {
+    if (targetFile.exists()) {
+      long targetLastModified=targetFile.lastModified();
+      long sourceLastModified=conn.getLastModified();
+      if (targetLastModified + 1000 > sourceLastModified) {
+        logger.log(Level.FINE,"Not copying library {0}. Latest already extracted.",fullname);
+        return;
+      }
+    }
     OutputStream out=new FileOutputStream(targetFile);
     int len;
     while ((len=in.read(buf)) > 0) {
