@@ -41,7 +41,9 @@ r.setFrameBuffer(shadowFB[i]);
 r.clearBuffers(false,true,false);
 viewPort.getQueue().renderShadowQueue(splitOccluders,renderManager,shadowCam,true);
 }
+if (flushQueues) {
 occluders.clear();
+}
 r.setFrameBuffer(viewPort.getOutputFrameBuffer());
 renderManager.setForcedMaterial(null);
 renderManager.setForcedTechnique(null);
