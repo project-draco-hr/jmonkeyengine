@@ -1,0 +1,12 @@
+{
+  jCheckBoxUseModelKey.setSelected(blenderKeyConfiguration.useModelKey);
+  if (blenderKeyConfiguration.lastVersionUsed != null) {
+    jComboBoxVersionSelection.setSelectedItem(blenderKeyConfiguration.lastVersionUsed);
+  }
+ else {
+    jComboBoxVersionSelection.setSelectedIndex(0);
+    blenderKeyConfiguration.lastVersionUsed=(String)jComboBoxVersionSelection.getSelectedItem();
+  }
+  JRadioButtonLevel.setSelectedLevel(blenderKeyConfiguration.logLevel);
+  this.reloadFilesList();
+}

@@ -15,11 +15,10 @@ catch (  UnsupportedLookAndFeelException e) {
     LOGGER.log(Level.SEVERE,e.getMessage(),e);
   }
   this.setLayout(new BorderLayout());
+  this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+  this.setLocationRelativeTo(null);
   this.add(this.prepareBlenderFilesAndLogLevelPanel(),BorderLayout.WEST);
   this.add(this.prepareFilePropertiesPanel(),BorderLayout.CENTER);
   this.add(this.prepareButtonsPanel(),BorderLayout.SOUTH);
   this.pack();
-  this.setLocationRelativeTo(null);
-  this.setVisible(true);
-  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 }

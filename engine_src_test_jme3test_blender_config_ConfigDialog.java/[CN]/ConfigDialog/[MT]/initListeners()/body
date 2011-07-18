@@ -1,23 +1,8 @@
 {
   jComboBoxVersionSelection.addActionListener(new ActionListener(){
     @Override public void actionPerformed(    ActionEvent evt){
-      if (blenderKeyConfiguration != null) {
-        ConfigDialog.this.storeConfig(blenderKeyConfiguration);
-        blenderKeyConfiguration=null;
-      }
-      File[] blenderFiles=ConfigDialog.this.prepareFilesList(baseFolderName + '/' + jComboBoxVersionSelection.getSelectedItem().toString());
-      if (blenderKeyConfiguration.lastUsedKey != null) {
-        for (int i=0; i < blenderFiles.length; ++i) {
-          if (blenderFiles[i].getPath().equalsIgnoreCase(blenderKeyConfiguration.lastUsedKey.getName())) {
-            jListBlenderFiles.setSelectedIndex(i);
-            break;
-          }
-        }
-      }
-      if (blenderKeyConfiguration.logLevel == null) {
-        blenderKeyConfiguration.logLevel=Level.INFO;
-      }
-      JRadioButtonLevel.setSelectedLevel(blenderKeyConfiguration.logLevel);
+      blenderKeyConfiguration.lastVersionUsed=jComboBoxVersionSelection.getSelectedItem().toString();
+      ConfigDialog.this.reloadFilesList();
     }
   }
 );
@@ -25,17 +10,28 @@
     @Override public void valueChanged(    ListSelectionEvent evt){
       BlenderKeyConfiguration config=ConfigDialog.this.blenderKeyConfiguration;
       FileListItem selectedItem=(FileListItem)ConfigDialog.this.jListBlenderFiles.getSelectedValue();
+      String blenderVersion=config.lastVersionUsed;
       if (selectedItem != null) {
-        String fileName=selectedItem.getFile().getName();
-        config.lastUsedKey=config.blenderKeys.get(fileName);
-        if (config.lastUsedKey == null) {
-          config.lastUsedKey=new BlenderKey(selectedItem.getFile().getPath());
-          config.blenderKeys.put(fileName,config.lastUsedKey);
+        String blenderFileName=selectedItem.getFile().getName();
+        BlenderKey blenderKey=null;
+        Map<String,BlenderKey> blenderKeys=config.blenderKeys.get(blenderVersion);
+        if (blenderKeys != null) {
+          blenderKey=blenderKeys.get(blenderFileName);
+          if (blenderKey == null) {
+            blenderKey=new BlenderKey(ConfigDialog.this.baseFolderName + '/' + blenderVersion+ '/'+ blenderFileName);
+          }
         }
-        ConfigDialog.this.setBlenderKey(config.lastUsedKey);
+ else {
+          blenderKeys=new HashMap<String,BlenderKey>();
+          blenderKey=new BlenderKey(ConfigDialog.this.baseFolderName + '/' + blenderVersion+ '/'+ blenderFileName);
+          blenderKeys.put(blenderFileName,blenderKey);
+          config.blenderKeys.put(blenderVersion,blenderKeys);
+        }
+        config.lastUsedKey.put(blenderVersion,blenderKey);
+        ConfigDialog.this.setBlenderKey(config.lastUsedKey.get(blenderVersion));
       }
  else {
-        config.lastUsedKey=null;
+        config.lastUsedKey.put(blenderVersion,null);
       }
     }
   }
@@ -47,10 +43,11 @@
         int row=evt.getFirstRow();
         String name=(String)jTableProperties.getModel().getValueAt(row,0);
         Object value=jTableProperties.getModel().getValueAt(row,1);
+        BlenderKey blenderKey=config.lastUsedKey.get(config.lastVersionUsed);
         try {
-          Field field=config.lastUsedKey.getClass().getDeclaredField(name);
+          Field field=blenderKey.getClass().getDeclaredField(name);
           field.setAccessible(true);
-          field.set(config.lastUsedKey,value);
+          field.set(blenderKey,value);
         }
  catch (        IllegalArgumentException e) {
           LOGGER.log(Level.SEVERE,e.getMessage(),e);
@@ -97,12 +94,6 @@ catch (        NoSuchFieldException e) {
   jButtonOK.addActionListener(new ActionListener(){
     @Override public void actionPerformed(    ActionEvent evt){
       ConfigDialog.this.storeConfig(blenderKeyConfiguration);
-      SwingUtilities.invokeLater(new Runnable(){
-        @Override public void run(){
-          configExecutable.execute(ConfigDialog.this.blenderKeyConfiguration.getKeyToUse(),ConfigDialog.this.blenderKeyConfiguration.logLevel);
-        }
-      }
-);
       ConfigDialog.this.dispose();
     }
   }

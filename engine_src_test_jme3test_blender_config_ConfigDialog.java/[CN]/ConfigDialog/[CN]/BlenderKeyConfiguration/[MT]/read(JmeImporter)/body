@@ -1,8 +1,14 @@
 {
   InputCapsule ic=im.getCapsule(this);
-  blenderKeys=(Map<String,BlenderKey>)ic.readStringSavableMap("keys",null);
-  lastUsedKey=(BlenderKey)ic.readSavable("last-key",null);
+  int versionsCount=ic.readInt("versions-count",0);
+  for (int i=0; i < versionsCount; ++i) {
+    String versionName=ic.readString("key" + i,null);
+    Map<String,BlenderKey> versionBlenderFiles=(Map<String,BlenderKey>)ic.readStringSavableMap("value" + i,null);
+    blenderKeys.put(versionName,versionBlenderFiles);
+  }
+  lastUsedKey=(Map<String,BlenderKey>)ic.readStringSavableMap("last-key",null);
   useModelKey=ic.readBoolean("use-model-key",false);
   String logLevelName=ic.readString("log-level",Level.INFO.getName());
   logLevel=logLevelName == null ? Level.INFO : Level.parse(logLevelName);
+  lastVersionUsed=ic.readString("versionUsed",null);
 }

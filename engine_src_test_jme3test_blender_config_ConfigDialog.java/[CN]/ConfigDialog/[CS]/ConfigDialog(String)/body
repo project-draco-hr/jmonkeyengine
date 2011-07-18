@@ -2,12 +2,7 @@
   if (baseFolderName == null) {
     throw new IllegalArgumentException("No test asset folder given!");
   }
-  if (configExecutable == null) {
-    throw new IllegalArgumentException("No config executable given!");
-  }
   this.baseFolderName=baseFolderName;
-  this.configExecutable=configExecutable;
-  this.configMap=new HashMap<String,ConfigDialog.BlenderKeyConfiguration>();
   File baseFolder=new File(baseFolderName);
   if (!baseFolder.exists() || !baseFolder.isDirectory()) {
     throw new IllegalArgumentException("The given base folder path either does not exists or does not point to a directory!");
@@ -20,8 +15,9 @@
 );
   for (  File folder : folders) {
     ((DefaultComboBoxModel)jComboBoxVersionSelection.getModel()).addElement(folder.getName());
-    configMap.put(folder.getName(),null);
   }
+  this.loadConfiguration();
+  this.applyConfiguration();
   this.initListeners();
-  jComboBoxVersionSelection.setSelectedIndex(0);
+  this.setVisible(true);
 }

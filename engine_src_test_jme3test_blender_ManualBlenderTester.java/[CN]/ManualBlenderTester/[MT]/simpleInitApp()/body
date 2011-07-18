@@ -23,14 +23,16 @@
 ;
   rootNode.attachChild(new Pivot(assetManager));
   if (modelKey instanceof BlenderKey) {
-    Node blenderModel=this.testBlenderLoader(ai);
+    this.testBlenderLoader(ai);
     Map<String,Map<String,int[]>> animations=((BlenderKey)modelKey).getAnimations();
     if (((BlenderKey)modelKey).getAnimations() != null) {
       for (      Entry<String,Map<String,int[]>> animEntry : animations.entrySet()) {
         for (        Entry<String,int[]> anim : animEntry.getValue().entrySet()) {
-          Spatial animatedSpatial=this.findNode(blenderModel,animEntry.getKey());
-          animatedSpatial.getControl(AnimControl.class).createChannel().setAnim(anim.getKey());
-          break;
+          Spatial animatedSpatial=this.findNode(this.rootNode,animEntry.getKey());
+          if (animatedSpatial != null) {
+            animatedSpatial.getControl(AnimControl.class).createChannel().setAnim(anim.getKey());
+            break;
+          }
         }
         break;
       }

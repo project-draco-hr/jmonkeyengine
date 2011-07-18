@@ -1,7 +1,13 @@
 {
   OutputCapsule oc=ex.getCapsule(this);
-  oc.writeStringSavableMap(blenderKeys,"keys",null);
-  oc.write(lastUsedKey,"last-key",null);
+  oc.write(blenderKeys.size(),"versions-count",0);
+  int i=0;
+  for (  Entry<String,Map<String,BlenderKey>> entry : blenderKeys.entrySet()) {
+    oc.write(entry.getKey(),"key" + i,null);
+    oc.writeStringSavableMap(entry.getValue(),"value" + i++,null);
+  }
+  oc.writeStringSavableMap(lastUsedKey,"last-key",null);
   oc.write(useModelKey,"use-model-key",false);
   oc.write(logLevel == null ? null : logLevel.getName(),"log-level",Level.INFO.getName());
+  oc.write(lastVersionUsed,"versionUsed",null);
 }

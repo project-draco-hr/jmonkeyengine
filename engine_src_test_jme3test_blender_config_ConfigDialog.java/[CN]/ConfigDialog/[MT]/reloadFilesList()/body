@@ -1,0 +1,23 @@
+{
+  File testAssetsFolder=new File(baseFolderName + '/' + blenderKeyConfiguration.lastVersionUsed);
+  File[] blenderFiles=testAssetsFolder.listFiles(new FileFilter(){
+    @Override public boolean accept(    File file){
+      return file.isFile() && file.canRead() && file.getName().endsWith(".blend");
+    }
+  }
+);
+  BlenderKey lastUsedKey=blenderKeyConfiguration.lastUsedKey.get(blenderKeyConfiguration.lastVersionUsed);
+  String lastFileUsed=null;
+  if (lastUsedKey != null) {
+    lastFileUsed=lastUsedKey.getName().substring(lastUsedKey.getName().lastIndexOf('/') + 1);
+  }
+  DefaultListModel defaultListModel=(DefaultListModel)jListBlenderFiles.getModel();
+  defaultListModel.removeAllElements();
+  for (int i=0; i < blenderFiles.length; ++i) {
+    defaultListModel.addElement(new FileListItem(blenderFiles[i]));
+    if (lastFileUsed != null && lastFileUsed.equals(blenderFiles[i].getName())) {
+      jListBlenderFiles.setSelectedIndex(i);
+      this.setBlenderKey(lastUsedKey);
+    }
+  }
+}

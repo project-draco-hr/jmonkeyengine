@@ -1,8 +1,9 @@
 {
-  if (configuration.lastUsedKey != null) {
+  BlenderKey blenderKey=configuration.lastUsedKey.get(configuration.lastVersionUsed);
+  if (blenderKey != null) {
     DefaultTableModel animationsTableModel=(DefaultTableModel)jTableAnimations.getModel();
-    if (configuration.lastUsedKey.getAnimations() != null) {
-      configuration.lastUsedKey.getAnimations().clear();
+    if (blenderKey.getAnimations() != null) {
+      blenderKey.getAnimations().clear();
     }
     int animCounter=0;
     for (int i=0; i < animationsTableModel.getRowCount(); ++i) {
@@ -11,7 +12,7 @@
       Number startFrame=(Number)animationsTableModel.getValueAt(i,2);
       Number stopFrame=(Number)animationsTableModel.getValueAt(i,3);
       if (objectName != null && animName != null && startFrame.intValue() <= stopFrame.intValue()) {
-        configuration.lastUsedKey.addAnimation(objectName,animName,startFrame.intValue(),stopFrame.intValue());
+        blenderKey.addAnimation(objectName,animName,startFrame.intValue(),stopFrame.intValue());
         ++animCounter;
       }
     }
@@ -23,7 +24,7 @@
   configuration.logLevel=JRadioButtonLevel.getSelectedLevel();
   JmeExporter jmeExporter=new BinaryExporter();
   try {
-    if (!jmeExporter.save(configuration,configFile)) {
+    if (!jmeExporter.save(configuration,new File(baseFolderName,"test.conf"))) {
       JOptionPane.showMessageDialog(ConfigDialog.this,"Unable to save the config data!","Config save problem",JOptionPane.ERROR_MESSAGE);
     }
   }
