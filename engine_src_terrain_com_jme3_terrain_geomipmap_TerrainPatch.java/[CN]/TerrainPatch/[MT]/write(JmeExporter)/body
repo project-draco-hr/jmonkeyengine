@@ -1,4 +1,6 @@
 {
+  Mesh temp=getMesh();
+  mesh=null;
   super.write(ex);
   OutputCapsule oc=ex.getCapsule(this);
   oc.write(size,"size",16);
@@ -11,4 +13,5 @@
   oc.write(lodCalculatorFactory,"lodCalculatorFactory",null);
   oc.write(lodEntropy,"lodEntropy",null);
   oc.write(geomap,"geomap",null);
+  setMesh(temp);
 }

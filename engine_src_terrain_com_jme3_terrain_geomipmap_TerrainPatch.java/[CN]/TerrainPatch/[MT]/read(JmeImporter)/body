@@ -12,4 +12,7 @@
   lodCalculatorFactory=(LodCalculatorFactory)ic.readSavable("lodCalculatorFactory",null);
   lodEntropy=ic.readFloatArray("lodEntropy",null);
   geomap=(LODGeomap)ic.readSavable("geomap",null);
+  Mesh regen=geomap.createMesh(stepScale,new Vector2f(1,1),offset,offsetAmount,totalSize,false);
+  setMesh(regen);
+  TangentBinormalGenerator.generate(this);
 }
