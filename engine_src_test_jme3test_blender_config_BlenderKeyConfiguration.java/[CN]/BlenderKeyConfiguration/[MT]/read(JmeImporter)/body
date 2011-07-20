@@ -6,6 +6,15 @@
     Map<String,BlenderKey> versionBlenderFiles=(Map<String,BlenderKey>)ic.readStringSavableMap("value" + i,null);
     blenderKeys.put(versionName,versionBlenderFiles);
   }
+  int selectedAnimCount=ic.readInt("selected-animations-count",0);
+  if (selectedAnimCount > 0) {
+    for (int i=0; i < selectedAnimCount; ++i) {
+      String blenderKeyName=ic.readString("animKey" + i,null);
+      String[][] selectedAnimations=ic.readStringArray2D("animVal" + i,null);
+      List<String[]> anims=Arrays.asList(selectedAnimations);
+      this.selectedAnimations.put(blenderKeyName,anims);
+    }
+  }
   lastUsedKey=(Map<String,BlenderKey>)ic.readStringSavableMap("last-key",null);
   useModelKey=ic.readBoolean("use-model-key",false);
   String logLevelName=ic.readString("log-level",Level.INFO.getName());

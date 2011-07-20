@@ -1,0 +1,9 @@
+{
+  super(new AnimationsTableModel(new Object[]{null,"Object name","Animation name","Start","Stop"}));
+  this.getTableHeader().setReorderingAllowed(false);
+  this.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+  CellRenderer cellRenderer=new CellRenderer();
+  this.setDefaultRenderer(Object.class,cellRenderer);
+  this.getModel().addTableModelListener(cellRenderer);
+  this.getColumnModel().getColumn(0).setCellEditor(new RadioButtonCellEditor());
+}

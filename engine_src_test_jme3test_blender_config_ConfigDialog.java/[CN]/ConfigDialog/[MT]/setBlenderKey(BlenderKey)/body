@@ -29,7 +29,7 @@ catch (      IllegalAccessException e) {
     for (    Entry<String,Map<String,int[]>> animationEntry : animations.entrySet()) {
       for (      Entry<String,int[]> animDataEntry : animationEntry.getValue().entrySet()) {
         int[] frames=animDataEntry.getValue();
-        animationsModel.addRow(new Object[]{animationEntry.getKey(),animDataEntry.getKey(),Integer.valueOf(frames[0]),Integer.valueOf(frames[1])});
+        animationsModel.addRow(new Object[]{Boolean.FALSE,animationEntry.getKey(),animDataEntry.getKey(),Integer.valueOf(frames[0]),Integer.valueOf(frames[1])});
       }
     }
   }

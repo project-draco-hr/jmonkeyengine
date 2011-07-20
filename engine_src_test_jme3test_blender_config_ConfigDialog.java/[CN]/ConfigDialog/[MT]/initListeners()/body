@@ -78,7 +78,7 @@ catch (        NoSuchFieldException e) {
 );
   jButtonAddAnimation.addActionListener(new ActionListener(){
     @Override public void actionPerformed(    ActionEvent evt){
-      ((DefaultTableModel)jTableAnimations.getModel()).addRow(new Object[]{"","",Integer.valueOf(-1),Integer.valueOf(-1)});
+      ((DefaultTableModel)jTableAnimations.getModel()).addRow(new Object[]{Boolean.FALSE,"","",Integer.valueOf(1),Integer.valueOf(25)});
     }
   }
 );
@@ -100,6 +100,8 @@ catch (        NoSuchFieldException e) {
 );
   jButtonCancel.addActionListener(new ActionListener(){
     @Override public void actionPerformed(    ActionEvent evt){
+      ConfigDialog.this.storeConfig(blenderKeyConfiguration);
+      blenderKeyConfiguration=null;
       ConfigDialog.this.dispose();
     }
   }

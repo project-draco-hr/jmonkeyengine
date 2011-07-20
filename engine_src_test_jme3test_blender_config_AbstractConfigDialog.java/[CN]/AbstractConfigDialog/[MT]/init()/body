@@ -16,7 +16,7 @@ catch (  UnsupportedLookAndFeelException e) {
   }
   this.setLayout(new BorderLayout());
   this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-  this.setLocationRelativeTo(null);
+  this.setLocationByPlatform(true);
   this.add(this.prepareBlenderFilesAndLogLevelPanel(),BorderLayout.WEST);
   this.add(this.prepareFilePropertiesPanel(),BorderLayout.CENTER);
   this.add(this.prepareButtonsPanel(),BorderLayout.SOUTH);

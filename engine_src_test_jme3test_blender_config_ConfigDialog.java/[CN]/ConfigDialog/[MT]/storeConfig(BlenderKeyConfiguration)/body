@@ -1,4 +1,5 @@
 {
+  configuration.selectedAnimations.clear();
   BlenderKey blenderKey=configuration.lastUsedKey.get(configuration.lastVersionUsed);
   if (blenderKey != null) {
     DefaultTableModel animationsTableModel=(DefaultTableModel)jTableAnimations.getModel();
@@ -6,15 +7,23 @@
       blenderKey.getAnimations().clear();
     }
     int animCounter=0;
+    List<String[]> selectedAnimations=new ArrayList<String[]>();
     for (int i=0; i < animationsTableModel.getRowCount(); ++i) {
-      String objectName=(String)animationsTableModel.getValueAt(i,0);
-      String animName=(String)animationsTableModel.getValueAt(i,1);
-      Number startFrame=(Number)animationsTableModel.getValueAt(i,2);
-      Number stopFrame=(Number)animationsTableModel.getValueAt(i,3);
+      Boolean isSelected=(Boolean)animationsTableModel.getValueAt(i,0);
+      String objectName=(String)animationsTableModel.getValueAt(i,1);
+      String animName=(String)animationsTableModel.getValueAt(i,2);
+      Number startFrame=(Number)animationsTableModel.getValueAt(i,3);
+      Number stopFrame=(Number)animationsTableModel.getValueAt(i,4);
       if (objectName != null && animName != null && startFrame.intValue() <= stopFrame.intValue()) {
         blenderKey.addAnimation(objectName,animName,startFrame.intValue(),stopFrame.intValue());
         ++animCounter;
       }
+      if (isSelected) {
+        selectedAnimations.add(new String[]{objectName,animName});
+      }
+    }
+    if (selectedAnimations.size() > 0) {
+      configuration.selectedAnimations.put(blenderKey.getName(),selectedAnimations);
     }
     if (animCounter < animationsTableModel.getRowCount()) {
       JOptionPane.showMessageDialog(ConfigDialog.this,"Some animations had errors!\nThey had not been added!","Invalid animations definitions",JOptionPane.WARNING_MESSAGE);
