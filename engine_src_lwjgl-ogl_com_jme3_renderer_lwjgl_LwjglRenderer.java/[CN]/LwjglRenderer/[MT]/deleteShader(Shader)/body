@@ -6,6 +6,7 @@
   for (  ShaderSource source : shader.getSources()) {
     if (source.getId() != -1) {
       glDetachShader(shader.getId(),source.getId());
+      deleteShaderSource(source);
     }
   }
   shader.resetSources();

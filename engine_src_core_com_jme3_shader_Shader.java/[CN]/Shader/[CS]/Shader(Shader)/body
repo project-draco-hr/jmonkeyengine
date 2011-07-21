@@ -1,9 +1,7 @@
 {
   super(Type.Shader,s.id);
   shaderList=new ArrayList<ShaderSource>();
-  uniforms=new ListMap<String,Uniform>();
-  attribs=new IntMap<Attribute>();
   for (  ShaderSource source : s.shaderList) {
-    addSource((ShaderSource)source.createDestructableClone());
+    shaderList.add((ShaderSource)source.createDestructableClone());
   }
 }

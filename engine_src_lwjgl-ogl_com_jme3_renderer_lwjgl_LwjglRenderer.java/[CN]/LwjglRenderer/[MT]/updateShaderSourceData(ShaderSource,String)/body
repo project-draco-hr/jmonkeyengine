@@ -7,6 +7,9 @@
     }
     source.setId(id);
   }
+ else {
+    throw new RendererException("Cannot recompile shader source");
+  }
   stringBuf.setLength(0);
   if (language.startsWith("GLSL")) {
     int version=Integer.parseInt(language.substring(4));
@@ -66,6 +69,5 @@
     glDeleteShader(id);
   }
  else {
-    objManager.registerForCleanup(source);
   }
 }
