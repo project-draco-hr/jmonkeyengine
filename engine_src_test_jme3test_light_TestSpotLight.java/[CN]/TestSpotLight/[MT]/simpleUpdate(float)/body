@@ -1,0 +1,8 @@
+{
+  super.simpleUpdate(tpf);
+  angle+=tpf;
+  angle%=FastMath.TWO_PI;
+  spot.setPosition(new Vector3f(FastMath.cos(angle) * 30f,34.013165f,FastMath.sin(angle) * 30f));
+  lightMdl.setLocalTranslation(spot.getPosition());
+  spot.setDirection(lightTarget.subtract(spot.getPosition()));
+}

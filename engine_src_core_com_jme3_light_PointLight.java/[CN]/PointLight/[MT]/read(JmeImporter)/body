@@ -3,4 +3,10 @@
   InputCapsule ic=im.getCapsule(this);
   position=(Vector3f)ic.readSavable("position",null);
   radius=ic.readFloat("radius",0f);
+  if (radius != 0) {
+    this.invRadius=1 / radius;
+  }
+ else {
+    this.invRadius=0;
+  }
 }

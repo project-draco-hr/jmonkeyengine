@@ -1,5 +1,6 @@
 {
   LightList lightList=g.getWorldLightList();
+  Uniform lightDir=shader.getUniform("g_LightDirection");
   Uniform lightColor=shader.getUniform("g_LightColor");
   Uniform lightPos=shader.getUniform("g_LightPosition");
   Uniform ambientColor=shader.getUniform("g_AmbientLightColor");
@@ -48,10 +49,7 @@ break;
 case Point:
 PointLight pl=(PointLight)l;
 Vector3f pos=pl.getPosition();
-float invRadius=pl.getRadius();
-if (invRadius != 0) {
-invRadius=1f / invRadius;
-}
+float invRadius=pl.getInvRadius();
 Quaternion q2;
 if (lightPos.getValue() != null) {
 q2=(Quaternion)lightPos.getValue();
@@ -61,6 +59,30 @@ q2=new Quaternion();
 }
 q2.set(pos.getX(),pos.getY(),pos.getZ(),invRadius);
 lightPos.setValue(VarType.Vector4,q2);
+break;
+case Spot:
+SpotLight sl=(SpotLight)l;
+Vector3f pos2=sl.getPosition();
+Vector3f dir2=sl.getDirection();
+float invRange=sl.getInvSpotRange();
+float spotAngleCos=sl.getPackedAngleCos();
+Quaternion q3, q4;
+if (lightPos.getValue() != null) {
+q3=(Quaternion)lightPos.getValue();
+}
+ else {
+q3=new Quaternion();
+}
+q3.set(pos2.getX(),pos2.getY(),pos2.getZ(),invRange);
+lightPos.setValue(VarType.Vector4,q3);
+if (lightDir.getValue() != null) {
+q4=(Quaternion)lightDir.getValue();
+}
+ else {
+q4=new Quaternion();
+}
+q4.set(dir2.getX(),dir2.getY(),dir2.getZ(),spotAngleCos);
+lightDir.setValue(VarType.Vector4,q4);
 break;
 default :
 throw new UnsupportedOperationException("Unknown type of light: " + l.getType());

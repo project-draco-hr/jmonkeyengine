@@ -1,0 +1,9 @@
+{
+  super.write(ex);
+  OutputCapsule oc=ex.getCapsule(this);
+  oc.write(direction,"direction",new Vector3f());
+  oc.write(position,"position",new Vector3f());
+  oc.write(spotInnerAngle,"spotInnerAngle",FastMath.QUARTER_PI / 8);
+  oc.write(spotOuterAngle,"spotOuterAngle",FastMath.QUARTER_PI / 6);
+  oc.write(spotRange,"spotRange",100);
+}

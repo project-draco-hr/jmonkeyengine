@@ -1,0 +1,18 @@
+{
+  makeTerrain();
+  flyCam.setMoveSpeed(50);
+  sl=new SpotLight();
+  sl.setSpotRange(100);
+  sl.setSpotOuterAngle(20 * FastMath.DEG_TO_RAD);
+  sl.setSpotInnerAngle(15 * FastMath.DEG_TO_RAD);
+  sl.setDirection(new Vector3f(-0.39820394f,-0.73094344f,0.55421597f));
+  sl.setPosition(new Vector3f(-64.61567f,-87.615425f,-202.41328f));
+  rootNode.addLight(sl);
+  AmbientLight ambLight=new AmbientLight();
+  ambLight.setColor(new ColorRGBA(0.8f,0.8f,0.8f,0.2f));
+  rootNode.addLight(ambLight);
+  cam.setLocation(new Vector3f(-41.219646f,-84.8363f,-171.67267f));
+  cam.setRotation(new Quaternion(-0.04562731f,0.89917684f,-0.09668826f,-0.4243236f));
+  sl.setDirection(cam.getDirection());
+  sl.setPosition(cam.getLocation());
+}

@@ -5,8 +5,10 @@
   LightList lightList=g.getWorldLightList();
   Uniform lightColor=shader.getUniform("g_LightColor");
   Uniform lightPos=shader.getUniform("g_LightPosition");
+  Uniform lightDir=shader.getUniform("g_LightDirection");
   lightColor.setVector4Length(numLights);
   lightPos.setVector4Length(numLights);
+  lightDir.setVector4Length(numLights);
   Uniform ambientColor=shader.getUniform("g_AmbientLightColor");
   ambientColor.setValue(VarType.Vector4,getAmbientColor(lightList));
   int lightIndex=0;
@@ -28,11 +30,17 @@ case Directional:
 case Point:
 PointLight pl=(PointLight)l;
 Vector3f pos=pl.getPosition();
-float invRadius=pl.getRadius();
-if (invRadius != 0) {
-invRadius=1f / invRadius;
-}
+float invRadius=pl.getInvRadius();
 lightPos.setVector4InArray(pos.getX(),pos.getY(),pos.getZ(),invRadius,lightIndex);
+break;
+case Spot:
+SpotLight sl=(SpotLight)l;
+Vector3f pos2=sl.getPosition();
+Vector3f dir2=sl.getDirection();
+float invRange=sl.getInvSpotRange();
+float spotAngleCos=sl.getPackedAngleCos();
+lightPos.setVector4InArray(pos2.getX(),pos2.getY(),pos2.getZ(),invRange,lightIndex);
+lightDir.setVector4InArray(dir2.getX(),dir2.getY(),dir2.getZ(),spotAngleCos,lightIndex);
 break;
 case Ambient:
 continue;
