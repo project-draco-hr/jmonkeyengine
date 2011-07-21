@@ -60,6 +60,7 @@
     choosenConfig=fastestConfig;
   }
   if (choosenConfig != null) {
+    logger.info("JME3 using choosen config: ");
     logEGLConfig(choosenConfig,display,egl);
     pixelFormat=getPixelFormat(choosenConfig,display,egl);
     clientOpenGLESVersion=getOpenGLVersion(choosenConfig,display,egl);
