@@ -18,6 +18,7 @@
   this.stateManager.attach(state);
   matRock=new Material(assetManager,"Common/MatDefs/Terrain/TerrainLighting.j3md");
   matRock.setBoolean("useTriPlanarMapping",false);
+  matRock.setBoolean("isTerrainGrid",true);
   Texture grass=assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
   grass.setWrap(WrapMode.Repeat);
   matRock.setTexture("DiffuseMap",grass);
@@ -90,7 +91,7 @@
       return material;
     }
     public void tileAttached(    Vector3f cell,    TerrainQuad quad){
-      Texture alpha=assetManager.loadTexture("Scenes/TerrainAlphaTest/alphamap_" + Math.abs((int)(cell.x % 2)) * 512 + "_" + Math.abs((int)(cell.y % 2) * 512) + ".png");
+      Texture alpha=assetManager.loadTexture("Scenes/TerrainAlphaTest/alphamap_" + Math.abs((int)(cell.x % 2)) * 512 + "_" + Math.abs((int)(cell.z % 2) * 512) + ".png");
       quad.getMaterial().setTexture("AlphaMap",alpha);
       if (usePhysics) {
         quad.addControl(new RigidBodyControl(new HeightfieldCollisionShape(quad.getHeightMap(),terrain.getLocalScale()),0));
