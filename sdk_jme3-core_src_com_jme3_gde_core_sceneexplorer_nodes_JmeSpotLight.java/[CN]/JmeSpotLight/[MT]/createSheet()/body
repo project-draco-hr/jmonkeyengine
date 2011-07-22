@@ -1,0 +1,13 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("SpotLight");
+  set.setName(SpotLight.class.getName());
+  SpotLight obj=spotLight;
+  if (obj == null) {
+    return sheet;
+  }
+  createFields(SpotLight.class,set,obj);
+  sheet.put(set);
+  return sheet;
+}
