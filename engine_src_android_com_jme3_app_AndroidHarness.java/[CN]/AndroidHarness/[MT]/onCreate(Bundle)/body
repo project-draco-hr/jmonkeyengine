@@ -1,5 +1,17 @@
 {
   super.onCreate(savedInstanceState);
+  Logger log=logger;
+  boolean bIsLogFormatSet=false;
+  do {
+    if (log.getHandlers().length == 0) {
+      log=logger.getParent();
+      if (log != null)       for (      Handler h : log.getHandlers()) {
+        h.setFormatter(new JmeFormatter());
+        bIsLogFormatSet=true;
+      }
+    }
+  }
+ while (log != null && !bIsLogFormatSet);
   JmeSystem.setResources(getResources());
   JmeSystem.setActivity(this);
   requestWindowFeature(Window.FEATURE_NO_TITLE);
