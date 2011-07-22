@@ -1,4 +1,13 @@
 {
   this.cam=cam;
   this.inputManager=inputManager;
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      SceneViewerTopComponent svtc=SceneViewerTopComponent.findInstance();
+      if (svtc != null) {
+        svtc.addAdditionnalToolbar(camToolbar);
+      }
+    }
+  }
+);
 }

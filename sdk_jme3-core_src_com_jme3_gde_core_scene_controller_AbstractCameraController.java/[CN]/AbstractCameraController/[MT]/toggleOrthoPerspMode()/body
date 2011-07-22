@@ -1,11 +1,11 @@
 {
   try {
-    return SceneApplication.getApplication().enqueue(new Callable<Boolean>(){
+    camToolbar.toggleOrthoMode(SceneApplication.getApplication().enqueue(new Callable<Boolean>(){
       public Boolean call() throws Exception {
         return doToggleOrthoPerspMode();
       }
     }
-).get();
+).get());
   }
  catch (  InterruptedException ex) {
     Exceptions.printStackTrace(ex);
@@ -13,5 +13,4 @@
 catch (  ExecutionException ex) {
     Exceptions.printStackTrace(ex);
   }
-  return false;
 }
