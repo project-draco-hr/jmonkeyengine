@@ -70,6 +70,19 @@
       undoLight=light;
       undoParent=((Node)selected);
     }
+ else     if ("Spot Light".equals(name)) {
+      SpotLight light=new SpotLight();
+      if (point != null) {
+        Vector3f localVec=new Vector3f();
+        selected.worldToLocal(point,localVec);
+        light.setPosition(localVec);
+      }
+      light.setColor(ColorRGBA.White);
+      ((Node)selected).addLight(light);
+      refreshSelected();
+      undoLight=light;
+      undoParent=((Node)selected);
+    }
  else     if ("Directional Light".equals(name)) {
       DirectionalLight dl=new DirectionalLight();
       dl.setDirection(new Vector3f(-1,-1,-1).normalizeLocal());
@@ -99,7 +112,20 @@
       selected.addLight(light);
       refreshSelected();
       undoLight=light;
-      undoParent=((Node)selected);
+      undoSpatial=((Geometry)selected);
+    }
+ else     if ("Spot Light".equals(name)) {
+      SpotLight light=new SpotLight();
+      if (point != null) {
+        Vector3f localVec=new Vector3f();
+        selected.worldToLocal(point,localVec);
+        light.setPosition(localVec);
+      }
+      light.setColor(ColorRGBA.White);
+      selected.addLight(light);
+      refreshSelected();
+      undoLight=light;
+      undoSpatial=((Geometry)selected);
     }
  else     if ("Directional Light".equals(name)) {
       DirectionalLight dl=new DirectionalLight();
@@ -108,7 +134,7 @@
       selected.addLight(dl);
       refreshSelected();
       undoLight=dl;
-      undoParent=((Node)selected);
+      undoSpatial=((Geometry)selected);
     }
  else     if ("Ambient Light".equals(name)) {
       AmbientLight dl=new AmbientLight();
@@ -116,7 +142,7 @@
       selected.addLight(dl);
       refreshSelected();
       undoLight=dl;
-      undoParent=((Node)selected);
+      undoSpatial=((Geometry)selected);
     }
   }
   AbstractSceneExplorerNode selectedSpat=this.selectedSpat;
