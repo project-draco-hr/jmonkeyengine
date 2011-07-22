@@ -1,10 +1,6 @@
 {
-  if (location == -1) {
-    return;
-  }
-  if (varType != null && varType != VarType.Vector4Array) {
-    throw new IllegalArgumentException("Expected a " + varType.name() + " value!");
-  }
+  if (location == -1)   return;
+  if (varType != null && varType != VarType.Vector4Array)   throw new IllegalArgumentException("Expected a " + varType.name() + " value!");
   FloatBuffer fb=(FloatBuffer)value;
   fb.position(index * 4);
   fb.put(x).put(y).put(z).put(w);

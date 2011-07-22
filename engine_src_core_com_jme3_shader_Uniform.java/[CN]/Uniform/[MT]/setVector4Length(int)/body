@@ -1,7 +1,5 @@
 {
-  if (location == -1) {
-    return;
-  }
+  if (location == -1)   return;
   FloatBuffer fb=(FloatBuffer)value;
   if (fb == null || fb.capacity() < length) {
     value=BufferUtils.createFloatBuffer(length * 4);
