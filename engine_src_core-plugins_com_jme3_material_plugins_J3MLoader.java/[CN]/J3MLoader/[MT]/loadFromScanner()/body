@@ -30,14 +30,14 @@
     MaterialDef def=(MaterialDef)owner.loadAsset(new AssetKey(extendedMat));
     if (def == null)     throw new IOException("Extended material " + extendedMat + " cannot be found.");
     material=new Material(def);
-    material.setAssetName(fileName);
+    material.setKey(key);
   }
  else   if (scan.hasNext("\\{")) {
     if (extending) {
       throw new IOException("Expected ':', got '{'");
     }
     materialDef=new MaterialDef(owner,name);
-    materialDef.setAssetName(fileName);
+    materialDef.setAssetName(key.getName());
   }
   scan.next();
   nextStatement();

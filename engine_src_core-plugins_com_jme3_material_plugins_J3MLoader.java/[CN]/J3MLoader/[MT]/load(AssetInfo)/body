@@ -4,13 +4,16 @@
   try {
     scan=new Scanner(in);
     scan.useLocale(Locale.US);
-    this.fileName=info.getKey().getName();
+    key=info.getKey();
     loadFromScanner();
   }
   finally {
     if (in != null)     in.close();
   }
   if (material != null) {
+    if (!(info.getKey() instanceof MaterialKey)) {
+      throw new IOException("Material instances must be loaded via MaterialKey");
+    }
     return material;
   }
  else {
