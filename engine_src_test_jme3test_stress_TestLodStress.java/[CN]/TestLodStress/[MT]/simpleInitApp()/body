@@ -2,16 +2,20 @@
   DirectionalLight dl=new DirectionalLight();
   dl.setDirection(new Vector3f(-1,-1,-1).normalizeLocal());
   rootNode.addLight(dl);
-  Sphere sph=new Sphere(16,16,4);
-  Geometry teapot=new Geometry("teapot",sph);
+  Node teapotNode=(Node)assetManager.loadModel("Models/Teapot/Teapot.mesh.xml");
+  Geometry teapot=(Geometry)teapotNode.getChild(0);
   Material mat=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
   mat.setFloat("Shininess",16f);
+  mat.setBoolean("VertexLighting",true);
   teapot.setMaterial(mat);
   for (int y=-10; y < 10; y++) {
     for (int x=-10; x < 10; x++) {
       Geometry clonePot=teapot.clone();
       clonePot.setLocalTranslation(x * .5f,0,y * .5f);
       clonePot.setLocalScale(.15f);
+      LodControl control=new LodControl();
+      clonePot.addControl(control);
+      rootNode.attachChild(clonePot);
     }
   }
   cam.setLocation(new Vector3f(8.378951f,5.4324f,8.795956f));

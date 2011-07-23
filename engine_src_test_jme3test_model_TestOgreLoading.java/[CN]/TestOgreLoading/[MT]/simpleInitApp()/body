@@ -5,10 +5,10 @@
   dl.setColor(new ColorRGBA(1f,1f,1f,1.0f));
   rootNode.addLight(dl);
   lightMdl=new Geometry("Light",new Sphere(10,10,0.1f));
-  lightMdl.setMaterial((Material)assetManager.loadAsset("Common/Materials/RedColor.j3m"));
+  lightMdl.setMaterial(assetManager.loadMaterial("Common/Materials/RedColor.j3m"));
   rootNode.attachChild(lightMdl);
   lightMd2=new Geometry("Light",new Sphere(10,10,0.1f));
-  lightMd2.setMaterial((Material)assetManager.loadAsset("Common/Materials/WhiteColor.j3m"));
+  lightMd2.setMaterial(assetManager.loadMaterial("Common/Materials/WhiteColor.j3m"));
   rootNode.attachChild(lightMd2);
   pl=new PointLight();
   pl.setColor(new ColorRGBA(1,0.9f,0.9f,0));
