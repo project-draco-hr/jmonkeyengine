@@ -17,7 +17,7 @@
       }
       newFile=currentFolder.createData(currentFile.getName() + "_" + i,"j3m");
       EditableMaterialFile properties=new EditableMaterialFile(newFile,pm);
-      material.setAssetName(pm.getRelativeAssetPath(newFile.getPath()));
+      material.setKey(new MaterialKey(pm.getRelativeAssetPath(newFile.getPath())));
       properties.setAsMaterial(material);
       currentFolder.refresh();
       applyMaterial(material.getAssetName());
