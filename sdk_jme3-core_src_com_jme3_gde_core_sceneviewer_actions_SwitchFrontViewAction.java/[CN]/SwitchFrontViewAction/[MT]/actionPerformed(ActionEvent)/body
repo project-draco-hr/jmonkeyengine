@@ -1,6 +1,6 @@
 {
   SceneViewerTopComponent svtc=SceneViewerTopComponent.findInstance();
   if (svtc.hasFocus()) {
-    System.out.println("front view");
+    SceneApplication.getApplication().getActiveCamController().switchToView(View.Front);
   }
 }

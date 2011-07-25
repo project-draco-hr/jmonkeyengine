@@ -1,0 +1,41 @@
+{
+switch (view) {
+case Front:
+    viewButton.setIcon(frontMenuItem.getIcon());
+  viewButton.setText(frontMenuItem.getText());
+isUserView=false;
+break;
+case Left:
+viewButton.setIcon(leftMenuItem.getIcon());
+viewButton.setText(leftMenuItem.getText());
+isUserView=false;
+break;
+case Right:
+viewButton.setIcon(rightMenuItem.getIcon());
+viewButton.setText(rightMenuItem.getText());
+isUserView=false;
+break;
+case Back:
+viewButton.setIcon(backMenuItem.getIcon());
+viewButton.setText(backMenuItem.getText());
+isUserView=false;
+break;
+case Top:
+viewButton.setIcon(topMenuItem.getIcon());
+viewButton.setText(topMenuItem.getText());
+isUserView=false;
+break;
+case Bottom:
+viewButton.setIcon(bottomMenuItem.getIcon());
+viewButton.setText(bottomMenuItem.getText());
+isUserView=false;
+break;
+case User:
+default :
+if (!isUserView) {
+viewButton.setIcon(userIcon);
+viewButton.setText(NbBundle.getMessage(CameraToolbar.class,"CameraToolbar.viewButton.label"));
+isUserView=true;
+}
+}
+}

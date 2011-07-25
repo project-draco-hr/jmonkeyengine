@@ -1,3 +1,10 @@
 {
-  toggleRightView();
+  SceneViewerTopComponent.findInstance().requestActive();
+  final java.awt.event.ActionEvent e=evt;
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      switchRightViewAction.actionPerformed(e);
+    }
+  }
+);
 }
