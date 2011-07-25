@@ -22,7 +22,7 @@
     Structure parentStructure=pParent.fetchData(dataRepository.getInputStream()).get(0);
     parent=this.toObject(parentStructure,dataRepository);
   }
-  Transform t=objectHelper.getTransformation(objectStructure);
+  Transform t=objectHelper.getTransformation(objectStructure,dataRepository);
   try {
 switch (type) {
 case OBJECT_TYPE_EMPTY:

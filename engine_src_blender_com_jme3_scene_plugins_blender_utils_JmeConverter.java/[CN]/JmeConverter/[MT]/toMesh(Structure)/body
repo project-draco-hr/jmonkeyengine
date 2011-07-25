@@ -1,4 +1,7 @@
 {
   MeshHelper meshHelper=dataRepository.getHelper(MeshHelper.class);
-  return meshHelper.toMesh(structure,dataRepository);
+  if (meshHelper.shouldBeLoaded(structure,dataRepository)) {
+    return meshHelper.toMesh(structure,dataRepository);
+  }
+  return null;
 }

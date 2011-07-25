@@ -1,7 +1,7 @@
 {
-  if ((dataRepository.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.LIGHTS) == 0) {
-    return null;
-  }
   LightHelper lightHelper=dataRepository.getHelper(LightHelper.class);
-  return lightHelper.toLight(structure,dataRepository);
+  if (lightHelper.shouldBeLoaded(structure,dataRepository)) {
+    return lightHelper.toLight(structure,dataRepository);
+  }
+  return null;
 }

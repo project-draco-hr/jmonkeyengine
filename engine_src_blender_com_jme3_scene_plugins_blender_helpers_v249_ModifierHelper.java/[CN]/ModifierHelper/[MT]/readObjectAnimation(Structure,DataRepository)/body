@@ -35,7 +35,7 @@
     ArrayList<BoneAnimation> animations=new ArrayList<BoneAnimation>(1);
     animations.add(boneAnimation);
     ObjectHelper objectHelper=dataRepository.getHelper(ObjectHelper.class);
-    Transform t=objectHelper.getTransformation(objectStructure);
+    Transform t=objectHelper.getTransformation(objectStructure,dataRepository);
     Bone bone=new Bone(null);
     bone.setBindTransforms(t.getTranslation(),t.getRotation(),t.getScale());
     return new Modifier(Modifier.OBJECT_ANIMATION_MODIFIER_DATA,new AnimData(new Skeleton(new Bone[]{bone}),animations),objectStructure.getOldMemoryAddress());

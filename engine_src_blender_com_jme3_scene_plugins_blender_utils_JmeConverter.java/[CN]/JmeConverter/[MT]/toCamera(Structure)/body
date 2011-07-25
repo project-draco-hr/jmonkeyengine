@@ -1,7 +1,7 @@
 {
-  if ((dataRepository.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.CAMERAS) == 0) {
-    return null;
-  }
   CameraHelper cameraHelper=dataRepository.getHelper(CameraHelper.class);
-  return cameraHelper.toCamera(structure);
+  if (cameraHelper.shouldBeLoaded(structure,dataRepository)) {
+    return cameraHelper.toCamera(structure);
+  }
+  return null;
 }

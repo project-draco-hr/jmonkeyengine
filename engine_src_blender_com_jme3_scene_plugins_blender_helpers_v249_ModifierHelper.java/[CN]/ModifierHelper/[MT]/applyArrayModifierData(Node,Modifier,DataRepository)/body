@@ -34,7 +34,7 @@
     ObjectHelper objectHelper=dataRepository.getHelper(ObjectHelper.class);
     try {
       Structure offsetStructure=offsetObjectBlock.getStructure(dataRepository);
-      Vector3f translation=objectHelper.getTransformation(offsetStructure).getTranslation();
+      Vector3f translation=objectHelper.getTransformation(offsetStructure,dataRepository).getTranslation();
       objectOffset[0]=translation.x;
       objectOffset[1]=translation.y;
       objectOffset[2]=translation.z;

@@ -1,0 +1,15 @@
+{
+  this.bone=bone;
+  this.startRotation=bone.getModelSpaceRotation().clone();
+  this.startTranslation=bone.getModelSpacePosition().clone();
+  this.startScale=bone.getModelSpaceScale().clone();
+  this.reset();
+  if (boneFramesCount > 0) {
+    this.translations=new Vector3f[boneFramesCount];
+    this.rotations=new Quaternion[boneFramesCount];
+    this.scales=new Vector3f[boneFramesCount];
+    Arrays.fill(this.translations,0,boneFramesCount,this.startTranslation);
+    Arrays.fill(this.rotations,0,boneFramesCount,this.startRotation);
+    Arrays.fill(this.scales,0,boneFramesCount,this.startScale);
+  }
+}
