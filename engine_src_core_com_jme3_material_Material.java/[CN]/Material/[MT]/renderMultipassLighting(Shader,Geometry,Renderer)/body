@@ -35,6 +35,8 @@ case Directional:
     Vector3f dir=dl.getDirection();
   tmpLightPosition.set(dir.getX(),dir.getY(),dir.getZ(),-1);
 lightPos.setValue(VarType.Vector4,tmpLightPosition);
+tmpLightDirection.set(0,0,0,0);
+lightDir.setValue(VarType.Vector4,tmpLightDirection);
 break;
 case Point:
 PointLight pl=(PointLight)l;
@@ -42,6 +44,8 @@ Vector3f pos=pl.getPosition();
 float invRadius=pl.getInvRadius();
 tmpLightPosition.set(pos.getX(),pos.getY(),pos.getZ(),invRadius);
 lightPos.setValue(VarType.Vector4,tmpLightPosition);
+tmpLightDirection.set(0,0,0,0);
+lightDir.setValue(VarType.Vector4,tmpLightDirection);
 break;
 case Spot:
 SpotLight sl=(SpotLight)l;
