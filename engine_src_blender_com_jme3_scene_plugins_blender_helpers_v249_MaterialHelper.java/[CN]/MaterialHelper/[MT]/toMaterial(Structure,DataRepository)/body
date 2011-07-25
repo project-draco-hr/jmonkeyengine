@@ -76,7 +76,8 @@
                 }
               }
               if ((mapto & 0x02) != 0) {
-                result.setTexture(TEXTURE_TYPE_NORMAL,texture);
+                Texture normalMapTexture=textureHelper.convertToNormalMapTexture(texture,((Number)tex.getFieldValue("norfac")).floatValue());
+                result.setTexture(TEXTURE_TYPE_NORMAL,normalMapTexture);
                 if (vertexColor) {
                   result.setBoolean(shadeless ? "VertexColor" : "UseVertexColor",false);
                 }

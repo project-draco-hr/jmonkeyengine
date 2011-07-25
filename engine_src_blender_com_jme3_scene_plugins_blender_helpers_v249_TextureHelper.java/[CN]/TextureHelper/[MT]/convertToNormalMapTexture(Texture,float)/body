@@ -1,0 +1,30 @@
+{
+  Image image=source.getImage();
+  BufferedImage sourceImage=ImageToAwt.convert(image,false,false,0);
+  BufferedImage heightMap=new BufferedImage(sourceImage.getWidth(),sourceImage.getHeight(),BufferedImage.TYPE_INT_ARGB);
+  BufferedImage bumpMap=new BufferedImage(sourceImage.getWidth(),sourceImage.getHeight(),BufferedImage.TYPE_INT_ARGB);
+  ColorConvertOp gscale=new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY),null);
+  gscale.filter(sourceImage,heightMap);
+  Vector3f S=new Vector3f();
+  Vector3f T=new Vector3f();
+  Vector3f N=new Vector3f();
+  for (int x=0; x < bumpMap.getWidth(); ++x) {
+    for (int y=0; y < bumpMap.getHeight(); ++y) {
+      S.x=1;
+      S.y=0;
+      S.z=strengthFactor * this.getHeight(heightMap,x + 1,y) - strengthFactor * this.getHeight(heightMap,x - 1,y);
+      T.x=0;
+      T.y=1;
+      T.z=strengthFactor * this.getHeight(heightMap,x,y + 1) - strengthFactor * this.getHeight(heightMap,x,y - 1);
+      float den=(float)Math.sqrt(S.z * S.z + T.z * T.z + 1);
+      N.x=-S.z;
+      N.y=-T.z;
+      N.z=1;
+      N.divideLocal(den);
+      bumpMap.setRGB(x,y,this.vectorToColor(N.x,N.y,N.z));
+    }
+  }
+  ByteBuffer byteBuffer=BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * 3);
+  ImageToAwt.convert(bumpMap,Format.RGB8,byteBuffer);
+  return new Texture2D(new Image(Format.RGB8,image.getWidth(),image.getHeight(),byteBuffer));
+}
