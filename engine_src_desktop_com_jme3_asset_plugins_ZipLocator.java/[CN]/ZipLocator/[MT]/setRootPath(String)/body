@@ -3,6 +3,6 @@
     zipfile=new ZipFile(new File(rootPath),ZipFile.OPEN_READ);
   }
  catch (  IOException ex) {
-    logger.log(Level.WARNING,"Failed to open zip file: " + rootPath,ex);
+    throw new AssetLoadException("Failed to open zip file: " + rootPath,ex);
   }
 }

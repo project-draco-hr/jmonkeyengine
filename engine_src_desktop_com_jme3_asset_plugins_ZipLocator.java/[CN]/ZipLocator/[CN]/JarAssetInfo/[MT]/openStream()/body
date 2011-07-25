@@ -3,7 +3,6 @@
     return zipfile.getInputStream(entry);
   }
  catch (  IOException ex) {
-    logger.log(Level.WARNING,"Failed to load zip entry: " + entry,ex);
+    throw new AssetLoadException("Failed to load zip entry: " + entry,ex);
   }
-  return null;
 }
