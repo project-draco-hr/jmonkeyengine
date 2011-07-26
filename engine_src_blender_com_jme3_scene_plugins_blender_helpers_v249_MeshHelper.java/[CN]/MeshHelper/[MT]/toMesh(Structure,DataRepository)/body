@@ -153,11 +153,11 @@
   for (  Entry<Integer,List<Integer>> meshEntry : meshesMap.entrySet()) {
     Mesh mesh=new Mesh();
     List<Integer> indexList=meshEntry.getValue();
-    short[] indices=new short[indexList.size()];
+    int[] indices=new int[indexList.size()];
     for (int i=0; i < indexList.size(); ++i) {
-      indices[i]=indexList.get(i).shortValue();
+      indices[i]=indexList.get(i).intValue();
     }
-    mesh.setBuffer(Type.Index,1,BufferUtils.createShortBuffer(indices));
+    mesh.setBuffer(Type.Index,1,indices);
     mesh.setBuffer(verticesBuffer);
     mesh.setBuffer(verticesBind);
     if (verticesColorsBuffer != null) {
