@@ -1,5 +1,7 @@
 {
-  if (editorController.getTerrain(null) == null)   return null;
+  if (editorController.getTerrain(null) == null) {
+    return null;
+  }
   CollisionResults results=new CollisionResults();
   Ray ray=new Ray();
   Vector3f pos=cam.getWorldCoordinates(new Vector2f(mouseX,mouseY),0).clone();
@@ -12,6 +14,8 @@
     return null;
   }
   final CollisionResult result=results.getClosestCollision();
-  if (result == null)   return null;
+  if (result == null) {
+    return null;
+  }
   return result.getContactPoint();
 }

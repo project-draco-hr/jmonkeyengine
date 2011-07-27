@@ -3,7 +3,9 @@
     lastModifyTime+=dt;
     if (lastModifyTime >= toolModifyRate) {
       lastModifyTime=0;
-      if (terrainEditToolActivated)       toolController.doTerrainEditToolActivated();
+      if (terrainEditToolActivated) {
+        toolController.doTerrainEditToolActivated();
+      }
       terrainEditToolActivated=false;
       lastModifyTime=app.getContext().getTimer().getTime();
     }
