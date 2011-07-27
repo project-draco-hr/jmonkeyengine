@@ -8,9 +8,11 @@
       }
     }
 ).get();
-    JmeNode node=((JmeNode)getParentNode());
-    if (node != null) {
-      node.refresh(false);
+    if (getParentNode() instanceof JmeNode) {
+      JmeNode node=((JmeNode)getParentNode());
+      if (node != null) {
+        node.refresh(false);
+      }
     }
   }
  catch (  InterruptedException ex) {
