@@ -56,6 +56,9 @@ throw new BlenderFileException("Unknown texture type: " + type + " for texture: 
 if (result != null) {
 result.setName(tex.getName());
 result.setWrap(WrapMode.Repeat);
+if (type != TEX_IMAGE) {
+result.setKey(new GeneratedTextureKey(tex.getName()));
+}
 }
 return result;
 }
