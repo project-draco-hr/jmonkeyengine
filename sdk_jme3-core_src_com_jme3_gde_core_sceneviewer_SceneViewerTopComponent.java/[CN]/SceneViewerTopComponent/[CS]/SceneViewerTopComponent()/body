@@ -24,7 +24,24 @@ catch (  Error err) {
       if (e.getWheelRotation() < 0) {
         action="MouseWheel";
       }
-      app.getActiveCamController().onAnalog(action,e.getWheelRotation(),0);
+      app.getActiveCameraController().onAnalog(action,e.getWheelRotation(),0);
+    }
+  }
+);
+  addKeyListener(new KeyListener(){
+    public void keyTyped(    KeyEvent evt){
+    }
+    public void keyPressed(    KeyEvent evt){
+      int code=AwtKeyInput.convertAwtKey(evt.getKeyCode());
+      KeyInputEvent keyEvent=new KeyInputEvent(code,evt.getKeyChar(),true,false);
+      keyEvent.setTime(evt.getWhen());
+      app.getActiveCameraController().onKeyEvent(keyEvent);
+    }
+    public void keyReleased(    KeyEvent evt){
+      int code=AwtKeyInput.convertAwtKey(evt.getKeyCode());
+      KeyInputEvent keyEvent=new KeyInputEvent(code,evt.getKeyChar(),false,false);
+      keyEvent.setTime(evt.getWhen());
+      app.getActiveCameraController().onKeyEvent(keyEvent);
     }
   }
 );

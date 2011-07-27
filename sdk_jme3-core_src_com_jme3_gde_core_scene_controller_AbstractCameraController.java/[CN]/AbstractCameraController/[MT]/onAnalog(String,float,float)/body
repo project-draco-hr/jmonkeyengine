@@ -2,40 +2,40 @@
   if ("MouseAxisX".equals(string)) {
     moved=true;
     movedR=true;
-    if (buttonDownL || buttonDownM) {
+    if ((buttonDownL && useCameraControls()) || (buttonDownM && !shiftModifier)) {
       rotateCamera(Vector3f.UNIT_Y,-f1 * 2.5f);
     }
-    if (buttonDownR) {
+    if ((buttonDownR && useCameraControls()) || (buttonDownM && shiftModifier)) {
       panCamera(f1 * 2.5f,0);
     }
   }
  else   if ("MouseAxisY".equals(string)) {
     moved=true;
     movedR=true;
-    if (buttonDownL || buttonDownM) {
+    if ((buttonDownL && useCameraControls()) || (buttonDownM && !shiftModifier)) {
       rotateCamera(cam.getLeft(),-f1 * 2.5f);
     }
-    if (buttonDownR) {
+    if ((buttonDownR && useCameraControls()) || (buttonDownM && shiftModifier)) {
       panCamera(0,-f1 * 2.5f);
     }
   }
  else   if ("MouseAxisX-".equals(string)) {
     moved=true;
     movedR=true;
-    if (buttonDownL || buttonDownM) {
+    if ((buttonDownL && useCameraControls()) || (buttonDownM && !shiftModifier)) {
       rotateCamera(Vector3f.UNIT_Y,f1 * 2.5f);
     }
-    if (buttonDownR) {
+    if ((buttonDownR && useCameraControls()) || (buttonDownM && shiftModifier)) {
       panCamera(-f1 * 2.5f,0);
     }
   }
  else   if ("MouseAxisY-".equals(string)) {
     moved=true;
     movedR=true;
-    if (buttonDownL || buttonDownM) {
+    if ((buttonDownL && useCameraControls()) || (buttonDownM && !shiftModifier)) {
       rotateCamera(cam.getLeft(),f1 * 2.5f);
     }
-    if (buttonDownR) {
+    if ((buttonDownR && useCameraControls()) || (buttonDownM && shiftModifier)) {
       panCamera(0,f1 * 2.5f);
     }
   }

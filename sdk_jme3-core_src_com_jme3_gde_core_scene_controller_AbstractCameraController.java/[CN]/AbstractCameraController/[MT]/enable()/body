@@ -2,13 +2,15 @@
   inputManager.addRawInputListener(this);
   inputManager.addListener(this,"MouseAxisX","MouseAxisY","MouseAxisX-","MouseAxisY-","MouseWheel","MouseWheel-","MouseButtonLeft","MouseButtonMiddle","MouseButtonRight");
   SceneApplication.getApplication().getStateManager().attach(this);
-  SceneApplication.getApplication().setActiveCamController(this);
+  AbstractCameraController cc=SceneApplication.getApplication().getActiveCameraController();
+  if (cc != null) {
+    cam.setLocation(cc.cam.getLocation());
+    focus.set(cc.focus);
+  }
+  SceneApplication.getApplication().setActiveCameraController(this);
   java.awt.EventQueue.invokeLater(new Runnable(){
     public void run(){
-      SceneViewerTopComponent svtc=SceneViewerTopComponent.findInstance();
-      if (svtc != null) {
-        svtc.addAdditionnalToolbar(CameraToolbar.getInstance());
-      }
+      addAdditionnalToolbar();
     }
   }
 );

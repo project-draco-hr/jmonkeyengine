@@ -2,13 +2,12 @@
   inputManager.removeRawInputListener(this);
   inputManager.removeListener(this);
   SceneApplication.getApplication().getStateManager().detach(this);
-  java.awt.EventQueue.invokeLater(new Runnable(){
-    public void run(){
-      SceneViewerTopComponent svtc=SceneViewerTopComponent.findInstance();
-      if (svtc != null) {
-        svtc.removeAdditionnalToolbar(CameraToolbar.getInstance());
+  if (SceneApplication.getApplication().getActiveCameraController() == this) {
+    java.awt.EventQueue.invokeLater(new Runnable(){
+      public void run(){
+        removeAdditionnalToolbar();
       }
     }
-  }
 );
+  }
 }
