@@ -5,12 +5,24 @@
   FloatBuffer pb=BufferUtils.createVector3Buffer(numParticles * 4);
   VertexBuffer pvb=new VertexBuffer(VertexBuffer.Type.Position);
   pvb.setupData(Usage.Stream,3,Format.Float,pb);
-  setBuffer(pvb);
+  VertexBuffer buf=getBuffer(VertexBuffer.Type.Position);
+  if (buf != null) {
+    buf.updateData(pb);
+  }
+ else {
+    setBuffer(pvb);
+  }
   ByteBuffer cb=BufferUtils.createByteBuffer(numParticles * 4 * 4);
   VertexBuffer cvb=new VertexBuffer(VertexBuffer.Type.Color);
   cvb.setupData(Usage.Stream,4,Format.UnsignedByte,cb);
   cvb.setNormalized(true);
-  setBuffer(cvb);
+  buf=getBuffer(VertexBuffer.Type.Color);
+  if (buf != null) {
+    buf.updateData(cb);
+  }
+ else {
+    setBuffer(cvb);
+  }
   VertexBuffer tvb=new VertexBuffer(VertexBuffer.Type.TexCoord);
   FloatBuffer tb=BufferUtils.createVector2Buffer(numParticles * 4);
   uniqueTexCoords=false;
@@ -22,7 +34,13 @@
   }
   tb.flip();
   tvb.setupData(Usage.Static,2,Format.Float,tb);
-  setBuffer(tvb);
+  buf=getBuffer(VertexBuffer.Type.TexCoord);
+  if (buf != null) {
+    buf.updateData(tb);
+  }
+ else {
+    setBuffer(tvb);
+  }
   ShortBuffer ib=BufferUtils.createShortBuffer(numParticles * 6);
   for (int i=0; i < numParticles; i++) {
     int startIdx=(i * 4);
@@ -32,5 +50,11 @@
   ib.flip();
   VertexBuffer ivb=new VertexBuffer(VertexBuffer.Type.Index);
   ivb.setupData(Usage.Static,3,Format.UnsignedShort,ib);
-  setBuffer(ivb);
+  buf=getBuffer(VertexBuffer.Type.Index);
+  if (buf != null) {
+    buf.updateData(ib);
+  }
+ else {
+    setBuffer(ivb);
+  }
 }
