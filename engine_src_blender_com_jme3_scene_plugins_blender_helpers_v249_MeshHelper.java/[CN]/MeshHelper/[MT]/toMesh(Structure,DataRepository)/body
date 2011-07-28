@@ -170,9 +170,6 @@
     }
     mesh.setBuffer(normalsBuffer);
     mesh.setBuffer(normalsBind);
-    if (uvCoordsBuffer != null) {
-      mesh.setBuffer(uvCoordsBuffer);
-    }
     Geometry geometry=new Geometry(name + (geometries.size() + 1),mesh);
     if (materials != null) {
       int materialNumber=meshEntry.getKey().intValue();
@@ -213,6 +210,47 @@
       geometry.setUserData("properties",properties);
     }
     geometries.add(geometry);
+  }
+  if (uvCoordsBuffer != null) {
+    for (    Geometry geom : geometries) {
+      geom.getMesh().setBuffer(uvCoordsBuffer);
+    }
+  }
+ else {
+    Vector2f[] uvTable=new Vector2f[vertexList.size()];
+    Ray ray=new Ray();
+    CollisionResults cr=new CollisionResults();
+    Vector3f yVec=new Vector3f();
+    Vector3f zVec=new Vector3f();
+    for (    Geometry geom : geometries) {
+      if (materialHelper.hasTexture(geom.getMaterial())) {
+        geom.getMesh().updateBound();
+        BoundingSphere bs=this.getBoundingSphere(geom.getMesh());
+        float r2=bs.getRadius() * bs.getRadius();
+        yVec.set(0,-bs.getRadius(),0);
+        zVec.set(0,0,-bs.getRadius());
+        Vector3f center=bs.getCenter();
+        ray.setOrigin(center);
+        for (int i=0; i < geom.getMesh().getIndexBuffer().size(); ++i) {
+          int index=geom.getMesh().getIndexBuffer().get(i);
+          ray.setOrigin(vertexList.get(index));
+          ray.setDirection(normalList.get(index));
+          cr.clear();
+          bs.collideWith(ray,cr);
+          Vector3f p=cr.getCollision(0).getContactPoint();
+          p.subtractLocal(center);
+          float u=FastMath.acos(p.dot(yVec) / r2) / FastMath.PI;
+          p.y=0;
+          float v=FastMath.acos(p.dot(zVec) / (bs.getRadius() * p.length())) / FastMath.PI;
+          uvTable[index]=new Vector2f(u,v);
+        }
+      }
+    }
+    uvCoordsBuffer=new VertexBuffer(Type.TexCoord);
+    uvCoordsBuffer.setupData(Usage.Static,2,Format.Float,BufferUtils.createFloatBuffer(uvTable));
+    for (    Geometry geom : geometries) {
+      geom.getMesh().setBuffer(uvCoordsBuffer);
+    }
   }
   dataRepository.addLoadedFeatures(structure.getOldMemoryAddress(),structure.getName(),structure,geometries);
   return geometries;
