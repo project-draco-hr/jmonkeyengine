@@ -11,6 +11,7 @@
     Vector3f point=new Vector3f(ray.direction).multLocal(distance).addLocal(ray.origin);
     CollisionResult result=new CollisionResult(point,distance);
     results.addCollision(result);
+    vars.release();
     return 1;
   }
   a1=ray.direction.dot(diff);
