@@ -1,6 +1,6 @@
 {
   try {
-    AssetKey key=new AssetKey(manager.getRelativeAssetPath(materialFileName));
+    MaterialKey key=new MaterialKey(manager.getRelativeAssetPath(materialFileName));
     Geometry geom=new Geometry("TestSphere",sphMesh);
     manager.deleteFromCache(key);
     geom.setMaterial((Material)manager.loadAsset(key));
