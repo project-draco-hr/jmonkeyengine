@@ -1,26 +1,3 @@
 {
-  ParticleEmitter clone=(ParticleEmitter)super.clone();
-  clone.shape=shape.deepClone();
-  clone.setNumParticles(particles.length);
-  clone.faceNormal=faceNormal.clone();
-  clone.startColor=startColor.clone();
-  clone.endColor=endColor.clone();
-  clone.particleInfluencer=particleInfluencer.clone();
-  clone.controls.remove(control);
-  clone.controls.add(new ParticleEmitterControl(clone));
-switch (meshType) {
-case Point:
-    clone.particleMesh=new ParticlePointMesh();
-  clone.setMesh(clone.particleMesh);
-break;
-case Triangle:
-clone.particleMesh=new ParticleTriMesh();
-clone.setMesh(clone.particleMesh);
-break;
-default :
-throw new IllegalStateException("Unrecognized particle type: " + meshType);
-}
-clone.particleMesh.initParticleData(clone,clone.particles.length);
-clone.particleMesh.setImagesXY(clone.imagesX,clone.imagesY);
-return clone;
+  return clone(true);
 }
