@@ -37,7 +37,7 @@
           FloatBuffer cloneBindPosePosition=clone.getFloatBuffer(Type.BindPosePosition);
           FloatBuffer cloneNormals=clone.getFloatBuffer(Type.Normal);
           FloatBuffer cloneBindPoseNormals=clone.getFloatBuffer(Type.BindPoseNormal);
-          ShortBuffer cloneIndexes=(ShortBuffer)clone.getBuffer(Type.Index).getData();
+          IntBuffer cloneIndexes=(IntBuffer)clone.getBuffer(Type.Index).getData();
           for (int i=mirrorIndex; i < clonePosition.limit(); i+=3) {
             float value=clonePosition.get(i);
             float d=center[mirrorIndex] - value;
@@ -55,7 +55,7 @@
             cloneBindPoseNormals.put(i,-cloneNormals.get(i));
             int vertexIndex=(i - mirrorIndex) / 3;
             if (vertexIndex % 3 == 0) {
-              short index=cloneIndexes.get(vertexIndex + 2);
+              int index=cloneIndexes.get(vertexIndex + 2);
               cloneIndexes.put(vertexIndex + 2,cloneIndexes.get(vertexIndex + 1));
               cloneIndexes.put(vertexIndex + 1,index);
             }
