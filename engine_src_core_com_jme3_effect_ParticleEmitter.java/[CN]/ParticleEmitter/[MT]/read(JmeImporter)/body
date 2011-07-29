@@ -7,7 +7,6 @@
   }
   meshType=ic.readEnum("meshType",ParticleMesh.Type.class,ParticleMesh.Type.Triangle);
   int numParticles=ic.readInt("numParticles",0);
-  this.setNumParticles(numParticles);
   enabled=ic.readBoolean("enabled",true);
   particlesPerSec=ic.readFloat("particlesPerSec",0);
   lowLife=ic.readFloat("lowLife",0);
@@ -36,8 +35,7 @@ break;
 default :
 throw new IllegalStateException("Unrecognized particle type: " + meshType);
 }
-particleMesh.initParticleData(this,particles.length);
-particleMesh.setImagesXY(imagesX,imagesY);
+this.setNumParticles(numParticles);
 particleInfluencer=(ParticleInfluencer)ic.readSavable("influencer",DEFAULT_INFLUENCER);
 if (particleInfluencer == DEFAULT_INFLUENCER) {
 particleInfluencer=particleInfluencer.clone();
