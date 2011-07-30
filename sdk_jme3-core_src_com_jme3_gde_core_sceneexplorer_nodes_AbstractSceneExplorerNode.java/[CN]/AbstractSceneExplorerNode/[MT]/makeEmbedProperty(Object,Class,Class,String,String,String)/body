@@ -1,0 +1,16 @@
+{
+  Property prop=null;
+  try {
+    if (readOnly) {
+      prop=new SceneExplorerProperty(objectClass.cast(obj),returntype,method,null);
+    }
+ else {
+      prop=new SceneExplorerProperty(objectClass.cast(obj),returntype,method,setter,this);
+    }
+    prop.setName(name);
+  }
+ catch (  NoSuchMethodException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return prop;
+}
