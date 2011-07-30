@@ -1,6 +1,11 @@
 {
-  if (textureList.getSelectedIndex() > -1) {
-    String selected=(String)textureList.getSelectedValue();
+  DefaultMutableTreeNode node=(DefaultMutableTreeNode)jTree1.getLastSelectedPathComponent();
+  if (node == null) {
+    return;
+  }
+  if (node.isLeaf()) {
+    String selected=TreeUtil.getPath(node.getUserObjectPath());
+    selected=selected.substring(0,selected.lastIndexOf("/"));
     Texture tex=assetManager.loadTexture(selected);
     Icon newicon=null;
     if (selected.endsWith(".dds") || selected.endsWith(".DDS")) {
@@ -18,8 +23,10 @@
       newicon=ImageUtilities.image2Icon(ImageToAwt.convert(tex.getImage(),false,true,0));
     }
     imagePreviewLabel.setIcon(newicon);
+    infoLabel.setText(" " + node.getUserObject() + "    w : "+ newicon.getIconWidth()+ "    h : "+ newicon.getIconHeight());
   }
  else {
     imagePreviewLabel.setIcon(null);
+    infoLabel.setText("");
   }
 }

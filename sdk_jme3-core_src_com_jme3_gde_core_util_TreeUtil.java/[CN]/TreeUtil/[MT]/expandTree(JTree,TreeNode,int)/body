@@ -1,0 +1,11 @@
+{
+  for (Enumeration children=start.children(); children.hasMoreElements(); ) {
+    DefaultMutableTreeNode dtm=(DefaultMutableTreeNode)children.nextElement();
+    if (!dtm.isLeaf() && dtm.getLevel() <= level) {
+      TreePath tp=new TreePath(dtm.getPath());
+      tree.expandPath(tp);
+      expandTree(tree,dtm,level);
+    }
+  }
+  return;
+}
