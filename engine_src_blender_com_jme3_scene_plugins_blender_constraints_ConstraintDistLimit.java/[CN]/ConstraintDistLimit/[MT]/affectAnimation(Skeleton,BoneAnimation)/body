@@ -1,0 +1,35 @@
+{
+  Vector3f targetLocation=this.getTargetLocation();
+  BoneTrack boneTrack=this.getBoneTrack(skeleton,boneAnimation);
+  if (boneTrack != null) {
+    float dist=((Number)data.getFieldValue("dist")).floatValue();
+    int mode=((Number)data.getFieldValue("mode")).intValue();
+    int maxFrames=boneTrack.getTimes().length;
+    Vector3f[] translations=boneTrack.getTranslations();
+    for (int frame=0; frame < maxFrames; ++frame) {
+      Vector3f v=translations[frame].subtract(targetLocation);
+      float currentDistance=v.length();
+      float influence=ipo.calculateValue(frame);
+      float modifier=0.0f;
+switch (mode) {
+case LIMITDIST_INSIDE:
+        if (currentDistance >= dist) {
+          modifier=(dist - currentDistance) / currentDistance;
+        }
+      break;
+case LIMITDIST_ONSURFACE:
+    modifier=(dist - currentDistance) / currentDistance;
+  break;
+case LIMITDIST_OUTSIDE:
+if (currentDistance <= dist) {
+  modifier=(dist - currentDistance) / currentDistance;
+}
+break;
+default :
+throw new IllegalStateException("Unknown distance limit constraint mode: " + mode);
+}
+translations[frame].addLocal(v.multLocal(modifier * influence));
+}
+boneTrack.setKeyframes(boneTrack.getTimes(),translations,boneTrack.getRotations(),boneTrack.getScales());
+}
+}

@@ -1,0 +1,12 @@
+{
+  Long targetOMA=((Pointer)data.getFieldValue("tar")).getOldMemoryAddress();
+  Node targetObject=(Node)dataRepository.getLoadedFeature(targetOMA,LoadedFeatureDataType.LOADED_FEATURE);
+switch (targetSpace) {
+case CONSTRAINT_SPACE_LOCAL:
+    return targetObject.getLocalRotation();
+case CONSTRAINT_SPACE_WORLD:
+  return targetObject.getWorldRotation();
+default :
+throw new IllegalStateException("Invalid space type for target object: " + targetSpace.toString());
+}
+}

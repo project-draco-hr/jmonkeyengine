@@ -1,0 +1,41 @@
+{
+  float contrast=((Number)tex.getFieldValue("contrast")).floatValue();
+  float bright=((Number)tex.getFieldValue("bright")).floatValue();
+  float nabla=((Number)tex.getFieldValue("nabla")).floatValue();
+  float wDelta=1.0f / width, hDelta=1.0f / height;
+  float[] texvec=new float[]{0,0,0};
+  TexResult texres=new TexResult();
+  int halfW=width;
+  int halfH=height;
+  width<<=1;
+  height<<=1;
+  ColorBand colorBand=this.readColorband(tex,dataRepository);
+  Format format=colorBand != null ? Format.RGB8 : Format.Luminance8;
+  int bytesPerPixel=colorBand != null ? 3 : 1;
+  ByteBuffer data=BufferUtils.createByteBuffer(width * height * bytesPerPixel);
+  for (int i=-halfW; i < halfW; ++i) {
+    texvec[0]=wDelta * i;
+    for (int j=-halfH; j < halfH; ++j) {
+      texvec[1]=hDelta * j;
+      texres.tin=noiseHelper.woodInt(tex,texvec[0],texvec[1],texvec[2],dataRepository);
+      if (colorBand != null) {
+        noiseHelper.doColorband(colorBand,texres,dataRepository);
+        if (texres.nor != null) {
+          texres.nor[0]=noiseHelper.woodInt(tex,texvec[0] + nabla,texvec[1],texvec[2],dataRepository);
+          texres.nor[1]=noiseHelper.woodInt(tex,texvec[0],texvec[1] + nabla,texvec[2],dataRepository);
+          texres.nor[2]=noiseHelper.woodInt(tex,texvec[0],texvec[1],texvec[2] + nabla,dataRepository);
+          noiseHelper.texNormalDerivate(colorBand,texres,dataRepository);
+        }
+        noiseHelper.brightnesAndContrastRGB(tex,texres);
+        data.put((byte)(texres.tr * 255.0f));
+        data.put((byte)(texres.tg * 255.0f));
+        data.put((byte)(texres.tb * 255.0f));
+      }
+ else {
+        noiseHelper.brightnesAndContrast(texres,contrast,bright);
+        data.put((byte)(texres.tin * 255));
+      }
+    }
+  }
+  return new Texture2D(new Image(format,width,height,data));
+}

@@ -1,0 +1,8 @@
+{
+  List<Constraint> objectConstraints=this.constraints.get(ownerOMA);
+  if (objectConstraints == null) {
+    objectConstraints=new ArrayList<Constraint>();
+    this.constraints.put(ownerOMA,objectConstraints);
+  }
+  objectConstraints.addAll(constraints);
+}

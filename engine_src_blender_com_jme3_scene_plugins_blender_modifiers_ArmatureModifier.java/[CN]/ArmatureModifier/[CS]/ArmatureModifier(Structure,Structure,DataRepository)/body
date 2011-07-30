@@ -1,0 +1,39 @@
+{
+  Pointer pArmatureObject=(Pointer)modifierStructure.getFieldValue("object");
+  if (pArmatureObject.isNotNull()) {
+    ObjectHelper objectHelper=dataRepository.getHelper(ObjectHelper.class);
+    Structure armatureObject=(Structure)dataRepository.getLoadedFeature(pArmatureObject.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_STRUCTURE);
+    if (armatureObject == null) {
+      armatureObject=pArmatureObject.fetchData(dataRepository.getInputStream()).get(0);
+      objectHelper.toObject(armatureObject,dataRepository);
+    }
+    additionalData=armatureObject.getOldMemoryAddress();
+    ArmatureHelper armatureHelper=dataRepository.getHelper(ArmatureHelper.class);
+    Matrix4f armatureObjectMatrix=objectHelper.getTransformationMatrix(armatureObject);
+    Matrix4f inverseMeshObjectMatrix=objectHelper.getTransformationMatrix(objectStructure).invert();
+    Matrix4f additionalRootBoneTransformation=inverseMeshObjectMatrix.multLocal(armatureObjectMatrix);
+    Bone[] bones=armatureHelper.buildBonesStructure(Long.valueOf(0L),additionalRootBoneTransformation);
+    Skeleton skeleton=new Skeleton(bones);
+    dataRepository.addLoadedFeatures(armatureObject.getOldMemoryAddress(),armatureObject.getName(),armatureObject,skeleton);
+    String objectName=objectStructure.getName();
+    Set<String> animationNames=dataRepository.getBlenderKey().getAnimationNames(objectName);
+    if (animationNames != null && animationNames.size() > 0) {
+      ArrayList<BoneAnimation> animations=new ArrayList<BoneAnimation>();
+      List<FileBlockHeader> actionHeaders=dataRepository.getFileBlocks(Integer.valueOf(FileBlockHeader.BLOCK_AC00));
+      for (      FileBlockHeader header : actionHeaders) {
+        Structure actionStructure=header.getStructure(dataRepository);
+        String actionName=actionStructure.getName();
+        if (animationNames.contains(actionName)) {
+          int[] animationFrames=dataRepository.getBlenderKey().getAnimationFrames(objectName,actionName);
+          int fps=dataRepository.getBlenderKey().getFps();
+          float start=(float)animationFrames[0] / (float)fps;
+          float stop=(float)animationFrames[1] / (float)fps;
+          BoneAnimation boneAnimation=new BoneAnimation(actionName,stop - start);
+          boneAnimation.setTracks(armatureHelper.getTracks(actionStructure,dataRepository,objectName,actionName));
+          animations.add(boneAnimation);
+        }
+      }
+      jmeModifierRepresentation=new AnimData(new Skeleton(bones),animations);
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  if (blenderVersion < 250) {
+    LOGGER.warning("Loading of constraints not yet implemented for version 2.5x !");
+    return new HashMap<Long,List<Constraint>>(0);
+  }
+  IpoHelper ipoHelper=dataRepository.getHelper(IpoHelper.class);
+  Map<String,Map<String,Ipo>> constraintsIpos=new HashMap<String,Map<String,Ipo>>();
+  Pointer pActions=(Pointer)objectStructure.getFieldValue("action");
+  if (pActions.isNotNull()) {
+    List<Structure> actions=pActions.fetchData(dataRepository.getInputStream());
+    for (    Structure action : actions) {
+      Structure chanbase=(Structure)action.getFieldValue("chanbase");
+      List<Structure> actionChannels=chanbase.evaluateListBase(dataRepository);
+      for (      Structure actionChannel : actionChannels) {
+        Map<String,Ipo> ipos=new HashMap<String,Ipo>();
+        Structure constChannels=(Structure)actionChannel.getFieldValue("constraintChannels");
+        List<Structure> constraintChannels=constChannels.evaluateListBase(dataRepository);
+        for (        Structure constraintChannel : constraintChannels) {
+          Pointer pIpo=(Pointer)constraintChannel.getFieldValue("ipo");
+          if (pIpo.isNotNull()) {
+            String constraintName=constraintChannel.getFieldValue("name").toString();
+            Ipo ipo=ipoHelper.createIpo(pIpo.fetchData(dataRepository.getInputStream()).get(0),dataRepository);
+            ipos.put(constraintName,ipo);
+          }
+        }
+        String actionName=actionChannel.getFieldValue("name").toString();
+        constraintsIpos.put(actionName,ipos);
+      }
+    }
+  }
+  Map<Long,List<Constraint>> result=new HashMap<Long,List<Constraint>>();
+  Pointer pPose=(Pointer)objectStructure.getFieldValue("pose");
+  if (pPose.isNotNull()) {
+    List<Structure> poseChannels=((Structure)pPose.fetchData(dataRepository.getInputStream()).get(0).getFieldValue("chanbase")).evaluateListBase(dataRepository);
+    for (    Structure poseChannel : poseChannels) {
+      List<Constraint> constraintsList=new ArrayList<Constraint>();
+      Long boneOMA=Long.valueOf(((Pointer)poseChannel.getFieldValue("bone")).getOldMemoryAddress());
+      String name=dataRepository.getFileBlock(boneOMA).getStructure(dataRepository).getFieldValue("name").toString();
+      List<Structure> constraints=((Structure)poseChannel.getFieldValue("constraints")).evaluateListBase(dataRepository);
+      for (      Structure constraint : constraints) {
+        String constraintName=constraint.getFieldValue("name").toString();
+        Map<String,Ipo> ipoMap=constraintsIpos.get(name);
+        Ipo ipo=ipoMap == null ? null : ipoMap.get(constraintName);
+        if (ipo == null) {
+          float enforce=((Number)constraint.getFieldValue("enforce")).floatValue();
+          ipo=ipoHelper.createIpo(enforce);
+        }
+        constraintsList.add(ConstraintFactory.createConstraint(constraint,boneOMA,ipo,dataRepository));
+      }
+      result.put(boneOMA,constraintsList);
+      dataRepository.addConstraints(boneOMA,constraintsList);
+    }
+  }
+  List<Structure> constraintChannels=((Structure)objectStructure.getFieldValue("constraintChannels")).evaluateListBase(dataRepository);
+  for (  Structure constraintChannel : constraintChannels) {
+    System.out.println(constraintChannel);
+  }
+  if (!result.containsKey(objectStructure.getOldMemoryAddress())) {
+    List<Structure> constraints=((Structure)objectStructure.getFieldValue("constraints")).evaluateListBase(dataRepository);
+    List<Constraint> constraintsList=new ArrayList<Constraint>(constraints.size());
+    for (    Structure constraint : constraints) {
+      String constraintName=constraint.getFieldValue("name").toString();
+      String objectName=objectStructure.getName();
+      Map<String,Ipo> objectConstraintsIpos=constraintsIpos.get(objectName);
+      Ipo ipo=objectConstraintsIpos != null ? objectConstraintsIpos.get(constraintName) : null;
+      if (ipo == null) {
+        float enforce=((Number)constraint.getFieldValue("enforce")).floatValue();
+        ipo=ipoHelper.createIpo(enforce);
+      }
+      constraintsList.add(ConstraintFactory.createConstraint(constraint,null,ipo,dataRepository));
+    }
+    result.put(objectStructure.getOldMemoryAddress(),constraintsList);
+    dataRepository.addConstraints(objectStructure.getOldMemoryAddress(),constraintsList);
+  }
+  return result;
+}

@@ -1,0 +1,16 @@
+{
+  ColorBand result=null;
+  int flag=((Number)tex.getFieldValue("flag")).intValue();
+  if ((flag & NoiseGenerator.TEX_COLORBAND) != 0) {
+    Pointer pColorband=(Pointer)tex.getFieldValue("coba");
+    Structure colorbandStructure;
+    try {
+      colorbandStructure=pColorband.fetchData(dataRepository.getInputStream()).get(0);
+      result=new ColorBand(colorbandStructure);
+    }
+ catch (    BlenderFileException e) {
+      LOGGER.warning("Cannot fetch the colorband structure. The reason: " + e.getLocalizedMessage());
+    }
+  }
+  return result;
+}

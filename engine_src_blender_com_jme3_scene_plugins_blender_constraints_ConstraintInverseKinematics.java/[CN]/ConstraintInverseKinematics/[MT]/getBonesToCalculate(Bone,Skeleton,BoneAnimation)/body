@@ -1,0 +1,14 @@
+{
+  List<CalculationBone> bonesList=new ArrayList<CalculationBone>();
+  Bone currentBone=bone;
+  do {
+    bonesList.add(new CalculationBone(currentBone,1));
+    currentBone=currentBone.getParent();
+  }
+ while (currentBone != null);
+  CalculationBone[] result=bonesList.toArray(new CalculationBone[bonesList.size()]);
+  for (int i=result.length - 1; i > 0; --i) {
+    result[i].attachChild(result[i - 1]);
+  }
+  return result;
+}
