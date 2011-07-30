@@ -1,0 +1,16 @@
+{
+  this.meshType=meshType;
+switch (meshType) {
+case Point:
+    particleMesh=new ParticlePointMesh();
+  this.setMesh(particleMesh);
+break;
+case Triangle:
+particleMesh=new ParticleTriMesh();
+this.setMesh(particleMesh);
+break;
+default :
+throw new IllegalStateException("Unrecognized particle type: " + meshType);
+}
+this.setNumParticles(particles.length);
+}
