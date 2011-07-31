@@ -1,0 +1,9 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      emit(editorController.getSelectedSpat().getLookup().lookup(Spatial.class));
+      return null;
+    }
+  }
+);
+}

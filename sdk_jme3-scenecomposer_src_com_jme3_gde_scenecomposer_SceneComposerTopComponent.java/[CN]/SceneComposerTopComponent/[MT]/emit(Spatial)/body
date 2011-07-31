@@ -1,0 +1,12 @@
+{
+  if (root instanceof ParticleEmitter) {
+    ((ParticleEmitter)root).killAllParticles();
+    ((ParticleEmitter)root).emitAllParticles();
+  }
+ else   if (root instanceof Node) {
+    Node n=(Node)root;
+    for (    Spatial child : n.getChildren()) {
+      emit(child);
+    }
+  }
+}

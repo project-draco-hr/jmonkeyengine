@@ -39,6 +39,9 @@
   fixedCheckBox=new javax.swing.JCheckBox();
   radiusSpinner=new javax.swing.JSpinner();
   heightSpinner=new javax.swing.JSpinner();
+  jSeparator6=new javax.swing.JSeparator();
+  jLabel5=new javax.swing.JLabel();
+  emitButton=new javax.swing.JButton();
   setBackground(new java.awt.Color(204,204,204));
   sceneInfoPanel.setBackground(new java.awt.Color(204,204,204));
   sceneInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.sceneInfoPanel.border.title")));
@@ -46,7 +49,7 @@
   org.openide.awt.Mnemonics.setLocalizedText(sceneInfoLabel2,org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.sceneInfoLabel2.text"));
   javax.swing.GroupLayout sceneInfoPanelLayout=new javax.swing.GroupLayout(sceneInfoPanel);
   sceneInfoPanel.setLayout(sceneInfoPanelLayout);
-  sceneInfoPanelLayout.setHorizontalGroup(sceneInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(sceneInfoLabel1,javax.swing.GroupLayout.DEFAULT_SIZE,133,Short.MAX_VALUE).addComponent(sceneInfoLabel2,javax.swing.GroupLayout.DEFAULT_SIZE,133,Short.MAX_VALUE));
+  sceneInfoPanelLayout.setHorizontalGroup(sceneInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(sceneInfoLabel1,javax.swing.GroupLayout.DEFAULT_SIZE,126,Short.MAX_VALUE).addComponent(sceneInfoLabel2,javax.swing.GroupLayout.DEFAULT_SIZE,126,Short.MAX_VALUE));
   sceneInfoPanelLayout.setVerticalGroup(sceneInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(sceneInfoPanelLayout.createSequentialGroup().addComponent(sceneInfoLabel1).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(sceneInfoLabel2).addContainerGap(105,Short.MAX_VALUE)));
   palettePanel.setBackground(new java.awt.Color(204,204,204));
   palettePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.palettePanel.border.title")));
@@ -269,10 +272,19 @@
   jToolBar3.add(radiusSpinner);
   heightSpinner.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(1.8f),null,null,Float.valueOf(0.1f)));
   jToolBar3.add(heightSpinner);
+  org.openide.awt.Mnemonics.setLocalizedText(jLabel5,org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.jLabel5.text"));
+  org.openide.awt.Mnemonics.setLocalizedText(emitButton,org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.emitButton.text"));
+  emitButton.setToolTipText(org.openide.util.NbBundle.getMessage(SceneComposerTopComponent.class,"SceneComposerTopComponent.emitButton.toolTipText"));
+  emitButton.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      emitButtonActionPerformed(evt);
+    }
+  }
+);
   javax.swing.GroupLayout jPanel4Layout=new javax.swing.GroupLayout(jPanel4);
   jPanel4.setLayout(jPanel4Layout);
-  jPanel4Layout.setHorizontalGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jToolBar2,javax.swing.GroupLayout.DEFAULT_SIZE,316,Short.MAX_VALUE).addComponent(jToolBar3,javax.swing.GroupLayout.DEFAULT_SIZE,316,Short.MAX_VALUE));
-  jPanel4Layout.setVerticalGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel4Layout.createSequentialGroup().addComponent(jToolBar2,javax.swing.GroupLayout.PREFERRED_SIZE,25,javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jToolBar3,javax.swing.GroupLayout.PREFERRED_SIZE,25,javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(83,Short.MAX_VALUE)));
+  jPanel4Layout.setHorizontalGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jToolBar2,javax.swing.GroupLayout.DEFAULT_SIZE,323,Short.MAX_VALUE).addComponent(jToolBar3,javax.swing.GroupLayout.DEFAULT_SIZE,323,Short.MAX_VALUE).addGroup(jPanel4Layout.createSequentialGroup().addContainerGap().addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel4Layout.createSequentialGroup().addGap(10,10,10).addComponent(jLabel5).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(emitButton,javax.swing.GroupLayout.DEFAULT_SIZE,248,Short.MAX_VALUE)).addComponent(jSeparator6,javax.swing.GroupLayout.DEFAULT_SIZE,303,Short.MAX_VALUE)).addContainerGap()));
+  jPanel4Layout.setVerticalGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel4Layout.createSequentialGroup().addComponent(jToolBar2,javax.swing.GroupLayout.PREFERRED_SIZE,25,javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jToolBar3,javax.swing.GroupLayout.PREFERRED_SIZE,25,javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jSeparator6,javax.swing.GroupLayout.PREFERRED_SIZE,10,javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel5).addComponent(emitButton)).addContainerGap(38,Short.MAX_VALUE)));
   javax.swing.GroupLayout layout=new javax.swing.GroupLayout(this);
   this.setLayout(layout);
   layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addComponent(palettePanel,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel4,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(sceneInfoPanel,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE)).addComponent(jToolBar1,javax.swing.GroupLayout.DEFAULT_SIZE,708,Short.MAX_VALUE));
