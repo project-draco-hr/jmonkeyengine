@@ -13,22 +13,7 @@
       this.freeParticle(i);
       continue;
     }
-    p.velocity.x-=gravity.x * tpf;
-    p.velocity.y-=gravity.y * tpf;
-    p.velocity.z-=gravity.z * tpf;
-    temp.set(p.velocity).multLocal(tpf);
-    p.position.addLocal(temp);
-    float b=(p.startlife - p.life) / p.startlife;
-    p.color.interpolate(startColor,endColor,b);
-    p.size=FastMath.interpolateLinear(b,startSize,endSize);
-    p.angle+=p.rotateSpeed * tpf;
-    temp.set(p.position).addLocal(p.size,p.size,p.size);
-    max.maxLocal(temp);
-    temp.set(p.position).subtractLocal(p.size,p.size,p.size);
-    min.minLocal(temp);
-    if (!selectRandomImage) {
-      p.imageIndex=(int)(b * imagesX * imagesY);
-    }
+    updateParticle(p,tpf,min,max);
     if (firstUnUsed < i) {
       this.swap(firstUnUsed,i);
       if (i == lastUsed) {
@@ -37,16 +22,22 @@
       firstUnUsed++;
     }
   }
-  float particlesToEmitF=particlesPerSec * tpf;
-  int particlesToEmit=(int)particlesToEmitF;
-  emitCarry+=particlesToEmitF - particlesToEmit;
-  while (emitCarry > 1f) {
-    ++particlesToEmit;
-    emitCarry-=1f;
+  float interval=1f / particlesPerSec;
+  tpf+=timeDifference;
+  while (tpf > interval) {
+    tpf-=interval;
+    Particle p=emitParticle(min,max);
+    if (p != null) {
+      p.life-=tpf;
+      if (p.life <= 0) {
+        freeParticle(lastUsed);
+      }
+ else {
+        updateParticle(p,tpf,min,max);
+      }
+    }
   }
-  for (int i=0; i < particlesToEmit; ++i) {
-    this.emitParticle(min,max);
-  }
+  timeDifference=tpf;
   BoundingBox bbox=(BoundingBox)this.getMesh().getBound();
   bbox.setMinMax(min,max);
   this.setBoundRefresh();

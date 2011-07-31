@@ -1,0 +1,18 @@
+{
+  p.velocity.x-=gravity.x * tpf;
+  p.velocity.y-=gravity.y * tpf;
+  p.velocity.z-=gravity.z * tpf;
+  temp.set(p.velocity).multLocal(tpf);
+  p.position.addLocal(temp);
+  float b=(p.startlife - p.life) / p.startlife;
+  p.color.interpolate(startColor,endColor,b);
+  p.size=FastMath.interpolateLinear(b,startSize,endSize);
+  p.angle+=p.rotateSpeed * tpf;
+  temp.set(p.position).addLocal(p.size,p.size,p.size);
+  max.maxLocal(temp);
+  temp.set(p.position).subtractLocal(p.size,p.size,p.size);
+  min.minLocal(temp);
+  if (!selectRandomImage) {
+    p.imageIndex=(int)(b * imagesX * imagesY);
+  }
+}

@@ -12,7 +12,7 @@
   if (!Vector3f.isValidVector(max)) {
     max.set(Vector3f.NEGATIVE_INFINITY);
   }
-  while (emitParticle(min,max))   ;
+  while (emitParticle(min,max) != null)   ;
   bbox.setMinMax(min,max);
   this.setBoundRefresh();
   vars.release();

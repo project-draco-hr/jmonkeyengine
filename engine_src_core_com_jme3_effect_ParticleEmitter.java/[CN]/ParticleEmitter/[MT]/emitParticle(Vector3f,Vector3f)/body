@@ -1,7 +1,7 @@
 {
   int idx=lastUsed + 1;
   if (idx >= particles.length) {
-    return false;
+    return null;
   }
   Particle p=particles[idx];
   if (selectRandomImage) {
@@ -27,5 +27,5 @@
   min.minLocal(temp);
   ++lastUsed;
   firstUnUsed=idx + 1;
-  return true;
+  return p;
 }
