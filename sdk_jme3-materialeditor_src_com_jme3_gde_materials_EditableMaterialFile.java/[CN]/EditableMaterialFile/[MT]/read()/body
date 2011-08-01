@@ -57,7 +57,11 @@
           if (additionalRenderStates.get(name) != null) {
             prop.setType(additionalRenderStates.get(name).getType());
             if (lines.length > 1) {
-              prop.setValue(lines[lines.length - 1].trim());
+              String value="";
+              for (int i=1; i < lines.length; i++) {
+                value+=" " + lines[i];
+              }
+              prop.setValue(value.trim());
             }
             additionalRenderStates.put(prop.getName(),prop);
           }
