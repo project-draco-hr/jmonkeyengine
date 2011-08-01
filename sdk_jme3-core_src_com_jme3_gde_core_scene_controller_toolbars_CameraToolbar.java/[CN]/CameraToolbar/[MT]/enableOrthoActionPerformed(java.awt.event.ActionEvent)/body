@@ -1,3 +1,10 @@
 {
-  toggleOrthoPerspAction.actionPerformed(evt);
+  SceneViewerTopComponent.findInstance().requestActive();
+  final java.awt.event.ActionEvent e=evt;
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      toggleOrthoPerspAction.actionPerformed(e);
+    }
+  }
+);
 }
