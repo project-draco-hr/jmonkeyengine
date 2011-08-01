@@ -17,6 +17,11 @@
       }
  catch (      IOException ex) {
         Exceptions.printStackTrace(ex);
+        BufferedImage img=new BufferedImage(320,240,BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d=(Graphics2D)img.getGraphics();
+        g2d.setColor(Color.white);
+        g2d.drawString("Cannot display image",15,15);
+        newicon=new ImageIcon(img);
       }
     }
  else {
