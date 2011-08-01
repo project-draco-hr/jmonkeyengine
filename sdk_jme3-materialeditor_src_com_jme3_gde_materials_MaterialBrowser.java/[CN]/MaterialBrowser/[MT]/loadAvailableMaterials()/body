@@ -1,0 +1,10 @@
+{
+  if (assetManager == null) {
+    return;
+  }
+  String[] leaves=assetManager.getMaterials();
+  TreeUtil.createTree(jTree1,leaves);
+  TreeUtil.expandTree(jTree1,(TreeNode)jTree1.getModel().getRoot(),1);
+  jTree1.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+  jTree1.addTreeSelectionListener(this);
+}

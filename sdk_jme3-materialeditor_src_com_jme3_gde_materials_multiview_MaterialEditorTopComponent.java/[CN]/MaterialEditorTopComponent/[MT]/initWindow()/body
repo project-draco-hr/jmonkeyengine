@@ -15,11 +15,6 @@
     Exceptions.printStackTrace(ex);
   }
   jTextArea1.getDocument().addDocumentListener(new DocumentChangeListener());
-  SceneApplication.getApplication().addSceneListener(this);
-  sphMesh=new Sphere(32,32,2.5f);
-  sphMesh.setTextureMode(Sphere.TextureMode.Projected);
-  sphMesh.updateGeometry(32,32,2.5f,false,false);
-  TangentBinormalGenerator.generate(sphMesh);
   updateProperties();
-  showMaterial();
+  materialPreviewWidget1.showMaterial(manager,materialFileName);
 }
