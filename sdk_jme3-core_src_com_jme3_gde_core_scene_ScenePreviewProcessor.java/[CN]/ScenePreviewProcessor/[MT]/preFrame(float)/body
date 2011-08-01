@@ -2,6 +2,16 @@
   currentPreviewRequest=previewQueue.poll();
   if (currentPreviewRequest != null) {
     previewNode.attachChild(currentPreviewRequest.getSpatial());
+    if (currentPreviewRequest.getCameraRequest().location != null) {
+      offCamera.setLocation(currentPreviewRequest.getCameraRequest().location);
+      light.setPosition(currentPreviewRequest.getCameraRequest().location);
+    }
+    if (currentPreviewRequest.getCameraRequest().rotation != null) {
+      offCamera.setRotation(currentPreviewRequest.getCameraRequest().rotation);
+    }
+    if (currentPreviewRequest.getCameraRequest().lookAt != null) {
+      offCamera.lookAt(currentPreviewRequest.getCameraRequest().lookAt,currentPreviewRequest.getCameraRequest().up);
+    }
   }
   update(f);
 }

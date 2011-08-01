@@ -1,7 +1,6 @@
 {
   if (texture != null) {
     Logger.getLogger(TextureBrowser.class.getName()).finer("Looking for Texture: " + texture.getName());
-    System.out.println("texture : " + texture.getName());
     String[] path=("/" + texture.getName()).split("/");
     TreePath parent=new TreePath((TreeNode)jTree1.getModel().getRoot());
     jTree1.expandPath(TreeUtil.buildTreePath(jTree1,parent,path,0,true));
