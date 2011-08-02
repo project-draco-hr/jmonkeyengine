@@ -1,0 +1,11 @@
+{
+  Color c=getColor(rLabel.getText(),gLabel.getText(),bLabel.getText(),aLabel.getText());
+  if (c != null) {
+    colorPreview.setBackground(c);
+    property.setValue(rLabel.getText() + " " + gLabel.getText()+ " "+ bLabel.getText()+ " "+ aLabel.getText());
+    fireChanged();
+  }
+ else {
+    colorPreview.setBackground(new Color(204,204,204));
+  }
+}
