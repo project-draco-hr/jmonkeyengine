@@ -1,0 +1,13 @@
+{
+  if (!"".equals(textureName)) {
+    Texture tex=manager.loadTexture(textureName);
+    Icon newicon=null;
+    if (textureName.endsWith(".dds") || textureName.endsWith(".DDS")) {
+      texturePreview.setIcon(null);
+    }
+ else {
+      newicon=ImageUtilities.image2Icon(resizeImage(ImageToAwt.convert(tex.getImage(),false,true,0)));
+    }
+    texturePreview.setIcon(newicon);
+  }
+}
