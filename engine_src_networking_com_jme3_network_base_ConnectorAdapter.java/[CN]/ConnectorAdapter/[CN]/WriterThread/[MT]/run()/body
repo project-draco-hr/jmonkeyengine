@@ -1,0 +1,12 @@
+{
+  while (go.get()) {
+    try {
+      ByteBuffer data=outbound.take();
+      write(data);
+    }
+ catch (    InterruptedException e) {
+      if (!go.get())       return;
+      throw new RuntimeException("Interrupted waiting for data",e);
+    }
+  }
+}

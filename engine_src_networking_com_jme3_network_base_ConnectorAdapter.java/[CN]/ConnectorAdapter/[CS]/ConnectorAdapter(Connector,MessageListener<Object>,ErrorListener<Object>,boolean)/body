@@ -5,5 +5,7 @@
   this.errorHandler=errorHandler;
   this.reliable=reliable;
   setDaemon(true);
-  writer=Executors.newFixedThreadPool(1,new NamedThreadFactory(String.valueOf(connector) + "-writer",true));
+  outbound=new ArrayBlockingQueue<ByteBuffer>(OUTBOUND_BACKLOG);
+  writer=new WriterThread();
+  writer.start();
 }
