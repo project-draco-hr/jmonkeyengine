@@ -6,9 +6,7 @@
     Material mat=assetManager.loadMaterial(selected);
     editor.setValue(mat);
     editor.setAsText(selected);
+    return true;
   }
- else {
-    editor.setValue(null);
-    editor.setAsText(null);
-  }
+  return false;
 }
