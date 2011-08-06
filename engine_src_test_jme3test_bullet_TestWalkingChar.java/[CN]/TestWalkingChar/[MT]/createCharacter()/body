@@ -1,10 +1,9 @@
 {
-  CapsuleCollisionShape capsule=new CapsuleCollisionShape(1.5f,2f);
+  CapsuleCollisionShape capsule=new CapsuleCollisionShape(3f,4f);
   character=new CharacterControl(capsule,0.01f);
   model=(Node)assetManager.loadModel("Models/Oto/Oto.mesh.xml");
-  model.setLocalScale(0.5f);
   model.addControl(character);
-  character.setPhysicsLocation(new Vector3f(-140,10,-10));
+  character.setPhysicsLocation(new Vector3f(-140,15,-10));
   rootNode.attachChild(model);
   getPhysicsSpace().add(character);
 }

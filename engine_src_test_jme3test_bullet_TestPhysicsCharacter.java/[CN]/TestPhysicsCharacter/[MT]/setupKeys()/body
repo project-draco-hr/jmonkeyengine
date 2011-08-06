@@ -1,16 +1,14 @@
 {
-  inputManager.addMapping("Lefts",new KeyTrigger(KeyInput.KEY_H));
-  inputManager.addMapping("Rights",new KeyTrigger(KeyInput.KEY_K));
-  inputManager.addMapping("Ups",new KeyTrigger(KeyInput.KEY_U));
-  inputManager.addMapping("Downs",new KeyTrigger(KeyInput.KEY_J));
-  inputManager.addMapping("Space",new KeyTrigger(KeyInput.KEY_SPACE));
-  inputManager.addMapping("shoot",new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
-  inputManager.addListener(this,"shoot");
-  inputManager.addListener(this,"Lefts");
-  inputManager.addListener(this,"Rights");
-  inputManager.addListener(this,"Ups");
-  inputManager.addListener(this,"Downs");
-  inputManager.addListener(this,"Space");
-  inputManager.addMapping("gc",new KeyTrigger(KeyInput.KEY_X));
-  inputManager.addListener(this,"gc");
+  inputManager.addMapping("Strafe Left",new KeyTrigger(KeyInput.KEY_Q),new KeyTrigger(KeyInput.KEY_Z));
+  inputManager.addMapping("Strafe Right",new KeyTrigger(KeyInput.KEY_E),new KeyTrigger(KeyInput.KEY_X));
+  inputManager.addMapping("Rotate Left",new KeyTrigger(KeyInput.KEY_A),new KeyTrigger(KeyInput.KEY_LEFT));
+  inputManager.addMapping("Rotate Right",new KeyTrigger(KeyInput.KEY_D),new KeyTrigger(KeyInput.KEY_RIGHT));
+  inputManager.addMapping("Walk Forward",new KeyTrigger(KeyInput.KEY_W),new KeyTrigger(KeyInput.KEY_UP));
+  inputManager.addMapping("Walk Backward",new KeyTrigger(KeyInput.KEY_S),new KeyTrigger(KeyInput.KEY_DOWN));
+  inputManager.addMapping("Jump",new KeyTrigger(KeyInput.KEY_SPACE),new KeyTrigger(KeyInput.KEY_RETURN));
+  inputManager.addMapping("Shoot",new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+  inputManager.addListener(this,"Strafe Left","Strafe Right");
+  inputManager.addListener(this,"Rotate Left","Rotate Right");
+  inputManager.addListener(this,"Walk Forward","Walk Backward");
+  inputManager.addListener(this,"Jump","Shoot");
 }
