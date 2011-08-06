@@ -4,6 +4,7 @@
   teaGeom.setMaterial(mat);
   teaNode=new Node("teaNode");
   teaNode.attachChild(teaGeom);
+  rootNode.attachChild(teaNode);
   mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
   mat.setTexture("ColorMap",assetManager.loadTexture("Interface/Logo/Monkey.jpg"));
   Geometry ground=new Geometry("ground",new Quad(50,50));
@@ -11,12 +12,11 @@
   ground.setLocalTranslation(-25,-1,25);
   ground.setMaterial(mat);
   rootNode.attachChild(ground);
-  rootNode.attachChild(teaNode);
   camNode=new CameraNode("CamNode",cam);
   camNode.setControlDir(ControlDirection.SpatialToCamera);
   teaNode.attachChild(camNode);
   camNode.setLocalTranslation(new Vector3f(-10,0,0));
   camNode.lookAt(teaNode.getLocalTranslation(),Vector3f.UNIT_Y);
   flyCam.setEnabled(false);
-  regsiterInput();
+  registerInput();
 }
