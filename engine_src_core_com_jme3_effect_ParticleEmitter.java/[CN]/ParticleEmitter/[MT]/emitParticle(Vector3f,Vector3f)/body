@@ -13,7 +13,8 @@
   p.size=startSize;
   particleInfluencer.influenceParticle(p,shape);
   if (worldSpace) {
-    p.position.addLocal(worldTransform.getTranslation());
+    worldTransform.transformVector(p.position,p.position);
+    worldTransform.getRotation().mult(p.velocity,p.velocity);
   }
   if (randomAngle) {
     p.angle=FastMath.nextRandomFloat() * FastMath.TWO_PI;
