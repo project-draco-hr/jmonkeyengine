@@ -6,9 +6,7 @@
     Texture tex=assetManager.loadTexture(selected);
     editor.setValue(tex);
     editor.setAsText(selected);
+    return true;
   }
- else {
-    editor.setValue(null);
-    editor.setAsText(null);
-  }
+  return false;
 }
