@@ -1,0 +1,18 @@
+{
+  super.propertyChange(name,before,after);
+  System.out.println(name);
+  if (name.equals("Material")) {
+    System.out.println(before.toString() + " " + after.toString());
+    java.awt.EventQueue.invokeLater(new Runnable(){
+      public void run(){
+        try {
+          SceneExplorerTopComponent.findInstance().swapMaterialChangeListener(JmeGeometry.this,((Material)before).getAssetName(),((Material)after).getAssetName());
+        }
+ catch (        Exception e) {
+          e.printStackTrace();
+        }
+      }
+    }
+);
+  }
+}

@@ -1,0 +1,25 @@
+{
+  Logger.getLogger(SceneExplorerTopComponent.class.getName()).log(Level.INFO,"Swaping material listeners : {0} -> {1}",new Object[]{oldKey,newKey});
+  if (oldKey != null) {
+    List<MaterialChangeListener> listeners=materialChangeListeners.get(oldKey);
+    if (listeners != null) {
+      listeners.remove(listener);
+    }
+    MaterialChangeProvider provider=materialChangeProviders.get(oldKey);
+    if (provider != null) {
+      provider.removeMaterialChangeListener(listener);
+    }
+  }
+  if (newKey != null) {
+    List<MaterialChangeListener> listeners=materialChangeListeners.get(newKey);
+    if (listeners == null) {
+      listeners=new ArrayList<MaterialChangeListener>();
+      materialChangeListeners.put(newKey,listeners);
+    }
+    listeners.add(listener);
+    MaterialChangeProvider provider=materialChangeProviders.get(newKey);
+    if (provider != null) {
+      provider.addMaterialChangeListener(listener);
+    }
+  }
+}

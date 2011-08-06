@@ -1,0 +1,14 @@
+{
+  super.destroy();
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      try {
+        SceneExplorerTopComponent.findInstance().removeMaterialChangeListener(JmeGeometry.this);
+      }
+ catch (      Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
+);
+}

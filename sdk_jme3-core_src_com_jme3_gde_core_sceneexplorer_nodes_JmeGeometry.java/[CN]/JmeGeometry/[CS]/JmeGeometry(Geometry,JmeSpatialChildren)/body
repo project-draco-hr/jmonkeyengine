@@ -2,5 +2,16 @@
   super(spatial,children);
   getLookupContents().add(spatial);
   this.geom=spatial;
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      try {
+        SceneExplorerTopComponent.findInstance().addMaterialChangeListener(JmeGeometry.this);
+      }
+ catch (      Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
+);
   setName(spatial.getName());
 }
