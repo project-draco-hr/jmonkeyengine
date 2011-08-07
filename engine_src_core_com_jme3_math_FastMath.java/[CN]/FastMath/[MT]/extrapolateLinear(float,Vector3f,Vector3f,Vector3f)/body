@@ -1,0 +1,12 @@
+{
+  if (store == null) {
+    store=new Vector3f();
+  }
+  if (scale <= 1f) {
+    return interpolateLinear(scale,startValue,endValue,store);
+  }
+  store.x=extrapolateLinear(scale,startValue.x,endValue.x);
+  store.y=extrapolateLinear(scale,startValue.y,endValue.y);
+  store.z=extrapolateLinear(scale,startValue.z,endValue.z);
+  return store;
+}
