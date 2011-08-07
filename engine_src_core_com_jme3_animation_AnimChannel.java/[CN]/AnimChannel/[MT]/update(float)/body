@@ -17,8 +17,12 @@
   animation.setTime(time,blendAmount,control,this);
   time+=tpf * speed;
   if (animation.getLength() > 0) {
-    if (time >= animation.getLength())     control.notifyAnimCycleDone(this,animation.getName());
- else     if (time < 0)     control.notifyAnimCycleDone(this,animation.getName());
+    if (time >= animation.getLength()) {
+      control.notifyAnimCycleDone(this,animation.getName());
+    }
+ else     if (time < 0) {
+      control.notifyAnimCycleDone(this,animation.getName());
+    }
   }
   time=clampWrapTime(time,animation.getLength(),loopMode);
   if (time < 0) {

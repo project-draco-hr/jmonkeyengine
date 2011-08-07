@@ -3,6 +3,6 @@
     return new FileInputStream(file);
   }
  catch (  FileNotFoundException ex) {
-    return null;
+    throw new AssetLoadException("Failed to open file: " + file,ex);
   }
 }
