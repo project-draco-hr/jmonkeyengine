@@ -10,7 +10,9 @@
     }
  catch (    AssetNotFoundException ex) {
       logger.log(Level.WARNING,"Cannot locate material file {0}",ex.getMessage());
+      materialList=null;
     }
+    reset();
     SAXParserFactory factory=SAXParserFactory.newInstance();
     factory.setNamespaceAware(true);
     XMLReader xr=factory.newSAXParser().getXMLReader();
