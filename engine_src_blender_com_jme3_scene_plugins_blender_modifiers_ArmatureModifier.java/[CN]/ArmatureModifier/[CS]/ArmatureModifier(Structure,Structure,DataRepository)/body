@@ -18,7 +18,7 @@
     String objectName=objectStructure.getName();
     Set<String> animationNames=dataRepository.getBlenderKey().getAnimationNames(objectName);
     if (animationNames != null && animationNames.size() > 0) {
-      ArrayList<BoneAnimation> animations=new ArrayList<BoneAnimation>();
+      ArrayList<Animation> animations=new ArrayList<Animation>();
       List<FileBlockHeader> actionHeaders=dataRepository.getFileBlocks(Integer.valueOf(FileBlockHeader.BLOCK_AC00));
       for (      FileBlockHeader header : actionHeaders) {
         Structure actionStructure=header.getStructure(dataRepository);

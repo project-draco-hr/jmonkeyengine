@@ -4,7 +4,7 @@
     result=(BoneAnimation)super.clone();
   }
  catch (  CloneNotSupportedException e) {
-    result=new BoneAnimation(name,length);
+    throw new AssertionError();
   }
   if (result.tracks == null) {
     result.tracks=new BoneTrack[tracks.length];

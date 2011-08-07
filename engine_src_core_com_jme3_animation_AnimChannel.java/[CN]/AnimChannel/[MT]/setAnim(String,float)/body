@@ -1,7 +1,7 @@
 {
   if (name == null)   throw new NullPointerException();
   if (blendTime < 0f)   throw new IllegalArgumentException("blendTime cannot be less than zero");
-  BoneAnimation anim=control.animationMap.get(name);
+  Animation anim=control.animationMap.get(name);
   if (anim == null)   throw new IllegalArgumentException("Cannot find animation named: '" + name + "'");
   control.notifyAnimChange(this,name);
   if (animation != null && blendTime > 0f) {

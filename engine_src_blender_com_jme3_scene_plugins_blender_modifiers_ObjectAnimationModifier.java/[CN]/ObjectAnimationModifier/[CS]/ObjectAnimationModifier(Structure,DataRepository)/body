@@ -32,7 +32,7 @@
     tracks[0]=ipo.calculateTrack(0,animationFrames[0],animationFrames[1],fps);
     BoneAnimation boneAnimation=new BoneAnimation(objectAnimationName,stop - start);
     boneAnimation.setTracks(tracks);
-    ArrayList<BoneAnimation> animations=new ArrayList<BoneAnimation>(1);
+    ArrayList<Animation> animations=new ArrayList<Animation>(1);
     animations.add(boneAnimation);
     ObjectHelper objectHelper=dataRepository.getHelper(ObjectHelper.class);
     Transform t=objectHelper.getTransformation(objectStructure,dataRepository);

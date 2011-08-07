@@ -20,10 +20,10 @@
         m.generateBindPose(!HARDWARE_SKINNING);
       }
     }
-    HashMap<String,BoneAnimation> anims=new HashMap<String,BoneAnimation>();
-    ArrayList<BoneAnimation> animList=animData.anims;
+    HashMap<String,Animation> anims=new HashMap<String,Animation>();
+    ArrayList<Animation> animList=animData.anims;
     for (int i=0; i < animList.size(); i++) {
-      BoneAnimation anim=animList.get(i);
+      Animation anim=animList.get(i);
       anims.put(anim.getName(),anim);
     }
     AnimControl ctrl=new AnimControl(animData.skeleton);

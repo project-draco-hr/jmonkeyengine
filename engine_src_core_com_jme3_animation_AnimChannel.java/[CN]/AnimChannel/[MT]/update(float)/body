@@ -1,7 +1,7 @@
 {
   if (animation == null)   return;
   if (blendFrom != null) {
-    blendFrom.setTime(timeBlendFrom,control.skeleton,1f - blendAmount,affectedBones);
+    blendFrom.setTime(timeBlendFrom,1f - blendAmount,control,this);
     timeBlendFrom+=tpf * speedBlendFrom;
     timeBlendFrom=clampWrapTime(timeBlendFrom,blendFrom.getLength(),loopModeBlendFrom);
     if (timeBlendFrom < 0) {
@@ -14,7 +14,7 @@
       blendFrom=null;
     }
   }
-  animation.setTime(time,control.skeleton,blendAmount,affectedBones);
+  animation.setTime(time,blendAmount,control,this);
   time+=tpf * speed;
   if (animation.getLength() > 0) {
     if (time >= animation.getLength())     control.notifyAnimCycleDone(this,animation.getName());

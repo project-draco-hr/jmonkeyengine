@@ -2,7 +2,7 @@
   super.read(im);
   InputCapsule in=im.getCapsule(this);
   skeleton=(Skeleton)in.readSavable("skeleton",null);
-  animationMap=(HashMap<String,BoneAnimation>)in.readStringSavableMap("animations",null);
+  animationMap=(HashMap<String,Animation>)in.readStringSavableMap("animations",null);
   if (im.getFormatVersion() == 0) {
     Savable[] sav=in.readSavableArray("targets",null);
     if (sav != null) {

@@ -2,7 +2,9 @@
   try {
     AnimControl clone=(AnimControl)super.clone();
     clone.spatial=spatial;
-    clone.skeleton=new Skeleton(skeleton);
+    if (skeleton != null) {
+      clone.skeleton=new Skeleton(skeleton);
+    }
     clone.channels=new ArrayList<AnimChannel>();
     return clone;
   }

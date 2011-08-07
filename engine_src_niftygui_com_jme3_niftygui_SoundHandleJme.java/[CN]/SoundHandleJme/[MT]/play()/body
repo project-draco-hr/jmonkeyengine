@@ -1,14 +1,14 @@
 {
   if (fileName != null) {
     if (node != null) {
-      ar.stopSource(node);
+      node.stop();
     }
-    node=new AudioNode(ar,am,fileName,true);
+    node=new AudioNode(am,fileName,true);
     node.setPositional(false);
     node.setVolume(volume);
-    ar.playSource(node);
+    node.play();
   }
  else {
-    ar.playSourceInstance(node);
+    node.playInstance();
   }
 }
