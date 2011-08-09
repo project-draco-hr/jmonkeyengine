@@ -1,13 +1,13 @@
 {
   Sheet sheet=super.createSheet();
   Sheet.Set set=Sheet.createPropertiesSet();
-  set.setDisplayName("SSAO");
-  set.setName("SSAO");
-  SSAOFilter obj=(SSAOFilter)filter;
+  set.setDisplayName("FXAA");
+  set.setName("FXAA");
+  FXAAFilter obj=(FXAAFilter)filter;
   if (obj == null) {
     return sheet;
   }
-  createFields(SSAOFilter.class,set,obj);
+  createFields(FXAAFilter.class,set,obj);
   sheet.put(set);
   return sheet;
 }
