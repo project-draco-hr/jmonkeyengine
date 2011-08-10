@@ -13,6 +13,12 @@
     }
     Material material=readExtendingMaterial();
     list.put(matName,material);
+    List<String> matAliases=matExts.getNameMappings(matName);
+    if (matAliases != null) {
+      for (      String string : matAliases) {
+        list.put(string,material);
+      }
+    }
   }
   return list;
 }

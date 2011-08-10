@@ -8,8 +8,8 @@
     key.setGenerateMips(true);
     key.setAsCube(false);
     Texture tex=assetManager.loadTexture(key);
-    tex.setWrap(WrapMode.Repeat);
     if (tex == null)     throw new IOException("Cannot load texture: " + texturePath);
+    tex.setWrap(WrapMode.Repeat);
     material.setTexture(jmeParamName,tex);
     return true;
   }
