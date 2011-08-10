@@ -3,7 +3,11 @@
     selectionShape.removeFromParent();
     selectionShape=null;
   }
-  if (spat instanceof Geometry) {
+  selctionShapeOffset.set(Vector3f.ZERO);
+  if (spat instanceof ParticleEmitter) {
+    attachBoxSelection(spat);
+  }
+ else   if (spat instanceof Geometry) {
     attachGeometrySelection((Geometry)spat);
   }
  else   if (spat.getControl(PhysicsControl.class) != null) {

@@ -2,6 +2,10 @@
   if (selected == null || selectionShape == null) {
     return;
   }
-  selectionShape.setLocalTranslation(selected.getWorldTranslation());
+  TempVars vars=TempVars.get();
+  vars.vect1.set(selctionShapeOffset);
+  selectionShape.setLocalTranslation(vars.vect1.addLocal(selected.getWorldTranslation()));
+  vars.release();
   selectionShape.setLocalRotation(selected.getWorldRotation());
+  selectionShape.setLocalScale(selected.getWorldScale());
 }
