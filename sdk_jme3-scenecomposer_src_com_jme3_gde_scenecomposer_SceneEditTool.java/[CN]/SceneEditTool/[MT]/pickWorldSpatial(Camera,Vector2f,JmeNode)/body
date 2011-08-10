@@ -1,6 +1,10 @@
 {
   Node rootNode=jmeRootNode.getLookup().lookup(Node.class);
   CollisionResult cr=pick(cam,mouseLoc,rootNode);
-  if (cr != null)   return cr.getGeometry();
- else   return null;
+  if (cr != null) {
+    return cr.getGeometry();
+  }
+ else {
+    return null;
+  }
 }

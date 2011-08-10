@@ -4,7 +4,7 @@
     pickedPlane=null;
     offset=null;
     if (wasDragging) {
-      actionPerformed(new MoveUndo(selectedSpatial,startLoc,lastLoc));
+      actionPerformed(new MoveUndo(toolController.getSelectedSpatial(),startLoc,lastLoc));
       wasDragging=false;
     }
   }

@@ -40,14 +40,11 @@
   axis.attachChild(arrowX);
   axis.attachChild(arrowY);
   axis.attachChild(arrowZ);
-  Geometry quadXY=new Geometry("quadXY",new Quad(planeSize,planeSize));
-  Geometry quadXZ=new Geometry("quadXZ",new Quad(planeSize,planeSize));
+  quadXY=new Geometry("quadXY",new Quad(planeSize,planeSize));
+  quadXZ=new Geometry("quadXZ",new Quad(planeSize,planeSize));
   quadXZ.setLocalRotation(PITCH090);
-  Geometry quadYZ=new Geometry("quadYZ",new Quad(planeSize,planeSize));
+  quadYZ=new Geometry("quadYZ",new Quad(planeSize,planeSize));
   quadYZ.setLocalRotation(YAW090);
-  axis.attachChild(quadXY);
-  axis.attachChild(quadXZ);
-  axis.attachChild(quadYZ);
   axis.setModelBound(new BoundingBox());
   return axis;
 }

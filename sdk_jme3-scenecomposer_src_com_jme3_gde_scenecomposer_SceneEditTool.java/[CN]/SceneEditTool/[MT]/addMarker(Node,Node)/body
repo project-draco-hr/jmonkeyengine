@@ -7,12 +7,7 @@
   axisMarker.removeFromParent();
   this.onTopToolNode.attachChild(axisMarker);
   setDefaultAxisMarkerColors();
-  if (selectionShape != null)   selectionShape.removeFromParent();
-  selectionShape=createSelectionShape(toolNode,selectedSpatial);
-  if (selectionShape != null) {
-    setDefaultSelectionShapeColors();
-    this.toolNode.attachChild(selectionShape);
-    axisMarker.setLocalTranslation(selectedSpatial.getWorldTranslation());
-    selectionShape.setLocalTranslation(selectedSpatial.getWorldTranslation());
+  if (toolController.getSelectionShape() != null) {
+    axisMarker.setLocalTranslation(toolController.getSelectedSpatial().getWorldTranslation());
   }
 }
