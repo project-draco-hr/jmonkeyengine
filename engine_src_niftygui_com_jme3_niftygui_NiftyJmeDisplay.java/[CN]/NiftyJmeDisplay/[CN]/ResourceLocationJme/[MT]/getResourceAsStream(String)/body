@@ -5,6 +5,6 @@
     return info.openStream();
   }
  else {
-    return null;
+    throw new AssetNotFoundException(path);
   }
 }
