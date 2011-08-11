@@ -1,0 +1,16 @@
+{
+  if (!(other instanceof Texture3D)) {
+    return false;
+  }
+  Texture3D that=(Texture3D)other;
+  if (this.getWrap(WrapAxis.S) != that.getWrap(WrapAxis.S)) {
+    return false;
+  }
+  if (this.getWrap(WrapAxis.T) != that.getWrap(WrapAxis.T)) {
+    return false;
+  }
+  if (this.getWrap(WrapAxis.R) != that.getWrap(WrapAxis.R)) {
+    return false;
+  }
+  return super.equals(other);
+}

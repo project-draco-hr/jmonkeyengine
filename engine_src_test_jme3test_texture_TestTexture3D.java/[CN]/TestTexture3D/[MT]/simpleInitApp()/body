@@ -1,0 +1,41 @@
+{
+  flyCam.setMoveSpeed(10);
+  Sphere sphere=new Sphere(32,32,1);
+  sphere.updateBound();
+  BoundingBox bb=(BoundingBox)sphere.getBound();
+  Vector3f min=bb.getMin(null);
+  float[] ext=new float[]{bb.getXExtent() * 2,bb.getYExtent() * 2,bb.getZExtent() * 2};
+  sphere.clearBuffer(Type.TexCoord);
+  VertexBuffer vb=sphere.getBuffer(Type.Position);
+  FloatBuffer fb=(FloatBuffer)vb.getData();
+  float[] uvCoordinates=BufferUtils.getFloatArray(fb);
+  for (int i=0; i < uvCoordinates.length; i+=3) {
+    uvCoordinates[i]=(uvCoordinates[i] - min.x) / ext[0];
+    uvCoordinates[i + 1]=(uvCoordinates[i + 1] - min.y) / ext[1];
+    uvCoordinates[i + 2]=(uvCoordinates[i + 2] - min.z) / ext[2];
+  }
+  VertexBuffer uvCoordsBuffer=new VertexBuffer(Type.TexCoord);
+  uvCoordsBuffer.setupData(Usage.Static,3,com.jme3.scene.VertexBuffer.Format.Float,BufferUtils.createFloatBuffer(uvCoordinates));
+  sphere.setBuffer(uvCoordsBuffer);
+  Geometry g=new Geometry("sphere",sphere);
+  Material material=new Material(assetManager,"jme3test/texture/tex3D.j3md");
+  try {
+    Texture texture=this.getTexture();
+    material.setTexture("Texture",texture);
+  }
+ catch (  IOException e) {
+    e.printStackTrace();
+  }
+  g.setMaterial(material);
+  rootNode.attachChild(g);
+  PointLight light=new PointLight();
+  light.setColor(ColorRGBA.White);
+  light.setPosition(new Vector3f(5,5,5));
+  light.setRadius(20);
+  rootNode.addLight(light);
+  light=new PointLight();
+  light.setColor(ColorRGBA.White);
+  light.setPosition(new Vector3f(-5,-5,-5));
+  light.setRadius(20);
+  rootNode.addLight(light);
+}
