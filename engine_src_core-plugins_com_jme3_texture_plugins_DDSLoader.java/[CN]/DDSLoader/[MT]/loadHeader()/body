@@ -22,9 +22,14 @@
     if (!is(caps1,DDSCAPS_TEXTURE)) {
       throw new IOException("File is not a texture");
     }
-    if (depth <= 0)     depth=1;
+    if (depth <= 0) {
+      depth=1;
+    }
     if (is(caps2,DDSCAPS2_CUBEMAP)) {
       depth=6;
+    }
+    if (is(caps2,DDSCAPS2_VOLUME)) {
+      texture3D=true;
     }
   }
   int expectedMipmaps=1 + (int)Math.ceil(Math.log(Math.max(height,width)) / LOG2);

@@ -15,7 +15,7 @@
     throw new IllegalArgumentException("Material parameter is not defined: " + name);
   }
   if (type != null && paramDef.getVarType() != type) {
-    logger.logp(Level.WARNING,"Material parameter being set: {0} with " + "type {1} doesn't match definition type {2}",name,type.name(),paramDef.getVarType());
+    logger.log(Level.WARNING,"Material parameter being set: {0} with " + "type {1} doesn't match definition type {2}",new Object[]{name,type.name(),paramDef.getVarType()});
   }
   return newName;
 }

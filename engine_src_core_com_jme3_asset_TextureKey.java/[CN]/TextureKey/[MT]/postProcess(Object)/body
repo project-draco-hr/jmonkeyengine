@@ -1,6 +1,8 @@
 {
   Image img=(Image)asset;
-  if (img == null)   return null;
+  if (img == null) {
+    return null;
+  }
   Texture tex;
   if (isAsCube()) {
     if (isFlipY()) {
@@ -10,10 +12,15 @@
     }
     tex=new TextureCubeMap();
   }
+ else   if (isAsTexture3D()) {
+    tex=new Texture3D();
+  }
  else {
     tex=new Texture2D();
   }
-  if (img.hasMipmaps() || isGenerateMips())   tex.setMinFilter(Texture.MinFilter.Trilinear);
+  if (img.hasMipmaps() || isGenerateMips()) {
+    tex.setMinFilter(Texture.MinFilter.Trilinear);
+  }
   tex.setAnisotropicFilter(getAnisotropy());
   tex.setName(getName());
   tex.setImage(img);

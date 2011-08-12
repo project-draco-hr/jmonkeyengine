@@ -3,7 +3,6 @@
   ByteBuffer buffer=BufferUtils.createByteBuffer(totalSize);
   int mipWidth=width;
   int mipHeight=height;
-  int offset=0;
   for (int mip=0; mip < mipMapCount; mip++) {
     if (flip) {
       byte[] data=new byte[sizes[mip]];
@@ -18,7 +17,6 @@
       in.readFully(data);
       buffer.put(data);
     }
-    offset+=sizes[mip];
     mipWidth=Math.max(mipWidth / 2,1);
     mipHeight=Math.max(mipHeight / 2,1);
   }
