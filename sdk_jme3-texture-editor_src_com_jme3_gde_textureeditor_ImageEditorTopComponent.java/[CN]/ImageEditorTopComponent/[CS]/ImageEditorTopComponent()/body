@@ -4,4 +4,5 @@
   setToolTipText(NbBundle.getMessage(ImageEditorTopComponent.class,"HINT_ImageEditorTopComponent"));
   setIcon(ImageUtilities.loadImage(ICON_PATH,true));
   add(EDITOR.getComponent());
+  associateLookup(new AbstractLookup(EDITOR.getContent()));
 }
