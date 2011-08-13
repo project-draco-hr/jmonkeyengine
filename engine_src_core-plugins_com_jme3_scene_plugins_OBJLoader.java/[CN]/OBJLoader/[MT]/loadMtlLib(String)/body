@@ -1,5 +1,6 @@
 {
   if (!name.toLowerCase().endsWith(".mtl"))   throw new IOException("Expected .mtl file! Got: " + name);
+  name=new File(name).getName();
   matList=(MaterialList)assetManager.loadAsset(key.getFolder() + name);
   if (matList != null) {
     for (    String matName : matList.keySet()) {

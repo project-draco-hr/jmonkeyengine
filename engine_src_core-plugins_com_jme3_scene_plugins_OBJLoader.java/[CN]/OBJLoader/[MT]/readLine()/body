@@ -29,7 +29,7 @@
     nextStatement();
   }
  else {
-    System.out.println("Unknown statement in OBJ! " + cmd);
+    logger.log(Level.WARNING,"Unknown statement in OBJ! {0}",cmd);
     nextStatement();
   }
   return true;
