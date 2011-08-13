@@ -37,8 +37,10 @@ MeshHelper meshHelper=dataRepository.getHelper(MeshHelper.class);
 Pointer pMesh=(Pointer)objectStructure.getFieldValue("data");
 List<Structure> meshesArray=pMesh.fetchData(dataRepository.getInputStream());
 List<Geometry> geometries=meshHelper.toMesh(meshesArray.get(0),dataRepository);
+if (geometries != null) {
 for (Geometry geometry : geometries) {
 node.attachChild(geometry);
+}
 }
 node.setLocalTransform(t);
 ModifierHelper modifierHelper=dataRepository.getHelper(ModifierHelper.class);

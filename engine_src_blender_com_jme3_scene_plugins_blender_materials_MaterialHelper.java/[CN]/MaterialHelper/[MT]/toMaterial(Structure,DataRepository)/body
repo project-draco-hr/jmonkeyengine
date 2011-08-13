@@ -9,8 +9,9 @@
   }
   int mode=((Number)structure.getFieldValue("mode")).intValue();
   boolean shadeless=(mode & 0x4) != 0;
-  boolean vertexColor=(mode & 0x16) != 0;
-  boolean transparent=(mode & 0x64) != 0;
+  boolean vertexColor=(mode & 0x80) != 0;
+  boolean transparent=(mode & 0x10000) != 0;
+  boolean vtangent=(mode & 0x4000000) != 0;
   if (shadeless) {
     result=new Material(dataRepository.getAssetManager(),"Common/MatDefs/Misc/Unshaded.j3md");
   }
@@ -30,12 +31,16 @@
   MaterialHelper materialHelper=dataRepository.getHelper(MaterialHelper.class);
   ColorRGBA diffuseColor=null;
   if (shadeless) {
+    diffuseColor=ColorRGBA.White.clone();
   }
  else {
     result.setBoolean("UseMaterialColors",Boolean.TRUE);
     DiffuseShader diffuseShader=materialHelper.getDiffuseShader(structure);
     result.setBoolean("Minnaert",diffuseShader == DiffuseShader.MINNAERT);
     diffuseColor=materialHelper.getDiffuseColor(structure,diffuseShader);
+    if (!transparent) {
+      diffuseColor.a=1;
+    }
     result.setColor("Diffuse",diffuseColor);
     SpecularShader specularShader=materialHelper.getSpecularShader(structure);
     result.setBoolean("WardIso",specularShader == SpecularShader.WARDISO);
@@ -63,11 +68,13 @@
             if (texture != null) {
               texture.setMinFilter(MinFilter.Trilinear);
               if ((mapto & 0x01) != 0) {
-                result.setColor("Diffuse",ColorRGBA.White);
+                diffuseColor.r=diffuseColor.g=diffuseColor.b=1.0f;
+                result.setColor(shadeless ? "Color" : "Diffuse",diffuseColor);
                 int blendType=((Number)textureLink.getFieldValue("blendtype")).intValue();
                 float[] color=new float[]{((Number)textureLink.getFieldValue("r")).floatValue(),((Number)textureLink.getFieldValue("g")).floatValue(),((Number)textureLink.getFieldValue("b")).floatValue()};
                 float colfac=((Number)textureLink.getFieldValue("colfac")).floatValue();
                 texture=textureHelper.blendTexture(diffuseColor.getColorArray(),texture,color,colfac,blendType,negateTexture,dataRepository);
+                texture.setMinFilter(MinFilter.Trilinear);
                 texture.setWrap(WrapMode.Repeat);
                 if (shadeless) {
                   result.setTexture(TEXTURE_TYPE_COLOR,texture);
@@ -76,10 +83,11 @@
                   result.setTexture(TEXTURE_TYPE_DIFFUSE,texture);
                 }
               }
-              if ((mapto & 0x02) != 0) {
+              if ((mapto & 0x02) != 0 && !shadeless) {
                 Texture normalMapTexture;
                 if (texture.getKey() instanceof GeneratedTextureKey) {
                   normalMapTexture=textureHelper.convertToNormalMapTexture(texture,((Number)textureLink.getFieldValue("norfac")).floatValue());
+                  normalMapTexture.setMinFilter(MinFilter.Trilinear);
                 }
  else {
                   normalMapTexture=texture;
@@ -89,13 +97,13 @@
                   result.setBoolean(shadeless ? "VertexColor" : "UseVertexColor",false);
                 }
               }
-              if ((mapto & 0x04) != 0) {
+              if ((mapto & 0x04) != 0 && !shadeless) {
                 result.setTexture(TEXTURE_TYPE_SPECULAR,texture);
               }
               if ((mapto & 0x40) != 0) {
                 result.setTexture(TEXTURE_TYPE_GLOW,texture);
               }
-              if ((mapto & 0x80) != 0) {
+              if ((mapto & 0x80) != 0 && !shadeless) {
                 result.setTexture(TEXTURE_TYPE_ALPHA,texture);
               }
             }
