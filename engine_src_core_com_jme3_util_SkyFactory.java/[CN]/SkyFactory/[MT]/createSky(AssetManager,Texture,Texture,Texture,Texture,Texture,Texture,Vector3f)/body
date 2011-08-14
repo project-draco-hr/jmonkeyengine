@@ -2,6 +2,7 @@
   Geometry sky=new Geometry("Sky",sphereMesh);
   sky.setQueueBucket(Bucket.Sky);
   sky.setCullHint(Spatial.CullHint.Never);
+  sky.setModelBound(new BoundingSphere(Float.POSITIVE_INFINITY,Vector3f.ZERO));
   Image westImg=west.getImage();
   Image eastImg=east.getImage();
   Image northImg=north.getImage();

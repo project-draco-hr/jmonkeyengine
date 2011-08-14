@@ -4,10 +4,10 @@
   am.registerLoader(WAVLoader.class.getName(),"wav");
   am.registerLocator("/",ClasspathLocator.class.getName());
   AudioData audio=am.loadAudio("Sound/Effects/Gun.wav");
-  Texture tex=am.loadTexture("Textures/Terrain/Pond/Pond.png");
+  Texture tex=am.loadTexture("Textures/Terrain/Pond/Pond.jpg");
   if (audio == null)   throw new RuntimeException("Cannot find audio!");
  else   System.out.println("Audio loaded from Sounds/Effects/Gun.wav");
   if (tex == null)   throw new RuntimeException("Cannot find texture!");
- else   System.out.println("Texture loaded from Textures/Terrain/Pond/Pond.png");
+ else   System.out.println("Texture loaded from Textures/Terrain/Pond/Pond.jpg");
   System.out.println("Success!");
 }
