@@ -6,16 +6,4 @@
   loadAvailableTextures();
   setSelectedTexture((Texture)editor.getValue());
   setLocationRelativeTo(null);
-  Quad quadMesh=new Quad(4.5f,4.5f);
-  Quad quadMesh3D=new Quad(4.5f,4.5f);
-  quadMesh3D.scaleTextureCoordinates(new Vector2f(4,4));
-  quad=new Geometry("previewQuad",quadMesh);
-  quad.setLocalTranslation(new Vector3f(-2.25f,-2.25f,0));
-  quad3D=new Geometry("previewQuad",quadMesh3D);
-  quad3D.setLocalTranslation(new Vector3f(-2.25f,-2.25f,0));
-  material3D=new Material(assetManager,"com/jme3/gde/core/properties/preview/tex3DThumb.j3md");
-  material3D.setFloat("InvDepth",1f / 16f);
-  material3D.setInt("Rows",4);
-  material=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
-  SceneApplication.getApplication().addSceneListener(this);
 }

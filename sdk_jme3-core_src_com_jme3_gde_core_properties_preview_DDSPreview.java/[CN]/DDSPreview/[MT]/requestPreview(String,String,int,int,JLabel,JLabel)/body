@@ -1,0 +1,36 @@
+{
+  TextureKey key=new TextureKey(textureName);
+  picPreview=picLabel;
+  assetManager.deleteFromCache(key);
+  Texture t=assetManager.loadTexture(key);
+  Spatial geom=quad;
+  if (key.getTextureTypeHint() == Texture.Type.TwoDimensional) {
+    material.setTexture("ColorMap",t);
+    geom.setMaterial(material);
+    if (infoLabel != null) {
+      infoLabel.setText(" " + displayName + "    w : "+ t.getImage().getWidth()+ "    h : "+ t.getImage().getHeight());
+    }
+  }
+ else   if (key.getTextureTypeHint() == Texture.Type.ThreeDimensional) {
+    geom=quad3D;
+    assetManager.deleteFromCache(key);
+    key.setAsTexture3D(true);
+    t=assetManager.loadTexture(key);
+    material3D.setTexture("Texture",t);
+    geom.setMaterial(material3D);
+    if (infoLabel != null) {
+      infoLabel.setText(" " + displayName + " (Texture3D)    w : "+ t.getImage().getWidth()+ "    h : "+ t.getImage().getHeight()+ "    d : "+ t.getImage().getDepth());
+    }
+  }
+ else   if (key.getTextureTypeHint() == Texture.Type.CubeMap) {
+    assetManager.deleteFromCache(key);
+    geom=SkyFactory.createSky(assetManager,textureName,false);
+    if (infoLabel != null) {
+      infoLabel.setText(" " + displayName + " (CubeMap)    w : "+ t.getImage().getWidth()+ "    h : "+ t.getImage().getHeight());
+    }
+  }
+  PreviewRequest request=new PreviewRequest(this,geom,width,height);
+  request.getCameraRequest().setLocation(new Vector3f(0,0,5.3f));
+  request.getCameraRequest().setLookAt(new Vector3f(0,0,0),Vector3f.UNIT_Y.mult(-1));
+  SceneApplication.getApplication().createPreview(request);
+}

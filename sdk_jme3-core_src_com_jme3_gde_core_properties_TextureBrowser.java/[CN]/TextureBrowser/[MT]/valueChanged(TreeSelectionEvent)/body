@@ -8,33 +8,10 @@
     selected=selected.substring(0,selected.lastIndexOf("/"));
     Icon newicon=null;
     if (selected.endsWith(".dds") || selected.endsWith(".DDS")) {
-      TextureKey key=new TextureKey(selected);
-      assetManager.deleteFromCache(key);
-      Texture t=assetManager.loadTexture(key);
-      Spatial geom=quad;
-      if (key.getTextureTypeHint() == Texture.Type.TwoDimensional) {
-        material.setTexture("ColorMap",t);
-        geom.setMaterial(material);
-        infoLabel.setText(" " + node.getUserObject() + "    w : "+ t.getImage().getWidth()+ "    h : "+ t.getImage().getHeight());
+      if (ddsPreview == null) {
+        ddsPreview=new DDSPreview(assetManager);
       }
- else       if (key.getTextureTypeHint() == Texture.Type.ThreeDimensional) {
-        geom=quad3D;
-        assetManager.deleteFromCache(key);
-        key.setAsTexture3D(true);
-        t=assetManager.loadTexture(key);
-        material3D.setTexture("Texture",t);
-        geom.setMaterial(material3D);
-        infoLabel.setText(" " + node.getUserObject() + " (Texture3D)    w : "+ t.getImage().getWidth()+ "    h : "+ t.getImage().getHeight()+ "    d : "+ t.getImage().getDepth());
-      }
- else       if (key.getTextureTypeHint() == Texture.Type.CubeMap) {
-        assetManager.deleteFromCache(key);
-        geom=SkyFactory.createSky(assetManager,selected,false);
-        infoLabel.setText(" " + node.getUserObject() + " (CubeMap)    w : "+ t.getImage().getWidth()+ "    h : "+ t.getImage().getHeight());
-      }
-      PreviewRequest request=new PreviewRequest(this,geom,450,450);
-      request.getCameraRequest().setLocation(new Vector3f(0,0,5.3f));
-      request.getCameraRequest().setLookAt(new Vector3f(0,0,0),Vector3f.UNIT_Y.mult(-1));
-      SceneApplication.getApplication().createPreview(request);
+      ddsPreview.requestPreview(selected,(String)node.getUserObject(),450,450,imagePreviewLabel,infoLabel);
     }
  else {
       Texture tex=assetManager.loadTexture(selected);
