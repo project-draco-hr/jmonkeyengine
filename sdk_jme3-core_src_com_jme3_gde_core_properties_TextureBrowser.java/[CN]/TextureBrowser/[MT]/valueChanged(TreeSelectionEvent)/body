@@ -6,29 +6,42 @@
   if (node.isLeaf()) {
     String selected=TreeUtil.getPath(node.getUserObjectPath());
     selected=selected.substring(0,selected.lastIndexOf("/"));
-    Texture tex=assetManager.loadTexture(selected);
     Icon newicon=null;
     if (selected.endsWith(".dds") || selected.endsWith(".DDS")) {
-      try {
-        File file=FileUtil.toFile(assetManager.getAssetFolder().getFileObject(selected));
-        DDSImageFile ddsImageFile=new DDSImageFile(file);
-        BufferedImage bufferedImage=ddsImageFile.getData();
-        newicon=new ImageIcon(bufferedImage);
+      TextureKey key=new TextureKey(selected);
+      assetManager.deleteFromCache(key);
+      Texture t=assetManager.loadTexture(key);
+      Spatial geom=quad;
+      if (key.getTextureTypeHint() == Texture.Type.TwoDimensional) {
+        material.setTexture("ColorMap",t);
+        geom.setMaterial(material);
+        infoLabel.setText(" " + node.getUserObject() + "    w : "+ t.getImage().getWidth()+ "    h : "+ t.getImage().getHeight());
       }
- catch (      IOException ex) {
-        Exceptions.printStackTrace(ex);
-        BufferedImage img=new BufferedImage(320,240,BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d=(Graphics2D)img.getGraphics();
-        g2d.setColor(Color.white);
-        g2d.drawString("Cannot display image",15,15);
-        newicon=new ImageIcon(img);
+ else       if (key.getTextureTypeHint() == Texture.Type.ThreeDimensional) {
+        geom=quad3D;
+        assetManager.deleteFromCache(key);
+        key.setAsTexture3D(true);
+        t=assetManager.loadTexture(key);
+        material3D.setTexture("Texture",t);
+        geom.setMaterial(material3D);
+        infoLabel.setText(" " + node.getUserObject() + " (Texture3D)    w : "+ t.getImage().getWidth()+ "    h : "+ t.getImage().getHeight()+ "    d : "+ t.getImage().getDepth());
       }
+ else       if (key.getTextureTypeHint() == Texture.Type.CubeMap) {
+        assetManager.deleteFromCache(key);
+        geom=SkyFactory.createSky(assetManager,selected,false);
+        infoLabel.setText(" " + node.getUserObject() + " (CubeMap)    w : "+ t.getImage().getWidth()+ "    h : "+ t.getImage().getHeight());
+      }
+      PreviewRequest request=new PreviewRequest(this,geom,450,450);
+      request.getCameraRequest().setLocation(new Vector3f(0,0,5.3f));
+      request.getCameraRequest().setLookAt(new Vector3f(0,0,0),Vector3f.UNIT_Y.mult(-1));
+      SceneApplication.getApplication().createPreview(request);
     }
  else {
+      Texture tex=assetManager.loadTexture(selected);
       newicon=ImageUtilities.image2Icon(ImageToAwt.convert(tex.getImage(),false,true,0));
+      imagePreviewLabel.setIcon(newicon);
+      infoLabel.setText(" " + node.getUserObject() + "    w : "+ newicon.getIconWidth()+ "    h : "+ newicon.getIconHeight());
     }
-    imagePreviewLabel.setIcon(newicon);
-    infoLabel.setText(" " + node.getUserObject() + "    w : "+ newicon.getIconWidth()+ "    h : "+ newicon.getIconHeight());
   }
  else {
     imagePreviewLabel.setIcon(null);

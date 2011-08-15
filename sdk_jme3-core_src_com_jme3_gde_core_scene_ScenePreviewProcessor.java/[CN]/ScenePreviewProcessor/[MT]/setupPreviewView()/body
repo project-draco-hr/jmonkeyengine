@@ -1,9 +1,23 @@
 {
-  offCamera=new Camera(width,height);
-  offView=SceneApplication.getApplication().getRenderManager().createPreView("Offscreen View",offCamera);
-  offView.setBackgroundColor(ColorRGBA.DarkGray);
-  offView.setClearFlags(true,true,true);
-  offView.addProcessor(this);
+  if (offCamera == null) {
+    offCamera=new Camera(width,height);
+  }
+ else {
+    offCamera.resize(width,height,true);
+  }
+  if (offView == null) {
+    offView=SceneApplication.getApplication().getRenderManager().createPreView("Offscreen View",offCamera);
+    offView.setBackgroundColor(ColorRGBA.DarkGray);
+    offView.setClearFlags(true,true,true);
+    offView.addProcessor(this);
+    light=new PointLight();
+    light.setPosition(offCamera.getLocation());
+    light.setColor(ColorRGBA.White);
+    previewNode.addLight(light);
+    offView.attachScene(previewNode);
+  }
+  cpuBuf=BufferUtils.createByteBuffer(width * height * 4);
+  cpuArray=new byte[width * height * 4];
   offBuffer=new FrameBuffer(width,height,0);
   offCamera.setFrustumPerspective(45f,1f,1f,1000f);
   offCamera.setLocation(new Vector3f(5f,5f,5f));
@@ -11,9 +25,4 @@
   offBuffer.setDepthBuffer(Format.Depth);
   offBuffer.setColorBuffer(Format.RGBA8);
   offView.setOutputFrameBuffer(offBuffer);
-  light=new PointLight();
-  light.setPosition(offCamera.getLocation());
-  light.setColor(ColorRGBA.White);
-  previewNode.addLight(light);
-  offView.attachScene(previewNode);
 }
