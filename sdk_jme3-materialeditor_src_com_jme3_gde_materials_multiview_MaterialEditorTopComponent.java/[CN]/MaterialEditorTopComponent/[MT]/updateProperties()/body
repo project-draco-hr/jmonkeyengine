@@ -25,7 +25,7 @@
     if ("Boolean".equals(entry.getValue().getType())) {
       optionList.add(widget);
     }
- else     if ("Texture2D".equals(entry.getValue().getType())) {
+ else     if (entry.getValue().getType().indexOf("Texture") >= 0) {
       textureList.add(widget);
     }
  else     if ("Color".equals(entry.getValue().getType())) {

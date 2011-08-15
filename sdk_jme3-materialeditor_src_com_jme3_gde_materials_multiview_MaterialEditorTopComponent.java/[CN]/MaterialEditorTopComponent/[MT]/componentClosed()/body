@@ -1,5 +1,11 @@
 {
   materialPreviewWidget1.cleanUp();
+  for (int i=0; i < texturePanel.getComponentCount(); i++) {
+    Component c=texturePanel.getComponent(i);
+    if (c instanceof MaterialPropertyWidget) {
+      ((MaterialPropertyWidget)c).cleanUp();
+    }
+  }
   clearMaterialChangeListeners();
   SceneExplorerTopComponent.getDefault().removeMaterialChangeProvider(this);
 }
