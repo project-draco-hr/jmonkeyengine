@@ -2,7 +2,8 @@
   try {
     Terrain terrain=SceneApplication.getApplication().enqueue(new Callable<Terrain>(){
       public Terrain call() throws Exception {
-        return doCreateTerrain(parent,totalSize,patchSize,alphaTextureSize,heightmapData,sceneName,jmeNodeParent);
+        AddTerrainAction a=new AddTerrainAction();
+        return (Terrain)a.doCreateTerrain(parent,totalSize,patchSize,alphaTextureSize,heightmapData,sceneName,jmeRootNode);
       }
     }
 ).get();

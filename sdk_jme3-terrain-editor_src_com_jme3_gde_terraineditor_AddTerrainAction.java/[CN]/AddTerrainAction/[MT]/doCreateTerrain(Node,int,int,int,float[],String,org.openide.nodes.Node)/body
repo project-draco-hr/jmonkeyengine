@@ -1,10 +1,10 @@
 {
-  AssetManager manager=SceneApplication.getApplication().getAssetManager();
+  final ProjectAssetManager manager=selectedNode.getLookup().lookup(ProjectAssetManager.class);
   Terrain terrain=new TerrainQuad("terrain-" + sceneName,patchSize,totalSize,heightmapData);
   com.jme3.material.Material mat=new com.jme3.material.Material(manager,"Common/MatDefs/Terrain/TerrainLighting.j3md");
   String assetFolder="";
   if (manager != null && manager instanceof ProjectAssetManager)   assetFolder=((ProjectAssetManager)manager).getAssetFolderName();
-  for (int i=0; i < NUM_ALPHA_TEXTURES; i++) {
+  for (int i=0; i < TerrainEditorController.NUM_ALPHA_TEXTURES; i++) {
     BufferedImage alphaBlend=new BufferedImage(alphaTextureSize,alphaTextureSize,BufferedImage.TYPE_INT_ARGB);
     if (i == 0) {
       for (int h=0; h < alphaTextureSize; h++)       for (int w=0; w < alphaTextureSize; w++)       alphaBlend.setRGB(w,h,0x00FF0000);
@@ -19,10 +19,10 @@
  else     if (i == 1)     mat.setTexture("AlphaMap_1",tex);
  else     if (i == 2)     mat.setTexture("AlphaMap_2",tex);
   }
-  Texture defaultTexture=manager.loadTexture(DEFAULT_TERRAIN_TEXTURE);
+  Texture defaultTexture=manager.loadTexture(TerrainEditorController.DEFAULT_TERRAIN_TEXTURE);
   defaultTexture.setWrap(WrapMode.Repeat);
   mat.setTexture("DiffuseMap",defaultTexture);
-  mat.setFloat("DiffuseMap_0_scale",DEFAULT_TEXTURE_SCALE);
+  mat.setFloat("DiffuseMap_0_scale",TerrainEditorController.DEFAULT_TEXTURE_SCALE);
   mat.setBoolean("WardIso",true);
   ((Node)terrain).setMaterial(mat);
   ((Node)terrain).setModelBound(new BoundingBox());
@@ -32,7 +32,5 @@
   TerrainLodControl control=new TerrainLodControl(terrain,SceneApplication.getApplication().getCamera());
   ((Node)terrain).addControl(control);
   parent.attachChild((Node)terrain);
-  setNeedsSave(true);
-  addSpatialUndo(parent,(Node)terrain,jmeNodeParent);
-  return terrain;
+  return (Spatial)terrain;
 }
