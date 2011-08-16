@@ -20,7 +20,7 @@
       Texture tex=getTextureFromModel(index);
       if (tex != null) {
         String selected=tex.getKey().getName();
-        if (selected.endsWith(".dds") || selected.endsWith(".DDS")) {
+        if (selected.toLowerCase().endsWith(".dds")) {
           if (ddsPreview == null) {
             ddsPreview=new DDSPreview((ProjectAssetManager)SceneApplication.getApplication().getAssetManager());
           }
@@ -49,7 +49,7 @@
           Texture tex=(Texture)editor.getValue();
           if (editor.getValue() != null) {
             String selected=tex.getKey().getName();
-            if (selected.endsWith(".dds") || selected.endsWith(".DDS")) {
+            if (selected.toLowerCase().endsWith(".dds")) {
               if (ddsPreview == null) {
                 ddsPreview=new DDSPreview((ProjectAssetManager)SceneApplication.getApplication().getAssetManager());
               }
