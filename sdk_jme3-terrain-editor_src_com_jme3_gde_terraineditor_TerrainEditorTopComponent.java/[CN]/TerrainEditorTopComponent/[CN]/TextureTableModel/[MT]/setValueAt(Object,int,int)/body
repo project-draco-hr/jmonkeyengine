@@ -1,5 +1,9 @@
 {
-  if (row < 0 || row > getRowCount() - 1)   return;
+  if (row < 0 || row > getRowCount() - 1) {
+    return;
+  }
   super.setValueAt(aValue,row,column);
-  if (column == 3)   setTextureScale(row,new Float((String)aValue));
+  if (column == 3) {
+    setTextureScale(row,new Float((String)aValue));
+  }
 }

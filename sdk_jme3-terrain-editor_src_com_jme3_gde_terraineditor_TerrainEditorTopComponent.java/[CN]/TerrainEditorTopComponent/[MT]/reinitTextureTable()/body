@@ -5,11 +5,19 @@
   NormalCellRendererEditor rendererNormal=new NormalCellRendererEditor();
   textureTable.getColumnModel().getColumn(2).setCellRenderer(rendererNormal);
   textureTable.getColumnModel().getColumn(2).setCellEditor(rendererNormal);
-  for (int i=0; i < textureTable.getModel().getRowCount(); i++)   ((TextureTableModel)textureTable.getModel()).removeRow(i);
-  if (editorController.getTerrain(null) == null)   return;
+  for (int i=0; i < textureTable.getModel().getRowCount(); i++) {
+    ((TextureTableModel)textureTable.getModel()).removeRow(i);
+  }
+  if (editorController.getTerrain(null) == null) {
+    return;
+  }
   getTableModel().initModel();
-  if (textureTable.getRowCount() > 0)   toolController.setSelectedTextureIndex(0);
- else   toolController.setSelectedTextureIndex(-1);
+  if (textureTable.getRowCount() > 0) {
+    toolController.setSelectedTextureIndex(0);
+  }
+ else {
+    toolController.setSelectedTextureIndex(-1);
+  }
   editorController.enableTextureButtons();
   triPlanarCheckBox.setSelected(editorController.isTriPlanarEnabled());
 }

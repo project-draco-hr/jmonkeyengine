@@ -1,42 +1,77 @@
 {
-  final JButton lbl=new JButton();
-  if (value == null)   value=getTableModel().getValueAt(row,column);
-  if (value != null) {
-    int index=0;
-    if (value instanceof String)     index=new Float((String)value).intValue();
- else     if (value instanceof Float)     index=((Float)value).intValue();
- else     if (value instanceof Integer)     index=(Integer)value;
-    Texture tex=getTextureFromModel(index);
-    if (tex != null) {
-      Icon icon=ImageUtilities.image2Icon(ImageToAwt.convert(tex.getImage(),false,true,0));
-      lbl.setIcon(icon);
+  JButton button=buttons.get(row + "-" + column);
+  if (button == null) {
+    final JButton lbl=new JButton();
+    buttons.put(row + "-" + column,lbl);
+    if (value == null) {
+      value=getTableModel().getValueAt(row,column);
     }
-  }
-  lbl.addActionListener(new ActionListener(){
-    public void actionPerformed(    ActionEvent e){
-      if (alreadyChoosing)       return;
-      alreadyChoosing=true;
-      try {
-        Texture selectedTex=getTextureFromModel(row);
-        if (selectedTex == null && !availableNormalTextures)         return;
-        TexturePropertyEditor editor=new TexturePropertyEditor(selectedTex);
-        Component view=editor.getCustomEditor();
-        view.setVisible(true);
-        Texture tex=(Texture)editor.getValue();
-        if (editor.getValue() != null) {
-          Icon newicon=ImageUtilities.image2Icon(ImageToAwt.convert(tex.getImage(),false,true,0));
-          lbl.setIcon(newicon);
-        }
- else         if (supportsNullTexture()) {
-          lbl.setIcon(null);
-        }
-        setTextureInModel(row,tex);
+    if (value != null) {
+      int index=0;
+      if (value instanceof String) {
+        index=new Float((String)value).intValue();
       }
+ else       if (value instanceof Float) {
+        index=((Float)value).intValue();
+      }
+ else       if (value instanceof Integer) {
+        index=(Integer)value;
+      }
+      Texture tex=getTextureFromModel(index);
+      if (tex != null) {
+        String selected=tex.getKey().getName();
+        if (selected.endsWith(".dds") || selected.endsWith(".DDS")) {
+          if (ddsPreview == null) {
+            ddsPreview=new DDSPreview((ProjectAssetManager)SceneApplication.getApplication().getAssetManager());
+          }
+          ddsPreview.requestPreview(selected,"",80,80,lbl,null);
+        }
+ else {
+          Icon icon=ImageUtilities.image2Icon(ImageToAwt.convert(tex.getImage(),false,true,0));
+          lbl.setIcon(icon);
+        }
+      }
+    }
+    lbl.addActionListener(new ActionListener(){
+      public void actionPerformed(      ActionEvent e){
+        if (alreadyChoosing) {
+          return;
+        }
+        alreadyChoosing=true;
+        try {
+          Texture selectedTex=getTextureFromModel(row);
+          if (selectedTex == null && !availableNormalTextures) {
+            return;
+          }
+          TexturePropertyEditor editor=new TexturePropertyEditor(selectedTex);
+          Component view=editor.getCustomEditor();
+          view.setVisible(true);
+          Texture tex=(Texture)editor.getValue();
+          if (editor.getValue() != null) {
+            String selected=tex.getKey().getName();
+            if (selected.endsWith(".dds") || selected.endsWith(".DDS")) {
+              if (ddsPreview == null) {
+                ddsPreview=new DDSPreview((ProjectAssetManager)SceneApplication.getApplication().getAssetManager());
+              }
+              ddsPreview.requestPreview(selected,"",80,80,lbl,null);
+            }
+ else {
+              Icon newicon=ImageUtilities.image2Icon(ImageToAwt.convert(tex.getImage(),false,true,0));
+              lbl.setIcon(newicon);
+            }
+          }
+ else           if (supportsNullTexture()) {
+            lbl.setIcon(null);
+          }
+          setTextureInModel(row,tex);
+        }
   finally {
-        alreadyChoosing=false;
+          alreadyChoosing=false;
+        }
       }
     }
-  }
 );
-  return lbl;
+    return lbl;
+  }
+  return button;
 }
