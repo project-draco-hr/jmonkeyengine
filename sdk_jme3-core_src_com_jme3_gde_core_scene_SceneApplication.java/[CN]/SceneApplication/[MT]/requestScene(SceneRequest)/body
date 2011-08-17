@@ -17,6 +17,9 @@
       if (request.getDataObject() != null) {
         setCurrentFileNode(request.getDataObject().getNodeDelegate());
       }
+ else {
+        setCurrentFileNode(null);
+      }
       setHelpContext(request.getHelpCtx());
       getCurrentSceneRequest().setDisplayed(true);
       Spatial model=request.getRootNode();
