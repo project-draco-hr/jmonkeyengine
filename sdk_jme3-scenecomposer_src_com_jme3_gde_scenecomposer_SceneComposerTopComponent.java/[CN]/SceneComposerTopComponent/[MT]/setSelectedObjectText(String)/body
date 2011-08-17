@@ -2,16 +2,10 @@
   java.awt.EventQueue.invokeLater(new Runnable(){
     public void run(){
       if (text != null) {
-        ((TitledBorder)palettePanel.getBorder()).setTitle("Palette:" + text);
-        palettePanel.repaint();
-        addObjectButton.setEnabled(true);
-        addCursorButton.setEnabled(true);
+        ((TitledBorder)jPanel4.getBorder()).setTitle("Utilities - " + text);
       }
  else {
-        ((TitledBorder)palettePanel.getBorder()).setTitle("no spatial selected");
-        palettePanel.repaint();
-        addObjectButton.setEnabled(false);
-        addCursorButton.setEnabled(false);
+        ((TitledBorder)jPanel4.getBorder()).setTitle("Utilities - no spatial selected");
       }
     }
   }

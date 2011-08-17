@@ -1,7 +1,6 @@
 {
   if (spatial == null) {
     setSelectedObjectText(null);
-    setSelectionData(null);
     if (editorController != null) {
       editorController.setSelectedSpat(spatial);
     }
@@ -18,16 +17,13 @@
   }
   editorController.setSelectedSpat(spatial);
   if (spatial.getLookup().lookup(Node.class) != null) {
-    setSelectionData(true);
     setSelectedObjectText(spatial.getLookup().lookup(Node.class).getName());
   }
  else   if (spatial.getLookup().lookup(Spatial.class) != null) {
-    setSelectionData(false);
     setSelectedObjectText(spatial.getLookup().lookup(Spatial.class).getName());
   }
  else {
     setSelectedObjectText(null);
-    setSelectionData(false);
   }
   SceneApplication.getApplication().setCurrentFileNode(spatial);
   setActivatedNodes(new org.openide.nodes.Node[]{spatial});
