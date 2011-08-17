@@ -31,9 +31,6 @@
       skyBox.removeFromParent();
       SceneApplication.getApplication().getGuiViewPort().removeProcessor(niftyDisplay);
       nifty.exit();
-      if (planetView != null) {
-        SceneApplication.getApplication().getStateManager().detach(planetView);
-      }
       SceneApplication.getApplication().removeSceneListener(this);
       return true;
     }
