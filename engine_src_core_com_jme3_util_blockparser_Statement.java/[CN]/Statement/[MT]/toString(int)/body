@@ -1,0 +1,15 @@
+{
+  StringBuilder sb=new StringBuilder();
+  sb.append(getIndent(indent));
+  sb.append(line);
+  if (contents != null) {
+    sb.append(" {\n");
+    for (    Statement statement : contents) {
+      sb.append(statement.toString(indent + 4));
+      sb.append("\n");
+    }
+    sb.append(getIndent(indent));
+    sb.append("}");
+  }
+  return sb.toString();
+}

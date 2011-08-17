@@ -2,10 +2,8 @@
   this.owner=info.getManager();
   InputStream in=info.openStream();
   try {
-    scan=new Scanner(in);
-    scan.useLocale(Locale.US);
     key=info.getKey();
-    loadFromScanner();
+    loadFromRoot(BlockLanguageParser.parse(in));
   }
   finally {
     if (in != null)     in.close();

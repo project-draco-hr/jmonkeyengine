@@ -1,0 +1,24 @@
+{
+  String[] split=statement.getLine().split("[ \\{]");
+  if (split[0].equals("VertexShader") || split[0].equals("FragmentShader")) {
+    readShaderStatement(statement.getLine());
+  }
+ else   if (split[0].equals("LightMode")) {
+    readLightMode(statement.getLine());
+  }
+ else   if (split[0].equals("ShadowMode")) {
+    readShadowMode(statement.getLine());
+  }
+ else   if (split[0].equals("WorldParameters")) {
+    readWorldParams(statement.getContents());
+  }
+ else   if (split[0].equals("RenderState")) {
+    readRenderState(statement.getContents());
+  }
+ else   if (split[0].equals("Defines")) {
+    readDefines(statement.getContents());
+  }
+ else {
+    throwIfNequal(null,split[0]);
+  }
+}

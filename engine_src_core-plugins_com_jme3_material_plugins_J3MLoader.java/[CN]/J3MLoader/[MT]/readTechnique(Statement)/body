@@ -1,0 +1,23 @@
+{
+  String[] split=techStat.getLine().split(whitespacePattern);
+  if (split.length == 1) {
+    technique=new TechniqueDef(null);
+  }
+ else   if (split.length == 2) {
+    technique=new TechniqueDef(split[1]);
+  }
+ else {
+    throw new IOException("Technique statement syntax incorrect");
+  }
+  for (  Statement statement : techStat.getContents()) {
+    readTechniqueStatement(statement);
+  }
+  if (vertName != null && fragName != null) {
+    technique.setShaderFile(vertName,fragName,shaderLang);
+  }
+  materialDef.addTechniqueDef(technique);
+  technique=null;
+  vertName=null;
+  fragName=null;
+  shaderLang=null;
+}

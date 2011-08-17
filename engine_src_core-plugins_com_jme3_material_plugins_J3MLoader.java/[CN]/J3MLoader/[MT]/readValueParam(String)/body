@@ -1,0 +1,18 @@
+{
+  String[] split=statement.split(":",2);
+  if (split.length != 2) {
+    throw new IOException("Value parameter statement syntax incorrect");
+  }
+  String name=split[0].trim();
+  MatParam p=material.getMaterialDef().getMaterialParam(name);
+  if (p == null) {
+    throw new IOException("The material parameter: " + name + " is undefined.");
+  }
+  Object valueObj=readValue(p.getVarType(),split[1]);
+  if (p.getVarType().isTextureType()) {
+    material.setTextureParam(name,p.getVarType(),(Texture)valueObj);
+  }
+ else {
+    material.setParam(name,p.getVarType(),valueObj);
+  }
+}

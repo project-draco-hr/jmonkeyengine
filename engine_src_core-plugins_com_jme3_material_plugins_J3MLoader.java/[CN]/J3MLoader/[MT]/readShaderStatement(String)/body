@@ -1,0 +1,17 @@
+{
+  String[] split=statement.split(":");
+  if (split.length != 2) {
+    throw new IOException("Shader statement syntax incorrect" + statement);
+  }
+  String[] typeAndLang=split[0].split(whitespacePattern);
+  if (typeAndLang.length != 2) {
+    throw new IOException("Shader statement syntax incorrect: " + statement);
+  }
+  shaderLang=typeAndLang[1];
+  if (typeAndLang[0].equals("VertexShader")) {
+    vertName=split[1].trim();
+  }
+ else   if (typeAndLang[0].equals("FragmentShader")) {
+    fragName=split[1].trim();
+  }
+}

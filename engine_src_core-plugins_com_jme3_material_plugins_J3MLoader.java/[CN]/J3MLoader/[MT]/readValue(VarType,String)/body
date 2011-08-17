@@ -1,0 +1,65 @@
+{
+  if (type.isTextureType()) {
+    String texturePath=value.trim();
+    boolean flipY=false;
+    boolean repeat=false;
+    if (texturePath.startsWith("Flip Repeat ")) {
+      texturePath=texturePath.substring(12).trim();
+      flipY=true;
+      repeat=true;
+    }
+ else     if (texturePath.startsWith("Flip ")) {
+      texturePath=texturePath.substring(5).trim();
+      flipY=true;
+    }
+ else     if (texturePath.startsWith("Repeat ")) {
+      texturePath=texturePath.substring(7).trim();
+      repeat=true;
+    }
+    TextureKey key=new TextureKey(texturePath,flipY);
+    key.setAsCube(type == VarType.TextureCubeMap);
+    key.setGenerateMips(true);
+    Texture tex=owner.loadTexture(key);
+    if (tex != null) {
+      if (repeat)       tex.setWrap(WrapMode.Repeat);
+    }
+    return tex;
+  }
+ else {
+    String[] split=value.trim().split(whitespacePattern);
+switch (type) {
+case Float:
+      if (split.length != 1) {
+        throw new IOException("Float value parameter must have 1 entry: " + value);
+      }
+    return Float.parseFloat(split[0]);
+case Vector2:
+  if (split.length != 2) {
+    throw new IOException("Vector2 value parameter must have 2 entries: " + value);
+  }
+return new Vector2f(Float.parseFloat(split[0]),Float.parseFloat(split[1]));
+case Vector3:
+if (split.length != 3) {
+throw new IOException("Vector3 value parameter must have 3 entries: " + value);
+}
+return new Vector3f(Float.parseFloat(split[0]),Float.parseFloat(split[1]),Float.parseFloat(split[2]));
+case Vector4:
+if (split.length != 4) {
+throw new IOException("Vector4 value parameter must have 4 entries: " + value);
+}
+return new ColorRGBA(Float.parseFloat(split[0]),Float.parseFloat(split[1]),Float.parseFloat(split[2]),Float.parseFloat(split[3]));
+case Int:
+if (split.length != 1) {
+throw new IOException("Int value parameter must have 1 entry: " + value);
+}
+return Integer.parseInt(split[0]);
+case Boolean:
+if (split.length != 1) {
+throw new IOException("Boolean value parameter must have 1 entry: " + value);
+}
+return Boolean.parseBoolean(split[0]);
+default :
+throw new UnsupportedOperationException("Unknown type: " + type);
+}
+}
+}
