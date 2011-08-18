@@ -20,8 +20,15 @@
  else     if (i == 2)     mat.setTexture("AlphaMap_2",tex);
   }
   Texture defaultTexture=manager.loadTexture(TerrainEditorController.DEFAULT_TERRAIN_TEXTURE);
-  defaultTexture.setWrap(WrapMode.Repeat);
-  mat.setTexture("DiffuseMap",defaultTexture);
+  String dirtTextureName="/Textures/dirt.jpg";
+  File dirtTextureFile=new File(assetFolder + dirtTextureName);
+  if (!dirtTextureFile.exists()) {
+    BufferedImage bi=ImageToAwt.convert(defaultTexture.getImage(),false,true,0);
+    ImageIO.write(bi,"jpg",dirtTextureFile);
+  }
+  Texture dirtTexture=manager.loadTexture(dirtTextureName);
+  dirtTexture.setWrap(WrapMode.Repeat);
+  mat.setTexture("DiffuseMap",dirtTexture);
   mat.setFloat("DiffuseMap_0_scale",TerrainEditorController.DEFAULT_TEXTURE_SCALE);
   mat.setBoolean("WardIso",true);
   ((Node)terrain).setMaterial(mat);
