@@ -1,0 +1,50 @@
+{
+  name=structure.getName();
+  int mode=((Number)structure.getFieldValue("mode")).intValue();
+  shadeless=(mode & 0x4) != 0;
+  vertexColor=(mode & 0x80) != 0;
+  transparent=(mode & 0x10000) != 0;
+  vtangent=(mode & 0x4000000) != 0;
+  mTexs=new ArrayList<Structure>();
+  textures=new ArrayList<Structure>();
+  DynamicArray<Pointer> mtexsArray=(DynamicArray<Pointer>)structure.getFieldValue("mtex");
+  int separatedTextures=((Number)structure.getFieldValue("septex")).intValue();
+  Type firstTextureType=null;
+  int texco=-1;
+  for (int i=0; i < mtexsArray.getTotalSize(); ++i) {
+    Pointer p=mtexsArray.get(i);
+    if (p.isNotNull() && (separatedTextures & 1 << i) == 0) {
+      Structure mtex=p.fetchData(dataRepository.getInputStream()).get(0);
+      if (texco == -1) {
+        texco=((Number)mtex.getFieldValue("texco")).intValue();
+      }
+ else       if (texco != ((Number)mtex.getFieldValue("texco")).intValue()) {
+        LOGGER.log(Level.WARNING,"The texture with index: {0} has different UV coordinates type than the first texture! This texture will NOT be loaded!",i + 1);
+        continue;
+      }
+      Pointer pTex=(Pointer)mtex.getFieldValue("tex");
+      if (pTex.isNotNull()) {
+        Structure tex=pTex.fetchData(dataRepository.getInputStream()).get(0);
+        int type=((Number)tex.getFieldValue("type")).intValue();
+        Type textureType=this.getType(type);
+        if (textureType != null) {
+          if (firstTextureType == null) {
+            firstTextureType=textureType;
+            mTexs.add(mtex);
+            textures.add(tex);
+          }
+ else           if (firstTextureType == textureType) {
+            mTexs.add(mtex);
+            textures.add(tex);
+          }
+ else {
+            LOGGER.log(Level.WARNING,"The texture with index: {0} is of different dimension than the first one! This texture will NOT be loaded!",i + 1);
+          }
+        }
+      }
+    }
+  }
+  this.texturesCount=mTexs.size();
+  this.textureCoordinatesType=texco;
+  this.textureType=firstTextureType;
+}

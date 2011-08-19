@@ -1,0 +1,13 @@
+{
+  BoundingSphere result=null;
+  for (  Geometry geometry : geometries) {
+    BoundingSphere bs=UVCoordinatesGenerator.getBoundingSphere(geometry.getMesh());
+    if (result == null) {
+      result=bs;
+    }
+ else {
+      result.merge(bs);
+    }
+  }
+  return result;
+}

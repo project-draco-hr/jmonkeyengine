@@ -17,6 +17,9 @@
   List<Structure> mFaces=null;
   if (pMFace.isNotNull()) {
     mFaces=pMFace.fetchData(dataRepository.getInputStream());
+    if (mFaces == null || mFaces.size() == 0) {
+      return new ArrayList<Geometry>(0);
+    }
   }
   Pointer pMTFace=(Pointer)structure.getFieldValue("mtface");
   List<Vector2f> uvCoordinates=null;
@@ -35,9 +38,6 @@
   Map<Integer,Texture> materialNumberToTexture=new HashMap<Integer,Texture>();
   Map<Integer,List<Integer>> vertexReferenceMap=new HashMap<Integer,List<Integer>>(verticesAmount);
   int vertexColorIndex=0;
-  if (mFaces == null) {
-    return null;
-  }
   for (int i=0; i < mFaces.size(); ++i) {
     Structure mFace=mFaces.get(i);
     boolean smooth=(((Number)mFace.getFieldValue("flag")).byteValue() & 0x01) != 0x00;
@@ -223,40 +223,7 @@
     }
   }
  else {
-    Vector2f[] uvTable=new Vector2f[vertexList.size()];
-    Ray ray=new Ray();
-    CollisionResults cr=new CollisionResults();
-    Vector3f yVec=new Vector3f();
-    Vector3f zVec=new Vector3f();
-    for (    Geometry geom : geometries) {
-      if (materialHelper.hasTexture(geom.getMaterial())) {
-        geom.getMesh().updateBound();
-        BoundingSphere bs=this.getBoundingSphere(geom.getMesh());
-        float r2=bs.getRadius() * bs.getRadius();
-        yVec.set(0,-bs.getRadius(),0);
-        zVec.set(0,0,-bs.getRadius());
-        Vector3f center=bs.getCenter();
-        ray.setOrigin(center);
-        for (int i=0; i < geom.getMesh().getIndexBuffer().size(); ++i) {
-          int index=geom.getMesh().getIndexBuffer().get(i);
-          ray.setOrigin(vertexList.get(index));
-          ray.setDirection(normalList.get(index));
-          cr.clear();
-          bs.collideWith(ray,cr);
-          Vector3f p=cr.getCollision(0).getContactPoint();
-          p.subtractLocal(center);
-          float u=FastMath.acos(p.dot(yVec) / r2) / FastMath.PI;
-          p.y=0;
-          float v=FastMath.acos(p.dot(zVec) / (bs.getRadius() * p.length())) / FastMath.PI;
-          uvTable[index]=new Vector2f(u,v);
-        }
-      }
-    }
-    uvCoordsBuffer=new VertexBuffer(Type.TexCoord);
-    uvCoordsBuffer.setupData(Usage.Static,2,Format.Float,BufferUtils.createFloatBuffer(uvTable));
-    for (    Geometry geom : geometries) {
-      geom.getMesh().setBuffer(uvCoordsBuffer);
-    }
+    UVCoordinatesGenerator.generateUVCoordinates(UVCoordinatesGenerator.TEXCO_ORCO,com.jme3.texture.Texture.Type.ThreeDimensional,geometries);
   }
   dataRepository.addLoadedFeatures(structure.getOldMemoryAddress(),structure.getName(),structure,geometries);
   return geometries;

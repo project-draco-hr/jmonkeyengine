@@ -1,7 +1,9 @@
 {
   int verticesAmount=((Number)meshStructure.getFieldValue("totvert")).intValue();
   Vector3f[] vertices=new Vector3f[verticesAmount];
-  if (verticesAmount == 0)   return vertices;
+  if (verticesAmount == 0) {
+    return vertices;
+  }
   Pointer pMVert=(Pointer)meshStructure.getFieldValue("mvert");
   List<Structure> mVerts=pMVert.fetchData(dataRepository.getInputStream());
   for (int i=0; i < verticesAmount; ++i) {

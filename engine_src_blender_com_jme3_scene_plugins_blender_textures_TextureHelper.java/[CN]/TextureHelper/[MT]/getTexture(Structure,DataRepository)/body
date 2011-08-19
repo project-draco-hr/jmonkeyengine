@@ -6,6 +6,7 @@
   int type=((Number)tex.getFieldValue("type")).intValue();
   int width=dataRepository.getBlenderKey().getGeneratedTextureWidth();
   int height=dataRepository.getBlenderKey().getGeneratedTextureHeight();
+  int depth=dataRepository.getBlenderKey().getGeneratedTextureDepth();
 switch (type) {
 case TEX_IMAGE:
     Pointer pImage=(Pointer)tex.getFieldValue("ima");
@@ -25,7 +26,7 @@ case TEX_MUSGRAVE:
 case TEX_VORONOI:
 case TEX_DISTNOISE:
 TextureGenerator textureGenerator=textureGenerators.get(Integer.valueOf(type));
-result=textureGenerator.generate(tex,width,height,dataRepository);
+result=textureGenerator.generate(tex,width,height,depth,dataRepository);
 break;
 case TEX_NONE:
 break;
