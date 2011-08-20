@@ -2,11 +2,5 @@
   if ((dataRepository.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.SCENES) == 0) {
     return null;
   }
-  Structure id=(Structure)structure.getFieldValue("id");
-  String sceneName=id.getFieldValue("name").toString();
-  if (dataRepository.getBlenderKey().getLayersToLoad() < 0) {
-    int lay=((Number)structure.getFieldValue("lay")).intValue();
-    dataRepository.getBlenderKey().setLayersToLoad(lay);
-  }
-  return new Node(sceneName);
+  return new Node(structure.getName());
 }
