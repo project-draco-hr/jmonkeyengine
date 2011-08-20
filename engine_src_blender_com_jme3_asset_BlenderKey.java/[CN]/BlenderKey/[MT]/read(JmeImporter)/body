@@ -22,7 +22,11 @@
     }
   }
   fps=ic.readInt("fps",DEFAULT_FPS);
+  generatedTextureWidth=ic.readInt("generated-texture-width",20);
+  generatedTextureHeight=ic.readInt("generated-texture-height",20);
+  generatedTextureDepth=ic.readInt("generated-texture-depth",20);
   featuresToLoad=ic.readInt("features-to-load",FeaturesToLoad.ALL);
+  loadUnlinkedAssets=ic.readBoolean("load-unlinked-assets",false);
   assetRootPath=ic.readString("asset-root-path",null);
   fixUpAxis=ic.readBoolean("fix-up-axis",true);
   usedWorld=ic.readString("used-world",null);

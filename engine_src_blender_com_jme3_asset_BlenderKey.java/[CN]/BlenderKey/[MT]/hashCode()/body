@@ -8,9 +8,11 @@
   result=prime * result + featuresToLoad;
   result=prime * result + (fixUpAxis ? 1231 : 1237);
   result=prime * result + fps;
+  result=prime * result + generatedTextureDepth;
   result=prime * result + generatedTextureHeight;
   result=prime * result + generatedTextureWidth;
   result=prime * result + layersToLoad;
+  result=prime * result + (loadUnlinkedAssets ? 1231 : 1237);
   result=prime * result + (usedWorld == null ? 0 : usedWorld.hashCode());
   return result;
 }

@@ -70,7 +70,7 @@ case FileBlockHeader.BLOCK_OB00:
       }
     break;
 case FileBlockHeader.BLOCK_MA00:
-  if ((blenderKey.getFeaturesToLoad() & FeaturesToLoad.MATERIALS) != 0) {
+  if (blenderKey.isLoadUnlinkedAssets() && (blenderKey.getFeaturesToLoad() & FeaturesToLoad.MATERIALS) != 0) {
     loadingResults.addMaterial(converter.toMaterial(block.getStructure(dataRepository)));
   }
 break;
@@ -80,7 +80,7 @@ loadingResults.addScene(converter.toScene(block.getStructure(dataRepository)));
 }
 break;
 case FileBlockHeader.BLOCK_WO00:
-if (worldData == null) {
+if (blenderKey.isLoadUnlinkedAssets() && worldData == null) {
 Structure worldStructure=block.getStructure(dataRepository);
 String worldName=worldStructure.getName();
 if (blenderKey.getUsedWorld() == null || blenderKey.getUsedWorld().equals(worldName)) {
