@@ -1,0 +1,14 @@
+{
+  mat=assetManager.loadMaterial("Textures/Terrain/BrickWall/BrickWall2.j3m");
+  mat.getTextureParam("DiffuseMap").getTextureValue().setWrap(WrapMode.Repeat);
+  mat.getTextureParam("NormalMap").getTextureValue().setWrap(WrapMode.Repeat);
+  mat.setFloat("Shininess",0);
+  Node floorGeom=(Node)assetManager.loadAsset("Models/WaterTest/WaterTest.mesh.xml");
+  Geometry g=((Geometry)floorGeom.getChild(0));
+  g.getMesh().scaleTextureCoordinates(new Vector2f(10,10));
+  TangentBinormalGenerator.generate(floorGeom);
+  floorGeom.setLocalTranslation(0,22,0);
+  floorGeom.setLocalScale(100);
+  floorGeom.setMaterial(mat);
+  rootNode.attachChild(floorGeom);
+}
