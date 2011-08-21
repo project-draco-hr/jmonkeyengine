@@ -116,6 +116,7 @@
     result.setTransparent(true);
     result.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
   }
+  dataRepository.setMaterialContext(result,materialContext);
   dataRepository.addLoadedFeatures(structure.getOldMemoryAddress(),structure.getName(),structure,result);
   return result;
 }

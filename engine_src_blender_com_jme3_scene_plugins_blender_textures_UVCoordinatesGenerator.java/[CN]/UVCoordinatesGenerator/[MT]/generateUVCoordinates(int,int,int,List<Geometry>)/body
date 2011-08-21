@@ -1,0 +1,84 @@
+{
+  if (textureDimension != 2 && textureDimension != 3) {
+    throw new IllegalStateException("Unsupported texture dimension: " + textureDimension);
+  }
+  VertexBuffer result=new VertexBuffer(VertexBuffer.Type.TexCoord);
+  Mesh mesh=geometries.get(0).getMesh();
+  BoundingBox bb=UVCoordinatesGenerator.getBoundingBox(geometries);
+switch (texco) {
+case TEXCO_ORCO:
+    float[] uvCoordinates=null;
+  if (textureDimension == 2) {
+switch (projection) {
+case PROJECTION_FLAT:
+      uvCoordinates=UVCoordinatesGenerator.flatProjection(mesh,bb);
+    break;
+case PROJECTION_CUBE:
+  uvCoordinates=UVCoordinatesGenerator.cubeProjection(mesh,bb);
+break;
+case PROJECTION_TUBE:
+uvCoordinates=UVCoordinatesGenerator.tubeProjection(mesh,bb);
+break;
+case PROJECTION_SPHERE:
+uvCoordinates=UVCoordinatesGenerator.sphereProjection(mesh,bb);
+break;
+default :
+throw new IllegalStateException("Unknown projection type: " + projection);
+}
+}
+ else {
+FloatBuffer positions=mesh.getFloatBuffer(VertexBuffer.Type.Position);
+uvCoordinates=BufferUtils.getFloatArray(positions);
+Vector3f min=bb.getMin(null);
+float[] ext=new float[]{bb.getXExtent() * 2,bb.getYExtent() * 2,bb.getZExtent() * 2};
+for (int i=0; i < uvCoordinates.length; i+=3) {
+uvCoordinates[i]=(uvCoordinates[i] - min.x) / ext[0];
+uvCoordinates[i + 1]=(uvCoordinates[i + 1] - min.y) / ext[1];
+uvCoordinates[i + 2]=(uvCoordinates[i + 2] - min.z) / ext[2];
+}
+result.setupData(Usage.Static,textureDimension,Format.Float,BufferUtils.createFloatBuffer(uvCoordinates));
+}
+result.setupData(Usage.Static,textureDimension,Format.Float,BufferUtils.createFloatBuffer(uvCoordinates));
+break;
+case TEXCO_UV:
+if (textureDimension == 2) {
+FloatBuffer uvCoordinatesBuffer=BufferUtils.createFloatBuffer(mesh.getVertexCount() << 1);
+Vector2f[] data=new Vector2f[]{new Vector2f(0,1),new Vector2f(0,0),new Vector2f(1,0)};
+for (int i=0; i < mesh.getVertexCount(); ++i) {
+Vector2f uv=data[i % 3];
+uvCoordinatesBuffer.put(uv.x);
+uvCoordinatesBuffer.put(uv.y);
+}
+result.setupData(Usage.Static,textureDimension,Format.Float,uvCoordinatesBuffer);
+}
+ else {
+}
+break;
+case TEXCO_GLOB:
+break;
+case TEXCO_TANGENT:
+break;
+case TEXCO_STRESS:
+break;
+case TEXCO_NORM:
+break;
+case TEXCO_LAVECTOR:
+case TEXCO_OBJECT:
+case TEXCO_OSA:
+case TEXCO_PARTICLE_OR_STRAND:
+case TEXCO_REFL:
+case TEXCO_SPEED:
+case TEXCO_STICKY:
+case TEXCO_VIEW:
+case TEXCO_WINDOW:
+LOGGER.warning("Texture coordinates type not currently supported: " + texco);
+break;
+default :
+throw new IllegalStateException("Unknown texture coordinates value: " + texco);
+}
+for (Geometry geometry : geometries) {
+mesh=geometry.getMesh();
+mesh.clearBuffer(VertexBuffer.Type.TexCoord);
+mesh.setBuffer(result);
+}
+}

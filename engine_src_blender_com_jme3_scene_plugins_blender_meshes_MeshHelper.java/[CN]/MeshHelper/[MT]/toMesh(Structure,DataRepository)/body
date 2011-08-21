@@ -223,7 +223,20 @@
     }
   }
  else {
-    UVCoordinatesGenerator.generateUVCoordinates(UVCoordinatesGenerator.TEXCO_ORCO,com.jme3.texture.Texture.Type.ThreeDimensional,geometries);
+    Map<Material,List<Geometry>> materialMap=new HashMap<Material,List<Geometry>>();
+    for (    Geometry geom : geometries) {
+      Material material=geom.getMaterial();
+      List<Geometry> geomsWithCommonMaterial=materialMap.get(material);
+      if (geomsWithCommonMaterial == null) {
+        geomsWithCommonMaterial=new ArrayList<Geometry>();
+        materialMap.put(material,geomsWithCommonMaterial);
+      }
+      geomsWithCommonMaterial.add(geom);
+    }
+    for (    Entry<Material,List<Geometry>> entry : materialMap.entrySet()) {
+      MaterialContext materialContext=dataRepository.getMaterialContext(entry.getKey());
+      UVCoordinatesGenerator.generateUVCoordinates(materialContext.getUvCoordinatesType(),materialContext.getProjectionType(),materialContext.getTextureDimension(),entry.getValue());
+    }
   }
   dataRepository.addLoadedFeatures(structure.getOldMemoryAddress(),structure.getName(),structure,geometries);
   return geometries;

@@ -1,0 +1,14 @@
+{
+  if (bb == null) {
+    bb=UVCoordinatesGenerator.getBoundingBox(mesh);
+  }
+  Vector3f min=bb.getMin(null);
+  float[] ext=new float[]{bb.getXExtent() * 2.0f,bb.getYExtent() * 2.0f};
+  FloatBuffer positions=mesh.getFloatBuffer(com.jme3.scene.VertexBuffer.Type.Position);
+  float[] uvCoordinates=new float[positions.limit() / 3 * 2];
+  for (int i=0, j=0; i < positions.limit(); i+=3, j+=2) {
+    uvCoordinates[j]=(positions.get(i) - min.x) / ext[0];
+    uvCoordinates[j + 1]=(positions.get(i + 1) - min.y) / ext[1];
+  }
+  return uvCoordinates;
+}
