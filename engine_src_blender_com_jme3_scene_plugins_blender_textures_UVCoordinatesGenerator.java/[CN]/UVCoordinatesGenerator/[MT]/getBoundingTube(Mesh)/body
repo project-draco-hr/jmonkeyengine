@@ -1,0 +1,23 @@
+{
+  Vector3f center=new Vector3f();
+  float maxx=-Float.MAX_VALUE, minx=Float.MAX_VALUE;
+  float maxy=-Float.MAX_VALUE, miny=Float.MAX_VALUE;
+  float maxz=-Float.MAX_VALUE, minz=Float.MAX_VALUE;
+  FloatBuffer positions=mesh.getFloatBuffer(VertexBuffer.Type.Position);
+  int limit=positions.limit();
+  for (int i=0; i < limit; i+=3) {
+    float x=positions.get(i);
+    float y=positions.get(i + 1);
+    float z=positions.get(i + 2);
+    center.addLocal(x,y,z);
+    maxx=x > maxx ? x : maxx;
+    minx=x < minx ? x : minx;
+    maxy=y > maxy ? y : maxy;
+    miny=x < miny ? y : miny;
+    maxz=x > maxz ? z : maxz;
+    minz=x < minz ? z : minz;
+  }
+  center.divideLocal(limit);
+  float radius=Math.max(maxx - minx,maxy - miny) * 0.5f;
+  return new BoundingTube(radius,maxz - minz,center);
+}

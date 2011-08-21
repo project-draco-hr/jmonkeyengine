@@ -11,16 +11,15 @@ case TEXCO_ORCO:
   if (textureDimension == 2) {
 switch (projection) {
 case PROJECTION_FLAT:
-      uvCoordinates=UVCoordinatesGenerator.flatProjection(mesh,bb);
+      uvCoordinates=UVProjectionGenerator.flatProjection(mesh,bb);
     break;
 case PROJECTION_CUBE:
-  uvCoordinates=UVCoordinatesGenerator.cubeProjection(mesh,bb);
+  uvCoordinates=UVProjectionGenerator.cubeProjection(mesh,bb);
 break;
 case PROJECTION_TUBE:
-uvCoordinates=UVCoordinatesGenerator.tubeProjection(mesh,bb);
 break;
 case PROJECTION_SPHERE:
-uvCoordinates=UVCoordinatesGenerator.sphereProjection(mesh,bb);
+uvCoordinates=UVProjectionGenerator.sphereProjection(mesh,bb);
 break;
 default :
 throw new IllegalStateException("Unknown projection type: " + projection);
