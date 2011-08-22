@@ -17,6 +17,8 @@ case PROJECTION_CUBE:
   uvCoordinates=UVProjectionGenerator.cubeProjection(mesh,bb);
 break;
 case PROJECTION_TUBE:
+BoundingTube bt=UVCoordinatesGenerator.getBoundingTube(mesh);
+uvCoordinates=UVProjectionGenerator.tubeProjection(mesh,bt);
 break;
 case PROJECTION_SPHERE:
 uvCoordinates=UVProjectionGenerator.sphereProjection(mesh,bb);
