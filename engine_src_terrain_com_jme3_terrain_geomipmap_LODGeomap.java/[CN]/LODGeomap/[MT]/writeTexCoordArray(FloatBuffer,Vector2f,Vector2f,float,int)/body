@@ -11,7 +11,7 @@
     offset=new Vector2f();
   }
   Vector2f tcStore=new Vector2f();
-  for (int y=0; y < getHeight(); y++) {
+  for (int y=getHeight() - 1; y >= 0; y--) {
     for (int x=0; x < getWidth(); x++) {
       getUV(x,y,tcStore,offset,offsetAmount,totalSize);
       float tx=tcStore.x * scale.x;

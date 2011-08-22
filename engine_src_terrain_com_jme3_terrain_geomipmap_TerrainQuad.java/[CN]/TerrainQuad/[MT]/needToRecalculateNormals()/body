@@ -1,3 +1,8 @@
 {
-  return affectedAreaBBox != null;
+  if (affectedAreaBBox != null)   return true;
+  if (!lastScale.equals(getWorldScale())) {
+    lastScale=getWorldScale();
+    return true;
+  }
+  return false;
 }

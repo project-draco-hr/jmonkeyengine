@@ -1,0 +1,5 @@
+{
+  Vector3f normal=new Vector3f();
+  normal.set(firstPoint.mult(scale)).subtractLocal(rootPoint.mult(scale)).crossLocal(secondPoint.mult(scale).subtract(rootPoint.mult(scale))).normalizeLocal();
+  return normal;
+}

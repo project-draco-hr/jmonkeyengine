@@ -1,4 +1,7 @@
 {
-  FloatBuffer newNormalBuffer=geomap.writeNormalArray(null,stepScale);
+  TangentBinormalGenerator.generate(this);
+  FloatBuffer newNormalBuffer=geomap.writeNormalArray(null,getWorldScale());
   getMesh().getBuffer(Type.Normal).updateData(newNormalBuffer);
+  FloatBuffer newTangentBuffer=geomap.writeTangentArray(null,getWorldScale());
+  getMesh().getBuffer(Type.Tangent).updateData(newTangentBuffer);
 }

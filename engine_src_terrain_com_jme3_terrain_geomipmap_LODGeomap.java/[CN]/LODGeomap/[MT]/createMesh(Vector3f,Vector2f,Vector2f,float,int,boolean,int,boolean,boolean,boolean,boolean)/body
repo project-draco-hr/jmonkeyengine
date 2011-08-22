@@ -3,10 +3,12 @@
   FloatBuffer tb=writeTexCoordArray(null,tcOffset,tcScale,offsetAmount,totalSize);
   FloatBuffer nb=writeNormalArray(null,scale);
   IntBuffer ib=writeIndexArrayLodDiff(null,lod,rightLod,topLod,leftLod,bottomLod);
+  FloatBuffer tanb=writeTangentArray(null,scale);
   Mesh m=new Mesh();
   m.setMode(Mode.TriangleStrip);
   m.setBuffer(Type.Position,3,pb);
   m.setBuffer(Type.Normal,3,nb);
+  m.setBuffer(Type.Tangent,3,tanb);
   m.setBuffer(Type.TexCoord,2,tb);
   m.setBuffer(Type.Index,3,ib);
   m.setStatic();
