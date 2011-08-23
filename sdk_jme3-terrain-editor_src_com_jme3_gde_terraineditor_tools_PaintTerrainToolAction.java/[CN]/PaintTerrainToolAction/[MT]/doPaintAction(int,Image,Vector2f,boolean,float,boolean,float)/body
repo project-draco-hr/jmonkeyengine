@@ -3,10 +3,10 @@
   ColorRGBA color=ColorRGBA.Black;
   float width=image.getWidth();
   float height=image.getHeight();
-  int minx=(int)(uv.x * width - radius * width);
-  int maxx=(int)(uv.x * width + radius * width);
-  int miny=(int)(uv.y * height - radius * height);
-  int maxy=(int)(uv.y * height + radius * height);
+  int minx=(int)Math.max(0,(uv.x * width - radius * width));
+  int maxx=(int)Math.min(width,(uv.x * width + radius * width));
+  int miny=(int)Math.max(0,(uv.y * height - radius * height));
+  int maxy=(int)Math.min(height,(uv.y * height + radius * height));
   float radiusSquared=radius * radius;
   float radiusFalloff=radius * fadeFalloff;
   for (int y=miny; y < maxy; y++) {

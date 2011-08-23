@@ -1,5 +1,5 @@
 {
-  Vector2f uv=new Vector2f(worldLoc.x,worldLoc.z);
+  Vector2f uv=new Vector2f(worldLoc.x,-worldLoc.z);
   float scale=((Node)terrain).getLocalScale().x;
   uv.subtractLocal(((Node)terrain).getLocalTranslation().x * scale,((Node)terrain).getLocalTranslation().z * scale);
   float scaledSize=terrain.getTerrainSize() * scale;
