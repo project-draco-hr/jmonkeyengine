@@ -17,6 +17,7 @@
   patch1.setModelBound(new BoundingBox());
   patch1.updateModelBound();
   patch1.setLodCalculator(lodCalculatorFactory);
+  TangentBinormalGenerator.generate(patch1);
   float[] heightBlock2=createHeightSubBlock(heightMap,0,split - 1,split);
   Vector3f origin2=new Vector3f(-halfSize * stepScale.x,0,0);
   Vector2f tempOffset2=new Vector2f();
@@ -30,6 +31,7 @@
   patch2.setModelBound(new BoundingBox());
   patch2.updateModelBound();
   patch2.setLodCalculator(lodCalculatorFactory);
+  TangentBinormalGenerator.generate(patch2);
   float[] heightBlock3=createHeightSubBlock(heightMap,split - 1,0,split);
   Vector3f origin3=new Vector3f(0,0,-halfSize * stepScale.z);
   Vector2f tempOffset3=new Vector2f();
@@ -43,6 +45,7 @@
   patch3.setModelBound(new BoundingBox());
   patch3.updateModelBound();
   patch3.setLodCalculator(lodCalculatorFactory);
+  TangentBinormalGenerator.generate(patch3);
   float[] heightBlock4=createHeightSubBlock(heightMap,split - 1,split - 1,split);
   Vector3f origin4=new Vector3f(0,0,0);
   Vector2f tempOffset4=new Vector2f();
@@ -56,4 +59,5 @@
   patch4.setModelBound(new BoundingBox());
   patch4.updateModelBound();
   patch4.setLodCalculator(lodCalculatorFactory);
+  TangentBinormalGenerator.generate(patch4);
 }
