@@ -1,0 +1,27 @@
+{
+  if (np < 0 || np > 1) {
+    return;
+  }
+  if (radius == 0)   radius=1;
+  for (int x=0; x < size; x++) {
+    for (int y=0; y < size; y++) {
+      int neighNumber=0;
+      float neighAverage=0;
+      for (int rx=-radius; rx <= radius; rx++) {
+        for (int ry=-radius; ry <= radius; ry++) {
+          if (x + rx < 0 || x + rx >= size) {
+            continue;
+          }
+          if (y + ry < 0 || y + ry >= size) {
+            continue;
+          }
+          neighNumber++;
+          neighAverage+=heightData[(x + rx) + (y + ry) * size];
+        }
+      }
+      neighAverage/=neighNumber;
+      float cp=1 - np;
+      heightData[x + y * size]=neighAverage * np + heightData[x + y * size] * cp;
+    }
+  }
+}
