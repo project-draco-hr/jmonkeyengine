@@ -3,6 +3,7 @@
     int ordinal=data.getInt();
     if (ordinal == -1)     return null;
     T[] enumConstants=c.getEnumConstants();
+    if (enumConstants == null)     throw new SerializerException("Class has no enum constants:" + c);
     return enumConstants[ordinal];
   }
  catch (  IndexOutOfBoundsException ex) {
