@@ -1,2 +1,33 @@
 {
+  AssetManager assetManager=dataRepository.getAssetManager();
+  name=name.replaceAll("\\\\","\\/");
+  Texture result=null;
+  List<String> assetNames=new ArrayList<String>();
+  if (name.startsWith("//")) {
+    String relativePath=name.substring(1);
+    assetNames.add(relativePath);
+    BlenderKey blenderKey=dataRepository.getBlenderKey();
+    String blenderAssetFolder=blenderKey.getName().substring(0,blenderKey.getName().lastIndexOf('/'));
+    assetNames.add(blenderAssetFolder + '/' + relativePath);
+  }
+ else {
+    String[] paths=name.split("\\/");
+    StringBuilder sb=new StringBuilder(paths[paths.length - 1]);
+    assetNames.add(paths[paths.length - 1]);
+    for (int i=paths.length - 2; i >= 0; --i) {
+      sb.insert(0,'/');
+      sb.insert(0,paths[i]);
+      assetNames.add(sb.toString());
+    }
+  }
+  for (  String assetName : assetNames) {
+    try {
+      result=assetManager.loadTexture(new TextureKey(assetName));
+      break;
+    }
+ catch (    AssetNotFoundException e) {
+      LOGGER.fine(e.getLocalizedMessage());
+    }
+  }
+  return result;
 }
