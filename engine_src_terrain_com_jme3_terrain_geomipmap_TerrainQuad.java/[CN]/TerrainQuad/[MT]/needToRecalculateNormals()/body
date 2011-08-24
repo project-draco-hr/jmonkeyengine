@@ -1,4 +1,9 @@
 {
   if (affectedAreaBBox != null)   return true;
+  if (!lastScale.equals(getWorldScale())) {
+    affectedAreaBBox=new BoundingBox(new Vector3f(0,0,0),size,Float.MAX_VALUE,size);
+    lastScale=getWorldScale();
+    return true;
+  }
   return false;
 }

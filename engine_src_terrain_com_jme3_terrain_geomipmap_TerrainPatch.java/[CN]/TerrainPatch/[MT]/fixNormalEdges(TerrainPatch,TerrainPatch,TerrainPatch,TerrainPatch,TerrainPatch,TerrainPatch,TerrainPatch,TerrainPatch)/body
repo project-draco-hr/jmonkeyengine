@@ -11,9 +11,6 @@
   Vector2f bottomTex=new Vector2f();
   Vector3f normal=new Vector3f();
   Vector3f tangent=new Vector3f();
-  int[] indexes=new int[]{0,1,2};
-  Vector3f[] v=new Vector3f[3];
-  Vector2f[] t=new Vector2f[3];
   int s=this.getSize() - 1;
   if (right != null) {
     for (int i=0; i < s + 1; i++) {
@@ -27,7 +24,7 @@
         if (top == null) {
           bottomPoint.set(s,this.getHeightmapHeight(s,i + 1),i + 1);
           this.getTex(s,i + 1,bottomTex);
-          averageNormalsTangents(v,t,indexes,null,rootPoint,leftPoint,bottomPoint,rightPoint,null,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
+          averageNormalsTangents(null,rootPoint,leftPoint,bottomPoint,rightPoint,null,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
           VertexBuffer tpNB=this.getMesh().getBuffer(Type.Normal);
           VertexBuffer tpTB=this.getMesh().getBuffer(Type.Tangent);
           VertexBuffer rightNB=right.getMesh().getBuffer(Type.Normal);
@@ -42,7 +39,7 @@
           bottomPoint.set(s,this.getHeightmapHeight(s,i + 1),i + 1);
           top.getTex(s,s - 1,topTex);
           this.getTex(s,i + 1,bottomTex);
-          averageNormalsTangents(v,t,indexes,topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,topTex,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
+          averageNormalsTangents(topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,topTex,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
           VertexBuffer tpNB=this.getMesh().getBuffer(Type.Normal);
           VertexBuffer tpTB=this.getMesh().getBuffer(Type.Tangent);
           VertexBuffer rightNB=right.getMesh().getBuffer(Type.Normal);
@@ -61,7 +58,7 @@
         if (bottom == null) {
           topPoint.set(s,this.getHeightmapHeight(s,i - 1),i - 1);
           this.getTex(s,i - 1,topTex);
-          averageNormalsTangents(v,t,indexes,topPoint,rootPoint,leftPoint,null,rightPoint,topTex,rootTex,leftTex,null,rightTex,normal,tangent);
+          averageNormalsTangents(topPoint,rootPoint,leftPoint,null,rightPoint,topTex,rootTex,leftTex,null,rightTex,normal,tangent);
           VertexBuffer tpNB=this.getMesh().getBuffer(Type.Normal);
           VertexBuffer tpTB=this.getMesh().getBuffer(Type.Tangent);
           VertexBuffer rightNB=right.getMesh().getBuffer(Type.Normal);
@@ -76,7 +73,7 @@
           bottomPoint.set(s,bottom.getHeightmapHeight(s,1),i + 1);
           this.getTex(s,i - 1,topTex);
           bottom.getTex(s,1,bottomTex);
-          averageNormalsTangents(v,t,indexes,topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,topTex,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
+          averageNormalsTangents(topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,topTex,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
           VertexBuffer tpNB=this.getMesh().getBuffer(Type.Normal);
           VertexBuffer tpTB=this.getMesh().getBuffer(Type.Tangent);
           VertexBuffer rightNB=right.getMesh().getBuffer(Type.Normal);
@@ -98,7 +95,7 @@
         bottomPoint.set(s,this.getHeightmapHeight(s,i + 1),i + 1);
         this.getTex(s,i - 1,topTex);
         this.getTex(s,i + 1,bottomTex);
-        averageNormalsTangents(v,t,indexes,topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,topTex,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
+        averageNormalsTangents(topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,topTex,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
         VertexBuffer tpNB=this.getMesh().getBuffer(Type.Normal);
         VertexBuffer tpTB=this.getMesh().getBuffer(Type.Tangent);
         VertexBuffer rightNB=right.getMesh().getBuffer(Type.Normal);
@@ -129,7 +126,7 @@
         rightPoint.set(i + 1,this.getHeightmapHeight(i + 1,s),s);
         this.getTex(i - 1,s,leftTex);
         this.getTex(i + 1,s,rightTex);
-        averageNormalsTangents(v,t,indexes,topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,topTex,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
+        averageNormalsTangents(topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,topTex,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
         VertexBuffer tpNB=this.getMesh().getBuffer(Type.Normal);
         VertexBuffer tpTB=this.getMesh().getBuffer(Type.Tangent);
         VertexBuffer downNB=bottom.getMesh().getBuffer(Type.Normal);
@@ -155,7 +152,7 @@
         if (top == null) {
           bottomPoint.set(0,this.getHeightmapHeight(0,i + 1),i + 1);
           this.getTex(0,i + 1,bottomTex);
-          averageNormalsTangents(v,t,indexes,null,rootPoint,leftPoint,bottomPoint,rightPoint,null,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
+          averageNormalsTangents(null,rootPoint,leftPoint,bottomPoint,rightPoint,null,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
           VertexBuffer tpNB=this.getMesh().getBuffer(Type.Normal);
           VertexBuffer tpTB=this.getMesh().getBuffer(Type.Tangent);
           VertexBuffer leftNB=left.getMesh().getBuffer(Type.Normal);
@@ -170,7 +167,7 @@
           bottomPoint.set(0,this.getHeightmapHeight(0,i + 1),i + 1);
           top.getTex(0,i - 1,topTex);
           this.getTex(0,i + 1,bottomTex);
-          averageNormalsTangents(v,t,indexes,topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,topTex,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
+          averageNormalsTangents(topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,topTex,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
           VertexBuffer tpNB=this.getMesh().getBuffer(Type.Normal);
           VertexBuffer tpTB=this.getMesh().getBuffer(Type.Tangent);
           VertexBuffer leftNB=left.getMesh().getBuffer(Type.Normal);
@@ -193,7 +190,7 @@
         bottomPoint.set(0,this.getHeightmapHeight(0,i + 1),i + 1);
         this.getTex(0,i - 1,topTex);
         this.getTex(0,i + 1,bottomTex);
-        averageNormalsTangents(v,t,indexes,topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,topTex,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
+        averageNormalsTangents(topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,topTex,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
         VertexBuffer tpNB=this.getMesh().getBuffer(Type.Normal);
         VertexBuffer tpTB=this.getMesh().getBuffer(Type.Tangent);
         VertexBuffer leftNB=left.getMesh().getBuffer(Type.Normal);
@@ -224,7 +221,7 @@
         rightPoint.set(i + 1,this.getHeightmapHeight(i + 1,0),0);
         this.getTex(i - 1,0,leftTex);
         this.getTex(i + 1,0,rightTex);
-        averageNormalsTangents(v,t,indexes,topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,topTex,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
+        averageNormalsTangents(topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,topTex,rootTex,leftTex,bottomTex,rightTex,normal,tangent);
         VertexBuffer tpNB=this.getMesh().getBuffer(Type.Normal);
         VertexBuffer tpTB=this.getMesh().getBuffer(Type.Tangent);
         VertexBuffer topNB=top.getMesh().getBuffer(Type.Normal);

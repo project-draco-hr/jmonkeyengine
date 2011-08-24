@@ -1,6 +1,6 @@
 {
   this(name,patchSize,size,Vector3f.UNIT_XYZ,heightMap,totalSize,new Vector2f(),0,lodCalculatorFactory);
-  affectedAreaBBox=new BoundingBox(new Vector3f(0,0,0),size,Float.MAX_VALUE,size);
+  affectedAreaBBox=new BoundingBox(new Vector3f(0,0,0),size * 2,Float.MAX_VALUE,size * 2);
   fixNormalEdges(affectedAreaBBox);
   addControl(new NormalRecalcControl(this));
 }
