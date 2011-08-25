@@ -1,63 +1,13 @@
 {
-  int[] num_conf=new int[1];
-  egl.eglGetConfigs(display,null,0,num_conf);
-  int configurations=num_conf[0];
-  EGLConfig[] conf=new EGLConfig[configurations];
-  egl.eglGetConfigs(display,conf,configurations,num_conf);
-  int[] value=new int[1];
-  if (configurations <= 0) {
-    logger.severe("###ERROR### ZERO EGL Configurations found, This Is a Problem");
-  }
-  for (int i=0; i < configurations; i++) {
-    if (conf[i] != null) {
-      egl.eglGetConfigAttrib(display,conf[i],EGL10.EGL_SURFACE_TYPE,value);
-      if ((value[0] & EGL10.EGL_WINDOW_BIT) != 0) {
-        egl.eglGetConfigAttrib(display,conf[i],EGL10.EGL_DEPTH_SIZE,value);
-        if (value[0] >= 16) {
-          egl.eglGetConfigAttrib(display,conf[i],EGL10.EGL_RENDERABLE_TYPE,value);
-          if ((value[0] & EGL_OPENGL_ES2_BIT) != 0) {
-            clientOpenGLESVersion=2;
-            bestConfig=better(bestConfig,conf[i],egl,display);
-            fastestConfig=faster(fastestConfig,conf[i],egl,display);
-            if (verbose) {
-              logger.info("** Supported EGL Configuration #" + i);
-              logEGLConfig(conf[i],display,egl);
-            }
-          }
- else {
-            if (verbose) {
-              logger.info("NOT Supported EGL Configuration #" + i + " EGL_OPENGL_ES2_BIT not set");
-              logEGLConfig(conf[i],display,egl);
-            }
-          }
-        }
- else {
-          if (verbose) {
-            logger.info("NOT Supported EGL Configuration #" + i + " EGL_DEPTH_SIZE < 16");
-            logEGLConfig(conf[i],display,egl);
-          }
-        }
-      }
- else {
-        if (verbose) {
-          logger.info("NOT Supported EGL Configuration #" + i + " EGL_WINDOW_BIT not set");
-          logEGLConfig(conf[i],display,egl);
-        }
-      }
-    }
- else {
-      logger.severe("###ERROR### EGL Configuration #" + i + " is NULL");
-    }
-  }
-  if ((type == ConfigType.BEST) && (bestConfig != null)) {
+  if (type == ConfigType.BEST) {
+    ComponentSizeChooser compChooser=new ComponentSizeChooser(8,8,8,8,16,0);
+    choosenConfig=compChooser.chooseConfig(egl,display);
     logger.info("JME3 using best EGL configuration available here: ");
-    choosenConfig=bestConfig;
   }
  else {
-    if (fastestConfig != null) {
-      logger.info("JME3 using fastest EGL configuration available here: ");
-    }
-    choosenConfig=fastestConfig;
+    ComponentSizeChooser compChooser=new ComponentSizeChooser(5,6,5,0,16,0);
+    choosenConfig=compChooser.chooseConfig(egl,display);
+    logger.info("JME3 using fastest EGL configuration available here: ");
   }
   if (choosenConfig != null) {
     logger.info("JME3 using choosen config: ");
