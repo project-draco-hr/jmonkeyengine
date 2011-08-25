@@ -10,7 +10,10 @@
     comp.setRootContext(rootContext);
   }
  catch (  Exception ex) {
+    Message msg=new NotifyDescriptor.Message("Error parsing File:" + ex,NotifyDescriptor.ERROR_MESSAGE);
+    DialogDisplayer.getDefault().notifyLater(msg);
     Exceptions.printStackTrace(ex);
+    return;
   }
   SceneApplication.getApplication().enqueue(new Callable<Object>(){
     public Object call() throws Exception {
