@@ -21,7 +21,8 @@ BoundingTube bt=UVCoordinatesGenerator.getBoundingTube(mesh);
 uvCoordinates=UVProjectionGenerator.tubeProjection(mesh,bt);
 break;
 case PROJECTION_SPHERE:
-uvCoordinates=UVProjectionGenerator.sphereProjection(mesh,bb);
+BoundingSphere bs=UVCoordinatesGenerator.getBoundingSphere(geometries);
+uvCoordinates=UVProjectionGenerator.sphereProjection(mesh,bs);
 break;
 default :
 throw new IllegalStateException("Unknown projection type: " + projection);
