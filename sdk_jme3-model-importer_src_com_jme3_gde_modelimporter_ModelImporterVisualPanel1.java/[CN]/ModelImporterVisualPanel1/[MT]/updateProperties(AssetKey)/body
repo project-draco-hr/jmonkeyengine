@@ -1,0 +1,18 @@
+{
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      try {
+        if (key == null) {
+          ps.setNodes(new Node[]{});
+        }
+ else {
+          ps.setNodes(new Node[]{new BeanNode(key)});
+        }
+      }
+ catch (      IntrospectionException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+  }
+);
+}

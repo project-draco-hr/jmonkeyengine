@@ -3,11 +3,6 @@
   wiz.setTitleFormat(new MessageFormat("{0}"));
   wiz.setTitle("Import Model to Project");
   wiz.putProperty("project",context);
-  DesktopAssetManager manager=new DesktopAssetManager(true);
-  for (  AssetManagerConfigurator di : Lookup.getDefault().lookupAll(AssetManagerConfigurator.class)) {
-    di.prepareManager(manager);
-  }
-  wiz.putProperty("manager",manager);
   Dialog dialog=DialogDisplayer.getDefault().createDialog(wiz);
   dialog.setVisible(true);
   dialog.toFront();

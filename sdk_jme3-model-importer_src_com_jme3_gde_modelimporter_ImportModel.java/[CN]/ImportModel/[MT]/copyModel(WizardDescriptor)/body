@@ -29,18 +29,18 @@
     }
   }
   File file=new File(manager.getAssetFolderName() + "/" + importPath+ "/"+ key.getName());
-  File outFile=new File(manager.getAssetFolderName() + "/" + importPath+ "/"+ key.getName().replaceAll(key.getExtension(),"j3o"));
   DataObject targetModel;
   try {
     targetModel=DataObject.find(FileUtil.toFileObject(file));
     if (targetModel instanceof SpatialAssetDataObject) {
       ((SpatialAssetDataObject)targetModel).getLookupContents().add(manager);
-      Spatial spat=((SpatialAssetDataObject)targetModel).loadAsset();
+      AssetData data=targetModel.getLookup().lookup(AssetData.class);
+      data.setAssetKey(key);
+      Spatial spat=(Spatial)data.loadAsset();
       if (spat == null) {
         throw new IllegalStateException("Cannot load model after copying!");
       }
-      BinaryExporter exp=BinaryExporter.getInstance();
-      exp.save(spat,outFile);
+      data.saveAsset();
     }
   }
  catch (  Exception ex) {

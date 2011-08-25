@@ -6,11 +6,10 @@
   if (mgr == null) {
     return null;
   }
-  String assetKey=mgr.getRelativeAssetPath(getPrimaryFile().getPath());
   FileLock lock=null;
   try {
     lock=getPrimaryFile().lock();
-    Savable spatial=(Savable)mgr.loadAsset(new AssetKey(assetKey));
+    Savable spatial=(Savable)mgr.loadAsset(getAssetKey());
     savable=spatial;
     lock.releaseLock();
   }

@@ -1,3 +1,8 @@
 {
-  return project.getProjectDirectory().getPath() + "/" + getFolderName();
+  if (folderNames.isEmpty()) {
+    return project.getProjectDirectory().getPath();
+  }
+ else {
+    return project.getProjectDirectory().getFileObject(getFolderName()).getPath();
+  }
 }

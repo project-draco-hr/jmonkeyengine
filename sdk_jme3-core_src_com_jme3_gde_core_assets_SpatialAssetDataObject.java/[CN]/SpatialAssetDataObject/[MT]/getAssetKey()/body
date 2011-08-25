@@ -1,8 +1,14 @@
 {
-  ProjectAssetManager mgr=getLookup().lookup(ProjectAssetManager.class);
-  if (mgr == null) {
-    return null;
+  AssetKey superKey=super.getAssetKey();
+  if (superKey instanceof ModelKey) {
+    return (ModelKey)superKey;
   }
-  String assetKey=mgr.getRelativeAssetPath(getPrimaryFile().getPath());
-  return new ModelKey(assetKey);
+ else {
+    ProjectAssetManager mgr=getLookup().lookup(ProjectAssetManager.class);
+    if (mgr == null) {
+      return null;
+    }
+    String assetKey=mgr.getRelativeAssetPath(getPrimaryFile().getPath());
+    return new ModelKey(assetKey);
+  }
 }

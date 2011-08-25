@@ -1,0 +1,48 @@
+{
+  try {
+    mainKey=modelKey;
+    ProjectAssetManager manager=new ProjectAssetManager(FileUtil.toFileObject(path).getParent());
+    manager.setAssetEventListener(this);
+    if (currentPath != null) {
+      requestedAssets.clear();
+      currentPath=null;
+      updateProperties(null);
+    }
+    if (currentModel != null) {
+      offPanel.detach(currentModel);
+      currentModel=null;
+    }
+    currentPath=path.getParent();
+    currentModelPath=path.getPath();
+    if (mainKey == null) {
+      try {
+        DataObject obj=DataObject.find(FileUtil.toFileObject(path));
+        AssetData data=obj.getLookup().lookup(AssetData.class);
+        if (data != null) {
+          ((AssetDataObject)obj).getLookupContents().add(manager);
+          mainKey=data.getAssetKey();
+        }
+      }
+ catch (      DataObjectNotFoundException ex) {
+        Exceptions.printStackTrace(ex);
+        mainKey=new ModelKey(path.getName());
+      }
+    }
+    currentModel=(Spatial)manager.loadAsset(mainKey);
+    if (currentModel != null) {
+      offPanel.attach(currentModel);
+      updateProperties(mainKey);
+    }
+ else {
+      Message msg=new NotifyDescriptor.Message("Cannot import this file!",NotifyDescriptor.ERROR_MESSAGE);
+      DialogDisplayer.getDefault().notifyLater(msg);
+    }
+    manager.setAssetEventListener(null);
+    manager.clearCache();
+  }
+ catch (  Exception e) {
+    Message msg=new NotifyDescriptor.Message("Error importing file!\n" + "(" + e + ")",NotifyDescriptor.ERROR_MESSAGE);
+    DialogDisplayer.getDefault().notifyLater(msg);
+    Exceptions.printStackTrace(e);
+  }
+}

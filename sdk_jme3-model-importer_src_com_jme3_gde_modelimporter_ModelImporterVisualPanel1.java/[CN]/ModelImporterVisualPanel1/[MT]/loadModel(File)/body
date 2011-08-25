@@ -1,34 +1,3 @@
 {
-  try {
-    if (currentPath != null) {
-      manager.unregisterLocator(currentPath,FileLocator.class);
-      manager.clearCache();
-      requestedAssets.clear();
-      mainKey=null;
-    }
-    if (currentModel != null) {
-      offPanel.detach(currentModel);
-    }
-    currentPath=path.getParent();
-    manager.registerLocator(currentPath,FileLocator.class);
-    mainKey=new ModelKey(path.getName());
-    currentModel=(Spatial)manager.loadAsset(mainKey);
-    if (currentModel != null) {
-      offPanel.attach(currentModel);
-    }
- else {
-      Message msg=new NotifyDescriptor.Message("Cannot import this file!",NotifyDescriptor.ERROR_MESSAGE);
-      DialogDisplayer.getDefault().notifyLater(msg);
-    }
-  }
- catch (  Exception e) {
-    Message msg=new NotifyDescriptor.Message("Error importing file!\n" + "(" + e + ")",NotifyDescriptor.ERROR_MESSAGE);
-    DialogDisplayer.getDefault().notifyLater(msg);
-  }
-  java.awt.EventQueue.invokeLater(new Runnable(){
-    public void run(){
-      updateList();
-    }
-  }
-);
+  loadModel(path,null);
 }

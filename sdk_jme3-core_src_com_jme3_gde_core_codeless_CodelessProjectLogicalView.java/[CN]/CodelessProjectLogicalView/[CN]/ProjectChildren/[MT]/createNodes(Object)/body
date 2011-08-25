@@ -3,7 +3,8 @@
     try {
       ProjectAssetManager manager=project.getProjectAssetManager();
       FileObject assets=project.getAssetsFolder();
-      node=new ProjectAssetsNode(manager,project,DataFolder.find(assets).getNodeDelegate());
+      node=DataFolder.find(assets).getNodeDelegate();
+      node.setDisplayName("Project Assets");
     }
  catch (    DataObjectNotFoundException ex) {
       Exceptions.printStackTrace(ex);

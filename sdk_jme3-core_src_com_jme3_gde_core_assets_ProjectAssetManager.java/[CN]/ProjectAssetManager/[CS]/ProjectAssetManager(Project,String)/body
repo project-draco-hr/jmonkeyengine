@@ -1,4 +1,8 @@
 {
-  this(prj);
-  addFileLocator(folderName);
+  super(true);
+  this.project=prj;
+  for (  AssetManagerConfigurator di : Lookup.getDefault().lookupAll(AssetManagerConfigurator.class)) {
+    di.prepareManager(this);
+  }
+  addFolderLocator(folderName);
 }

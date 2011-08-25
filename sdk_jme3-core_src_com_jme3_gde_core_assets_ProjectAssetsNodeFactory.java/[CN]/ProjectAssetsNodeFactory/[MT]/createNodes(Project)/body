@@ -4,15 +4,10 @@
   try {
     ProjectAssetManager item=project.getLookup().lookup(ProjectAssetManager.class);
     if (item != null) {
-      assetsFolder=DataObject.find(project.getProjectDirectory().getFileObject(item.getFolderName()));
+      assetsFolder=DataObject.find(item.getAssetFolder());
       Node node=assetsFolder.getNodeDelegate();
-      try {
-        ProjectAssetsNode nd=new ProjectAssetsNode(item,proj,node);
-        return NodeFactorySupport.fixedNodeList(nd);
-      }
- catch (      DataObjectNotFoundException ex) {
-        Exceptions.printStackTrace(ex);
-      }
+      ProjectAssetsNode nd=new ProjectAssetsNode(item,proj,node);
+      return NodeFactorySupport.fixedNodeList(nd);
     }
   }
  catch (  Exception ex) {

@@ -1,0 +1,15 @@
+{
+  super(true);
+  if (path == null) {
+    this.project=new DummyProject(this);
+  }
+ else {
+    this.project=new DummyProject(this,path);
+  }
+  String string=project.getProjectDirectory().getPath();
+  Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Add locator:{0}",string);
+  registerLocator(string,"com.jme3.asset.plugins.FileLocator");
+  for (  AssetManagerConfigurator di : Lookup.getDefault().lookupAll(AssetManagerConfigurator.class)) {
+    di.prepareManager(this);
+  }
+}
