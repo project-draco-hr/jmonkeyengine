@@ -14,7 +14,7 @@
     }
     uvCoordinates[j]=angle / FastMath.TWO_PI;
     float z=positions.get(i + 2);
-    uvCoordinates[j + 1]=(vBase - z) / bt.getHeight();
+    uvCoordinates[j + 1]=(z - vBase) / bt.getHeight();
   }
   Triangle triangle=new Triangle();
   for (int i=0; i < mesh.getTriangleCount(); ++i) {
