@@ -1,6 +1,6 @@
 {
   viewPort.setBackgroundColor(ColorRGBA.DarkGray);
-  Spatial bumpy=(Spatial)assetManager.loadModel("Blender/2.4x/Sinbad.blend");
+  Spatial bumpy=assetManager.loadModel("Blender/2.4x/Sinbad.blend");
   rootNode.attachChild(bumpy);
   DirectionalLight dl=new DirectionalLight();
   dl.setDirection(new Vector3f(-0.1f,-0.7f,1).normalizeLocal());
@@ -12,6 +12,6 @@
   rootNode.addLight(dl);
   dl=new DirectionalLight();
   dl.setDirection(new Vector3f(1,-0.5f,-0.1f).normalizeLocal());
-  dl.setColor(new ColorRGBA(0.50f,0.40f,0.50f,1.0f));
+  dl.setColor(new ColorRGBA(0.80f,0.70f,0.80f,1.0f));
   rootNode.addLight(dl);
 }
