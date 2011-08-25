@@ -1,21 +1,18 @@
 {
   logger.info("onCreate(" + savedInstanceState + ")");
   super.onCreate(savedInstanceState);
-  setContentView(R.layout.tests);
   try {
-    useVA=(CheckBox)findViewById(R.id.useVA);
-    LinearLayout buttonsContainer=(LinearLayout)findViewById(R.id.buttonsContainer);
+    useVA=true;
     for (    Test test : tests) {
       final Button button=new Button(this);
       final String finalName=test.getName();
       final String finalClassName=test.getClassName();
       button.setText(test.getName());
-      buttonsContainer.addView(button);
       button.setOnClickListener(new View.OnClickListener(){
         @Override public void onClick(        View view){
           Intent intent=new Intent(view.getContext(),AndroidActivity.class);
           intent.putExtra(AndroidActivity.class.getName() + ".TEST_CLASS_NAME",finalClassName);
-          intent.putExtra(AndroidActivity.class.getName() + ".USE_VA",useVA.isChecked());
+          intent.putExtra(AndroidActivity.class.getName() + ".USE_VA",useVA);
           startActivityForResult(intent,0);
         }
       }
