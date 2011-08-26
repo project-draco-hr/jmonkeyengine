@@ -12,7 +12,12 @@
   JmeNode jmeNode=NodeUtility.createNode(node);
   SceneApplication app=SceneApplication.getApplication();
   SceneRequest request=new SceneRequest(app,jmeNode,pm);
-  request.setDataObject(context.getLookup().lookup(DataObject.class));
+  try {
+    request.setDataObject(DataObject.find(context.getLookup().lookup(Project.class).getProjectDirectory()));
+  }
+ catch (  DataObjectNotFoundException ex) {
+    Exceptions.printStackTrace(ex);
+  }
   request.setWindowTitle("AssetPack - PreView Model");
   app.requestScene(request);
 }
