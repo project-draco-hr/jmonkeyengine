@@ -1,3 +1,7 @@
 {
   super.componentClosed();
+  SceneRequest req=SceneApplication.getApplication().getCurrentSceneRequest();
+  if (req != null) {
+    SceneApplication.getApplication().closeScene(req);
+  }
 }
