@@ -13,6 +13,10 @@
     if (key instanceof OgreMeshKey) {
       meshKey=(OgreMeshKey)key;
       materialList=meshKey.getMaterialList();
+      String materialName=meshKey.getMaterialName();
+      if (materialList == null && materialName != null) {
+        materialList=(MaterialList)assetManager.loadAsset(new OgreMaterialKey(folderName + materialName + ".material"));
+      }
     }
  else {
       try {
