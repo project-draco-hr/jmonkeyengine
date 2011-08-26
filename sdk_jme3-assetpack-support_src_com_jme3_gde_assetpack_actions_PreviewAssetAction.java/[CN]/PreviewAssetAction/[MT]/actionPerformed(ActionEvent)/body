@@ -12,6 +12,7 @@
   JmeNode jmeNode=NodeUtility.createNode(node);
   SceneApplication app=SceneApplication.getApplication();
   SceneRequest request=new SceneRequest(app,jmeNode,pm);
-  request.setWindowTitle("SceneViewer - PreView AssetPack Model");
+  request.setDataObject(context.getLookup().lookup(DataObject.class));
+  request.setWindowTitle("AssetPack - PreView Model");
   app.requestScene(request);
 }
