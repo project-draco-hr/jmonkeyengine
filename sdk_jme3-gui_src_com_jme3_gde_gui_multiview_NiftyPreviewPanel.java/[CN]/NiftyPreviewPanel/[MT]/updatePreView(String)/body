@@ -17,14 +17,23 @@
   }
   SceneApplication.getApplication().enqueue(new Callable<Object>(){
     public Object call() throws Exception {
-      nifty.fromXml(pm.getRelativeAssetPath(niftyObject.getPrimaryFile().getPath()),screen);
+      try {
+        nifty.fromXml(pm.getRelativeAssetPath(niftyObject.getPrimaryFile().getPath()),screen);
+        if (screen == null || screen.length() == 0) {
+          Collection<String> screens=nifty.getAllScreensName();
+          for (Iterator<String> it=screens.iterator(); it.hasNext(); ) {
+            String string=it.next();
+            nifty.gotoScreen(string);
+            return null;
+          }
+        }
+      }
+ catch (      Exception ex) {
+        Message msg=new NotifyDescriptor.Message("Error opening File:" + ex,NotifyDescriptor.ERROR_MESSAGE);
+        DialogDisplayer.getDefault().notifyLater(msg);
+        Exceptions.printStackTrace(ex);
+      }
       return null;
-    }
-  }
-);
-  java.awt.EventQueue.invokeLater(new Runnable(){
-    public void run(){
-      validateTree();
     }
   }
 );

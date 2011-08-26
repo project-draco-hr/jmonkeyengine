@@ -1,4 +1,10 @@
 {
   this.screen=nodes[0].getName();
-  updatePreView();
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      nifty.gotoScreen(screen);
+      return null;
+    }
+  }
+);
 }
