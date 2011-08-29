@@ -1,0 +1,13 @@
+{
+  tmpList.clear();
+  Mesh m=new Mesh();
+  if (mesh != null) {
+    tmpList.add(this);
+  }
+  tmpList.add(geom);
+  List<BatchedGeometry> l=mergeGeometries(m,tmpList);
+  mesh=m;
+  mesh.updateCounts();
+  mesh.updateBound();
+  return l.get(0);
+}

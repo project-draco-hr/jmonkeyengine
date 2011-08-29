@@ -1,0 +1,15 @@
+{
+  if (batch == null) {
+    worldTransform.set(localTransform);
+    refreshFlags&=~RF_TRANSFORM;
+  }
+ else {
+    assert((batch.refreshFlags & RF_TRANSFORM) == 0);
+    worldTransform.set(localTransform);
+    worldTransform.combineWithParent(batch.worldTransform);
+    computeOffsetTransform();
+    batch.updateSubBatch(this);
+    prevLocalTransform.set(localTransform);
+    refreshFlags&=~RF_TRANSFORM;
+  }
+}

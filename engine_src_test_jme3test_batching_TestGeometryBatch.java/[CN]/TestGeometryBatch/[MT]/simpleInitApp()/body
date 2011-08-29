@@ -1,0 +1,22 @@
+{
+  batch=new GeometryBatch("MyBatch");
+  Box boxshape4=new Box(Vector3f.ZERO,1f,1f,1f);
+  Geometry cube=new Geometry("cube1",boxshape4);
+  Material mat=assetManager.loadMaterial("Textures/Terrain/Pond/Pond.j3m");
+  Box box=new Box(Vector3f.ZERO,1f,1f,1f);
+  cube2=new Geometry("cube2",box);
+  cube.setLocalTranslation(3,0,0);
+  cube2.setLocalTranslation(0,3,0);
+  TangentBinormalGenerator.generate(cube);
+  TangentBinormalGenerator.generate(cube2);
+  batch.batch(cube,cube2);
+  batchedCube1=(BatchedGeometry)batch.getChild("cube1");
+  batchedCube2=(BatchedGeometry)batch.getChild("cube2");
+  batch.setMaterial(mat);
+  rootNode.attachChild(batch);
+  dl=new DirectionalLight();
+  dl.setColor(ColorRGBA.White.mult(2));
+  dl.setDirection(new Vector3f(1,-1,-1));
+  rootNode.addLight(dl);
+  flyCam.setMoveSpeed(10);
+}
