@@ -4,6 +4,11 @@
       for (int i=0; i < getQuantity(); i++) {
         if (children.get(i) instanceof TerrainPatch) {
           TerrainPatch tp=(TerrainPatch)children.get(i);
+          if (tp.getModelBound() instanceof BoundingBox) {
+            if (((BoundingBox)tp.getModelBound()).getYExtent() == 0) {
+              ((BoundingBox)tp.getModelBound()).setYExtent(0.00001f);
+            }
+          }
           if (tp.getWorldBound().intersects(toTest)) {
             CollisionResults cr=new CollisionResults();
             toTest.collideWith(tp.getWorldBound(),cr);
