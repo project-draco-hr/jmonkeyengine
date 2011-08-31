@@ -1,0 +1,29 @@
+{
+  bulletAppState=new BulletAppState();
+  bulletAppState.setEnabled(true);
+  stateManager.attach(bulletAppState);
+  initMaterial();
+  setupKeys();
+  initWall(2,1,1);
+  cam.setLocation(new Vector3f(-8,0,-4));
+  cam.lookAt(new Vector3f(4,0,-7),Vector3f.UNIT_Y);
+  PhysicsTestHelper.createPhysicsTestWorld(rootNode,assetManager,bulletAppState.getPhysicsSpace());
+  setupLight();
+  model=(Node)assetManager.loadModel("Models/Sinbad/Sinbad.mesh.xml");
+  model.lookAt(new Vector3f(0,0,-1),Vector3f.UNIT_Y);
+  model.setLocalTranslation(4,0,-7f);
+  ragdoll=new KinematicRagdollControl(0.5f);
+  setupSinbad(ragdoll);
+  ragdoll.addCollisionListener(this);
+  model.addControl(ragdoll);
+  float eighth_pi=FastMath.PI * 0.125f;
+  ragdoll.setJointLimit("Waist",eighth_pi,eighth_pi,eighth_pi,eighth_pi,eighth_pi,eighth_pi);
+  ragdoll.setJointLimit("Chest",eighth_pi,eighth_pi,0,0,eighth_pi,eighth_pi);
+  getPhysicsSpace().add(ragdoll);
+  speed=1.3f;
+  rootNode.attachChild(model);
+  AnimControl control=model.getControl(AnimControl.class);
+  animChannel=control.createChannel();
+  animChannel.setAnim("IdleTop");
+  control.addListener(this);
+}
