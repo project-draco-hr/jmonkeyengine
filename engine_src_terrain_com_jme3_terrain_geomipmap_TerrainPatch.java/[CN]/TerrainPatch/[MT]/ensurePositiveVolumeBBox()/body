@@ -1,0 +1,8 @@
+{
+  if (getModelBound() instanceof BoundingBox) {
+    if (((BoundingBox)getModelBound()).getYExtent() < 0.001f) {
+      ((BoundingBox)getModelBound()).setYExtent(0.001f);
+      updateWorldBound();
+    }
+  }
+}

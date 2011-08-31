@@ -14,5 +14,5 @@
   geomap=(LODGeomap)ic.readSavable("geomap",null);
   Mesh regen=geomap.createMesh(stepScale,new Vector2f(1,1),offset,offsetAmount,totalSize,false);
   setMesh(regen);
-  TangentBinormalGenerator.generate(this);
+  ensurePositiveVolumeBBox();
 }
