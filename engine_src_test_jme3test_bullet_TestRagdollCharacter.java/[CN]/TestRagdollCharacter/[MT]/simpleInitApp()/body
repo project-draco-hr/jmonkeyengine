@@ -1,9 +1,8 @@
 {
+  setupKeys();
   bulletAppState=new BulletAppState();
   bulletAppState.setEnabled(true);
   stateManager.attach(bulletAppState);
-  initMaterial();
-  setupKeys();
   initWall(2,1,1);
   cam.setLocation(new Vector3f(-8,0,-4));
   cam.lookAt(new Vector3f(4,0,-7),Vector3f.UNIT_Y);
@@ -16,9 +15,6 @@
   setupSinbad(ragdoll);
   ragdoll.addCollisionListener(this);
   model.addControl(ragdoll);
-  float eighth_pi=FastMath.PI * 0.125f;
-  ragdoll.setJointLimit("Waist",eighth_pi,eighth_pi,eighth_pi,eighth_pi,eighth_pi,eighth_pi);
-  ragdoll.setJointLimit("Chest",eighth_pi,eighth_pi,0,0,eighth_pi,eighth_pi);
   getPhysicsSpace().add(ragdoll);
   speed=1.3f;
   rootNode.attachChild(model);
