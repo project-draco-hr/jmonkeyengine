@@ -12,7 +12,6 @@
   model.lookAt(new Vector3f(0,0,-1),Vector3f.UNIT_Y);
   model.setLocalTranslation(4,0,-7f);
   ragdoll=new KinematicRagdollControl(0.5f);
-  setupSinbad(ragdoll);
   ragdoll.addCollisionListener(this);
   model.addControl(ragdoll);
   getPhysicsSpace().add(ragdoll);
