@@ -1,25 +1,3 @@
 {
-  setDefaultAxisMarkerColors();
-  Vector3f picked=pickAxisMarker(camera,screenCoord,axisPickType);
-  if (picked == null) {
-    return;
-  }
-  if (picked == ARROW_X) {
-    axisMarker.getChild("arrowX").setMaterial(orangeMat);
-  }
- else   if (picked == ARROW_Y) {
-    axisMarker.getChild("arrowY").setMaterial(orangeMat);
-  }
- else   if (picked == ARROW_Z) {
-    axisMarker.getChild("arrowZ").setMaterial(orangeMat);
-  }
- else   if (picked == QUAD_XY) {
-    axisMarker.getChild("quadXY").setMaterial(orangeMat);
-  }
- else   if (picked == QUAD_XZ) {
-    axisMarker.getChild("quadXZ").setMaterial(orangeMat);
-  }
- else   if (picked == QUAD_YZ) {
-    axisMarker.getChild("quadYZ").setMaterial(orangeMat);
-  }
+  highlightAxisMarker(camera,screenCoord,axisMarkerPickType,false);
 }
