@@ -1,0 +1,13 @@
+{
+  if (selected != null) {
+    if (selected.getWorldBound() instanceof BoundingBox) {
+      BoundingBox bbox=(BoundingBox)selected.getWorldBound();
+      float smallest=Math.min(Math.min(bbox.getXExtent(),bbox.getYExtent()),bbox.getZExtent());
+      float scale=Math.max(1,smallest / 2f);
+      axisMarker.setLocalScale(new Vector3f(scale,scale,scale));
+    }
+  }
+ else {
+    axisMarker.setLocalScale(new Vector3f(2,2,2));
+  }
+}
