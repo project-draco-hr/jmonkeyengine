@@ -1,15 +1,4 @@
 {
-  if (Display.isCreated()) {
-    try {
-      if (JmeSystem.getPlatform() == Platform.Windows32 || JmeSystem.getPlatform() == Platform.Windows64 || JmeSystem.getPlatform() == Platform.Linux32 || JmeSystem.getPlatform() == Platform.Linux64) {
-        Display.setParent(null);
-      }
-    }
- catch (    LWJGLException ex) {
-      logger.log(Level.SEVERE,"Encountered exception when setting parent to null",ex);
-    }
-    Display.destroy();
-  }
   try {
     if (!needClose.get()) {
       makePbufferAvailable();
@@ -20,6 +9,18 @@
       if (pbuffer != null) {
         pbuffer.destroy();
       }
+    }
+    if (Display.isCreated()) {
+      Keyboard.destroy();
+      try {
+        if (JmeSystem.getPlatform() == Platform.Windows32 || JmeSystem.getPlatform() == Platform.Windows64) {
+          Display.setParent(null);
+        }
+      }
+ catch (      LWJGLException ex) {
+        logger.log(Level.SEVERE,"Encountered exception when setting parent to null",ex);
+      }
+      Display.destroy();
     }
   }
  catch (  LWJGLException ex) {

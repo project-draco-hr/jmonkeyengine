@@ -1,9 +1,10 @@
 {
-  if (pbuffer == null || pbuffer.isBufferLost()) {
-    if (pbuffer != null && pbuffer.isBufferLost()) {
-      logger.log(Level.WARNING,"PBuffer was lost!");
-      pbuffer.destroy();
-    }
+  if (pbuffer != null && pbuffer.isBufferLost()) {
+    logger.log(Level.WARNING,"PBuffer was lost!");
+    pbuffer.destroy();
+    pbuffer=null;
+  }
+  if (pbuffer == null) {
     pbuffer=new Pbuffer(1,1,acquirePixelFormat(),null);
     logger.log(Level.INFO,"OGL: Pbuffer has been created");
   }
