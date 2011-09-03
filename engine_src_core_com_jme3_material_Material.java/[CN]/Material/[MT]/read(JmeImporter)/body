@@ -6,6 +6,7 @@
   HashMap<String,MatParam> params=(HashMap<String,MatParam>)ic.readStringSavableMap("parameters",null);
   boolean enableVcolor=false;
   boolean separateTexCoord=false;
+  boolean applyDefaults=false;
   if (im.getFormatVersion() == 0) {
     if (defName.equalsIgnoreCase("Common/MatDefs/Misc/VertexColor.j3md")) {
       enableVcolor=true;
@@ -25,6 +26,10 @@
         separateTexCoord=true;
       }
     }
+    applyDefaults=true;
+  }
+ else   if (ic.getSavableVersion(Material.class) == 0) {
+    applyDefaults=true;
   }
   def=(MaterialDef)im.getAssetManager().loadAsset(new AssetKey(defName));
   paramValues=new ListMap<String,MatParam>();
@@ -41,6 +46,13 @@
     }
     param.setName(checkSetParam(param.getVarType(),param.getName()));
     paramValues.put(param.getName(),param);
+  }
+  if (applyDefaults) {
+    for (    MatParam param : def.getMaterialParams()) {
+      if (param.getValue() != null && paramValues.get(param.getName()) == null) {
+        setParam(param.getName(),param.getVarType(),param.getValue());
+      }
+    }
   }
   if (enableVcolor) {
     setBoolean("VertexColor",true);
