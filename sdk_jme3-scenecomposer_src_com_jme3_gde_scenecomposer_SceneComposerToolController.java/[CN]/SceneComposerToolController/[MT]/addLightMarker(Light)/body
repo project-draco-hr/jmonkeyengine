@@ -1,0 +1,9 @@
+{
+  if (!(light instanceof PointLight) && !(light instanceof SpotLight))   return;
+  Spatial s=lightMarkersNode.getChild(light.getName());
+  if (s != null) {
+    return;
+  }
+  LightMarker lm=new LightMarker(light);
+  lightMarkersNode.attachChild(lm);
+}

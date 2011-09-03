@@ -1,0 +1,5 @@
+{
+  super.setLocalTranslation(x,y,z);
+  if (light instanceof PointLight)   ((PointLight)light).setPosition(new Vector3f(x,y,z));
+ else   if (light instanceof SpotLight)   ((SpotLight)light).setPosition(new Vector3f(x,y,z));
+}

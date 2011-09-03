@@ -24,9 +24,11 @@
     Lookup.getDefault().lookup(SceneUndoRedoManager.class).addEdit(this,new AbstractUndoableSceneEdit(){
       @Override public void sceneUndo() throws CannotUndoException {
         undoParent.removeLight(undoLight);
+        toolController.removeLightMarker(undoLight);
       }
       @Override public void sceneRedo() throws CannotRedoException {
         undoParent.addLight(undoLight);
+        toolController.addLightMarker(undoLight);
       }
       @Override public void awtRedo(){
         if (parentNode != null) {

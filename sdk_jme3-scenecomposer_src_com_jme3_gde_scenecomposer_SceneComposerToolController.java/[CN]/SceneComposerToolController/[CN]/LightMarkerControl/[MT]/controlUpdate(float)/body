@@ -1,0 +1,12 @@
+{
+  super.controlUpdate(f);
+  LightMarker marker=(LightMarker)getSpatial();
+  if (marker != null) {
+    if (marker.getLight() instanceof PointLight) {
+      marker.setLocalTranslation(((PointLight)marker.getLight()).getPosition());
+    }
+ else     if (marker.getLight() instanceof SpotLight) {
+      marker.setLocalTranslation(((SpotLight)marker.getLight()).getPosition());
+    }
+  }
+}
