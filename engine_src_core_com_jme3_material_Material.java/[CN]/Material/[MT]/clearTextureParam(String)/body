@@ -2,7 +2,7 @@
   name=checkSetParam(null,name);
   MatParamTexture val=getTextureParam(name);
   if (val == null) {
-    throw new IllegalArgumentException("The given texture parameter is not set.");
+    throw new IllegalArgumentException("The given texture for parameter \"" + name + "\" is null.");
   }
   int texUnit=val.getUnit();
   paramValues.remove(name);
