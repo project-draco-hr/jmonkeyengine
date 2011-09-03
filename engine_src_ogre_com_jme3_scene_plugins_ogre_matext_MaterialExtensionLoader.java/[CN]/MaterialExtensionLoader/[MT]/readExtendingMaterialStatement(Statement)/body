@@ -1,0 +1,15 @@
+{
+  if (statement.getLine().startsWith("set_texture_alias")) {
+    String[] split=statement.getLine().split(" ",3);
+    String aliasName=split[1];
+    String texturePath=split[2];
+    String jmeParamName=matExt.getTextureMapping(aliasName);
+    TextureKey key=new TextureKey(texturePath,false);
+    key.setGenerateMips(true);
+    key.setAsCube(false);
+    Texture tex=assetManager.loadTexture(key);
+    if (tex == null)     throw new IOException("Cannot load texture: " + texturePath);
+    tex.setWrap(WrapMode.Repeat);
+    material.setTexture(jmeParamName,tex);
+  }
+}

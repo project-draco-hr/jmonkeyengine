@@ -1,0 +1,51 @@
+{
+  String path=null;
+  int extStart=content.lastIndexOf(".");
+  for (int i=extStart; i < content.length(); i++) {
+    char c=content.charAt(i);
+    if (Character.isWhitespace(c)) {
+      path=content.substring(0,i).trim();
+      content=content.substring(i + 1).trim();
+      break;
+    }
+  }
+  if (path == null) {
+    path=content.trim();
+    content="";
+  }
+  Scanner lnScan=new Scanner(content);
+  String mips=null;
+  String type=null;
+  if (lnScan.hasNext()) {
+    type=lnScan.next();
+  }
+  boolean genMips=true;
+  boolean cubic=false;
+  if (type != null && type.equals("0"))   genMips=false;
+  if (type != null && type.equals("cubic")) {
+    cubic=true;
+  }
+  TextureKey key=new TextureKey(folderName + path,false);
+  key.setGenerateMips(genMips);
+  key.setAsCube(cubic);
+  Texture loadedTexture=assetManager.loadTexture(key);
+  if (loadedTexture == null) {
+    ByteBuffer tempData=BufferUtils.createByteBuffer(3);
+    tempData.put((byte)0xFF).put((byte)0x00).put((byte)0x00);
+    textures[texUnit].setImage(new Image(Format.RGB8,1,1,tempData));
+    logger.log(Level.WARNING,"Using RED texture instead of {0}",path);
+  }
+ else {
+    textures[texUnit].setImage(loadedTexture.getImage());
+    textures[texUnit].setMinFilter(loadedTexture.getMinFilter());
+    textures[texUnit].setKey(loadedTexture.getKey());
+    textures[texUnit].setWrap(WrapMode.Repeat);
+    if (texName != null) {
+      textures[texUnit].setName(texName);
+      texName=null;
+    }
+ else {
+      textures[texUnit].setName(key.getName());
+    }
+  }
+}

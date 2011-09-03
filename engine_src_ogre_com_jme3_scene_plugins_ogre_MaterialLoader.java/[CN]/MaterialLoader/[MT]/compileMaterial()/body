@@ -29,7 +29,7 @@
       mat.setFloat("Shininess",16f);
     }
     if (vcolor)     mat.setBoolean("UseVertexColor",true);
-    if (texture != null)     mat.setTexture("DiffuseMap",texture);
+    if (textures[0] != null)     mat.setTexture("DiffuseMap",textures[0]);
     mat.setBoolean("UseMaterialColors",true);
     if (diffuse != null) {
       mat.setColor("Diffuse",diffuse);
@@ -57,8 +57,21 @@
     if (vcolor) {
       mat.setBoolean("VertexColor",true);
     }
-    if (texture != null) {
-      mat.setTexture("ColorMap",texture);
+    if (textures[0] != null && textures[1] == null) {
+      if (separateTexCoord) {
+        mat.setTexture("LightMap",textures[0]);
+        mat.setBoolean("SeparateTexCoord",true);
+      }
+ else {
+        mat.setTexture("ColorMap",textures[0]);
+      }
+    }
+ else     if (textures[1] != null) {
+      mat.setTexture("ColorMap",textures[0]);
+      mat.setTexture("LightMap",textures[1]);
+      if (separateTexCoord) {
+        mat.setBoolean("SeparateTexCoord",true);
+      }
     }
     if (diffuse != null) {
       mat.setColor("Color",diffuse);
@@ -68,12 +81,13 @@
     }
   }
   noLight=false;
-  texture=null;
+  Arrays.fill(textures,null);
   diffuse=null;
   specular=null;
-  texture=null;
   shinines=0f;
   vcolor=false;
   blend=false;
+  texUnit=0;
+  separateTexCoord=false;
   return mat;
 }
