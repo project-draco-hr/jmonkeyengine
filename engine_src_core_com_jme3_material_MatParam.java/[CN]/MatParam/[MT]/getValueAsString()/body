@@ -7,9 +7,51 @@ case Int:
 case Vector2:
   Vector2f v2=(Vector2f)value;
 return v2.getX() + " " + v2.getY();
+case Vector2Array:
+Vector2f[] v2Arr=(Vector2f[])value;
+String v2str="";
+for (int i=0; i < v2Arr.length; i++) {
+v2str+=v2Arr[i].getX() + " " + v2Arr[i].getY()+ "\n";
+}
+return v2str;
 case Vector3:
 Vector3f v3=(Vector3f)value;
 return v3.getX() + " " + v3.getY()+ " "+ v3.getZ();
+case Vector3Array:
+Vector3f[] v3Arr=(Vector3f[])value;
+String v3str="";
+for (int i=0; i < v3Arr.length; i++) {
+v3str+=v3Arr[i].getX() + " " + v3Arr[i].getY()+ " "+ v3Arr[i].getZ()+ "\n";
+}
+return v3str;
+case Vector4Array:
+if (value instanceof Vector4f) {
+Vector4f[] v4arr=(Vector4f[])value;
+String v4str="";
+for (int i=0; i < v4arr.length; i++) {
+v4str+=v4arr[i].getX() + " " + v4arr[i].getY()+ " "+ v4arr[i].getZ()+ " "+ v4arr[i].getW()+ "\n";
+}
+return v4str;
+}
+ else if (value instanceof ColorRGBA) {
+ColorRGBA[] colorArr=(ColorRGBA[])value;
+String colStr="";
+for (int i=0; i < colorArr.length; i++) {
+colStr+=colorArr[i].getRed() + " " + colorArr[i].getGreen()+ " "+ colorArr[i].getBlue()+ " "+ colorArr[i].getAlpha()+ "\n";
+}
+return colStr;
+}
+ else if (value instanceof Quaternion) {
+Quaternion[] quatArr=(Quaternion[])value;
+String quatStr="";
+for (int i=0; i < quatArr.length; i++) {
+quatStr+=quatArr[i].getX() + " " + quatArr[i].getY()+ " "+ quatArr[i].getZ()+ " "+ quatArr[i].getW()+ "\n";
+}
+return quatStr;
+}
+ else {
+throw new UnsupportedOperationException("Unexpected Vector4Array type: " + value);
+}
 case Vector4:
 if (value instanceof Vector4f) {
 Vector4f v4=(Vector4f)value;
