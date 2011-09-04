@@ -6,12 +6,15 @@
       renderer.invalidateState();
     }
  else {
-      if (pbuffer != null) {
+      if (pbuffer != null && !pbuffer.isBufferLost()) {
         pbuffer.destroy();
+        pbuffer=null;
       }
     }
     if (Display.isCreated()) {
-      Keyboard.destroy();
+      if (Keyboard.isCreated()) {
+        Keyboard.destroy();
+      }
       try {
         if (JmeSystem.getPlatform() == Platform.Windows32 || JmeSystem.getPlatform() == Platform.Windows64) {
           Display.setParent(null);

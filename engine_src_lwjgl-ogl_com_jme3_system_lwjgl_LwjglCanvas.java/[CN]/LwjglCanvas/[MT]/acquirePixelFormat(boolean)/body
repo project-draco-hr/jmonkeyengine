@@ -1,0 +1,14 @@
+{
+  if (forPbuffer) {
+    if (pbufferFormat == null) {
+      pbufferFormat=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),0);
+    }
+    return pbufferFormat;
+  }
+ else {
+    if (canvasFormat == null) {
+      canvasFormat=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),settings.getSamples());
+    }
+    return canvasFormat;
+  }
+}
