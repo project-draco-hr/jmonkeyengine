@@ -1,47 +1,13 @@
 {
   if (!(info.getKey() instanceof TextureKey))   throw new IllegalArgumentException("Texture assets must be loaded using a TextureKey");
-  InputStream in=info.openStream();
-  Format format=null;
-  String fmtStr=readString(in);
-  if (fmtStr.equals("PF")) {
-    format=Format.RGB32F;
+  InputStream in=null;
+  try {
+    in=info.openStream();
+    return load(in,((TextureKey)info.getKey()).isFlipY());
   }
- else   if (fmtStr.equals("Pf")) {
-    format=Format.Luminance32F;
-  }
- else {
-    throw new IOException("File is not PFM format");
-  }
-  String sizeStr=readString(in);
-  int spaceIdx=sizeStr.indexOf(" ");
-  if (spaceIdx <= 0 || spaceIdx >= sizeStr.length() - 1)   throw new IOException("Invalid size syntax in PFM file");
-  int width=Integer.parseInt(sizeStr.substring(0,spaceIdx));
-  int height=Integer.parseInt(sizeStr.substring(spaceIdx + 1));
-  if (width <= 0 || height <= 0)   throw new IOException("Invalid size specified in PFM file");
-  String scaleStr=readString(in);
-  float scale=Float.parseFloat(scaleStr);
-  ByteOrder order=scale < 0 ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN;
-  boolean needEndienFlip=order != ByteOrder.nativeOrder();
-  boolean needYFlip=((TextureKey)info.getKey()).isFlipY();
-  System.gc();
-  int bytesPerPixel=format.getBitsPerPixel() / 8;
-  int scanLineBytes=bytesPerPixel * width;
-  ByteBuffer imageData=BufferUtils.createByteBuffer(width * height * bytesPerPixel);
-  byte[] scanline=new byte[width * bytesPerPixel];
-  for (int y=height - 1; y >= 0; y--) {
-    if (!needYFlip)     imageData.position(scanLineBytes * y);
-    int read=0;
-    int off=0;
-    do {
-      read=in.read(scanline,off,scanline.length - off);
-      off+=read;
+  finally {
+    if (in != null) {
+      in.close();
     }
- while (read > 0);
-    if (needEndienFlip) {
-      flipScanline(scanline);
-    }
-    imageData.put(scanline);
   }
-  imageData.rewind();
-  return new Image(format,width,height,imageData);
 }

@@ -5,28 +5,14 @@
   AudioKey key=(AudioKey)info.getKey();
   boolean readStream=key.isStream();
   boolean streamCache=key.useStreamCache();
-  InputStream in=info.openStream();
-  if (readStream && streamCache) {
-    oggStream=new CachedOggStream(in);
+  InputStream in=null;
+  try {
+    in=info.openStream();
+    return load(in,readStream,streamCache);
   }
- else {
-    oggStream=new UncachedOggStream(in);
-  }
-  Collection<LogicalOggStream> streams=oggStream.getLogicalStreams();
-  loStream=streams.iterator().next();
-  vorbisStream=new VorbisStream(loStream);
-  streamHdr=vorbisStream.getIdentificationHeader();
-  if (!readStream) {
-    AudioBuffer audioBuffer=new AudioBuffer();
-    audioBuffer.setupFormat(streamHdr.getChannels(),16,streamHdr.getSampleRate());
-    audioBuffer.updateData(readToBuffer());
-    return audioBuffer;
-  }
- else {
-    AudioStream audioStream=new AudioStream();
-    audioStream.setupFormat(streamHdr.getChannels(),16,streamHdr.getSampleRate());
-    float streamDuration=computeStreamDuration();
-    audioStream.updateData(readToStream(),streamDuration);
-    return audioStream;
+  finally {
+    if (in != null) {
+      in.close();
+    }
   }
 }

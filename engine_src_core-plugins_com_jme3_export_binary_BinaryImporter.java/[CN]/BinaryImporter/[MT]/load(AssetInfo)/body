@@ -1,13 +1,22 @@
 {
   assetManager=info.getManager();
+  InputStream is=null;
   try {
-    InputStream is=info.openStream();
+    is=info.openStream();
     Savable s=load(is);
-    is.close();
     return s;
   }
  catch (  IOException ex) {
     logger.log(Level.SEVERE,"An error occured while loading jME binary object",ex);
+  }
+ finally {
+    if (is != null) {
+      try {
+        is.close();
+      }
+ catch (      IOException ex) {
+      }
+    }
   }
   return null;
 }

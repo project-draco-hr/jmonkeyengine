@@ -6,7 +6,9 @@
     loadFromRoot(BlockLanguageParser.parse(in));
   }
   finally {
-    if (in != null)     in.close();
+    if (in != null) {
+      in.close();
+    }
   }
   if (material != null) {
     if (!(info.getKey() instanceof MaterialKey)) {
