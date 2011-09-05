@@ -1,0 +1,13 @@
+{
+  ImportantFilesLookupItem item=project.getLookup().lookup(ImportantFilesLookupItem.class);
+  if (item != null) {
+    try {
+      ImportantFilesNode nd=new ImportantFilesNode(project);
+      return NodeFactorySupport.fixedNodeList(nd);
+    }
+ catch (    DataObjectNotFoundException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+  return NodeFactorySupport.fixedNodeList();
+}

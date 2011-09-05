@@ -1,0 +1,10 @@
+{
+  if (jCheckBox1.isSelected()) {
+    properties.setProperty("mobile.android.enabled","true");
+  }
+ else {
+    properties.setProperty("mobile.android.enabled","");
+  }
+  properties.setProperty("mobile.android.target",((AndroidTarget)jComboBox1.getSelectedItem()).getName());
+  properties.setProperty("mobile.android.package",jTextField1.getText());
+}

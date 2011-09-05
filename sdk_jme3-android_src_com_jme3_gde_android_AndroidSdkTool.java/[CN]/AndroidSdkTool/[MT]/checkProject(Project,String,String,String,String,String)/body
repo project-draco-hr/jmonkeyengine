@@ -1,0 +1,20 @@
+{
+  final String path=getAndroidToolPath();
+  if (path == null) {
+    return;
+  }
+  FileObject folder=project.getProjectDirectory().getFileObject("mobile");
+  if (folder == null) {
+    try {
+      folder=project.getProjectDirectory().createFolder("mobile");
+      createProject(project,target,name,activity,packag,mainJmeClass);
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+      return;
+    }
+  }
+ else {
+    updateProject(project,target,name);
+  }
+}

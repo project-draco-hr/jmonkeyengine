@@ -1,0 +1,26 @@
+{
+  final String path=getAndroidToolPath();
+  if (path == null) {
+    return;
+  }
+  FileObject folder=project.getProjectDirectory().getFileObject("mobile");
+  if (folder == null) {
+    return;
+  }
+  String[] command=new String[]{path,"update","project","--target",target,"--name",name,"--path",FileUtil.toFile(folder).getPath()};
+  ProcessBuilder builder=new ProcessBuilder(command);
+  try {
+    Process proc=builder.start();
+    OutputReader outReader=new OutputReader(proc.getInputStream());
+    OutputReader errReader=new OutputReader(proc.getErrorStream());
+    outReader.start();
+    errReader.start();
+    proc.waitFor();
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

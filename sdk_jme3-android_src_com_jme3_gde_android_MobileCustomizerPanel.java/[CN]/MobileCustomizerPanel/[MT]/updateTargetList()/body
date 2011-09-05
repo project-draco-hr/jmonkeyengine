@@ -1,0 +1,8 @@
+{
+  jComboBox1.removeAllItems();
+  List<AndroidTarget> targets=AndroidSdkTool.getTargetList();
+  for (Iterator<AndroidTarget> it=targets.iterator(); it.hasNext(); ) {
+    AndroidTarget androidTarget=it.next();
+    jComboBox1.addItem(androidTarget);
+  }
+}

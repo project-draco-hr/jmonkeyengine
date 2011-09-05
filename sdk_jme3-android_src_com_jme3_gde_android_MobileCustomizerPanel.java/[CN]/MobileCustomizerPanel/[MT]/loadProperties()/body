@@ -1,0 +1,18 @@
+{
+  String str=properties.getProperty("mobile.android.enabled");
+  if ("true".equals(str)) {
+    jCheckBox1.setSelected(true);
+  }
+ else {
+    jCheckBox1.setSelected(false);
+  }
+  if (properties.getProperty("mobile.android.target") != null) {
+    jComboBox1.setSelectedItem(properties.getProperty("mobile.android.target"));
+  }
+  if (properties.getProperty("mobile.android.package") != null) {
+    jTextField1.setText(properties.getProperty("mobile.android.package"));
+  }
+ else {
+    jTextField1.setText("com.mycompany.mygame");
+  }
+}

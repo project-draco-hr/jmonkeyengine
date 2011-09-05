@@ -1,0 +1,14 @@
+{
+  FileObject executable=null;
+  FileObject folder=getSdkFolder();
+  if (folder == null) {
+    return null;
+  }
+  if (Utilities.isWindows()) {
+    executable=folder.getFileObject("tools/android.exe");
+  }
+ else {
+    executable=folder.getFileObject("tools/android");
+  }
+  return FileUtil.toFile(executable).getPath();
+}
