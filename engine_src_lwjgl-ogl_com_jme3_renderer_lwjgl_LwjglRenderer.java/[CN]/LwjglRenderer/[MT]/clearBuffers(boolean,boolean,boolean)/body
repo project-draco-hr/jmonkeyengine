@@ -1,6 +1,10 @@
 {
   int bits=0;
   if (color) {
+    if (context.colorWriteEnabled == false) {
+      glColorMask(true,true,true,true);
+      context.colorWriteEnabled=true;
+    }
     bits=GL_COLOR_BUFFER_BIT;
   }
   if (depth) {
