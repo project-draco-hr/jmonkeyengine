@@ -1,6 +1,11 @@
 {
   Vector3f cam=locations.get(0);
   Vector3f camCell=this.getCell(cam);
+  if (cellsLoaded > 1) {
+    gridOffset[0]=Math.round(camCell.x * (size / 2));
+    gridOffset[1]=Math.round(camCell.z * (size / 2));
+    cellsLoaded=0;
+  }
   if (camCell.x != this.currentCell.x || camCell.z != currentCell.z) {
     this.updateChildrens(camCell);
     for (    TerrainGridListener l : this.listeners.values()) {

@@ -2,6 +2,7 @@
   loadHintText();
   initCrossHairs();
   setupKeys();
+  createMarker();
   matWire=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
   matWire.getAdditionalRenderState().setWireframe(true);
   matWire.setColor("Color",ColorRGBA.Green);
@@ -13,5 +14,5 @@
   ambLight.setColor(new ColorRGBA(1f,1f,0.8f,0.2f));
   rootNode.addLight(ambLight);
   cam.setLocation(new Vector3f(0,256,0));
-  cam.lookAtDirection(new Vector3f(0,-1.5f,-1).normalizeLocal(),Vector3f.UNIT_Y);
+  cam.lookAtDirection(new Vector3f(0,-1f,0).normalizeLocal(),Vector3f.UNIT_X);
 }

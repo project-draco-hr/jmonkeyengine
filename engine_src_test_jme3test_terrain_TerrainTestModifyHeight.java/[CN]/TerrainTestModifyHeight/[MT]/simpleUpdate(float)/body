@@ -11,4 +11,9 @@
       adjustHeight(intersection,64,-tpf * 60);
     }
   }
+  if (terrain != null && intersection != null) {
+    float h=terrain.getHeight(new Vector2f(intersection.x,intersection.z));
+    Vector3f tl=terrain.getWorldTranslation();
+    marker.setLocalTranslation(tl.add(new Vector3f(intersection.x,h,intersection.z)));
+  }
 }
