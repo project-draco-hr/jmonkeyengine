@@ -7,4 +7,9 @@
   mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
   marker.setMaterial(mat);
   rootNode.attachChild(marker);
+  Arrow arrow=new Arrow(new Vector3f(0,1,0));
+  markerNormal=new Geometry("MarkerNormal");
+  markerNormal.setMesh(arrow);
+  markerNormal.setMaterial(mat);
+  rootNode.attachChild(markerNormal);
 }

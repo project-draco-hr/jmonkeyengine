@@ -1,7 +1,6 @@
 {
   float x=(float)(((xz.x - getLocalTranslation().x) / getLocalScale().x) + (float)totalSize / 2f);
   float z=(float)(((xz.y - getLocalTranslation().z) / getLocalScale().z) + (float)totalSize / 2f);
-  float height=getHeight(x,z);
-  height*=getLocalScale().y;
-  return height;
+  Vector3f normal=getNormal(x,z,xz);
+  return normal;
 }

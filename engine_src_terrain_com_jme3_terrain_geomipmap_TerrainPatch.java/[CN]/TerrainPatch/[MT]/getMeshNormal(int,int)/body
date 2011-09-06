@@ -1,0 +1,10 @@
+{
+  if (x >= size || z >= size)   return null;
+  int index=(z * size + x) * 3;
+  FloatBuffer nb=(FloatBuffer)this.getMesh().getBuffer(Type.Normal).getData();
+  Vector3f normal=new Vector3f();
+  normal.x=nb.get(index);
+  normal.y=nb.get(index + 1);
+  normal.z=nb.get(index + 2);
+  return normal;
+}
