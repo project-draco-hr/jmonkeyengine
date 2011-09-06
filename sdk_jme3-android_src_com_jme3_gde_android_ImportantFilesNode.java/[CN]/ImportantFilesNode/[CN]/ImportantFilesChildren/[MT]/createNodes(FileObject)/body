@@ -1,0 +1,10 @@
+{
+  try {
+    DataObject obj=DataObject.find(key);
+    return new Node[]{obj.getNodeDelegate()};
+  }
+ catch (  DataObjectNotFoundException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return new Node[]{};
+}
