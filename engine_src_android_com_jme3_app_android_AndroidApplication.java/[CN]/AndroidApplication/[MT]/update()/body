@@ -22,7 +22,7 @@
   rootNode.updateGeometricState();
   guiNode.updateGeometricState();
   stateManager.render(renderManager);
-  renderManager.render(tpf,true);
+  renderManager.render(tpf,context.isRenderable());
   render(renderManager);
   stateManager.postRender();
 }

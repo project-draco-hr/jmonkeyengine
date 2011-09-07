@@ -19,13 +19,8 @@ result=new SpotLight();
 float outerAngle=((Number)structure.getFieldValue("spotsize")).floatValue() * FastMath.DEG_TO_RAD;
 ((SpotLight)result).setSpotOuterAngle(outerAngle);
 float spotblend=((Number)structure.getFieldValue("spotblend")).floatValue();
-if (spotblend > 1.0f) {
-spotblend=1.0f;
-}
-if (spotblend < 0.0f) {
-spotblend=0.0f;
-}
-float innerAngle=2.0f * (float)Math.atan((1.0f - spotblend) * Math.tan(spotblend / 2.0f));
+spotblend=FastMath.clamp(spotblend,0,1);
+float innerAngle=outerAngle * (1 - spotblend);
 ((SpotLight)result).setSpotInnerAngle(innerAngle);
 break;
 case 3:
