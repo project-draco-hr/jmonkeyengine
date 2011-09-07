@@ -1,29 +1,22 @@
 {
   try {
-    if (!needClose.get()) {
-      makePbufferAvailable();
-      pbuffer.makeCurrent();
-      renderer.invalidateState();
-    }
- else {
-      if (pbuffer != null && !pbuffer.isBufferLost()) {
-        pbuffer.destroy();
-        pbuffer=null;
-      }
+    if (!USE_SHARED_CONTEXT) {
+      renderer.cleanup();
     }
     if (Display.isCreated()) {
       if (Keyboard.isCreated()) {
         Keyboard.destroy();
       }
-      try {
-        if (JmeSystem.getPlatform() == Platform.Windows32 || JmeSystem.getPlatform() == Platform.Windows64) {
-          Display.setParent(null);
-        }
-      }
- catch (      LWJGLException ex) {
-        logger.log(Level.SEVERE,"Encountered exception when setting parent to null",ex);
+      if (JmeSystem.getPlatform() == Platform.Windows32 || JmeSystem.getPlatform() == Platform.Windows64) {
       }
       Display.destroy();
+    }
+    if (!needClose.get()) {
+      makePbufferAvailable();
+      renderer.invalidateState();
+    }
+ else {
+      destroyPbuffer();
     }
   }
  catch (  LWJGLException ex) {

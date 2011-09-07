@@ -11,6 +11,8 @@
  else   if (needClose.get()) {
     return;
   }
-  logger.log(Level.INFO,"EDT: Notifying OGL that canvas is visible..");
-  needRestoreCanvas.set(true);
+  logger.log(Level.INFO,"EDT: Telling OGL to create display ..");
+synchronized (taskLock) {
+    desiredTask=TASK_CREATE_DISPLAY;
+  }
 }

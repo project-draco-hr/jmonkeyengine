@@ -1,6 +1,4 @@
 {
   if (bool == null || bool.equals(""))   return def;
- else   if (bool.equals("false"))   return false;
- else   if (bool.equals("true"))   return true;
- else   throw new SAXException("Expected a boolean, got'" + bool + "'");
+ else   return Boolean.valueOf(bool);
 }

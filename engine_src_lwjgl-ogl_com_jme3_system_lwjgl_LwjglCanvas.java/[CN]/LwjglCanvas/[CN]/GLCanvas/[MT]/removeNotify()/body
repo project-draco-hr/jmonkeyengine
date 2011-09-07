@@ -4,18 +4,20 @@
     super.removeNotify();
     return;
   }
-  logger.log(Level.INFO,"EDT: Notifying OGL that canvas is about to become invisible..");
-  needDestroyCanvas.set(true);
-  try {
-    actionRequiredBarrier.await();
+  logger.log(Level.INFO,"EDT: Telling OGL to destroy display ..");
+synchronized (taskLock) {
+    desiredTask=TASK_DESTROY_DISPLAY;
+    while (desiredTask != TASK_COMPLETE) {
+      try {
+        taskLock.wait();
+      }
+ catch (      InterruptedException ex) {
+        super.removeNotify();
+        return;
+      }
+    }
+    desiredTask=TASK_NOTHING;
   }
- catch (  InterruptedException ex) {
-    logger.log(Level.SEVERE,"EDT: Interrupted! ",ex);
-  }
-catch (  BrokenBarrierException ex) {
-    logger.log(Level.SEVERE,"EDT: Broken barrier! ",ex);
-  }
-  actionRequiredBarrier.reset();
   logger.log(Level.INFO,"EDT: Acknowledged receipt of canvas death");
   super.removeNotify();
 }

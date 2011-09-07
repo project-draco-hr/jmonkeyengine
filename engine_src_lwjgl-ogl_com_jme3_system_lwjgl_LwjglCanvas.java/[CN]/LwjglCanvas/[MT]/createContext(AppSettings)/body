@@ -1,18 +1,33 @@
 {
   frameRate=settings.getFrameRate();
   try {
-    makePbufferAvailable();
     if (renderable.get()) {
-      if (pbuffer.isCurrent()) {
-        pbuffer.releaseContext();
+      if (!runningFirstTime) {
+        if (!USE_SHARED_CONTEXT) {
+          renderer.cleanup();
+        }
+      }
+      destroyPbuffer();
+      if (Keyboard.isCreated()) {
+        Keyboard.destroy();
+      }
+      try {
+        Thread.sleep(1000);
+      }
+ catch (      InterruptedException ex) {
       }
       Display.setVSyncEnabled(settings.isVSync());
       Display.setParent(canvas);
-      Display.create(acquirePixelFormat(false),pbuffer);
+      if (USE_SHARED_CONTEXT) {
+        Display.create(acquirePixelFormat(false),pbuffer);
+      }
+ else {
+        Display.create(acquirePixelFormat(false));
+      }
       renderer.invalidateState();
     }
  else {
-      pbuffer.makeCurrent();
+      makePbufferAvailable();
     }
     if (runningFirstTime) {
       initContextFirstTime();

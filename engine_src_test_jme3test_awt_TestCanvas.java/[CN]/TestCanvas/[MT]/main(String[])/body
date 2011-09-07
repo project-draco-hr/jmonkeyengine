@@ -4,12 +4,17 @@
   consoleHandler.setFormatter(formatter);
   Logger.getLogger("").removeHandler(Logger.getLogger("").getHandlers()[0]);
   Logger.getLogger("").addHandler(consoleHandler);
+  createCanvas(appClass);
+  try {
+    Thread.sleep(500);
+  }
+ catch (  InterruptedException ex) {
+  }
   SwingUtilities.invokeLater(new Runnable(){
     public void run(){
       JPopupMenu.setDefaultLightWeightPopupEnabled(false);
       createFrame();
-      createCanvas(appClass);
-      frame.getContentPane().add(canvas);
+      currentPanel.add(canvas,BorderLayout.CENTER);
       frame.pack();
       startApp();
       frame.setLocationRelativeTo(null);

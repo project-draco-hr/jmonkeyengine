@@ -1,2 +1,41 @@
 {
+  if (qName.equals("node")) {
+    node=node.getParent();
+  }
+ else   if (qName.equals("nodes")) {
+    node=null;
+  }
+ else   if (qName.equals("entity")) {
+    node=entityNode.getParent();
+    entityNode=null;
+  }
+ else   if (qName.equals("light")) {
+    root.updateGeometricState();
+    if (light != null) {
+      if (light instanceof DirectionalLight) {
+        DirectionalLight dl=(DirectionalLight)light;
+        Quaternion q=node.getWorldRotation();
+        Vector3f dir=dl.getDirection();
+        q.multLocal(dir);
+        dl.setDirection(dir);
+      }
+ else       if (light instanceof PointLight) {
+        PointLight pl=(PointLight)light;
+        Vector3f pos=node.getWorldTranslation();
+        pl.setPosition(pos);
+      }
+ else       if (light instanceof SpotLight) {
+        SpotLight sl=(SpotLight)light;
+        Vector3f pos=node.getWorldTranslation();
+        sl.setPosition(pos);
+        Quaternion q=node.getWorldRotation();
+        Vector3f dir=sl.getDirection();
+        q.multLocal(dir);
+        sl.setDirection(dir);
+      }
+    }
+    light=null;
+  }
+  checkTopNode(qName);
+  elementStack.pop();
 }

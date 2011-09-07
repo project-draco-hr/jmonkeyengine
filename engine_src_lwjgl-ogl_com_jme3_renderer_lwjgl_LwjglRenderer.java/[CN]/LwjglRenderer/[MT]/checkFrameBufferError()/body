@@ -8,7 +8,7 @@ case GL_FRAMEBUFFER_UNSUPPORTED_EXT:
 case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT:
 throw new IllegalStateException("Framebuffer has erronous attachment.");
 case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT:
-throw new IllegalStateException("Framebuffer is missing required attachment.");
+throw new IllegalStateException("Framebuffer doesn't have any renderbuffers attached.");
 case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
 throw new IllegalStateException("Framebuffer attachments must have same dimensions.");
 case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT:

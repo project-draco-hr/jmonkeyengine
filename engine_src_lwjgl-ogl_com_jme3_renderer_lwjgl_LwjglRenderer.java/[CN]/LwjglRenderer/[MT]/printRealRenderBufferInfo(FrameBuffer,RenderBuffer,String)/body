@@ -1,0 +1,20 @@
+{
+  System.out.println("== Renderbuffer " + name + " ==");
+  System.out.println("RB ID: " + rb.getId());
+  System.out.println("Is proper? " + glIsRenderbufferEXT(rb.getId()));
+  int attachment=convertAttachmentSlot(rb.getSlot());
+  int type=glGetFramebufferAttachmentParameterEXT(GL_DRAW_FRAMEBUFFER_EXT,attachment,GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE_EXT);
+  int rbName=glGetFramebufferAttachmentParameterEXT(GL_DRAW_FRAMEBUFFER_EXT,attachment,GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME_EXT);
+switch (type) {
+case GL_NONE:
+    System.out.println("Type: None");
+  return;
+case GL_TEXTURE:
+System.out.println("Type: Texture");
+break;
+case GL_RENDERBUFFER_EXT:
+System.out.println("Type: Buffer");
+System.out.println("RB ID: " + rbName);
+break;
+}
+}

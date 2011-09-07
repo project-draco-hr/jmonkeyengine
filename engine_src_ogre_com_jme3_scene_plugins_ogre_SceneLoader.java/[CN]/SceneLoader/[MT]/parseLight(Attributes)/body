@@ -1,2 +1,22 @@
 {
+  if (node == null || node.getParent() == null)   throw new SAXException("dotScene parse error: light can only appear under a node");
+  checkTopNode("node");
+  String lightType=parseString(attribs.getValue("type"),"point");
+  if (lightType.equals("point")) {
+    light=new PointLight();
+  }
+ else   if (lightType.equals("directional") || lightType.equals("sun")) {
+    light=new DirectionalLight();
+    ((DirectionalLight)light).setDirection(Vector3f.UNIT_Z);
+  }
+ else   if (lightType.equals("spotLight") || lightType.equals("spot")) {
+    light=new SpotLight();
+  }
+ else {
+    logger.log(Level.WARNING,"No matching jME3 LightType found for OGRE LightType: {0}",lightType);
+  }
+  logger.log(Level.FINEST,"{0} created.",light);
+  if (!parseBool(attribs.getValue("visible"),true)) {
+  }
+  if (light != null)   node.getParent().addLight(light);
 }

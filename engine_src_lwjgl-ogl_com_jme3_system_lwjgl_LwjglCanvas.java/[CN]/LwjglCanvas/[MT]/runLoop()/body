@@ -1,31 +1,38 @@
 {
-  if (needDestroyCanvas.getAndSet(false)) {
-    logger.log(Level.INFO,"OGL: Received destroy request! Complying..");
-    try {
-      listener.loseFocus();
-      pauseCanvas();
-    }
-  finally {
-      try {
-        actionRequiredBarrier.await();
-      }
- catch (      InterruptedException ex) {
-        logger.log(Level.SEVERE,"OGL: Interrupted! ",ex);
-      }
-catch (      BrokenBarrierException ex) {
-        logger.log(Level.SEVERE,"OGL: Broken barrier! ",ex);
-      }
-    }
-  }
- else   if (needRestoreCanvas.getAndSet(false)) {
-    logger.log(Level.INFO,"OGL: Canvas is now visible! Re-initializing..");
-    restoreCanvas();
+  if (desiredTask != TASK_NOTHING) {
+synchronized (taskLock) {
+switch (desiredTask) {
+case TASK_CREATE_DISPLAY:
+        logger.log(Level.INFO,"OGL: Creating display ..");
+      restoreCanvas();
     listener.gainFocus();
-  }
-  if (width != canvas.getWidth() || height != canvas.getHeight()) {
-    width=canvas.getWidth();
-    height=canvas.getHeight();
-    if (listener != null)     listener.reshape(width,height);
-  }
-  super.runLoop();
+  desiredTask=TASK_NOTHING;
+break;
+case TASK_DESTROY_DISPLAY:
+logger.log(Level.INFO,"OGL: Destroying display ..");
+listener.loseFocus();
+pauseCanvas();
+break;
+}
+desiredTask=TASK_COMPLETE;
+taskLock.notifyAll();
+}
+}
+if (renderable.get()) {
+int newWidth=Math.max(canvas.getWidth(),1);
+int newHeight=Math.max(canvas.getHeight(),1);
+if (width != newWidth || height != newHeight) {
+width=newWidth;
+height=newHeight;
+if (listener != null) {
+listener.reshape(width,height);
+}
+}
+}
+ else {
+if (frameRate <= 0) {
+Display.sync(30);
+}
+}
+super.runLoop();
 }

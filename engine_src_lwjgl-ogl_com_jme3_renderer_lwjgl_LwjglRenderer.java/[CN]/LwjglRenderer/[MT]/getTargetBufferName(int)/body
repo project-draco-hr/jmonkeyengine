@@ -1,0 +1,17 @@
+{
+switch (buffer) {
+case GL_NONE:
+    return "NONE";
+case GL_FRONT:
+  return "GL_FRONT";
+case GL_BACK:
+return "GL_BACK";
+default :
+if (buffer >= GL_COLOR_ATTACHMENT0_EXT && buffer <= GL_COLOR_ATTACHMENT15_EXT) {
+return "GL_COLOR_ATTACHMENT" + (buffer - GL_COLOR_ATTACHMENT0_EXT);
+}
+ else {
+return "UNKNOWN? " + buffer;
+}
+}
+}
