@@ -28,7 +28,7 @@
     if (mainAct != null) {
       lock=mainAct.lock();
       OutputStreamWriter out=new OutputStreamWriter(new BufferedOutputStream(mainAct.getOutputStream(lock)));
-      out.write(mainActivityString(mainJmeClass));
+      out.write(mainActivityString(mainJmeClass,packag));
       out.close();
       lock.releaseLock();
     }
