@@ -33,7 +33,7 @@
       lock.releaseLock();
     }
  else {
-      throw new IOException("Cannot find " + mainAct);
+      throw new IOException("Cannot find " + mainActName);
     }
   }
  catch (  InterruptedException ex) {
@@ -45,4 +45,5 @@ catch (  IOException ex) {
     }
     Exceptions.printStackTrace(ex);
   }
+  updateAndroidManifest(project);
 }

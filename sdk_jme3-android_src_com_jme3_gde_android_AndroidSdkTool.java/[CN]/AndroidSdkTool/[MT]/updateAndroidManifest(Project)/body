@@ -1,0 +1,52 @@
+{
+  FileObject manifest=project.getProjectDirectory().getFileObject("mobile/AndroidManifest.xml");
+  if (manifest == null) {
+    return;
+  }
+  InputStream in=null;
+  FileLock lock=null;
+  OutputStream out=null;
+  try {
+    in=manifest.getInputStream();
+    Document configuration=XMLUtil.parse(new InputSource(in),false,false,null,null);
+    in.close();
+    in=null;
+    Element sdkElement=XmlHelper.findChildElement(configuration.getDocumentElement(),"uses-sdk");
+    if (sdkElement == null) {
+      sdkElement=configuration.createElement("uses-sdk");
+      configuration.getDocumentElement().appendChild(sdkElement);
+    }
+    if (!sdkElement.getAttribute("android:minSdkVersion").equals("8")) {
+      sdkElement.setAttribute("android:minSdkVersion","8");
+      lock=manifest.lock();
+      out=manifest.getOutputStream(lock);
+      XMLUtil.write(configuration,out,"UTF-8");
+      out.close();
+      out=null;
+      lock.releaseLock();
+      lock=null;
+    }
+  }
+ catch (  SAXException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+ finally {
+    if (lock != null) {
+      lock.releaseLock();
+    }
+    try {
+      if (in != null) {
+        in.close();
+      }
+      if (out != null) {
+        out.close();
+      }
+    }
+ catch (    IOException ex1) {
+      Exceptions.printStackTrace(ex1);
+    }
+  }
+}
