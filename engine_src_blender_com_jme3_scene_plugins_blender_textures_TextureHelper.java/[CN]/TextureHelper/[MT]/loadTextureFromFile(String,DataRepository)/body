@@ -4,8 +4,7 @@
   Texture result=null;
   List<String> assetNames=new ArrayList<String>();
   if (name.startsWith("//")) {
-    String relativePath=name.substring(1);
-    assetNames.add(relativePath);
+    String relativePath=name.substring(2);
     BlenderKey blenderKey=dataRepository.getBlenderKey();
     String blenderAssetFolder=blenderKey.getName().substring(0,blenderKey.getName().lastIndexOf('/'));
     assetNames.add(blenderAssetFolder + '/' + relativePath);
@@ -17,7 +16,7 @@
     for (int i=paths.length - 2; i >= 0; --i) {
       sb.insert(0,'/');
       sb.insert(0,paths[i]);
-      assetNames.add(sb.toString());
+      assetNames.add(0,sb.toString());
     }
   }
   for (  String assetName : assetNames) {
