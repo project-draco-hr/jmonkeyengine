@@ -1,0 +1,10 @@
+{
+  if (audioMarkerMaterial == null) {
+    Material mat=new Material(manager,"Common/MatDefs/Misc/Unshaded.j3md");
+    Texture tex=manager.loadTexture("com/jme3/gde/scenecomposer/audionode.gif");
+    mat.setTexture("ColorMap",tex);
+    mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+    audioMarkerMaterial=mat;
+  }
+  return audioMarkerMaterial;
+}

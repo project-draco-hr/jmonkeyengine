@@ -1,5 +1,8 @@
 {
   for (  Light light : parent.getLocalLightList())   addLightMarker(light);
+  if (parent instanceof AudioNode) {
+    addAudioMarker((AudioNode)parent);
+  }
   for (  Spatial s : parent.getChildren()) {
     if (s instanceof Node)     addMarkers((Node)s);
  else {

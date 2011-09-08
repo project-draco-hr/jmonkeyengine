@@ -1,0 +1,8 @@
+{
+  Spatial s=nonSpatialMarkersNode.getChild(audio.getName());
+  if (s != null) {
+    return;
+  }
+  AudioMarker am=new AudioMarker(audio);
+  nonSpatialMarkersNode.attachChild(am);
+}
