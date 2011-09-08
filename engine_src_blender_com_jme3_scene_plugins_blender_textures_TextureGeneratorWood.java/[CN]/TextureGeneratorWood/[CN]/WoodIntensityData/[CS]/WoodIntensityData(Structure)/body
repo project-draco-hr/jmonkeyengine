@@ -1,0 +1,13 @@
+{
+  int waveform=((Number)tex.getFieldValue("noisebasis2")).intValue();
+  if (waveform > TEX_TRI || waveform < TEX_SIN) {
+    waveform=0;
+  }
+  waveformFunction=waveformFunctions[waveform];
+  noisebasis=((Number)tex.getFieldValue("noisebasis")).intValue();
+  woodType=((Number)tex.getFieldValue("stype")).intValue();
+  noisesize=((Number)tex.getFieldValue("noisesize")).floatValue();
+  turbul=((Number)tex.getFieldValue("turbul")).floatValue();
+  noiseType=((Number)tex.getFieldValue("noisetype")).intValue();
+  isHard=noiseType != TEX_NOISESOFT;
+}

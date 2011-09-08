@@ -1,0 +1,18 @@
+{
+  int A, AA, AB, B, BA, BB;
+  float floorX=(float)Math.floor(x), floorY=(float)Math.floor(y), floorZ=(float)Math.floor(z);
+  int intX=(int)floorX & 0xFF, intY=(int)floorY & 0xFF, intZ=(int)floorZ & 0xFF;
+  x-=floorX;
+  y-=floorY;
+  z-=floorZ;
+  floorX=NoiseMath.npfade(x);
+  floorY=NoiseMath.npfade(y);
+  floorZ=NoiseMath.npfade(z);
+  A=hash[intX] + intY;
+  AA=hash[A] + intZ;
+  AB=hash[A + 1] + intZ;
+  B=hash[intX + 1] + intY;
+  BA=hash[B] + intZ;
+  BB=hash[B + 1] + intZ;
+  return NoiseMath.lerp(floorZ,NoiseMath.lerp(floorY,NoiseMath.lerp(floorX,NoiseMath.grad(hash[AA],x,y,z),NoiseMath.grad(hash[BA],x - 1,y,z)),NoiseMath.lerp(floorX,NoiseMath.grad(hash[AB],x,y - 1,z),NoiseMath.grad(hash[BB],x - 1,y - 1,z))),NoiseMath.lerp(floorY,NoiseMath.lerp(floorX,NoiseMath.grad(hash[AA + 1],x,y,z - 1),NoiseMath.grad(hash[BA + 1],x - 1,y,z - 1)),NoiseMath.lerp(floorX,NoiseMath.grad(hash[AB + 1],x,y - 1,z - 1),NoiseMath.grad(hash[BB + 1],x - 1,y - 1,z - 1))));
+}

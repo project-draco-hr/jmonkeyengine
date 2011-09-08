@@ -1,0 +1,20 @@
+{
+  NoiseFunction abstractNoiseFunc=noiseFunctions.get(Integer.valueOf(noiseBasis));
+  if (abstractNoiseFunc == null) {
+    abstractNoiseFunc=noiseFunctions.get(0);
+    noiseBasis=0;
+  }
+  if (noiseBasis == 0) {
+    ++x;
+    ++y;
+    ++z;
+  }
+  if (noiseSize != 0.0) {
+    noiseSize=1.0f / noiseSize;
+    x*=noiseSize;
+    y*=noiseSize;
+    z*=noiseSize;
+  }
+  float result=abstractNoiseFunc.execute(x,y,z);
+  return isHard ? Math.abs(2.0f * result - 1.0f) : result;
+}

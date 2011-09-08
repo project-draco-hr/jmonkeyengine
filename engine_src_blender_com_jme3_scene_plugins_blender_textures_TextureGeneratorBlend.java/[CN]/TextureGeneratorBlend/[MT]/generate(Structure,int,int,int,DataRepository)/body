@@ -1,88 +1,45 @@
 {
   int flag=((Number)tex.getFieldValue("flag")).intValue();
   int stype=((Number)tex.getFieldValue("stype")).intValue();
-  float contrast=((Number)tex.getFieldValue("contrast")).floatValue();
-  float brightness=((Number)tex.getFieldValue("bright")).floatValue();
-  float wDelta=1.0f / width, hDelta=1.0f / height, dDelta=1.0f / depth, x, y, t;
-  float[] texvec=new float[]{0,0,0};
-  TexResult texres=new TexResult();
-  int halfW=width, halfH=height, halfD=depth;
-  width<<=1;
-  height<<=1;
-  depth<<=1;
-  ColorBand colorBand=this.readColorband(tex,dataRepository);
+  TextureResult texres=new TextureResult();
+  int halfW=width >> 1, halfH=height >> 1, halfD=depth >> 1, index=0;
+  float wDelta=1.0f / halfW, hDelta=1.0f / halfH, dDelta=1.0f / halfD, x, y;
+  float[][] colorBand=this.computeColorband(tex,dataRepository);
+  BrightnessAndContrastData bacd=new BrightnessAndContrastData(tex);
   Format format=colorBand != null ? Format.RGB8 : Format.Luminance8;
   int bytesPerPixel=colorBand != null ? 3 : 1;
-  ByteBuffer data=BufferUtils.createByteBuffer(width * height * depth* bytesPerPixel);
+  boolean flipped=(flag & NoiseGenerator.TEX_FLIPBLEND) != 0;
+  byte[] data=new byte[width * height * depth* bytesPerPixel];
   for (int i=-halfW; i < halfW; ++i) {
-    texvec[0]=wDelta * i;
+    x=wDelta * i;
     for (int j=-halfH; j < halfH; ++j) {
-      texvec[1]=hDelta * j;
+      if (flipped) {
+        y=x;
+        x=hDelta * j;
+      }
+ else {
+        y=hDelta * j;
+      }
       for (int k=-halfD; k < halfD; ++k) {
-        texvec[2]=dDelta * k;
-        if ((flag & NoiseGenerator.TEX_FLIPBLEND) != 0) {
-          x=texvec[1];
-          y=texvec[0];
-        }
- else {
-          x=texvec[0];
-          y=texvec[1];
-        }
-        if (stype == NoiseGenerator.TEX_LIN) {
-          texres.tin=(1.0f + x) / 2.0f;
-        }
- else         if (stype == NoiseGenerator.TEX_QUAD) {
-          texres.tin=(1.0f + x) / 2.0f;
-          if (texres.tin < 0.0f) {
-            texres.tin=0.0f;
-          }
- else {
-            texres.tin*=texres.tin;
-          }
-        }
- else         if (stype == NoiseGenerator.TEX_EASE) {
-          texres.tin=(1.0f + x) / 2.0f;
-          if (texres.tin <= 0.0f) {
-            texres.tin=0.0f;
-          }
- else           if (texres.tin >= 1.0f) {
-            texres.tin=1.0f;
-          }
- else {
-            t=texres.tin * texres.tin;
-            texres.tin=3.0f * t - 2.0f * t * texres.tin;
-          }
-        }
- else         if (stype == NoiseGenerator.TEX_DIAG) {
-          texres.tin=(2.0f + x + y) / 4.0f;
-        }
- else         if (stype == NoiseGenerator.TEX_RAD) {
-          texres.tin=(float)Math.atan2(y,x) / FastMath.TWO_PI + 0.5f;
-        }
- else {
-          texres.tin=1.0f - (float)Math.sqrt(x * x + y * y + texvec[2] * texvec[2]);
-          if (texres.tin < 0.0f) {
-            texres.tin=0.0f;
-          }
-          if (stype == NoiseGenerator.TEX_HALO) {
-            texres.tin*=texres.tin;
-          }
-        }
+        texres.intensity=INTENSITY_FUNCTION[stype].getIntensity(x,y,dDelta * k);
         if (colorBand != null) {
-          noiseGenerator.doColorband(colorBand,texres,dataRepository);
-          noiseGenerator.brightnesAndContrastRGB(tex,texres);
-          data.put((byte)(texres.tr * 255.0f));
-          data.put((byte)(texres.tg * 255.0f));
-          data.put((byte)(texres.tb * 255.0f));
+          int colorbandIndex=(int)(texres.intensity * 1000.0f);
+          texres.red=colorBand[colorbandIndex][0];
+          texres.green=colorBand[colorbandIndex][1];
+          texres.blue=colorBand[colorbandIndex][2];
+          this.applyBrightnessAndContrast(bacd,texres);
+          data[index++]=(byte)(texres.red * 255.0f);
+          data[index++]=(byte)(texres.green * 255.0f);
+          data[index++]=(byte)(texres.blue * 255.0f);
         }
  else {
-          noiseGenerator.brightnesAndContrast(texres,contrast,brightness);
-          data.put((byte)(texres.tin * 255.0f));
+          this.applyBrightnessAndContrast(texres,bacd.contrast,bacd.brightness);
+          data[index++]=(byte)(texres.intensity * 255.0f);
         }
       }
     }
   }
   ArrayList<ByteBuffer> dataArray=new ArrayList<ByteBuffer>(1);
-  dataArray.add(data);
+  dataArray.add(BufferUtils.createByteBuffer(data));
   return new Texture3D(new Image(format,width,height,depth,dataArray));
 }

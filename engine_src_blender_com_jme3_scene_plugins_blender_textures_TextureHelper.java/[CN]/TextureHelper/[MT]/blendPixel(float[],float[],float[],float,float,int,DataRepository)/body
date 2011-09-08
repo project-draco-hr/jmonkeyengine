@@ -1,64 +1,59 @@
 {
-  float facm, col;
+  float oneMinusFactor, col;
+  textureIntensity*=textureFactor;
 switch (blendtype) {
 case MTEX_BLEND:
-    textureIntensity*=textureFactor;
-  facm=1.0f - textureIntensity;
-result[0]=textureIntensity * color[0] + facm * materialColor[0];
-result[1]=textureIntensity * color[1] + facm * materialColor[1];
-result[2]=textureIntensity * color[2] + facm * materialColor[2];
+    oneMinusFactor=1.0f - textureIntensity;
+  result[0]=textureIntensity * color[0] + oneMinusFactor * materialColor[0];
+result[1]=textureIntensity * color[1] + oneMinusFactor * materialColor[1];
+result[2]=textureIntensity * color[2] + oneMinusFactor * materialColor[2];
 break;
 case MTEX_MUL:
-textureIntensity*=textureFactor;
-facm=1.0f - textureFactor;
-result[0]=(facm + textureIntensity * materialColor[0]) * color[0];
-result[1]=(facm + textureIntensity * materialColor[1]) * color[1];
-result[2]=(facm + textureIntensity * materialColor[2]) * color[2];
+oneMinusFactor=1.0f - textureFactor;
+result[0]=(oneMinusFactor + textureIntensity * materialColor[0]) * color[0];
+result[1]=(oneMinusFactor + textureIntensity * materialColor[1]) * color[1];
+result[2]=(oneMinusFactor + textureIntensity * materialColor[2]) * color[2];
 break;
 case MTEX_DIV:
-textureIntensity*=textureFactor;
-facm=1.0f - textureIntensity;
+oneMinusFactor=1.0f - textureIntensity;
 if (color[0] != 0.0) {
-result[0]=(facm * materialColor[0] + textureIntensity * materialColor[0] / color[0]) * 0.5f;
+result[0]=(oneMinusFactor * materialColor[0] + textureIntensity * materialColor[0] / color[0]) * 0.5f;
 }
 if (color[1] != 0.0) {
-result[1]=(facm * materialColor[1] + textureIntensity * materialColor[1] / color[1]) * 0.5f;
+result[1]=(oneMinusFactor * materialColor[1] + textureIntensity * materialColor[1] / color[1]) * 0.5f;
 }
 if (color[2] != 0.0) {
-result[2]=(facm * materialColor[2] + textureIntensity * materialColor[2] / color[2]) * 0.5f;
+result[2]=(oneMinusFactor * materialColor[2] + textureIntensity * materialColor[2] / color[2]) * 0.5f;
 }
 break;
 case MTEX_SCREEN:
-textureIntensity*=textureFactor;
-facm=1.0f - textureFactor;
-result[0]=1.0f - (facm + textureIntensity * (1.0f - materialColor[0])) * (1.0f - color[0]);
-result[1]=1.0f - (facm + textureIntensity * (1.0f - materialColor[1])) * (1.0f - color[1]);
-result[2]=1.0f - (facm + textureIntensity * (1.0f - materialColor[2])) * (1.0f - color[2]);
+oneMinusFactor=1.0f - textureFactor;
+result[0]=1.0f - (oneMinusFactor + textureIntensity * (1.0f - materialColor[0])) * (1.0f - color[0]);
+result[1]=1.0f - (oneMinusFactor + textureIntensity * (1.0f - materialColor[1])) * (1.0f - color[1]);
+result[2]=1.0f - (oneMinusFactor + textureIntensity * (1.0f - materialColor[2])) * (1.0f - color[2]);
 break;
 case MTEX_OVERLAY:
-textureIntensity*=textureFactor;
-facm=1.0f - textureFactor;
+oneMinusFactor=1.0f - textureFactor;
 if (materialColor[0] < 0.5f) {
-result[0]=color[0] * (facm + 2.0f * textureIntensity * materialColor[0]);
+result[0]=color[0] * (oneMinusFactor + 2.0f * textureIntensity * materialColor[0]);
 }
  else {
-result[0]=1.0f - (facm + 2.0f * textureIntensity * (1.0f - materialColor[0])) * (1.0f - color[0]);
+result[0]=1.0f - (oneMinusFactor + 2.0f * textureIntensity * (1.0f - materialColor[0])) * (1.0f - color[0]);
 }
 if (materialColor[1] < 0.5f) {
-result[1]=color[1] * (facm + 2.0f * textureIntensity * materialColor[1]);
+result[1]=color[1] * (oneMinusFactor + 2.0f * textureIntensity * materialColor[1]);
 }
  else {
-result[1]=1.0f - (facm + 2.0f * textureIntensity * (1.0f - materialColor[1])) * (1.0f - color[1]);
+result[1]=1.0f - (oneMinusFactor + 2.0f * textureIntensity * (1.0f - materialColor[1])) * (1.0f - color[1]);
 }
 if (materialColor[2] < 0.5f) {
-result[2]=color[2] * (facm + 2.0f * textureIntensity * materialColor[2]);
+result[2]=color[2] * (oneMinusFactor + 2.0f * textureIntensity * materialColor[2]);
 }
  else {
-result[2]=1.0f - (facm + 2.0f * textureIntensity * (1.0f - materialColor[2])) * (1.0f - color[2]);
+result[2]=1.0f - (oneMinusFactor + 2.0f * textureIntensity * (1.0f - materialColor[2])) * (1.0f - color[2]);
 }
 break;
 case MTEX_SUB:
-textureIntensity*=textureFactor;
 result[0]=materialColor[0] - textureIntensity * color[0];
 result[1]=materialColor[1] - textureIntensity * color[1];
 result[2]=materialColor[2] - textureIntensity * color[2];
@@ -67,20 +62,17 @@ result[1]=FastMath.clamp(result[1],0.0f,1.0f);
 result[2]=FastMath.clamp(result[2],0.0f,1.0f);
 break;
 case MTEX_ADD:
-textureIntensity*=textureFactor;
 result[0]=(textureIntensity * color[0] + materialColor[0]) * 0.5f;
 result[1]=(textureIntensity * color[1] + materialColor[1]) * 0.5f;
 result[2]=(textureIntensity * color[2] + materialColor[2]) * 0.5f;
 break;
 case MTEX_DIFF:
-textureIntensity*=textureFactor;
-facm=1.0f - textureIntensity;
-result[0]=facm * color[0] + textureIntensity * Math.abs(materialColor[0] - color[0]);
-result[1]=facm * color[1] + textureIntensity * Math.abs(materialColor[1] - color[1]);
-result[2]=facm * color[2] + textureIntensity * Math.abs(materialColor[2] - color[2]);
+oneMinusFactor=1.0f - textureIntensity;
+result[0]=oneMinusFactor * materialColor[0] + textureIntensity * Math.abs(materialColor[0] - color[0]);
+result[1]=oneMinusFactor * materialColor[1] + textureIntensity * Math.abs(materialColor[1] - color[1]);
+result[2]=oneMinusFactor * materialColor[2] + textureIntensity * Math.abs(materialColor[2] - color[2]);
 break;
 case MTEX_DARK:
-textureIntensity*=textureFactor;
 col=textureIntensity * color[0];
 result[0]=col < materialColor[0] ? col : materialColor[0];
 col=textureIntensity * color[1];
@@ -89,7 +81,6 @@ col=textureIntensity * color[2];
 result[2]=col < materialColor[2] ? col : materialColor[2];
 break;
 case MTEX_LIGHT:
-textureIntensity*=textureFactor;
 col=textureIntensity * color[0];
 result[0]=col > materialColor[0] ? col : materialColor[0];
 col=textureIntensity * color[1];
@@ -98,24 +89,11 @@ col=textureIntensity * color[2];
 result[2]=col > materialColor[2] ? col : materialColor[2];
 break;
 case MTEX_BLEND_HUE:
-textureIntensity*=textureFactor;
-System.arraycopy(materialColor,0,result,0,3);
-this.rampBlend(MA_RAMP_HUE,result,textureIntensity,color,dataRepository);
-break;
 case MTEX_BLEND_SAT:
-textureIntensity*=textureFactor;
-System.arraycopy(materialColor,0,result,0,3);
-this.rampBlend(MA_RAMP_SAT,result,textureIntensity,color,dataRepository);
-break;
 case MTEX_BLEND_VAL:
-textureIntensity*=textureFactor;
-System.arraycopy(materialColor,0,result,0,3);
-this.rampBlend(MA_RAMP_VAL,result,textureIntensity,color,dataRepository);
-break;
 case MTEX_BLEND_COLOR:
-textureIntensity*=textureFactor;
 System.arraycopy(materialColor,0,result,0,3);
-this.rampBlend(MA_RAMP_COLOR,result,textureIntensity,color,dataRepository);
+this.rampBlend(blendtype,result,textureIntensity,color,dataRepository);
 break;
 default :
 throw new IllegalStateException("Unknown blend type: " + blendtype);

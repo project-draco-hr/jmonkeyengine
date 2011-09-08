@@ -1,250 +1,60 @@
 {
-  float tmp, facm=1.0f - fac;
+  float oneMinusFactor=1.0f - fac;
   MaterialHelper materialHelper=dataRepository.getHelper(MaterialHelper.class);
+  if (rgb.length >= 3) {
 switch (type) {
-case MA_RAMP_HUE:
-    if (rgb.length == 3) {
-      float[] colorTransformResult=new float[3];
-      materialHelper.rgbToHsv(col[0],col[1],col[2],colorTransformResult);
-      if (colorTransformResult[1] != 0.0f) {
-        float colH=colorTransformResult[0];
-        materialHelper.rgbToHsv(rgb[0],rgb[1],rgb[2],colorTransformResult);
-        materialHelper.hsvToRgb(colH,colorTransformResult[1],colorTransformResult[2],colorTransformResult);
-        rgb[0]=facm * rgb[0] + fac * colorTransformResult[0];
-        rgb[1]=facm * rgb[1] + fac * colorTransformResult[1];
-        rgb[2]=facm * rgb[2] + fac * colorTransformResult[2];
+case MTEX_BLEND_HUE:
+{
+        float[] colorTransformResult=new float[3];
+        materialHelper.rgbToHsv(col[0],col[1],col[2],colorTransformResult);
+        if (colorTransformResult[1] != 0.0f) {
+          float colH=colorTransformResult[0];
+          materialHelper.rgbToHsv(rgb[0],rgb[1],rgb[2],colorTransformResult);
+          materialHelper.hsvToRgb(colH,colorTransformResult[1],colorTransformResult[2],colorTransformResult);
+          rgb[0]=oneMinusFactor * rgb[0] + fac * colorTransformResult[0];
+          rgb[1]=oneMinusFactor * rgb[1] + fac * colorTransformResult[1];
+          rgb[2]=oneMinusFactor * rgb[2] + fac * colorTransformResult[2];
+        }
+        break;
       }
+case MTEX_BLEND_SAT:
+{
+      float[] colorTransformResult=new float[3];
+      materialHelper.rgbToHsv(rgb[0],rgb[1],rgb[2],colorTransformResult);
+      float h=colorTransformResult[0];
+      float s=colorTransformResult[1];
+      float v=colorTransformResult[2];
+      if (s != 0.0f) {
+        materialHelper.rgbToHsv(col[0],col[1],col[2],colorTransformResult);
+        materialHelper.hsvToRgb(h,(oneMinusFactor * s + fac * colorTransformResult[1]),v,rgb);
+      }
+      break;
     }
-  break;
-case MA_RAMP_SAT:
-if (rgb.length == 3) {
-  float[] colorTransformResult=new float[3];
-  materialHelper.rgbToHsv(rgb[0],rgb[1],rgb[2],colorTransformResult);
-  float rH=colorTransformResult[0];
-  float rS=colorTransformResult[1];
-  float rV=colorTransformResult[2];
-  if (rS != 0) {
-    materialHelper.rgbToHsv(col[0],col[1],col[2],colorTransformResult);
-    materialHelper.hsvToRgb(rH,(facm * rS + fac * colorTransformResult[1]),rV,rgb);
+case MTEX_BLEND_VAL:
+{
+    float[] rgbToHsv=new float[3];
+    float[] colToHsv=new float[3];
+    materialHelper.rgbToHsv(rgb[0],rgb[1],rgb[2],rgbToHsv);
+    materialHelper.rgbToHsv(col[0],col[1],col[2],colToHsv);
+    materialHelper.hsvToRgb(rgbToHsv[0],rgbToHsv[1],(oneMinusFactor * rgbToHsv[2] + fac * colToHsv[2]),rgb);
+    break;
   }
+case MTEX_BLEND_COLOR:
+{
+  float[] rgbToHsv=new float[3];
+  float[] colToHsv=new float[3];
+  materialHelper.rgbToHsv(col[0],col[1],col[2],colToHsv);
+  if (colToHsv[2] != 0) {
+    materialHelper.rgbToHsv(rgb[0],rgb[1],rgb[2],rgbToHsv);
+    materialHelper.hsvToRgb(colToHsv[0],colToHsv[1],rgbToHsv[2],rgbToHsv);
+    rgb[0]=oneMinusFactor * rgb[0] + fac * rgbToHsv[0];
+    rgb[1]=oneMinusFactor * rgb[1] + fac * rgbToHsv[1];
+    rgb[2]=oneMinusFactor * rgb[2] + fac * rgbToHsv[2];
+  }
+  break;
 }
-break;
-case MA_RAMP_VAL:
-if (rgb.length == 3) {
-float[] rgbToHsv=new float[3];
-float[] colToHsv=new float[3];
-materialHelper.rgbToHsv(rgb[0],rgb[1],rgb[2],rgbToHsv);
-materialHelper.rgbToHsv(col[0],col[1],col[2],colToHsv);
-materialHelper.hsvToRgb(rgbToHsv[0],rgbToHsv[1],(facm * rgbToHsv[2] + fac * colToHsv[2]),rgb);
-}
-break;
-case MA_RAMP_COLOR:
-if (rgb.length == 3) {
-float[] rgbToHsv=new float[3];
-float[] colToHsv=new float[3];
-materialHelper.rgbToHsv(col[0],col[1],col[2],colToHsv);
-if (colToHsv[2] != 0) {
-materialHelper.rgbToHsv(rgb[0],rgb[1],rgb[2],rgbToHsv);
-materialHelper.hsvToRgb(colToHsv[0],colToHsv[1],rgbToHsv[2],rgbToHsv);
-rgb[0]=facm * rgb[0] + fac * rgbToHsv[0];
-rgb[1]=facm * rgb[1] + fac * rgbToHsv[1];
-rgb[2]=facm * rgb[2] + fac * rgbToHsv[2];
-}
-}
-break;
-case MA_RAMP_BLEND:
-rgb[0]=facm * rgb[0] + fac * col[0];
-if (rgb.length == 3) {
-rgb[1]=facm * rgb[1] + fac * col[1];
-rgb[2]=facm * rgb[2] + fac * col[2];
-}
-break;
-case MA_RAMP_ADD:
-rgb[0]+=fac * col[0];
-if (rgb.length == 3) {
-rgb[1]+=fac * col[1];
-rgb[2]+=fac * col[2];
-}
-break;
-case MA_RAMP_MULT:
-rgb[0]*=facm + fac * col[0];
-if (rgb.length == 3) {
-rgb[1]*=facm + fac * col[1];
-rgb[2]*=facm + fac * col[2];
-}
-break;
-case MA_RAMP_SCREEN:
-rgb[0]=1.0f - (facm + fac * (1.0f - col[0])) * (1.0f - rgb[0]);
-if (rgb.length == 3) {
-rgb[1]=1.0f - (facm + fac * (1.0f - col[1])) * (1.0f - rgb[1]);
-rgb[2]=1.0f - (facm + fac * (1.0f - col[2])) * (1.0f - rgb[2]);
-}
-break;
-case MA_RAMP_OVERLAY:
-if (rgb[0] < 0.5f) {
-rgb[0]*=facm + 2.0f * fac * col[0];
-}
- else {
-rgb[0]=1.0f - (facm + 2.0f * fac * (1.0f - col[0])) * (1.0f - rgb[0]);
-}
-if (rgb.length == 3) {
-if (rgb[1] < 0.5f) {
-rgb[1]*=facm + 2.0f * fac * col[1];
-}
- else {
-rgb[1]=1.0f - (facm + 2.0f * fac * (1.0f - col[1])) * (1.0f - rgb[1]);
-}
-if (rgb[2] < 0.5f) {
-rgb[2]*=facm + 2.0f * fac * col[2];
-}
- else {
-rgb[2]=1.0f - (facm + 2.0f * fac * (1.0f - col[2])) * (1.0f - rgb[2]);
-}
-}
-break;
-case MA_RAMP_SUB:
-rgb[0]-=fac * col[0];
-if (rgb.length == 3) {
-rgb[1]-=fac * col[1];
-rgb[2]-=fac * col[2];
-}
-break;
-case MA_RAMP_DIV:
-if (col[0] != 0.0) {
-rgb[0]=facm * rgb[0] + fac * rgb[0] / col[0];
-}
-if (rgb.length == 3) {
-if (col[1] != 0.0) {
-rgb[1]=facm * rgb[1] + fac * rgb[1] / col[1];
-}
-if (col[2] != 0.0) {
-rgb[2]=facm * rgb[2] + fac * rgb[2] / col[2];
-}
-}
-break;
-case MA_RAMP_DIFF:
-rgb[0]=facm * rgb[0] + fac * Math.abs(rgb[0] - col[0]);
-if (rgb.length == 3) {
-rgb[1]=facm * rgb[1] + fac * Math.abs(rgb[1] - col[1]);
-rgb[2]=facm * rgb[2] + fac * Math.abs(rgb[2] - col[2]);
-}
-break;
-case MA_RAMP_DARK:
-tmp=fac * col[0];
-if (tmp < rgb[0]) {
-rgb[0]=tmp;
-}
-if (rgb.length == 3) {
-tmp=fac * col[1];
-if (tmp < rgb[1]) {
-rgb[1]=tmp;
-}
-tmp=fac * col[2];
-if (tmp < rgb[2]) {
-rgb[2]=tmp;
-}
-}
-break;
-case MA_RAMP_LIGHT:
-tmp=fac * col[0];
-if (tmp > rgb[0]) {
-rgb[0]=tmp;
-}
-if (rgb.length == 3) {
-tmp=fac * col[1];
-if (tmp > rgb[1]) {
-rgb[1]=tmp;
-}
-tmp=fac * col[2];
-if (tmp > rgb[2]) {
-rgb[2]=tmp;
-}
-}
-break;
-case MA_RAMP_DODGE:
-if (rgb[0] != 0.0) {
-tmp=1.0f - fac * col[0];
-if (tmp <= 0.0) {
-rgb[0]=1.0f;
-}
- else if ((tmp=rgb[0] / tmp) > 1.0) {
-rgb[0]=1.0f;
-}
- else {
-rgb[0]=tmp;
-}
-}
-if (rgb.length == 3) {
-if (rgb[1] != 0.0) {
-tmp=1.0f - fac * col[1];
-if (tmp <= 0.0) {
-rgb[1]=1.0f;
-}
- else if ((tmp=rgb[1] / tmp) > 1.0) {
-rgb[1]=1.0f;
-}
- else {
-rgb[1]=tmp;
-}
-}
-if (rgb[2] != 0.0) {
-tmp=1.0f - fac * col[2];
-if (tmp <= 0.0) {
-rgb[2]=1.0f;
-}
- else if ((tmp=rgb[2] / tmp) > 1.0) {
-rgb[2]=1.0f;
-}
- else {
-rgb[2]=tmp;
-}
-}
-}
-break;
-case MA_RAMP_BURN:
-tmp=facm + fac * col[0];
-if (tmp <= 0.0) {
-rgb[0]=0.0f;
-}
- else if ((tmp=1.0f - (1.0f - rgb[0]) / tmp) < 0.0) {
-rgb[0]=0.0f;
-}
- else if (tmp > 1.0) {
-rgb[0]=1.0f;
-}
- else {
-rgb[0]=tmp;
-}
-if (rgb.length == 3) {
-tmp=facm + fac * col[1];
-if (tmp <= 0.0) {
-rgb[1]=0.0f;
-}
- else if ((tmp=1.0f - (1.0f - rgb[1]) / tmp) < 0.0) {
-rgb[1]=0.0f;
-}
- else if (tmp > 1.0) {
-rgb[1]=1.0f;
-}
- else {
-rgb[1]=tmp;
-}
-tmp=facm + fac * col[2];
-if (tmp <= 0.0) {
-rgb[2]=0.0f;
-}
- else if ((tmp=1.0f - (1.0f - rgb[2]) / tmp) < 0.0) {
-rgb[2]=0.0f;
-}
- else if (tmp > 1.0) {
-rgb[2]=1.0f;
-}
- else {
-rgb[2]=tmp;
-}
-}
-break;
 default :
 throw new IllegalStateException("Unknown ramp type: " + type);
+}
 }
 }

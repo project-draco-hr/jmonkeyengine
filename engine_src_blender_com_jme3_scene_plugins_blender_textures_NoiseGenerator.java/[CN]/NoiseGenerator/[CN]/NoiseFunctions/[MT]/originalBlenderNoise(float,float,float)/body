@@ -1,0 +1,45 @@
+{
+  float n=0.5f;
+  int ix=(int)Math.floor(x);
+  int iy=(int)Math.floor(y);
+  int iz=(int)Math.floor(z);
+  float ox=x - ix;
+  float oy=y - iy;
+  float oz=z - iz;
+  float jx=ox - 1;
+  float jy=oy - 1;
+  float jz=oz - 1;
+  float cn1=ox * ox;
+  float cn2=oy * oy;
+  float cn3=oz * oz;
+  float cn4=jx * jx;
+  float cn5=jy * jy;
+  float cn6=jz * jz;
+  cn1=1.0f - 3.0f * cn1 + 2.0f * cn1 * ox;
+  cn2=1.0f - 3.0f * cn2 + 2.0f * cn2 * oy;
+  cn3=1.0f - 3.0f * cn3 + 2.0f * cn3 * oz;
+  cn4=1.0f - 3.0f * cn4 - 2.0f * cn4 * jx;
+  cn5=1.0f - 3.0f * cn5 - 2.0f * cn5 * jy;
+  cn6=1.0f - 3.0f * cn6 - 2.0f * cn6 * jz;
+  float[] cn=new float[]{cn1 * cn2 * cn3,cn1 * cn2 * cn6,cn1 * cn5 * cn3,cn1 * cn5 * cn6,cn4 * cn2 * cn3,cn4 * cn2 * cn6,cn4 * cn5 * cn3,cn4 * cn5 * cn6};
+  int b00=hash[hash[ix & 0xFF] + (iy & 0xFF)];
+  int b01=hash[hash[ix & 0xFF] + (iy + 1 & 0xFF)];
+  int b10=hash[hash[ix + 1 & 0xFF] + (iy & 0xFF)];
+  int b11=hash[hash[ix + 1 & 0xFF] + (iy + 1 & 0xFF)];
+  int[] b1=new int[]{b00,b00,b01,b01,b10,b10,b11,b11};
+  int[] b2=new int[]{iz & 0xFF,iz + 1 & 0xFF};
+  float[] xFactor=new float[]{ox,ox,ox,ox,jx,jx,jx,jx};
+  float[] yFactor=new float[]{oy,oy,jy,jy,oy,oy,jy,jy};
+  float[] zFactor=new float[]{oz,jz,oz,jz,oz,jz,oz,jz};
+  for (int i=0; i < 8; ++i) {
+    int hIndex=3 * hash[b1[i] + b2[i % 2]];
+    n+=cn[i] * (hashvectf[hIndex] * xFactor[i] + hashvectf[hIndex + 1] * yFactor[i] + hashvectf[hIndex + 2] * zFactor[i]);
+  }
+  if (n < 0.0f) {
+    n=0.0f;
+  }
+ else   if (n > 1.0f) {
+    n=1.0f;
+  }
+  return n;
+}

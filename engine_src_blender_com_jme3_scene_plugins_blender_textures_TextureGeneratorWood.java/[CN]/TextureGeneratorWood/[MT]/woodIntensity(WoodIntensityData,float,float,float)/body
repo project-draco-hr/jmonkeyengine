@@ -1,0 +1,22 @@
+{
+  float result;
+switch (woodIntData.woodType) {
+case TEX_BAND:
+    result=woodIntData.waveformFunction.execute((x + y + z) * 10.0f);
+  break;
+case TEX_RING:
+result=woodIntData.waveformFunction.execute((float)Math.sqrt(x * x + y * y + z * z) * 20.0f);
+break;
+case TEX_BANDNOISE:
+result=woodIntData.turbul * NoiseGenerator.NoiseFunctions.noise(x,y,z,woodIntData.noisesize,0,woodIntData.noisebasis,woodIntData.isHard);
+result=woodIntData.waveformFunction.execute((x + y + z) * 10.0f + result);
+break;
+case TEX_RINGNOISE:
+result=woodIntData.turbul * NoiseGenerator.NoiseFunctions.noise(x,y,z,woodIntData.noisesize,0,woodIntData.noisebasis,woodIntData.isHard);
+result=woodIntData.waveformFunction.execute((float)Math.sqrt(x * x + y * y + z * z) * 20.0f + result);
+break;
+default :
+result=0;
+}
+return result;
+}

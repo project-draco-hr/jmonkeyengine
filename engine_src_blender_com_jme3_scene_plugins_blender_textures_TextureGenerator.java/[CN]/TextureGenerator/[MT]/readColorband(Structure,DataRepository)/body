@@ -9,7 +9,7 @@
       result=new ColorBand(colorbandStructure);
     }
  catch (    BlenderFileException e) {
-      LOGGER.warning("Cannot fetch the colorband structure. The reason: " + e.getLocalizedMessage());
+      LOGGER.log(Level.WARNING,"Cannot fetch the colorband structure. The reason: {0}",e.getLocalizedMessage());
     }
   }
   return result;
