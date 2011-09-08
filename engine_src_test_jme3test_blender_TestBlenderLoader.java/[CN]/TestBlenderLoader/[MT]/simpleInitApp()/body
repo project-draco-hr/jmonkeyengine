@@ -1,7 +1,9 @@
 {
   viewPort.setBackgroundColor(ColorRGBA.DarkGray);
-  Spatial bumpy=assetManager.loadModel("Blender/2.4x/Sinbad.blend");
-  rootNode.attachChild(bumpy);
+  Spatial ogre=assetManager.loadModel("Blender/2.4x/Sinbad.blend");
+  rootNode.attachChild(ogre);
+  Spatial track=assetManager.loadModel("Blender/2.4x/MountainValley_Track.blend");
+  rootNode.attachChild(track);
   DirectionalLight dl=new DirectionalLight();
   dl.setDirection(new Vector3f(-0.1f,-0.7f,1).normalizeLocal());
   dl.setColor(new ColorRGBA(0.44f,0.30f,0.20f,1.0f));
