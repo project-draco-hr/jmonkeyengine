@@ -17,5 +17,5 @@
   innerAngle=ic.readFloat("inner_angle",360);
   outerAngle=ic.readFloat("outer_angle",360);
   positional=ic.readBoolean("positional",false);
-  data=im.getAssetManager().loadAudio(key);
+  if (key != null)   data=im.getAssetManager().loadAudio(key);
 }
