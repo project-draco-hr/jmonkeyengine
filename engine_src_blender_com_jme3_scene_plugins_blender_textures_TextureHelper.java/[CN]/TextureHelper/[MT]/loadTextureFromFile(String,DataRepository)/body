@@ -22,7 +22,10 @@
   }
   for (  String assetName : assetNames) {
     try {
-      result=assetManager.loadTexture(new TextureKey(assetName));
+      TextureKey key=new TextureKey(assetName);
+      key.setGenerateMips(true);
+      key.setAsCube(false);
+      result=assetManager.loadTexture(key);
       break;
     }
  catch (    AssetNotFoundException e) {
