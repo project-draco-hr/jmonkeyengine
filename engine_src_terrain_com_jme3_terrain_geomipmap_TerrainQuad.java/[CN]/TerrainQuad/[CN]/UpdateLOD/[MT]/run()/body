@@ -5,14 +5,14 @@
   }
   setLodCalcRunning(true);
   HashMap<String,UpdatedTerrainPatch> updated=new HashMap<String,UpdatedTerrainPatch>();
-  boolean lodChanged=calculateLod(camLocations,updated);
+  boolean lodChanged=calculateLod(camLocations,updated,lodCalculator);
   if (!lodChanged) {
     setLodCalcRunning(false);
     return;
   }
   findNeighboursLod(updated);
   fixEdges(updated);
-  reIndexPages(updated);
+  reIndexPages(updated,lodCalculator.usesVariableLod());
   setUpdateQuadLODs(updated);
   setLodCalcRunning(false);
 }

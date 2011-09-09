@@ -1,30 +1,3 @@
 {
-  if (entropyDistances == null) {
-    float[] lodEntropies=patch.getLodEntropies();
-    entropyDistances=new float[lodEntropies.length];
-    float cameraConstant=getCameraConstant(cam,pixelError);
-    for (int i=0; i < lodEntropies.length; i++) {
-      entropyDistances[i]=lodEntropies[i] * cameraConstant;
-    }
-  }
-  Vector3f patchPos=getCenterLocation();
-  float distance=patchPos.distance(locations.get(0));
-  for (int i=0; i <= patch.getMaxLod(); i++) {
-    if (distance < entropyDistances[i] || i == patch.getMaxLod()) {
-      boolean reIndexNeeded=false;
-      if (i != patch.getLod()) {
-        reIndexNeeded=true;
-      }
-      int prevLOD=patch.getLod();
-      UpdatedTerrainPatch utp=updates.get(patch.getName());
-      if (utp == null) {
-        utp=new UpdatedTerrainPatch(patch,i);
-        updates.put(utp.getName(),utp);
-      }
-      utp.setPreviousLod(prevLOD);
-      utp.setReIndexNeeded(reIndexNeeded);
-      return reIndexNeeded;
-    }
-  }
-  return false;
+  return calculateLod(patch,locations,updates);
 }

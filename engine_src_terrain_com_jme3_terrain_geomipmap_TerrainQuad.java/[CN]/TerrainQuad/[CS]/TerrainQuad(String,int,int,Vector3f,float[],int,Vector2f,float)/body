@@ -1,0 +1,17 @@
+{
+  super(name);
+  if (heightMap == null)   heightMap=generateDefaultHeightMap(quadSize);
+  if (!FastMath.isPowerOfTwo(quadSize - 1)) {
+    throw new RuntimeException("size given: " + quadSize + "  Terrain quad sizes may only be (2^N + 1)");
+  }
+  if (FastMath.sqrt(heightMap.length) > quadSize) {
+    Logger.getLogger(this.getClass().getName()).log(Level.WARNING,"Heightmap size is larger than the terrain size. Make sure your heightmap image is the same size as the terrain!");
+  }
+  this.offset=offset;
+  this.offsetAmount=offsetAmount;
+  this.totalSize=totalSize;
+  this.size=quadSize;
+  this.patchSize=patchSize;
+  this.stepScale=scale;
+  split(patchSize,heightMap);
+}

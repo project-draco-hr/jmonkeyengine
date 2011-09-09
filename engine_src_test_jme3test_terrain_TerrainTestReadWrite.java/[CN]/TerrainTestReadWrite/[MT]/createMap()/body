@@ -42,6 +42,7 @@
  else {
     TerrainQuad terrainQuad=new TerrainQuad("terrain",65,129,heightmap.getHeightMap());
     TerrainLodControl control=new TerrainLodControl(terrainQuad,getCamera());
+    control.setLodCalculator(new DistanceLodCalculator(65,2.7f));
     terrainQuad.addControl(control);
     terrainQuad.setMaterial(matTerrain);
     terrainQuad.setLocalTranslation(0,-100,0);

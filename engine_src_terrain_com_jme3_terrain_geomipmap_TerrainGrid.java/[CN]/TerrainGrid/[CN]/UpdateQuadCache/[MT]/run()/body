@@ -6,7 +6,7 @@
       TerrainQuad q=cache.get(temp);
       if (q == null) {
         HeightMap heightMapAt=heightMapGrid.getHeightMapAt(temp);
-        q=new TerrainQuad(getName() + "Quad" + temp,patchSize,quadSize,totalSize,heightMapAt == null ? null : heightMapAt.getHeightMap(),lodCalculatorFactory);
+        q=new TerrainQuad(getName() + "Quad" + temp,patchSize,quadSize,totalSize,heightMapAt == null ? null : heightMapAt.getHeightMap());
         q.setMaterial(material.clone());
         log.log(Level.FINE,"Loaded TerrainQuad {0}",q.getName());
       }

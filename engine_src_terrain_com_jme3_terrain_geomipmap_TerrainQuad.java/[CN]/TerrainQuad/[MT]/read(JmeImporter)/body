@@ -7,7 +7,6 @@
   offsetAmount=c.readFloat("offsetAmount",0);
   quadrant=c.readInt("quadrant",0);
   totalSize=c.readInt("totalSize",0);
-  lodCalculatorFactory=(LodCalculatorFactory)c.readSavable("lodCalculatorFactory",null);
   if (!(getParent() instanceof TerrainQuad)) {
     BoundingBox all=new BoundingBox(getWorldTranslation(),totalSize,totalSize,totalSize);
     affectedAreaBBox=all;

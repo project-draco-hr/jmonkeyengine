@@ -7,7 +7,6 @@
   clone.stepScale=stepScale.clone();
   clone.offset=offset.clone();
   clone.offsetAmount=offsetAmount;
-  clone.setLodCalculator(lodCalculatorFactory.clone());
   clone.geomap=new LODGeomap(size,geomap.getHeightData());
   clone.setLocalTranslation(getLocalTranslation().clone());
   Mesh m=clone.geomap.createMesh(clone.stepScale,Vector2f.UNIT_XY,clone.offset,clone.offsetAmount,clone.totalSize,false);

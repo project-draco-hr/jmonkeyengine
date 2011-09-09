@@ -2,7 +2,6 @@
   int quarterSize=size >> 2;
   int halfSize=size >> 1;
   int split=(size + 1) >> 1;
-  if (lodCalculatorFactory == null)   lodCalculatorFactory=new LodDistanceCalculatorFactory();
   offsetAmount+=quarterSize;
   float[] heightBlock1=createHeightSubBlock(heightMap,0,0,split);
   Vector3f origin1=new Vector3f(-halfSize * stepScale.x,0,-halfSize * stepScale.z);
@@ -16,7 +15,6 @@
   this.attachChild(patch1);
   patch1.setModelBound(new BoundingBox());
   patch1.updateModelBound();
-  patch1.setLodCalculator(lodCalculatorFactory);
   float[] heightBlock2=createHeightSubBlock(heightMap,0,split - 1,split);
   Vector3f origin2=new Vector3f(-halfSize * stepScale.x,0,0);
   Vector2f tempOffset2=new Vector2f();
@@ -29,7 +27,6 @@
   this.attachChild(patch2);
   patch2.setModelBound(new BoundingBox());
   patch2.updateModelBound();
-  patch2.setLodCalculator(lodCalculatorFactory);
   float[] heightBlock3=createHeightSubBlock(heightMap,split - 1,0,split);
   Vector3f origin3=new Vector3f(0,0,-halfSize * stepScale.z);
   Vector2f tempOffset3=new Vector2f();
@@ -42,7 +39,6 @@
   this.attachChild(patch3);
   patch3.setModelBound(new BoundingBox());
   patch3.updateModelBound();
-  patch3.setLodCalculator(lodCalculatorFactory);
   float[] heightBlock4=createHeightSubBlock(heightMap,split - 1,split - 1,split);
   Vector3f origin4=new Vector3f(0,0,0);
   Vector2f tempOffset4=new Vector2f();
@@ -55,5 +51,4 @@
   this.attachChild(patch4);
   patch4.setModelBound(new BoundingBox());
   patch4.updateModelBound();
-  patch4.setLodCalculator(lodCalculatorFactory);
 }

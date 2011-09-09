@@ -2,18 +2,17 @@
   setupKeys();
   matTerrain=new Material(assetManager,"Common/MatDefs/Terrain/TerrainLighting.j3md");
   matTerrain.setBoolean("useTriPlanarMapping",false);
-  matTerrain.setBoolean("WardIso",true);
   matTerrain.setTexture("AlphaMap",assetManager.loadTexture("Textures/Terrain/splat/alpha1.png"));
   matTerrain.setTexture("AlphaMap_1",assetManager.loadTexture("Textures/Terrain/splat/alpha2.png"));
   Texture heightMapImage=assetManager.loadTexture("Textures/Terrain/splat/mountains512.png");
   Texture grass=assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
   grass.setWrap(WrapMode.Repeat);
-  matTerrain.setTexture("DiffuseMap",grass);
-  matTerrain.setFloat("DiffuseMap_0_scale",grassScale);
+  matTerrain.setTexture("DiffuseMap_1",grass);
+  matTerrain.setFloat("DiffuseMap_1_scale",grassScale);
   Texture dirt=assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
   dirt.setWrap(WrapMode.Repeat);
-  matTerrain.setTexture("DiffuseMap_1",dirt);
-  matTerrain.setFloat("DiffuseMap_1_scale",dirtScale);
+  matTerrain.setTexture("DiffuseMap",dirt);
+  matTerrain.setFloat("DiffuseMap_0_scale",dirtScale);
   Texture rock=assetManager.loadTexture("Textures/Terrain/splat/road.jpg");
   rock.setWrap(WrapMode.Repeat);
   matTerrain.setTexture("DiffuseMap_2",rock);
@@ -32,7 +31,7 @@
   normalMap1.setWrap(WrapMode.Repeat);
   Texture normalMap2=assetManager.loadTexture("Textures/Terrain/splat/road_normal.png");
   normalMap2.setWrap(WrapMode.Repeat);
-  matTerrain.setTexture("NormalMap",normalMap0);
+  matTerrain.setTexture("NormalMap",normalMap2);
   matTerrain.setTexture("NormalMap_1",normalMap2);
   matTerrain.setTexture("NormalMap_2",normalMap2);
   matTerrain.setTexture("NormalMap_4",normalMap2);
@@ -42,14 +41,16 @@
   createSky();
   AbstractHeightMap heightmap=null;
   try {
-    heightmap=new ImageBasedHeightMap(ImageToAwt.convert(heightMapImage.getImage(),false,true,0),1f);
+    heightmap=new ImageBasedHeightMap(ImageToAwt.convert(heightMapImage.getImage(),false,true,0),0.5f);
     heightmap.load();
+    heightmap.smooth(0.9f,1);
   }
  catch (  Exception e) {
     e.printStackTrace();
   }
   terrain=new TerrainQuad("terrain",65,513,heightmap.getHeightMap());
   TerrainLodControl control=new TerrainLodControl(terrain,getCamera());
+  control.setLodCalculator(new DistanceLodCalculator(65,2.7f));
   terrain.addControl(control);
   terrain.setMaterial(matTerrain);
   terrain.setModelBound(new BoundingBox());
@@ -57,12 +58,11 @@
   terrain.setLocalTranslation(0,-100,0);
   terrain.setLocalScale(1f,1f,1f);
   rootNode.attachChild(terrain);
+  Material debugMat=assetManager.loadMaterial("Common/Materials/VertexColor.j3m");
   DirectionalLight light=new DirectionalLight();
-  light.setDirection((new Vector3f(-0.5f,-1f,-0.5f)).normalize());
+  light.setDirection((new Vector3f(-0.25f,-1f,-0.25f)).normalize());
   rootNode.addLight(light);
-  AmbientLight ambLight=new AmbientLight();
-  ambLight.setColor(new ColorRGBA(1f,1f,0.8f,0.2f));
-  rootNode.addLight(ambLight);
   cam.setLocation(new Vector3f(0,10,-10));
   cam.lookAtDirection(new Vector3f(0,-1.5f,-1).normalizeLocal(),Vector3f.UNIT_Y);
+  flyCam.setMoveSpeed(400);
 }

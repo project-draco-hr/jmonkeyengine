@@ -7,9 +7,6 @@
   stepScale=(Vector3f)ic.readSavable("stepScale",Vector3f.UNIT_XYZ);
   offset=(Vector2f)ic.readSavable("offset",Vector3f.UNIT_XYZ);
   offsetAmount=ic.readFloat("offsetAmount",0);
-  lodCalculator=(LodCalculator)ic.readSavable("lodCalculator",new DistanceLodCalculator());
-  lodCalculator.setTerrainPatch(this);
-  lodCalculatorFactory=(LodCalculatorFactory)ic.readSavable("lodCalculatorFactory",null);
   lodEntropy=ic.readFloatArray("lodEntropy",null);
   geomap=(LODGeomap)ic.readSavable("geomap",null);
   Mesh regen=geomap.createMesh(stepScale,new Vector2f(1,1),offset,offsetAmount,totalSize,false);

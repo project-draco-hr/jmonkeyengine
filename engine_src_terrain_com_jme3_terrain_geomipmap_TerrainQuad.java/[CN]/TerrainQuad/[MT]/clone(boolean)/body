@@ -7,7 +7,6 @@
   quadClone.offset=offset.clone();
   quadClone.offsetAmount=offsetAmount;
   quadClone.quadrant=quadrant;
-  quadClone.lodCalculatorFactory=lodCalculatorFactory.clone();
   TerrainLodControl lodControl=quadClone.getControl(TerrainLodControl.class);
   if (lodControl != null && !(getParent() instanceof TerrainQuad)) {
     lodControl.setTerrain(quadClone);

@@ -70,6 +70,7 @@
   List<Camera> cameras=new ArrayList<Camera>();
   cameras.add(this.getCamera());
   TerrainLodControl control=new TerrainLodControl(this.terrain,cameras);
+  control.setLodCalculator(new DistanceLodCalculator(33,2.7f));
   this.terrain.addControl(control);
   final BulletAppState bulletAppState=new BulletAppState();
   stateManager.attach(bulletAppState);
