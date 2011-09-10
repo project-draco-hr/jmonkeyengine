@@ -1,5 +1,7 @@
 {
-  if (initialized)   return;
+  if (initialized) {
+    return;
+  }
   initialized=true;
   try {
     JmeFormatter formatter=new JmeFormatter();
@@ -9,5 +11,5 @@
  catch (  SecurityException ex) {
     logger.log(Level.SEVERE,"Security error in creating log file",ex);
   }
-  logger.info("Running on " + getFullName());
+  logger.log(Level.INFO,"Running on {0}",getFullName());
 }

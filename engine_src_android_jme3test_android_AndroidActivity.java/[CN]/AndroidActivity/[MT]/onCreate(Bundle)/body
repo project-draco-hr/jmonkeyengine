@@ -25,7 +25,9 @@
     logger.info("starting app ...");
     app.start();
     logger.info("starting app ... done.");
-    if (app instanceof SimpleApplication)     ((SimpleApplication)app).getGuiNode().detachAllChildren();
+    if (app instanceof SimpleApplication) {
+      ((SimpleApplication)app).getGuiNode().detachAllChildren();
+    }
     logger.info("creating context ...");
     ctx=(OGLESContext)app.getContext();
     logger.info("creating context ... done.");

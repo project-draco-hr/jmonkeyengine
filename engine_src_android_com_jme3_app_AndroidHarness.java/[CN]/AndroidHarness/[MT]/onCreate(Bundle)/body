@@ -5,9 +5,11 @@
   do {
     if (log.getHandlers().length == 0) {
       log=logger.getParent();
-      if (log != null)       for (      Handler h : log.getHandlers()) {
-        h.setFormatter(new JmeFormatter());
-        bIsLogFormatSet=true;
+      if (log != null) {
+        for (        Handler h : log.getHandlers()) {
+          h.setFormatter(new JmeFormatter());
+          bIsLogFormatSet=true;
+        }
       }
     }
   }
@@ -36,7 +38,7 @@
     Display disp=wind.getDefaultDisplay();
     ctx.getSettings().setResolution(disp.getWidth(),disp.getHeight());
     AppSettings s=ctx.getSettings();
-    logger.info("Settings: Width " + s.getWidth() + " Height "+ s.getHeight());
+    logger.log(Level.INFO,"Settings: Width {0} Height {1}",new Object[]{s.getWidth(),s.getHeight()});
   }
  catch (  Exception ex) {
     handleError("Class " + appClass + " init failed",ex);

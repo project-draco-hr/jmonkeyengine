@@ -18,6 +18,16 @@
   cubeImage.addData(upImg.getData(0));
   cubeImage.addData(southImg.getData(0));
   cubeImage.addData(northImg.getData(0));
+  if (westImg.getEfficentData() != null) {
+    ArrayList<Object> efficientData=new ArrayList<Object>(6);
+    efficientData.add(westImg.getEfficentData());
+    efficientData.add(eastImg.getEfficentData());
+    efficientData.add(downImg.getEfficentData());
+    efficientData.add(upImg.getEfficentData());
+    efficientData.add(southImg.getEfficentData());
+    efficientData.add(northImg.getEfficentData());
+    cubeImage.setEfficentData(efficientData);
+  }
   TextureCubeMap cubeMap=new TextureCubeMap(cubeImage);
   cubeMap.setAnisotropicFilter(0);
   cubeMap.setMagFilter(Texture.MagFilter.Bilinear);

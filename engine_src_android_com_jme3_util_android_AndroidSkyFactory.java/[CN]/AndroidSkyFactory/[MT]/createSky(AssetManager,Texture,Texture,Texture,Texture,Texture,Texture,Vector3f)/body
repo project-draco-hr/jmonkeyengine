@@ -1,31 +1,3 @@
 {
-  Geometry sky=new Geometry("Sky",sphereMesh);
-  sky.setQueueBucket(Bucket.Sky);
-  sky.setCullHint(Spatial.CullHint.Never);
-  Image westImg=west.getImage();
-  Image eastImg=east.getImage();
-  Image northImg=north.getImage();
-  Image southImg=south.getImage();
-  Image upImg=up.getImage();
-  Image downImg=down.getImage();
-  checkImagesForCubeMap(westImg,eastImg,northImg,southImg,upImg,downImg);
-  Image cubeImage=new Image(westImg.getFormat(),westImg.getWidth(),westImg.getHeight(),null);
-  ArrayList<Bitmap> arrayList=new ArrayList<Bitmap>(6);
-  arrayList.add((Bitmap)westImg.getEfficentData());
-  arrayList.add((Bitmap)eastImg.getEfficentData());
-  arrayList.add((Bitmap)downImg.getEfficentData());
-  arrayList.add((Bitmap)upImg.getEfficentData());
-  arrayList.add((Bitmap)southImg.getEfficentData());
-  arrayList.add((Bitmap)northImg.getEfficentData());
-  cubeImage.setEfficentData(arrayList);
-  TextureCubeMap cubeMap=new TextureCubeMap(cubeImage);
-  cubeMap.setAnisotropicFilter(0);
-  cubeMap.setMagFilter(Texture.MagFilter.Bilinear);
-  cubeMap.setMinFilter(Texture.MinFilter.BilinearNoMipMaps);
-  cubeMap.setWrap(Texture.WrapMode.EdgeClamp);
-  Material skyMat=new Material(assetManager,"Common/MatDefs/Misc/Sky.j3md");
-  skyMat.setTexture("Texture",cubeMap);
-  skyMat.setVector3("NormalScale",normalScale);
-  sky.setMaterial(skyMat);
-  return sky;
+  return SkyFactory.createSky(assetManager,west,east,north,south,up,down,normalScale);
 }

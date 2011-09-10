@@ -1,5 +1,7 @@
 {
-  if (texture == null)   throw new IllegalArgumentException("texture cannot be null");
+  if (texture == null) {
+    throw new IllegalArgumentException("texture cannot be null");
+  }
   final Sphere sphereMesh=new Sphere(10,10,sphereRadius,false,true);
   Geometry sky=new Geometry("Sky",sphereMesh);
   sky.setQueueBucket(Bucket.Sky);

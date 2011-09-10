@@ -1,5 +1,20 @@
 {
-  String os=System.getProperty("os.name").toLowerCase();
   String arch=System.getProperty("os.arch").toLowerCase();
-  return Platform.Android_Froyo;
+  if (arch.contains("arm")) {
+    if (arch.contains("v5")) {
+      return Platform.Android_ARM5;
+    }
+ else     if (arch.contains("v6")) {
+      return Platform.Android_ARM6;
+    }
+ else     if (arch.contains("v7")) {
+      return Platform.Android_ARM7;
+    }
+ else {
+      return Platform.Android_ARM5;
+    }
+  }
+ else {
+    throw new UnsupportedOperationException("Unsupported Android Platform");
+  }
 }
