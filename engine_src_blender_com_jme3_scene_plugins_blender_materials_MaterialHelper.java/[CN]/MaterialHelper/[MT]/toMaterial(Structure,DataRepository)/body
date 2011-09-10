@@ -9,6 +9,9 @@
   }
   MaterialContext materialContext=new MaterialContext(structure,dataRepository);
   LOGGER.log(Level.INFO,"Material's name: {0}",materialContext.name);
+  if (materialContext.textures.size() > 0) {
+    LOGGER.log(Level.WARNING,"Attetion! Many textures found for material: {0}. Only the first of each supported mapping types will be used!",materialContext.name);
+  }
   DiffuseShader diffuseShader=this.getDiffuseShader(structure);
   ColorRGBA diffuseColor=this.getDiffuseColor(structure,diffuseShader);
   float[] diffuseColorArray=new float[]{diffuseColor.r,diffuseColor.g,diffuseColor.b};
@@ -34,6 +37,7 @@
           }
           texture.setMinFilter(MinFilter.Trilinear);
           if ((mapto & 0x01) != 0) {
+            mapto&=0xFFFFFFFE;
             int blendType=((Number)mtex.getFieldValue("blendtype")).intValue();
             float[] color=new float[]{((Number)mtex.getFieldValue("r")).floatValue(),((Number)mtex.getFieldValue("g")).floatValue(),((Number)mtex.getFieldValue("b")).floatValue()};
             float colfac=((Number)mtex.getFieldValue("colfac")).floatValue();
@@ -48,6 +52,7 @@
           }
           if (firstTextureType == Type.TwoDimensional) {
             if ((mapto & 0x02) != 0 && !materialContext.shadeless) {
+              mapto&=0xFFFFFFFD;
               Texture normalMapTexture;
               if (texture.getKey() instanceof GeneratedTextureKey) {
                 normalMapTexture=textureHelper.convertToNormalMapTexture(texture,((Number)mtex.getFieldValue("norfac")).floatValue());
@@ -59,12 +64,15 @@
               texturesMap.put(TEXTURE_TYPE_NORMAL,normalMapTexture);
             }
             if ((mapto & 0x04) != 0 && !materialContext.shadeless) {
+              mapto&=0xFFFFFFFB;
               texturesMap.put(TEXTURE_TYPE_SPECULAR,texture);
             }
             if ((mapto & 0x40) != 0) {
+              mapto&=0xFFFFFFF8;
               texturesMap.put(TEXTURE_TYPE_GLOW,texture);
             }
             if ((mapto & 0x80) != 0 && !materialContext.shadeless) {
+              mapto&=0xFFFFFF7F;
               texturesMap.put(TEXTURE_TYPE_ALPHA,texture);
             }
           }
