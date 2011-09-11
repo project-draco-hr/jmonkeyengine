@@ -1,7 +1,6 @@
 {
   MaterialHelper materialHelper=dataRepository.getHelper(MaterialHelper.class);
-  ParticleEmitter emitter=(ParticleEmitter)jmeModifierRepresentation;
-  emitter=emitter.clone();
+  ParticleEmitter emitter=particleEmitter.clone();
   Integer alphaFunction=MaterialHelper.ALPHA_MASK_HYPERBOLE;
   char nameSuffix=emitter.getName().charAt(emitter.getName().length() - 1);
   if (nameSuffix == 'B' || nameSuffix == 'N') {

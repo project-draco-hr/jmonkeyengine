@@ -38,7 +38,7 @@
     Transform t=objectHelper.getTransformation(objectStructure,dataRepository);
     Bone bone=new Bone(null);
     bone.setBindTransforms(t.getTranslation(),t.getRotation(),t.getScale());
-    jmeModifierRepresentation=new AnimData(new Skeleton(new Bone[]{bone}),animations);
-    additionalData=objectStructure.getOldMemoryAddress();
+    animData=new AnimData(new Skeleton(new Bone[]{bone}),animations);
+    objectOMA=objectStructure.getOldMemoryAddress();
   }
 }

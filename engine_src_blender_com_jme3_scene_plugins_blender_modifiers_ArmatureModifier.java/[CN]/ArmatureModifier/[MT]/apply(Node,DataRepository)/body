@@ -1,5 +1,5 @@
 {
-  if (jmeModifierRepresentation == null) {
+  if (animData == null) {
     return node;
   }
   List<Geometry> geomList=(List<Geometry>)dataRepository.getLoadedFeature(this.meshOMA,LoadedFeatureDataType.LOADED_FEATURE);
@@ -11,8 +11,7 @@
       mesh.setBuffer(this.verticesWeightsIndices);
     }
   }
-  AnimData ad=(AnimData)jmeModifierRepresentation;
-  ArrayList<Animation> animList=ad.anims;
+  ArrayList<Animation> animList=animData.anims;
   if (animList != null && animList.size() > 0) {
     List<Constraint> constraints=dataRepository.getConstraints(this.armatureObjectOMA);
     HashMap<String,Animation> anims=new HashMap<String,Animation>();
@@ -20,7 +19,7 @@
       BoneAnimation boneAnimation=(BoneAnimation)animList.get(i).clone();
       if (constraints != null && constraints.size() > 0) {
         for (        Constraint constraint : constraints) {
-          constraint.affectAnimation(ad.skeleton,boneAnimation);
+          constraint.affectAnimation(animData.skeleton,boneAnimation);
         }
       }
       anims.put(boneAnimation.getName(),boneAnimation);
@@ -36,8 +35,8 @@
     if (meshesList.size() > 0) {
       meshes=meshesList.toArray(new Mesh[meshesList.size()]);
     }
-    SkeletonControl skeletonControl=new SkeletonControl(meshes,ad.skeleton);
-    AnimControl control=new AnimControl(ad.skeleton);
+    SkeletonControl skeletonControl=new SkeletonControl(meshes,animData.skeleton);
+    AnimControl control=new AnimControl(animData.skeleton);
     control.setAnimations(anims);
     node.addControl(control);
     node.addControl(skeletonControl);
