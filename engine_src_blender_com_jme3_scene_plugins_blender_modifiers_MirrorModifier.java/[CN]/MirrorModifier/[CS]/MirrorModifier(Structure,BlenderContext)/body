@@ -1,8 +1,10 @@
 {
-  modifierData.put("flag",modifier.getFieldValue("flag"));
-  modifierData.put("tolerance",modifier.getFieldValue("tolerance"));
-  Pointer pMirrorOb=(Pointer)modifier.getFieldValue("mirror_ob");
-  if (pMirrorOb.isNotNull()) {
-    modifierData.put("mirrorob",pMirrorOb);
+  if (this.validate(modifierStructure,blenderContext)) {
+    modifierData.put("flag",modifierStructure.getFieldValue("flag"));
+    modifierData.put("tolerance",modifierStructure.getFieldValue("tolerance"));
+    Pointer pMirrorOb=(Pointer)modifierStructure.getFieldValue("mirror_ob");
+    if (pMirrorOb.isNotNull()) {
+      modifierData.put("mirrorob",pMirrorOb);
+    }
   }
 }

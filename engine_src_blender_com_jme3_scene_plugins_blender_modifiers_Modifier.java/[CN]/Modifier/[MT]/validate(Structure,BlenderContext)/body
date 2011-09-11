@@ -1,0 +1,6 @@
+{
+  Structure modifierData=(Structure)modifierStructure.getFieldValue("modifier");
+  Pointer pError=(Pointer)modifierData.getFieldValue("error");
+  invalid=pError.isNotNull();
+  return !invalid;
+}

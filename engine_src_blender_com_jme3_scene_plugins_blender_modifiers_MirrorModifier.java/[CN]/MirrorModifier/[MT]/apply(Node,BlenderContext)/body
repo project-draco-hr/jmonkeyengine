@@ -1,4 +1,8 @@
 {
+  if (invalid) {
+    LOGGER.log(Level.WARNING,"Mirror modifier is invalid! Cannot be applied to: {0}",node.getName());
+    return node;
+  }
   int flag=((Number)modifierData.get("flag")).intValue();
   float[] mirrorFactor=new float[]{(flag & 0x08) != 0 ? -1.0f : 1.0f,(flag & 0x10) != 0 ? -1.0f : 1.0f,(flag & 0x20) != 0 ? -1.0f : 1.0f};
   float[] center=new float[]{0.0f,0.0f,0.0f};
