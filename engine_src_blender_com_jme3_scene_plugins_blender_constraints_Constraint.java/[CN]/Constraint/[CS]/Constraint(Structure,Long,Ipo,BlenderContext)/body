@@ -1,0 +1,18 @@
+{
+  this.name=constraintStructure.getFieldValue("name").toString();
+  ConstraintType constraintType=ConstraintType.valueOf(((Number)constraintStructure.getFieldValue("type")).intValue());
+  if (constraintType != this.getType()) {
+    throw new IllegalStateException("Constraint structure does not match its type for constraint: " + name);
+  }
+  Pointer pData=(Pointer)constraintStructure.getFieldValue("data");
+  if (pData.isNotNull()) {
+    data=pData.fetchData(blenderContext.getInputStream()).get(0);
+  }
+ else {
+    throw new BlenderFileException("The constraint has no data specified!");
+  }
+  this.boneOMA=boneOMA;
+  this.ownerSpace=Space.valueOf(((Number)constraintStructure.getFieldValue("ownspace")).byteValue());
+  this.targetSpace=Space.valueOf(((Number)constraintStructure.getFieldValue("tarspace")).byteValue());
+  this.ipo=influenceIpo;
+}

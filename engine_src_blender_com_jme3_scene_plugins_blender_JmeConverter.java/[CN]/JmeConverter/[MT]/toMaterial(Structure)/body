@@ -1,7 +1,7 @@
 {
-  MaterialHelper materialHelper=dataRepository.getHelper(MaterialHelper.class);
-  if (materialHelper.shouldBeLoaded(structure,dataRepository)) {
-    return materialHelper.toMaterial(structure,dataRepository);
+  MaterialHelper materialHelper=blenderContext.getHelper(MaterialHelper.class);
+  if (materialHelper.shouldBeLoaded(structure,blenderContext)) {
+    return materialHelper.toMaterial(structure,blenderContext);
   }
   return null;
 }

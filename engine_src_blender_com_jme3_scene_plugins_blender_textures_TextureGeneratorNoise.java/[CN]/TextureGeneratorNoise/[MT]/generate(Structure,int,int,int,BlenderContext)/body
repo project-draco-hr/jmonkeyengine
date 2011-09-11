@@ -1,0 +1,42 @@
+{
+  int val, random, loop;
+  int noisedepth=((Number)tex.getFieldValue("noisedepth")).intValue();
+  TextureResult texres=new TextureResult();
+  int halfW=width >> 1, halfH=height >> 1, halfD=depth >> 1, index=0;
+  float[][] colorBand=this.computeColorband(tex,blenderContext);
+  Format format=colorBand != null ? Format.RGB8 : Format.Luminance8;
+  int bytesPerPixel=colorBand != null ? 3 : 1;
+  BrightnessAndContrastData bacd=new BrightnessAndContrastData(tex);
+  byte[] data=new byte[width * height * depth* bytesPerPixel];
+  for (int i=-halfW; i < halfW; ++i) {
+    for (int j=-halfH; j < halfH; ++j) {
+      for (int k=-halfD; k < halfD; ++k) {
+        random=FastMath.rand.nextInt();
+        val=random & 3;
+        loop=noisedepth;
+        while (loop-- != 0) {
+          random>>=2;
+          val*=random & 3;
+        }
+        texres.intensity=val;
+        if (colorBand != null) {
+          int colorbandIndex=(int)(texres.intensity * 1000.0f);
+          texres.red=colorBand[colorbandIndex][0];
+          texres.green=colorBand[colorbandIndex][1];
+          texres.blue=colorBand[colorbandIndex][2];
+          this.applyBrightnessAndContrast(bacd,texres);
+          data[index++]=(byte)(texres.red * 255.0f);
+          data[index++]=(byte)(texres.green * 255.0f);
+          data[index++]=(byte)(texres.blue * 255.0f);
+        }
+ else {
+          this.applyBrightnessAndContrast(texres,bacd.contrast,bacd.brightness);
+          data[index++]=(byte)(texres.intensity * 255.0f);
+        }
+      }
+    }
+  }
+  ArrayList<ByteBuffer> dataArray=new ArrayList<ByteBuffer>(1);
+  dataArray.add(BufferUtils.createByteBuffer(data));
+  return new Texture3D(new Image(format,width,height,depth,dataArray));
+}

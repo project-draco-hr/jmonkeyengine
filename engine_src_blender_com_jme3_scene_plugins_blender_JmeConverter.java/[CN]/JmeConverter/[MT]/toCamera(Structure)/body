@@ -1,6 +1,6 @@
 {
-  CameraHelper cameraHelper=dataRepository.getHelper(CameraHelper.class);
-  if (cameraHelper.shouldBeLoaded(structure,dataRepository)) {
+  CameraHelper cameraHelper=blenderContext.getHelper(CameraHelper.class);
+  if (cameraHelper.shouldBeLoaded(structure,blenderContext)) {
     return cameraHelper.toCamera(structure);
   }
   return null;

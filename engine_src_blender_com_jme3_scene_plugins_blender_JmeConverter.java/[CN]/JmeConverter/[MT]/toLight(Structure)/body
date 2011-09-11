@@ -1,7 +1,7 @@
 {
-  LightHelper lightHelper=dataRepository.getHelper(LightHelper.class);
-  if (lightHelper.shouldBeLoaded(structure,dataRepository)) {
-    return lightHelper.toLight(structure,dataRepository);
+  LightHelper lightHelper=blenderContext.getHelper(LightHelper.class);
+  if (lightHelper.shouldBeLoaded(structure,blenderContext)) {
+    return lightHelper.toLight(structure,blenderContext);
   }
   return null;
 }

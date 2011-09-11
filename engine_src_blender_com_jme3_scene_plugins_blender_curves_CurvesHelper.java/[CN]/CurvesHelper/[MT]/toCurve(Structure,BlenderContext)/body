@@ -1,0 +1,116 @@
+{
+  String name=curveStructure.getName();
+  int flag=((Number)curveStructure.getFieldValue("flag")).intValue();
+  boolean is3D=(flag & 0x01) != 0;
+  boolean isFront=(flag & 0x02) != 0 && !is3D;
+  boolean isBack=(flag & 0x04) != 0 && !is3D;
+  if (isFront) {
+    LOGGER.warning("No front face in curve implemented yet!");
+  }
+  if (isBack) {
+    LOGGER.warning("No back face in curve implemented yet!");
+  }
+  List<Structure> nurbStructures=((Structure)curveStructure.getFieldValue("nurb")).evaluateListBase(blenderContext);
+  Map<Number,List<Structure>> nurbs=new HashMap<Number,List<Structure>>();
+  for (  Structure nurb : nurbStructures) {
+    Number matNumber=(Number)nurb.getFieldValue("mat_nr");
+    List<Structure> nurbList=nurbs.get(matNumber);
+    if (nurbList == null) {
+      nurbList=new ArrayList<Structure>();
+      nurbs.put(matNumber,nurbList);
+    }
+    nurbList.add(nurb);
+  }
+  MaterialHelper materialHelper=blenderContext.getHelper(MaterialHelper.class);
+  Material[] materials=materialHelper.getMaterials(curveStructure,blenderContext);
+  if (materials == null) {
+    materials=new Material[]{blenderContext.getDefaultMaterial().clone()};
+  }
+  for (  Material material : materials) {
+    material.getAdditionalRenderState().setFaceCullMode(FaceCullMode.Off);
+  }
+  List<Geometry> bevelObject=null;
+  Pointer pBevelObject=(Pointer)curveStructure.getFieldValue("bevobj");
+  if (pBevelObject.isNotNull()) {
+    Pointer pBevelStructure=(Pointer)pBevelObject.fetchData(blenderContext.getInputStream()).get(0).getFieldValue("data");
+    Structure bevelStructure=pBevelStructure.fetchData(blenderContext.getInputStream()).get(0);
+    bevelObject=this.toCurve(bevelStructure,blenderContext);
+  }
+ else {
+    int bevResol=((Number)curveStructure.getFieldValue("bevresol")).intValue();
+    float extrude=((Number)curveStructure.getFieldValue("ext1")).floatValue();
+    float bevelDepth=((Number)curveStructure.getFieldValue("ext2")).floatValue();
+    if (bevelDepth > 0.0f) {
+      float handlerLength=bevelDepth / 2.0f;
+      List<Vector3f> conrtolPoints=new ArrayList<Vector3f>(extrude > 0.0f ? 19 : 13);
+      conrtolPoints.add(new Vector3f(-bevelDepth,extrude,0));
+      conrtolPoints.add(new Vector3f(-bevelDepth,handlerLength + extrude,0));
+      conrtolPoints.add(new Vector3f(-handlerLength,bevelDepth + extrude,0));
+      conrtolPoints.add(new Vector3f(0,bevelDepth + extrude,0));
+      conrtolPoints.add(new Vector3f(handlerLength,bevelDepth + extrude,0));
+      conrtolPoints.add(new Vector3f(bevelDepth,extrude + handlerLength,0));
+      conrtolPoints.add(new Vector3f(bevelDepth,extrude,0));
+      conrtolPoints.add(new Vector3f(bevelDepth,extrude - handlerLength,0));
+      if (extrude > 0.0f) {
+        conrtolPoints.add(new Vector3f(bevelDepth,-extrude + handlerLength,0));
+        conrtolPoints.add(new Vector3f(bevelDepth,-extrude,0));
+        conrtolPoints.add(new Vector3f(bevelDepth,-extrude - handlerLength,0));
+      }
+      conrtolPoints.add(new Vector3f(handlerLength,-bevelDepth - extrude,0));
+      conrtolPoints.add(new Vector3f(0,-bevelDepth - extrude,0));
+      conrtolPoints.add(new Vector3f(-handlerLength,-bevelDepth - extrude,0));
+      conrtolPoints.add(new Vector3f(-bevelDepth,-handlerLength - extrude,0));
+      conrtolPoints.add(new Vector3f(-bevelDepth,-extrude,0));
+      if (extrude > 0.0f) {
+        conrtolPoints.add(new Vector3f(-bevelDepth,handlerLength - extrude,0));
+        conrtolPoints.add(new Vector3f(-bevelDepth,-handlerLength + extrude,0));
+        conrtolPoints.add(new Vector3f(-bevelDepth,extrude,0));
+      }
+      Spline bevelSpline=new Spline(SplineType.Bezier,conrtolPoints,0,false);
+      Curve bevelCurve=new Curve(bevelSpline,bevResol);
+      bevelObject=new ArrayList<Geometry>(1);
+      bevelObject.add(new Geometry("",bevelCurve));
+    }
+ else     if (extrude > 0.0f) {
+      Spline bevelSpline=new Spline(SplineType.Linear,new Vector3f[]{new Vector3f(0,extrude,0),new Vector3f(0,-extrude,0)},1,false);
+      Curve bevelCurve=new Curve(bevelSpline,bevResol);
+      bevelObject=new ArrayList<Geometry>(1);
+      bevelObject.add(new Geometry("",bevelCurve));
+    }
+  }
+  Curve taperObject=null;
+  Pointer pTaperObject=(Pointer)curveStructure.getFieldValue("taperobj");
+  if (bevelObject != null && pTaperObject.isNotNull()) {
+    Pointer pTaperStructure=(Pointer)pTaperObject.fetchData(blenderContext.getInputStream()).get(0).getFieldValue("data");
+    Structure taperStructure=pTaperStructure.fetchData(blenderContext.getInputStream()).get(0);
+    taperObject=this.loadTaperObject(taperStructure,blenderContext);
+  }
+  Vector3f loc=this.getLoc(curveStructure);
+  List<Geometry> result=new ArrayList<Geometry>(nurbs.size());
+  for (  Entry<Number,List<Structure>> nurbEntry : nurbs.entrySet()) {
+    for (    Structure nurb : nurbEntry.getValue()) {
+      int type=((Number)nurb.getFieldValue("type")).intValue();
+      List<Geometry> nurbGeoms=null;
+      if ((type & 0x01) != 0) {
+        nurbGeoms=this.loadBezierCurve(loc,nurb,bevelObject,taperObject,blenderContext);
+      }
+ else       if ((type & 0x04) != 0) {
+        nurbGeoms=this.loadNurb(loc,nurb,bevelObject,taperObject,blenderContext);
+      }
+      if (nurbGeoms != null) {
+        for (        Geometry nurbGeom : nurbGeoms) {
+          nurbGeom.setMaterial(materials[nurbEntry.getKey().intValue()]);
+          nurbGeom.setName(name);
+          result.add(nurbGeom);
+        }
+      }
+    }
+  }
+  Properties properties=this.loadProperties(curveStructure,blenderContext);
+  if (properties != null && properties.getValue() != null) {
+    for (    Geometry geom : result) {
+      geom.setUserData("properties",properties);
+    }
+  }
+  return result;
+}

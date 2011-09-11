@@ -1,0 +1,100 @@
+{
+  name=idPropertyStructure.getFieldValue("name").toString();
+  if (name == null || name.length() == 0) {
+    name=DEFAULT_NAME;
+  }
+  subType=((Number)idPropertyStructure.getFieldValue("subtype")).intValue();
+  type=((Number)idPropertyStructure.getFieldValue("type")).intValue();
+  Structure data=(Structure)idPropertyStructure.getFieldValue("data");
+  int len=((Number)idPropertyStructure.getFieldValue("len")).intValue();
+switch (type) {
+case IDP_STRING:
+{
+      Pointer pointer=(Pointer)data.getFieldValue("pointer");
+      BlenderInputStream bis=blenderContext.getInputStream();
+      FileBlockHeader dataFileBlock=blenderContext.getFileBlock(pointer.getOldMemoryAddress());
+      bis.setPosition(dataFileBlock.getBlockPosition());
+      value=bis.readString();
+      break;
+    }
+case IDP_INT:
+  int intValue=((Number)data.getFieldValue("val")).intValue();
+value=Integer.valueOf(intValue);
+break;
+case IDP_FLOAT:
+int floatValue=((Number)data.getFieldValue("val")).intValue();
+value=Float.valueOf(Float.intBitsToFloat(floatValue));
+break;
+case IDP_ARRAY:
+{
+Pointer pointer=(Pointer)data.getFieldValue("pointer");
+BlenderInputStream bis=blenderContext.getInputStream();
+FileBlockHeader dataFileBlock=blenderContext.getFileBlock(pointer.getOldMemoryAddress());
+bis.setPosition(dataFileBlock.getBlockPosition());
+int elementAmount=dataFileBlock.getSize();
+switch (subType) {
+case IDP_INT:
+elementAmount/=4;
+int[] intList=new int[elementAmount];
+for (int i=0; i < elementAmount; ++i) {
+intList[i]=bis.readInt();
+}
+value=intList;
+break;
+case IDP_FLOAT:
+elementAmount/=4;
+float[] floatList=new float[elementAmount];
+for (int i=0; i < elementAmount; ++i) {
+floatList[i]=bis.readFloat();
+}
+value=floatList;
+break;
+case IDP_DOUBLE:
+elementAmount/=8;
+double[] doubleList=new double[elementAmount];
+for (int i=0; i < elementAmount; ++i) {
+doubleList[i]=bis.readDouble();
+}
+value=doubleList;
+break;
+default :
+throw new IllegalStateException("Invalid array subtype: " + subType);
+}
+}
+case IDP_GROUP:
+Structure group=(Structure)data.getFieldValue("group");
+List<Structure> dataList=group.evaluateListBase(blenderContext);
+List<Properties> subProperties=new ArrayList<Properties>(len);
+for (Structure d : dataList) {
+Properties properties=new Properties();
+properties.load(d,blenderContext);
+subProperties.add(properties);
+}
+value=subProperties;
+break;
+case IDP_DOUBLE:
+int doublePart1=((Number)data.getFieldValue("val")).intValue();
+int doublePart2=((Number)data.getFieldValue("val2")).intValue();
+long doubleVal=(long)doublePart2 << 32 | doublePart1;
+value=Double.valueOf(Double.longBitsToDouble(doubleVal));
+break;
+case IDP_IDPARRAY:
+{
+Pointer pointer=(Pointer)data.getFieldValue("pointer");
+List<Structure> arrays=pointer.fetchData(blenderContext.getInputStream());
+List<Object> result=new ArrayList<Object>(arrays.size());
+Properties temp=new Properties();
+for (Structure array : arrays) {
+temp.load(array,blenderContext);
+result.add(temp.value);
+}
+this.value=result;
+break;
+}
+case IDP_NUMTYPES:
+throw new UnsupportedOperationException();
+default :
+throw new IllegalStateException("Unknown custom property type: " + type);
+}
+this.completeLoading();
+}

@@ -1,0 +1,9 @@
+{
+  type=structure.type;
+  fields=new Field[structure.fields.length];
+  for (int i=0; i < fields.length; ++i) {
+    fields[i]=(Field)structure.fields[i].clone();
+  }
+  this.blenderContext=blenderContext;
+  this.oldMemoryAddress=structure.oldMemoryAddress;
+}

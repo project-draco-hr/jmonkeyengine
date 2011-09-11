@@ -1,0 +1,13 @@
+{
+  Properties properties=null;
+  Structure id=(Structure)structure.getFieldValue("ID");
+  if (id != null) {
+    Pointer pProperties=(Pointer)id.getFieldValue("properties");
+    if (pProperties.isNotNull()) {
+      Structure propertiesStructure=pProperties.fetchData(blenderContext.getInputStream()).get(0);
+      properties=new Properties();
+      properties.load(propertiesStructure,blenderContext);
+    }
+  }
+  return properties;
+}

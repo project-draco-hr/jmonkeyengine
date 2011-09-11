@@ -1,0 +1,35 @@
+{
+  DynamicArray<Number> loc=(DynamicArray<Number>)objectStructure.getFieldValue("loc");
+  DynamicArray<Number> size=(DynamicArray<Number>)objectStructure.getFieldValue("size");
+  DynamicArray<Number> rot=(DynamicArray<Number>)objectStructure.getFieldValue("rot");
+  Pointer pParent=(Pointer)objectStructure.getFieldValue("parent");
+  Structure parent=null;
+  if (pParent.isNotNull()) {
+    try {
+      parent=pParent.fetchData(blenderContext.getInputStream()).get(0);
+    }
+ catch (    BlenderFileException e) {
+      LOGGER.log(Level.WARNING,"Cannot fetch parent for object! Reason: {0}",e.getLocalizedMessage());
+    }
+  }
+  Matrix4f parentInv=pParent.isNull() ? Matrix4f.IDENTITY : this.getMatrix(objectStructure,"parentinv");
+  Matrix4f globalMatrix=new Matrix4f();
+  globalMatrix.setTranslation(loc.get(0).floatValue(),loc.get(1).floatValue(),loc.get(2).floatValue());
+  globalMatrix.setRotationQuaternion(new Quaternion().fromAngles(rot.get(0).floatValue(),rot.get(1).floatValue(),rot.get(2).floatValue()));
+  Matrix4f localMatrix=parentInv.mult(globalMatrix);
+  Vector3f translation=localMatrix.toTranslationVector();
+  Quaternion rotation=localMatrix.toRotationQuat();
+  float scaleX=(float)Math.sqrt(parentInv.m00 * parentInv.m00 + parentInv.m10 * parentInv.m10 + parentInv.m20 * parentInv.m20);
+  float scaleY=(float)Math.sqrt(parentInv.m01 * parentInv.m01 + parentInv.m11 * parentInv.m11 + parentInv.m21 * parentInv.m21);
+  float scaleZ=(float)Math.sqrt(parentInv.m02 * parentInv.m02 + parentInv.m12 * parentInv.m12 + parentInv.m22 * parentInv.m22);
+  Vector3f scale=new Vector3f(size.get(0).floatValue() * scaleX,size.get(1).floatValue() * scaleY,size.get(2).floatValue() * scaleZ);
+  if (fixUpAxis && (pParent.isNull() || (parent != null && !this.shouldBeLoaded(parent,blenderContext)))) {
+    float y=translation.y;
+    translation.y=translation.z;
+    translation.z=-y;
+    rotation=this.upAxisRotationQuaternion.mult(rotation);
+  }
+  Transform t=new Transform(translation,rotation);
+  t.setScale(scale);
+  return t;
+}

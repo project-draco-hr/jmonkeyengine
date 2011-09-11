@@ -1,0 +1,60 @@
+{
+  float oneMinusFactor=1.0f - fac;
+  MaterialHelper materialHelper=blenderContext.getHelper(MaterialHelper.class);
+  if (rgb.length >= 3) {
+switch (type) {
+case MTEX_BLEND_HUE:
+{
+        float[] colorTransformResult=new float[3];
+        materialHelper.rgbToHsv(col[0],col[1],col[2],colorTransformResult);
+        if (colorTransformResult[1] != 0.0f) {
+          float colH=colorTransformResult[0];
+          materialHelper.rgbToHsv(rgb[0],rgb[1],rgb[2],colorTransformResult);
+          materialHelper.hsvToRgb(colH,colorTransformResult[1],colorTransformResult[2],colorTransformResult);
+          rgb[0]=oneMinusFactor * rgb[0] + fac * colorTransformResult[0];
+          rgb[1]=oneMinusFactor * rgb[1] + fac * colorTransformResult[1];
+          rgb[2]=oneMinusFactor * rgb[2] + fac * colorTransformResult[2];
+        }
+        break;
+      }
+case MTEX_BLEND_SAT:
+{
+      float[] colorTransformResult=new float[3];
+      materialHelper.rgbToHsv(rgb[0],rgb[1],rgb[2],colorTransformResult);
+      float h=colorTransformResult[0];
+      float s=colorTransformResult[1];
+      float v=colorTransformResult[2];
+      if (s != 0.0f) {
+        materialHelper.rgbToHsv(col[0],col[1],col[2],colorTransformResult);
+        materialHelper.hsvToRgb(h,(oneMinusFactor * s + fac * colorTransformResult[1]),v,rgb);
+      }
+      break;
+    }
+case MTEX_BLEND_VAL:
+{
+    float[] rgbToHsv=new float[3];
+    float[] colToHsv=new float[3];
+    materialHelper.rgbToHsv(rgb[0],rgb[1],rgb[2],rgbToHsv);
+    materialHelper.rgbToHsv(col[0],col[1],col[2],colToHsv);
+    materialHelper.hsvToRgb(rgbToHsv[0],rgbToHsv[1],(oneMinusFactor * rgbToHsv[2] + fac * colToHsv[2]),rgb);
+    break;
+  }
+case MTEX_BLEND_COLOR:
+{
+  float[] rgbToHsv=new float[3];
+  float[] colToHsv=new float[3];
+  materialHelper.rgbToHsv(col[0],col[1],col[2],colToHsv);
+  if (colToHsv[2] != 0) {
+    materialHelper.rgbToHsv(rgb[0],rgb[1],rgb[2],rgbToHsv);
+    materialHelper.hsvToRgb(colToHsv[0],colToHsv[1],rgbToHsv[2],rgbToHsv);
+    rgb[0]=oneMinusFactor * rgb[0] + fac * rgbToHsv[0];
+    rgb[1]=oneMinusFactor * rgb[1] + fac * rgbToHsv[1];
+    rgb[2]=oneMinusFactor * rgb[2] + fac * rgbToHsv[2];
+  }
+  break;
+}
+default :
+throw new IllegalStateException("Unknown ramp type: " + type);
+}
+}
+}

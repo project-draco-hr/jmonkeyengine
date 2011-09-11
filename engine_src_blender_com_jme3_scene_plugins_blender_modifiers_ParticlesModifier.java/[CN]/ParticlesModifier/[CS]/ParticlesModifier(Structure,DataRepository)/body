@@ -1,8 +1,0 @@
-{
-  Pointer pParticleSystem=(Pointer)modifier.getFieldValue("psys");
-  if (pParticleSystem.isNotNull()) {
-    ParticlesHelper particlesHelper=dataRepository.getHelper(ParticlesHelper.class);
-    Structure particleSystem=pParticleSystem.fetchData(dataRepository.getInputStream()).get(0);
-    particleEmitter=particlesHelper.toParticleEmitter(particleSystem,dataRepository);
-  }
-}

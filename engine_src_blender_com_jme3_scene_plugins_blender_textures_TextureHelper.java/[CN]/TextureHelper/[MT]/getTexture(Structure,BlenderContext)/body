@@ -1,0 +1,54 @@
+{
+  Texture result=(Texture)blenderContext.getLoadedFeature(tex.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
+  if (result != null) {
+    return result;
+  }
+  int type=((Number)tex.getFieldValue("type")).intValue();
+  int width=blenderContext.getBlenderKey().getGeneratedTextureWidth();
+  int height=blenderContext.getBlenderKey().getGeneratedTextureHeight();
+  int depth=blenderContext.getBlenderKey().getGeneratedTextureDepth();
+switch (type) {
+case TEX_IMAGE:
+    Pointer pImage=(Pointer)tex.getFieldValue("ima");
+  if (pImage.isNotNull()) {
+    Structure image=pImage.fetchData(blenderContext.getInputStream()).get(0);
+    result=this.getTextureFromImage(image,blenderContext);
+  }
+break;
+case TEX_CLOUDS:
+case TEX_WOOD:
+case TEX_MARBLE:
+case TEX_MAGIC:
+case TEX_BLEND:
+case TEX_STUCCI:
+case TEX_NOISE:
+case TEX_MUSGRAVE:
+case TEX_VORONOI:
+case TEX_DISTNOISE:
+TextureGenerator textureGenerator=textureGenerators.get(Integer.valueOf(type));
+result=textureGenerator.generate(tex,width,height,depth,blenderContext);
+break;
+case TEX_NONE:
+break;
+case TEX_POINTDENSITY:
+LOGGER.warning("Point density texture loading currently not supported!");
+break;
+case TEX_VOXELDATA:
+LOGGER.warning("Voxel data texture loading currently not supported!");
+break;
+case TEX_PLUGIN:
+case TEX_ENVMAP:
+LOGGER.log(Level.WARNING,"Unsupported texture type: {0} for texture: {1}",new Object[]{type,tex.getName()});
+break;
+default :
+throw new BlenderFileException("Unknown texture type: " + type + " for texture: "+ tex.getName());
+}
+if (result != null) {
+result.setName(tex.getName());
+result.setWrap(WrapMode.Repeat);
+if (type != TEX_IMAGE) {
+result.setKey(new GeneratedTextureKey(tex.getName()));
+}
+}
+return result;
+}

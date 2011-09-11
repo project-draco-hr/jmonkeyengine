@@ -1,7 +1,7 @@
 {
-  ObjectHelper objectHelper=dataRepository.getHelper(ObjectHelper.class);
-  if (objectHelper.shouldBeLoaded(structure,dataRepository)) {
-    return objectHelper.toObject(structure,dataRepository);
+  ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
+  if (objectHelper.shouldBeLoaded(structure,blenderContext)) {
+    return objectHelper.toObject(structure,blenderContext);
   }
   return null;
 }

@@ -6,7 +6,7 @@
     for (    FileBlockHeader block : blocks) {
 switch (block.getCode()) {
 case FileBlockHeader.BLOCK_OB00:
-        Object object=converter.toObject(block.getStructure(dataRepository));
+        Object object=converter.toObject(block.getStructure(blenderContext));
       if (object instanceof Node) {
         if ((blenderKey.getFeaturesToLoad() & FeaturesToLoad.OBJECTS) != 0) {
           LOGGER.log(Level.INFO,"{0}: {1}--> {2}",new Object[]{((Node)object).getName(),((Node)object).getLocalTranslation().toString(),((Node)object).getParent() == null ? "null" : ((Node)object).getParent().getName()});
@@ -28,17 +28,17 @@ case FileBlockHeader.BLOCK_OB00:
     break;
 case FileBlockHeader.BLOCK_MA00:
   if (blenderKey.isLoadUnlinkedAssets() && (blenderKey.getFeaturesToLoad() & FeaturesToLoad.MATERIALS) != 0) {
-    loadingResults.addMaterial(converter.toMaterial(block.getStructure(dataRepository)));
+    loadingResults.addMaterial(converter.toMaterial(block.getStructure(blenderContext)));
   }
 break;
 case FileBlockHeader.BLOCK_SC00:
 if ((blenderKey.getFeaturesToLoad() & FeaturesToLoad.SCENES) != 0) {
-loadingResults.addScene(converter.toScene(block.getStructure(dataRepository)));
+loadingResults.addScene(converter.toScene(block.getStructure(blenderContext)));
 }
 break;
 case FileBlockHeader.BLOCK_WO00:
 if (blenderKey.isLoadUnlinkedAssets() && worldData == null) {
-Structure worldStructure=block.getStructure(dataRepository);
+Structure worldStructure=block.getStructure(blenderContext);
 String worldName=worldStructure.getName();
 if (blenderKey.getUsedWorld() == null || blenderKey.getUsedWorld().equals(worldName)) {
 worldData=converter.toWorldData(worldStructure);

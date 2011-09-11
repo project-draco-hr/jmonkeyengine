@@ -1,0 +1,29 @@
+{
+  Texture result=(Texture)blenderContext.getLoadedFeature(image.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
+  if (result == null) {
+    String texturePath=image.getFieldValue("name").toString();
+    Pointer pPackedFile=(Pointer)image.getFieldValue("packedfile");
+    if (pPackedFile.isNull()) {
+      LOGGER.info("Reading texture from file!");
+      result=this.loadTextureFromFile(texturePath,blenderContext);
+    }
+ else {
+      LOGGER.info("Packed texture. Reading directly from the blend file!");
+      Structure packedFile=pPackedFile.fetchData(blenderContext.getInputStream()).get(0);
+      Pointer pData=(Pointer)packedFile.getFieldValue("data");
+      FileBlockHeader dataFileBlock=blenderContext.getFileBlock(pData.getOldMemoryAddress());
+      blenderContext.getInputStream().setPosition(dataFileBlock.getBlockPosition());
+      ImageLoader imageLoader=new ImageLoader();
+      Image im=imageLoader.loadImage(blenderContext.getInputStream(),dataFileBlock.getBlockPosition(),true);
+      if (im != null) {
+        result=new Texture2D(im);
+      }
+    }
+    if (result != null) {
+      result.setName(texturePath);
+      result.setWrap(Texture.WrapMode.Repeat);
+      blenderContext.addLoadedFeatures(image.getOldMemoryAddress(),image.getName(),image,result);
+    }
+  }
+  return result;
+}

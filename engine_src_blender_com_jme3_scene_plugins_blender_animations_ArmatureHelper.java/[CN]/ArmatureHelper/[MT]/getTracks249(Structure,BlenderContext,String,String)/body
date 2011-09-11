@@ -1,0 +1,25 @@
+{
+  LOGGER.log(Level.INFO,"Getting tracks!");
+  IpoHelper ipoHelper=blenderContext.getHelper(IpoHelper.class);
+  int fps=blenderContext.getBlenderKey().getFps();
+  int[] animationFrames=blenderContext.getBlenderKey().getAnimationFrames(objectName,animationName);
+  Structure chanbase=(Structure)actionStructure.getFieldValue("chanbase");
+  List<Structure> actionChannels=chanbase.evaluateListBase(blenderContext);
+  if (actionChannels != null && actionChannels.size() > 0 && (bonesMap == null || bonesMap.size() == 0)) {
+    throw new IllegalStateException("No bones found! Cannot proceed to calculating tracks!");
+  }
+  List<BoneTrack> tracks=new ArrayList<BoneTrack>();
+  for (  Structure bActionChannel : actionChannels) {
+    String name=bActionChannel.getFieldValue("name").toString();
+    Integer boneIndex=bonesMap.get(name);
+    if (boneIndex != null) {
+      Pointer p=(Pointer)bActionChannel.getFieldValue("ipo");
+      if (!p.isNull()) {
+        Structure ipoStructure=p.fetchData(blenderContext.getInputStream()).get(0);
+        Ipo ipo=ipoHelper.createIpo(ipoStructure,blenderContext);
+        tracks.add(ipo.calculateTrack(boneIndex.intValue(),animationFrames[0],animationFrames[1],fps));
+      }
+    }
+  }
+  return tracks.toArray(new BoneTrack[tracks.size()]);
+}

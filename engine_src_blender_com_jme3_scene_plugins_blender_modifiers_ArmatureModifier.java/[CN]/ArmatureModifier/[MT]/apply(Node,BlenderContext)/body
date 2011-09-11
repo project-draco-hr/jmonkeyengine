@@ -1,0 +1,45 @@
+{
+  if (animData == null) {
+    return node;
+  }
+  List<Geometry> geomList=(List<Geometry>)blenderContext.getLoadedFeature(this.meshOMA,LoadedFeatureDataType.LOADED_FEATURE);
+  for (  Geometry geom : geomList) {
+    Mesh mesh=geom.getMesh();
+    if (this.verticesWeights != null) {
+      mesh.setMaxNumWeights(this.boneGroups);
+      mesh.setBuffer(this.verticesWeights);
+      mesh.setBuffer(this.verticesWeightsIndices);
+    }
+  }
+  ArrayList<Animation> animList=animData.anims;
+  if (animList != null && animList.size() > 0) {
+    List<Constraint> constraints=blenderContext.getConstraints(this.armatureObjectOMA);
+    HashMap<String,Animation> anims=new HashMap<String,Animation>();
+    for (int i=0; i < animList.size(); ++i) {
+      BoneAnimation boneAnimation=(BoneAnimation)animList.get(i).clone();
+      if (constraints != null && constraints.size() > 0) {
+        for (        Constraint constraint : constraints) {
+          constraint.affectAnimation(animData.skeleton,boneAnimation);
+        }
+      }
+      anims.put(boneAnimation.getName(),boneAnimation);
+    }
+    Mesh[] meshes=null;
+    List<Mesh> meshesList=new ArrayList<Mesh>();
+    List<Spatial> children=node.getChildren();
+    for (    Spatial child : children) {
+      if (child instanceof Geometry) {
+        meshesList.add(((Geometry)child).getMesh());
+      }
+    }
+    if (meshesList.size() > 0) {
+      meshes=meshesList.toArray(new Mesh[meshesList.size()]);
+    }
+    SkeletonControl skeletonControl=new SkeletonControl(meshes,animData.skeleton);
+    AnimControl control=new AnimControl(animData.skeleton);
+    control.setAnimations(anims);
+    node.addControl(control);
+    node.addControl(skeletonControl);
+  }
+  return node;
+}
