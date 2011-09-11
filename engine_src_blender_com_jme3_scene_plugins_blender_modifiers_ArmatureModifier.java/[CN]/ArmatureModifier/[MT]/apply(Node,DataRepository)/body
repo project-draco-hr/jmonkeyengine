@@ -2,11 +2,19 @@
   if (jmeModifierRepresentation == null) {
     return node;
   }
+  List<Geometry> geomList=(List<Geometry>)dataRepository.getLoadedFeature(this.meshOMA,LoadedFeatureDataType.LOADED_FEATURE);
+  for (  Geometry geom : geomList) {
+    Mesh mesh=geom.getMesh();
+    if (this.verticesWeights != null) {
+      mesh.setMaxNumWeights(this.boneGroups);
+      mesh.setBuffer(this.verticesWeights);
+      mesh.setBuffer(this.verticesWeightsIndices);
+    }
+  }
   AnimData ad=(AnimData)jmeModifierRepresentation;
   ArrayList<Animation> animList=ad.anims;
-  Long modifierArmatureObject=(Long)additionalData;
   if (animList != null && animList.size() > 0) {
-    List<Constraint> constraints=dataRepository.getConstraints(modifierArmatureObject);
+    List<Constraint> constraints=dataRepository.getConstraints(this.armatureObjectOMA);
     HashMap<String,Animation> anims=new HashMap<String,Animation>();
     for (int i=0; i < animList.size(); ++i) {
       BoneAnimation boneAnimation=(BoneAnimation)animList.get(i).clone();
@@ -29,30 +37,7 @@
       meshes=meshesList.toArray(new Mesh[meshesList.size()]);
     }
     SkeletonControl skeletonControl=new SkeletonControl(meshes,ad.skeleton);
-    AnimControl control=node.getControl(AnimControl.class);
-    if (control == null) {
-      control=new AnimControl(ad.skeleton);
-    }
- else {
-      Skeleton controlSkeleton=control.getSkeleton();
-      int boneIndexIncrease=controlSkeleton.getBoneCount();
-      Skeleton skeleton=this.merge(controlSkeleton,ad.skeleton);
-      HashMap<String,Animation> animations=new HashMap<String,Animation>();
-      for (      String animationName : control.getAnimationNames()) {
-        animations.put(animationName,control.getAnim(animationName));
-      }
-      for (      Entry<String,Animation> animEntry : anims.entrySet()) {
-        BoneAnimation ba=(BoneAnimation)animEntry.getValue();
-        for (int i=0; i < ba.getTracks().length; ++i) {
-          BoneTrack bt=ba.getTracks()[i];
-          int newBoneIndex=bt.getTargetBoneIndex() + boneIndexIncrease;
-          ba.getTracks()[i]=new BoneTrack(newBoneIndex,bt.getTimes(),bt.getTranslations(),bt.getRotations(),bt.getScales());
-        }
-        animations.put(animEntry.getKey(),animEntry.getValue());
-      }
-      node.removeControl(control);
-      control=new AnimControl(skeleton);
-    }
+    AnimControl control=new AnimControl(ad.skeleton);
     control.setAnimations(anims);
     node.addControl(control);
     node.addControl(skeletonControl);

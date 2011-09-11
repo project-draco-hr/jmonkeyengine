@@ -116,6 +116,7 @@
       }
     }
   }
+  dataRepository.setVertexData(structure.getOldMemoryAddress(),new VertexData(vertexList,vertexReferenceMap));
   Vector3f[] normals=normalList.toArray(new Vector3f[normalList.size()]);
   Structure parent=dataRepository.peekParent();
   Structure defbase=(Structure)parent.getFieldValue("defbase");
@@ -125,14 +126,6 @@
   for (  Structure def : defs) {
     verticesGroups[defIndex++]=def.getFieldValue("name").toString();
   }
-  ArmatureHelper armatureHelper=dataRepository.getHelper(ArmatureHelper.class);
-  Structure defBase=(Structure)parent.getFieldValue("defbase");
-  Map<Integer,Integer> groupToBoneIndexMap=armatureHelper.getGroupToBoneIndexMap(defBase,dataRepository);
-  VertexBuffer verticesWeights=null, verticesWeightsIndices=null;
-  int[] bonesGroups=new int[]{0};
-  VertexBuffer[] boneWeightsAndIndex=this.getBoneWeightAndIndexBuffer(structure,vertexList.size(),bonesGroups,vertexReferenceMap,groupToBoneIndexMap,dataRepository);
-  verticesWeights=boneWeightsAndIndex[0];
-  verticesWeightsIndices=boneWeightsAndIndex[1];
   MaterialHelper materialHelper=dataRepository.getHelper(MaterialHelper.class);
   Material[] materials=null;
   Material[] nonTexturedMaterials=null;
@@ -168,11 +161,6 @@
     mesh.setBuffer(verticesBind);
     if (verticesColorsBuffer != null) {
       mesh.setBuffer(Type.Color,4,verticesColorsBuffer);
-    }
-    if (verticesWeights != null) {
-      mesh.setMaxNumWeights(bonesGroups[0]);
-      mesh.setBuffer(verticesWeights);
-      mesh.setBuffer(verticesWeightsIndices);
     }
     mesh.setBuffer(normalsBuffer);
     mesh.setBuffer(normalsBind);

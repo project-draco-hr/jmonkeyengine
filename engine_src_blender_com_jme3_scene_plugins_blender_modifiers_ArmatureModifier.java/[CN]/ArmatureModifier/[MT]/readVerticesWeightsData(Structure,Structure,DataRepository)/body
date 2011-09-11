@@ -1,0 +1,11 @@
+{
+  ArmatureHelper armatureHelper=dataRepository.getHelper(ArmatureHelper.class);
+  Structure defBase=(Structure)objectStructure.getFieldValue("defbase");
+  Map<Integer,Integer> groupToBoneIndexMap=armatureHelper.getGroupToBoneIndexMap(defBase,dataRepository);
+  int[] bonesGroups=new int[]{0};
+  VertexData vertexData=dataRepository.getVertexData(meshStructure.getOldMemoryAddress());
+  VertexBuffer[] boneWeightsAndIndex=this.getBoneWeightAndIndexBuffer(meshStructure,vertexData.getVertexList().size(),bonesGroups,vertexData.getVertexReferenceMap(),groupToBoneIndexMap,dataRepository);
+  this.verticesWeights=boneWeightsAndIndex[0];
+  this.verticesWeightsIndices=boneWeightsAndIndex[1];
+  this.boneGroups=bonesGroups[0];
+}

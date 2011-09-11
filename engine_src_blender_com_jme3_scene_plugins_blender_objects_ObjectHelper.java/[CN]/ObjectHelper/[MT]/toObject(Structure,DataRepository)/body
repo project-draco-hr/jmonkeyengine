@@ -5,7 +5,6 @@
   }
   dataRepository.pushParent(objectStructure);
   ObjectHelper objectHelper=dataRepository.getHelper(ObjectHelper.class);
-  ArmatureHelper armatureHelper=dataRepository.getHelper(ArmatureHelper.class);
   int type=((Number)objectStructure.getFieldValue("type")).intValue();
   String name=objectStructure.getName();
   LOGGER.log(Level.INFO,"Loading obejct: {0}",name);
@@ -113,10 +112,6 @@ result=camera;
 }
 break;
 case OBJECT_TYPE_ARMATURE:
-LOGGER.log(Level.INFO,"Importing armature.");
-Pointer pArmature=(Pointer)objectStructure.getFieldValue("data");
-List<Structure> armaturesArray=pArmature.fetchData(dataRepository.getInputStream());
-result=armatureHelper.toArmature(armaturesArray.get(0),dataRepository);
 break;
 default :
 LOGGER.log(Level.WARNING,"Unknown object type: {0}",type);
@@ -125,11 +120,11 @@ LOGGER.log(Level.WARNING,"Unknown object type: {0}",type);
   finally {
 dataRepository.popParent();
 }
+if (result != null) {
 Properties properties=this.loadProperties(objectStructure,dataRepository);
 if (result instanceof Spatial && properties != null && properties.getValue() != null) {
 ((Spatial)result).setUserData("properties",properties);
 }
-if (result != null) {
 dataRepository.addLoadedFeatures(objectStructure.getOldMemoryAddress(),name,objectStructure,result);
 }
 return result;

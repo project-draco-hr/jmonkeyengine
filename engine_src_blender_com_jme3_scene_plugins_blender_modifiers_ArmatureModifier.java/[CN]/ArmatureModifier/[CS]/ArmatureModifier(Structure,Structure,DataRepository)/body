@@ -2,19 +2,23 @@
   Pointer pArmatureObject=(Pointer)modifierStructure.getFieldValue("object");
   if (pArmatureObject.isNotNull()) {
     ObjectHelper objectHelper=dataRepository.getHelper(ObjectHelper.class);
-    Structure armatureObject=(Structure)dataRepository.getLoadedFeature(pArmatureObject.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_STRUCTURE);
-    if (armatureObject == null) {
-      armatureObject=pArmatureObject.fetchData(dataRepository.getInputStream()).get(0);
-      objectHelper.toObject(armatureObject,dataRepository);
-    }
-    additionalData=armatureObject.getOldMemoryAddress();
     ArmatureHelper armatureHelper=dataRepository.getHelper(ArmatureHelper.class);
+    Structure armatureObject=pArmatureObject.fetchData(dataRepository.getInputStream()).get(0);
+    this.armatureObjectOMA=armatureObject.getOldMemoryAddress();
+    Structure armatureStructure=((Pointer)armatureObject.getFieldValue("data")).fetchData(dataRepository.getInputStream()).get(0);
+    Structure bonebase=(Structure)armatureStructure.getFieldValue("bonebase");
+    List<Structure> bonesStructures=bonebase.evaluateListBase(dataRepository);
+    for (    Structure boneStructure : bonesStructures) {
+      BoneTransformationData rootBoneTransformationData=armatureHelper.readBoneAndItsChildren(boneStructure,null,dataRepository);
+      armatureHelper.addBoneDataRoot(rootBoneTransformationData);
+    }
     Matrix4f armatureObjectMatrix=objectHelper.getTransformationMatrix(armatureObject);
     Matrix4f inverseMeshObjectMatrix=objectHelper.getTransformationMatrix(objectStructure).invert();
     Matrix4f additionalRootBoneTransformation=inverseMeshObjectMatrix.multLocal(armatureObjectMatrix);
     Bone[] bones=armatureHelper.buildBonesStructure(Long.valueOf(0L),additionalRootBoneTransformation);
-    Skeleton skeleton=new Skeleton(bones);
-    dataRepository.addLoadedFeatures(armatureObject.getOldMemoryAddress(),armatureObject.getName(),armatureObject,skeleton);
+    Structure meshStructure=((Pointer)objectStructure.getFieldValue("data")).fetchData(dataRepository.getInputStream()).get(0);
+    this.meshOMA=meshStructure.getOldMemoryAddress();
+    this.readVerticesWeightsData(objectStructure,meshStructure,dataRepository);
     String objectName=objectStructure.getName();
     Set<String> animationNames=dataRepository.getBlenderKey().getAnimationNames(objectName);
     if (animationNames != null && animationNames.size() > 0) {
