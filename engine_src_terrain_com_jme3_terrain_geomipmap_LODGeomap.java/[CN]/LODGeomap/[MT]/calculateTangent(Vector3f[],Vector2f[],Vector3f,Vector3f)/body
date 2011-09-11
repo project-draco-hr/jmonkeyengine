@@ -21,10 +21,14 @@
   tangent.x=(edge2uv.y * edge1.x) * factor;
   tangent.y=0;
   tangent.z=(edge2uv.y * edge1.z) * factor;
-  if (normalize)   tangent.normalizeLocal();
+  if (normalize) {
+    tangent.normalizeLocal();
+  }
   binormal.x=0;
   binormal.y=(edge1uv.x * edge2.y) * factor;
   binormal.z=(edge1uv.x * edge2.z) * factor;
-  if (normalize)   binormal.normalizeLocal();
+  if (normalize) {
+    binormal.normalizeLocal();
+  }
   return tangent;
 }
