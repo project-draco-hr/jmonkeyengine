@@ -1,7 +1,19 @@
 {
   if (type == ConfigType.BEST) {
-    ComponentSizeChooser compChooser=new ComponentSizeChooser(8,8,8,8,16,0);
+    ComponentSizeChooser compChooser=new ComponentSizeChooser(8,8,8,8,32,0);
     choosenConfig=compChooser.chooseConfig(egl,display);
+    if (choosenConfig == null) {
+      compChooser=new ComponentSizeChooser(8,8,8,0,32,0);
+      choosenConfig=compChooser.chooseConfig(egl,display);
+      if (choosenConfig == null) {
+        compChooser=new ComponentSizeChooser(8,8,8,8,16,0);
+        choosenConfig=compChooser.chooseConfig(egl,display);
+        if (choosenConfig == null) {
+          compChooser=new ComponentSizeChooser(8,8,8,0,16,0);
+          choosenConfig=compChooser.chooseConfig(egl,display);
+        }
+      }
+    }
     logger.info("JME3 using best EGL configuration available here: ");
   }
  else {

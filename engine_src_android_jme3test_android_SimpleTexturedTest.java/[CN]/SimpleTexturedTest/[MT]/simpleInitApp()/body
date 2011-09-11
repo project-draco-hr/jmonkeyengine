@@ -1,14 +1,12 @@
 {
-  guiNode.detachAllChildren();
-  Mesh shape=null;
-  if (spheres) {
-    shape=new Sphere(16,16,.5f);
-  }
- else {
-    shape=new Box(Vector3f.ZERO,0.3f,0.3f,0.3f);
-  }
-  Texture texture=assetManager.loadTexture(new TextureKey("icons/textured.png"));
+  Mesh shapeSphere=null;
+  Mesh shapeBox=null;
+  shapeSphere=new Sphere(16,16,.5f);
+  shapeBox=new Box(Vector3f.ZERO,0.3f,0.3f,0.3f);
+  Texture texture=assetManager.loadTexture(new TextureKey("Interface/Logo/Monkey.jpg"));
+  Texture textureMonkey=assetManager.loadTexture(new TextureKey("Interface/Logo/Monkey.jpg"));
   Material material=null;
+  Material materialMonkey=null;
   if (texturedEnabled) {
     if (lightingEnabled) {
       material=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
@@ -16,21 +14,43 @@
       material.setFloat("Shininess",127);
       material.setBoolean("LowQuality",true);
       material.setTexture("DiffuseMap",texture);
+      materialMonkey=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+      materialMonkey.setBoolean("VertexLighting",true);
+      materialMonkey.setFloat("Shininess",127);
+      materialMonkey.setBoolean("LowQuality",true);
+      materialMonkey.setTexture("DiffuseMap",textureMonkey);
     }
  else {
-      material=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+      material=new Material(assetManager,"Common/MatDefs/Misc/SimpleTextured.j3md");
       material.setTexture("ColorMap",texture);
+      materialMonkey=new Material(assetManager,"Common/MatDefs/Misc/SimpleTextured.j3md");
+      materialMonkey.setTexture("ColorMap",textureMonkey);
     }
   }
  else {
-    material=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+    material=new Material(assetManager,"Common/MatDefs/Misc/SolidColor.j3md");
     material.setColor("Color",ColorRGBA.Red);
+    materialMonkey=new Material(assetManager,"Common/MatDefs/Misc/SolidColor.j3md");
+    materialMonkey.setColor("Color",ColorRGBA.Red);
   }
-  TangentBinormalGenerator.generate(shape);
+  TangentBinormalGenerator.generate(shapeSphere);
+  TangentBinormalGenerator.generate(shapeBox);
+  int iFlipper=0;
   for (int y=-1; y < 2; y++) {
     for (int x=-1; x < 2; x++) {
-      Geometry geomClone=new Geometry("geometry-" + y + "-"+ x,shape);
-      geomClone.setMaterial(material);
+      Geometry geomClone=null;
+      if (iFlipper % 2 == 0) {
+        geomClone=new Geometry("geometry-" + y + "-"+ x,shapeBox);
+      }
+ else {
+        geomClone=new Geometry("geometry-" + y + "-"+ x,shapeSphere);
+      }
+      if (iFlipper % 3 == 0) {
+        geomClone.setMaterial(materialMonkey);
+      }
+ else {
+        geomClone.setMaterial(material);
+      }
       geomClone.setLocalTranslation(x,y,0);
       spheresContainer.attachChild(geomClone);
     }
