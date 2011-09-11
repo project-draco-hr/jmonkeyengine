@@ -1,7 +1,24 @@
 {
+  boolean wasPressed=pressed;
+  boolean forwardToNifty=true;
   buttonIndex=evt.getButtonIndex();
   pressed=evt.isPressed();
-  if (nic.processMouseEvent(x,y,0,buttonIndex,pressed)) {
-    evt.setConsumed();
+  if (wasPressed && !pressed) {
+    if (!niftyOwnsDragging) {
+      forwardToNifty=false;
+    }
+    isDragging=false;
+    niftyOwnsDragging=false;
+  }
+  boolean consumed=false;
+  if (forwardToNifty) {
+    consumed=nic.processMouseEvent(x,y,0,buttonIndex,pressed);
+    if (consumed) {
+      evt.setConsumed();
+    }
+  }
+  if (!wasPressed && pressed) {
+    isDragging=true;
+    niftyOwnsDragging=consumed;
   }
 }

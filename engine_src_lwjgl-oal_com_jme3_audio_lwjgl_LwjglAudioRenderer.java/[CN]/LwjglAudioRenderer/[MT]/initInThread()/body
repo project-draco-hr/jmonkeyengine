@@ -38,7 +38,6 @@ catch (  LWJGLException ex) {
   chanSrcs=new AudioNode[channels.length];
   logger.log(Level.INFO,"AudioRenderer supports {0} channels",channels.length);
   supportEfx=ALC10.alcIsExtensionPresent(device,"ALC_EXT_EFX");
-  logger.log(Level.FINER,"Audio EFX support: {0}",supportEfx);
   if (supportEfx) {
     ib.position(0).limit(1);
     ALC10.alcGetInteger(device,EFX10.ALC_EFX_MAJOR_VERSION,ib);
@@ -57,5 +56,8 @@ catch (  LWJGLException ex) {
     EFX10.alGenEffects(ib);
     reverbFx=ib.get(0);
     EFX10.alEffecti(reverbFx,EFX10.AL_EFFECT_TYPE,EFX10.AL_EFFECT_REVERB);
+  }
+ else {
+    logger.log(Level.WARNING,"OpenAL EFX not available! Audio effects won't work.");
   }
 }

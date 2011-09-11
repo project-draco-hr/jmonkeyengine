@@ -8,7 +8,7 @@ synchronized (threadLock) {
  catch (      InterruptedException ex) {
       }
     }
-    if (audioDisabled)     return;
+    if (audioDisabled || !supportEfx)     return;
     EFX10.alEffectf(reverbFx,EFX10.AL_REVERB_DENSITY,env.getDensity());
     EFX10.alEffectf(reverbFx,EFX10.AL_REVERB_DIFFUSION,env.getDiffusion());
     EFX10.alEffectf(reverbFx,EFX10.AL_REVERB_GAIN,env.getGain());

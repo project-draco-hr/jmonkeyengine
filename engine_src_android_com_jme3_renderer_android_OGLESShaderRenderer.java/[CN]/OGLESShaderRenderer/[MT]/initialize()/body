@@ -7,7 +7,7 @@
   String versionStr=GLES20.glGetString(GLES20.GL_SHADING_LANGUAGE_VERSION);
   if (versionStr == null || versionStr.equals("")) {
     glslVer=-1;
-    throw new UnsupportedOperationException("GLSL and OpenGL2 is " + "required for the LWJGL " + "renderer!");
+    throw new UnsupportedOperationException("GLSL and OpenGL2 is " + "required for the OpenGL ES " + "renderer!");
   }
   int spaceIdx=versionStr.lastIndexOf(" ");
   if (spaceIdx >= 1) {

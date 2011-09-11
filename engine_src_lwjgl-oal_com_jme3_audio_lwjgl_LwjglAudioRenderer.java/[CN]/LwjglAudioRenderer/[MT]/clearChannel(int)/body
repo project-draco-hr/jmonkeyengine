@@ -12,12 +12,12 @@
  else     if (src.getAudioData() instanceof AudioBuffer) {
       alSourcei(sourceId,AL_BUFFER,0);
     }
-    if (src.getDryFilter() != null) {
+    if (src.getDryFilter() != null && supportEfx) {
       alSourcei(sourceId,EFX10.AL_DIRECT_FILTER,EFX10.AL_FILTER_NULL);
     }
     if (src.isPositional()) {
       AudioNode pas=(AudioNode)src;
-      if (pas.isReverbEnabled()) {
+      if (pas.isReverbEnabled() && supportEfx) {
         AL11.alSource3i(sourceId,EFX10.AL_AUXILIARY_SEND_FILTER,0,0,EFX10.AL_FILTER_NULL);
       }
     }

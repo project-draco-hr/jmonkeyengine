@@ -2,13 +2,17 @@
   if (str.length() == 0)   return;
   if (font instanceof RenderFontNull)   return;
   RenderFontJme jmeFont=(RenderFontJme)font;
-  BitmapText text=jmeFont.getText();
+  BitmapText text=textCacheLastFrame.get(str);
+  if (text == null) {
+    text=jmeFont.createText();
+    text.setText(str);
+    text.updateLogicalState(0);
+  }
+  textCacheCurrentFrame.put(str,text);
   niftyMat.setColor("Color",convertColor(color,tempColor));
   niftyMat.setBoolean("UseTex",true);
   niftyMat.getAdditionalRenderState().setBlendMode(convertBlend());
   text.setMaterial(niftyMat);
-  text.setText(str);
-  text.updateLogicalState(0);
   float width=text.getLineWidth();
   float height=text.getLineHeight();
   float x0=x + 0.5f * width * (1f - size);
