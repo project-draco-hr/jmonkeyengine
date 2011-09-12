@@ -12,11 +12,12 @@
   if (zFar == 0) {
     zFar=viewCam.getFrustumFar();
   }
-  ShadowUtil.updateFrustumPoints(viewCam,viewCam.getFrustumNear(),zFar,1.0f,points);
+  float frustumNear=Math.max(viewCam.getFrustumNear(),0.001f);
+  ShadowUtil.updateFrustumPoints(viewCam,frustumNear,zFar,1.0f,points);
   shadowCam.getRotation().lookAt(direction,shadowCam.getUp());
   shadowCam.update();
   shadowCam.updateViewProjection();
-  PssmShadowUtil.updateFrustumSplits(splitsArray,viewCam.getFrustumNear(),zFar,lambda);
+  PssmShadowUtil.updateFrustumSplits(splitsArray,frustumNear,zFar,lambda);
 switch (splitsArray.length) {
 case 5:
     splits.a=splitsArray[4];
