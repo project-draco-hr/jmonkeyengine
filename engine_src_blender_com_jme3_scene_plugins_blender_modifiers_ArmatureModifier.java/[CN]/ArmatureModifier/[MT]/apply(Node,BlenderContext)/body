@@ -27,18 +27,7 @@
       }
       anims.put(boneAnimation.getName(),boneAnimation);
     }
-    Mesh[] meshes=null;
-    List<Mesh> meshesList=new ArrayList<Mesh>();
-    List<Spatial> children=node.getChildren();
-    for (    Spatial child : children) {
-      if (child instanceof Geometry) {
-        meshesList.add(((Geometry)child).getMesh());
-      }
-    }
-    if (meshesList.size() > 0) {
-      meshes=meshesList.toArray(new Mesh[meshesList.size()]);
-    }
-    SkeletonControl skeletonControl=new SkeletonControl(meshes,animData.skeleton);
+    SkeletonControl skeletonControl=new SkeletonControl(animData.skeleton);
     AnimControl control=new AnimControl(animData.skeleton);
     control.setAnimations(anims);
     node.addControl(control);
