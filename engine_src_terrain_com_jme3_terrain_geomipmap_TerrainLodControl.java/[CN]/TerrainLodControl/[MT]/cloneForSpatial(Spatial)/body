@@ -6,7 +6,9 @@
         cameraClone.add(c);
       }
     }
-    return new TerrainLodControl((Terrain)spatial,cameraClone);
+    TerrainLodControl cloned=new TerrainLodControl((Terrain)spatial,cameraClone);
+    cloned.setLodCalculator(lodCalculator.clone());
+    return cloned;
   }
   return null;
 }

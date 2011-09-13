@@ -1,5 +1,17 @@
 {
   float distance=getCenterLocation(terrainPatch).distance(locations.get(0));
+  if (turnOffLod) {
+    int prevLOD=terrainPatch.getLod();
+    UpdatedTerrainPatch utp=updates.get(terrainPatch.getName());
+    if (utp == null) {
+      utp=new UpdatedTerrainPatch(terrainPatch,0);
+      updates.put(utp.getName(),utp);
+    }
+    utp.setNewLod(0);
+    utp.setPreviousLod(prevLOD);
+    utp.setReIndexNeeded(true);
+    return true;
+  }
   for (int i=0; i <= terrainPatch.getMaxLod(); i++) {
     if (distance < getLodDistanceThreshold() * (i + 1) * terrainPatch.getWorldScale().x || i == terrainPatch.getMaxLod()) {
       boolean reIndexNeeded=false;
