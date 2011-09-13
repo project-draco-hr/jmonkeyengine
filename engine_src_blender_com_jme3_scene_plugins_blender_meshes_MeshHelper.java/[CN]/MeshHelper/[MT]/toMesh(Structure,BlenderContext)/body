@@ -9,6 +9,7 @@
   }
   TextureHelper textureHelper=blenderContext.getHelper(TextureHelper.class);
   String name=structure.getName();
+  MeshContext meshContext=new MeshContext();
   Vector3f[] vertices=this.getVertices(structure,blenderContext);
   int verticesAmount=vertices.length;
   List<float[]> verticesColors=this.getVerticesColors(structure,blenderContext);
@@ -116,7 +117,8 @@
       }
     }
   }
-  blenderContext.setVertexData(structure.getOldMemoryAddress(),new VertexData(vertexList,vertexReferenceMap));
+  meshContext.setVertexList(vertexList);
+  meshContext.setVertexReferenceMap(vertexReferenceMap);
   Vector3f[] normals=normalList.toArray(new Vector3f[normalList.size()]);
   Structure parent=blenderContext.peekParent();
   Structure defbase=(Structure)parent.getFieldValue("defbase");
@@ -224,10 +226,14 @@
     for (    Entry<Material,List<Geometry>> entry : materialMap.entrySet()) {
       MaterialContext materialContext=blenderContext.getMaterialContext(entry.getKey());
       if (materialContext != null && materialContext.getTexturesCount() > 0) {
-        UVCoordinatesGenerator.generateUVCoordinates(materialContext.getUvCoordinatesType(),materialContext.getProjectionType(),materialContext.getTextureDimension(),materialContext.getProjection(0),entry.getValue());
+        VertexBuffer coords=UVCoordinatesGenerator.generateUVCoordinates(materialContext.getUvCoordinatesType(),materialContext.getProjectionType(),materialContext.getTextureDimension(),materialContext.getProjection(0),entry.getValue());
+        for (        Geometry geometry : entry.getValue()) {
+          meshContext.addUVCoordinates(geometry,coords);
+        }
       }
     }
   }
   blenderContext.addLoadedFeatures(structure.getOldMemoryAddress(),structure.getName(),structure,geometries);
+  blenderContext.setMeshContext(structure.getOldMemoryAddress(),meshContext);
   return geometries;
 }
