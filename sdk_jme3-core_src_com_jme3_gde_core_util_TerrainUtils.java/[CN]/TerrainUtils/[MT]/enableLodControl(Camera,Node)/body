@@ -1,0 +1,8 @@
+{
+  Terrain terrain=(Terrain)findTerrain(rootNode);
+  if (terrain == null)   return;
+  TerrainLodControl control=((Spatial)terrain).getControl(TerrainLodControl.class);
+  if (control != null) {
+    control.setCamera(camera);
+  }
+}

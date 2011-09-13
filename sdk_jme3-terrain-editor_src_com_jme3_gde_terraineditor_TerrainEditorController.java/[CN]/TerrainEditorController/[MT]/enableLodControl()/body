@@ -1,9 +1,0 @@
-{
-  Terrain terrain=(Terrain)getTerrain(null);
-  if (terrain == null)   return;
-  TerrainQuad t=(TerrainQuad)terrain;
-  TerrainLodControl control=t.getControl(TerrainLodControl.class);
-  if (control != null) {
-    control.setCamera(SceneApplication.getApplication().getCamera());
-  }
-}

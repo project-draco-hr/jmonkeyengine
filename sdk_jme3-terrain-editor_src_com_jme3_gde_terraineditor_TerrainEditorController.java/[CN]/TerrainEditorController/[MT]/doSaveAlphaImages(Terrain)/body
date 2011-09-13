@@ -1,4 +1,8 @@
 {
+  if (terrain == null) {
+    getTerrain(rootNode);
+    return;
+  }
   AssetManager manager=SceneApplication.getApplication().getAssetManager();
   String assetFolder=null;
   if (manager != null && manager instanceof ProjectAssetManager)   assetFolder=((ProjectAssetManager)manager).getAssetFolderName();
