@@ -1,16 +1,17 @@
 {
   try {
     this.setup(assetInfo);
+    BlenderKey blenderKey=blenderContext.getBlenderKey();
     LoadingResults loadingResults=blenderKey.prepareLoadingResults();
     WorldData worldData=null;
     for (    FileBlockHeader block : blocks) {
 switch (block.getCode()) {
 case FileBlockHeader.BLOCK_OB00:
-        Object object=converter.toObject(block.getStructure(blenderContext));
+        Object object=this.toObject(block.getStructure(blenderContext));
       if (object instanceof Node) {
         if ((blenderKey.getFeaturesToLoad() & FeaturesToLoad.OBJECTS) != 0) {
           LOGGER.log(Level.INFO,"{0}: {1}--> {2}",new Object[]{((Node)object).getName(),((Node)object).getLocalTranslation().toString(),((Node)object).getParent() == null ? "null" : ((Node)object).getParent().getName()});
-          if (((Node)object).getParent() == null) {
+          if (this.isRootObject(loadingResults,(Node)object)) {
             loadingResults.addObject((Node)object);
           }
         }
@@ -28,12 +29,12 @@ case FileBlockHeader.BLOCK_OB00:
     break;
 case FileBlockHeader.BLOCK_MA00:
   if (blenderKey.isLoadUnlinkedAssets() && (blenderKey.getFeaturesToLoad() & FeaturesToLoad.MATERIALS) != 0) {
-    loadingResults.addMaterial(converter.toMaterial(block.getStructure(blenderContext)));
+    loadingResults.addMaterial(this.toMaterial(block.getStructure(blenderContext)));
   }
 break;
 case FileBlockHeader.BLOCK_SC00:
 if ((blenderKey.getFeaturesToLoad() & FeaturesToLoad.SCENES) != 0) {
-loadingResults.addScene(converter.toScene(block.getStructure(blenderContext)));
+loadingResults.addScene(this.toScene(block.getStructure(blenderContext)));
 }
 break;
 case FileBlockHeader.BLOCK_WO00:
@@ -41,7 +42,7 @@ if (blenderKey.isLoadUnlinkedAssets() && worldData == null) {
 Structure worldStructure=block.getStructure(blenderContext);
 String worldName=worldStructure.getName();
 if (blenderKey.getUsedWorld() == null || blenderKey.getUsedWorld().equals(worldName)) {
-worldData=converter.toWorldData(worldStructure);
+worldData=this.toWorldData(worldStructure);
 if ((blenderKey.getFeaturesToLoad() & FeaturesToLoad.LIGHTS) != 0) {
 loadingResults.addLight(worldData.getAmbientLight());
 }
@@ -50,12 +51,7 @@ loadingResults.addLight(worldData.getAmbientLight());
 break;
 }
 }
-try {
-inputStream.close();
-}
- catch (IOException e) {
-LOGGER.log(Level.SEVERE,e.getMessage(),e);
-}
+blenderContext.dispose();
 return loadingResults;
 }
  catch (BlenderFileException e) {

@@ -1,5 +1,6 @@
 {
   ModelKey modelKey=(ModelKey)assetInfo.getKey();
+  BlenderKey blenderKey;
   if (modelKey instanceof BlenderKey) {
     blenderKey=(BlenderKey)modelKey;
   }
@@ -7,7 +8,7 @@
     blenderKey=new BlenderKey(modelKey.getName());
     blenderKey.setAssetRootPath(modelKey.getFolder());
   }
-  inputStream=new BlenderInputStream(assetInfo.openStream(),assetInfo.getManager());
+  BlenderInputStream inputStream=new BlenderInputStream(assetInfo.openStream(),assetInfo.getManager());
   blocks=new ArrayList<FileBlockHeader>();
   FileBlockHeader fileBlock;
   blenderContext=new BlenderContext();
@@ -49,5 +50,4 @@
     int lay=((Number)sceneFileBlock.getStructure(blenderContext).getFieldValue("lay")).intValue();
     blenderContext.getBlenderKey().setLayersToLoad(lay);
   }
-  converter=new JmeConverter(blenderContext);
 }

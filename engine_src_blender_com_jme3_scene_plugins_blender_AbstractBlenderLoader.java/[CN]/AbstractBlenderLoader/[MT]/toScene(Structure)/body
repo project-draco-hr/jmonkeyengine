@@ -1,0 +1,26 @@
+{
+  if ((blenderContext.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.SCENES) == 0) {
+    return null;
+  }
+  Node result=new Node(structure.getName());
+  try {
+    List<Structure> base=((Structure)structure.getFieldValue("base")).evaluateListBase(blenderContext);
+    for (    Structure b : base) {
+      Pointer pObject=(Pointer)b.getFieldValue("object");
+      if (pObject.isNotNull()) {
+        Structure objectStructure=pObject.fetchData(blenderContext.getInputStream()).get(0);
+        Object object=this.toObject(objectStructure);
+        if (object instanceof Spatial) {
+          result.attachChild((Spatial)object);
+        }
+ else         if (object instanceof Light) {
+          result.addLight((Light)object);
+        }
+      }
+    }
+  }
+ catch (  BlenderFileException e) {
+    LOGGER.log(Level.SEVERE,e.getLocalizedMessage(),e);
+  }
+  return result;
+}
