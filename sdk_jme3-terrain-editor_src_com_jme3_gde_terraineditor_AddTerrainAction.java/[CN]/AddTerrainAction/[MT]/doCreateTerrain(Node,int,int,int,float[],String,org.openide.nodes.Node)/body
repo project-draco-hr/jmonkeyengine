@@ -37,6 +37,7 @@
   ((Node)terrain).setLocalTranslation(0,0,0);
   ((Node)terrain).setLocalScale(1f,1f,1f);
   TerrainLodControl control=new TerrainLodControl(terrain,SceneApplication.getApplication().getCamera());
+  control.setLodCalculator(new DistanceLodCalculator(patchSize,2.7f));
   ((Node)terrain).addControl(control);
   parent.attachChild((Node)terrain);
   return (Spatial)terrain;
