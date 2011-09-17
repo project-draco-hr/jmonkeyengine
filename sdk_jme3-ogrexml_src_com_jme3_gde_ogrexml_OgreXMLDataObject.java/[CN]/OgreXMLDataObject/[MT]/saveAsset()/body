@@ -1,19 +1,48 @@
 {
-  super.saveAsset();
   ProjectAssetManager mgr=getLookup().lookup(ProjectAssetManager.class);
   if (mgr == null) {
     return;
   }
+  String name=getPrimaryFile().getName();
+  int idx=name.toLowerCase().indexOf(".mesh");
+  if (idx != -1) {
+    name=name.substring(0,idx);
+  }
+  ProgressHandle progressHandle=ProgressHandleFactory.createHandle("Saving File..");
+  progressHandle.start();
+  BinaryExporter exp=BinaryExporter.getInstance();
+  FileLock lock=null;
+  OutputStream out=null;
+  try {
+    if (saveExtension == null) {
+      out=getPrimaryFile().getOutputStream();
+    }
+ else {
+      FileObject outFileObject=getPrimaryFile().getParent().getFileObject(name,saveExtension);
+      if (outFileObject == null) {
+        outFileObject=getPrimaryFile().getParent().createData(name,saveExtension);
+      }
+      out=outFileObject.getOutputStream();
+      outFileObject.getParent().refresh();
+    }
+    exp.save(savable,out);
+  }
+  finally {
+    if (lock != null) {
+      lock.releaseLock();
+    }
+    if (out != null) {
+      out.close();
+    }
+  }
+  progressHandle.finish();
+  StatusDisplayer.getDefault().setStatusText(getPrimaryFile().getNameExt() + " saved.");
+  setModified(false);
   FileObject outFile=null;
   if (saveExtension == null) {
     outFile=getPrimaryFile();
   }
  else {
-    String name=getPrimaryFile().getName();
-    int idx=name.toLowerCase().indexOf(".mesh");
-    if (idx != -1) {
-      name=name.substring(0,idx);
-    }
     outFile=getPrimaryFile().getParent().getFileObject(name,saveExtension);
     if (outFile == null) {
       Logger.getLogger(SpatialAssetDataObject.class.getName()).log(Level.SEVERE,"Could not locate saved file.");
