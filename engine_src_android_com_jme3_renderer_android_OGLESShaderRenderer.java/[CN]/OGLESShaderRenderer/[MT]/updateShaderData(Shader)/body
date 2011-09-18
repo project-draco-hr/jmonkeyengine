@@ -59,10 +59,10 @@
   }
  else {
     if (infoLog != null) {
-      logger.log(Level.WARNING,"shader link failure. \n{0}",infoLog);
+      throw new RendererException("Shader link failure, shader:" + shader + " info:"+ infoLog);
     }
  else {
-      logger.warning("shader link failure");
+      throw new RendererException("Shader link failure, shader:" + shader + " info: <not provided>");
     }
   }
   shader.clearUpdateNeeded();
