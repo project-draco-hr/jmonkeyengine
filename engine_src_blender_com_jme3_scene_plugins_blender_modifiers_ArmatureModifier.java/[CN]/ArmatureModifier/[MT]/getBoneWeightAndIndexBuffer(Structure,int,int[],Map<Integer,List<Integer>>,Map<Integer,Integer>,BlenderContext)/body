@@ -14,6 +14,10 @@
         List<Structure> dw=pDW.fetchData(blenderContext.getInputStream());
         for (        Structure deformWeight : dw) {
           Integer boneIndex=groupToBoneIndexMap.get(((Number)deformWeight.getFieldValue("def_nr")).intValue());
+          if (weightIndex == 4) {
+            LOGGER.log(Level.WARNING,"{0} has more than 4 weight on bone index {1}",new Object[]{meshStructure.getName(),boneIndex});
+            break;
+          }
           if (boneIndex != null) {
             float weight=((Number)deformWeight.getFieldValue("weight")).floatValue();
             if (weight == 0.0f) {

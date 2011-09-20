@@ -22,6 +22,7 @@
       this.readVerticesWeightsData(objectStructure,meshStructure,blenderContext);
       String objectName=objectStructure.getName();
       Set<String> animationNames=blenderContext.getBlenderKey().getAnimationNames(objectName);
+      System.out.println("Loaded animation " + objectName);
       if (animationNames != null && animationNames.size() > 0) {
         ArrayList<Animation> animations=new ArrayList<Animation>();
         List<FileBlockHeader> actionHeaders=blenderContext.getFileBlocks(Integer.valueOf(FileBlockHeader.BLOCK_AC00));
