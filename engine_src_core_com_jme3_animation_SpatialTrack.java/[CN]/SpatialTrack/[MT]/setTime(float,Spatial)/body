@@ -1,0 +1,44 @@
+{
+  int lastFrame=times.length - 1;
+  if (time < 0 || lastFrame == 0) {
+    rotations.get(0,tempQ);
+    translations.get(0,tempV);
+    if (scales != null) {
+      scales.get(0,tempS);
+    }
+  }
+ else   if (time >= times[lastFrame]) {
+    rotations.get(lastFrame,tempQ);
+    translations.get(lastFrame,tempV);
+    if (scales != null) {
+      scales.get(lastFrame,tempS);
+    }
+  }
+ else {
+    int startFrame=0;
+    int endFrame=1;
+    for (int i=0; i < lastFrame && times[i] < time; ++i) {
+      startFrame=i;
+      endFrame=i + 1;
+    }
+    float blend=(time - times[startFrame]) / (times[endFrame] - times[startFrame]);
+    rotations.get(startFrame,tempQ);
+    translations.get(startFrame,tempV);
+    if (scales != null) {
+      scales.get(startFrame,tempS);
+    }
+    rotations.get(endFrame,tempQ2);
+    translations.get(endFrame,tempV2);
+    if (scales != null) {
+      scales.get(endFrame,tempS2);
+    }
+    tempQ.nlerp(tempQ2,blend);
+    tempV.interpolate(tempV2,blend);
+    tempS.interpolate(tempS2,blend);
+  }
+  spatial.setLocalTranslation(tempV);
+  spatial.setLocalRotation(tempQ);
+  if (scales != null) {
+    spatial.setLocalScale(tempS);
+  }
+}
