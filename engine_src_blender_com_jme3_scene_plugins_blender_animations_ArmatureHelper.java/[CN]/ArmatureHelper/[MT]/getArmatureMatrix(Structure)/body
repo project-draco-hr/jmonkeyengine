@@ -6,5 +6,15 @@
       m.set(i,j,boneMat.get(j,i).floatValue());
     }
   }
+  if (fixUpAxis) {
+    Vector3f translation=m.toTranslationVector();
+    Quaternion rotation=m.toRotationQuat();
+    float y=translation.y;
+    translation.y=translation.z;
+    translation.z=-y;
+    rotation=upAxisRotationQuaternion.mult(rotation);
+    m.setRotationQuaternion(rotation);
+    m.setTranslation(translation);
+  }
   return m;
 }
