@@ -1,8 +1,0 @@
-{
-  socketChannel=SocketChannel.open();
-  socketChannel.socket().setTcpNoDelay(true);
-  socketChannel.configureBlocking(false);
-  socketChannel.connect(address);
-  socketChannel.register(selector,SelectionKey.OP_CONNECT).attach(this);
-  log.log(Level.INFO,"[{1}][TCP] Connecting to {0}",new Object[]{address,label});
-}

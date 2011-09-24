@@ -1,8 +1,0 @@
-{
-  if (!isBound) {
-    tcp.bind(lastTCPAddress);
-    udp.bind(lastUDPAddress);
-  }
-  new Thread(thread=new ConnectionRunnable(tcp,udp,sleep)).start();
-  log.log(Level.INFO,"[{0}][???] Started server.",label);
-}

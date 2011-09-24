@@ -1,7 +1,0 @@
-{
-  if (!isBound)   throw new IOException("Not bound yet. Use bind() first.");
-  for (  Client con : clientManager.getConnectors()) {
-    if (con == except)     continue;
-    con.send(message);
-  }
-}

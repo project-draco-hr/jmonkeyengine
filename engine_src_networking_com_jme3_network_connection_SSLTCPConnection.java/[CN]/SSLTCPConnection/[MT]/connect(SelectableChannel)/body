@@ -1,9 +1,0 @@
-{
-  super.connect(channel);
-  initialHandshake=true;
-  sslEngine.setUseClientMode(true);
-  sslEngine.beginHandshake();
-  socketChannel.keyFor(selector).interestOps(SelectionKey.OP_WRITE);
-  handshakeStatus=sslEngine.getHandshakeStatus();
-  doHandshake(socketChannel);
-}

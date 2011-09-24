@@ -1,7 +1,0 @@
-{
-  serverSocketChannel=selector.provider().openServerSocketChannel();
-  serverSocketChannel.socket().bind(address);
-  serverSocketChannel.configureBlocking(false);
-  serverSocketChannel.register(selector,SelectionKey.OP_ACCEPT);
-  log.log(Level.INFO,"[{1}][TCP] Bound to {0}",new Object[]{address,label});
-}

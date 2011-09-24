@@ -1,9 +1,0 @@
-{
-  if (isConnector)   return;
-  tcp.sendObject(msg);
-  udp.sendObject(msg);
-  thread.setKeepAlive(false);
-  thread=null;
-  log.log(Level.INFO,"[{0}][???] Disconnected.",label);
-  isConnected=false;
-}

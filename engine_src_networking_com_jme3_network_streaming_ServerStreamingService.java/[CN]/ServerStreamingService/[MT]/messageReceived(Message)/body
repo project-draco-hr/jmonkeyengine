@@ -1,9 +1,0 @@
-{
-  if (message instanceof StreamMessage && !(message instanceof StreamDataMessage)) {
-    StreamMessage streamMessage=(StreamMessage)message;
-    Stream stream=getStream(streamMessage);
-    if (stream == null)     return;
-    stream.setAccepted(true);
-    startStream(stream);
-  }
-}

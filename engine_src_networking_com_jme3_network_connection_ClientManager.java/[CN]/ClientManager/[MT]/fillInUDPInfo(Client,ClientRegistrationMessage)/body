@@ -1,6 +1,0 @@
-{
-  client.setUDPConnection((UDPConnection)msg.getConnection());
-  client.setDatagramReceiver(msg.getClient().getDatagramReceiver());
-  client.setDatagramChannel(msg.getClient().getDatagramChannel());
-  client.getDatagramChannel().keyFor(msg.getConnection().selector).attach(client);
-}

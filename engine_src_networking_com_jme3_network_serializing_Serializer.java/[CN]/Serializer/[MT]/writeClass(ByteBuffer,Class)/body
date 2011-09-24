@@ -1,7 +1,7 @@
 {
   SerializerRegistration reg=getSerializerRegistration(type);
   if (reg == null) {
-    reg=classRegistrations.get(Message.class);
+    throw new SerializerException("Class not registered:" + type);
   }
   buffer.putShort(reg.getId());
   return reg;

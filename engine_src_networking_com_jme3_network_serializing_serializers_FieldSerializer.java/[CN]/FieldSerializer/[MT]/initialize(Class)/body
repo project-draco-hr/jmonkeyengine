@@ -2,7 +2,7 @@
   checkClass(clazz);
   List<Field> fields=new ArrayList<Field>();
   Class processingClass=clazz;
-  while (processingClass != Object.class && processingClass != Message.class) {
+  while (processingClass != Object.class) {
     Collections.addAll(fields,processingClass.getDeclaredFields());
     processingClass=processingClass.getSuperclass();
   }
