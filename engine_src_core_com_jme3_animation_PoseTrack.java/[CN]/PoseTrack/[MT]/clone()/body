@@ -1,0 +1,16 @@
+{
+  try {
+    PoseTrack result=(PoseTrack)super.clone();
+    result.times=this.times.clone();
+    if (this.frames != null) {
+      result.frames=new PoseFrame[this.frames.length];
+      for (int i=0; i < this.frames.length; ++i) {
+        result.frames[i]=this.frames[i].clone();
+      }
+    }
+    return result;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
+}

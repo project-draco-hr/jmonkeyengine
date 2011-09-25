@@ -3,7 +3,7 @@
   Skeleton skeleton=control.getSkeleton();
   if (tracks == null)   return;
   for (int i=0; i < tracks.length; i++) {
-    if (affectedBones == null || affectedBones.get(tracks[i].getTargetBoneIndex())) {
+    if (affectedBones == null || affectedBones.get(tracks[i].getTargetIndex())) {
       tracks[i].setTime(time,skeleton,blendAmount);
     }
   }

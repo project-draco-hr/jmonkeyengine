@@ -1,0 +1,10 @@
+{
+  if (spatial instanceof Geometry) {
+    meshes.add(((Geometry)spatial).getMesh());
+  }
+ else   if (spatial instanceof Node) {
+    for (    Spatial child : ((Node)spatial).getChildren()) {
+      this.getMeshes(child,meshes);
+    }
+  }
+}

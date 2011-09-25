@@ -1,11 +1,5 @@
 {
-  BoneAnimation result;
-  try {
-    result=(BoneAnimation)super.clone();
-  }
- catch (  CloneNotSupportedException e) {
-    throw new AssertionError();
-  }
+  BoneAnimation result=(BoneAnimation)super.clone();
   if (result.tracks == null) {
     result.tracks=new BoneTrack[tracks.length];
   }
@@ -23,7 +17,7 @@
       rotations[j]=sourceRotations[j].clone();
       scales[j]=sourceScales != null ? sourceScales[j].clone() : new Vector3f(1.0f,1.0f,1.0f);
     }
-    result.tracks[i]=new BoneTrack(tracks[i].getTargetBoneIndex(),times,translations,rotations,scales);
+    result.tracks[i]=new BoneTrack(tracks[i].getTargetIndex(),times,translations,rotations,scales);
   }
   return result;
 }

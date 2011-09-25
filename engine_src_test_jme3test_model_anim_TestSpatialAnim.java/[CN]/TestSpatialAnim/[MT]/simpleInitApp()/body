@@ -35,8 +35,8 @@
     scales[i]=Vector3f.UNIT_XYZ;
   }
   SpatialTrack spatialTrack=new SpatialTrack(times,translations,rotations,scales);
-  SpatialAnimation spatialAnimation=new SpatialAnimation("anim",animTime);
-  spatialAnimation.setTrack(spatialTrack);
+  Animation spatialAnimation=new Animation("anim",animTime);
+  spatialAnimation.setTracks(new SpatialTrack[]{spatialTrack});
   AnimControl control=new AnimControl();
   HashMap<String,Animation> animations=new HashMap<String,Animation>();
   animations.put("anim",spatialAnimation);

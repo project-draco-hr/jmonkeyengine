@@ -1,0 +1,15 @@
+{
+  try {
+    Animation result=(Animation)super.clone();
+    if (tracks != null) {
+      result.tracks=tracks.clone();
+      for (int i=0; i < tracks.length; ++i) {
+        result.tracks[i]=this.tracks[i].clone();
+      }
+    }
+    return result;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
+}
