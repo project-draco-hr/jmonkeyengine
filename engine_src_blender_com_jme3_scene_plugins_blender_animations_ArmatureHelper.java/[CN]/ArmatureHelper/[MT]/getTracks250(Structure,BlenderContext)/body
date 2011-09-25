@@ -1,13 +1,12 @@
 {
   LOGGER.log(Level.INFO,"Getting tracks!");
   int fps=blenderContext.getBlenderKey().getFps();
-  int[] animationFrames=blenderContext.getBlenderKey().getAnimationFrames(objectName,animationName);
   Structure groups=(Structure)actionStructure.getFieldValue("groups");
   List<Structure> actionGroups=groups.evaluateListBase(blenderContext);
   if (actionGroups != null && actionGroups.size() > 0 && (bonesMap == null || bonesMap.size() == 0)) {
     throw new IllegalStateException("No bones found! Cannot proceed to calculating tracks!");
   }
-  List<BoneTrack> tracks=new ArrayList<BoneTrack>();
+  List<Track<?>> tracks=new ArrayList<Track<?>>();
   for (  Structure actionGroup : actionGroups) {
     String name=actionGroup.getFieldValue("name").toString();
     Integer boneIndex=bonesMap.get(name);
@@ -30,8 +29,8 @@
         bezierCurves[channelCounter++]=new BezierCurve(type,bezTriples,2);
       }
       Ipo ipo=new Ipo(bezierCurves);
-      tracks.add(ipo.calculateTrack(boneIndex.intValue(),animationFrames[0],animationFrames[1],fps));
+      tracks.add(ipo.calculateTrack(boneIndex.intValue(),0,ipo.getLastFrame(),fps));
     }
   }
-  return tracks.toArray(new BoneTrack[tracks.size()]);
+  return tracks.toArray(new Track<?>[tracks.size()]);
 }

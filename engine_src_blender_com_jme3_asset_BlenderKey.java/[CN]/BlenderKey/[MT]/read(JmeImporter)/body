@@ -1,26 +1,6 @@
 {
   super.read(e);
   InputCapsule ic=e.getCapsule(this);
-  int animSize=ic.readInt("anim-size",0);
-  if (animSize > 0) {
-    if (animations == null) {
-      animations=new HashMap<String,Map<String,int[]>>(animSize);
-    }
- else {
-      animations.clear();
-    }
-    for (int i=0; i < animSize; ++i) {
-      String objectName=ic.readString("animated-object-" + i,null);
-      int animationsAmount=ic.readInt("anims-amount-" + i,0);
-      Map<String,int[]> objectAnimations=new HashMap<String,int[]>(animationsAmount);
-      for (int j=0; j < animationsAmount; ++j) {
-        String animName=ic.readString("anim-name-" + i,null);
-        int[] animFrames=ic.readIntArray("anim-frames-" + i,null);
-        objectAnimations.put(animName,animFrames);
-      }
-      animations.put(objectName,objectAnimations);
-    }
-  }
   fps=ic.readInt("fps",DEFAULT_FPS);
   generatedTextureWidth=ic.readInt("generated-texture-width",20);
   generatedTextureHeight=ic.readInt("generated-texture-height",20);

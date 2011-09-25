@@ -20,27 +20,24 @@
       Structure meshStructure=((Pointer)objectStructure.getFieldValue("data")).fetchData(blenderContext.getInputStream()).get(0);
       this.meshOMA=meshStructure.getOldMemoryAddress();
       this.readVerticesWeightsData(objectStructure,meshStructure,blenderContext);
-      String objectName=objectStructure.getName();
-      Set<String> animationNames=blenderContext.getBlenderKey().getAnimationNames(objectName);
-      System.out.println("Loaded animation " + objectName);
-      if (animationNames != null && animationNames.size() > 0) {
-        ArrayList<Animation> animations=new ArrayList<Animation>();
-        List<FileBlockHeader> actionHeaders=blenderContext.getFileBlocks(Integer.valueOf(FileBlockHeader.BLOCK_AC00));
-        for (        FileBlockHeader header : actionHeaders) {
-          Structure actionStructure=header.getStructure(blenderContext);
-          String actionName=actionStructure.getName();
-          if (animationNames.contains(actionName)) {
-            int[] animationFrames=blenderContext.getBlenderKey().getAnimationFrames(objectName,actionName);
-            int fps=blenderContext.getBlenderKey().getFps();
-            float start=(float)animationFrames[0] / (float)fps;
-            float stop=(float)animationFrames[1] / (float)fps;
-            Animation boneAnimation=new Animation(actionName,stop - start);
-            boneAnimation.setTracks(armatureHelper.getTracks(actionStructure,blenderContext,objectName,actionName));
-            animations.add(boneAnimation);
+      ArrayList<Animation> animations=new ArrayList<Animation>();
+      List<FileBlockHeader> actionHeaders=blenderContext.getFileBlocks(Integer.valueOf(FileBlockHeader.BLOCK_AC00));
+      for (      FileBlockHeader header : actionHeaders) {
+        Structure actionStructure=header.getStructure(blenderContext);
+        String actionName=actionStructure.getName();
+        Track<?>[] tracks=armatureHelper.getTracks(actionStructure,blenderContext);
+        float maximumTrackLength=0;
+        for (        Track<?> track : tracks) {
+          float length=track.getLength();
+          if (length > maximumTrackLength) {
+            maximumTrackLength=length;
           }
         }
-        animData=new AnimData(new Skeleton(bones),animations);
+        Animation boneAnimation=new Animation(actionName,maximumTrackLength);
+        boneAnimation.setTracks(tracks);
+        animations.add(boneAnimation);
       }
+      animData=new AnimData(new Skeleton(bones),animations);
     }
   }
 }
