@@ -34,7 +34,7 @@
             int fps=blenderContext.getBlenderKey().getFps();
             float start=(float)animationFrames[0] / (float)fps;
             float stop=(float)animationFrames[1] / (float)fps;
-            BoneAnimation boneAnimation=new BoneAnimation(actionName,stop - start);
+            Animation boneAnimation=new Animation(actionName,stop - start);
             boneAnimation.setTracks(armatureHelper.getTracks(actionStructure,blenderContext,objectName,actionName));
             animations.add(boneAnimation);
           }

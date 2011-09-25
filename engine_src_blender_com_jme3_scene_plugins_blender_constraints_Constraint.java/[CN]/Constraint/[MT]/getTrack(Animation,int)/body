@@ -1,0 +1,13 @@
+{
+  if (boneOMA >= 0) {
+    for (    Track<?> track : animation.getTracks()) {
+      if (track.getTargetIndex() == targetIndex) {
+        return track;
+      }
+    }
+  }
+ else {
+    return animation.getTracks()[0];
+  }
+  return null;
+}

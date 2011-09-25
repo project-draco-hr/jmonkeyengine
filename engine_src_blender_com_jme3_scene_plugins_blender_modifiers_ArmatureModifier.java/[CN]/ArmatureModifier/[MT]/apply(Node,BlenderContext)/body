@@ -19,13 +19,16 @@
     List<Constraint> constraints=blenderContext.getConstraints(this.armatureObjectOMA);
     HashMap<String,Animation> anims=new HashMap<String,Animation>();
     for (int i=0; i < animList.size(); ++i) {
-      BoneAnimation boneAnimation=(BoneAnimation)animList.get(i).clone();
+      Animation animation=(Animation)animList.get(i).clone();
       if (constraints != null && constraints.size() > 0) {
         for (        Constraint constraint : constraints) {
-          constraint.affectAnimation(animData.skeleton,boneAnimation);
+          Long boneOMA=constraint.getBoneOMA();
+          Bone bone=(Bone)blenderContext.getLoadedFeature(boneOMA,LoadedFeatureDataType.LOADED_FEATURE);
+          int targetIndex=bone == null ? 0 : animData.skeleton.getBoneIndex(bone);
+          constraint.affectAnimation(animation,targetIndex);
         }
       }
-      anims.put(boneAnimation.getName(),boneAnimation);
+      anims.put(animation.getName(),animation);
     }
     SkeletonControl skeletonControl=new SkeletonControl(animData.skeleton);
     AnimControl control=new AnimControl(animData.skeleton);

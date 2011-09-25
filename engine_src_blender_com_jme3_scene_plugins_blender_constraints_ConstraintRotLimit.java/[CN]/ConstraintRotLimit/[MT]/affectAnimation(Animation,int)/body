@@ -1,0 +1,50 @@
+{
+  Track<?> track=this.getTrack(animation,targetIndex);
+  if (track != null) {
+    int flag=((Number)data.getFieldValue("flag")).intValue();
+    Quaternion[] rotations=track.getRotations();
+    int maxFrames=rotations.length;
+    for (int frame=0; frame < maxFrames; ++frame) {
+      float[] angles=rotations[frame].toAngles(null);
+      float influence=ipo.calculateValue(frame);
+      if ((flag & LIMIT_XROT) != 0) {
+        float xmin=((Number)data.getFieldValue("xmin")).floatValue() * FastMath.DEG_TO_RAD;
+        float xmax=((Number)data.getFieldValue("xmax")).floatValue() * FastMath.DEG_TO_RAD;
+        float difference=0.0f;
+        if (angles[0] < xmin) {
+          difference=(angles[0] - xmin) * influence;
+        }
+ else         if (angles[0] > xmax) {
+          difference=(angles[0] - xmax) * influence;
+        }
+        angles[0]-=difference;
+      }
+      if ((flag & LIMIT_YROT) != 0) {
+        float ymin=((Number)data.getFieldValue("ymin")).floatValue() * FastMath.DEG_TO_RAD;
+        float ymax=((Number)data.getFieldValue("ymax")).floatValue() * FastMath.DEG_TO_RAD;
+        float difference=0.0f;
+        if (angles[1] < ymin) {
+          difference=(angles[1] - ymin) * influence;
+        }
+ else         if (angles[1] > ymax) {
+          difference=(angles[1] - ymax) * influence;
+        }
+        angles[1]-=difference;
+      }
+      if ((flag & LIMIT_ZROT) != 0) {
+        float zmin=((Number)data.getFieldValue("zmin")).floatValue() * FastMath.DEG_TO_RAD;
+        float zmax=((Number)data.getFieldValue("zmax")).floatValue() * FastMath.DEG_TO_RAD;
+        float difference=0.0f;
+        if (angles[2] < zmin) {
+          difference=(angles[2] - zmin) * influence;
+        }
+ else         if (angles[2] > zmax) {
+          difference=(angles[2] - zmax) * influence;
+        }
+        angles[2]-=difference;
+      }
+      rotations[frame].fromAngles(angles);
+    }
+    track.setKeyframes(track.getTimes(),track.getTranslations(),rotations,track.getScales());
+  }
+}
