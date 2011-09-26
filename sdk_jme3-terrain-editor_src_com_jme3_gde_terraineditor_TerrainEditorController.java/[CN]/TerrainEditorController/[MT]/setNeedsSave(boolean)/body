@@ -1,3 +1,4 @@
 {
-  currentFileObject.setModified(state);
+  if (state && !currentFileObject.isModified())   currentFileObject.setModified(state);
+ else   if (!state && currentFileObject.isModified())   currentFileObject.setModified(state);
 }
