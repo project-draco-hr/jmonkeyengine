@@ -3,8 +3,8 @@
   int halfSize=totalSize / 2;
   List<LocationHeight> locations=new ArrayList<LocationHeight>();
   for (int i=0; i < xz.size(); i++) {
-    int x=Math.round((xz.get(i).x / getLocalScale().x) + halfSize);
-    int z=Math.round((xz.get(i).y / getLocalScale().z) + halfSize);
+    int x=Math.round((xz.get(i).x / getWorldScale().x) + halfSize);
+    int z=Math.round((xz.get(i).y / getWorldScale().z) + halfSize);
     locations.add(new LocationHeight(x,z,height.get(i)));
   }
   setHeight(locations,overrideHeight);
