@@ -14,6 +14,11 @@ catch (  LWJGLException ex) {
     audioDisabled=true;
     return;
   }
+catch (  UnsatisfiedLinkError ex) {
+    logger.log(Level.SEVERE,"Failed to load audio library",ex);
+    audioDisabled=true;
+    return;
+  }
   ALCdevice device=AL.getDevice();
   String deviceName=ALC10.alcGetString(device,ALC10.ALC_DEVICE_SPECIFIER);
   logger.log(Level.FINER,"Audio Device: {0}",deviceName);
