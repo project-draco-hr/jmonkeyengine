@@ -1,6 +1,6 @@
 {
   if (verboseLogging) {
-    logger.info("drawTriangleList_Array(Count = " + count + ")");
+    logger.log(Level.INFO,"drawTriangleList_Array(Count = {0})",count);
   }
   if (indexBuf.getBufferType() != VertexBuffer.Type.Index) {
     throw new IllegalArgumentException("Only index buffers are allowed as triangle lists.");
@@ -32,7 +32,7 @@
       int elementLength=elementLengths[i];
       indexBuf.getData().position(curOffset);
       if (verboseLogging) {
-        logger.info("glDrawElements(): " + elementLength + ", "+ curOffset);
+        logger.log(Level.INFO,"glDrawElements(): {0}, {1}",new Object[]{elementLength,curOffset});
       }
       GLES20.glDrawElements(elMode,elementLength,fmt,indexBuf.getData());
       curOffset+=elementLength * elSize;
@@ -40,7 +40,7 @@
   }
  else {
     if (verboseLogging) {
-      logger.info("glDrawElements(), indexBuf.capacity (" + indexBuf.getData().capacity() + "), vertCount ("+ vertCount+ ")");
+      logger.log(Level.INFO,"glDrawElements(), indexBuf.capacity ({0}), vertCount ({1})",new Object[]{indexBuf.getData().capacity(),vertCount});
     }
     GLES20.glDrawElements(convertElementMode(mesh.getMode()),indexBuf.getData().capacity(),convertFormat(indexBuf.getFormat()),indexBuf.getData());
   }

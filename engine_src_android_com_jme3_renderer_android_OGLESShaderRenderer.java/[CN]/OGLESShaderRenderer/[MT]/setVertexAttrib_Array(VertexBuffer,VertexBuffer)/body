@@ -1,6 +1,6 @@
 {
   if (verboseLogging) {
-    logger.info("setVertexAttrib_Array(" + vb + ", "+ idb+ ")");
+    logger.log(Level.INFO,"setVertexAttrib_Array({0}, {1})",new Object[]{vb,idb});
   }
   if (vb.getBufferType() == VertexBuffer.Type.Index) {
     throw new IllegalArgumentException("Index buffers not allowed to be set to vertex attrib");
@@ -12,20 +12,20 @@
     int loc=attrib.getLocation();
     if (loc == -1) {
       if (verboseLogging) {
-        logger.warning("attribute is invalid in shader: [" + vb.getBufferType().name() + "]");
+        logger.log(Level.WARNING,"attribute is invalid in shader: [{0}]",vb.getBufferType().name());
       }
       return;
     }
  else     if (loc == -2) {
       String attributeName="in" + vb.getBufferType().name();
       if (verboseLogging) {
-        logger.info("GLES20.glGetAttribLocation(" + programId + ", "+ attributeName+ ")");
+        logger.log(Level.INFO,"GLES20.glGetAttribLocation({0}, {1})",new Object[]{programId,attributeName});
       }
       loc=GLES20.glGetAttribLocation(programId,attributeName);
       if (loc < 0) {
         attrib.setLocation(-1);
         if (verboseLogging) {
-          logger.warning("attribute is invalid in shader: [" + vb.getBufferType().name() + "]");
+          logger.log(Level.WARNING,"attribute is invalid in shader: [{0}]",vb.getBufferType().name());
         }
         return;
       }
@@ -38,7 +38,7 @@
       avb.getData().clear();
       avb.getData().position(vb.getOffset());
       if (verboseLogging) {
-        logger.info("GLES20.glVertexAttribPointer(" + "location=" + loc + ", "+ "numComponents="+ vb.getNumComponents()+ ", "+ "format="+ vb.getFormat()+ ", "+ "isNormalized="+ vb.isNormalized()+ ", "+ "stride="+ vb.getStride()+ ", "+ "data.capacity="+ avb.getData().capacity()+ ")");
+        logger.log(Level.INFO,"GLES20.glVertexAttribPointer(" + "location={0}, " + "numComponents={1}, "+ "format={2}, "+ "isNormalized={3}, "+ "stride={4}, "+ "data.capacity={5})",new Object[]{loc,vb.getNumComponents(),vb.getFormat(),vb.isNormalized(),vb.getStride(),avb.getData().capacity()});
       }
       GLES20.glVertexAttribPointer(loc,vb.getNumComponents(),convertFormat(vb.getFormat()),vb.isNormalized(),vb.getStride(),avb.getData());
       checkGLError();
