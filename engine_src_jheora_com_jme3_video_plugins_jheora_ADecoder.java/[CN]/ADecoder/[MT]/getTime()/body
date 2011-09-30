@@ -1,8 +1,0 @@
-{
-  long bytesRead=ringBuffer.getTotalRead();
-  if (bytesRead == 0)   return 0;
-  long diff=bytesRead;
-  long diffNs=(diff * Clock.SECONDS_TO_NANOS) / (2 * info.channels * info.rate);
-  long timeSinceLastRead=System.nanoTime() - lastPtsRead;
-  return diffNs + timeSinceLastRead;
-}
