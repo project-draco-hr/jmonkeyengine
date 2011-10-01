@@ -1,7 +1,13 @@
 {
   if (this.visible != visible) {
-    component.setCursor(visible ? null : getTransparentCursor());
     this.visible=visible;
-    if (!visible)     recenterMouse(component);
+    final boolean newVisible=visible;
+    SwingUtilities.invokeLater(new Runnable(){
+      public void run(){
+        component.setCursor(newVisible ? null : getTransparentCursor());
+        if (!newVisible)         recenterMouse(component);
+      }
+    }
+);
   }
 }

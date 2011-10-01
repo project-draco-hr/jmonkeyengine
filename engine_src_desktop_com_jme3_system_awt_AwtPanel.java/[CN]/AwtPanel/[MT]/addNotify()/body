@@ -1,0 +1,16 @@
+{
+  super.addNotify();
+  try {
+    createBufferStrategy(2);
+    strategy=getBufferStrategy();
+    visible.set(true);
+    visibleBarrier.await();
+  }
+ catch (  InterruptedException ex) {
+    ex.printStackTrace();
+  }
+catch (  BrokenBarrierException ex) {
+    ex.printStackTrace();
+  }
+  requestFocusInWindow();
+}

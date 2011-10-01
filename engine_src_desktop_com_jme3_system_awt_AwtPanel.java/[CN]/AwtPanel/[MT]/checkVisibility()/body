@@ -1,0 +1,14 @@
+{
+  if (visible.get() != glVisible) {
+    try {
+      glVisible=visible.get();
+      visibleBarrier.await();
+    }
+ catch (    InterruptedException ex) {
+      ex.printStackTrace();
+    }
+catch (    BrokenBarrierException ex) {
+      ex.printStackTrace();
+    }
+  }
+}

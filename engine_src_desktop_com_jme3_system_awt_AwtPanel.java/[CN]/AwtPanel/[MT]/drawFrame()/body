@@ -1,0 +1,14 @@
+{
+  checkVisibility();
+  if (!glVisible)   return;
+  if (strategy.contentsLost()) {
+    strategy.dispose();
+    createBufferStrategy(2);
+    strategy=getBufferStrategy();
+    System.out.println("BufferStrategy lost!");
+  }
+  Graphics2D g2d=(Graphics2D)strategy.getDrawGraphics();
+  g2d.drawImage(img,transformOp,0,0);
+  g2d.dispose();
+  strategy.show();
+}

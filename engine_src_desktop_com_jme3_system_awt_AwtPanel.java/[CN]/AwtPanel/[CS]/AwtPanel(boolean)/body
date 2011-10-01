@@ -1,0 +1,21 @@
+{
+  this.activeUpdates=activeUpdates;
+  setIgnoreRepaint(true);
+  addComponentListener(new ComponentAdapter(){
+    @Override public void componentResized(    ComponentEvent e){
+      newWidth=Math.max(getWidth(),1);
+      newHeight=Math.max(getHeight(),1);
+      reshapeNeeded.set(true);
+      try {
+        reshapeBarrier.await();
+      }
+ catch (      InterruptedException ex) {
+        ex.printStackTrace();
+      }
+catch (      BrokenBarrierException ex) {
+        ex.printStackTrace();
+      }
+    }
+  }
+);
+}

@@ -1,0 +1,14 @@
+{
+  try {
+    visible.set(false);
+    visibleBarrier.await();
+    strategy=null;
+  }
+ catch (  InterruptedException ex) {
+    ex.printStackTrace();
+  }
+catch (  BrokenBarrierException ex) {
+    ex.printStackTrace();
+  }
+  super.removeNotify();
+}

@@ -1,0 +1,10 @@
+{
+  if (viewPorts.size() > 0) {
+    for (    ViewPort vp : viewPorts) {
+      vp.setOutputFrameBuffer(null);
+    }
+    viewPorts.get(viewPorts.size() - 1).removeProcessor(this);
+  }
+  viewPorts.addAll(Arrays.asList(vps));
+  viewPorts.get(viewPorts.size() - 1).addProcessor(this);
+}

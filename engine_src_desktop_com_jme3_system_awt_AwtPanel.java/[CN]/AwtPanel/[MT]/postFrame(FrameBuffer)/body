@@ -1,0 +1,24 @@
+{
+  if (out != fb)   throw new IllegalStateException("Why did you change the output framebuffer?");
+  if (reshapeNeeded.getAndSet(false)) {
+    reshapeInThread(newWidth,newHeight);
+    try {
+      reshapeBarrier.await();
+    }
+ catch (    InterruptedException ex) {
+      ex.printStackTrace();
+    }
+catch (    BrokenBarrierException ex) {
+      ex.printStackTrace();
+    }
+  }
+ else   if (activeUpdates) {
+    byteBuf.clear();
+    rm.getRenderer().readFrameBuffer(fb,byteBuf);
+    Screenshots.convertScreenShot2(byteBuf,img);
+    drawFrame();
+  }
+ else {
+    checkVisibility();
+  }
+}
