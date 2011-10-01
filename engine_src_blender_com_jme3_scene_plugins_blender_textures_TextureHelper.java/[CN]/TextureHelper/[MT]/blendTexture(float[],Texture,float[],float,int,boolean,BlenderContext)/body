@@ -18,7 +18,7 @@
     newData.put(dataIndex++,(byte)(resultPixel[0] * 255.0f));
     newData.put(dataIndex++,(byte)(resultPixel[1] * 255.0f));
     newData.put(dataIndex++,(byte)(resultPixel[2] * 255.0f));
-    newData.put(dataIndex++,(byte)255.0f);
+    newData.put(dataIndex++,(byte)(materialColorClone[3] * 255.0f));
   }
   if (texture.getType() == Texture.Type.TwoDimensional) {
     return new Texture2D(new Image(Format.RGBA8,width,height,newData));

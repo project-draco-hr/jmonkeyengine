@@ -6,7 +6,6 @@
     type=0;
   }
   result.setParallelProjection(type == 1);
-  float angle=((Number)structure.getFieldValue("angle")).floatValue();
   float aspect=0;
   float clipsta=((Number)structure.getFieldValue("clipsta")).floatValue();
   float clipend=((Number)structure.getFieldValue("clipend")).floatValue();
@@ -16,6 +15,6 @@
  else {
     aspect=((Number)structure.getFieldValue("ortho_scale")).floatValue();
   }
-  result.setFrustumPerspective(angle,aspect,clipsta,clipend);
+  result.setFrustumPerspective(aspect,result.getWidth() / result.getHeight(),clipsta,clipend);
   return result;
 }

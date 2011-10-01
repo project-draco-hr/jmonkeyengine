@@ -4,7 +4,29 @@
   shadeless=(mode & 0x4) != 0;
   vertexColor=(mode & 0x80) != 0;
   transparent=(mode & 0x10000) != 0;
-  vtangent=(mode & 0x4000000) != 0;
+  vTangent=(mode & 0x4000000) != 0;
+  int diff_shader=((Number)structure.getFieldValue("diff_shader")).intValue();
+  diffuseShader=DiffuseShader.values()[diff_shader];
+  if (this.shadeless) {
+    diffuseColor=ColorRGBA.White.clone();
+    specularShader=null;
+    specularColor=ambientColor=null;
+    shininess=0.0f;
+  }
+ else {
+    diffuseColor=this.readDiffuseColor(structure,diffuseShader);
+    int spec_shader=((Number)structure.getFieldValue("spec_shader")).intValue();
+    specularShader=SpecularShader.values()[spec_shader];
+    specularColor=this.readSpecularColor(structure,specularShader);
+    float r=((Number)structure.getFieldValue("ambr")).floatValue();
+    float g=((Number)structure.getFieldValue("ambg")).floatValue();
+    float b=((Number)structure.getFieldValue("ambb")).floatValue();
+    float alpha=((Number)structure.getFieldValue("alpha")).floatValue();
+    ambientColor=new ColorRGBA(r,g,b,alpha);
+    float shininess=((Number)structure.getFieldValue("emit")).floatValue();
+    this.shininess=shininess > 0.0f ? shininess : MaterialHelper.DEFAULT_SHININESS;
+  }
+  float[] diffuseColorArray=new float[]{diffuseColor.r,diffuseColor.g,diffuseColor.b,diffuseColor.a};
   mTexs=new ArrayList<Structure>();
   textures=new ArrayList<Structure>();
   DynamicArray<Pointer> mtexsArray=(DynamicArray<Pointer>)structure.getFieldValue("mtex");
@@ -42,6 +64,28 @@
           }
         }
       }
+    }
+  }
+  Map<Number,List<Structure[]>> sortedTextures=this.sortAndFilterTextures();
+  loadedTextures=new HashMap<Number,Texture>(sortedTextures.size());
+  textureToMTexMap=new HashMap<Texture,Structure>();
+  TextureHelper textureHelper=blenderContext.getHelper(TextureHelper.class);
+  for (  Entry<Number,List<Structure[]>> entry : sortedTextures.entrySet()) {
+    if (entry.getValue().size() > 0) {
+      List<Texture> textures=new ArrayList<Texture>(entry.getValue().size());
+      for (      Structure[] mtexAndTex : entry.getValue()) {
+        int texflag=((Number)mtexAndTex[0].getFieldValue("texflag")).intValue();
+        boolean negateTexture=(texflag & 0x04) != 0;
+        Texture texture=textureHelper.getTexture(mtexAndTex[1],blenderContext);
+        int blendType=((Number)mtexAndTex[0].getFieldValue("blendtype")).intValue();
+        float[] color=new float[]{((Number)mtexAndTex[0].getFieldValue("r")).floatValue(),((Number)mtexAndTex[0].getFieldValue("g")).floatValue(),((Number)mtexAndTex[0].getFieldValue("b")).floatValue()};
+        float colfac=((Number)mtexAndTex[0].getFieldValue("colfac")).floatValue();
+        texture=textureHelper.blendTexture(diffuseColorArray,texture,color,colfac,blendType,negateTexture,blenderContext);
+        texture.setWrap(WrapMode.Repeat);
+        textures.add(texture);
+        textureToMTexMap.put(texture,mtexAndTex[0]);
+      }
+      loadedTextures.put(entry.getKey(),textureHelper.mergeTextures(textures,this));
     }
   }
   this.texturesCount=mTexs.size();

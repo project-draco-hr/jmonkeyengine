@@ -1,0 +1,54 @@
+{
+  Texture result=null;
+  if (sources != null && sources.size() > 0) {
+    int lastTextureWithoutAlphaIndex=0;
+    int width=sources.get(0).getImage().getWidth();
+    int height=sources.get(0).getImage().getHeight();
+    int depth=sources.get(0).getImage().getDepth();
+    for (    Texture source : sources) {
+      if (source.getImage().getWidth() != width) {
+        throw new IllegalArgumentException("The texture " + source.getName() + " has invalid width! It should be: "+ width+ '!');
+      }
+      if (source.getImage().getHeight() != height) {
+        throw new IllegalArgumentException("The texture " + source.getName() + " has invalid height! It should be: "+ height+ '!');
+      }
+      if (source.getImage().getDepth() != depth) {
+        throw new IllegalArgumentException("The texture " + source.getName() + " has invalid depth! It should be: "+ depth+ '!');
+      }
+      if (source.getImage().getFormat() != Format.RGB8 && source.getImage().getFormat() != Format.BGR8) {
+        ++lastTextureWithoutAlphaIndex;
+      }
+    }
+    if (lastTextureWithoutAlphaIndex > 0 && lastTextureWithoutAlphaIndex < sources.size() - 1) {
+      sources=sources.subList(lastTextureWithoutAlphaIndex,sources.size() - 1);
+    }
+    int pixelsAmount=width * height * depth;
+    ByteBuffer data=BufferUtils.createByteBuffer(pixelsAmount * 3);
+    TexturePixel resultPixel=new TexturePixel();
+    TexturePixel sourcePixel=new TexturePixel();
+    ColorRGBA diffuseColor=materialContext.getDiffuseColor();
+    for (int i=0; i < pixelsAmount; ++i) {
+      for (int j=0; j < sources.size(); ++j) {
+        Image image=sources.get(j).getImage();
+        ByteBuffer sourceData=image.getData(0);
+        if (j == 0) {
+          resultPixel.fromColor(diffuseColor);
+          sourcePixel.fromImage(image.getFormat(),sourceData,i);
+          resultPixel.merge(sourcePixel);
+        }
+ else {
+          sourcePixel.fromImage(image.getFormat(),sourceData,i);
+          resultPixel.merge(sourcePixel);
+        }
+      }
+      data.put((byte)(255 * resultPixel.red));
+      data.put((byte)(255 * resultPixel.green));
+      data.put((byte)(255 * resultPixel.blue));
+      resultPixel.clear();
+    }
+    ArrayList<ByteBuffer> arrayData=new ArrayList<ByteBuffer>(1);
+    arrayData.add(data);
+    result=new Texture3D(new Image(Format.RGB8,width,height,depth,arrayData));
+  }
+  return result;
+}

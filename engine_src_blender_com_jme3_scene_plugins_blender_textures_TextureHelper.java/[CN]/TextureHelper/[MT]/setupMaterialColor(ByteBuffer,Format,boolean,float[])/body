@@ -1,46 +1,52 @@
 {
   float tin=0.0f;
   byte pixelValue=data.get();
-  float firstPixelValue=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
+  float firstPixelValue=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - (~pixelValue) / 255.0f;
 switch (imageFormat) {
-case ABGR8:
-    pixelValue=data.get();
-  materialColor[2]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
-pixelValue=data.get();
-materialColor[1]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
-pixelValue=data.get();
-materialColor[0]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
-break;
-case BGR8:
-materialColor[2]=firstPixelValue;
-pixelValue=data.get();
-materialColor[1]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
-pixelValue=data.get();
-materialColor[0]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
-break;
-case RGB8:
-materialColor[0]=firstPixelValue;
-pixelValue=data.get();
-materialColor[1]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
-pixelValue=data.get();
-materialColor[2]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
+case Luminance8:
+    tin=neg ? 1.0f - firstPixelValue : firstPixelValue;
+  materialColor[3]=tin;
+neg=false;
 break;
 case RGBA8:
 materialColor[0]=firstPixelValue;
 pixelValue=data.get();
-materialColor[1]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
+materialColor[1]=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - (~pixelValue) / 255.0f;
 pixelValue=data.get();
-materialColor[2]=pixelValue >= 0 ? 1.0f - pixelValue / 255.0f : (~pixelValue + 1) / 255.0f;
-data.get();
+materialColor[2]=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - (~pixelValue) / 255.0f;
+pixelValue=data.get();
+materialColor[3]=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - (~pixelValue) / 255.0f;
 break;
-case Luminance8:
-tin=neg ? 1.0f - firstPixelValue : firstPixelValue;
-neg=false;
+case ABGR8:
+materialColor[3]=firstPixelValue;
+pixelValue=data.get();
+materialColor[2]=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - (~pixelValue) / 255.0f;
+pixelValue=data.get();
+materialColor[1]=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - (~pixelValue) / 255.0f;
+pixelValue=data.get();
+materialColor[0]=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - (~pixelValue) / 255.0f;
+break;
+case BGR8:
+materialColor[2]=firstPixelValue;
+pixelValue=data.get();
+materialColor[1]=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - (~pixelValue) / 255.0f;
+pixelValue=data.get();
+materialColor[0]=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - (~pixelValue) / 255.0f;
+materialColor[3]=1.0f;
+break;
+case RGB8:
+materialColor[0]=firstPixelValue;
+pixelValue=data.get();
+materialColor[1]=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - (~pixelValue) / 255.0f;
+pixelValue=data.get();
+materialColor[2]=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - (~pixelValue) / 255.0f;
+materialColor[3]=1.0f;
 break;
 case Luminance8Alpha8:
 tin=neg ? 1.0f - firstPixelValue : firstPixelValue;
 neg=false;
-data.get();
+pixelValue=data.get();
+materialColor[3]=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - (~pixelValue) / 255.0f;
 break;
 case Luminance16:
 case Luminance16Alpha16:
