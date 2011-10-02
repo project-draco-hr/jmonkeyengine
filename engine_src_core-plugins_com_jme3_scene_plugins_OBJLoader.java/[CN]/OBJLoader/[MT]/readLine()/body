@@ -4,7 +4,7 @@
   }
   String cmd=scan.next();
   if (cmd.startsWith("#")) {
-    nextStatement();
+    return nextStatement();
   }
  else   if (cmd.equals("v")) {
     verts.add(readVector3());
@@ -26,11 +26,11 @@
     loadMtlLib(mtllib);
   }
  else   if (cmd.equals("s") || cmd.equals("g")) {
-    nextStatement();
+    return nextStatement();
   }
  else {
     logger.log(Level.WARNING,"Unknown statement in OBJ! {0}",cmd);
-    nextStatement();
+    return nextStatement();
   }
   return true;
 }

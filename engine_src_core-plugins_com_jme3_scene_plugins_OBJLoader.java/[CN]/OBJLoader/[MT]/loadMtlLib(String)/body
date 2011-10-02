@@ -1,7 +1,12 @@
 {
   if (!name.toLowerCase().endsWith(".mtl"))   throw new IOException("Expected .mtl file! Got: " + name);
   name=new File(name).getName();
-  matList=(MaterialList)assetManager.loadAsset(key.getFolder() + name);
+  try {
+    matList=(MaterialList)assetManager.loadAsset(key.getFolder() + name);
+  }
+ catch (  AssetNotFoundException ex) {
+    throw new AssetNotFoundException("Cannot find material " + name + " for model "+ key.getName());
+  }
   if (matList != null) {
     for (    String matName : matList.keySet()) {
       matFaces.put(matName,new ArrayList<Face>());

@@ -4,7 +4,7 @@
   }
   String cmd=scan.next().toLowerCase();
   if (cmd.startsWith("#")) {
-    skipLine();
+    return skipLine();
   }
  else   if (cmd.equals("newmtl")) {
     String name=scan.next();
@@ -30,7 +30,7 @@
     transparent=true;
   }
  else   if (cmd.equals("map_ka")) {
-    skipLine();
+    return skipLine();
   }
  else   if (cmd.equals("map_kd")) {
     String path=nextStatement();
@@ -61,21 +61,32 @@
 switch (mode) {
 case 0:
       shadeless=true;
-    break;
+    disallowTransparency=true;
+  break;
+case 1:
+disallowSpecular=true;
+disallowTransparency=true;
+break;
+case 2:
+case 3:
+case 5:
+case 8:
+disallowTransparency=true;
+break;
 case 4:
 case 6:
 case 7:
 case 9:
-  transparent=true;
+transparent=true;
 break;
 }
 }
  else if (cmd.equals("ke") || cmd.equals("ni")) {
-skipLine();
+return skipLine();
 }
  else {
 logger.log(Level.WARNING,"Unknown statement in MTL! {0}",cmd);
-skipLine();
+return skipLine();
 }
 return true;
 }
