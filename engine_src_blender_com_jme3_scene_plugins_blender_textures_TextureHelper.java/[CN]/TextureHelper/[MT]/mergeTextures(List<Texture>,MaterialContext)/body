@@ -19,6 +19,9 @@
         ++lastTextureWithoutAlphaIndex;
       }
     }
+    if (depth == 0) {
+      depth=1;
+    }
     if (lastTextureWithoutAlphaIndex > 0 && lastTextureWithoutAlphaIndex < sources.size() - 1) {
       sources=sources.subList(lastTextureWithoutAlphaIndex,sources.size() - 1);
     }
@@ -46,9 +49,14 @@
       data.put((byte)(255 * resultPixel.blue));
       resultPixel.clear();
     }
-    ArrayList<ByteBuffer> arrayData=new ArrayList<ByteBuffer>(1);
-    arrayData.add(data);
-    result=new Texture3D(new Image(Format.RGB8,width,height,depth,arrayData));
+    if (depth == 1) {
+      result=new Texture2D(new Image(Format.RGB8,width,height,data));
+    }
+ else {
+      ArrayList<ByteBuffer> arrayData=new ArrayList<ByteBuffer>(1);
+      arrayData.add(data);
+      result=new Texture3D(new Image(Format.RGB8,width,height,depth,arrayData));
+    }
   }
   return result;
 }
