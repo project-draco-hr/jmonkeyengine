@@ -1,6 +1,8 @@
 {
-  for (int i=0; i < eventQueue.size(); i++) {
-    listener.onKeyEvent(eventQueue.get(i));
+synchronized (eventQueue) {
+    for (int i=0; i < eventQueue.size(); i++) {
+      listener.onKeyEvent(eventQueue.get(i));
+    }
+    eventQueue.clear();
   }
-  eventQueue.clear();
 }

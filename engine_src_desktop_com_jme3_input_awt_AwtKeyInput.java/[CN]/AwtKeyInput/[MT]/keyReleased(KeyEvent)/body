@@ -2,5 +2,7 @@
   int code=convertAwtKey(evt.getKeyCode());
   KeyInputEvent keyEvent=new KeyInputEvent(code,evt.getKeyChar(),false,false);
   keyEvent.setTime(evt.getWhen());
-  eventQueue.add(keyEvent);
+synchronized (eventQueue) {
+    eventQueue.add(keyEvent);
+  }
 }

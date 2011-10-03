@@ -1,0 +1,29 @@
+{
+  if (!visible.get()) {
+    if (strategy != null) {
+      strategy.dispose();
+      strategy=null;
+    }
+    return;
+  }
+  if (strategy == null || strategy.contentsLost()) {
+    if (strategy != null) {
+      strategy.dispose();
+    }
+    try {
+      createBufferStrategy(1,new BufferCapabilities(new ImageCapabilities(true),new ImageCapabilities(true),BufferCapabilities.FlipContents.UNDEFINED));
+    }
+ catch (    AWTException ex) {
+      ex.printStackTrace();
+    }
+    strategy=getBufferStrategy();
+    System.out.println("OGL: BufferStrategy lost!");
+  }
+  Graphics2D g2d;
+synchronized (lock) {
+    g2d=(Graphics2D)strategy.getDrawGraphics();
+  }
+  g2d.drawImage(img,transformOp,0,0);
+  g2d.dispose();
+  strategy.show();
+}

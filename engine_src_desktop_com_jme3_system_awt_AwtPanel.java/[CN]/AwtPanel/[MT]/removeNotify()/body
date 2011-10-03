@@ -1,14 +1,7 @@
 {
-  try {
+synchronized (lock) {
     visible.set(false);
-    visibleBarrier.await();
-    strategy=null;
-  }
- catch (  InterruptedException ex) {
-    ex.printStackTrace();
-  }
-catch (  BrokenBarrierException ex) {
-    ex.printStackTrace();
+    System.out.println("EDT: removeNotify");
   }
   super.removeNotify();
 }

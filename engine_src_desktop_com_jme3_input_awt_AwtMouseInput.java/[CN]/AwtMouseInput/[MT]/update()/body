@@ -1,15 +1,18 @@
 {
-  int newX=location.x;
-  int newY=location.y;
-  int newWheel=wheelPos;
-  MouseMotionEvent evt=new MouseMotionEvent(newX,newY,newX - lastEventX,lastEventY - newY,wheelPos,lastEventWheel - wheelPos);
-  listener.onMouseMotionEvent(evt);
+  if (cursorMoved) {
+    int newX=location.x;
+    int newY=location.y;
+    int newWheel=wheelPos;
+    MouseMotionEvent evt=new MouseMotionEvent(newX,newY,newX - lastEventX,lastEventY - newY,wheelPos,lastEventWheel - wheelPos);
+    listener.onMouseMotionEvent(evt);
+    lastEventX=newX;
+    lastEventY=newY;
+    lastEventWheel=newWheel;
+    cursorMoved=false;
+  }
   int size=eventQueue.size();
   for (int i=0; i < size; i++) {
     listener.onMouseButtonEvent(eventQueue.get(i));
   }
   eventQueue.clear();
-  lastEventX=newX;
-  lastEventY=newY;
-  lastEventWheel=newWheel;
 }

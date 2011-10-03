@@ -1,5 +1,6 @@
 {
-  settings.copyFrom(settings);
+  this.settings.copyFrom(settings);
+  this.settings.setRenderer(AppSettings.LWJGL_OPENGL2);
   if (actualContext != null) {
     actualContext.setSettings(settings);
   }

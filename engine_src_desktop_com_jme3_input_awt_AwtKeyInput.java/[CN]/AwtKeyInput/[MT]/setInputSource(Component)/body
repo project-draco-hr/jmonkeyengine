@@ -1,8 +1,10 @@
 {
-  if (component != null) {
-    component.removeKeyListener(this);
-    eventQueue.clear();
+synchronized (eventQueue) {
+    if (component != null) {
+      component.removeKeyListener(this);
+      eventQueue.clear();
+    }
+    component=comp;
+    component.addKeyListener(this);
   }
-  component=comp;
-  component.addKeyListener(this);
 }
