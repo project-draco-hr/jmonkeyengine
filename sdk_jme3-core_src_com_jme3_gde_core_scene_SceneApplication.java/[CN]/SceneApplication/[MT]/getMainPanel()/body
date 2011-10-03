@@ -1,0 +1,8 @@
+{
+  if (panel == null) {
+    panel=((AwtPanelsContext)getContext()).createPanel(true);
+    panel.attachTo(viewPort,guiViewPort,overlayView);
+    ((AwtPanelsContext)getContext()).setInputSource(panel);
+  }
+  return panel;
+}

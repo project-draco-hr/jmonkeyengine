@@ -7,7 +7,7 @@
   setIcon(ImageUtilities.loadImage(ICON_PATH,true));
   try {
     app=SceneApplication.getApplication();
-    oglCanvas=((JmeCanvasContext)app.getContext()).getCanvas();
+    oglCanvas=app.getMainPanel();
     oGLPanel.add(oglCanvas);
   }
  catch (  Exception e) {

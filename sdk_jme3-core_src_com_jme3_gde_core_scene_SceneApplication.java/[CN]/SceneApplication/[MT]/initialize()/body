@@ -1,6 +1,11 @@
 {
   try {
     super.initialize();
+{
+      overlayView=getRenderManager().createMainView("Overlay",cam);
+      overlayView.setClearFlags(false,true,false);
+      guiViewPort.setClearFlags(false,false,false);
+    }
     getProgressHandle().progress("Setup Camera Controller",2);
     camController=new SceneCameraController(cam,inputManager);
     getProgressHandle().progress("Setup Preview Scene",3);
