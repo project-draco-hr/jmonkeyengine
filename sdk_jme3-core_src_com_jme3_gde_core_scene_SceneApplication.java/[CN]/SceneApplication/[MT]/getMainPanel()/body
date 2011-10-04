@@ -1,6 +1,6 @@
 {
   if (panel == null) {
-    panel=((AwtPanelsContext)getContext()).createPanel(true);
+    panel=((AwtPanelsContext)getContext()).createPanel(PaintMode.Accelerated);
     panel.attachTo(viewPort,overlayView,guiViewPort);
     ((AwtPanelsContext)getContext()).setInputSource(panel);
   }
