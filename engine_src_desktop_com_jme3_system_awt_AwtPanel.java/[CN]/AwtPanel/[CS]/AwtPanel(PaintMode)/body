@@ -1,6 +1,8 @@
 {
-  this.activeUpdates=activeUpdates;
-  setIgnoreRepaint(true);
+  this.paintMode=paintMode;
+  if (paintMode == PaintMode.Accelerated) {
+    setIgnoreRepaint(true);
+  }
   addComponentListener(new ComponentAdapter(){
     @Override public void componentResized(    ComponentEvent e){
 synchronized (lock) {

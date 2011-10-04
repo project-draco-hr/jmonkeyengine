@@ -5,10 +5,22 @@
   if (reshapeNeeded.getAndSet(false)) {
     reshapeInThread(newWidth,newHeight);
   }
- else   if (activeUpdates) {
-    byteBuf.clear();
-    rm.getRenderer().readFrameBuffer(fb,byteBuf);
-    Screenshots.convertScreenShot2(intBuf,img);
-    drawFrameInThread();
-  }
+ else {
+    if (!checkVisibilityState()) {
+      return;
+    }
+switch (paintMode) {
+case Accelerated:
+      drawFrameInThread();
+    break;
+case Repaint:
+  repaintInThread();
+break;
+case OnRequest:
+if (repaintRequest.getAndSet(false)) {
+repaintInThread();
+}
+break;
+}
+}
 }

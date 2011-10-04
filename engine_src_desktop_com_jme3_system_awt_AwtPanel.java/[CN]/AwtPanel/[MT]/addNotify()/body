@@ -1,7 +1,7 @@
 {
   super.addNotify();
 synchronized (lock) {
-    visible.set(true);
+    hasNativePeer.set(true);
     System.out.println("EDT: addNotify");
   }
   requestFocusInWindow();

@@ -1,0 +1,20 @@
+{
+  if (!hasNativePeer.get()) {
+    if (strategy != null) {
+      strategy.dispose();
+      strategy=null;
+      System.out.println("OGL: Not visible. Destroy strategy.");
+    }
+    return false;
+  }
+  boolean currentShowing=isShowing();
+  if (showing.getAndSet(currentShowing) != currentShowing) {
+    if (currentShowing) {
+      System.out.println("OGL: Enter showing state.");
+    }
+ else {
+      System.out.println("OGL: Exit showing state.");
+    }
+  }
+  return currentShowing;
+}

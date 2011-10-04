@@ -1,5 +1,7 @@
 {
-  if (actualContext != null)   throw new IllegalStateException("Already created");
+  if (actualContext != null) {
+    throw new IllegalStateException("Already created");
+  }
   actualContext=JmeSystem.newContext(settings,Type.OffscreenSurface);
   actualContext.setSystemListener(new AwtPanelsListener());
   actualContext.create(waitFor);

@@ -10,10 +10,10 @@
   SwingUtilities.invokeLater(new Runnable(){
     public void run(){
       final AwtPanelsContext ctx=(AwtPanelsContext)app.getContext();
-      panel=ctx.createPanel(true);
+      panel=ctx.createPanel(PaintMode.Accelerated);
       panel.setPreferredSize(new Dimension(400,300));
       ctx.setInputSource(panel);
-      panel2=ctx.createPanel(true);
+      panel2=ctx.createPanel(PaintMode.Accelerated);
       panel2.setPreferredSize(new Dimension(400,300));
       createWindowForPanel(panel,300);
       createWindowForPanel(panel2,700);

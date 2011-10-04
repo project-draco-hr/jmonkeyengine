@@ -1,3 +1,26 @@
 {
+  boolean needThrottle=true;
+  for (  AwtPanel panel : panels) {
+    if (panel.isActiveDrawing()) {
+      needThrottle=false;
+      break;
+    }
+  }
+  if (lastThrottleState != needThrottle) {
+    lastThrottleState=needThrottle;
+    if (lastThrottleState) {
+      System.out.println("OGL: Throttling update loop.");
+    }
+ else {
+      System.out.println("OGL: Ceased throttling update loop.");
+    }
+  }
+  if (needThrottle) {
+    try {
+      Thread.sleep(100);
+    }
+ catch (    InterruptedException ex) {
+    }
+  }
   listener.update();
 }

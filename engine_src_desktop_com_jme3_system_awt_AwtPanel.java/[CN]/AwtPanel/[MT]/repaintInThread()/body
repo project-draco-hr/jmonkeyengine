@@ -1,0 +1,8 @@
+{
+  byteBuf.clear();
+  rm.getRenderer().readFrameBuffer(fb,byteBuf);
+synchronized (lock) {
+    Screenshots.convertScreenShot2(intBuf,img);
+    repaint();
+  }
+}

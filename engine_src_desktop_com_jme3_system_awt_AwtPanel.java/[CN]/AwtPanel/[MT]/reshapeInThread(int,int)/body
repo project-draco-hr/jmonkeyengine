@@ -4,12 +4,17 @@
   fb=new FrameBuffer(width,height,1);
   fb.setDepthBuffer(Format.Depth);
   fb.setColorBuffer(Format.RGB8);
-  img=new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+synchronized (lock) {
+    img=new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+  }
   AffineTransform tx=AffineTransform.getScaleInstance(1,-1);
   tx.translate(0,-img.getHeight());
   transformOp=new AffineTransformOp(tx,AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
   for (  ViewPort vp : viewPorts) {
     vp.setOutputFrameBuffer(fb);
     vp.getCamera().resize(width,height,true);
+    for (    SceneProcessor sp : vp.getProcessors()) {
+      sp.reshape(vp,width,height);
+    }
   }
 }
