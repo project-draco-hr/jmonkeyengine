@@ -1,6 +1,6 @@
 {
   super.cleanup();
-  SceneApplication.getApplication().getRenderManager().removeMainView(overlayView);
+  overlayView.detachScene(onTopToolsNode);
   cameraController=null;
   editorController=null;
   onTopToolsNode.detachAllChildren();
