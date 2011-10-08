@@ -7,7 +7,7 @@
   ArrayList<String> list=new ArrayList<String>();
   while (assets.hasMoreElements()) {
     FileObject asset=assets.nextElement();
-    if (asset.hasExt("j3md")) {
+    if (asset.getExt().equalsIgnoreCase("j3md")) {
       list.add(getRelativeAssetPath(asset.getPath()));
     }
   }
