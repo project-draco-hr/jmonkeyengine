@@ -5,7 +5,7 @@
   float[] minExts={box.getCenter().x - box.getXExtent(),box.getCenter().y - box.getYExtent(),box.getCenter().z - box.getZExtent()};
   float[] maxExts={box.getCenter().x + box.getXExtent(),box.getCenter().y + box.getYExtent(),box.getCenter().z + box.getZExtent()};
   stack.add(new BIHStackData(this,0,0));
-  Triangle t=new Triangle();
+  Triangle t=tmpTriangle;
   int cols=0;
   stackloop:   while (stack.size() > 0) {
     BIHNode node=stack.remove(stack.size() - 1).node;
