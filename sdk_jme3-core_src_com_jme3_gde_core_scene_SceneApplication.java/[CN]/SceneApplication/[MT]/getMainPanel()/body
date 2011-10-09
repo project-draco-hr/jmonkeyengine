@@ -1,8 +1,13 @@
 {
-  if (panel == null) {
-    panel=((AwtPanelsContext)getContext()).createPanel(PaintMode.Accelerated);
-    panel.attachTo(viewPort,overlayView,guiViewPort);
-    ((AwtPanelsContext)getContext()).setInputSource(panel);
+  if (useCanvas) {
+    return ((JmeCanvasContext)getContext()).getCanvas();
   }
-  return panel;
+ else {
+    if (panel == null) {
+      panel=((AwtPanelsContext)getContext()).createPanel(PaintMode.Accelerated);
+      panel.attachTo(viewPort,overlayView,guiViewPort);
+      ((AwtPanelsContext)getContext()).setInputSource(panel);
+    }
+    return panel;
+  }
 }
