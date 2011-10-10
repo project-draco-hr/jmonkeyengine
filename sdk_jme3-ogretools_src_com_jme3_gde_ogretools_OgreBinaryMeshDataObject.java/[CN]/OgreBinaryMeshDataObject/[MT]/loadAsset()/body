@@ -14,6 +14,7 @@
   handle.progress("Convert Model");
   ProjectAssetManager mgr=getLookup().lookup(ProjectAssetManager.class);
   if (mgr == null) {
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("File is not part of a project!\nCannot load without ProjectAssetManager."));
     return null;
   }
   String assetKey=mgr.getRelativeAssetPath(options.getDestFile());
