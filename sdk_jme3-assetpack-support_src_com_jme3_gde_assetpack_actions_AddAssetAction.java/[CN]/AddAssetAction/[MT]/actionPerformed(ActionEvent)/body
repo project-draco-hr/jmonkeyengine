@@ -1,6 +1,10 @@
 {
   ProjectAssetManager pm=context.getLookup().lookup(ProjectAssetManager.class);
-  ProjectAssetManager scenePm=SceneApplication.getApplication().getCurrentSceneRequest().getManager();
+  SceneRequest req=SceneApplication.getApplication().getCurrentSceneRequest();
+  ProjectAssetManager scenePm=null;
+  if (req != null) {
+    scenePm=req.getManager();
+  }
   if (pm == null) {
     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,"AssetManager not found!");
     return;
