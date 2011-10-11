@@ -1,5 +1,5 @@
 {
-  IndexWrapper indexBuffer=getIndexWrapper(mesh.getBuffer(Type.Index).getData());
+  IndexBuffer indexBuffer=mesh.getIndexBuffer();
   FloatBuffer vertexBuffer=(FloatBuffer)mesh.getBuffer(Type.Position).getData();
   FloatBuffer textureBuffer=(FloatBuffer)mesh.getBuffer(Type.TexCoord).getData();
   VertexData[] vertices=initVertexData(vertexBuffer.capacity() / 3);
