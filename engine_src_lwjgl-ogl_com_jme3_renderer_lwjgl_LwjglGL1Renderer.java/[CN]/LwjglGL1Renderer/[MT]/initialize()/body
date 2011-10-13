@@ -1,13 +1,21 @@
 {
+  if (GLContext.getCapabilities().OpenGL12) {
+    gl12=true;
+  }
   glShadeModel(GL_SMOOTH);
+  glColorMaterial(GL_FRONT_AND_BACK,GL_DIFFUSE);
   glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
+  if (gl12) {
+    glEnable(GL12.GL_RESCALE_NORMAL);
+  }
+ else {
+    glEnable(GL_NORMALIZE);
+  }
   if (GLContext.getCapabilities().GL_ARB_texture_non_power_of_two) {
     caps.add(Caps.NonPowerOfTwoTextures);
   }
  else {
     logger.log(Level.WARNING,"Your graphics card does not " + "support non-power-of-2 textures. " + "Some features might not work.");
   }
-  if (GLContext.getCapabilities().OpenGL12) {
-    gl12=true;
-  }
+  maxLights=glGetInteger(GL_MAX_LIGHTS);
 }

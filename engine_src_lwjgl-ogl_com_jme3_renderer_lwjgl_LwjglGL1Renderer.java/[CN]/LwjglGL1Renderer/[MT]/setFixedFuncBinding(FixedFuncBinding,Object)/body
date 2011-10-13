@@ -1,25 +1,22 @@
 {
 switch (ffBinding) {
 case Color:
-    ColorRGBA color=(ColorRGBA)val;
-  glColor4f(color.r,color.g,color.b,color.a);
-colorSet=true;
-break;
+    context.color=(ColorRGBA)val;
+  break;
 case MaterialAmbient:
-ColorRGBA ambient=(ColorRGBA)val;
-setMaterialColor(GL_AMBIENT,ambient);
+context.ambient=(ColorRGBA)val;
 break;
 case MaterialDiffuse:
-ColorRGBA diffuse=(ColorRGBA)val;
-setMaterialColor(GL_DIFFUSE,diffuse);
+context.diffuse=(ColorRGBA)val;
 break;
 case MaterialSpecular:
-ColorRGBA specular=(ColorRGBA)val;
-setMaterialColor(GL_SPECULAR,specular);
+context.specular=(ColorRGBA)val;
 break;
 case MaterialShininess:
-float shiny=(Float)val;
-setMaterialFloat(GL_SPECULAR,shiny);
+context.shininess=(Float)val;
+break;
+case UseVertexColor:
+context.useVertexColor=(Boolean)val;
 break;
 }
 }
