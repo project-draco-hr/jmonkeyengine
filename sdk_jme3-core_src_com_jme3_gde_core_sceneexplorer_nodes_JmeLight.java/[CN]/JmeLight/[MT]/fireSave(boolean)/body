@@ -1,0 +1,9 @@
+{
+  Node parent=getParentNode();
+  if (parent != null) {
+    dataObject=parent.getLookup().lookup(DataObject.class);
+  }
+  if (dataObject != null) {
+    dataObject.setModified(true);
+  }
+}
