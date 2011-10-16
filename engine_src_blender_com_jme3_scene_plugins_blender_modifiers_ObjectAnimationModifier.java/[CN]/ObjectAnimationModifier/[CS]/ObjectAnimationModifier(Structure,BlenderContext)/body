@@ -23,9 +23,9 @@
     Structure ipoStructure=pIpo.fetchData(blenderContext.getInputStream()).get(0);
     Ipo ipo=ipoHelper.createIpo(ipoStructure,blenderContext);
     int fps=blenderContext.getBlenderKey().getFps();
-    BoneTrack track=(BoneTrack)ipo.calculateTrack(-1,0,ipo.getLastFrame(),fps);
+    SpatialTrack track=(SpatialTrack)ipo.calculateTrack(-1,0,ipo.getLastFrame(),fps);
     Animation animation=new Animation(objectAnimationName,ipo.getLastFrame() / fps);
-    animation.setTracks(new BoneTrack[]{track});
+    animation.setTracks(new SpatialTrack[]{track});
     ArrayList<Animation> animations=new ArrayList<Animation>(1);
     animations.add(animation);
     animData=new AnimData(null,animations);
