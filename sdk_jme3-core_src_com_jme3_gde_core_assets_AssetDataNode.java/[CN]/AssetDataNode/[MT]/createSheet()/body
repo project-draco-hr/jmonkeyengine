@@ -1,0 +1,30 @@
+{
+  Sheet sheet=super.createSheet();
+  AssetData data=getLookup().lookup(AssetData.class);
+  if (data == null) {
+    return sheet;
+  }
+  AssetKey<?> key=data.getAssetKey();
+  if (key == null) {
+    return sheet;
+  }
+  Sheet.Set set=sheet.createPropertiesSet();
+  set.setName("AssetKey");
+  set.setDisplayName("AssetKey Settings");
+  for (  Field field : key.getClass().getDeclaredFields()) {
+    PropertyDescriptor prop=PropertyUtils.getPropertyDescriptor(key.getClass(),field);
+    if (prop != null) {
+      try {
+        Property sup=new PropertySupport.Reflection(key,prop.getPropertyType(),prop.getReadMethod(),prop.getWriteMethod());
+        sup.setName(prop.getName());
+        sup.setDisplayName(prop.getDisplayName());
+        set.put(sup);
+      }
+ catch (      Exception e) {
+        Exceptions.printStackTrace(e);
+      }
+    }
+  }
+  sheet.put(set);
+  return sheet;
+}
