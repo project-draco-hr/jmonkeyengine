@@ -26,9 +26,9 @@
         for (        FileBlockHeader header : actionHeaders) {
           Structure actionStructure=header.getStructure(blenderContext);
           String actionName=actionStructure.getName();
-          Track<?>[] tracks=armatureHelper.getTracks(actionStructure,blenderContext);
+          BoneTrack[] tracks=armatureHelper.getTracks(actionStructure,blenderContext);
           float maximumTrackLength=0;
-          for (          Track<?> track : tracks) {
+          for (          BoneTrack track : tracks) {
             float length=track.getLength();
             if (length > maximumTrackLength) {
               maximumTrackLength=length;

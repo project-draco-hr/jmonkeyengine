@@ -1,7 +1,7 @@
 {
   if (boneOMA >= 0) {
-    for (    Track<?> track : animation.getTracks()) {
-      if (track.getTargetIndex() == targetIndex) {
+    for (    Track track : animation.getTracks()) {
+      if (((BoneTrack)track).getTargetBoneIndex() == targetIndex) {
         return track;
       }
     }

@@ -2,10 +2,10 @@
   try {
     AnimControl clone=(AnimControl)super.clone();
     clone.spatial=spatial;
+    clone.channels=new ArrayList<AnimChannel>();
     if (skeleton != null) {
       clone.skeleton=new Skeleton(skeleton);
     }
-    clone.channels=new ArrayList<AnimChannel>();
     return clone;
   }
  catch (  CloneNotSupportedException ex) {

@@ -1,6 +1,6 @@
 {
   Vector3f targetScale=this.getTargetLocation();
-  Track<?> track=this.getTrack(animation,targetIndex);
+  BoneTrack track=(BoneTrack)this.getTrack(animation,targetIndex);
   if (track != null) {
     int flag=((Number)data.getFieldValue("flag")).intValue();
     Vector3f[] scales=track.getScales();

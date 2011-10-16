@@ -1,6 +1,6 @@
 {
   Vector3f targetLocation=this.getTargetLocation();
-  Track<?> boneTrack=this.getTrack(animation,targetIndex);
+  BoneTrack boneTrack=(BoneTrack)this.getTrack(animation,targetIndex);
   if (boneTrack != null) {
     float dist=((Number)data.getFieldValue("dist")).floatValue();
     int mode=((Number)data.getFieldValue("mode")).intValue();
