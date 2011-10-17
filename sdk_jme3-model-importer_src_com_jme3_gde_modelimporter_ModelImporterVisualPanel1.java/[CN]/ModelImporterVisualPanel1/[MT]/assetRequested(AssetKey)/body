@@ -1,5 +1,7 @@
 {
   if (!"j3md".equalsIgnoreCase(ak.getExtension()) && !"glsllib".equalsIgnoreCase(ak.getExtension()) && !"frag".equalsIgnoreCase(ak.getExtension())&& !"vert".equalsIgnoreCase(ak.getExtension())) {
-    requestedAssets.add(ak);
+    if (!requestedAssets.contains(ak)) {
+      requestedAssets.add(ak);
+    }
   }
 }

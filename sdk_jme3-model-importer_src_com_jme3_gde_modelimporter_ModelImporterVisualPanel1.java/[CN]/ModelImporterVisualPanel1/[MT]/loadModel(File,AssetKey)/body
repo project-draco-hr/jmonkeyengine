@@ -1,8 +1,10 @@
 {
+  ProjectAssetManager manager=new ProjectAssetManager(FileUtil.toFileObject(path).getParent());
+  manager.setAssetEventListener(this);
   try {
-    ProjectAssetManager manager=new ProjectAssetManager(FileUtil.toFileObject(path).getParent());
-    manager.setAssetEventListener(this);
-    requestedAssets.clear();
+    if (modelKey != mainKey) {
+      requestedAssets.clear();
+    }
     if (currentModel != null) {
       offPanel.detach(currentModel);
       currentModel=null;
@@ -32,12 +34,12 @@
       Message msg=new NotifyDescriptor.Message("Cannot import this file!",NotifyDescriptor.ERROR_MESSAGE);
       DialogDisplayer.getDefault().notifyLater(msg);
     }
-    manager.setAssetEventListener(null);
-    manager.clearCache();
   }
  catch (  Exception e) {
     Message msg=new NotifyDescriptor.Message("Error importing file!\n" + "(" + e + ")",NotifyDescriptor.ERROR_MESSAGE);
     DialogDisplayer.getDefault().notifyLater(msg);
     Exceptions.printStackTrace(e);
   }
+  manager.setAssetEventListener(null);
+  manager.clearCache();
 }
