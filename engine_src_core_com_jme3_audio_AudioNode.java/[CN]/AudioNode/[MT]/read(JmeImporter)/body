@@ -1,7 +1,12 @@
 {
   super.read(im);
   InputCapsule ic=im.getCapsule(this);
-  key=(AudioKey)ic.readSavable("key",null);
+  if (ic.getSavableVersion(AudioNode.class) == 0) {
+    audioKey=(AudioKey)ic.readSavable("key",null);
+  }
+ else {
+    audioKey=(AudioKey)ic.readSavable("audio_key",null);
+  }
   loop=ic.readBoolean("looping",false);
   volume=ic.readFloat("volume",1);
   pitch=ic.readFloat("pitch",1);
@@ -17,5 +22,7 @@
   innerAngle=ic.readFloat("inner_angle",360);
   outerAngle=ic.readFloat("outer_angle",360);
   positional=ic.readBoolean("positional",false);
-  if (key != null)   data=im.getAssetManager().loadAudio(key);
+  if (audioKey != null) {
+    data=im.getAssetManager().loadAudio(audioKey);
+  }
 }

@@ -1,5 +1,7 @@
 {
-  if (audioDisabled)   return;
+  if (audioDisabled) {
+    return;
+  }
   AndroidAudioData audioData;
   int soundId=0;
   if (src.getAudioData() instanceof AndroidAudioData) {
@@ -39,13 +41,13 @@ catch (          IOException e) {
         }
       }
  else {
-        if (audioData.isUpdateNeeded() || (audioData.getSoundId() <= 0)) {
-          if (audioData.getSoundId() > 0) {
+        if (audioData.isUpdateNeeded() || (audioData.getId() <= 0)) {
+          if (audioData.getId() > 0) {
             if (src.getChannel() > 0) {
               soundPool.stop(src.getChannel());
               src.setChannel(-1);
             }
-            soundPool.unload(audioData.getSoundId());
+            soundPool.unload(audioData.getId());
           }
           try {
             soundId=soundPool.load(am.openFd(assetKey.getName()),1);
@@ -54,16 +56,16 @@ catch (          IOException e) {
             logger.log(Level.SEVERE,"Failed to load sound " + assetKey.getName(),e);
             soundId=-1;
           }
-          audioData.setSoundId(soundId);
+          audioData.setId(soundId);
         }
-        if (audioData.getSoundId() <= 0) {
+        if (audioData.getId() <= 0) {
           throw new IllegalArgumentException("Failed to load: " + assetKey.getName());
         }
  else {
           int channelIndex;
-          channelIndex=soundPool.play(audioData.getSoundId(),1f,1f,1,-1,1f);
+          channelIndex=soundPool.play(audioData.getId(),1f,1f,1,-1,1f);
           if (channelIndex == 0) {
-            mapLoadingAudioNodes.put(audioData.getSoundId(),src);
+            mapLoadingAudioNodes.put(audioData.getId(),src);
           }
           src.setChannel(channelIndex);
         }

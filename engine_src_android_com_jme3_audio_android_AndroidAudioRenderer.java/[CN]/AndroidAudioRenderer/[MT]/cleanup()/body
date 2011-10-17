@@ -6,8 +6,8 @@
       }
       if (src.getAudioData() instanceof AndroidAudioData) {
         AndroidAudioData audioData=(AndroidAudioData)src.getAudioData();
-        if (audioData.getSoundId() > 0) {
-          soundPool.unload(audioData.getSoundId());
+        if (audioData.getId() > 0) {
+          soundPool.unload(audioData.getId());
         }
       }
     }

@@ -61,6 +61,7 @@ catch (  UnsatisfiedLinkError ex) {
     EFX10.alGenEffects(ib);
     reverbFx=ib.get(0);
     EFX10.alEffecti(reverbFx,EFX10.AL_EFFECT_TYPE,EFX10.AL_EFFECT_REVERB);
+    EFX10.alAuxiliaryEffectSloti(reverbFxSlot,EFX10.AL_EFFECTSLOT_EFFECT,reverbFx);
   }
  else {
     logger.log(Level.WARNING,"OpenAL EFX not available! Audio effects won't work.");

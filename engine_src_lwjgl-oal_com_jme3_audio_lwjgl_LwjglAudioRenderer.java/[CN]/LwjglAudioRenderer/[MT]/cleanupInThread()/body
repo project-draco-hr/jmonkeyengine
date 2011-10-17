@@ -12,6 +12,7 @@
   ib.put(channels);
   ib.flip();
   alDeleteSources(ib);
+  objManager.deleteAllObjects(this);
   if (supportEfx) {
     ib.position(0).limit(1);
     ib.put(0,reverbFx);

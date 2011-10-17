@@ -4,7 +4,7 @@
     AndroidAudioData audioData=(AndroidAudioData)src.getAudioData();
     if (status == 0) {
       int channelIndex;
-      channelIndex=soundPool.play(audioData.getSoundId(),1f,1f,1,-1,1f);
+      channelIndex=soundPool.play(audioData.getId(),1f,1f,1,-1,1f);
       src.setChannel(channelIndex);
       if (src.getChannel() > 0) {
         src.setStatus(Status.Playing);
