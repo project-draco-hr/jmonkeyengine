@@ -1,4 +1,8 @@
 {
+  if (loading.get()) {
+    return;
+  }
+  loading.set(true);
   FileChooserBuilder builder=new FileChooserBuilder(this.getClass());
   builder.setTitle("Select Model File");
   final File file=builder.showOpenDialog();
@@ -10,6 +14,7 @@
         handle.start();
         loadModel(file);
         handle.finish();
+        loading.set(false);
       }
     }
 ).start();

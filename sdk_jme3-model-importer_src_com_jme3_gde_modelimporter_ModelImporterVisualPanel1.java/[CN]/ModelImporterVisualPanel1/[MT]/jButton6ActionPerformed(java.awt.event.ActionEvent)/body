@@ -1,5 +1,20 @@
 {
   if (currentModelPath != null) {
-    loadModel(new File(currentModelPath),mainKey);
+    if (loading.get()) {
+      return;
+    }
+    loading.set(true);
+    final String modelPath=currentModelPath;
+    final AssetKey key=mainKey;
+    new Thread(new Runnable(){
+      public void run(){
+        ProgressHandle handle=ProgressHandleFactory.createHandle("Opening Model..");
+        handle.start();
+        loadModel(new File(modelPath),key);
+        handle.finish();
+        loading.set(false);
+      }
+    }
+).start();
   }
 }

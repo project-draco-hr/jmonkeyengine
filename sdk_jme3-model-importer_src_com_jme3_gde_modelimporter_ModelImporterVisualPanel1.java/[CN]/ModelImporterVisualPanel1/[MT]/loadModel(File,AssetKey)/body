@@ -1,37 +1,32 @@
 {
   try {
-    mainKey=modelKey;
     ProjectAssetManager manager=new ProjectAssetManager(FileUtil.toFileObject(path).getParent());
     manager.setAssetEventListener(this);
-    if (currentPath != null) {
-      requestedAssets.clear();
-      currentPath=null;
-      updateProperties(null);
-    }
+    requestedAssets.clear();
     if (currentModel != null) {
       offPanel.detach(currentModel);
       currentModel=null;
     }
-    currentPath=path.getParent();
     currentModelPath=path.getPath();
-    if (mainKey == null) {
-      try {
-        DataObject obj=DataObject.find(FileUtil.toFileObject(path));
-        AssetData data=obj.getLookup().lookup(AssetData.class);
-        if (data != null) {
-          ((AssetDataObject)obj).getLookupContents().add(manager);
-          mainKey=data.getAssetKey();
-          currentModel=(Spatial)data.loadAsset();
-        }
+    currentPath=path.getParent();
+    DataObject obj=DataObject.find(FileUtil.toFileObject(path));
+    AssetData data=obj != null ? obj.getLookup().lookup(AssetData.class) : null;
+    if (data != null) {
+      if (modelKey == null) {
+        ((AssetDataObject)obj).getLookupContents().add(manager);
+        modelKey=data.getAssetKey();
+        currentModel=(Spatial)data.loadAsset();
       }
- catch (      DataObjectNotFoundException ex) {
-        Exceptions.printStackTrace(ex);
-        mainKey=new ModelKey(path.getName());
+ else {
+        ((AssetDataObject)obj).getLookupContents().add(manager);
+        data.setAssetKey(modelKey);
+        currentModel=(Spatial)data.loadAsset();
       }
     }
+    mainKey=modelKey;
+    updateProperties(mainKey);
     if (currentModel != null) {
       offPanel.attach(currentModel);
-      updateProperties(mainKey);
     }
  else {
       Message msg=new NotifyDescriptor.Message("Cannot import this file!",NotifyDescriptor.ERROR_MESSAGE);
