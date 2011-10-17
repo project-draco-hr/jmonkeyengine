@@ -1,10 +1,10 @@
 {
   if (spatial != null) {
     value+=Math.min(tpf * speed / duration,1.0f);
-    float[] rot=new float[3];
-    rot[0]=FastMath.interpolateLinear(value,startRotation[0],endRotation[0]);
-    rot[1]=FastMath.interpolateLinear(value,startRotation[1],endRotation[1]);
-    rot[2]=FastMath.interpolateLinear(value,startRotation[2],endRotation[2]);
-    spatial.setLocalRotation(new Quaternion().fromAngles(rot));
+    TempVars vars=TempVars.get();
+    Quaternion q=vars.quat1;
+    q.set(startRotation).slerp(endRotation,value);
+    spatial.setLocalRotation(q);
+    vars.release();
   }
 }

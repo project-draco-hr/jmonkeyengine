@@ -2,5 +2,5 @@
   super.read(im);
   InputCapsule ic=im.getCapsule(this);
   spatialName=ic.readString("spatialName","");
-  endRotation=ic.readFloatArray("endRotation",null);
+  endRotation=(Quaternion)ic.readSavable("endRotation",null);
 }

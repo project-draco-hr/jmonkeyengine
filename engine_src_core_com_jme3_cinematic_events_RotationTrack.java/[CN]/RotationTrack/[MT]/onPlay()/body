@@ -1,9 +1,9 @@
 {
   if (playState != playState.Paused) {
-    startRotation=spatial.getWorldRotation().toAngles(null);
+    startRotation.set(spatial.getWorldRotation());
   }
   if (duration == 0 && spatial != null) {
-    spatial.setLocalRotation(new Quaternion().fromAngles(endRotation));
+    spatial.setLocalRotation(endRotation);
     stop();
   }
 }
