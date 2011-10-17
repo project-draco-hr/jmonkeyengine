@@ -1,0 +1,11 @@
+{
+  deleteUnused(rendererObject);
+  for (  NativeObjectRef ref : refList) {
+    ref.objClone.deleteObject(rendererObject);
+    NativeObject realObj=ref.realObj.get();
+    if (realObj != null) {
+      realObj.resetObject();
+    }
+  }
+  refList.clear();
+}

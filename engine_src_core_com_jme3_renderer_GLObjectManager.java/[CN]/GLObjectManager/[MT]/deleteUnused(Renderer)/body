@@ -1,9 +1,0 @@
-{
-  while (true) {
-    GLObjectRef ref=(GLObjectRef)refQueue.poll();
-    if (ref == null)     return;
-    refList.remove(ref);
-    ref.objClone.deleteObject(r);
-    if (logger.isLoggable(Level.FINEST))     logger.log(Level.FINEST,"Deleted: {0}",ref.objClone);
-  }
-}

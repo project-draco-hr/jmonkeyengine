@@ -1,0 +1,9 @@
+{
+  for (  NativeObjectRef ref : refList) {
+    NativeObject realObj=ref.realObj.get();
+    if (realObj == null)     continue;
+    realObj.resetObject();
+    if (logger.isLoggable(Level.FINEST))     logger.log(Level.FINEST,"Reset: {0}",realObj);
+  }
+  refList.clear();
+}

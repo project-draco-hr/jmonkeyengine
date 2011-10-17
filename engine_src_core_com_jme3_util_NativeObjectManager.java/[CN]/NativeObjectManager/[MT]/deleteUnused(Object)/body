@@ -1,0 +1,9 @@
+{
+  while (true) {
+    NativeObjectRef ref=(NativeObjectRef)refQueue.poll();
+    if (ref == null)     return;
+    refList.remove(ref);
+    ref.objClone.deleteObject(rendererObject);
+    if (logger.isLoggable(Level.FINEST))     logger.log(Level.FINEST,"Deleted: {0}",ref.objClone);
+  }
+}
