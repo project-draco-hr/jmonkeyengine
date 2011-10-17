@@ -1,0 +1,56 @@
+{
+  AbstractDocument document=(AbstractDocument)context.getDocument();
+  StringBuilder sb=new StringBuilder();
+  try {
+    document.readLock();
+    TokenSequence sequence=TokenHierarchy.get(context.getDocument()).tokenSequence();
+    sequence.move(context.getOffset());
+    sequence.moveNext();
+    sb.append("<html>");
+    sb.append(sequence.token().text());
+    sb.append(KEYWORD_FONT_COLOR);
+    sb.append(" :");
+    int insertIndex=sb.length();
+    int moved=0;
+    Token token;
+    while (sequence.moveNext() && sequence.token().id() != GlslTokenId.SEMICOLON && sequence.token().id() != GlslTokenId.COMMA && sequence.token().id() != GlslTokenId.EQ) {
+      token=sequence.token();
+      if (!isIgnoredToken(token))       sb.append(token);
+      moved++;
+    }
+    while (moved-- >= 0)     sequence.movePrevious();
+    boolean skipToken=false;
+    while (sequence.movePrevious() && sequence.token().id() != GlslTokenId.SEMICOLON && sequence.token().id() != GlslTokenId.END_OF_LINE) {
+      token=sequence.token();
+      if (!isIgnoredToken(token)) {
+        if (token.id() == GlslTokenId.BRACE && TokenUtilities.equals(token.text(),"}")) {
+          movePreviousUntil(sequence,GlslTokenId.BRACE,"}","{");
+          continue;
+        }
+        if (skipToken) {
+          if (token.id() == GlslTokenId.BRACKET && TokenUtilities.equals(token.text(),"]")) {
+            movePreviousUntil(sequence,GlslTokenId.BRACKET,"]","[");
+            skipToken=false;
+          }
+ else {
+            skipToken=false;
+          }
+          continue;
+        }
+        if (token.id() == GlslTokenId.COMMA) {
+          skipToken=true;
+          continue;
+        }
+        if (!TokenUtilities.equals(token.text(),"struct")) {
+          sb.insert(insertIndex,token.text());
+          sb.insert(insertIndex," ");
+        }
+      }
+    }
+    sb.append("</font></html>");
+  }
+  finally {
+    document.readUnlock();
+  }
+  return sb.toString();
+}

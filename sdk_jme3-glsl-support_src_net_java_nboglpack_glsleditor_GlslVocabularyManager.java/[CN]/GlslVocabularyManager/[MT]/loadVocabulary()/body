@@ -1,0 +1,26 @@
+{
+  FileObject vocabularyfile=FileUtil.getConfigFile("Editors/" + mimetype + "/vocabulary.xml");
+  if (vocabularyfile != null) {
+    InputStream is=null;
+    try {
+      is=vocabularyfile.getInputStream();
+      JAXBContext jc=JAXBContext.newInstance("net.java.nboglpack.glsleditor.vocabulary",this.getClass().getClassLoader());
+      Unmarshaller unmarshaller=jc.createUnmarshaller();
+      vocabulary=(GLSLVocabulary)unmarshaller.unmarshal(is);
+    }
+ catch (    Exception ex) {
+      vocabulary=new GLSLVocabulary();
+      LOGGER.notify(ex);
+    }
+ finally {
+      if (is != null) {
+        try {
+          is.close();
+        }
+ catch (        Exception e) {
+          LOGGER.notify(e);
+        }
+      }
+    }
+  }
+}

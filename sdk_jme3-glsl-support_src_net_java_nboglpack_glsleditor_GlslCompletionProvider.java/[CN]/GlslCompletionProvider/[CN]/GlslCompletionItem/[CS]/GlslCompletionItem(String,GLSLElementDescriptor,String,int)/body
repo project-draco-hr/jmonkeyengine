@@ -1,0 +1,34 @@
+{
+  this.key=key;
+  this.content=content;
+  this.prefix=prefix;
+  this.carretPosition=carretPosition;
+  leftText=createLeftText();
+  rightText=content.type;
+switch (content.category) {
+case TYPE:
+    priority=10;
+  break;
+case JUMP:
+priority=9;
+break;
+case SELECTION:
+priority=8;
+break;
+case ITERATION:
+priority=7;
+break;
+case KEYWORD:
+priority=6;
+break;
+case QUALIFIER:
+priority=5;
+break;
+case BUILD_IN_FUNC:
+priority=4;
+break;
+case BUILD_IN_VAR:
+priority=3;
+break;
+}
+}

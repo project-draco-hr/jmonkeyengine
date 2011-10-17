@@ -1,0 +1,13 @@
+{
+  if (content.doc == null) {
+    return null;
+  }
+  return new AsyncCompletionTask(new AsyncCompletionQuery(){
+    private GlslDocItem item=new GlslDocItem(key,content);
+    protected void query(    CompletionResultSet completionResultSet,    Document document,    int i){
+      completionResultSet.setDocumentation(item);
+      completionResultSet.finish();
+    }
+  }
+);
+}

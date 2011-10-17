@@ -1,0 +1,21 @@
+{
+  super(pf,loader);
+  CookieSet cookies=getCookieSet();
+  observer=new GlslShaderFileObserver(this);
+  final CloneableEditorSupport support=DataEditorSupport.create(this,getPrimaryEntry(),cookies);
+  support.addPropertyChangeListener(new PropertyChangeListener(){
+    public void propertyChange(    PropertyChangeEvent event){
+      if ("document".equals(event.getPropertyName())) {
+        if (event.getNewValue() != null) {
+          support.getDocument().addDocumentListener(observer);
+          observer.runCompileTask();
+        }
+ else         if (event.getOldValue() != null) {
+          ((Document)event.getOldValue()).removeDocumentListener(observer);
+        }
+      }
+    }
+  }
+);
+  cookies.add((Node.Cookie)support);
+}
