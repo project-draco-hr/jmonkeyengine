@@ -1,13 +1,4 @@
 {
-  lastFrameDiff=0;
-  lastFPS=0;
-  lastTPF=0;
-  oldTime=-1;
   startTime=Sys.getTime();
-  tpf=new long[TIMER_SMOOTHNESS];
-  smoothIndex=TIMER_SMOOTHNESS - 1;
-  invTimerRezSmooth=(1f / (LWJGL_TIMER_RES * TIMER_SMOOTHNESS));
-  for (int i=tpf.length; --i >= 0; ) {
-    tpf[i]=-1;
-  }
+  oldTime=getTime();
 }
