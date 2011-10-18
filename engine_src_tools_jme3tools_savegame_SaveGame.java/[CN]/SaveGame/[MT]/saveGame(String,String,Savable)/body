@@ -2,8 +2,13 @@
   Preferences prefs=Preferences.userRoot().node(gamePath);
   BinaryExporter ex=BinaryExporter.getInstance();
   ByteArrayOutputStream out=new ByteArrayOutputStream();
+  ZipOutputStream zos=new ZipOutputStream(out);
+  zos.setLevel(9);
   try {
-    ex.save(data,out);
+    zos.putNextEntry(new ZipEntry(dataName));
+    ex.save(data,zos);
+    zos.closeEntry();
+    zos.close();
   }
  catch (  IOException ex1) {
     Logger.getLogger(SaveGame.class.getName()).log(Level.SEVERE,"Error saving data: {0}",ex1);
@@ -11,6 +16,7 @@
   }
   UUEncoder enc=new UUEncoder();
   String dataString=enc.encodeBuffer(out.toByteArray());
+  System.out.println(out);
   if (dataString.length() > Preferences.MAX_VALUE_LENGTH) {
     throw new IllegalStateException("SaveGame dataset too large");
   }
