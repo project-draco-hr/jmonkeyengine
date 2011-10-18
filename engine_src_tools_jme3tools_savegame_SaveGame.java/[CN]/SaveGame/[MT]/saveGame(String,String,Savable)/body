@@ -1,6 +1,6 @@
 {
   Preferences prefs=Preferences.userRoot().node(gamePath);
-  XMLExporter ex=XMLExporter.getInstance();
+  BinaryExporter ex=BinaryExporter.getInstance();
   ByteArrayOutputStream out=new ByteArrayOutputStream();
   try {
     ex.save(data,out);
@@ -9,11 +9,10 @@
     Logger.getLogger(SaveGame.class.getName()).log(Level.SEVERE,"Error saving data: {0}",ex1);
     ex1.printStackTrace();
   }
-  try {
-    prefs.put(dataName,out.toString("UTF-8"));
+  UUEncoder enc=new UUEncoder();
+  String dataString=enc.encodeBuffer(out.toByteArray());
+  if (dataString.length() > Preferences.MAX_VALUE_LENGTH) {
+    throw new IllegalStateException("SaveGame dataset too large");
   }
- catch (  UnsupportedEncodingException ex1) {
-    Logger.getLogger(SaveGame.class.getName()).log(Level.SEVERE,"Error saving data: {0}",ex1);
-    ex1.printStackTrace();
-  }
+  prefs.put(dataName,dataString);
 }

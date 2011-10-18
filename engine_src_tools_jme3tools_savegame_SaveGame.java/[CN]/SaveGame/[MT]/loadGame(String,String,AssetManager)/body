@@ -1,11 +1,12 @@
 {
   Preferences prefs=Preferences.userRoot().node(gamePath);
-  String data=prefs.get(gamePath,dataName);
+  String data=prefs.get(dataName,"");
   InputStream is=null;
   Savable sav=null;
+  UUDecoder dec=new UUDecoder();
   try {
-    is=new ByteArrayInputStream(data.getBytes("UTF-8"));
-    XMLImporter imp=XMLImporter.getInstance();
+    is=new ByteArrayInputStream(dec.decodeBuffer(data));
+    BinaryImporter imp=BinaryImporter.getInstance();
     if (manager != null) {
       imp.setAssetManager(manager);
     }
