@@ -1,12 +1,11 @@
 {
   Preferences prefs=Preferences.userRoot().node(gamePath);
   String data=prefs.get(dataName,"");
-  ZipInputStream is=null;
+  InputStream is=null;
   Savable sav=null;
   UUDecoder dec=new UUDecoder();
   try {
-    is=new ZipInputStream(new ByteArrayInputStream(dec.decodeBuffer(data)));
-    is.getNextEntry();
+    is=new GZIPInputStream(new ByteArrayInputStream(dec.decodeBuffer(data)));
     BinaryImporter imp=BinaryImporter.getInstance();
     if (manager != null) {
       imp.setAssetManager(manager);
