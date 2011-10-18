@@ -1,6 +1,6 @@
 {
   if (spatial != null) {
-    value+=Math.min(tpf * speed / duration,1.0f);
+    value=Math.min(time / initialDuration,1.0f);
     TempVars vars=TempVars.get();
     Quaternion q=vars.quat1;
     q.set(startRotation).slerp(endRotation,value);

@@ -12,6 +12,7 @@
   createCameraMotion();
   cinematic.addCinematicEvent(0,new AbstractCinematicEvent(){
     @Override public void onPlay(){
+      fade.setDuration(1f / cinematic.getSpeed());
       fade.setValue(0);
       fade.fadeIn();
     }
@@ -44,6 +45,7 @@
   cinematic.activateCamera(10,"aroundCam");
   cinematic.addCinematicEvent(19,new AbstractCinematicEvent(){
     @Override public void onPlay(){
+      fade.setDuration(1f / cinematic.getSpeed());
       fade.fadeOut();
     }
     @Override public void onUpdate(    float tpf){
@@ -54,9 +56,11 @@
     }
   }
 );
+  final NanoTimer myTimer=new NanoTimer();
   cinematic.addListener(new CinematicEventListener(){
     public void onPlay(    CinematicEvent cinematic){
       chaseCam.setEnabled(false);
+      myTimer.reset();
       System.out.println("play");
     }
     public void onPause(    CinematicEvent cinematic){
@@ -67,9 +71,11 @@
       chaseCam.setEnabled(true);
       fade.setValue(1);
       System.out.println("stop");
+      System.out.println((float)myTimer.getTime() / (float)myTimer.getResolution());
     }
   }
 );
+  cinematic.setSpeed(2);
   flyCam.setEnabled(false);
   chaseCam=new ChaseCamera(cam,model,inputManager);
   initInputs();

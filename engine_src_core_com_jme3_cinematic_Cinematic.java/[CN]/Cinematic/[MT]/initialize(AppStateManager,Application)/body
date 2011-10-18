@@ -5,6 +5,7 @@
     nifty.fromXmlWithoutStartScreen(niftyXmlPath);
     app.getGuiViewPort().addProcessor(niftyDisplay);
   }
+  initEvent(app,this);
   for (  CinematicEvent cinematicEvent : cinematicEvents) {
     cinematicEvent.initEvent(app,this);
   }

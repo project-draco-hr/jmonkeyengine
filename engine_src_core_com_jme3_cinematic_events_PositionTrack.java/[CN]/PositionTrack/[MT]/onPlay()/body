@@ -2,7 +2,7 @@
   if (playState != playState.Paused) {
     startPosition=spatial.getWorldTranslation().clone();
   }
-  if (duration == 0 && spatial != null) {
+  if (initialDuration == 0 && spatial != null) {
     spatial.setLocalTranslation(endPosition);
   }
 }
