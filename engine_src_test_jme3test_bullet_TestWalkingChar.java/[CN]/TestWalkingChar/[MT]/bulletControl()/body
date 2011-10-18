@@ -4,7 +4,7 @@
   Geometry bulletg=new Geometry("bullet",bullet);
   bulletg.setMaterial(matBullet);
   bulletg.setShadowMode(ShadowMode.CastAndReceive);
-  bulletg.setLocalTranslation(character.getPhysicsLocation().add(cam.getDirection().mult(2)));
+  bulletg.setLocalTranslation(character.getPhysicsLocation().add(cam.getDirection().mult(5)));
   RigidBodyControl bulletControl=new BombControl(bulletCollisionShape,1);
   bulletControl.setCcdMotionThreshold(0.1f);
   bulletControl.setLinearVelocity(cam.getDirection().mult(80));
