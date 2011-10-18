@@ -13,6 +13,7 @@
   }
  catch (  IOException ex) {
     Logger.getLogger(SaveGame.class.getName()).log(Level.SEVERE,"Error loading data: {0}",ex);
+    ex.printStackTrace();
   }
  finally {
     if (is != null) {
@@ -21,6 +22,7 @@
       }
  catch (      IOException ex) {
         Logger.getLogger(SaveGame.class.getName()).log(Level.SEVERE,"Error loading data: {0}",ex);
+        ex.printStackTrace();
       }
     }
   }
