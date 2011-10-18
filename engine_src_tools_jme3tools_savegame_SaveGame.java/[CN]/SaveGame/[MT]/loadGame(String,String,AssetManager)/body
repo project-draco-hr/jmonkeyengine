@@ -1,0 +1,28 @@
+{
+  Preferences prefs=Preferences.userRoot().node(gamePath);
+  String data=prefs.get(gamePath,dataName);
+  InputStream is=null;
+  Savable sav=null;
+  try {
+    is=new ByteArrayInputStream(data.getBytes("UTF-8"));
+    XMLImporter imp=XMLImporter.getInstance();
+    if (manager != null) {
+      imp.setAssetManager(manager);
+    }
+    sav=imp.load(is);
+  }
+ catch (  IOException ex) {
+    Logger.getLogger(SaveGame.class.getName()).log(Level.SEVERE,"Error loading data: {0}",ex);
+  }
+ finally {
+    if (is != null) {
+      try {
+        is.close();
+      }
+ catch (      IOException ex) {
+        Logger.getLogger(SaveGame.class.getName()).log(Level.SEVERE,"Error loading data: {0}",ex);
+      }
+    }
+  }
+  return sav;
+}

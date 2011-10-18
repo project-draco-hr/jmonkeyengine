@@ -1,0 +1,19 @@
+{
+  Preferences prefs=Preferences.userRoot().node(gamePath);
+  XMLExporter ex=XMLExporter.getInstance();
+  ByteArrayOutputStream out=new ByteArrayOutputStream();
+  try {
+    ex.save(data,out);
+  }
+ catch (  IOException ex1) {
+    Logger.getLogger(SaveGame.class.getName()).log(Level.SEVERE,"Error saving data: {0}",ex1);
+    ex1.printStackTrace();
+  }
+  try {
+    prefs.put(dataName,out.toString("UTF-8"));
+  }
+ catch (  UnsupportedEncodingException ex1) {
+    Logger.getLogger(SaveGame.class.getName()).log(Level.SEVERE,"Error saving data: {0}",ex1);
+    ex1.printStackTrace();
+  }
+}
