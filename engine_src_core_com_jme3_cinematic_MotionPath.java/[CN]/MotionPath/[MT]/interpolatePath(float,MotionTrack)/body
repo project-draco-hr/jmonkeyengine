@@ -1,15 +1,18 @@
 {
   float val;
+  TempVars vars=TempVars.get();
+  Vector3f temp=vars.vect1;
+  Vector3f tmpVector=vars.vect2;
 switch (spline.getType()) {
 case CatmullRom:
     val=tpf * (spline.getTotalLength() / control.getDuration());
   control.setCurrentValue(control.getCurrentValue() + eps);
 spline.interpolate(control.getCurrentValue(),control.getCurrentWayPoint(),temp);
-float dist=getDist(control);
+float dist=getDist(control,temp,tmpVector);
 while (dist < val) {
 control.setCurrentValue(control.getCurrentValue() + eps);
 spline.interpolate(control.getCurrentValue(),control.getCurrentWayPoint(),temp);
-dist=getDist(control);
+dist=getDist(control,temp,tmpVector);
 }
 if (control.needsDirection()) {
 tmpVector.set(temp);
@@ -28,5 +31,6 @@ break;
 default :
 break;
 }
-return temp;
+control.getSpatial().setLocalTranslation(temp);
+vars.release();
 }
