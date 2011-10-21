@@ -42,6 +42,7 @@
     float kernAmount=0f;
     if (previous.isHead() || previous.eol) {
       x0=bound.x;
+      xAdvance-=xOffset * incrScale;
     }
  else {
       x0=previous.getNextX() + xOffset * incrScale;
