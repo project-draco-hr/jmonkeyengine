@@ -45,12 +45,14 @@
     }
  else {
       x0=previous.getNextX() + xOffset * incrScale;
+      xAdvance-=xOffset * incrScale;
     }
     y0=lineY + LINE_DIR * yOffset;
     BitmapCharacter lastChar=previous.getBitmapChar();
     if (lastChar != null && block.isKerning()) {
       kernAmount=lastChar.getKerning(c) * sizeScale;
       x0+=kernAmount * incrScale;
+      xAdvance-=kernAmount * incrScale;
     }
   }
   if (isEndOfLine()) {
