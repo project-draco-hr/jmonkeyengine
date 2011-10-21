@@ -17,6 +17,6 @@
   Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Created Vehicle {0}",Long.toHexString(vehicleId));
   setCoordinateSystem(vehicleId,0,1,2);
   for (  VehicleWheel wheel : wheels) {
-    wheel.setWheelId(addWheel(vehicleId,wheel.getLocation(),wheel.getDirection(),wheel.getAxle(),wheel.getRestLength(),wheel.getRadius(),tuning,wheel.isFrontWheel()));
+    wheel.setVehicleId(vehicleId,addWheel(vehicleId,wheel.getLocation(),wheel.getDirection(),wheel.getAxle(),wheel.getRestLength(),wheel.getRadius(),tuning,wheel.isFrontWheel()));
   }
 }

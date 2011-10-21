@@ -14,7 +14,7 @@
   wheel.setMaxSuspensionForce(tuning.maxSuspensionForce);
   wheels.add(wheel);
   if (vehicleId != 0) {
-    wheel.setWheelId(addWheel(vehicleId,wheel.getLocation(),wheel.getDirection(),wheel.getAxle(),wheel.getRestLength(),wheel.getRadius(),tuning,wheel.isFrontWheel()));
+    wheel.setVehicleId(vehicleId,addWheel(vehicleId,wheel.getLocation(),wheel.getDirection(),wheel.getAxle(),wheel.getRestLength(),wheel.getRadius(),tuning,wheel.isFrontWheel()));
   }
   if (debugShape != null) {
     updateDebugShape();
