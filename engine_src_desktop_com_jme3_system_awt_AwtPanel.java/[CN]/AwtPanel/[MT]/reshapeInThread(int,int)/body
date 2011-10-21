@@ -4,6 +4,9 @@
   fb=new FrameBuffer(width,height,1);
   fb.setDepthBuffer(Format.Depth);
   fb.setColorBuffer(Format.RGB8);
+  if (attachAsMain) {
+    rm.getRenderer().setMainFrameBufferOverride(fb);
+  }
 synchronized (lock) {
     img=new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
   }
@@ -11,7 +14,9 @@ synchronized (lock) {
   tx.translate(0,-img.getHeight());
   transformOp=new AffineTransformOp(tx,AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
   for (  ViewPort vp : viewPorts) {
-    vp.setOutputFrameBuffer(fb);
+    if (!attachAsMain) {
+      vp.setOutputFrameBuffer(fb);
+    }
     vp.getCamera().resize(width,height,true);
     for (    SceneProcessor sp : vp.getProcessors()) {
       sp.reshape(vp,width,height);

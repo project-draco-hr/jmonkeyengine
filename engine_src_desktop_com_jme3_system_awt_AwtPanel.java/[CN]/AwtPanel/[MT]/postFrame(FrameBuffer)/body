@@ -1,5 +1,5 @@
 {
-  if (out != fb) {
+  if (!attachAsMain && out != fb) {
     throw new IllegalStateException("Why did you change the output framebuffer?");
   }
   if (reshapeNeeded.getAndSet(false)) {
