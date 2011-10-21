@@ -25,15 +25,16 @@
         }
       }
       if (!firstCharOfLine) {
-        lineWidth+=c.getXOffset() * sizeScale;
         lineWidth+=findKerningAmount(lastChar,theChar) * sizeScale;
       }
  else {
+        lineWidth-=c.getXOffset() * sizeScale;
         firstCharOfLine=false;
       }
       float xAdvance=c.getXAdvance() * sizeScale;
       if (i == text.length() - 1) {
         lineWidth+=c.getWidth() * sizeScale;
+        lineWidth+=c.getXOffset() * sizeScale;
       }
  else {
         lineWidth+=xAdvance;
