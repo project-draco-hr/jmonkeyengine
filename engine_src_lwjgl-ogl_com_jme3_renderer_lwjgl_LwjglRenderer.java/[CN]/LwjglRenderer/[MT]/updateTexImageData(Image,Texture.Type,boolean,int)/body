@@ -41,7 +41,7 @@
       throw new RendererException("non-power-of-2 framebuffer textures are not supported by the video hardware");
     }
     if (img.getWidth() != 0 && img.getHeight() != 0) {
-      if (!FastMath.isPowerOfTwo(img.getWidth()) || !FastMath.isPowerOfTwo(img.getHeight()) || img.getWidth() != img.getHeight()) {
+      if (!FastMath.isPowerOfTwo(img.getWidth()) || !FastMath.isPowerOfTwo(img.getHeight())) {
         MipMapGenerator.resizeToPowerOf2(img);
       }
     }
