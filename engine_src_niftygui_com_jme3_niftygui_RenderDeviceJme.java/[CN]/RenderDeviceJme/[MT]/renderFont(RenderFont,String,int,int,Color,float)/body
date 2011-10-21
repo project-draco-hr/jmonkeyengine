@@ -12,7 +12,7 @@
   textCacheCurrentFrame.put(key,text);
   niftyMat.setColor("Color",convertColor(color,tempColor));
   niftyMat.setBoolean("UseTex",true);
-  niftyMat.getAdditionalRenderState().setBlendMode(convertBlend());
+  niftyMat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
   text.setMaterial(niftyMat);
   float width=text.getLineWidth();
   float height=text.getLineHeight();
