@@ -10,7 +10,7 @@
   }
   URLConnection conn=url.openConnection();
   InputStream in=conn.getInputStream();
-  File targetFile=new File(workingDir,fullname);
+  File targetFile=new File(getExtractionDir(),fullname);
   try {
     if (targetFile.exists()) {
       long targetLastModified=targetFile.lastModified();

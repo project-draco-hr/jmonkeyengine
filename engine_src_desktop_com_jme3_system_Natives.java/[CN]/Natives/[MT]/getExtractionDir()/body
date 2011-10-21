@@ -1,18 +1,12 @@
 {
-  URL temp=Natives.class.getResource("");
-  if (temp != null) {
-    StringBuilder sb=new StringBuilder(temp.toString());
-    if (sb.indexOf("jar:") == 0) {
-      sb.delete(0,4);
-      sb.delete(sb.indexOf("!"),sb.length());
-      sb.delete(sb.lastIndexOf("/") + 1,sb.length());
-    }
-    try {
-      return new URL(sb.toString()).toString();
-    }
- catch (    MalformedURLException ex) {
-      return null;
+  if (extractionDirOverride != null) {
+    return extractionDirOverride;
+  }
+  if (extractionDir == null) {
+    extractionDir=new File(JmeSystem.getStorageFolder(),"natives_" + Integer.toHexString(computeNativesHash()));
+    if (!extractionDir.exists()) {
+      extractionDir.mkdir();
     }
   }
-  return null;
+  return extractionDir;
 }

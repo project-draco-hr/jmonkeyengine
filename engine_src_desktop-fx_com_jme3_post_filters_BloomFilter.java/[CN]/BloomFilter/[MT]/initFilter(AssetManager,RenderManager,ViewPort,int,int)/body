@@ -1,6 +1,6 @@
 {
-  screenWidth=(int)(w / downSamplingFactor);
-  screenHeight=(int)(h / downSamplingFactor);
+  screenWidth=(int)Math.max(1,(w / downSamplingFactor));
+  screenHeight=(int)Math.max(1,(h / downSamplingFactor));
   if (glowMode != GlowMode.Scene) {
     preGlowPass=new Pass();
     preGlowPass.init(renderManager.getRenderer(),screenWidth,screenHeight,Format.RGBA8,Format.Depth);
