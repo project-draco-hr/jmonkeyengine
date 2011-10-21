@@ -1,0 +1,14 @@
+{
+  List<Geometry> tmpList=new ArrayList<Geometry>();
+  Mesh m=new Mesh();
+  populateList(tmpList,this);
+  mergeGeometries(m,tmpList);
+  if (batch == null) {
+    batch=new Geometry(name + "-batch");
+    batch.setMaterial(material);
+    this.attachChild(batch);
+  }
+  batch.setMesh(m);
+  batch.getMesh().updateCounts();
+  batch.getMesh().updateBound();
+}

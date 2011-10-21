@@ -1,0 +1,8 @@
+{
+  super.write(ex);
+  OutputCapsule oc=ex.getCapsule(this);
+  if (material != null) {
+    oc.write(material.getAssetName(),"materialName",null);
+  }
+  oc.write(material,"material",null);
+}

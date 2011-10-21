@@ -1,3 +1,6 @@
 {
+  if (isBatched()) {
+    throw new UnsupportedOperationException("Cannot set the material of a batched geometry, change the material of the parent BatchNode.");
+  }
   this.material=material;
 }

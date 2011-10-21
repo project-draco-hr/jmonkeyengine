@@ -1,0 +1,17 @@
+{
+  TempVars vars=TempVars.get();
+  Vector3f pos=vars.vect1;
+  offset*=3;
+  for (int i=start; i < end; i++) {
+    int index=i * 3;
+    pos.x=inBuf.get(index);
+    pos.y=inBuf.get(index + 1);
+    pos.z=inBuf.get(index + 2);
+    transform.mult(pos,pos);
+    index+=offset;
+    outBuf.put(index,pos.x);
+    outBuf.put(index + 1,pos.y);
+    outBuf.put(index + 2,pos.z);
+  }
+  vars.release();
+}

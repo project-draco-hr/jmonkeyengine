@@ -1,0 +1,13 @@
+{
+  s.refreshFlags|=RF_TRANSFORM;
+  s.setBoundRefresh();
+  if (s instanceof Node) {
+    Node n=(Node)s;
+    for (    Spatial child : ((SafeArrayList<Spatial>)n.getChildren()).getArray()) {
+      if ((child.refreshFlags & RF_TRANSFORM) != 0) {
+        continue;
+      }
+      innerTransformRefresh(child);
+    }
+  }
+}
