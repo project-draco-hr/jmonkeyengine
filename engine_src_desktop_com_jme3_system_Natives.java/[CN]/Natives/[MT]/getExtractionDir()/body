@@ -3,9 +3,16 @@
     return extractionDirOverride;
   }
   if (extractionDir == null) {
-    extractionDir=new File(JmeSystem.getStorageFolder(),"natives_" + Integer.toHexString(computeNativesHash()));
-    if (!extractionDir.exists()) {
-      extractionDir.mkdir();
+    File workingFolder=new File("").getAbsoluteFile();
+    if (!workingFolder.canWrite()) {
+      logger.log(Level.WARNING,"Working directory is not writable. Using home directory instead.");
+      extractionDir=new File(JmeSystem.getStorageFolder(),"natives_" + Integer.toHexString(computeNativesHash()));
+      if (!extractionDir.exists()) {
+        extractionDir.mkdir();
+      }
+    }
+ else {
+      extractionDir=workingFolder;
     }
   }
   return extractionDir;
