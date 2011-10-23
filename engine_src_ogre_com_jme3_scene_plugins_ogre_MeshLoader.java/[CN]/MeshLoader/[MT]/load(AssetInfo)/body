@@ -21,6 +21,7 @@
           }
  catch (          AssetNotFoundException e) {
             logger.log(Level.WARNING,"Cannot locate {0}{1}.material for model {2}{3}.{4}",new Object[]{folderName,materialName,folderName,meshName,ext});
+            logger.log(Level.WARNING,"",e);
           }
         }
  else {
@@ -29,6 +30,7 @@
           }
  catch (          AssetNotFoundException e) {
             logger.log(Level.WARNING,"Cannot locate {0}{1}.material for model {2}{3}.{4}",new Object[]{folderName,meshName,folderName,meshName,ext});
+            logger.log(Level.WARNING,"",e);
           }
         }
       }
@@ -39,6 +41,7 @@
       }
  catch (      AssetNotFoundException e) {
         logger.log(Level.WARNING,"Cannot locate {0}{1}.material for model {2}{3}.{4}",new Object[]{folderName,meshName,folderName,meshName,ext});
+        logger.log(Level.WARNING,"",e);
       }
     }
     SAXParserFactory factory=SAXParserFactory.newInstance();
