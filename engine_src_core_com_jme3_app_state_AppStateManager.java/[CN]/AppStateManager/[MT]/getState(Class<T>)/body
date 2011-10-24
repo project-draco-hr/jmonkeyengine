@@ -1,8 +1,13 @@
 {
 synchronized (states) {
-    int num=states.size();
-    for (int i=0; i < num; i++) {
-      AppState state=states.get(i);
+    AppState[] array=getStates();
+    for (    AppState state : array) {
+      if (stateClass.isAssignableFrom(state.getClass())) {
+        return (T)state;
+      }
+    }
+    array=getInitializing();
+    for (    AppState state : array) {
       if (stateClass.isAssignableFrom(state.getClass())) {
         return (T)state;
       }

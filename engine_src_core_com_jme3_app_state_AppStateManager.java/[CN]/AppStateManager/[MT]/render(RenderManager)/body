@@ -1,7 +1,6 @@
 {
-  AppState[] array=getArray();
+  AppState[] array=getStates();
   for (  AppState state : array) {
-    if (!state.isInitialized())     state.initialize(this,app);
     if (state.isEnabled()) {
       state.render(rm);
     }

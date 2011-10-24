@@ -1,7 +1,8 @@
 {
-  AppState[] array=getArray();
+  terminatePending();
+  initializePending();
+  AppState[] array=getStates();
   for (  AppState state : array) {
-    if (!state.isInitialized())     state.initialize(this,app);
     if (state.isEnabled()) {
       state.update(tpf);
     }

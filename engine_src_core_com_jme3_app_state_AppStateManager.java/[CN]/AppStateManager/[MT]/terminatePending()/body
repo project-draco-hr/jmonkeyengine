@@ -1,0 +1,9 @@
+{
+  AppState[] array=getTerminating();
+  for (  AppState state : array) {
+    state.cleanup();
+  }
+synchronized (states) {
+    terminating.removeAll(Arrays.asList(array));
+  }
+}
