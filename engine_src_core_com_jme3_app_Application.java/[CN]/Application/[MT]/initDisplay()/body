@@ -1,5 +1,7 @@
 {
   settings=context.getSettings();
-  timer=context.getTimer();
+  if (timer == null) {
+    timer=context.getTimer();
+  }
   renderer=context.getRenderer();
 }
