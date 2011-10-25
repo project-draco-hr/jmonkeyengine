@@ -74,7 +74,13 @@
     int v2=((Number)mFace.getFieldValue("v2")).intValue();
     int v3=((Number)mFace.getFieldValue("v3")).intValue();
     int v4=((Number)mFace.getFieldValue("v4")).intValue();
-    Vector3f n=FastMath.computeNormal(vertices[v1],vertices[v2],vertices[v3]);
+    Vector3f n;
+    if (fixUpAxis) {
+      n=FastMath.computeNormal(vertices[v1],vertices[v3],vertices[v2]);
+    }
+ else {
+      n=FastMath.computeNormal(vertices[v1],vertices[v2],vertices[v3]);
+    }
     this.addNormal(n,normalMap,smooth,vertices[v1],vertices[v2],vertices[v3]);
     normalList.add(normalMap.get(vertices[v1]));
     normalList.add(normalMap.get(vertices[v2]));
