@@ -1,14 +1,6 @@
 {
-  List<Geometry> tmpList=new ArrayList<Geometry>();
-  Mesh m=new Mesh();
-  populateList(tmpList,this);
-  mergeGeometries(m,tmpList);
-  if (batch == null) {
-    batch=new Geometry(name + "-batch");
-    batch.setMaterial(material);
-    this.attachChild(batch);
+  doBatch();
+  for (  Batch batch : batches.values()) {
+    batch.geometry.setIgnoreTransform(true);
   }
-  batch.setMesh(m);
-  batch.getMesh().updateCounts();
-  batch.getMesh().updateBound();
 }

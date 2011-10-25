@@ -67,9 +67,6 @@ int globalVertIndex=0;
 int globalTriIndex=0;
 for (Geometry geom : geometries) {
 Mesh inMesh=geom.getMesh();
-if (geom.getMaterial() != null && material == null) {
-material=geom.getMaterial();
-}
 geom.batch(this,globalVertIndex);
 int geomVertCount=inMesh.getVertexCount();
 int geomTriCount=inMesh.getTriangleCount();

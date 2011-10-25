@@ -1,0 +1,21 @@
+{
+  Map<Material,List<Geometry>> matMap=new HashMap<Material,List<Geometry>>();
+  gatherGeomerties(matMap,this);
+  batches.clear();
+  int nbGeoms=0;
+  for (  Material material : matMap.keySet()) {
+    Mesh m=new Mesh();
+    List<Geometry> list=matMap.get(material);
+    nbGeoms+=list.size();
+    mergeGeometries(m,list);
+    Batch batch=new Batch();
+    batch.geometry=new Geometry(name + "-batch" + batches.size());
+    batch.geometry.setMaterial(material);
+    this.attachChild(batch.geometry);
+    batch.geometry.setMesh(m);
+    batch.geometry.getMesh().updateCounts();
+    batch.geometry.getMesh().updateBound();
+    batches.put(material,batch);
+  }
+  logger.log(Level.INFO,"Batched {0} geometries in {1} batches.",new Object[]{nbGeoms,batches.size()});
+}

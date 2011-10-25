@@ -1,11 +1,10 @@
 {
   super.updateWorldTransforms();
   computeWorldMatrix();
-  if ((refreshFlags & RF_REFRESHBATCH) != 0) {
+  if (isBatched()) {
     computeOffsetTransform();
     batchNode.updateSubBatch(this);
-    prevLocalTransform.set(localTransform);
-    refreshFlags&=~RF_REFRESHBATCH;
+    prevBatchTransforms.set(batchNode.getTransforms(this));
   }
   worldLights.sort(true);
 }

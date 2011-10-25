@@ -1,3 +1,7 @@
 {
-  return material;
+  if (!batches.isEmpty()) {
+    Batch b=batches.get(batches.keySet().iterator().next());
+    return b.geometry.getMaterial();
+  }
+  return null;
 }

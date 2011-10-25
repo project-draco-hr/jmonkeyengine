@@ -1,0 +1,7 @@
+{
+  refreshFlags|=RF_TRANSFORM;
+  setBoundRefresh();
+  for (  Batch batch : batches.values()) {
+    batch.geometry.setTransformRefresh();
+  }
+}

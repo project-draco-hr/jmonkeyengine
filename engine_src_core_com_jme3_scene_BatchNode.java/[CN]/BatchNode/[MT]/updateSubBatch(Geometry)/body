@@ -1,6 +1,7 @@
 {
+  Batch batch=batches.get(bg.getMaterial());
   if (batch != null) {
-    Mesh mesh=batch.getMesh();
+    Mesh mesh=batch.geometry.getMesh();
     FloatBuffer buf=(FloatBuffer)mesh.getBuffer(VertexBuffer.Type.Position).getData();
     doTransformVerts(buf,0,bg.startIndex,bg.startIndex + bg.getVertexCount(),buf,bg.cachedOffsetMat);
     mesh.getBuffer(VertexBuffer.Type.Position).updateData(buf);
@@ -12,6 +13,6 @@
       doTransformNorm(buf,0,bg.startIndex,bg.startIndex + bg.getVertexCount(),buf,bg.cachedOffsetMat);
       mesh.getBuffer(VertexBuffer.Type.Tangent).updateData(buf);
     }
-    needMeshUpdate=true;
+    batch.needMeshUpdate=true;
   }
 }

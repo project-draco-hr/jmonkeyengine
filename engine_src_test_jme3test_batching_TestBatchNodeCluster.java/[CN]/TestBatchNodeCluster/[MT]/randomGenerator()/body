@@ -3,17 +3,18 @@
     randomize();
     Geometry box=new Geometry("Box" + i,new Box(Vector3f.ZERO,1,1,1));
     box.setLocalTranslation(new Vector3f(xPosition.get(xPosition.size() - 1),yPosition.get(yPosition.size() - 1),zPosition.get(zPosition.size() - 1)));
+    batchNode.attachChild(box);
     if (i < 500) {
-      blue.attachChild(box);
+      box.setMaterial(mat1);
     }
  else     if (i < 1000) {
-      brown.attachChild(box);
+      box.setMaterial(mat2);
     }
  else     if (i < 1500) {
-      pink.attachChild(box);
+      box.setMaterial(mat3);
     }
  else {
-      orange.attachChild(box);
+      box.setMaterial(mat4);
     }
   }
 }
