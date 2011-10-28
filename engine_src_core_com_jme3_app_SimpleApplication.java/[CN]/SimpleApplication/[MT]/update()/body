@@ -6,10 +6,12 @@
   float tpf=timer.getTimePerFrame() * speed;
   if (showFps) {
     secondCounter+=timer.getTimePerFrame();
-    int fps=(int)timer.getFrameRate();
+    frameCounter++;
     if (secondCounter >= 1.0f) {
+      int fps=(int)(frameCounter / secondCounter);
       fpsText.setText("Frames per second: " + fps);
       secondCounter=0.0f;
+      frameCounter=0;
     }
   }
   stateManager.update(tpf);
