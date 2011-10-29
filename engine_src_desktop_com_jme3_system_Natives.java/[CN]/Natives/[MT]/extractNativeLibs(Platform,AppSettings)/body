@@ -17,9 +17,13 @@
     }
   }
   needJInput=settings.useJoysticks();
+  String libraryPath=getExtractionDir().toString();
   if (needLWJGL) {
     logger.log(Level.INFO,"Extraction Directory: {0}",getExtractionDir().toString());
-    System.setProperty("org.lwjgl.librarypath",getExtractionDir().toString());
+    System.setProperty("org.lwjgl.librarypath",libraryPath);
+  }
+  if (needJInput) {
+    System.setProperty("net.java.games.input.librarypath",libraryPath);
   }
 switch (platform) {
 case Windows64:
