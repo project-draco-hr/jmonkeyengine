@@ -1,7 +1,8 @@
 {
-  Vector3f left=getLeft();
-  Vector3f direction=getDirection();
-  Vector3f up=getUp();
+  TempVars vars=TempVars.get();
+  Vector3f left=getLeft(vars.vect1);
+  Vector3f direction=getDirection(vars.vect2);
+  Vector3f up=getUp(vars.vect3);
   float dirDotLocation=direction.dot(location);
   Vector3f leftPlaneNormal=worldPlane[LEFT_PLANE].getNormal();
   leftPlaneNormal.x=left.x * coeffLeft[0];
@@ -39,5 +40,6 @@
   worldPlane[NEAR_PLANE].setNormal(direction.x,direction.y,direction.z);
   worldPlane[NEAR_PLANE].setConstant(dirDotLocation + frustumNear);
   viewMatrix.fromFrame(location,direction,up,left);
+  vars.release();
   updateViewProjection();
 }
