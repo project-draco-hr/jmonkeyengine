@@ -1,0 +1,14 @@
+{
+  super();
+  int width=images.get(0).getWidth();
+  int height=images.get(0).getHeight();
+  Image arrayImage=new Image(images.get(0).getFormat(),width,height,null);
+  for (  Image img : images) {
+    if (img.getHeight() != height || img.getWidth() != width) {
+      Logger.getLogger(TextureArray.class.getName()).log(Level.WARNING,"all images must have the same width/height");
+      continue;
+    }
+    arrayImage.addData(img.getData(0));
+  }
+  setImage(arrayImage);
+}

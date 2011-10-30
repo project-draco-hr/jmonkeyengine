@@ -251,7 +251,7 @@ glTexImage3D(target,i,internalFormat,mipWidth,mipHeight,mipDepth,border,format,d
 }
  else if (target == EXTTextureArray.GL_TEXTURE_2D_ARRAY_EXT) {
 if (index == -1) {
-glTexImage3D(target,0,internalFormat,mipWidth,mipHeight,img.getData().size(),border,format,dataType,0);
+glTexImage3D(target,0,internalFormat,mipWidth,mipHeight,img.getData().size(),border,format,dataType,data);
 }
  else {
 glTexSubImage3D(target,i,0,0,index,width,height,1,format,dataType,data);
