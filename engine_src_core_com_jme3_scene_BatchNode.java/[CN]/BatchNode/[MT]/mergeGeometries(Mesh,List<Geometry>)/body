@@ -60,15 +60,19 @@ data=VertexBuffer.createBuffer(formatForBuf[i],compsForBuf[i],totalTris);
 data=VertexBuffer.createBuffer(formatForBuf[i],compsForBuf[i],totalVerts);
 }
 VertexBuffer vb=new VertexBuffer(VertexBuffer.Type.values()[i]);
-vb.setupData(VertexBuffer.Usage.Static,compsForBuf[i],formatForBuf[i],data);
+vb.setupData(VertexBuffer.Usage.Dynamic,compsForBuf[i],formatForBuf[i],data);
 outMesh.setBuffer(vb);
 }
 int globalVertIndex=0;
 int globalTriIndex=0;
+int maxVertCount=0;
 for (Geometry geom : geometries) {
 Mesh inMesh=geom.getMesh();
 geom.batch(this,globalVertIndex);
 int geomVertCount=inMesh.getVertexCount();
+if (maxVertCount < geomVertCount) {
+maxVertCount=geomVertCount;
+}
 int geomTriCount=inMesh.getTriangleCount();
 for (int bufType=0; bufType < compsForBuf.length; bufType++) {
 VertexBuffer inBuf=inMesh.getBuffer(VertexBuffer.Type.values()[bufType]);
@@ -107,4 +111,5 @@ inBuf.copyElement(vert,outBuf,curGlobalVertIndex);
 globalVertIndex+=geomVertCount;
 globalTriIndex+=geomTriCount;
 }
+tmpFloat=new float[maxVertCount * 3];
 }

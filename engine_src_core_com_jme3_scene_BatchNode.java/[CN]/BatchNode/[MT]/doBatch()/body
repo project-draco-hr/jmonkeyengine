@@ -8,6 +8,7 @@
     List<Geometry> list=matMap.get(material);
     nbGeoms+=list.size();
     mergeGeometries(m,list);
+    m.setDynamic();
     Batch batch=new Batch();
     batch.geometry=new Geometry(name + "-batch" + batches.size());
     batch.geometry.setMaterial(material);

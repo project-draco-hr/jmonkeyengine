@@ -1,0 +1,11 @@
+{
+  if (batchHint != BatchHint.Inherit) {
+    return batchHint;
+  }
+ else   if (parent != null) {
+    return parent.getBatchHint();
+  }
+ else {
+    return BatchHint.Always;
+  }
+}

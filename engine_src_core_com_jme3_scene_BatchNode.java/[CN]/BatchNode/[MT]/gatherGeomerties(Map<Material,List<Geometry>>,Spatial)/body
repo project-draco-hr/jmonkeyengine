@@ -1,6 +1,6 @@
 {
   if (n.getClass() == Geometry.class) {
-    if (!isBatch(n)) {
+    if (!isBatch(n) && n.getBatchHint() != BatchHint.Never) {
       Geometry g=(Geometry)n;
       if (g.getMaterial() == null) {
         throw new IllegalStateException("No material is set for Geometry: " + g.getName() + " please set a material before batching");
