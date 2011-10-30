@@ -5,6 +5,9 @@
     FloatBuffer buf=(FloatBuffer)mesh.getBuffer(VertexBuffer.Type.Position).getData();
     doTransformVerts(buf,bg.startIndex,bg.startIndex + bg.getVertexCount(),buf,bg.cachedOffsetMat);
     mesh.getBuffer(VertexBuffer.Type.Position).updateData(buf);
+    buf=(FloatBuffer)mesh.getBuffer(VertexBuffer.Type.Normal).getData();
+    doTransformNorm(buf,bg.startIndex,bg.startIndex + bg.getVertexCount(),buf,bg.cachedOffsetMat);
+    mesh.getBuffer(VertexBuffer.Type.Normal).updateData(buf);
     if (mesh.getBuffer(VertexBuffer.Type.Tangent) != null) {
       buf=(FloatBuffer)mesh.getBuffer(VertexBuffer.Type.Tangent).getData();
       doTransformNorm(buf,bg.startIndex,bg.startIndex + bg.getVertexCount(),buf,bg.cachedOffsetMat);
