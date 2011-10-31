@@ -18,6 +18,15 @@
       nb.clear();
       bpb.clear();
       bnb.clear();
+      VertexBuffer bindTangents=mesh.getBuffer(Type.BindPoseTangent);
+      if (bindTangents != null) {
+        VertexBuffer tangents=mesh.getBuffer(Type.Tangent);
+        FloatBuffer tb=(FloatBuffer)tangents.getData();
+        FloatBuffer btb=(FloatBuffer)bindTangents.getData();
+        tb.clear();
+        btb.clear();
+        tb.put(btb).clear();
+      }
       pb.put(bpb).clear();
       nb.put(bnb).clear();
     }

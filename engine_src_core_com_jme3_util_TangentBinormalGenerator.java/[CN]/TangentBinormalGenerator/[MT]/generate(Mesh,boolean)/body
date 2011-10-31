@@ -24,4 +24,16 @@ default :
 throw new UnsupportedOperationException(mesh.getMode() + " is not supported.");
 }
 processTriangleData(mesh,vertices,approxTangents);
+if (mesh.getBuffer(Type.BindPosePosition) != null) {
+VertexBuffer tangents=mesh.getBuffer(Type.Tangent);
+if (tangents != null) {
+VertexBuffer bindTangents=new VertexBuffer(Type.BindPoseTangent);
+bindTangents.setupData(Usage.CpuOnly,4,Format.Float,BufferUtils.clone(tangents.getData()));
+if (mesh.getBuffer(Type.BindPoseTangent) != null) {
+mesh.clearBuffer(Type.BindPoseTangent);
+}
+mesh.setBuffer(bindTangents);
+tangents.setUsage(Usage.Stream);
+}
+}
 }

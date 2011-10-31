@@ -28,11 +28,15 @@
   tangent.x=(edge2uv.y * edge1.x - edge1uv.y * edge2.x) * factor;
   tangent.y=(edge2uv.y * edge1.y - edge1uv.y * edge2.y) * factor;
   tangent.z=(edge2uv.y * edge1.z - edge1uv.y * edge2.z) * factor;
-  if (normalize)   tangent.normalizeLocal();
+  if (normalize) {
+    tangent.normalizeLocal();
+  }
   binormal.x=(edge1uv.x * edge2.x - edge2uv.x * edge1.x) * factor;
   binormal.y=(edge1uv.x * edge2.y - edge2uv.x * edge1.y) * factor;
   binormal.z=(edge1uv.x * edge2.z - edge2uv.x * edge1.z) * factor;
-  if (normalize)   binormal.normalizeLocal();
+  if (normalize) {
+    binormal.normalizeLocal();
+  }
   tangent.cross(binormal,normal);
   normal.normalizeLocal();
   return new TriangleData(tangent,binormal,normal,index[0],index[1],index[2]);
