@@ -1,12 +1,10 @@
 {
   if (glowMode != GlowMode.Scene) {
-    backupColor=viewPort.getBackgroundColor();
-    viewPort.setBackgroundColor(ColorRGBA.Black);
+    renderManager.getRenderer().setBackgroundColor(ColorRGBA.Black);
     renderManager.getRenderer().setFrameBuffer(preGlowPass.getRenderFrameBuffer());
     renderManager.getRenderer().clearBuffers(true,true,true);
     renderManager.setForcedTechnique("Glow");
     renderManager.renderViewPortQueues(viewPort,false);
-    viewPort.setBackgroundColor(backupColor);
     renderManager.setForcedTechnique(null);
     renderManager.getRenderer().setFrameBuffer(viewPort.getOutputFrameBuffer());
   }
