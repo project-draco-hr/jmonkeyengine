@@ -1,4 +1,4 @@
 {
-  final Vector3f v=location.clone().divideLocal(this.getLocalScale().mult(this.quadSize - 1)).add(0.5f,0,0.5f);
+  final Vector3f v=location.add(this.getWorldScale().mult((this.quadSize - 1) / 2)).divide(this.getWorldScale().mult(this.quadSize - 1)).add(0.5f,0,0.5f);
   return new Vector3f(FastMath.floor(v.x),0,FastMath.floor(v.z));
 }

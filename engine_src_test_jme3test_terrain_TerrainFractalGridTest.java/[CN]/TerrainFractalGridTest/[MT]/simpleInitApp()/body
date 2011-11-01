@@ -53,14 +53,12 @@
   this.terrain.setLocalTranslation(0,0,0);
   this.terrain.setLocalScale(2f,1f,2f);
   this.rootNode.attachChild(this.terrain);
-  List<Camera> cameras=new ArrayList<Camera>();
-  cameras.add(this.getCamera());
-  TerrainLodControl control=new TerrainLodControl(this.terrain,cameras);
+  TerrainLodControl control=new TerrainLodControl(this.terrain,this.getCamera());
   control.setLodCalculator(new DistanceLodCalculator(33,2.7f));
   this.terrain.addControl(control);
   final BulletAppState bulletAppState=new BulletAppState();
   stateManager.attach(bulletAppState);
-  this.getCamera().setLocation(new Vector3f(0,0,0));
+  this.getCamera().setLocation(new Vector3f(0,300,0));
   this.viewPort.setBackgroundColor(new ColorRGBA(0.7f,0.8f,1f,1f));
   if (usePhysics) {
     CapsuleCollisionShape capsuleShape=new CapsuleCollisionShape(0.5f,1.8f,1);
