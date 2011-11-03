@@ -1,0 +1,31 @@
+{
+  assetManager.registerLocator("http://jme-glsl-shaders.googlecode.com/hg/assets/Models/LightBlow/",UrlLocator.class);
+  assetManager.registerLocator("http://jmonkeyengine.googlecode.com/files/",UrlLocator.class);
+  Spatial badModel=assetManager.loadModel("jme_lightblow.obj");
+  badModel.setLocalScale(2f);
+  Material mat=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  mat.setTexture("NormalMap",assetManager.loadTexture("jme_lightblow_nor.png"));
+  badModel.setMaterial(mat);
+  rootNode.attachChild(badModel);
+  rootNode.depthFirstTraversal(new SceneGraphVisitorAdapter(){
+    @Override public void visit(    Geometry g){
+      Mesh m=g.getMesh();
+      Material mat=g.getMaterial();
+      if (mat.getParam("DiffuseMap") != null) {
+        mat.setTexture("DiffuseMap",null);
+      }
+      TangentBinormalGenerator.generate(m);
+    }
+  }
+);
+  DirectionalLight dl=new DirectionalLight();
+  dl.setDirection(new Vector3f(-0.8f,-0.6f,-0.08f).normalizeLocal());
+  dl.setColor(new ColorRGBA(1,1,1,1));
+  rootNode.addLight(dl);
+  lightMdl=new Geometry("Light",new Sphere(10,10,0.1f));
+  lightMdl.setMaterial(assetManager.loadMaterial("Common/Materials/RedColor.j3m"));
+  lightMdl.getMesh().setStatic();
+  rootNode.attachChild(lightMdl);
+  pl=new PointLight();
+  pl.setColor(ColorRGBA.White);
+}
