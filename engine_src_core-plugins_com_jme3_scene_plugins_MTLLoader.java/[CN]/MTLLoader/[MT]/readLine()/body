@@ -20,9 +20,14 @@
     specular.set(readColor());
   }
  else   if (cmd.equals("ns")) {
-    shininess=scan.nextFloat();
-    if (specular.equals(ColorRGBA.Black)) {
-      specular.set(ColorRGBA.White);
+    float shiny=scan.nextFloat();
+    if (shiny >= 1) {
+      shininess=shiny;
+      if (specular.equals(ColorRGBA.Black)) {
+        specular.set(ColorRGBA.White);
+      }
+    }
+ else {
     }
   }
  else   if (cmd.equals("d") || cmd.equals("tr")) {
