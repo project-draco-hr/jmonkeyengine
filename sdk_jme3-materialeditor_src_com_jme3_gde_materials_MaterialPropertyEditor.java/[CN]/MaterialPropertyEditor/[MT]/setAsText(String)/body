@@ -10,11 +10,11 @@
       FileObject currentFile=obj.getPrimaryFile();
       FileObject currentFolder=currentFile.getParent();
       int i=0;
-      String newFileName=currentFile.getName() + "-" + geom.getName();
+      String newFileName=currentFile.getName() + "-" + sanitizeFileName(geom.getName());
       FileObject newFile=currentFolder.getFileObject(newFileName,"j3m");
       while (newFile != null) {
         i++;
-        newFileName=currentFile.getName() + "-" + geom.getName()+ "-"+ i;
+        newFileName=currentFile.getName() + "-" + sanitizeFileName(geom.getName())+ "-"+ i;
         newFile=currentFolder.getFileObject(newFileName,"j3m");
       }
       newFile=currentFolder.createData(newFileName,"j3m");
