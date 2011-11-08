@@ -8,15 +8,15 @@
   Quaternion tempQ2=vars.quat2;
   int lastFrame=times.length - 1;
   if (time < 0 || lastFrame == 0) {
-    rotations.get(0,tempQ);
-    translations.get(0,tempV);
+    if (rotations != null)     rotations.get(0,tempQ);
+    if (translations != null)     translations.get(0,tempV);
     if (scales != null) {
       scales.get(0,tempS);
     }
   }
  else   if (time >= times[lastFrame]) {
-    rotations.get(lastFrame,tempQ);
-    translations.get(lastFrame,tempV);
+    if (rotations != null)     rotations.get(lastFrame,tempQ);
+    if (translations != null)     translations.get(lastFrame,tempV);
     if (scales != null) {
       scales.get(lastFrame,tempS);
     }
@@ -29,13 +29,13 @@
       endFrame=i + 1;
     }
     float blend=(time - times[startFrame]) / (times[endFrame] - times[startFrame]);
-    rotations.get(startFrame,tempQ);
-    translations.get(startFrame,tempV);
+    if (rotations != null)     rotations.get(startFrame,tempQ);
+    if (translations != null)     translations.get(startFrame,tempV);
     if (scales != null) {
       scales.get(startFrame,tempS);
     }
-    rotations.get(endFrame,tempQ2);
-    translations.get(endFrame,tempV2);
+    if (rotations != null)     rotations.get(endFrame,tempQ2);
+    if (translations != null)     translations.get(endFrame,tempV2);
     if (scales != null) {
       scales.get(endFrame,tempS2);
     }
@@ -43,8 +43,8 @@
     tempV.interpolate(tempV2,blend);
     tempS.interpolate(tempS2,blend);
   }
-  spatial.setLocalTranslation(tempV);
-  spatial.setLocalRotation(tempQ);
+  if (translations != null)   spatial.setLocalTranslation(tempV);
+  if (rotations != null)   spatial.setLocalRotation(tempQ);
   if (scales != null) {
     spatial.setLocalScale(tempS);
   }
