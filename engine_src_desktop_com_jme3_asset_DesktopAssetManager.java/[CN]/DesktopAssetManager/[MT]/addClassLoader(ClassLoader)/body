@@ -1,4 +1,4 @@
 {
-  if (classLoaders == null)   classLoaders=new ArrayList<ClassLoader>();
+  if (classLoaders == null)   classLoaders=Collections.synchronizedList(new ArrayList<ClassLoader>());
   classLoaders.add(loader);
 }
