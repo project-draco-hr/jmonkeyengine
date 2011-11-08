@@ -1,6 +1,6 @@
 {
 synchronized (genericLocators) {
-    if (genericLocators.size() == 0)     return null;
+    if (genericLocators.isEmpty())     return null;
     for (    ImplThreadLocal local : genericLocators) {
       AssetLocator locator=(AssetLocator)local.get();
       if (local.getPath() != null) {
