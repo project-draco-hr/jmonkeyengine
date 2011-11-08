@@ -9,38 +9,28 @@
       meshName=meshName.substring(folderName.length());
     }
     assetManager=info.getManager();
-    OgreMeshKey meshKey=null;
     if (key instanceof OgreMeshKey) {
-      meshKey=(OgreMeshKey)key;
+      OgreMeshKey meshKey=(OgreMeshKey)key;
       materialList=meshKey.getMaterialList();
       String materialName=meshKey.getMaterialName();
-      if (materialList == null) {
-        if (materialName != null) {
-          try {
-            materialList=(MaterialList)assetManager.loadAsset(new OgreMaterialKey(folderName + materialName + ".material"));
-          }
- catch (          AssetNotFoundException e) {
-            logger.log(Level.WARNING,"Cannot locate {0}{1}.material for model {2}{3}.{4}",new Object[]{folderName,materialName,folderName,meshName,ext});
-            logger.log(Level.WARNING,"",e);
-          }
+      if (materialList == null && materialName != null) {
+        OgreMaterialKey materialKey=new OgreMaterialKey(folderName + materialName + ".material");
+        try {
+          materialList=(MaterialList)assetManager.loadAsset(materialKey);
         }
- else {
-          try {
-            materialList=(MaterialList)assetManager.loadAsset(new OgreMaterialKey(folderName + meshName + ".material"));
-          }
- catch (          AssetNotFoundException e) {
-            logger.log(Level.WARNING,"Cannot locate {0}{1}.material for model {2}{3}.{4}",new Object[]{folderName,meshName,folderName,meshName,ext});
-            logger.log(Level.WARNING,"",e);
-          }
+ catch (        AssetNotFoundException e) {
+          logger.log(Level.WARNING,"Cannot locate {0} for model {1}",new Object[]{materialKey,key});
+          logger.log(Level.WARNING,"",e);
         }
       }
     }
- else {
+    if (materialList == null) {
+      OgreMaterialKey materialKey=new OgreMaterialKey(folderName + meshName + ".material");
       try {
-        materialList=(MaterialList)assetManager.loadAsset(new OgreMaterialKey(folderName + meshName + ".material"));
+        materialList=(MaterialList)assetManager.loadAsset(materialKey);
       }
  catch (      AssetNotFoundException e) {
-        logger.log(Level.WARNING,"Cannot locate {0}{1}.material for model {2}{3}.{4}",new Object[]{folderName,meshName,folderName,meshName,ext});
+        logger.log(Level.WARNING,"Cannot locate {0} for model {1}",new Object[]{materialKey,key});
         logger.log(Level.WARNING,"",e);
       }
     }
