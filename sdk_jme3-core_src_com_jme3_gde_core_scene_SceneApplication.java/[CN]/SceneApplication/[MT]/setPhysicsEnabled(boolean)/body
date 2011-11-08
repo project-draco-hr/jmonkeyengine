@@ -1,0 +1,21 @@
+{
+  enqueue(new Callable(){
+    public Object call() throws Exception {
+      if (enabled) {
+        if (physicsState == null) {
+          physicsState=new BulletAppState();
+          getStateManager().attach(physicsState);
+          physicsState.getPhysicsSpace().addAll(rootNode);
+        }
+      }
+ else {
+        if (physicsState != null) {
+          physicsState.getPhysicsSpace().removeAll(rootNode);
+          getStateManager().detach(physicsState);
+        }
+      }
+      return null;
+    }
+  }
+);
+}

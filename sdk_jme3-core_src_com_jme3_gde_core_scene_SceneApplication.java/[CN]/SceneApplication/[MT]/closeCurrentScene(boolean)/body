@@ -6,6 +6,11 @@
       }
     }
     checkSave();
+    if (physicsState != null) {
+      physicsState.getPhysicsSpace().removeAll(rootNode);
+      getStateManager().detach(physicsState);
+      physicsState=null;
+    }
     currentSceneRequest.setDisplayed(false);
   }
   toolsNode.detachAllChildren();
