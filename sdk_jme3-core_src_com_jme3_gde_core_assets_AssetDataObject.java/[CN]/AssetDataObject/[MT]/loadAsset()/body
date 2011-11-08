@@ -10,7 +10,9 @@
   FileLock lock=null;
   try {
     lock=getPrimaryFile().lock();
+    listListener.start();
     Savable spatial=(Savable)mgr.loadAsset(getAssetKey());
+    listListener.stop();
     savable=spatial;
     lock.releaseLock();
   }

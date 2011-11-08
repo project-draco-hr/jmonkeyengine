@@ -3,6 +3,7 @@
   contentLookup=new AbstractLookup(getLookupContents());
   lookupContents.add(new AssetData(this));
   lookup=new ProxyLookup(getCookieSet().getLookup(),contentLookup);
+  listListener=new AssetListListener(this,assetList,failedList);
   setSaveCookie(saveCookie);
   findAssetManager();
 }

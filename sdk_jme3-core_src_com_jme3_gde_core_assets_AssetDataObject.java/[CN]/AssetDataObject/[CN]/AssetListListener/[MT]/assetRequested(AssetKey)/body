@@ -1,0 +1,10 @@
+{
+  ProjectAssetManager pm=obj.getLookup().lookup(ProjectAssetManager.class);
+  if (pm == null || loadingThread != Thread.currentThread()) {
+    return;
+  }
+  FileObject obj=pm.getAssetFolder().getFileObject(ak.getName());
+  if (obj != null) {
+    assetList.add(obj);
+  }
+}

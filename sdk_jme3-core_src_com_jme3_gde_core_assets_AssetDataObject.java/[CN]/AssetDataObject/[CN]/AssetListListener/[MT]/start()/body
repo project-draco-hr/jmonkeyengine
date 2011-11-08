@@ -1,0 +1,10 @@
+{
+  ProjectAssetManager pm=obj.getLookup().lookup(ProjectAssetManager.class);
+  loadingThread=Thread.currentThread();
+  assetList.clear();
+  failedList.clear();
+  if (pm == null) {
+    return;
+  }
+  pm.addAssetEventListener(this);
+}
