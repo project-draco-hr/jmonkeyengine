@@ -25,6 +25,14 @@
   Vector3f newPos=planeHit.subtract(offset);
   lastLoc=newPos;
   toolController.getSelectedSpatial().setLocalTranslation(newPos);
+  RigidBodyControl control=toolController.getSelectedSpatial().getControl(RigidBodyControl.class);
+  if (control != null) {
+    control.setPhysicsLocation(toolController.getSelectedSpatial().getWorldTranslation());
+  }
+  CharacterControl character=toolController.getSelectedSpatial().getControl(CharacterControl.class);
+  if (character != null) {
+    character.setPhysicsLocation(toolController.getSelectedSpatial().getWorldTranslation());
+  }
   updateToolsTransformation();
   wasDragging=true;
 }
