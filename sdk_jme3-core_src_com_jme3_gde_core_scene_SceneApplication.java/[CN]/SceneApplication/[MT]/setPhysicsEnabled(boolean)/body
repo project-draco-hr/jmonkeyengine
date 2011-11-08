@@ -12,6 +12,7 @@
         if (physicsState != null) {
           physicsState.getPhysicsSpace().removeAll(rootNode);
           getStateManager().detach(physicsState);
+          physicsState=null;
         }
       }
       return null;
