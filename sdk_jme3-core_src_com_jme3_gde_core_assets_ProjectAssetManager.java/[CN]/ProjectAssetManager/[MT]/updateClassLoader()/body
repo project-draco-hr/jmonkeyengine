@@ -1,0 +1,27 @@
+{
+  Sources sources=project.getLookup().lookup(Sources.class);
+  if (sources != null) {
+    if (loader != null) {
+      removeClassLoader(loader);
+    }
+    SourceGroup[] groups=sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA);
+    List<URL> urls=new LinkedList<URL>();
+    for (    SourceGroup sourceGroup : groups) {
+      ClassPath path=ClassPath.getClassPath(sourceGroup.getRootFolder(),ClassPath.EXECUTE);
+      if (path != null) {
+        System.out.println("Classpath: " + path);
+        try {
+          FileObject[] roots=path.getRoots();
+          for (          FileObject fileObject : roots) {
+            urls.add(fileObject.getURL());
+          }
+        }
+ catch (        FileStateInvalidException ex) {
+          Exceptions.printStackTrace(ex);
+        }
+      }
+    }
+    loader=new URLClassLoader(urls.toArray(new URL[urls.size()]),getClass().getClassLoader());
+    addClassLoader(loader);
+  }
+}
