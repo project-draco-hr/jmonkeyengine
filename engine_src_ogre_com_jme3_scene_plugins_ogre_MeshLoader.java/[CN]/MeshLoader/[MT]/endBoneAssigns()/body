@@ -2,6 +2,13 @@
   if (mesh != sharedMesh && isUsingSharedVerts(geom)) {
     return;
   }
+  if (!actuallyHasWeights) {
+    mesh.clearBuffer(Type.BoneIndex);
+    mesh.clearBuffer(Type.BoneWeight);
+    weightsFloatData=null;
+    indicesData=null;
+    return;
+  }
   int maxWeightsPerVert=0;
   weightsFloatData.rewind();
   for (int v=0; v < vertCount; v++) {
@@ -29,6 +36,7 @@
     }
   }
   weightsFloatData.rewind();
+  actuallyHasWeights=false;
   weightsFloatData=null;
   indicesData=null;
   mesh.setMaxNumWeights(maxWeightsPerVert);
