@@ -28,9 +28,7 @@ catch (    IOException ex) {
     }
   }
   try {
-    URLConnection conn=url.openConnection();
-    conn.setUseCaches(false);
-    return new ClasspathAssetInfo(manager,key,conn);
+    return UrlAssetInfo.create(manager,key,url);
   }
  catch (  IOException ex) {
     throw new AssetLoadException("Failed to read URL " + url,ex);

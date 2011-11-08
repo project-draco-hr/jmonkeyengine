@@ -2,18 +2,7 @@
   String name=key.getName();
   try {
     URL url=new URL(root,name);
-    URLConnection conn=url.openConnection();
-    conn.setUseCaches(false);
-    conn.setDoOutput(false);
-    InputStream in;
-    try {
-      in=conn.getInputStream();
-      if (in == null)       return null;
-    }
- catch (    FileNotFoundException ex) {
-      return null;
-    }
-    return new UrlAssetInfo(manager,key,in);
+    return UrlAssetInfo.create(manager,key,url);
   }
  catch (  IOException ex) {
     logger.log(Level.WARNING,"Error while locating " + name,ex);
