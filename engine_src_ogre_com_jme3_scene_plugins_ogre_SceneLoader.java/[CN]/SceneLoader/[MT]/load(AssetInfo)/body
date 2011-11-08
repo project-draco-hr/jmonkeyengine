@@ -1,15 +1,17 @@
 {
   try {
+    key=info.getKey();
     assetManager=info.getManager();
-    sceneName=info.getKey().getName();
-    String ext=info.getKey().getExtension();
-    folderName=info.getKey().getFolder();
+    sceneName=key.getName();
+    String ext=key.getExtension();
+    folderName=key.getFolder();
     sceneName=sceneName.substring(0,sceneName.length() - ext.length() - 1);
+    OgreMaterialKey materialKey=new OgreMaterialKey(sceneName + ".material");
     try {
-      materialList=(MaterialList)assetManager.loadAsset(new OgreMaterialKey(sceneName + ".material"));
+      materialList=(MaterialList)assetManager.loadAsset(materialKey);
     }
  catch (    AssetNotFoundException ex) {
-      logger.log(Level.WARNING,"Cannot locate material file {0}",ex.getMessage());
+      logger.log(Level.WARNING,"Cannot locate {0} for scene {1}",new Object[]{materialKey,key});
       materialList=null;
     }
     reset();

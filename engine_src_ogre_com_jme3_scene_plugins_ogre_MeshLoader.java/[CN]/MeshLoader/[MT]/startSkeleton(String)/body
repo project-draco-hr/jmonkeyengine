@@ -1,3 +1,10 @@
 {
-  animData=(AnimData)assetManager.loadAsset(folderName + name + ".xml");
+  AssetKey assetKey=new AssetKey(folderName + name + ".xml");
+  try {
+    animData=(AnimData)assetManager.loadAsset(assetKey);
+  }
+ catch (  AssetNotFoundException ex) {
+    logger.log(Level.WARNING,"Cannot locate {0} for model {1}",new Object[]{assetKey,key});
+    animData=null;
+  }
 }

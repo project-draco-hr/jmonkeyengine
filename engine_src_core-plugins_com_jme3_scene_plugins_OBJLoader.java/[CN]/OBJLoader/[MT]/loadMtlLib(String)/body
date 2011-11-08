@@ -1,18 +1,16 @@
 {
   if (!name.toLowerCase().endsWith(".mtl"))   throw new IOException("Expected .mtl file! Got: " + name);
   name=new File(name).getName();
+  AssetKey mtlKey=new AssetKey(key.getFolder() + name);
   try {
-    matList=(MaterialList)assetManager.loadAsset(key.getFolder() + name);
+    matList=(MaterialList)assetManager.loadAsset(mtlKey);
   }
  catch (  AssetNotFoundException ex) {
-    throw new AssetNotFoundException("Cannot load or find material " + name + " for model "+ key.getName(),ex);
+    logger.log(Level.WARNING,"Cannot locate {0} for model {1}",new Object[]{name,key});
   }
   if (matList != null) {
     for (    String matName : matList.keySet()) {
       matFaces.put(matName,new ArrayList<Face>());
     }
-  }
- else {
-    logger.log(Level.WARNING,"Can't find MTL file. " + "Using default material for OBJ.");
   }
 }

@@ -1,6 +1,6 @@
 {
   try {
-    AssetKey key=info.getKey();
+    key=info.getKey();
     meshName=key.getName();
     folderName=key.getFolder();
     String ext=key.getExtension();
@@ -20,7 +20,6 @@
         }
  catch (        AssetNotFoundException e) {
           logger.log(Level.WARNING,"Cannot locate {0} for model {1}",new Object[]{materialKey,key});
-          logger.log(Level.WARNING,"",e);
         }
       }
     }
@@ -31,7 +30,6 @@
       }
  catch (      AssetNotFoundException e) {
         logger.log(Level.WARNING,"Cannot locate {0} for model {1}",new Object[]{materialKey,key});
-        logger.log(Level.WARNING,"",e);
       }
     }
     SAXParserFactory factory=SAXParserFactory.newInstance();

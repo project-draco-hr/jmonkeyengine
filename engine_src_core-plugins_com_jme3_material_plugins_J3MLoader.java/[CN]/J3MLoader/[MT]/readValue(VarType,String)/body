@@ -16,12 +16,24 @@
       texturePath=texturePath.substring(7).trim();
       repeat=true;
     }
-    TextureKey key=new TextureKey(texturePath,flipY);
-    key.setAsCube(type == VarType.TextureCubeMap);
-    key.setGenerateMips(true);
-    Texture tex=owner.loadTexture(key);
+    TextureKey texKey=new TextureKey(texturePath,flipY);
+    texKey.setAsCube(type == VarType.TextureCubeMap);
+    texKey.setGenerateMips(true);
+    Texture tex;
+    try {
+      tex=assetManager.loadTexture(texKey);
+    }
+ catch (    AssetNotFoundException ex) {
+      logger.log(Level.WARNING,"Cannot locate {0} for material {1}",new Object[]{texKey,key});
+      tex=null;
+    }
     if (tex != null) {
-      if (repeat)       tex.setWrap(WrapMode.Repeat);
+      if (repeat) {
+        tex.setWrap(WrapMode.Repeat);
+      }
+    }
+ else {
+      tex=new Texture2D(PlaceholderAssets.getPlaceholderImage());
     }
     return tex;
   }

@@ -9,7 +9,7 @@
       material=im.getAssetManager().loadMaterial(matName);
     }
  catch (    AssetNotFoundException ex) {
-      logger.log(Level.FINE,"Could not load J3M file {0} for Geometry.",matName);
+      logger.log(Level.FINE,"Cannot locate {0} for geometry {1}",new Object[]{matName,key});
     }
   }
   if (material == null) {

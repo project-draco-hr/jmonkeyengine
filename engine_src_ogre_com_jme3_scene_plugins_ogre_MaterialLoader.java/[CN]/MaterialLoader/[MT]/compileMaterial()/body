@@ -11,9 +11,13 @@
     rs.setAlphaTest(true);
     rs.setAlphaFallOff(0.01f);
     rs.setBlendMode(RenderState.BlendMode.Alpha);
-    if (twoSide)     rs.setFaceCullMode(RenderState.FaceCullMode.Off);
+    if (twoSide) {
+      rs.setFaceCullMode(RenderState.FaceCullMode.Off);
+    }
     mat.setTransparent(true);
-    if (!noLight)     mat.setBoolean("UseAlpha",true);
+    if (!noLight) {
+      mat.setBoolean("UseAlpha",true);
+    }
   }
  else {
     if (twoSide) {

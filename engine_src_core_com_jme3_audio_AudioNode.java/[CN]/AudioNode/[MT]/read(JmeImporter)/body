@@ -23,6 +23,12 @@
   outerAngle=ic.readFloat("outer_angle",360);
   positional=ic.readBoolean("positional",false);
   if (audioKey != null) {
-    data=im.getAssetManager().loadAudio(audioKey);
+    try {
+      data=im.getAssetManager().loadAudio(audioKey);
+    }
+ catch (    AssetNotFoundException ex) {
+      Logger.getLogger(AudioNode.class.getName()).log(Level.FINE,"Cannot locate {0} for audio node {1}",new Object[]{audioKey,key});
+      data=PlaceholderAssets.getPlaceholderAudio();
+    }
   }
 }

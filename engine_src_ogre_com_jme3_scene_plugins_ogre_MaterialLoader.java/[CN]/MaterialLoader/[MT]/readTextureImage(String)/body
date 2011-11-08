@@ -25,24 +25,11 @@
   if (type != null && type.equals("cubic")) {
     cubic=true;
   }
-  TextureKey key=new TextureKey(folderName + path,false);
-  key.setGenerateMips(genMips);
-  key.setAsCube(cubic);
-  Texture loadedTexture;
+  TextureKey texKey=new TextureKey(folderName + path,false);
+  texKey.setGenerateMips(genMips);
+  texKey.setAsCube(cubic);
   try {
-    loadedTexture=assetManager.loadTexture(key);
-  }
- catch (  AssetNotFoundException ex) {
-    logger.log(Level.WARNING,"Failed to load texture " + key + " for material "+ matName,ex);
-    loadedTexture=null;
-  }
-  if (loadedTexture == null) {
-    ByteBuffer tempData=BufferUtils.createByteBuffer(3);
-    tempData.put((byte)0xFF).put((byte)0x00).put((byte)0x00);
-    textures[texUnit].setImage(new Image(Format.RGB8,1,1,tempData));
-    logger.log(Level.WARNING,"Using RED texture instead of {0}",path);
-  }
- else {
+    Texture loadedTexture=assetManager.loadTexture(texKey);
     textures[texUnit].setImage(loadedTexture.getImage());
     textures[texUnit].setMinFilter(loadedTexture.getMinFilter());
     textures[texUnit].setKey(loadedTexture.getKey());
@@ -52,7 +39,11 @@
       texName=null;
     }
  else {
-      textures[texUnit].setName(key.getName());
+      textures[texUnit].setName(texKey.getName());
     }
+  }
+ catch (  AssetNotFoundException ex) {
+    logger.log(Level.WARNING,"Cannot locate {0} for material {1}",new Object[]{texKey,matName});
+    textures[texUnit].setImage(PlaceholderAssets.getPlaceholderImage());
   }
 }

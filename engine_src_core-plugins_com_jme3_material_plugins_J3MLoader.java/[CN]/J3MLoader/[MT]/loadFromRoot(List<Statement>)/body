@@ -35,7 +35,7 @@
       throw new IOException("Must use 'Material' when extending.");
     }
     String extendedMat=split[1].trim();
-    MaterialDef def=(MaterialDef)owner.loadAsset(new AssetKey(extendedMat));
+    MaterialDef def=(MaterialDef)assetManager.loadAsset(new AssetKey(extendedMat));
     if (def == null)     throw new IOException("Extended material " + extendedMat + " cannot be found.");
     material=new Material(def);
     material.setKey(key);
@@ -44,7 +44,7 @@
     if (extending) {
       throw new IOException("Expected ':', got '{'");
     }
-    materialDef=new MaterialDef(owner,materialName);
+    materialDef=new MaterialDef(assetManager,materialName);
     materialDef.setAssetName(key.getName());
   }
  else {

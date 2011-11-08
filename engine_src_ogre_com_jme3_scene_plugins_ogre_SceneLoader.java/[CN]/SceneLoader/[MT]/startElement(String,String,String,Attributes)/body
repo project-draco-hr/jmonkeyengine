@@ -10,8 +10,8 @@
     if (root != null) {
       throw new SAXException("dotScene parse error: nodes element was specified twice");
     }
-    if (sceneName == null)     root=new Node("OgreDotScene" + (++sceneIdx));
- else     root=new Node(sceneName + "-scene_node");
+    if (sceneName == null)     root=new com.jme3.scene.Node("OgreDotScene" + (++sceneIdx));
+ else     root=new com.jme3.scene.Node(sceneName + "-scene_node");
     node=root;
   }
  else   if (qName.equals("externals")) {
@@ -30,7 +30,7 @@
     }
     String name=attribs.getValue("name");
     if (name == null)     name="OgreNode-" + (++nodeIdx);
-    Node newNode=new Node(name);
+    com.jme3.scene.Node newNode=new com.jme3.scene.Node(name);
     if (node != null) {
       node.attachChild(newNode);
     }
@@ -69,10 +69,16 @@
       meshFile=folderName + meshFile;
     }
     meshFile+=".xml";
-    entityNode=new Node(name);
-    OgreMeshKey key=new OgreMeshKey(meshFile,materialList);
-    Spatial ogreMesh=assetManager.loadModel(key);
-    entityNode.attachChild(ogreMesh);
+    entityNode=new com.jme3.scene.Node(name);
+    OgreMeshKey meshKey=new OgreMeshKey(meshFile,materialList);
+    try {
+      Spatial ogreMesh=assetManager.loadModel(meshKey);
+      entityNode.attachChild(ogreMesh);
+    }
+ catch (    AssetNotFoundException ex) {
+      logger.log(Level.WARNING,"Cannot locate {0} for scene {1}",new Object[]{meshKey,key});
+      entityNode.attachChild(PlaceholderAssets.getPlaceholderModel(assetManager));
+    }
     node.attachChild(entityNode);
     node=null;
   }

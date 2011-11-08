@@ -4,12 +4,18 @@
     String aliasName=split[1];
     String texturePath=split[2];
     String jmeParamName=matExt.getTextureMapping(aliasName);
-    TextureKey key=new TextureKey(texturePath,false);
-    key.setGenerateMips(true);
-    key.setAsCube(false);
-    Texture tex=assetManager.loadTexture(key);
-    if (tex == null)     throw new IOException("Cannot load texture: " + texturePath);
-    tex.setWrap(WrapMode.Repeat);
+    TextureKey texKey=new TextureKey(texturePath,false);
+    texKey.setGenerateMips(true);
+    texKey.setAsCube(false);
+    Texture tex;
+    try {
+      tex=assetManager.loadTexture(texKey);
+      tex.setWrap(WrapMode.Repeat);
+    }
+ catch (    AssetNotFoundException ex) {
+      logger.log(Level.WARNING,"Cannot locate {0} for material {1}",new Object[]{texKey,key});
+      tex=new Texture2D(PlaceholderAssets.getPlaceholderImage());
+    }
     material.setTexture(jmeParamName,tex);
   }
 }

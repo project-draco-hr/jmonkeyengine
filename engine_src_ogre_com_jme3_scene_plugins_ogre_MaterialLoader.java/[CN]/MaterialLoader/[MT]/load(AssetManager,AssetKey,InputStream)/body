@@ -12,7 +12,7 @@
       if (matExts == null) {
         throw new IOException("Must specify MaterialExtensionSet when loading\n" + "Ogre3D materials with extended materials");
       }
-      list=new MaterialExtensionLoader().load(assetManager,matExts,statements);
+      list=new MaterialExtensionLoader().load(assetManager,key,matExts,statements);
       break;
     }
  else     if (statement.getLine().startsWith("material")) {
