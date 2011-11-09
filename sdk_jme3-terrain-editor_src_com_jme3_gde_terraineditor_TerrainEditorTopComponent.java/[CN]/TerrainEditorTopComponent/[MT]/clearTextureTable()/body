@@ -5,7 +5,9 @@
   NormalCellRendererEditor rendererNormal=new NormalCellRendererEditor();
   textureTable.getColumnModel().getColumn(2).setCellRenderer(rendererNormal);
   textureTable.getColumnModel().getColumn(2).setCellEditor(rendererNormal);
-  while (textureTable.getModel().getRowCount() > 0)   ((TextureTableModel)textureTable.getModel()).removeRow(0);
+  while (textureTable.getModel().getRowCount() > 0) {
+    ((TextureTableModel)textureTable.getModel()).removeRow(0);
+  }
   if (editorController.getTerrain(null) == null) {
     return;
   }

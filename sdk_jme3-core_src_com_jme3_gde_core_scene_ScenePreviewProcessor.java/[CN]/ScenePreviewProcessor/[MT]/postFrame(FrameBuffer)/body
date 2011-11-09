@@ -21,7 +21,7 @@
     System.arraycopy(cpuArray,0,db.getData(),0,cpuArray.length);
     currentPreviewRequest.setImage(image);
     previewNode.detachAllChildren();
-    SceneApplication.getApplication().notifySceneListeners(currentPreviewRequest);
+    SceneApplication.getApplication().notifyPreview(currentPreviewRequest);
     currentPreviewRequest=null;
   }
 }

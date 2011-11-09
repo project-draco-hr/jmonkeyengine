@@ -1,18 +1,24 @@
 {
   super.setAssetEventListener(new AssetEventListener(){
     public void assetLoaded(    AssetKey ak){
-      for (      AssetEventListener assetEventListener : assetEventListeners) {
-        assetEventListener.assetLoaded(ak);
+synchronized (assetEventListeners) {
+        for (        AssetEventListener assetEventListener : assetEventListeners) {
+          assetEventListener.assetLoaded(ak);
+        }
       }
     }
     public void assetRequested(    AssetKey ak){
-      for (      AssetEventListener assetEventListener : assetEventListeners) {
-        assetEventListener.assetRequested(ak);
+synchronized (assetEventListeners) {
+        for (        AssetEventListener assetEventListener : assetEventListeners) {
+          assetEventListener.assetRequested(ak);
+        }
       }
     }
     public void assetDependencyNotFound(    AssetKey ak,    AssetKey ak1){
-      for (      AssetEventListener assetEventListener : assetEventListeners) {
-        assetEventListener.assetDependencyNotFound(ak,ak1);
+synchronized (assetEventListeners) {
+        for (        AssetEventListener assetEventListener : assetEventListeners) {
+          assetEventListener.assetDependencyNotFound(ak,ak1);
+        }
       }
     }
   }

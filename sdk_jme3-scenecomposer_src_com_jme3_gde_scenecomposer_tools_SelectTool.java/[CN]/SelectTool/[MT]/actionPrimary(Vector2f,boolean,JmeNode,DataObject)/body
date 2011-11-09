@@ -4,10 +4,10 @@
     java.awt.EventQueue.invokeLater(new Runnable(){
       public void run(){
         if (result != null) {
-          SceneApplication.getApplication().setCurrentFileNode(rootNode.getChild(result));
+          SceneExplorerTopComponent.findInstance().setSelectedNode(rootNode.getChild(result));
         }
  else {
-          SceneApplication.getApplication().setCurrentFileNode(rootNode);
+          SceneExplorerTopComponent.findInstance().setSelectedNode(rootNode);
         }
       }
     }

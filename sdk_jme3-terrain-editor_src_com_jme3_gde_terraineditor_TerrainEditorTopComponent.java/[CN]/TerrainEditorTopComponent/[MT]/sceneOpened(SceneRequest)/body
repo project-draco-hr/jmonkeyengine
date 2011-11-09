@@ -1,0 +1,32 @@
+{
+  if (request.equals(currentRequest)) {
+    Logger.getLogger(TerrainEditorTopComponent.class.getName()).finer("Terrain sceneRequested " + request.getWindowTitle());
+    setSceneInfo(currentRequest.getJmeNode(),true);
+    Terrain terrain=(Terrain)editorController.getTerrain(null);
+    if (terrain != null) {
+      ((Node)terrain).setMaterial(terrain.getMaterial());
+      refreshSelected();
+    }
+    if (camController != null) {
+      camController.disable();
+    }
+    if (toolController != null) {
+      toolController.cleanup();
+    }
+    toolController=new TerrainToolController(currentRequest.getToolNode(),currentRequest.getManager().getManager(),request.getJmeNode());
+    camController=new TerrainCameraController(SceneApplication.getApplication().getCamera());
+    camController.setMaster(this);
+    camController.enable();
+    camController.setToolController(toolController);
+    camController.setEditorController(editorController);
+    toolController.setEditorController(editorController);
+    toolController.setCameraController(camController);
+    editorController.setToolController(toolController);
+    toolController.setHeightToolRadius((float)radiusSlider.getValue() / (float)radiusSlider.getMaximum());
+    toolController.setHeightToolHeight((float)heightSlider.getValue() / (float)heightSlider.getMaximum());
+    editorController.setTerrainLodCamera();
+    reinitTextureTable();
+    if (editorController.getTerrain(null) != null) {
+    }
+  }
+}

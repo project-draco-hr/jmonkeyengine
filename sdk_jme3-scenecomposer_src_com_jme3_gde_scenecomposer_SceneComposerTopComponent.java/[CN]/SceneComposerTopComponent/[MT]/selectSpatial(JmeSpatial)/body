@@ -4,7 +4,6 @@
     if (editorController != null) {
       editorController.setSelectedSpat(spatial);
     }
-    setActivatedNodes(new org.openide.nodes.Node[]{});
     return;
   }
  else {
@@ -25,6 +24,5 @@
  else {
     setSelectedObjectText(null);
   }
-  SceneApplication.getApplication().setCurrentFileNode(spatial);
-  setActivatedNodes(new org.openide.nodes.Node[]{spatial});
+  SceneExplorerTopComponent.findInstance().setSelectedNode(spatial);
 }

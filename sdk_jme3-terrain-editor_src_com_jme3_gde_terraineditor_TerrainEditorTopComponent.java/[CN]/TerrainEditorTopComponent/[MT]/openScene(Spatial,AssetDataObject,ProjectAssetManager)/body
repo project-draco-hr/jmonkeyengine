@@ -23,7 +23,7 @@
   this.currentRequest=request;
   request.setWindowTitle("TerrainEditor - " + manager.getRelativeAssetPath(file.getPrimaryFile().getPath()));
   request.setToolNode(new Node("TerrainEditorToolNode"));
-  SceneApplication.getApplication().requestScene(request);
+  SceneApplication.getApplication().openScene(request);
   terrainDeletedNodeListener=new TerrainNodeListener();
   editorController.enableTextureButtons();
 }

@@ -1,0 +1,25 @@
+{
+  if (request.equals(currentRequest)) {
+    setActivatedNodes(new org.openide.nodes.Node[]{currentRequest.getDataObject().getNodeDelegate()});
+    setSceneInfo(currentRequest.getJmeNode(),editorController.getCurrentFileObject(),true);
+    if (camController != null) {
+      camController.disable();
+    }
+    if (toolController != null) {
+      toolController.cleanup();
+    }
+    toolController=new SceneComposerToolController(currentRequest.getToolNode(),currentRequest.getManager(),request.getJmeNode());
+    camController=new ComposerCameraController(SceneApplication.getApplication().getCamera(),request.getJmeNode());
+    toolController.setEditorController(editorController);
+    camController.setToolController(toolController);
+    camController.setMaster(this);
+    camController.enable();
+    toolController.setCameraController(camController);
+    SelectTool tool=new SelectTool();
+    toolController.showEditTool(tool);
+    toolController.setShowSelection(true);
+    editorController.setToolController(toolController);
+    toolController.refreshNonSpatialMarkers();
+    editorController.setTerrainLodCamera();
+  }
+}

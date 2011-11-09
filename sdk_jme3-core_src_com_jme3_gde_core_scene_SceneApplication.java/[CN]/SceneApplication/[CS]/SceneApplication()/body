@@ -13,8 +13,6 @@
     setSettings(newSetting);
     Logger.getLogger("com.jme3").addHandler(logHandler);
     setPauseOnLostFocus(false);
-    nodeSelectionResult=Utilities.actionsGlobalContext().lookupResult(JmeSpatial.class);
-    nodeSelectionResult.addLookupListener(this);
     if (useCanvas) {
       createCanvas();
       startCanvas(true);

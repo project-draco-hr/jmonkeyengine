@@ -1,15 +1,3 @@
 {
   previewQueue.add(request);
-  boolean reInit=false;
-  if (request.getCameraRequest().getWidth() != width) {
-    reInit=true;
-    width=request.getCameraRequest().getWidth();
-  }
-  if (request.getCameraRequest().getHeight() != height) {
-    reInit=true;
-    height=request.getCameraRequest().getHeight();
-  }
-  if (reInit) {
-    setupPreviewView();
-  }
 }
