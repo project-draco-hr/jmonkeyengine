@@ -1,20 +1,15 @@
 {
   final TerrainEditorTopComponent inst=this;
-  java.awt.EventQueue.invokeLater(new Runnable(){
-    public void run(){
-      if (jmeNode != null) {
-      }
- else {
-      }
-      if (!active) {
-        result.removeLookupListener(inst);
-        close();
-      }
- else {
-        open();
-        requestActive();
-      }
-    }
+  if (jmeNode != null) {
   }
-);
+ else {
+  }
+  if (!active) {
+    result.removeLookupListener(inst);
+    close();
+  }
+ else {
+    open();
+    requestActive();
+  }
 }
