@@ -18,7 +18,7 @@
     editorController.cleanup();
   }
   editorController=new SceneEditorController(jmeNode,file);
-  this.currentRequest=request;
+  this.sentRequest=request;
   request.setWindowTitle("SceneComposer - " + manager.getRelativeAssetPath(file.getPrimaryFile().getPath()));
   request.setToolNode(new Node("SceneComposerToolNode"));
   SceneApplication.getApplication().openScene(request);

@@ -1,5 +1,6 @@
 {
-  if (request == currentRequest) {
+  if (request == sentRequest) {
+    currentRequest=request;
     SceneApplication.getApplication().removeSceneListener(this);
     editorController.cleanupApplication();
     setLoadedScene(null,false);

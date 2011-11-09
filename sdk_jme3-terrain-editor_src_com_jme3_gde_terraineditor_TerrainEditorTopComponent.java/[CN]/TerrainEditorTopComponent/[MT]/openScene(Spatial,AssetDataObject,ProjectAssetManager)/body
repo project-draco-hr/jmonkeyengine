@@ -20,7 +20,7 @@
     editorController.cleanup();
   }
   editorController=new TerrainEditorController(jmeNode,file,this);
-  this.currentRequest=request;
+  this.sentRequest=request;
   request.setWindowTitle("TerrainEditor - " + manager.getRelativeAssetPath(file.getPrimaryFile().getPath()));
   request.setToolNode(new Node("TerrainEditorToolNode"));
   SceneApplication.getApplication().openScene(request);

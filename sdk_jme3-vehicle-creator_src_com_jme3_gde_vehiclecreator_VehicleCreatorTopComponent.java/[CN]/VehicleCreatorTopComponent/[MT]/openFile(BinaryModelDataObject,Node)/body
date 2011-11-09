@@ -2,10 +2,10 @@
   JmeNode node=NodeUtility.createNode(spatial,false);
   editorController=new VehicleEditorController(node,file);
   SceneApplication.getApplication().addSceneListener(this);
-  currentRequest=new SceneRequest(this,node,file.getLookup().lookup(ProjectAssetManager.class));
-  currentRequest.setWindowTitle("Vehicle Creator");
-  currentRequest.setDataObject(file);
-  currentRequest.setToolNode(editorController.getToolsNode());
-  currentRequest.setHelpCtx(ctx);
-  SceneApplication.getApplication().openScene(currentRequest);
+  sentRequest=new SceneRequest(this,node,file.getLookup().lookup(ProjectAssetManager.class));
+  sentRequest.setWindowTitle("Vehicle Creator");
+  sentRequest.setDataObject(file);
+  sentRequest.setToolNode(editorController.getToolsNode());
+  sentRequest.setHelpCtx(ctx);
+  SceneApplication.getApplication().openScene(sentRequest);
 }
