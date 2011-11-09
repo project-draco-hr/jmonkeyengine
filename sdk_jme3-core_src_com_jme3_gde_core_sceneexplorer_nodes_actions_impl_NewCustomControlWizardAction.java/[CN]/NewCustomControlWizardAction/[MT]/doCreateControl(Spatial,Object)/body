@@ -27,6 +27,9 @@
       if (contr instanceof Control) {
         return (Control)contr;
       }
+ else {
+        DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("This is no Control class!"));
+      }
     }
  catch (    InstantiationException ex) {
       Exceptions.printStackTrace(ex);
