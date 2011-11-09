@@ -1,9 +1,8 @@
 {
   ProjectAssetManager manager=new ProjectAssetManager(FileUtil.toFileObject(path).getParent());
-  manager.setAssetEventListener(this);
   try {
     if (modelKey != mainKey) {
-      requestedAssets.clear();
+      keys=null;
     }
     if (currentModel != null) {
       offPanel.detach(currentModel);
@@ -18,11 +17,13 @@
         ((AssetDataObject)obj).getLookupContents().add(manager);
         modelKey=data.getAssetKey();
         currentModel=(Spatial)data.loadAsset();
+        keys=data.getAssetKeyList();
       }
  else {
         ((AssetDataObject)obj).getLookupContents().add(manager);
         data.setAssetKey(modelKey);
         currentModel=(Spatial)data.loadAsset();
+        keys=data.getAssetKeyList();
       }
     }
     mainKey=modelKey;
