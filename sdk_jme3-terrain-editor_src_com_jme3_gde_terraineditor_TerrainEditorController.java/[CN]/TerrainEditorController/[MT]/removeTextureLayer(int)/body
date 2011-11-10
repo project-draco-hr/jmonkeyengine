@@ -1,18 +1,23 @@
 {
-  try {
-    SceneApplication.getApplication().enqueue(new Callable(){
-      public Object call() throws Exception {
-        doRemoveDiffuseTexture(layer);
-        doRemoveNormalMap(layer);
-        return null;
+  if (SceneApplication.getApplication().isOgl()) {
+    doRemoveDiffuseTexture(layer);
+    doRemoveNormalMap(layer);
+  }
+ else {
+    try {
+      SceneApplication.getApplication().enqueue(new Callable(){
+        public Object call() throws Exception {
+          removeTextureLayer(layer);
+          return null;
+        }
       }
-    }
 ).get();
-  }
- catch (  InterruptedException ex) {
-    Exceptions.printStackTrace(ex);
-  }
-catch (  ExecutionException ex) {
-    Exceptions.printStackTrace(ex);
+    }
+ catch (    InterruptedException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    ExecutionException ex) {
+      Exceptions.printStackTrace(ex);
+    }
   }
 }

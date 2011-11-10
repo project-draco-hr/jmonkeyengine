@@ -1,18 +1,30 @@
 {
-  try {
-    Integer count=SceneApplication.getApplication().enqueue(new Callable<Integer>(){
-      public Integer call() throws Exception {
-        return doGetNumDiffuseTextures();
-      }
+  if (SceneApplication.getApplication().isOgl()) {
+    Terrain terrain=(Terrain)getTerrain(null);
+    if (terrain == null)     return 0;
+    int count=0;
+    for (int i=0; i < MAX_TEXTURES; i++) {
+      Texture tex=getDiffuseTexture(i);
+      if (tex != null)       count++;
     }
-).get();
     return count;
   }
- catch (  InterruptedException ex) {
-    Exceptions.printStackTrace(ex);
+ else {
+    try {
+      Integer count=SceneApplication.getApplication().enqueue(new Callable<Integer>(){
+        public Integer call() throws Exception {
+          return getNumDiffuseTextures();
+        }
+      }
+).get();
+      return count;
+    }
+ catch (    InterruptedException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    ExecutionException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+    return -1;
   }
-catch (  ExecutionException ex) {
-    Exceptions.printStackTrace(ex);
-  }
-  return -1;
 }

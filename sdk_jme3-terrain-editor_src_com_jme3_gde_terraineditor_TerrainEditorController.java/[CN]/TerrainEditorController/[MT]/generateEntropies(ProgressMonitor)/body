@@ -1,9 +1,16 @@
 {
-  SceneApplication.getApplication().enqueue(new Callable<Object>(){
-    public Object call() throws Exception {
-      doGenerateEntropies(progressMonitor);
-      return null;
-    }
+  if (SceneApplication.getApplication().isOgl()) {
+    Terrain terrain=(Terrain)getTerrain(null);
+    if (terrain == null)     return;
+    terrain.generateEntropy(progressMonitor);
   }
+ else {
+    SceneApplication.getApplication().enqueue(new Callable<Object>(){
+      public Object call() throws Exception {
+        generateEntropies(progressMonitor);
+        return null;
+      }
+    }
 );
+  }
 }

@@ -1,17 +1,6 @@
 {
-  try {
-    SceneApplication.getApplication().enqueue(new Callable(){
-      public Object call() throws Exception {
-        doSetDiffuseTexture(layer,texturePath);
-        return null;
-      }
-    }
-).get();
-  }
- catch (  InterruptedException ex) {
-    Exceptions.printStackTrace(ex);
-  }
-catch (  ExecutionException ex) {
-    Exceptions.printStackTrace(ex);
-  }
+  String path=texturePath;
+  if (texturePath == null || texturePath.equals(""))   path=DEFAULT_TERRAIN_TEXTURE;
+  Texture tex=SceneApplication.getApplication().getAssetManager().loadTexture(path);
+  setDiffuseTexture(layer,tex);
 }

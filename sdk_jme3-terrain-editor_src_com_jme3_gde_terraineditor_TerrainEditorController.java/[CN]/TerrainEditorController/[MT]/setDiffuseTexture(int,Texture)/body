@@ -1,17 +1,27 @@
 {
-  try {
-    SceneApplication.getApplication().enqueue(new Callable(){
-      public Object call() throws Exception {
-        doSetDiffuseTexture(layer,texture);
-        return null;
+  if (SceneApplication.getApplication().isOgl()) {
+    texture.setWrap(WrapMode.Repeat);
+    Terrain terrain=(Terrain)getTerrain(null);
+    if (terrain == null)     return;
+    if (layer == 0)     terrain.getMaterial().setTexture("DiffuseMap",texture);
+ else     terrain.getMaterial().setTexture("DiffuseMap_" + layer,texture);
+    setNeedsSave(true);
+  }
+ else {
+    try {
+      SceneApplication.getApplication().enqueue(new Callable(){
+        public Object call() throws Exception {
+          setDiffuseTexture(layer,texture);
+          return null;
+        }
       }
-    }
 ).get();
-  }
- catch (  InterruptedException ex) {
-    Exceptions.printStackTrace(ex);
-  }
-catch (  ExecutionException ex) {
-    Exceptions.printStackTrace(ex);
+    }
+ catch (    InterruptedException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    ExecutionException ex) {
+      Exceptions.printStackTrace(ex);
+    }
   }
 }

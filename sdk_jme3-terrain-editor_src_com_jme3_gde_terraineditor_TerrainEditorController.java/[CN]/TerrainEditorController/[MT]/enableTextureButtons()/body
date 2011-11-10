@@ -1,19 +1,13 @@
 {
-  SceneApplication.getApplication().enqueue(new Callable<Object>(){
-    public Object call() throws Exception {
-      final int numAvailable=MAX_TEXTURES - doGetNumUsedTextures();
-      final boolean add=doGetNumDiffuseTextures() < MAX_DIFFUSE && numAvailable > 0;
-      final boolean remove=doGetNumDiffuseTextures() > 1;
-      java.awt.EventQueue.invokeLater(new Runnable(){
-        public void run(){
-          topComponent.enableAddTextureButton(add);
-          topComponent.enableRemoveTextureButton(remove);
-          topComponent.updateTextureCountLabel(numAvailable);
-          topComponent.setAddNormalTextureEnabled(numAvailable > 0);
-        }
-      }
-);
-      return null;
+  final int numAvailable=MAX_TEXTURES - getNumUsedTextures();
+  final boolean add=getNumDiffuseTextures() < MAX_DIFFUSE && numAvailable > 0;
+  final boolean remove=getNumDiffuseTextures() > 1;
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      topComponent.enableAddTextureButton(add);
+      topComponent.enableRemoveTextureButton(remove);
+      topComponent.updateTextureCountLabel(numAvailable);
+      topComponent.setAddNormalTextureEnabled(numAvailable > 0);
     }
   }
 );

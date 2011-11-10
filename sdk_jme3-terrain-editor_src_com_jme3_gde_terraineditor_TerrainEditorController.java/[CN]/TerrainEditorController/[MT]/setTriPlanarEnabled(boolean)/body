@@ -1,17 +1,38 @@
 {
-  try {
-    SceneApplication.getApplication().enqueue(new Callable(){
-      public Object call() throws Exception {
-        doSetTriPlanarEnabled(selected);
-        return null;
+  if (SceneApplication.getApplication().isOgl()) {
+    Terrain terrain=(Terrain)getTerrain(null);
+    if (terrain == null)     return;
+    terrain.getMaterial().setBoolean("useTriPlanarMapping",enabled);
+    float texCoordSize=1 / terrain.getTextureCoordinateScale();
+    if (enabled) {
+      for (int i=0; i < getNumUsedTextures(); i++) {
+        float scale=1f / (float)(texCoordSize / getTextureScale(i));
+        setTextureScale(i,scale);
       }
     }
+ else {
+      for (int i=0; i < getNumUsedTextures(); i++) {
+        float scale=(float)(texCoordSize * getTextureScale(i));
+        setTextureScale(i,scale);
+      }
+    }
+    setNeedsSave(true);
+  }
+ else {
+    try {
+      SceneApplication.getApplication().enqueue(new Callable(){
+        public Object call() throws Exception {
+          setTriPlanarEnabled(enabled);
+          return null;
+        }
+      }
 ).get();
-  }
- catch (  InterruptedException ex) {
-    Exceptions.printStackTrace(ex);
-  }
-catch (  ExecutionException ex) {
-    Exceptions.printStackTrace(ex);
+    }
+ catch (    InterruptedException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    ExecutionException ex) {
+      Exceptions.printStackTrace(ex);
+    }
   }
 }

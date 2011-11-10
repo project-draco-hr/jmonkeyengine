@@ -1,17 +1,9 @@
 {
-  try {
-    SceneApplication.getApplication().enqueue(new Callable(){
-      public Object call() throws Exception {
-        doSetNormalMap(layer,texturePath);
-        return null;
-      }
-    }
-).get();
+  if (texturePath != null) {
+    Texture tex=SceneApplication.getApplication().getAssetManager().loadTexture(texturePath);
+    setNormalMap(layer,tex);
   }
- catch (  InterruptedException ex) {
-    Exceptions.printStackTrace(ex);
-  }
-catch (  ExecutionException ex) {
-    Exceptions.printStackTrace(ex);
+ else {
+    setNormalMap(layer,(Texture)null);
   }
 }
