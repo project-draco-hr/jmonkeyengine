@@ -1,8 +1,15 @@
 {
-  if (request == currentRequest) {
-    editorController.prepareApplication();
-    SceneApplication.getApplication().getStateManager().attach(editorController.getBulletState());
-    setLoadedScene(currentRequest.getJmeNode(),true);
-    currentRequest.getRootNode().getParent().addLight(dirLight);
+  if (request == sentRequest) {
+    currentRequest=request;
+    editorController=newEditorController;
+    setLoadedScene(currentRequest.getDataObject().getNodeDelegate(),true);
+    final VehicleEditorController controller=editorController;
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        controller.prepareApplication();
+        return null;
+      }
+    }
+);
   }
 }

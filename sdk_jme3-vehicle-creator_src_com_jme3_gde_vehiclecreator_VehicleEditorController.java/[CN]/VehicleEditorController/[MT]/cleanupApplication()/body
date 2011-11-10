@@ -2,4 +2,5 @@
   SceneApplication.getApplication().getInputManager().removeListener(this);
   cameraController.disable();
   cameraController=null;
+  SceneApplication.getApplication().getStateManager().detach(getBulletState());
 }

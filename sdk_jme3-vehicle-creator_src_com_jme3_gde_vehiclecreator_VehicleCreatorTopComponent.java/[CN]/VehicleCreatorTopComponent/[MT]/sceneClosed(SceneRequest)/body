@@ -1,15 +1,13 @@
 {
-  if (request == sentRequest) {
-    currentRequest=request;
+  if (request == currentRequest) {
     SceneApplication.getApplication().removeSceneListener(this);
-    editorController.cleanupApplication();
-    setLoadedScene(null,false);
     final SceneRequest current=currentRequest;
     currentRequest=null;
+    final VehicleEditorController controller=editorController;
+    setLoadedScene(null,false);
     SceneApplication.getApplication().enqueue(new Callable<Void>(){
       public Void call() throws Exception {
-        current.getRootNode().getParent().removeLight(dirLight);
-        SceneApplication.getApplication().getStateManager().detach(editorController.getBulletState());
+        controller.cleanupApplication();
         return null;
       }
     }
