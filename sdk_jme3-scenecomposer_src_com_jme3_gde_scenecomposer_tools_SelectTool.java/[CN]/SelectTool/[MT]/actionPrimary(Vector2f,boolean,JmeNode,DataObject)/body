@@ -4,9 +4,11 @@
     java.awt.EventQueue.invokeLater(new Runnable(){
       public void run(){
         if (result != null) {
+          SceneViewerTopComponent.findInstance().setActivatedNodes(new org.openide.nodes.Node[]{rootNode.getChild(result)});
           SceneExplorerTopComponent.findInstance().setSelectedNode(rootNode.getChild(result));
         }
  else {
+          SceneViewerTopComponent.findInstance().setActivatedNodes(new org.openide.nodes.Node[]{rootNode});
           SceneExplorerTopComponent.findInstance().setSelectedNode(rootNode);
         }
       }
