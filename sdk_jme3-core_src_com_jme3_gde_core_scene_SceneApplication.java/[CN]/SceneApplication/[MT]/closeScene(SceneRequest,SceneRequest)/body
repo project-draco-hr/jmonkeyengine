@@ -1,0 +1,39 @@
+{
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      if (oldRequest == null) {
+        return;
+      }
+      if (newRequest == null || newRequest.getRootNode() != oldRequest.getRootNode()) {
+        checkSave(oldRequest);
+        SceneUndoRedoManager manager=Lookup.getDefault().lookup(SceneUndoRedoManager.class);
+        if (manager != null) {
+          manager.discardAllEdits();
+        }
+      }
+      setCurrentFileNode(null);
+      setWindowTitle("OpenGL Window");
+      setHelpContext(null);
+      notifyClose(oldRequest);
+      enqueue(new Callable(){
+        public Object call() throws Exception {
+          if (oldRequest.getRequester() instanceof SceneApplication) {
+            camController.disable();
+          }
+          if (physicsState != null) {
+            physicsState.getPhysicsSpace().removeAll(rootNode);
+            getStateManager().detach(physicsState);
+            physicsState=null;
+          }
+          toolsNode.detachAllChildren();
+          rootNode.detachAllChildren();
+          lastError="";
+          oldRequest.setDisplayed(false);
+          return null;
+        }
+      }
+);
+    }
+  }
+);
+}

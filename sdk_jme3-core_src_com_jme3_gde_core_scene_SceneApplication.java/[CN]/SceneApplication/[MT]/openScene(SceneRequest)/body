@@ -1,7 +1,10 @@
 {
-  closeScene(currentSceneRequest);
+  closeScene(currentSceneRequest,request);
   java.awt.EventQueue.invokeLater(new Runnable(){
     public void run(){
+      if (request == null) {
+        return;
+      }
       currentSceneRequest=request;
       if (request.getDataObject() != null) {
         setCurrentFileNode(request.getDataObject().getNodeDelegate());
@@ -11,7 +14,6 @@
       }
       setHelpContext(request.getHelpCtx());
       setWindowTitle(request.getWindowTitle());
-      notifyOpen();
       enqueue(new Callable(){
         public Object call() throws Exception {
           if (request.getManager() != null) {
@@ -32,11 +34,12 @@
           if (request.getToolNode() != null) {
             toolsNode.attachChild(request.getToolNode());
           }
-          getCurrentSceneRequest().setDisplayed(true);
+          request.setDisplayed(true);
           return null;
         }
       }
 );
+      notifyOpen(request);
     }
   }
 );

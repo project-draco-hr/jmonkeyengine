@@ -1,38 +1,3 @@
 {
-  if (request != null) {
-    java.awt.EventQueue.invokeLater(new Runnable(){
-      public void run(){
-        checkSave();
-        setCurrentFileNode(null);
-        setWindowTitle("OpenGL Window");
-        setHelpContext(null);
-        SceneUndoRedoManager manager=Lookup.getDefault().lookup(SceneUndoRedoManager.class);
-        if (manager != null) {
-          manager.discardAllEdits();
-        }
-        final SceneRequest currentRequest=currentSceneRequest;
-        currentSceneRequest=null;
-        notifyClose(request);
-        enqueue(new Callable(){
-          public Object call() throws Exception {
-            if (request.getRequester() instanceof SceneApplication) {
-              camController.disable();
-            }
-            if (physicsState != null) {
-              physicsState.getPhysicsSpace().removeAll(rootNode);
-              getStateManager().detach(physicsState);
-              physicsState=null;
-            }
-            toolsNode.detachAllChildren();
-            rootNode.detachAllChildren();
-            lastError="";
-            currentRequest.setDisplayed(false);
-            return null;
-          }
-        }
-);
-      }
-    }
-);
-  }
+  closeScene(request,null);
 }

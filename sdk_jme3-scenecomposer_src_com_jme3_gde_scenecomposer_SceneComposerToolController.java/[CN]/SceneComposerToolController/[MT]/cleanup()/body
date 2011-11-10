@@ -1,7 +1,13 @@
 {
   super.cleanup();
-  overlayView.detachScene(onTopToolsNode);
   cameraController=null;
   editorController=null;
-  onTopToolsNode.detachAllChildren();
+  SceneApplication.getApplication().enqueue(new Callable<Void>(){
+    public Void call() throws Exception {
+      overlayView.detachScene(onTopToolsNode);
+      onTopToolsNode.detachAllChildren();
+      return null;
+    }
+  }
+);
 }

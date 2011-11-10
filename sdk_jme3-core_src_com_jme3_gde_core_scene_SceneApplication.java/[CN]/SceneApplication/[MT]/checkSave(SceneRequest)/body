@@ -1,6 +1,6 @@
 {
-  if ((currentSceneRequest != null) && currentSceneRequest.getDataObject().isModified()) {
-    final DataObject req=currentSceneRequest.getDataObject();
+  if ((request != null) && request.getDataObject().isModified()) {
+    final DataObject req=request.getDataObject();
     Confirmation mesg=new NotifyDescriptor.Confirmation("Scene has not been saved,\ndo you want to save it?","Not Saved",NotifyDescriptor.YES_NO_OPTION);
     DialogDisplayer.getDefault().notify(mesg);
     if (mesg.getValue() == Confirmation.YES_OPTION) {

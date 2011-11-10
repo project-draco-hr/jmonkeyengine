@@ -8,6 +8,7 @@
     SceneApplication.getApplication().enqueue(new Callable<Void>(){
       public Void call() throws Exception {
         controller.cleanupApplication();
+        current.getRootNode().getParent().removeLight(dirLight);
         return null;
       }
     }

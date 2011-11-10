@@ -1,9 +1,9 @@
 {
+  if (editorController != null) {
+    editorController.setSelectedSpat(spatial);
+  }
   if (spatial == null) {
     setSelectedObjectText(null);
-    if (editorController != null) {
-      editorController.setSelectedSpat(spatial);
-    }
     return;
   }
  else {
@@ -11,10 +11,6 @@
       toolController.updateSelection(spatial.getLookup().lookup(Spatial.class));
     }
   }
-  if (editorController == null) {
-    return;
-  }
-  editorController.setSelectedSpat(spatial);
   if (spatial.getLookup().lookup(Node.class) != null) {
     setSelectedObjectText(spatial.getLookup().lookup(Node.class).getName());
   }
