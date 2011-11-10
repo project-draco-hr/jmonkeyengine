@@ -2,6 +2,10 @@
   if (request == sentRequest) {
     currentRequest=request;
     editorController=newEditorController;
+    cameraController=new VehicleCreatorCameraController(SceneApplication.getApplication().getCamera(),SceneApplication.getApplication().getInputManager());
+    cameraController.setMaster(this);
+    cameraController.enable();
+    cameraController.setVehicle(request.getRootNode());
     setLoadedScene(currentRequest.getDataObject().getNodeDelegate(),true);
     final VehicleEditorController controller=editorController;
     SceneApplication.getApplication().enqueue(new Callable<Void>(){
