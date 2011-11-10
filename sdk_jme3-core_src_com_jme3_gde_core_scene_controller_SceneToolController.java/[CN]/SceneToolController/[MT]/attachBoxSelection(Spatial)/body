@@ -7,11 +7,17 @@
     WireBox wireBox=new WireBox();
     wireBox.fromBoundingBox(bbox);
     selctionShapeOffset.set(bbox.getCenter()).subtractLocal(geom.getWorldTranslation());
-    Geometry selectionGeometry=new Geometry("selection_geometry_sceneviewer",wireBox);
+    final Geometry selectionGeometry=new Geometry("selection_geometry_sceneviewer",wireBox);
     selectionGeometry.setMaterial(blueMat);
     selectionGeometry.setLocalTransform(geom.getWorldTransform());
     selectionGeometry.setLocalTranslation(bbox.getCenter());
-    toolsNode.attachChild(selectionGeometry);
     selectionShape=selectionGeometry;
+    SceneApplication.getApplication().enqueue(new Callable<Object>(){
+      public Object call() throws Exception {
+        toolsNode.attachChild(selectionGeometry);
+        return null;
+      }
+    }
+);
   }
 }

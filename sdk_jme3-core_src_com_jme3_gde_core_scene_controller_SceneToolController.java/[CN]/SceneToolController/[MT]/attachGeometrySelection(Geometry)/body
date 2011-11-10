@@ -3,9 +3,15 @@
   if (mesh == null) {
     return;
   }
-  Geometry selectionGeometry=new Geometry("selection_geometry_sceneviewer",mesh);
+  final Geometry selectionGeometry=new Geometry("selection_geometry_sceneviewer",mesh);
   selectionGeometry.setMaterial(blueMat);
   selectionGeometry.setLocalTransform(geom.getWorldTransform());
-  toolsNode.attachChild(selectionGeometry);
   selectionShape=selectionGeometry;
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      toolsNode.attachChild(selectionGeometry);
+      return null;
+    }
+  }
+);
 }

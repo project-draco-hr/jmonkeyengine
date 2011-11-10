@@ -12,11 +12,17 @@
   if (control == null) {
     return;
   }
-  Spatial selectionGeometry=DebugShapeFactory.getDebugShape(control.getCollisionShape());
+  final Spatial selectionGeometry=DebugShapeFactory.getDebugShape(control.getCollisionShape());
   if (selectionGeometry != null) {
     selectionGeometry.setMaterial(blueMat);
     selectionGeometry.setLocalTransform(geom.getWorldTransform());
-    toolsNode.attachChild(selectionGeometry);
     selectionShape=selectionGeometry;
+    SceneApplication.getApplication().enqueue(new Callable<Object>(){
+      public Object call() throws Exception {
+        toolsNode.attachChild(selectionGeometry);
+        return null;
+      }
+    }
+);
   }
 }
