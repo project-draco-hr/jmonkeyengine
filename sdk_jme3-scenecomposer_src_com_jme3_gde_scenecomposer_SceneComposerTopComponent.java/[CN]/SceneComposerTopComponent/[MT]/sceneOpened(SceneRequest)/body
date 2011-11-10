@@ -30,7 +30,7 @@
     listener=new ProjectAssetManager.ClassPathChangeListener(){
       public void classPathChanged(      final ProjectAssetManager manager){
         if (dobj.isModified()) {
-          Confirmation msg=new NotifyDescriptor.Confirmation("Classes have been changed, reload scene?",NotifyDescriptor.OK_CANCEL_OPTION,NotifyDescriptor.ERROR_MESSAGE);
+          Confirmation msg=new NotifyDescriptor.Confirmation("Classes have been changed, reload scene?",NotifyDescriptor.OK_CANCEL_OPTION,NotifyDescriptor.INFORMATION_MESSAGE);
           Object result=DialogDisplayer.getDefault().notify(msg);
           if (!NotifyDescriptor.OK_OPTION.equals(result)) {
             return;
