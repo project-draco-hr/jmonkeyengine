@@ -3,11 +3,6 @@
   inputManager.removeListener(this);
   SceneApplication.getApplication().getStateManager().detach(this);
   if (SceneApplication.getApplication().getActiveCameraController() == this) {
-    java.awt.EventQueue.invokeLater(new Runnable(){
-      public void run(){
-        removeAdditionnalToolbar();
-      }
-    }
-);
+    removeAdditionnalToolbar();
   }
 }
