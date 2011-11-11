@@ -17,11 +17,11 @@
         setWindowTitle("OpenGL Window");
         setHelpContext(null);
       }
+      if (oldRequest.getRequester() instanceof SceneApplication) {
+        camController.disable();
+      }
       enqueue(new Callable(){
         public Object call() throws Exception {
-          if (oldRequest.getRequester() instanceof SceneApplication) {
-            camController.disable();
-          }
           if (physicsState != null) {
             physicsState.getPhysicsSpace().removeAll(rootNode);
             getStateManager().detach(physicsState);

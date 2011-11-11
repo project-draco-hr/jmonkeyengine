@@ -1,8 +1,15 @@
 {
-  inputManager.removeRawInputListener(this);
-  inputManager.removeListener(this);
   SceneApplication.getApplication().getStateManager().detach(this);
   if (SceneApplication.getApplication().getActiveCameraController() == this) {
     removeAdditionnalToolbar();
   }
+  final AbstractCameraController me=this;
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      inputManager.removeRawInputListener(me);
+      inputManager.removeListener(me);
+      return null;
+    }
+  }
+);
 }

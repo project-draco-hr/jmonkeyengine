@@ -3,46 +3,46 @@
     moved=true;
     movedR=true;
     if ((buttonDownL && useCameraControls()) || (buttonDownM && !shiftModifier)) {
-      rotateCamera(Vector3f.UNIT_Y,-f1 * 2.5f);
+      doRotateCamera(Vector3f.UNIT_Y,-f1 * 2.5f);
     }
     if ((buttonDownR && useCameraControls()) || (buttonDownM && shiftModifier)) {
-      panCamera(f1 * 2.5f,0);
+      doPanCamera(f1 * 2.5f,0);
     }
   }
  else   if ("MouseAxisY".equals(string)) {
     moved=true;
     movedR=true;
     if ((buttonDownL && useCameraControls()) || (buttonDownM && !shiftModifier)) {
-      rotateCamera(cam.getLeft(),-f1 * 2.5f);
+      doRotateCamera(cam.getLeft(),-f1 * 2.5f);
     }
     if ((buttonDownR && useCameraControls()) || (buttonDownM && shiftModifier)) {
-      panCamera(0,-f1 * 2.5f);
+      doPanCamera(0,-f1 * 2.5f);
     }
   }
  else   if ("MouseAxisX-".equals(string)) {
     moved=true;
     movedR=true;
     if ((buttonDownL && useCameraControls()) || (buttonDownM && !shiftModifier)) {
-      rotateCamera(Vector3f.UNIT_Y,f1 * 2.5f);
+      doRotateCamera(Vector3f.UNIT_Y,f1 * 2.5f);
     }
     if ((buttonDownR && useCameraControls()) || (buttonDownM && shiftModifier)) {
-      panCamera(-f1 * 2.5f,0);
+      doPanCamera(-f1 * 2.5f,0);
     }
   }
  else   if ("MouseAxisY-".equals(string)) {
     moved=true;
     movedR=true;
     if ((buttonDownL && useCameraControls()) || (buttonDownM && !shiftModifier)) {
-      rotateCamera(cam.getLeft(),f1 * 2.5f);
+      doRotateCamera(cam.getLeft(),f1 * 2.5f);
     }
     if ((buttonDownR && useCameraControls()) || (buttonDownM && shiftModifier)) {
-      panCamera(0,f1 * 2.5f);
+      doPanCamera(0,f1 * 2.5f);
     }
   }
  else   if ("MouseWheel".equals(string)) {
-    zoomCamera(.1f);
+    doZoomCamera(.1f);
   }
  else   if ("MouseWheel-".equals(string)) {
-    zoomCamera(-.1f);
+    doZoomCamera(-.1f);
   }
 }

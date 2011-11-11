@@ -1,12 +1,19 @@
 {
-  inputManager.addRawInputListener(this);
-  inputManager.addListener(this,"MouseAxisX","MouseAxisY","MouseAxisX-","MouseAxisY-","MouseWheel","MouseWheel-","MouseButtonLeft","MouseButtonMiddle","MouseButtonRight");
   SceneApplication.getApplication().getStateManager().attach(this);
-  AbstractCameraController cc=SceneApplication.getApplication().getActiveCameraController();
-  if (cc != null) {
-    cam.setLocation(cc.cam.getLocation());
-    focus.set(cc.focus);
-  }
+  final AbstractCameraController cc=SceneApplication.getApplication().getActiveCameraController();
   SceneApplication.getApplication().setActiveCameraController(this);
   addAdditionnalToolbar();
+  final AbstractCameraController me=this;
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      if (cc != null) {
+        cam.setLocation(cc.cam.getLocation());
+        focus.set(cc.focus);
+      }
+      inputManager.addRawInputListener(me);
+      inputManager.addListener(me,"MouseAxisX","MouseAxisY","MouseAxisX-","MouseAxisY-","MouseWheel","MouseWheel-","MouseButtonLeft","MouseButtonMiddle","MouseButtonRight");
+      return null;
+    }
+  }
+);
 }
