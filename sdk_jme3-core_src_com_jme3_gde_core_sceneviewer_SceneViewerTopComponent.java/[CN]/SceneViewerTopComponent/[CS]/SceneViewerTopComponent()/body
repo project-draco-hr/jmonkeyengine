@@ -24,7 +24,13 @@ catch (  Error err) {
       if (e.getWheelRotation() < 0) {
         action="MouseWheel";
       }
-      app.getActiveCameraController().onAnalog(action,e.getWheelRotation(),0);
+      SceneApplication.getApplication().enqueue(new Callable<Void>(){
+        public Void call() throws Exception {
+          app.getActiveCameraController().onAnalog(action,e.getWheelRotation(),0);
+          return null;
+        }
+      }
+);
     }
   }
 );
