@@ -17,6 +17,7 @@
         getControl(UpdateControl.class).enqueue(new Callable(){
           public Object call() throws Exception {
             attachQuadAt(newQuad,quadrant,temp);
+            newQuad.resetCachedNeighbours();
             return null;
           }
         }
