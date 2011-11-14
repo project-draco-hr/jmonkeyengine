@@ -4,7 +4,7 @@
       this.getQuad(idx).removeControl(RigidBodyControl.class);
     }
     for (    TerrainGridListener l : listeners.values()) {
-      l.tileDetached(getCell(this.getQuad(idx).getWorldTranslation()),this.getQuad(idx));
+      l.tileDetached(getTileCell(this.getQuad(idx).getWorldTranslation()),this.getQuad(idx));
     }
     this.detachChild(this.getQuad(idx));
     cellsLoaded++;

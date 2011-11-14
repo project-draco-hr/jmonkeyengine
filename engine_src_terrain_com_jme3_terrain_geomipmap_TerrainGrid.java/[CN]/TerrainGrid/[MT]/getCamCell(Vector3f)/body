@@ -1,0 +1,6 @@
+{
+  Vector3f tile=getTileCell(location);
+  Vector3f offsetHalf=new Vector3f(-0.5f,0,-0.5f);
+  Vector3f shifted=tile.subtract(offsetHalf);
+  return new Vector3f(FastMath.floor(shifted.x),0,FastMath.floor(shifted.z));
+}

@@ -7,5 +7,6 @@
   for (  TerrainGridListener l : listeners.values()) {
     l.tileAttached(cam,q);
   }
+  System.err.println("attachQuadAt " + quadrant + ", children: "+ this.getChildren().size());
   updateModelBound();
 }
