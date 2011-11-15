@@ -27,7 +27,7 @@
   this.mat_terrain.setTexture("slopeColorMap",rock);
   this.mat_terrain.setFloat("slopeTileFactor",32);
   this.mat_terrain.setFloat("terrainSize",129);
-  AssetQuadGrid grid=new AssetQuadGrid(assetManager,"testgrid","TerrainGrid");
+  AssetTileLoader grid=new AssetTileLoader(assetManager,"testgrid","TerrainGrid");
   this.terrain=new TerrainGrid("terrain",65,257,grid);
   this.terrain.setMaterial(this.mat_terrain);
   this.terrain.setLocalTranslation(0,0,0);
