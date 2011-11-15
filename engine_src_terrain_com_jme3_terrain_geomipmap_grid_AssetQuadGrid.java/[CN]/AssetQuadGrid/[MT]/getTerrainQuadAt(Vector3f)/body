@@ -1,0 +1,7 @@
+{
+  TerrainQuad quad=(TerrainQuad)manager.loadModel(assetPath + "/" + name+ "-"+ Math.round(location.x)+ "/"+ Math.round(location.y)+ "/"+ Math.round(location.z));
+  if (quad == null) {
+    createNewQuad(location);
+  }
+  return quad;
+}

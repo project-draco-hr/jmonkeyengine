@@ -1,0 +1,18 @@
+{
+  super.read(im);
+  InputCapsule c=im.getCapsule(this);
+  name=c.readString("name",null);
+  size=c.readInt("size",0);
+  patchSize=c.readInt("patchSize",0);
+  stepScale=(Vector3f)c.readSavable("stepScale",null);
+  offset=(Vector2f)c.readSavable("offset",null);
+  offsetAmount=c.readFloat("offsetAmount",0);
+  terrainQuadGrid=(TerrainQuadGrid)c.readSavable("terrainQuadGrid",null);
+  int maxVisibleSize=size;
+  this.quarterSize=maxVisibleSize >> 2;
+  this.quadSize=(maxVisibleSize + 1) >> 1;
+  this.totalSize=maxVisibleSize;
+  this.gridOffset=new int[]{0,0};
+  this.quadIndex=new Vector3f[]{new Vector3f(-1,0,-1),new Vector3f(0,0,-1),new Vector3f(1,0,-1),new Vector3f(2,0,-1),new Vector3f(-1,0,0),new Vector3f(0,0,0),new Vector3f(1,0,0),new Vector3f(2,0,0),new Vector3f(-1,0,1),new Vector3f(0,0,1),new Vector3f(1,0,1),new Vector3f(2,0,1),new Vector3f(-1,0,2),new Vector3f(0,0,2),new Vector3f(1,0,2),new Vector3f(2,0,2)};
+  addControl(new UpdateControl());
+}
