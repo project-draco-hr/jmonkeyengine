@@ -9,7 +9,9 @@
   offsetAmount=c.readFloat("offsetAmount",0);
   terrainQuadGrid=(TerrainQuadGrid)c.readSavable("terrainQuadGrid",null);
   initData();
-  terrainQuadGrid.setSize(this.size);
-  terrainQuadGrid.setPatchSize(this.patchSize);
-  terrainQuadGrid.setQuadSize(this.quadSize);
+  if (terrainQuadGrid != null) {
+    terrainQuadGrid.setSize(this.size);
+    terrainQuadGrid.setPatchSize(this.patchSize);
+    terrainQuadGrid.setQuadSize(this.quadSize);
+  }
 }
