@@ -1,5 +1,5 @@
 {
-  Vector3f cam=locations.get(0);
+  Vector3f cam=locations.size() == 0 ? Vector3f.ZERO.clone() : locations.get(0);
   Vector3f camCell=this.getCamCell(cam);
   if (cellsLoaded > 1) {
     gridOffset[0]=Math.round(camCell.x * (size / 2));
