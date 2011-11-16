@@ -1,0 +1,7 @@
+{
+  super.initialize(stateManager,app);
+  this.app=app;
+  app.setTimer(new IsoTimer(framerate));
+  processor=new VideoProcessor();
+  app.getViewPort().addProcessor(processor);
+}

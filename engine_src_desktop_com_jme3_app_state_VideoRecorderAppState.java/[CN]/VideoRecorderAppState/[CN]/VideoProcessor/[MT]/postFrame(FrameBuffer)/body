@@ -1,0 +1,15 @@
+{
+  byteBuffer.clear();
+  renderManager.getRenderer().readFrameBuffer(out,byteBuffer);
+synchronized (rawFrame) {
+    rawFrame.getGraphics().clearRect(0,0,width,height);
+    Screenshots.convertScreenShot(byteBuffer,rawFrame);
+    try {
+      writer.addImage(rawFrame);
+    }
+ catch (    Exception ex) {
+      Logger.getLogger(VideoRecorderAppState.class.getName()).log(Level.SEVERE,"Error writing frame: {0}",ex);
+    }
+  }
+  currentTimeStamp+=(long)(1000000000.0 / (double)framerate);
+}

@@ -1,0 +1,12 @@
+{
+  byte[] indexlistBytes=indexlist.toBytes();
+  aviOutput.write(indexlistBytes);
+  aviOutput.close();
+  long size=aviFile.length();
+  RandomAccessFile raf=new RandomAccessFile(aviFile,"rw");
+  raf.seek(4);
+  raf.write(intBytes(swapInt((int)size - 8)));
+  raf.seek(aviMovieOffset + 4);
+  raf.write(intBytes(swapInt((int)(size - 8 - aviMovieOffset- indexlistBytes.length))));
+  raf.close();
+}

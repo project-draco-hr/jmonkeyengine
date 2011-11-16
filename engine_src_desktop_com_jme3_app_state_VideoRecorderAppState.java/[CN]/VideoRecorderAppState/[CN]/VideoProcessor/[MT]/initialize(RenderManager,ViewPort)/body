@@ -1,0 +1,9 @@
+{
+  this.camera=viewPort.getCamera();
+  this.width=camera.getWidth();
+  this.height=camera.getHeight();
+  rawFrame=new BufferedImage(width,height,BufferedImage.TYPE_4BYTE_ABGR);
+  byteBuffer=BufferUtils.createByteBuffer(width * height * 4);
+  this.renderManager=rm;
+  this.isInitilized=true;
+}

@@ -1,0 +1,11 @@
+{
+  BufferedImage bi=new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+  ByteArrayOutputStream baos=new ByteArrayOutputStream();
+  Graphics2D g=bi.createGraphics();
+  g.drawImage(image,0,0,width,height,null);
+  ImageIO.write(bi,"jpg",baos);
+  baos.close();
+  bi=null;
+  g=null;
+  return baos.toByteArray();
+}
