@@ -3,10 +3,17 @@
   Sheet.Set set=Sheet.createPropertiesSet();
   set.setDisplayName("TerrainGrid");
   set.setName(TerrainGrid.class.getName());
-  TerrainGrid obj=geom;
+  final TerrainGrid obj=geom;
   if (obj == null) {
     return sheet;
   }
+  SceneApplication.getApplication().enqueue(new Callable<Void>(){
+    public Void call() throws Exception {
+      obj.initialize(SceneApplication.getApplication().getCamera().getLocation());
+      return null;
+    }
+  }
+);
   sheet.put(set);
   return sheet;
 }
