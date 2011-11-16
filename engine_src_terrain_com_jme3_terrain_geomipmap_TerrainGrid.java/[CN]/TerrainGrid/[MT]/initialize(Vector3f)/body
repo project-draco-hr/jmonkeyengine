@@ -3,7 +3,7 @@
     throw new RuntimeException("Material must be set prior to call of initialize");
   }
   Vector3f camCell=this.getCamCell(location);
-  this.updateChildrens(camCell);
+  this.updateChildren(camCell);
   for (  TerrainGridListener l : this.listeners.values()) {
     l.gridMoved(camCell);
   }

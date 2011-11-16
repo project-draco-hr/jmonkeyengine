@@ -7,11 +7,11 @@
   stepScale=(Vector3f)c.readSavable("stepScale",null);
   offset=(Vector2f)c.readSavable("offset",null);
   offsetAmount=c.readFloat("offsetAmount",0);
-  terrainQuadGrid=(TerrainGridTileLoader)c.readSavable("terrainQuadGrid",null);
+  gridTileLoader=(TerrainGridTileLoader)c.readSavable("terrainQuadGrid",null);
   material=(Material)c.readSavable("material",null);
   initData();
-  if (terrainQuadGrid != null) {
-    terrainQuadGrid.setPatchSize(this.patchSize);
-    terrainQuadGrid.setQuadSize(this.quadSize);
+  if (gridTileLoader != null) {
+    gridTileLoader.setPatchSize(this.patchSize);
+    gridTileLoader.setQuadSize(this.quadSize);
   }
 }

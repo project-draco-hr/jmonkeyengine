@@ -7,7 +7,7 @@
     cellsLoaded=0;
   }
   if (camCell.x != this.currentCamCell.x || camCell.z != currentCamCell.z) {
-    this.updateChildrens(camCell);
+    this.updateChildren(camCell);
     for (    TerrainGridListener l : this.listeners.values()) {
       l.gridMoved(camCell);
     }

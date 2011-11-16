@@ -11,8 +11,8 @@
           q.setMaterial(material.clone());
           log.log(Level.FINE,"Loaded TerrainQuad {0} from HeightMapGrid",q.getName());
         }
- else         if (terrainQuadGrid != null) {
-          q=terrainQuadGrid.getTerrainQuadAt(temp);
+ else         if (gridTileLoader != null) {
+          q=gridTileLoader.getTerrainQuadAt(temp);
           q.setMaterial(material);
           log.log(Level.FINE,"Loaded TerrainQuad {0} from TerrainQuadGrid",q.getName());
         }
