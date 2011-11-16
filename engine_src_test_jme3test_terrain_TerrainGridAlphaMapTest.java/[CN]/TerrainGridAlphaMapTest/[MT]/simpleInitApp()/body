@@ -62,7 +62,7 @@
   this.iterate.setFilter(this.therm);
   this.iterate.setIterations(1);
   ground.addPreFilter(this.iterate);
-  this.terrain=new TerrainGrid("terrain",33,257,new FractalHeightMapGrid(ground,null,256));
+  this.terrain=new TerrainGrid("terrain",33,257,new FractalTileLoader(ground,null,256));
   this.terrain.setMaterial(this.matRock);
   this.terrain.setLocalTranslation(0,0,0);
   this.terrain.setLocalScale(2f,1f,2f);
