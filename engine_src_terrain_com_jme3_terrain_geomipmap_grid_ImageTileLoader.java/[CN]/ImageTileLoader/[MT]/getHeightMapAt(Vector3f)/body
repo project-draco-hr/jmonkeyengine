@@ -1,0 +1,41 @@
+{
+  int x=(int)location.x;
+  int z=(int)location.z;
+  AbstractHeightMap heightmap=null;
+  BufferedImage im=null;
+  try {
+    String name=namer.getName(x,z);
+    logger.log(Level.INFO,"Loading heightmap from file: {0}",name);
+    final AssetInfo assetInfo=assetManager.locateAsset(new AssetKey(name));
+    if (assetInfo != null) {
+      InputStream in=assetInfo.openStream();
+      im=ImageIO.read(in);
+    }
+ else {
+      im=new BufferedImage(patchSize,patchSize,imageType);
+      logger.log(Level.WARNING,"File: {0} not found, loading zero heightmap instead",name);
+    }
+    if (imageType == BufferedImage.TYPE_USHORT_GRAY) {
+      heightmap=new Grayscale16BitHeightMap(im);
+    }
+ else     if (imageType == BufferedImage.TYPE_3BYTE_BGR) {
+      heightmap=new ImageBasedHeightMap(im);
+    }
+ else     if (customImageHeightmap != null && customImageHeightmap instanceof AbstractHeightMap) {
+      customImageHeightmap.setImage(im);
+      heightmap=(AbstractHeightMap)customImageHeightmap;
+    }
+ else {
+      if (customImageHeightmap == null)       logger.log(Level.SEVERE,"Custom image type specified [{0}] but no customImageHeightmap declared! Use setCustomImageHeightmap()",imageType);
+      if (!(customImageHeightmap instanceof AbstractHeightMap))       logger.severe("customImageHeightmap must be an AbstractHeightMap!");
+      return null;
+    }
+    heightmap.setHeightScale(256);
+    heightmap.load();
+  }
+ catch (  IOException e) {
+  }
+catch (  AssetNotFoundException e) {
+  }
+  return heightmap;
+}

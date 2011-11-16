@@ -1,0 +1,26 @@
+{
+  AbstractHeightMap heightmap=null;
+  if (this.cacheDir != null && new File(this.cacheDir,"terrain_" + (int)location.x + "_"+ (int)location.z+ ".png").exists()) {
+    try {
+      BufferedImage im=null;
+      im=ImageIO.read(new File(this.cacheDir,"terrain_" + (int)location.x + "_"+ (int)location.z+ ".png"));
+      heightmap=new Grayscale16BitHeightMap(im);
+      heightmap.setHeightScale(heightScale);
+    }
+ catch (    IOException e) {
+    }
+  }
+ else {
+    FloatBuffer buffer=this.base.getBuffer(location.x * (this.patchSize - 1),location.z * (this.patchSize - 1),0,this.patchSize);
+    if (this.cacheDir != null) {
+      MapUtils.saveImage(MapUtils.toGrayscale16Image(buffer,this.patchSize),new File(this.cacheDir,"terrain_" + (int)location.x + "_"+ (int)location.z+ ".png"));
+    }
+    float[] arr=buffer.array();
+    for (int i=0; i < arr.length; i++) {
+      arr[i]=arr[i] * this.heightScale;
+    }
+    heightmap=new FloatBufferHeightMap(buffer);
+  }
+  heightmap.load();
+  return heightmap;
+}
