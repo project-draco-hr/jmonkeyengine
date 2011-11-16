@@ -7,13 +7,6 @@
   if (obj == null) {
     return sheet;
   }
-  SceneApplication.getApplication().enqueue(new Callable<Void>(){
-    public Void call() throws Exception {
-      obj.initialize(SceneApplication.getApplication().getCamera().getLocation());
-      return null;
-    }
-  }
-);
   sheet.put(set);
   return sheet;
 }
