@@ -1,27 +1,3 @@
 {
-  try {
-    if (fut != null) {
-      fut.get();
-    }
-    fut=null;
-  }
- catch (  InterruptedException ex) {
-  }
-catch (  ExecutionException ex) {
-  }
-  byteBuffer.clear();
-  renderManager.getRenderer().readFrameBuffer(out,byteBuffer);
-  fut=executor.submit(new Callable<Void>(){
-    public Void call() throws Exception {
-      Screenshots.convertScreenShot(byteBuffer,rawFrame);
-      try {
-        writer.addImage(rawFrame);
-      }
- catch (      Exception ex) {
-        Logger.getLogger(VideoRecorderAppState.class.getName()).log(Level.SEVERE,"Error writing frame: {0}",ex);
-      }
-      return null;
-    }
-  }
-);
+  addImage(renderManager.getRenderer(),out);
 }

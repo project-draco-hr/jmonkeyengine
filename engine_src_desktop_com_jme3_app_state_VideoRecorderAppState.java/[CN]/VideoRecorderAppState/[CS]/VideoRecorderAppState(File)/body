@@ -1,12 +1,4 @@
 {
   this.file=file;
-  executor=Executors.newSingleThreadExecutor(new ThreadFactory(){
-    public Thread newThread(    Runnable r){
-      Thread th=new Thread(r);
-      th.setName("jME Video processing Thread");
-      th.setDaemon(true);
-      return th;
-    }
-  }
-);
+  Logger.getLogger(this.getClass().getName()).log(Level.INFO,"JME3 VideoRecorder running on {0} CPU's",numCpus);
 }

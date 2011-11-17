@@ -1,11 +1,15 @@
 {
-  BufferedImage bi=new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+  BufferedImage bi;
+  if (image instanceof BufferedImage && ((BufferedImage)image).getType() == BufferedImage.TYPE_INT_RGB) {
+    bi=(BufferedImage)image;
+  }
+ else {
+    bi=new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+    Graphics2D g=bi.createGraphics();
+    g.drawImage(image,0,0,width,height,null);
+  }
   ByteArrayOutputStream baos=new ByteArrayOutputStream();
-  Graphics2D g=bi.createGraphics();
-  g.drawImage(image,0,0,width,height,null);
   ImageIO.write(bi,"jpg",baos);
   baos.close();
-  bi=null;
-  g=null;
   return baos.toByteArray();
 }

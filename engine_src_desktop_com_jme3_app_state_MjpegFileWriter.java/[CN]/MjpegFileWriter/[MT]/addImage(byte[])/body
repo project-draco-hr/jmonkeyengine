@@ -1,0 +1,19 @@
+{
+  byte[] fcc=new byte[]{'0','0','d','b'};
+  int useLength=imagedata.length;
+  long position=aviChannel.position();
+  int extra=(useLength + (int)position) % 4;
+  if (extra > 0) {
+    useLength=useLength + extra;
+  }
+  indexlist.addAVIIndex((int)position,useLength);
+  aviOutput.write(fcc);
+  aviOutput.write(intBytes(swapInt(useLength)));
+  aviOutput.write(imagedata);
+  if (extra > 0) {
+    for (int i=0; i < extra; i++) {
+      aviOutput.write(0);
+    }
+  }
+  imagedata=null;
+}

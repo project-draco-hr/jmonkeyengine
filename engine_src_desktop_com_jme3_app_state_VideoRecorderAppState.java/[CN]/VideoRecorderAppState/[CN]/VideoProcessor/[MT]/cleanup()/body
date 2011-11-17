@@ -1,19 +1,12 @@
 {
   try {
-    if (fut != null) {
-      fut.get();
-      fut=null;
+    while (freeItems.size() < numCpus) {
+      Thread.sleep(10);
     }
-  }
- catch (  InterruptedException ex) {
-  }
-catch (  ExecutionException ex) {
-  }
-  app.setTimer(new NanoTimer());
-  try {
     writer.finishAVI();
   }
  catch (  Exception ex) {
     Logger.getLogger(VideoRecorderAppState.class.getName()).log(Level.SEVERE,"Error closing video: {0}",ex);
   }
+  writer=null;
 }
