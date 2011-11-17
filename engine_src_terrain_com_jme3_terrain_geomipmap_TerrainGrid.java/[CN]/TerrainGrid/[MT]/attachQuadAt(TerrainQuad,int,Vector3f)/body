@@ -2,10 +2,10 @@
   this.removeQuad(quadrant);
   q.setQuadrant((short)quadrant);
   this.attachChild(q);
-  Vector3f loc=cam.mult(this.quadSize - 1).subtract(quarterSize,0,quarterSize);
+  Vector3f loc=quadCell.mult(this.quadSize - 1).subtract(quarterSize,0,quarterSize);
   q.setLocalTranslation(loc);
-  for (  TerrainGridListener l : listeners.values()) {
-    l.tileAttached(cam,q);
+  for (  TerrainGridListener l : listeners) {
+    l.tileAttached(quadCell,q);
   }
   updateModelBound();
 }

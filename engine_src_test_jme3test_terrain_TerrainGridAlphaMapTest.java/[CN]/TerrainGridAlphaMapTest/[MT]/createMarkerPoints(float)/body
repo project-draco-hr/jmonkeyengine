@@ -1,0 +1,18 @@
+{
+  Node center=createAxisMarker(10);
+  markers.attachChild(center);
+  float xS=(count - 1) * terrain.getTerrainSize() - (terrain.getTerrainSize() / 2);
+  float zS=(count - 1) * terrain.getTerrainSize() - (terrain.getTerrainSize() / 2);
+  float xSi=xS;
+  float zSi=zS;
+  for (int x=0; x < count * 2; x++) {
+    for (int z=0; z < count * 2; z++) {
+      Node m=createAxisMarker(5);
+      m.setLocalTranslation(xSi,0,zSi);
+      markers.attachChild(m);
+      zSi+=terrain.getTerrainSize();
+    }
+    zSi=zS;
+    xSi+=terrain.getTerrainSize();
+  }
+}

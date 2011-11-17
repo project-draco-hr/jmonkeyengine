@@ -3,7 +3,7 @@
     if (quadControls != null) {
       this.getQuad(idx).removeControl(RigidBodyControl.class);
     }
-    for (    TerrainGridListener l : listeners.values()) {
+    for (    TerrainGridListener l : listeners) {
       l.tileDetached(getTileCell(this.getQuad(idx).getWorldTranslation()),this.getQuad(idx));
     }
     this.detachChild(this.getQuad(idx));

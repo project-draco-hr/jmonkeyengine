@@ -2,7 +2,7 @@
   if (SceneApplication.getApplication().isOgl()) {
     Terrain terrain=(Terrain)getTerrain(null);
     if (terrain == null)     return false;
-    MatParam param=terrain.getMaterial().getParam("useTriPlanarMapping");
+    MatParam param=terrain.getMaterial(null).getParam("useTriPlanarMapping");
     if (param != null)     return (Boolean)param.getValue();
     return false;
   }

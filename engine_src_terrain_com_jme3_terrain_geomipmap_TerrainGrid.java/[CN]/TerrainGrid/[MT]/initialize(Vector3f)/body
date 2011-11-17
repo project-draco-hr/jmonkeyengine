@@ -4,7 +4,7 @@
   }
   Vector3f camCell=this.getCamCell(location);
   this.updateChildren(camCell);
-  for (  TerrainGridListener l : this.listeners.values()) {
+  for (  TerrainGridListener l : this.listeners) {
     l.gridMoved(camCell);
   }
 }

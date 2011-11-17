@@ -68,7 +68,7 @@
     player3.setGravity(10);
     player3.setPhysicsLocation(new Vector3f(cam.getLocation().x,512,cam.getLocation().z));
     bulletAppState.getPhysicsSpace().add(player3);
-    terrain.addListener("physicsStartListener",new TerrainGridListener(){
+    terrain.addListener(new TerrainGridListener(){
       public void gridMoved(      Vector3f newCenter){
       }
       public Material tileLoaded(      Material material,      Vector3f cell){

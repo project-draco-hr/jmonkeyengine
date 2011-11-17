@@ -6,31 +6,30 @@
   AmbientLight al=new AmbientLight();
   al.setColor(ColorRGBA.White.mult(1.3f));
   rootNode.addLight(al);
-  File file=new File("mountains.zip");
+  File file=new File("TerrainGridTestData.zip");
   if (!file.exists()) {
-    assetManager.registerLocator("http://jmonkeyengine.googlecode.com/files/mountains.zip",HttpZipLocator.class);
+    assetManager.registerLocator("http://jmonkeyengine.googlecode.com/files/TerrainGridTestData.zip",HttpZipLocator.class);
   }
  else {
-    assetManager.registerLocator("mountains.zip",ZipLocator.class);
+    assetManager.registerLocator("TerrainGridTestData.zip",ZipLocator.class);
   }
   this.flyCam.setMoveSpeed(100f);
   ScreenshotAppState state=new ScreenshotAppState();
   this.stateManager.attach(state);
-  matRock=new Material(assetManager,"Common/MatDefs/Terrain/TerrainLighting.j3md");
-  matRock.setBoolean("useTriPlanarMapping",false);
-  matRock.setBoolean("isTerrainGrid",true);
+  material=new Material(assetManager,"Common/MatDefs/Terrain/TerrainLighting.j3md");
+  material.setBoolean("useTriPlanarMapping",false);
   Texture grass=assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
   grass.setWrap(WrapMode.Repeat);
-  matRock.setTexture("DiffuseMap",grass);
-  matRock.setFloat("DiffuseMap_0_scale",grassScale);
+  material.setTexture("DiffuseMap",grass);
+  material.setFloat("DiffuseMap_0_scale",grassScale);
   Texture dirt=assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
   dirt.setWrap(WrapMode.Repeat);
-  matRock.setTexture("DiffuseMap_1",dirt);
-  matRock.setFloat("DiffuseMap_1_scale",dirtScale);
+  material.setTexture("DiffuseMap_1",dirt);
+  material.setFloat("DiffuseMap_1_scale",dirtScale);
   Texture rock=assetManager.loadTexture("Textures/Terrain/splat/road.jpg");
   rock.setWrap(WrapMode.Repeat);
-  matRock.setTexture("DiffuseMap_2",rock);
-  matRock.setFloat("DiffuseMap_2_scale",rockScale);
+  material.setTexture("DiffuseMap_2",rock);
+  material.setFloat("DiffuseMap_2_scale",rockScale);
   matWire=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
   matWire.getAdditionalRenderState().setWireframe(true);
   matWire.setColor("Color",ColorRGBA.Green);
@@ -63,7 +62,7 @@
   this.iterate.setIterations(1);
   ground.addPreFilter(this.iterate);
   this.terrain=new TerrainGrid("terrain",33,257,new FractalTileLoader(ground,null,256));
-  this.terrain.setMaterial(this.matRock);
+  this.terrain.setMaterial(this.material);
   this.terrain.setLocalTranslation(0,0,0);
   this.terrain.setLocalScale(2f,1f,2f);
   this.rootNode.attachChild(this.terrain);
@@ -75,7 +74,6 @@
   final BulletAppState bulletAppState=new BulletAppState();
   stateManager.attach(bulletAppState);
   this.getCamera().setLocation(new Vector3f(0,256,0));
-  this.viewPort.setBackgroundColor(new ColorRGBA(0.7f,0.8f,1f,1f));
   if (usePhysics) {
     CapsuleCollisionShape capsuleShape=new CapsuleCollisionShape(0.5f,1.8f,1);
     player3=new CharacterControl(capsuleShape,0.5f);
@@ -85,28 +83,36 @@
     player3.setPhysicsLocation(new Vector3f(cam.getLocation().x,256,cam.getLocation().z));
     bulletAppState.getPhysicsSpace().add(player3);
   }
-  terrain.addListener("physicsStartListener",new TerrainGridListener(){
+  terrain.addListener(new TerrainGridListener(){
     public void gridMoved(    Vector3f newCenter){
     }
-    public Material tileLoaded(    Material material,    Vector3f cell){
-      return material;
-    }
     public void tileAttached(    Vector3f cell,    TerrainQuad quad){
-      Texture alpha=assetManager.loadTexture("Scenes/TerrainAlphaTest/alphamap_" + Math.abs((int)(cell.x % 2)) * 512 + "_" + Math.abs((int)(cell.z % 2) * 512) + ".png");
-      quad.getMaterial().setTexture("AlphaMap",alpha);
+      Texture alpha=null;
+      try {
+        alpha=assetManager.loadTexture("TerrainAlphaTest/alpha_" + (int)cell.x + "_"+ (int)cell.z+ ".png");
+      }
+ catch (      Exception e) {
+        alpha=assetManager.loadTexture("TerrainAlphaTest/alpha_default.png");
+      }
+      quad.getMaterial(null).setTexture("AlphaMap",alpha);
       if (usePhysics) {
         quad.addControl(new RigidBodyControl(new HeightfieldCollisionShape(quad.getHeightMap(),terrain.getLocalScale()),0));
         bulletAppState.getPhysicsSpace().add(quad);
       }
+      updateMarkerElevations();
     }
     public void tileDetached(    Vector3f cell,    TerrainQuad quad){
       if (usePhysics) {
         bulletAppState.getPhysicsSpace().remove(quad);
         quad.removeControl(RigidBodyControl.class);
       }
+      updateMarkerElevations();
     }
   }
 );
   this.terrain.initialize(cam.getLocation());
   this.initKeys();
+  markers=new Node();
+  rootNode.attachChild(markers);
+  createMarkerPoints(1);
 }

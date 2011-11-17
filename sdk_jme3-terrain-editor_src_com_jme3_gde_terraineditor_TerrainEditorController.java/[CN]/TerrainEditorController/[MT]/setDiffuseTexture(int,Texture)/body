@@ -3,8 +3,8 @@
     texture.setWrap(WrapMode.Repeat);
     Terrain terrain=(Terrain)getTerrain(null);
     if (terrain == null)     return;
-    if (layer == 0)     terrain.getMaterial().setTexture("DiffuseMap",texture);
- else     terrain.getMaterial().setTexture("DiffuseMap_" + layer,texture);
+    if (layer == 0)     terrain.getMaterial(null).setTexture("DiffuseMap",texture);
+ else     terrain.getMaterial(null).setTexture("DiffuseMap_" + layer,texture);
     setNeedsSave(true);
   }
  else {

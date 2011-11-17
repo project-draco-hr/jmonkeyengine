@@ -1,0 +1,6 @@
+{
+  for (  Spatial s : markers.getChildren()) {
+    float h=terrain.getHeight(new Vector2f(s.getLocalTranslation().x,s.getLocalTranslation().z));
+    s.setLocalTranslation(s.getLocalTranslation().x,h + 1,s.getLocalTranslation().z);
+  }
+}

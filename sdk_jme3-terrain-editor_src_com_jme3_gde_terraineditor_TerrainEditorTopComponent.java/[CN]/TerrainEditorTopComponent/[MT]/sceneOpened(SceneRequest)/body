@@ -1,10 +1,10 @@
 {
-  if (request.equals(sentRequest)) {
+  if (request.equals(sentRequest) && editorController != null) {
     currentRequest=request;
     setSceneInfo(currentRequest.getJmeNode(),true);
     Terrain terrain=(Terrain)editorController.getTerrain(null);
     if (terrain != null) {
-      ((Node)terrain).setMaterial(terrain.getMaterial());
+      ((Node)terrain).setMaterial(terrain.getMaterial(null));
       refreshSelected();
     }
     if (camController != null) {

@@ -2,17 +2,17 @@
   if (SceneApplication.getApplication().isOgl()) {
     Terrain terrain=(Terrain)getTerrain(null);
     if (terrain == null)     return;
-    terrain.getMaterial().setBoolean("useTriPlanarMapping",enabled);
-    float texCoordSize=1 / terrain.getTextureCoordinateScale();
+    terrain.getMaterial(null).setBoolean("useTriPlanarMapping",enabled);
+    float size=terrain.getTerrainSize();
     if (enabled) {
       for (int i=0; i < getNumUsedTextures(); i++) {
-        float scale=1f / (float)(texCoordSize / getTextureScale(i));
+        float scale=1f / (float)(size / getTextureScale(i));
         setTextureScale(i,scale);
       }
     }
  else {
       for (int i=0; i < getNumUsedTextures(); i++) {
-        float scale=(float)(texCoordSize * getTextureScale(i));
+        float scale=(float)(size * getTextureScale(i));
         setTextureScale(i,scale);
       }
     }

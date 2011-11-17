@@ -1,7 +1,7 @@
 {
   Terrain terrain=(Terrain)getTerrain(null);
   if (terrain == null)   return;
-  if (layer == 0)   terrain.getMaterial().clearParam("DiffuseMap");
- else   terrain.getMaterial().clearParam("DiffuseMap_" + layer);
+  if (layer == 0)   terrain.getMaterial(null).clearParam("DiffuseMap");
+ else   terrain.getMaterial(null).clearParam("DiffuseMap_" + layer);
   setNeedsSave(true);
 }

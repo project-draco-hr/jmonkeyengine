@@ -3,8 +3,8 @@
     Terrain terrain=(Terrain)getTerrain(null);
     if (terrain == null)     return null;
     MatParam matParam=null;
-    if (layer == 0)     matParam=terrain.getMaterial().getParam("NormalMap");
- else     matParam=terrain.getMaterial().getParam("NormalMap_" + layer);
+    if (layer == 0)     matParam=terrain.getMaterial(null).getParam("NormalMap");
+ else     matParam=terrain.getMaterial(null).getParam("NormalMap_" + layer);
     if (matParam == null || matParam.getValue() == null) {
       return null;
     }

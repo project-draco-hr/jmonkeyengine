@@ -1,0 +1,7 @@
+{
+  if (worldLocation == null)   return null;
+  Vector3f tileCell=getTileCell(worldLocation);
+  Terrain terrain=cache.get(tileCell);
+  if (terrain == null)   return null;
+  return terrain.getMaterial(worldLocation);
+}
