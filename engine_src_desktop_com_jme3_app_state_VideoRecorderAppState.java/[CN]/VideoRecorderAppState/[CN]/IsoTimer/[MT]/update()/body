@@ -1,3 +1,13 @@
 {
+  long time=System.currentTimeMillis();
+  long difference=time - lastTime;
+  lastTime=time;
+  if (difference < (1.0f / this.framerate) * 1000.0f) {
+    try {
+      Thread.sleep(difference);
+    }
+ catch (    InterruptedException ex) {
+    }
+  }
   this.ticks++;
 }

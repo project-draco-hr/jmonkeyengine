@@ -1,4 +1,14 @@
 {
+  try {
+    if (fut != null) {
+      fut.get();
+      fut=null;
+    }
+  }
+ catch (  InterruptedException ex) {
+  }
+catch (  ExecutionException ex) {
+  }
   app.setTimer(new NanoTimer());
   try {
     writer.finishAVI();
