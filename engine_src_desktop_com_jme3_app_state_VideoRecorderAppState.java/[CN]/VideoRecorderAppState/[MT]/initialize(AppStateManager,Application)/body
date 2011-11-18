@@ -2,6 +2,10 @@
   super.initialize(stateManager,app);
   this.app=app;
   app.setTimer(new IsoTimer(framerate));
+  if (file == null) {
+    String filename=System.getProperty("user.home") + File.separator + "jMonkey-"+ System.currentTimeMillis() / 1000 + ".avi";
+    file=new File(filename);
+  }
   processor=new VideoProcessor();
   app.getViewPort().addProcessor(processor);
 }
