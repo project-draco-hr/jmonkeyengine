@@ -1,7 +1,13 @@
 {
   if (null == writer) {
     try {
-      writer=new MjpegFileWriter(file,width,height,framerate);
+      if (file != null) {
+        String filename=System.getProperty("user.home") + "/jMonkey-" + System.currentTimeMillis() / 1000;
+        writer=new MjpegFileWriter(new File(filename + ".avi"),width,height,framerate);
+      }
+ else {
+        writer=new MjpegFileWriter(file,width,height,framerate);
+      }
     }
  catch (    Exception ex) {
       Logger.getLogger(VideoRecorderAppState.class.getName()).log(Level.SEVERE,"Error creating file writer {0}",ex);
