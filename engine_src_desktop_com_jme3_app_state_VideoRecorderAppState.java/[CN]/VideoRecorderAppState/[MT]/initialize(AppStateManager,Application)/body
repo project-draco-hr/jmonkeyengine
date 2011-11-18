@@ -7,5 +7,7 @@
     file=new File(filename);
   }
   processor=new VideoProcessor();
-  app.getViewPort().addProcessor(processor);
+  List<ViewPort> vps=app.getRenderManager().getPostViews();
+  ViewPort last=vps.get(vps.size() - 1);
+  last.addProcessor(processor);
 }
