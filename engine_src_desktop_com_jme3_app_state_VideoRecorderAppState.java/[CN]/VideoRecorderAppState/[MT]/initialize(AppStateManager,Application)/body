@@ -8,6 +8,6 @@
   }
   processor=new VideoProcessor();
   List<ViewPort> vps=app.getRenderManager().getPostViews();
-  ViewPort last=vps.get(vps.size() - 1);
-  last.addProcessor(processor);
+  lastViewPort=vps.get(vps.size() - 1);
+  lastViewPort.addProcessor(processor);
 }
