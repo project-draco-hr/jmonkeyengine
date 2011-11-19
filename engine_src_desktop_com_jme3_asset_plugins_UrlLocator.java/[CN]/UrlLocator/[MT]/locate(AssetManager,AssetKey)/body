@@ -1,7 +1,10 @@
 {
   String name=key.getName();
   try {
-    URL url=new URL(root,name);
+    if (name.startsWith("/")) {
+      name=name.substring(1);
+    }
+    URL url=new URL(root.toExternalForm() + name);
     return UrlAssetInfo.create(manager,key,url);
   }
  catch (  IOException ex) {
