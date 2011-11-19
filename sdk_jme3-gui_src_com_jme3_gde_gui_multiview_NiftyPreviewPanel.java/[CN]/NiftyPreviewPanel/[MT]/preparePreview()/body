@@ -10,7 +10,6 @@
       AudioRenderer audioRenderer=SceneApplication.getApplication().getAudioRenderer();
       niftyDisplay=new NiftyJmeDisplay(pm,inputHandler,audioRenderer,guiViewPort);
       nifty=niftyDisplay.getNifty();
-      de.lessvoid.nifty.tools.resourceloader.ResourceLoader.addResourceLocation(new FileSystemLocation(new File(pm.getAssetFolderName())));
       guiViewPort.addProcessor(niftyDisplay);
       return null;
     }
