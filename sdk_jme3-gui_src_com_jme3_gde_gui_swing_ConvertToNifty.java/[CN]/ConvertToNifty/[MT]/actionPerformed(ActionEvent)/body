@@ -39,12 +39,11 @@
     }
     for (    SourceGroup sourceGroup : groups) {
       ClassLoader loader=new URLClassLoader(urls.toArray(new URL[urls.size()]),this.getClass().getClassLoader());
-      Class clazzFactory;
       try {
-        clazzFactory=loader.loadClass("nl.tygron.niftyconverter.NiftyFactory");
-        Class clazzFile=loader.loadClass("java.io.File");
-        Class clazzString=loader.loadClass("java.lang.String");
-        Class clazzConfig=loader.loadClass("nl.tygron.niftyconverter.util.NiftyConverterConfig");
+        Class<?> clazzFactory=loader.loadClass("nl.tygron.niftyconverter.NiftyFactory");
+        Class<?> clazzFile=loader.loadClass("java.io.File");
+        Class<?> clazzString=loader.loadClass("java.lang.String");
+        Class<?> clazzConfig=loader.loadClass("nl.tygron.niftyconverter.util.NiftyConverterConfig");
         clazzConfig.getDeclaredMethod("setOutputDir",clazzString).invoke(null,folder.getPath());
         Object string=clazzString.getDeclaredConstructor(clazzString).newInstance(sourceGroup.getRootFolder().getPath());
         Object file=clazzFile.getDeclaredConstructor(clazzString).newInstance(string);
