@@ -1,4 +1,10 @@
 {
   offPanel.stopPreview();
-  nifty.exit();
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      nifty.exit();
+      return null;
+    }
+  }
+);
 }
