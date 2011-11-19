@@ -1,0 +1,14 @@
+{
+  Node[] nodes=new Node[key.length];
+  for (int i=0; i < key.length; i++) {
+    FileObject fileObject=key[i];
+    try {
+      nodes[i]=DataObject.find(fileObject).getNodeDelegate();
+    }
+ catch (    DataObjectNotFoundException ex) {
+      nodes[i]=Node.EMPTY;
+      Exceptions.printStackTrace(ex);
+    }
+  }
+  return nodes;
+}

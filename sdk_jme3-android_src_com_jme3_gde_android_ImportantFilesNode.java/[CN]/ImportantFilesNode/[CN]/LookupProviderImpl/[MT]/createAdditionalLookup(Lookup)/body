@@ -1,8 +1,0 @@
-{
-  Project prj=lookup.lookup(Project.class);
-  FileObject folder=prj.getProjectDirectory().getFileObject("mobile");
-  if (folder != null && folder.isFolder()) {
-    return Lookups.fixed(new ImportantFilesLookupItem(prj));
-  }
-  return Lookups.fixed();
-}
