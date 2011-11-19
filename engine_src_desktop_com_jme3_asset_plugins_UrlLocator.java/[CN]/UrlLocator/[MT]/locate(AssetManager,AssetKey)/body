@@ -7,7 +7,10 @@
     URL url=new URL(root.toExternalForm() + name);
     return UrlAssetInfo.create(manager,key,url);
   }
- catch (  IOException ex) {
+ catch (  FileNotFoundException e) {
+    return null;
+  }
+catch (  IOException ex) {
     logger.log(Level.WARNING,"Error while locating " + name,ex);
     return null;
   }
