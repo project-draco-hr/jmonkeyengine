@@ -1,0 +1,9 @@
+{
+  Project proj=showProjectSelection(title,true);
+  if (proj == null) {
+    return null;
+  }
+ else {
+    return proj.getLookup().lookup(ProjectAssetManager.class);
+  }
+}

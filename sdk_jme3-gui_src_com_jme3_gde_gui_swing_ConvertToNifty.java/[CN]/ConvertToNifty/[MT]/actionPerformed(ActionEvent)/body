@@ -1,0 +1,59 @@
+{
+  ProjectAssetManager pm=context.getLookup().lookup(ProjectAssetManager.class);
+  if (pm == null) {
+    pm=ProjectSelection.getProjectAssetManager("Select target project");
+  }
+  FileObject folder;
+  folder=context.getProjectDirectory();
+  if (pm != null) {
+    folder=pm.getAssetFolder().getFileObject("Interface/Converted");
+    if (folder == null) {
+      try {
+        folder=pm.getAssetFolder().getFileObject("Interface");
+        if (folder == null) {
+          folder=pm.getAssetFolder().createFolder("Interface");
+        }
+        folder=folder.createFolder("Converted");
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+        folder=context.getProjectDirectory();
+      }
+    }
+  }
+  Sources sources=context.getLookup().lookup(Sources.class);
+  if (sources != null) {
+    List<URL> urls=new LinkedList<URL>();
+    SourceGroup[] groups=sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA);
+    for (    SourceGroup sourceGroup : groups) {
+      try {
+        ClassPath path=ClassPath.getClassPath(sourceGroup.getRootFolder(),ClassPath.COMPILE);
+        for (Iterator<ClassPath.Entry> it=path.entries().iterator(); it.hasNext(); ) {
+          ClassPath.Entry entry=it.next();
+          urls.add(entry.getURL());
+        }
+      }
+ catch (      Exception ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+    for (    SourceGroup sourceGroup : groups) {
+      ClassLoader loader=new URLClassLoader(urls.toArray(new URL[urls.size()]),this.getClass().getClassLoader());
+      Class clazzFactory;
+      try {
+        clazzFactory=loader.loadClass("nl.tygron.niftyconverter.NiftyFactory");
+        Class clazzFile=loader.loadClass("java.io.File");
+        Class clazzString=loader.loadClass("java.lang.String");
+        Class clazzConfig=loader.loadClass("nl.tygron.niftyconverter.util.NiftyConverterConfig");
+        clazzConfig.getDeclaredMethod("setOutputDir",clazzString).invoke(null,folder.getPath());
+        Object string=clazzString.getDeclaredConstructor(clazzString).newInstance(sourceGroup.getRootFolder().getPath());
+        Object file=clazzFile.getDeclaredConstructor(clazzString).newInstance(string);
+        Object factory=clazzFactory.newInstance();
+        clazzFactory.getMethod("loadComponents",clazzFile).invoke(factory,file);
+      }
+ catch (      Exception ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+  }
+}
