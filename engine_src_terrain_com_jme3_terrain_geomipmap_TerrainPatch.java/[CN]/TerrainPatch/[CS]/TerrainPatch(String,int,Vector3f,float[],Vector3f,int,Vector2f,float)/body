@@ -6,9 +6,7 @@
   this.offsetAmount=offsetAmount;
   this.offset=offset;
   setLocalTranslation(origin);
-  FloatBuffer heightBuffer=BufferUtils.createFloatBuffer(size * size);
-  heightBuffer.put(heightMap);
-  geomap=new LODGeomap(size,heightBuffer);
+  geomap=new LODGeomap(size,heightMap);
   Mesh m=geomap.createMesh(stepScale,new Vector2f(1,1),offset,offsetAmount,totalSize,false);
   setMesh(m);
 }

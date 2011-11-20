@@ -1,0 +1,19 @@
+{
+  float x1=firstPoint.x - rootPoint.x;
+  float y1=firstPoint.y - rootPoint.y;
+  float z1=firstPoint.z - rootPoint.z;
+  float x2=secondPoint.x - rootPoint.x;
+  float y2=secondPoint.y - rootPoint.y;
+  float z2=secondPoint.z - rootPoint.z;
+  float x3=(y1 * z2) - (z1 * y2);
+  float y3=(z1 * x2) - (x1 * z2);
+  float z3=(x1 * y2) - (y1 * x2);
+  x3*=scale.x;
+  y3*=scale.y;
+  z3*=scale.z;
+  float inv=1.0f / FastMath.sqrt(x3 * x3 + y3 * y3 + z3 * z3);
+  store.x=x3 * inv;
+  store.y=y3 * inv;
+  store.z=z3 * inv;
+  return store;
+}
