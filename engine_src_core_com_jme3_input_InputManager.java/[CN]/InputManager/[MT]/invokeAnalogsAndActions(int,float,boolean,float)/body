@@ -1,5 +1,5 @@
 {
-  if (value < axisDeadZone) {
+  if (value < deadZone) {
     invokeAnalogs(hash,value,!applyTpf);
     return;
   }
@@ -10,6 +10,11 @@
   boolean valueChanged=!axisValues.containsKey(hash);
   if (applyTpf) {
     value*=frameTPF;
+  }
+ else {
+    if (value != 0) {
+      axisValues.put(hash,value);
+    }
   }
   int size=maps.size();
   for (int i=size - 1; i >= 0; i--) {
