@@ -1,6 +1,12 @@
 {
   InputCapsule ic=im.getCapsule(this);
-  hdata=ic.readFloatArray("hdata",null);
+  hdata=ic.readFloatArray("hdataarray",null);
+  if (hdata == null) {
+    FloatBuffer buf=ic.readFloatBuffer("hdata",null);
+    if (buf != null) {
+      hdata=buf.array();
+    }
+  }
   width=ic.readInt("width",0);
   height=ic.readInt("height",0);
   maxval=ic.readInt("maxval",0);
