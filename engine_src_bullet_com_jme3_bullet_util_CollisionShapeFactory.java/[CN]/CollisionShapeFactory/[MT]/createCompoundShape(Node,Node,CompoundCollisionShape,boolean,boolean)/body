@@ -36,7 +36,7 @@
       }
       TerrainPatch terrain=(TerrainPatch)spatial;
       Transform trans=getTransform(spatial,realRootNode);
-      shape.addChildShape(new HeightfieldCollisionShape(terrain.getHeightmap(),terrain.getLocalScale()),trans.getTranslation(),trans.getRotation().toRotationMatrix());
+      shape.addChildShape(new HeightfieldCollisionShape(terrain.getHeightMap(),terrain.getLocalScale()),trans.getTranslation(),trans.getRotation().toRotationMatrix());
     }
   }
   return shape;

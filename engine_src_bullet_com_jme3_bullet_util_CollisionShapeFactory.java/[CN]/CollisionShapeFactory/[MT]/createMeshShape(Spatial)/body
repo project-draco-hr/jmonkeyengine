@@ -5,7 +5,7 @@
   }
  else   if (spatial instanceof TerrainPatch) {
     TerrainPatch terrain=(TerrainPatch)spatial;
-    return new HeightfieldCollisionShape(terrain.getHeightmap(),terrain.getLocalScale());
+    return new HeightfieldCollisionShape(terrain.getHeightMap(),terrain.getLocalScale());
   }
  else   if (spatial instanceof Geometry) {
     return createSingleMeshShape((Geometry)spatial,spatial);
