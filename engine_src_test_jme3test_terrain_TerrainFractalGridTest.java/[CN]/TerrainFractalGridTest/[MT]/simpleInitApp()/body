@@ -56,35 +56,7 @@
   TerrainLodControl control=new TerrainLodControl(this.terrain,this.getCamera());
   control.setLodCalculator(new DistanceLodCalculator(33,2.7f));
   this.terrain.addControl(control);
-  final BulletAppState bulletAppState=new BulletAppState();
-  stateManager.attach(bulletAppState);
   this.getCamera().setLocation(new Vector3f(0,300,0));
   this.viewPort.setBackgroundColor(new ColorRGBA(0.7f,0.8f,1f,1f));
-  if (usePhysics) {
-    CapsuleCollisionShape capsuleShape=new CapsuleCollisionShape(0.5f,1.8f,1);
-    player3=new CharacterControl(capsuleShape,0.5f);
-    player3.setJumpSpeed(20);
-    player3.setFallSpeed(10);
-    player3.setGravity(10);
-    player3.setPhysicsLocation(new Vector3f(cam.getLocation().x,512,cam.getLocation().z));
-    bulletAppState.getPhysicsSpace().add(player3);
-    terrain.addListener(new TerrainGridListener(){
-      public void gridMoved(      Vector3f newCenter){
-      }
-      public Material tileLoaded(      Material material,      Vector3f cell){
-        return material;
-      }
-      public void tileAttached(      Vector3f cell,      TerrainQuad quad){
-        quad.addControl(new RigidBodyControl(new HeightfieldCollisionShape(quad.getHeightMap(),terrain.getLocalScale()),0));
-        bulletAppState.getPhysicsSpace().add(quad);
-      }
-      public void tileDetached(      Vector3f cell,      TerrainQuad quad){
-        bulletAppState.getPhysicsSpace().remove(quad);
-        quad.removeControl(RigidBodyControl.class);
-      }
-    }
-);
-  }
   this.terrain.initialize(cam.getLocation());
-  this.initKeys();
 }
