@@ -34,4 +34,8 @@
   if (folder != null && folder.getChildren().length == 0) {
     folder.delete();
   }
+  FileObject resourceFolder=projectRoot.getFileObject(resourcesFolder);
+  if (resourceFolder != null && resourceFolder.getChildren().length == 0) {
+    resourceFolder.delete();
+  }
 }
