@@ -1,0 +1,15 @@
+{
+  FileObject obj=proj.getProjectDirectory().getFileObject("build.xml");
+  if (obj == null) {
+    return new Node[]{Node.EMPTY};
+  }
+  Node[] nodes=new Node[1];
+  try {
+    nodes[0]=DataObject.find(obj).getNodeDelegate();
+    nodes[0].setDisplayName("Build File");
+  }
+ catch (  DataObjectNotFoundException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return nodes;
+}

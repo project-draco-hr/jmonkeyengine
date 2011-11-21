@@ -1,8 +1,9 @@
 {
-  ArrayList<FileObject[]> list=new ArrayList<FileObject[]>();
+  ArrayList<ImportantFiles> list=new ArrayList<ImportantFiles>();
   for (  ImportantFiles di : Lookup.getDefault().lookupAll(ImportantFiles.class)) {
-    FileObject[] nodes=di.getFiles(project);
-    list.add(nodes);
+    if (di.hasFiles(project)) {
+      list.add(di);
+    }
   }
   return list;
 }
