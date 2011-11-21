@@ -16,14 +16,6 @@
   if ("true".equals(properties.getProperty("mac.app.enabled"))) {
     macapp.loadTargets("nbres:/com/jme3/gde/desktop/executables/macapp-targets.xml");
     macapp.checkExtension(project);
-    if (project.getProjectDirectory().getFileObject("osx-stub") == null) {
-      try {
-        unZipFile(new URL("nbres:/com/jme3/gde/desktop/executables/macapp-data.zip").openStream(),project.getProjectDirectory());
-      }
- catch (      Exception ex) {
-        Exceptions.printStackTrace(ex);
-      }
-    }
   }
  else {
     macapp.removeExtension(project);

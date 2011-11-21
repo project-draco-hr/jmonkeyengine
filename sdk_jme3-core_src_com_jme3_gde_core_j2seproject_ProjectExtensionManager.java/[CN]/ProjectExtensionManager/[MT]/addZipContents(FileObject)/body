@@ -1,0 +1,29 @@
+{
+  if (zipFile == null) {
+    return;
+  }
+  InputStream in=zipFile.openStream();
+  try {
+    ZipInputStream str=new ZipInputStream(in);
+    ZipEntry entry;
+    while ((entry=str.getNextEntry()) != null) {
+      if (entry.isDirectory()) {
+        FileObject fo=projectRoot.getFileObject(entry.getName());
+        if (fo == null) {
+          FileUtil.createFolder(projectRoot,entry.getName());
+        }
+      }
+ else {
+        FileObject fo=projectRoot.getFileObject(entry.getName());
+        if (fo != null && !fo.equals(projectRoot)) {
+          fo.delete();
+        }
+        fo=FileUtil.createData(projectRoot,entry.getName());
+        writeFile(str,fo);
+      }
+    }
+  }
+  finally {
+    in.close();
+  }
+}

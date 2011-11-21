@@ -27,6 +27,12 @@
         Exceptions.printStackTrace(ex);
       }
       removeAntTaskLibrary(proj,antTaskLibrary);
+      try {
+        removeZipContents(proj.getProjectDirectory());
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+      }
     }
   }
  else {

@@ -1,0 +1,22 @@
+{
+  if (zipFile == null) {
+    return;
+  }
+  InputStream in=zipFile.openStream();
+  try {
+    ZipInputStream str=new ZipInputStream(in);
+    ZipEntry entry;
+    while ((entry=str.getNextEntry()) != null) {
+      FileObject obj=projectRoot.getFileObject(entry.getName());
+      if (obj != null && !obj.equals(projectRoot)) {
+        Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Deleting file " + obj.getNameExt());
+        if (entry.getSize() != -1 && entry.getSize() == obj.getSize()) {
+          obj.delete();
+        }
+      }
+    }
+  }
+  finally {
+    in.close();
+  }
+}
