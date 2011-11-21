@@ -7,16 +7,31 @@
     ZipInputStream str=new ZipInputStream(in);
     ZipEntry entry;
     while ((entry=str.getNextEntry()) != null) {
-      FileObject obj=projectRoot.getFileObject(entry.getName());
+      FileObject old=projectRoot.getFileObject(entry.getName());
+      if (old != null && !old.equals(projectRoot)) {
+        Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Deleting old file " + old.getNameExt());
+        if (entry.getSize() != -1 && entry.getSize() == old.getSize()) {
+          old.delete();
+        }
+      }
+      String fileName=resourcesFolder + "/" + extensionName+ "/"+ entry.getName();
+      FileObject obj=projectRoot.getFileObject(fileName);
       if (obj != null && !obj.equals(projectRoot)) {
         Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Deleting file " + obj.getNameExt());
         if (entry.getSize() != -1 && entry.getSize() == obj.getSize()) {
           obj.delete();
+        }
+ else {
+          Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Keeping file " + obj.getNameExt());
         }
       }
     }
   }
   finally {
     in.close();
+  }
+  FileObject folder=projectRoot.getFileObject(resourcesFolder + "/" + extensionName);
+  if (folder != null && folder.getChildren().length == 0) {
+    folder.delete();
   }
 }
