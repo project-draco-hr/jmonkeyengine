@@ -6,19 +6,12 @@
   FileObject folder;
   folder=context.getProjectDirectory();
   if (pm != null) {
-    folder=pm.getAssetFolder().getFileObject("Interface/Converted");
-    if (folder == null) {
-      try {
-        folder=pm.getAssetFolder().getFileObject("Interface");
-        if (folder == null) {
-          folder=pm.getAssetFolder().createFolder("Interface");
-        }
-        folder=folder.createFolder("Converted");
-      }
- catch (      IOException ex) {
-        Exceptions.printStackTrace(ex);
-        folder=context.getProjectDirectory();
-      }
+    try {
+      folder=FileUtil.createFolder(pm.getAssetFolder(),"Interface/Converted");
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+      folder=context.getProjectDirectory();
     }
   }
   Sources sources=context.getLookup().lookup(Sources.class);
