@@ -1,0 +1,56 @@
+{
+  try {
+    if (!Boolean.getBoolean(SystemUtils.NO_SPACE_CHECK_PROPERTY)) {
+      final List<File> roots=SystemUtils.getFileSystemRoots();
+      final List<Product> toInstall=Registry.getInstance().getProductsToInstall();
+      final Map<File,Long> spaceMap=new HashMap<File,Long>();
+      LogManager.log("Available roots : " + StringUtils.asString(roots));
+      File downloadDataDirRoot=FileUtils.getRoot(Installer.getInstance().getLocalDirectory(),roots);
+      long downloadSize=0;
+      for (      Product product : toInstall) {
+        downloadSize+=product.getDownloadSize();
+      }
+      spaceMap.put(downloadDataDirRoot,new Long(downloadSize));
+      long lastDataSize=0;
+      for (      Product product : toInstall) {
+        final File installLocation=product.getInstallationLocation();
+        final File root=FileUtils.getRoot(installLocation,roots);
+        final long productSize=product.getRequiredDiskSpace();
+        LogManager.log("    [" + root + "] <- "+ installLocation);
+        if (root != null) {
+          Long ddSize=spaceMap.get(downloadDataDirRoot);
+          spaceMap.put(downloadDataDirRoot,Long.valueOf(ddSize - lastDataSize));
+          Long size=spaceMap.get(root);
+          size=Long.valueOf((size != null ? size.longValue() : 0L) + productSize);
+          spaceMap.put(root,size);
+          lastDataSize=product.getDownloadSize();
+        }
+ else {
+          return StringUtils.format(panel.getProperty(ERROR_NON_EXISTENT_ROOT_PROPERTY),product,installLocation);
+        }
+      }
+      for (      File root : spaceMap.keySet()) {
+        try {
+          final long availableSpace=SystemUtils.getFreeSpace(root);
+          final long requiredSpace=spaceMap.get(root) + REQUIRED_SPACE_ADDITION;
+          if (availableSpace < requiredSpace) {
+            return StringUtils.format(panel.getProperty(ERROR_NOT_ENOUGH_SPACE_PROPERTY),root,StringUtils.formatSize(requiredSpace - availableSpace));
+          }
+        }
+ catch (        NativeException e) {
+          ErrorManager.notifyError(panel.getProperty(ERROR_CANNOT_CHECK_SPACE_PROPERTY),e);
+        }
+      }
+    }
+    final List<Product> toUninstall=Registry.getInstance().getProductsToUninstall();
+    for (    Product product : toUninstall) {
+      if (!FileUtils.canWrite(product.getInstallationLocation())) {
+        return StringUtils.format(panel.getProperty(ERROR_CANNOT_WRITE_PROPERTY),product,product.getInstallationLocation());
+      }
+    }
+  }
+ catch (  IOException e) {
+    ErrorManager.notifyError(panel.getProperty(ERROR_FSROOTS_PROPERTY),e);
+  }
+  return null;
+}

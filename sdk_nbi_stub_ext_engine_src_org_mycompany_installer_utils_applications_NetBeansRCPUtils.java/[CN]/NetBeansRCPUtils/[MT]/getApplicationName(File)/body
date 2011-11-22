@@ -1,0 +1,22 @@
+{
+  File[] confFiles=new File(appLocation,"etc").listFiles(new FilenameFilter(){
+    public boolean accept(    File dir,    String name){
+      return name.endsWith(".conf");
+    }
+  }
+);
+  if (confFiles.length == 1) {
+    String name=confFiles[0].getName();
+    return name.substring(0,name.indexOf(".conf"));
+  }
+ else   if (confFiles.length > 2) {
+    for (    File f : confFiles) {
+      String name=f.getName();
+      String prefix=name.substring(0,name.indexOf(".conf"));
+      if ((SystemUtils.isUnix() && new File(appLocation,"bin/" + prefix).exists()) || (SystemUtils.isWindows() && new File(appLocation,"bin/" + prefix + ".exe").exists())) {
+        return prefix;
+      }
+    }
+  }
+  return null;
+}

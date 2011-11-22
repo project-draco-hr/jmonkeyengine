@@ -1,0 +1,34 @@
+{
+  gridy=0;
+  locationsPane=new NbiTextPane();
+  uninstallListPane=new NbiTextPane();
+  uninstallListLabel=new NbiLabel();
+  uninstallListLabel.setLabelFor(uninstallListPane);
+  installationSizeValue=new NbiLabel();
+  installationSizeLabel=new NbiLabel();
+  installationSizeLabel.setLabelFor(installationSizeValue);
+  downloadSizeValue=new NbiLabel();
+  downloadSizeLabel=new NbiLabel();
+  downloadSizeLabel.setLabelFor(downloadSizeValue);
+  spacer=new NbiPanel();
+  add(locationsPane,new GridBagConstraints(0,gridy++,1,1,1.0,0.0,GridBagConstraints.PAGE_START,GridBagConstraints.HORIZONTAL,new Insets(11,11,0,11),0,0));
+  add(uninstallListLabel,new GridBagConstraints(0,gridy++,1,1,1.0,0.0,GridBagConstraints.PAGE_START,GridBagConstraints.HORIZONTAL,new Insets(11,11,0,11),0,0));
+  add(uninstallListPane,new GridBagConstraints(0,gridy++,1,1,1.0,0.0,GridBagConstraints.PAGE_START,GridBagConstraints.HORIZONTAL,new Insets(0,11,0,11),0,0));
+  int gridy0=gridy;
+  gridy++;
+  removeUserdirPane=new NbiTextPane();
+  add(removeUserdirPane,new GridBagConstraints(0,gridy++,1,1,1.0,0.0,GridBagConstraints.PAGE_START,GridBagConstraints.HORIZONTAL,new Insets(11,11,0,11),0,0));
+  removeUserdirCheckbox=new NbiCheckBox();
+  add(removeUserdirCheckbox,new GridBagConstraints(0,gridy++,1,1,1.0,0.0,GridBagConstraints.PAGE_START,GridBagConstraints.HORIZONTAL,new Insets(4,20,0,11),0,0));
+  removeUserdirCheckbox.addActionListener(new ActionListener(){
+    public void actionPerformed(    ActionEvent e){
+      System.setProperty(REMOVE_APP_USERDIR_PROPERTY,"" + removeUserdirCheckbox.isSelected());
+    }
+  }
+);
+  add(installationSizeLabel,new GridBagConstraints(0,gridy++,1,1,1.0,0.0,GridBagConstraints.LINE_START,GridBagConstraints.HORIZONTAL,new Insets(22,11,0,11),0,0));
+  add(installationSizeValue,new GridBagConstraints(0,gridy++,1,1,1.0,0.0,GridBagConstraints.LINE_START,GridBagConstraints.HORIZONTAL,new Insets(4,22,0,11),0,0));
+  add(downloadSizeLabel,new GridBagConstraints(0,gridy++,1,1,1.0,0.0,GridBagConstraints.LINE_START,GridBagConstraints.HORIZONTAL,new Insets(4,11,0,11),0,0));
+  add(downloadSizeValue,new GridBagConstraints(0,gridy++,1,1,1.0,0.0,GridBagConstraints.LINE_START,GridBagConstraints.HORIZONTAL,new Insets(4,22,0,11),0,0));
+  add(spacer,new GridBagConstraints(0,gridy + 10,1,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(0,11,0,11),0,0));
+}
