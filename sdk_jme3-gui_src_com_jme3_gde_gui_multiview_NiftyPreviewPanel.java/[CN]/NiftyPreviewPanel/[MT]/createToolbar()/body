@@ -7,8 +7,6 @@
   comboBox.addItemListener(new ItemListener(){
     public void itemStateChanged(    ItemEvent e){
       String string=(String)e.getItem();
-      final int width;
-      final int height;
       if ("640x480".equals(string)) {
         width=640;
         height=480;
@@ -45,7 +43,6 @@
         }
       }
 );
-      updatePreView(screen);
     }
   }
 );

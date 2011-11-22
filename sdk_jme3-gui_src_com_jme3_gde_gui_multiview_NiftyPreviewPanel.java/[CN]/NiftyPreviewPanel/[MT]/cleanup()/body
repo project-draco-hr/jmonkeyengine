@@ -1,3 +1,11 @@
 {
   offPanel.stopPreview();
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      ViewPort guiViewPort=offPanel.getViewPort();
+      guiViewPort.removeProcessor(niftyDisplay);
+      return null;
+    }
+  }
+);
 }
