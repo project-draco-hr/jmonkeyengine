@@ -8,7 +8,7 @@
  else       if (child instanceof TerrainPatch) {
         TerrainPatch patch=(TerrainPatch)child;
         UpdatedTerrainPatch utp=updated.get(patch.getName());
-        if (utp.lodChanged()) {
+        if (utp != null && utp.lodChanged()) {
           if (!patch.searchedForNeighboursAlready) {
             patch.rightNeighbour=findRightPatch(patch);
             patch.bottomNeighbour=findDownPatch(patch);

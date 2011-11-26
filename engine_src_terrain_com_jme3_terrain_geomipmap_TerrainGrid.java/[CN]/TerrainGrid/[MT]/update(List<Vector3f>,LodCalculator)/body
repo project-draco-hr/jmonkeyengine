@@ -6,11 +6,12 @@
     gridOffset[1]=Math.round(camCell.z * (size / 2));
     cellsLoaded=0;
   }
-  if (camCell.x != this.currentCamCell.x || camCell.z != currentCamCell.z) {
+  if (camCell.x != this.currentCamCell.x || camCell.z != currentCamCell.z || !runOnce) {
     this.updateChildren(camCell);
     for (    TerrainGridListener l : this.listeners) {
       l.gridMoved(camCell);
     }
   }
+  runOnce=true;
   super.update(locations,lodCalculator);
 }
