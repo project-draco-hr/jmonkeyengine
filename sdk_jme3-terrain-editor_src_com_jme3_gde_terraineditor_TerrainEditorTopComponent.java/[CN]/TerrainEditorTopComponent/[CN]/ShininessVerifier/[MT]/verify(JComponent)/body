@@ -1,0 +1,13 @@
+{
+  if (input instanceof javax.swing.JTextField) {
+    String text=((javax.swing.JTextField)input).getText();
+    try {
+      Float f=new Float(text);
+      if (f > 0)       return true;
+    }
+ catch (    Exception e) {
+      return false;
+    }
+  }
+  return false;
+}

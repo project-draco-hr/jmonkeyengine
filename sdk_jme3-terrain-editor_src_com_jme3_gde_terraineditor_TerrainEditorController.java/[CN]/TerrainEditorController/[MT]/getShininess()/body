@@ -1,0 +1,27 @@
+{
+  if (SceneApplication.getApplication().isOgl()) {
+    Terrain terrain=(Terrain)getTerrain(null);
+    if (terrain == null)     return 0;
+    MatParam param=terrain.getMaterial().getParam("Shininess");
+    if (param != null)     return (Float)param.getValue();
+    return 0;
+  }
+ else {
+    try {
+      Float shininess=SceneApplication.getApplication().enqueue(new Callable<Float>(){
+        public Float call() throws Exception {
+          return getShininess();
+        }
+      }
+).get();
+      return shininess;
+    }
+ catch (    InterruptedException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    ExecutionException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+    return 0;
+  }
+}

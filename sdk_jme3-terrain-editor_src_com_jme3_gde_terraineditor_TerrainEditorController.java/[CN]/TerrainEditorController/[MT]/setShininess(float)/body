@@ -1,0 +1,17 @@
+{
+  if (SceneApplication.getApplication().isOgl()) {
+    Terrain terrain=(Terrain)getTerrain(null);
+    if (terrain == null)     return;
+    terrain.getMaterial().setFloat("Shininess",shininess);
+    setNeedsSave(true);
+  }
+ else {
+    SceneApplication.getApplication().enqueue(new Callable<Object>(){
+      public Object call() throws Exception {
+        setShininess(shininess);
+        return null;
+      }
+    }
+);
+  }
+}
