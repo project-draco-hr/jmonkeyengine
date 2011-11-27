@@ -27,7 +27,9 @@
       out.write(buf,0,len);
     }
     in.close();
+    in=null;
     out.close();
+    out=null;
     targetFile.setLastModified(conn.getLastModified());
   }
  catch (  FileNotFoundException ex) {
@@ -39,6 +41,9 @@
  finally {
     if (load) {
       System.load(targetFile.getAbsolutePath());
+    }
+    if (in != null) {
+      in.close();
     }
     if (out != null) {
       out.close();
