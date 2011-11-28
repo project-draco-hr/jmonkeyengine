@@ -4,4 +4,8 @@
   }
   worldPos.set(translation);
   worldRot.set(rotation);
+  if (attachNode != null) {
+    attachNode.setLocalTranslation(translation);
+    attachNode.setLocalRotation(rotation);
+  }
 }
