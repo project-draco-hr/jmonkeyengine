@@ -16,7 +16,6 @@
   if (rightPoint != null && topPoint != null) {
     n4=calculateNormal(rightPoint.mult(scale),rootPoint.mult(scale),topPoint.mult(scale));
   }
-  Vector3f binormal=new Vector3f();
-  if (topPoint != null && rightPoint != null)   LODGeomap.calculateTangent(new Vector3f[]{rootPoint.mult(scale),rightPoint.mult(scale),topPoint.mult(scale)},new Vector2f[]{rootTex,rightTex,topTex},tangent,binormal);
+  if (bottomPoint != null && rightPoint != null && rootTex != null && rightTex != null && bottomTex != null)   LODGeomap.calculateTangent(new Vector3f[]{rootPoint.mult(scale),rightPoint.mult(scale),bottomPoint.mult(scale)},new Vector2f[]{rootTex,rightTex,bottomTex},tangent,binormal);
   normal.set(n1.add(n2).add(n3).add(n4).normalizeLocal());
 }
