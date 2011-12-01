@@ -4,7 +4,7 @@
       throw new SAXException("dotScene parse error: 'scene' element must be the root XML element");
     }
     String version=attribs.getValue("formatVersion");
-    if (version == null && !version.equals("1.0.0") && !version.equals("1.0.1"))     logger.log(Level.WARNING,"Unrecognized version number" + " in dotScene file: {0}",version);
+    if (version == null || (!version.equals("1.0.0") && !version.equals("1.0.1")))     logger.log(Level.WARNING,"Unrecognized version number" + " in dotScene file: {0}",version);
   }
  else   if (qName.equals("nodes")) {
     if (root != null) {
