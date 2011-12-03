@@ -1,0 +1,10 @@
+{
+synchronized (regularCache) {
+    if (key.useSmartCache()) {
+      return smartCache.remove(key) != null;
+    }
+ else {
+      return regularCache.remove(key) != null;
+    }
+  }
+}

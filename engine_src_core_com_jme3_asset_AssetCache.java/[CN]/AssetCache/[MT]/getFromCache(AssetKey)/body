@@ -1,0 +1,10 @@
+{
+synchronized (regularCache) {
+    if (key.useSmartCache()) {
+      return smartCache.get(key).asset;
+    }
+ else {
+      return regularCache.get(key);
+    }
+  }
+}

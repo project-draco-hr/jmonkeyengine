@@ -1,0 +1,14 @@
+{
+  if (getUserObject() == null || getUserObject() == this.spatial) {
+    setUserObject(spatial);
+  }
+  this.spatial=spatial;
+  if (spatial == null) {
+    if (getUserObject() == spatial) {
+      setUserObject(null);
+    }
+    return;
+  }
+  setPhysicsLocation(getSpatialTranslation());
+  setPhysicsRotation(getSpatialRotation());
+}

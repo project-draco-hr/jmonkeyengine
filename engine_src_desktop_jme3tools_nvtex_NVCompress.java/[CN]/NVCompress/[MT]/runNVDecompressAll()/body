@@ -1,0 +1,23 @@
+{
+  final Object[] fileList=compileFileList();
+  if (fileList != null && fileList.length > 0) {
+    startWork();
+    workThread=new Thread(){
+      @Override public void run(){
+        for (        Object val : fileList) {
+          File inFile=(File)val;
+          try {
+            runNVDecompress(inFile);
+          }
+ catch (          InterruptedException ex) {
+            return;
+          }
+        }
+        endWork();
+      }
+    }
+;
+    workThread.setDaemon(true);
+    workThread.start();
+  }
+}

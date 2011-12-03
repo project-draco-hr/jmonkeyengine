@@ -1,0 +1,10 @@
+{
+synchronized (loaders) {
+    ImplThreadLocal local=loaders.get(key.getExtension());
+    if (local != null) {
+      AssetLoader loader=(AssetLoader)local.get();
+      return loader;
+    }
+    return null;
+  }
+}

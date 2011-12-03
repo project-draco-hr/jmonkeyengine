@@ -1,0 +1,30 @@
+{
+  if (mode == Mode.Kinetmatic) {
+    return;
+  }
+  blendedControl=true;
+  this.blendTime=blendTime;
+  mode=Mode.Kinetmatic;
+  AnimControl animControl=targetModel.getControl(AnimControl.class);
+  animControl.setEnabled(true);
+  TempVars vars=TempVars.get();
+  for (  PhysicsBoneLink link : boneLinks.values()) {
+    Vector3f p=link.rigidBody.getMotionState().getWorldLocation();
+    Vector3f position=vars.vect1;
+    targetModel.getWorldTransform().transformInverseVector(p,position);
+    Quaternion q=link.rigidBody.getMotionState().getWorldRotationQuat();
+    Quaternion q2=vars.quat1;
+    Quaternion q3=vars.quat2;
+    q2.set(q).multLocal(link.initalWorldRotation).normalizeLocal();
+    q3.set(targetModel.getWorldRotation()).inverseLocal().mult(q2,q2);
+    q2.normalizeLocal();
+    link.startBlendingPos.set(position);
+    link.startBlendingRot.set(q2);
+    link.rigidBody.setKinematic(true);
+  }
+  vars.release();
+  for (  Bone bone : skeleton.getRoots()) {
+    RagdollUtils.setUserControl(bone,false);
+  }
+  blendStart=0;
+}

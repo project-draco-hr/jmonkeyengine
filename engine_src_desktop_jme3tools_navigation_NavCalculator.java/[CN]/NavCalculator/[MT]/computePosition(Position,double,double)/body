@@ -1,0 +1,69 @@
+{
+  if (initialPos == null) {
+    return null;
+  }
+  double angle;
+  if (heading < 90) {
+    angle=heading;
+  }
+ else   if (heading > 90 && heading < 180) {
+    angle=180 - heading;
+  }
+ else   if (heading > 180 && heading < 270) {
+    angle=heading - 180;
+  }
+ else {
+    angle=360 - heading;
+  }
+  Position newPosition=null;
+  distance=distance * 0.000539956803;
+  angle=Math.toRadians(angle);
+  double initialLat=initialPos.getLatitude();
+  double initialLong=initialPos.getLongitude();
+  double dlat=distance * Math.cos(angle);
+  dlat=dlat / 60;
+  dlat=Math.abs(dlat);
+  double newLat=0;
+  if ((heading > 270 && heading < 360) || (heading > 0 && heading < 90)) {
+    newLat=initialLat + dlat;
+  }
+ else   if (heading < 270 && heading > 90) {
+    newLat=initialLat - dlat;
+  }
+  double meanLat=(Math.abs(dlat) / 2.0) + newLat;
+  double dep=(Math.abs(dlat * 60)) * Math.tan(angle);
+  double dlong=dep * (1.0 / Math.cos(Math.toRadians(meanLat)));
+  dlong=dlong / 60;
+  dlong=Math.abs(dlong);
+  double newLong;
+  if (heading > 180 && heading < 360) {
+    newLong=initialLong - dlong;
+  }
+ else {
+    newLong=initialLong + dlong;
+  }
+  if (newLong < -180) {
+    double diff=Math.abs(newLong + 180);
+    newLong=180 - diff;
+  }
+  if (newLong > 180) {
+    double diff=Math.abs(newLong + 180);
+    newLong=(180 - diff) * -1;
+  }
+  if (heading == 0 || heading == 360 || heading == 180) {
+    newLong=initialLong;
+    newLat=initialLat + dlat;
+  }
+ else   if (heading == 90 || heading == 270) {
+    newLat=initialLat;
+    newLong=initialLong - dlong;
+  }
+  try {
+    newPosition=new Position(newLat,newLong);
+  }
+ catch (  InvalidPositionException ipe) {
+    ipe.printStackTrace();
+    System.out.println(newLat + "," + newLong);
+  }
+  return newPosition;
+}

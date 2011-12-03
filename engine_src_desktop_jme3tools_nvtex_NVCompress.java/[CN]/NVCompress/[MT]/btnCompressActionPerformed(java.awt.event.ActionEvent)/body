@@ -1,0 +1,25 @@
+{
+  if (btnCompress.getText().equals("Cancel")) {
+    if (workThread != null) {
+      workThread.interrupt();
+      System.out.println("User canceled decompression");
+      endWork();
+    }
+  }
+ else {
+    File exportDir=null;
+    if (!chkAsSource.isSelected()) {
+      String exportPath=txtTargetDir.getText();
+      if (exportPath != null && !exportPath.equals(""))       exportDir=new File(exportPath);
+    }
+    String compression=(String)cmbCompressType.getSelectedItem();
+    if (compression.equals("AWT") || compression.equals("PNG-RGBE")) {
+      runJ3CompressAll(exportDir,compression.equals("AWT") ? "j3i" : "pnge");
+    }
+ else {
+      runNVCompressAll(exportDir);
+    }
+    btnCompress.setEnabled(true);
+    btnCompress.setText("Cancel");
+  }
+}

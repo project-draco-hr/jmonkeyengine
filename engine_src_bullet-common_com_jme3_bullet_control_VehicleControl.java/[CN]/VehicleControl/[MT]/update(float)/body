@@ -1,0 +1,11 @@
+{
+  if (enabled && spatial != null) {
+    if (getMotionState().applyTransform(spatial)) {
+      spatial.getWorldTransform();
+      applyWheelTransforms();
+    }
+  }
+ else   if (enabled) {
+    applyWheelTransforms();
+  }
+}

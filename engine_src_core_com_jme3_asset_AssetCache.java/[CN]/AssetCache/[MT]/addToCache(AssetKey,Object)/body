@@ -1,0 +1,15 @@
+{
+synchronized (regularCache) {
+    if (obj instanceof Asset && key.useSmartCache()) {
+      Asset asset=(Asset)obj;
+      asset.setKey(null);
+      SmartAssetInfo smartInfo=new SmartAssetInfo();
+      smartInfo.asset=asset;
+      smartInfo.smartKey=new WeakReference<AssetKey>(key);
+      smartCache.put(key,smartInfo);
+    }
+ else {
+      regularCache.put(key,obj);
+    }
+  }
+}

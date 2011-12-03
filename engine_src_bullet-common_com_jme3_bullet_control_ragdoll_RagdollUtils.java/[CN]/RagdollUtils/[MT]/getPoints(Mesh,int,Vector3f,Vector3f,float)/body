@@ -1,0 +1,32 @@
+{
+  FloatBuffer vertices=mesh.getFloatBuffer(Type.Position);
+  ByteBuffer boneIndices=(ByteBuffer)mesh.getBuffer(Type.BoneIndex).getData();
+  FloatBuffer boneWeight=(FloatBuffer)mesh.getBuffer(Type.BoneWeight).getData();
+  vertices.rewind();
+  boneIndices.rewind();
+  boneWeight.rewind();
+  ArrayList<Float> results=new ArrayList<Float>();
+  int vertexComponents=mesh.getVertexCount() * 3;
+  for (int i=0; i < vertexComponents; i+=3) {
+    int k;
+    boolean add=false;
+    int start=i / 3 * 4;
+    for (k=start; k < start + 4; k++) {
+      if (boneIndices.get(k) == boneIndex && boneWeight.get(k) >= weightThreshold) {
+        add=true;
+        break;
+      }
+    }
+    if (add) {
+      Vector3f pos=new Vector3f();
+      pos.x=vertices.get(i);
+      pos.y=vertices.get(i + 1);
+      pos.z=vertices.get(i + 2);
+      pos.subtractLocal(offset).multLocal(initialScale);
+      results.add(pos.x);
+      results.add(pos.y);
+      results.add(pos.z);
+    }
+  }
+  return results;
+}

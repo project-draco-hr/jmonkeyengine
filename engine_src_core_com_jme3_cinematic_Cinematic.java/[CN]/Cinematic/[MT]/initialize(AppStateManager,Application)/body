@@ -1,9 +1,5 @@
 {
   if (niftyXmlPath != null) {
-    NiftyJmeDisplay niftyDisplay=new NiftyJmeDisplay(app.getAssetManager(),app.getInputManager(),app.getAudioRenderer(),app.getGuiViewPort());
-    nifty=niftyDisplay.getNifty();
-    nifty.fromXmlWithoutStartScreen(niftyXmlPath);
-    app.getGuiViewPort().addProcessor(niftyDisplay);
   }
   initEvent(app,this);
   for (  CinematicEvent cinematicEvent : cinematicEvents) {

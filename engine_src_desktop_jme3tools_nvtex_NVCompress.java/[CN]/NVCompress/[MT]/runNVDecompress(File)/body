@@ -1,0 +1,8 @@
+{
+  if (!inFile.getName().toLowerCase().endsWith(".dds"))   return;
+  String[] args=new String[2];
+  args[0]=new File(texToolsPath,"nvdecompress").toString();
+  args[1]=inFile.toString();
+  System.out.println("Decompressing file " + inFile);
+  runCommand(args,"Decompressing file " + inFile.getName());
+}

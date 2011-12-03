@@ -1,0 +1,11 @@
+{
+  if (path.exists()) {
+    File[] files=path.listFiles();
+    for (    File f : files) {
+      if (f.getName().startsWith("nvcompress")) {
+        return true;
+      }
+    }
+  }
+  return false;
+}

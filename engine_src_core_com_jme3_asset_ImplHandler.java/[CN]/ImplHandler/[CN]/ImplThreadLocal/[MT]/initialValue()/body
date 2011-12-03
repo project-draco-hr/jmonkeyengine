@@ -1,0 +1,14 @@
+{
+  try {
+    return type.newInstance();
+  }
+ catch (  InstantiationException ex) {
+    logger.log(Level.SEVERE,"Cannot create locator of type {0}, does" + " the class have an empty and publically accessible" + " constructor?",type.getName());
+    logger.throwing(type.getName(),"<init>",ex);
+  }
+catch (  IllegalAccessException ex) {
+    logger.log(Level.SEVERE,"Cannot create locator of type {0}, " + "does the class have an empty and publically " + "accessible constructor?",type.getName());
+    logger.throwing(type.getName(),"<init>",ex);
+  }
+  return null;
+}

@@ -1,4 +1,9 @@
 {
+  NiftyJmeDisplay niftyDisplay=new NiftyJmeDisplay(getAssetManager(),getInputManager(),getAudioRenderer(),getGuiViewPort());
+  Nifty nifty;
+  nifty=niftyDisplay.getNifty();
+  nifty.fromXmlWithoutStartScreen("Interface/Nifty/CinematicTest.xml");
+  getGuiViewPort().addProcessor(niftyDisplay);
   guiFont=assetManager.loadFont("Interface/Fonts/Default.fnt");
   final BitmapText text=new BitmapText(guiFont,false);
   text.setSize(guiFont.getCharSet().getRenderedSize());
@@ -7,7 +12,6 @@
   guiNode.attachChild(text);
   createScene();
   cinematic=new Cinematic(rootNode,20);
-  cinematic.bindUi("Interface/Nifty/CinematicTest.xml");
   stateManager.attach(cinematic);
   createCameraMotion();
   cinematic.addCinematicEvent(0,new AbstractCinematicEvent(){
@@ -38,7 +42,7 @@
   cinematic.addCinematicEvent(0,cameraMotionTrack);
   cinematic.addCinematicEvent(0,new SoundTrack("Sound/Environment/Nature.ogg",LoopMode.Loop));
   cinematic.addCinematicEvent(3,new SoundTrack("Sound/Effects/kick.wav"));
-  cinematic.addCinematicEvent(3,new SubtitleTrack("start",3,"jMonkey engine really kicks A..."));
+  cinematic.addCinematicEvent(3,new SubtitleTrack(nifty,"start",3,"jMonkey engine really kicks A..."));
   cinematic.addCinematicEvent(5.0f,new SoundTrack("Sound/Effects/Beep.ogg",1));
   cinematic.addCinematicEvent(6,new AnimationTrack(model,"Walk",LoopMode.Loop));
   cinematic.activateCamera(6,"topView");

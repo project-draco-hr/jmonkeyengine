@@ -1,0 +1,8 @@
+{
+  int bearing;
+  double dLon=computeDLong(p1.getLongitude(),p2.getLongitude());
+  double y=Math.sin(dLon) * Math.cos(p2.getLatitude());
+  double x=Math.cos(p1.getLatitude()) * Math.sin(p2.getLatitude()) - Math.sin(p1.getLatitude()) * Math.cos(p2.getLatitude()) * Math.cos(dLon);
+  bearing=(int)Math.toDegrees(Math.atan2(y,x));
+  return bearing;
+}

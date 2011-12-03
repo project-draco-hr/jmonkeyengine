@@ -1,0 +1,15 @@
+{
+  if (binding.equals("START") && !START) {
+    START=true;
+    guiNode.detachChild(pressStart);
+    System.out.println("START");
+  }
+ else   if (START == true && binding.equals("Left")) {
+    player.move(0,0,-(speed / 2f) * value * fpsRate);
+    camAngle-=value * tpf;
+  }
+ else   if (START == true && binding.equals("Right")) {
+    player.move(0,0,(speed / 2f) * value * fpsRate);
+    camAngle+=value * tpf;
+  }
+}
