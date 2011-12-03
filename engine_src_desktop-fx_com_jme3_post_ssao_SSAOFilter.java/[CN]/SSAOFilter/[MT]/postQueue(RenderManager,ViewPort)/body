@@ -1,9 +1,0 @@
-{
-  Renderer r=renderManager.getRenderer();
-  r.setFrameBuffer(normalPass.getRenderFrameBuffer());
-  renderManager.getRenderer().clearBuffers(true,true,true);
-  renderManager.setForcedTechnique("PreNormalPass");
-  renderManager.renderViewPortQueues(viewPort,false);
-  renderManager.setForcedTechnique(null);
-  renderManager.getRenderer().setFrameBuffer(viewPort.getOutputFrameBuffer());
-}

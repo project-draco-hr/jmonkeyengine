@@ -1,8 +1,0 @@
-{
-  float w=cam.getViewProjectionMatrix().multProj(worldPosition,store);
-  store.divideLocal(w);
-  store.x=((store.x + 1f) * (cam.getViewPortRight() - cam.getViewPortLeft()) / 2f + cam.getViewPortLeft());
-  store.y=((store.y + 1f) * (cam.getViewPortTop() - cam.getViewPortBottom()) / 2f + cam.getViewPortBottom());
-  store.z=(store.z + 1f) / 2f;
-  return store;
-}

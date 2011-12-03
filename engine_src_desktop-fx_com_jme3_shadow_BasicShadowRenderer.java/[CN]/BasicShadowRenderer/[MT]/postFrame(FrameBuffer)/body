@@ -1,8 +1,0 @@
-{
-  if (!noOccluders) {
-    postshadowMat.setMatrix4("LightViewProjectionMatrix",shadowCam.getViewProjectionMatrix());
-    renderManager.setForcedMaterial(postshadowMat);
-    viewPort.getQueue().renderShadowQueue(ShadowMode.Receive,renderManager,viewPort.getCamera(),true);
-    renderManager.setForcedMaterial(null);
-  }
-}
