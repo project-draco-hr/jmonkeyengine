@@ -1,0 +1,33 @@
+{
+  if (!enabled)   return;
+  if (msFB != null) {
+    renderer.copyFrameBuffer(msFB,mainSceneFB);
+  }
+ else {
+  }
+  if (throttle == -1) {
+    curSrc=0;
+    oppSrc=0;
+    blendFactor=0;
+    time=0;
+    updateAverageLuminance(renderer);
+  }
+ else {
+    if (curSrc == -1) {
+      curSrc=0;
+      oppSrc=0;
+      updateAverageLuminance(renderer);
+      blendFactor=0;
+      time=0;
+    }
+ else     if (time > throttle) {
+      oppSrc=curSrc;
+      curSrc=opposite(curSrc);
+      updateAverageLuminance(renderer);
+      blendFactor=0;
+      time=0;
+    }
+  }
+  renderToneMap(renderer,null);
+  renderManager.setCamera(viewPort.getCamera(),false);
+}

@@ -1,0 +1,16 @@
+{
+  Camera cam=viewPort.getCamera();
+  if (!noOccluders) {
+    postshadowMat.setColor("Splits",splits);
+    for (int i=0; i < nbSplits; i++) {
+      postshadowMat.setMatrix4("LightViewProjectionMatrix" + i,lightViewProjectionsMatrices[i]);
+    }
+    renderManager.setForcedMaterial(postshadowMat);
+    viewPort.getQueue().renderShadowQueue(ShadowMode.Receive,renderManager,cam,flushQueues);
+    renderManager.setForcedMaterial(null);
+    renderManager.setCamera(cam,false);
+  }
+  if (debug) {
+    displayShadowMap(renderManager.getRenderer());
+  }
+}

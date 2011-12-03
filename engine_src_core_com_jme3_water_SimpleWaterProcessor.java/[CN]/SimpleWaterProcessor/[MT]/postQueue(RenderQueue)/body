@@ -1,0 +1,29 @@
+{
+  Camera sceneCam=rm.getCurrentCamera();
+  ray.setOrigin(sceneCam.getLocation());
+  ray.setDirection(sceneCam.getDirection());
+  refractionCam.setLocation(sceneCam.getLocation());
+  refractionCam.setRotation(sceneCam.getRotation());
+  refractionCam.setFrustum(sceneCam.getFrustumNear(),sceneCam.getFrustumFar(),sceneCam.getFrustumLeft(),sceneCam.getFrustumRight(),sceneCam.getFrustumTop(),sceneCam.getFrustumBottom());
+  boolean inv=false;
+  if (!ray.intersectsWherePlane(plane,targetLocation)) {
+    ray.setDirection(ray.getDirection().negateLocal());
+    ray.intersectsWherePlane(plane,targetLocation);
+    inv=true;
+  }
+  Vector3f loc=plane.reflect(sceneCam.getLocation(),new Vector3f());
+  reflectionCam.setLocation(loc);
+  reflectionCam.setFrustum(sceneCam.getFrustumNear(),sceneCam.getFrustumFar(),sceneCam.getFrustumLeft(),sceneCam.getFrustumRight(),sceneCam.getFrustumTop(),sceneCam.getFrustumBottom());
+  vect1.set(sceneCam.getLocation()).addLocal(sceneCam.getUp());
+  float planeDistance=plane.pseudoDistance(vect1);
+  vect2.set(plane.getNormal()).multLocal(planeDistance * 2.0f);
+  vect3.set(vect1.subtractLocal(vect2)).subtractLocal(loc).normalizeLocal().negateLocal();
+  reflectionCam.lookAt(targetLocation,vect3);
+  if (inv) {
+    reflectionCam.setAxes(reflectionCam.getLeft().negateLocal(),reflectionCam.getUp(),reflectionCam.getDirection().negateLocal());
+  }
+  rm.renderViewPort(reflectionView,savedTpf);
+  rm.renderViewPort(refractionView,savedTpf);
+  rm.getRenderer().setFrameBuffer(vp.getOutputFrameBuffer());
+  rm.setCamera(sceneCam,false);
+}

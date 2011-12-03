@@ -1,0 +1,9 @@
+{
+  if (scene64 == null)   return null;
+  Material mat=new Material(manager,"Common/MatDefs/Hdr/LogLum.j3md");
+  mat.setBoolean("DecodeLum",true);
+  mat.setTexture("Texture",scene64);
+  Picture dispQuad=new Picture("Luminance Display");
+  dispQuad.setMaterial(mat);
+  return dispQuad;
+}

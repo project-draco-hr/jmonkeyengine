@@ -1,0 +1,8 @@
+{
+  BoundingBox bbox=new BoundingBox();
+  for (int i=0; i < bv.size(); i++) {
+    BoundingVolume vol=bv.get(i);
+    bbox.mergeLocal(vol);
+  }
+  return bbox;
+}

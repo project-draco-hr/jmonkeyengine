@@ -1,0 +1,11 @@
+{
+  Camera cam=vp.getCamera();
+  rm.setCamera(cam,true);
+  int h=cam.getHeight();
+  pic.setPosition(left,h / 20f);
+  pic.setWidth(128);
+  pic.setHeight(128);
+  pic.updateGeometricState();
+  rm.renderGeometry(pic);
+  rm.setCamera(cam,false);
+}
