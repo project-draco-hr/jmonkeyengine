@@ -1,6 +1,0 @@
-{
-  GL gl=GLContext.getCurrentGL();
-  gl.getGL2().glValidateProgram(shader.getId());
-  gl.getGL2().glGetProgramiv(shader.getId(),GL2ES2.GL_VALIDATE_STATUS,intBuf1);
-  return intBuf1.get(0) == GL.GL_TRUE;
-}

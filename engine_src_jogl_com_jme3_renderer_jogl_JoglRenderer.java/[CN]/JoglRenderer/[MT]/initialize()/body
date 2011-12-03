@@ -1,9 +1,0 @@
-{
-  logger.log(Level.INFO,"Vendor: {0}",gl.glGetString(gl.GL_VENDOR));
-  logger.log(Level.INFO,"Renderer: {0}",gl.glGetString(gl.GL_RENDERER));
-  logger.log(Level.INFO,"Version: {0}",gl.glGetString(gl.GL_VERSION));
-  applyRenderState(RenderState.DEFAULT);
-  powerOf2=gl.isExtensionAvailable("GL_ARB_texture_non_power_of_two");
-  hardwareMips=gl.isExtensionAvailable("GL_SGIS_generate_mipmap");
-  vbo=gl.isExtensionAvailable("GL_ARB_vertex_buffer_object");
-}

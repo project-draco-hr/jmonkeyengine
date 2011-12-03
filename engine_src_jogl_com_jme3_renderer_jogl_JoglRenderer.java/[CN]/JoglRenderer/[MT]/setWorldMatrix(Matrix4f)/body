@@ -1,9 +1,0 @@
-{
-  this.worldMatrix.set(worldMatrix);
-  if (context.matrixMode != gl.GL_MODELVIEW) {
-    gl.glMatrixMode(gl.GL_MODELVIEW);
-    context.matrixMode=gl.GL_MODELVIEW;
-  }
-  gl.glLoadMatrixf(storeMatrix(viewMatrix,fb16));
-  gl.glMultMatrixf(storeMatrix(worldMatrix,fb16));
-}

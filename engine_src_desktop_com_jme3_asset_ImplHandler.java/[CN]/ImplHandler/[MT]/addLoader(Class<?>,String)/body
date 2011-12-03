@@ -1,9 +1,0 @@
-{
-  ImplThreadLocal local=new ImplThreadLocal(loaderType);
-  for (  String extension : extensions) {
-    extension=extension.toLowerCase();
-synchronized (loaders) {
-      loaders.put(extension,local);
-    }
-  }
-}
