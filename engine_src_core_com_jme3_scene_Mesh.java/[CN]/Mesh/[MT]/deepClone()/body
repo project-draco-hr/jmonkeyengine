@@ -4,7 +4,7 @@
     clone.meshBound=meshBound != null ? meshBound.clone() : null;
     clone.collisionTree=null;
     clone.buffers=new IntMap<VertexBuffer>();
-    clone.buffersList=new ArrayList<VertexBuffer>();
+    clone.buffersList=new SafeArrayList<VertexBuffer>(VertexBuffer.class);
     for (    Entry<VertexBuffer> ent : buffers) {
       VertexBuffer bufClone=ent.getValue().clone();
       clone.buffers.put(ent.getKey(),bufClone);

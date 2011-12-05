@@ -5,9 +5,7 @@
   if (interleavedData != null && interleavedData.isUpdateNeeded()) {
     updateBufferData(interleavedData);
   }
-  ArrayList<VertexBuffer> buffersList=mesh.getBufferList();
-  for (int i=0; i < buffersList.size(); i++) {
-    VertexBuffer vb=buffersList.get(i);
+  for (  VertexBuffer vb : mesh.getBufferList().getArray()) {
     if (vb.getBufferType() == Type.InterleavedData || vb.getUsage() == Usage.CpuOnly || vb.getBufferType() == Type.Index) {
       continue;
     }
