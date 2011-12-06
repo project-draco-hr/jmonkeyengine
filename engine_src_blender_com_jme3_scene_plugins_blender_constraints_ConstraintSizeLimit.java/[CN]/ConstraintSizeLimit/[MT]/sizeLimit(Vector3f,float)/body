@@ -1,0 +1,32 @@
+{
+  if ((flag & LIMIT_XMIN) != 0) {
+    if (scale.x < limits[0][0]) {
+      scale.x-=(scale.x - limits[0][0]) * influence;
+    }
+  }
+  if ((flag & LIMIT_XMAX) != 0) {
+    if (scale.x > limits[0][1]) {
+      scale.x-=(scale.x - limits[0][1]) * influence;
+    }
+  }
+  if ((flag & LIMIT_YMIN) != 0) {
+    if (scale.y < limits[1][0]) {
+      scale.y-=(scale.y - limits[1][0]) * influence;
+    }
+  }
+  if ((flag & LIMIT_YMAX) != 0) {
+    if (scale.y > limits[1][1]) {
+      scale.y-=(scale.y - limits[1][1]) * influence;
+    }
+  }
+  if ((flag & LIMIT_ZMIN) != 0) {
+    if (scale.z < limits[2][0]) {
+      scale.z-=(scale.z - limits[2][0]) * influence;
+    }
+  }
+  if ((flag & LIMIT_ZMAX) != 0) {
+    if (scale.z > limits[2][1]) {
+      scale.z-=(scale.z - limits[2][1]) * influence;
+    }
+  }
+}

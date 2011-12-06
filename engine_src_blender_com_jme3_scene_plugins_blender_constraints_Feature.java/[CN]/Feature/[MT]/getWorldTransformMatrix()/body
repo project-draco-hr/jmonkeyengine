@@ -1,0 +1,11 @@
+{
+  if (spatial != null) {
+    Matrix4f result=new Matrix4f();
+    Transform t=spatial.getWorldTransform();
+    result.setTransform(t.getTranslation(),t.getScale(),t.getRotation().toRotationMatrix());
+    return result;
+  }
+  Matrix4f result=new Matrix4f();
+  result.setTransform(bone.getWorldBindPosition(),bone.getWorldBindScale(),bone.getWorldBindRotation().toRotationMatrix());
+  return result;
+}

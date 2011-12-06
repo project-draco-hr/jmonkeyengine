@@ -1,0 +1,32 @@
+{
+  Vector3f v=currentLocation.subtract(targetLocation);
+  float currentDistance=v.length();
+switch (mode) {
+case LIMITDIST_INSIDE:
+    if (currentDistance >= dist) {
+      v.normalizeLocal();
+      v.multLocal(dist + (currentDistance - dist) * (1.0f - influence));
+      currentLocation.set(v.addLocal(targetLocation));
+    }
+  break;
+case LIMITDIST_ONSURFACE:
+if (currentDistance > dist) {
+  v.normalizeLocal();
+  v.multLocal(dist + (currentDistance - dist) * (1.0f - influence));
+  currentLocation.set(v.addLocal(targetLocation));
+}
+ else if (currentDistance < dist) {
+  v.normalizeLocal().multLocal(dist * influence);
+  currentLocation.set(targetLocation.add(v));
+}
+break;
+case LIMITDIST_OUTSIDE:
+if (currentDistance <= dist) {
+v=targetLocation.subtract(currentLocation).normalizeLocal().multLocal(dist * influence);
+currentLocation.set(targetLocation.add(v));
+}
+break;
+default :
+throw new IllegalStateException("Unknown distance limit constraint mode: " + mode);
+}
+}

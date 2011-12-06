@@ -1,0 +1,32 @@
+{
+  if ((flag & LIMIT_XROT) != 0) {
+    float difference=0.0f;
+    if (angles[0] < limits[0][0]) {
+      difference=(angles[0] - limits[0][0]) * influence;
+    }
+ else     if (angles[0] > limits[0][1]) {
+      difference=(angles[0] - limits[0][1]) * influence;
+    }
+    angles[0]-=difference;
+  }
+  if ((flag & LIMIT_YROT) != 0) {
+    float difference=0.0f;
+    if (angles[1] < limits[1][0]) {
+      difference=(angles[1] - limits[1][0]) * influence;
+    }
+ else     if (angles[1] > limits[1][1]) {
+      difference=(angles[1] - limits[1][1]) * influence;
+    }
+    angles[1]-=difference;
+  }
+  if ((flag & LIMIT_ZROT) != 0) {
+    float difference=0.0f;
+    if (angles[2] < limits[2][0]) {
+      difference=(angles[2] - limits[2][0]) * influence;
+    }
+ else     if (angles[2] > limits[2][1]) {
+      difference=(angles[2] - limits[2][1]) * influence;
+    }
+    angles[2]-=difference;
+  }
+}

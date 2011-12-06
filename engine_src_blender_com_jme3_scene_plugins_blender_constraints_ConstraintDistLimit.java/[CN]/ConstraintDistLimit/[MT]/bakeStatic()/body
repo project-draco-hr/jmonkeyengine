@@ -1,0 +1,16 @@
+{
+  Matrix4f targetWorldMatrix=target.getWorldTransformMatrix();
+  Vector3f targetLocation=targetWorldMatrix.toTranslationVector();
+  Matrix4f m=owner.getParentWorldTransformMatrix();
+  m.invertLocal();
+  Matrix4f ownerWorldMatrix=owner.getWorldTransformMatrix();
+  Vector3f ownerLocation=ownerWorldMatrix.toTranslationVector();
+  this.distLimit(ownerLocation,targetLocation,ipo.calculateValue(0));
+  Object owner=this.owner.getObject();
+  if (owner instanceof Spatial) {
+    ((Spatial)owner).setLocalTranslation(m.mult(ownerLocation));
+  }
+ else {
+    ((Bone)owner).setBindTransforms(m.mult(ownerLocation),((Bone)owner).getLocalRotation(),((Bone)owner).getLocalScale());
+  }
+}

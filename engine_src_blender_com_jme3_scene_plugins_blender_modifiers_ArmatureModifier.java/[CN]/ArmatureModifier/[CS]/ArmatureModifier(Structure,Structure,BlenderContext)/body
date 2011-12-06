@@ -2,31 +2,37 @@
   if (this.validate(modifierStructure,blenderContext)) {
     Pointer pArmatureObject=(Pointer)modifierStructure.getFieldValue("object");
     if (pArmatureObject.isNotNull()) {
-      ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
       ArmatureHelper armatureHelper=blenderContext.getHelper(ArmatureHelper.class);
       Structure armatureObject=pArmatureObject.fetchData(blenderContext.getInputStream()).get(0);
-      this.armatureObjectOMA=armatureObject.getOldMemoryAddress();
       Structure armatureStructure=((Pointer)armatureObject.getFieldValue("data")).fetchData(blenderContext.getInputStream()).get(0);
-      Structure bonebase=(Structure)armatureStructure.getFieldValue("bonebase");
-      List<Structure> bonesStructures=bonebase.evaluateListBase(blenderContext);
-      for (      Structure boneStructure : bonesStructures) {
-        BoneTransformationData rootBoneTransformationData=armatureHelper.readBoneAndItsChildren(boneStructure,null,blenderContext);
-        armatureHelper.addBoneDataRoot(rootBoneTransformationData);
+      Structure pose=((Pointer)armatureObject.getFieldValue("pose")).fetchData(blenderContext.getInputStream()).get(0);
+      List<Structure> chanbase=((Structure)pose.getFieldValue("chanbase")).evaluateListBase(blenderContext);
+      Map<Long,Structure> bonesPoseChannels=new HashMap<Long,Structure>(chanbase.size());
+      for (      Structure poseChannel : chanbase) {
+        Pointer pBone=(Pointer)poseChannel.getFieldValue("bone");
+        bonesPoseChannels.put(pBone.getOldMemoryAddress(),poseChannel);
       }
-      Matrix4f armatureObjectMatrix=objectHelper.getTransformationMatrix(armatureObject);
-      Matrix4f inverseMeshObjectMatrix=objectHelper.getTransformationMatrix(objectStructure).invert();
-      Matrix4f additionalRootBoneTransformation=inverseMeshObjectMatrix.multLocal(armatureObjectMatrix);
-      Bone[] bones=armatureHelper.buildBonesStructure(Long.valueOf(0L),additionalRootBoneTransformation);
+      ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
+      Matrix4f armatureObjectMatrix=objectHelper.getMatrix(armatureObject,"obmat",true);
+      Matrix4f inverseMeshObjectMatrix=objectHelper.getMatrix(objectStructure,"obmat",true).invertLocal();
+      Matrix4f objectToArmatureTransformation=armatureObjectMatrix.multLocal(inverseMeshObjectMatrix);
+      List<Structure> bonebase=((Structure)armatureStructure.getFieldValue("bonebase")).evaluateListBase(blenderContext);
+      List<Bone> bonesList=new ArrayList<Bone>();
+      for (int i=0; i < bonebase.size(); ++i) {
+        armatureHelper.buildBones(bonebase.get(i),null,bonesList,objectToArmatureTransformation,bonesPoseChannels,blenderContext);
+      }
+      bonesList.add(0,new Bone(""));
+      Skeleton skeleton=new Skeleton(bonesList.toArray(new Bone[bonesList.size()]));
       Structure meshStructure=((Pointer)objectStructure.getFieldValue("data")).fetchData(blenderContext.getInputStream()).get(0);
       this.meshOMA=meshStructure.getOldMemoryAddress();
-      this.readVerticesWeightsData(objectStructure,meshStructure,blenderContext);
+      this.readVerticesWeightsData(objectStructure,meshStructure,skeleton,blenderContext);
       ArrayList<Animation> animations=new ArrayList<Animation>();
       List<FileBlockHeader> actionHeaders=blenderContext.getFileBlocks(Integer.valueOf(FileBlockHeader.BLOCK_AC00));
       if (actionHeaders != null) {
         for (        FileBlockHeader header : actionHeaders) {
           Structure actionStructure=header.getStructure(blenderContext);
           String actionName=actionStructure.getName();
-          BoneTrack[] tracks=armatureHelper.getTracks(actionStructure,blenderContext);
+          BoneTrack[] tracks=armatureHelper.getTracks(actionStructure,skeleton,blenderContext);
           float maximumTrackLength=0;
           for (          BoneTrack track : tracks) {
             float length=track.getLength();
@@ -39,7 +45,12 @@
           animations.add(boneAnimation);
         }
       }
-      animData=new AnimData(new Skeleton(bones),animations);
+      animData=new AnimData(skeleton,animations);
+      for (      Structure boneStructure : bonebase) {
+        blenderContext.setAnimData(boneStructure.getOldMemoryAddress(),animData);
+      }
+      ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
+      constraintHelper.loadConstraints(armatureObject,blenderContext);
     }
   }
 }

@@ -1,0 +1,17 @@
+{
+  Object owner=this.owner.getObject();
+  AnimData animData=blenderContext.getAnimData(this.owner.getOma());
+  if (animData != null) {
+    for (    Animation animation : animData.anims) {
+      BlenderTrack track=this.getTrack(owner,animData.skeleton,animation);
+      Vector3f[] translations=track.getTranslations();
+      int maxFrames=translations.length;
+      for (int frame=0; frame < maxFrames; ++frame) {
+        this.locLimit(translations[frame],ipo.calculateValue(frame));
+      }
+      track.setKeyframes(track.getTimes(),translations,track.getRotations(),track.getScales());
+      translations=track.getTranslations();
+      animation.setTracks(new Track[]{track.getTrack()});
+    }
+  }
+}

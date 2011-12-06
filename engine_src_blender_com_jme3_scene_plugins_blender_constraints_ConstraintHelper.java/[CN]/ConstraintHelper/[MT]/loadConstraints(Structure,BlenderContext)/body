@@ -1,8 +1,5 @@
 {
-  if (blenderVersion >= 250) {
-    LOGGER.warning("Loading of constraints not yet implemented for version 2.5x !");
-    return new HashMap<Long,List<Constraint>>(0);
-  }
+  LOGGER.fine("Loading constraints.");
   IpoHelper ipoHelper=blenderContext.getHelper(IpoHelper.class);
   Map<String,Map<String,Ipo>> constraintsIpos=new HashMap<String,Map<String,Ipo>>();
   Pointer pActions=(Pointer)objectStructure.getFieldValue("action");
@@ -28,7 +25,6 @@
       }
     }
   }
-  Map<Long,List<Constraint>> result=new HashMap<Long,List<Constraint>>();
   Pointer pPose=(Pointer)objectStructure.getFieldValue("pose");
   if (pPose.isNotNull()) {
     List<Structure> poseChannels=((Structure)pPose.fetchData(blenderContext.getInputStream()).get(0).getFieldValue("chanbase")).evaluateListBase(blenderContext);
@@ -45,32 +41,23 @@
           float enforce=((Number)constraint.getFieldValue("enforce")).floatValue();
           ipo=ipoHelper.createIpo(enforce);
         }
-        constraintsList.add(ConstraintFactory.createConstraint(constraint,boneOMA,ipo,blenderContext));
+        constraintsList.add(this.createConstraint(constraint,boneOMA,ipo,blenderContext));
       }
-      result.put(boneOMA,constraintsList);
       blenderContext.addConstraints(boneOMA,constraintsList);
     }
   }
-  List<Structure> constraintChannels=((Structure)objectStructure.getFieldValue("constraintChannels")).evaluateListBase(blenderContext);
-  for (  Structure constraintChannel : constraintChannels) {
-    System.out.println(constraintChannel);
-  }
-  if (!result.containsKey(objectStructure.getOldMemoryAddress())) {
-    List<Structure> constraints=((Structure)objectStructure.getFieldValue("constraints")).evaluateListBase(blenderContext);
-    List<Constraint> constraintsList=new ArrayList<Constraint>(constraints.size());
-    for (    Structure constraint : constraints) {
-      String constraintName=constraint.getFieldValue("name").toString();
-      String objectName=objectStructure.getName();
-      Map<String,Ipo> objectConstraintsIpos=constraintsIpos.get(objectName);
-      Ipo ipo=objectConstraintsIpos != null ? objectConstraintsIpos.get(constraintName) : null;
-      if (ipo == null) {
-        float enforce=((Number)constraint.getFieldValue("enforce")).floatValue();
-        ipo=ipoHelper.createIpo(enforce);
-      }
-      constraintsList.add(ConstraintFactory.createConstraint(constraint,null,ipo,blenderContext));
+  List<Structure> constraints=((Structure)objectStructure.getFieldValue("constraints")).evaluateListBase(blenderContext);
+  List<Constraint> constraintsList=new ArrayList<Constraint>(constraints.size());
+  for (  Structure constraint : constraints) {
+    String constraintName=constraint.getFieldValue("name").toString();
+    String objectName=objectStructure.getName();
+    Map<String,Ipo> objectConstraintsIpos=constraintsIpos.get(objectName);
+    Ipo ipo=objectConstraintsIpos != null ? objectConstraintsIpos.get(constraintName) : null;
+    if (ipo == null) {
+      float enforce=((Number)constraint.getFieldValue("enforce")).floatValue();
+      ipo=ipoHelper.createIpo(enforce);
     }
-    result.put(objectStructure.getOldMemoryAddress(),constraintsList);
-    blenderContext.addConstraints(objectStructure.getOldMemoryAddress(),constraintsList);
+    constraintsList.add(this.createConstraint(constraint,objectStructure.getOldMemoryAddress(),ipo,blenderContext));
   }
-  return result;
+  blenderContext.addConstraints(objectStructure.getOldMemoryAddress(),constraintsList);
 }

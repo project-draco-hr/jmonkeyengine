@@ -1,17 +1,19 @@
 {
-  LOGGER.warning("Object animation modifier not yet implemented!");
+  objectOMA=objectStructure.getOldMemoryAddress();
   Pointer pIpo=(Pointer)objectStructure.getFieldValue("ipo");
   if (pIpo.isNotNull()) {
     String objectAnimationName=null;
     List<FileBlockHeader> actionBlocks=blenderContext.getFileBlocks(Integer.valueOf(FileBlockHeader.BLOCK_AC00));
-    for (    FileBlockHeader actionBlock : actionBlocks) {
-      Structure action=actionBlock.getStructure(blenderContext);
-      List<Structure> actionChannels=((Structure)action.getFieldValue("chanbase")).evaluateListBase(blenderContext);
-      if (actionChannels.size() == 1) {
-        Pointer pChannelIpo=(Pointer)actionChannels.get(0).getFieldValue("ipo");
-        if (pChannelIpo.equals(pIpo)) {
-          objectAnimationName=action.getName();
-          break;
+    if (actionBlocks != null) {
+      for (      FileBlockHeader actionBlock : actionBlocks) {
+        Structure action=actionBlock.getStructure(blenderContext);
+        List<Structure> actionChannels=((Structure)action.getFieldValue("chanbase")).evaluateListBase(blenderContext);
+        if (actionChannels.size() == 1) {
+          Pointer pChannelIpo=(Pointer)actionChannels.get(0).getFieldValue("ipo");
+          if (pChannelIpo.equals(pIpo)) {
+            objectAnimationName=action.getName();
+            break;
+          }
         }
       }
     }
@@ -29,6 +31,6 @@
     ArrayList<Animation> animations=new ArrayList<Animation>(1);
     animations.add(animation);
     animData=new AnimData(null,animations);
-    objectOMA=objectStructure.getOldMemoryAddress();
+    blenderContext.setAnimData(objectOMA,animData);
   }
 }

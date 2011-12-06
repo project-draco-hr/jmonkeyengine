@@ -1,0 +1,16 @@
+{
+  AnimData animData=blenderContext.getAnimData(owner.getOma());
+  if (animData != null) {
+    Object owner=this.owner.getObject();
+    Transform targetTransform=this.target.getTransform();
+    for (    Animation animation : animData.anims) {
+      BlenderTrack blenderTrack=this.getTrack(owner,animData.skeleton,animation);
+      Vector3f[] translations=blenderTrack.getTranslations();
+      int maxFrames=translations.length;
+      for (int frame=0; frame < maxFrames; ++frame) {
+        this.locLike(translations[frame],targetTransform.getTranslation(),ipo.calculateValue(frame));
+      }
+      blenderTrack.setKeyframes(blenderTrack.getTimes(),translations,blenderTrack.getRotations(),blenderTrack.getScales());
+    }
+  }
+}

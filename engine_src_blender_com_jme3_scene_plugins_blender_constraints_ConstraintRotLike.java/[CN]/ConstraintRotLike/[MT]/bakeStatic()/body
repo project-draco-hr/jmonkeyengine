@@ -1,0 +1,7 @@
+{
+  Transform targetTransform=this.target.getTransform();
+  Transform ownerTransform=this.owner.getTransform();
+  Quaternion ownerRotation=ownerTransform.getRotation();
+  this.rotLike(ownerRotation,ownerRotation.toAngles(null),targetTransform.getRotation().toAngles(null),ipo.calculateValue(0));
+  this.owner.applyTransform(ownerTransform);
+}

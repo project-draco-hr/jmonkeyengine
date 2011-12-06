@@ -1,0 +1,7 @@
+{
+  Transform ownerTransform=this.owner.getTransform();
+  float[] angles=ownerTransform.getRotation().toAngles(null);
+  this.rotLimit(angles,ipo.calculateValue(0));
+  ownerTransform.getRotation().fromAngles(angles);
+  this.owner.applyTransform(ownerTransform);
+}

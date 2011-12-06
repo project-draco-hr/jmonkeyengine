@@ -1,3 +1,27 @@
 {
-  super(constraintStructure,boneOMA,influenceIpo,blenderContext);
+  super(constraintStructure,ownerOMA,influenceIpo,blenderContext);
+  if (blenderContext.getBlenderKey().isFixUpAxis()) {
+    limits[0][0]=((Number)data.getFieldValue("xmin")).floatValue() * FastMath.DEG_TO_RAD;
+    limits[0][1]=((Number)data.getFieldValue("xmax")).floatValue() * FastMath.DEG_TO_RAD;
+    limits[2][0]=-((Number)data.getFieldValue("ymin")).floatValue() * FastMath.DEG_TO_RAD;
+    limits[2][1]=-((Number)data.getFieldValue("ymax")).floatValue() * FastMath.DEG_TO_RAD;
+    limits[1][0]=((Number)data.getFieldValue("zmin")).floatValue() * FastMath.DEG_TO_RAD;
+    limits[1][1]=((Number)data.getFieldValue("zmax")).floatValue() * FastMath.DEG_TO_RAD;
+  }
+ else {
+    limits[0][0]=((Number)data.getFieldValue("xmin")).floatValue() * FastMath.DEG_TO_RAD;
+    limits[0][1]=((Number)data.getFieldValue("xmax")).floatValue() * FastMath.DEG_TO_RAD;
+    limits[1][0]=((Number)data.getFieldValue("ymin")).floatValue() * FastMath.DEG_TO_RAD;
+    limits[1][1]=((Number)data.getFieldValue("ymax")).floatValue() * FastMath.DEG_TO_RAD;
+    limits[2][0]=((Number)data.getFieldValue("zmin")).floatValue() * FastMath.DEG_TO_RAD;
+    limits[2][1]=((Number)data.getFieldValue("zmax")).floatValue() * FastMath.DEG_TO_RAD;
+  }
+  flag=((Number)data.getFieldValue("flag")).intValue();
+  if (blenderContext.getBlenderKey().isFixUpAxis()) {
+    int limitY=flag & LIMIT_YROT;
+    int limitZ=flag & LIMIT_ZROT;
+    flag&=LIMIT_XROT;
+    flag|=limitY << 1;
+    flag|=limitZ >> 1;
+  }
 }

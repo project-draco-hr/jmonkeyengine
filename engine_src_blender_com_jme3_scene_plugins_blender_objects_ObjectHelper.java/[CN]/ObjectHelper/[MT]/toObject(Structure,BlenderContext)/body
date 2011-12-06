@@ -4,12 +4,9 @@
     return loadedResult;
   }
   blenderContext.pushParent(objectStructure);
-  ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
   int type=((Number)objectStructure.getFieldValue("type")).intValue();
   String name=objectStructure.getName();
   LOGGER.log(Level.INFO,"Loading obejct: {0}",name);
-  ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
-  constraintHelper.loadConstraints(objectStructure,blenderContext);
   int restrictflag=((Number)objectStructure.getFieldValue("restrictflag")).intValue();
   boolean visible=(restrictflag & 0x01) != 0;
   Object result=null;
@@ -19,7 +16,7 @@
     Structure parentStructure=pParent.fetchData(blenderContext.getInputStream()).get(0);
     parent=this.toObject(parentStructure,blenderContext);
   }
-  Transform t=objectHelper.getTransformation(objectStructure,blenderContext);
+  Transform t=this.getTransformation(objectStructure,blenderContext);
   try {
 switch (type) {
 case OBJECT_TYPE_EMPTY:
@@ -125,11 +122,19 @@ LOGGER.log(Level.WARNING,"Unknown object type: {0}",type);
 blenderContext.popParent();
 }
 if (result != null) {
+blenderContext.addLoadedFeatures(objectStructure.getOldMemoryAddress(),name,objectStructure,result);
+ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
+constraintHelper.loadConstraints(objectStructure,blenderContext);
+List<Constraint> objectConstraints=blenderContext.getConstraints(objectStructure.getOldMemoryAddress());
+if (objectConstraints != null) {
+for (Constraint objectConstraint : objectConstraints) {
+objectConstraint.bakeStatic();
+}
+}
 Properties properties=this.loadProperties(objectStructure,blenderContext);
 if (result instanceof Spatial && properties != null && properties.getValue() != null) {
 ((Spatial)result).setUserData("properties",properties);
 }
-blenderContext.addLoadedFeatures(objectStructure.getOldMemoryAddress(),name,objectStructure,result);
 }
 return result;
 }

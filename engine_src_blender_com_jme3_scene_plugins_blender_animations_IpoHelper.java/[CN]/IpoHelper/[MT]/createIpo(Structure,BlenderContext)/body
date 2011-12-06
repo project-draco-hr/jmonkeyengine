@@ -12,7 +12,7 @@
       bezierCurves[frame++]=new BezierCurve(type,bezTriples,2);
     }
     curves.clear();
-    result=new Ipo(bezierCurves);
+    result=new Ipo(bezierCurves,fixUpAxis);
     blenderContext.addLoadedFeatures(ipoStructure.getOldMemoryAddress(),ipoStructure.getName(),ipoStructure,result);
   }
   return result;

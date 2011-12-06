@@ -1,0 +1,20 @@
+{
+  AnimData animData=blenderContext.getAnimData(this.owner.getOma());
+  if (animData != null) {
+    Object owner=this.owner.getObject();
+    Transform targetTransform=this.target.getTransform();
+    Quaternion targetRotation=targetTransform.getRotation();
+    for (    Animation animation : animData.anims) {
+      BlenderTrack track=this.getTrack(owner,animData.skeleton,animation);
+      float[] targetAngles=targetRotation.toAngles(null);
+      Quaternion[] rotations=track.getRotations();
+      int maxFrames=rotations.length;
+      float[] angles=new float[3];
+      for (int frame=0; frame < maxFrames; ++frame) {
+        rotations[frame].toAngles(angles);
+        this.rotLike(rotations[frame],angles,targetAngles,ipo.calculateValue(frame));
+      }
+      track.setKeyframes(track.getTimes(),track.getTranslations(),rotations,track.getScales());
+    }
+  }
+}

@@ -1,3 +1,11 @@
 {
-  super(constraintStructure,boneOMA,influenceIpo,blenderContext);
+  super(constraintStructure,ownerOMA,influenceIpo,blenderContext);
+  flag=((Number)data.getFieldValue("flag")).intValue();
+  if (blenderContext.getBlenderKey().isFixUpAxis()) {
+    int y=flag & SIZELIKE_Y;
+    int z=flag & SIZELIKE_Z;
+    flag&=SIZELIKE_X | LOCLIKE_OFFSET;
+    flag|=y << 1;
+    flag|=z >> 1;
+  }
 }

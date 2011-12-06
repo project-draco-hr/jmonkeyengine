@@ -1,0 +1,27 @@
+{
+  String constraintClassName=this.getConstraintClassName(constraintStructure,blenderContext);
+  Class<? extends Constraint> constraintClass=constraintClasses.get(constraintClassName);
+  if (constraintClass != null) {
+    try {
+      return (Constraint)constraintClass.getDeclaredConstructors()[0].newInstance(constraintStructure,ownerOMA,influenceIpo,blenderContext);
+    }
+ catch (    IllegalArgumentException e) {
+      throw new BlenderFileException(e.getLocalizedMessage(),e);
+    }
+catch (    SecurityException e) {
+      throw new BlenderFileException(e.getLocalizedMessage(),e);
+    }
+catch (    InstantiationException e) {
+      throw new BlenderFileException(e.getLocalizedMessage(),e);
+    }
+catch (    IllegalAccessException e) {
+      throw new BlenderFileException(e.getLocalizedMessage(),e);
+    }
+catch (    InvocationTargetException e) {
+      throw new BlenderFileException(e.getLocalizedMessage(),e);
+    }
+  }
+ else {
+    throw new BlenderFileException("Unknown constraint type: " + constraintClassName);
+  }
+}

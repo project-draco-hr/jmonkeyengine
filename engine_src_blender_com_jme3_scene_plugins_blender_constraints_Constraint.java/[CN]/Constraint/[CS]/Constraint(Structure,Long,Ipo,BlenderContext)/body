@@ -1,18 +1,32 @@
 {
+  this.blenderContext=blenderContext;
   this.name=constraintStructure.getFieldValue("name").toString();
-  ConstraintType constraintType=ConstraintType.valueOf(((Number)constraintStructure.getFieldValue("type")).intValue());
-  if (constraintType != this.getType()) {
-    throw new IllegalStateException("Constraint structure does not match its type for constraint: " + name);
-  }
   Pointer pData=(Pointer)constraintStructure.getFieldValue("data");
   if (pData.isNotNull()) {
     data=pData.fetchData(blenderContext.getInputStream()).get(0);
+    Pointer pTar=(Pointer)data.getFieldValue("tar");
+    if (pTar != null && pTar.isNotNull()) {
+      Structure targetStructure=pTar.fetchData(blenderContext.getInputStream()).get(0);
+      Long targetOMA=pTar.getOldMemoryAddress();
+      Space targetSpace=Space.valueOf(((Number)constraintStructure.getFieldValue("tarspace")).byteValue());
+      ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
+      Spatial target=(Spatial)objectHelper.toObject(targetStructure,blenderContext);
+      this.target=new Feature(target,targetSpace,targetOMA,blenderContext);
+    }
+ else {
+      this.target=null;
+    }
   }
  else {
     throw new BlenderFileException("The constraint has no data specified!");
   }
-  this.boneOMA=boneOMA;
-  this.ownerSpace=Space.valueOf(((Number)constraintStructure.getFieldValue("ownspace")).byteValue());
-  this.targetSpace=Space.valueOf(((Number)constraintStructure.getFieldValue("tarspace")).byteValue());
+  Space ownerSpace=Space.valueOf(((Number)constraintStructure.getFieldValue("ownspace")).byteValue());
+  Object owner=blenderContext.getLoadedFeature(ownerOMA,LoadedFeatureDataType.LOADED_FEATURE);
+  if (owner instanceof Spatial) {
+    this.owner=new Feature((Spatial)owner,ownerSpace,ownerOMA,blenderContext);
+  }
+ else {
+    this.owner=new Feature((Bone)owner,ownerSpace,ownerOMA,blenderContext);
+  }
   this.ipo=influenceIpo;
 }

@@ -1,0 +1,14 @@
+{
+  if (owner instanceof Bone) {
+    int boneIndex=skeleton.getBoneIndex((Bone)owner);
+    for (    Track track : animation.getTracks()) {
+      if (((BoneTrack)track).getTargetBoneIndex() == boneIndex) {
+        return new BlenderTrack(((BoneTrack)track));
+      }
+    }
+    throw new IllegalStateException("Cannot find track for: " + owner);
+  }
+ else {
+    return new BlenderTrack((SpatialTrack)animation.getTracks()[0]);
+  }
+}

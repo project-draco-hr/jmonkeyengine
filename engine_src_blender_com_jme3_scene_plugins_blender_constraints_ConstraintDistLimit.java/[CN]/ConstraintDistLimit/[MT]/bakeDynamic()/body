@@ -1,0 +1,20 @@
+{
+  AnimData animData=blenderContext.getAnimData(this.owner.getOma());
+  if (animData != null) {
+    Object owner=this.owner.getObject();
+    if (owner instanceof Spatial) {
+      Vector3f targetLocation=((Spatial)owner).getWorldTranslation();
+      for (      Animation animation : animData.anims) {
+        BlenderTrack blenderTrack=this.getTrack(owner,animData.skeleton,animation);
+        int maxFrames=blenderTrack.getTimes().length;
+        Vector3f[] translations=blenderTrack.getTranslations();
+        for (int frame=0; frame < maxFrames; ++frame) {
+          Vector3f v=translations[frame].subtract(targetLocation);
+          this.distLimit(v,targetLocation,ipo.calculateValue(frame));
+          translations[frame].addLocal(v);
+        }
+        blenderTrack.setKeyframes(blenderTrack.getTimes(),translations,blenderTrack.getRotations(),blenderTrack.getScales());
+      }
+    }
+  }
+}

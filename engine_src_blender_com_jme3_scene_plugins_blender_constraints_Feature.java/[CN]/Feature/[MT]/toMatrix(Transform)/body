@@ -1,0 +1,10 @@
+{
+  Matrix4f result=Matrix4f.IDENTITY;
+  if (transform != null) {
+    result=new Matrix4f();
+    result.setTranslation(transform.getTranslation());
+    result.setRotationQuaternion(transform.getRotation());
+    result.setScale(transform.getScale());
+  }
+  return result;
+}
