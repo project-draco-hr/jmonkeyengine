@@ -1,0 +1,37 @@
+{
+  BinaryExporter ex=BinaryExporter.getInstance();
+  OutputStream os=null;
+  try {
+    File daveFolder=new File(JmeSystem.getStorageFolder().getAbsolutePath() + File.separator + gamePath.replaceAll("/",File.separator));
+    if (!daveFolder.exists() && !daveFolder.mkdirs()) {
+      Logger.getLogger(SaveGame.class.getName()).log(Level.SEVERE,"Error creating save file!");
+      throw new IllegalStateException("SaveGame dataset cannot be created");
+    }
+    File saveFile=new File(daveFolder.getAbsolutePath() + File.separator + dataName);
+    if (!saveFile.exists()) {
+      if (!saveFile.createNewFile()) {
+        Logger.getLogger(SaveGame.class.getName()).log(Level.SEVERE,"Error creating save file!");
+        throw new IllegalStateException("SaveGame dataset cannot be created");
+      }
+    }
+    os=new GZIPOutputStream(new BufferedOutputStream(new FileOutputStream(saveFile)));
+    ex.save(data,os);
+  }
+ catch (  IOException ex1) {
+    Logger.getLogger(SaveGame.class.getName()).log(Level.SEVERE,"Error saving data: {0}",ex1);
+    ex1.printStackTrace();
+    throw new IllegalStateException("SaveGame dataset cannot be saved");
+  }
+ finally {
+    try {
+      if (os != null) {
+        os.close();
+      }
+    }
+ catch (    IOException ex1) {
+      Logger.getLogger(SaveGame.class.getName()).log(Level.SEVERE,"Error saving data: {0}",ex1);
+      ex1.printStackTrace();
+      throw new IllegalStateException("SaveGame dataset cannot be saved");
+    }
+  }
+}

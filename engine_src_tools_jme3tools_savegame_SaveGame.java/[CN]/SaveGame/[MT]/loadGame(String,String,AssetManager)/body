@@ -1,0 +1,32 @@
+{
+  InputStream is=null;
+  Savable sav=null;
+  try {
+    File file=new File(JmeSystem.getStorageFolder().getAbsolutePath() + File.separator + gamePath.replaceAll("/",File.separator)+ File.separator+ dataName);
+    if (!file.exists()) {
+      return null;
+    }
+    is=new GZIPInputStream(new BufferedInputStream(new FileInputStream(file)));
+    BinaryImporter imp=BinaryImporter.getInstance();
+    if (manager != null) {
+      imp.setAssetManager(manager);
+    }
+    sav=imp.load(is);
+  }
+ catch (  IOException ex) {
+    Logger.getLogger(SaveGame.class.getName()).log(Level.SEVERE,"Error loading data: {0}",ex);
+    ex.printStackTrace();
+  }
+ finally {
+    if (is != null) {
+      try {
+        is.close();
+      }
+ catch (      IOException ex) {
+        Logger.getLogger(SaveGame.class.getName()).log(Level.SEVERE,"Error loading data: {0}",ex);
+        ex.printStackTrace();
+      }
+    }
+  }
+  return sav;
+}
