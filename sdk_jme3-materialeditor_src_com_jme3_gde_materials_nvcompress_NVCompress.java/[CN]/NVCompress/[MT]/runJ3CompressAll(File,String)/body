@@ -1,0 +1,30 @@
+{
+  final Object[] fileList=compileFileList();
+  if (fileList != null && fileList.length > 0) {
+    startWork();
+    workThread=new Thread(){
+      @Override public void run(){
+        for (        Object val : fileList) {
+          File inFile=(File)val;
+          File outFile=null;
+          if (exportDir != null) {
+            String name=inFile.getName();
+            int extPt=name.lastIndexOf(".");
+            if (extPt > 0)             name=name.substring(0,extPt);
+            outFile=new File(exportDir,name + "." + ext);
+          }
+          try {
+            runJ3Compress(inFile,outFile);
+          }
+ catch (          InterruptedException ex) {
+            return;
+          }
+        }
+        endWork();
+      }
+    }
+;
+    workThread.setDaemon(true);
+    workThread.start();
+  }
+}
