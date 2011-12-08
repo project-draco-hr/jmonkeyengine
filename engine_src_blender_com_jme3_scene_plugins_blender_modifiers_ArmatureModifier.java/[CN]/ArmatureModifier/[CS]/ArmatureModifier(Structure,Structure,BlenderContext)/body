@@ -1,5 +1,7 @@
 {
-  if (this.validate(modifierStructure,blenderContext)) {
+  Structure meshStructure=((Pointer)objectStructure.getFieldValue("data")).fetchData(blenderContext.getInputStream()).get(0);
+  Pointer pDvert=(Pointer)meshStructure.getFieldValue("dvert");
+  if (this.validate(modifierStructure,blenderContext) && pDvert.isNotNull()) {
     Pointer pArmatureObject=(Pointer)modifierStructure.getFieldValue("object");
     if (pArmatureObject.isNotNull()) {
       ArmatureHelper armatureHelper=blenderContext.getHelper(ArmatureHelper.class);
@@ -23,7 +25,6 @@
       }
       bonesList.add(0,new Bone(""));
       Skeleton skeleton=new Skeleton(bonesList.toArray(new Bone[bonesList.size()]));
-      Structure meshStructure=((Pointer)objectStructure.getFieldValue("data")).fetchData(blenderContext.getInputStream()).get(0);
       this.meshOMA=meshStructure.getOldMemoryAddress();
       this.readVerticesWeightsData(objectStructure,meshStructure,skeleton,blenderContext);
       ArrayList<Animation> animations=new ArrayList<Animation>();
