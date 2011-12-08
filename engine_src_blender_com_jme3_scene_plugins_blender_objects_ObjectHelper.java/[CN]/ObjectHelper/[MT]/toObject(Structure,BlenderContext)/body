@@ -113,6 +113,13 @@ result=camera;
 }
 break;
 case OBJECT_TYPE_ARMATURE:
+Node armature=new Node(name);
+armature.setLocalTransform(t);
+if (parent instanceof Node) {
+((Node)parent).attachChild(armature);
+}
+armature.updateModelBound();
+result=armature;
 break;
 default :
 LOGGER.log(Level.WARNING,"Unknown object type: {0}",type);
