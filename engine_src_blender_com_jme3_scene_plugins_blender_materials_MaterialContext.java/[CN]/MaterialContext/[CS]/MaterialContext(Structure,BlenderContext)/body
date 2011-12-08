@@ -3,7 +3,6 @@
   int mode=((Number)structure.getFieldValue("mode")).intValue();
   shadeless=(mode & 0x4) != 0;
   vertexColor=(mode & 0x80) != 0;
-  transparent=(mode & 0x10000) != 0;
   vTangent=(mode & 0x4000000) != 0;
   int diff_shader=((Number)structure.getFieldValue("diff_shader")).intValue();
   diffuseShader=DiffuseShader.values()[diff_shader];
@@ -90,4 +89,15 @@
   }
   this.texturesCount=mTexs.size();
   this.textureType=firstTextureType;
+  boolean transparent=false;
+  if (diffuseColor != null) {
+    transparent=diffuseColor.a < 1.0f;
+  }
+  if (specularColor != null) {
+    transparent=transparent || specularColor.a < 1.0f;
+  }
+  if (ambientColor != null) {
+    transparent=transparent || ambientColor.a < 1.0f;
+  }
+  this.transparent=transparent;
 }
