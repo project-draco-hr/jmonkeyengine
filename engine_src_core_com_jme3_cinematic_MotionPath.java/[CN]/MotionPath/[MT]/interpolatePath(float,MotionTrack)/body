@@ -1,15 +1,17 @@
 {
   float val;
+  float traveledDistance=0;
   TempVars vars=TempVars.get();
   Vector3f temp=vars.vect1;
   Vector3f tmpVector=vars.vect2;
 switch (spline.getType()) {
 case CatmullRom:
-    val=tpf * (spline.getTotalLength() / control.getDuration());
+    val=(time * (spline.getTotalLength() / control.getDuration())) - control.getTraveledDistance();
   control.setCurrentValue(control.getCurrentValue() + eps);
 spline.interpolate(control.getCurrentValue(),control.getCurrentWayPoint(),temp);
 float dist=getDist(control,temp,tmpVector);
 while (dist < val) {
+traveledDistance=dist;
 control.setCurrentValue(control.getCurrentValue() + eps);
 spline.interpolate(control.getCurrentValue(),control.getCurrentWayPoint(),temp);
 dist=getDist(control,temp,tmpVector);
@@ -18,10 +20,13 @@ if (control.needsDirection()) {
 tmpVector.set(temp);
 control.setDirection(tmpVector.subtractLocal(control.getSpatial().getLocalTranslation()).normalizeLocal());
 }
+traveledDistance+=control.getTraveledDistance();
 break;
 case Linear:
-val=control.getDuration() * spline.getSegmentsLength().get(control.getCurrentWayPoint()) / spline.getTotalLength();
-control.setCurrentValue(Math.min(control.getCurrentValue() + tpf / val,1.0f));
+val=(time * (spline.getTotalLength() / control.getDuration())) - control.getTraveledDistance();
+traveledDistance=control.getTraveledDistance() + val;
+val=val / spline.getSegmentsLength().get(control.getCurrentWayPoint());
+control.setCurrentValue(Math.min(control.getCurrentValue() + val,1.0f));
 spline.interpolate(control.getCurrentValue(),control.getCurrentWayPoint(),temp);
 if (control.needsDirection()) {
 tmpVector.set(spline.getControlPoints().get(control.getCurrentWayPoint() + 1));
@@ -33,4 +38,5 @@ break;
 }
 control.getSpatial().setLocalTranslation(temp);
 vars.release();
+return traveledDistance;
 }

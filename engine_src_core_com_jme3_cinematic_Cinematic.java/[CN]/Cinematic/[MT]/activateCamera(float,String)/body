@@ -1,14 +1,20 @@
 {
   addCinematicEvent(timeStamp,new AbstractCinematicEvent(){
+    @Override public void play(){
+      super.play();
+      stop();
+    }
     @Override public void onPlay(){
       setActiveCamera(cameraName);
-      stop();
     }
     @Override public void onUpdate(    float tpf){
     }
     @Override public void onStop(){
     }
     @Override public void onPause(){
+    }
+    @Override public void setTime(    float time){
+      play();
     }
   }
 );

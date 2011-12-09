@@ -1,7 +1,7 @@
 {
   CameraNode node=new CameraNode(cameraName,cam);
   node.setControlDir(ControlDirection.SpatialToCamera);
-  node.getControl(0).setEnabled(false);
+  node.getControl(CameraControl.class).setEnabled(false);
   cameras.put(cameraName,node);
   scene.attachChild(node);
   return node;

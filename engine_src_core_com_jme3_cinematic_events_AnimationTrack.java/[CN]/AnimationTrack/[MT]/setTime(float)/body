@@ -1,0 +1,17 @@
+{
+  super.setTime(time);
+  float t=time;
+  if (loopMode == loopMode.Loop) {
+    t=t % channel.getAnimMaxTime();
+  }
+  if (loopMode == loopMode.Cycle) {
+    float parity=(float)Math.ceil(time / channel.getAnimMaxTime());
+    if (parity > 0 && parity % 2 == 0) {
+      t=channel.getAnimMaxTime() - t % channel.getAnimMaxTime();
+    }
+ else {
+      t=t % channel.getAnimMaxTime();
+    }
+  }
+  channel.setTime(t);
+}

@@ -1,0 +1,12 @@
+{
+  super.setTime(time);
+  traveledDistance=time * (path.getLength() / initialDuration);
+  TempVars vars=TempVars.get();
+  Vector3f temp=vars.vect1;
+  Vector2f v=path.getWayPointIndexForDistance(traveledDistance);
+  currentWayPoint=(int)v.x;
+  setCurrentValue(v.y);
+  path.getSpline().interpolate(getCurrentValue(),getCurrentWayPoint(),temp);
+  spatial.setLocalTranslation(temp);
+  vars.release();
+}
