@@ -16,7 +16,7 @@
   mat_terrain.setFloat("Tex3Scale",128f);
   AbstractHeightMap heightmap=null;
   Texture heightMapImage=assetManager.loadTexture("Textures/Terrain/splat/mountains512.png");
-  heightmap=new ImageBasedHeightMap(ImageToAwt.convert(heightMapImage.getImage(),false,true,0));
+  heightmap=new ImageBasedHeightMap(heightMapImage.getImage());
   heightmap.load();
   int patchSize=65;
   terrain=new TerrainQuad("my terrain",patchSize,513,heightmap.getHeightMap());

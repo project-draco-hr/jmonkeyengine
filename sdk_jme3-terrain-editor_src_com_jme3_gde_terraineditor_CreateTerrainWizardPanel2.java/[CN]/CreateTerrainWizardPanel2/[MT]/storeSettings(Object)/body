@@ -4,15 +4,9 @@
     heightmap=new FlatHeightmap(terrainTotalSize);
   }
  else   if ("Image Based".equals(comp.getHeightmapTypeComboBox().getSelectedItem())) {
-    BufferedImage bi=null;
-    try {
-      bi=ImageIO.read(new File(comp.getImageBrowseTextField().getText()));
-    }
- catch (    IOException e) {
-      e.printStackTrace();
-    }
-    ImageBasedHeightMap ibhm=new ImageBasedHeightMap(bi,1f);
-    heightmap=ibhm;
+    AssetManager assetManager=SceneApplication.getApplication().getAssetManager();
+    Texture tex=assetManager.loadTexture(new TextureKey(comp.getImageBrowseTextField().getText()));
+    heightmap=new ImageBasedHeightMap(tex.getImage());
   }
  else   if ("Hill".equals(comp.getHeightmapTypeComboBox().getSelectedItem())) {
     int iterations=new Integer(comp.getHillIterationsTextField().getText());

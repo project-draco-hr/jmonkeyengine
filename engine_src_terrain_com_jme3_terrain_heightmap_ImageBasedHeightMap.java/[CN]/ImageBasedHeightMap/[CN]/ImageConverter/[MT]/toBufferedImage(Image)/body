@@ -1,7 +1,0 @@
-{
-  if (image instanceof BufferedImage)   return (BufferedImage)image;
-  ColorModel cm=getColorModel(image);
-  int width=image.getWidth(null);
-  int height=image.getHeight(null);
-  return copy(createBufferedImage(cm,width,height),image);
-}

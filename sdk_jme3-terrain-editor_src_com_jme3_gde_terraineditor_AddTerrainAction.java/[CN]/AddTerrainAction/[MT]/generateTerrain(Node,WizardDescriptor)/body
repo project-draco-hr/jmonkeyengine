@@ -6,7 +6,8 @@
   int patchSize=(Integer)wizardDescriptor.getProperty("patchSize");
   int alphaTextureSize=(Integer)wizardDescriptor.getProperty("alphaTextureSize");
   float[] heightmapData=null;
-  AbstractHeightMap heightmap=(AbstractHeightMap)wizardDescriptor.getProperty("abstractHeightMap");
+  AbstractHeightMap heightmap=null;
+  if (wizardDescriptor.getProperty("abstractHeightMap") != null)   heightmap=(AbstractHeightMap)wizardDescriptor.getProperty("abstractHeightMap");
   if (heightmap != null) {
     heightmap.load();
     heightmapData=heightmap.getHeightMap();

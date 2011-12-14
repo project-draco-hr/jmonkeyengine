@@ -1,0 +1,22 @@
+{
+  Material redMat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  redMat.getAdditionalRenderState().setWireframe(true);
+  redMat.setColor("Color",ColorRGBA.Red);
+  Material greenMat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  greenMat.getAdditionalRenderState().setWireframe(true);
+  greenMat.setColor("Color",ColorRGBA.Green);
+  Material blueMat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  blueMat.getAdditionalRenderState().setWireframe(true);
+  blueMat.setColor("Color",ColorRGBA.Blue);
+  Node axis=new Node();
+  Geometry arrowX=new Geometry("arrowX",new Arrow(new Vector3f(arrowSize,0,0)));
+  arrowX.setMaterial(redMat);
+  Geometry arrowY=new Geometry("arrowY",new Arrow(new Vector3f(0,arrowSize,0)));
+  arrowY.setMaterial(greenMat);
+  Geometry arrowZ=new Geometry("arrowZ",new Arrow(new Vector3f(0,0,arrowSize)));
+  arrowZ.setMaterial(blueMat);
+  axis.attachChild(arrowX);
+  axis.attachChild(arrowY);
+  axis.attachChild(arrowZ);
+  return axis;
+}
