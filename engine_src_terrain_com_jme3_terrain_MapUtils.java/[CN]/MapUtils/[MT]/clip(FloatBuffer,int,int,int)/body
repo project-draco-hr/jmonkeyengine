@@ -1,8 +1,0 @@
-{
-  FloatBuffer result=FloatBuffer.allocate(newSize * newSize);
-  float[] orig=src.array();
-  for (int i=offset; i < offset + newSize; i++) {
-    result.put(orig,i * origSize + offset,newSize);
-  }
-  return result;
-}

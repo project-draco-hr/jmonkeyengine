@@ -62,7 +62,7 @@
   this.iterate.setFilter(this.therm);
   this.iterate.setIterations(1);
   ground.addPreFilter(this.iterate);
-  this.terrain=new TerrainGrid("terrain",33,257,new FractalTileLoader(ground,null,256));
+  this.terrain=new TerrainGrid("terrain",33,257,new FractalTileLoader(ground,256));
   this.terrain.setMaterial(this.material);
   this.terrain.setLocalTranslation(0,0,0);
   this.terrain.setLocalScale(2f,1f,2f);
@@ -75,6 +75,7 @@
   final BulletAppState bulletAppState=new BulletAppState();
   stateManager.attach(bulletAppState);
   this.getCamera().setLocation(new Vector3f(0,256,0));
+  this.viewPort.setBackgroundColor(new ColorRGBA(0.7f,0.8f,1f,1f));
   if (usePhysics) {
     CapsuleCollisionShape capsuleShape=new CapsuleCollisionShape(0.5f,1.8f,1);
     player3=new CharacterControl(capsuleShape,0.5f);
