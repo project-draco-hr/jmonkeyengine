@@ -1,10 +1,8 @@
 {
   if (!isRunning)   return;
-  if (fastAdapter != null) {
-    fastAdapter.close();
-  }
-  if (reliableAdapter != null) {
-    reliableAdapter.close();
+  for (  ConnectorAdapter ca : channels) {
+    if (ca == null)     continue;
+    ca.close();
   }
   connecting.countDown();
   fireDisconnected(info);

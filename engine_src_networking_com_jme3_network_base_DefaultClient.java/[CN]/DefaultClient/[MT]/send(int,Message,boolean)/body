@@ -13,11 +13,5 @@
   byte[] temp=new byte[buffer.remaining()];
   System.arraycopy(buffer.array(),buffer.position(),temp,0,buffer.remaining());
   buffer=ByteBuffer.wrap(temp);
-  if (message.isReliable() || fast == null) {
-    if (reliable == null)     throw new RuntimeException("No reliable connector configured");
-    reliableAdapter.write(buffer);
-  }
- else {
-    fastAdapter.write(buffer);
-  }
+  channels.get(channel).write(buffer);
 }

@@ -1,26 +1,23 @@
 {
   if (isRunning)   throw new IllegalStateException("Client is already started.");
-  if (reliableAdapter != null) {
-    reliableAdapter.start();
-  }
-  if (fastAdapter != null) {
-    fastAdapter.start();
+  for (  ConnectorAdapter ca : channels) {
+    if (ca == null)     continue;
+    ca.start();
   }
   long tempId=System.currentTimeMillis() + System.nanoTime();
   isRunning=true;
   ClientRegistrationMessage reg;
-  if (reliable != null) {
-    reg=new ClientRegistrationMessage();
-    reg.setId(tempId);
-    reg.setGameName(getGameName());
-    reg.setVersion(getVersion());
-    reg.setReliable(true);
-    send(reg,false);
-  }
-  if (fast != null) {
-    reg=new ClientRegistrationMessage();
-    reg.setId(tempId);
-    reg.setReliable(false);
-    send(reg,false);
+  reg=new ClientRegistrationMessage();
+  reg.setId(tempId);
+  reg.setGameName(getGameName());
+  reg.setVersion(getVersion());
+  reg.setReliable(true);
+  send(CH_RELIABLE,reg,false);
+  reg=new ClientRegistrationMessage();
+  reg.setId(tempId);
+  reg.setReliable(false);
+  for (int ch=CH_UNRELIABLE; ch < channels.size(); ch++) {
+    if (channels.get(ch) == null)     continue;
+    send(ch,reg,false);
   }
 }

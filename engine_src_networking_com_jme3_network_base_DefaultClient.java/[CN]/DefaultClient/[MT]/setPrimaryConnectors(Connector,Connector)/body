@@ -1,0 +1,12 @@
+{
+  if (reliable == null)   throw new IllegalArgumentException("The reliable connector cannot be null.");
+  if (isRunning)   throw new IllegalStateException("Client is already started.");
+  if (!channels.isEmpty())   throw new IllegalStateException("Channels already exist.");
+  channels.add(new ConnectorAdapter(reliable,dispatcher,dispatcher,true));
+  if (fast != null) {
+    channels.add(new ConnectorAdapter(fast,dispatcher,dispatcher,false));
+  }
+ else {
+    channels.add(null);
+  }
+}
