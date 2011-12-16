@@ -1,12 +1,10 @@
 {
   if (isRunning)   throw new IllegalStateException("Server is already started.");
-  reliableAdapter.initialize();
-  if (fastAdapter != null) {
-    fastAdapter.initialize();
+  for (  KernelAdapter ka : channels) {
+    ka.initialize();
   }
-  reliableAdapter.start();
-  if (fastAdapter != null) {
-    fastAdapter.start();
+  for (  KernelAdapter ka : channels) {
+    ka.start();
   }
   isRunning=true;
 }

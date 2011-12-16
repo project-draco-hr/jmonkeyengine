@@ -7,6 +7,8 @@ synchronized (this) {
     if (removed != null) {
       connections.remove(removed.getId());
     }
+    log.log(Level.FINE,"Connections size:{0}",connections.size());
+    log.log(Level.FINE,"Endpoint mappings size:{0}",endpointConnections.size());
   }
   if (removed != null) {
     log.log(Level.INFO,"Client closed:{0}.",removed);

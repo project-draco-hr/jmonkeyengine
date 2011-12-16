@@ -4,7 +4,7 @@
   m.setReason(reason);
   m.setReliable(true);
   send(m);
-  if (reliable != null) {
-    reliable.close(true);
+  if (channels[CH_RELIABLE] != null) {
+    channels[CH_RELIABLE].close(true);
   }
 }

@@ -1,10 +1,9 @@
 {
   if (!isRunning)   throw new IllegalStateException("Server is not started.");
   try {
-    if (fastAdapter != null) {
-      fastAdapter.close();
+    for (    KernelAdapter ka : channels) {
+      ka.close();
     }
-    reliableAdapter.close();
     isRunning=false;
   }
  catch (  InterruptedException e) {

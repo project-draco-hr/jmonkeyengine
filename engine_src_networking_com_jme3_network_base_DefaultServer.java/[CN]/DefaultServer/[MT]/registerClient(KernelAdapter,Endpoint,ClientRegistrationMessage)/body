@@ -1,41 +1,36 @@
 {
   Connection addedConnection=null;
-  Connection bootedConnection=null;
 synchronized (this) {
     long tempId=m.getId();
     Connection c=connecting.remove(tempId);
     if (c == null) {
-      c=new Connection();
+      c=new Connection(channels.size());
       log.log(Level.FINE,"Registering client for endpoint, pass 1:{0}.",p);
     }
  else {
       log.log(Level.FINE,"Refining client registration for endpoint:{0}.",p);
     }
-    if (ka == fastAdapter) {
-      c.fast=p;
-      if (c.reliable == null) {
-        connecting.put(tempId,c);
-      }
-    }
- else {
-      c.reliable=p;
+    int channel=getChannel(ka);
+    c.setChannel(channel,p);
+    log.log(Level.FINE,"Setting up channel:{0}",channel);
+    if (channel == CH_RELIABLE) {
       if (!getGameName().equals(m.getGameName()) || getVersion() != m.getVersion()) {
         log.log(Level.INFO,"Kicking client due to name/version mismatch:{0}.",c);
         c.close("Server client mismatch, server:" + getGameName() + " v"+ getVersion()+ "  client:"+ m.getGameName()+ " v"+ m.getVersion());
         return;
       }
-      if (c.fast == null && fastAdapter != null) {
-        connecting.put(tempId,c);
-      }
     }
-    if (!connecting.containsKey(tempId)) {
+    if (c.isComplete()) {
       if (connections.put(c.getId(),c) == null) {
-        if (c.fast != null) {
-          endpointConnections.put(c.fast,c);
+        for (        Endpoint cp : c.channels) {
+          if (cp == null)           continue;
+          endpointConnections.put(cp,c);
         }
-        endpointConnections.put(c.reliable,c);
         addedConnection=c;
       }
+    }
+ else {
+      connecting.put(tempId,c);
     }
   }
   if (addedConnection != null) {
