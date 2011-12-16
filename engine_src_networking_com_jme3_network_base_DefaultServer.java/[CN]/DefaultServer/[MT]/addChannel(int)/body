@@ -1,0 +1,14 @@
+{
+  if (isRunning)   throw new IllegalStateException("Channels cannot be added once server is started.");
+  if (channels.size() - CH_FIRST != alternatePorts.size())   throw new IllegalStateException("Channel and port lists do not match.");
+  try {
+    int result=alternatePorts.size();
+    alternatePorts.add(port);
+    Kernel kernel=kernelFactory.createKernel(result,port);
+    channels.add(new KernelAdapter(this,kernel,dispatcher,true));
+    return result;
+  }
+ catch (  IOException e) {
+    throw new RuntimeException("Error adding channel for port:" + port,e);
+  }
+}

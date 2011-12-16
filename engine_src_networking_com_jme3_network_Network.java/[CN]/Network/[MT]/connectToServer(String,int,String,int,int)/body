@@ -2,5 +2,5 @@
   InetAddress remoteAddress=InetAddress.getByName(host);
   UdpConnector fast=remoteUdpPort == -1 ? null : new UdpConnector(remoteAddress,remoteUdpPort);
   SocketConnector reliable=new SocketConnector(remoteAddress,hostPort);
-  return new DefaultClient(gameName,version,reliable,fast);
+  return new DefaultClient(gameName,version,reliable,fast,new TcpConnectorFactory(remoteAddress));
 }

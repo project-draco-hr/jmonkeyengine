@@ -1,5 +1,5 @@
 {
   UdpConnector fast=new UdpConnector(address,remoteUdpPort);
   SocketConnector reliable=new SocketConnector(address,port);
-  setConnectors(reliable,fast);
+  setPrimaryConnectors(reliable,fast,new TcpConnectorFactory(address));
 }

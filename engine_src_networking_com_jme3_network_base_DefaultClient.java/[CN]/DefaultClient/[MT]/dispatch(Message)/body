@@ -6,7 +6,11 @@
     fireConnected();
     return;
   }
-  if (m instanceof DisconnectMessage) {
+ else   if (m instanceof ChannelInfoMessage) {
+    configureChannels(((ChannelInfoMessage)m).getId(),((ChannelInfoMessage)m).getPorts());
+    return;
+  }
+ else   if (m instanceof DisconnectMessage) {
     String reason=((DisconnectMessage)m).getReason();
     log.log(Level.SEVERE,"Connection terminated, reason:{0}.",reason);
     DisconnectInfo info=new DisconnectInfo();

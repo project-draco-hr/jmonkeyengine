@@ -19,6 +19,10 @@ synchronized (this) {
         c.close("Server client mismatch, server:" + getGameName() + " v"+ getVersion()+ "  client:"+ m.getGameName()+ " v"+ m.getVersion());
         return;
       }
+      if (!alternatePorts.isEmpty()) {
+        ChannelInfoMessage cim=new ChannelInfoMessage(m.getId(),alternatePorts);
+        c.send(cim);
+      }
     }
     if (c.isComplete()) {
       if (connections.put(c.getId(),c) == null) {
