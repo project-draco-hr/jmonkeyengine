@@ -1,10 +1,10 @@
 {
-  log.log(Level.INFO,"Closing endpoint:{0}.",p);
   SelectionKey key=endpointKeys.remove(p);
   if (key == null) {
-    log.log(Level.INFO,"Endpoint already closed:{0}.",p);
     return;
   }
+  log.log(Level.FINE,"Endpoint keys size:{0}",endpointKeys.size());
+  log.log(Level.INFO,"Closing endpoint:{0}.",p);
   SocketChannel c=(SocketChannel)key.channel();
   key.cancel();
   c.close();

@@ -1,5 +1,7 @@
 {
   go.set(false);
   writer.shutdown();
-  connector.close();
+  if (connector.isConnected()) {
+    connector.close();
+  }
 }

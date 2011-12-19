@@ -1,6 +1,7 @@
 {
+  if (socketEndpoints.remove(p.getRemoteAddress()) == null)   return;
   log.log(Level.INFO,"Closing endpoint:{0}.",p);
-  socketEndpoints.remove(p.getRemoteAddress());
+  log.log(Level.FINE,"Socket endpoints size:{0}",socketEndpoints.size());
   addEvent(EndpointEvent.createRemove(this,p));
   if (!hasEnvelopes()) {
     addEnvelope(EVENTS_PENDING);
