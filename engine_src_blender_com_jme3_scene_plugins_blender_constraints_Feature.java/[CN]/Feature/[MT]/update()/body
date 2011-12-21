@@ -1,0 +1,12 @@
+{
+  Object owner=blenderContext.getLoadedFeature(oma,LoadedFeatureDataType.LOADED_FEATURE);
+  if (owner instanceof Spatial) {
+    this.spatial=(Spatial)owner;
+  }
+ else   if (owner instanceof Bone) {
+    this.bone=(Bone)owner;
+  }
+ else {
+    throw new IllegalStateException("Unknown type of owner: " + owner.getClass());
+  }
+}

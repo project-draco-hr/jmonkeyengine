@@ -113,26 +113,6 @@ result=camera;
 }
 break;
 case OBJECT_TYPE_ARMATURE:
-Structure armatureStructure=((Pointer)objectStructure.getFieldValue("data")).fetchData(blenderContext.getInputStream()).get(0);
-Structure pose=((Pointer)objectStructure.getFieldValue("pose")).fetchData(blenderContext.getInputStream()).get(0);
-List<Structure> chanbase=((Structure)pose.getFieldValue("chanbase")).evaluateListBase(blenderContext);
-Map<Long,Structure> bonesPoseChannels=new HashMap<Long,Structure>(chanbase.size());
-for (Structure poseChannel : chanbase) {
-Pointer pBone=(Pointer)poseChannel.getFieldValue("bone");
-bonesPoseChannels.put(pBone.getOldMemoryAddress(),poseChannel);
-}
-Matrix4f armatureObjectMatrix=this.getMatrix(objectStructure,"obmat",true);
-Matrix4f inverseMeshObjectMatrix=this.getMatrix(objectStructure,"obmat",true).invertLocal();
-Matrix4f objectToArmatureTransformation=armatureObjectMatrix.multLocal(inverseMeshObjectMatrix);
-List<Structure> bonebase=((Structure)armatureStructure.getFieldValue("bonebase")).evaluateListBase(blenderContext);
-ArmatureHelper armatureHelper=blenderContext.getHelper(ArmatureHelper.class);
-List<Bone> bonesList=new ArrayList<Bone>();
-for (int i=0; i < bonebase.size(); ++i) {
-armatureHelper.buildBones(bonebase.get(i),null,bonesList,objectToArmatureTransformation,bonesPoseChannels,blenderContext);
-}
-bonesList.add(0,new Bone(""));
-Skeleton skeleton=new Skeleton(bonesList.toArray(new Bone[bonesList.size()]));
-blenderContext.setSkeleton(objectStructure.getOldMemoryAddress(),skeleton);
 Node armature=new Node(name);
 armature.setLocalTransform(t);
 if (parent instanceof Node) {
@@ -155,7 +135,7 @@ constraintHelper.loadConstraints(objectStructure,blenderContext);
 List<Constraint> objectConstraints=blenderContext.getConstraints(objectStructure.getOldMemoryAddress());
 if (objectConstraints != null) {
 for (Constraint objectConstraint : objectConstraints) {
-objectConstraint.bakeStatic();
+objectConstraint.bake(Constraint.BAKE_STATIC);
 }
 }
 Properties properties=this.loadProperties(objectStructure,blenderContext);

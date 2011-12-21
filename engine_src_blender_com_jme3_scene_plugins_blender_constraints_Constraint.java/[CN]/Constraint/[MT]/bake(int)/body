@@ -1,0 +1,12 @@
+{
+  this.owner.update();
+  if (this.target != null) {
+    this.target.update();
+  }
+  if ((bakeFlag & BAKE_DYNAMIC) != 0) {
+    this.bakeDynamic();
+  }
+  if ((bakeFlag & BAKE_STATIC) != 0) {
+    this.bakeStatic();
+  }
+}

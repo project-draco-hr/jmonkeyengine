@@ -5,12 +5,26 @@
     Pointer pArmatureObject=(Pointer)modifierStructure.getFieldValue("object");
     if (pArmatureObject.isNotNull()) {
       ArmatureHelper armatureHelper=blenderContext.getHelper(ArmatureHelper.class);
-      ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
       Structure armatureObject=pArmatureObject.fetchData(blenderContext.getInputStream()).get(0);
       Structure armatureStructure=((Pointer)armatureObject.getFieldValue("data")).fetchData(blenderContext.getInputStream()).get(0);
+      Structure pose=((Pointer)armatureObject.getFieldValue("pose")).fetchData(blenderContext.getInputStream()).get(0);
+      List<Structure> chanbase=((Structure)pose.getFieldValue("chanbase")).evaluateListBase(blenderContext);
+      Map<Long,Structure> bonesPoseChannels=new HashMap<Long,Structure>(chanbase.size());
+      for (      Structure poseChannel : chanbase) {
+        Pointer pBone=(Pointer)poseChannel.getFieldValue("bone");
+        bonesPoseChannels.put(pBone.getOldMemoryAddress(),poseChannel);
+      }
+      ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
+      Matrix4f armatureObjectMatrix=objectHelper.getMatrix(armatureObject,"obmat",true);
+      Matrix4f inverseMeshObjectMatrix=objectHelper.getMatrix(objectStructure,"obmat",true).invertLocal();
+      Matrix4f objectToArmatureTransformation=armatureObjectMatrix.multLocal(inverseMeshObjectMatrix);
       List<Structure> bonebase=((Structure)armatureStructure.getFieldValue("bonebase")).evaluateListBase(blenderContext);
-      objectHelper.toObject(armatureObject,blenderContext);
-      Skeleton skeleton=blenderContext.getSkeleton(armatureObject.getOldMemoryAddress());
+      List<Bone> bonesList=new ArrayList<Bone>();
+      for (int i=0; i < bonebase.size(); ++i) {
+        armatureHelper.buildBones(bonebase.get(i),null,bonesList,objectToArmatureTransformation,bonesPoseChannels,blenderContext);
+      }
+      bonesList.add(0,new Bone(""));
+      Skeleton skeleton=new Skeleton(bonesList.toArray(new Bone[bonesList.size()]));
       this.meshOMA=meshStructure.getOldMemoryAddress();
       this.readVerticesWeightsData(objectStructure,meshStructure,skeleton,blenderContext);
       ArrayList<Animation> animations=new ArrayList<Animation>();
