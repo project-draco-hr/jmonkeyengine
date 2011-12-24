@@ -1,0 +1,11 @@
+{
+  if (keyFrameIndex < 0 || keyFrameIndex > totalFrames) {
+    throw new ArrayIndexOutOfBoundsException("keyFrameIndex must be between 0 and " + totalFrames + " (received "+ keyFrameIndex+ ")");
+  }
+  Vector3f v=keyFramesTranslation[keyFrameIndex];
+  if (v == null) {
+    v=new Vector3f();
+    keyFramesTranslation[keyFrameIndex]=v;
+  }
+  return v;
+}

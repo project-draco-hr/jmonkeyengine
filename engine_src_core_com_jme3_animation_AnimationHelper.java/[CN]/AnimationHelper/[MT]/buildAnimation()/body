@@ -1,0 +1,10 @@
+{
+  interpolateTime();
+  interpolate(keyFramesTranslation,Type.Translation);
+  interpolate(keyFramesRotation,Type.Rotation);
+  interpolate(keyFramesScale,Type.Scale);
+  SpatialTrack spatialTrack=new SpatialTrack(times,translations,rotations,scales);
+  Animation spatialAnimation=new Animation(name,duration);
+  spatialAnimation.setTracks(new SpatialTrack[]{spatialTrack});
+  return spatialAnimation;
+}
