@@ -1,0 +1,17 @@
+{
+  float[] data=buffer.array();
+  float[] retval=new float[data.length];
+  for (int y=this.radius; y < size - this.radius; y++) {
+    for (int x=this.radius; x < size - this.radius; x++) {
+      int idx=y * size + x;
+      float n=0;
+      for (int i=-this.radius; i < this.radius + 1; i++) {
+        for (int j=-this.radius; j < this.radius + 1; j++) {
+          n+=data[(y + i) * size + x + j];
+        }
+      }
+      retval[idx]=this.effect * n / (4 * this.radius * (this.radius + 1) + 1) + (1 - this.effect) * data[idx];
+    }
+  }
+  return FloatBuffer.wrap(retval);
+}

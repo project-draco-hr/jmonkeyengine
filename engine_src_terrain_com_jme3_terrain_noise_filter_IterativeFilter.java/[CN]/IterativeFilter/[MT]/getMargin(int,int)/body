@@ -1,0 +1,13 @@
+{
+  if (!this.isEnabled()) {
+    return margin;
+  }
+  for (  Filter f : this.preIterateFilters) {
+    margin=f.getMargin(size,margin);
+  }
+  margin=this.filter.getMargin(size,margin);
+  for (  Filter f : this.postIterateFilters) {
+    margin=f.getMargin(size,margin);
+  }
+  return this.iterations * margin + super.getMargin(size,margin);
+}

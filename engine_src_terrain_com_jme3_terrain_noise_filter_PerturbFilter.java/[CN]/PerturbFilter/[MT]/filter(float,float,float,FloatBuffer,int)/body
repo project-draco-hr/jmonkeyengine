@@ -1,0 +1,25 @@
+{
+  float[] arr=data.array();
+  int origSize=(int)Math.ceil(workSize / (2 * this.magnitude + 1));
+  int offset=(workSize - origSize) / 2;
+  Logger.getLogger(PerturbFilter.class.getCanonicalName()).info("Found origSize : " + origSize + " and offset: "+ offset+ " for workSize : "+ workSize+ " and magnitude : "+ this.magnitude);
+  float[] retval=new float[workSize * workSize];
+  float[] perturbx=new FractalSum().setOctaves(8).setScale(5f).getBuffer(sx,sy,base,workSize).array();
+  float[] perturby=new FractalSum().setOctaves(8).setScale(5f).getBuffer(sx,sy,base + 1,workSize).array();
+  for (int y=0; y < workSize; y++) {
+    for (int x=0; x < workSize; x++) {
+      float noisex=perturbx[y * workSize + x];
+      float noisey=perturby[y * workSize + x];
+      int px=(int)(origSize * noisex * this.magnitude);
+      int py=(int)(origSize * noisey * this.magnitude);
+      float c00=arr[this.wrap(y - py,workSize) * workSize + this.wrap(x - px,workSize)];
+      float c01=arr[this.wrap(y - py,workSize) * workSize + this.wrap(x + px,workSize)];
+      float c10=arr[this.wrap(y + py,workSize) * workSize + this.wrap(x - px,workSize)];
+      float c11=arr[this.wrap(y + py,workSize) * workSize + this.wrap(x + px,workSize)];
+      float c0=ShaderUtils.mix(c00,c01,noisex);
+      float c1=ShaderUtils.mix(c10,c11,noisex);
+      retval[y * workSize + x]=ShaderUtils.mix(c0,c1,noisey);
+    }
+  }
+  return FloatBuffer.wrap(retval);
+}

@@ -1,0 +1,6 @@
+{
+  float r=ShaderUtils.clamp(this.rgba[0] * 0.393f + this.rgba[1] * 0.769f + this.rgba[2] * 0.189f,0,1);
+  float g=ShaderUtils.clamp(this.rgba[0] * 0.349f + this.rgba[1] * 0.686f + this.rgba[2] * 0.168f,0,1);
+  float b=ShaderUtils.clamp(this.rgba[0] * 0.272f + this.rgba[1] * 0.534f + this.rgba[2] * 0.131f,0,1);
+  return new Color(r,g,b,this.rgba[3]);
+}

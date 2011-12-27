@@ -1,0 +1,7 @@
+{
+  float total=0;
+  for (float f=this.frequency, a=this.amplitude; f < this.maxFreq; f*=this.lacunarity, a*=this.roughness) {
+    total+=this.basis.value(this.scale * x * f,this.scale * y * f,this.scale * z * f) * a;
+  }
+  return ShaderUtils.clamp(total,-1,1);
+}
