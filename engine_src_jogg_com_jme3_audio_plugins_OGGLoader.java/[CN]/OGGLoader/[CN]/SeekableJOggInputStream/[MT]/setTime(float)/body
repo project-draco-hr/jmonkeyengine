@@ -1,0 +1,14 @@
+{
+  System.out.println("--setTime--)");
+  System.out.println("max granule : " + los.getMaximumGranulePosition());
+  System.out.println("current granule : " + los.getTime());
+  System.out.println("asked Time : " + time);
+  System.out.println("new granule : " + (time / duration * los.getMaximumGranulePosition()));
+  System.out.println("new granule2 : " + (time * vs.getIdentificationHeader().getSampleRate()));
+  try {
+    los.setTime((long)(time * vs.getIdentificationHeader().getSampleRate()));
+  }
+ catch (  IOException ex) {
+    Logger.getLogger(OGGLoader.class.getName()).log(Level.SEVERE,null,ex);
+  }
+}

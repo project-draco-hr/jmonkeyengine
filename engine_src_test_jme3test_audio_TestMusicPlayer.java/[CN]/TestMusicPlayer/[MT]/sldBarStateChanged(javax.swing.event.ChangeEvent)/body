@@ -3,10 +3,6 @@
     curTime=sldBar.getValue() / 100f;
     if (curTime < 0)     curTime=0;
     musicSource.setTimeOffset(curTime);
-    if (musicSource.getStatus() == Status.Playing) {
-      musicSource.stop();
-      musicSource.play();
-    }
     updateTime();
   }
 }
