@@ -1,0 +1,11 @@
+{
+  try {
+    RoughExtraToolParams params=new RoughExtraToolParams();
+    params.lacunarity=new Float(lacunarityField.getText());
+    params.octaves=new Float(octavesField.getText());
+    params.scale=new Float(scaleField.getText());
+    toolController.setExtraToolParams(params);
+  }
+ catch (  NumberFormatException e) {
+  }
+}

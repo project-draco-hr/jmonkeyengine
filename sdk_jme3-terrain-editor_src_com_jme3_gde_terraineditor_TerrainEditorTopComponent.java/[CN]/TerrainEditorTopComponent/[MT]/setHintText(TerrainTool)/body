@@ -5,4 +5,23 @@
  else {
     hintTextArea.setText(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.toolHint.default"));
   }
+  if (tool == null) {
+    brushVariablesScrollPane.setVisible(false);
+    fractalBrushPanel.setVisible(false);
+  }
+ else   if (tool.getClass() == RoughTerrainTool.class) {
+    if (roughTerrainButton.isSelected()) {
+      brushVariablesScrollPane.setVisible(true);
+      fractalBrushPanel.setVisible(true);
+    }
+ else {
+      brushVariablesScrollPane.setVisible(false);
+      fractalBrushPanel.setVisible(false);
+    }
+  }
+ else {
+    brushVariablesScrollPane.setVisible(false);
+    fractalBrushPanel.setVisible(false);
+  }
+  mainScrollPane.validate();
 }

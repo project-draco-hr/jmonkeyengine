@@ -1,0 +1,12 @@
+{
+  try {
+    javax.swing.JTextField textField=(javax.swing.JTextField)input;
+    String a=textField.getText();
+    Float.parseFloat(a);
+  }
+ catch (  NumberFormatException e) {
+    Toolkit.getDefaultToolkit().beep();
+    return false;
+  }
+  return true;
+}
