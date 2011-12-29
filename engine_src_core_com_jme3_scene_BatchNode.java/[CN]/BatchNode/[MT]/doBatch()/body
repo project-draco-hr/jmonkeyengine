@@ -1,5 +1,6 @@
 {
   Map<Material,List<Geometry>> matMap=new HashMap<Material,List<Geometry>>();
+  maxVertCount=0;
   gatherGeomerties(matMap,this);
   batches.clear();
   int nbGeoms=0;
@@ -17,6 +18,11 @@
     batch.geometry.getMesh().updateCounts();
     batch.geometry.getMesh().updateBound();
     batches.put(material,batch);
+  }
+  tmpFloat=new float[maxVertCount * 3];
+  tmpFloatN=new float[maxVertCount * 3];
+  if (useTangents) {
+    tmpFloatT=new float[maxVertCount * 4];
   }
   logger.log(Level.INFO,"Batched {0} geometries in {1} batches.",new Object[]{nbGeoms,batches.size()});
 }

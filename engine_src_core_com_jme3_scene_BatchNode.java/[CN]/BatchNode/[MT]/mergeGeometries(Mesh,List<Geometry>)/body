@@ -4,7 +4,6 @@
   int totalVerts=0;
   int totalTris=0;
   int totalLodLevels=0;
-  int maxVertCount=0;
   Mesh.Mode mode=null;
   for (  Geometry geom : geometries) {
     totalVerts+=geom.getVertexCount();
@@ -100,6 +99,9 @@ doCopyBuffer(inPos,globalVertIndex,outPos);
 FloatBuffer inPos=(FloatBuffer)inBuf.getData();
 FloatBuffer outPos=(FloatBuffer)outBuf.getData();
 doCopyBuffer(inPos,globalVertIndex,outPos);
+if (VertexBuffer.Type.Tangent.ordinal() == bufType) {
+useTangents=true;
+}
 }
  else {
 for (int vert=0; vert < geomVertCount; vert++) {
@@ -111,7 +113,4 @@ inBuf.copyElement(vert,outBuf,curGlobalVertIndex);
 globalVertIndex+=geomVertCount;
 globalTriIndex+=geomTriCount;
 }
-tmpFloat=new float[maxVertCount * 3];
-tmpFloatN=new float[maxVertCount * 3];
-tmpFloatT=new float[maxVertCount * 4];
 }
