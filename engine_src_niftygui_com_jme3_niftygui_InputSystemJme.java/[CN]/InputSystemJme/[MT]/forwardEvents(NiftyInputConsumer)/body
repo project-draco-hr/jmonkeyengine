@@ -11,6 +11,9 @@
  else     if (evt instanceof KeyInputEvent) {
       onKeyEventQueued((KeyInputEvent)evt,nic);
     }
+ else     if (evt instanceof TouchEvent) {
+      onTouchEventQueued((TouchEvent)evt,nic);
+    }
   }
   inputQueue.clear();
 }

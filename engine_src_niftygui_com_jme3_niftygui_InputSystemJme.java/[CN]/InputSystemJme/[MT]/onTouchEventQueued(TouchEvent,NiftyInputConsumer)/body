@@ -1,0 +1,25 @@
+{
+  boolean consumed=false;
+  x=(int)evt.getX();
+  y=(int)(height - evt.getY());
+switch (evt.getType()) {
+case DOWN:
+    consumed=nic.processMouseEvent(x,y,0,0,false);
+  isDragging=true;
+niftyOwnsDragging=consumed;
+if (consumed) {
+evt.setConsumed();
+}
+break;
+case UP:
+if (niftyOwnsDragging) {
+consumed=nic.processMouseEvent(x,y,0,buttonIndex,pressed);
+if (consumed) {
+evt.setConsumed();
+}
+}
+isDragging=false;
+niftyOwnsDragging=false;
+break;
+}
+}
