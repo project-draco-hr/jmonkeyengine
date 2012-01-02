@@ -1,0 +1,25 @@
+{
+  try {
+    Method cleanerMethod=toBeDestroyed.getClass().getMethod("cleaner");
+    cleanerMethod.setAccessible(true);
+    Object cleaner=cleanerMethod.invoke(toBeDestroyed);
+    Method cleanMethod=cleaner.getClass().getMethod("clean");
+    cleanMethod.setAccessible(true);
+    cleanMethod.invoke(cleaner);
+  }
+ catch (  IllegalAccessException ex) {
+    Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"{0}",ex);
+  }
+catch (  IllegalArgumentException ex) {
+    Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"{0}",ex);
+  }
+catch (  InvocationTargetException ex) {
+    Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"{0}",ex);
+  }
+catch (  NoSuchMethodException ex) {
+    Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"{0}",ex);
+  }
+catch (  SecurityException ex) {
+    Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"{0}",ex);
+  }
+}
