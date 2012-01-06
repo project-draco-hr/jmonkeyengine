@@ -1,0 +1,38 @@
+{
+  float[] heights=terr.getHeightMap();
+  int length=heights.length;
+  int side=(int)FastMath.sqrt(heights.length);
+  float[] vertices=new float[length * 3];
+  int[] indices=new int[(side - 1) * (side - 1) * 6];
+  Vector3f scale=((Node)terr).getWorldScale().clone();
+  Vector3f trans=((Node)terr).getWorldTranslation().clone();
+  trans.x-=terr.getTerrainSize() / 2f;
+  trans.z-=terr.getTerrainSize() / 2f;
+  float offsetX=trans.x * scale.x;
+  float offsetZ=trans.z * scale.z;
+  int i=0;
+  for (int z=0; z < side; z++) {
+    for (int x=0; x < side; x++) {
+      vertices[i++]=x + offsetX;
+      vertices[i++]=heights[z * side + x] * scale.y;
+      vertices[i++]=z + offsetZ;
+    }
+  }
+  i=0;
+  for (int z=0; z < side - 1; z++) {
+    for (int x=0; x < side - 1; x++) {
+      indices[i++]=z * side + x;
+      indices[i++]=(z + 1) * side + x;
+      indices[i++]=(z + 1) * side + x + 1;
+      indices[i++]=z * side + x;
+      indices[i++]=(z + 1) * side + x + 1;
+      indices[i++]=z * side + x + 1;
+    }
+  }
+  Mesh mesh2=new Mesh();
+  mesh2.setBuffer(Type.Position,3,vertices);
+  mesh2.setBuffer(Type.Index,3,indices);
+  mesh2.updateBound();
+  mesh2.updateCounts();
+  return mesh2;
+}

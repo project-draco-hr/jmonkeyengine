@@ -1,0 +1,24 @@
+{
+  nmgen=new NavmeshGenerator(cellSize,cellHeight,minTraversableHeight,maxTraversableStep,maxTraversableSlope,clipLedges,traversableAreaBorderSize,smoothingThreshold,useConservativeExpansion,minUnconnectedRegionSize,mergeRegionSize,maxEdgeLength,edgeMaxDeviation,maxVertsPerPoly,contourSampleDistance,contourMaxDeviation);
+  FloatBuffer pb=mesh.getFloatBuffer(Type.Position);
+  IndexBuffer ib=mesh.getIndexBuffer();
+  float[] positions=new float[pb.capacity()];
+  pb.clear();
+  pb.get(positions);
+  int[] indices=new int[ib.size()];
+  for (int i=0; i < indices.length; i++) {
+    indices[i]=ib.get(i);
+  }
+  TriangleMesh triMesh=nmgen.build(positions,indices,intermediateData);
+  if (triMesh == null) {
+    return null;
+  }
+  int[] indices2=triMesh.indices;
+  float[] positions2=triMesh.vertices;
+  Mesh mesh2=new Mesh();
+  mesh2.setBuffer(Type.Position,3,positions2);
+  mesh2.setBuffer(Type.Index,3,indices2);
+  mesh2.updateBound();
+  mesh2.updateCounts();
+  return mesh2;
+}

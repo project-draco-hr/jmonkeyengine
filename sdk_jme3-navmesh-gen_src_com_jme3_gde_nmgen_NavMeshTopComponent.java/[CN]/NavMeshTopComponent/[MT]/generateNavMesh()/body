@@ -1,0 +1,20 @@
+{
+  float cellHeight=Float.parseFloat(cellHeightField.getText());
+  float cellSize=Float.parseFloat(cellSizeField.getText());
+  boolean clipLedges=clipLedgesBox.isSelected();
+  float contourMaxDeviation=Float.parseFloat(contourMaxDeviationField.getText());
+  float contourSampleDistance=Float.parseFloat(contourSampleDistanceField.getText());
+  float edgeMaxDeviation=Float.parseFloat(edgeMaxDeviationField.getText());
+  float maxEdgeLength=Float.parseFloat(maxEdgeLengthField.getText());
+  float maxTraversableSlope=Float.parseFloat(maxTraversableSlopeField.getText());
+  float maxTraversableStep=Float.parseFloat(maxTraversableStepField.getText());
+  float maxVertsPerPoly=Float.parseFloat(maxVertsPerPolyField.getText());
+  float mergeRegionSize=Float.parseFloat(mergeRegionSizeField.getText());
+  float minTraversableHeight=Float.parseFloat(minTraversableHeightField.getText());
+  float smoothingThreshold=Float.parseFloat(smoothingThresholdField.getText());
+  float traversableAreaBorderSize=Float.parseFloat(traversableAreaBorderSizeField.getText());
+  boolean useConservativeExpansion=useConservativeExpansionBox.isSelected();
+  float minUnconnectedRegionSize=Float.parseFloat(minUnconnectedRegionSizeField.getText());
+  Mesh debugMesh=editorController.generateNavMesh(cellSize,cellHeight,minTraversableHeight,maxTraversableStep,maxTraversableSlope,clipLedges,traversableAreaBorderSize,smoothingThreshold,useConservativeExpansion,minUnconnectedRegionSize,mergeRegionSize,maxEdgeLength,edgeMaxDeviation,maxVertsPerPoly,contourSampleDistance,contourMaxDeviation);
+  toolController.attachNavMesh(debugMesh);
+}

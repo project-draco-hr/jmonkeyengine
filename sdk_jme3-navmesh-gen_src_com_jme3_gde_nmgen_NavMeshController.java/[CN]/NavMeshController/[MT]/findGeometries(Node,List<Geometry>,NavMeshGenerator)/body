@@ -1,0 +1,18 @@
+{
+  for (Iterator<Spatial> it=node.getChildren().iterator(); it.hasNext(); ) {
+    Spatial spatial=it.next();
+    if (spatial instanceof Geometry) {
+      geoms.add((Geometry)spatial);
+    }
+ else     if (spatial instanceof Node) {
+      if (spatial instanceof Terrain) {
+        Mesh merged=generator.terrain2mesh((Terrain)spatial);
+        Geometry g=new Geometry("mergedTerrain");
+        g.setMesh(merged);
+        geoms.add(g);
+      }
+ else       findGeometries((Node)spatial,geoms,generator);
+    }
+  }
+  return geoms;
+}
