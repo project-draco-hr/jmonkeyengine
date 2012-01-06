@@ -18,4 +18,8 @@
       req.setModified(false);
     }
   }
+  if ((request != null) && (request.getDataObject() instanceof AssetDataObject)) {
+    AssetDataObject obj=(AssetDataObject)request.getDataObject();
+    obj.closeAsset();
+  }
 }
