@@ -10,6 +10,10 @@
   GeometryBatchFactory.mergeGeometries(findGeometries(rootNode,new LinkedList<Geometry>(),generator),mesh);
   Mesh optiMesh=generator.optimize(mesh);
   final Geometry navMesh=new Geometry("NavMesh");
+  Material material=new Material(pm,"Common/MatDefs/Misc/Unshaded.j3md");
+  material.getAdditionalRenderState().setWireframe(true);
+  material.setColor("Color",ColorRGBA.Green);
+  navMesh.setMaterial(material);
   navMesh.setMesh(optiMesh);
   navMesh.setCullHint(CullHint.Always);
   navMesh.setModelBound(new BoundingBox());
