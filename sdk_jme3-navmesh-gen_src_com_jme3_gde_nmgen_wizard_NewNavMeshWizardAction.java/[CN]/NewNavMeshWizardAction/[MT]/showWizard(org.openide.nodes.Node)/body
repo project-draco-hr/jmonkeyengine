@@ -1,0 +1,15 @@
+{
+  WizardDescriptor wizardDescriptor=new WizardDescriptor(getPanels());
+  wizardDescriptor.setTitleFormat(new MessageFormat("{0}"));
+  wizardDescriptor.setTitle("Your wizard dialog title here");
+  NavMeshGenerator gen=new NavMeshGenerator();
+  wizardDescriptor.putProperty("generator",gen);
+  Dialog dialog=DialogDisplayer.getDefault().createDialog(wizardDescriptor);
+  dialog.setVisible(true);
+  dialog.toFront();
+  boolean cancelled=wizardDescriptor.getValue() != WizardDescriptor.FINISH_OPTION;
+  if (!cancelled) {
+    return wizardDescriptor;
+  }
+  return null;
+}

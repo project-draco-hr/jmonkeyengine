@@ -1,0 +1,17 @@
+{
+  if (configuration == null) {
+    return null;
+  }
+  WizardDescriptor wizardDescriptor=(WizardDescriptor)configuration;
+  NavMeshGenerator generator=(NavMeshGenerator)wizardDescriptor.getProperty("generator");
+  IntermediateData id=new IntermediateData();
+  generator.setIntermediateData(null);
+  Mesh mesh=new Mesh();
+  GeometryBatchFactory.mergeGeometries(findGeometries(rootNode,new LinkedList<Geometry>(),generator),mesh);
+  Mesh optiMesh=generator.optimize(mesh);
+  final Geometry navMesh=new Geometry("NavMesh");
+  navMesh.setMesh(optiMesh);
+  navMesh.setCullHint(CullHint.Always);
+  navMesh.setModelBound(new BoundingBox());
+  return navMesh;
+}
