@@ -1,8 +1,7 @@
 {
   if (request.equals(currentRequest)) {
     setActivatedNodes(new org.openide.nodes.Node[]{});
-    if (request != null) {
-      request.getManager().removeClassPathEventListener(listener);
+    if (listener != null && request.getManager() != null) {
       listener=null;
     }
     SceneApplication.getApplication().removeSceneListener(this);
