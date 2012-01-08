@@ -245,6 +245,11 @@
       }
     }
   }
+  if (geometries.size() > 1) {
+    for (    Geometry geom : geometries) {
+      geom.getMesh().extractVertexData(geom.getMesh());
+    }
+  }
   blenderContext.addLoadedFeatures(structure.getOldMemoryAddress(),structure.getName(),structure,geometries);
   blenderContext.setMeshContext(structure.getOldMemoryAddress(),meshContext);
   return geometries;
