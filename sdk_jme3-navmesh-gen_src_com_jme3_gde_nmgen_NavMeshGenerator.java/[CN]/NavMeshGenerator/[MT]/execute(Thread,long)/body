@@ -6,7 +6,7 @@
  catch (  InterruptedException e) {
   }
   if (task.isAlive()) {
-    task.interrupt();
+    task.stop();
     throw new TimeoutException();
   }
 }
