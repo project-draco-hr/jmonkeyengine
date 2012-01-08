@@ -1,0 +1,54 @@
+{
+  VertexBuffer oldIdxBuf=getBuffer(Type.Index);
+  IndexBuffer indexBuf=getIndexBuffer();
+  int numIndices=indexBuf.size();
+  IntMap<Integer> oldIndicesToNewIndices=new IntMap<Integer>(numIndices);
+  ArrayList<Integer> newIndicesToOldIndices=new ArrayList<Integer>();
+  int newIndex=0;
+  for (int i=0; i < numIndices; i++) {
+    int oldIndex=indexBuf.get(i);
+    if (!oldIndicesToNewIndices.containsKey(oldIndex)) {
+      oldIndicesToNewIndices.put(oldIndex,newIndex);
+      newIndicesToOldIndices.add(oldIndex);
+      newIndex++;
+    }
+  }
+  int newNumVerts=newIndicesToOldIndices.size();
+  if (newIndex != newNumVerts) {
+    throw new AssertionError();
+  }
+  IndexBuffer newIndexBuf;
+  if (newNumVerts >= 65536) {
+    newIndexBuf=new IndexIntBuffer(BufferUtils.createIntBuffer(numIndices));
+  }
+ else {
+    newIndexBuf=new IndexShortBuffer(BufferUtils.createShortBuffer(numIndices));
+  }
+  for (int i=0; i < numIndices; i++) {
+    int oldIndex=indexBuf.get(i);
+    newIndex=oldIndicesToNewIndices.get(oldIndex);
+    newIndexBuf.put(i,newIndex);
+  }
+  VertexBuffer newIdxBuf=new VertexBuffer(Type.Index);
+  newIdxBuf.setupData(oldIdxBuf.getUsage(),oldIdxBuf.getNumComponents(),newIndexBuf instanceof IndexIntBuffer ? Format.UnsignedInt : Format.UnsignedShort,newIndexBuf.getBuffer());
+  clearBuffer(Type.Index);
+  setBuffer(newIdxBuf);
+  SafeArrayList<VertexBuffer> oldVertexData=other.getBufferList();
+  for (  VertexBuffer oldVb : oldVertexData) {
+    if (oldVb.getBufferType() == VertexBuffer.Type.Index) {
+      continue;
+    }
+    Buffer buffer=VertexBuffer.createBuffer(oldVb.getFormat(),oldVb.getNumComponents(),newNumVerts);
+    VertexBuffer newVb=new VertexBuffer(oldVb.getBufferType());
+    newVb.setNormalized(oldVb.isNormalized());
+    newVb.setupData(oldVb.getUsage(),oldVb.getNumComponents(),oldVb.getFormat(),buffer);
+    for (int i=0; i < newNumVerts; i++) {
+      int oldIndex=newIndicesToOldIndices.get(i);
+      oldVb.copyElement(oldIndex,newVb,i);
+    }
+    clearBuffer(newVb.getBufferType());
+    setBuffer(newVb);
+  }
+  updateCounts();
+  updateBound();
+}
