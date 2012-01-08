@@ -16,4 +16,10 @@
     material=(Material)ic.readSavable("material",null);
   }
   ignoreTransform=ic.readBoolean("ignoreTransform",false);
+  if (ic.getSavableVersion(Geometry.class) == 0) {
+    Mesh sharedMesh=getUserData(UserData.JME_SHAREDMESH);
+    if (sharedMesh != null) {
+      getMesh().extractVertexData(sharedMesh);
+    }
+  }
 }
