@@ -1,15 +1,9 @@
 {
-  explorerManager.setRootContext(object.getLookup().lookup(FilterPostProcessorNode.class));
-  node=object.getLookup().lookup(FilterPostProcessorNode.class);
-  setActivatedNodes(new Node[]{object.getNodeDelegate()});
-  open();
-  boolean wasAdded=added;
-  if (currentFile != null && added) {
-    setFilterEnabled(false);
-  }
   currentFile=object;
-  if (wasAdded) {
-    setFilterEnabled(true);
-  }
+  node=object.getLookup().lookup(FilterPostProcessorNode.class);
+  explorerManager.setRootContext(node);
+  setActivatedNodes(new Node[]{object.getNodeDelegate()});
+  updateFilterState();
+  open();
   requestVisible();
 }

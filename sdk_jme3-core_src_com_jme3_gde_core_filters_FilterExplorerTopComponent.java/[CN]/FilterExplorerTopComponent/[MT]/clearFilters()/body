@@ -1,0 +1,16 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable(){
+    public Object call() throws Exception {
+      for (Iterator<SceneProcessor> it=SceneApplication.getApplication().getViewPort().getProcessors().iterator(); it.hasNext(); ) {
+        SceneProcessor proc=it.next();
+        if (proc instanceof FilterPostProcessor) {
+          it.remove();
+          proc.cleanup();
+        }
+        Logger.getLogger(FilterExplorerTopComponent.class.getName()).log(Level.INFO,"Disabled post filters");
+      }
+      return null;
+    }
+  }
+);
+}
