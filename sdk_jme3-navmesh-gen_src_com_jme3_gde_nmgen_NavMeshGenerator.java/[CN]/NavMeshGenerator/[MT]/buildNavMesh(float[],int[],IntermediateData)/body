@@ -1,0 +1,10 @@
+{
+  MeshBuildRunnable runnable=new MeshBuildRunnable(positions,indices,intermediateData);
+  try {
+    execute(runnable,timeout);
+  }
+ catch (  TimeoutException ex) {
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("NavMesh Generation timed out."));
+  }
+  return runnable.getTriMesh();
+}

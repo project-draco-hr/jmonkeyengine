@@ -9,7 +9,7 @@
   for (int i=0; i < indices.length; i++) {
     indices[i]=ib.get(i);
   }
-  TriangleMesh triMesh=nmgen.build(positions,indices,intermediateData);
+  TriangleMesh triMesh=buildNavMesh(positions,indices,intermediateData);
   if (triMesh == null) {
     return null;
   }
