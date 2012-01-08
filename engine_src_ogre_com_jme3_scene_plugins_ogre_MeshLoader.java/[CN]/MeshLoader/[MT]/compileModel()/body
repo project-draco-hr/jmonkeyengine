@@ -3,22 +3,16 @@
   for (int i=0; i < geoms.size(); i++) {
     Geometry g=geoms.get(i);
     Mesh m=g.getMesh();
-    if (sharedMesh != null && isUsingSharedVerts(g)) {
-      m.setBound(sharedMesh.getBound().clone());
+    if (sharedMesh != null && usesSharedMesh.get(i)) {
+      m.extractVertexData(sharedMesh);
     }
     model.attachChild(geoms.get(i));
   }
   if (animData != null) {
-    if (sharedMesh != null) {
-      sharedMesh.generateBindPose(!HARDWARE_SKINNING);
-    }
     for (int i=0; i < geoms.size(); i++) {
       Geometry g=geoms.get(i);
       Mesh m=geoms.get(i).getMesh();
-      boolean useShared=isUsingSharedVerts(g);
-      if (!useShared) {
-        m.generateBindPose(!HARDWARE_SKINNING);
-      }
+      m.generateBindPose(!HARDWARE_SKINNING);
     }
     HashMap<String,Animation> anims=new HashMap<String,Animation>();
     ArrayList<Animation> animList=animData.anims;

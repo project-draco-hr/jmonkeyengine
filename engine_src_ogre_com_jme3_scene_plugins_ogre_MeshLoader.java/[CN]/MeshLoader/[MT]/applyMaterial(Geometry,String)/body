@@ -5,6 +5,9 @@
       mat=assetManager.loadMaterial(matName);
     }
  catch (    AssetNotFoundException ex) {
+      if (!ex.getMessage().equals(matName)) {
+        throw ex;
+      }
     }
   }
  else {

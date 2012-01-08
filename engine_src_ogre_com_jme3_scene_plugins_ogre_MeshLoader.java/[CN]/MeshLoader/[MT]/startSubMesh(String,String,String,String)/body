@@ -12,10 +12,10 @@
   usesBigIndices=parseBool(use32bitIndices,false);
   usesSharedVerts=parseBool(usesharedvertices,false);
   if (usesSharedVerts) {
-    IntMap<VertexBuffer> sharedBufs=sharedMesh.getBuffers();
-    for (    Entry<VertexBuffer> entry : sharedBufs) {
-      mesh.setBuffer(entry.getValue());
-    }
+    usesSharedMesh.add(true);
+  }
+ else {
+    usesSharedMesh.add(false);
   }
   if (meshName == null) {
     geom=new Geometry("OgreSubmesh-" + (++meshIndex),mesh);
@@ -24,7 +24,6 @@
     geom=new Geometry(meshName + "-geom-" + (++meshIndex),mesh);
   }
   if (usesSharedVerts) {
-    geom.setUserData(UserData.JME_SHAREDMESH,sharedMesh);
   }
   applyMaterial(geom,matName);
   geoms.add(geom);
