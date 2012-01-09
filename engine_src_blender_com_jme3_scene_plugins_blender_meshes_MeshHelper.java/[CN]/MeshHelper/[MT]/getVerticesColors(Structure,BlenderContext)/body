@@ -1,16 +1,16 @@
 {
   Pointer pMCol=(Pointer)meshStructure.getFieldValue("mcol");
-  List<float[]> verticesColors=null;
+  List<byte[]> verticesColors=null;
   List<Structure> mCol=null;
   if (pMCol.isNotNull()) {
-    verticesColors=new LinkedList<float[]>();
+    verticesColors=new LinkedList<byte[]>();
     mCol=pMCol.fetchData(blenderContext.getInputStream());
     for (    Structure color : mCol) {
-      float r=(((Number)color.getFieldValue("r")).byteValue() & 0xFF) / 256.0f;
-      float g=(((Number)color.getFieldValue("g")).byteValue() & 0xFF) / 256.0f;
-      float b=(((Number)color.getFieldValue("b")).byteValue() & 0xFF) / 256.0f;
-      float a=(((Number)color.getFieldValue("a")).byteValue() & 0xFF) / 256.0f;
-      verticesColors.add(new float[]{b,g,r,a});
+      byte r=((Number)color.getFieldValue("r")).byteValue();
+      byte g=((Number)color.getFieldValue("g")).byteValue();
+      byte b=((Number)color.getFieldValue("b")).byteValue();
+      byte a=((Number)color.getFieldValue("a")).byteValue();
+      verticesColors.add(new byte[]{b,g,r,a});
     }
   }
   return verticesColors;

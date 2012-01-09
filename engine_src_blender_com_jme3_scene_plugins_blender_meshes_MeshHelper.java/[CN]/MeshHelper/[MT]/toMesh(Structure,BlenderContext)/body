@@ -12,7 +12,7 @@
   MeshContext meshContext=new MeshContext();
   Vector3f[] vertices=this.getVertices(structure,blenderContext);
   int verticesAmount=vertices.length;
-  List<float[]> verticesColors=this.getVerticesColors(structure,blenderContext);
+  List<byte[]> verticesColors=this.getVerticesColors(structure,blenderContext);
   Map<Integer,List<Integer>> meshesMap=new HashMap<Integer,List<Integer>>();
   Pointer pMFace=(Pointer)structure.getFieldValue("mface");
   List<Structure> mFaces=null;
@@ -153,7 +153,7 @@
     uvCoordsBuffer.setupData(Usage.Static,2,Format.Float,BufferUtils.createFloatBuffer(uvCoordinates.toArray(new Vector2f[uvCoordinates.size()])));
   }
   Properties properties=this.loadProperties(structure,blenderContext);
-  FloatBuffer verticesColorsBuffer=this.createFloatBuffer(verticesColors);
+  ByteBuffer verticesColorsBuffer=createByteBuffer(verticesColors);
   for (  Entry<Integer,List<Integer>> meshEntry : meshesMap.entrySet()) {
     Mesh mesh=new Mesh();
     List<Integer> indexList=meshEntry.getValue();
@@ -175,6 +175,7 @@
     mesh.setBuffer(verticesBind);
     if (verticesColorsBuffer != null) {
       mesh.setBuffer(Type.Color,4,verticesColorsBuffer);
+      mesh.getBuffer(Type.Color).setNormalized(true);
     }
     mesh.setBuffer(normalsBuffer);
     mesh.setBuffer(normalsBind);
