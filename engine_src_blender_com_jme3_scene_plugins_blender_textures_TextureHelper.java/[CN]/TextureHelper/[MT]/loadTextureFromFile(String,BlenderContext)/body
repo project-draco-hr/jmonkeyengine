@@ -1,4 +1,7 @@
 {
+  if (!name.contains(".")) {
+    return null;
+  }
   AssetManager assetManager=blenderContext.getAssetManager();
   name=name.replaceAll("\\\\","\\/");
   Texture result=null;
