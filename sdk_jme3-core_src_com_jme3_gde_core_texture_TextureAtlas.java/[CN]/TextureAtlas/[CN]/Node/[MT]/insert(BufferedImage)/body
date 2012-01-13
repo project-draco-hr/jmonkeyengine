@@ -1,0 +1,32 @@
+{
+  if (!isLeaf()) {
+    Node newNode=child[0].insert(image);
+    if (newNode != null) {
+      return newNode;
+    }
+    return child[1].insert(image);
+  }
+ else {
+    if (this.image != null) {
+      return null;
+    }
+    if (image.getWidth() > rect.width || image.getHeight() > rect.height) {
+      return null;
+    }
+    if (image.getWidth() == rect.width && image.getHeight() == rect.height) {
+      this.image=image;
+      return this;
+    }
+    int dw=rect.width - image.getWidth();
+    int dh=rect.height - image.getHeight();
+    if (dw > dh) {
+      child[0]=new Node(rect.x,rect.y,image.getWidth(),rect.height);
+      child[1]=new Node(rect.x + image.getWidth(),rect.y,rect.width - image.getWidth(),rect.height);
+    }
+ else {
+      child[0]=new Node(rect.x,rect.y,rect.width,image.getHeight());
+      child[1]=new Node(rect.x,rect.y + image.getHeight(),rect.width,rect.height - image.getHeight());
+    }
+    return child[0].insert(image);
+  }
+}

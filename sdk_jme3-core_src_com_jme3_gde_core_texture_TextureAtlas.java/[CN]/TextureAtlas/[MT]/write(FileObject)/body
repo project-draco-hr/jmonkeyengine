@@ -1,0 +1,19 @@
+{
+  try {
+    ImageIO.write(image,"png",file.getOutputStream());
+    FileObject atlasFile=file.getParent().getFileObject(file.getName(),"atl");
+    if (atlasFile == null) {
+      atlasFile=file.getParent().createData(file.getName(),"atl");
+    }
+    BufferedWriter atlas=new BufferedWriter(new OutputStreamWriter(atlasFile.getOutputStream()));
+    for (    Map.Entry<String,Rectangle> e : rectangleMap.entrySet()) {
+      Rectangle r=e.getValue();
+      atlas.write(e.getKey() + " " + r.x+ " "+ r.y+ " "+ r.width+ " "+ r.height);
+      atlas.newLine();
+    }
+    atlas.close();
+  }
+ catch (  IOException e) {
+    Exceptions.printStackTrace(e);
+  }
+}
