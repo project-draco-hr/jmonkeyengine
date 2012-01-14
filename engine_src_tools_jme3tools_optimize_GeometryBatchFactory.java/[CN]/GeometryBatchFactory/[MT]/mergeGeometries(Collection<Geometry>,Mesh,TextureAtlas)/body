@@ -103,8 +103,8 @@ Texture tex=getMaterialTexture(geom,"DiffuseMap");
 if (tex == null) {
 tex=getMaterialTexture(geom,"ColorMap");
 }
-if (tex != null && tex.getKey() != null) {
-TextureAtlasTile tile=atlas.getAtlasTile(tex.getKey().getName());
+if (tex != null) {
+TextureAtlasTile tile=atlas.getAtlasTile(tex);
 if (tile != null) {
 FloatBuffer inPos=(FloatBuffer)inBuf.getData();
 FloatBuffer outPos=(FloatBuffer)outBuf.getData();

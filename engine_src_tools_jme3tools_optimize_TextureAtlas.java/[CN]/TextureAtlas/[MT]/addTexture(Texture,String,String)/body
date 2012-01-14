@@ -2,9 +2,9 @@
   if (texture == null) {
     return false;
   }
-  AssetKey key=texture.getKey();
-  if (texture.getImage() != null && key != null && key.getName() != null) {
-    return addImage(texture.getImage(),key.getName(),mapName,sourceTextureName);
+  String name=textureName(texture);
+  if (texture.getImage() != null && name != null) {
+    return addImage(texture.getImage(),name,mapName,sourceTextureName);
   }
  else {
     return false;
