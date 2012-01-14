@@ -1,0 +1,16 @@
+{
+  ByteBuffer sourceData=source.getData(0);
+  int height=source.getHeight();
+  int width=source.getWidth();
+  int index=0;
+  for (int yPos=y; yPos < height + y; yPos++) {
+    for (int xPos=x; xPos < width + x; xPos++) {
+      int i=(xPos + yPos * width) * 4;
+      image[i]=sourceData.get(index);
+      image[i + 1]=sourceData.get(index + 1);
+      image[i + 2]=sourceData.get(index + 2);
+      image[i + 3]=sourceData.get(index + 3);
+      index+=4;
+    }
+  }
+}
