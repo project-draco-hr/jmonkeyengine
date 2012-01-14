@@ -5,7 +5,7 @@
   if (sourceTextureName == null && !rootMapName.equals(mapName)) {
     throw new IllegalStateException("Cannot add texture to new map without source texture");
   }
-  TextureLocation location;
+  TextureAtlasTile location;
   if (sourceTextureName == null) {
     Node node=root.insert(image);
     if (node == null) {

@@ -1,0 +1,9 @@
+{
+  float x=(float)getX() / (float)atlasWidth;
+  float y=(float)getY() / (float)atlasHeight;
+  float w=(float)getWidth() / (float)atlasWidth;
+  float h=(float)getHeight() / (float)atlasHeight;
+  Vector2f location=new Vector2f(x,y);
+  Vector2f scale=new Vector2f(w,h);
+  return location.addLocal(previousLocation.multLocal(scale));
+}

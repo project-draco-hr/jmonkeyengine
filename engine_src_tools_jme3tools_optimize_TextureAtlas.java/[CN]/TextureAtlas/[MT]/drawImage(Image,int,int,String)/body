@@ -4,7 +4,7 @@
   }
   byte[] image=images.get(mapName);
   if (image == null) {
-    image=new byte[width * height * 4];
+    image=new byte[atlasWidth * atlasHeight * 4];
     images.put(mapName,image);
   }
   ByteBuffer sourceData=source.getData(0);
@@ -12,7 +12,7 @@
   int width=source.getWidth();
   for (int yPos=0; yPos < height; yPos++) {
     for (int xPos=0; xPos < width; xPos++) {
-      int i=((xPos + x) + (yPos + y) * this.width) * 4;
+      int i=((xPos + x) + (yPos + y) * atlasWidth) * 4;
       if (source.getFormat() == Format.ABGR8) {
         int j=(xPos + yPos * width) * 4;
         image[i]=sourceData.get(j);
