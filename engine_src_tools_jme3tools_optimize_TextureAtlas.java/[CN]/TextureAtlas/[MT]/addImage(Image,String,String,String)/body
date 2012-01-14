@@ -1,0 +1,26 @@
+{
+  if (rootMapName == null) {
+    rootMapName=mapName;
+  }
+  if (sourceTextureName == null && !rootMapName.equals(mapName)) {
+    throw new IllegalStateException("Cannot add texture to new map without source texture");
+  }
+  TextureLocation location;
+  if (sourceTextureName == null) {
+    Node node=root.insert(image);
+    if (node == null) {
+      return false;
+    }
+    location=node.location;
+  }
+ else {
+    location=locationMap.get(sourceTextureName);
+  }
+  if (location == null) {
+    logger.log(Level.WARNING,"Source texture not found");
+    return false;
+  }
+  locationMap.put(name,location);
+  drawImage(image,location.getX(),location.getY(),mapName);
+  return true;
+}

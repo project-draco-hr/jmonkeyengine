@@ -1,0 +1,9 @@
+{
+  float x=(float)getX() / (float)width;
+  float y=(float)getY() / (float)height;
+  float w=(float)getWidth() / (float)width;
+  float h=(float)getHeight() / (float)height;
+  Vector2f location=new Vector2f(x,y);
+  Vector2f scale=new Vector2f(w,h);
+  return location.add(previousLocation.multLocal(scale));
+}

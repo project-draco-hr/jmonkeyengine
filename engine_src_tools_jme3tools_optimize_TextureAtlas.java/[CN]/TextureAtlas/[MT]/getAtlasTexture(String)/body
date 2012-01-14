@@ -1,0 +1,10 @@
+{
+  if (images == null) {
+    return null;
+  }
+  byte[] image=images.get(mapName);
+  if (image != null) {
+    return new Texture2D(new Image(format,width,height,BufferUtils.createByteBuffer(image)));
+  }
+  return null;
+}
