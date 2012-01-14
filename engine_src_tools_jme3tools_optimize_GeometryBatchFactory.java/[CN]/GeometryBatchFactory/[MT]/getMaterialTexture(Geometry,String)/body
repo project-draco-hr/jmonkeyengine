@@ -1,0 +1,12 @@
+{
+  Material mat=geometry.getMaterial();
+  if (mat == null || mat.getParam(mapName) == null || !(mat.getParam(mapName) instanceof MatParamTexture)) {
+    return null;
+  }
+  MatParamTexture param=(MatParamTexture)mat.getParam(mapName);
+  Texture texture=param.getTextureValue();
+  if (texture == null) {
+    return null;
+  }
+  return texture;
+}
