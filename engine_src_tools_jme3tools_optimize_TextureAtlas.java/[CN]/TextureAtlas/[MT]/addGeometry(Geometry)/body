@@ -6,7 +6,7 @@
     diffuse=getMaterialTexture(geometry,"ColorMap");
   }
   if (diffuse != null && diffuse.getKey() != null) {
-    String keyName=diffuse.getKey().getName();
+    String keyName=diffuse.getKey().toString();
     if (!addTexture(diffuse,"DiffuseMap")) {
       return false;
     }
