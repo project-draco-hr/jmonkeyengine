@@ -1,28 +1,9 @@
 {
   List<Geometry> geometries=new ArrayList<Geometry>();
   GeometryBatchFactory.gatherGeoms(spat,geometries);
-  TextureAtlas atlas=new TextureAtlas(atlasSize,atlasSize);
-  for (  Geometry geometry : geometries) {
-    Texture diffuse=getMaterialTexture(geometry,"DiffuseMap");
-    Texture normal=getMaterialTexture(geometry,"NormalMap");
-    Texture specular=getMaterialTexture(geometry,"SpecularMap");
-    if (diffuse == null) {
-      diffuse=getMaterialTexture(geometry,"ColorMap");
-    }
-    if (diffuse != null && diffuse.getKey() != null) {
-      String keyName=diffuse.getKey().getName();
-      if (!atlas.addTexture(diffuse,"DiffuseMap")) {
-        throw new IllegalStateException("Adding diffuse texture" + keyName + "to atlas failed, atlas full.");
-      }
- else {
-        if (normal != null && normal.getKey() != null) {
-          atlas.addTexture(diffuse,"NormalMap",keyName);
-        }
-        if (specular != null && specular.getKey() != null) {
-          atlas.addTexture(specular,"SpecularMap",keyName);
-        }
-      }
-    }
+  TextureAtlas atlas=createAtlas(spat,atlasSize);
+  if (atlas == null) {
+    return null;
   }
   Geometry geom=new Geometry();
   Mesh mesh=new Mesh();

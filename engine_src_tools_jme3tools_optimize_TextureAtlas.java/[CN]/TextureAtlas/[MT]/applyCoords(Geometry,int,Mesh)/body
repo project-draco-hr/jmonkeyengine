@@ -1,0 +1,28 @@
+{
+  Mesh inMesh=geom.getMesh();
+  geom.computeWorldMatrix();
+  VertexBuffer inBuf=inMesh.getBuffer(Type.TexCoord);
+  VertexBuffer outBuf=outMesh.getBuffer(Type.TexCoord);
+  if (inBuf == null || outBuf == null) {
+    throw new IllegalStateException("Geometry mesh has no texture coordinate buffer.");
+  }
+  Texture tex=getMaterialTexture(geom,"DiffuseMap");
+  if (tex == null) {
+    tex=getMaterialTexture(geom,"ColorMap");
+  }
+  if (tex != null) {
+    TextureAtlasTile tile=getAtlasTile(tex);
+    if (tile != null) {
+      FloatBuffer inPos=(FloatBuffer)inBuf.getData();
+      FloatBuffer outPos=(FloatBuffer)outBuf.getData();
+      tile.transformTextureCoords(inPos,offset,outPos);
+      return true;
+    }
+ else {
+      return false;
+    }
+  }
+ else {
+    throw new IllegalStateException("Geometry has no proper texture.");
+  }
+}

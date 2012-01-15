@@ -9,18 +9,7 @@
     if (inBuf == null || outBuf == null) {
       continue;
     }
-    Texture tex=getMaterialTexture(geom,"DiffuseMap");
-    if (tex == null) {
-      tex=getMaterialTexture(geom,"ColorMap");
-    }
-    if (tex != null) {
-      TextureAtlasTile tile=atlas.getAtlasTile(tex);
-      if (tile != null) {
-        FloatBuffer inPos=(FloatBuffer)inBuf.getData();
-        FloatBuffer outPos=(FloatBuffer)outBuf.getData();
-        tile.transformTextureCoords(inPos,globalVertIndex,outPos);
-      }
-    }
+    atlas.applyCoords(geom,globalVertIndex,outMesh);
     globalVertIndex+=geomVertCount;
   }
 }
