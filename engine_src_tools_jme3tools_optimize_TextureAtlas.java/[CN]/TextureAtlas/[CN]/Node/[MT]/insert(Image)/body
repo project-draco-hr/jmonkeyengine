@@ -7,14 +7,14 @@
     return child[1].insert(image);
   }
  else {
-    if (this.image != null) {
+    if (occupied) {
       return null;
     }
     if (image.getWidth() > location.getWidth() || image.getHeight() > location.getHeight()) {
       return null;
     }
     if (image.getWidth() == location.getWidth() && image.getHeight() == location.getHeight()) {
-      this.image=image;
+      occupied=true;
       return this;
     }
     int dw=location.getWidth() - image.getWidth();
