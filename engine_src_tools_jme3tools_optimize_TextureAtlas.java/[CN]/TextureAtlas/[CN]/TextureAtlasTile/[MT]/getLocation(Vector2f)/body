@@ -6,18 +6,6 @@
   Vector2f location=new Vector2f(x,y);
   float prevX=previousLocation.x;
   float prevY=previousLocation.y;
-  if (prevX > 1) {
-    prevX=1;
-  }
-  if (prevY > 1) {
-    prevY=1;
-  }
-  if (prevX < 0) {
-    prevX=0;
-  }
-  if (prevY < 0) {
-    prevY=0;
-  }
   location.addLocal(prevX * w,prevY * h);
   return location;
 }

@@ -42,7 +42,7 @@
         image[i + 3]=sourceData.get(j);
       }
  else {
-        logger.log(Level.WARNING,"Could not draw texture with format {0}",source.getFormat());
+        throw new UnsupportedOperationException("Could not draw texture with format " + source.getFormat());
       }
     }
   }
