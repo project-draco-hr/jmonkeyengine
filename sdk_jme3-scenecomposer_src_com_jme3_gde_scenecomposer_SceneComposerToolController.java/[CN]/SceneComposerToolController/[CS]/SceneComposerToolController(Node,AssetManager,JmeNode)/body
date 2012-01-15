@@ -2,5 +2,11 @@
   super(toolsNode,manager);
   this.rootNode=rootNode;
   nonSpatialMarkersNode=new Node("lightMarkersNode");
-  toolsNode.attachChild(nonSpatialMarkersNode);
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      toolsNode.attachChild(nonSpatialMarkersNode);
+      return null;
+    }
+  }
+);
 }
