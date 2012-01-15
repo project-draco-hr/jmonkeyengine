@@ -1,7 +1,8 @@
 {
-  assetManager.registerLocator("wildhouse.zip",ZipLocator.class.getName());
+  flyCam.setMoveSpeed(50);
+  assetManager.registerLocator("town.zip",ZipLocator.class.getName());
   Spatial scene=assetManager.loadModel("main.scene");
-  Geometry geom=GeometryBatchFactory.makeAtlasBatch(scene,assetManager,4096);
+  Geometry geom=GeometryBatchFactory.makeAtlasBatch(scene,assetManager,2048);
   AmbientLight al=new AmbientLight();
   rootNode.addLight(al);
   DirectionalLight sun=new DirectionalLight();
@@ -9,4 +10,8 @@
   sun.setColor(ColorRGBA.White.clone().multLocal(2));
   rootNode.addLight(sun);
   rootNode.attachChild(geom);
+  Geometry box=new Geometry("displayquad",new Quad(4,4));
+  box.setMaterial(geom.getMaterial());
+  box.setLocalTranslation(0,1,0);
+  rootNode.attachChild(box);
 }

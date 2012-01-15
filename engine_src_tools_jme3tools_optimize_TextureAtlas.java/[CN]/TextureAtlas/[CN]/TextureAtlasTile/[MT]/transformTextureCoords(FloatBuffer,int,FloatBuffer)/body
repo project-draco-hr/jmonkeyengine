@@ -4,8 +4,8 @@
   for (int i=0; i < inBuf.capacity() / 2; i++) {
     tex.x=inBuf.get(i * 2 + 0);
     tex.y=inBuf.get(i * 2 + 1);
-    Vector2f outLoc=getLocation(tex);
-    outBuf.put(offset + i * 2 + 0,outLoc.x);
-    outBuf.put(offset + i * 2 + 1,outLoc.y);
+    Vector2f location=getLocation(tex);
+    outBuf.put(offset + i * 2 + 0,location.x);
+    outBuf.put(offset + i * 2 + 1,location.y);
   }
 }
