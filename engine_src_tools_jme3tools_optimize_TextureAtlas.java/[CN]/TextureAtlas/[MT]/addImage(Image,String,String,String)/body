@@ -7,8 +7,14 @@
   }
   TextureAtlasTile location=locationMap.get(name);
   if (location != null) {
-    locationMap.put(name,location);
-    return true;
+    if (!mapName.equals(mapNameMap.get(name))) {
+      logger.log(Level.WARNING,"Same texture " + name + " is used in different maps! ("+ mapName+ " and "+ mapNameMap.get(name)+ "). Location will be based on location in "+ mapNameMap.get(name)+ "!");
+      drawImage(image,location.getX(),location.getY(),mapName);
+      return true;
+    }
+ else {
+      return true;
+    }
   }
  else   if (sourceTextureName == null) {
     Node node=root.insert(image);
@@ -26,6 +32,7 @@
       throw new IllegalStateException(mapName + " " + name+ " does not fit "+ rootMapName+ " tile size. Make sure all textures (diffuse, normal, specular) for one model are the same size.");
     }
   }
+  mapNameMap.put(name,mapName);
   locationMap.put(name,location);
   drawImage(image,location.getX(),location.getY(),mapName);
   return true;
