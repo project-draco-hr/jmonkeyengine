@@ -12,13 +12,15 @@
     if (diffuse != null && diffuse.getKey() != null) {
       String keyName=diffuse.getKey().getName();
       if (!atlas.addTexture(diffuse,"DiffuseMap")) {
-        logger.log(Level.WARNING,"Adding diffuse texture {0} to atlas failed, atlas full?",keyName);
+        throw new IllegalStateException("Adding diffuse texture" + keyName + "to atlas failed, atlas full.");
       }
-      if (normal != null && normal.getKey() != null) {
-        atlas.addTexture(diffuse,"NormalMap",keyName);
-      }
-      if (specular != null && specular.getKey() != null) {
-        atlas.addTexture(specular,"SpecularMap",keyName);
+ else {
+        if (normal != null && normal.getKey() != null) {
+          atlas.addTexture(diffuse,"NormalMap",keyName);
+        }
+        if (specular != null && specular.getKey() != null) {
+          atlas.addTexture(specular,"SpecularMap",keyName);
+        }
       }
     }
   }
