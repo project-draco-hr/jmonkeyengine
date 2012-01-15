@@ -1,0 +1,24 @@
+{
+  Texture diffuse=getMaterialTexture(geometry,"DiffuseMap");
+  Texture normal=getMaterialTexture(geometry,"NormalMap");
+  Texture specular=getMaterialTexture(geometry,"SpecularMap");
+  if (diffuse == null) {
+    diffuse=getMaterialTexture(geometry,"ColorMap");
+  }
+  if (diffuse != null && diffuse.getKey() != null) {
+    String keyName=diffuse.getKey().getName();
+    if (!addTexture(diffuse,"DiffuseMap")) {
+      return false;
+    }
+ else {
+      if (normal != null && normal.getKey() != null) {
+        addTexture(diffuse,"NormalMap",keyName);
+      }
+      if (specular != null && specular.getKey() != null) {
+        addTexture(specular,"SpecularMap",keyName);
+      }
+    }
+    return true;
+  }
+  return true;
+}

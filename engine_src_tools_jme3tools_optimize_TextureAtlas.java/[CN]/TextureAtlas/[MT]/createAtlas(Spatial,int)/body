@@ -3,26 +3,7 @@
   GeometryBatchFactory.gatherGeoms(root,geometries);
   TextureAtlas atlas=new TextureAtlas(atlasSize,atlasSize);
   for (  Geometry geometry : geometries) {
-    Texture diffuse=getMaterialTexture(geometry,"DiffuseMap");
-    Texture normal=getMaterialTexture(geometry,"NormalMap");
-    Texture specular=getMaterialTexture(geometry,"SpecularMap");
-    if (diffuse == null) {
-      diffuse=getMaterialTexture(geometry,"ColorMap");
-    }
-    if (diffuse != null && diffuse.getKey() != null) {
-      String keyName=diffuse.getKey().getName();
-      if (!atlas.addTexture(diffuse,"DiffuseMap")) {
-        return null;
-      }
- else {
-        if (normal != null && normal.getKey() != null) {
-          atlas.addTexture(diffuse,"NormalMap",keyName);
-        }
-        if (specular != null && specular.getKey() != null) {
-          atlas.addTexture(specular,"SpecularMap",keyName);
-        }
-      }
-    }
+    atlas.addGeometry(geometry);
   }
   return atlas;
 }
