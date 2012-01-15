@@ -1,6 +1,6 @@
 {
   List<Geometry> geometries=new ArrayList<Geometry>();
-  gatherGeoms(spat,geometries);
+  GeometryBatchFactory.gatherGeoms(spat,geometries);
   TextureAtlas atlas=new TextureAtlas(atlasSize,atlasSize);
   for (  Geometry geometry : geometries) {
     Texture diffuse=getMaterialTexture(geometry,"DiffuseMap");
@@ -26,7 +26,8 @@
   }
   Geometry geom=new Geometry();
   Mesh mesh=new Mesh();
-  mergeGeometries(geometries,mesh,atlas);
+  GeometryBatchFactory.mergeGeometries(geometries,mesh);
+  applyAtlasCoords(geometries,mesh,atlas);
   mesh.updateCounts();
   mesh.updateBound();
   geom.setMesh(mesh);

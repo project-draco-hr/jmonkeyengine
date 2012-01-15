@@ -1,0 +1,26 @@
+{
+  int globalVertIndex=0;
+  for (  Geometry geom : geometries) {
+    Mesh inMesh=geom.getMesh();
+    geom.computeWorldMatrix();
+    int geomVertCount=inMesh.getVertexCount();
+    VertexBuffer inBuf=inMesh.getBuffer(Type.TexCoord);
+    VertexBuffer outBuf=outMesh.getBuffer(Type.TexCoord);
+    if (inBuf == null || outBuf == null) {
+      continue;
+    }
+    Texture tex=getMaterialTexture(geom,"DiffuseMap");
+    if (tex == null) {
+      tex=getMaterialTexture(geom,"ColorMap");
+    }
+    if (tex != null) {
+      TextureAtlasTile tile=atlas.getAtlasTile(tex);
+      if (tile != null) {
+        FloatBuffer inPos=(FloatBuffer)inBuf.getData();
+        FloatBuffer outPos=(FloatBuffer)outBuf.getData();
+        tile.transformTextureCoords(inPos,globalVertIndex,outPos);
+      }
+    }
+    globalVertIndex+=geomVertCount;
+  }
+}
