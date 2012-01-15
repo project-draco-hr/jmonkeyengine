@@ -1,12 +1,12 @@
 {
   if (texture == null) {
-    return false;
+    throw new IllegalStateException("Texture cannot be null");
   }
   String name=textureName(texture);
   if (texture.getImage() != null && name != null) {
-    return addImage(texture.getImage(),name,mapName,sourceTextureName);
+    addImage(texture.getImage(),name,mapName,sourceTextureName);
   }
  else {
-    return false;
+    throw new IllegalStateException("Texture has no asset name");
   }
 }

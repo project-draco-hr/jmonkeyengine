@@ -1,9 +1,9 @@
 {
   String sourceTextureName=textureName(sourceTexture);
   if (sourceTextureName == null) {
-    return false;
+    throw new IllegalStateException("Source texture has no asset name");
   }
  else {
-    return addTexture(texture,mapName,sourceTextureName);
+    addTexture(texture,mapName,sourceTextureName);
   }
 }
