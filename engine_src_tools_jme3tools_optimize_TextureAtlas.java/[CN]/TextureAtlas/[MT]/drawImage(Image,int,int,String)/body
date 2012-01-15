@@ -22,14 +22,14 @@
       }
  else       if (source.getFormat() == Format.BGR8) {
         int j=(xPos + yPos * width) * 3;
-        image[i]=0;
+        image[i]=1;
         image[i + 1]=sourceData.get(j);
         image[i + 2]=sourceData.get(j + 1);
         image[i + 3]=sourceData.get(j + 2);
       }
  else       if (source.getFormat() == Format.RGB8) {
         int j=(xPos + yPos * width) * 3;
-        image[i]=0;
+        image[i]=1;
         image[i + 1]=sourceData.get(j + 2);
         image[i + 2]=sourceData.get(j + 1);
         image[i + 3]=sourceData.get(j);
