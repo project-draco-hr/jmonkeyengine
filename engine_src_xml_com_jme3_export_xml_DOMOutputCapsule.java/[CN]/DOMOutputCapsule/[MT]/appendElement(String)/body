@@ -1,7 +1,7 @@
 {
-  Element ret=null;
-  ret=doc.createElement(name);
+  Element ret=doc.createElement(name);
   if (currentElement == null) {
+    ret.setAttribute("format_version",Integer.toString(FormatVersion.VERSION));
     doc.appendChild(ret);
   }
  else {

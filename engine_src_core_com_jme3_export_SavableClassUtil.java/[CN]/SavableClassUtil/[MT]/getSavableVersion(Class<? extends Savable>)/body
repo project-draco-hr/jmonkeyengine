@@ -1,7 +1,13 @@
 {
   try {
     Field field=clazz.getField("SAVABLE_VERSION");
-    return field.getInt(null);
+    Class<? extends Savable> declaringClass=(Class<? extends Savable>)field.getDeclaringClass();
+    if (declaringClass == clazz) {
+      return field.getInt(null);
+    }
+ else {
+      return 0;
+    }
   }
  catch (  IllegalAccessException ex) {
     IOException ioEx=new IOException();

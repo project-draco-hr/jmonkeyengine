@@ -1,9 +1,4 @@
 {
-  Class[] interfaces=clazz.getInterfaces();
-  for (  Class interfaceClass : interfaces) {
-    if (interfaceClass == Savable.class) {
-      return true;
-    }
-  }
-  return false;
+  boolean result=Savable.class.isAssignableFrom(clazz);
+  return result;
 }

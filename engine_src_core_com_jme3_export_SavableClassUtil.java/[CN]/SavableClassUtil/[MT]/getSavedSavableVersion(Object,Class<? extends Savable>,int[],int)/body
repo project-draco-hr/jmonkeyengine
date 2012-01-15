@@ -1,7 +1,7 @@
 {
   Class thisClass=savable.getClass();
   int count=0;
-  while (true) {
+  while (thisClass != desiredClass) {
     thisClass=thisClass.getSuperclass();
     if (thisClass != null && SavableClassUtil.isImplementingSavable(thisClass)) {
       count++;
@@ -14,7 +14,13 @@
     throw new IllegalArgumentException(savable.getClass().getName() + " does not extend " + desiredClass.getName()+ "!");
   }
  else   if (count >= versions.length) {
-    throw new IllegalArgumentException(savable.getClass().getName() + " cannot access version of " + desiredClass.getName()+ " because it doesn't implement Savable");
+    if (formatVersion <= 1) {
+      System.out.println("BUGGY J3O ALERT");
+      return 0;
+    }
+ else {
+      throw new IllegalArgumentException(savable.getClass().getName() + " cannot access version of " + desiredClass.getName()+ " because it doesn't implement Savable");
+    }
   }
   return versions[count];
 }
