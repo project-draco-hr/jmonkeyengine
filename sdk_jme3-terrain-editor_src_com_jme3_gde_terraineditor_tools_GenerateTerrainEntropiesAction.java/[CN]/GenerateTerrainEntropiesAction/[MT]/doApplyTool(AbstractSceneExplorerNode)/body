@@ -1,7 +1,14 @@
 {
   Node terrain=rootNode.getLookup().lookup(Node.class);
-  if (terrain instanceof TerrainQuad) {
-    ((TerrainQuad)terrain).generateEntropy(null);
+  ProgressHandle progressHandle=ProgressHandleFactory.createHandle("Generating Entropies");
+  progressHandle.start();
+  try {
+    if (terrain instanceof TerrainQuad) {
+      ((TerrainQuad)terrain).generateEntropy(null);
+    }
+  }
+  finally {
+    progressHandle.finish();
   }
   return true;
 }
