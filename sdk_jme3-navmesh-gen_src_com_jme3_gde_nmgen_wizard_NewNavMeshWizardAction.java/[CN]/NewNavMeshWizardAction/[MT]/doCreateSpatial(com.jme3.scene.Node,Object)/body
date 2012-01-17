@@ -11,7 +11,7 @@
     IntermediateData id=new IntermediateData();
     generator.setIntermediateData(null);
     Mesh mesh=new Mesh();
-    GeometryBatchFactory.mergeGeometries(findGeometries(rootNode,new LinkedList<Geometry>(),generator),mesh);
+    GeometryBatchFactory.mergeGeometries(findGeometries(rootNode,new LinkedList<Geometry>(),generator,rootNode),mesh);
     Mesh optiMesh=generator.optimize(mesh);
     if (optiMesh == null)     return null;
     Material material=new Material(pm,"Common/MatDefs/Misc/Unshaded.j3md");
