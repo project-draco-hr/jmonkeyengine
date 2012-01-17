@@ -13,6 +13,9 @@
   if (spaceIdx >= 1) {
     versionStr=versionStr.substring(openGlEsStr.length(),spaceIdx).trim();
   }
+ else {
+    versionStr=versionStr.substring(openGlEsStr.length()).trim();
+  }
   float version=Float.parseFloat(versionStr);
   glslVer=(int)(version * 100);
 switch (glslVer) {
