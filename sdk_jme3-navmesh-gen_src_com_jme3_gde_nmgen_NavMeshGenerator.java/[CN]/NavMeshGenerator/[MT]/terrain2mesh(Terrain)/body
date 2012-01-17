@@ -4,8 +4,7 @@
   int side=(int)FastMath.sqrt(heights.length);
   float[] vertices=new float[length * 3];
   int[] indices=new int[(side - 1) * (side - 1) * 6];
-  Vector3f scale=((Node)terr).getWorldScale().clone();
-  Vector3f trans=((Node)terr).getWorldTranslation().clone();
+  Vector3f trans=new Vector3f(0,0,0);
   trans.x-=terr.getTerrainSize() / 2f;
   trans.z-=terr.getTerrainSize() / 2f;
   float offsetX=trans.x;
