@@ -1,0 +1,50 @@
+{
+  if (outVb.format != format || outVb.components != components)   throw new IllegalArgumentException("Buffer format mismatch. Cannot copy");
+  int inPos=inIndex * components;
+  int outPos=outIndex * components;
+  int elementSz=components;
+  if (format == Format.Half) {
+    inPos*=2;
+    outPos*=2;
+    elementSz*=2;
+  }
+  Buffer srcData=getDataReadOnly();
+  outVb.data.clear();
+switch (format) {
+case Byte:
+case UnsignedByte:
+case Half:
+    ByteBuffer bin=(ByteBuffer)srcData;
+  ByteBuffer bout=(ByteBuffer)outVb.data;
+bin.position(inPos).limit(inPos + elementSz * len);
+bout.position(outPos).limit(outPos + elementSz * len);
+bout.put(bin);
+break;
+case Short:
+case UnsignedShort:
+ShortBuffer sin=(ShortBuffer)srcData;
+ShortBuffer sout=(ShortBuffer)outVb.data;
+sin.position(inPos).limit(inPos + elementSz * len);
+sout.position(outPos).limit(outPos + elementSz * len);
+sout.put(sin);
+break;
+case Int:
+case UnsignedInt:
+IntBuffer iin=(IntBuffer)srcData;
+IntBuffer iout=(IntBuffer)outVb.data;
+iin.position(inPos).limit(inPos + elementSz * len);
+iout.position(outPos).limit(outPos + elementSz * len);
+iout.put(iin);
+break;
+case Float:
+FloatBuffer fin=(FloatBuffer)srcData;
+FloatBuffer fout=(FloatBuffer)outVb.data;
+fin.position(inPos).limit(inPos + elementSz * len);
+fout.position(outPos).limit(outPos + elementSz * len);
+fout.put(fin);
+break;
+default :
+throw new UnsupportedOperationException("Unrecognized buffer format: " + format);
+}
+outVb.data.clear();
+}
