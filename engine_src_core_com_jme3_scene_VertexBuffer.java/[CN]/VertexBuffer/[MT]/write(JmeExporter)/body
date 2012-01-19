@@ -8,22 +8,23 @@
   oc.write(offset,"offset",0);
   oc.write(stride,"stride",0);
   String dataName="data" + format.name();
+  Buffer roData=getDataReadOnly();
 switch (format) {
 case Float:
-    oc.write((FloatBuffer)data,dataName,null);
+    oc.write((FloatBuffer)roData,dataName,null);
   break;
 case Short:
 case UnsignedShort:
-oc.write((ShortBuffer)data,dataName,null);
+oc.write((ShortBuffer)roData,dataName,null);
 break;
 case UnsignedByte:
 case Byte:
 case Half:
-oc.write((ByteBuffer)data,dataName,null);
+oc.write((ByteBuffer)roData,dataName,null);
 break;
 case Int:
 case UnsignedInt:
-oc.write((IntBuffer)data,dataName,null);
+oc.write((IntBuffer)roData,dataName,null);
 break;
 default :
 throw new IOException("Unsupported export buffer format: " + format);

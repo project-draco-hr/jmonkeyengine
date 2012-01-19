@@ -5,23 +5,23 @@
     inPos*=2;
     elementPos*=2;
   }
-  data.clear();
+  Buffer srcData=getDataReadOnly();
 switch (format) {
 case Byte:
 case UnsignedByte:
 case Half:
-    ByteBuffer bin=(ByteBuffer)data;
+    ByteBuffer bin=(ByteBuffer)srcData;
   return bin.get(inPos + elementPos);
 case Short:
 case UnsignedShort:
-ShortBuffer sin=(ShortBuffer)data;
+ShortBuffer sin=(ShortBuffer)srcData;
 return sin.get(inPos + elementPos);
 case Int:
 case UnsignedInt:
-IntBuffer iin=(IntBuffer)data;
+IntBuffer iin=(IntBuffer)srcData;
 return iin.get(inPos + elementPos);
 case Float:
-FloatBuffer fin=(FloatBuffer)data;
+FloatBuffer fin=(FloatBuffer)srcData;
 return fin.get(inPos + elementPos);
 default :
 throw new UnsupportedOperationException("Unrecognized buffer format: " + format);

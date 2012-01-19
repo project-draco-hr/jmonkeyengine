@@ -1,0 +1,23 @@
+{
+  if (data == null) {
+    return null;
+  }
+  Buffer result;
+  if (data instanceof ByteBuffer) {
+    result=((ByteBuffer)data).asReadOnlyBuffer();
+  }
+ else   if (data instanceof FloatBuffer) {
+    result=((FloatBuffer)data).asReadOnlyBuffer();
+  }
+ else   if (data instanceof ShortBuffer) {
+    result=((ShortBuffer)data).asReadOnlyBuffer();
+  }
+ else   if (data instanceof IntBuffer) {
+    result=((IntBuffer)data).asReadOnlyBuffer();
+  }
+ else {
+    throw new UnsupportedOperationException("Cannot get read-only view of buffer type:" + data);
+  }
+  result.rewind();
+  return result;
+}

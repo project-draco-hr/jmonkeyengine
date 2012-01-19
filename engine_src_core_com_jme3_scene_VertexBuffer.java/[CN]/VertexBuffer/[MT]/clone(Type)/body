@@ -2,7 +2,7 @@
   VertexBuffer vb=new VertexBuffer(overrideType);
   vb.components=components;
   vb.componentsLength=componentsLength;
-  vb.data=BufferUtils.clone(data);
+  vb.data=BufferUtils.clone(getDataReadOnly());
   vb.format=format;
   vb.handleRef=new Object();
   vb.id=-1;

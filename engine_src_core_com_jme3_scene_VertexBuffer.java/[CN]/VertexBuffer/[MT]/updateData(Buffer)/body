@@ -1,6 +1,9 @@
 {
   if (id != -1) {
   }
+  if (data != null && data.isReadOnly()) {
+    throw new IllegalArgumentException("VertexBuffer data cannot be read-only.");
+  }
   if (data != null && (this.data.getClass() != data.getClass() || data.limit() != lastLimit)) {
     dataSizeChanged=true;
     lastLimit=data.limit();

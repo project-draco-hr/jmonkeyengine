@@ -8,13 +8,13 @@
     outPos*=2;
     elementSz*=2;
   }
-  data.clear();
+  Buffer srcData=getDataReadOnly();
   outVb.data.clear();
 switch (format) {
 case Byte:
 case UnsignedByte:
 case Half:
-    ByteBuffer bin=(ByteBuffer)data;
+    ByteBuffer bin=(ByteBuffer)srcData;
   ByteBuffer bout=(ByteBuffer)outVb.data;
 bin.position(inPos).limit(inPos + elementSz);
 bout.position(outPos).limit(outPos + elementSz);
@@ -22,7 +22,7 @@ bout.put(bin);
 break;
 case Short:
 case UnsignedShort:
-ShortBuffer sin=(ShortBuffer)data;
+ShortBuffer sin=(ShortBuffer)srcData;
 ShortBuffer sout=(ShortBuffer)outVb.data;
 sin.position(inPos).limit(inPos + elementSz);
 sout.position(outPos).limit(outPos + elementSz);
@@ -30,14 +30,14 @@ sout.put(sin);
 break;
 case Int:
 case UnsignedInt:
-IntBuffer iin=(IntBuffer)data;
+IntBuffer iin=(IntBuffer)srcData;
 IntBuffer iout=(IntBuffer)outVb.data;
 iin.position(inPos).limit(inPos + elementSz);
 iout.position(outPos).limit(outPos + elementSz);
 iout.put(iin);
 break;
 case Float:
-FloatBuffer fin=(FloatBuffer)data;
+FloatBuffer fin=(FloatBuffer)srcData;
 FloatBuffer fout=(FloatBuffer)outVb.data;
 fin.position(inPos).limit(inPos + elementSz);
 fout.position(outPos).limit(outPos + elementSz);
@@ -46,6 +46,5 @@ break;
 default :
 throw new UnsupportedOperationException("Unrecognized buffer format: " + format);
 }
-data.clear();
 outVb.data.clear();
 }
