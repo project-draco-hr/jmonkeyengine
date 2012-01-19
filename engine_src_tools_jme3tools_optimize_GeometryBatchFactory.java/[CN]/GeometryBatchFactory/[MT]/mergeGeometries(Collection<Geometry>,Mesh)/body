@@ -89,12 +89,12 @@ outIdx.put((globalTriIndex + tri) * components + comp,idx);
 }
 }
  else if (Type.Position.ordinal() == bufType) {
-FloatBuffer inPos=(FloatBuffer)inBuf.getData();
+FloatBuffer inPos=(FloatBuffer)inBuf.getDataReadOnly();
 FloatBuffer outPos=(FloatBuffer)outBuf.getData();
 doTransformVerts(inPos,globalVertIndex,outPos,worldMatrix);
 }
  else if (Type.Normal.ordinal() == bufType || Type.Tangent.ordinal() == bufType) {
-FloatBuffer inPos=(FloatBuffer)inBuf.getData();
+FloatBuffer inPos=(FloatBuffer)inBuf.getDataReadOnly();
 FloatBuffer outPos=(FloatBuffer)outBuf.getData();
 doTransformNorms(inPos,globalVertIndex,outPos,worldMatrix);
 }
