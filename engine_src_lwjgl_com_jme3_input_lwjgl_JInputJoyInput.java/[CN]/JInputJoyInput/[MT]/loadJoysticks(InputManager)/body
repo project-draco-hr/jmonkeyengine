@@ -6,7 +6,7 @@
   Controller[] cs=ce.getControllers();
   for (int i=0; i < cs.length; i++) {
     Controller c=cs[i];
-    if (c.getType() == Controller.Type.UNKNOWN || c.getType() == Controller.Type.KEYBOARD || c.getType() == Controller.Type.MOUSE)     continue;
+    if (c.getType() == Controller.Type.KEYBOARD || c.getType() == Controller.Type.MOUSE)     continue;
     controllerToIndices.put(c,joyIndex);
     indicesToController.put(joyIndex,c);
     joyIndex++;
