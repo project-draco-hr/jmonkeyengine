@@ -1,0 +1,22 @@
+{
+  logger.log(Level.INFO,"Splash Screen Picture Resource ID: {0}",splashPicID);
+  if (splashPicID != 0) {
+    if (frameLayout != null) {
+      if (splashImageView != null) {
+        this.runOnUiThread(new Runnable(){
+          @Override public void run(){
+            splashImageView.setVisibility(View.INVISIBLE);
+            frameLayout.removeView(splashImageView);
+          }
+        }
+);
+      }
+ else {
+        logger.log(Level.INFO,"splashImageView is null");
+      }
+    }
+ else {
+      logger.log(Level.INFO,"frameLayout is null");
+    }
+  }
+}

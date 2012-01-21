@@ -40,12 +40,12 @@
     app.start();
     ctx=(OGLESContext)app.getContext();
     view=ctx.createView(input,eglConfigType,eglConfigVerboseLogging);
-    setContentView(view);
     WindowManager wind=this.getWindowManager();
     Display disp=wind.getDefaultDisplay();
     ctx.getSettings().setResolution(disp.getWidth(),disp.getHeight());
     AppSettings s=ctx.getSettings();
     logger.log(Level.INFO,"Settings: Width {0} Height {1}",new Object[]{s.getWidth(),s.getHeight()});
+    layoutDisplay();
   }
  catch (  Exception ex) {
     handleError("Class " + appClass + " init failed",ex);
