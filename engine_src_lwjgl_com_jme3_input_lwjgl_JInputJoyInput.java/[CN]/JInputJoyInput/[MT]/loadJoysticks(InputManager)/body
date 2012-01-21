@@ -17,7 +17,7 @@
   joyIndex=0;
   for (int i=0; i < cs.length; i++) {
     Controller c=cs[i];
-    if (c.getType() == Controller.Type.UNKNOWN || c.getType() == Controller.Type.KEYBOARD || c.getType() == Controller.Type.MOUSE)     continue;
+    if (c.getType() == Controller.Type.KEYBOARD || c.getType() == Controller.Type.MOUSE)     continue;
     buttonIdsToIndices[joyIndex]=new HashMap<Button,Integer>();
     axisIdsToIndices[joyIndex]=new HashMap<Axis,Integer>();
     loadIdentifiers(joyIndex,c);
