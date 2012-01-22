@@ -93,10 +93,15 @@ FloatBuffer inPos=(FloatBuffer)inBuf.getDataReadOnly();
 FloatBuffer outPos=(FloatBuffer)outBuf.getData();
 doTransformVerts(inPos,globalVertIndex,outPos,worldMatrix);
 }
- else if (Type.Normal.ordinal() == bufType || Type.Tangent.ordinal() == bufType) {
+ else if (Type.Normal.ordinal() == bufType) {
 FloatBuffer inPos=(FloatBuffer)inBuf.getDataReadOnly();
 FloatBuffer outPos=(FloatBuffer)outBuf.getData();
 doTransformNorms(inPos,globalVertIndex,outPos,worldMatrix);
+}
+ else if (Type.Tangent.ordinal() == bufType) {
+FloatBuffer inPos=(FloatBuffer)inBuf.getDataReadOnly();
+FloatBuffer outPos=(FloatBuffer)outBuf.getData();
+doTransformTangents(inPos,globalVertIndex,outPos,worldMatrix);
 }
  else {
 inBuf.copyElements(0,outBuf,globalVertIndex,geomVertCount);
