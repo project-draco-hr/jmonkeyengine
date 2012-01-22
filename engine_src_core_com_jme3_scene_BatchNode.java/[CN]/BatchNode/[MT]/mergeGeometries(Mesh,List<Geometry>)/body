@@ -93,12 +93,12 @@ outIdx.put((globalTriIndex + tri) * components + comp,idx);
  else if (VertexBuffer.Type.Position.ordinal() == bufType) {
 FloatBuffer inPos=(FloatBuffer)inBuf.getData();
 FloatBuffer outPos=(FloatBuffer)outBuf.getData();
-doCopyBuffer(inPos,globalVertIndex,outPos);
+doCopyBuffer(inPos,globalVertIndex,outPos,3);
 }
  else if (VertexBuffer.Type.Normal.ordinal() == bufType || VertexBuffer.Type.Tangent.ordinal() == bufType) {
 FloatBuffer inPos=(FloatBuffer)inBuf.getData();
 FloatBuffer outPos=(FloatBuffer)outBuf.getData();
-doCopyBuffer(inPos,globalVertIndex,outPos);
+doCopyBuffer(inPos,globalVertIndex,outPos,compsForBuf[bufType]);
 if (VertexBuffer.Type.Tangent.ordinal() == bufType) {
 useTangents=true;
 }
