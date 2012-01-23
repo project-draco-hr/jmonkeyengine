@@ -3,8 +3,10 @@
   if (pm == null) {
     Logger.getLogger(NiftyPreviewPanel.class.getName()).log(Level.WARNING,"No Project AssetManager found!");
   }
+  InputStream in=null;
   try {
-    doc=XMLUtil.parse(new InputSource(niftyObject.getPrimaryFile().getInputStream()),false,false,null,null);
+    in=niftyObject.getPrimaryFile().getInputStream();
+    doc=XMLUtil.parse(new InputSource(in),false,false,null,null);
     NiftyFileNode rootContext=new NiftyFileNode(doc.getDocumentElement());
     setRoot(rootContext);
     comp.setRootContext(rootContext);
@@ -14,6 +16,16 @@
     DialogDisplayer.getDefault().notifyLater(msg);
     Exceptions.printStackTrace(ex);
     return;
+  }
+ finally {
+    if (in != null) {
+      try {
+        in.close();
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
   }
   SceneApplication.getApplication().enqueue(new Callable<Object>(){
     public Object call() throws Exception {
