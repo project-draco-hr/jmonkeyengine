@@ -48,5 +48,9 @@
 );
   toolBar.add(comboBox);
   toolBar.add(new JPanel());
-  add(toolBar);
+  setLayout(new java.awt.BorderLayout());
+  add(toolBar,java.awt.BorderLayout.NORTH);
+  errors=new ErrorPanel();
+  errors.setPreferredSize(new Dimension(0,80));
+  add(errors,java.awt.BorderLayout.SOUTH);
 }

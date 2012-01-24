@@ -1,31 +1,44 @@
 {
+  errors.clear();
   final ProjectAssetManager pm=niftyObject.getLookup().lookup(ProjectAssetManager.class);
   if (pm == null) {
     Logger.getLogger(NiftyPreviewPanel.class.getName()).log(Level.WARNING,"No Project AssetManager found!");
   }
-  InputStream in=null;
+  InputStream stream=null;
   try {
-    in=niftyObject.getPrimaryFile().getInputStream();
-    doc=XMLUtil.parse(new InputSource(in),false,false,null,null);
+    stream=niftyObject.getPrimaryFile().getInputStream();
+    doc=XMLUtil.parse(new InputSource(stream),false,false,this,null);
     NiftyFileNode rootContext=new NiftyFileNode(doc.getDocumentElement());
     setRoot(rootContext);
     comp.setRootContext(rootContext);
   }
  catch (  Exception ex) {
-    Message msg=new NotifyDescriptor.Message("Error parsing File:" + ex,NotifyDescriptor.ERROR_MESSAGE);
-    DialogDisplayer.getDefault().notifyLater(msg);
     Exceptions.printStackTrace(ex);
-    return;
   }
  finally {
-    if (in != null) {
-      try {
-        in.close();
-      }
- catch (      IOException ex) {
-        Exceptions.printStackTrace(ex);
+    try {
+      if (stream != null) {
+        stream.close();
       }
     }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+  try {
+    if (nifty != null) {
+      nifty.validateXml(niftyObject.getPrimaryFile().getPath());
+    }
+  }
+ catch (  Exception e) {
+    if (e instanceof SAXParseException) {
+      SAXParseException spe=(SAXParseException)e;
+      errors.addError("Line " + spe.getLineNumber() + " col :"+ spe.getColumnNumber()+ " : "+ spe.getMessage());
+    }
+ else {
+      errors.addError(e.getMessage());
+    }
+    Exceptions.printStackTrace(e);
   }
   SceneApplication.getApplication().enqueue(new Callable<Object>(){
     public Object call() throws Exception {
@@ -42,8 +55,8 @@
       }
  catch (      Exception ex) {
         Message msg=new NotifyDescriptor.Message("Error opening File:" + ex,NotifyDescriptor.ERROR_MESSAGE);
-        DialogDisplayer.getDefault().notifyLater(msg);
         Exceptions.printStackTrace(ex);
+        errors.addError(ex.getMessage());
       }
       return null;
     }
