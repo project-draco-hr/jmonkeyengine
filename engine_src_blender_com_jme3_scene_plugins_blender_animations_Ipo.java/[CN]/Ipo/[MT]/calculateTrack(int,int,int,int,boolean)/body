@@ -1,0 +1,101 @@
+{
+  if (calculatedTrack == null) {
+    int framesAmount=stopFrame - startFrame;
+    float start=(startFrame - 1.0f) / fps;
+    float timeBetweenFrames=1.0f / fps;
+    float[] times=new float[framesAmount + 1];
+    Vector3f[] translations=new Vector3f[framesAmount + 1];
+    float[] translation=new float[3];
+    Quaternion[] rotations=new Quaternion[framesAmount + 1];
+    float[] quaternionRotation=new float[4];
+    float[] objectRotation=new float[3];
+    Vector3f[] scales=new Vector3f[framesAmount + 1];
+    float[] scale=new float[]{1.0f,1.0f,1.0f};
+    float degreeToRadiansFactor=FastMath.DEG_TO_RAD * 10;
+    for (int frame=startFrame; frame <= stopFrame; ++frame) {
+      int index=frame - startFrame;
+      times[index]=start + (frame - 1) * timeBetweenFrames;
+      for (int j=0; j < bezierCurves.length; ++j) {
+        double value=bezierCurves[j].evaluate(frame,BezierCurve.Y_VALUE);
+switch (bezierCurves[j].getType()) {
+case AC_LOC_X:
+          translation[0]=(float)value;
+        break;
+case AC_LOC_Y:
+      if (fixUpAxis && spatialTrack) {
+        translation[2]=(float)-value;
+      }
+ else {
+        translation[1]=(float)value;
+      }
+    break;
+case AC_LOC_Z:
+  translation[fixUpAxis && spatialTrack ? 1 : 2]=(float)value;
+break;
+case OB_ROT_X:
+objectRotation[0]=(float)value * degreeToRadiansFactor;
+break;
+case OB_ROT_Y:
+if (fixUpAxis) {
+objectRotation[2]=(float)-value * degreeToRadiansFactor;
+}
+ else {
+objectRotation[1]=(float)value * degreeToRadiansFactor;
+}
+break;
+case OB_ROT_Z:
+objectRotation[fixUpAxis ? 1 : 2]=(float)value * degreeToRadiansFactor;
+break;
+case AC_SIZE_X:
+scale[0]=(float)value;
+break;
+case AC_SIZE_Y:
+if (fixUpAxis && spatialTrack) {
+scale[2]=(float)value;
+}
+ else {
+scale[1]=(float)value;
+}
+break;
+case AC_SIZE_Z:
+scale[fixUpAxis && spatialTrack ? 1 : 2]=(float)value;
+break;
+case AC_QUAT_W:
+quaternionRotation[3]=(float)value;
+break;
+case AC_QUAT_X:
+quaternionRotation[0]=(float)value;
+break;
+case AC_QUAT_Y:
+if (fixUpAxis) {
+quaternionRotation[2]=-(float)value;
+}
+ else {
+quaternionRotation[1]=(float)value;
+}
+break;
+case AC_QUAT_Z:
+if (fixUpAxis) {
+quaternionRotation[1]=(float)value;
+}
+ else {
+quaternionRotation[2]=(float)value;
+}
+break;
+default :
+throw new IllegalStateException("Unknown ipo curve type: " + bezierCurves[j].getType());
+}
+}
+translations[index]=new Vector3f(translation[0],translation[1],translation[2]);
+rotations[index]=spatialTrack ? new Quaternion().fromAngles(objectRotation) : new Quaternion(quaternionRotation[0],quaternionRotation[1],quaternionRotation[2],quaternionRotation[3]);
+scales[index]=new Vector3f(scale[0],scale[1],scale[2]);
+}
+if (spatialTrack) {
+calculatedTrack=new SpatialTrack(times,translations,rotations,scales);
+}
+ else {
+calculatedTrack=new BoneTrack(targetIndex,times,translations,rotations,scales);
+}
+}
+return calculatedTrack;
+}

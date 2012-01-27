@@ -24,7 +24,8 @@
         armatureHelper.buildBones(bonebase.get(i),null,bonesList,objectToArmatureTransformation,bonesPoseChannels,blenderContext);
       }
       bonesList.add(0,new Bone(""));
-      Skeleton skeleton=new Skeleton(bonesList.toArray(new Bone[bonesList.size()]));
+      Bone[] bones=bonesList.toArray(new Bone[bonesList.size()]);
+      Skeleton skeleton=new Skeleton(bones);
       this.meshOMA=meshStructure.getOldMemoryAddress();
       this.readVerticesWeightsData(objectStructure,meshStructure,skeleton,blenderContext);
       ArrayList<Animation> animations=new ArrayList<Animation>();
@@ -34,21 +35,26 @@
           Structure actionStructure=header.getStructure(blenderContext);
           String actionName=actionStructure.getName();
           BoneTrack[] tracks=armatureHelper.getTracks(actionStructure,skeleton,blenderContext);
-          float maximumTrackLength=0;
-          for (          BoneTrack track : tracks) {
-            float length=track.getLength();
-            if (length > maximumTrackLength) {
-              maximumTrackLength=length;
+          if (tracks != null && tracks.length > 0) {
+            float maximumTrackLength=0;
+            for (            BoneTrack track : tracks) {
+              float length=track.getLength();
+              if (length > maximumTrackLength) {
+                maximumTrackLength=length;
+              }
             }
+            Animation boneAnimation=new Animation(actionName,maximumTrackLength);
+            boneAnimation.setTracks(tracks);
+            animations.add(boneAnimation);
           }
-          Animation boneAnimation=new Animation(actionName,maximumTrackLength);
-          boneAnimation.setTracks(tracks);
-          animations.add(boneAnimation);
         }
       }
       animData=new AnimData(skeleton,animations);
-      for (      Structure boneStructure : bonebase) {
-        blenderContext.setAnimData(boneStructure.getOldMemoryAddress(),animData);
+      for (      Bone bone : bones) {
+        Long boneOma=armatureHelper.getBoneOMA(bone);
+        if (boneOma != null) {
+          blenderContext.setAnimData(boneOma,animData);
+        }
       }
     }
   }

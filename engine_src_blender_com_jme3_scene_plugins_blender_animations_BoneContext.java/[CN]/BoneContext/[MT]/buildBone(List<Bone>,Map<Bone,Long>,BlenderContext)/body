@@ -1,0 +1,18 @@
+{
+  Long boneOMA=boneStructure.getOldMemoryAddress();
+  bone=new Bone(boneName);
+  bones.add(bone);
+  boneOMAs.put(bone,boneOMA);
+  blenderContext.addLoadedFeatures(boneOMA,boneName,boneStructure,bone);
+  Matrix4f pose=this.restMatrix.clone();
+  ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
+  Vector3f poseLocation=pose.toTranslationVector();
+  Quaternion rotation=pose.toRotationQuat();
+  Vector3f scale=objectHelper.getScale(pose);
+  bone.setBindTransforms(poseLocation,rotation,scale);
+  for (  BoneContext child : children) {
+    bone.addChild(child.buildBone(bones,boneOMAs,blenderContext));
+  }
+  this.computePoseTransform();
+  return bone;
+}

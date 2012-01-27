@@ -1,0 +1,27 @@
+{
+  Object owner=this.owner.getObject();
+  AnimData animData=blenderContext.getAnimData(this.owner.getOma());
+  if (animData != null) {
+    for (    Animation animation : animData.anims) {
+      BlenderTrack track=this.getTrack(owner,animData.skeleton,animation);
+      Quaternion[] rotations=track.getRotations();
+      float[] angles=new float[3];
+      int maxFrames=rotations.length;
+      for (int frame=0; frame < maxFrames; ++frame) {
+        rotations[frame].toAngles(angles);
+        System.out.print(Arrays.toString(angles) + "\t\t");
+        this.rotLimit(angles,ipo.calculateValue(frame));
+        System.out.println(Arrays.toString(angles));
+        rotations[frame].fromAngles(angles);
+      }
+      track.setKeyframes(track.getTimes(),track.getTranslations(),rotations,track.getScales());
+    }
+  }
+  if (owner instanceof Spatial) {
+    Transform ownerTransform=this.owner.getTransform();
+    float[] angles=ownerTransform.getRotation().toAngles(null);
+    this.rotLimit(angles,ipo.calculateValue(0));
+    ownerTransform.getRotation().fromAngles(angles);
+    this.owner.applyTransform(ownerTransform);
+  }
+}

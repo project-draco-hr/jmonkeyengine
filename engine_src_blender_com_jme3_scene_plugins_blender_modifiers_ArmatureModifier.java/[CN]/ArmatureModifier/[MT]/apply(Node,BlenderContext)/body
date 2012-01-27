@@ -20,7 +20,7 @@
     List<Constraint> constraints=blenderContext.getConstraints(boneOMA);
     if (constraints != null && constraints.size() > 0) {
       for (      Constraint constraint : constraints) {
-        constraint.bake(Constraint.BAKE_DYNAMIC | Constraint.BAKE_STATIC);
+        constraint.bake();
       }
     }
   }

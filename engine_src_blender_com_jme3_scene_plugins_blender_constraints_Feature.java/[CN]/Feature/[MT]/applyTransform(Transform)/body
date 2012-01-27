@@ -34,7 +34,6 @@ bone.setBindTransforms(transform.getTranslation(),transform.getRotation(),transf
 break;
 case CONSTRAINT_SPACE_WORLD:
 Matrix4f m=this.getParentWorldTransformMatrix();
-m.invertLocal();
 transform.setTranslation(m.mult(transform.getTranslation()));
 transform.setRotation(m.mult(transform.getRotation(),null));
 transform.setScale(transform.getScale());
@@ -46,6 +45,7 @@ Quaternion parentLocalRotation=bone.getLocalRotation().mult(transform.getRotatio
 bone.setBindTransforms(parentLocalTranslation,parentLocalRotation,transform.getScale());
 break;
 case CONSTRAINT_SPACE_POSE:
+bone.setBindTransforms(transform.getTranslation(),transform.getRotation(),transform.getScale());
 break;
 default :
 throw new IllegalStateException("Invalid space type for target object: " + space.toString());

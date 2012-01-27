@@ -24,11 +24,15 @@
       LOGGER.log(Level.WARNING,"Unsupported modifier type: {0}",modifierStructure.getType());
     }
   }
-  Pointer pIpo=(Pointer)objectStructure.getFieldValue("ipo");
-  if (pIpo.isNotNull()) {
-    Modifier modifier=new ObjectAnimationModifier(objectStructure,blenderContext);
+  Modifier modifier;
+  if (blenderVersion <= 249) {
+    modifier=this.readAnimationModifier249(objectStructure,blenderContext);
+  }
+ else {
+    modifier=this.readAnimationModifier250(objectStructure,blenderContext);
+  }
+  if (modifier != null) {
     result.add(modifier);
-    blenderContext.addModifier(objectStructure.getOldMemoryAddress(),modifier);
   }
   return result;
 }

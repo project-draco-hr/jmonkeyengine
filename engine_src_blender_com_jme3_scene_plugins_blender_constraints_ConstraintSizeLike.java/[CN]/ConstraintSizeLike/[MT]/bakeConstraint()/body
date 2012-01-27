@@ -1,0 +1,23 @@
+{
+  Object owner=this.owner.getObject();
+  AnimData animData=blenderContext.getAnimData(this.owner.getOma());
+  if (animData != null) {
+    Transform targetTransform=this.target.getTransform();
+    Vector3f targetScale=targetTransform.getScale();
+    for (    Animation animation : animData.anims) {
+      BlenderTrack track=this.getTrack(owner,animData.skeleton,animation);
+      Vector3f[] scales=track.getScales();
+      int maxFrames=scales.length;
+      for (int frame=0; frame < maxFrames; ++frame) {
+        this.sizeLike(scales[frame],targetScale,ipo.calculateValue(frame));
+      }
+      track.setKeyframes(track.getTimes(),track.getTranslations(),track.getRotations(),scales);
+    }
+  }
+  if (owner instanceof Spatial) {
+    Transform targetTransform=this.target.getTransform();
+    Transform ownerTransform=this.owner.getTransform();
+    this.sizeLike(ownerTransform.getScale(),targetTransform.getScale(),ipo.calculateValue(0));
+    this.owner.applyTransform(ownerTransform);
+  }
+}
