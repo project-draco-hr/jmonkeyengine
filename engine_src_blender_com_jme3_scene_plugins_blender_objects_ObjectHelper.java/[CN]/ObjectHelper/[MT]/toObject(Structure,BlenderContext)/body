@@ -86,14 +86,24 @@ if (light instanceof PointLight) {
 Quaternion quaternion=t.getRotation();
 Vector3f[] axes=new Vector3f[3];
 quaternion.toAxes(axes);
+if (fixUpAxis) {
+((DirectionalLight)light).setDirection(axes[1].negate());
+}
+ else {
 ((DirectionalLight)light).setDirection(axes[2].negate());
+}
 }
  else if (light instanceof SpotLight) {
 ((SpotLight)light).setPosition(t.getTranslation());
 Quaternion quaternion=t.getRotation();
 Vector3f[] axes=new Vector3f[3];
 quaternion.toAxes(axes);
+if (fixUpAxis) {
+((SpotLight)light).setDirection(axes[1].negate());
+}
+ else {
 ((SpotLight)light).setDirection(axes[2].negate());
+}
 }
  else {
 LOGGER.log(Level.WARNING,"Unknown type of light: {0}",light);

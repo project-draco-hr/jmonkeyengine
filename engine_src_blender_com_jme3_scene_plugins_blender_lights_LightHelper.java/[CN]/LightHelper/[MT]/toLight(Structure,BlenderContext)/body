@@ -16,7 +16,7 @@ break;
 case 2:
 result=new SpotLight();
 ((SpotLight)result).setSpotRange(((Number)structure.getFieldValue("dist")).floatValue());
-float outerAngle=((Number)structure.getFieldValue("spotsize")).floatValue() * FastMath.DEG_TO_RAD;
+float outerAngle=((Number)structure.getFieldValue("spotsize")).floatValue() * FastMath.DEG_TO_RAD * 0.5f;
 ((SpotLight)result).setSpotOuterAngle(outerAngle);
 float spotblend=((Number)structure.getFieldValue("spotblend")).floatValue();
 spotblend=FastMath.clamp(spotblend,0,1);
