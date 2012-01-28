@@ -3,7 +3,7 @@
   boolean needRegister=false;
   if (id == -1) {
     id=glCreateProgram();
-    if (id <= 0) {
+    if (id == 0) {
       throw new RendererException("Invalid ID (" + id + ") received when trying to create shader program.");
     }
     shader.setId(id);
