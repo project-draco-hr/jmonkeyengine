@@ -1,6 +1,6 @@
 {
   if (playState == PlayState.Playing) {
-    time=elapsedTimePause + (timer.getTimeInSeconds() - start) * speed;
+    time=time + (tpf * speed);
     onUpdate(tpf);
     if (time >= initialDuration && loopMode == loopMode.DontLoop) {
       stop();
