@@ -1,4 +1,7 @@
 {
+  if (!toBeDestroyed.isDirect()) {
+    return;
+  }
   try {
     Method cleanerMethod=toBeDestroyed.getClass().getMethod("cleaner");
     cleanerMethod.setAccessible(true);
