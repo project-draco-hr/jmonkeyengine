@@ -29,19 +29,12 @@ default :
 throw new IllegalStateException("Invalid space type for target object: " + space.toString());
 }
 }
-BoneContext boneContext=blenderContext.getBoneContext(oma);
 switch (space) {
 case CONSTRAINT_SPACE_LOCAL:
 Transform localTransform=new Transform(bone.getLocalPosition(),bone.getLocalRotation());
 localTransform.setScale(bone.getLocalScale());
 return localTransform;
 case CONSTRAINT_SPACE_WORLD:
-if (bone.getParent() != null) {
-System.out.println(bone.getParent().getLocalRotation());
-System.out.println(bone.getParent().getWorldBindRotation());
-System.out.println(bone.getParent().getModelSpaceRotation());
-System.out.println(bone.getParent().getWorldBindInverseRotation());
-}
 Transform worldTransform=new Transform(bone.getWorldBindPosition(),bone.getWorldBindRotation());
 worldTransform.setScale(bone.getWorldBindScale());
 return worldTransform;

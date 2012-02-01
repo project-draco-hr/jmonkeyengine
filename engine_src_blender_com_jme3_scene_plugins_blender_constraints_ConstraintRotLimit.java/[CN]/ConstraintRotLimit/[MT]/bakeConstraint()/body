@@ -1,4 +1,5 @@
 {
+  this.update();
   Object owner=this.owner.getObject();
   AnimData animData=blenderContext.getAnimData(this.owner.getOma());
   if (animData != null) {
@@ -9,9 +10,7 @@
       int maxFrames=rotations.length;
       for (int frame=0; frame < maxFrames; ++frame) {
         rotations[frame].toAngles(angles);
-        System.out.print(Arrays.toString(angles) + "\t\t");
         this.rotLimit(angles,ipo.calculateValue(frame));
-        System.out.println(Arrays.toString(angles));
         rotations[frame].fromAngles(angles);
       }
       track.setKeyframes(track.getTimes(),track.getTranslations(),rotations,track.getScales());
