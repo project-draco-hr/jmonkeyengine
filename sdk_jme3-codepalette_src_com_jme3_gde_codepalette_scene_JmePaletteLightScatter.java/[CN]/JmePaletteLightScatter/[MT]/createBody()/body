@@ -1,0 +1,4 @@
+{
+  String body=" /** Show scattered light beams when camera looks into \"sun\". */\n FilterPostProcessor fpp=new FilterPostProcessor(assetManager);\n LightScatteringFilter sunlight = new LightScatteringFilter(new Vector3f(.5f,.5f,.5f).multLocal(-3000));\n fpp.addFilter(sunlight);\n viewPort.addProcessor(fpp); \n";
+  return body;
+}

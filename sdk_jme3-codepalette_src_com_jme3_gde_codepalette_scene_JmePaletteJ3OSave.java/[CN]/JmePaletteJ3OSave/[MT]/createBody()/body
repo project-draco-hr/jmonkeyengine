@@ -1,0 +1,4 @@
+{
+  String body=" /** Save a Node to a .j3o file. */\n String userHome = System.getProperty(\"user.home\");\n BinaryExporter exporter = BinaryExporter.getInstance();\n File file = new File(userHome+\"/somefile.j3o\");\n try {\n   exporter.save(rootNode, file);\n } catch (IOException ex) {\n   Logger.getLogger(Main.class.getName()).log(Level.SEVERE, \"Failed to save node!\", ex);\n } \n";
+  return body;
+}
