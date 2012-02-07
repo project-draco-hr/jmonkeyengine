@@ -1,4 +1,7 @@
 {
-  compiled=null;
-  defines.remove(key);
+  if (defines.remove(key) != null) {
+    compiled=null;
+    return true;
+  }
+  return false;
 }
