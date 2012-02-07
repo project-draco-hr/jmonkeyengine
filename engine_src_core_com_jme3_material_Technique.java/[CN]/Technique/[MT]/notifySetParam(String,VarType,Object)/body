@@ -1,8 +1,7 @@
 {
   String defineName=def.getShaderParamDefine(paramName);
   if (defineName != null) {
-    defines.set(defineName,type,value);
-    needReload=true;
+    needReload=defines.set(defineName,type,value);
   }
   if (shader != null) {
     updateUniformParam(paramName,type,value);

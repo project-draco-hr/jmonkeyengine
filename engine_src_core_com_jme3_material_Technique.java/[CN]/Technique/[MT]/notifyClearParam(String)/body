@@ -1,8 +1,7 @@
 {
   String defineName=def.getShaderParamDefine(paramName);
   if (defineName != null) {
-    defines.remove(defineName);
-    needReload=true;
+    needReload=defines.remove(defineName);
   }
   if (shader != null) {
     if (!paramName.startsWith("m_")) {
