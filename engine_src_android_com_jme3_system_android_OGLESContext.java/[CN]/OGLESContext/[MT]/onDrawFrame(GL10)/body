@@ -4,8 +4,10 @@
     return;
   }
   if (renderable.get()) {
-    if (!created.get())     throw new IllegalStateException("onDrawFrame without create");
-    milliStart=System.currentTimeMillis();
+    if (!created.get()) {
+      throw new IllegalStateException("onDrawFrame without create");
+    }
+    long milliStart=System.currentTimeMillis();
     listener.update();
     if (firstDrawFrame) {
       final Context ctx=this.view.getContext();
@@ -17,7 +19,7 @@
     if (autoFlush) {
       renderer.onFrame();
     }
-    milliDelta=System.currentTimeMillis() - milliStart;
+    long milliDelta=System.currentTimeMillis() - milliStart;
     if (milliDelta < minFrameDuration) {
       try {
         Thread.sleep(minFrameDuration - milliDelta);

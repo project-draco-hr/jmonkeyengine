@@ -1,7 +1,9 @@
 {
   if (renderable.get()) {
     created.set(false);
-    if (renderer != null)     renderer.cleanup();
+    if (renderer != null) {
+      renderer.cleanup();
+    }
     listener.destroy();
     listener=null;
     renderer=null;

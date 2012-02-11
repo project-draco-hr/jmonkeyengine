@@ -1,23 +1,18 @@
 {
-  String sTrace="";
-  if (t != null && t.getStackTrace() != null) {
-    for (    StackTraceElement ste : t.getStackTrace()) {
-      sTrace+="\tat " + ste.getClassName() + "."+ ste.getMethodName()+ "(";
-      if (ste.isNativeMethod()) {
-        sTrace+="Native";
-      }
- else {
-        sTrace+=ste.getLineNumber();
-      }
-      sTrace+=")\n";
-    }
+  String stackTrace="";
+  String title="Error";
+  if (t != null) {
+    StringWriter sw=new StringWriter(100);
+    t.printStackTrace(new PrintWriter(sw));
+    stackTrace=sw.toString();
+    title=t.toString();
   }
-  final String stackTrace=sTrace;
-  logger.log(Level.SEVERE,t != null ? t.toString() : "OpenGL Exception");
-  logger.log(Level.SEVERE,"{0}{1}",new Object[]{errorMsg != null ? errorMsg + ": " : "",stackTrace});
-  this.runOnUiThread(new Runnable(){
+  final String finalTitle=title;
+  final String finalMsg=(errorMsg != null ? errorMsg : "Uncaught Exception") + "\n" + stackTrace;
+  logger.log(Level.SEVERE,finalMsg);
+  runOnUiThread(new Runnable(){
     @Override public void run(){
-      AlertDialog dialog=new AlertDialog.Builder(AndroidHarness.this).setTitle(t != null ? (t.getMessage() != null ? (t.getMessage() + ": " + t.getClass().getName()) : t.getClass().getName()) : "OpenGL Exception").setPositiveButton("Kill",AndroidHarness.this).setMessage((errorMsg != null ? errorMsg + ": " : "") + stackTrace).create();
+      AlertDialog dialog=new AlertDialog.Builder(AndroidHarness.this).setTitle(finalTitle).setPositiveButton("Kill",AndroidHarness.this).setMessage(finalMsg).create();
       dialog.show();
     }
   }

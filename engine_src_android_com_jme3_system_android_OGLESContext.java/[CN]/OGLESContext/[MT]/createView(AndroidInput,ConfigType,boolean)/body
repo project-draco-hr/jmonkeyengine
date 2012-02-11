@@ -14,18 +14,26 @@
     if (egl.eglInitialize(display,version) == true) {
       logger.info("Display EGL Version: " + version[0] + "."+ version[1]);
     }
-    AndroidConfigChooser configChooser=new AndroidConfigChooser(configType,eglConfigVerboseLogging);
-    if (!configChooser.findConfig(egl,display)) {
-      logger.severe("Unable to find suitable EGL config");
+    try {
+      AndroidConfigChooser configChooser=new AndroidConfigChooser(configType,eglConfigVerboseLogging);
+      if (!configChooser.findConfig(egl,display)) {
+        listener.handleError("Unable to find suitable EGL config",null);
+        return null;
+      }
+      clientOpenGLESVersion=configChooser.getClientOpenGLESVersion();
+      if (clientOpenGLESVersion < 2) {
+        listener.handleError("OpenGL ES 2.0 is not supported on this device",null);
+        return null;
+      }
+      view.setEGLContextClientVersion(clientOpenGLESVersion);
+      view.setEGLConfigChooser(configChooser);
+      view.getHolder().setFormat(configChooser.getPixelFormat());
     }
-    clientOpenGLESVersion=configChooser.getClientOpenGLESVersion();
-    if (clientOpenGLESVersion < 2) {
-      logger.severe("OpenGL ES 2.0 is not supported on this device");
+  finally {
+      if (display != null) {
+        egl.eglTerminate(display);
+      }
     }
-    if (display != null)     egl.eglTerminate(display);
-    view.setEGLContextClientVersion(clientOpenGLESVersion);
-    view.setEGLConfigChooser(configChooser);
-    view.getHolder().setFormat(configChooser.getPixelFormat());
   }
   view.setFocusableInTouchMode(true);
   view.setFocusable(true);
