@@ -2,6 +2,7 @@
   logger.log(Level.INFO,"Vendor: {0}",GLES20.glGetString(GLES20.GL_VENDOR));
   logger.log(Level.INFO,"Renderer: {0}",GLES20.glGetString(GLES20.GL_RENDERER));
   logger.log(Level.INFO,"Version: {0}",GLES20.glGetString(GLES20.GL_VERSION));
+  powerVr=GLES20.glGetString(GLES20.GL_RENDERER).contains("PowerVR");
   String versionStr=GLES20.glGetString(GLES20.GL_SHADING_LANGUAGE_VERSION);
   logger.log(Level.INFO,"GLES20.Shading Language Version: {0}",versionStr);
   if (versionStr == null || versionStr.equals("")) {

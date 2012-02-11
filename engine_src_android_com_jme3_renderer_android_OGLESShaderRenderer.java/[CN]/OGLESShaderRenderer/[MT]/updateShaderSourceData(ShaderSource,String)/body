@@ -22,7 +22,12 @@
   if (verboseLogging) {
     logger.info("GLES20.glShaderSource(" + id + ")");
   }
-  GLES20.glShaderSource(id,"precision mediump float;\n" + source.getDefines() + source.getSource());
+  if (powerVr) {
+    GLES20.glShaderSource(id,source.getDefines() + source.getSource());
+  }
+ else {
+    GLES20.glShaderSource(id,"precision mediump float;\n" + source.getDefines() + source.getSource());
+  }
   checkGLError();
   if (verboseLogging) {
     logger.info("GLES20.glCompileShader(" + id + ")");
