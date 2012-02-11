@@ -22,7 +22,7 @@
   if (verboseLogging) {
     logger.info("GLES20.glShaderSource(" + id + ")");
   }
-  if (powerVr) {
+  if (powerVr && source.getType() == ShaderType.Vertex) {
     GLES20.glShaderSource(id,source.getDefines() + source.getSource());
   }
  else {
