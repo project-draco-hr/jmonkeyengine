@@ -1,3 +1,15 @@
 {
-  return in;
+  if (in != null) {
+    InputStream in2=in;
+    in=null;
+    return in2;
+  }
+ else {
+    try {
+      return androidManager.open(assetPath);
+    }
+ catch (    IOException ex) {
+      throw new AssetLoadException("Failed to open asset " + assetPath,ex);
+    }
+  }
 }

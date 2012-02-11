@@ -1,0 +1,14 @@
+{
+  try {
+    InputStream in=androidManager.open(assetPath);
+    if (in == null) {
+      return null;
+    }
+ else {
+      return new AndroidAssetInfo(assetManager,key,assetPath,in);
+    }
+  }
+ catch (  IOException ex) {
+    return null;
+  }
+}

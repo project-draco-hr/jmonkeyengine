@@ -1,49 +1,7 @@
 {
-  InputStream in=null;
-  Bitmap bitmap=null;
-  try {
-    in=info.openStream();
-    bitmap=BitmapFactory.decodeStream(in);
-    if (bitmap == null) {
-      throw new IOException("Failed to load image: " + info.getKey().getName());
-    }
-  }
-  finally {
-    if (in != null) {
-      in.close();
-    }
-  }
-  int width=bitmap.getWidth();
-  int height=bitmap.getHeight();
-  Format fmt;
-switch (bitmap.getConfig()) {
-case ALPHA_8:
-    fmt=Format.Alpha8;
-  break;
-case ARGB_4444:
-fmt=Format.ARGB4444;
-break;
-case ARGB_8888:
-fmt=Format.RGBA8;
-break;
-case RGB_565:
-fmt=Format.RGB565;
-break;
-default :
-return null;
-}
-if (((TextureKey)info.getKey()).isFlipY()) {
-Bitmap newBitmap=null;
-Matrix flipMat=new Matrix();
-flipMat.preScale(1.0f,-1.0f);
-newBitmap=Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),flipMat,false);
-bitmap.recycle();
-bitmap=newBitmap;
-if (bitmap == null) {
-throw new IOException("Failed to flip image: " + info.getKey().getName());
-}
-}
-Image image=new Image(fmt,width,height,null);
-image.setEfficentData(bitmap);
-return image;
+  AndroidImageInfo imageInfo=new AndroidImageInfo(info);
+  Bitmap bitmap=imageInfo.getBitmap();
+  Image image=new Image(imageInfo.getFormat(),bitmap.getWidth(),bitmap.getHeight(),null);
+  image.setEfficentData(imageInfo);
+  return image;
 }

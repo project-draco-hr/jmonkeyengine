@@ -1,16 +1,13 @@
 {
-  InputStream in=null;
-  String sAssetPath=rootPath + key.getName();
-  if (sAssetPath.startsWith("/")) {
-    sAssetPath=sAssetPath.substring(1);
+  String assetPath=rootPath + key.getName();
+  if (assetPath.startsWith("/")) {
+    assetPath=assetPath.substring(1);
   }
-  sAssetPath=sAssetPath.replace("//","/");
+  assetPath=assetPath.replace("//","/");
   try {
-    in=androidManager.open(sAssetPath);
-    if (in == null)     return null;
-    return new AndroidAssetInfo(manager,key,in);
+    return create(manager,key,assetPath);
   }
  catch (  IOException ex) {
+    throw new AssetLoadException("Failed to open asset " + assetPath,ex);
   }
-  return null;
 }

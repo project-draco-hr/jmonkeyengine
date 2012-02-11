@@ -26,13 +26,13 @@
     context.boundTextures[0]=img;
   }
   if (target == GLES20.GL_TEXTURE_CUBE_MAP) {
-    @SuppressWarnings("unchecked") List<Bitmap> bmps=(List<Bitmap>)img.getEfficentData();
+    @SuppressWarnings("unchecked") List<AndroidImageInfo> bmps=(List<AndroidImageInfo>)img.getEfficentData();
     if (bmps != null) {
       if (bmps.size() != 6) {
         throw new UnsupportedOperationException("Invalid texture: " + img + "Cubemap textures must contain 6 data units.");
       }
       for (int i=0; i < 6; i++) {
-        TextureUtil.uploadTextureBitmap(GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,bmps.get(i),false,powerOf2);
+        TextureUtil.uploadTextureBitmap(GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,bmps.get(i).getBitmap(),false,powerOf2);
       }
     }
  else {
