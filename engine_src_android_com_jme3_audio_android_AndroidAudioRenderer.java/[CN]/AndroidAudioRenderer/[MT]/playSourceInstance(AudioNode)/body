@@ -2,80 +2,26 @@
   if (audioDisabled) {
     return;
   }
-  AndroidAudioData audioData;
-  int soundId=0;
-  if (src.getAudioData() instanceof AndroidAudioData) {
-    audioData=(AndroidAudioData)src.getAudioData();
-    if (audioData.getAssetKey() instanceof AudioKey) {
-      AudioKey assetKey=(AudioKey)audioData.getAssetKey();
-      if (assetKey.isStream()) {
-        MediaPlayer mp;
-        if (musicPlaying.containsKey(src)) {
-          mp=musicPlaying.get(src);
-        }
+  AndroidAudioData audioData=(AndroidAudioData)src.getAudioData();
+  if (!(audioData.getAssetKey() instanceof AudioKey)) {
+    throw new IllegalArgumentException("Asset is not a AudioKey");
+  }
+  AudioKey assetKey=(AudioKey)audioData.getAssetKey();
+  try {
+    if (audioData.getId() < 0) {
+      int soundId=soundPool.load(assetManager.openFd(assetKey.getName()),1);
+      audioData.setId(soundId);
+    }
+    int channel=soundPool.play(audioData.getId(),1f,1f,1,0,1f);
+    if (channel == 0) {
+      soundpoolStillLoading.put(audioData.getId(),src);
+    }
  else {
-          mp=new MediaPlayer();
-          mp.setOnCompletionListener(this);
-          musicPlaying.put(src,mp);
-        }
-        if (!mp.isPlaying()) {
-          try {
-            AssetFileDescriptor afd=am.openFd(assetKey.getName());
-            mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-            mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mp.prepare();
-            mp.setLooping(src.isLooping());
-            mp.start();
-            src.setChannel(1);
-            src.setStatus(Status.Playing);
-          }
- catch (          IllegalArgumentException e) {
-            logger.log(Level.SEVERE,"Failed to play " + assetKey.getName(),e);
-          }
-catch (          IllegalStateException e) {
-            logger.log(Level.SEVERE,"Failed to play " + assetKey.getName(),e);
-          }
-catch (          IOException e) {
-            logger.log(Level.SEVERE,"Failed to play " + assetKey.getName(),e);
-          }
-        }
-      }
- else {
-        if (audioData.isUpdateNeeded() || (audioData.getId() <= 0)) {
-          if (audioData.getId() > 0) {
-            if (src.getChannel() > 0) {
-              soundPool.stop(src.getChannel());
-              src.setChannel(-1);
-            }
-            soundPool.unload(audioData.getId());
-          }
-          try {
-            soundId=soundPool.load(am.openFd(assetKey.getName()),1);
-          }
- catch (          IOException e) {
-            logger.log(Level.SEVERE,"Failed to load sound " + assetKey.getName(),e);
-            soundId=-1;
-          }
-          audioData.setId(soundId);
-        }
-        if (audioData.getId() <= 0) {
-          throw new IllegalArgumentException("Failed to load: " + assetKey.getName());
-        }
- else {
-          int channelIndex;
-          channelIndex=soundPool.play(audioData.getId(),1f,1f,1,-1,1f);
-          if (channelIndex == 0) {
-            mapLoadingAudioNodes.put(audioData.getId(),src);
-          }
-          src.setChannel(channelIndex);
-        }
-        if (src.getChannel() > 0) {
-          src.setStatus(Status.Playing);
-        }
-      }
+      src.setChannel(channel);
     }
   }
- else {
-    throw new IllegalArgumentException("AudioData is not of type AndroidAudioData for AudioNode " + src.toString());
+ catch (  IOException e) {
+    logger.log(Level.SEVERE,"Failed to load sound " + assetKey.getName(),e);
+    audioData.setId(-1);
   }
 }

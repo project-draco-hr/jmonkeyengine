@@ -1,20 +1,13 @@
 {
-  AudioNode src=mapLoadingAudioNodes.get(sampleId);
-  if (src.getAudioData() instanceof AndroidAudioData) {
-    AndroidAudioData audioData=(AndroidAudioData)src.getAudioData();
-    if (status == 0) {
-      int channelIndex;
-      channelIndex=soundPool.play(audioData.getId(),1f,1f,1,-1,1f);
-      src.setChannel(channelIndex);
-      if (src.getChannel() > 0) {
-        src.setStatus(Status.Playing);
-      }
-    }
- else {
-      src.setChannel(-1);
-    }
+  AudioNode src=soundpoolStillLoading.remove(sampleId);
+  if (src == null) {
+    logger.warning("Something went terribly wrong! onLoadComplete" + " had sampleId which was not in the HashMap of loading items");
+    return;
   }
- else {
-    throw new IllegalArgumentException("AudioData is not of type AndroidAudioData for AudioNode " + src.toString());
+  AudioData audioData=src.getAudioData();
+  if (status == 0) {
+    int channelIndex;
+    channelIndex=soundPool.play(audioData.getId(),1f,1f,1,0,1f);
+    src.setChannel(channelIndex);
   }
 }

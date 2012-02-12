@@ -2,10 +2,28 @@
   if (audioDisabled) {
     return;
   }
-  if (src.getStatus() == Status.Playing) {
-    return;
+  AndroidAudioData audioData=(AndroidAudioData)src.getAudioData();
+  MediaPlayer mp=musicPlaying.get(src);
+  if (mp == null) {
+    mp=new MediaPlayer();
+    mp.setOnCompletionListener(this);
+    mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
   }
- else   if (src.getStatus() == Status.Stopped) {
-    playSourceInstance(src);
+  try {
+    AssetKey<?> key=audioData.getAssetKey();
+    AssetFileDescriptor afd=assetManager.openFd(key.getName());
+    mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+    mp.prepare();
+    mp.setLooping(src.isLooping());
+    mp.start();
+    src.setChannel(0);
+    src.setStatus(Status.Playing);
+    musicPlaying.put(src,mp);
+  }
+ catch (  IllegalStateException e) {
+    e.printStackTrace();
+  }
+catch (  Exception e) {
+    e.printStackTrace();
   }
 }

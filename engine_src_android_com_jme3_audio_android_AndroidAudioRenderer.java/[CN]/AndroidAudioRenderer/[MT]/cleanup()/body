@@ -1,16 +1,5 @@
 {
   if (soundPool != null) {
-    for (    AudioNode src : mapLoadingAudioNodes.values()) {
-      if ((src.getStatus() == Status.Playing) && (src.getChannel() > 0)) {
-        soundPool.stop(src.getChannel());
-      }
-      if (src.getAudioData() instanceof AndroidAudioData) {
-        AndroidAudioData audioData=(AndroidAudioData)src.getAudioData();
-        if (audioData.getId() > 0) {
-          soundPool.unload(audioData.getId());
-        }
-      }
-    }
     soundPool.release();
     soundPool=null;
   }

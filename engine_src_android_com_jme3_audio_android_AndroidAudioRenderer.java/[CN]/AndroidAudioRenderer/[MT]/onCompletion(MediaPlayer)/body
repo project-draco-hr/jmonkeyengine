@@ -1,8 +1,8 @@
 {
+  mp.seekTo(0);
+  mp.stop();
   for (  AudioNode src : musicPlaying.keySet()) {
     if (musicPlaying.get(src) == mp) {
-      mp.seekTo(0);
-      mp.stop();
       src.setStatus(Status.Stopped);
       break;
     }
