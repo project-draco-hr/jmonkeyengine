@@ -1,0 +1,11 @@
+{
+  if (bitmap == null || bitmap.isRecycled()) {
+    try {
+      loadBitmap();
+    }
+ catch (    IOException ex) {
+      throw new AssetLoadException("Failed to load image " + assetInfo.getKey(),ex);
+    }
+  }
+  return bitmap;
+}
