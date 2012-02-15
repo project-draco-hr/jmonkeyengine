@@ -22,7 +22,7 @@
     emissive=readColor(split[1]);
   }
  else   if (keyword.equals("specular")) {
-    String[] subsplit=split[1].split(" ");
+    String[] subsplit=split[1].split("\\s");
     specular=new ColorRGBA();
     specular.r=Float.parseFloat(subsplit[0]);
     specular.g=Float.parseFloat(subsplit[1]);

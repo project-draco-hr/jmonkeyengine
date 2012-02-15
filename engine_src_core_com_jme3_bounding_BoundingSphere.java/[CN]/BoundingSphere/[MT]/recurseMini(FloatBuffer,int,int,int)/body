@@ -1,9 +1,8 @@
 {
-  TempVars vars=TempVars.get();
-  Vector3f tempA=vars.vect1;
-  Vector3f tempB=vars.vect2;
-  Vector3f tempC=vars.vect3;
-  Vector3f tempD=vars.vect4;
+  Vector3f tempA=new Vector3f();
+  Vector3f tempB=new Vector3f();
+  Vector3f tempC=new Vector3f();
+  Vector3f tempD=new Vector3f();
 switch (b) {
 case 0:
     this.radius=0;
@@ -30,7 +29,6 @@ BufferUtils.populateFromBuffer(tempB,points,ap - 2);
 BufferUtils.populateFromBuffer(tempC,points,ap - 3);
 BufferUtils.populateFromBuffer(tempD,points,ap - 4);
 setSphere(tempA,tempB,tempC,tempD);
-vars.release();
 return;
 }
 for (int i=0; i < p; i++) {
@@ -45,5 +43,4 @@ BufferUtils.setInBuffer(tempB,points,j - 1 + ap);
 recurseMini(points,i,b + 1,ap + 1);
 }
 }
-vars.release();
 }
