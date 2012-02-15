@@ -3,6 +3,11 @@
   if (view != null) {
     view.onResume();
   }
+  AudioRenderer result=app.getAudioRenderer();
+  if (result instanceof AndroidAudioRenderer) {
+    AndroidAudioRenderer renderer=(AndroidAudioRenderer)result;
+    renderer.resumeAll();
+  }
   isGLThreadPaused=false;
   logger.info("onResume");
 }
