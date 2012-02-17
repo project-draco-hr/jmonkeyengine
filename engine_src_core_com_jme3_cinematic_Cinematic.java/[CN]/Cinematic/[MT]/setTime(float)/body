@@ -5,12 +5,12 @@
     KeyFrame keyFrame=timeLine.get(i);
     if (keyFrame != null) {
       for (      CinematicEvent ce : keyFrame.getCinematicEvents()) {
-        if (playState == PlayState.Playing) {
-          ce.play();
-        }
+        ce.play();
         ce.setTime(time - timeLine.getKeyFrameTime(keyFrame));
       }
     }
   }
-  step();
+  if (playState != PlayState.Playing) {
+    pause();
+  }
 }

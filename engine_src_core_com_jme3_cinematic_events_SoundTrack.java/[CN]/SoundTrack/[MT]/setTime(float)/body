@@ -1,3 +1,7 @@
 {
   super.setTime(time);
+  if (time < 0) {
+    stop();
+  }
+  audioNode.setTimeOffset(time);
 }

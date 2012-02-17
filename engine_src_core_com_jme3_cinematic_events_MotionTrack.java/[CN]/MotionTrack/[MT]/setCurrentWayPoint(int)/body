@@ -1,3 +1,6 @@
 {
-  this.currentWayPoint=currentWayPoint;
+  if (this.currentWayPoint != currentWayPoint) {
+    this.currentWayPoint=currentWayPoint;
+    path.triggerWayPointReach(currentWayPoint,this);
+  }
 }
