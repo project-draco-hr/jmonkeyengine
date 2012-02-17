@@ -1,0 +1,10 @@
+{
+  super.initialize(stateManager,app);
+  this.app=app;
+  if (app.getInputManager() != null) {
+    if (flyCam == null) {
+      flyCam=new FlyByCamera(app.getCamera());
+    }
+    flyCam.registerWithInput(app.getInputManager());
+  }
+}
