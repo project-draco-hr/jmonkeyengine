@@ -14,7 +14,7 @@
   inputManager.addMapping("FLYCAM_Rise",new KeyTrigger(KeyInput.KEY_Q));
   inputManager.addMapping("FLYCAM_Lower",new KeyTrigger(KeyInput.KEY_Z));
   inputManager.addListener(this,mappings);
-  inputManager.setCursorVisible(dragToRotate);
+  inputManager.setCursorVisible(dragToRotate || !isEnabled());
   Joystick[] joysticks=inputManager.getJoysticks();
   if (joysticks != null && joysticks.length > 0) {
     Joystick joystick=joysticks[0];

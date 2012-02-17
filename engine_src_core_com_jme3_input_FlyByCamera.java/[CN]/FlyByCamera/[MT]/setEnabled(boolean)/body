@@ -1,6 +1,6 @@
 {
   if (enabled && !enable) {
-    if (!dragToRotate || (dragToRotate && canRotate)) {
+    if (inputManager != null && (!dragToRotate || (dragToRotate && canRotate))) {
       inputManager.setCursorVisible(true);
     }
   }
