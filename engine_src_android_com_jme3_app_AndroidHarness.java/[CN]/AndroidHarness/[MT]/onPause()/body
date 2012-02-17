@@ -4,10 +4,12 @@
     view.onPause();
   }
   AudioRenderer result=app.getAudioRenderer();
-  logger.info("pause: " + result.getClass().getSimpleName());
-  if (result instanceof AndroidAudioRenderer) {
-    AndroidAudioRenderer renderer=(AndroidAudioRenderer)result;
-    renderer.pauseAll();
+  if (result != null) {
+    logger.info("pause: " + result.getClass().getSimpleName());
+    if (result instanceof AndroidAudioRenderer) {
+      AndroidAudioRenderer renderer=(AndroidAudioRenderer)result;
+      renderer.pauseAll();
+    }
   }
   isGLThreadPaused=true;
   logger.info("onPause");
