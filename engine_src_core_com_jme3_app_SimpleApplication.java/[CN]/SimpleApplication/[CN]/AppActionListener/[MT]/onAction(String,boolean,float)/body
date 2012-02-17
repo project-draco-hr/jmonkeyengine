@@ -18,8 +18,8 @@
     BufferUtils.printCurrentDirectMemory(null);
   }
  else   if (name.equals(INPUT_MAPPING_HIDE_STATS)) {
-    boolean show=showFps;
-    setDisplayFps(!show);
-    setDisplayStatView(!show);
+    if (stateManager.getState(StatsAppState.class) != null) {
+      stateManager.getState(StatsAppState.class).toggleStats();
+    }
   }
 }

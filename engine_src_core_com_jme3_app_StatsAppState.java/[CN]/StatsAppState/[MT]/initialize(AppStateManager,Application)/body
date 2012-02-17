@@ -1,0 +1,17 @@
+{
+  super.initialize(stateManager,app);
+  this.app=app;
+  if (app instanceof SimpleApplication) {
+    SimpleApplication simpleApp=(SimpleApplication)app;
+    if (guiNode == null)     guiNode=simpleApp.guiNode;
+    if (guiFont == null)     guiFont=simpleApp.guiFont;
+  }
+  if (guiNode == null) {
+    throw new RuntimeException("No guiNode specific and cannot be automatically determined.");
+  }
+  if (guiFont == null) {
+    guiFont=app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+  }
+  loadFpsText();
+  loadStatsView();
+}

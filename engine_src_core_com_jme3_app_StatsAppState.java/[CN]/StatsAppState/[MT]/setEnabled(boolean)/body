@@ -1,0 +1,13 @@
+{
+  super.setEnabled(enabled);
+  if (enabled) {
+    fpsText.setCullHint(showFps ? CullHint.Never : CullHint.Always);
+    statsView.setEnabled(showStats);
+    statsView.setCullHint(showStats ? CullHint.Never : CullHint.Always);
+  }
+ else {
+    fpsText.setCullHint(CullHint.Always);
+    statsView.setEnabled(false);
+    statsView.setCullHint(CullHint.Always);
+  }
+}

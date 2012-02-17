@@ -4,22 +4,13 @@
     return;
   }
   float tpf=timer.getTimePerFrame() * speed;
-  if (showFps) {
-    secondCounter+=timer.getTimePerFrame();
-    frameCounter++;
-    if (secondCounter >= 1.0f) {
-      int fps=(int)(frameCounter / secondCounter);
-      fpsText.setText("Frames per second: " + fps);
-      secondCounter=0.0f;
-      frameCounter=0;
-    }
-  }
   stateManager.update(tpf);
   simpleUpdate(tpf);
   rootNode.updateLogicalState(tpf);
   guiNode.updateLogicalState(tpf);
   rootNode.updateGeometricState();
   guiNode.updateGeometricState();
+  renderer.getStatistics().clearFrame();
   stateManager.render(renderManager);
   renderManager.render(tpf,context.isRenderable());
   simpleRender(renderManager);

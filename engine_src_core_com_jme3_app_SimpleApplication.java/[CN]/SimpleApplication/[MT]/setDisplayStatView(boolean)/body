@@ -1,4 +1,5 @@
 {
-  statsView.setEnabled(show);
-  statsView.setCullHint(show ? CullHint.Never : CullHint.Always);
+  if (stateManager.getState(StatsAppState.class) != null) {
+    stateManager.getState(StatsAppState.class).setDisplayStatView(show);
+  }
 }

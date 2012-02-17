@@ -1,0 +1,7 @@
+{
+  statsView=new StatsView("Statistics View",app.getAssetManager(),app.getRenderer().getStatistics());
+  statsView.setLocalTranslation(0,fpsText.getLineHeight(),0);
+  statsView.setEnabled(showStats);
+  statsView.setCullHint(showStats ? CullHint.Never : CullHint.Always);
+  guiNode.attachChild(statsView);
+}
