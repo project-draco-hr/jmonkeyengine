@@ -1,0 +1,18 @@
+{
+  if (!value) {
+    return;
+  }
+  if (name.equals(INPUT_MAPPING_CAMERA_POS)) {
+    Camera cam=app.getCamera();
+    if (cam != null) {
+      Vector3f loc=cam.getLocation();
+      Quaternion rot=cam.getRotation();
+      System.out.println("Camera Position: (" + loc.x + ", "+ loc.y+ ", "+ loc.z+ ")");
+      System.out.println("Camera Rotation: " + rot);
+      System.out.println("Camera Direction: " + cam.getDirection());
+    }
+  }
+ else   if (name.equals(INPUT_MAPPING_MEMORY)) {
+    BufferUtils.printCurrentDirectMemory(null);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  super.initialize(stateManager,app);
+  this.app=app;
+  this.inputManager=app.getInputManager();
+  if (app.getInputManager() != null) {
+    inputManager.addMapping(INPUT_MAPPING_CAMERA_POS,new KeyTrigger(KeyInput.KEY_C));
+    inputManager.addMapping(INPUT_MAPPING_MEMORY,new KeyTrigger(KeyInput.KEY_M));
+    inputManager.addListener(keyListener,INPUT_MAPPING_CAMERA_POS,INPUT_MAPPING_MEMORY);
+  }
+}
