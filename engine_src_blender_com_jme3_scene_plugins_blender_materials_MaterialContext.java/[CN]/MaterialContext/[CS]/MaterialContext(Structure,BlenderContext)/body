@@ -29,7 +29,6 @@
     float shininess=((Number)structure.getFieldValue("emit")).floatValue();
     this.shininess=shininess > 0.0f ? shininess : MaterialHelper.DEFAULT_SHININESS;
   }
-  float[] diffuseColorArray=new float[]{diffuseColor.r,diffuseColor.g,diffuseColor.b,diffuseColor.a};
   mTexs=new ArrayList<Structure>();
   textures=new ArrayList<Structure>();
   DynamicArray<Pointer> mtexsArray=(DynamicArray<Pointer>)structure.getFieldValue("mtex");
@@ -72,6 +71,10 @@
   Map<Number,List<Structure[]>> sortedTextures=this.sortAndFilterTextures();
   loadedTextures=new HashMap<Number,Texture>(sortedTextures.size());
   textureToMTexMap=new HashMap<Texture,Structure>();
+  if (sortedTextures.size() > 0) {
+    diffuseColor.set(1,1,1,1);
+  }
+  float[] diffuseColorArray=new float[]{diffuseColor.r,diffuseColor.g,diffuseColor.b,diffuseColor.a};
   TextureHelper textureHelper=blenderContext.getHelper(TextureHelper.class);
   for (  Entry<Number,List<Structure[]>> entry : sortedTextures.entrySet()) {
     if (entry.getValue().size() > 0) {

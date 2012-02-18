@@ -9,7 +9,7 @@
   }
   MaterialContext materialContext=new MaterialContext(structure,blenderContext);
   LOGGER.log(Level.INFO,"Material's name: {0}",materialContext.name);
-  if (materialContext.textures.size() > 0) {
+  if (materialContext.textures.size() > 1) {
     LOGGER.log(Level.WARNING,"Attetion! Many textures found for material: {0}. Only the first of each supported mapping types will be used!",materialContext.name);
   }
   Type colorTextureType=null;
