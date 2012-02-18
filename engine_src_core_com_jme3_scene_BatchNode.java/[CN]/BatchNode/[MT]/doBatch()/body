@@ -1,13 +1,21 @@
 {
   Map<Material,List<Geometry>> matMap=new HashMap<Material,List<Geometry>>();
   maxVertCount=0;
-  gatherGeomerties(matMap,this);
-  batches.clear();
   int nbGeoms=0;
+  gatherGeomerties(matMap,this,needsFullRebatch);
+  if (needsFullRebatch) {
+    for (    Batch batch : batches.values()) {
+      batch.geometry.removeFromParent();
+    }
+    batches.clear();
+  }
   for (  Material material : matMap.keySet()) {
     Mesh m=new Mesh();
     List<Geometry> list=matMap.get(material);
     nbGeoms+=list.size();
+    if (!needsFullRebatch) {
+      list.add(batches.get(material).geometry);
+    }
     mergeGeometries(m,list);
     m.setDynamic();
     Batch batch=new Batch();
@@ -19,10 +27,10 @@
     batch.geometry.getMesh().updateBound();
     batches.put(material,batch);
   }
+  logger.log(Level.INFO,"Batched {0} geometries in {1} batches.",new Object[]{nbGeoms,batches.size()});
   tmpFloat=new float[maxVertCount * 3];
   tmpFloatN=new float[maxVertCount * 3];
   if (useTangents) {
     tmpFloatT=new float[maxVertCount * 4];
   }
-  logger.log(Level.INFO,"Batched {0} geometries in {1} batches.",new Object[]{nbGeoms,batches.size()});
 }
