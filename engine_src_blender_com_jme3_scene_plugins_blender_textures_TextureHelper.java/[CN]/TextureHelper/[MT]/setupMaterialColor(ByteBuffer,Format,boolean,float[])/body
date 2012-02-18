@@ -48,6 +48,12 @@ neg=false;
 pixelValue=data.get();
 materialColor[3]=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - (~pixelValue) / 255.0f;
 break;
+case DXT1:
+break;
+case DXT1A:
+case DXT3:
+case DXT5:
+break;
 case Luminance16:
 case Luminance16Alpha16:
 case Alpha16:
@@ -58,10 +64,6 @@ case Depth16:
 case Depth24:
 case Depth32:
 case Depth32F:
-case DXT1:
-case DXT1A:
-case DXT3:
-case DXT5:
 case Intensity16:
 case Intensity8:
 case LATC:

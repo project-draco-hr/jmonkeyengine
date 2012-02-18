@@ -2,7 +2,9 @@
   float[] materialColorClone=materialColor.clone();
   Format format=texture.getImage().getFormat();
   ByteBuffer data=texture.getImage().getData(0);
-  data.rewind();
+  Image decompressedImage=TextureDecompressor.decompress(texture.getImage());
+  data=decompressedImage.getData(0);
+  format=decompressedImage.getFormat();
   int width=texture.getImage().getWidth();
   int height=texture.getImage().getHeight();
   int depth=texture.getImage().getDepth();
