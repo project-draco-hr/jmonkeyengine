@@ -1,0 +1,31 @@
+{
+  Format format=texture.getImage().getFormat();
+  ByteBuffer data=texture.getImage().getData(0);
+  data.rewind();
+  int width=texture.getImage().getWidth();
+  int height=texture.getImage().getHeight();
+  int depth=texture.getImage().getDepth();
+  if (depth == 0) {
+    depth=1;
+  }
+  ByteBuffer newData=BufferUtils.createByteBuffer(width * height * depth* 4);
+  float[] resultPixel=new float[4];
+  float[] tinAndAlpha=new float[2];
+  int dataIndex=0;
+  while (data.hasRemaining()) {
+    this.getTinAndAlpha(data,format,neg,tinAndAlpha);
+    this.blendPixel(resultPixel,materialColor,color,tinAndAlpha[0],affectFactor,blendType,blenderContext);
+    newData.put(dataIndex++,(byte)(resultPixel[0] * 255.0f));
+    newData.put(dataIndex++,(byte)(resultPixel[1] * 255.0f));
+    newData.put(dataIndex++,(byte)(resultPixel[2] * 255.0f));
+    newData.put(dataIndex++,(byte)(tinAndAlpha[1] * 255.0f));
+  }
+  if (texture.getType() == Texture.Type.TwoDimensional) {
+    return new Texture2D(new Image(Format.RGBA8,width,height,newData));
+  }
+ else {
+    ArrayList<ByteBuffer> dataArray=new ArrayList<ByteBuffer>(1);
+    dataArray.add(newData);
+    return new Texture3D(new Image(Format.RGBA8,width,height,depth,dataArray));
+  }
+}

@@ -1,6 +1,9 @@
 {
   Texture result=null;
   if (sources != null && sources.size() > 0) {
+    if (sources.size() == 1) {
+      return sources.get(0);
+    }
     int lastTextureWithoutAlphaIndex=0;
     int width=sources.get(0).getImage().getWidth();
     int height=sources.get(0).getImage().getHeight();

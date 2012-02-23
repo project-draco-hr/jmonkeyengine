@@ -1,0 +1,24 @@
+{
+  byte pixelValue=data.get();
+  float firstPixelValue=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - (~pixelValue) / 255.0f;
+switch (imageFormat) {
+case Luminance8:
+    result[0]=neg ? 1.0f - firstPixelValue : firstPixelValue;
+  result[1]=1.0f;
+break;
+case Luminance8Alpha8:
+result[0]=neg ? 1.0f - firstPixelValue : firstPixelValue;
+pixelValue=data.get();
+result[1]=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - (~pixelValue) / 255.0f;
+break;
+case Luminance16:
+case Luminance16Alpha16:
+case Luminance16F:
+case Luminance16FAlpha16F:
+case Luminance32F:
+LOGGER.log(Level.WARNING,"Image type not yet supported for blending: {0}",imageFormat);
+break;
+default :
+throw new IllegalStateException("Invalid image format type for DDS texture blender: " + imageFormat);
+}
+}
