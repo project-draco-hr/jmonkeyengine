@@ -1,14 +1,3 @@
 {
-  VertexBuffer vb=buffers.get(type.ordinal());
-  if (vb == null) {
-    if (buf == null)     return;
-    vb=new VertexBuffer(type);
-    vb.setupData(Usage.Dynamic,components,Format.Float,buf);
-    buffers.put(type.ordinal(),vb);
-    buffersList.add(vb);
-  }
- else {
-    vb.setupData(Usage.Dynamic,components,Format.Float,buf);
-  }
-  updateCounts();
+  setBuffer(type,components,Format.Float,buf);
 }

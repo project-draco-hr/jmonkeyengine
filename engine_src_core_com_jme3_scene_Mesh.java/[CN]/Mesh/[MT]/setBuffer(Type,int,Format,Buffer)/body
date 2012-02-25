@@ -1,0 +1,15 @@
+{
+  VertexBuffer vb=buffers.get(type.ordinal());
+  if (vb == null) {
+    vb=new VertexBuffer(type);
+    vb.setupData(Usage.Dynamic,components,format,buf);
+    setBuffer(vb);
+  }
+ else {
+    if (vb.getNumComponents() != components || vb.getFormat() != format) {
+      throw new UnsupportedOperationException("The buffer already set " + "is incompatible with the given parameters");
+    }
+    vb.updateData(buf);
+    updateCounts();
+  }
+}
