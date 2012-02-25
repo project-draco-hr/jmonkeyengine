@@ -2,24 +2,24 @@
   if (!toBeDestroyed.isDirect()) {
     return;
   }
+  loadCleanerMethods();
   try {
-    Method cleanerMethod=toBeDestroyed.getClass().getMethod("cleaner");
-    cleanerMethod.setAccessible(true);
-    Object cleaner=cleanerMethod.invoke(toBeDestroyed);
-    if (cleaner != null) {
-      Method cleanMethod=cleaner.getClass().getMethod("clean");
-      cleanMethod.setAccessible(true);
-      cleanMethod.invoke(cleaner);
+    if (freeMethod != null) {
+      freeMethod.invoke(toBeDestroyed);
     }
  else {
-      Method viewedBufferMethod=toBeDestroyed.getClass().getMethod("viewedBuffer");
-      viewedBufferMethod.setAccessible(true);
-      Object viewedBuffer=viewedBufferMethod.invoke(toBeDestroyed);
-      if (viewedBuffer != null) {
-        destroyDirectBuffer((Buffer)viewedBuffer);
+      Object cleaner=cleanerMethod.invoke(toBeDestroyed);
+      if (cleaner != null) {
+        cleanMethod.invoke(cleaner);
       }
  else {
-        Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"Buffer cannot be destroyed: {0}",toBeDestroyed);
+        Object viewedBuffer=viewedBufferMethod.invoke(toBeDestroyed);
+        if (viewedBuffer != null) {
+          destroyDirectBuffer((Buffer)viewedBuffer);
+        }
+ else {
+          Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"Buffer cannot be destroyed: {0}",toBeDestroyed);
+        }
       }
     }
   }
@@ -30,9 +30,6 @@ catch (  IllegalArgumentException ex) {
     Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"{0}",ex);
   }
 catch (  InvocationTargetException ex) {
-    Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"{0}",ex);
-  }
-catch (  NoSuchMethodException ex) {
     Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"{0}",ex);
   }
 catch (  SecurityException ex) {

@@ -1,0 +1,11 @@
+{
+  if (loadedMethods.getAndSet(true)) {
+    return;
+  }
+synchronized (loadedMethods) {
+    cleanerMethod=loadMethod("sun.nio.ch.DirectBuffer","cleaner");
+    cleanMethod=loadMethod("sun.misc.Cleaner","clean");
+    viewedBufferMethod=loadMethod("sun.nio.ch.DirectBuffer","viewedBuffer");
+    freeMethod=loadMethod("java.nio.DirectByteBuffer","free");
+  }
+}
