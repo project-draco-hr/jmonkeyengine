@@ -14,7 +14,9 @@
             }
           }
         }
- else         ((TerrainQuad)children.get(i)).findPick(toTest,results);
+ else         if (children.get(i) instanceof TerrainQuad) {
+          ((TerrainQuad)children.get(i)).findPick(toTest,results);
+        }
       }
     }
   }

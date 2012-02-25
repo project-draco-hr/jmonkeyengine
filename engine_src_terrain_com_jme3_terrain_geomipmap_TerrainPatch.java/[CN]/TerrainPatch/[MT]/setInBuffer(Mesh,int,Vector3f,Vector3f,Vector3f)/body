@@ -1,0 +1,11 @@
+{
+  VertexBuffer NB=mesh.getBuffer(Type.Normal);
+  VertexBuffer TB=mesh.getBuffer(Type.Tangent);
+  VertexBuffer BB=mesh.getBuffer(Type.Binormal);
+  BufferUtils.setInBuffer(normal,(FloatBuffer)NB.getData(),index);
+  BufferUtils.setInBuffer(tangent,(FloatBuffer)TB.getData(),index);
+  BufferUtils.setInBuffer(binormal,(FloatBuffer)BB.getData(),index);
+  NB.setUpdateNeeded();
+  TB.setUpdateNeeded();
+  BB.setUpdateNeeded();
+}

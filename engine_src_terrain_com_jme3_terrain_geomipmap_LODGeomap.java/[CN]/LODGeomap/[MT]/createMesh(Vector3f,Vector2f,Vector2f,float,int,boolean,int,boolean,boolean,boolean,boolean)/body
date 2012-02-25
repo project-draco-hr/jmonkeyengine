@@ -5,7 +5,7 @@
   IntBuffer ib=writeIndexArrayLodDiff(null,lod,rightLod,topLod,leftLod,bottomLod);
   FloatBuffer bb=BufferUtils.createFloatBuffer(getWidth() * getHeight() * 3);
   FloatBuffer tanb=BufferUtils.createFloatBuffer(getWidth() * getHeight() * 3);
-  writeTangentArray(tanb,bb,texb,scale);
+  writeTangentArray(nb,tanb,bb,texb,scale);
   Mesh m=new Mesh();
   m.setMode(Mode.TriangleStrip);
   m.setBuffer(Type.Position,3,pb);

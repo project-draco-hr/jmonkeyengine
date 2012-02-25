@@ -2,20 +2,21 @@
   Vector3f scale=getWorldScale();
   Vector3f n1=Vector3f.ZERO;
   if (topPoint != null && leftPoint != null) {
-    n1=calculateNormal(topPoint.mult(scale),rootPoint.mult(scale),leftPoint.mult(scale));
+    n1.set(calculateNormal(topPoint.mult(scale),rootPoint.mult(scale),leftPoint.mult(scale)));
   }
   Vector3f n2=Vector3f.ZERO;
   if (leftPoint != null && bottomPoint != null) {
-    n2=calculateNormal(leftPoint.mult(scale),rootPoint.mult(scale),bottomPoint.mult(scale));
+    n2.set(calculateNormal(leftPoint.mult(scale),rootPoint.mult(scale),bottomPoint.mult(scale)));
   }
   Vector3f n3=Vector3f.ZERO;
   if (rightPoint != null && bottomPoint != null) {
-    n3=calculateNormal(bottomPoint.mult(scale),rootPoint.mult(scale),rightPoint.mult(scale));
+    n3.set(calculateNormal(bottomPoint.mult(scale),rootPoint.mult(scale),rightPoint.mult(scale)));
   }
   Vector3f n4=Vector3f.ZERO;
   if (rightPoint != null && topPoint != null) {
-    n4=calculateNormal(rightPoint.mult(scale),rootPoint.mult(scale),topPoint.mult(scale));
+    n4.set(calculateNormal(rightPoint.mult(scale),rootPoint.mult(scale),topPoint.mult(scale)));
   }
-  if (bottomPoint != null && rightPoint != null && rootTex != null && rightTex != null && bottomTex != null)   LODGeomap.calculateTangent(new Vector3f[]{rootPoint.mult(scale),rightPoint.mult(scale),bottomPoint.mult(scale)},new Vector2f[]{rootTex,rightTex,bottomTex},tangent,binormal);
-  normal.set(n1.add(n2).add(n3).add(n4).normalizeLocal());
+  normal.set(n1.add(n2).add(n3).add(n4).normalize());
+  tangent.set(normal.cross(new Vector3f(0,0,1)).normalize());
+  binormal.set(new Vector3f(1,0,0).cross(normal).normalize());
 }
