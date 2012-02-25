@@ -12,10 +12,10 @@
     EGLDisplay display=egl.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY);
     int[] version=new int[2];
     if (egl.eglInitialize(display,version) == true) {
-      logger.info("Display EGL Version: " + version[0] + "."+ version[1]);
+      logger.log(Level.INFO,"Display EGL Version: {0}.{1}",new Object[]{version[0],version[1]});
     }
     try {
-      AndroidConfigChooser configChooser=new AndroidConfigChooser(configType,eglConfigVerboseLogging);
+      AndroidConfigChooser configChooser=new AndroidConfigChooser(configType);
       if (!configChooser.findConfig(egl,display)) {
         listener.handleError("Unable to find suitable EGL config",null);
         return null;

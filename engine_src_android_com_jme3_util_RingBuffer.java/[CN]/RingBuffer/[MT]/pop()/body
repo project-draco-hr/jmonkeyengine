@@ -2,7 +2,7 @@
   if (isEmpty()) {
     throw new RuntimeException("Ring buffer underflow");
   }
-  Item item=buffer[indexOut];
+  T item=buffer[indexOut];
   buffer[indexOut]=null;
   count--;
   indexOut=(indexOut + 1) % buffer.length;
