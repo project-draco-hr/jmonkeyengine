@@ -1,6 +1,8 @@
 {
   ImageIO.setUseCache(false);
   BufferedImage img=ImageIO.read(in);
-  if (img == null)   return null;
+  if (img == null) {
+    return null;
+  }
   return load(img,flipY);
 }

@@ -5,9 +5,9 @@
     clone.collisionTree=null;
     clone.buffers=new IntMap<VertexBuffer>();
     clone.buffersList=new SafeArrayList<VertexBuffer>(VertexBuffer.class);
-    for (    Entry<VertexBuffer> ent : buffers) {
-      VertexBuffer bufClone=ent.getValue().clone();
-      clone.buffers.put(ent.getKey(),bufClone);
+    for (    VertexBuffer vb : buffersList.getArray()) {
+      VertexBuffer bufClone=vb.clone();
+      clone.buffers.put(vb.getBufferType().ordinal(),bufClone);
       clone.buffersList.add(bufClone);
     }
     clone.vertexArrayID=-1;

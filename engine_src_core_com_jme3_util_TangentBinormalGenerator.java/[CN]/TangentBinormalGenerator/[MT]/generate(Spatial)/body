@@ -7,6 +7,9 @@
   }
  else {
     Geometry geom=(Geometry)scene;
-    generate(geom.getMesh());
+    Mesh mesh=geom.getMesh();
+    if (mesh.getBuffer(Type.TexCoord) != null && mesh.getBuffer(Type.Normal) != null) {
+      generate(geom.getMesh());
+    }
   }
 }
