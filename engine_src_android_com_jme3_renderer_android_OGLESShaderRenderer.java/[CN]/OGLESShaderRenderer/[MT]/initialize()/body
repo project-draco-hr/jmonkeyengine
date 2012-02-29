@@ -59,14 +59,8 @@ if (extensions.contains("GL_OES_texture_npot")) {
 powerOf2=true;
 }
 applyRenderState(RenderState.DEFAULT);
-if (verboseLogging) {
-logger.info("GLES20.glDisable(GL10.GL_DITHER)");
-}
-GLES20.glDisable(GL10.GL_DITHER);
+GLES20.glDisable(GLES20.GL_DITHER);
 checkGLError();
-if (verboseLogging) {
-logger.info("GLES20.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST)");
-}
 useVBO=false;
 if (Build.VERSION.SDK_INT >= 9) {
 useVBO=true;
