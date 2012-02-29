@@ -1,5 +1,6 @@
 {
   this.renderManager=rm;
+  this.viewPort=vp;
   material=new Material(manager,"Common/MatDefs/Post/Overlay.j3md");
   material.setColor("Color",ColorRGBA.White);
   Texture2D tex=processor.getFilterTexture();
@@ -11,4 +12,7 @@
     material.clearParam("NumSamples");
   }
   renderManager.setHandleTranslucentBucket(false);
+  if (enabledSoftParticles && depthTexture != null) {
+    initSoftParticles(vp,true);
+  }
 }

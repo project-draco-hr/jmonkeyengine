@@ -4,5 +4,8 @@
     viewPort.getCamera().setViewPort(left,right,bottom,top);
     viewPort.setOutputFrameBuffer(outputBuffer);
     viewPort=null;
+    for (    Filter filter : filters) {
+      filter.cleanup(renderer);
+    }
   }
 }
