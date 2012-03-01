@@ -9,9 +9,10 @@
     }
     batches.clear();
   }
-  for (  Material material : matMap.keySet()) {
+  for (  Map.Entry<Material,List<Geometry>> entry : matMap.entrySet()) {
     Mesh m=new Mesh();
-    List<Geometry> list=matMap.get(material);
+    Material material=entry.getKey();
+    List<Geometry> list=entry.getValue();
     nbGeoms+=list.size();
     if (!needsFullRebatch) {
       list.add(batches.get(material).geometry);
