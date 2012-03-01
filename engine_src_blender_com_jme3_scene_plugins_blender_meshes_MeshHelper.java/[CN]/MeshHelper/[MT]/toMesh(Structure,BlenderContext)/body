@@ -154,10 +154,11 @@
   }
   Properties properties=this.loadProperties(structure,blenderContext);
   ByteBuffer verticesColorsBuffer=createByteBuffer(verticesColors);
+  verticesAmount=vertexList.size();
   for (  Entry<Integer,List<Integer>> meshEntry : meshesMap.entrySet()) {
     Mesh mesh=new Mesh();
     List<Integer> indexList=meshEntry.getValue();
-    if (verticesAmount < Short.MAX_VALUE * 2) {
+    if (verticesAmount <= Short.MAX_VALUE) {
       short[] indices=new short[indexList.size()];
       for (int i=0; i < indexList.size(); ++i) {
         indices[i]=indexList.get(i).shortValue();
