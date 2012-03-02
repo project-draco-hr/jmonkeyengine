@@ -2,18 +2,19 @@
   boolean consumed=false;
   x=(int)evt.getX();
   y=(int)(height - evt.getY());
+  if (!inputManager.getSimulateMouse()) {
 switch (evt.getType()) {
 case DOWN:
-    consumed=nic.processMouseEvent(x,y,0,0,false);
-  isDragging=true;
-niftyOwnsDragging=consumed;
+      consumed=nic.processMouseEvent(x,y,0,0,true);
+    isDragging=true;
+  niftyOwnsDragging=consumed;
 if (consumed) {
-evt.setConsumed();
+  evt.setConsumed();
 }
 break;
 case UP:
 if (niftyOwnsDragging) {
-consumed=nic.processMouseEvent(x,y,0,buttonIndex,pressed);
+consumed=nic.processMouseEvent(x,y,0,0,false);
 if (consumed) {
 evt.setConsumed();
 }
@@ -21,5 +22,6 @@ evt.setConsumed();
 isDragging=false;
 niftyOwnsDragging=false;
 break;
+}
 }
 }
