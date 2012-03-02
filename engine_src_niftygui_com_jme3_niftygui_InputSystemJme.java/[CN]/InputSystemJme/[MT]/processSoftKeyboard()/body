@@ -1,0 +1,24 @@
+{
+  SoftTextDialogInput softTextDialogInput=JmeSystem.getSoftTextDialogInput();
+  if (softTextDialogInput != null) {
+    Element element=nifty.getCurrentScreen().getFocusHandler().getKeyboardFocusElement();
+    if (element != null) {
+      final TextField textField=element.getNiftyControl(TextField.class);
+      if (textField != null && !(textField instanceof TextFieldNull)) {
+        Logger.getLogger(InputSystemJme.class.getName()).log(Level.INFO,"Current TextField: {0}",textField.getId());
+        String initialValue=textField.getText();
+        if (initialValue == null) {
+          initialValue="";
+        }
+        softTextDialogInput.requestDialog(SoftTextDialogInput.TEXT_ENTRY_DIALOG,"Enter Text",initialValue,new SoftTextDialogInputListener(){
+          public void onSoftText(          int action,          String text){
+            if (action == SoftTextDialogInputListener.COMPLETE) {
+              textField.setText(text);
+            }
+          }
+        }
+);
+      }
+    }
+  }
+}

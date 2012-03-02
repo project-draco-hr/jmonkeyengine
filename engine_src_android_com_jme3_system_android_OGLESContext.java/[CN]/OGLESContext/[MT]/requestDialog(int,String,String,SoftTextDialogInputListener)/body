@@ -1,0 +1,41 @@
+{
+  logger.log(Level.INFO,"requestDialog: title: {0}, initialValue: {1}",new Object[]{title,initialValue});
+  JmeAndroidSystem.getActivity().runOnUiThread(new Runnable(){
+    @Override public void run(){
+      final FrameLayout layoutTextDialogInput=new FrameLayout(JmeAndroidSystem.getActivity());
+      final EditText editTextDialogInput=new EditText(JmeAndroidSystem.getActivity());
+      editTextDialogInput.setWidth(LayoutParams.FILL_PARENT);
+      editTextDialogInput.setHeight(LayoutParams.FILL_PARENT);
+      editTextDialogInput.setPadding(20,20,20,20);
+      editTextDialogInput.setGravity(Gravity.FILL_HORIZONTAL);
+      editTextDialogInput.setText(initialValue);
+switch (id) {
+case SoftTextDialogInput.TEXT_ENTRY_DIALOG:
+        editTextDialogInput.setInputType(InputType.TYPE_CLASS_TEXT);
+      break;
+case SoftTextDialogInput.NUMERIC_ENTRY_DIALOG:
+    editTextDialogInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+  break;
+case SoftTextDialogInput.NUMERIC_KEYPAD_DIALOG:
+editTextDialogInput.setInputType(InputType.TYPE_CLASS_PHONE);
+break;
+default :
+break;
+}
+layoutTextDialogInput.addView(editTextDialogInput);
+AlertDialog dialogTextInput=new AlertDialog.Builder(JmeAndroidSystem.getActivity()).setTitle(title).setView(layoutTextDialogInput).setPositiveButton("OK",new DialogInterface.OnClickListener(){
+public void onClick(DialogInterface dialog,int whichButton){
+listener.onSoftText(SoftTextDialogInputListener.COMPLETE,editTextDialogInput.getText().toString());
+}
+}
+).setNegativeButton("Cancel",new DialogInterface.OnClickListener(){
+public void onClick(DialogInterface dialog,int whichButton){
+listener.onSoftText(SoftTextDialogInputListener.CANCEL,editTextDialogInput.getText().toString());
+}
+}
+).create();
+dialogTextInput.show();
+}
+}
+);
+}
