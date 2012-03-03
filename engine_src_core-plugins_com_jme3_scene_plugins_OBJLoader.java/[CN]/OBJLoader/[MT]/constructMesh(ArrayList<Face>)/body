@@ -25,9 +25,11 @@
   FloatBuffer tcBuf=null;
   if (hasNormals) {
     normBuf=BufferUtils.createFloatBuffer(vertIndexMap.size() * 3);
+    m.setBuffer(VertexBuffer.Type.Normal,3,normBuf);
   }
   if (hasTexCoord) {
     tcBuf=BufferUtils.createFloatBuffer(vertIndexMap.size() * 2);
+    m.setBuffer(VertexBuffer.Type.TexCoord,2,tcBuf);
   }
   IndexBuffer indexBuf=null;
   if (vertIndexMap.size() >= 65536) {
@@ -79,8 +81,6 @@
     indexBuf.put(index + 2,v2.index);
   }
   m.setBuffer(VertexBuffer.Type.Position,3,posBuf);
-  m.setBuffer(VertexBuffer.Type.Normal,3,normBuf);
-  m.setBuffer(VertexBuffer.Type.TexCoord,2,tcBuf);
   m.setStatic();
   m.updateBound();
   m.updateCounts();
