@@ -1,6 +1,10 @@
 {
-  if (str.length() == 0)   return;
-  if (font instanceof RenderFontNull)   return;
+  if (str.length() == 0) {
+    return;
+  }
+  if (font instanceof RenderFontNull) {
+    return;
+  }
   RenderFontJme jmeFont=(RenderFontJme)font;
   String key=font + str + color.getColorString();
   BitmapText text=textCacheLastFrame.get(key);
