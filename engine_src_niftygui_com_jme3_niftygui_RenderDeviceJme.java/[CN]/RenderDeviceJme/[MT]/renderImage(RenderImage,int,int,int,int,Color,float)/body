@@ -1,9 +1,8 @@
 {
   RenderImageJme jmeImage=(RenderImageJme)image;
   niftyMat.getAdditionalRenderState().setBlendMode(convertBlend());
-  niftyMat.setColor("Color",ColorRGBA.White);
+  niftyMat.setColor("Color",convertColor(color,tempColor));
   niftyMat.setTexture("Texture",jmeImage.getTexture());
-  setColor(color);
   quad.clearBuffer(Type.TexCoord);
   quad.setBuffer(quadDefaultTC);
   float x0=x + 0.5f * width * (1f - imageScale);

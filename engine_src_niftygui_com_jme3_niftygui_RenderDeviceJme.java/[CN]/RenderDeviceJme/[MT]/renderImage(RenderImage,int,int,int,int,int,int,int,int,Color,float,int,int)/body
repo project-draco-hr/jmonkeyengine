@@ -2,9 +2,8 @@
   RenderImageJme jmeImage=(RenderImageJme)image;
   Texture2D texture=jmeImage.getTexture();
   niftyMat.getAdditionalRenderState().setBlendMode(convertBlend());
-  niftyMat.setColor("Color",ColorRGBA.White);
+  niftyMat.setColor("Color",convertColor(color,tempColor));
   niftyMat.setTexture("Texture",texture);
-  setColor(color);
   float imageWidth=jmeImage.getWidth();
   float imageHeight=jmeImage.getHeight();
   FloatBuffer texCoords=(FloatBuffer)quadModTC.getData();

@@ -7,11 +7,10 @@
   buf.putInt(convertColor(bottomRight));
   buf.flip();
   quadColor.updateData(buf);
-  niftyQuadMat.getAdditionalRenderState().setBlendMode(convertBlend());
-  niftyQuadMat.setColor("Color",ColorRGBA.White);
+  niftyQuadGradMat.getAdditionalRenderState().setBlendMode(convertBlend());
   tempMat.loadIdentity();
   tempMat.setTranslation(x,getHeight() - y,0);
   tempMat.setScale(width,height,0);
   rm.setWorldMatrix(tempMat);
-  niftyQuadMat.render(quadGeom,rm);
+  niftyQuadGradMat.render(quadGeom,rm);
 }
