@@ -1,5 +1,6 @@
 {
   AppState[] array=getTerminating();
+  if (array.length == 0)   return;
   for (  AppState state : array) {
     state.cleanup();
   }
