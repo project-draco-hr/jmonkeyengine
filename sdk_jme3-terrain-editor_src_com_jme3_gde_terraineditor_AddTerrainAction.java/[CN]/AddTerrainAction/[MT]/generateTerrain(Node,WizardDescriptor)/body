@@ -10,6 +10,8 @@
   if (wizardDescriptor.getProperty("abstractHeightMap") != null)   heightmap=(AbstractHeightMap)wizardDescriptor.getProperty("abstractHeightMap");
   if (heightmap != null) {
     heightmap.load();
+    Float smooth=(Float)wizardDescriptor.getProperty("heightMapSmooth");
+    if (smooth > 0)     heightmap.smooth(smooth,2);
     heightmapData=heightmap.getHeightMap();
   }
   return doCreateTerrain(parent,totalSize,patchSize,alphaTextureSize,heightmapData,sceneName,selectedNode);

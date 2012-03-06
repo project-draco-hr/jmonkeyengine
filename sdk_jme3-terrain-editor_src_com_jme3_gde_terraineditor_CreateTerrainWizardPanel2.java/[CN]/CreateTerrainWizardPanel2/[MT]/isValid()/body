@@ -1,6 +1,7 @@
 {
   CreateTerrainVisualPanel2 comp=(CreateTerrainVisualPanel2)getComponent();
   if ("Image Based".equals(comp.getHeightmapTypeComboBox().getSelectedItem())) {
+    return comp.getImageBrowseTexture() != null;
   }
   return true;
 }
