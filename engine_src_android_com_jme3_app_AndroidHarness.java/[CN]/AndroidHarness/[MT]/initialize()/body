@@ -1,0 +1,7 @@
+{
+  app.initialize();
+  if (handleExitHook) {
+    app.getInputManager().addMapping(ESCAPE_EVENT,new TouchTrigger(TouchInput.KEYCODE_BACK));
+    app.getInputManager().addListener(this,new String[]{ESCAPE_EVENT});
+  }
+}
