@@ -1,12 +1,16 @@
 {
   super.setTime(time);
-  int keyFrameIndex=timeLine.getKeyFrameIndexFromTime(time);
-  for (int i=0; i <= keyFrameIndex; i++) {
-    KeyFrame keyFrame=timeLine.get(i);
+  for (  CinematicEvent ce : cinematicEvents) {
+    ce.stop();
+  }
+  for (  KeyFrame keyFrame : timeLine.values()) {
     if (keyFrame != null) {
       for (      CinematicEvent ce : keyFrame.getCinematicEvents()) {
-        ce.play();
-        ce.setTime(time - timeLine.getKeyFrameTime(keyFrame));
+        float t=this.time - timeLine.getKeyFrameTime(keyFrame);
+        if (t >= 0 && (t <= ce.getInitialDuration() || ce.getLoopMode() != LoopMode.DontLoop)) {
+          ce.play();
+          ce.setTime(t);
+        }
       }
     }
   }

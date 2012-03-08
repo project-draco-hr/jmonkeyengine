@@ -1,3 +1,5 @@
 {
-  nifty.gotoScreen("");
+  if (!(nifty.getCurrentScreen() instanceof NullScreen)) {
+    nifty.getCurrentScreen().endScreen(null);
+  }
 }

@@ -1,7 +1,9 @@
 {
   super.setTime(time);
-  if (time < 0) {
+  if (time < 0f) {
     stop();
   }
-  audioNode.setTimeOffset(time);
+ else {
+    audioNode.setTimeOffset(time);
+  }
 }
