@@ -5,7 +5,8 @@
   MediaPlayer mp=musicPlaying.get(src);
   if (mp != null) {
     mp.stop();
-    src.setStatus(Status.Paused);
+    mp.reset();
+    src.setStatus(Status.Stopped);
   }
  else {
     int channel=src.getChannel();
