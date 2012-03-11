@@ -3,11 +3,13 @@
   if (view != null) {
     view.onResume();
   }
-  AudioRenderer result=app.getAudioRenderer();
-  if (result != null) {
-    if (result instanceof AndroidAudioRenderer) {
-      AndroidAudioRenderer renderer=(AndroidAudioRenderer)result;
-      renderer.resumeAll();
+  if (app != null) {
+    AudioRenderer result=app.getAudioRenderer();
+    if (result != null) {
+      if (result instanceof AndroidAudioRenderer) {
+        AndroidAudioRenderer renderer=(AndroidAudioRenderer)result;
+        renderer.resumeAll();
+      }
     }
   }
   isGLThreadPaused=false;
