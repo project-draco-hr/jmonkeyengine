@@ -1,5 +1,8 @@
 {
   super.setTime(time);
+  if (channel.getAnimationName() == null) {
+    channel.setAnim(animationName);
+  }
   float t=time;
   if (loopMode == loopMode.Loop) {
     t=t % channel.getAnimMaxTime();
@@ -13,6 +16,17 @@
       t=t % channel.getAnimMaxTime();
     }
   }
-  channel.setTime(t);
-  channel.getControl().update(0);
+  if (t < 0) {
+    channel.setTime(0);
+    channel.reset(true);
+  }
+  if (t > channel.getAnimMaxTime()) {
+    channel.setTime(t);
+    channel.getControl().update(0);
+    stop();
+  }
+ else {
+    channel.setTime(t);
+    channel.getControl().update(0);
+  }
 }

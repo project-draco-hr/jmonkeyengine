@@ -1,19 +1,20 @@
 {
+  onStop();
   super.setTime(time);
-  for (  CinematicEvent ce : cinematicEvents) {
-    ce.stop();
-  }
-  for (  KeyFrame keyFrame : timeLine.values()) {
+  int keyFrameIndex=timeLine.getKeyFrameIndexFromTime(time);
+  for (int i=0; i <= keyFrameIndex; i++) {
+    KeyFrame keyFrame=timeLine.get(i);
     if (keyFrame != null) {
       for (      CinematicEvent ce : keyFrame.getCinematicEvents()) {
         float t=this.time - timeLine.getKeyFrameTime(keyFrame);
         if (t >= 0 && (t <= ce.getInitialDuration() || ce.getLoopMode() != LoopMode.DontLoop)) {
           ce.play();
-          ce.setTime(t);
         }
+        ce.setTime(t);
       }
     }
   }
+  lastFetchedKeyFrame=keyFrameIndex;
   if (playState != PlayState.Playing) {
     pause();
   }
