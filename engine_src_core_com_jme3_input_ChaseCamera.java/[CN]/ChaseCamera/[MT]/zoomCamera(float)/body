@@ -10,7 +10,9 @@
   if (targetDistance < minDistance) {
     targetDistance=minDistance;
   }
-  if ((targetVRotation < minVerticalRotation) && (targetDistance > (minDistance + 1.0f))) {
-    targetVRotation=minVerticalRotation;
+  if (veryCloseRotation) {
+    if ((targetVRotation < minVerticalRotation) && (targetDistance > (minDistance + 1.0f))) {
+      targetVRotation=minVerticalRotation;
+    }
   }
 }
