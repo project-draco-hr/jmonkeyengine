@@ -20,77 +20,73 @@
   Vector3f tmp1=vars.vect6;
   for (int r=0; r < getHeight(); r++) {
     for (int c=0; c < getWidth(); c++) {
-      rootPoint.set(c,getValue(c,r),r);
+      rootPoint.set(0,getValue(c,r),0);
       Vector3f normal=vars.vect8;
       if (r == 0) {
         if (c == 0) {
-          rightPoint.set(c + 1,getValue(c + 1,r),r);
-          bottomPoint.set(c,getValue(c,r + 1),r + 1);
+          rightPoint.set(1,getValue(c + 1,r),0);
+          bottomPoint.set(0,getValue(c,r + 1),1);
           getNormal(bottomPoint,rootPoint,rightPoint,scale,normal);
         }
  else         if (c == getWidth() - 1) {
-          leftPoint.set(c - 1,getValue(c - 1,r),r);
-          bottomPoint.set(c,getValue(c,r + 1),r + 1);
+          leftPoint.set(-1,getValue(c - 1,r),0);
+          bottomPoint.set(0,getValue(c,r + 1),1);
           getNormal(leftPoint,rootPoint,bottomPoint,scale,normal);
         }
  else {
-          leftPoint.set(c - 1,getValue(c - 1,r),r);
-          rightPoint.set(c + 1,getValue(c + 1,r),r);
-          bottomPoint.set(c,getValue(c,r + 1),r + 1);
+          leftPoint.set(-1,getValue(c - 1,r),0);
+          rightPoint.set(1,getValue(c + 1,r),0);
+          bottomPoint.set(0,getValue(c,r + 1),1);
           normal.set(getNormal(leftPoint,rootPoint,bottomPoint,scale,tmp1));
-          normal.add(getNormal(bottomPoint,rootPoint,rightPoint,scale,tmp1));
-          normal.normalizeLocal();
+          normal.addLocal(getNormal(bottomPoint,rootPoint,rightPoint,scale,tmp1));
         }
       }
  else       if (r == getHeight() - 1) {
         if (c == 0) {
-          topPoint.set(c,getValue(c,r - 1),r - 1);
-          rightPoint.set(c + 1,getValue(c + 1,r),r);
+          topPoint.set(0,getValue(c,r - 1),-1);
+          rightPoint.set(1,getValue(c + 1,r),0);
           getNormal(rightPoint,rootPoint,topPoint,scale,normal);
         }
  else         if (c == getWidth() - 1) {
-          topPoint.set(c,getValue(c,r - 1),r - 1);
-          leftPoint.set(c - 1,getValue(c - 1,r),r);
+          topPoint.set(0,getValue(c,r - 1),-1);
+          leftPoint.set(-1,getValue(c - 1,r),0);
           getNormal(topPoint,rootPoint,leftPoint,scale,normal);
         }
  else {
-          topPoint.set(c,getValue(c,r - 1),r - 1);
-          leftPoint.set(c - 1,getValue(c - 1,r),r);
-          rightPoint.set(c + 1,getValue(c + 1,r),r);
+          topPoint.set(0,getValue(c,r - 1),-1);
+          leftPoint.set(-1,getValue(c - 1,r),0);
+          rightPoint.set(1,getValue(c + 1,r),0);
           normal.set(getNormal(topPoint,rootPoint,leftPoint,scale,tmp1));
-          normal.add(getNormal(rightPoint,rootPoint,topPoint,scale,tmp1));
-          normal.normalizeLocal();
+          normal.addLocal(getNormal(rightPoint,rootPoint,topPoint,scale,tmp1));
         }
       }
  else {
         if (c == 0) {
-          topPoint.set(c,getValue(c,r - 1),r - 1);
-          rightPoint.set(c + 1,getValue(c + 1,r),r);
-          bottomPoint.set(c,getValue(c,r + 1),r + 1);
+          topPoint.set(0,getValue(c,r - 1),-1);
+          rightPoint.set(1,getValue(c + 1,r),0);
+          bottomPoint.set(0,getValue(c,r + 1),1);
           normal.set(getNormal(rightPoint,rootPoint,topPoint,scale,tmp1));
-          normal.add(getNormal(bottomPoint,rootPoint,rightPoint,scale,tmp1));
-          normal.normalizeLocal();
+          normal.addLocal(getNormal(bottomPoint,rootPoint,rightPoint,scale,tmp1));
         }
  else         if (c == getWidth() - 1) {
-          topPoint.set(c,getValue(c,r - 1),r - 1);
-          leftPoint.set(c - 1,getValue(c - 1,r),r);
-          bottomPoint.set(c,getValue(c,r + 1),r + 1);
+          topPoint.set(0,getValue(c,r - 1),-1);
+          leftPoint.set(-1,getValue(c - 1,r),0);
+          bottomPoint.set(0,getValue(c,r + 1),1);
           normal.set(getNormal(topPoint,rootPoint,leftPoint,scale,tmp1));
-          normal.add(getNormal(leftPoint,rootPoint,bottomPoint,scale,tmp1));
-          normal.normalizeLocal();
+          normal.addLocal(getNormal(leftPoint,rootPoint,bottomPoint,scale,tmp1));
         }
  else {
-          topPoint.set(c,getValue(c,r - 1),r - 1);
-          leftPoint.set(c - 1,getValue(c - 1,r),r);
-          rightPoint.set(c + 1,getValue(c + 1,r),r);
-          bottomPoint.set(c,getValue(c,r + 1),r + 1);
+          topPoint.set(0,getValue(c,r - 1),-1);
+          leftPoint.set(-1,getValue(c - 1,r),0);
+          rightPoint.set(1,getValue(c + 1,r),0);
+          bottomPoint.set(0,getValue(c,r + 1),1);
           normal.set(getNormal(topPoint,rootPoint,leftPoint,scale,tmp1));
-          normal.add(getNormal(leftPoint,rootPoint,bottomPoint,scale,tmp1));
-          normal.add(getNormal(bottomPoint,rootPoint,rightPoint,scale,tmp1));
-          normal.add(getNormal(rightPoint,rootPoint,topPoint,scale,tmp1));
-          normal.normalizeLocal();
+          normal.addLocal(getNormal(leftPoint,rootPoint,bottomPoint,scale,tmp1));
+          normal.addLocal(getNormal(bottomPoint,rootPoint,rightPoint,scale,tmp1));
+          normal.addLocal(getNormal(rightPoint,rootPoint,topPoint,scale,tmp1));
         }
       }
+      normal.normalizeLocal();
       BufferUtils.setInBuffer(normal,store,(r * getWidth() + c));
     }
   }
