@@ -6,8 +6,12 @@
     byte b=data[offsetBytes];
     int test=indexBits == 7 ? 1 : 2 << (6 - indexBits);
     if ((b & test) != 0) {
-      if (i == 0)       rVal++;
- else       rVal+=(2 << i - 1);
+      if (i == 0) {
+        rVal++;
+      }
+ else {
+        rVal+=(2 << i - 1);
+      }
     }
     indexBits++;
     if (indexBits == 8) {
