@@ -1,0 +1,75 @@
+{
+  if (o == null) {
+    return false;
+  }
+  if (!(o instanceof RenderState)) {
+    return false;
+  }
+  RenderState rs=(RenderState)o;
+  if (pointSprite != rs.pointSprite) {
+    return false;
+  }
+  if (wireframe != rs.wireframe) {
+    return false;
+  }
+  if (cullMode != rs.cullMode) {
+    return false;
+  }
+  if (depthWrite != rs.depthWrite) {
+    return false;
+  }
+  if (depthTest != rs.depthTest) {
+    return false;
+  }
+  if (colorWrite != rs.colorWrite) {
+    return false;
+  }
+  if (blendMode != rs.blendMode) {
+    return false;
+  }
+  if (alphaTest != rs.alphaTest) {
+    return false;
+  }
+  if (alphaFallOff != rs.alphaFallOff) {
+    return false;
+  }
+  if (offsetEnabled != rs.offsetEnabled) {
+    return false;
+  }
+  if (offsetFactor != rs.offsetFactor) {
+    return false;
+  }
+  if (offsetUnits != rs.offsetUnits) {
+    return false;
+  }
+  if (stencilTest != rs.stencilTest) {
+    return false;
+  }
+  if (stencilTest) {
+    if (frontStencilStencilFailOperation != rs.frontStencilStencilFailOperation) {
+      return false;
+    }
+    if (frontStencilDepthFailOperation != rs.frontStencilDepthFailOperation) {
+      return false;
+    }
+    if (frontStencilDepthPassOperation != rs.frontStencilDepthPassOperation) {
+      return false;
+    }
+    if (backStencilStencilFailOperation != rs.backStencilStencilFailOperation) {
+      return false;
+    }
+    if (backStencilDepthFailOperation != rs.backStencilDepthFailOperation) {
+      return false;
+    }
+    if (backStencilDepthPassOperation != rs.backStencilDepthPassOperation) {
+      return false;
+    }
+    if (frontStencilFunction != rs.frontStencilFunction) {
+      return false;
+    }
+    if (backStencilFunction != rs.backStencilFunction) {
+      return false;
+    }
+  }
+  return true;
+}
