@@ -1,7 +1,7 @@
 {
   if (animation == null)   return;
-  if (blendFrom != null) {
-    blendFrom.setTime(timeBlendFrom,1f - blendAmount,control,this,vars);
+  if (blendFrom != null && blendAmount != 1.0f) {
+    blendFrom.setTime(timeBlendFrom,1f,control,this,vars);
     timeBlendFrom+=tpf * speedBlendFrom;
     timeBlendFrom=clampWrapTime(timeBlendFrom,blendFrom.getLength(),loopModeBlendFrom);
     if (timeBlendFrom < 0) {

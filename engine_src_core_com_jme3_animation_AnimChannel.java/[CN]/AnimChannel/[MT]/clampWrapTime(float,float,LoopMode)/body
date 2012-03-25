@@ -1,24 +1,22 @@
 {
-  if (max == Float.POSITIVE_INFINITY)   return t;
-  if (t < 0f) {
+  if (t == 0) {
+    return 0;
+  }
 switch (loopMode) {
-case DontLoop:
-      return 0;
 case Cycle:
-    return t;
-case Loop:
-  return max - t;
+    boolean sign=((int)(t / max) % 2) != 0;
+  float result;
+if (t < 0) {
+  result=sign ? t % max : -(max + (t % max));
 }
+ else {
+  result=sign ? -(max - (t % max)) : t % max;
 }
- else if (t > max) {
-switch (loopMode) {
+return result;
 case DontLoop:
-return max;
-case Cycle:
-return -(2f * max - t);
+return t > max ? max : (t < 0 ? 0 : t);
 case Loop:
-return t - max;
-}
+return t % max;
 }
 return t;
 }
