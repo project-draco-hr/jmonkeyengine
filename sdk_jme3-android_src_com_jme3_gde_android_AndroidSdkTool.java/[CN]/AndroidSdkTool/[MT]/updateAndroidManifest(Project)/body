@@ -1,6 +1,7 @@
 {
   FileObject manifest=project.getProjectDirectory().getFileObject("mobile/AndroidManifest.xml");
   if (manifest == null) {
+    Logger.getLogger(AndroidSdkTool.class.getName()).log(Level.WARNING,"Could not find AndroidManifest.xml");
     return;
   }
   InputStream in=null;

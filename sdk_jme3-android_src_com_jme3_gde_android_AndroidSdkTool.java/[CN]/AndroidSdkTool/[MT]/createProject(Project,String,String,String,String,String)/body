@@ -23,6 +23,7 @@
     outReader.start();
     errReader.start();
     proc.waitFor();
+    folder.refresh();
     String mainActName="mobile/src/" + packag.replaceAll("\\.","/") + "/MainActivity.java";
     FileObject mainAct=project.getProjectDirectory().getFileObject(mainActName);
     if (mainAct != null) {
@@ -33,7 +34,7 @@
       lock.releaseLock();
     }
  else {
-      throw new IOException("Cannot find " + mainActName);
+      Logger.getLogger(AndroidSdkTool.class.getName()).log(Level.WARNING,"Cannot find {0}",mainActName);
     }
   }
  catch (  InterruptedException ex) {
