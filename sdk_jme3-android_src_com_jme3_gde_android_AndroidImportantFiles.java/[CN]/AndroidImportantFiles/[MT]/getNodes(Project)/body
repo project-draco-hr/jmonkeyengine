@@ -7,12 +7,19 @@
       in=manifest.getInputStream();
       Document configuration=XMLUtil.parse(new InputSource(in),false,false,null,null);
       mainActivity="mobile/src/" + configuration.getDocumentElement().getAttribute("package").replaceAll("\\.","/") + "/MainActivity.java";
-      in.close();
     }
  catch (    Exception ex) {
       Exceptions.printStackTrace(ex);
     }
  finally {
+      try {
+        if (in != null) {
+          in.close();
+        }
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+      }
     }
   }
   ArrayList<Node> list=new ArrayList<Node>();
