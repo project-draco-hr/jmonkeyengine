@@ -37,7 +37,7 @@
   this.terrain.setLocalTranslation(0,0,0);
   this.terrain.setLocalScale(1f,1f,1f);
   this.rootNode.attachChild(this.terrain);
-  TerrainLodControl control=new TerrainLodControl(this.terrain,getCamera());
+  TerrainLodControl control=new TerrainGridLodControl(this.terrain,getCamera());
   control.setLodCalculator(new DistanceLodCalculator(65,2.7f));
   this.terrain.addControl(control);
   final BulletAppState bulletAppState=new BulletAppState();

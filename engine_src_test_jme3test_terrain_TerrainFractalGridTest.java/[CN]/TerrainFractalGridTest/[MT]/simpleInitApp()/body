@@ -53,7 +53,7 @@
   this.terrain.setLocalTranslation(0,0,0);
   this.terrain.setLocalScale(2f,1f,2f);
   this.rootNode.attachChild(this.terrain);
-  TerrainLodControl control=new TerrainLodControl(this.terrain,this.getCamera());
+  TerrainLodControl control=new TerrainGridLodControl(this.terrain,this.getCamera());
   control.setLodCalculator(new DistanceLodCalculator(33,2.7f));
   this.terrain.addControl(control);
   this.getCamera().setLocation(new Vector3f(0,300,0));

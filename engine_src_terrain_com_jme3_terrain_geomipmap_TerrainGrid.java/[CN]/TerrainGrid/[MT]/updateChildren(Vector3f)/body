@@ -26,9 +26,9 @@
       cache.get(camCell.add(quadIndex[i * 4 + j]));
     }
   }
-  if (executor == null) {
-    executor=createExecutorService();
+  if (cacheExecutor == null) {
+    cacheExecutor=createExecutorService();
   }
-  executor.submit(new UpdateQuadCache(camCell));
+  cacheExecutor.submit(new UpdateQuadCache(camCell));
   this.currentCamCell=camCell;
 }

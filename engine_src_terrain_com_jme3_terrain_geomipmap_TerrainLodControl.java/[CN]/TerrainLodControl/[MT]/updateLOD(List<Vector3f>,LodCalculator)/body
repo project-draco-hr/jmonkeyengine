@@ -16,10 +16,9 @@
   if (isLodCalcRunning()) {
     return;
   }
-  if (getParent() instanceof TerrainQuad) {
-    return;
-  }
   if (executor == null)   executor=createExecutorService();
+  TerrainQuad terrain=(TerrainQuad)getSpatial();
+  terrain.cacheTerrainTransforms();
   UpdateLOD updateLodThread=new UpdateLOD(locations,lodCalculator);
   executor.execute(updateLodThread);
 }

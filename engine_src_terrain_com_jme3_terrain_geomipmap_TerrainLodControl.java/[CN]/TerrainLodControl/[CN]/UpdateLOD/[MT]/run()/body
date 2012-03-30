@@ -4,15 +4,16 @@
     return;
   }
   setLodCalcRunning(true);
+  TerrainQuad terrainQuad=(TerrainQuad)getSpatial();
   HashMap<String,UpdatedTerrainPatch> updated=new HashMap<String,UpdatedTerrainPatch>();
-  boolean lodChanged=calculateLod(camLocations,updated,lodCalculator);
+  boolean lodChanged=terrainQuad.calculateLod(camLocations,updated,lodCalculator);
   if (!lodChanged) {
     setLodCalcRunning(false);
     return;
   }
-  findNeighboursLod(updated);
-  fixEdges(updated);
-  reIndexPages(updated,lodCalculator.usesVariableLod());
+  terrainQuad.findNeighboursLod(updated);
+  terrainQuad.fixEdges(updated);
+  terrainQuad.reIndexPages(updated,lodCalculator.usesVariableLod());
   setUpdateQuadLODs(updated);
   setLodCalcRunning(false);
 }

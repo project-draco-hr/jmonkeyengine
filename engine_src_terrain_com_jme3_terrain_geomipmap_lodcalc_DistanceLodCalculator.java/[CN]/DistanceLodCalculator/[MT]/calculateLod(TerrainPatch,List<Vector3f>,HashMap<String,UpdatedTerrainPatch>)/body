@@ -13,7 +13,7 @@
     return true;
   }
   for (int i=0; i <= terrainPatch.getMaxLod(); i++) {
-    if (distance < getLodDistanceThreshold() * (i + 1) * terrainPatch.getWorldScale().x || i == terrainPatch.getMaxLod()) {
+    if (distance < getLodDistanceThreshold() * (i + 1) * terrainPatch.getWorldScaleCached().x || i == terrainPatch.getMaxLod()) {
       boolean reIndexNeeded=false;
       if (i != terrainPatch.getLod()) {
         reIndexNeeded=true;

@@ -11,7 +11,7 @@
   this.stateManager.attach(state);
   this.terrain=(TerrainGrid)assetManager.loadModel("TerrainGrid/TerrainGrid.j3o");
   this.rootNode.attachChild(this.terrain);
-  TerrainLodControl control=new TerrainLodControl(this.terrain,getCamera());
+  TerrainLodControl control=new TerrainGridLodControl(this.terrain,getCamera());
   control.setLodCalculator(new DistanceLodCalculator(65,2.7f));
   this.terrain.addControl(control);
   final BulletAppState bulletAppState=new BulletAppState();
