@@ -1,7 +1,7 @@
 {
   TempVars vars=TempVars.get();
   Quaternion q=vars.quat1;
-  q.fromAngles(yaw,roll,pitch);
+  q.fromAngles(xAngle,yAngle,zAngle);
   rotate(q);
   vars.release();
   return this;
