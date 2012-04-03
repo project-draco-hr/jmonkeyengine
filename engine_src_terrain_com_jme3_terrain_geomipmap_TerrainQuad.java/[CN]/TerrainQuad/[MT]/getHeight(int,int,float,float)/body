@@ -1,0 +1,12 @@
+{
+  QuadrantChild match=findMatchingChild(x,z);
+  if (match != null) {
+    if (match.child instanceof TerrainQuad) {
+      return ((TerrainQuad)match.child).getHeight(match.col,match.row,xm,zm);
+    }
+ else     if (match.child instanceof TerrainPatch) {
+      return ((TerrainPatch)match.child).getHeight(match.col,match.row,xm,zm);
+    }
+  }
+  return Float.NaN;
+}

@@ -1,0 +1,18 @@
+{
+  int index=findClosestHeightIndex(x,z);
+  if (index < 0) {
+    return Float.NaN;
+  }
+  float h1=hdata[index];
+  float h2=hdata[index + 1];
+  float h3=hdata[index + width];
+  float h4=hdata[index + width + 1];
+  if ((x == 0 && z == 0) || (x == width - 2 && z == width - 2)) {
+    if (xm < zm)     return h1 + xm * (h4 - h3) + zm * (h3 - h1);
+ else     return h1 + xm * (h2 - h1) + zm * (h4 - h2);
+  }
+ else {
+    if (xm < (1 - zm))     return h3 + (xm) * (h2 - h1) + (1f - zm) * (h1 - h3);
+ else     return h3 + (xm) * (h4 - h3) + (1f - zm) * (h2 - h4);
+  }
+}
