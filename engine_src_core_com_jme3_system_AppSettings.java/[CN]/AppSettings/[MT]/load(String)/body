@@ -3,16 +3,36 @@
   String[] keys=prefs.keys();
   if (keys != null) {
     for (    String key : keys) {
-      Object defaultValue=defaults.get(key);
-      if (defaultValue instanceof Integer) {
-        put(key,prefs.getInt(key,(Integer)defaultValue));
-      }
- else       if (defaultValue instanceof String) {
-        put(key,prefs.get(key,(String)defaultValue));
-      }
- else       if (defaultValue instanceof Boolean) {
-        put(key,prefs.getBoolean(key,(Boolean)defaultValue));
-      }
-    }
-  }
+      if (key.charAt(1) == '_') {
+switch (key.charAt(0)) {
+case 'I':
+          put(key.substring(2),prefs.getInt(key,(Integer)0));
+        break;
+case 'F':
+      put(key.substring(2),prefs.getFloat(key,(Float)0f));
+    break;
+case 'S':
+  put(key.substring(2),prefs.get(key,(String)null));
+break;
+case 'B':
+put(key.substring(2),prefs.getBoolean(key,(Boolean)false));
+break;
+default :
+throw new UnsupportedOperationException("Undefined setting type: " + key.charAt(0));
+}
+}
+ else {
+Object defaultValue=defaults.get(key);
+if (defaultValue instanceof Integer) {
+put(key,prefs.getInt(key,(Integer)defaultValue));
+}
+ else if (defaultValue instanceof String) {
+put(key,prefs.get(key,(String)defaultValue));
+}
+ else if (defaultValue instanceof Boolean) {
+put(key,prefs.getBoolean(key,(Boolean)defaultValue));
+}
+}
+}
+}
 }

@@ -12,8 +12,11 @@
  else     if (val instanceof Boolean) {
       type="(bool)";
     }
+ else     if (val instanceof Float) {
+      type="(float)";
+    }
  else {
-      throw new UnsupportedEncodingException();
+      continue;
     }
     props.setProperty(entry.getKey() + type,val.toString());
   }
