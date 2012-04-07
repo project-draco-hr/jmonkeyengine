@@ -1,0 +1,27 @@
+{
+  GeometryList l=viewPort.getQueue().getShadowQueueContent(ShadowMode.Receive);
+  for (int i=0; i < l.size(); i++) {
+    Material mat=l.get(i).getMaterial();
+    if (mat.getMaterialDef().getTechniqueDef(postTechniqueName) != null) {
+      mat.setColor("Splits",splits);
+      postshadowMat.setColor("Splits",splits);
+      for (int j=0; j < nbSplits; j++) {
+        mat.setMatrix4("LightViewProjectionMatrix" + j,lightViewProjectionsMatrices[j]);
+        mat.setTexture("ShadowMap" + j,shadowMaps[j]);
+      }
+      mat.setBoolean("HardwareShadows",compareMode == CompareMode.Hardware);
+      mat.setInt("FilterMode",filterMode.ordinal());
+      mat.setFloat("PCFEdge",edgesThickness);
+      mat.setFloat("ShadowIntensity",shadowIntensity);
+    }
+ else {
+      needsfallBackMaterial=true;
+    }
+  }
+  if (needsfallBackMaterial) {
+    postshadowMat.setColor("Splits",splits);
+    for (int j=0; j < nbSplits; j++) {
+      postshadowMat.setMatrix4("LightViewProjectionMatrix" + j,lightViewProjectionsMatrices[j]);
+    }
+  }
+}
