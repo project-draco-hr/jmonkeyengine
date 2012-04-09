@@ -1,7 +1,8 @@
 {
   Vector3f min=new Vector3f(Vector3f.POSITIVE_INFINITY);
   Vector3f max=new Vector3f(Vector3f.NEGATIVE_INFINITY);
-  Vector3f temp=new Vector3f();
+  TempVars vars=TempVars.get();
+  Vector3f temp=vars.vect1;
   for (int i=0; i < pts.length; i++) {
     float w=mat.multProj(pts[i],temp);
     temp.x/=w;
@@ -10,6 +11,7 @@
     min.minLocal(temp);
     max.maxLocal(temp);
   }
+  vars.release();
   Vector3f center=min.add(max).multLocal(0.5f);
   Vector3f extent=max.subtract(min).multLocal(0.5f);
   return new BoundingBox(center,extent.x + 2.0f,extent.y + 2.0f,extent.z + 2.5f);

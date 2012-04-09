@@ -51,19 +51,20 @@
     casterBB.setYExtent(casterBB.getYExtent() + 2.0f);
     casterBB.setZExtent(casterBB.getZExtent() + 2.0f);
   }
-  Vector3f casterMin=casterBB.getMin(null);
-  Vector3f casterMax=casterBB.getMax(null);
-  Vector3f receiverMin=receiverBB.getMin(null);
-  Vector3f receiverMax=receiverBB.getMax(null);
-  Vector3f splitMin=splitBB.getMin(null);
-  Vector3f splitMax=splitBB.getMax(null);
+  TempVars vars=TempVars.get();
+  Vector3f casterMin=casterBB.getMin(vars.vect1);
+  Vector3f casterMax=casterBB.getMax(vars.vect2);
+  Vector3f receiverMin=receiverBB.getMin(vars.vect3);
+  Vector3f receiverMax=receiverBB.getMax(vars.vect4);
+  Vector3f splitMin=splitBB.getMin(vars.vect5);
+  Vector3f splitMax=splitBB.getMax(vars.vect6);
   splitMin.z=0;
   if (!ortho) {
     shadowCam.setFrustumPerspective(45,1,1,splitMax.z);
   }
   Matrix4f projMatrix=shadowCam.getProjectionMatrix();
-  Vector3f cropMin=new Vector3f();
-  Vector3f cropMax=new Vector3f();
+  Vector3f cropMin=vars.vect7;
+  Vector3f cropMax=vars.vect8;
   cropMin.x=max(max(casterMin.x,receiverMin.x),splitMin.x);
   cropMax.x=min(min(casterMax.x,receiverMax.x),splitMax.x);
   cropMin.y=max(max(casterMin.y,receiverMin.y),splitMin.y);
@@ -78,9 +79,11 @@
   offsetY=-0.5f * (cropMax.y + cropMin.y) * scaleY;
   scaleZ=1.0f / (cropMax.z - cropMin.z);
   offsetZ=-cropMin.z * scaleZ;
-  Matrix4f cropMatrix=new Matrix4f(scaleX,0f,0f,offsetX,0f,scaleY,0f,offsetY,0f,0f,scaleZ,offsetZ,0f,0f,0f,1f);
+  Matrix4f cropMatrix=vars.tempMat4;
+  cropMatrix.set(scaleX,0f,0f,offsetX,0f,scaleY,0f,offsetY,0f,0f,scaleZ,offsetZ,0f,0f,0f,1f);
   Matrix4f result=new Matrix4f();
   result.set(cropMatrix);
   result.multLocal(projMatrix);
+  vars.release();
   shadowCam.setProjectionMatrix(result);
 }

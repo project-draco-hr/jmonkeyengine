@@ -10,8 +10,9 @@
   Matrix4f viewProjMatrix=shadowCam.getViewProjectionMatrix();
   Matrix4f projMatrix=shadowCam.getProjectionMatrix();
   BoundingBox splitBB=computeBoundForPoints(points,viewProjMatrix);
-  Vector3f splitMin=splitBB.getMin(null);
-  Vector3f splitMax=splitBB.getMax(null);
+  TempVars vars=TempVars.get();
+  Vector3f splitMin=splitBB.getMin(vars.vect1);
+  Vector3f splitMax=splitBB.getMax(vars.vect2);
   float scaleX, scaleY, scaleZ;
   float offsetX, offsetY, offsetZ;
   scaleX=2.0f / (splitMax.x - splitMin.x);
@@ -20,9 +21,11 @@
   offsetY=-0.5f * (splitMax.y + splitMin.y) * scaleY;
   scaleZ=1.0f / (splitMax.z - splitMin.z);
   offsetZ=-splitMin.z * scaleZ;
-  Matrix4f cropMatrix=new Matrix4f(scaleX,0f,0f,offsetX,0f,scaleY,0f,offsetY,0f,0f,scaleZ,offsetZ,0f,0f,0f,1f);
+  Matrix4f cropMatrix=vars.tempMat4;
+  cropMatrix.set(scaleX,0f,0f,offsetX,0f,scaleY,0f,offsetY,0f,0f,scaleZ,offsetZ,0f,0f,0f,1f);
   Matrix4f result=new Matrix4f();
   result.set(cropMatrix);
   result.multLocal(projMatrix);
+  vars.release();
   shadowCam.setProjectionMatrix(result);
 }
