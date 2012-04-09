@@ -10,7 +10,7 @@
     executor.submit(new Callable<Void>(){
       public Void call() throws Exception {
         Screenshots.convertScreenShot(item.buffer,item.image);
-        item.data=writer.writeImageToBytes(item.image);
+        item.data=writer.writeImageToBytes(item.image,quality);
         while (usedItems.peek() != item) {
           Thread.sleep(1);
         }

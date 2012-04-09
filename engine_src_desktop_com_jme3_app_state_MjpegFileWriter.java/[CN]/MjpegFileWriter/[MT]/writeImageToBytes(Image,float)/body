@@ -9,7 +9,14 @@
     g.drawImage(image,0,0,width,height,null);
   }
   ByteArrayOutputStream baos=new ByteArrayOutputStream();
-  ImageIO.write(bi,"jpg",baos);
+  ImageWriter imgWrtr=ImageIO.getImageWritersByFormatName("jpg").next();
+  ImageOutputStream imgOutStrm=ImageIO.createImageOutputStream(baos);
+  imgWrtr.setOutput(imgOutStrm);
+  ImageWriteParam jpgWrtPrm=imgWrtr.getDefaultWriteParam();
+  jpgWrtPrm.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+  jpgWrtPrm.setCompressionQuality(quality);
+  imgWrtr.write(null,new IIOImage(bi,null,null),jpgWrtPrm);
+  imgOutStrm.close();
   baos.close();
   return baos.toByteArray();
 }
