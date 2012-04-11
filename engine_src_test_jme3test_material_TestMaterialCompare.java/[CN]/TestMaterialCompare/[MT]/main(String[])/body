@@ -1,4 +1,38 @@
 {
-  TestMaterialCompare app=new TestMaterialCompare();
-  app.start();
+  AssetManager assetManager=JmeSystem.newAssetManager(TestMaterialCompare.class.getResource("/com/jme3/asset/Desktop.cfg"));
+  Material mat1=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  mat1.setName("mat1");
+  mat1.setColor("Color",ColorRGBA.Blue);
+  Material mat2=mat1.clone();
+  mat2.setName("mat2");
+  testEquality(mat1,mat2,true);
+  Material mat3=mat1.clone();
+  mat3.setName("mat3");
+  mat3.getAdditionalRenderState().setBlendMode(BlendMode.ModulateX2);
+  testEquality(mat1,mat3,false);
+  Material mat4=assetManager.loadMaterial("Models/Sign Post/Sign Post.j3m");
+  mat4.setName("mat4");
+  Material mat5=assetManager.loadMaterial("Models/Sign Post/Sign Post.j3m");
+  mat5.setName("mat5");
+  testEquality(mat4,mat5,true);
+  TextureKey originalKey=(TextureKey)mat4.getTextureParam("DiffuseMap").getTextureValue().getKey();
+  TextureKey tex1key=new TextureKey("Models/Sign Post/Sign Post.jpg",false);
+  tex1key.setGenerateMips(true);
+  if (!originalKey.equals(tex1key)) {
+    System.out.println("TEXTURE KEYS ARE NOT EQUAL");
+  }
+  Texture tex1=assetManager.loadTexture(tex1key);
+  mat4.setTexture("DiffuseMap",tex1);
+  testEquality(mat4,mat5,true);
+  tex1.setWrap(Texture.WrapMode.MirroredRepeat);
+  testEquality(mat4,mat5,false);
+  Texture tex2=assetManager.loadTexture("Interface/Logo/Monkey.jpg");
+  mat4.setTexture("DiffuseMap",tex2);
+  testEquality(mat4,mat5,false);
+  Material mat6=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  mat6.setName("mat6");
+  mat6.setColor("Color",ColorRGBA.Blue);
+  testEquality(mat1,mat6,true);
+  mat6.setColor("Color",ColorRGBA.Green);
+  testEquality(mat1,mat6,false);
 }
