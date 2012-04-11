@@ -5,17 +5,11 @@
   if (getClass() != obj.getClass()) {
     return false;
   }
-  final MatParam other=(MatParam)obj;
-  if (this.type != other.type) {
-    return false;
-  }
-  if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
+  final ListMapEntry<K,V> other=(ListMapEntry<K,V>)obj;
+  if (this.key != other.key && (this.key == null || !this.key.equals(other.key))) {
     return false;
   }
   if (this.value != other.value && (this.value == null || !this.value.equals(other.value))) {
-    return false;
-  }
-  if (this.ffBinding != other.ffBinding) {
     return false;
   }
   return true;
