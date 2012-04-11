@@ -8,6 +8,7 @@
       batch.geometry.removeFromParent();
     }
     batches.clear();
+    batchesByGeom.clear();
   }
   for (  Map.Entry<Material,List<Geometry>> entry : matMap.entrySet()) {
     Mesh m=new Mesh();
@@ -20,6 +21,7 @@
     mergeGeometries(m,list);
     m.setDynamic();
     Batch batch=new Batch();
+    batch.updateGeomList(list);
     batch.geometry=new Geometry(name + "-batch" + batches.size());
     batch.geometry.setMaterial(material);
     this.attachChild(batch.geometry);
