@@ -1,0 +1,17 @@
+{
+  String[] lines=defines.split("\n");
+  String[] lines2=source.split("\n");
+  int nblines=0;
+  StringBuilder out=new StringBuilder();
+  if (!defines.equals("")) {
+    for (    String string : lines) {
+      nblines++;
+      out.append(nblines).append("\t").append(string).append("\n");
+    }
+  }
+  for (  String string : lines2) {
+    nblines++;
+    out.append(nblines).append("\t").append(string).append("\n");
+  }
+  return out.toString();
+}
