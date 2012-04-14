@@ -13,8 +13,9 @@
       for (int i=0; i < extensions.length; i++) {
         extensions[i]=extensions[i].trim();
       }
-      if (hasClass(loaderClass)) {
-        manager.registerLoader(loaderClass,extensions);
+      Class clazz=acquireClass(loaderClass);
+      if (clazz != null) {
+        manager.registerLoader(clazz,extensions);
       }
  else {
         Logger.getLogger(this.getClass().getName()).log(Level.WARNING,"Cannot find loader {0}",loaderClass);
@@ -23,8 +24,9 @@
  else     if (cmd.equals("LOCATOR")) {
       String rootPath=scan.next();
       String locatorClass=scan.nextLine().trim();
-      if (hasClass(locatorClass)) {
-        manager.registerLocator(rootPath,locatorClass);
+      Class clazz=acquireClass(locatorClass);
+      if (clazz != null) {
+        manager.registerLocator(rootPath,clazz);
       }
  else {
         Logger.getLogger(this.getClass().getName()).log(Level.WARNING,"Cannot find locator {0}",locatorClass);
