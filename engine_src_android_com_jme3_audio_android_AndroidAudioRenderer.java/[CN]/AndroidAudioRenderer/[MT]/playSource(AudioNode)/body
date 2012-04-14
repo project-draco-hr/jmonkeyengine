@@ -10,15 +10,21 @@
     mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
   }
   try {
-    AssetKey<?> key=audioData.getAssetKey();
-    AssetFileDescriptor afd=assetManager.openFd(key.getName());
-    mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-    mp.prepare();
-    mp.setLooping(src.isLooping());
-    mp.start();
-    src.setChannel(0);
-    src.setStatus(Status.Playing);
-    musicPlaying.put(src,mp);
+    if (src.getStatus() == Status.Stopped) {
+      mp.reset();
+      AssetKey<?> key=audioData.getAssetKey();
+      AssetFileDescriptor afd=assetManager.openFd(key.getName());
+      mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+      mp.prepare();
+      setSourceParams(src,mp);
+      src.setChannel(0);
+      src.setStatus(Status.Playing);
+      musicPlaying.put(src,mp);
+      mp.start();
+    }
+ else {
+      mp.start();
+    }
   }
  catch (  IllegalStateException e) {
     e.printStackTrace();

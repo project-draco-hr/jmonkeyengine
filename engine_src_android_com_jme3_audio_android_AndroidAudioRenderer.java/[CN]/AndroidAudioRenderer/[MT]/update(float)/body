@@ -3,22 +3,20 @@
   float volume;
   for (  AudioNode src : musicPlaying.keySet()) {
     MediaPlayer mp=musicPlaying.get(src);
-{
-      distanceVector.set(listenerPosition);
-      distanceVector.subtractLocal(src.getLocalTranslation());
-      distance=FastMath.abs(distanceVector.length());
-      if (distance < src.getRefDistance()) {
-        distance=src.getRefDistance();
-      }
-      if (distance > src.getMaxDistance()) {
-        distance=src.getMaxDistance();
-      }
-      volume=src.getRefDistance() / distance;
-      AndroidAudioData audioData=(AndroidAudioData)src.getAudioData();
-      if (FastMath.abs(audioData.getCurrentVolume() - volume) > FastMath.FLT_EPSILON) {
-        mp.setVolume(volume,volume);
-        audioData.setCurrentVolume(volume);
-      }
+    distanceVector.set(listenerPosition);
+    distanceVector.subtractLocal(src.getLocalTranslation());
+    distance=FastMath.abs(distanceVector.length());
+    if (distance < src.getRefDistance()) {
+      distance=src.getRefDistance();
+    }
+    if (distance > src.getMaxDistance()) {
+      distance=src.getMaxDistance();
+    }
+    volume=src.getRefDistance() / distance;
+    AndroidAudioData audioData=(AndroidAudioData)src.getAudioData();
+    if (FastMath.abs(audioData.getCurrentVolume() - volume) > FastMath.FLT_EPSILON) {
+      mp.setVolume(volume,volume);
+      audioData.setCurrentVolume(volume);
     }
   }
 }

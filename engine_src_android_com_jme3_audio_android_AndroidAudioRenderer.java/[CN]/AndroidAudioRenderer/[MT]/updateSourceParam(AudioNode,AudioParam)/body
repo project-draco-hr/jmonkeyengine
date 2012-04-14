@@ -80,7 +80,13 @@ if (src.isLooping()) {
 }
 break;
 case Volume:
+MediaPlayer mp=musicPlaying.get(src);
+if (mp != null) {
+mp.setVolume(src.getVolume(),src.getVolume());
+}
+ else {
 soundPool.setVolume(src.getChannel(),src.getVolume(),src.getVolume());
+}
 break;
 case Pitch:
 break;
