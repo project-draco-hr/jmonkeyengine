@@ -1,0 +1,9 @@
+{
+  String mime=caps.getMime();
+  if (mime.equals("application/ogg")) {
+    buildOggPipeline();
+  }
+ else {
+    postMessage(Message.newError(this,"Unknown MIME type: " + mime));
+  }
+}

@@ -1,0 +1,43 @@
+{
+  if (pixels == null) {
+    pixels=new int[width * height];
+  }
+  int YPtr=yuv.y_offset + xOff + yOff * (yuv.y_stride);
+  int YPtr2=YPtr + yuv.y_stride;
+  int UPtr=yuv.u_offset + xOff / 2 + (yOff / 2) * (yuv.uv_stride);
+  int VPtr=yuv.v_offset + xOff / 2 + (yOff / 2) * (yuv.uv_stride);
+  int RGBPtr=0;
+  int RGBPtr2=width;
+  int width2=width / 2;
+  int height2=height / 2;
+  int YStep=yuv.y_stride * 2 - (width2) * 2;
+  int UVStep=yuv.uv_stride - (width2);
+  int RGBStep=width;
+  for (int i=0; i < height2; i++) {
+    for (int j=0; j < width2; j++) {
+      int UFactor=yuv.data[UPtr++] - 128;
+      int VFactor=yuv.data[VPtr++] - 128;
+      int GFactor=UFactor * CR_DIFF_FAC + VFactor * CB_DIFF_FAC - (VAL_RANGE << SHIFT);
+      UFactor=UFactor * CR_FAC + (VAL_RANGE << SHIFT);
+      VFactor=VFactor * CB_FAC + (VAL_RANGE << SHIFT);
+      int YVal=yuv.data[YPtr] << SHIFT;
+      pixels[RGBPtr]=r_tab[(YVal + VFactor) >> SHIFT] | b_tab[(YVal + UFactor) >> SHIFT] | g_tab[(YVal - GFactor) >> SHIFT];
+      YVal=yuv.data[YPtr + 1] << SHIFT;
+      pixels[RGBPtr + 1]=r_tab[(YVal + VFactor) >> SHIFT] | b_tab[(YVal + UFactor) >> SHIFT] | g_tab[(YVal - GFactor) >> SHIFT];
+      YVal=yuv.data[YPtr2] << SHIFT;
+      pixels[RGBPtr2]=r_tab[(YVal + VFactor) >> SHIFT] | b_tab[(YVal + UFactor) >> SHIFT] | g_tab[(YVal - GFactor) >> SHIFT];
+      YVal=yuv.data[YPtr2 + 1] << SHIFT;
+      pixels[RGBPtr2 + 1]=r_tab[(YVal + VFactor) >> SHIFT] | b_tab[(YVal + UFactor) >> SHIFT] | g_tab[(YVal - GFactor) >> SHIFT];
+      YPtr+=2;
+      YPtr2+=2;
+      RGBPtr+=2;
+      RGBPtr2+=2;
+    }
+    YPtr+=YStep;
+    YPtr2+=YStep;
+    UPtr+=UVStep;
+    VPtr+=UVStep;
+    RGBPtr+=RGBStep;
+    RGBPtr2+=RGBStep;
+  }
+}

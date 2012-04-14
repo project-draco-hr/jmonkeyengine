@@ -1,0 +1,13 @@
+{
+  String mime=caps.getMime();
+  if (!mime.equals("video/raw")) {
+    return false;
+  }
+  width=caps.getFieldInt("width",-1);
+  height=caps.getFieldInt("height",-1);
+  if (width == -1 || height == -1) {
+    return false;
+  }
+  outTex=new Texture2D();
+  return true;
+}

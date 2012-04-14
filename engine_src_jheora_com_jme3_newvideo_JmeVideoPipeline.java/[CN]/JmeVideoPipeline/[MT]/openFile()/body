@@ -1,0 +1,25 @@
+{
+  inputstreamsrc=new InputStreamSrc("InputStreamSource");
+  inputstreamsrc.setProperty("inputstream",inputStream);
+  add(inputstreamsrc);
+  inputstreamsrc.getPad("src").addCapsListener(this);
+  audiosink=newAudioSink();
+  if (audiosink == null) {
+    enableAudio=false;
+  }
+ else {
+    asinkpad=audiosink.getPad("sink");
+    add(audiosink);
+  }
+  if (enableVideo) {
+    videosink=new TextureVideoSink("TextureVideoSink");
+    videosink.setProperty("max-lateness","" + Clock.SECOND);
+    add(videosink);
+    ovsinkpad=videosink.getPad("sink");
+  }
+  if (audiosink == null && videosink == null) {
+    postMessage(Message.newError(this,"Both audio and video are disabled, can't play anything"));
+    return false;
+  }
+  return true;
+}

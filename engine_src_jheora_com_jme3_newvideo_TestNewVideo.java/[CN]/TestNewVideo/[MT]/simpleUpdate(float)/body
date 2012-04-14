@@ -1,0 +1,24 @@
+{
+  Texture2D tex=p.getTexture();
+  if (tex == null)   return;
+  if (picture != null) {
+synchronized (tex) {
+      try {
+        tex.wait();
+      }
+ catch (      InterruptedException ex) {
+      }
+      tex.getImage().setUpdateNeeded();
+      renderer.setTexture(0,tex);
+      ((VideoTexture)tex).free();
+      System.out.println("PLAY  : " + (frame++));
+    }
+    return;
+  }
+  picture=new Picture("VideoPicture",true);
+  picture.setPosition(0,0);
+  picture.setWidth(settings.getWidth());
+  picture.setHeight(settings.getHeight());
+  picture.setTexture(assetManager,tex,false);
+  rootNode.attachChild(picture);
+}

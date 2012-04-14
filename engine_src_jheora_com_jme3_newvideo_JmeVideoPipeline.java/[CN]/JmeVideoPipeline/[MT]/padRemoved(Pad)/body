@@ -1,0 +1,13 @@
+{
+  pad.unlink();
+  if (pad == vpad) {
+    Debug.log(Debug.INFO,"video pad removed " + pad);
+    ovsinkpad.unlink();
+    vpad=null;
+  }
+ else   if (pad == apad) {
+    Debug.log(Debug.INFO,"audio pad removed " + pad);
+    asinkpad.unlink();
+    apad=null;
+  }
+}
