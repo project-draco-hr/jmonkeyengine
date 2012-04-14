@@ -5,7 +5,7 @@
   vertexStride=12;
   numTriangles=mesh.getTriangleCount();
   triangleIndexStride=12;
-  IndexBuffer indices=mesh.getIndexBuffer();
+  IndexBuffer indices=mesh.getIndicesAsList();
   FloatBuffer vertices=mesh.getFloatBuffer(Type.Position);
   vertices.rewind();
   int verticesLength=mesh.getVertexCount() * 3;
