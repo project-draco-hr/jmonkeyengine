@@ -12,9 +12,9 @@
   FloatBuffer fpb=createVector3Buffer(vertCount);
   FloatBuffer fnb=createVector3Buffer(vertCount);
   FloatBuffer ftb=createVector2Buffer(vertCount);
-  Vector3f pointB=new Vector3f(), T=new Vector3f(), N=new Vector3f(), B=new Vector3f();
+  Vector3f pointB, T, N, B;
   Vector3f tempNorm=new Vector3f();
-  float r, x, y, z, theta=0.0f, beta=0.0f;
+  float r, x, y, z, theta=0.0f, beta;
   int nvertex=0;
   for (int i=0; i < steps; i++) {
     theta+=thetaStep;
