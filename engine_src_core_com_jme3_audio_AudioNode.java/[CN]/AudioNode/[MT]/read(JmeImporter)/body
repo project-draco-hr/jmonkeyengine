@@ -24,7 +24,7 @@
   positional=ic.readBoolean("positional",false);
   if (audioKey != null) {
     try {
-      data=im.getAssetManager().loadAudio(audioKey);
+      data=im.getAssetManager().loadAsset(audioKey).data;
     }
  catch (    AssetNotFoundException ex) {
       Logger.getLogger(AudioNode.class.getName()).log(Level.FINE,"Cannot locate {0} for audio node {1}",new Object[]{audioKey,key});
