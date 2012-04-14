@@ -1,0 +1,13 @@
+{
+  Scanner scan=new Scanner(assetInfo.openStream());
+  StringBuilder sb=new StringBuilder();
+  try {
+    while (scan.hasNextLine()) {
+      sb.append(scan.nextLine()).append('\n');
+    }
+  }
+  finally {
+    scan.close();
+  }
+  return sb.toString();
+}
