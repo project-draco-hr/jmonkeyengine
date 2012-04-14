@@ -15,9 +15,8 @@
     throw new UnsupportedOperationException("Interleaved meshes are not supported");
   }
   if (mesh.getNumLodLevels() == 0) {
-    IntMap<VertexBuffer> bufs=mesh.getBuffers();
-    for (    Entry<VertexBuffer> entry : bufs) {
-      if (entry.getValue().getUsage() != VertexBuffer.Usage.Static) {
+    for (    VertexBuffer vb : mesh.getBufferList().getArray()) {
+      if (vb.getUsage() != VertexBuffer.Usage.Static) {
         dynamic=true;
         break;
       }

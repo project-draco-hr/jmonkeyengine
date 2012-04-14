@@ -1,0 +1,69 @@
+{
+switch (fmt) {
+case ABGR8:
+    if (!caps.GL_EXT_abgr) {
+      return null;
+    }
+  break;
+case BGR8:
+if (!caps.OpenGL12 && !caps.GL_EXT_bgra) {
+  return null;
+}
+break;
+case DXT1:
+case DXT1A:
+case DXT3:
+case DXT5:
+if (!caps.GL_EXT_texture_compression_s3tc) {
+return null;
+}
+break;
+case Depth:
+case Depth16:
+case Depth24:
+case Depth32:
+if (!caps.OpenGL14 && !caps.GL_ARB_depth_texture) {
+return null;
+}
+break;
+case Luminance16F:
+case Luminance16FAlpha16F:
+case Luminance32F:
+if (!caps.GL_ARB_texture_float) {
+return null;
+}
+break;
+case RGB16F:
+case RGB32F:
+case RGBA16F:
+case RGBA32F:
+if (!caps.OpenGL30 && !caps.GL_ARB_texture_float) {
+return null;
+}
+break;
+case Depth32F:
+if (!caps.OpenGL30 && !caps.GL_NV_depth_buffer_float) {
+return null;
+}
+break;
+case LATC:
+case LTC:
+if (!caps.GL_EXT_texture_compression_latc) {
+return null;
+}
+break;
+case RGB9E5:
+case RGB16F_to_RGB9E5:
+if (!caps.OpenGL30 && !caps.GL_EXT_texture_shared_exponent) {
+return null;
+}
+break;
+case RGB111110F:
+case RGB16F_to_RGB111110F:
+if (!caps.OpenGL30 && !caps.GL_EXT_packed_float) {
+return null;
+}
+break;
+}
+return formatToGL[fmt.ordinal()];
+}

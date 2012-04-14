@@ -8,7 +8,7 @@
     ARBVertexArrayObject.glBindVertexArray(mesh.getId());
     context.boundVertexArray=mesh.getId();
   }
-  VertexBuffer indices=null;
+  VertexBuffer indices;
   if (mesh.getNumLodLevels() > 0) {
     indices=mesh.getLodLevel(lod);
   }

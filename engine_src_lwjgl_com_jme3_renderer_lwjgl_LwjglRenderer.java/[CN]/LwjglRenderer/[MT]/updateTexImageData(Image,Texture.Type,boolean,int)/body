@@ -60,18 +60,18 @@
       return;
     }
     for (int i=0; i < 6; i++) {
-      TextureUtil.uploadTexture(img,GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,i,0,tdc);
+      TextureUtil.uploadTexture(img,GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,i,0);
     }
   }
  else   if (target == EXTTextureArray.GL_TEXTURE_2D_ARRAY_EXT) {
     List<ByteBuffer> data=img.getData();
-    TextureUtil.uploadTexture(img,target,-1,0,tdc);
+    TextureUtil.uploadTexture(img,target,-1,0);
     for (int i=0; i < data.size(); i++) {
-      TextureUtil.uploadTexture(img,target,i,0,tdc);
+      TextureUtil.uploadTexture(img,target,i,0);
     }
   }
  else {
-    TextureUtil.uploadTexture(img,target,0,0,tdc);
+    TextureUtil.uploadTexture(img,target,0,0);
   }
   if (img.getMultiSamples() != imageSamples) {
     img.setMultiSamples(imageSamples);

@@ -14,9 +14,7 @@
   if (interleavedData != null && interleavedData.isUpdateNeeded()) {
     updateBufferData(interleavedData);
   }
-  IntMap<VertexBuffer> buffers=mesh.getBuffers();
-  for (  Entry<VertexBuffer> entry : buffers) {
-    VertexBuffer vb=entry.getValue();
+  for (  VertexBuffer vb : mesh.getBufferList().getArray()) {
     if (vb.getBufferType() == Type.InterleavedData || vb.getUsage() == Usage.CpuOnly || vb.getBufferType() == Type.Index) {
       continue;
     }

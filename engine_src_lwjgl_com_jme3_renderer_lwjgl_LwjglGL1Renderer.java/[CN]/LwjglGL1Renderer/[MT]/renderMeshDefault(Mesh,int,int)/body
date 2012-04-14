@@ -4,15 +4,13 @@
   if (interleavedData != null && interleavedData.isUpdateNeeded()) {
     updateBufferData(interleavedData);
   }
-  IntMap<VertexBuffer> buffers=mesh.getBuffers();
   if (mesh.getNumLodLevels() > 0) {
     indices=mesh.getLodLevel(lod);
   }
  else {
-    indices=buffers.get(Type.Index.ordinal());
+    indices=mesh.getBuffer(Type.Index);
   }
-  for (  Entry<VertexBuffer> entry : buffers) {
-    VertexBuffer vb=entry.getValue();
+  for (  VertexBuffer vb : mesh.getBufferList().getArray()) {
     if (vb.getBufferType() == Type.InterleavedData || vb.getUsage() == Usage.CpuOnly || vb.getBufferType() == Type.Index) {
       continue;
     }

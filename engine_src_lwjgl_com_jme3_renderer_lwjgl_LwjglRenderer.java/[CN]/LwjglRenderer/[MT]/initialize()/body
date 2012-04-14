@@ -97,6 +97,9 @@ caps.add(Caps.FloatColorBuffer);
 if (ctxCaps.GL_ARB_depth_buffer_float) {
 caps.add(Caps.FloatDepthBuffer);
 }
+if (ctxCaps.OpenGL30) {
+caps.add(Caps.PackedDepthStencilBuffer);
+}
 if (ctxCaps.GL_ARB_draw_instanced) {
 caps.add(Caps.MeshInstancing);
 }
@@ -121,12 +124,8 @@ caps.add(Caps.NonPowerOfTwoTextures);
 logger.log(Level.WARNING,"Your graphics card does not " + "support non-power-of-2 textures. " + "Some features might not work.");
 }
 boolean latc=ctxCaps.GL_EXT_texture_compression_latc;
-boolean atdc=ctxCaps.GL_ATI_texture_compression_3dc;
-if (latc || atdc) {
+if (latc) {
 caps.add(Caps.TextureCompressionLATC);
-if (atdc && !latc) {
-tdc=true;
-}
 }
 if (ctxCaps.GL_EXT_packed_float) {
 caps.add(Caps.PackedFloatColorBuffer);

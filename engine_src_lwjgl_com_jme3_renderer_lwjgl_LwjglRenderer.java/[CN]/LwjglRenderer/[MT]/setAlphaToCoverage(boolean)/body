@@ -1,8 +1,10 @@
 {
-  if (value) {
-    glEnable(ARBMultisample.GL_SAMPLE_ALPHA_TO_COVERAGE_ARB);
-  }
+  if (caps.contains(Caps.Multisample)) {
+    if (value) {
+      glEnable(ARBMultisample.GL_SAMPLE_ALPHA_TO_COVERAGE_ARB);
+    }
  else {
-    glDisable(ARBMultisample.GL_SAMPLE_ALPHA_TO_COVERAGE_ARB);
+      glDisable(ARBMultisample.GL_SAMPLE_ALPHA_TO_COVERAGE_ARB);
+    }
   }
 }
