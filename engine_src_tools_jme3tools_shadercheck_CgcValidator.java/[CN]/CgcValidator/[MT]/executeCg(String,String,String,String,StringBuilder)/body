@@ -1,0 +1,32 @@
+{
+  try {
+    ProcessBuilder pb=new ProcessBuilder("cgc","-oglsl","-nocode","-strict","-glslWerror","-profile",profile,"-po","NumTemps=32","-po","MaxLocalParams=32");
+    Process p=pb.start();
+    String glslVer=language.substring(4);
+    OutputStreamWriter writer=new OutputStreamWriter(p.getOutputStream());
+    writer.append("#version ").append(glslVer).append('\n');
+    writer.append("#extension all : warn").append('\n');
+    writer.append(defines).append('\n');
+    writer.write(sourceCode);
+    writer.close();
+    Scanner scan=new Scanner(p.getErrorStream());
+    String ln=scan.nextLine();
+    if (ln.contains("0 errors")) {
+      output.append(" - Success!").append('\n');
+    }
+ else {
+      output.append(" - Failure!").append('\n');
+      output.append(ln).append('\n');
+      while (scan.hasNextLine()) {
+        output.append(scan.nextLine()).append('\n');
+      }
+    }
+    scan.close();
+    p.waitFor();
+  }
+ catch (  IOException ex) {
+    logger.log(Level.SEVERE,"IOEx",ex);
+  }
+catch (  InterruptedException ex) {
+  }
+}
