@@ -1,14 +1,15 @@
 {
-synchronized (genericLocators) {
-    if (genericLocators.isEmpty())     return null;
-    for (    ImplThreadLocal local : genericLocators) {
-      AssetLocator locator=(AssetLocator)local.get();
-      if (local.getPath() != null) {
-        locator.setRootPath((String)local.getPath());
-      }
-      AssetInfo info=locator.locate(owner,key);
-      if (info != null)       return info;
+  if (locatorsList.isEmpty()) {
+    logger.warning("There are no locators currently" + " registered. Use AssetManager." + "registerLocator() to register a"+ " locator.");
+    return null;
+  }
+  for (  ImplThreadLocal local : locatorsList) {
+    AssetLocator locator=(AssetLocator)local.get();
+    if (local.getPath() != null) {
+      locator.setRootPath((String)local.getPath());
     }
+    AssetInfo info=locator.locate(assetManager,key);
+    if (info != null)     return info;
   }
   return null;
 }

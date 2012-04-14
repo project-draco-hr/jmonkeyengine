@@ -1,40 +1,25 @@
 {
   if (key == null)   throw new IllegalArgumentException("key cannot be null");
-  if (eventListener != null)   eventListener.assetRequested(key);
-  AssetKey smartKey=null;
-  Object o=null;
-  if (key.shouldCache()) {
-    if (key.useSmartCache()) {
-      SmartAssetInfo smartInfo=cache.getFromSmartCache(key);
-      if (smartInfo != null) {
-        smartKey=smartInfo.smartKey.get();
-        if (smartKey != null) {
-          o=smartInfo.asset;
-        }
-      }
-    }
- else {
-      o=cache.getFromCache(key);
-    }
+  for (  AssetEventListener listener : eventListeners) {
+    listener.assetRequested(key);
   }
-  if (o == null) {
+  AssetCache cache=handler.getCache(key.getCacheType());
+  AssetProcessor proc=handler.getProcessor(key.getProcessorType());
+  Object obj=cache != null ? cache.getFromCache(key) : null;
+  if (obj == null) {
     AssetLoader loader=handler.aquireLoader(key);
-    if (loader == null) {
-      throw new IllegalStateException("No loader registered for type \"" + key.getExtension() + "\"");
-    }
-    if (handler.getLocatorCount() == 0) {
-      throw new IllegalStateException("There are no locators currently" + " registered. Use AssetManager." + "registerLocator() to register a"+ " locator.");
-    }
     AssetInfo info=handler.tryLocate(key);
     if (info == null) {
-      if (handler.getParentKey() != null && eventListener != null) {
-        eventListener.assetDependencyNotFound(handler.getParentKey(),key);
+      if (handler.getParentKey() != null) {
+        for (        AssetEventListener listener : eventListeners) {
+          listener.assetDependencyNotFound(handler.getParentKey(),key);
+        }
       }
       throw new AssetNotFoundException(key.toString());
     }
     try {
       handler.establishParentKey(key);
-      o=loader.load(info);
+      obj=loader.load(info);
     }
  catch (    IOException ex) {
       throw new AssetLoadException("An exception has occured while loading asset: " + key,ex);
@@ -42,25 +27,37 @@
  finally {
       handler.releaseParentKey(key);
     }
-    if (o == null) {
-      throw new AssetLoadException("Error occured while loading asset \"" + key + "\" using"+ loader.getClass().getSimpleName());
+    if (obj == null) {
+      throw new AssetLoadException("Error occured while loading asset \"" + key + "\" using "+ loader.getClass().getSimpleName());
     }
  else {
       if (logger.isLoggable(Level.FINER)) {
         logger.log(Level.FINER,"Loaded {0} with {1}",new Object[]{key,loader.getClass().getSimpleName()});
       }
-      o=key.postProcess(o);
-      if (key.shouldCache())       cache.addToCache(key,o);
-      if (eventListener != null)       eventListener.assetLoaded(key);
+      if (proc != null) {
+        obj=proc.postProcess(key,obj);
+      }
+      if (cache != null) {
+        cache.addToCache(key,(T)obj);
+      }
+      for (      AssetEventListener listener : eventListeners) {
+        listener.assetLoaded(key);
+      }
     }
   }
-  T clone=(T)key.createClonedInstance(o);
-  if (key.useSmartCache()) {
-    if (smartKey != null) {
-      ((Asset)clone).setKey(smartKey);
+  T clone=(T)obj;
+  if (clone instanceof CloneableSmartAsset) {
+    if (proc == null) {
+      throw new IllegalStateException("Asset implements " + "CloneableSmartAsset but doesn't " + "have processor to handle cloning");
     }
  else {
-      ((Asset)clone).setKey(key);
+      clone=(T)proc.createClone(obj);
+      if (cache != null && clone != obj) {
+        cache.registerAssetClone(key,clone);
+      }
+ else {
+        throw new IllegalStateException("Asset implements " + "CloneableSmartAsset but doesn't have cache or " + "was not cloned");
+      }
     }
   }
   return clone;

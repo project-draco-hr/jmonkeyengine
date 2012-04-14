@@ -1,29 +1,6 @@
 {
-  List<Object> refs=new ArrayList<Object>(5000);
-  AssetCache cache=new AssetCache();
-  System.gc();
-  System.gc();
-  System.gc();
-  System.gc();
-  long memory=Runtime.getRuntime().freeMemory();
-  while (true) {
-    AssetKey key;
-    if (USE_SMART_CACHE) {
-      key=new SmartKey();
-    }
- else {
-      key=new DumbKey();
-    }
-    DummyData data=new DummyData();
-    cache.addToCache(key,data);
-    if (KEEP_REFERENCES) {
-      refs.add(data);
-    }
-    if ((counter % 100) == 0) {
-      long newMem=Runtime.getRuntime().freeMemory();
-      System.out.println("Allocated objects: " + counter);
-      System.out.println("Allocated memory: " + ((memory - newMem) / 1024) + "K");
-      memory=newMem;
-    }
-  }
+  System.out.println("====== Running Cloneable Smart Asset Test ======");
+  runTest(true,true,false,100000);
+  System.out.println("====== Running Non-cloneable Smart Asset Test ======");
+  runTest(false,true,false,100000);
 }

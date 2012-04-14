@@ -1,0 +1,58 @@
+{
+  counter=0;
+  List<Object> refs=new ArrayList<Object>(limit);
+  AssetCache cache;
+  AssetProcessor proc=null;
+  if (cloneAssets) {
+    proc=new CloneableAssetProcessor();
+  }
+  if (smartCache) {
+    if (cloneAssets) {
+      cache=new WeakRefCloneAssetCache();
+    }
+ else {
+      cache=new WeakRefAssetCache();
+    }
+  }
+ else {
+    cache=new SimpleAssetCache();
+  }
+  System.gc();
+  System.gc();
+  System.gc();
+  System.gc();
+  long memory=Runtime.getRuntime().freeMemory();
+  while (counter < limit) {
+    DummyKey key=new DummyKey();
+    DummyData data=new DummyData();
+    if (proc != null) {
+      data=(DummyData)proc.postProcess(key,data);
+    }
+    if (data.key != null) {
+      throw new AssertionError();
+    }
+    cache.addToCache(key,data);
+    AssetKey<DummyData> keyToGet=key.clone();
+    if (proc != null) {
+      data=(DummyData)proc.createClone(data);
+      if (smartCache) {
+        cache.registerAssetClone(keyToGet,data);
+        if (data.key != key) {
+          throw new AssertionError();
+        }
+      }
+    }
+    if (keepRefs) {
+      if (cloneAssets) {
+        data.data=null;
+      }
+      refs.add(data);
+    }
+    if ((counter % 1000) == 0) {
+      long newMem=Runtime.getRuntime().freeMemory();
+      System.out.println("Allocated objects: " + counter);
+      System.out.println("Allocated memory: " + ((memory - newMem) / (1024 * 1024)) + " MB");
+      memory=newMem;
+    }
+  }
+}

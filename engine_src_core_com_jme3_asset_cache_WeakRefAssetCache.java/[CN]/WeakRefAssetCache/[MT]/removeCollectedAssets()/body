@@ -1,0 +1,10 @@
+{
+  int removedAssets=0;
+  for (AssetRef ref; (ref=(AssetRef)refQueue.poll()) != null; ) {
+    if (assetCache.remove(ref.assetKey) != null) {
+      removedAssets++;
+    }
+  }
+  if (removedAssets >= 1) {
+  }
+}

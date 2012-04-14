@@ -1,0 +1,9 @@
+{
+synchronized (classToLoaderMap) {
+    ImplThreadLocal local=classToLoaderMap.get(loaderType);
+    classToLoaderMap.remove(loaderType);
+    for (    String extension : local.getExtensions()) {
+      extensionToLoaderMap.remove(extension);
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  ImplThreadLocal local=new ImplThreadLocal(loaderType,extensions);
+  for (  String extension : extensions) {
+    extension=extension.toLowerCase();
+synchronized (classToLoaderMap) {
+      classToLoaderMap.put(loaderType,local);
+      extensionToLoaderMap.put(extension,local);
+    }
+  }
+}

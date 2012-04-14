@@ -1,0 +1,9 @@
+{
+  CloneableSmartAsset asset=(CloneableSmartAsset)obj;
+  asset.setKey(null);
+synchronized (smartCache) {
+    smartCache.put(key,new SmartCachedAsset(asset,key));
+  }
+  ArrayDeque<AssetKey> loadStack=assetLoadStack.get();
+  loadStack.push(key);
+}

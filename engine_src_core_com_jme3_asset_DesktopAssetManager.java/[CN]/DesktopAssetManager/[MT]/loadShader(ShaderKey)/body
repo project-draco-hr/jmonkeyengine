@@ -1,4 +1,5 @@
 {
+  AssetCache cache=handler.getCache(SimpleAssetCache.class);
   Shader s=(Shader)cache.getFromCache(key);
   if (s == null) {
     String vertName=key.getVertName();

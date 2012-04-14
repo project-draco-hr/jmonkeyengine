@@ -1,8 +1,4 @@
 {
-  if (handler.getLocatorCount() == 0) {
-    logger.warning("There are no locators currently" + " registered. Use AssetManager." + "registerLocator() to register a"+ " locator.");
-    return null;
-  }
   AssetInfo info=handler.tryLocate(key);
   if (info == null) {
     logger.log(Level.WARNING,"Cannot locate resource: {0}",key);

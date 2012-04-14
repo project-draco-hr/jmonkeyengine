@@ -1,0 +1,19 @@
+{
+  if (obj == null) {
+    return false;
+  }
+  if (getClass() != obj.getClass()) {
+    return false;
+  }
+  final AudioKey other=(AudioKey)obj;
+  if (!super.equals(other)) {
+    return false;
+  }
+  if (this.stream != other.stream) {
+    return false;
+  }
+  if (this.streamCache != other.streamCache) {
+    return false;
+  }
+  return true;
+}

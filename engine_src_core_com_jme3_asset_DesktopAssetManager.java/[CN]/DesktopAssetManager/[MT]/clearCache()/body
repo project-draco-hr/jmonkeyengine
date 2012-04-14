@@ -1,3 +1,6 @@
 {
-  cache.deleteAllAssets();
+  handler.clearCache();
+  if (logger.isLoggable(Level.FINER)) {
+    logger.log(Level.FINER,"All asset caches cleared.");
+  }
 }

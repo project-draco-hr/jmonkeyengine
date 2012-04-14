@@ -1,0 +1,29 @@
+{
+  TextureKey texKey=(TextureKey)key;
+  Image img=(Image)obj;
+  if (img == null) {
+    return null;
+  }
+  Texture tex;
+  if (texKey.isAsCube()) {
+    if (texKey.isFlipY()) {
+      ByteBuffer pos_y=img.getData(2);
+      img.setData(2,img.getData(3));
+      img.setData(3,pos_y);
+    }
+    tex=new TextureCubeMap();
+  }
+ else   if (texKey.isAsTexture3D()) {
+    tex=new Texture3D();
+  }
+ else {
+    tex=new Texture2D();
+  }
+  if (img.hasMipmaps() || texKey.isGenerateMips()) {
+    tex.setMinFilter(Texture.MinFilter.Trilinear);
+  }
+  tex.setAnisotropicFilter(texKey.getAnisotropy());
+  tex.setName(texKey.getName());
+  tex.setImage(img);
+  return tex;
+}
