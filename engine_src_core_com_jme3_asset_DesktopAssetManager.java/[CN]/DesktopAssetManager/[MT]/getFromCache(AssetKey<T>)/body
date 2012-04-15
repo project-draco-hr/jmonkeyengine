@@ -1,0 +1,13 @@
+{
+  AssetCache cache=handler.getCache(key.getCacheType());
+  if (cache != null) {
+    T asset=cache.getFromCache(key);
+    if (asset != null) {
+      cache.notifyNoAssetClone();
+    }
+    return asset;
+  }
+ else {
+    throw new IllegalArgumentException("Key " + key + " specifies no cache.");
+  }
+}
