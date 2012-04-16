@@ -3,7 +3,7 @@
   am.registerLoader(AWTLoader.class,"jpg");
   am.registerLoader(WAVLoader.class,"wav");
   am.registerLocator("/",ClasspathLocator.class);
-  AudioNode audio=am.loadAudio("Sound/Effects/Gun.wav");
+  AudioData audio=am.loadAudio("Sound/Effects/Gun.wav");
   Texture tex=am.loadTexture("Textures/Terrain/Pond/Pond.jpg");
   if (audio == null)   throw new RuntimeException("Cannot find audio!");
  else   System.out.println("Audio loaded from Sounds/Effects/Gun.wav");
