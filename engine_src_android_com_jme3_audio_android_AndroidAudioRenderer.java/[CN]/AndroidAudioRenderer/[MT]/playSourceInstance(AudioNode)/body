@@ -17,6 +17,10 @@
       soundpoolStillLoading.put(audioData.getId(),src);
     }
  else {
+      if (src.getStatus() != Status.Stopped) {
+        soundPool.stop(channel);
+        src.setStatus(Status.Stopped);
+      }
       src.setChannel(channel);
       setSourceParams(src);
     }
