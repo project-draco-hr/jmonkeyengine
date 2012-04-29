@@ -1,0 +1,53 @@
+{
+  List<Vector3f> result=new ArrayList<Vector3f>();
+  BoundingBox bb=UVCoordinatesGenerator.getBoundingBox(geometries);
+  float[] inputData=null;
+switch (texco) {
+case TEXCO_ORCO:
+    inputData=BufferUtils.getFloatArray(mesh.getFloatBuffer(VertexBuffer.Type.Position));
+  break;
+case TEXCO_UV:
+Vector2f[] data=new Vector2f[]{new Vector2f(0,1),new Vector2f(0,0),new Vector2f(1,0)};
+for (int i=0; i < mesh.getVertexCount(); ++i) {
+Vector2f uv=data[i % 3];
+result.add(new Vector3f(uv.x,uv.y,0));
+}
+break;
+case TEXCO_NORM:
+inputData=BufferUtils.getFloatArray(mesh.getFloatBuffer(VertexBuffer.Type.Normal));
+break;
+case TEXCO_REFL:
+case TEXCO_GLOB:
+case TEXCO_TANGENT:
+case TEXCO_STRESS:
+case TEXCO_LAVECTOR:
+case TEXCO_OBJECT:
+case TEXCO_OSA:
+case TEXCO_PARTICLE_OR_STRAND:
+case TEXCO_SPEED:
+case TEXCO_STICKY:
+case TEXCO_VIEW:
+case TEXCO_WINDOW:
+LOGGER.warning("Texture coordinates type not currently supported: " + texco);
+break;
+default :
+throw new IllegalStateException("Unknown texture coordinates value: " + texco);
+}
+if (inputData != null) {
+Vector3f min=bb.getMin(null);
+float[] uvCoordsResults=new float[4];
+float[] ext=new float[]{bb.getXExtent() * 2,bb.getYExtent() * 2,bb.getZExtent() * 2};
+for (int i=0; i < ext.length; ++i) {
+if (ext[i] == 0) {
+ext[i]=1;
+}
+}
+for (int i=0; i < inputData.length; i+=3) {
+uvCoordsResults[1]=(inputData[i] - min.x) / ext[0];
+uvCoordsResults[2]=(inputData[i + 1] - min.y) / ext[1];
+uvCoordsResults[3]=(inputData[i + 2] - min.z) / ext[2];
+result.add(new Vector3f(uvCoordsResults[coordinatesSwappingIndexes[0]],uvCoordsResults[coordinatesSwappingIndexes[1]],uvCoordsResults[coordinatesSwappingIndexes[2]]));
+}
+}
+return result;
+}

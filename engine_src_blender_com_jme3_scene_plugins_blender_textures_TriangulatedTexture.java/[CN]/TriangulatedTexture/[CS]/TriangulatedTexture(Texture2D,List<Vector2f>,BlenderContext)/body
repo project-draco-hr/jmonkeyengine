@@ -1,0 +1,14 @@
+{
+  maxTextureSize=blenderContext.getBlenderKey().getMaxTextureSize();
+  faceTextures=new TreeSet<TriangleTextureElement>(new Comparator<TriangleTextureElement>(){
+    @Override public int compare(    TriangleTextureElement o1,    TriangleTextureElement o2){
+      return o1.faceIndex - o2.faceIndex;
+    }
+  }
+);
+  int facesCount=uvs.size() / 3;
+  for (int i=0; i < facesCount; ++i) {
+    faceTextures.add(new TriangleTextureElement(i,texture2d,uvs));
+  }
+  this.format=texture2d.getImage().getFormat();
+}

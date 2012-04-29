@@ -1,0 +1,21 @@
+{
+  float noiseValue=NoiseGenerator.NoiseFunctions.noise(x,y,z,noisesize,0,noisebasis,isHard);
+  float ofs=turbul / 200.0f;
+  if (stype != 0) {
+    ofs*=noiseValue * noiseValue;
+  }
+  pixel.intensity=NoiseGenerator.NoiseFunctions.noise(x,y,z + ofs,noisesize,0,noisebasis,isHard);
+  if (colorBand != null) {
+    int colorbandIndex=(int)(pixel.intensity * 1000.0f);
+    pixel.red=colorBand[colorbandIndex][0];
+    pixel.green=colorBand[colorbandIndex][1];
+    pixel.blue=colorBand[colorbandIndex][2];
+    pixel.alpha=colorBand[colorbandIndex][3];
+  }
+  if (stype == NoiseGenerator.TEX_WALLOUT) {
+    pixel.intensity=1.0f - pixel.intensity;
+  }
+  if (pixel.intensity < 0.0f) {
+    pixel.intensity=0.0f;
+  }
+}

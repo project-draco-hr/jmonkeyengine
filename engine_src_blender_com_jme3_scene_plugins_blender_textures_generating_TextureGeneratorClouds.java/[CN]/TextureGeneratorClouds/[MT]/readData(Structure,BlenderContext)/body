@@ -1,0 +1,12 @@
+{
+  super.readData(tex,blenderContext);
+  noisesize=((Number)tex.getFieldValue("noisesize")).floatValue();
+  noiseDepth=((Number)tex.getFieldValue("noisedepth")).intValue();
+  noiseBasis=((Number)tex.getFieldValue("noisebasis")).intValue();
+  noiseType=((Number)tex.getFieldValue("noisetype")).intValue();
+  isHard=noiseType != TEX_NOISESOFT;
+  sType=((Number)tex.getFieldValue("stype")).intValue();
+  if (sType == TEX_COLOR) {
+    this.imageFormat=Format.RGBA8;
+  }
+}

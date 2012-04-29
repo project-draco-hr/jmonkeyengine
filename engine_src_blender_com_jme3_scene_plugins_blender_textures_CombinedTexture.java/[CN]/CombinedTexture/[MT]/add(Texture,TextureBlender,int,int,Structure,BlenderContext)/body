@@ -1,0 +1,15 @@
+{
+  if (!(texture instanceof GeneratedTexture) && !(texture instanceof Texture2D)) {
+    throw new IllegalArgumentException("Unsupported texture type: " + (texture == null ? "null" : texture.getClass()));
+  }
+  TextureData textureData=new TextureData();
+  textureData.texture=texture;
+  textureData.textureBlender=textureBlender;
+  textureData.uvCoordinatesType=UVCoordinatesType.valueOf(uvCoordinatesType);
+  textureData.projectionType=UVProjectionType.valueOf(projectionType);
+  textureData.textureStructure=textureStructure;
+  if (this.isWithoutAlpha(textureData,blenderContext)) {
+    textureDatas.clear();
+  }
+  textureDatas.add(textureData);
+}

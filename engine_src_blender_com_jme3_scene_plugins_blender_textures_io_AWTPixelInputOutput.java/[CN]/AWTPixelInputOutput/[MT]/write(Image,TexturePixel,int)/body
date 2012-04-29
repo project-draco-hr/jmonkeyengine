@@ -1,0 +1,23 @@
+{
+switch (image.getFormat()) {
+case RGBA8:
+    image.getData(0).put(index,pixel.getR8());
+  image.getData(0).put(index + 1,pixel.getG8());
+image.getData(0).put(index + 2,pixel.getB8());
+image.getData(0).put(index + 3,pixel.getA8());
+break;
+case ABGR8:
+image.getData(0).put(index,pixel.getA8());
+image.getData(0).put(index + 1,pixel.getB8());
+image.getData(0).put(index + 2,pixel.getG8());
+image.getData(0).put(index + 3,pixel.getR8());
+break;
+case BGR8:
+image.getData(0).put(index,pixel.getB8());
+image.getData(0).put(index + 1,pixel.getG8());
+image.getData(0).put(index + 2,pixel.getR8());
+break;
+default :
+throw new IllegalStateException("Unknown image format: " + image.getFormat());
+}
+}

@@ -1,9 +1,0 @@
-{
-  this.cursorsAmount=((Number)colorbandStructure.getFieldValue("tot")).intValue();
-  this.ipoType=((Number)colorbandStructure.getFieldValue("ipotype")).intValue();
-  this.data=new ColorBandData[this.cursorsAmount];
-  DynamicArray<Structure> data=(DynamicArray<Structure>)colorbandStructure.getFieldValue("data");
-  for (int i=0; i < this.cursorsAmount; ++i) {
-    this.data[i]=new ColorBandData(data.get(i));
-  }
-}

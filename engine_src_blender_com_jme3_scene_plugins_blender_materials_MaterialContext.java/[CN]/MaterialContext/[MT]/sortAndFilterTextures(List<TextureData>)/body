@@ -1,0 +1,13 @@
+{
+  Map<Number,List<TextureData>> result=new HashMap<Number,List<TextureData>>();
+  for (  TextureData data : textures) {
+    Number mapto=(Number)data.mtex.getFieldValue("mapto");
+    List<TextureData> datas=result.get(mapto);
+    if (datas == null) {
+      datas=new ArrayList<TextureData>();
+      result.put(mapto,datas);
+    }
+    datas.add(data);
+  }
+  return result;
+}

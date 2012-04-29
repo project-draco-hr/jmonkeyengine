@@ -1,0 +1,57 @@
+{
+  Format format=image.getFormat();
+  ByteBuffer data=image.getData(0);
+  data.rewind();
+  int width=image.getWidth();
+  int height=image.getHeight();
+  int depth=image.getDepth();
+  if (depth == 0) {
+    depth=1;
+  }
+  ByteBuffer newData=BufferUtils.createByteBuffer(data.remaining());
+  float[] resultPixel=new float[4];
+  float[] pixelColor=new float[4];
+  TexturePixel[] colors=new TexturePixel[]{new TexturePixel(),new TexturePixel()};
+  int dataIndex=0;
+  while (data.hasRemaining()) {
+switch (format) {
+case DXT3:
+case DXT5:
+      newData.putLong(dataIndex,data.getLong());
+    dataIndex+=8;
+case DXT1:
+  int col0=RGB565.RGB565_to_ARGB8(data.getShort());
+int col1=RGB565.RGB565_to_ARGB8(data.getShort());
+colors[0].fromARGB8(col0);
+colors[1].fromARGB8(col1);
+break;
+case DXT1A:
+LOGGER.log(Level.WARNING,"Image type not yet supported for blending: {0}",format);
+break;
+default :
+throw new IllegalStateException("Invalid image format type for DDS texture blender: " + format);
+}
+for (int i=0; i < colors.length; ++i) {
+if (negateTexture) {
+colors[i].negate();
+}
+colors[i].toRGBA(pixelColor);
+this.blendPixel(resultPixel,materialColor,pixelColor,blenderContext);
+colors[i].fromARGB8(1,resultPixel[0],resultPixel[1],resultPixel[2]);
+int argb8=colors[i].toARGB8();
+short rgb565=RGB565.ARGB8_to_RGB565(argb8);
+newData.putShort(dataIndex,rgb565);
+dataIndex+=2;
+}
+newData.putInt(dataIndex,data.getInt());
+dataIndex+=4;
+}
+if (depth > 1) {
+ArrayList<ByteBuffer> dataArray=new ArrayList<ByteBuffer>(1);
+dataArray.add(newData);
+return new Image(format,width,height,depth,dataArray);
+}
+ else {
+return new Image(format,width,height,newData);
+}
+}

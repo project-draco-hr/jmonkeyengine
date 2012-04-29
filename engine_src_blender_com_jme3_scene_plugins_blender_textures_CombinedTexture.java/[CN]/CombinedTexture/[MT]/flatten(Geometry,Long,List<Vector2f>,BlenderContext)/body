@@ -1,0 +1,74 @@
+{
+  TextureHelper textureHelper=blenderContext.getHelper(TextureHelper.class);
+  Mesh mesh=geometry.getMesh();
+  Texture previousTexture=null;
+  UVCoordinatesType masterUVCoordinatesType=null;
+  for (  TextureData textureData : textureDatas) {
+    if (textureDatas.size() > 1 && textureData.texture.getImage().getFormat().isCompressed()) {
+      textureData.texture.setImage(textureHelper.decompress(textureData.texture.getImage()));
+      textureData.textureBlender=TextureBlenderFactory.alterTextureType(textureData.texture.getImage().getFormat(),textureData.textureBlender);
+    }
+    if (previousTexture == null) {
+      if (textureData.texture instanceof GeneratedTexture) {
+        resultTexture=((GeneratedTexture)textureData.texture).triangulate(mesh,geometriesOMA,textureData.uvCoordinatesType,blenderContext);
+      }
+ else       if (textureData.texture instanceof Texture2D) {
+        resultTexture=textureData.texture;
+        if (userDefinedUVCoordinates == null || userDefinedUVCoordinates.size() == 0) {
+          List<Geometry> geometries=(List<Geometry>)blenderContext.getLoadedFeature(geometriesOMA,LoadedFeatureDataType.LOADED_FEATURE);
+          resultUVS=UVCoordinatesGenerator.generateUVCoordinatesFor2DTexture(mesh,textureData.uvCoordinatesType,textureData.projectionType,geometries);
+        }
+ else {
+          resultUVS=userDefinedUVCoordinates;
+        }
+      }
+      this.blend(resultTexture,textureData.textureBlender,blenderContext);
+      previousTexture=resultTexture;
+      masterUVCoordinatesType=textureData.uvCoordinatesType;
+    }
+ else {
+      if (textureData.texture instanceof GeneratedTexture) {
+        if (!(resultTexture instanceof TriangulatedTexture)) {
+          resultTexture=new TriangulatedTexture((Texture2D)resultTexture,resultUVS,blenderContext);
+          resultUVS=null;
+          previousTexture=resultTexture;
+        }
+        TriangulatedTexture triangulatedTexture=((GeneratedTexture)textureData.texture).triangulate(mesh,geometriesOMA,textureData.uvCoordinatesType,blenderContext);
+        triangulatedTexture.castToUVS((TriangulatedTexture)resultTexture,blenderContext);
+        triangulatedTexture.blend(textureData.textureBlender,(TriangulatedTexture)resultTexture,blenderContext);
+        resultTexture=previousTexture=triangulatedTexture;
+      }
+ else       if (textureData.texture instanceof Texture2D) {
+        if (masterUVCoordinatesType == textureData.uvCoordinatesType && resultTexture instanceof Texture2D) {
+          this.scale((Texture2D)textureData.texture,resultTexture.getImage().getWidth(),resultTexture.getImage().getHeight());
+          this.merge((Texture2D)resultTexture,(Texture2D)textureData.texture);
+          previousTexture=resultTexture;
+        }
+ else {
+          if (!(resultTexture instanceof TriangulatedTexture)) {
+            resultTexture=new TriangulatedTexture((Texture2D)resultTexture,resultUVS,blenderContext);
+            resultUVS=null;
+          }
+          List<Vector2f> textureUVS=null;
+          if (textureData.uvCoordinatesType != UVCoordinatesType.TEXCO_UV) {
+            List<Geometry> geometries=(List<Geometry>)blenderContext.getLoadedFeature(geometriesOMA,LoadedFeatureDataType.LOADED_FEATURE);
+            textureUVS=UVCoordinatesGenerator.generateUVCoordinatesFor2DTexture(mesh,textureData.uvCoordinatesType,textureData.projectionType,geometries);
+          }
+ else {
+            textureUVS=userDefinedUVCoordinates;
+          }
+          TriangulatedTexture triangulatedTexture=new TriangulatedTexture((Texture2D)textureData.texture,textureUVS,blenderContext);
+          triangulatedTexture.castToUVS((TriangulatedTexture)resultTexture,blenderContext);
+          ((TriangulatedTexture)resultTexture).merge(triangulatedTexture);
+        }
+      }
+    }
+  }
+  if (resultTexture instanceof TriangulatedTexture) {
+    resultUVS=((TriangulatedTexture)resultTexture).getResultUVS();
+    resultTexture=((TriangulatedTexture)resultTexture).getResultTexture();
+  }
+  resultTexture.setWrap(WrapMode.Repeat);
+  resultTexture.setMagFilter(MagFilter.Nearest);
+  resultTexture.setMinFilter(MinFilter.NearestNoMipMaps);
+}

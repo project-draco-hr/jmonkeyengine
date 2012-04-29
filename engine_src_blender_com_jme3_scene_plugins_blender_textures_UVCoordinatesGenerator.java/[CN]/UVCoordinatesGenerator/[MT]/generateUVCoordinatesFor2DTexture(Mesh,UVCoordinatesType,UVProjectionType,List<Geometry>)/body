@@ -1,0 +1,59 @@
+{
+  List<Vector2f> result=new ArrayList<Vector2f>();
+  BoundingBox bb=UVCoordinatesGenerator.getBoundingBox(geometries);
+  float[] inputData=null;
+switch (texco) {
+case TEXCO_ORCO:
+    inputData=BufferUtils.getFloatArray(mesh.getFloatBuffer(VertexBuffer.Type.Position));
+  break;
+case TEXCO_UV:
+Vector2f[] data=new Vector2f[]{new Vector2f(0,1),new Vector2f(0,0),new Vector2f(1,0)};
+for (int i=0; i < mesh.getVertexCount(); ++i) {
+result.add(data[i % 3]);
+}
+break;
+case TEXCO_NORM:
+inputData=BufferUtils.getFloatArray(mesh.getFloatBuffer(VertexBuffer.Type.Normal));
+break;
+case TEXCO_REFL:
+case TEXCO_GLOB:
+case TEXCO_TANGENT:
+case TEXCO_STRESS:
+case TEXCO_LAVECTOR:
+case TEXCO_OBJECT:
+case TEXCO_OSA:
+case TEXCO_PARTICLE_OR_STRAND:
+case TEXCO_SPEED:
+case TEXCO_STICKY:
+case TEXCO_VIEW:
+case TEXCO_WINDOW:
+LOGGER.warning("Texture coordinates type not currently supported: " + texco);
+break;
+default :
+throw new IllegalStateException("Unknown texture coordinates value: " + texco);
+}
+if (inputData != null) {
+switch (projection) {
+case PROJECTION_FLAT:
+inputData=UVProjectionGenerator.flatProjection(inputData,bb);
+break;
+case PROJECTION_CUBE:
+inputData=UVProjectionGenerator.cubeProjection(inputData,bb);
+break;
+case PROJECTION_TUBE:
+BoundingTube bt=UVCoordinatesGenerator.getBoundingTube(geometries);
+inputData=UVProjectionGenerator.tubeProjection(inputData,bt);
+break;
+case PROJECTION_SPHERE:
+BoundingSphere bs=UVCoordinatesGenerator.getBoundingSphere(geometries);
+inputData=UVProjectionGenerator.sphereProjection(inputData,bs);
+break;
+default :
+throw new IllegalStateException("Unknown projection type: " + projection);
+}
+for (int i=0; i < inputData.length; i+=2) {
+result.add(new Vector2f(inputData[i],inputData[i + 1]));
+}
+}
+return result;
+}

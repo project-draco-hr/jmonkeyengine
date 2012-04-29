@@ -1,0 +1,14 @@
+{
+  int index=yCounter * xTexelCount + xCounter;
+  this.colors[index]=colors;
+  this.indexes[index]=indexes;
+  if (alphas != null) {
+    this.alphas[index]=alphas;
+    this.alphaIndexes[index]=alphaIndexes;
+  }
+  ++this.xCounter;
+  if (this.xCounter >= this.xTexelCount) {
+    this.xCounter=0;
+    --this.yCounter;
+  }
+}

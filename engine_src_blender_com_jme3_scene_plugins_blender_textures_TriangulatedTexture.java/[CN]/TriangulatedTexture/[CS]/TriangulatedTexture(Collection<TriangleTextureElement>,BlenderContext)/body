@@ -1,0 +1,12 @@
+{
+  maxTextureSize=blenderContext.getBlenderKey().getMaxTextureSize();
+  this.faceTextures=faceTextures;
+  for (  TriangleTextureElement faceTextureElement : faceTextures) {
+    if (format == null) {
+      format=faceTextureElement.image.getFormat();
+    }
+ else     if (format != faceTextureElement.image.getFormat()) {
+      throw new IllegalArgumentException("Face texture element images MUST have the same image format!");
+    }
+  }
+}

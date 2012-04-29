@@ -1,0 +1,14 @@
+{
+  Format newFormat=null;
+  for (  TriangleTextureElement triangleTextureElement : this.faceTextures) {
+    Image baseImage=baseTexture == null ? null : baseTexture.getFaceTextureElement(triangleTextureElement.faceIndex).image;
+    triangleTextureElement.image=textureBlender.blend(triangleTextureElement.image,baseImage,blenderContext);
+    if (newFormat == null) {
+      newFormat=triangleTextureElement.image.getFormat();
+    }
+ else     if (newFormat != triangleTextureElement.image.getFormat()) {
+      throw new IllegalArgumentException("Face texture element images MUST have the same image format!");
+    }
+  }
+  this.format=newFormat;
+}

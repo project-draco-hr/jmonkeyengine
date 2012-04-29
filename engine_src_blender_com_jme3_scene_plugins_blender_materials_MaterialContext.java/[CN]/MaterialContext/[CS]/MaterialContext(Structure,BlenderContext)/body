@@ -29,75 +29,51 @@
     float shininess=((Number)structure.getFieldValue("emit")).floatValue();
     this.shininess=shininess > 0.0f ? shininess : MaterialHelper.DEFAULT_SHININESS;
   }
-  mTexs=new ArrayList<Structure>();
-  textures=new ArrayList<Structure>();
   DynamicArray<Pointer> mtexsArray=(DynamicArray<Pointer>)structure.getFieldValue("mtex");
   int separatedTextures=((Number)structure.getFieldValue("septex")).intValue();
-  Type firstTextureType=null;
+  List<TextureData> texturesList=new ArrayList<TextureData>();
   for (int i=0; i < mtexsArray.getTotalSize(); ++i) {
     Pointer p=mtexsArray.get(i);
     if (p.isNotNull() && (separatedTextures & 1 << i) == 0) {
-      Structure mtex=p.fetchData(blenderContext.getInputStream()).get(0);
-      if (uvCoordinatesType == -1) {
-        uvCoordinatesType=((Number)mtex.getFieldValue("texco")).intValue();
-        projectionType=((Number)mtex.getFieldValue("mapping")).intValue();
-      }
- else       if (uvCoordinatesType != ((Number)mtex.getFieldValue("texco")).intValue()) {
-        LOGGER.log(Level.WARNING,"The texture with index: {0} has different UV coordinates type than the first texture! This texture will NOT be loaded!",i + 1);
-        continue;
-      }
-      Pointer pTex=(Pointer)mtex.getFieldValue("tex");
+      TextureData textureData=new TextureData();
+      textureData.mtex=p.fetchData(blenderContext.getInputStream()).get(0);
+      textureData.uvCoordinatesType=((Number)textureData.mtex.getFieldValue("texco")).intValue();
+      textureData.projectionType=((Number)textureData.mtex.getFieldValue("mapping")).intValue();
+      Pointer pTex=(Pointer)textureData.mtex.getFieldValue("tex");
       if (pTex.isNotNull()) {
         Structure tex=pTex.fetchData(blenderContext.getInputStream()).get(0);
-        int type=((Number)tex.getFieldValue("type")).intValue();
-        Type textureType=this.getType(type);
-        if (textureType != null) {
-          if (firstTextureType == null) {
-            firstTextureType=textureType;
-            mTexs.add(mtex);
-            textures.add(tex);
-          }
- else           if (firstTextureType == textureType) {
-            mTexs.add(mtex);
-            textures.add(tex);
-          }
- else {
-            LOGGER.log(Level.WARNING,"The texture with index: {0} is of different dimension than the first one! This texture will NOT be loaded!",i + 1);
-          }
-        }
+        textureData.textureStructure=tex;
+        texturesList.add(textureData);
       }
     }
   }
-  Map<Number,List<Structure[]>> sortedTextures=this.sortAndFilterTextures();
-  loadedTextures=new HashMap<Number,Texture>(sortedTextures.size());
-  textureToMTexMap=new HashMap<Texture,Structure>();
+  Map<Number,List<TextureData>> textureDataMap=this.sortAndFilterTextures(texturesList);
+  loadedTextures=new HashMap<Number,CombinedTexture>();
   float[] diffuseColorArray=new float[]{diffuseColor.r,diffuseColor.g,diffuseColor.b,diffuseColor.a};
   TextureHelper textureHelper=blenderContext.getHelper(TextureHelper.class);
-  for (  Entry<Number,List<Structure[]>> entry : sortedTextures.entrySet()) {
+  for (  Entry<Number,List<TextureData>> entry : textureDataMap.entrySet()) {
     if (entry.getValue().size() > 0) {
-      List<Texture> textures=new ArrayList<Texture>(entry.getValue().size());
-      for (      Structure[] mtexAndTex : entry.getValue()) {
-        int texflag=((Number)mtexAndTex[0].getFieldValue("texflag")).intValue();
-        boolean negateTexture=(texflag & 0x04) != 0;
-        Texture texture=textureHelper.getTexture(mtexAndTex[1],blenderContext);
-        int blendType=((Number)mtexAndTex[0].getFieldValue("blendtype")).intValue();
-        float[] color=new float[]{((Number)mtexAndTex[0].getFieldValue("r")).floatValue(),((Number)mtexAndTex[0].getFieldValue("g")).floatValue(),((Number)mtexAndTex[0].getFieldValue("b")).floatValue()};
-        float colfac=((Number)mtexAndTex[0].getFieldValue("colfac")).floatValue();
-        TextureBlender textureBlender=TextureBlenderFactory.createTextureBlender(texture.getImage().getFormat());
-        texture=textureBlender.blend(diffuseColorArray,texture,color,colfac,blendType,negateTexture,blenderContext);
-        texture.setWrap(WrapMode.Repeat);
-        textures.add(texture);
-        textureToMTexMap.put(texture,mtexAndTex[0]);
+      CombinedTexture combinedTexture=loadedTextures.get(entry.getKey());
+      if (combinedTexture == null) {
+        combinedTexture=new CombinedTexture();
+        loadedTextures.put(entry.getKey(),combinedTexture);
       }
-      loadedTextures.put(entry.getKey(),textureHelper.mergeTextures(textures,this));
+      for (      TextureData textureData : entry.getValue()) {
+        int texflag=((Number)textureData.mtex.getFieldValue("texflag")).intValue();
+        boolean negateTexture=(texflag & 0x04) != 0;
+        Texture texture=textureHelper.getTexture(textureData.textureStructure,textureData.mtex,blenderContext);
+        int blendType=((Number)textureData.mtex.getFieldValue("blendtype")).intValue();
+        float[] color=new float[]{((Number)textureData.mtex.getFieldValue("r")).floatValue(),((Number)textureData.mtex.getFieldValue("g")).floatValue(),((Number)textureData.mtex.getFieldValue("b")).floatValue()};
+        float colfac=((Number)textureData.mtex.getFieldValue("colfac")).floatValue();
+        TextureBlender textureBlender=TextureBlenderFactory.createTextureBlender(texture.getImage().getFormat(),texflag,negateTexture,blendType,diffuseColorArray,color,colfac);
+        combinedTexture.add(texture,textureBlender,textureData.uvCoordinatesType,textureData.projectionType,textureData.textureStructure,blenderContext);
+      }
     }
   }
-  this.texturesCount=mTexs.size();
-  this.textureType=firstTextureType;
   boolean transparent=false;
   if (diffuseColor != null) {
     transparent=diffuseColor.a < 1.0f;
-    if (sortedTextures.size() > 0) {
+    if (textureDataMap.size() > 0) {
       diffuseColor.set(1,1,1,1);
     }
   }

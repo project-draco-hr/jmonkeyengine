@@ -2,13 +2,11 @@
   super.write(e);
   OutputCapsule oc=e.getCapsule(this);
   oc.write(fps,"fps",DEFAULT_FPS);
-  oc.write(generatedTextureWidth,"generated-texture-width",20);
-  oc.write(generatedTextureHeight,"generated-texture-height",20);
-  oc.write(generatedTextureDepth,"generated-texture-depth",20);
   oc.write(featuresToLoad,"features-to-load",FeaturesToLoad.ALL);
   oc.write(loadUnlinkedAssets,"load-unlinked-assets",false);
   oc.write(assetRootPath,"asset-root-path",null);
   oc.write(fixUpAxis,"fix-up-axis",true);
+  oc.write(generatedTexturePPU,"generated-texture-ppu",128);
   oc.write(usedWorld,"used-world",null);
   oc.write(defaultMaterial,"default-material",null);
   oc.write(faceCullMode,"face-cull-mode",FaceCullMode.Off);

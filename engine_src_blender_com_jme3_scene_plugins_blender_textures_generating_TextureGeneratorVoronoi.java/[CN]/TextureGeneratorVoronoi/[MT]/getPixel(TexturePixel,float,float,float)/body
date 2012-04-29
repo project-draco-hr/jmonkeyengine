@@ -1,0 +1,54 @@
+{
+  NoiseGenerator.NoiseFunctions.voronoi(x * 4,y * 4,z * 4,da,pa,mexp,distanceType);
+  pixel.intensity=weightSum * FastMath.abs(voronoiWeights[0] * da[0] + voronoiWeights[1] * da[1] + voronoiWeights[2] * da[2] + voronoiWeights[3] * da[3]);
+  if (pixel.intensity > 1.0f) {
+    pixel.intensity=1.0f;
+  }
+ else   if (pixel.intensity < 0.0f) {
+    pixel.intensity=0.0f;
+  }
+  if (colorBand != null) {
+    int colorbandIndex=(int)(pixel.intensity * 1000.0f);
+    pixel.red=colorBand[colorbandIndex][0];
+    pixel.green=colorBand[colorbandIndex][1];
+    pixel.blue=colorBand[colorbandIndex][2];
+    pixel.alpha=colorBand[colorbandIndex][3];
+  }
+ else   if (voronoiColorType != 0) {
+    pixel.red=pixel.green=pixel.blue=0.0f;
+    pixel.alpha=1.0f;
+    for (int m=0; m < 12; m+=3) {
+      float weight=voronoiWeights[m / 3];
+      NoiseMath.hash((int)pa[m],(int)pa[m + 1],(int)pa[m + 2],hashPoint);
+      pixel.red+=weight * hashPoint[0];
+      pixel.green+=weight * hashPoint[1];
+      pixel.blue+=weight * hashPoint[2];
+    }
+    if (voronoiColorType >= 2) {
+      float t1=(da[1] - da[0]) * 10.0f;
+      if (t1 > 1.0f) {
+        t1=1.0f;
+      }
+      if (voronoiColorType == 3) {
+        t1*=pixel.intensity;
+      }
+ else {
+        t1*=weightSum;
+      }
+      pixel.red*=t1;
+      pixel.green*=t1;
+      pixel.blue*=t1;
+    }
+ else {
+      pixel.red*=weightSum;
+      pixel.green*=weightSum;
+      pixel.blue*=weightSum;
+    }
+  }
+  if (voronoiColorType != 0 || colorBand != null) {
+    this.applyBrightnessAndContrast(bacd,pixel);
+  }
+ else {
+    this.applyBrightnessAndContrast(pixel,bacd.contrast,bacd.brightness);
+  }
+}

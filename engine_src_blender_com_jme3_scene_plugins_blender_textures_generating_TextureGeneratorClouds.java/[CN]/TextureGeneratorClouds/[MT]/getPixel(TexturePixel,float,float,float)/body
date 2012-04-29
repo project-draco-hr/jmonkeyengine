@@ -1,0 +1,24 @@
+{
+  pixel.intensity=NoiseGenerator.NoiseFunctions.turbulence(x,y,z,noisesize,noiseDepth,noiseBasis,isHard);
+  pixel.intensity=FastMath.clamp(pixel.intensity,0.0f,1.0f);
+  if (colorBand != null) {
+    int colorbandIndex=(int)(pixel.intensity * 1000.0f);
+    pixel.red=colorBand[colorbandIndex][0];
+    pixel.green=colorBand[colorbandIndex][1];
+    pixel.blue=colorBand[colorbandIndex][2];
+    pixel.alpha=colorBand[colorbandIndex][3];
+    this.applyBrightnessAndContrast(bacd,pixel);
+  }
+ else   if (sType == TEX_COLOR) {
+    pixel.red=pixel.intensity;
+    pixel.green=NoiseGenerator.NoiseFunctions.turbulence(y,x,z,noisesize,noiseDepth,noiseBasis,isHard);
+    pixel.blue=NoiseGenerator.NoiseFunctions.turbulence(y,z,x,noisesize,noiseDepth,noiseBasis,isHard);
+    pixel.green=FastMath.clamp(pixel.green,0.0f,1.0f);
+    pixel.blue=FastMath.clamp(pixel.blue,0.0f,1.0f);
+    pixel.alpha=1.0f;
+    this.applyBrightnessAndContrast(bacd,pixel);
+  }
+ else {
+    this.applyBrightnessAndContrast(pixel,bacd.contrast,bacd.brightness);
+  }
+}

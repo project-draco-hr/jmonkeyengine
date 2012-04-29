@@ -22,12 +22,16 @@
     nurbList.add(nurb);
   }
   MaterialHelper materialHelper=blenderContext.getHelper(MaterialHelper.class);
-  Material[] materials=materialHelper.getMaterials(curveStructure,blenderContext);
-  if (materials == null) {
-    materials=new Material[]{blenderContext.getDefaultMaterial().clone()};
+  MaterialContext[] materialContexts=materialHelper.getMaterials(curveStructure,blenderContext);
+  Material defaultMaterial=null;
+  if (materialContexts != null) {
+    for (    MaterialContext materialContext : materialContexts) {
+      materialContext.setFaceCullMode(FaceCullMode.Off);
+    }
   }
-  for (  Material material : materials) {
-    material.getAdditionalRenderState().setFaceCullMode(FaceCullMode.Off);
+ else {
+    defaultMaterial=blenderContext.getDefaultMaterial().clone();
+    defaultMaterial.getAdditionalRenderState().setFaceCullMode(FaceCullMode.Off);
   }
   List<Geometry> bevelObject=null;
   Pointer pBevelObject=(Pointer)curveStructure.getFieldValue("bevobj");
@@ -99,7 +103,12 @@
       }
       if (nurbGeoms != null) {
         for (        Geometry nurbGeom : nurbGeoms) {
-          nurbGeom.setMaterial(materials[nurbEntry.getKey().intValue()]);
+          if (materialContexts != null) {
+            materialContexts[nurbEntry.getKey().intValue()].applyMaterial(nurbGeom,curveStructure.getOldMemoryAddress(),false,null,blenderContext);
+          }
+ else {
+            nurbGeom.setMaterial(defaultMaterial);
+          }
           nurbGeom.setName(name);
           result.add(nurbGeom);
         }

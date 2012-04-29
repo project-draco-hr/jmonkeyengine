@@ -1,0 +1,65 @@
+{
+  this.faceIndex=faceIndex;
+  Image sourceImage=texture.getImage();
+  uv=new Vector2f[]{uvCoordinates.get(faceIndex * 3).clone(),uvCoordinates.get(faceIndex * 3 + 1).clone(),uvCoordinates.get(faceIndex * 3 + 2).clone()};
+  float pixelWidth=1 / (float)sourceImage.getWidth();
+  float pixelHeight=1 / (float)sourceImage.getHeight();
+  int[][] texturePosition=new int[3][2];
+  for (int i=0; i < texturePosition.length; ++i) {
+    float x=uv[i].x * sourceImage.getWidth();
+    float y=uv[i].y * sourceImage.getHeight();
+    texturePosition[i][0]=(int)x;
+    texturePosition[i][1]=(int)y;
+    if (Math.abs(texturePosition[i][0] - x) > pixelWidth) {
+      ++texturePosition[i][0];
+    }
+    if (Math.abs(texturePosition[i][1] - y) > pixelHeight) {
+      ++texturePosition[i][1];
+    }
+  }
+  int minX=Integer.MAX_VALUE, minY=Integer.MAX_VALUE;
+  int maxX=Integer.MIN_VALUE, maxY=Integer.MIN_VALUE;
+  float minUVX=Float.MAX_VALUE, minUVY=Float.MAX_VALUE;
+  float maxUVX=Float.MIN_VALUE, maxUVY=Float.MIN_VALUE;
+  for (int i=0; i < texturePosition.length; ++i) {
+    minX=Math.min(texturePosition[i][0],minX);
+    minY=Math.min(texturePosition[i][1],minY);
+    maxX=Math.max(texturePosition[i][0],maxX);
+    maxY=Math.max(texturePosition[i][1],maxY);
+    minUVX=Math.min(uv[i].x,minUVX);
+    minUVY=Math.min(uv[i].y,minUVY);
+    maxUVX=Math.max(uv[i].x,maxUVX);
+    maxUVY=Math.max(uv[i].y,maxUVY);
+  }
+  int width=maxX - minX;
+  int height=maxY - minY;
+  if (width == 0) {
+    width=1;
+  }
+  if (height == 0) {
+    height=1;
+  }
+  PixelInputOutput pixelReader=PixelIOFactory.getPixelIO(sourceImage.getFormat());
+  TexturePixel pixel=new TexturePixel();
+  ByteBuffer data=BufferUtils.createByteBuffer(width * height * 4);
+  for (int y=minY; y < maxY; ++y) {
+    for (int x=minX; x < maxX; ++x) {
+      int xPos=x >= sourceImage.getWidth() ? x - sourceImage.getWidth() : x;
+      int yPos=y >= sourceImage.getHeight() ? y - sourceImage.getHeight() : y;
+      pixelReader.read(sourceImage,pixel,xPos,yPos);
+      data.put(pixel.getR8());
+      data.put(pixel.getG8());
+      data.put(pixel.getB8());
+      data.put(pixel.getA8());
+    }
+  }
+  image=new Image(Format.RGBA8,width,height,data);
+  float heightUV=maxUVY - minUVY;
+  float widthUV=maxUVX - minUVX;
+  for (int i=0; i < uv.length; ++i) {
+    uv[i].x-=minUVX;
+    uv[i].y-=minUVY;
+    uv[i].x/=widthUV;
+    uv[i].y/=heightUV;
+  }
+}

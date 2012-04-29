@@ -1,0 +1,19 @@
+{
+  int flag=((Number)tex.getFieldValue("flag")).intValue();
+  if ((flag & GeneratedTexture.TEX_COLORBAND) != 0) {
+    Pointer pColorband=(Pointer)tex.getFieldValue("coba");
+    try {
+      Structure colorbandStructure=pColorband.fetchData(blenderContext.getInputStream()).get(0);
+      this.cursorsAmount=((Number)colorbandStructure.getFieldValue("tot")).intValue();
+      this.ipoType=((Number)colorbandStructure.getFieldValue("ipotype")).intValue();
+      this.data=new ColorBandData[this.cursorsAmount];
+      DynamicArray<Structure> data=(DynamicArray<Structure>)colorbandStructure.getFieldValue("data");
+      for (int i=0; i < this.cursorsAmount; ++i) {
+        this.data[i]=new ColorBandData(data.get(i));
+      }
+    }
+ catch (    BlenderFileException e) {
+      LOGGER.log(Level.WARNING,"Cannot fetch the colorband structure. The reason: {0}",e.getLocalizedMessage());
+    }
+  }
+}

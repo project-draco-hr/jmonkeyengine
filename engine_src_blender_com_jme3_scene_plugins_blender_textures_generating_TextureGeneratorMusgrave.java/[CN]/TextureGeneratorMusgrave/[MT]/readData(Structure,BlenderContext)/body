@@ -1,0 +1,10 @@
+{
+  super.readData(tex,blenderContext);
+  musgraveData=new MusgraveData(tex);
+  stype=((Number)tex.getFieldValue("stype")).intValue();
+  noisesize=((Number)tex.getFieldValue("noisesize")).floatValue();
+  musgraveFunction=NoiseGenerator.musgraveFunctions.get(Integer.valueOf(musgraveData.stype));
+  if (musgraveFunction == null) {
+    throw new IllegalStateException("Unknown type of musgrave texture: " + stype);
+  }
+}

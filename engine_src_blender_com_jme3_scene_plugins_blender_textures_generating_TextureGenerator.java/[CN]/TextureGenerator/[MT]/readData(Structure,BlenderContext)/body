@@ -1,0 +1,8 @@
+{
+  flag=((Number)tex.getFieldValue("flag")).intValue();
+  colorBand=new ColorBand(tex,blenderContext).computeValues();
+  bacd=new BrightnessAndContrastData(tex);
+  if (colorBand != null) {
+    imageFormat=Format.RGBA8;
+  }
+}

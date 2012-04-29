@@ -1,0 +1,58 @@
+{
+  ColorBand colorBand=new ColorBand(textureData.textureStructure,blenderContext);
+  if (!colorBand.hasTransparencies()) {
+    int type=((Number)textureData.textureStructure.getFieldValue("type")).intValue();
+    if (type == TextureHelper.TEX_MAGIC) {
+      return true;
+    }
+    if (type == TextureHelper.TEX_VORONOI) {
+      int voronoiColorType=((Number)textureData.textureStructure.getFieldValue("vn_coltype")).intValue();
+      return voronoiColorType != 0;
+    }
+    if (type == TextureHelper.TEX_CLOUDS) {
+      int sType=((Number)textureData.textureStructure.getFieldValue("stype")).intValue();
+      return sType == 1;
+    }
+    if (type == TextureHelper.TEX_IMAGE) {
+      Image image=textureData.texture.getImage();
+switch (image.getFormat()) {
+case BGR8:
+case DXT1:
+case Luminance16:
+case Luminance16F:
+case Luminance32F:
+case Luminance8:
+case RGB10:
+case RGB111110F:
+case RGB16:
+case RGB16F:
+case RGB32F:
+case RGB565:
+case RGB8:
+        return true;
+case ABGR8:
+case DXT3:
+case DXT5:
+case Luminance16Alpha16:
+case Luminance16FAlpha16F:
+case Luminance8Alpha8:
+case RGBA16:
+case RGBA16F:
+case RGBA32F:
+case RGBA8:
+      PixelInputOutput pixelInputOutput=PixelIOFactory.getPixelIO(image.getFormat());
+    TexturePixel pixel=new TexturePixel();
+  for (int x=0; x < image.getWidth(); ++x) {
+    for (int y=0; y < image.getHeight(); ++y) {
+      pixelInputOutput.read(image,pixel,x,y);
+      if (pixel.alpha < 1.0f) {
+        return false;
+      }
+    }
+  }
+return true;
+}
+}
+}
+return false;
+}

@@ -1,0 +1,16 @@
+{
+  Image sourceImage=source.getImage();
+  Image targetImage=target.getImage();
+  PixelInputOutput sourceIO=PixelIOFactory.getPixelIO(sourceImage.getFormat());
+  PixelInputOutput targetIO=PixelIOFactory.getPixelIO(targetImage.getFormat());
+  TexturePixel sourcePixel=new TexturePixel();
+  TexturePixel targetPixel=new TexturePixel();
+  for (int x=0; x < sourceImage.getWidth(); ++x) {
+    for (int y=0; y < sourceImage.getHeight(); ++y) {
+      sourceIO.read(sourceImage,sourcePixel,x,y);
+      targetIO.read(targetImage,targetPixel,x,y);
+      targetPixel.merge(sourcePixel);
+      targetIO.write(targetImage,targetPixel,x,y);
+    }
+  }
+}

@@ -1,18 +1,14 @@
 {
   Pointer ppMaterials=(Pointer)structureWithMaterials.getFieldValue("mat");
-  Material[] materials=null;
+  MaterialContext[] materials=null;
   if (ppMaterials.isNotNull()) {
     List<Structure> materialStructures=ppMaterials.fetchData(blenderContext.getInputStream());
     if (materialStructures != null && materialStructures.size() > 0) {
       MaterialHelper materialHelper=blenderContext.getHelper(MaterialHelper.class);
-      materials=new Material[materialStructures.size()];
+      materials=new MaterialContext[materialStructures.size()];
       int i=0;
       for (      Structure s : materialStructures) {
-        Material material=(Material)blenderContext.getLoadedFeature(s.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
-        if (material == null) {
-          material=materialHelper.toMaterial(s,blenderContext);
-        }
-        materials[i++]=material;
+        materials[i++]=materialHelper.toMaterialContext(s,blenderContext);
       }
     }
   }

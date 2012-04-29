@@ -1,0 +1,21 @@
+{
+  Vector3f h=v3.subtract(v1);
+  Vector3f temp=v2.subtract(v1);
+  float field=0.5f * h.cross(temp).length();
+  if (field <= 0.0f) {
+    return new RectangleEnvelope(v1);
+  }
+  float cosAlpha=h.dot(temp) / (h.length() * temp.length());
+  float triangleHeight=2 * field / h.length();
+  float x=Math.abs((float)Math.sqrt(FastMath.clamp(temp.lengthSquared() - triangleHeight * triangleHeight,0,Float.MAX_VALUE))) * Math.signum(cosAlpha);
+  Vector3f xPoint=v1.add(h.normalize().multLocal(x));
+  Vector3f min=x < 0 ? xPoint : v1;
+  if (x < 0) {
+    h=v3.subtract(min);
+  }
+ else   if (x > h.length()) {
+    h=xPoint.subtract(min);
+  }
+  Vector3f envelopeWidth=v2.subtract(xPoint);
+  return new RectangleEnvelope(min,envelopeWidth,h);
+}
