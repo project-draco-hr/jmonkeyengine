@@ -10,6 +10,7 @@
   ByteBuffer data=image.getData().get(0);
 switch (image.getFormat()) {
 case DXT1:
+case DXT1A:
 {
       data.position(texelIndex * 8);
       short c0=data.getShort();
@@ -104,8 +105,6 @@ case DXT5:
   indexes=data.getInt();
   break;
 }
-case DXT1A:
-break;
 default :
 throw new IllegalStateException("Unsupported decompression format.");
 }
