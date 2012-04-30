@@ -2,8 +2,8 @@
   WizardDescriptor wizardDescriptor=new WizardDescriptor(getPanels());
   wizardDescriptor.setTitleFormat(new MessageFormat("{0}"));
   wizardDescriptor.setTitle("Create NavMesh");
-  NavMeshGenerator gen=new NavMeshGenerator();
-  wizardDescriptor.putProperty("generator",gen);
+  if (generator == null)   generator=new NavMeshGenerator();
+  wizardDescriptor.putProperty("generator",generator);
   Dialog dialog=DialogDisplayer.getDefault().createDialog(wizardDescriptor);
   dialog.setVisible(true);
   dialog.toFront();

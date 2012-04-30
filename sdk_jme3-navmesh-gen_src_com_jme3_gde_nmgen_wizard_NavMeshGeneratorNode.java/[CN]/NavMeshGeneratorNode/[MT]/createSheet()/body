@@ -8,8 +8,8 @@
     if (prop != null) {
       try {
         Property sup=new PropertySupport.Reflection(key,prop.getPropertyType(),prop.getReadMethod(),prop.getWriteMethod());
-        sup.setName(prop.getName());
         sup.setDisplayName(prop.getDisplayName());
+        sup.setShortDescription(org.openide.util.NbBundle.getMessage(NavMeshAction.class,"properties." + prop.getName()));
         set.put(sup);
       }
  catch (      Exception e) {
