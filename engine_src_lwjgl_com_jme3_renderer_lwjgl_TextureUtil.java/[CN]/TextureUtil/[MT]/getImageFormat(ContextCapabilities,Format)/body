@@ -26,6 +26,11 @@ if (!caps.OpenGL14 && !caps.GL_ARB_depth_texture) {
 return null;
 }
 break;
+case Depth24Stencil8:
+if (!caps.OpenGL30) {
+return null;
+}
+break;
 case Luminance16F:
 case Luminance16FAlpha16F:
 case Luminance32F:
