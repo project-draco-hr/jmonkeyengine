@@ -1,0 +1,8 @@
+{
+  AppTask<?> task;
+  while ((task=taskQueue.poll()) != null) {
+    if (!task.isCancelled()) {
+      task.invoke();
+    }
+  }
+}

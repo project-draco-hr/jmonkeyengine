@@ -1,15 +1,6 @@
 {
   AudioContext.setAudioRenderer(audioRenderer);
-  AppTask<?> task=taskQueue.poll();
-  toploop:   do {
-    if (task == null)     break;
-    while (task.isCancelled()) {
-      task=taskQueue.poll();
-      if (task == null)       break toploop;
-    }
-    task.invoke();
-  }
- while (((task=taskQueue.poll()) != null));
+  runQueuedTasks();
   if (speed == 0 || paused)   return;
   timer.update();
   if (inputEnabled) {
