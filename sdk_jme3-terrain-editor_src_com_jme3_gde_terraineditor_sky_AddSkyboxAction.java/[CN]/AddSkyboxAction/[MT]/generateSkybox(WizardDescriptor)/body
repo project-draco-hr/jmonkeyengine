@@ -13,6 +13,11 @@
     Texture textureSingle=(Texture)wiz.getProperty("textureSingle");
     Vector3f normalScale=(Vector3f)wiz.getProperty("normalScale");
     boolean useSpheremap=(Boolean)wiz.getProperty("useSpheremap");
-    return SkyFactory.createSky(pm,textureSingle,normalScale,useSpheremap);
+    boolean flipY=(Boolean)wiz.getProperty("flipY");
+    TextureKey key=(TextureKey)textureSingle.getKey();
+    TextureKey newKey=new TextureKey(key.getName(),flipY);
+    newKey.setGenerateMips(true);
+    newKey.setAsCube(!useSpheremap);
+    return SkyFactory.createSky(pm,pm.loadTexture(newKey),normalScale,useSpheremap);
   }
 }
