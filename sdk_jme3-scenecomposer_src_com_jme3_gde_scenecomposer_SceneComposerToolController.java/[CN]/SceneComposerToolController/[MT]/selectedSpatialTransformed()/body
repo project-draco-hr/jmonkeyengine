@@ -1,11 +1,5 @@
 {
   if (editTool != null) {
-    SceneApplication.getApplication().enqueue(new Callable<Object>(){
-      public Object call() throws Exception {
-        editTool.updateToolsTransformation();
-        return null;
-      }
-    }
-);
+    editTool.updateToolsTransformation();
   }
 }

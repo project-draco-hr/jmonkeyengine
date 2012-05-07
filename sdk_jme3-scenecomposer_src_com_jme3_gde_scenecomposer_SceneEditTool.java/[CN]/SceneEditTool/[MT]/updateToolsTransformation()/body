@@ -1,15 +1,7 @@
 {
   SceneApplication.getApplication().enqueue(new Callable<Object>(){
     public Object call() throws Exception {
-      if (toolController.getSelectedSpatial() != null) {
-        axisMarker.setLocalTranslation(toolController.getSelectedSpatial().getWorldTranslation());
-        axisMarker.setLocalRotation(toolController.getSelectedSpatial().getWorldRotation());
-        setAxisMarkerScale(toolController.getSelectedSpatial());
-      }
- else {
-        axisMarker.setLocalTranslation(Vector3f.ZERO);
-        axisMarker.setLocalRotation(Quaternion.IDENTITY);
-      }
+      doUpdateToolsTransformation();
       return null;
     }
   }
