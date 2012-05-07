@@ -25,7 +25,9 @@ synchronized (Glsl.declaredFunctions) {
     if (name.regionMatches(true,0,prefix,0,prefix.length())) {
       GLSLElementDescriptor[] elements=vocabulary.getDesc(name);
       if (elements != null) {
-        for (        GLSLElementDescriptor element : elements)         completionResultSet.addItem(new GlslCompletionItem(name,element,prefix,pos));
+        for (        GLSLElementDescriptor element : elements) {
+          completionResultSet.addItem(new GlslCompletionItem(name,element,prefix,pos));
+        }
       }
     }
   }

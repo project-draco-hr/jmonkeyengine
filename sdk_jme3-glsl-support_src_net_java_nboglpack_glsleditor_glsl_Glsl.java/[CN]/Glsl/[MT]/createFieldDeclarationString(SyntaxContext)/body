@@ -15,10 +15,14 @@
     Token token;
     while (sequence.moveNext() && sequence.token().id() != GlslTokenId.SEMICOLON && sequence.token().id() != GlslTokenId.COMMA && sequence.token().id() != GlslTokenId.EQ) {
       token=sequence.token();
-      if (!isIgnoredToken(token))       sb.append(token);
+      if (!isIgnoredToken(token)) {
+        sb.append(token);
+      }
       moved++;
     }
-    while (moved-- >= 0)     sequence.movePrevious();
+    while (moved-- >= 0) {
+      sequence.movePrevious();
+    }
     boolean skipToken=false;
     while (sequence.movePrevious() && sequence.token().id() != GlslTokenId.SEMICOLON && sequence.token().id() != GlslTokenId.END_OF_LINE) {
       token=sequence.token();

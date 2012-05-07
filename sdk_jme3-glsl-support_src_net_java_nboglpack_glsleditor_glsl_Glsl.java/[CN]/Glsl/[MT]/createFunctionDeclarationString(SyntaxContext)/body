@@ -8,11 +8,17 @@
     sequence.moveNext();
     sb.append("<html>");
     int moved=0;
-    while (sequence.movePrevious() && isIgnoredToken(sequence.token()))     moved++;
+    while (sequence.movePrevious() && isIgnoredToken(sequence.token())) {
+      moved++;
+    }
     String type=sequence.token().toString();
-    while (moved-- >= 0)     sequence.moveNext();
+    while (moved-- >= 0) {
+      sequence.moveNext();
+    }
     sb.append(sequence.token().text());
-    while (!TokenUtilities.equals(sequence.token().text(),"("))     sequence.moveNext();
+    while (!TokenUtilities.equals(sequence.token().text(),"(")) {
+      sequence.moveNext();
+    }
     sb.append("(");
     Token token;
     boolean first=true;
@@ -27,11 +33,19 @@
         }
         if (!TokenUtilities.equals(token.text(),"void")) {
           moved=0;
-          while (sequence.moveNext() && isIgnoredToken(sequence.token()))           moved++;
-          if (sequence.token().id() == GlslTokenId.COMMA || TokenUtilities.equals(sequence.token().text(),")"))           sb.append("</font>");
-          while (moved-- >= 0)           sequence.movePrevious();
+          while (sequence.moveNext() && isIgnoredToken(sequence.token())) {
+            moved++;
+          }
+          if (sequence.token().id() == GlslTokenId.COMMA || TokenUtilities.equals(sequence.token().text(),")")) {
+            sb.append("</font>");
+          }
+          while (moved-- >= 0) {
+            sequence.movePrevious();
+          }
           sb.append(token.text());
-          if (token.id() == GlslTokenId.COMMA)           sb.append(KEYWORD_FONT_COLOR);
+          if (token.id() == GlslTokenId.COMMA) {
+            sb.append(KEYWORD_FONT_COLOR);
+          }
         }
         first=false;
       }

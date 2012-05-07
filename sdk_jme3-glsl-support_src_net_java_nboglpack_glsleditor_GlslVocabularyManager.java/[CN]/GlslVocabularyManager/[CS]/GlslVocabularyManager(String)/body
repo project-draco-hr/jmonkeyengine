@@ -3,7 +3,9 @@
     throw new IllegalArgumentException(mimetype + " is no GLSL mime type");
   }
   this.mimetype=mimetype;
-  if (vocabulary == null)   loadVocabulary();
+  if (vocabulary == null) {
+    loadVocabulary();
+  }
   if (mimetype.equals(GlslFragmentShaderDataLoader.REQUIRED_MIME)) {
     vocabularyExtention=vocabulary.fragmentShaderVocabulary;
   }
@@ -24,8 +26,12 @@
           return mainIt.hasNext() || extIt.hasNext();
         }
         public String next(){
-          if (mainIt.hasNext())           return mainIt.next();
- else           return extIt.next();
+          if (mainIt.hasNext()) {
+            return mainIt.next();
+          }
+ else {
+            return extIt.next();
+          }
         }
         public void remove(){
           throw new UnsupportedOperationException("Not supported yet.");

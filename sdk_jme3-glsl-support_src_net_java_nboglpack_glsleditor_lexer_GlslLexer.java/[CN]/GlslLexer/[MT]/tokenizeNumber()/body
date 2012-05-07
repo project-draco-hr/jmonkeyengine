@@ -9,11 +9,15 @@
       character=input.read();
     }
  while (Character.isDigit(character));
-    if (character != 'f' && character != 'F')     input.backup(1);
+    if (character != 'f' && character != 'F') {
+      input.backup(1);
+    }
     return factory.createToken(GlslTokenId.FLOAT_LITERAL);
   }
  else {
-    if (character != 'u' && character != 'U')     input.backup(1);
+    if (character != 'u' && character != 'U') {
+      input.backup(1);
+    }
     return factory.createToken(GlslTokenId.INTEGER_LITERAL);
   }
 }

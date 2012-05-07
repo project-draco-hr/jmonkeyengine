@@ -2,10 +2,20 @@
   ASTNode node=(ASTNode)context.getASTPath().getLeaf();
   List<ASTItem> children=node.getChildren();
   String str=null;
-  for (  ASTItem item : children)   if (isTokenType(item,GlslTokenId.PREPROCESSOR.name()))   str=((ASTToken)item).getIdentifier();
+  for (  ASTItem item : children) {
+    if (isTokenType(item,GlslTokenId.PREPROCESSOR.name())) {
+      str=((ASTToken)item).getIdentifier();
+    }
+  }
   for (int i=0; i < str.length(); i++) {
     char c=str.charAt(i);
-    if (c != '#' && !Character.isWhitespace(c))     for (int j=str.length() - 1; j > i; j--)     if (!Character.isWhitespace(str.charAt(j)))     return str.substring(i,j + 1);
+    if (c != '#' && !Character.isWhitespace(c)) {
+      for (int j=str.length() - 1; j > i; j--) {
+        if (!Character.isWhitespace(str.charAt(j))) {
+          return str.substring(i,j + 1);
+        }
+      }
+    }
   }
   return str;
 }

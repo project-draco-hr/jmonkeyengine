@@ -10,12 +10,16 @@ synchronized (declaredFunctions) {
       for (      ASTItem declarationItem : declaration.getChildren()) {
         if (isNode(declarationItem,"function")) {
           List<ASTItem> functionItems=declarationItem.getChildren();
-          if (functionItems.size() < 3)           break;
+          if (functionItems.size() < 3) {
+            break;
+          }
           ASTItem nameToken=functionItems.get(0);
           if (isTokenType(nameToken,GlslTokenId.FUNCTION.name())) {
             StringBuilder returnType=new StringBuilder();
             for (            ASTItem typeItem : declaration.getChildren()) {
-              if (isNode(typeItem,"function"))               break;
+              if (isNode(typeItem,"function")) {
+                break;
+              }
               if (typeItem instanceof ASTNode) {
                 returnType.append(((ASTNode)typeItem).getAsText().trim());
               }
@@ -27,7 +31,9 @@ synchronized (declaredFunctions) {
             StringBuilder name=new StringBuilder();
             name.append("(");
             ASTItem parameterList=functionItems.get(2);
-            if (isNode(parameterList,"parameter_declaration_list"))             name.append(((ASTNode)parameterList).getAsText());
+            if (isNode(parameterList,"parameter_declaration_list")) {
+              name.append(((ASTNode)parameterList).getAsText());
+            }
             name.append(")");
             GLSLElementDescriptor elementDesc=new GLSLElementDescriptor(GLSLElementDescriptor.Category.USER_FUNC,"","",name.toString(),returnType.toString());
             name.insert(0,((ASTToken)nameToken).getIdentifier());

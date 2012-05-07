@@ -166,7 +166,9 @@ return factory.createToken(GlslTokenId.WHITESPACE);
 case '\r':
 input.consumeNewline();
 case LexerInput.EOF:
-if (input.readLength() == 0) return null;
+if (input.readLength() == 0) {
+return null;
+}
 case '\n':
 return factory.createToken(GlslTokenId.END_OF_LINE);
 default :
