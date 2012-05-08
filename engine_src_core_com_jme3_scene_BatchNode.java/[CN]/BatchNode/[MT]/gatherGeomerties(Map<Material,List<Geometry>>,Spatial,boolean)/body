@@ -9,7 +9,7 @@
         List<Geometry> list=map.get(g.getMaterial());
         if (list == null) {
           for (          Map.Entry<Material,List<Geometry>> mat : map.entrySet()) {
-            if (g.getMaterial().dynamicHashCode() == mat.getKey().dynamicHashCode()) {
+            if (g.getMaterial().dynamicEquals(mat)) {
               list=mat.getValue();
             }
           }
