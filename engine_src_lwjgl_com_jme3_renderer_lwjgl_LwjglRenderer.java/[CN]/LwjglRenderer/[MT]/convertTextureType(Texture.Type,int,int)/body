@@ -17,7 +17,15 @@ case TwoDimensionalArray:
 case ThreeDimensional:
 return GL_TEXTURE_3D;
 case CubeMap:
+if (face < 0) {
 return GL_TEXTURE_CUBE_MAP;
+}
+ else if (face < 6) {
+return GL_TEXTURE_CUBE_MAP_POSITIVE_X + face;
+}
+ else {
+throw new UnsupportedOperationException("Invalid cube map face index: " + face);
+}
 default :
 throw new UnsupportedOperationException("Unknown texture type: " + type);
 }

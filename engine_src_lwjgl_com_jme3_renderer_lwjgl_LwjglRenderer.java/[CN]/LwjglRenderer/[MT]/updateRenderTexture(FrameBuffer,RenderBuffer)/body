@@ -5,5 +5,5 @@
     updateTexImageData(image,tex.getType(),tex.getMinFilter().usesMipMapLevels(),0);
     setupTextureParams(tex);
   }
-  glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,convertAttachmentSlot(rb.getSlot()),convertTextureType(tex.getType(),image.getMultiSamples()),image.getId(),0);
+  glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,convertAttachmentSlot(rb.getSlot()),convertTextureType(tex.getType(),image.getMultiSamples(),rb.getFace()),image.getId(),0);
 }

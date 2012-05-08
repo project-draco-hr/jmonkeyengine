@@ -7,7 +7,7 @@
     objManager.registerForCleanup(img);
     statistics.onNewTexture();
   }
-  int target=convertTextureType(type,img.getMultiSamples());
+  int target=convertTextureType(type,img.getMultiSamples(),-1);
   if (context.boundTextureUnit != unit) {
     glActiveTexture(GL_TEXTURE0 + unit);
     context.boundTextureUnit=unit;

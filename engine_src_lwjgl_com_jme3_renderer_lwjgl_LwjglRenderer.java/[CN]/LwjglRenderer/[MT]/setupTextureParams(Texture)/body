@@ -1,6 +1,6 @@
 {
   Image image=tex.getImage();
-  int target=convertTextureType(tex.getType(),image != null ? image.getMultiSamples() : 1);
+  int target=convertTextureType(tex.getType(),image != null ? image.getMultiSamples() : 1,-1);
   int minFilter=convertMinFilter(tex.getMinFilter());
   int magFilter=convertMagFilter(tex.getMagFilter());
   glTexParameteri(target,GL_TEXTURE_MIN_FILTER,minFilter);
