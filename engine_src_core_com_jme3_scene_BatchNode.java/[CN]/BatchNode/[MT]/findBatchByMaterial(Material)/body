@@ -1,0 +1,8 @@
+{
+  for (  Batch batch : batches.getArray()) {
+    if (batch.geometry.getMaterial().dynamicHashCode() == m.dynamicHashCode()) {
+      return batch;
+    }
+  }
+  return null;
+}

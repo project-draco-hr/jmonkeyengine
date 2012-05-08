@@ -1,5 +1,7 @@
 {
   for (  Geometry geom : list) {
-    batchesByGeom.put(geom,this);
+    if (!isBatch(geom)) {
+      batchesByGeom.put(geom,this);
+    }
   }
 }

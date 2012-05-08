@@ -70,7 +70,9 @@ int globalVertIndex=0;
 int globalTriIndex=0;
 for (Geometry geom : geometries) {
 Mesh inMesh=geom.getMesh();
+if (!isBatch(geom)) {
 geom.batch(this,globalVertIndex);
+}
 int geomVertCount=inMesh.getVertexCount();
 int geomTriCount=inMesh.getTriangleCount();
 for (int bufType=0; bufType < compsForBuf.length; bufType++) {
