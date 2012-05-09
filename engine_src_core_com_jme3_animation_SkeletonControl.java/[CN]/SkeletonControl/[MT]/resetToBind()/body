@@ -1,9 +1,9 @@
 {
   for (  Mesh mesh : targets) {
     if (isMeshAnimated(mesh)) {
-      VertexBuffer bi=mesh.getBuffer(Type.BoneIndex);
-      ByteBuffer bib=(ByteBuffer)bi.getData();
-      if (!bib.hasArray()) {
+      FloatBuffer bwBuff=(FloatBuffer)mesh.getBuffer(Type.BoneWeight).getData();
+      ByteBuffer biBuff=(ByteBuffer)mesh.getBuffer(Type.BoneIndex).getData();
+      if (!biBuff.hasArray() || !bwBuff.hasArray()) {
         mesh.prepareForAnim(true);
       }
       VertexBuffer bindPos=mesh.getBuffer(Type.BindPosePosition);
