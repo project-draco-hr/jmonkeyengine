@@ -1,10 +1,22 @@
 {
   if (GLContext.getCapabilities().GL_EXT_framebuffer_blit) {
+    int srcX=0;
+    int srcY=0;
     int srcW=0;
     int srcH=0;
+    int dstX=0;
+    int dstY=0;
     int dstW=0;
     int dstH=0;
     int prevFBO=context.boundFBO;
+    if (mainFbOverride != null) {
+      if (src == null) {
+        src=mainFbOverride;
+      }
+      if (dst == null) {
+        dst=mainFbOverride;
+      }
+    }
     if (src != null && src.isUpdateNeeded()) {
       updateFrameBuffer(src);
     }
@@ -13,6 +25,10 @@
     }
     if (src == null) {
       glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT,0);
+      srcX=vpX;
+      srcY=vpY;
+      srcW=vpW;
+      srcH=vpH;
     }
  else {
       glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT,src.getId());
@@ -21,11 +37,15 @@
     }
     if (dst == null) {
       glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT,0);
+      dstX=vpX;
+      dstY=vpY;
+      dstW=vpW - 1;
+      dstH=vpH - 1;
     }
  else {
       glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT,dst.getId());
-      dstW=dst.getWidth();
-      dstH=dst.getHeight();
+      dstW=dst.getWidth() - 1;
+      dstH=dst.getHeight() - 1;
     }
     int mask=GL_COLOR_BUFFER_BIT;
     if (copyDepth) {

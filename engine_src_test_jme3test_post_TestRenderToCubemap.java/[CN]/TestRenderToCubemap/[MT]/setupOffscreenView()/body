@@ -1,0 +1,28 @@
+{
+  Camera offCamera=new Camera(512,512);
+  offView=renderManager.createPreView("Offscreen View",offCamera);
+  offView.setClearFlags(true,true,true);
+  offView.setBackgroundColor(ColorRGBA.DarkGray);
+  FrameBuffer offBuffer=new FrameBuffer(512,512,1);
+  offCamera.setFrustumPerspective(45f,1f,1f,1000f);
+  offCamera.setLocation(new Vector3f(0f,0f,-5f));
+  offCamera.lookAt(new Vector3f(0f,0f,0f),Vector3f.UNIT_Y);
+  TextureCubeMap offTex=new TextureCubeMap(512,512,Format.RGBA8);
+  offTex.setMinFilter(Texture.MinFilter.Trilinear);
+  offTex.setMagFilter(Texture.MagFilter.Bilinear);
+  offBuffer.setDepthBuffer(Format.Depth);
+  offBuffer.setMultiTarget(true);
+  offBuffer.addColorTexture(offTex,TextureCubeMap.Face.NegativeX);
+  offBuffer.addColorTexture(offTex,TextureCubeMap.Face.PositiveX);
+  offBuffer.addColorTexture(offTex,TextureCubeMap.Face.NegativeY);
+  offBuffer.addColorTexture(offTex,TextureCubeMap.Face.PositiveY);
+  offBuffer.addColorTexture(offTex,TextureCubeMap.Face.NegativeZ);
+  offBuffer.addColorTexture(offTex,TextureCubeMap.Face.PositiveZ);
+  offView.setOutputFrameBuffer(offBuffer);
+  Box boxMesh=new Box(Vector3f.ZERO,1,1,1);
+  Material material=assetManager.loadMaterial("Interface/Logo/Logo.j3m");
+  offBox=new Geometry("box",boxMesh);
+  offBox.setMaterial(material);
+  offView.attachScene(offBox);
+  return offTex;
+}

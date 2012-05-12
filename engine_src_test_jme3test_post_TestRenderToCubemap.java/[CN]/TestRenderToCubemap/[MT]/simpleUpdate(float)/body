@@ -1,0 +1,9 @@
+{
+  Quaternion q=new Quaternion();
+  angle+=tpf;
+  angle%=FastMath.TWO_PI;
+  q.fromAngles(angle,0,angle);
+  offBox.setLocalRotation(q);
+  offBox.updateLogicalState(tpf);
+  offBox.updateGeometricState();
+}

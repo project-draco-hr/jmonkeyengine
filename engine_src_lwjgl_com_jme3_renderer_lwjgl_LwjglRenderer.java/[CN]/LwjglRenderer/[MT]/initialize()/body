@@ -162,10 +162,10 @@ glGetInteger(GL_MAX_DEPTH_TEXTURE_SAMPLES,intBuf16);
 maxDepthTexSamples=intBuf16.get(0);
 logger.log(Level.FINER,"Texture Multisample Depth Samples: {0}",maxDepthTexSamples);
 }
-if (ctxCaps.GL_ARB_draw_buffers) {
-caps.add(Caps.FrameBufferMRT);
-glGetInteger(ARBDrawBuffers.GL_MAX_DRAW_BUFFERS_ARB,intBuf16);
+glGetInteger(GL_MAX_DRAW_BUFFERS,intBuf16);
 maxMRTFBOAttachs=intBuf16.get(0);
+if (maxMRTFBOAttachs > 1) {
+caps.add(Caps.FrameBufferMRT);
 logger.log(Level.FINER,"FBO Max MRT renderbuffers: {0}",maxMRTFBOAttachs);
 }
 }
