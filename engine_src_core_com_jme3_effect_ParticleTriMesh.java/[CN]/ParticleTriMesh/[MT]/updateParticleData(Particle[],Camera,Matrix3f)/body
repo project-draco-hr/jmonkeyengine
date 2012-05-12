@@ -1,8 +1,4 @@
 {
-  System.arraycopy(particles,0,particlesCopy,0,particlesCopy.length);
-  comparator.setCamera(cam);
-  SortUtil.msort(particles,particlesCopy,comparator);
-  particles=particlesCopy;
   VertexBuffer pvb=getBuffer(VertexBuffer.Type.Position);
   FloatBuffer positions=(FloatBuffer)pvb.getData();
   VertexBuffer cvb=getBuffer(VertexBuffer.Type.Color);
