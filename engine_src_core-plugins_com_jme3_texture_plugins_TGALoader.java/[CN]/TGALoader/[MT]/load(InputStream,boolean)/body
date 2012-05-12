@@ -20,14 +20,14 @@
     flipH=!flipH;
   }
   if (idLength > 0) {
-    in.skip(idLength);
+    dis.skip(idLength);
   }
   ColorMapEntry[] cMapEntries=null;
   if (colorMapType != 0) {
     int bytesInColorMap=(cMapDepth * cMapLength) >> 3;
     int bitsPerColor=Math.min(cMapDepth / 3,8);
     byte[] cMapData=new byte[bytesInColorMap];
-    in.read(cMapData);
+    dis.read(cMapData);
     if (imageType == TYPE_COLORMAPPED || imageType == TYPE_COLORMAPPED_RLE) {
       cMapEntries=new ColorMapEntry[cMapLength];
       int alphaSize=cMapDepth - (3 * bitsPerColor);
@@ -258,9 +258,9 @@
             throw new IOException("TGA: Invalid color map entry referenced: " + index);
           }
           ColorMapEntry entry=cMapEntries[index];
-          rawData[rawDataIndex++]=entry.red;
-          rawData[rawDataIndex++]=entry.green;
           rawData[rawDataIndex++]=entry.blue;
+          rawData[rawDataIndex++]=entry.green;
+          rawData[rawDataIndex++]=entry.red;
           if (dl == 4) {
             rawData[rawDataIndex++]=entry.alpha;
           }
@@ -278,9 +278,9 @@
             throw new IOException("TGA: Invalid color map entry referenced: " + index);
           }
           ColorMapEntry entry=cMapEntries[index];
-          rawData[rawDataIndex++]=entry.red;
-          rawData[rawDataIndex++]=entry.green;
           rawData[rawDataIndex++]=entry.blue;
+          rawData[rawDataIndex++]=entry.green;
+          rawData[rawDataIndex++]=entry.red;
           if (dl == 4) {
             rawData[rawDataIndex++]=entry.alpha;
           }
@@ -293,7 +293,7 @@
     format=dl == 4 ? Format.RGBA8 : Format.RGB8;
   }
  else {
-    throw new IOException("Grayscale TGA not supported");
+    throw new IOException("Monochrome and RLE colormapped images are not supported");
   }
   in.close();
   ByteBuffer scratch=BufferUtils.createByteBuffer(rawData.length);
