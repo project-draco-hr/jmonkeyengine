@@ -200,8 +200,17 @@
     }
   }
  else {
+    VertexBuffer uvCoordsBuffer=null;
+    if (uvCoordinates.size() > 0) {
+      List<Vector2f> uvs=uvCoordinates.get(0);
+      uvCoordsBuffer=new VertexBuffer(Type.TexCoord);
+      uvCoordsBuffer.setupData(Usage.Static,2,Format.Float,BufferUtils.createFloatBuffer(uvs.toArray(new Vector2f[uvs.size()])));
+    }
     for (    Geometry geometry : geometries) {
       geometry.setMaterial(blenderContext.getDefaultMaterial());
+      if (uvCoordsBuffer != null) {
+        geometry.getMesh().setBuffer(uvCoordsBuffer);
+      }
     }
   }
   if (geometries.size() > 1) {
