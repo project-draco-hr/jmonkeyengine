@@ -5,6 +5,7 @@
   for (int i=0; i < xz.size(); i++) {
     int x=Math.round((xz.get(i).x / getWorldScale().x) + halfSize);
     int z=Math.round((xz.get(i).y / getWorldScale().z) + halfSize);
+    if (!isInside(x,z))     continue;
     locations.add(new LocationHeight(x,z,height.get(i)));
   }
   setHeight(locations,overrideHeight);
