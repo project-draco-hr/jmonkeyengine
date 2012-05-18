@@ -1,9 +1,23 @@
 {
+  System.out.println("HI");
   text=text == null ? "" : text;
-  if (text == block.getText() || block.getText().equals(text)) {
+  if (block.getText().equals(text)) {
     return;
   }
-  block.setText(text);
-  letters.setText(text);
-  needRefresh=true;
+ else {
+    if (text.isEmpty()) {
+      System.out.println("text is different");
+      detachAllChildren();
+      for (int page=0; page < textPages.length; page++) {
+        textPages[page]=new BitmapTextPage(font,true,page);
+        attachChild(textPages[page]);
+      }
+      System.out.println("Creating new StringBlock and Letters");
+      block=new StringBlock();
+      letters=new Letters(font,block,letters.getQuad().isRightToLeft());
+    }
+    block.setText(text);
+    letters.setText(text);
+    needRefresh=true;
+  }
 }
