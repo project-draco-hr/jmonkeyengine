@@ -1,9 +1,6 @@
 {
   text=text == null ? "" : text;
-  if (block.getText().equals(text)) {
-    return;
-  }
- else {
+  if (!block.getText().equals(text)) {
     if (text.isEmpty()) {
       System.out.println("text is different");
       detachAllChildren();
