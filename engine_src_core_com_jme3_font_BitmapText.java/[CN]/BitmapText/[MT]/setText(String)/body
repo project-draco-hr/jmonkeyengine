@@ -2,13 +2,11 @@
   text=text == null ? "" : text;
   if (!block.getText().equals(text)) {
     if (text.isEmpty()) {
-      System.out.println("text is different");
       detachAllChildren();
       for (int page=0; page < textPages.length; page++) {
         textPages[page]=new BitmapTextPage(font,true,page);
         attachChild(textPages[page]);
       }
-      System.out.println("Creating new StringBlock and Letters");
       block=new StringBlock();
       letters=new Letters(font,block,letters.getQuad().isRightToLeft());
     }
