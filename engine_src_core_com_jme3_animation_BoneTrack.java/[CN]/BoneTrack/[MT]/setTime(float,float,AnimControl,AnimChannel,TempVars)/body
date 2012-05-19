@@ -48,10 +48,5 @@
     tempV.interpolate(tempV2,blend);
     tempS.interpolate(tempS2,blend);
   }
-  if (weight != 1f) {
-    target.blendAnimTransforms(tempV,tempQ,scales != null ? tempS : null,weight);
-  }
- else {
-    target.setAnimTransforms(tempV,tempQ,scales != null ? tempS : null);
-  }
+  target.blendAnimTransforms(tempV,tempQ,scales != null ? tempS : null,weight);
 }

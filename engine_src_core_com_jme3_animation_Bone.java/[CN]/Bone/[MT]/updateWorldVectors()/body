@@ -1,4 +1,21 @@
 {
+  if (currentWeightSum == 1f) {
+    currentWeightSum=-1;
+  }
+ else   if (currentWeightSum != -1f) {
+    if (currentWeightSum == 0) {
+      localRot.set(initialRot);
+      localPos.set(initialPos);
+      localScale.set(initialScale);
+    }
+ else {
+      float invWeightSum=1f - currentWeightSum;
+      localRot.nlerp(initialRot,invWeightSum);
+      localPos.interpolate(initialPos,invWeightSum);
+      localScale.interpolate(initialScale,invWeightSum);
+    }
+    currentWeightSum=-1;
+  }
   if (parent != null) {
     parent.worldRot.mult(localRot,worldRot);
     parent.worldScale.mult(localScale,worldScale);

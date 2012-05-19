@@ -6,12 +6,7 @@ switch (loopMode) {
 case Cycle:
     boolean sign=((int)(t / max) % 2) != 0;
   float result;
-if (t < 0) {
-  result=sign ? t % max : -(max + (t % max));
-}
- else {
-  result=sign ? -(max - (t % max)) : t % max;
-}
+result=sign ? -(max - (t % max)) : t % max;
 return result;
 case DontLoop:
 return t > max ? max : (t < 0 ? 0 : t);
