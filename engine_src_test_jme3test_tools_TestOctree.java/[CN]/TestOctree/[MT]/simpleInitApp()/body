@@ -1,6 +1,6 @@
 {
   MeshLoader.AUTO_INTERLEAVE=false;
-  assetManager.registerLocator("quake3level.zip","com.jme3.asset.plugins.ZipLocator");
+  assetManager.registerLocator("quake3level.zip",com.jme3.asset.plugins.ZipLocator.class);
   MaterialList matList=(MaterialList)assetManager.loadAsset("Scene.material");
   OgreMeshKey key=new OgreMeshKey("main.meshxml",matList);
   Spatial scene=assetManager.loadModel(key);

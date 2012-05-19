@@ -5,7 +5,7 @@
   flyCam.setMoveSpeed(100);
   setUpKeys();
   setUpLight();
-  assetManager.registerLocator("town.zip",ZipLocator.class.getName());
+  assetManager.registerLocator("town.zip",ZipLocator.class);
   sceneModel=assetManager.loadModel("main.scene");
   sceneModel.setLocalScale(2f);
   CollisionShape sceneShape=CollisionShapeFactory.createMeshShape((Node)sceneModel);

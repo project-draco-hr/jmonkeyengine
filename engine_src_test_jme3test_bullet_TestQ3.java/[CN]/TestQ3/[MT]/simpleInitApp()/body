@@ -12,10 +12,10 @@
   am.setColor(ColorRGBA.White.mult(2));
   rootNode.addLight(am);
   if (useHttp) {
-    assetManager.registerLocator("http://jmonkeyengine.googlecode.com/files/quake3level.zip",HttpZipLocator.class.getName());
+    assetManager.registerLocator("http://jmonkeyengine.googlecode.com/files/quake3level.zip",HttpZipLocator.class);
   }
  else {
-    assetManager.registerLocator("quake3level.zip",ZipLocator.class.getName());
+    assetManager.registerLocator("quake3level.zip",ZipLocator.class);
   }
   MaterialList matList=(MaterialList)assetManager.loadAsset("Scene.material");
   OgreMeshKey key=new OgreMeshKey("main.meshxml",matList);
