@@ -9,6 +9,14 @@ synchronized (loadedMethods) {
     if (viewedBufferMethod == null) {
       viewedBufferMethod=loadMethod("sun.nio.ch.DirectBuffer","attachment");
     }
-    freeMethod=loadMethod("org.apache.harmony.nio.internal.DirectBuffer","free");
+    ByteBuffer bb=BufferUtils.createByteBuffer(1);
+    Class<?> clazz=bb.getClass();
+    try {
+      freeMethod=clazz.getMethod("free");
+    }
+ catch (    NoSuchMethodException ex) {
+    }
+catch (    SecurityException ex) {
+    }
   }
 }
