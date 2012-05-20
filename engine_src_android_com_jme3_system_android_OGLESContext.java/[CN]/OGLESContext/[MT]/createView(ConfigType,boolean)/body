@@ -1,6 +1,5 @@
 {
-  this.view=view;
-  verboseLogging=eglConfigVerboseLogging;
+  this.view=new AndroidInput(JmeAndroidSystem.getActivity());
   if (configType == ConfigType.LEGACY) {
     clientOpenGLESVersion=2;
     view.setEGLContextClientVersion(2);

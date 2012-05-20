@@ -1,13 +1,6 @@
 {
-  boolean mExternalStorageWriteable=false;
   String state=Environment.getExternalStorageState();
   if (Environment.MEDIA_MOUNTED.equals(state)) {
-    mExternalStorageWriteable=true;
-  }
- else {
-    mExternalStorageWriteable=false;
-  }
-  if (mExternalStorageWriteable) {
     storageFolder=activity.getApplicationContext().getExternalFilesDir(null);
     logger.log(Level.INFO,"Storage Folder Path: {0}",storageFolder.getAbsolutePath());
     return storageFolder;

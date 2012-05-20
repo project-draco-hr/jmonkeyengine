@@ -1,7 +1,7 @@
 {
   created.set(true);
   logger.info("OGLESContext create");
-  logger.info("Running on thread: " + Thread.currentThread().getName());
+  logger.log(Level.INFO,"Running on thread: {0}",Thread.currentThread().getName());
   Thread.currentThread().setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler(){
     public void uncaughtException(    Thread thread,    Throwable thrown){
       listener.handleError("Exception thrown in " + thread.toString(),thrown);
@@ -13,8 +13,6 @@
   }
   timer=new AndroidTimer();
   renderer=new OGLESShaderRenderer();
-  renderer.setUseVA(true);
-  renderer.setVerboseLogging(verboseLogging);
   renderer.initialize();
   listener.initialize();
   JmeSystem.setSoftTextDialogInput(this);
