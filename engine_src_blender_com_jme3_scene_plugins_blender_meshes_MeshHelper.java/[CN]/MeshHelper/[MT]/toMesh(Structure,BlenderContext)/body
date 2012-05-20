@@ -142,11 +142,11 @@
   }
   geometries=new ArrayList<Geometry>(meshesMap.size());
   VertexBuffer verticesBuffer=new VertexBuffer(Type.Position);
-  verticesBuffer.setupData(Usage.Stream,3,Format.Float,BufferUtils.createFloatBuffer(vertexList.toArray(new Vector3f[vertexList.size()])));
+  verticesBuffer.setupData(Usage.Static,3,Format.Float,BufferUtils.createFloatBuffer(vertexList.toArray(new Vector3f[vertexList.size()])));
   VertexBuffer verticesBind=new VertexBuffer(Type.BindPosePosition);
   verticesBind.setupData(Usage.CpuOnly,3,Format.Float,BufferUtils.clone(verticesBuffer.getData()));
   VertexBuffer normalsBuffer=new VertexBuffer(Type.Normal);
-  normalsBuffer.setupData(Usage.Stream,3,Format.Float,BufferUtils.createFloatBuffer(normals));
+  normalsBuffer.setupData(Usage.Static,3,Format.Float,BufferUtils.createFloatBuffer(normals));
   VertexBuffer normalsBind=new VertexBuffer(Type.BindPoseNormal);
   normalsBind.setupData(Usage.CpuOnly,3,Format.Float,BufferUtils.clone(normalsBuffer.getData()));
   Properties properties=this.loadProperties(structure,blenderContext);
@@ -172,13 +172,13 @@
       mesh.setBuffer(Type.Index,1,indices);
     }
     mesh.setBuffer(verticesBuffer);
-    mesh.setBuffer(verticesBind);
+    meshContext.setBindPoseBuffer(verticesBind);
     if (verticesColorsBuffer != null) {
       mesh.setBuffer(Type.Color,4,verticesColorsBuffer);
       mesh.getBuffer(Type.Color).setNormalized(true);
     }
     mesh.setBuffer(normalsBuffer);
-    mesh.setBuffer(normalsBind);
+    meshContext.setBindNormalBuffer(normalsBind);
     Geometry geometry=new Geometry(name + (geometries.size() + 1),mesh);
     if (properties != null && properties.getValue() != null) {
       geometry.setUserData("properties",properties);
