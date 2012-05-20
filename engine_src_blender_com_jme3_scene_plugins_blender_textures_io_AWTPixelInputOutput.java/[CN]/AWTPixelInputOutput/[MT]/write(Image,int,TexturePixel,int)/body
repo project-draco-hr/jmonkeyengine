@@ -1,0 +1,24 @@
+{
+  ByteBuffer data=image.getData(layer);
+switch (image.getFormat()) {
+case RGBA8:
+    data.put(index,pixel.getR8());
+  data.put(index + 1,pixel.getG8());
+data.put(index + 2,pixel.getB8());
+data.put(index + 3,pixel.getA8());
+break;
+case ABGR8:
+data.put(index,pixel.getA8());
+data.put(index + 1,pixel.getB8());
+data.put(index + 2,pixel.getG8());
+data.put(index + 3,pixel.getR8());
+break;
+case BGR8:
+data.put(index,pixel.getB8());
+data.put(index + 1,pixel.getG8());
+data.put(index + 2,pixel.getR8());
+break;
+default :
+throw new IllegalStateException("Unknown image format: " + image.getFormat());
+}
+}

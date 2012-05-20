@@ -1,4 +1,5 @@
 {
+  this.prepareImagesForBlending(image,baseImage);
   Format format=image.getFormat();
   int width=image.getWidth();
   int height=image.getHeight();
@@ -24,7 +25,6 @@
     ByteBuffer data=image.getData(dataLayerIndex);
     data.rewind();
     ByteBuffer newData=BufferUtils.createByteBuffer(data.remaining());
-    System.out.println(dataLayerIndex);
     while (data.hasRemaining()) {
       if (format == Format.DXT3) {
         long alpha=data.getLong();
@@ -49,8 +49,8 @@
       colors[0].fromARGB8(col0);
       colors[1].fromARGB8(col1);
       if (baseImage != null) {
-        basePixelIO.read(baseImage,baseTextureColors[0],baseXTexelIndex << 2,baseYTexelIndex << 2);
-        basePixelIO.read(baseImage,baseTextureColors[1],baseXTexelIndex << 2 + 4,baseYTexelIndex << 2 + 4);
+        basePixelIO.read(baseImage,dataLayerIndex,baseTextureColors[0],baseXTexelIndex << 2,baseYTexelIndex << 2);
+        basePixelIO.read(baseImage,dataLayerIndex,baseTextureColors[1],baseXTexelIndex << 2 + 4,baseYTexelIndex << 2 + 4);
         baseTextureColors[0].toRGBA(compressedMaterialColor[0]);
         baseTextureColors[1].toRGBA(compressedMaterialColor[1]);
       }

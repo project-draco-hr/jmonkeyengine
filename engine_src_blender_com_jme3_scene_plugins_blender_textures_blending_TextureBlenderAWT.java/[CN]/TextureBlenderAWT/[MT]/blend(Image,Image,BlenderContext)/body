@@ -1,4 +1,5 @@
 {
+  this.prepareImagesForBlending(image,baseImage);
   float[] pixelColor=new float[]{color[0],color[1],color[2],1.0f};
   Format format=image.getFormat();
   PixelInputOutput basePixelIO=null, pixelReader=PixelIOFactory.getPixelIO(format);
@@ -24,10 +25,10 @@
     int dataIndex=0, x=0, y=0, index=0;
     while (index < data.limit()) {
       if (basePixelIO != null) {
-        basePixelIO.read(baseImage,basePixel,x,y);
+        basePixelIO.read(baseImage,dataLayerIndex,basePixel,x,y);
         basePixel.toRGBA(materialColor);
       }
-      pixelReader.read(image,pixel,index);
+      pixelReader.read(image,dataLayerIndex,pixel,index);
       index+=image.getFormat().getBitsPerPixel() >> 3;
       pixel.toRGBA(pixelColor);
       if (negateTexture) {

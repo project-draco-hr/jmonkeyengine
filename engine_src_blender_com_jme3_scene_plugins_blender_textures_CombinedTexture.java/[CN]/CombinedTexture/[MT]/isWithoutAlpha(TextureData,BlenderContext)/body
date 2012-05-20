@@ -42,14 +42,17 @@ case RGBA32F:
 case RGBA8:
       PixelInputOutput pixelInputOutput=PixelIOFactory.getPixelIO(image.getFormat());
     TexturePixel pixel=new TexturePixel();
+  int depth=image.getDepth() == 0 ? 1 : image.getDepth();
+for (int layerIndex=0; layerIndex < depth; ++layerIndex) {
   for (int x=0; x < image.getWidth(); ++x) {
     for (int y=0; y < image.getHeight(); ++y) {
-      pixelInputOutput.read(image,pixel,x,y);
+      pixelInputOutput.read(image,layerIndex,pixel,x,y);
       if (pixel.alpha < 1.0f) {
         return false;
       }
     }
   }
+}
 return true;
 }
 }

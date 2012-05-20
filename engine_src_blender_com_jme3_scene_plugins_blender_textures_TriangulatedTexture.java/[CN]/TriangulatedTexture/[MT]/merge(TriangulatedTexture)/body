@@ -8,10 +8,10 @@
     PixelInputOutput targetIO=PixelIOFactory.getPixelIO(targetImage.getFormat());
     for (int x=0; x < sourceImage.getWidth(); ++x) {
       for (int y=0; y < sourceImage.getHeight(); ++y) {
-        sourceIO.read(sourceImage,sourcePixel,x,y);
-        targetIO.read(targetImage,targetPixel,x,y);
+        sourceIO.read(sourceImage,0,sourcePixel,x,y);
+        targetIO.read(targetImage,0,targetPixel,x,y);
         targetPixel.merge(sourcePixel);
-        targetIO.write(targetImage,targetPixel,x,y);
+        targetIO.write(targetImage,0,targetPixel,x,y);
       }
     }
   }

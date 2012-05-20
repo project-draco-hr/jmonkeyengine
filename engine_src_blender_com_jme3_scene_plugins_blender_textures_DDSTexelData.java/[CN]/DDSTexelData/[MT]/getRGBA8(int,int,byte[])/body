@@ -1,17 +1,21 @@
 {
-  int xTexetlIndex=x % pixelWidth / 4;
-  int yTexelIndex=y % pixelHeight / 4;
+  int xTexetlIndex=x % widthInPixels / 4;
+  int yTexelIndex=y % heightInPixels / 4;
   int texelIndex=yTexelIndex * xTexelCount + xTexetlIndex;
-  TexturePixel[] colors=this.colors[texelIndex];
-  x=x - 4 * xTexetlIndex;
-  y=3 - y - 4 * yTexelIndex;
-  int pixelIndexInTexel=(y * 4 + x) * (int)FastMath.log(colors.length,2);
-  int alphaIndexInTexel=alphas != null ? (y * 4 + x) * (int)FastMath.log(alphas.length,2) : 0;
-  int indexMask=colors.length - 1;
-  int colorIndex=(int)(this.indexes[texelIndex] >> pixelIndexInTexel & indexMask);
-  float alpha=this.alphas != null ? this.alphas[texelIndex][(int)(this.alphaIndexes[texelIndex] >> alphaIndexInTexel & 0x07)] : colors[colorIndex].alpha;
-  result[0]=(byte)(colors[colorIndex].red * 255.0f);
-  result[1]=(byte)(colors[colorIndex].green * 255.0f);
-  result[2]=(byte)(colors[colorIndex].blue * 255.0f);
-  result[3]=(byte)(alpha * 255.0f);
+  if (texelIndex < colors.length) {
+    TexturePixel[] colors=this.colors[texelIndex];
+    x=x - 4 * xTexetlIndex;
+    y=3 - y - 4 * yTexelIndex;
+    int pixelIndexInTexel=(y * 4 + x) * (int)FastMath.log(colors.length,2);
+    int alphaIndexInTexel=alphas != null ? (y * 4 + x) * (int)FastMath.log(alphas.length,2) : 0;
+    int indexMask=colors.length - 1;
+    int colorIndex=(int)(this.indexes[texelIndex] >> pixelIndexInTexel & indexMask);
+    float alpha=this.alphas != null ? this.alphas[texelIndex][(int)(this.alphaIndexes[texelIndex] >> alphaIndexInTexel & 0x07)] : colors[colorIndex].alpha;
+    result[0]=(byte)(colors[colorIndex].red * 255.0f);
+    result[1]=(byte)(colors[colorIndex].green * 255.0f);
+    result[2]=(byte)(colors[colorIndex].blue * 255.0f);
+    result[3]=(byte)(alpha * 255.0f);
+    return true;
+  }
+  return false;
 }

@@ -25,7 +25,7 @@
     for (int y=0; y < imageHeight; ++y) {
       this.toTextureUV(boundingBox,point,uvs);
       texture.getPixel(pixel,uvs[0],uvs[1],uvs[2]);
-      pixelWriter.write(image,pixel,x,y);
+      pixelWriter.write(image,0,pixel,x,y);
       point.addLocal(hDelta);
     }
     vecY.addLocal(wDelta);

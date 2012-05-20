@@ -4,8 +4,8 @@
   TexturePixel pixel=new TexturePixel();
   for (int x=0; x < source.getWidth(); ++x) {
     for (int y=0; y < source.getHeight(); ++y) {
-      sourceIO.read(source,pixel,x,y);
-      targetIO.write(target,pixel,targetXPos + x,targetYPos + y);
+      sourceIO.read(source,0,pixel,x,y);
+      targetIO.write(target,0,pixel,targetXPos + x,targetYPos + y);
     }
   }
 }

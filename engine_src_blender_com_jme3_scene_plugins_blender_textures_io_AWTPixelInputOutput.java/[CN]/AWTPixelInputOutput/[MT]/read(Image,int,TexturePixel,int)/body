@@ -1,0 +1,27 @@
+{
+  byte r, g, b, a;
+  ByteBuffer data=image.getData(layer);
+switch (image.getFormat()) {
+case RGBA8:
+    r=data.get(index);
+  g=data.get(index + 1);
+b=data.get(index + 2);
+a=data.get(index + 3);
+break;
+case ABGR8:
+a=data.get(index);
+b=data.get(index + 1);
+g=data.get(index + 2);
+r=data.get(index + 3);
+break;
+case BGR8:
+b=data.get(index);
+g=data.get(index + 1);
+r=data.get(index + 2);
+a=(byte)0xFF;
+break;
+default :
+throw new IllegalStateException("Unknown image format: " + image.getFormat());
+}
+pixel.fromARGB8(a,r,g,b);
+}

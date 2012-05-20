@@ -46,7 +46,7 @@
     for (int x=minX; x < maxX; ++x) {
       int xPos=x >= sourceImage.getWidth() ? x - sourceImage.getWidth() : x;
       int yPos=y >= sourceImage.getHeight() ? y - sourceImage.getHeight() : y;
-      pixelReader.read(sourceImage,pixel,xPos,yPos);
+      pixelReader.read(sourceImage,0,pixel,xPos,yPos);
       data.put(pixel.getR8());
       data.put(pixel.getG8());
       data.put(pixel.getB8());
