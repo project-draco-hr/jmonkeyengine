@@ -1,0 +1,19 @@
+{
+  if (img.getEfficentData() instanceof AndroidImageInfo) {
+    logger.log(Level.FINEST," === Uploading image {0}. Using BITMAP PATH === ",img);
+    AndroidImageInfo imageInfo=(AndroidImageInfo)img.getEfficentData();
+    uploadTextureBitmap(target,imageInfo.getBitmap(),needMips);
+  }
+ else {
+    logger.log(Level.FINEST," === Uploading image {0}. Using BUFFER PATH === ",img);
+    boolean wantGeneratedMips=needMips && !img.hasMipmaps();
+    if (wantGeneratedMips && img.getFormat().isCompressed()) {
+      logger.log(Level.WARNING,"Generating mipmaps is only" + " supported for Bitmap based or non-compressed images!");
+    }
+    logger.log(Level.FINEST," - Uploading bitmap directly.{0}",(wantGeneratedMips ? " Mipmaps will be generated in HARDWARE" : " Mipmaps are not generated."));
+    uploadTexture(img,target,index);
+    if (wantGeneratedMips) {
+      GLES20.glGenerateMipmap(target);
+    }
+  }
+}

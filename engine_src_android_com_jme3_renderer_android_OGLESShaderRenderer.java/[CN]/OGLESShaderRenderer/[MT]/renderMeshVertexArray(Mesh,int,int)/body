@@ -1,7 +1,4 @@
 {
-  if (verboseLogging) {
-    logger.info("renderMeshVertexArray");
-  }
   for (  VertexBuffer vb : mesh.getBufferList().getArray()) {
     if (vb.getBufferType() == Type.InterleavedData || vb.getUsage() == Usage.CpuOnly || vb.getBufferType() == Type.Index) {
       continue;
@@ -25,9 +22,6 @@
     drawTriangleList_Array(indices,mesh,count);
   }
  else {
-    if (verboseLogging) {
-      logger.log(Level.INFO,"GLES20.glDrawArrays({0}, {1}, {2})",new Object[]{mesh.getMode(),0,mesh.getVertexCount()});
-    }
     GLES20.glDrawArrays(convertElementMode(mesh.getMode()),0,mesh.getVertexCount());
   }
   clearVertexAttribs();

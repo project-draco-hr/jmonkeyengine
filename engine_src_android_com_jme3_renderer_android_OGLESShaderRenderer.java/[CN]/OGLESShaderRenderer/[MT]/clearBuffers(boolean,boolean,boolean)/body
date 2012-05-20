@@ -10,10 +10,6 @@
     bits|=GLES20.GL_STENCIL_BUFFER_BIT;
   }
   if (bits != 0) {
-    if (verboseLogging) {
-      logger.log(Level.INFO,"GLES20.glClear(color={0}, depth={1}, stencil={2})",new Object[]{color,depth,stencil});
-    }
     GLES20.glClear(bits);
-    checkGLError();
   }
 }

@@ -25,7 +25,7 @@ default :
   break;
 }
 if (!caps.contains(Caps.GLSL100)) {
-logger.info("Force-adding GLSL100 support, since OpenGL2 is supported.");
+logger.warning("Force-adding GLSL100 support, since OpenGL2 is supported.");
 caps.add(Caps.GLSL100);
 }
 GLES20.glGetIntegerv(GLES20.GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS,intBuf16);
@@ -37,6 +37,15 @@ caps.add(Caps.VertexTextureFetch);
 GLES20.glGetIntegerv(GLES20.GL_MAX_TEXTURE_IMAGE_UNITS,intBuf16);
 fragTextureUnits=intBuf16.get(0);
 logger.log(Level.INFO,"Texture Units: {0}",fragTextureUnits);
+GLES20.glGetIntegerv(GLES20.GL_MAX_VERTEX_UNIFORM_VECTORS,intBuf16);
+vertexUniforms=intBuf16.get(0) * 4;
+logger.log(Level.FINER,"Vertex Uniforms: {0}",vertexUniforms);
+GLES20.glGetIntegerv(GLES20.GL_MAX_FRAGMENT_UNIFORM_VECTORS,intBuf16);
+fragUniforms=intBuf16.get(0) * 4;
+logger.log(Level.FINER,"Fragment Uniforms: {0}",fragUniforms);
+GLES20.glGetIntegerv(GLES20.GL_MAX_VARYING_VECTORS,intBuf16);
+int varyingFloats=intBuf16.get(0) * 4;
+logger.log(Level.FINER,"Varying Floats: {0}",varyingFloats);
 GLES20.glGetIntegerv(GLES20.GL_MAX_VERTEX_ATTRIBS,intBuf16);
 vertexAttribs=intBuf16.get(0);
 logger.log(Level.INFO,"Vertex Attributes: {0}",vertexAttribs);
@@ -55,15 +64,16 @@ GLES20.glGetIntegerv(GLES20.GL_COMPRESSED_TEXTURE_FORMATS,intBuf16);
 for (int i=0; i < intBuf16.limit(); i++) {
 logger.log(Level.INFO,"Compressed Texture Formats: {0}",intBuf16.get(i));
 }
-if (extensions.contains("GL_OES_texture_npot")) {
-powerOf2=true;
-}
+TextureUtil.loadTextureFeatures(extensions);
 applyRenderState(RenderState.DEFAULT);
 GLES20.glDisable(GLES20.GL_DITHER);
-checkGLError();
 useVBO=false;
 if (Build.VERSION.SDK_INT >= 9) {
+logger.log(Level.INFO,"Force-enabling VBO (Android 2.3 or higher)");
 useVBO=true;
+}
+ else {
+useVBO=false;
 }
 logger.log(Level.INFO,"Caps: {0}",caps);
 }

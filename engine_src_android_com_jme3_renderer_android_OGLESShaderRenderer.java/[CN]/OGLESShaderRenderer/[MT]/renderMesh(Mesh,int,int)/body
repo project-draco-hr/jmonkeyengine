@@ -1,29 +1,17 @@
 {
   if (context.pointSize != mesh.getPointSize()) {
-    if (verboseLogging) {
-      logger.log(Level.INFO,"GLES10.glPointSize({0})",mesh.getPointSize());
-    }
     GLES10.glPointSize(mesh.getPointSize());
     context.pointSize=mesh.getPointSize();
   }
   if (context.lineWidth != mesh.getLineWidth()) {
-    if (verboseLogging) {
-      logger.log(Level.INFO,"GLES20.glLineWidth({0})",mesh.getLineWidth());
-    }
     GLES20.glLineWidth(mesh.getLineWidth());
     context.lineWidth=mesh.getLineWidth();
   }
   statistics.onMeshDrawn(mesh,lod);
   if (useVBO) {
-    if (verboseLogging) {
-      logger.info("RENDERING A MESH USING VertexBufferObject");
-    }
     renderMeshDefault(mesh,lod,count);
   }
  else {
-    if (verboseLogging) {
-      logger.info("RENDERING A MESH USING VertexArray");
-    }
     renderMeshVertexArray(mesh,lod,count);
   }
 }

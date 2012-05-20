@@ -1,8 +1,6 @@
 {
   if (img.getEfficentData() instanceof AndroidImageInfo) {
-    AndroidImageInfo imageInfo=(AndroidImageInfo)img.getEfficentData();
-    uploadTextureBitmap(target,imageInfo.getBitmap(),generateMips,powerOf2);
-    return;
+    throw new RendererException("This image uses efficient data. " + "Use uploadTextureBitmap instead.");
   }
   Image.Format fmt=img.getFormat();
   ByteBuffer data;
@@ -15,6 +13,11 @@
   int width=img.getWidth();
   int height=img.getHeight();
   int depth=img.getDepth();
+  if (!NPOT) {
+    if (!FastMath.isPowerOfTwo(width) || width != height) {
+      throw new RendererException("Non-power-of-2 textures " + "are not supported by the video hardware " + "and no scaling path available for image: "+ img);
+    }
+  }
   boolean compress=false;
   int format=-1;
   int dataType=-1;
@@ -70,6 +73,22 @@ case Depth24:
 format=GLES20.GL_DEPTH_COMPONENT;
 dataType=GLES20.GL_UNSIGNED_BYTE;
 break;
+case DXT1:
+if (!DXT1) {
+unsupportedFormat(fmt);
+}
+format=0x83F0;
+dataType=GLES20.GL_UNSIGNED_BYTE;
+compress=true;
+break;
+case DXT1A:
+if (!DXT1) {
+unsupportedFormat(fmt);
+}
+format=0x83F1;
+dataType=GLES20.GL_UNSIGNED_BYTE;
+compress=true;
+break;
 default :
 throw new UnsupportedOperationException("Unrecognized format: " + fmt);
 }
@@ -81,11 +100,6 @@ int pos=0;
 if (mipSizes == null) {
 if (data != null) mipSizes=new int[]{data.capacity()};
  else mipSizes=new int[]{width * height * fmt.getBitsPerPixel() / 8};
-}
-if (compress) {
-data.clear();
-GLES20.glCompressedTexImage2D(target,1 - mipSizes.length,format,width,height,0,data.capacity(),data);
-return;
 }
 for (int i=0; i < mipSizes.length; i++) {
 int mipWidth=Math.max(1,width >> i);

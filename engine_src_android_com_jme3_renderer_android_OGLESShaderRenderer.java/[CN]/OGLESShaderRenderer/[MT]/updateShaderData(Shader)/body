@@ -2,9 +2,6 @@
   int id=shader.getId();
   boolean needRegister=false;
   if (id == -1) {
-    if (verboseLogging) {
-      logger.info("GLES20.glCreateProgram()");
-    }
     id=GLES20.glCreateProgram();
     if (id <= 0) {
       throw new RendererException("Invalid ID received when trying to create shader program.");
@@ -21,31 +18,16 @@
       shader.clearUpdateNeeded();
       return;
     }
-    if (verboseLogging) {
-      logger.info("GLES20.glAttachShader(" + id + ", "+ source.getId()+ ")");
-    }
     GLES20.glAttachShader(id,source.getId());
   }
-  if (verboseLogging) {
-    logger.info("GLES20.glLinkProgram(" + id + ")");
-  }
   GLES20.glLinkProgram(id);
-  if (verboseLogging) {
-    logger.info("GLES20.glGetProgramiv(" + id + ")");
-  }
   GLES20.glGetProgramiv(id,GLES20.GL_LINK_STATUS,intBuf1);
   boolean linkOK=intBuf1.get(0) == GLES20.GL_TRUE;
   String infoLog=null;
   if (VALIDATE_SHADER || !linkOK) {
-    if (verboseLogging) {
-      logger.info("GLES20.glGetProgramiv(" + id + ", GLES20.GL_INFO_LOG_LENGTH, buffer)");
-    }
     GLES20.glGetProgramiv(id,GLES20.GL_INFO_LOG_LENGTH,intBuf1);
     int length=intBuf1.get(0);
     if (length > 3) {
-      if (verboseLogging) {
-        logger.info("GLES20.glGetProgramInfoLog(" + id + ")");
-      }
       infoLog=GLES20.glGetProgramInfoLog(id);
     }
   }

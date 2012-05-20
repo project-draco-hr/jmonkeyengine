@@ -1,5 +1,4 @@
 {
-  if (!checkErrors)   return;
   int error;
   while ((error=GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
     throw new RendererException("OpenGL Error " + error);

@@ -1,10 +1,6 @@
 {
   if (context.clipRectEnabled) {
-    if (verboseLogging) {
-      logger.info("GLES20.glDisable(GLES20.GL_SCISSOR_TEST)");
-    }
     GLES20.glDisable(GLES20.GL_SCISSOR_TEST);
-    checkGLError();
     context.clipRectEnabled=false;
     clipX=0;
     clipY=0;

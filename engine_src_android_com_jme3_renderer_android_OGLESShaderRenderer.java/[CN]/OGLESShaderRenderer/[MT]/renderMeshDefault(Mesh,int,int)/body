@@ -1,7 +1,4 @@
 {
-  if (verboseLogging) {
-    logger.log(Level.INFO,"renderMeshDefault({0}, {1}, {2})",new Object[]{mesh,lod,count});
-  }
   VertexBuffer indices=null;
   VertexBuffer interleavedData=mesh.getBuffer(Type.InterleavedData);
   if (interleavedData != null && interleavedData.isUpdateNeeded()) {
@@ -28,9 +25,6 @@
     drawTriangleList(indices,mesh,count);
   }
  else {
-    if (verboseLogging) {
-      logger.log(Level.INFO,"GLES20.glDrawArrays({0}, 0, {1})",new Object[]{convertElementMode(mesh.getMode()),mesh.getVertexCount()});
-    }
     GLES20.glDrawArrays(convertElementMode(mesh.getMode()),0,mesh.getVertexCount());
   }
   clearVertexAttribs();

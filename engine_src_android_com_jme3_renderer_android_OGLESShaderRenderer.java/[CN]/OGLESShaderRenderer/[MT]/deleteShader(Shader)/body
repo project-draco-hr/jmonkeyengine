@@ -5,16 +5,10 @@
   }
   for (  ShaderSource source : shader.getSources()) {
     if (source.getId() != -1) {
-      if (verboseLogging) {
-        logger.info("GLES20.glDetachShader(" + shader.getId() + ", "+ source.getId()+ ")");
-      }
       GLES20.glDetachShader(shader.getId(),source.getId());
     }
   }
   shader.resetSources();
-  if (verboseLogging) {
-    logger.info("GLES20.glDeleteProgram(" + shader.getId() + ")");
-  }
   GLES20.glDeleteProgram(shader.getId());
   statistics.onDeleteShader();
 }

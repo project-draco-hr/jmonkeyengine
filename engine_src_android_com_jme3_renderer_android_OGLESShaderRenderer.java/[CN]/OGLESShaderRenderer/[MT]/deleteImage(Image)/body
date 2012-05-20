@@ -3,9 +3,6 @@
   if (texId != -1) {
     intBuf1.put(0,texId);
     intBuf1.position(0).limit(1);
-    if (verboseLogging) {
-      logger.info("GLES20.glDeleteTexture(1, buffer)");
-    }
     GLES20.glDeleteTextures(1,intBuf1);
     image.resetObject();
     statistics.onDeleteTexture();

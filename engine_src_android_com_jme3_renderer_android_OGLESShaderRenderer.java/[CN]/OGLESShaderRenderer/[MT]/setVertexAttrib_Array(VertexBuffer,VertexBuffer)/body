@@ -1,7 +1,4 @@
 {
-  if (verboseLogging) {
-    logger.log(Level.INFO,"setVertexAttrib_Array({0}, {1})",new Object[]{vb,idb});
-  }
   if (vb.getBufferType() == VertexBuffer.Type.Index) {
     throw new IllegalArgumentException("Index buffers not allowed to be set to vertex attrib");
   }
@@ -11,22 +8,13 @@
     Attribute attrib=boundShader.getAttribute(vb.getBufferType());
     int loc=attrib.getLocation();
     if (loc == -1) {
-      if (verboseLogging) {
-        logger.log(Level.WARNING,"attribute is invalid in shader: [{0}]",vb.getBufferType().name());
-      }
       return;
     }
  else     if (loc == -2) {
       String attributeName="in" + vb.getBufferType().name();
-      if (verboseLogging) {
-        logger.log(Level.INFO,"GLES20.glGetAttribLocation({0}, {1})",new Object[]{programId,attributeName});
-      }
       loc=GLES20.glGetAttribLocation(programId,attributeName);
       if (loc < 0) {
         attrib.setLocation(-1);
-        if (verboseLogging) {
-          logger.log(Level.WARNING,"attribute is invalid in shader: [{0}]",vb.getBufferType().name());
-        }
         return;
       }
  else {
@@ -37,11 +25,7 @@
       VertexBuffer avb=idb != null ? idb : vb;
       avb.getData().clear();
       avb.getData().position(vb.getOffset());
-      if (verboseLogging) {
-        logger.log(Level.INFO,"GLES20.glVertexAttribPointer(" + "location={0}, " + "numComponents={1}, "+ "format={2}, "+ "isNormalized={3}, "+ "stride={4}, "+ "data.capacity={5})",new Object[]{loc,vb.getNumComponents(),vb.getFormat(),vb.isNormalized(),vb.getStride(),avb.getData().capacity()});
-      }
       GLES20.glVertexAttribPointer(loc,vb.getNumComponents(),convertFormat(vb.getFormat()),vb.isNormalized(),vb.getStride(),avb.getData());
-      checkGLError();
       GLES20.glEnableVertexAttribArray(loc);
       attribs[loc]=vb;
     }
