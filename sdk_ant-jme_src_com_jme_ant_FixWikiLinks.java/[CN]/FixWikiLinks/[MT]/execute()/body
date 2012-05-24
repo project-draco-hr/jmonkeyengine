@@ -1,0 +1,39 @@
+{
+  validate();
+  BufferedReader rdr;
+  try {
+    rdr=new BufferedReader(new FileReader(file));
+    StringWriter out=new StringWriter();
+    String line=rdr.readLine();
+    while (line != null) {
+      line=line.replaceAll("wiki/doku\\.php/([^>]*):([^>]*):([^>]*):([^>]*)\\?do=export_xhtmlbody",helpPath + "$1/$2/$3/$4.html");
+      line=line.replaceAll("wiki/doku\\.php/([^>]*):([^>]*):([^>]*)\\?do=export_xhtmlbody",helpPath + "$1/$2/$3.html");
+      line=line.replaceAll("wiki/doku\\.php/([^>]*):([^>]*)\\?do=export_xhtmlbody",helpPath + "$1/$2.html");
+      line=line.replaceAll("wiki/doku\\.php/([^>]*)\\?do=export_xhtmlbody",helpPath + "$1.html");
+      line=line.replaceAll("/wiki/lib/exe/fetch\\.php/([^>]*):([^>]*):([^>]*):([^>]*)\"","nbdocs:/" + helpPath + "$1/$2/$3/$4\"");
+      line=line.replaceAll("/wiki/lib/exe/fetch\\.php/([^>]*):([^>]*):([^>]*)\"","nbdocs:/" + helpPath + "$1/$2/$3\"");
+      line=line.replaceAll("/wiki/lib/exe/fetch\\.php/([^>]*):([^>]*)\"","nbdocs:/" + helpPath + "$1/$2\"");
+      line=line.replaceAll("/wiki/lib/exe/fetch\\.php/([^>]*)\"","nbdocs:/" + helpPath + "$1\"");
+      line=line.replaceAll("<a href=([^>]*)><img src=\"([^\"]*)\"([^>]*)></a>","<img src=\"$2\">");
+      line=line.replaceAll("<img src=\"([^>]*)\\?([^>]*)\">","<img src=\"$1\">");
+      line=line.replaceAll(" class=\"([^>]*)\">",">");
+      line=line.replaceAll(" name=\"([^>]*)\">",">");
+      line=line.replaceAll(" id=\"([^>]*)\">",">");
+      line=line.replaceAll("<span>([^>]*)</span>","$1");
+      line=line.replaceAll("<a href=\"http://www\\.google\\.com/search([^\"]*)\"(.*)>(.*)</a>","$3");
+      line=line.replaceAll("<a href=\"http://([^\"]*)\">([^<]*)</a>","<object classid=\"java:org.netbeans.modules.javahelp.BrowserDisplayer\"><param name=\"content\" value=\"http://$1\"><param name=\"text\" value=\"<html><u>$2</u></html>\"><param name=\"textColor\" value=\"blue\"></object>");
+      line=line.replaceAll("<a href=\"https://([^\"]*)\">([^<]*)</a>","<object classid=\"java:org.netbeans.modules.javahelp.BrowserDisplayer\"><param name=\"content\" value=\"https://$1\"><param name=\"text\" value=\"<html><u>$2</u></html>\"><param name=\"textColor\" value=\"blue\"></object>");
+      out.write(line + "\n");
+      line=rdr.readLine();
+    }
+    rdr.close();
+    FileWriter outWriter=new FileWriter(file);
+    out.flush();
+    outWriter.write(out.toString());
+    out.close();
+    outWriter.close();
+  }
+ catch (  Exception e) {
+    throw new BuildException(e,getLocation());
+  }
+}
