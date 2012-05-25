@@ -3,6 +3,7 @@ synchronized (eventQueue) {
     if (component != null) {
       component.removeKeyListener(this);
       eventQueue.clear();
+      keyStateSet.clear();
     }
     component=comp;
     component.addKeyListener(this);

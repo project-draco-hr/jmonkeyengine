@@ -6,7 +6,9 @@
     SwingUtilities.invokeLater(new Runnable(){
       public void run(){
         component.setCursor(newVisible ? null : getTransparentCursor());
-        if (!newVisible)         recenterMouse(component);
+        if (!newVisible) {
+          recenterMouse(component);
+        }
       }
     }
 );

@@ -217,7 +217,7 @@ return KEY_LMENU;
 case KeyEvent.VK_META:
 return KEY_RCONTROL;
 }
-logger.warning("unsupported key:" + key);
+logger.log(Level.WARNING,"unsupported key:{0}",key);
 if (key >= 0x10000) {
 return key - 0x10000;
 }
