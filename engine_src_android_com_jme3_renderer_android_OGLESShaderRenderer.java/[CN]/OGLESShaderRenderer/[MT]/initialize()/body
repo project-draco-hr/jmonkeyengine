@@ -2,31 +2,18 @@
   logger.log(Level.INFO,"Vendor: {0}",GLES20.glGetString(GLES20.GL_VENDOR));
   logger.log(Level.INFO,"Renderer: {0}",GLES20.glGetString(GLES20.GL_RENDERER));
   logger.log(Level.INFO,"Version: {0}",GLES20.glGetString(GLES20.GL_VERSION));
+  logger.log(Level.INFO,"Shading Language Version: {0}",GLES20.glGetString(GLES20.GL_SHADING_LANGUAGE_VERSION));
   powerVr=GLES20.glGetString(GLES20.GL_RENDERER).contains("PowerVR");
-  String versionStr=GLES20.glGetString(GLES20.GL_SHADING_LANGUAGE_VERSION);
-  logger.log(Level.INFO,"GLES20.Shading Language Version: {0}",versionStr);
-  if (versionStr == null || versionStr.equals("")) {
+  int openGlVer=extractVersion("OpenGL ES ",GLES20.glGetString(GLES20.GL_VERSION));
+  if (openGlVer == -1) {
     glslVer=-1;
-    throw new UnsupportedOperationException("GLSL and OpenGL2 is " + "required for the OpenGL ES " + "renderer!");
+    throw new UnsupportedOperationException("OpenGL ES 2.0+ is required for OGLESShaderRenderer!");
   }
-  String openGlEsStr="OpenGL ES GLSL ES ";
-  int spaceIdx=versionStr.indexOf(" ",openGlEsStr.length());
-  if (spaceIdx >= 1) {
-    versionStr=versionStr.substring(openGlEsStr.length(),spaceIdx).trim();
-  }
- else {
-    versionStr=versionStr.substring(openGlEsStr.length()).trim();
-  }
-  float version=Float.parseFloat(versionStr);
-  glslVer=(int)(version * 100);
+  glslVer=extractVersion("OpenGL ES GLSL ES ",GLES20.glGetString(GLES20.GL_SHADING_LANGUAGE_VERSION));
 switch (glslVer) {
 default :
     caps.add(Caps.GLSL100);
   break;
-}
-if (!caps.contains(Caps.GLSL100)) {
-logger.warning("Force-adding GLSL100 support, since OpenGL2 is supported.");
-caps.add(Caps.GLSL100);
 }
 GLES20.glGetIntegerv(GLES20.GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS,intBuf16);
 vertexTextureUnits=intBuf16.get(0);
