@@ -17,11 +17,11 @@ data.putShort(index,(short)(pixel.intensity * 65535.0f));
 data.putShort(index + 2,(short)(pixel.alpha * 65535.0f));
 break;
 case Luminance16F:
-pixel.intensity=Float.intBitsToFloat(data.getShort(index));
+data.putShort(index,FastMath.convertFloatToHalf(pixel.intensity));
 break;
 case Luminance16FAlpha16F:
-pixel.intensity=Float.intBitsToFloat(data.getShort(index));
-pixel.alpha=Float.intBitsToFloat(data.getShort(index + 2));
+data.putShort(index,FastMath.convertFloatToHalf(pixel.intensity));
+data.putShort(index + 2,FastMath.convertFloatToHalf(pixel.alpha));
 break;
 case Luminance32F:
 data.putInt(index,Float.floatToIntBits(pixel.intensity));
