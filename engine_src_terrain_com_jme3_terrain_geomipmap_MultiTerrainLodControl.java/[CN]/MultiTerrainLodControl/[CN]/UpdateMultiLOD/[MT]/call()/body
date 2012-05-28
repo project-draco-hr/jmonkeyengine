@@ -1,0 +1,18 @@
+{
+  setLodCalcRunning(true);
+  HashMap<String,UpdatedTerrainPatch> updated=new HashMap<String,UpdatedTerrainPatch>();
+  for (  TerrainQuad terrainQuad : terrains) {
+    terrainQuad.calculateLod(camLocations,updated,lodCalculator);
+  }
+  for (  TerrainQuad terrainQuad : terrains) {
+    terrainQuad.findNeighboursLod(updated);
+  }
+  for (  TerrainQuad terrainQuad : terrains) {
+    terrainQuad.fixEdges(updated);
+  }
+  for (  TerrainQuad terrainQuad : terrains) {
+    terrainQuad.reIndexPages(updated,lodCalculator.usesVariableLod());
+  }
+  setLodCalcRunning(false);
+  return updated;
+}

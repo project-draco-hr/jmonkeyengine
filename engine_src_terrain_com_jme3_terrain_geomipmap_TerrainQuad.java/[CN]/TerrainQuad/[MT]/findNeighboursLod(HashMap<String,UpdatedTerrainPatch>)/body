@@ -16,6 +16,8 @@
         }
         TerrainPatch right=patch.rightNeighbour;
         TerrainPatch down=patch.bottomNeighbour;
+        TerrainPatch left=patch.leftNeighbour;
+        TerrainPatch top=patch.topNeighbour;
         UpdatedTerrainPatch utp=updated.get(patch.getName());
         if (utp == null) {
           utp=new UpdatedTerrainPatch(patch,patch.lod);
@@ -24,8 +26,9 @@
         if (right != null) {
           UpdatedTerrainPatch utpR=updated.get(right.getName());
           if (utpR == null) {
-            utpR=new UpdatedTerrainPatch(right,right.lod);
+            utpR=new UpdatedTerrainPatch(right);
             updated.put(utpR.getName(),utpR);
+            utpR.setNewLod(right.lod);
           }
           utp.setRightLod(utpR.getNewLod());
           utpR.setLeftLod(utp.getNewLod());
@@ -33,11 +36,32 @@
         if (down != null) {
           UpdatedTerrainPatch utpD=updated.get(down.getName());
           if (utpD == null) {
-            utpD=new UpdatedTerrainPatch(down,down.lod);
+            utpD=new UpdatedTerrainPatch(down);
             updated.put(utpD.getName(),utpD);
+            utpD.setNewLod(down.lod);
           }
           utp.setBottomLod(utpD.getNewLod());
           utpD.setTopLod(utp.getNewLod());
+        }
+        if (left != null) {
+          UpdatedTerrainPatch utpL=updated.get(left.getName());
+          if (utpL == null) {
+            utpL=new UpdatedTerrainPatch(left);
+            updated.put(utpL.getName(),utpL);
+            utpL.setNewLod(left.lod);
+          }
+          utp.setLeftLod(utpL.getNewLod());
+          utpL.setRightLod(utp.getNewLod());
+        }
+        if (top != null) {
+          UpdatedTerrainPatch utpT=updated.get(top.getName());
+          if (utpT == null) {
+            utpT=new UpdatedTerrainPatch(top);
+            updated.put(utpT.getName(),utpT);
+            utpT.setNewLod(top.lod);
+          }
+          utp.setTopLod(utpT.getNewLod());
+          utpT.setBottomLod(utp.getNewLod());
         }
       }
     }

@@ -1,6 +1,6 @@
 {
   UpdatedTerrainPatch utp=updated.get(getName());
-  if (utp != null && (utp.isReIndexNeeded() || utp.isFixEdges())) {
+  if (utp != null && utp.isReIndexNeeded()) {
     int pow=(int)Math.pow(2,utp.getNewLod());
     boolean left=utp.getLeftLod() > utp.getNewLod();
     boolean top=utp.getTopLod() > utp.getNewLod();

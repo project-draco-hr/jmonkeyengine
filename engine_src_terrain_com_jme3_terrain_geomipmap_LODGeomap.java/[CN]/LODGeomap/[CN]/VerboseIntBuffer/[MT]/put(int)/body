@@ -1,8 +1,10 @@
 {
   try {
-    delegate.put(value);
     count++;
+    if (count > delegate.limit())     throw new BufferOverflowException();
+    delegate.put(value);
   }
  catch (  BufferOverflowException e) {
+    System.out.println("err buffer size: " + delegate.capacity());
   }
 }

@@ -1,9 +1,23 @@
 {
-synchronized (updatePatchesLock) {
-    if (updatedPatches == null || updatedPatches.isEmpty())     return;
-    for (    UpdatedTerrainPatch utp : updatedPatches.values()) {
-      utp.updateAll();
+  if (indexer != null) {
+    if (indexer.isDone()) {
+      try {
+        HashMap<String,UpdatedTerrainPatch> updated=indexer.get();
+        if (updated != null) {
+          for (          UpdatedTerrainPatch utp : updated.values()) {
+            utp.updateAll();
+          }
+        }
+      }
+ catch (      InterruptedException ex) {
+        Logger.getLogger(TerrainLodControl.class.getName()).log(Level.SEVERE,null,ex);
+      }
+catch (      ExecutionException ex) {
+        Logger.getLogger(TerrainLodControl.class.getName()).log(Level.SEVERE,null,ex);
+      }
+ finally {
+        indexer=null;
+      }
     }
-    updatedPatches.clear();
   }
 }

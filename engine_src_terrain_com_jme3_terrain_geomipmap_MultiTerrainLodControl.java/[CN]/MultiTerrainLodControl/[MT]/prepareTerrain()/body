@@ -1,0 +1,13 @@
+{
+  if (!addedTerrains.isEmpty()) {
+    for (    TerrainQuad t : addedTerrains) {
+      if (!terrains.contains(t))       terrains.add(t);
+    }
+    addedTerrains.clear();
+  }
+  if (!removedTerrains.isEmpty()) {
+    terrains.removeAll(removedTerrains);
+    removedTerrains.clear();
+  }
+  for (  TerrainQuad terrain : terrains)   terrain.cacheTerrainTransforms();
+}

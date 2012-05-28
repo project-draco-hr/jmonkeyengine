@@ -18,11 +18,11 @@
       int prevLOD=patch.getLod();
       UpdatedTerrainPatch utp=updates.get(patch.getName());
       if (utp == null) {
-        utp=new UpdatedTerrainPatch(patch,i);
+        utp=new UpdatedTerrainPatch(patch);
         updates.put(utp.getName(),utp);
       }
+      utp.setNewLod(i);
       utp.setPreviousLod(prevLOD);
-      utp.setReIndexNeeded(reIndexNeeded);
       return reIndexNeeded;
     }
   }
