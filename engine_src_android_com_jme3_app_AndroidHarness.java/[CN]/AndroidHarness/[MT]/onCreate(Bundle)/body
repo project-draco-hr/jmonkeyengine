@@ -23,6 +23,10 @@
     app.start();
     ctx=(OGLESContext)app.getContext();
     view=ctx.createView(eglConfigType,eglConfigVerboseLogging);
+    WindowManager wind=this.getWindowManager();
+    Display disp=wind.getDefaultDisplay();
+    logger.log(Level.WARNING,"Resolution from Window: {0}, {1}",new Object[]{disp.getWidth(),disp.getHeight()});
+    ctx.getSettings().setResolution(disp.getWidth(),disp.getHeight());
     ctx.setSystemListener(this);
     layoutDisplay();
   }
