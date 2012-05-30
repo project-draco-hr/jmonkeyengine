@@ -28,18 +28,18 @@ bWasHandled=true;
 break;
 case MotionEvent.ACTION_MOVE:
 for (int p=0; p < event.getPointerCount(); p++) {
-Vector2f lastPos=lastPositions.get(pointerIndex);
+Vector2f lastPos=lastPositions.get(p);
 if (lastPos == null) {
-lastPos=new Vector2f(event.getX(pointerIndex),this.getHeight() - event.getY(pointerIndex));
-lastPositions.put(pointerId,lastPos);
+lastPos=new Vector2f(event.getX(p),this.getHeight() - event.getY(p));
+lastPositions.put(event.getPointerId(p),lastPos);
 }
 touch=getNextFreeTouchEvent();
-touch.set(Type.MOVE,event.getX(pointerIndex),this.getHeight() - event.getY(pointerIndex),event.getX(pointerIndex) - lastPos.x,this.getHeight() - event.getY(pointerIndex) - lastPos.y);
-touch.setPointerId(pointerId);
+touch.set(Type.MOVE,event.getX(p),this.getHeight() - event.getY(p),event.getX(p) - lastPos.x,this.getHeight() - event.getY(p) - lastPos.y);
+touch.setPointerId(event.getPointerId(p));
 touch.setTime(event.getEventTime());
-touch.setPressure(event.getPressure(pointerIndex));
+touch.setPressure(event.getPressure(p));
 processEvent(touch);
-lastPos.set(event.getX(pointerIndex),this.getHeight() - event.getY(pointerIndex));
+lastPos.set(event.getX(p),this.getHeight() - event.getY(p));
 }
 bWasHandled=true;
 break;
