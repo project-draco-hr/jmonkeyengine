@@ -55,7 +55,12 @@
     startBoneAssigns();
   }
  else   if (qName.equals("submesh")) {
-    startSubMesh(attribs.getValue("material"),attribs.getValue("usesharedvertices"),attribs.getValue("use32bitindexes"),attribs.getValue("operationtype"));
+    if (submeshNamesHack) {
+      startSubmeshName(attribs.getValue("index"),attribs.getValue("name"));
+    }
+ else {
+      startSubMesh(attribs.getValue("material"),attribs.getValue("usesharedvertices"),attribs.getValue("use32bitindexes"),attribs.getValue("operationtype"));
+    }
   }
  else   if (qName.equals("sharedgeometry")) {
     String count=attribs.getValue("vertexcount");
@@ -72,6 +77,7 @@
     startSkeleton(attribs.getValue("name"));
   }
  else   if (qName.equals("submeshnames")) {
+    submeshNamesHack=true;
   }
  else   if (qName.equals("submeshname")) {
     startSubmeshName(attribs.getValue("index"),attribs.getValue("name"));
