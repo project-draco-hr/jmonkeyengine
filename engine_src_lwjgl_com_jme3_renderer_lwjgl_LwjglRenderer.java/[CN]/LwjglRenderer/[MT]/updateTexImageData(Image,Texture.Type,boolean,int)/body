@@ -24,7 +24,7 @@
   }
  else {
     if (img.getMipMapSizes() != null) {
-      glTexParameteri(target,GL_TEXTURE_MAX_LEVEL,img.getMipMapSizes().length);
+      glTexParameteri(target,GL_TEXTURE_MAX_LEVEL,img.getMipMapSizes().length - 1);
     }
   }
   int imageSamples=img.getMultiSamples();
