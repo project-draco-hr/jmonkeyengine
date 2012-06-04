@@ -1,11 +1,37 @@
 {
-  if (!pressed && !wasDragging) {
-    final Vector3f result=pickWorldLocation(getCamera(),screenCoord,rootNode);
-    if (result != null) {
-      toolController.doSetCursorLocation(result);
+  if (pressed) {
+    if (!wasDraggingR && !wasDownR) {
+      Spatial s=pickWorldSpatial(camera,screenCoord,rootNode);
+      if (!toolController.selectTerrain() && isTerrain(s)) {
+        selected=null;
+        return;
+      }
+ else {
+        Spatial linkNodeParent=findModelNodeParent(s);
+        if (linkNodeParent != null)         s=linkNodeParent;
+ else         return;
+        final Spatial selec=s;
+        selected=selec;
+        java.awt.EventQueue.invokeLater(new Runnable(){
+          @Override public void run(){
+            if (selec != null) {
+              SceneViewerTopComponent.findInstance().setActivatedNodes(new org.openide.nodes.Node[]{rootNode.getChild(selec)});
+              SceneExplorerTopComponent.findInstance().setSelectedNode(rootNode.getChild(selec));
+            }
+ else {
+              SceneViewerTopComponent.findInstance().setActivatedNodes(new org.openide.nodes.Node[]{rootNode});
+              SceneExplorerTopComponent.findInstance().setSelectedNode(rootNode);
+            }
+          }
+        }
+);
+      }
+      toolController.updateSelection(selected);
     }
+    wasDownR=true;
   }
-  if (!pressed) {
-    wasDragging=false;
+ else {
+    wasDownR=false;
+    wasDraggingR=false;
   }
 }

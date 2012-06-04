@@ -1,0 +1,29 @@
+{
+  if (startMouseCoord == null)   startMouseCoord=screenCoord.clone();
+  if (startSelectedCoord == null) {
+    Vector3f screen=getCamera().getScreenCoordinates(selected.getWorldTranslation());
+    startSelectedCoord=new Vector2f(screen.x,screen.y);
+  }
+  if (rotating == null)   rotating=new RotateUndo(selected,selected.getLocalRotation().clone(),null);
+  Vector2f origRot=startMouseCoord.subtract(startSelectedCoord);
+  Vector2f newRot=screenCoord.subtract(startSelectedCoord);
+  float newRotAngle=origRot.angleBetween(newRot);
+  float temp=newRotAngle;
+  if (lastRotAngle != 0)   newRotAngle-=lastRotAngle;
+  lastRotAngle=temp;
+  Quaternion rotate=new Quaternion();
+  if (axis == Axis.x) {
+    rotate=rotate.fromAngleAxis(newRotAngle,Vector3f.UNIT_X);
+  }
+ else   if (axis == Axis.y) {
+    rotate=rotate.fromAngleAxis(newRotAngle,Vector3f.UNIT_Y);
+  }
+ else   if (axis == Axis.z) {
+    rotate=rotate.fromAngleAxis(newRotAngle,Vector3f.UNIT_Z);
+  }
+ else {
+    Vector3f screen=getCamera().getScreenCoordinates(selected.getWorldTranslation());
+    rotate=rotate.fromAngleAxis(newRotAngle,screen.normalize());
+  }
+  selected.setLocalRotation(selected.getLocalRotation().mult(rotate));
+}

@@ -1,0 +1,31 @@
+{
+  if (axis == null) {
+    if (toolController.isSnapToScene()) {
+      if (moving == null)       moving=new MoveUndo(selected,selected.getLocalTranslation().clone(),null);
+      Vector3f loc=pickWorldLocation(camera,screenCoord,rootNode,selectedSpatial);
+      if (loc != null) {
+        if (toolController.isSnapToGrid()) {
+          selected.setLocalTranslation(loc.set(Math.round(loc.x),loc.y,Math.round(loc.z)));
+        }
+ else {
+          selected.setLocalTranslation(loc);
+        }
+      }
+    }
+ else {
+    }
+  }
+ else {
+    if (moving == null)     moving=new MoveUndo(selected,selected.getLocalTranslation().clone(),null);
+    Vector3f loc=pickWorldLocation(camera,screenCoord,rootNode,selectedSpatial);
+    if (loc != null) {
+      if (toolController.isSnapToGrid())       loc.set(Math.round(loc.x),Math.round(loc.y),Math.round(loc.z));
+      Vector3f prev=selected.getLocalTranslation().clone();
+      Vector3f newLoc=new Vector3f(prev);
+      if (axis == Axis.x)       newLoc.x=loc.x;
+ else       if (axis == Axis.y)       newLoc.y=loc.y;
+      if (axis == Axis.z)       newLoc.z=loc.z;
+      selected.setLocalTranslation(newLoc);
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  if (kie.getKeyCode() == KeyInput.KEY_D) {
+    if (ctrlDown && shiftDown) {
+      duplicateSelected();
+      return true;
+    }
+  }
+  if (currentState == null && kie.getKeyCode() == KeyInput.KEY_X) {
+    if (!ctrlDown && !shiftDown) {
+      deleteSelected();
+      return true;
+    }
+  }
+  return false;
+}

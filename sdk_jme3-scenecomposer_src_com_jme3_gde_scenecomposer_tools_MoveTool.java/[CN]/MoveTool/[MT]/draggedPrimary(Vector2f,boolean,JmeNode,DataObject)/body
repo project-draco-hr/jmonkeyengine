@@ -19,7 +19,7 @@
  else     if (pickedPlane.equals(new Vector3f(0,1,1)))     plane.setLocalRotation(YZ);
     plane.setLocalTranslation(startLoc);
   }
-  Vector3f planeHit=pickWorldLocation(camera,screenCoord,plane);
+  Vector3f planeHit=pickWorldLocation(camera,screenCoord,plane,null);
   if (planeHit == null)   return;
   if (offset == null)   offset=planeHit.subtract(startLoc);
   Vector3f newPos=planeHit.subtract(offset);

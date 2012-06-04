@@ -1,24 +1,34 @@
 {
-  if (!pressed && !wasDragging) {
-    final Spatial result=pickWorldSpatial(getCamera(),screenCoord,rootNode);
-    java.awt.EventQueue.invokeLater(new Runnable(){
-      public void run(){
-        if (result != null) {
-          SceneViewerTopComponent.findInstance().setActivatedNodes(new org.openide.nodes.Node[]{rootNode.getChild(result)});
-          SceneExplorerTopComponent.findInstance().setSelectedNode(rootNode.getChild(result));
+  if (!pressed) {
+    if (!wasDraggingL) {
+      if (currentState != null) {
+        if (moving != null) {
+          moving.after=selected.getLocalTranslation().clone();
+          actionPerformed(moving);
+          moving=null;
+          clearState(false);
         }
+ else         if (scaling != null) {
+          scaling.after=selected.getLocalScale().clone();
+          actionPerformed(scaling);
+          scaling=null;
+          clearState(false);
+        }
+ else         if (rotating != null) {
+          rotating.after=selected.getLocalRotation().clone();
+          actionPerformed(rotating);
+          rotating=null;
+          clearState(false);
+        }
+      }
  else {
-          SceneViewerTopComponent.findInstance().setActivatedNodes(new org.openide.nodes.Node[]{rootNode});
-          SceneExplorerTopComponent.findInstance().setSelectedNode(rootNode);
+        final Vector3f result=pickWorldLocation(getCamera(),screenCoord,rootNode);
+        if (result != null) {
+          if (toolController.isSnapToGrid())           result.set(Math.round(result.x),result.y,Math.round(result.z));
+          toolController.doSetCursorLocation(result);
         }
       }
     }
-);
-    if (result != null) {
-      updateToolsTransformation();
-    }
-  }
-  if (!pressed) {
-    wasDragging=false;
+    wasDraggingL=false;
   }
 }

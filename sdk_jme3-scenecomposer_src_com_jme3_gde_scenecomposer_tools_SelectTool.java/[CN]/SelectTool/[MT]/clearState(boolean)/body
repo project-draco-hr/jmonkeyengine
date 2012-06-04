@@ -1,0 +1,15 @@
+{
+  if (resetSelected && selected != null) {
+    if (startRot != null)     selected.setLocalRotation(startRot);
+    if (startTrans != null)     selected.setLocalTranslation(startTrans);
+    if (startScale != null)     selected.setLocalScale(startScale);
+  }
+  currentState=null;
+  currentAxis=null;
+  numberBuilder=new StringBuilder();
+  startRot=null;
+  startTrans=null;
+  startScale=null;
+  startMouseCoord=null;
+  startSelectedCoord=null;
+}
