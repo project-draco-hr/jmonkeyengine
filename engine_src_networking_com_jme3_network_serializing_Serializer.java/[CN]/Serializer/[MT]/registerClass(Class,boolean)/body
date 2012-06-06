@@ -3,17 +3,13 @@
     Serializable serializable=(Serializable)cls.getAnnotation(Serializable.class);
     Class serializerClass=serializable.serializer();
     short classId=serializable.id();
-    if (classId == 0)     classId=--nextId;
+    if (classId == 0)     classId=nextId();
     Serializer serializer=getSerializer(serializerClass,false);
     if (serializer == null)     serializer=fieldSerializer;
     SerializerRegistration existingReg=getExactSerializerRegistration(cls);
     if (existingReg != null)     classId=existingReg.getId();
     SerializerRegistration reg=new SerializerRegistration(serializer,cls,classId);
-    idRegistrations.put(classId,reg);
-    classRegistrations.put(cls,reg);
-    serializer.initialize(cls);
-    log.log(Level.INFO,"Registered class[" + classId + "]:{0}.",cls);
-    return reg;
+    return registerClassForId(classId,cls,serializer);
   }
   if (failOnMiss) {
     throw new IllegalArgumentException("Class is not marked @Serializable:" + cls);
