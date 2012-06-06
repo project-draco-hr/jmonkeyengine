@@ -1,0 +1,8 @@
+{
+  if (data.get() == 0x0)   return null;
+  ClientRegistrationMessage msg=new ClientRegistrationMessage();
+  msg.gameName=StringSerializer.readString(data);
+  msg.id=data.getLong();
+  msg.version=data.getInt();
+  return msg;
+}

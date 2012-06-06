@@ -1,0 +1,7 @@
+{
+  if (data.get() == 0x0)   return null;
+  DisconnectMessage msg=new DisconnectMessage();
+  msg.reason=StringSerializer.readString(data);
+  msg.type=StringSerializer.readString(data);
+  return msg;
+}
