@@ -1,27 +1,4 @@
 {
   String string=(String)object;
-  if (string == null) {
-    buffer.put((byte)0);
-    return;
-  }
-  byte[] stringBytes=string.getBytes("UTF-8");
-  int bufferLength=stringBytes.length;
-  try {
-    if (bufferLength <= Byte.MAX_VALUE) {
-      buffer.put((byte)1);
-      buffer.put((byte)bufferLength);
-    }
- else     if (bufferLength <= Short.MAX_VALUE) {
-      buffer.put((byte)2);
-      buffer.putShort((short)bufferLength);
-    }
- else {
-      buffer.put((byte)3);
-      buffer.putInt(bufferLength);
-    }
-    buffer.put(stringBytes);
-  }
- catch (  BufferOverflowException e) {
-    e.printStackTrace();
-  }
+  writeString(string,buffer);
 }
