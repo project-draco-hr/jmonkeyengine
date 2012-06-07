@@ -5,6 +5,16 @@
       moving=null;
       clearState();
     }
+ else     if (scaling != null) {
+      scaling.sceneUndo();
+      scaling=null;
+      clearState();
+    }
+ else     if (rotating != null) {
+      rotating.sceneUndo();
+      rotating=null;
+      clearState();
+    }
  else     if (!wasDraggingR && !wasDownR) {
       Spatial s=pickWorldSpatial(camera,screenCoord,rootNode);
       if (!toolController.selectTerrain() && isTerrain(s)) {
