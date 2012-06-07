@@ -1,0 +1,16 @@
+{
+  if (SceneApplication.getApplication().isAwt()) {
+    SceneApplication.getApplication().enqueue(new Callable<Object>(){
+      public Object call() throws Exception {
+        doUpdateSelection(selected);
+        return null;
+      }
+    }
+);
+  }
+ else {
+    if (selected != null) {
+      attachSelectionShape(selected);
+    }
+  }
+}

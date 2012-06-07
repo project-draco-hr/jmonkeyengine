@@ -1,6 +1,11 @@
 {
   if (pressed) {
-    if (!wasDraggingR && !wasDownR) {
+    if (moving != null) {
+      moving.sceneUndo();
+      moving=null;
+      clearState();
+    }
+ else     if (!wasDraggingR && !wasDownR) {
       Spatial s=pickWorldSpatial(camera,screenCoord,rootNode);
       if (!toolController.selectTerrain() && isTerrain(s)) {
         selected=null;

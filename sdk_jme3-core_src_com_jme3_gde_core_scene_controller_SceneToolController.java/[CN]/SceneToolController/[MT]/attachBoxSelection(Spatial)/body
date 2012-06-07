@@ -6,15 +6,14 @@
     bbox.getExtent(extent);
     WireBox wireBox=new WireBox();
     wireBox.fromBoundingBox(bbox);
-    selctionShapeOffset.set(bbox.getCenter()).subtractLocal(geom.getWorldTranslation());
     final Geometry selectionGeometry=new Geometry("selection_geometry_sceneviewer",wireBox);
     selectionGeometry.setMaterial(blueMat);
-    selectionGeometry.setLocalTransform(geom.getWorldTransform());
-    selectionGeometry.setLocalTranslation(bbox.getCenter());
-    selectionShape=selectionGeometry;
+    selectionGeometry.setLocalTranslation(bbox.getCenter().subtract(geom.getWorldTranslation()));
+    selectionShape=new Node("SelectionParent");
+    ((Node)selectionShape).attachChild(selectionGeometry);
     SceneApplication.getApplication().enqueue(new Callable<Object>(){
       public Object call() throws Exception {
-        toolsNode.attachChild(selectionGeometry);
+        toolsNode.attachChild(selectionShape);
         return null;
       }
     }
