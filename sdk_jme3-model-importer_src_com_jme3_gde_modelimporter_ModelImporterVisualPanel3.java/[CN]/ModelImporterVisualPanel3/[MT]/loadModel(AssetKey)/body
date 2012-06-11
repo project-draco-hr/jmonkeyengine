@@ -1,0 +1,31 @@
+{
+  try {
+    currentModel=(Spatial)data.loadAsset();
+    if (currentModel != null) {
+      assets=data.getAssetKeyList();
+      failed=data.getFailedList();
+      jList1.setListData(assets.toArray());
+      jList2.setListData(failed.toArray());
+      if (failed.size() > 0) {
+        statusLabel.setText("Model loaded, some assets could not be loaded.");
+        infoTextArea.setText("Check if the model looks as expected," + " some textures fail to load, make sure they are in the same folder or a subfolder of the model." + " Textures that can not be found will be replaced with a red material."+ "\nWith the buttons above you can move the camera.");
+      }
+ else {
+        statusLabel.setText("Model loaded successfully.");
+        infoTextArea.setText("Check if the model looks as expected." + "\nWith the buttons above you can move the camera.");
+      }
+    }
+ else {
+      statusLabel.setText("Model cannot be loaded.");
+      infoTextArea.setText("This file can not be loaded, it is either in an unsupported format or is incompatible." + "\n Check the bottom right corner of the SDK for a little warning sign. If it is there" + " double-click it and report the contained stack trace at jmonkeyengine.org");
+    }
+  }
+ catch (  Exception e) {
+    statusLabel.setText("Error importing file");
+    NotifyDescriptor.Message msg=new NotifyDescriptor.Message("Error importing file!\n" + "(" + e + ")",NotifyDescriptor.ERROR_MESSAGE);
+    DialogDisplayer.getDefault().notifyLater(msg);
+    Exceptions.printStackTrace(e);
+  }
+  manager.clearCache();
+  panel.fireChangeEvent();
+}

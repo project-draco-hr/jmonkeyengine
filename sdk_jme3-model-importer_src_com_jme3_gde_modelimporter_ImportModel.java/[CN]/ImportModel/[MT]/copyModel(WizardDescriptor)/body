@@ -18,8 +18,21 @@
       destFolder.mkdirs();
       FileObject dest=FileUtil.toFileObject(destFolder);
       try {
-        FileObject fileObj=source.copy(dest,source.getName(),source.getExt());
-        if (!(assetKey instanceof TextureKey)) {
+        FileObject fileObj=dest.getFileObject(source.getName(),source.getExt());
+        if (fileObj != null) {
+          NotifyDescriptor.Confirmation msg=new NotifyDescriptor.Confirmation("File " + source.getNameExt() + " exists, overwrite?",NotifyDescriptor.YES_NO_OPTION,NotifyDescriptor.WARNING_MESSAGE);
+          Object result=DialogDisplayer.getDefault().notify(msg);
+          if (NotifyDescriptor.YES_OPTION.equals(result)) {
+            fileObj.delete();
+            fileObj=source.copy(dest,source.getName(),source.getExt());
+          }
+ else {
+          }
+        }
+ else {
+          fileObj=source.copy(dest,source.getName(),source.getExt());
+        }
+        if (!(assetKey instanceof TextureKey) && fileObj != null) {
           deleteList.add(fileObj);
         }
       }

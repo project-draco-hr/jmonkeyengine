@@ -1,0 +1,9 @@
+{
+  manager=(ProjectAssetManager)wiz.getProperty("manager");
+  mainKey=(AssetKey)wiz.getProperty("mainkey");
+  data=(AssetData)wiz.getProperty("assetdata");
+  loadModel(mainKey);
+  if (currentModel != null) {
+    offPanel.attach(currentModel);
+  }
+}
