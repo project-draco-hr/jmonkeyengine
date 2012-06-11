@@ -1,0 +1,30 @@
+{
+  final int MULT=17;
+  numImages=icons.size();
+  int frRate=0;
+  byte[] frame=new byte[0];
+  if (animSeq != null) {
+    for (int i=0; i < animSeq.length; i++) {
+      if (rate != null) {
+        frRate=rate[i] * MULT;
+      }
+ else {
+        frRate=jiffy * MULT;
+      }
+      frame=icons.get(animSeq[i]);
+      addFrame(frame,frRate,jiffy,width,height);
+    }
+  }
+ else {
+    for (int i=0; i < icons.size(); i++) {
+      frame=icons.get(i);
+      if (rate == null) {
+        frRate=jiffy * MULT;
+      }
+ else {
+        frRate=rate[i] * MULT;
+      }
+      addFrame(frame,frRate,jiffy,width,height);
+    }
+  }
+}

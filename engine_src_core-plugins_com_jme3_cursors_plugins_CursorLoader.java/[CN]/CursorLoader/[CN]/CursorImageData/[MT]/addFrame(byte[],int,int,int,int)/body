@@ -1,0 +1,47 @@
+{
+  BufferedImage bi[]=parseICOImage(imgData);
+  int hotspotx=0;
+  int hotspoty=0;
+  int type=imgData[2] | imgData[3];
+  if (type == 2) {
+    hotspotx=imgData[10] | imgData[11];
+    hotspoty=imgData[12] | imgData[13];
+  }
+ else   if (type == 1) {
+    hotspotx=0;
+    hotspoty=0;
+  }
+  if (rate == 0) {
+    rate=jiffy;
+  }
+  CursorImageData cid=new CursorImageData(bi,rate,hotspotx,hotspoty);
+  if (width == 0) {
+    this.width=cid.width;
+  }
+ else {
+    this.width=width;
+  }
+  if (height == 0) {
+    this.height=cid.height;
+  }
+ else {
+    this.height=height;
+  }
+  if (data == null) {
+    data=BufferUtils.createIntBuffer(this.width * this.height * numImages);
+    data.put(cid.data);
+  }
+ else {
+    data.put(cid.data);
+  }
+  if (imgDelay == null && numImages > 1) {
+    imgDelay=BufferUtils.createIntBuffer(numImages);
+    imgDelay.put(cid.imgDelay);
+  }
+ else   if (imgData != null) {
+    imgDelay.put(cid.imgDelay);
+  }
+  xHotSpot=cid.xHotSpot;
+  yHotSpot=cid.yHotSpot;
+  cid=null;
+}

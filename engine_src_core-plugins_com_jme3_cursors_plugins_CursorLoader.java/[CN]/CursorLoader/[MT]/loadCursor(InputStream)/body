@@ -1,0 +1,101 @@
+{
+  byte[] icoimages=new byte[0];
+  if (isAni) {
+    CursorImageData ciDat=new CursorImageData();
+    int numIcons=0;
+    int jiffy=0;
+    int steps=0;
+    int width=0;
+    int height=0;
+    int flag=0;
+    int[] rate=null;
+    int[] animSeq=null;
+    ArrayList<byte[]> icons;
+    DataInput leIn=new LittleEndien(inStream);
+    int riff=leIn.readInt();
+    if (riff == 0x46464952) {
+      leIn.readInt();
+      int nextInt=0;
+      nextInt=getNext(leIn);
+      if (nextInt == 0x4e4f4341) {
+        nextInt=getNext(leIn);
+        while (nextInt >= 0) {
+          if (nextInt == 0x68696e61) {
+            leIn.skipBytes(8);
+            numIcons=leIn.readInt();
+            steps=leIn.readInt();
+            width=leIn.readInt();
+            height=leIn.readInt();
+            leIn.skipBytes(8);
+            jiffy=leIn.readInt();
+            flag=leIn.readInt();
+            nextInt=leIn.readInt();
+          }
+ else           if (nextInt == 0x65746172) {
+            int length=leIn.readInt();
+            rate=new int[length / 4];
+            for (int i=0; i < length / 4; i++) {
+              rate[i]=leIn.readInt();
+            }
+            nextInt=leIn.readInt();
+          }
+ else           if (nextInt == 0x20716573) {
+            int length=leIn.readInt();
+            animSeq=new int[length / 4];
+            for (int i=0; i < length / 4; i++) {
+              animSeq[i]=leIn.readInt();
+            }
+            nextInt=leIn.readInt();
+          }
+ else           if (nextInt == 0x5453494c) {
+            int length=leIn.readInt();
+            nextInt=leIn.readInt();
+            if (nextInt == 0x4f464e49) {
+              nextInt=leIn.readInt();
+            }
+ else             if (nextInt == 0x6d617266) {
+              if (leIn.readInt() == 0x6e6f6369) {
+                int icoLength=leIn.readInt();
+                ciDat.numImages=numIcons;
+                icons=new ArrayList<byte[]>(numIcons);
+                for (int i=0; i < numIcons; i++) {
+                  if (i > 0) {
+                    leIn.skipBytes(8);
+                  }
+                  byte[] data=new byte[icoLength];
+                  ((InputStream)leIn).read(data,0,icoLength);
+                  icons.add(data);
+                }
+                ciDat.assembleCursor(icons,rate,animSeq,jiffy,steps,width,height);
+                ciDat.completeCursor();
+                nextInt=leIn.readInt();
+                nextInt=nextInt > -1 ? -1 : nextInt;
+              }
+            }
+          }
+        }
+      }
+      return setJmeCursor(ciDat);
+    }
+ else     if (riff == 0x58464952) {
+      throw new IllegalArgumentException("Big-Endian RIFX is not supported. Sorry.");
+    }
+ else {
+      throw new IllegalArgumentException("Unknown format.");
+    }
+  }
+ else   if (isIco) {
+    DataInputStream in=new DataInputStream(inStream);
+    int bytesToRead;
+    while ((bytesToRead=in.available()) != 0) {
+      byte[] icoimage2=new byte[icoimages.length + bytesToRead];
+      System.arraycopy(icoimages,0,icoimage2,0,icoimages.length);
+      in.read(icoimage2,icoimages.length,bytesToRead);
+      icoimages=icoimage2;
+    }
+  }
+  BufferedImage bi[]=parseICOImage(icoimages);
+  CursorImageData cid=new CursorImageData(bi,0,0,0);
+  cid.completeCursor();
+  return setJmeCursor(cid);
+}

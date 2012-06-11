@@ -1,0 +1,50 @@
+{
+  IntBuffer singleCursor=null;
+  ArrayList<IntBuffer> cursors=new ArrayList<IntBuffer>();
+  int bwidth=0;
+  int bheight=0;
+  int curType=0;
+  for (int i=0; i < bi.length; i++) {
+    BufferedImage img=bi[i];
+    bwidth=img.getWidth();
+    bheight=img.getHeight();
+    curType=img.getType();
+    if (curType == 1) {
+      hsX=0;
+      hsY=bheight - 1;
+    }
+ else     if (curType == 2) {
+      if (hsY == 0) {
+        hsY=bheight - 1;
+      }
+    }
+ else {
+      throw new IllegalArgumentException("An image contained is not of the right type! Only proper ICO and CUR formats are valid.");
+    }
+    AffineTransform trans=AffineTransform.getScaleInstance(1,-1);
+    trans.translate(0,-img.getHeight(null));
+    AffineTransformOp op=new AffineTransformOp(trans,AffineTransformOp.TYPE_BILINEAR);
+    img=op.filter(img,null);
+    singleCursor=BufferUtils.createIntBuffer(img.getWidth() * img.getHeight());
+    DataBufferInt dataIntBuf=(DataBufferInt)img.getData().getDataBuffer();
+    singleCursor=IntBuffer.wrap(dataIntBuf.getData());
+    cursors.add(singleCursor);
+  }
+  data=BufferUtils.createIntBuffer(bwidth * bheight);
+  imgDelay=BufferUtils.createIntBuffer(bi.length);
+  for (int i=0; i < cursors.size(); i++) {
+    data.put(cursors.get(i));
+    if (delay > 0) {
+      imgDelay.put(delay);
+    }
+  }
+  width=bwidth;
+  height=bheight;
+  xHotSpot=hsX;
+  yHotSpot=hsY;
+  numImages=cursors.size();
+  data.rewind();
+  if (imgDelay != null) {
+    imgDelay.rewind();
+  }
+}
