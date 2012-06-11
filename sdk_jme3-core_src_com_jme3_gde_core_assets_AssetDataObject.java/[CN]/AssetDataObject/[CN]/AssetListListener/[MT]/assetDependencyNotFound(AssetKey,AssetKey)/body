@@ -8,5 +8,7 @@
     assetList.remove(obj);
     assetKeyList.remove(ak1);
   }
-  failedList.add(ak1);
+  if (!failedList.contains(ak1)) {
+    failedList.add(ak1);
+  }
 }
