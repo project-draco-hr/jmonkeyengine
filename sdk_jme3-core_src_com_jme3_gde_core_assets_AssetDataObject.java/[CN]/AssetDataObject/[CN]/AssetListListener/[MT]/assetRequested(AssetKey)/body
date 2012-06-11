@@ -4,7 +4,7 @@
     return;
   }
   FileObject obj=pm.getAssetFolder().getFileObject(ak.getName());
-  if (obj != null) {
+  if (obj != null && !assetList.contains(obj)) {
     assetList.add(obj);
     assetKeyList.add(ak);
   }

@@ -6,6 +6,7 @@
   FileObject obj=pm.getAssetFolder().getFileObject(ak1.getName());
   if (obj != null && assetList.contains(obj)) {
     assetList.remove(obj);
-    failedList.add(ak1);
+    assetKeyList.remove(ak1);
   }
+  failedList.add(ak1);
 }
