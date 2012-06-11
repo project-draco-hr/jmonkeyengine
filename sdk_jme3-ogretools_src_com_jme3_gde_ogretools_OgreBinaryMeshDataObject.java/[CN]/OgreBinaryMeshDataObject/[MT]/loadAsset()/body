@@ -21,7 +21,10 @@
   FileLock lock=null;
   try {
     lock=getPrimaryFile().lock();
+    listListener.start();
     Spatial spatial=mgr.loadModel(assetKey);
+    replaceXmlFiles();
+    listListener.stop();
     savable=spatial;
     lock.releaseLock();
     File deleteFile=new File(options.getDestFile());
