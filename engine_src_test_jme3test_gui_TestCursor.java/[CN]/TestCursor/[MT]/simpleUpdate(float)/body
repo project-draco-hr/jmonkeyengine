@@ -1,0 +1,11 @@
+{
+  long currentTime=System.currentTimeMillis();
+  if (currentTime - sysTime > 8000) {
+    count++;
+    if (count >= cursors.size()) {
+      count=0;
+    }
+    sysTime=currentTime;
+    inputManager.setMouseCursor(cursors.get(count));
+  }
+}
