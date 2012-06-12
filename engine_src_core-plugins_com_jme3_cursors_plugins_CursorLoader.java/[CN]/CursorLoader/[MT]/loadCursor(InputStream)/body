@@ -51,6 +51,7 @@
             int length=leIn.readInt();
             nextInt=leIn.readInt();
             if (nextInt == 0x4f464e49) {
+              leIn.skipBytes(length - 4);
               nextInt=leIn.readInt();
             }
  else             if (nextInt == 0x6d617266) {
@@ -64,6 +65,10 @@
                   }
                   byte[] data=new byte[icoLength];
                   ((InputStream)leIn).read(data,0,icoLength);
+                  if (width == 0 || height == 0 && i == 1) {
+                    width=data[6];
+                    height=data[7];
+                  }
                   icons.add(data);
                 }
                 ciDat.assembleCursor(icons,rate,animSeq,jiffy,steps,width,height);
@@ -95,7 +100,7 @@
     }
   }
   BufferedImage bi[]=parseICOImage(icoimages);
-  CursorImageData cid=new CursorImageData(bi,0,0,0);
+  CursorImageData cid=new CursorImageData(bi,0,0,0,0);
   cid.completeCursor();
   return setJmeCursor(cid);
 }
