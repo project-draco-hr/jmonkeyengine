@@ -1,5 +1,4 @@
 {
-  MeshLoader.AUTO_INTERLEAVE=false;
   assetManager.registerLocator("quake3level.zip",com.jme3.asset.plugins.ZipLocator.class);
   MaterialList matList=(MaterialList)assetManager.loadAsset("Scene.material");
   OgreMeshKey key=new OgreMeshKey("main.meshxml",matList);
@@ -12,8 +11,8 @@
   dl2.setColor(ColorRGBA.White);
   dl2.setDirection(new Vector3f(1,-1,1).normalize());
   rootNode.addLight(dl2);
-  tree=new Octree(scene,50);
-  tree.construct();
+  tree=new Octree(scene);
+  tree.construct(50,0.01f,50);
   ArrayList<Geometry> globalGeomList=new ArrayList<Geometry>();
   tree.createFastOctnodes(globalGeomList);
   tree.generateFastOctnodeLinks();

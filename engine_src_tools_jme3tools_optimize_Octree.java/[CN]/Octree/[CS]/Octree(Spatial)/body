@@ -1,3 +1,24 @@
 {
-  this(scene,11);
+  scene.updateGeometricState();
+  List<Geometry> geomsList=getGeometries(scene);
+  geoms=new Geometry[geomsList.size()];
+  geomsList.toArray(geoms);
+  bbox=new BoundingBox();
+  for (  Geometry geom : geoms) {
+    BoundingVolume bv=geom.getWorldBound();
+    bbox.mergeLocal(bv);
+  }
+  float extent=Math.max(bbox.getXExtent(),Math.max(bbox.getYExtent(),bbox.getZExtent()));
+  bbox.setXExtent(extent);
+  bbox.setYExtent(extent);
+  bbox.setZExtent(extent);
+  Triangle t=new Triangle();
+  for (int g=0; g < geoms.length; g++) {
+    Mesh m=geoms[g].getMesh();
+    for (int i=0; i < m.getTriangleCount(); i++) {
+      m.getTriangle(i,t);
+      OCTTriangle ot=new OCTTriangle(t.get1(),t.get2(),t.get3(),i,g);
+      allTris.add(ot);
+    }
+  }
 }

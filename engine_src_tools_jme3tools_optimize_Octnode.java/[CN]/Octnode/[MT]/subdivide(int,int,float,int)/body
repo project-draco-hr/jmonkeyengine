@@ -1,5 +1,5 @@
 {
-  if (tris == null || depth > 50 || bbox.getVolume() < 0.01f || tris.size() < minTrisPerNode) {
+  if (tris == null || depth > maxDepth || bbox.getVolume() < maxVolume || tris.size() < minTrisPerNode) {
     leaf=true;
     return;
   }
@@ -35,7 +35,7 @@
   for (int i=0; i < 8; i++) {
     if (trisForChild[i].size() > 0) {
       children[i]=new Octnode(boxForChild[i],trisForChild[i]);
-      children[i].subdivide(depth + 1,minTrisPerNode);
+      children[i].subdivide(depth + 1,maxDepth,maxVolume,minTrisPerNode);
     }
   }
 }
