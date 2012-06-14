@@ -1,0 +1,12 @@
+{
+  int removedAssets=0;
+  for (KeyRef ref; (ref=(KeyRef)refQueue.poll()) != null; ) {
+    AssetKey key=ref.clonedKey;
+    if (smartCache.remove(key) != null) {
+      removedAssets++;
+    }
+  }
+  if (removedAssets >= 1) {
+    logger.log(Level.INFO,"WeakRefAssetCache: {0} assets were purged from the cache.",removedAssets);
+  }
+}

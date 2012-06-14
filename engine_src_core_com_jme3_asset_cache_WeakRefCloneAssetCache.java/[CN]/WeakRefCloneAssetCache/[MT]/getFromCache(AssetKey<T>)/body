@@ -1,5 +1,5 @@
 {
-  SmartCachedAsset smartInfo;
+  AssetRef smartInfo;
 synchronized (smartCache) {
     smartInfo=smartCache.get(key);
   }
@@ -7,12 +7,12 @@ synchronized (smartCache) {
     return null;
   }
  else {
-    AssetKey keyForTheClone=smartInfo.key.get();
+    AssetKey keyForTheClone=smartInfo.get();
     if (keyForTheClone == null) {
       return null;
     }
-    ArrayDeque<AssetKey> loadStack=assetLoadStack.get();
-    loadStack.push(keyForTheClone);
+    ArrayList<AssetKey> loadStack=assetLoadStack.get();
+    loadStack.add(keyForTheClone);
     return (T)smartInfo.asset;
   }
 }

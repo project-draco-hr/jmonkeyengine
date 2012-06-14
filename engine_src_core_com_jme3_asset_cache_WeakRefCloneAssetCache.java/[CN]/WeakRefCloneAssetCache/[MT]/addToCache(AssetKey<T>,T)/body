@@ -1,9 +1,9 @@
 {
+  removeCollectedAssets();
   CloneableSmartAsset asset=(CloneableSmartAsset)obj;
   asset.setKey(null);
-synchronized (smartCache) {
-    smartCache.put(key,new SmartCachedAsset(asset,key));
-  }
-  ArrayDeque<AssetKey> loadStack=assetLoadStack.get();
-  loadStack.push(key);
+  KeyRef ref=new KeyRef(originalKey,refQueue);
+  smartCache.put(ref.clonedKey,new AssetRef(asset,originalKey));
+  ArrayList<AssetKey> loadStack=assetLoadStack.get();
+  loadStack.add(originalKey);
 }
