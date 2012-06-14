@@ -5,12 +5,12 @@
     }
     return;
   }
-  if (qName.equals("submesh")) {
+  if (qName.equals("submesh") && !submeshNamesHack) {
     usesBigIndices=false;
     geom=null;
     mesh=null;
   }
- else   if (qName.equals("submeshes")) {
+ else   if (qName.equals("submeshes") && !submeshNamesHack) {
     geom=null;
     mesh=sharedMesh;
     usesSharedVerts=false;
