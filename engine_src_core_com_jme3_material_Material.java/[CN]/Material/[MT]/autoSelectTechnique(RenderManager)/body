@@ -1,13 +1,13 @@
 {
   if (technique == null) {
-    if (!rm.getRenderer().getCaps().contains(Caps.GLSL100)) {
+    if (def.getTechniqueDef("FixedFunc") != null && !rm.getRenderer().getCaps().contains(Caps.GLSL100)) {
       selectTechnique("FixedFunc",rm);
     }
  else {
       selectTechnique("Default",rm);
     }
   }
- else   if (technique.isNeedReload()) {
-    technique.makeCurrent(def.getAssetManager());
+ else {
+    technique.makeCurrent(def.getAssetManager(),false);
   }
 }

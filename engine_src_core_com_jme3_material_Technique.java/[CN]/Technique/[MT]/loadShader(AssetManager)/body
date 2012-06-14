@@ -4,10 +4,6 @@
   allDefines.addFrom(defines);
   ShaderKey key=new ShaderKey(def.getVertexShaderName(),def.getFragmentShaderName(),allDefines,def.getShaderLanguage());
   shader=manager.loadShader(key);
-  if (shader == null) {
-    logger.warning("Failed to reload shader!");
-    return;
-  }
   worldBindUniforms.clear();
   if (def.getWorldBindings() != null) {
     for (    UniformBinding binding : def.getWorldBindings()) {

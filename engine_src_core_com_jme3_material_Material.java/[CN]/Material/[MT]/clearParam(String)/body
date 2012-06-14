@@ -1,21 +1,24 @@
 {
+  checkSetParam(null,name);
   MatParam matParam=getParam(name);
-  if (matParam != null) {
-    paramValues.remove(name);
-    if (technique != null) {
-      technique.notifyClearParam(name);
-    }
-    if (matParam instanceof MatParamTexture) {
-      int texUnit=((MatParamTexture)matParam).getUnit();
-      nextTexUnit--;
-      for (      MatParam param : paramValues.values()) {
-        if (param instanceof MatParamTexture) {
-          MatParamTexture texParam=(MatParamTexture)param;
-          if (texParam.getUnit() > texUnit) {
-            texParam.setUnit(texParam.getUnit() - 1);
-          }
+  if (matParam == null) {
+    return;
+  }
+  paramValues.remove(name);
+  if (matParam instanceof MatParamTexture) {
+    int texUnit=((MatParamTexture)matParam).getUnit();
+    nextTexUnit--;
+    for (    MatParam param : paramValues.values()) {
+      if (param instanceof MatParamTexture) {
+        MatParamTexture texParam=(MatParamTexture)param;
+        if (texParam.getUnit() > texUnit) {
+          texParam.setUnit(texParam.getUnit() - 1);
         }
       }
     }
+    sortingId=-1;
+  }
+  if (technique != null) {
+    technique.notifyParamChanged(name,null,null);
   }
 }

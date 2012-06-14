@@ -1,14 +1,14 @@
 {
-  name=checkSetParam(type,name);
+  checkSetParam(type,name);
   MatParam val=getParam(name);
-  if (technique != null) {
-    technique.notifySetParam(name,type,value);
-  }
   if (val == null) {
     MatParam paramDef=def.getMaterialParam(name);
     paramValues.put(name,new MatParam(type,name,value,paramDef.getFixedFuncBinding()));
   }
  else {
     val.setValue(value);
+  }
+  if (technique != null) {
+    technique.notifyParamChanged(name,type,value);
   }
 }

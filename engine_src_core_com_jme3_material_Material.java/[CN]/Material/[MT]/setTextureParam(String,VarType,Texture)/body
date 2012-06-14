@@ -2,7 +2,7 @@
   if (value == null) {
     throw new IllegalArgumentException();
   }
-  name=checkSetParam(type,name);
+  checkSetParam(type,name);
   MatParamTexture val=getTextureParam(name);
   if (val == null) {
     paramValues.put(name,new MatParamTexture(type,name,value,nextTexUnit++));
@@ -11,7 +11,7 @@
     val.setTextureValue(value);
   }
   if (technique != null) {
-    technique.notifySetParam(name,type,nextTexUnit - 1);
+    technique.notifyParamChanged(name,type,nextTexUnit - 1);
   }
   sortingId=-1;
 }
