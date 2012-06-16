@@ -12,6 +12,7 @@
     tmpVector.set(temp);
     control.setDirection(tmpVector.subtractLocal(control.getSpatial().getLocalTranslation()).normalizeLocal());
   }
+  checkWayPoint(control);
   control.getSpatial().setLocalTranslation(temp);
   vars.release();
   return traveledDistance;

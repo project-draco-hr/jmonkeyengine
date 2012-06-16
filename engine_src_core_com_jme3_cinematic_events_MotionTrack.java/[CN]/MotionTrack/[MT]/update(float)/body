@@ -1,13 +1,5 @@
 {
   if (isControl) {
-    if (playState == PlayState.Playing) {
-      time=time + (tpf * speed);
-      if (time >= initialDuration && loopMode == loopMode.DontLoop) {
-        stop();
-      }
- else {
-        onUpdate(tpf);
-      }
-    }
+    internalUpdate(tpf);
   }
 }
