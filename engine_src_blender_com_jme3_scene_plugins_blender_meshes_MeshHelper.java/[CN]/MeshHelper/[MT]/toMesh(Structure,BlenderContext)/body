@@ -10,10 +10,14 @@
   TextureHelper textureHelper=blenderContext.getHelper(TextureHelper.class);
   String name=structure.getName();
   MeshContext meshContext=new MeshContext();
+  MaterialHelper materialHelper=blenderContext.getHelper(MaterialHelper.class);
+  MaterialContext[] materials=null;
+  if ((blenderContext.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.MATERIALS) != 0) {
+    materials=materialHelper.getMaterials(structure,blenderContext);
+  }
   Vector3f[] vertices=this.getVertices(structure,blenderContext);
-  int verticesAmount=vertices.length;
+  MeshBuilder meshBuilder=new MeshBuilder(vertices,this.areGeneratedTexturesPresent(materials));
   List<byte[]> verticesColors=this.getVerticesColors(structure,blenderContext);
-  Map<Integer,List<Integer>> meshesMap=new HashMap<Integer,List<Integer>>();
   Pointer pMFace=(Pointer)structure.getFieldValue("mface");
   List<Structure> mFaces=null;
   if (pMFace.isNotNull()) {
@@ -26,7 +30,6 @@
     mFaces=new ArrayList<Structure>(0);
   }
   Pointer pMTFace=(Pointer)structure.getFieldValue("mtface");
-  Map<Integer,List<Vector2f>> uvCoordinates=new HashMap<Integer,List<Vector2f>>();
   List<Structure> mtFaces=null;
   if (pMTFace.isNotNull()) {
     mtFaces=pMTFace.fetchData(blenderContext.getInputStream());
@@ -35,12 +38,9 @@
       throw new BlenderFileException("The amount of faces uv coordinates is not equal to faces amount!");
     }
   }
-  Map<Vector3f,Vector3f> normalMap=new HashMap<Vector3f,Vector3f>(verticesAmount);
-  List<Vector3f> normalList=new ArrayList<Vector3f>();
-  List<Vector3f> vertexList=new ArrayList<Vector3f>();
   Map<Integer,Texture> materialNumberToTexture=new HashMap<Integer,Texture>();
-  Map<Integer,List<Integer>> vertexReferenceMap=new HashMap<Integer,List<Integer>>(verticesAmount);
   int vertexColorIndex=0;
+  Vector2f[] uvCoordinatesForFace=new Vector2f[3];
   for (int i=0; i < mFaces.size(); ++i) {
     Structure mFace=mFaces.get(i);
     int matNr=((Number)mFace.getFieldValue("mat_nr")).intValue();
@@ -48,26 +48,16 @@
     DynamicArray<Number> uvs=null;
     boolean materialWithoutTextures=false;
     Pointer pImage=null;
-    List<Vector2f> uvCoordinatesList=uvCoordinates.get(Integer.valueOf(matNr));
-    if (uvCoordinatesList == null) {
-      uvCoordinatesList=new ArrayList<Vector2f>();
-      uvCoordinates.put(Integer.valueOf(matNr),uvCoordinatesList);
-    }
     if (mtFaces != null) {
       Structure mtFace=mtFaces.get(i);
       pImage=(Pointer)mtFace.getFieldValue("tpage");
       materialWithoutTextures=pImage.isNull();
       uvs=(DynamicArray<Number>)mtFace.getFieldValue("uv");
-      uvCoordinatesList.add(new Vector2f(uvs.get(0,0).floatValue(),uvs.get(0,1).floatValue()));
-      uvCoordinatesList.add(new Vector2f(uvs.get(1,0).floatValue(),uvs.get(1,1).floatValue()));
-      uvCoordinatesList.add(new Vector2f(uvs.get(2,0).floatValue(),uvs.get(2,1).floatValue()));
+      uvCoordinatesForFace[0]=new Vector2f(uvs.get(0,0).floatValue(),uvs.get(0,1).floatValue());
+      uvCoordinatesForFace[1]=new Vector2f(uvs.get(1,0).floatValue(),uvs.get(1,1).floatValue());
+      uvCoordinatesForFace[2]=new Vector2f(uvs.get(2,0).floatValue(),uvs.get(2,1).floatValue());
     }
     Integer materialNumber=Integer.valueOf(materialWithoutTextures ? -1 * matNr - 1 : matNr);
-    List<Integer> indexList=meshesMap.get(materialNumber);
-    if (indexList == null) {
-      indexList=new ArrayList<Integer>();
-      meshesMap.put(materialNumber,indexList);
-    }
     if (pImage != null && pImage.isNotNull() && !materialNumberToTexture.containsKey(materialNumber)) {
       Texture texture=textureHelper.getTextureFromImage(pImage.fetchData(blenderContext.getInputStream()).get(0),blenderContext);
       if (texture != null) {
@@ -78,39 +68,14 @@
     int v2=((Number)mFace.getFieldValue("v2")).intValue();
     int v3=((Number)mFace.getFieldValue("v3")).intValue();
     int v4=((Number)mFace.getFieldValue("v4")).intValue();
-    Vector3f n=FastMath.computeNormal(vertices[v1],vertices[v2],vertices[v3]);
-    this.addNormal(n,normalMap,smooth,vertices[v1],vertices[v2],vertices[v3]);
-    normalList.add(normalMap.get(vertices[v1]));
-    normalList.add(normalMap.get(vertices[v2]));
-    normalList.add(normalMap.get(vertices[v3]));
-    this.appendVertexReference(v1,vertexList.size(),vertexReferenceMap);
-    indexList.add(vertexList.size());
-    vertexList.add(vertices[v1]);
-    this.appendVertexReference(v2,vertexList.size(),vertexReferenceMap);
-    indexList.add(vertexList.size());
-    vertexList.add(vertices[v2]);
-    this.appendVertexReference(v3,vertexList.size(),vertexReferenceMap);
-    indexList.add(vertexList.size());
-    vertexList.add(vertices[v3]);
+    meshBuilder.appendFace(v1,v2,v3,smooth,materialNumber,uvs == null ? null : uvCoordinatesForFace);
     if (v4 > 0) {
       if (uvs != null) {
-        uvCoordinatesList.add(new Vector2f(uvs.get(0,0).floatValue(),uvs.get(0,1).floatValue()));
-        uvCoordinatesList.add(new Vector2f(uvs.get(2,0).floatValue(),uvs.get(2,1).floatValue()));
-        uvCoordinatesList.add(new Vector2f(uvs.get(3,0).floatValue(),uvs.get(3,1).floatValue()));
+        uvCoordinatesForFace[0]=new Vector2f(uvs.get(0,0).floatValue(),uvs.get(0,1).floatValue());
+        uvCoordinatesForFace[1]=new Vector2f(uvs.get(2,0).floatValue(),uvs.get(2,1).floatValue());
+        uvCoordinatesForFace[2]=new Vector2f(uvs.get(3,0).floatValue(),uvs.get(3,1).floatValue());
       }
-      this.appendVertexReference(v1,vertexList.size(),vertexReferenceMap);
-      indexList.add(vertexList.size());
-      vertexList.add(vertices[v1]);
-      this.appendVertexReference(v3,vertexList.size(),vertexReferenceMap);
-      indexList.add(vertexList.size());
-      vertexList.add(vertices[v3]);
-      this.appendVertexReference(v4,vertexList.size(),vertexReferenceMap);
-      indexList.add(vertexList.size());
-      vertexList.add(vertices[v4]);
-      this.addNormal(n,normalMap,smooth,vertices[v4]);
-      normalList.add(normalMap.get(vertices[v1]));
-      normalList.add(normalMap.get(vertices[v3]));
-      normalList.add(normalMap.get(vertices[v4]));
+      meshBuilder.appendFace(v1,v3,v4,smooth,materialNumber,uvs == null ? null : uvCoordinatesForFace);
       if (verticesColors != null) {
         verticesColors.add(vertexColorIndex + 3,verticesColors.get(vertexColorIndex));
         verticesColors.add(vertexColorIndex + 4,verticesColors.get(vertexColorIndex + 2));
@@ -124,9 +89,7 @@
       }
     }
   }
-  meshContext.setVertexList(vertexList);
-  meshContext.setVertexReferenceMap(vertexReferenceMap);
-  Vector3f[] normals=normalList.toArray(new Vector3f[normalList.size()]);
+  meshContext.setVertexReferenceMap(meshBuilder.getVertexReferenceMap());
   Structure parent=blenderContext.peekParent();
   Structure defbase=(Structure)parent.getFieldValue("defbase");
   List<Structure> defs=defbase.evaluateListBase(blenderContext);
@@ -135,29 +98,14 @@
   for (  Structure def : defs) {
     verticesGroups[defIndex++]=def.getFieldValue("name").toString();
   }
-  MaterialHelper materialHelper=blenderContext.getHelper(MaterialHelper.class);
-  MaterialContext[] materials=null;
-  if ((blenderContext.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.MATERIALS) != 0) {
-    materials=materialHelper.getMaterials(structure,blenderContext);
-  }
-  geometries=new ArrayList<Geometry>(meshesMap.size());
-  VertexBuffer verticesBuffer=new VertexBuffer(Type.Position);
-  verticesBuffer.setupData(Usage.Static,3,Format.Float,BufferUtils.createFloatBuffer(vertexList.toArray(new Vector3f[vertexList.size()])));
-  VertexBuffer verticesBind=new VertexBuffer(Type.BindPosePosition);
-  verticesBind.setupData(Usage.CpuOnly,3,Format.Float,BufferUtils.clone(verticesBuffer.getData()));
-  VertexBuffer normalsBuffer=new VertexBuffer(Type.Normal);
-  normalsBuffer.setupData(Usage.Static,3,Format.Float,BufferUtils.createFloatBuffer(normals));
-  VertexBuffer normalsBind=new VertexBuffer(Type.BindPoseNormal);
-  normalsBind.setupData(Usage.CpuOnly,3,Format.Float,BufferUtils.clone(normalsBuffer.getData()));
+  geometries=new ArrayList<Geometry>(meshBuilder.getMeshesPartAmount());
   Properties properties=this.loadProperties(structure,blenderContext);
   ByteBuffer verticesColorsBuffer=this.createByteBuffer(verticesColors);
-  verticesAmount=vertexList.size();
-  Map<Mesh,Integer> meshToMAterialMap=new HashMap<Mesh,Integer>(meshesMap.size());
-  for (  Entry<Integer,List<Integer>> meshEntry : meshesMap.entrySet()) {
+  for (  Entry<Integer,List<Integer>> meshEntry : meshBuilder.getMeshesMap().entrySet()) {
+    int materialIndex=meshEntry.getKey();
     Mesh mesh=new Mesh();
-    meshToMAterialMap.put(mesh,meshEntry.getKey());
     List<Integer> indexList=meshEntry.getValue();
-    if (verticesAmount <= Short.MAX_VALUE) {
+    if (meshBuilder.getVerticesAmount(materialIndex) <= Short.MAX_VALUE) {
       short[] indices=new short[indexList.size()];
       for (int i=0; i < indexList.size(); ++i) {
         indices[i]=indexList.get(i).shortValue();
@@ -171,6 +119,14 @@
       }
       mesh.setBuffer(Type.Index,1,indices);
     }
+    VertexBuffer verticesBuffer=new VertexBuffer(Type.Position);
+    verticesBuffer.setupData(Usage.Static,3,Format.Float,BufferUtils.createFloatBuffer(meshBuilder.getVertices(materialIndex)));
+    VertexBuffer verticesBind=new VertexBuffer(Type.BindPosePosition);
+    verticesBind.setupData(Usage.CpuOnly,3,Format.Float,BufferUtils.clone(verticesBuffer.getData()));
+    VertexBuffer normalsBuffer=new VertexBuffer(Type.Normal);
+    normalsBuffer.setupData(Usage.Static,3,Format.Float,BufferUtils.createFloatBuffer(meshBuilder.getNormals(materialIndex)));
+    VertexBuffer normalsBind=new VertexBuffer(Type.BindPoseNormal);
+    normalsBind.setupData(Usage.CpuOnly,3,Format.Float,BufferUtils.clone(normalsBuffer.getData()));
     mesh.setBuffer(verticesBuffer);
     meshContext.setBindPoseBuffer(verticesBind);
     if (verticesColorsBuffer != null) {
@@ -184,25 +140,37 @@
       geometry.setUserData("properties",properties);
     }
     geometries.add(geometry);
+    meshContext.putGeometry(materialIndex,geometry);
   }
   blenderContext.addLoadedFeatures(structure.getOldMemoryAddress(),structure.getName(),structure,geometries);
   blenderContext.setMeshContext(structure.getOldMemoryAddress(),meshContext);
   if (materials != null) {
     for (    Geometry geometry : geometries) {
-      int materialNumber=meshToMAterialMap.get(geometry.getMesh()).intValue();
+      int materialNumber=meshContext.getMaterialIndex(geometry);
+      List<Vector2f> uvCoordinates=meshBuilder.getUVCoordinates(materialNumber);
       boolean noTextures=false;
       if (materialNumber < 0) {
         materialNumber=-1 * (materialNumber + 1);
         noTextures=true;
       }
-      MaterialContext materialContext=materials[materialNumber];
-      materialContext.applyMaterial(geometry,structure.getOldMemoryAddress(),noTextures,uvCoordinates.get(Integer.valueOf(materialNumber)),blenderContext);
+      if (materials[materialNumber] != null) {
+        MaterialContext materialContext=materials[materialNumber];
+        materialContext.applyMaterial(geometry,structure.getOldMemoryAddress(),noTextures,uvCoordinates,blenderContext);
+      }
+ else {
+        geometry.setMaterial(blenderContext.getDefaultMaterial());
+        if (uvCoordinates != null) {
+          VertexBuffer uvCoordsBuffer=new VertexBuffer(Type.TexCoord);
+          uvCoordsBuffer.setupData(Usage.Static,2,Format.Float,BufferUtils.createFloatBuffer(uvCoordinates.toArray(new Vector2f[uvCoordinates.size()])));
+          geometry.getMesh().setBuffer(uvCoordsBuffer);
+        }
+      }
     }
   }
  else {
     VertexBuffer uvCoordsBuffer=null;
-    if (uvCoordinates.size() > 0) {
-      List<Vector2f> uvs=uvCoordinates.get(0);
+    if (meshBuilder.hasUVCoordinates()) {
+      List<Vector2f> uvs=meshBuilder.getUVCoordinates(-1);
       uvCoordsBuffer=new VertexBuffer(Type.TexCoord);
       uvCoordsBuffer.setupData(Usage.Static,2,Format.Float,BufferUtils.createFloatBuffer(uvs.toArray(new Vector2f[uvs.size()])));
     }
@@ -211,11 +179,6 @@
       if (uvCoordsBuffer != null) {
         geometry.getMesh().setBuffer(uvCoordsBuffer);
       }
-    }
-  }
-  if (geometries.size() > 1) {
-    for (    Geometry geom : geometries) {
-      geom.getMesh().extractVertexData(geom.getMesh());
     }
   }
   return geometries;

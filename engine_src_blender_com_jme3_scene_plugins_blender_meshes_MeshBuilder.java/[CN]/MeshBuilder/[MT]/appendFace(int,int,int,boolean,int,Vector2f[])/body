@@ -1,0 +1,84 @@
+{
+  if (uvs != null && uvs.length != 3) {
+    throw new IllegalArgumentException("UV coordinates must be a 3-element array!");
+  }
+  List<Integer> indexList=indexMap.get(materialNumber);
+  if (indexList == null) {
+    indexList=new ArrayList<Integer>();
+    indexMap.put(materialNumber,indexList);
+  }
+  List<Vector3f> vertexList=vertexMap.get(materialNumber);
+  if (vertexList == null) {
+    vertexList=new ArrayList<Vector3f>();
+    vertexMap.put(materialNumber,vertexList);
+  }
+  List<Vector3f> normalList=normalMap.get(materialNumber);
+  if (normalList == null) {
+    normalList=new ArrayList<Vector3f>();
+    normalMap.put(materialNumber,normalList);
+  }
+  Map<Integer,List<Integer>> vertexReferenceMap=globalVertexReferenceMap.get(materialNumber);
+  if (vertexReferenceMap == null) {
+    vertexReferenceMap=new HashMap<Integer,List<Integer>>();
+    globalVertexReferenceMap.put(materialNumber,vertexReferenceMap);
+  }
+  List<Vector2f> uvCoordinatesList=null;
+  if (uvs != null) {
+    uvCoordinatesList=uvCoordinates.get(Integer.valueOf(materialNumber));
+    if (uvCoordinatesList == null) {
+      uvCoordinatesList=new ArrayList<Vector2f>();
+      uvCoordinates.put(Integer.valueOf(materialNumber),uvCoordinatesList);
+    }
+  }
+  Integer[] index=new Integer[]{v1,v2,v3};
+  Vector3f n=FastMath.computeNormal(vertices[v1],vertices[v2],vertices[v3]);
+  this.addNormal(n,globalNormalMap,smooth,vertices[v1],vertices[v2],vertices[v3]);
+  if (smooth && !usesGeneratedTextures) {
+    for (int i=0; i < 3; ++i) {
+      if (!vertexReferenceMap.containsKey(index[i])) {
+        this.appendVertexReference(index[i],vertexList.size(),vertexReferenceMap);
+        vertexList.add(vertices[index[i]]);
+        normalList.add(globalNormalMap.get(vertices[index[i]]));
+        if (uvCoordinatesList != null) {
+          uvsMap.put(vertexList.size(),uvs[i]);
+          uvCoordinatesList.add(uvs[i]);
+        }
+        index[i]=vertexList.size() - 1;
+      }
+ else       if (uvCoordinatesList != null) {
+        boolean vertexAlreadyUsed=false;
+        for (        Integer vertexIndex : vertexReferenceMap.get(index[i])) {
+          if (uvs[i].equals(uvsMap.get(vertexIndex))) {
+            vertexAlreadyUsed=true;
+            index[i]=vertexIndex;
+            break;
+          }
+        }
+        if (!vertexAlreadyUsed) {
+          this.appendVertexReference(index[i],vertexList.size(),vertexReferenceMap);
+          uvsMap.put(vertexList.size(),uvs[i]);
+          vertexList.add(vertices[index[i]]);
+          normalList.add(globalNormalMap.get(vertices[index[i]]));
+          uvCoordinatesList.add(uvs[i]);
+          index[i]=vertexList.size() - 1;
+        }
+      }
+ else {
+        index[i]=vertexList.indexOf(vertices[index[i]]);
+      }
+      indexList.add(index[i]);
+    }
+  }
+ else {
+    for (int i=0; i < 3; ++i) {
+      indexList.add(vertexList.size());
+      this.appendVertexReference(index[i],vertexList.size(),vertexReferenceMap);
+      if (uvCoordinatesList != null) {
+        uvCoordinatesList.add(uvs[i]);
+        uvsMap.put(vertexList.size(),uvs[i]);
+      }
+      vertexList.add(vertices[index[i]]);
+      normalList.add(globalNormalMap.get(vertices[index[i]]));
+    }
+  }
+}

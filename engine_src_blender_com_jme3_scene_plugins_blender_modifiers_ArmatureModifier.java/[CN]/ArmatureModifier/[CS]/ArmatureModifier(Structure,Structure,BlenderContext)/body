@@ -25,9 +25,10 @@
       }
       bonesList.add(0,new Bone(""));
       Bone[] bones=bonesList.toArray(new Bone[bonesList.size()]);
-      Skeleton skeleton=new Skeleton(bones);
+      skeleton=new Skeleton(bones);
+      this.objectStructure=objectStructure;
+      this.meshStructure=meshStructure;
       this.meshOMA=meshStructure.getOldMemoryAddress();
-      this.readVerticesWeightsData(objectStructure,meshStructure,skeleton,blenderContext);
       ArrayList<Animation> animations=new ArrayList<Animation>();
       List<FileBlockHeader> actionHeaders=blenderContext.getFileBlocks(Integer.valueOf(FileBlockHeader.BLOCK_AC00));
       if (actionHeaders != null) {

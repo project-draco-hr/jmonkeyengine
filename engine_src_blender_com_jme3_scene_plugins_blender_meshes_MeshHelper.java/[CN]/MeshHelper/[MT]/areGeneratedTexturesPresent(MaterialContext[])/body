@@ -1,0 +1,10 @@
+{
+  if (materials != null) {
+    for (    MaterialContext material : materials) {
+      if (material != null && material.hasGeneratedTextures()) {
+        return true;
+      }
+    }
+  }
+  return false;
+}

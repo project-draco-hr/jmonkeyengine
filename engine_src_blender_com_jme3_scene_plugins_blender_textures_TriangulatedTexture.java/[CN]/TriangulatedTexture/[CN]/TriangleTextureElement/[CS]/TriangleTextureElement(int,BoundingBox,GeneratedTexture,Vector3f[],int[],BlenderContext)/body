@@ -1,0 +1,44 @@
+{
+  this.faceIndex=faceIndex;
+  float width=boundingBox.getXExtent() * 2;
+  float height=boundingBox.getYExtent() * 2;
+  float depth=boundingBox.getZExtent() * 2;
+  Vector3f min=boundingBox.getMin(null);
+  Vector3f v1=min.add(uv[uvIndices[0]].x * width,uv[uvIndices[0]].y * height,uv[uvIndices[0]].z * depth);
+  Vector3f v2=min.add(uv[uvIndices[1]].x * width,uv[uvIndices[1]].y * height,uv[uvIndices[1]].z * depth);
+  Vector3f v3=min.add(uv[uvIndices[2]].x * width,uv[uvIndices[2]].y * height,uv[uvIndices[2]].z * depth);
+  RectangleEnvelope envelope=this.getTriangleEnvelope(v1,v2,v3);
+  Format imageFormat=texture.getImage().getFormat();
+  int imageWidth=(int)(envelope.width * blenderContext.getBlenderKey().getGeneratedTexturePPU());
+  if (imageWidth == 0) {
+    imageWidth=1;
+  }
+  int imageHeight=(int)(envelope.height * blenderContext.getBlenderKey().getGeneratedTexturePPU());
+  if (imageHeight == 0) {
+    imageHeight=1;
+  }
+  ByteBuffer data=BufferUtils.createByteBuffer(imageWidth * imageHeight * (imageFormat.getBitsPerPixel() >> 3));
+  image=new Image(texture.getImage().getFormat(),imageWidth,imageHeight,data);
+  PixelInputOutput pixelWriter=PixelIOFactory.getPixelIO(imageFormat);
+  TexturePixel pixel=new TexturePixel();
+  float[] uvs=new float[3];
+  Vector3f point=new Vector3f(envelope.min);
+  Vector3f vecY=new Vector3f();
+  Vector3f wDelta=new Vector3f(envelope.w).multLocal(1.0f / imageWidth);
+  Vector3f hDelta=new Vector3f(envelope.h).multLocal(1.0f / imageHeight);
+  for (int x=0; x < imageWidth; ++x) {
+    for (int y=0; y < imageHeight; ++y) {
+      this.toTextureUV(boundingBox,point,uvs);
+      texture.getPixel(pixel,uvs[0],uvs[1],uvs[2]);
+      pixelWriter.write(image,0,pixel,x,y);
+      point.addLocal(hDelta);
+    }
+    vecY.addLocal(wDelta);
+    point.set(envelope.min).addLocal(vecY);
+  }
+  this.uv=new Vector2f[3];
+  this.uv[0]=new Vector2f(FastMath.clamp(v1.subtract(envelope.min).length(),0,Float.MAX_VALUE) / envelope.height,0);
+  Vector3f heightDropPoint=v2.subtract(envelope.w);
+  this.uv[1]=new Vector2f(1,heightDropPoint.subtractLocal(envelope.min).length() / envelope.height);
+  this.uv[2]=new Vector2f(0,1);
+}

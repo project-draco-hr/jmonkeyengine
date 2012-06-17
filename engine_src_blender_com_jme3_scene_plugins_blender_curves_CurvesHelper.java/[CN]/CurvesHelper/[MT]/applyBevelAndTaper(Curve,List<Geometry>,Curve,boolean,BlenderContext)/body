@@ -1,6 +1,5 @@
 {
   float[] curvePoints=BufferUtils.getFloatArray(curve.getFloatBuffer(Type.Position));
-  MeshHelper meshHelper=blenderContext.getHelper(MeshHelper.class);
   float curveLength=curve.getLength();
   float[] taperPoints=null;
   float taperLength=0;
@@ -93,7 +92,7 @@
     int[] allIndices=BufferUtils.getIntArray(indexBuffers[geomIndex]);
     for (int i=0; i < allIndices.length - 3; i+=3) {
       Vector3f n=FastMath.computeNormal(allVerts[allIndices[i]],allVerts[allIndices[i + 1]],allVerts[allIndices[i + 2]]);
-      meshHelper.addNormal(n,normalMap,smooth,allVerts[allIndices[i]],allVerts[allIndices[i + 1]],allVerts[allIndices[i + 2]]);
+      this.addNormal(n,normalMap,smooth,allVerts[allIndices[i]],allVerts[allIndices[i + 1]],allVerts[allIndices[i + 2]]);
     }
     if (normalBuffers[geomIndex] == null) {
       normalBuffers[geomIndex]=BufferUtils.createFloatBuffer(allVerts.length * 3);

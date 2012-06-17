@@ -7,20 +7,30 @@
   }
   List<Geometry> geomList=(List<Geometry>)blenderContext.getLoadedFeature(meshOMA,LoadedFeatureDataType.LOADED_FEATURE);
   MeshContext meshContext=blenderContext.getMeshContext(meshOMA);
+  int[] bonesGroups=new int[]{0};
   for (  Geometry geom : geomList) {
+    int materialIndex=meshContext.getMaterialIndex(geom);
     Mesh mesh=geom.getMesh();
-    if (meshContext.getBindNormalBuffer() != null) {
-      mesh.setBuffer(meshContext.getBindNormalBuffer());
+    try {
+      VertexBuffer[] buffers=this.readVerticesWeightsData(objectStructure,meshStructure,skeleton,materialIndex,bonesGroups,blenderContext);
+      if (buffers != null) {
+        mesh.setMaxNumWeights(bonesGroups[0]);
+        mesh.setBuffer(buffers[0]);
+        mesh.setBuffer(buffers[1]);
+        if (meshContext.getBindNormalBuffer() != null) {
+          mesh.setBuffer(meshContext.getBindNormalBuffer());
+        }
+        if (meshContext.getBindPoseBuffer() != null) {
+          mesh.setBuffer(meshContext.getBindPoseBuffer());
+        }
+        mesh.getBuffer(Type.Position).setUsage(Usage.Stream);
+        mesh.getBuffer(Type.Normal).setUsage(Usage.Stream);
+      }
     }
-    if (meshContext.getBindPoseBuffer() != null) {
-      mesh.setBuffer(meshContext.getBindPoseBuffer());
-    }
-    mesh.getBuffer(Type.Position).setUsage(Usage.Stream);
-    mesh.getBuffer(Type.Normal).setUsage(Usage.Stream);
-    if (this.verticesWeights != null) {
-      mesh.setMaxNumWeights(this.boneGroups);
-      mesh.setBuffer(this.verticesWeights);
-      mesh.setBuffer(this.verticesWeightsIndices);
+ catch (    BlenderFileException e) {
+      LOGGER.log(Level.SEVERE,e.getLocalizedMessage(),e);
+      this.invalid=true;
+      return node;
     }
   }
   ArmatureHelper armatureHelper=blenderContext.getHelper(ArmatureHelper.class);
