@@ -37,7 +37,9 @@
   view.setFocusableInTouchMode(true);
   view.setFocusable(true);
   view.getHolder().setType(SurfaceHolder.SURFACE_TYPE_GPU);
-  view.setZOrderOnTop(true);
+  if (configType == ConfigType.BEST_TRANSLUCENT) {
+    view.setZOrderOnTop(true);
+  }
   view.setRenderer(this);
   return view;
 }

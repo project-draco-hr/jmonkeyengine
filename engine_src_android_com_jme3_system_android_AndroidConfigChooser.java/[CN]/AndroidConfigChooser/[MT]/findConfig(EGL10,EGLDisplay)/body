@@ -1,37 +1,41 @@
 {
-  if (type == ConfigType.BEST) {
-    ComponentSizeChooser compChooser=new ComponentSizeChooser(8,8,8,8,32,0);
-    choosenConfig=compChooser.chooseConfig(egl,display);
-    if (choosenConfig == null) {
-      compChooser=new ComponentSizeChooser(8,8,8,0,32,0);
-      choosenConfig=compChooser.chooseConfig(egl,display);
-      if (choosenConfig == null) {
-        compChooser=new ComponentSizeChooser(8,8,8,8,16,0);
-        choosenConfig=compChooser.chooseConfig(egl,display);
-        if (choosenConfig == null) {
-          compChooser=new ComponentSizeChooser(8,8,8,0,16,0);
-          choosenConfig=compChooser.chooseConfig(egl,display);
-        }
-      }
-    }
-    logger.info("JME3 using best EGL configuration available here: ");
-  }
+  ComponentSizeChooser compChooser=null;
+switch (type) {
+case BEST:
+    compChooser=new ComponentSizeChooser(8,8,8,0,32,0);
+  choosenConfig=compChooser.chooseConfig(egl,display);
+if (choosenConfig == null) {
+  compChooser=new ComponentSizeChooser(8,8,8,0,16,0);
+  choosenConfig=compChooser.chooseConfig(egl,display);
+}
+logger.info("JME3 using best EGL configuration available here: ");
+break;
+case BEST_TRANSLUCENT:
+compChooser=new ComponentSizeChooser(8,8,8,8,32,0);
+choosenConfig=compChooser.chooseConfig(egl,display);
+if (choosenConfig == null) {
+compChooser=new ComponentSizeChooser(8,8,8,8,16,0);
+choosenConfig=compChooser.chooseConfig(egl,display);
+}
+logger.info("JME3 using best EGL configuration available here with translucent pixels: ");
+break;
+case FASTEST:
+compChooser=new ComponentSizeChooser(5,6,5,0,16,0);
+choosenConfig=compChooser.chooseConfig(egl,display);
+logger.info("JME3 using fastest EGL configuration available here: ");
+break;
+}
+if (choosenConfig != null) {
+logger.info("JME3 using choosen config: ");
+logEGLConfig(choosenConfig,display,egl);
+pixelFormat=getPixelFormat(choosenConfig,display,egl);
+clientOpenGLESVersion=getOpenGLVersion(choosenConfig,display,egl);
+return true;
+}
  else {
-    ComponentSizeChooser compChooser=new ComponentSizeChooser(5,6,5,0,16,0);
-    choosenConfig=compChooser.chooseConfig(egl,display);
-    logger.info("JME3 using fastest EGL configuration available here: ");
-  }
-  if (choosenConfig != null) {
-    logger.info("JME3 using choosen config: ");
-    logEGLConfig(choosenConfig,display,egl);
-    pixelFormat=getPixelFormat(choosenConfig,display,egl);
-    clientOpenGLESVersion=getOpenGLVersion(choosenConfig,display,egl);
-    return true;
-  }
- else {
-    logger.severe("ERROR: Unable to get a valid OpenGL ES 2.0 config, neither Fastest nor Best found! Bug. Please report this.");
-    clientOpenGLESVersion=1;
-    pixelFormat=PixelFormat.UNKNOWN;
-    return false;
-  }
+logger.severe("ERROR: Unable to get a valid OpenGL ES 2.0 config, neither Fastest nor Best found! Bug. Please report this.");
+clientOpenGLESVersion=1;
+pixelFormat=PixelFormat.UNKNOWN;
+return false;
+}
 }
