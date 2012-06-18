@@ -1,0 +1,8 @@
+def toggle_physics_debug(self):
+    self._physics_debug = (not self._physics_debug)
+    self.proc.stdin.write('physicsdebug\n')
+    try:
+        self.proc.stdin.flush()
+    except:
+        global TundraSingleton
+        TundraSingleton = None

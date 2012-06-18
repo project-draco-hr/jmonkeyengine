@@ -1,0 +1,11 @@
+def save_config():
+    print 'saving config....'
+    if os.path.isdir(CONFIG_PATH):
+        try:
+            with open(CONFIG_FILEPATH, 'wb') as f:
+                pickle.dump(CONFIG, f, (-1))
+                print 'SAVED CONFIG'
+        except:
+            print ('IO ERROR, can not write: %s' % CONFIG_FILEPATH)
+    else:
+        print ('ERROR: config path is missing %s' % CONFIG_PATH)

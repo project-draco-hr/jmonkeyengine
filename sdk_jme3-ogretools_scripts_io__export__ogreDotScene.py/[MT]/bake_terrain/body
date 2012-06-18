@@ -1,0 +1,30 @@
+def bake_terrain(ob, normalize=True):
+    assert (ob.collision_mode == 'TERRAIN')
+    terrain = None
+    for child in ob.children:
+        if (child.subcollision and child.name.startswith('TERRAIN')):
+            terrain = child
+            break
+    assert terrain
+    data = terrain.to_mesh(bpy.context.scene, True, 'PREVIEW')
+    raw = [v.co.z for v in data.vertices]
+    Zmin = min(raw)
+    Zmax = max(raw)
+    depth = (Zmax - Zmin)
+    m = (1.0 / depth)
+    rows = []
+    i = 0
+    for x in range(ob.collision_terrain_x_steps):
+        row = []
+        for y in range(ob.collision_terrain_y_steps):
+            v = data.vertices[i]
+            if normalize:
+                z = ((v.co.z - Zmin) * m)
+            else:
+                z = v.co.z
+            row.append(z)
+            i += 1
+        if (x % 2):
+            row.reverse()
+        rows.append(row)
+    return {'data': rows, 'min': Zmin, 'max': Zmax, 'depth': depth, }

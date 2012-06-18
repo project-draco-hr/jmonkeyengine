@@ -1,0 +1,56 @@
+def tundra_mesh(self, e, ob, url, exported_meshes):
+    if self.EX_MESH:
+        murl = os.path.join(os.path.split(url)[0], ('%s.mesh' % ob.data.name))
+        exists = os.path.isfile(murl)
+        if ((not exists) or (exists and self.EX_MESH_OVERWRITE)):
+            if (ob.data.name not in exported_meshes):
+                exported_meshes.append(ob.data.name)
+                self.dot_mesh(ob, os.path.split(url)[0])
+    doc = e.document
+    proto = 'local://'
+    if ob.find_armature():
+        c = doc.createElement('component')
+        e.appendChild(c)
+        c.setAttribute('type', 'EC_AnimationController')
+        c.setAttribute('sync', '1')
+    c = doc.createElement('component')
+    e.appendChild(c)
+    c.setAttribute('type', 'EC_Mesh')
+    c.setAttribute('sync', '1')
+    a = doc.createElement('attribute')
+    c.appendChild(a)
+    a.setAttribute('name', 'Mesh ref')
+    a.setAttribute('value', ('%s%s.mesh' % (proto, ob.data.name)))
+    a = doc.createElement('attribute')
+    c.appendChild(a)
+    a.setAttribute('name', 'Mesh materials')
+    mymaterials = ob.data.materials
+    if ((mymaterials is not None) and (len(mymaterials) > 0)):
+        mymatstring = ''
+        for mymat in mymaterials:
+            if (mymat is None):
+                continue
+            mymatstring += ((proto + material_name(mymat)) + '.material;')
+        mymatstring = mymatstring[:(-1)]
+        a.setAttribute('value', mymatstring)
+    else:
+        a.setAttribute('value', '')
+    if ob.find_armature():
+        a = doc.createElement('attribute')
+        c.appendChild(a)
+        a.setAttribute('name', 'Skeleton ref')
+        a.setAttribute('value', ('%s%s.skeleton' % (proto, ob.data.name)))
+    a = doc.createElement('attribute')
+    c.appendChild(a)
+    a.setAttribute('name', 'Draw distance')
+    if ob.use_draw_distance:
+        a.setAttribute('value', ob.draw_distance)
+    else:
+        a.setAttribute('value', '0')
+    a = doc.createElement('attribute')
+    c.appendChild(a)
+    a.setAttribute('name', 'Cast shadows')
+    if ob.cast_shadows:
+        a.setAttribute('value', 'true')
+    else:
+        a.setAttribute('value', 'false')

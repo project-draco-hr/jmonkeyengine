@@ -1,0 +1,10 @@
+def select_group(context, name, options={}):
+    for ob in bpy.context.scene.objects:
+        ob.select = False
+    for grp in bpy.data.groups:
+        if (grp.name == name):
+            bpy.context.scene.objects.active = grp.objects[0]
+            for ob in grp.objects:
+                ob.select = True
+        else:
+            pass

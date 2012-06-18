@@ -1,0 +1,20 @@
+@staticmethod
+def create_material_passes(mat, n=8, textures=True):
+    mat.use_nodes = True
+    tree = mat.node_tree
+    nodes = bpyShaders.get_subnodes(tree, 'MATERIAL')
+    if (nodes and (not nodes[0].material)):
+        nodes[0].material = mat
+    r = []
+    x = 680
+    for i in range(n):
+        node = tree.nodes.new(type='MATERIAL_EXT')
+        node.name = ('GEN.%s' % i)
+        node.location.x = x
+        node.location.y = 640
+        r.append(node)
+        x += 220
+    if textures:
+        texnodes = bpyShaders.create_texture_nodes(mat)
+        print texnodes
+    return r

@@ -1,0 +1,153 @@
+def ogre_export(self, url, context, force_material_update=[]):
+    global CONFIG
+    for name in dir(self):
+        if name.startswith('EX_'):
+            CONFIG[name[3:]] = getattr(self, name)
+    Report.reset()
+    print ('ogre export->', url)
+    prefix = url.split('.')[0]
+    path = os.path.split(url)[0]
+    objects = []
+    linkedgroups = []
+    for ob in bpy.context.scene.objects:
+        if ob.subcollision:
+            continue
+        if (self.EX_SELONLY and (not ob.select)):
+            if ((ob.type == 'CAMERA') and self.EX_FORCE_CAMERA):
+                pass
+            elif ((ob.type == 'LAMP') and self.EX_FORCE_LAMPS):
+                pass
+            else:
+                continue
+        if ((ob.type == 'EMPTY') and ob.dupli_group and (ob.dupli_type == 'GROUP')):
+            linkedgroups.append(ob)
+        else:
+            objects.append(ob)
+    temps = []
+    for e in linkedgroups:
+        grp = e.dupli_group
+        subs = []
+        for o in grp.objects:
+            if (o.type == 'MESH'):
+                subs.append(o)
+            elif ((o.type == 'EMPTY') and o.dupli_group and (o.dupli_type == 'GROUP')):
+                ss = []
+                for oo in o.dupli_group.objects:
+                    if (oo.type == 'MESH'):
+                        ss.append(oo)
+                    elif ((oo.type == 'EMPTY') and oo.dupli_group and (oo.dupli_type == 'GROUP')):
+                        sss = []
+                        for ooo in oo.dupli_group.objects:
+                            if (ooo.type == 'MESH'):
+                                sss.append(ooo)
+                        if sss:
+                            m = merge_objects(sss, name=oo.name, transform=oo.matrix_world)
+                            subs.append(m)
+                            temps.append(m)
+                if ss:
+                    m = merge_objects(ss, name=o.name, transform=o.matrix_world)
+                    subs.append(m)
+                    temps.append(m)
+        if subs:
+            m = merge_objects(subs, name=e.name, transform=e.matrix_world)
+            objects.append(m)
+            temps.append(m)
+    mgroups = []
+    mobjects = []
+    for ob in objects:
+        group = get_merge_group(ob)
+        if group:
+            for member in group.objects:
+                if (member not in mobjects):
+                    mobjects.append(member)
+            if (group not in mgroups):
+                mgroups.append(group)
+    for rem in mobjects:
+        if (rem in objects):
+            objects.remove(rem)
+    for group in mgroups:
+        merged = merge_group(group)
+        objects.append(merged)
+        temps.append(merged)
+
+    def _flatten(_c, _f):
+        if (_c.parent in objects):
+            _f.append(_c.parent)
+        if _c.parent:
+            _flatten(_c.parent, _f)
+        else:
+            _f.append(_c)
+    roots = []
+    meshes = []
+    for ob in objects:
+        flat = []
+        _flatten(ob, flat)
+        root = flat[(-1)]
+        if (root not in roots):
+            roots.append(root)
+        if (ob.type == 'MESH'):
+            meshes.append(ob)
+    mesh_collision_prims = {}
+    mesh_collision_files = {}
+    exported_meshes = []
+    if self.EX_MATERIALS:
+        material_file_name_base = os.path.split(url)[1].replace('.scene', '').replace('.txml', '')
+        material_files = self.dot_material((meshes + force_material_update), path, material_file_name_base)
+    else:
+        material_files = []
+    if (self.EXPORT_TYPE == 'REX'):
+        rex = self.create_tundra_document(context)
+        proxies = []
+        for ob in objects:
+            if (ob.type == 'LAMP'):
+                TE = self.tundra_entity(rex, ob, path=path, collision_proxies=proxies)
+                self.tundra_light(TE, ob)
+            elif (ob.type == 'SPEAKER'):
+                TE = self.tundra_entity(rex, ob, path=path, collision_proxies=proxies)
+            elif ((ob.type == 'MESH') and len(ob.data.tessfaces)):
+                if (ob.modifiers and (ob.modifiers[0].type == 'MULTIRES') and ob.use_multires_lod):
+                    mod = ob.modifiers[0]
+                    basename = ob.name
+                    dataname = ob.data.name
+                    ID = uid(ob)
+                    TE = self.tundra_entity(rex, ob, path=path, collision_proxies=proxies)
+                    for level in range((mod.total_levels + 1)):
+                        ob.uid += 1
+                        mod.levels = level
+                        ob.name = ('%s.LOD%s' % (basename, level))
+                        ob.data.name = ('%s.LOD%s' % (dataname, level))
+                        TE = self.tundra_entity(rex, ob, path=path, collision_proxies=proxies, parent=basename, matrix=mathutils.Matrix(), visible=False)
+                        self.tundra_mesh(TE, ob, url, exported_meshes)
+                    ob.uid = ID
+                    ob.name = basename
+                    ob.data.name = dataname
+                else:
+                    TE = self.tundra_entity(rex, ob, path=path, collision_proxies=proxies)
+                    self.tundra_mesh(TE, ob, url, exported_meshes)
+        for proxy in proxies:
+            self.dot_mesh(proxy, path=os.path.split(url)[0], force_name=('_collision_%s' % proxy.data.name))
+        if self.EX_SCENE:
+            if (not url.endswith('.txml')):
+                url += '.txml'
+            data = rex.toprettyxml()
+            f = open(url, 'wb')
+            f.write(bytes(data, 'utf-8'))
+            f.close()
+            print ('realxtend scene dumped', url)
+    elif (self.EXPORT_TYPE == 'OGRE'):
+        doc = self.create_ogre_document(context, material_files)
+        for root in roots:
+            print ('--------------- exporting root ->', root)
+            self._node_export(root, url=url, doc=doc, exported_meshes=exported_meshes, meshes=meshes, mesh_collision_prims=mesh_collision_prims, mesh_collision_files=mesh_collision_files, prefix=prefix, objects=objects, xmlparent=doc._scene_nodes)
+        if self.EX_SCENE:
+            if (not url.endswith('.scene')):
+                url += '.scene'
+            data = doc.toprettyxml()
+            f = open(url, 'wb')
+            f.write(bytes(data, 'utf-8'))
+            f.close()
+            print ('ogre scene dumped', url)
+    for ob in temps:
+        context.scene.objects.unlink(ob)
+    bpy.ops.wm.call_menu(name='MiniReport')
+    save_config()

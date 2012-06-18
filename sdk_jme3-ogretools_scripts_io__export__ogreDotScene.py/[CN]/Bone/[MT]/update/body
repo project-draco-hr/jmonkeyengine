@@ -1,0 +1,15 @@
+def update(self):
+    pose = self.bone.matrix.copy()
+    self._inverse_total_trans_pose = pose.inverted()
+    if self.parent:
+        pose = (self.parent._inverse_total_trans_pose * pose)
+    elif self.fixUpAxis:
+        pose = (self.flipMat * pose)
+    else:
+        pass
+    self.pose_location = (pose.to_translation() - self.ogre_rest_matrix.to_translation())
+    pose = (self.inverse_ogre_rest_matrix * pose)
+    self.pose_rotation = pose.to_quaternion()
+    self.pose_scale = pose.to_scale()
+    for child in self.children:
+        child.update()

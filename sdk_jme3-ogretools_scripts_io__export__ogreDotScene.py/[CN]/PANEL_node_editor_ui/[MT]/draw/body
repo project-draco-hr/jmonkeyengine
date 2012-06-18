@@ -1,0 +1,12 @@
+def draw(self, context):
+    layout = self.layout
+    topmat = context.space_data.id
+    mat = topmat.active_node_material
+    if ((not mat) or (topmat.name == mat.name)):
+        self.bl_label = topmat.name
+        if (not topmat.use_material_passes):
+            layout.operator('ogre.force_setup_material_passes', text='Ogre Material Layers', icon='SCENE_DATA')
+        ogre_material_panel(layout, topmat, show_programs=False)
+    elif mat:
+        self.bl_label = mat.name
+        ogre_material_panel(layout, mat, topmat, show_programs=False)

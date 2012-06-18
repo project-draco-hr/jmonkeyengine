@@ -1,0 +1,4 @@
+def export_menu_func_realxtend(self, context):
+    (path, name) = os.path.split(context.blend_data.filepath)
+    op = self.layout.operator(INFO_OT_createRealxtendExport.bl_idname, text='RealXtend (.txml and .mesh)')
+    op.filepath = os.path.join(path, (name.split('.')[0] + '.txml'))

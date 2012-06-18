@@ -1,0 +1,35 @@
+def OgreXMLConverter(infile, has_uvs=False):
+    print ('[Ogre Tools Wrapper]', infile)
+    exe = CONFIG['OGRETOOLS_XML_CONVERTER']
+    if (not os.path.isfile(exe)):
+        print 'WARNING: can not find OgreXMLConverter (can not convert XXX.mesh.xml to XXX.mesh'
+        return
+    basicArguments = ''
+    if CONFIG['lodLevels']:
+        basicArguments += (' -l %s -v %s -p %s' % (CONFIG['lodLevels'], CONFIG['lodDistance'], CONFIG['lodPercent']))
+    if (CONFIG['nuextremityPoints'] > 0):
+        basicArguments += (' -x %s' % CONFIG['nuextremityPoints'])
+    if (not CONFIG['generateEdgeLists']):
+        basicArguments += ' -e'
+    if (CONFIG['generateTangents'] and has_uvs):
+        basicArguments += ' -t'
+        if CONFIG['tangentSemantic']:
+            basicArguments += (' -td %s' % CONFIG['tangentSemantic'])
+        if CONFIG['tangentUseParity']:
+            basicArguments += (' -ts %s' % CONFIG['tangentUseParity'])
+        if CONFIG['tangentSplitMirrored']:
+            basicArguments += ' -tm'
+        if CONFIG['tangentSplitRotated']:
+            basicArguments += ' -tr'
+    if (not CONFIG['reorganiseBuffers']):
+        basicArguments += ' -r'
+    if (not CONFIG['optimiseAnimations']):
+        basicArguments += ' -o'
+    opts = ('-log _ogre_debug.txt %s' % basicArguments)
+    (path, name) = os.path.split(infile)
+    cmd = ('%s %s' % (exe, opts))
+    print ('-' * 80)
+    print cmd
+    print ('_' * 80)
+    cmd = (cmd.split() + [infile])
+    subprocess.call(cmd)

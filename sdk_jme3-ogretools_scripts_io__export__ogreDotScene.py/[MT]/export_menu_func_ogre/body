@@ -1,0 +1,4 @@
+def export_menu_func_ogre(self, context):
+    (path, name) = os.path.split(context.blend_data.filepath)
+    op = self.layout.operator(INFO_OT_createOgreExport.bl_idname, text='Ogre3D (.scene and .mesh)')
+    op.filepath = os.path.join(path, (name.split('.')[0] + '.scene'))

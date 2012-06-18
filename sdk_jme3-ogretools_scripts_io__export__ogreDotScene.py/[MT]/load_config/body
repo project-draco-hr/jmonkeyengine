@@ -1,0 +1,30 @@
+def load_config():
+    global CONFIG
+    if os.path.isfile(CONFIG_FILEPATH):
+        try:
+            with open(CONFIG_FILEPATH, 'rb') as f:
+                CONFIG = pickle.load(f)
+                print 'CONFIG LOADED'
+        except:
+            print ('IO ERROR, can not read: %s' % CONFIG_FILEPATH)
+    for tag in _CONFIG_DEFAULTS_ALL:
+        if (tag not in CONFIG):
+            CONFIG[tag] = _CONFIG_DEFAULTS_ALL[tag]
+    for tag in _CONFIG_TAGS_:
+        if (tag not in CONFIG):
+            if sys.platform.startswith('win'):
+                CONFIG[tag] = _CONFIG_DEFAULTS_WINDOWS[tag]
+            elif (sys.platform.startswith('linux') or sys.platform.startswith('darwin') or sys.platform.startswith('freebsd')):
+                CONFIG[tag] = _CONFIG_DEFAULTS_UNIX[tag]
+            else:
+                print 'ERROR: unknown platform'
+                assert 0
+    for tag in _CONFIG_TAGS_:
+        default = CONFIG[tag]
+        func = eval(('lambda self,con: CONFIG.update( {"%s" : self.%s} )' % (tag, tag)))
+        if (type(default) is bool):
+            prop = BoolProperty(name=tag, description='updates bool setting', default=default, options={'SKIP_SAVE'}, update=func)
+        else:
+            prop = StringProperty(name=tag, description='updates path setting', maxlen=128, default=default, options={'SKIP_SAVE'}, update=func)
+        setattr(bpy.types.WindowManager, tag, prop)
+    return CONFIG

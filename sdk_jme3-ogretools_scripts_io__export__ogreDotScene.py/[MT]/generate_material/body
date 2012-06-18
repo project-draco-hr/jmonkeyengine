@@ -1,0 +1,21 @@
+def generate_material(mat, path='/tmp', copy_programs=False, touch_textures=False):
+    ' returns generated material string '
+    safename = material_name(mat)
+    M = ('// blender material: %s\n' % mat.name)
+    M += ('material %s \n{\n' % safename)
+    if mat.use_shadows:
+        M += indent(1, 'receive_shadows on')
+    else:
+        M += indent(1, 'receive_shadows off')
+    M += indent(1, 'technique', '{')
+    w = OgreMaterialGenerator(mat, path=path, touch_textures=touch_textures)
+    if copy_programs:
+        progs = w.get_active_programs()
+        for prog in progs:
+            prog.save(path)
+    header = w.get_header()
+    passes = w.get_passes()
+    M += '\n'.join(passes)
+    M += indent(1, '}')
+    M += '}\n'
+    return ((header + '\n') + M)

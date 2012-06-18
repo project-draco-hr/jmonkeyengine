@@ -1,0 +1,10 @@
+def threadsafe(self, reg):
+    if (not TundraSingleton):
+        return
+    if (not self.ready.locked()):
+        self.ready.acquire()
+        time.sleep(0.0001)
+        while self.ready.locked():
+            time.sleep(0.0001)
+    else:
+        pass

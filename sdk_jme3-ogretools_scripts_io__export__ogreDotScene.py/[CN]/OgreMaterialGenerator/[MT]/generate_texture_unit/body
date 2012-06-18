@@ -1,0 +1,119 @@
+def generate_texture_unit(self, texture, slot=None, name=None, uv_layer=None):
+    if (not hasattr(texture, 'image')):
+        print ('WARNING: texture must be of type IMAGE->', texture)
+        return ''
+    if (not texture.image):
+        print ('WARNING: texture has no image assigned->', texture)
+        return ''
+    if (slot and (not slot.use)):
+        return ''
+    path = self.path
+    M = ''
+    _alphahack = None
+    if (not name):
+        name = ''
+    M += indent(3, ('texture_unit %s' % name), '{')
+    if texture.library:
+        libpath = os.path.split(bpy.path.abspath(texture.library.filepath))[0]
+        iurl = bpy.path.abspath(texture.image.filepath, libpath)
+    else:
+        iurl = bpy.path.abspath(texture.image.filepath)
+    postname = texname = os.path.split(iurl)[(-1)]
+    destpath = path
+    if texture.image.packed_file:
+        orig = texture.image.filepath
+        iurl = os.path.join(path, texname)
+        if ('.' not in iurl):
+            print 'WARNING: packed image is of unknown type - assuming PNG format'
+            iurl += '.png'
+            texname = postname = os.path.split(iurl)[(-1)]
+        if (not os.path.isfile(iurl)):
+            if self.touch_textures:
+                print ('MESSAGE: unpacking image: ', iurl)
+                texture.image.filepath = iurl
+                texture.image.save()
+                texture.image.filepath = orig
+        else:
+            print ('MESSAGE: packed image already in temp, not updating', iurl)
+    if is_image_postprocessed(texture.image):
+        postname = self._reformat(texname, texture.image)
+        print ('MESSAGE: image postproc', postname)
+    M += indent(4, ('texture %s' % postname))
+    exmode = texture.extension
+    if (exmode in TextureUnit.tex_address_mode):
+        M += indent(4, ('tex_address_mode %s' % TextureUnit.tex_address_mode[exmode]))
+    if slot:
+        if (exmode == 'CLIP'):
+            M += indent(4, ('tex_border_colour %s %s %s' % (slot.color.r, slot.color.g, slot.color.b)))
+        M += indent(4, ('scale %s %s' % ((1.0 / slot.scale.x), (1.0 / slot.scale.y))))
+        if (slot.texture_coords == 'REFLECTION'):
+            if (slot.mapping == 'SPHERE'):
+                M += indent(4, 'env_map spherical')
+            elif (slot.mapping == 'FLAT'):
+                M += indent(4, 'env_map planar')
+            else:
+                print ('WARNING: <%s> has a non-UV mapping type (%s) and not picked a proper projection type of: Sphere or Flat' % (texture.name, slot.mapping))
+        (ox, oy, oz) = slot.offset
+        if (ox or oy):
+            M += indent(4, ('scroll %s %s' % (ox, oy)))
+        if oz:
+            M += indent(4, ('rotate %s' % oz))
+        if slot.use_from_dupli:
+            M += indent(4, ('rotate_anim %s' % slot.emission_color_factor))
+        if slot.use_map_scatter:
+            M += indent(4, ('scroll_anim %s %s ' % (slot.density_factor, slot.emission_factor)))
+        if slot.uv_layer:
+            idx = find_uv_layer_index(slot.uv_layer, self.material)
+            M += indent(4, ('tex_coord_set %s' % idx))
+        rgba = False
+        if (texture.image.depth == 32):
+            rgba = True
+        btype = slot.blend_type
+        ex = False
+        texop = None
+        if (btype in TextureUnit.colour_op):
+            if ((btype == 'MIX') and slot.use_map_alpha and (not slot.use_stencil)):
+                if (slot.diffuse_color_factor >= 1.0):
+                    texop = 'alpha_blend'
+                else:
+                    texop = TextureUnit.colour_op[btype]
+                    ex = True
+            elif ((btype == 'MIX') and slot.use_map_alpha and slot.use_stencil):
+                texop = 'blend_current_alpha'
+                ex = True
+            elif ((btype == 'MIX') and (not slot.use_map_alpha) and slot.use_stencil):
+                texop = 'blend_texture_alpha'
+                ex = True
+            else:
+                texop = TextureUnit.colour_op[btype]
+        elif (btype in TextureUnit.colour_op_ex):
+            texop = TextureUnit.colour_op_ex[btype]
+            ex = True
+        if (texop and ex):
+            if (texop == 'blend_manual'):
+                factor = (1.0 - slot.diffuse_color_factor)
+                M += indent(4, ('colour_op_ex %s src_texture src_current %s' % (texop, factor)))
+            else:
+                M += indent(4, ('colour_op_ex %s src_texture src_current' % texop))
+        elif texop:
+            M += indent(4, ('colour_op %s' % texop))
+    elif uv_layer:
+        idx = find_uv_layer_index(uv_layer)
+        M += indent(4, ('tex_coord_set %s' % idx))
+    M += indent(3, '}')
+    if self.touch_textures:
+        if (not os.path.isfile(iurl)):
+            Report.warnings.append(('missing texture: %s' % iurl))
+        else:
+            desturl = os.path.join(destpath, texname)
+            updated = False
+            if ((not os.path.isfile(desturl)) or (os.stat(desturl).st_mtime < os.stat(iurl).st_mtime)):
+                f = open(desturl, 'wb')
+                f.write(open(iurl, 'rb').read())
+                f.close()
+                updated = True
+            posturl = os.path.join(destpath, postname)
+            if is_image_postprocessed(texture.image):
+                if ((not os.path.isfile(posturl)) or updated):
+                    self.image_magick(texture, desturl)
+    return M

@@ -1,0 +1,193 @@
+def to_xml(self):
+    _fps = float(bpy.context.scene.render.fps)
+    doc = RDocument()
+    root = doc.createElement('skeleton')
+    doc.appendChild(root)
+    bones = doc.createElement('bones')
+    root.appendChild(bones)
+    bh = doc.createElement('bonehierarchy')
+    root.appendChild(bh)
+    for (i, bone) in enumerate(self.bones):
+        b = doc.createElement('bone')
+        b.setAttribute('name', bone.name)
+        b.setAttribute('id', str(i))
+        bones.appendChild(b)
+        mat = bone.ogre_rest_matrix.copy()
+        if bone.parent:
+            bp = doc.createElement('boneparent')
+            bp.setAttribute('bone', bone.name)
+            bp.setAttribute('parent', bone.parent.name)
+            bh.appendChild(bp)
+        pos = doc.createElement('position')
+        b.appendChild(pos)
+        (x, y, z) = mat.to_translation()
+        pos.setAttribute('x', ('%6f' % x))
+        pos.setAttribute('y', ('%6f' % y))
+        pos.setAttribute('z', ('%6f' % z))
+        rot = doc.createElement('rotation')
+        b.appendChild(rot)
+        q = mat.to_quaternion()
+        rot.setAttribute('angle', ('%6f' % q.angle))
+        axis = doc.createElement('axis')
+        rot.appendChild(axis)
+        (x, y, z) = q.axis
+        axis.setAttribute('x', ('%6f' % x))
+        axis.setAttribute('y', ('%6f' % y))
+        axis.setAttribute('z', ('%6f' % z))
+        if 0:
+            scale = doc.createElement('scale')
+            b.appendChild(scale)
+            (x, y, z) = swap(mat.to_scale())
+            scale.setAttribute('x', str(x))
+            scale.setAttribute('y', str(y))
+            scale.setAttribute('z', str(z))
+    arm = self.arm
+    if ((not arm.animation_data) or (arm.animation_data and (not arm.animation_data.nla_tracks))):
+        anims = doc.createElement('animations')
+        root.appendChild(anims)
+        anim = doc.createElement('animation')
+        anims.appendChild(anim)
+        tracks = doc.createElement('tracks')
+        anim.appendChild(tracks)
+        anim.setAttribute('name', 'my_animation')
+        start = bpy.context.scene.frame_start
+        end = bpy.context.scene.frame_end
+        anim.setAttribute('length', str(((end - start) / _fps)))
+        _keyframes = {}
+        _bonenames_ = []
+        for bone in arm.pose.bones:
+            if self.get_bone(bone.name):
+                _bonenames_.append(bone.name)
+                track = doc.createElement('track')
+                track.setAttribute('bone', bone.name)
+                tracks.appendChild(track)
+                keyframes = doc.createElement('keyframes')
+                track.appendChild(keyframes)
+                _keyframes[bone.name] = keyframes
+        for frame in range(int(start), (int(end) + 1), bpy.context.scene.frame_step):
+            bpy.context.scene.frame_set(frame)
+            for bone in self.roots:
+                bone.update()
+            print ('\t\t Frame:', frame)
+            for bonename in _bonenames_:
+                if self.get_bone(bonename):
+                    bone = self.get_bone(bonename)
+                    _loc = bone.pose_location
+                    _rot = bone.pose_rotation
+                    _scl = bone.pose_scale
+                    keyframe = doc.createElement('keyframe')
+                    keyframe.setAttribute('time', str(((frame - start) / _fps)))
+                    _keyframes[bonename].appendChild(keyframe)
+                    trans = doc.createElement('translate')
+                    keyframe.appendChild(trans)
+                    (x, y, z) = _loc
+                    trans.setAttribute('x', ('%6f' % x))
+                    trans.setAttribute('y', ('%6f' % y))
+                    trans.setAttribute('z', ('%6f' % z))
+                    rot = doc.createElement('rotate')
+                    keyframe.appendChild(rot)
+                    q = _rot
+                    rot.setAttribute('angle', ('%6f' % q.angle))
+                    axis = doc.createElement('axis')
+                    rot.appendChild(axis)
+                    (x, y, z) = q.axis
+                    axis.setAttribute('x', ('%6f' % x))
+                    axis.setAttribute('y', ('%6f' % y))
+                    axis.setAttribute('z', ('%6f' % z))
+                    scale = doc.createElement('scale')
+                    keyframe.appendChild(scale)
+                    (x, y, z) = _scl
+                    scale.setAttribute('x', ('%6f' % x))
+                    scale.setAttribute('y', ('%6f' % y))
+                    scale.setAttribute('z', ('%6f' % z))
+    elif arm.animation_data:
+        anims = doc.createElement('animations')
+        root.appendChild(anims)
+        if (not len(arm.animation_data.nla_tracks)):
+            Report.warnings.append(('you must assign an NLA strip to armature (%s) that defines the start and end frames' % arm.name))
+        if CONFIG['INDEPENDENT_ANIM']:
+            for nla in arm.animation_data.nla_tracks:
+                nla.mute = True
+        for nla in arm.animation_data.nla_tracks:
+            if (not len(nla.strips)):
+                print ('skipping empty NLA track: %s' % nla.name)
+                continue
+            print ('NLA track:', nla.name)
+            if CONFIG['INDEPENDENT_ANIM']:
+                nla.mute = False
+                for strip in nla.strips:
+                    strip.mute = True
+            for strip in nla.strips:
+                if CONFIG['INDEPENDENT_ANIM']:
+                    strip.mute = False
+                print ('   strip name:', strip.name)
+                anim = doc.createElement('animation')
+                anims.appendChild(anim)
+                tracks = doc.createElement('tracks')
+                anim.appendChild(tracks)
+                Report.armature_animations.append(('%s : %s [start frame=%s  end frame=%s]' % (arm.name, nla.name, strip.frame_start, strip.frame_end)))
+                anim.setAttribute('name', strip.name)
+                anim.setAttribute('length', str(((strip.frame_end - strip.frame_start) / _fps)))
+                stripbones = []
+                if CONFIG['ONLY_ANIMATED_BONES']:
+                    for group in strip.action.groups:
+                        if (group.name in arm.pose.bones):
+                            stripbones.append(group.name)
+                    if (not stripbones):
+                        stripbones = [bone.name for bone in arm.pose.bones]
+                else:
+                    stripbones = [bone.name for bone in arm.pose.bones]
+                _keyframes = {}
+                for bonename in stripbones:
+                    if self.get_bone(bonename):
+                        track = doc.createElement('track')
+                        track.setAttribute('bone', bonename)
+                        tracks.appendChild(track)
+                        keyframes = doc.createElement('keyframes')
+                        track.appendChild(keyframes)
+                        _keyframes[bonename] = keyframes
+                for frame in range(int(strip.frame_start), (int(strip.frame_end) + 1), bpy.context.scene.frame_step):
+                    bpy.context.scene.frame_set(frame)
+                    for bone in self.roots:
+                        bone.update()
+                    for bonename in stripbones:
+                        if self.get_bone(bonename):
+                            bone = self.get_bone(bonename)
+                            _loc = bone.pose_location
+                            _rot = bone.pose_rotation
+                            _scl = bone.pose_scale
+                            keyframe = doc.createElement('keyframe')
+                            keyframe.setAttribute('time', str(((frame - strip.frame_start) / _fps)))
+                            _keyframes[bonename].appendChild(keyframe)
+                            trans = doc.createElement('translate')
+                            keyframe.appendChild(trans)
+                            (x, y, z) = _loc
+                            trans.setAttribute('x', ('%6f' % x))
+                            trans.setAttribute('y', ('%6f' % y))
+                            trans.setAttribute('z', ('%6f' % z))
+                            rot = doc.createElement('rotate')
+                            keyframe.appendChild(rot)
+                            q = _rot
+                            rot.setAttribute('angle', ('%6f' % q.angle))
+                            axis = doc.createElement('axis')
+                            rot.appendChild(axis)
+                            (x, y, z) = q.axis
+                            axis.setAttribute('x', ('%6f' % x))
+                            axis.setAttribute('y', ('%6f' % y))
+                            axis.setAttribute('z', ('%6f' % z))
+                            scale = doc.createElement('scale')
+                            keyframe.appendChild(scale)
+                            (x, y, z) = _scl
+                            scale.setAttribute('x', ('%6f' % x))
+                            scale.setAttribute('y', ('%6f' % y))
+                            scale.setAttribute('z', ('%6f' % z))
+                if CONFIG['INDEPENDENT_ANIM']:
+                    strip.mute = True
+            if CONFIG['INDEPENDENT_ANIM']:
+                nla.mute = True
+                for strip in nla.strips:
+                    strip.mute = False
+        if CONFIG['INDEPENDENT_ANIM']:
+            for nla in arm.animation_data.nla_tracks:
+                nla.mute = False
+    return doc.toprettyxml()

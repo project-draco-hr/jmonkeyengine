@@ -1,0 +1,10 @@
+def indent(level, *args):
+    if (not args):
+        return ('\t' * level)
+    else:
+        a = ''
+        for line in args:
+            a += ('    ' * level)
+            a += line
+            a += '\n'
+        return a

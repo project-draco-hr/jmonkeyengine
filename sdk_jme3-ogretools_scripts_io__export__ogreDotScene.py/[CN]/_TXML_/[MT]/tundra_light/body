@@ -1,0 +1,74 @@
+def tundra_light(self, e, ob):
+    '\n            <component type="EC_Light" sync="1">\n            <attribute value="1" name="light type"/>\n            <attribute value="1 1 1 1" name="diffuse color"/>\n            <attribute value="1 1 1 1" name="specular color"/>\n            <attribute value="true" name="cast shadows"/>\n            <attribute value="29.9999828" name="light range"/>\n            <attribute value="1" name="brightness"/>\n            <attribute value="0" name="constant atten"/>\n            <attribute value="1" name="linear atten"/>\n            <attribute value="0" name="quadratic atten"/>\n            <attribute value="30" name="light inner angle"/>\n            <attribute value="40" name="light outer angle"/>\n            </component>\n        '
+    if (ob.data.type not in 'POINT SPOT'.split()):
+        return
+    doc = e.document
+    c = doc.createElement('component')
+    e.appendChild(c)
+    c.setAttribute('type', 'EC_Light')
+    c.setAttribute('sync', '1')
+    a = doc.createElement('attribute')
+    c.appendChild(a)
+    a.setAttribute('name', 'light type')
+    if (ob.data.type == 'POINT'):
+        a.setAttribute('value', '0')
+    elif (ob.data.type == 'SPOT'):
+        a.setAttribute('value', '1')
+    (R, G, B) = ob.data.color
+    a = doc.createElement('attribute')
+    c.appendChild(a)
+    a.setAttribute('name', 'diffuse color')
+    if ob.data.use_diffuse:
+        a.setAttribute('value', ('%s %s %s 1' % (R, G, B)))
+    else:
+        a.setAttribute('value', '0 0 0 1')
+    a = doc.createElement('attribute')
+    c.appendChild(a)
+    a.setAttribute('name', 'specular color')
+    if ob.data.use_specular:
+        a.setAttribute('value', ('%s %s %s 1' % (R, G, B)))
+    else:
+        a.setAttribute('value', '0 0 0 1')
+    a = doc.createElement('attribute')
+    c.appendChild(a)
+    a.setAttribute('name', 'cast shadows')
+    if (ob.data.type == 'HEMI'):
+        a.setAttribute('value', 'false')
+    elif (ob.data.shadow_method != 'NOSHADOW'):
+        a.setAttribute('value', 'true')
+    else:
+        a.setAttribute('value', 'false')
+    a = doc.createElement('attribute')
+    c.appendChild(a)
+    a.setAttribute('name', 'light range')
+    a.setAttribute('value', (ob.data.distance * 2))
+    a = doc.createElement('attribute')
+    c.appendChild(a)
+    a.setAttribute('name', 'brightness')
+    a.setAttribute('value', ob.data.energy)
+    a = doc.createElement('attribute')
+    c.appendChild(a)
+    a.setAttribute('name', 'constant atten')
+    a.setAttribute('value', '0')
+    a = doc.createElement('attribute')
+    c.appendChild(a)
+    a.setAttribute('name', 'linear atten')
+    energy = ob.data.energy
+    if (energy <= 0.0):
+        energy = 0.001
+    a.setAttribute('value', ((1.0 / energy) * 0.25))
+    a = doc.createElement('attribute')
+    c.appendChild(a)
+    a.setAttribute('name', 'quadratic atten')
+    a.setAttribute('value', '0.0')
+    if (ob.data.type == 'SPOT'):
+        outer = (math.degrees(ob.data.spot_size) / 2.0)
+        inner = (outer * (1.0 - ob.data.spot_blend))
+        a = doc.createElement('attribute')
+        c.appendChild(a)
+        a.setAttribute('name', 'light inner angle')
+        a.setAttribute('value', ('%s' % inner))
+        a = doc.createElement('attribute')
+        c.appendChild(a)
+        a.setAttribute('name', 'light outer angle')
+        a.setAttribute('value', ('%s' % outer))

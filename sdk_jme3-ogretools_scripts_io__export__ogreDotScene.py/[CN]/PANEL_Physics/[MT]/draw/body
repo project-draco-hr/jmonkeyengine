@@ -1,0 +1,25 @@
+def draw(self, context):
+    layout = self.layout
+    ob = context.active_object
+    game = ob.game
+    if (ob.type != 'MESH'):
+        return
+    elif (ob.subcollision == True):
+        box = layout.box()
+        if ob.parent:
+            box.label(text=('object is a collision proxy for: %s' % ob.parent.name))
+        else:
+            box.label(text='WARNING: collision proxy missing parent')
+        return
+    box = layout.box()
+    box.prop(ob, 'physics_mode')
+    if (ob.physics_mode != 'NONE'):
+        box.prop(game, 'mass', text='Mass')
+        box.prop(ob, 'physics_friction', text='Friction', slider=True)
+        box.prop(ob, 'physics_bounce', text='Bounce', slider=True)
+        box.label(text='Damping:')
+        box.prop(game, 'damping', text='Translation', slider=True)
+        box.prop(game, 'rotation_damping', text='Rotation', slider=True)
+        box.label(text='Velocity:')
+        box.prop(game, 'velocity_min', text='Minimum')
+        box.prop(game, 'velocity_max', text='Maximum')

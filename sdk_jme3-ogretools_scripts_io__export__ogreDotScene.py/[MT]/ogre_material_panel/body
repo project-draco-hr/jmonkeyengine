@@ -1,0 +1,50 @@
+def ogre_material_panel(layout, mat, parent=None, show_programs=True):
+    box = layout.box()
+    header = box.row()
+    header.prop(mat, 'ogre_scene_blend', text='')
+    if (mat.ogre_scene_blend and ('alpha' in mat.ogre_scene_blend)):
+        row = box.row()
+        if mat.use_transparency:
+            row.prop(mat, 'use_transparency', text='')
+            row.prop(mat, 'alpha')
+        else:
+            row.prop(mat, 'use_transparency', text='Transparent')
+    if (not parent):
+        return
+    header.prop(mat, 'use_ogre_parent_material', icon='FILE_SCRIPT', text='')
+    if mat.use_ogre_parent_material:
+        row = box.row()
+        row.prop(mat, 'ogre_parent_material', text='')
+        s = get_ogre_user_material(mat.ogre_parent_material)
+        if (s and (s.vertex_programs or s.fragment_programs)):
+            progs = s.get_programs()
+            split = box.row()
+            texnodes = None
+            if parent:
+                texnodes = bpyShaders.get_texture_subnodes(parent, submaterial=mat)
+            elif mat.node_tree:
+                texnodes = bpyShaders.get_texture_subnodes(mat)
+            if (not progs):
+                bx = split.box()
+                bx.label(text='(missing shader programs)', icon='ERROR')
+            elif (s.texture_units and texnodes):
+                bx = split.box()
+                for (i, name) in enumerate(s.texture_units_order):
+                    if (i < len(texnodes)):
+                        row = bx.row()
+                        tex = texnodes[i]
+                        row.prop(tex, 'texture', text=name)
+                        if parent:
+                            inputs = bpyShaders.get_connected_input_nodes(parent, tex)
+                            if inputs:
+                                geo = inputs[0]
+                                assert (geo.type == 'GEOMETRY')
+                                row.prop(geo, 'uv_layer', text='UV')
+                    else:
+                        print ('WARNING: no slot for texture unit:', name)
+            if (show_programs and (s.vertex_programs or s.fragment_programs)):
+                bx = box.box()
+                for name in s.vertex_programs:
+                    bx.label(text=name)
+                for name in s.fragment_programs:
+                    bx.label(text=name)
