@@ -50,6 +50,24 @@
           }
         }
       }
+      Pointer pAction=(Pointer)objectStructure.getFieldValue("action");
+      if (pAction.isNotNull()) {
+        Structure actionStructure=pAction.fetchData(blenderContext.getInputStream()).get(0);
+        String actionName=actionStructure.getName();
+        BoneTrack[] tracks=armatureHelper.getTracks(actionStructure,skeleton,blenderContext);
+        if (tracks != null && tracks.length > 0) {
+          float maximumTrackLength=0;
+          for (          BoneTrack track : tracks) {
+            float length=track.getLength();
+            if (length > maximumTrackLength) {
+              maximumTrackLength=length;
+            }
+          }
+          Animation boneAnimation=new Animation(actionName,maximumTrackLength);
+          boneAnimation.setTracks(tracks);
+          animations.add(boneAnimation);
+        }
+      }
       animData=new AnimData(skeleton,animations);
       for (      Bone bone : bones) {
         Long boneOma=armatureHelper.getBoneOMA(bone);
