@@ -1,4 +1,7 @@
 {
+  if (processor == null) {
+    throw new IllegalArgumentException("Processor cannot be null.");
+  }
   processors.remove(processor);
   processor.cleanup();
 }
