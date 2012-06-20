@@ -104,7 +104,7 @@
       if (nurbGeoms != null) {
         for (        Geometry nurbGeom : nurbGeoms) {
           if (materialContexts != null) {
-            materialContexts[nurbEntry.getKey().intValue()].applyMaterial(nurbGeom,curveStructure.getOldMemoryAddress(),false,null,blenderContext);
+            materialContexts[nurbEntry.getKey().intValue()].applyMaterial(nurbGeom,curveStructure.getOldMemoryAddress(),null,blenderContext);
           }
  else {
             nurbGeom.setMaterial(defaultMaterial);

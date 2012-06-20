@@ -7,7 +7,6 @@
     }
     return copiedGeometries;
   }
-  TextureHelper textureHelper=blenderContext.getHelper(TextureHelper.class);
   String name=structure.getName();
   MeshContext meshContext=new MeshContext();
   MaterialHelper materialHelper=blenderContext.getHelper(MaterialHelper.class);
@@ -38,31 +37,19 @@
       throw new BlenderFileException("The amount of faces uv coordinates is not equal to faces amount!");
     }
   }
-  Map<Integer,Texture> materialNumberToTexture=new HashMap<Integer,Texture>();
   int vertexColorIndex=0;
   Vector2f[] uvCoordinatesForFace=new Vector2f[3];
   for (int i=0; i < mFaces.size(); ++i) {
     Structure mFace=mFaces.get(i);
-    int matNr=((Number)mFace.getFieldValue("mat_nr")).intValue();
+    int materialNumber=((Number)mFace.getFieldValue("mat_nr")).intValue();
     boolean smooth=(((Number)mFace.getFieldValue("flag")).byteValue() & 0x01) != 0x00;
     DynamicArray<Number> uvs=null;
-    boolean materialWithoutTextures=false;
-    Pointer pImage=null;
     if (mtFaces != null) {
       Structure mtFace=mtFaces.get(i);
-      pImage=(Pointer)mtFace.getFieldValue("tpage");
-      materialWithoutTextures=pImage.isNull();
       uvs=(DynamicArray<Number>)mtFace.getFieldValue("uv");
       uvCoordinatesForFace[0]=new Vector2f(uvs.get(0,0).floatValue(),uvs.get(0,1).floatValue());
       uvCoordinatesForFace[1]=new Vector2f(uvs.get(1,0).floatValue(),uvs.get(1,1).floatValue());
       uvCoordinatesForFace[2]=new Vector2f(uvs.get(2,0).floatValue(),uvs.get(2,1).floatValue());
-    }
-    Integer materialNumber=Integer.valueOf(materialWithoutTextures ? -1 * matNr - 1 : matNr);
-    if (pImage != null && pImage.isNotNull() && !materialNumberToTexture.containsKey(materialNumber)) {
-      Texture texture=textureHelper.getTextureFromImage(pImage.fetchData(blenderContext.getInputStream()).get(0),blenderContext);
-      if (texture != null) {
-        materialNumberToTexture.put(materialNumber,texture);
-      }
     }
     int v1=((Number)mFace.getFieldValue("v1")).intValue();
     int v2=((Number)mFace.getFieldValue("v2")).intValue();
@@ -147,30 +134,17 @@
   if (materials != null) {
     for (    Geometry geometry : geometries) {
       int materialNumber=meshContext.getMaterialIndex(geometry);
-      List<Vector2f> uvCoordinates=meshBuilder.getUVCoordinates(materialNumber);
-      boolean noTextures=false;
-      if (materialNumber < 0) {
-        materialNumber=-1 * (materialNumber + 1);
-        noTextures=true;
-      }
       if (materials[materialNumber] != null) {
+        List<Vector2f> uvCoordinates=meshBuilder.getUVCoordinates(materialNumber);
         MaterialContext materialContext=materials[materialNumber];
-        materialContext.applyMaterial(geometry,structure.getOldMemoryAddress(),noTextures,uvCoordinates,blenderContext);
-      }
- else {
-        geometry.setMaterial(blenderContext.getDefaultMaterial());
-        if (uvCoordinates != null) {
-          VertexBuffer uvCoordsBuffer=new VertexBuffer(Type.TexCoord);
-          uvCoordsBuffer.setupData(Usage.Static,2,Format.Float,BufferUtils.createFloatBuffer(uvCoordinates.toArray(new Vector2f[uvCoordinates.size()])));
-          geometry.getMesh().setBuffer(uvCoordsBuffer);
-        }
+        materialContext.applyMaterial(geometry,structure.getOldMemoryAddress(),uvCoordinates,blenderContext);
       }
     }
   }
  else {
     VertexBuffer uvCoordsBuffer=null;
     if (meshBuilder.hasUVCoordinates()) {
-      List<Vector2f> uvs=meshBuilder.getUVCoordinates(-1);
+      List<Vector2f> uvs=meshBuilder.getUVCoordinates(0);
       uvCoordsBuffer=new VertexBuffer(Type.TexCoord);
       uvCoordsBuffer.setupData(Usage.Static,2,Format.Float,BufferUtils.createFloatBuffer(uvs.toArray(new Vector2f[uvs.size()])));
     }
