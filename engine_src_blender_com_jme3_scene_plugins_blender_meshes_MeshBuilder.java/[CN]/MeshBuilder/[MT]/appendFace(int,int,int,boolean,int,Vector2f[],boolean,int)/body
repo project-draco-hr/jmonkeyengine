@@ -12,6 +12,12 @@
     vertexList=new ArrayList<Vector3f>();
     vertexMap.put(materialNumber,vertexList);
   }
+  List<byte[]> vertexColorsList=vertexColorsMap != null ? vertexColorsMap.get(materialNumber) : null;
+  int[] vertexColorIndex=new int[]{0,1,2};
+  if (vertexColorsList == null && vertexColorsMap != null) {
+    vertexColorsList=new ArrayList<byte[]>();
+    vertexColorsMap.put(materialNumber,vertexColorsList);
+  }
   List<Vector3f> normalList=normalMap.get(materialNumber);
   if (normalList == null) {
     normalList=new ArrayList<Vector3f>();
@@ -30,6 +36,11 @@
       uvCoordinates.put(Integer.valueOf(materialNumber),uvCoordinatesList);
     }
   }
+  faceIndex*=4;
+  if (quad) {
+    vertexColorIndex[1]=2;
+    vertexColorIndex[2]=3;
+  }
   Integer[] index=new Integer[]{v1,v2,v3};
   Vector3f n=FastMath.computeNormal(vertices[v1],vertices[v2],vertices[v3]);
   this.addNormal(n,globalNormalMap,smooth,vertices[v1],vertices[v2],vertices[v3]);
@@ -38,6 +49,9 @@
       if (!vertexReferenceMap.containsKey(index[i])) {
         this.appendVertexReference(index[i],vertexList.size(),vertexReferenceMap);
         vertexList.add(vertices[index[i]]);
+        if (verticesColors != null) {
+          vertexColorsList.add(verticesColors.get(faceIndex + vertexColorIndex[i]));
+        }
         normalList.add(globalNormalMap.get(vertices[index[i]]));
         if (uvCoordinatesList != null) {
           uvsMap.put(vertexList.size(),uvs[i]);
@@ -58,6 +72,9 @@
           this.appendVertexReference(index[i],vertexList.size(),vertexReferenceMap);
           uvsMap.put(vertexList.size(),uvs[i]);
           vertexList.add(vertices[index[i]]);
+          if (verticesColors != null) {
+            vertexColorsList.add(verticesColors.get(faceIndex + vertexColorIndex[i]));
+          }
           normalList.add(globalNormalMap.get(vertices[index[i]]));
           uvCoordinatesList.add(uvs[i]);
           index[i]=vertexList.size() - 1;
@@ -78,6 +95,9 @@
         uvsMap.put(vertexList.size(),uvs[i]);
       }
       vertexList.add(vertices[index[i]]);
+      if (verticesColors != null) {
+        vertexColorsList.add(verticesColors.get(faceIndex + vertexColorIndex[i]));
+      }
       normalList.add(globalNormalMap.get(vertices[index[i]]));
     }
   }

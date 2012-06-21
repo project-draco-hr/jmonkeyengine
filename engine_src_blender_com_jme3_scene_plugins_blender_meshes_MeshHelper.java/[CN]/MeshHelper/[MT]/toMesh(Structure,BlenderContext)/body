@@ -15,8 +15,8 @@
     materials=materialHelper.getMaterials(structure,blenderContext);
   }
   Vector3f[] vertices=this.getVertices(structure,blenderContext);
-  MeshBuilder meshBuilder=new MeshBuilder(vertices,this.areGeneratedTexturesPresent(materials));
   List<byte[]> verticesColors=this.getVerticesColors(structure,blenderContext);
+  MeshBuilder meshBuilder=new MeshBuilder(vertices,verticesColors,this.areGeneratedTexturesPresent(materials));
   Pointer pMFace=(Pointer)structure.getFieldValue("mface");
   List<Structure> mFaces=null;
   if (pMFace.isNotNull()) {
@@ -37,7 +37,6 @@
       throw new BlenderFileException("The amount of faces uv coordinates is not equal to faces amount!");
     }
   }
-  int vertexColorIndex=0;
   Vector2f[] uvCoordinatesForFace=new Vector2f[3];
   for (int i=0; i < mFaces.size(); ++i) {
     Structure mFace=mFaces.get(i);
@@ -55,25 +54,14 @@
     int v2=((Number)mFace.getFieldValue("v2")).intValue();
     int v3=((Number)mFace.getFieldValue("v3")).intValue();
     int v4=((Number)mFace.getFieldValue("v4")).intValue();
-    meshBuilder.appendFace(v1,v2,v3,smooth,materialNumber,uvs == null ? null : uvCoordinatesForFace);
+    meshBuilder.appendFace(v1,v2,v3,smooth,materialNumber,uvs == null ? null : uvCoordinatesForFace,false,i);
     if (v4 > 0) {
       if (uvs != null) {
         uvCoordinatesForFace[0]=new Vector2f(uvs.get(0,0).floatValue(),uvs.get(0,1).floatValue());
         uvCoordinatesForFace[1]=new Vector2f(uvs.get(2,0).floatValue(),uvs.get(2,1).floatValue());
         uvCoordinatesForFace[2]=new Vector2f(uvs.get(3,0).floatValue(),uvs.get(3,1).floatValue());
       }
-      meshBuilder.appendFace(v1,v3,v4,smooth,materialNumber,uvs == null ? null : uvCoordinatesForFace);
-      if (verticesColors != null) {
-        verticesColors.add(vertexColorIndex + 3,verticesColors.get(vertexColorIndex));
-        verticesColors.add(vertexColorIndex + 4,verticesColors.get(vertexColorIndex + 2));
-      }
-      vertexColorIndex+=6;
-    }
- else {
-      if (verticesColors != null) {
-        verticesColors.remove(vertexColorIndex + 3);
-        vertexColorIndex+=3;
-      }
+      meshBuilder.appendFace(v1,v3,v4,smooth,materialNumber,uvs == null ? null : uvCoordinatesForFace,true,i);
     }
   }
   meshContext.setVertexReferenceMap(meshBuilder.getVertexReferenceMap());
@@ -87,7 +75,6 @@
   }
   geometries=new ArrayList<Geometry>(meshBuilder.getMeshesPartAmount());
   Properties properties=this.loadProperties(structure,blenderContext);
-  ByteBuffer verticesColorsBuffer=this.createByteBuffer(verticesColors);
   for (  Entry<Integer,List<Integer>> meshEntry : meshBuilder.getMeshesMap().entrySet()) {
     int materialIndex=meshEntry.getKey();
     Mesh mesh=new Mesh();
@@ -116,8 +103,8 @@
     normalsBind.setupData(Usage.CpuOnly,3,Format.Float,BufferUtils.clone(normalsBuffer.getData()));
     mesh.setBuffer(verticesBuffer);
     meshContext.setBindPoseBuffer(verticesBind);
-    if (verticesColorsBuffer != null) {
-      mesh.setBuffer(Type.Color,4,verticesColorsBuffer);
+    if (verticesColors != null) {
+      mesh.setBuffer(Type.Color,4,meshBuilder.getVertexColorsBuffer(materialIndex));
       mesh.getBuffer(Type.Color).setNormalized(true);
     }
     mesh.setBuffer(normalsBuffer);
