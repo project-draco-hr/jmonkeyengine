@@ -20,17 +20,18 @@
     material.setColor("Ambient",ambientColor);
     material.setFloat("Shininess",shininess);
   }
-  for (  Entry<Number,CombinedTexture> entry : loadedTextures.entrySet()) {
-    CombinedTexture combinedTexture=entry.getValue();
-    combinedTexture.flatten(geometry,geometriesOMA,userDefinedUVCoordinates,blenderContext);
-    VertexBuffer.Type uvCoordinatesType=null;
+  if (loadedTextures != null && loadedTextures.size() > 0) {
+    for (    Entry<Number,CombinedTexture> entry : loadedTextures.entrySet()) {
+      CombinedTexture combinedTexture=entry.getValue();
+      combinedTexture.flatten(geometry,geometriesOMA,userDefinedUVCoordinates,blenderContext);
+      VertexBuffer.Type uvCoordinatesType=null;
 switch (entry.getKey().intValue()) {
 case MTEX_COL:
-      uvCoordinatesType=VertexBuffer.Type.TexCoord;
-    material.setTexture(shadeless ? MaterialHelper.TEXTURE_TYPE_COLOR : MaterialHelper.TEXTURE_TYPE_DIFFUSE,combinedTexture.getResultTexture());
-  break;
+        uvCoordinatesType=VertexBuffer.Type.TexCoord;
+      material.setTexture(shadeless ? MaterialHelper.TEXTURE_TYPE_COLOR : MaterialHelper.TEXTURE_TYPE_DIFFUSE,combinedTexture.getResultTexture());
+    break;
 case MTEX_NOR:
-uvCoordinatesType=VertexBuffer.Type.TexCoord2;
+  uvCoordinatesType=VertexBuffer.Type.TexCoord2;
 material.setTexture(MaterialHelper.TEXTURE_TYPE_NORMAL,combinedTexture.getResultTexture());
 break;
 case MTEX_SPEC:
@@ -53,6 +54,12 @@ VertexBuffer uvCoordsBuffer=new VertexBuffer(uvCoordinatesType);
 uvCoordsBuffer.setupData(Usage.Static,2,Format.Float,BufferUtils.createFloatBuffer(combinedTexture.getResultUVS().toArray(new Vector2f[combinedTexture.getResultUVS().size()])));
 geometry.getMesh().setBuffer(uvCoordsBuffer);
 }
+}
+}
+ else if (userDefinedUVCoordinates != null && userDefinedUVCoordinates.size() > 0) {
+VertexBuffer uvCoordsBuffer=new VertexBuffer(VertexBuffer.Type.TexCoord);
+uvCoordsBuffer.setupData(Usage.Static,2,Format.Float,BufferUtils.createFloatBuffer(userDefinedUVCoordinates.toArray(new Vector2f[userDefinedUVCoordinates.size()])));
+geometry.getMesh().setBuffer(uvCoordsBuffer);
 }
 material.setName(name);
 if (vertexColor) {
