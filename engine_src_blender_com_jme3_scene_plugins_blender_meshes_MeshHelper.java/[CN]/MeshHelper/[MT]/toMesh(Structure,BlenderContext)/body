@@ -14,9 +14,9 @@
   if ((blenderContext.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.MATERIALS) != 0) {
     materials=materialHelper.getMaterials(structure,blenderContext);
   }
-  Vector3f[] vertices=this.getVertices(structure,blenderContext);
+  Vector3f[][] verticesAndNormals=this.getVerticesAndNormals(structure,blenderContext);
   List<byte[]> verticesColors=this.getVerticesColors(structure,blenderContext);
-  MeshBuilder meshBuilder=new MeshBuilder(vertices,verticesColors,this.areGeneratedTexturesPresent(materials));
+  MeshBuilder meshBuilder=new MeshBuilder(verticesAndNormals,verticesColors,this.areGeneratedTexturesPresent(materials));
   Pointer pMFace=(Pointer)structure.getFieldValue("mface");
   if (pMFace.isNotNull()) {
     this.readTraditionalFaces(meshBuilder,structure,blenderContext);
