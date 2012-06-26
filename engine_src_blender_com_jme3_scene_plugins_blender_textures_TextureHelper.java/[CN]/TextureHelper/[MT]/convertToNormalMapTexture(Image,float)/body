@@ -1,5 +1,9 @@
 {
   BufferedImage sourceImage=ImageToAwt.convert(source,false,false,0);
+  AffineTransform tx=AffineTransform.getScaleInstance(1,-1);
+  tx.translate(0,-sourceImage.getHeight(null));
+  AffineTransformOp op=new AffineTransformOp(tx,AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+  sourceImage=op.filter(sourceImage,null);
   BufferedImage heightMap=new BufferedImage(sourceImage.getWidth(),sourceImage.getHeight(),BufferedImage.TYPE_INT_ARGB);
   BufferedImage bumpMap=new BufferedImage(sourceImage.getWidth(),sourceImage.getHeight(),BufferedImage.TYPE_INT_ARGB);
   ColorConvertOp gscale=new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY),null);
