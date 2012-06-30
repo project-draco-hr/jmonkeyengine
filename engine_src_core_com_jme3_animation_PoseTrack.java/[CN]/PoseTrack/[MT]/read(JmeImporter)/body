@@ -1,6 +1,10 @@
 {
   InputCapsule in=i.getCapsule(this);
   targetMeshIndex=in.readInt("meshIndex",0);
-  frames=(PoseFrame[])in.readSavableArray("frames",null);
   times=in.readFloatArray("times",null);
+  Savable[] readSavableArray=in.readSavableArray("frames",null);
+  if (readSavableArray != null) {
+    frames=new PoseFrame[readSavableArray.length];
+    System.arraycopy(readSavableArray,0,frames,0,readSavableArray.length);
+  }
 }

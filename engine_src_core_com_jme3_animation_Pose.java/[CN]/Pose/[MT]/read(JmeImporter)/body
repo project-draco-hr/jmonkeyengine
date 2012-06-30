@@ -2,6 +2,10 @@
   InputCapsule in=i.getCapsule(this);
   name=in.readString("name","");
   targetMeshIndex=in.readInt("meshIndex",-1);
-  offsets=(Vector3f[])in.readSavableArray("offsets",null);
   indices=in.readIntArray("indices",null);
+  Savable[] readSavableArray=in.readSavableArray("offsets",null);
+  if (readSavableArray != null) {
+    offsets=new Vector3f[readSavableArray.length];
+    System.arraycopy(readSavableArray,0,offsets,0,readSavableArray.length);
+  }
 }
