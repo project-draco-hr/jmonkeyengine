@@ -30,7 +30,10 @@
     if (vn > 0)     vx.vn=norms.get(vn - 1);
     vertList.add(vx);
   }
-  if (vertList.size() > 4 || vertList.size() <= 2)   logger.warning("Edge or polygon detected in OBJ. Ignored.");
+  if (vertList.size() > 4 || vertList.size() <= 2) {
+    logger.warning("Edge or polygon detected in OBJ. Ignored.");
+    return;
+  }
   f.verticies=new Vertex[vertList.size()];
   for (int i=0; i < vertList.size(); i++) {
     f.verticies[i]=vertList.get(i);
