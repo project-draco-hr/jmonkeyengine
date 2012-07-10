@@ -4,7 +4,7 @@
     if (techDef.isUsingShaders()) {
       DefineList dl=new DefineList();
       dl.addFrom(techDef.getShaderPresetDefines());
-      ShaderKey shaderKey=new ShaderKey(techDef.getVertexShaderName(),techDef.getFragmentShaderName(),dl,techDef.getShaderLanguage());
+      ShaderKey shaderKey=new ShaderKey(techDef.getVertexShaderName(),techDef.getFragmentShaderName(),dl,techDef.getVertexShaderLanguage(),techDef.getFragmentShaderLanguage());
       Shader shader=assetManager.loadShader(shaderKey);
       for (      Validator validator : validators) {
         StringBuilder sb=new StringBuilder();
