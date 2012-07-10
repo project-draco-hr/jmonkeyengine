@@ -63,4 +63,8 @@
   material.setFloat("FoamIntensity",foamIntensity);
   material.setFloat("UnderWaterFogDistance",underWaterFogDistance);
   material.setFloat("CausticsIntensity",causticsIntensity);
+  if (center != null) {
+    material.setVector3("Center",center);
+    material.setFloat("Radius",radius * radius);
+  }
 }
