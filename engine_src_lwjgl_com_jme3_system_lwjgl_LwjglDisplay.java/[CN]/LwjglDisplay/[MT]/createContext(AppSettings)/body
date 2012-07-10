@@ -1,12 +1,14 @@
 {
-  DisplayMode displayMode=null;
+  DisplayMode displayMode;
   if (settings.getWidth() <= 0 || settings.getHeight() <= 0) {
     displayMode=Display.getDesktopDisplayMode();
     settings.setResolution(displayMode.getWidth(),displayMode.getHeight());
   }
  else   if (settings.isFullscreen()) {
     displayMode=getFullscreenDisplayMode(settings.getWidth(),settings.getHeight(),settings.getBitsPerPixel(),settings.getFrequency());
-    if (displayMode == null)     throw new RuntimeException("Unable to find fullscreen display mode matching settings");
+    if (displayMode == null) {
+      throw new RuntimeException("Unable to find fullscreen display mode matching settings");
+    }
   }
  else {
     displayMode=new DisplayMode(settings.getWidth(),settings.getHeight());

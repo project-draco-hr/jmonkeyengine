@@ -2,12 +2,14 @@
   int removed=0;
   while (removed < MAX_REMOVES_PER_FRAME) {
     NativeObjectRef ref=(NativeObjectRef)refQueue.poll();
-    if (ref == null)     break;
+    if (ref == null) {
+      break;
+    }
     refList.remove(ref);
     ref.objClone.deleteObject(rendererObject);
     removed++;
   }
   if (removed >= 1) {
-    logger.log(Level.FINE,"NativeObjectManager: {0} native objects were removed from GL",removed);
+    logger.log(Level.FINE,"NativeObjectManager: {0} native objects were removed from native",removed);
   }
 }
