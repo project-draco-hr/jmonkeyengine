@@ -1,11 +1,6 @@
 {
   if (technique == null) {
-    if (def.getTechniqueDef("FixedFunc") != null && !rm.getRenderer().getCaps().contains(Caps.GLSL100)) {
-      selectTechnique("FixedFunc",rm);
-    }
- else {
-      selectTechnique("Default",rm);
-    }
+    selectTechnique("Default",rm);
   }
  else {
     technique.makeCurrent(def.getAssetManager(),false);
