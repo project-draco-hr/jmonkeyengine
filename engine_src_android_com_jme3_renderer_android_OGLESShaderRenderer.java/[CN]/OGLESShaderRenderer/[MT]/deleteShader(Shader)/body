@@ -6,9 +6,10 @@
   for (  ShaderSource source : shader.getSources()) {
     if (source.getId() != -1) {
       GLES20.glDetachShader(shader.getId(),source.getId());
+      deleteShaderSource(source);
     }
   }
-  shader.resetSources();
   GLES20.glDeleteProgram(shader.getId());
   statistics.onDeleteShader();
+  shader.resetObject();
 }

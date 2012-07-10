@@ -1,5 +1,7 @@
 {
   super(ShaderSource.class);
-  this.shaderType=type;
-  if (type == null)   throw new NullPointerException("The shader type must be specified");
+  this.sourceType=type;
+  if (type == null) {
+    throw new NullPointerException("The shader type must be specified");
+  }
 }

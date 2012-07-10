@@ -2,7 +2,7 @@
   DefineList allDefines=new DefineList();
   allDefines.addFrom(def.getShaderPresetDefines());
   allDefines.addFrom(defines);
-  ShaderKey key=new ShaderKey(def.getVertexShaderName(),def.getFragmentShaderName(),allDefines,def.getShaderLanguage());
+  ShaderKey key=new ShaderKey(def.getVertexShaderName(),def.getFragmentShaderName(),allDefines,def.getVertexShaderLanguage(),def.getFragmentShaderLanguage());
   shader=manager.loadShader(key);
   worldBindUniforms.clear();
   if (def.getWorldBindings() != null) {

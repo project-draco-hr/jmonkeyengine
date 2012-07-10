@@ -11,12 +11,7 @@
   }
   for (  ShaderSource source : shader.getSources()) {
     if (source.isUpdateNeeded()) {
-      updateShaderSourceData(source,shader.getLanguage());
-    }
-    if (!source.isUsable()) {
-      shader.setUsable(false);
-      shader.clearUpdateNeeded();
-      return;
+      updateShaderSourceData(source);
     }
     glAttachShader(id,source.getId());
   }
@@ -48,6 +43,14 @@
  else {
       logger.fine("shader link success");
     }
+    shader.clearUpdateNeeded();
+    if (needRegister) {
+      objManager.registerForCleanup(shader);
+      statistics.onNewShader();
+    }
+ else {
+      resetUniformLocations(shader);
+    }
   }
  else {
     if (infoLog != null) {
@@ -55,22 +58,6 @@
     }
  else {
       throw new RendererException("Shader link failure, shader:" + shader + " info: <not provided>");
-    }
-  }
-  shader.clearUpdateNeeded();
-  if (!linkOK) {
-    shader.resetSources();
-    shader.setUsable(false);
-    deleteShader(shader);
-  }
- else {
-    shader.setUsable(true);
-    if (needRegister) {
-      objManager.registerForCleanup(shader);
-      statistics.onNewShader();
-    }
- else {
-      resetUniformLocations(shader);
     }
   }
 }

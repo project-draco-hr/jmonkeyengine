@@ -9,7 +9,7 @@
       deleteShaderSource(source);
     }
   }
-  shader.resetSources();
   glDeleteProgram(shader.getId());
   statistics.onDeleteShader();
+  shader.resetObject();
 }

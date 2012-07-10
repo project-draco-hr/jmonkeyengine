@@ -1,0 +1,11 @@
+{
+  ShaderSource shaderSource=new ShaderSource(type);
+  shaderSource.setSource(source);
+  shaderSource.setName(name);
+  shaderSource.setLanguage(language);
+  if (defines != null) {
+    shaderSource.setDefines(defines);
+  }
+  shaderSourceList.add(shaderSource);
+  setUpdateNeeded();
+}

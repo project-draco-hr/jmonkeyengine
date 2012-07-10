@@ -1,8 +1,12 @@
 {
-  for (  Uniform uniform : uniforms.values()) {
-    uniform.reset();
+  if (uniforms != null) {
+    for (    Uniform uniform : uniforms.values()) {
+      uniform.reset();
+    }
   }
-  for (  Entry<Attribute> entry : attribs) {
-    entry.getValue().location=-2;
+  if (attribs != null) {
+    for (    Entry<Attribute> entry : attribs) {
+      entry.getValue().location=ShaderVariable.LOC_UNKNOWN;
+    }
   }
 }
