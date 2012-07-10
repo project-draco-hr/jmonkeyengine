@@ -11,7 +11,13 @@
  else {
       splashImageView.setImageResource(splashPicID);
     }
+    if (view.getParent() != null) {
+      ((ViewGroup)view.getParent()).removeView(view);
+    }
     frameLayout.addView(view);
+    if (splashImageView.getParent() != null) {
+      ((ViewGroup)splashImageView.getParent()).removeView(splashImageView);
+    }
     frameLayout.addView(splashImageView,lp);
     setContentView(frameLayout);
     logger.log(Level.INFO,"Splash Screen Created");

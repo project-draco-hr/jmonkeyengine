@@ -12,13 +12,13 @@ synchronized (eventQueue) {
         listener.onTouchEvent(event);
         if (mouseEventsEnabled) {
           if (mouseEventsInvertX) {
-            newX=this.getWidth() - (int)event.getX();
+            newX=view.getWidth() - (int)event.getX();
           }
  else {
             newX=(int)event.getX();
           }
           if (mouseEventsInvertY) {
-            newY=this.getHeight() - (int)event.getY();
+            newY=view.getHeight() - (int)event.getY();
           }
  else {
             newY=(int)event.getY();

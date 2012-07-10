@@ -1,5 +1,11 @@
 {
-  this.view=new AndroidInput(JmeAndroidSystem.getActivity());
+  view=new AndroidGLSurfaceView(JmeAndroidSystem.getActivity());
+  if (androidInput == null) {
+    androidInput=new AndroidInput(view);
+  }
+ else {
+    androidInput.setView(view);
+  }
   if (configType == ConfigType.LEGACY) {
     clientOpenGLESVersion=2;
     view.setEGLContextClientVersion(2);

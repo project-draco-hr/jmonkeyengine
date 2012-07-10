@@ -1,6 +1,12 @@
 {
-  if (app != null) {
-    app.stop(!isGLThreadPaused);
+  final DataObject data=(DataObject)getLastNonConfigurationInstance();
+  if (data != null || inConfigChange) {
+    logger.info("onDestroy: found DataObject or inConfigChange");
+  }
+ else {
+    if (app != null) {
+      app.stop(!isGLThreadPaused);
+    }
   }
   logger.info("onDestroy");
   super.onDestroy();
