@@ -1,0 +1,12 @@
+{
+  final String finalMsg=message;
+  final String finalTitle="Error in jMonkeyEngine app";
+  final Activity context=JmeAndroidSystem.getActivity();
+  context.runOnUiThread(new Runnable(){
+    @Override public void run(){
+      AlertDialog dialog=new AlertDialog.Builder(context).setTitle(finalTitle).setMessage(finalMsg).create();
+      dialog.show();
+    }
+  }
+);
+}

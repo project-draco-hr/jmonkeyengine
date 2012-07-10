@@ -1,4 +1,10 @@
 {
   logger.log(Level.SEVERE,errMsg,t);
+  if (t != null) {
+    JmeSystem.showErrorDialog(errMsg + "\n" + t.getClass().getSimpleName()+ (t.getMessage() != null ? ": " + t.getMessage() : ""));
+  }
+ else {
+    JmeSystem.showErrorDialog(errMsg);
+  }
   stop();
 }
