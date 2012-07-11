@@ -1,4 +1,5 @@
 {
+  int originalLimit=img.limit();
   int blocksX=(int)FastMath.ceil((float)w / 4f);
   int blocksY=(int)FastMath.ceil((float)h / 4f);
   int type;
@@ -27,7 +28,6 @@ ByteBuffer retImg=BufferUtils.createByteBuffer(blocksX * blocksY * bpb);
 if (h == 1) {
 retImg.put(img);
 retImg.rewind();
-return retImg;
 }
  else if (h == 2) {
 byte[] colorBlock=new byte[8];
@@ -55,7 +55,6 @@ retImg.put(alphaBlock);
 }
 }
 retImg.rewind();
-return retImg;
 }
  else if (h >= 4) {
 byte[] colorBlock=new byte[8];
@@ -91,9 +90,10 @@ retImg.put(colorBlock);
 }
 retImg.limit(retImg.capacity());
 retImg.position(0);
-return retImg;
 }
  else {
 return null;
 }
+img.limit(originalLimit);
+return retImg;
 }

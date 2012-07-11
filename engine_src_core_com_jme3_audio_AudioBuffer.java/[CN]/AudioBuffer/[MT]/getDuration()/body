@@ -1,5 +1,5 @@
 {
   int bytesPerSec=(bitsPerSample / 8) * channels * sampleRate;
-  if (audioData != null)   return (float)audioData.capacity() / bytesPerSec;
+  if (audioData != null)   return (float)audioData.limit() / bytesPerSec;
  else   return Float.NaN;
 }

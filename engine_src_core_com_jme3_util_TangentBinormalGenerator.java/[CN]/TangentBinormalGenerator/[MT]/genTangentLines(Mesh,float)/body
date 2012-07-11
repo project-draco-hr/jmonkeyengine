@@ -16,12 +16,12 @@
   Vector3f point=new Vector3f();
   Vector3f tangent=new Vector3f();
   Vector3f normal=new Vector3f();
-  IntBuffer lineIndex=BufferUtils.createIntBuffer(vertexBuffer.capacity() / 3 * 6);
-  FloatBuffer lineVertex=BufferUtils.createFloatBuffer(vertexBuffer.capacity() * 4);
-  FloatBuffer lineColor=BufferUtils.createFloatBuffer(vertexBuffer.capacity() / 3 * 4 * 4);
+  IntBuffer lineIndex=BufferUtils.createIntBuffer(vertexBuffer.limit() / 3 * 6);
+  FloatBuffer lineVertex=BufferUtils.createFloatBuffer(vertexBuffer.limit() * 4);
+  FloatBuffer lineColor=BufferUtils.createFloatBuffer(vertexBuffer.limit() / 3 * 4 * 4);
   boolean hasParity=mesh.getBuffer(Type.Tangent).getNumComponents() == 4;
   float tangentW=1;
-  for (int i=0; i < vertexBuffer.capacity() / 3; i++) {
+  for (int i=0; i < vertexBuffer.limit() / 3; i++) {
     populateFromBuffer(origin,vertexBuffer,i);
     populateFromBuffer(normal,normalBuffer,i);
     if (hasParity) {

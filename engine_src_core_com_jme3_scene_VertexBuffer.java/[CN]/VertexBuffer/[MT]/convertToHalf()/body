@@ -1,14 +1,14 @@
 {
   if (id != -1)   throw new UnsupportedOperationException("Data has already been sent.");
   if (format != Format.Float)   throw new IllegalStateException("Format must be float!");
-  int numElements=data.capacity() / components;
+  int numElements=data.limit() / components;
   format=Format.Half;
   this.componentsLength=components * format.getComponentSize();
   ByteBuffer halfData=BufferUtils.createByteBuffer(componentsLength * numElements);
   halfData.rewind();
   FloatBuffer floatData=(FloatBuffer)data;
   floatData.rewind();
-  for (int i=0; i < floatData.capacity(); i++) {
+  for (int i=0; i < floatData.limit(); i++) {
     float f=floatData.get(i);
     short half=FastMath.convertFloatToHalf(f);
     halfData.putShort(half);

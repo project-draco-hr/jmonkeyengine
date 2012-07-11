@@ -7,9 +7,9 @@
   lineMesh.setMode(Mesh.Mode.Lines);
   Vector3f origin=new Vector3f();
   Vector3f point=new Vector3f();
-  FloatBuffer lineVertex=BufferUtils.createFloatBuffer(vertexBuffer.capacity() * 2);
-  FloatBuffer lineColor=BufferUtils.createFloatBuffer(vertexBuffer.capacity() / 3 * 4 * 2);
-  for (int i=0; i < vertexBuffer.capacity() / 3; i++) {
+  FloatBuffer lineVertex=BufferUtils.createFloatBuffer(vertexBuffer.limit() * 2);
+  FloatBuffer lineColor=BufferUtils.createFloatBuffer(vertexBuffer.limit() / 3 * 4 * 2);
+  for (int i=0; i < vertexBuffer.limit() / 3; i++) {
     populateFromBuffer(origin,vertexBuffer,i);
     populateFromBuffer(point,normalBuffer,i);
     int index=i * 2;

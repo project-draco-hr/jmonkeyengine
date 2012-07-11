@@ -2,7 +2,7 @@
   if (lodLevels != null) {
     if (lod < 0)     throw new IllegalArgumentException("LOD level cannot be < 0");
     if (lod >= lodLevels.length)     throw new IllegalArgumentException("LOD level " + lod + " does not exist!");
-    return computeNumElements(lodLevels[lod].getData().capacity());
+    return computeNumElements(lodLevels[lod].getData().limit());
   }
  else   if (lod == 0) {
     return elementCount;

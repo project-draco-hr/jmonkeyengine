@@ -2,14 +2,14 @@
   IndexBuffer indexBuffer=mesh.getIndexBuffer();
   FloatBuffer vertexBuffer=(FloatBuffer)mesh.getBuffer(Type.Position).getData();
   FloatBuffer textureBuffer=(FloatBuffer)mesh.getBuffer(Type.TexCoord).getData();
-  VertexData[] vertices=initVertexData(vertexBuffer.capacity() / 3);
+  VertexData[] vertices=initVertexData(vertexBuffer.limit() / 3);
   index[0]=indexBuffer.get(0);
   index[1]=indexBuffer.get(1);
   populateFromBuffer(v[0],vertexBuffer,index[0]);
   populateFromBuffer(v[1],vertexBuffer,index[1]);
   populateFromBuffer(t[0],textureBuffer,index[0]);
   populateFromBuffer(t[1],textureBuffer,index[1]);
-  for (int i=2; i < vertexBuffer.capacity() / 3; i++) {
+  for (int i=2; i < vertexBuffer.limit() / 3; i++) {
     index[2]=indexBuffer.get(i);
     populateFromBuffer(v[2],vertexBuffer,index[2]);
     populateFromBuffer(t[2],textureBuffer,index[2]);

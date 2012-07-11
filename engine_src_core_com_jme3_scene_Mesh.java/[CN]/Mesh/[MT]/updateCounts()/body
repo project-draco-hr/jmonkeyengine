@@ -3,10 +3,10 @@
   VertexBuffer pb=getBuffer(Type.Position);
   VertexBuffer ib=getBuffer(Type.Index);
   if (pb != null) {
-    vertCount=pb.getData().capacity() / pb.getNumComponents();
+    vertCount=pb.getData().limit() / pb.getNumComponents();
   }
   if (ib != null) {
-    elementCount=computeNumElements(ib.getData().capacity());
+    elementCount=computeNumElements(ib.getData().limit());
   }
  else {
     elementCount=computeNumElements(vertCount);

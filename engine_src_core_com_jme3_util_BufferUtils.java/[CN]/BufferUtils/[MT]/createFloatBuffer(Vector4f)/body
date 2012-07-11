@@ -1,0 +1,16 @@
+{
+  if (data == null) {
+    return null;
+  }
+  FloatBuffer buff=createFloatBuffer(4 * data.length);
+  for (int x=0; x < data.length; x++) {
+    if (data[x] != null) {
+      buff.put(data[x].getX()).put(data[x].getY()).put(data[x].getZ()).put(data[x].getW());
+    }
+ else {
+      buff.put(0).put(0).put(0);
+    }
+  }
+  buff.flip();
+  return buff;
+}
