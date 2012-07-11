@@ -10,7 +10,9 @@
     multiData.clear();
     return;
   }
-  if (varType == null)   return;
+  if (varType == null) {
+    return;
+  }
 switch (varType) {
 case Int:
     this.value=ZERO_INT;
@@ -28,14 +30,8 @@ case Vector3:
 this.value=Vector3f.ZERO;
 break;
 case Vector4:
-if (this.value instanceof ColorRGBA) {
-this.value=ColorRGBA.BlackNoAlpha;
-}
- else {
-this.value=Quaternion.ZERO;
-}
+this.value=Vector4f.ZERO;
 break;
 default :
-break;
 }
 }
