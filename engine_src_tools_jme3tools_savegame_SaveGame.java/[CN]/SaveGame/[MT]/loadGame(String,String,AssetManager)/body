@@ -2,7 +2,7 @@
   InputStream is=null;
   Savable sav=null;
   try {
-    File file=new File(JmeSystem.getStorageFolder().getAbsolutePath() + File.separator + gamePath.replaceAll("/",File.separator)+ File.separator+ dataName);
+    File file=new File(JmeSystem.getStorageFolder().getAbsolutePath() + File.separator + gamePath.replace('/',File.separatorChar)+ File.separator+ dataName);
     if (!file.exists()) {
       return null;
     }
