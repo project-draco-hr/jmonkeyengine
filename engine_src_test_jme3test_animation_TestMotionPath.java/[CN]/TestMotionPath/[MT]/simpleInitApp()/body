@@ -11,8 +11,8 @@
   path.addWayPoint(new Vector3f(10,8,10));
   path.addWayPoint(new Vector3f(15,8,10));
   path.enableDebugShape(assetManager,rootNode);
-  motionControl=new MotionTrack(teapot,path);
-  motionControl.setDirectionType(MotionTrack.Direction.PathAndRotation);
+  motionControl=new MotionEvent(teapot,path);
+  motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
   motionControl.setRotation(new Quaternion().fromAngleNormalAxis(-FastMath.HALF_PI,Vector3f.UNIT_Y));
   motionControl.setInitialDuration(10f);
   motionControl.setSpeed(2f);
@@ -21,7 +21,7 @@
   wayPointsText.setSize(guiFont.getCharSet().getRenderedSize());
   guiNode.attachChild(wayPointsText);
   path.addListener(new MotionPathListener(){
-    public void onWayPointReach(    MotionTrack control,    int wayPointIndex){
+    public void onWayPointReach(    MotionEvent control,    int wayPointIndex){
       if (path.getNbWayPoints() == wayPointIndex + 1) {
         wayPointsText.setText(control.getSpatial().getName() + "Finished!!! ");
       }

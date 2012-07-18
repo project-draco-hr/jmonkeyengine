@@ -12,17 +12,17 @@
   path.addWayPoint(new Vector3f(0,3,-20));
   path.setCurveTension(0.83f);
   path.enableDebugShape(assetManager,rootNode);
-  cameraMotionControl=new MotionTrack(camNode,path);
+  cameraMotionControl=new MotionEvent(camNode,path);
   cameraMotionControl.setLoopMode(LoopMode.Loop);
   cameraMotionControl.setLookAt(teapot.getWorldTranslation(),Vector3f.UNIT_Y);
-  cameraMotionControl.setDirectionType(MotionTrack.Direction.LookAt);
+  cameraMotionControl.setDirectionType(MotionEvent.Direction.LookAt);
   rootNode.attachChild(camNode);
   guiFont=assetManager.loadFont("Interface/Fonts/Default.fnt");
   final BitmapText wayPointsText=new BitmapText(guiFont,false);
   wayPointsText.setSize(guiFont.getCharSet().getRenderedSize());
   guiNode.attachChild(wayPointsText);
   path.addListener(new MotionPathListener(){
-    public void onWayPointReach(    MotionTrack control,    int wayPointIndex){
+    public void onWayPointReach(    MotionEvent control,    int wayPointIndex){
       if (path.getNbWayPoints() == wayPointIndex + 1) {
         wayPointsText.setText(control.getSpatial().getName() + " Finish!!! ");
       }

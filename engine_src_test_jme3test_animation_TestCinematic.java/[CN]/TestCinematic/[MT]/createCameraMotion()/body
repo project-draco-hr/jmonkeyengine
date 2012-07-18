@@ -10,8 +10,8 @@
   path.addWayPoint(new Vector3f(-20,3,0));
   path.addWayPoint(new Vector3f(0,3,-20));
   path.setCurveTension(0.83f);
-  cameraMotionTrack=new MotionTrack(camNode2,path);
-  cameraMotionTrack.setLoopMode(LoopMode.Loop);
-  cameraMotionTrack.setLookAt(model.getWorldTranslation(),Vector3f.UNIT_Y);
-  cameraMotionTrack.setDirectionType(MotionTrack.Direction.LookAt);
+  cameraMotionEvent=new MotionEvent(camNode2,path);
+  cameraMotionEvent.setLoopMode(LoopMode.Loop);
+  cameraMotionEvent.setLookAt(model.getWorldTranslation(),Vector3f.UNIT_Y);
+  cameraMotionEvent.setDirectionType(MotionEvent.Direction.LookAt);
 }

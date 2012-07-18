@@ -24,13 +24,13 @@
   control.addAnim(factory.buildAnimation());
   teapot.addControl(control);
   cinematic.addCinematicEvent(0,new FadeEvent(true));
-  cinematic.addCinematicEvent(0,new AnimationTrack(teapot,"teapotAnim",LoopMode.DontLoop));
-  cinematic.addCinematicEvent(0,cameraMotionTrack);
-  cinematic.addCinematicEvent(0,new SoundTrack("Sound/Environment/Nature.ogg",LoopMode.Loop));
-  cinematic.addCinematicEvent(3f,new SoundTrack("Sound/Effects/kick.wav"));
+  cinematic.addCinematicEvent(0,new AnimationEvent(teapot,"teapotAnim",LoopMode.DontLoop));
+  cinematic.addCinematicEvent(0,cameraMotionEvent);
+  cinematic.addCinematicEvent(0,new SoundEvent("Sound/Environment/Nature.ogg",LoopMode.Loop));
+  cinematic.addCinematicEvent(3f,new SoundEvent("Sound/Effects/kick.wav"));
   cinematic.addCinematicEvent(3,new SubtitleTrack(nifty,"start",3,"jMonkey engine really kicks A..."));
-  cinematic.addCinematicEvent(5.1f,new SoundTrack("Sound/Effects/Beep.ogg",1));
-  cinematic.addCinematicEvent(2,new AnimationTrack(model,"Walk",LoopMode.Loop));
+  cinematic.addCinematicEvent(5.1f,new SoundEvent("Sound/Effects/Beep.ogg",1));
+  cinematic.addCinematicEvent(2,new AnimationEvent(model,"Walk",LoopMode.Loop));
   cinematic.activateCamera(0,"topView");
   cinematic.addCinematicEvent(19,new FadeEvent(false));
   cinematic.addListener(new CinematicEventListener(){
