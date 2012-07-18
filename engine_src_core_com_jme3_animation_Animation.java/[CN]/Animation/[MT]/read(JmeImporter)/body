@@ -4,7 +4,9 @@
   length=in.readFloat("length",0f);
   Savable[] arr=in.readSavableArray("tracks",null);
   if (arr != null) {
-    tracks=new Track[arr.length];
-    System.arraycopy(arr,0,tracks,0,arr.length);
+    tracks=new SafeArrayList<Track>(Track.class);
+    for (    Savable savable : arr) {
+      tracks.add((Track)savable);
+    }
   }
 }
