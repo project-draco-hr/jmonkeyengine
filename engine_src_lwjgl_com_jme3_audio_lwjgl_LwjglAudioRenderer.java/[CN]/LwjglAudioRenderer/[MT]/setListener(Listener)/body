@@ -8,7 +8,9 @@ synchronized (threadLock) {
  catch (      InterruptedException ex) {
       }
     }
-    if (audioDisabled)     return;
+    if (audioDisabled) {
+      return;
+    }
     if (this.listener != null) {
       this.listener.setRenderer(null);
     }

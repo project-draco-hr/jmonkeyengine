@@ -10,7 +10,9 @@
       break;
     }
   }
-  if (size == 0)   return false;
+  if (size == 0) {
+    return false;
+  }
   nativeBuf.clear();
   nativeBuf.put(arrayBuf,0,size);
   nativeBuf.flip();

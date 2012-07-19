@@ -8,7 +8,9 @@ synchronized (threadLock) {
  catch (      InterruptedException ex) {
       }
     }
-    if (audioDisabled)     return;
+    if (audioDisabled) {
+      return;
+    }
 switch (param) {
 case Position:
       Vector3f pos=listener.getLocation();

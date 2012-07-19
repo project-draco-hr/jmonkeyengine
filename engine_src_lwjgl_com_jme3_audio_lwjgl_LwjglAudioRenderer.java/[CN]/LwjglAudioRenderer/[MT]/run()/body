@@ -7,7 +7,9 @@ synchronized (threadLock) {
   long updateRateNanos=(long)(UPDATE_RATE * 1000000000);
   mainloop:   while (true) {
     long startTime=System.nanoTime();
-    if (Thread.interrupted())     break;
+    if (Thread.interrupted()) {
+      break;
+    }
 synchronized (threadLock) {
       updateInThread(UPDATE_RATE);
     }

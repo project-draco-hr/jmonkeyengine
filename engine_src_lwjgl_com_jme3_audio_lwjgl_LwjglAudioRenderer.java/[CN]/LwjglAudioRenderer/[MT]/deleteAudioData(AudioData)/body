@@ -7,7 +7,9 @@ synchronized (threadLock) {
  catch (      InterruptedException ex) {
       }
     }
-    if (audioDisabled)     return;
+    if (audioDisabled) {
+      return;
+    }
     if (ad instanceof AudioBuffer) {
       AudioBuffer ab=(AudioBuffer)ad;
       int id=ab.getId();

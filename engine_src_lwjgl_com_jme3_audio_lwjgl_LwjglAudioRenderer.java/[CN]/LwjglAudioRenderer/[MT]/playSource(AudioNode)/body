@@ -8,7 +8,9 @@ synchronized (threadLock) {
  catch (      InterruptedException ex) {
       }
     }
-    if (audioDisabled)     return;
+    if (audioDisabled) {
+      return;
+    }
     if (src.getStatus() == Status.Playing) {
       return;
     }
@@ -21,7 +23,9 @@ synchronized (threadLock) {
       clearChannel(index);
       src.setChannel(index);
       AudioData data=src.getAudioData();
-      if (data.isUpdateNeeded())       updateAudioData(data);
+      if (data.isUpdateNeeded()) {
+        updateAudioData(data);
+      }
       chanSrcs[index]=src;
       setSourceParams(channels[index],src,false);
       attachAudioToSource(channels[index],data);

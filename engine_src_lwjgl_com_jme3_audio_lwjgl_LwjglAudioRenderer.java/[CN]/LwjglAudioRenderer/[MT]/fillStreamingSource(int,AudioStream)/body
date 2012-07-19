@@ -1,5 +1,7 @@
 {
-  if (!stream.isOpen())   return false;
+  if (!stream.isOpen()) {
+    return false;
+  }
   boolean active=true;
   int processed=alGetSourcei(sourceId,AL_BUFFERS_PROCESSED);
   if (processed > 0) {
@@ -12,6 +14,8 @@
     ib.put(0,buffer);
     alSourceQueueBuffers(sourceId,ib);
   }
-  if (!active && stream.isOpen())   stream.close();
+  if (!active && stream.isOpen()) {
+    stream.close();
+  }
   return active;
 }
