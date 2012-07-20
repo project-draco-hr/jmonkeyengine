@@ -1,0 +1,15 @@
+{
+  int width=bitmapImage.getWidth();
+  int height=bitmapImage.getHeight();
+  int size=width * height;
+  int[] data=new int[size];
+  buf.asIntBuffer().get(data);
+  for (int idx=0; idx < data.length; idx++) {
+    int initial=data[idx];
+    int pb=(initial >> 16) & 0xff;
+    int pr=(initial << 16) & 0x00ff0000;
+    int pix1=(initial & 0xff00ff00) | pr | pb;
+    data[idx]=pix1;
+  }
+  bitmapImage.setPixels(data,size - width,-width,0,0,width,height);
+}

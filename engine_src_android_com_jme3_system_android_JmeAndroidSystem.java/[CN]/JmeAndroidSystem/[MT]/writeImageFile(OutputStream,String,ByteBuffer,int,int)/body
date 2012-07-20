@@ -1,0 +1,16 @@
+{
+  Bitmap bitmapImage=Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
+  AndroidScreenshots.convertScreenShot(imageData,bitmapImage);
+  Bitmap.CompressFormat compressFormat;
+  if (format.equals("png")) {
+    compressFormat=Bitmap.CompressFormat.PNG;
+  }
+ else   if (format.equals("jpg")) {
+    compressFormat=Bitmap.CompressFormat.JPEG;
+  }
+ else {
+    throw new UnsupportedOperationException("Only 'png' and 'jpg' formats are supported on Android");
+  }
+  bitmapImage.compress(compressFormat,95,outStream);
+  bitmapImage.recycle();
+}

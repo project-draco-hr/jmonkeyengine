@@ -3,12 +3,24 @@
     capture=false;
     shotIndex++;
     renderer.readFrameBuffer(out,outBuf);
-    Screenshots.convertScreenShot(outBuf,awtImage);
+    File file=new File(appName + shotIndex + ".png").getAbsoluteFile();
+    OutputStream outStream=null;
     try {
-      ImageIO.write(awtImage,"png",new File(appName + shotIndex + ".png"));
+      outStream=new FileOutputStream(file);
+      JmeSystem.writeImageFile(outStream,"png",outBuf,width,height);
     }
  catch (    IOException ex) {
       logger.log(Level.SEVERE,"Error while saving screenshot",ex);
+    }
+ finally {
+      if (outStream != null) {
+        try {
+          outStream.close();
+        }
+ catch (        IOException ex) {
+          logger.log(Level.SEVERE,"Error while saving screenshot",ex);
+        }
+      }
     }
   }
 }

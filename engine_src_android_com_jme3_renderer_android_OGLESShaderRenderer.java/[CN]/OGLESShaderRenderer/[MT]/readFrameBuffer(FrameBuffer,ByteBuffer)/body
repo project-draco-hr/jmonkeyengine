@@ -1,3 +1,6 @@
 {
-  logger.warning("readFrameBuffer is not supported.");
+  if (fb != null) {
+    throw new IllegalArgumentException("FrameBuffer is not supported yet.");
+  }
+  GLES20.glReadPixels(vpX,vpY,vpW,vpH,GLES20.GL_RGBA,GLES20.GL_UNSIGNED_BYTE,byteBuf);
 }
