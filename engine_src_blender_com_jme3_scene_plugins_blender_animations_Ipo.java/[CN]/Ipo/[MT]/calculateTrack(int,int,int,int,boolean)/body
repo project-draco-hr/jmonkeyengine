@@ -83,7 +83,7 @@ quaternionRotation[2]=(float)value;
 }
 break;
 default :
-throw new IllegalStateException("Unknown ipo curve type: " + bezierCurves[j].getType());
+LOGGER.warning("Unknown ipo curve type: " + bezierCurves[j].getType());
 }
 }
 translations[index]=new Vector3f(translation[0],translation[1],translation[2]);
