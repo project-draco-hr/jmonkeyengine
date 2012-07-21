@@ -65,8 +65,15 @@
     }
   }
   if (resultTexture instanceof TriangulatedTexture) {
+    if (mappingType == MaterialContext.MTEX_NOR) {
+      for (int i=0; i < ((TriangulatedTexture)resultTexture).getFaceTextureCount(); ++i) {
+        TriangleTextureElement triangleTextureElement=((TriangulatedTexture)resultTexture).getFaceTextureElement(i);
+        triangleTextureElement.image=textureHelper.convertToNormalMapTexture(triangleTextureElement.image,1);
+      }
+    }
     resultUVS=((TriangulatedTexture)resultTexture).getResultUVS();
     resultTexture=((TriangulatedTexture)resultTexture).getResultTexture();
+    wasTriangulated=true;
   }
   resultTexture.setWrap(WrapMode.Repeat);
   resultTexture.setMagFilter(MagFilter.Nearest);

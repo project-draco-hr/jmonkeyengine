@@ -1,0 +1,21 @@
+{
+switch (mapTo) {
+case MTEX_COL:
+    material.setTexture(shadeless ? MaterialHelper.TEXTURE_TYPE_COLOR : MaterialHelper.TEXTURE_TYPE_DIFFUSE,texture);
+  break;
+case MTEX_NOR:
+material.setTexture(MaterialHelper.TEXTURE_TYPE_NORMAL,texture);
+break;
+case MTEX_SPEC:
+material.setTexture(MaterialHelper.TEXTURE_TYPE_SPECULAR,texture);
+break;
+case MTEX_EMIT:
+material.setTexture(MaterialHelper.TEXTURE_TYPE_GLOW,texture);
+break;
+case MTEX_ALPHA:
+material.setTexture(MaterialHelper.TEXTURE_TYPE_ALPHA,texture);
+break;
+default :
+LOGGER.severe("Unknown mapping type: " + mapTo);
+}
+}

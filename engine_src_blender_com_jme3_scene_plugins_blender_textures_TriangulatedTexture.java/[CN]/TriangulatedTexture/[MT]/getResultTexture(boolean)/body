@@ -21,10 +21,12 @@
       }
       Integer[] currentPositions=new Integer[]{currentXPos,currentYPos};
       imageLayoutData.put(currentElement,currentPositions);
-      for (int i=0; i < list.size(); ++i) {
-        if (currentElement.image.equals(list.get(i).image)) {
-          duplicatedFaceIndexes.add(list.get(i).faceIndex);
-          imageLayoutData.put(list.remove(i--),currentPositions);
+      if (keepIdenticalTextures) {
+        for (int i=0; i < list.size(); ++i) {
+          if (currentElement.image.equals(list.get(i).image)) {
+            duplicatedFaceIndexes.add(list.get(i).faceIndex);
+            imageLayoutData.put(list.remove(i--),currentPositions);
+          }
         }
       }
       currentXPos+=currentElement.image.getWidth();
@@ -49,6 +51,10 @@
         this.draw(resultImage,entry.getKey().image,entry.getValue()[0],entry.getValue()[1]);
       }
     }
+    resultTexture.setWrap(WrapAxis.S,this.getWrap(WrapAxis.S));
+    resultTexture.setWrap(WrapAxis.T,this.getWrap(WrapAxis.T));
+    resultTexture.setMagFilter(this.getMagFilter());
+    resultTexture.setMinFilter(this.getMinFilter());
   }
   return resultTexture;
 }

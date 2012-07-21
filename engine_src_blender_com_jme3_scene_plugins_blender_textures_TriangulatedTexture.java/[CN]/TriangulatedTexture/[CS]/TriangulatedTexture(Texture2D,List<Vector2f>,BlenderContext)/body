@@ -8,7 +8,7 @@
 );
   int facesCount=uvs.size() / 3;
   for (int i=0; i < facesCount; ++i) {
-    faceTextures.add(new TriangleTextureElement(i,texture2d,uvs));
+    faceTextures.add(new TriangleTextureElement(i,texture2d.getImage(),uvs,true,blenderContext));
   }
   this.format=texture2d.getImage().getFormat();
 }

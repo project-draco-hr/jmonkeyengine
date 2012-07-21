@@ -1,6 +1,7 @@
 {
   int[] sourceSize=new int[2], targetSize=new int[2];
   ImageLoader imageLoader=new ImageLoader();
+  TextureHelper textureHelper=blenderContext.getHelper(TextureHelper.class);
   for (  TriangleTextureElement entry : faceTextures) {
     TriangleTextureElement targetFaceTextureElement=targetTexture.getFaceTextureElement(entry.faceIndex);
     Vector2f[] dest=targetFaceTextureElement.uv;
@@ -8,7 +9,7 @@
     sourceSize[1]=entry.image.getHeight();
     targetSize[0]=targetFaceTextureElement.image.getWidth();
     targetSize[1]=targetFaceTextureElement.image.getHeight();
-    AffineTransform affineTransform=this.createTransform(entry.uv,dest,sourceSize,targetSize);
+    AffineTransform affineTransform=textureHelper.createAffineTransform(entry.uv,dest,sourceSize,targetSize);
     BufferedImage sourceImage=ImageToAwt.convert(entry.image,false,true,0);
     BufferedImage targetImage=new BufferedImage(targetSize[0],targetSize[1],sourceImage.getType());
     Graphics2D g=targetImage.createGraphics();

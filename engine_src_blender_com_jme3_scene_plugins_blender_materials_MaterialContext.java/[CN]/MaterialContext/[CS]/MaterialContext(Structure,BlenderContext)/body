@@ -53,7 +53,7 @@
   TextureHelper textureHelper=blenderContext.getHelper(TextureHelper.class);
   for (  Entry<Number,List<TextureData>> entry : textureDataMap.entrySet()) {
     if (entry.getValue().size() > 0) {
-      CombinedTexture combinedTexture=new CombinedTexture();
+      CombinedTexture combinedTexture=new CombinedTexture(entry.getKey().intValue());
       for (      TextureData textureData : entry.getValue()) {
         int texflag=((Number)textureData.mtex.getFieldValue("texflag")).intValue();
         boolean negateTexture=(texflag & 0x04) != 0;

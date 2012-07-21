@@ -1,0 +1,15 @@
+{
+  TextureHelper textureHelper=blenderContext.getHelper(TextureHelper.class);
+  float minX=Math.min(triangleVertices[0].x,triangleVertices[1].x);
+  minX=Math.min(minX,triangleVertices[2].x);
+  float maxX=Math.max(triangleVertices[0].x,triangleVertices[1].x);
+  maxX=Math.max(maxX,triangleVertices[2].x);
+  float minY=Math.min(triangleVertices[0].y,triangleVertices[1].y);
+  minY=Math.min(minY,triangleVertices[2].y);
+  float maxY=Math.max(triangleVertices[0].y,triangleVertices[1].y);
+  maxY=Math.max(maxY,triangleVertices[2].y);
+  result[0]=textureHelper.getPixelPosition(minX,totalImageWidth);
+  result[1]=textureHelper.getPixelPosition(minY,totalImageHeight);
+  result[2]=textureHelper.getPixelPosition(maxX,totalImageWidth);
+  result[3]=textureHelper.getPixelPosition(maxY,totalImageHeight);
+}
