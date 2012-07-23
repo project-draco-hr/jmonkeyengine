@@ -3,5 +3,7 @@
     throw new IllegalArgumentException("Scene cannot be null.");
   }
   sceneList.remove(scene);
-  scene.forceRefresh(true,false,true);
+  if (scene instanceof Geometry) {
+    scene.forceRefresh(true,false,true);
+  }
 }
