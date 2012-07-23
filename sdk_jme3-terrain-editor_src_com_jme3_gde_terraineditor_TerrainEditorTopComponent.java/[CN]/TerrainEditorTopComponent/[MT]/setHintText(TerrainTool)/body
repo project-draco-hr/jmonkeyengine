@@ -5,19 +5,32 @@
  else {
     hintTextArea.setText(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.toolHint.default"));
   }
-  if (tool == null) {
-    fractalBrushPanel.setVisible(false);
+  if (insideToolSettings != null) {
+    insideToolSettings.setVisible(false);
+    toolSettingsPanel.remove(insideToolSettings);
+    insideToolSettings=null;
   }
- else   if (tool.getClass() == RoughTerrainTool.class) {
-    if (roughTerrainButton.isSelected()) {
-      fractalBrushPanel.setVisible(true);
+  if (tool != null) {
+    if (tool.getClass() == RoughTerrainTool.class) {
+      if (roughTerrainButton.isSelected()) {
+        toolSettingsPanel.add(fractalBrushPanel);
+        insideToolSettings=fractalBrushPanel;
+      }
     }
- else {
-      fractalBrushPanel.setVisible(false);
+ else     if (tool.getClass() == LevelTerrainTool.class) {
+      if (levelTerrainButton.isSelected()) {
+        toolSettingsPanel.add(levelBrushPanel);
+        insideToolSettings=levelBrushPanel;
+      }
+    }
+ else     if (tool.getClass() == SlopeTerrainTool.class) {
+      if (slopeTerrainButton.isSelected()) {
+        toolSettingsPanel.add(slopeBrushPanel);
+        insideToolSettings=slopeBrushPanel;
+      }
     }
   }
- else {
-    fractalBrushPanel.setVisible(false);
-  }
+  if (insideToolSettings != null)   insideToolSettings.setVisible(true);
+  toolSettingsPanel.validate();
   validate();
 }

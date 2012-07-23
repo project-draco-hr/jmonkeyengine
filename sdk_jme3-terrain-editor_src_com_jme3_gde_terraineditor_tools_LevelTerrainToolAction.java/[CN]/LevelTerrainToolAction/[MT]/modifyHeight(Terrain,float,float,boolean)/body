@@ -1,0 +1,42 @@
+{
+  if (levelTerrainLocation == null)   return;
+  float desiredHeight=levelTerrainLocation.y;
+  int radiusStepsX=(int)(radius / ((Node)terrain).getLocalScale().x);
+  int radiusStepsZ=(int)(radius / ((Node)terrain).getLocalScale().z);
+  float xStepAmount=((Node)terrain).getLocalScale().x;
+  float zStepAmount=((Node)terrain).getLocalScale().z;
+  List<Vector2f> locs=new ArrayList<Vector2f>();
+  List<Float> heights=new ArrayList<Float>();
+  undoHeights=new ArrayList<Float>();
+  for (int z=-radiusStepsZ; z < radiusStepsZ; z++) {
+    for (int x=-radiusStepsZ; x < radiusStepsX; x++) {
+      float locX=worldLoc.x + (x * xStepAmount);
+      float locZ=worldLoc.z + (z * zStepAmount);
+      if (ToolUtils.isInRadius(locX - worldLoc.x,locZ - worldLoc.z,radius)) {
+        Vector2f terrainLoc=new Vector2f(locX,locZ);
+        float terrainHeightAtLoc=terrain.getHeightmapHeight(terrainLoc) * ((Node)terrain).getWorldScale().y;
+        float radiusWeight=ToolUtils.calculateRadiusPercent(radius,locX - worldLoc.x,locZ - worldLoc.z);
+        float epsilon=0.1f * height;
+        float adj=0;
+        if (terrainHeightAtLoc < desiredHeight)         adj=1;
+ else         if (terrainHeightAtLoc > desiredHeight)         adj=-1;
+        adj*=radiusWeight * height;
+        if (adj > 0 && ToolUtils.floatGreaterThan((terrainHeightAtLoc + adj),desiredHeight,epsilon))         adj=desiredHeight - terrainHeightAtLoc;
+ else         if (adj < 0 && ToolUtils.floatLessThan((terrainHeightAtLoc + adj),desiredHeight,epsilon))         adj=terrainHeightAtLoc - desiredHeight;
+        if (!ToolUtils.floatEquals(adj,0,0.001f)) {
+          locs.add(terrainLoc);
+          if (precision) {
+            heights.add(desiredHeight);
+            undoHeights.add(terrainHeightAtLoc);
+          }
+ else           heights.add(adj);
+        }
+      }
+    }
+  }
+  undoLocs=locs;
+  if (!precision)   undoHeights=heights;
+  if (precision)   terrain.setHeight(locs,heights);
+ else   terrain.adjustHeight(locs,heights);
+  ((Node)terrain).updateModelBound();
+}
