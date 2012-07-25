@@ -13,6 +13,12 @@
   height=(int)(h * (Math.abs(bottom - top)));
   width=Math.max(1,width);
   height=Math.max(1,height);
+  if (originalWidth != width || originalHeight != height) {
+    clearColor=false;
+  }
+ else {
+    clearColor=true;
+  }
   cam.resize(width,height,false);
   cameraInit=true;
   computeDepth=false;
