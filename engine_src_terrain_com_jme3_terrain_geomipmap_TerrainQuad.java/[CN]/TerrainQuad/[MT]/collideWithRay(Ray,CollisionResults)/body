@@ -1,6 +1,12 @@
 {
   if (picker == null)   picker=new BresenhamTerrainPicker(this);
   Vector3f intersection=picker.getTerrainIntersection(ray,results);
-  if (intersection != null)   return 1;
+  if (intersection != null) {
+    if (ray.getLimit() < Float.POSITIVE_INFINITY) {
+      if (results.getClosestCollision().getDistance() <= ray.getLimit())       return 1;
+ else       return 0;
+    }
+ else     return 1;
+  }
  else   return 0;
 }
