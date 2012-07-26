@@ -1,6 +1,6 @@
 {
-  if (point1 != null && point2 != null) {
-    SlopeTerrainToolAction action=new SlopeTerrainToolAction(point,point1,point2,radius,weight,toolParams.precision);
+  if (point1 != null && point2 != null && point1.distance(point2) > 0.01f) {
+    SlopeTerrainToolAction action=new SlopeTerrainToolAction(point,point1,point2,radius,weight,toolParams.precision,toolParams.lock);
     action.actionPerformed(rootNode,dataObject);
   }
 }

@@ -1,0 +1,53 @@
+{
+  if (point1.y > point2.y) {
+    Vector3f temp=point1;
+    point1=point2;
+    point2=temp;
+  }
+  float totaldistance=point1.distance(point2);
+  int radiusStepsX=(int)(radius / ((Node)terrain).getLocalScale().x);
+  int radiusStepsZ=(int)(radius / ((Node)terrain).getLocalScale().z);
+  float xStepAmount=((Node)terrain).getLocalScale().x;
+  float zStepAmount=((Node)terrain).getLocalScale().z;
+  List<Vector2f> locs=new ArrayList<Vector2f>();
+  List<Float> heights=new ArrayList<Float>();
+  undoHeights=new ArrayList<Float>();
+  Plane p1=new Plane();
+  Plane p2=new Plane();
+  p1.setOriginNormal(point1,point1.subtract(point2).normalize());
+  p2.setOriginNormal(point2,point1.subtract(point2).normalize());
+  for (int z=-radiusStepsZ; z < radiusStepsZ; z++)   for (int x=-radiusStepsZ; x < radiusStepsX; x++) {
+    float locX=current.x + (x * xStepAmount);
+    float locZ=current.z + (z * zStepAmount);
+    if (ToolUtils.isInRadius(locX - current.x,locZ - current.z,radius)) {
+      Vector2f terrainLoc=new Vector2f(locX,locZ);
+      float terrainHeightAtLoc=terrain.getHeightmapHeight(terrainLoc) * ((Node)terrain).getWorldScale().y;
+      float point1Distance=point1.distance(new Vector3f(locX,terrainHeightAtLoc,locZ));
+      float desiredHeight=point1.y + (point2.y - point1.y) * (point1Distance / totaldistance);
+      if (!lock || (lock && p1.whichSide(new Vector3f(locX,0f,locZ)) != p2.whichSide(new Vector3f(locX,0f,locZ))))       if (!precise) {
+        float epsilon=0.1f * weight;
+        float adj=0;
+        if (terrainHeightAtLoc < desiredHeight)         adj=1;
+ else         if (terrainHeightAtLoc > desiredHeight)         adj=-1;
+        float radiusWeight=ToolUtils.calculateRadiusPercent(radius,locX - current.x,locZ - current.z);
+        adj*=radiusWeight * weight;
+        if (adj > 0 && ToolUtils.floatGreaterThan((terrainHeightAtLoc + adj),desiredHeight,epsilon))         adj=desiredHeight - terrainHeightAtLoc;
+ else         if (adj < 0 && ToolUtils.floatLessThan((terrainHeightAtLoc + adj),desiredHeight,epsilon))         adj=terrainHeightAtLoc - desiredHeight;
+        if (!ToolUtils.floatEquals(adj,0,0.001f)) {
+          locs.add(terrainLoc);
+          heights.add(adj);
+        }
+      }
+ else {
+        locs.add(terrainLoc);
+        heights.add(desiredHeight);
+        undoHeights.add(terrainHeightAtLoc);
+      }
+    }
+  }
+  undoLocs=locs;
+  if (!precise)   undoHeights=heights;
+  if (precise)   terrain.setHeight(locs,heights);
+ else   terrain.adjustHeight(locs,heights);
+  ((Node)terrain).updateModelBound();
+}

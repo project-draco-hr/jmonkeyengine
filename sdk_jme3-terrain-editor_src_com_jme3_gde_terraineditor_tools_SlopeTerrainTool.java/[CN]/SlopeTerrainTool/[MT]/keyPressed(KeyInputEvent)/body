@@ -1,7 +1,4 @@
 {
-  if (kie.getKeyCode() == KeyInput.KEY_LCONTROL) {
-    leftCtrl=kie.isPressed();
-  }
 switch (kie.getKeyCode()) {
 case KeyInput.KEY_LCONTROL:
     leftCtrl=kie.isPressed();
@@ -11,6 +8,18 @@ point1=null;
 point2=null;
 markerSecondary.removeFromParent();
 markerThird.removeFromParent();
+line.removeFromParent();
+angleText.removeFromParent();
+break;
+case KeyInput.KEY_UP:
+markerThird.move(0f,0.1f,0f);
+point2.set(markerThird.getLocalTranslation());
+updateAngle();
+break;
+case KeyInput.KEY_DOWN:
+markerThird.move(0f,-0.1f,0f);
+point2.set(markerThird.getLocalTranslation());
+updateAngle();
 break;
 }
 }

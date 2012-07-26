@@ -15,7 +15,7 @@
   scaleField=new javax.swing.JTextField();
   slopeBrushPanel=new javax.swing.JPanel();
   slopePrecisionCheckbox=new javax.swing.JCheckBox();
-  jLabel7=new javax.swing.JLabel();
+  slopeLockCheckbox=new javax.swing.JCheckBox();
   jToolBar1=new javax.swing.JToolBar();
   createTerrainButton=new javax.swing.JButton();
   jSeparator1=new javax.swing.JToolBar.Separator();
@@ -151,8 +151,14 @@
   }
 );
   slopeBrushPanel.add(slopePrecisionCheckbox);
-  org.openide.awt.Mnemonics.setLocalizedText(jLabel7,org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.jLabel7.text"));
-  slopeBrushPanel.add(jLabel7);
+  org.openide.awt.Mnemonics.setLocalizedText(slopeLockCheckbox,org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.slopeLockCheckbox.text"));
+  slopeLockCheckbox.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      slopeLockCheckboxActionPerformed(evt);
+    }
+  }
+);
+  slopeBrushPanel.add(slopeLockCheckbox);
   setBackground(java.awt.Color.gray);
   jToolBar1.setBackground(new java.awt.Color(204,204,204));
   jToolBar1.setFloatable(false);
@@ -334,7 +340,7 @@
   jPanel3.setOpaque(false);
   javax.swing.GroupLayout jPanel3Layout=new javax.swing.GroupLayout(jPanel3);
   jPanel3.setLayout(jPanel3Layout);
-  jPanel3Layout.setHorizontalGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0,147,Short.MAX_VALUE));
+  jPanel3Layout.setHorizontalGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0,148,Short.MAX_VALUE));
   jPanel3Layout.setVerticalGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0,25,Short.MAX_VALUE));
   jToolBar1.add(jPanel3);
   toolSettingsPanel.setBackground(new java.awt.Color(204,204,204));
