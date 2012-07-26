@@ -1,0 +1,15 @@
+{
+  if (!initialized) {
+    control.addListener(new OnEndListener());
+    initialized=true;
+  }
+  if (!emitted && time >= startOffset) {
+    emitted=true;
+    if (particlesPerSeconds == 0) {
+      emitter.emitAllParticles();
+    }
+ else {
+      emitter.setParticlesPerSec(particlesPerSeconds);
+    }
+  }
+}

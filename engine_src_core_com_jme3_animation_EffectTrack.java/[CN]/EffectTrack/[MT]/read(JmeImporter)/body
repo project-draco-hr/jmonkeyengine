@@ -1,0 +1,8 @@
+{
+  InputCapsule in=im.getCapsule(this);
+  emitter=(ParticleEmitter)in.readSavable("emitter",null);
+  this.particlesPerSeconds=emitter.getParticlesPerSec();
+  emitter.setParticlesPerSec(0);
+  length=in.readFloat("length",length);
+  startOffset=in.readFloat("startOffset",0);
+}
