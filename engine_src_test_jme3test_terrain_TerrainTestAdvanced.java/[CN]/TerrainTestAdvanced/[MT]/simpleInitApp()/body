@@ -8,16 +8,24 @@
   Texture heightMapImage=assetManager.loadTexture("Textures/Terrain/splat/mountains512.png");
   Texture grass=assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
   grass.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("DiffuseMap_1",grass);
+  matTerrain.setFloat("DiffuseMap_1_scale",grassScale);
   Texture dirt=assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
   dirt.setWrap(WrapMode.Repeat);
   matTerrain.setTexture("DiffuseMap",dirt);
   matTerrain.setFloat("DiffuseMap_0_scale",dirtScale);
   Texture rock=assetManager.loadTexture("Textures/Terrain/splat/road.jpg");
   rock.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("DiffuseMap_2",rock);
+  matTerrain.setFloat("DiffuseMap_2_scale",rockScale);
   Texture brick=assetManager.loadTexture("Textures/Terrain/BrickWall/BrickWall.jpg");
   brick.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("DiffuseMap_3",brick);
+  matTerrain.setFloat("DiffuseMap_3_scale",rockScale);
   Texture riverRock=assetManager.loadTexture("Textures/Terrain/Pond/Pond.jpg");
   riverRock.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("DiffuseMap_4",riverRock);
+  matTerrain.setFloat("DiffuseMap_4_scale",rockScale);
   Texture normalMap0=assetManager.loadTexture("Textures/Terrain/splat/grass_normal.jpg");
   normalMap0.setWrap(WrapMode.Repeat);
   Texture normalMap1=assetManager.loadTexture("Textures/Terrain/splat/dirt_normal.png");
@@ -25,9 +33,13 @@
   Texture normalMap2=assetManager.loadTexture("Textures/Terrain/splat/road_normal.png");
   normalMap2.setWrap(WrapMode.Repeat);
   matTerrain.setTexture("NormalMap",normalMap0);
+  matTerrain.setTexture("NormalMap_1",normalMap2);
+  matTerrain.setTexture("NormalMap_2",normalMap2);
+  matTerrain.setTexture("NormalMap_4",normalMap2);
   matWire=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
   matWire.getAdditionalRenderState().setWireframe(true);
   matWire.setColor("Color",ColorRGBA.Green);
+  createSky();
   AbstractHeightMap heightmap=null;
   try {
     heightmap=new ImageBasedHeightMap(heightMapImage.getImage(),0.5f);
@@ -47,7 +59,6 @@
   terrain.setLocalTranslation(0,-100,0);
   terrain.setLocalScale(1f,1f,1f);
   rootNode.attachChild(terrain);
-  Material debugMat=assetManager.loadMaterial("Common/Materials/VertexColor.j3m");
   DirectionalLight light=new DirectionalLight();
   light.setDirection((new Vector3f(-0.5f,-0.5f,-0.5f)).normalize());
   rootNode.addLight(light);
