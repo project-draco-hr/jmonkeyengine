@@ -2,8 +2,10 @@
   if (capture) {
     capture=false;
     shotIndex++;
+    renderer.setViewPort(0,0,width,height);
     renderer.readFrameBuffer(out,outBuf);
-    File file=new File(appName + shotIndex + ".png").getAbsoluteFile();
+    File file=new File(JmeSystem.getStorageFolder() + File.separator + appName+ shotIndex+ ".png").getAbsoluteFile();
+    logger.log(Level.INFO,"Saving ScreenShot to: {0}",file.getAbsolutePath());
     OutputStream outStream=null;
     try {
       outStream=new FileOutputStream(file);
