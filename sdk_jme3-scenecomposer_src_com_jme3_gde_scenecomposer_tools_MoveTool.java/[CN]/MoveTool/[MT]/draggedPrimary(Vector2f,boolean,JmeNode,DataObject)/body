@@ -10,12 +10,11 @@
     return;
   }
   if (toolController.getSelectedSpatial() == null)   return;
-  TempVars vars=TempVars.get();
   if (pickedPlane == null) {
     pickedPlane=pickAxisMarker(camera,screenCoord,axisPickType);
     if (pickedPlane == null)     return;
     startLoc=toolController.getSelectedSpatial().getLocalTranslation().clone();
-    Quaternion rot=vars.quat1.set(toolController.getSelectedSpatial().getWorldRotation());
+    rot=rot.set(toolController.getSelectedSpatial().getWorldRotation());
     if (pickedPlane.equals(new Vector3f(1,1,0)))     plane.setLocalRotation(rot.multLocal(XY));
  else     if (pickedPlane.equals(new Vector3f(1,0,1)))     plane.setLocalRotation(rot.multLocal(XZ));
  else     if (pickedPlane.equals(new Vector3f(0,1,1)))     plane.setLocalRotation(rot.multLocal(YZ));
@@ -23,12 +22,10 @@
   }
   Vector3f planeHit=pickWorldLocation(camera,screenCoord,plane,null);
   if (planeHit == null) {
-    vars.release();
     return;
   }
   Spatial selected=toolController.getSelectedSpatial();
   Spatial parent=selected.getParent();
-  Vector3f newPos=vars.vect1;
   if (parent == null) {
     if (offset == null) {
       offset=planeHit.subtract(startLoc);
@@ -48,7 +45,6 @@
     selected.setLocalTranslation(newPos);
     lastLoc.set(newPos);
   }
-  vars.release();
   RigidBodyControl control=toolController.getSelectedSpatial().getControl(RigidBodyControl.class);
   if (control != null) {
     control.setPhysicsLocation(toolController.getSelectedSpatial().getWorldTranslation());
