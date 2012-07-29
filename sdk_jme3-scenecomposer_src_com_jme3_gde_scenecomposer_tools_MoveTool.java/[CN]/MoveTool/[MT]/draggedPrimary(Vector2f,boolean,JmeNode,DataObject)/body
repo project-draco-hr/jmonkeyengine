@@ -9,15 +9,25 @@
     }
     return;
   }
-  if (toolController.getSelectedSpatial() == null)   return;
+  if (toolController.getSelectedSpatial() == null) {
+    return;
+  }
   if (pickedPlane == null) {
     pickedPlane=pickAxisMarker(camera,screenCoord,axisPickType);
-    if (pickedPlane == null)     return;
+    if (pickedPlane == null) {
+      return;
+    }
     startLoc=toolController.getSelectedSpatial().getLocalTranslation().clone();
     rot=rot.set(toolController.getSelectedSpatial().getWorldRotation());
-    if (pickedPlane.equals(new Vector3f(1,1,0)))     plane.setLocalRotation(rot.multLocal(XY));
- else     if (pickedPlane.equals(new Vector3f(1,0,1)))     plane.setLocalRotation(rot.multLocal(XZ));
- else     if (pickedPlane.equals(new Vector3f(0,1,1)))     plane.setLocalRotation(rot.multLocal(YZ));
+    if (pickedPlane.equals(new Vector3f(1,1,0))) {
+      plane.setLocalRotation(rot.multLocal(XY));
+    }
+ else     if (pickedPlane.equals(new Vector3f(1,0,1))) {
+      plane.setLocalRotation(rot.multLocal(XZ));
+    }
+ else     if (pickedPlane.equals(new Vector3f(0,1,1))) {
+      plane.setLocalRotation(rot.multLocal(YZ));
+    }
     plane.setLocalTranslation(startLoc);
   }
   Vector3f planeHit=pickWorldLocation(camera,screenCoord,plane,null);
