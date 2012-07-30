@@ -2,10 +2,10 @@
   if (!pressed) {
     setDefaultAxisMarkerColors();
     pickedPlane=null;
-    offset=null;
     if (wasDragging) {
-      actionPerformed(new MoveUndo(toolController.getSelectedSpatial(),startLoc,lastLoc));
+      actionPerformed(moveManager.makeUndo());
       wasDragging=false;
     }
+    moveManager.reset();
   }
 }

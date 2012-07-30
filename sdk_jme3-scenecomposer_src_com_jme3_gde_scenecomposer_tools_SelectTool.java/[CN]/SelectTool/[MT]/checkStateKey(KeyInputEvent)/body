@@ -1,6 +1,11 @@
 {
   if (kie.getKeyCode() == KeyInput.KEY_G) {
     currentState=State.translate;
+    MoveManager moveManager=Lookup.getDefault().lookup(MoveManager.class);
+    moveManager.reset();
+    Quaternion rot=camera.getRotation().mult(new Quaternion().fromAngleAxis(FastMath.PI,Vector3f.UNIT_Y));
+    moveManager.initiateMove(selected,rot,false);
+    moving=moveManager.makeUndo();
     return true;
   }
  else   if (kie.getKeyCode() == KeyInput.KEY_R) {

@@ -3,7 +3,7 @@
     if (!wasDraggingL) {
       if (currentState != null) {
         if (moving != null) {
-          moving.after=selected.getLocalTranslation().clone();
+          moving.setAfter(selected.getLocalTranslation());
           actionPerformed(moving);
           moving=null;
           clearState(false);

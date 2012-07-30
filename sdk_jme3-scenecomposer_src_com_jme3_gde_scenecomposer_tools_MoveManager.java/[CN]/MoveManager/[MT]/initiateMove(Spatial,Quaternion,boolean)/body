@@ -1,0 +1,14 @@
+{
+  spatial=selectedSpatial;
+  startLoc=selectedSpatial.getLocalTranslation().clone();
+  startWorldLoc=selectedSpatial.getWorldTranslation().clone();
+  if (local) {
+    rot.set(selectedSpatial.getWorldRotation());
+    plane.setLocalRotation(rot.multLocal(planeRotation));
+  }
+ else {
+    rot.set(planeRotation);
+  }
+  plane.setLocalRotation(rot);
+  plane.setLocalTranslation(startWorldLoc);
+}

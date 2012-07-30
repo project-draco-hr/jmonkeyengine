@@ -1,0 +1,19 @@
+{
+  Node toPick=alternativePickTarget == null ? plane : alternativePickTarget;
+  Vector3f planeHit=SceneEditTool.pickWorldLocation(camera,screenCoord,toPick,alternativePickTarget == null ? null : spatial);
+  if (planeHit == null) {
+    return false;
+  }
+  Spatial parent=spatial.getParent();
+  if (parent == null) {
+    return false;
+  }
+  if (offset == null) {
+    offset=planeHit.subtract(spatial.getWorldTranslation());
+  }
+  newPos.set(planeHit).subtractLocal(offset);
+  Vector3f tmp=startWorldLoc.mult(Vector3f.UNIT_XYZ.subtract(constraintAxis));
+  newPos.multLocal(constraintAxis).addLocal(tmp);
+  worldToLocalMove(gridSnap);
+  return true;
+}

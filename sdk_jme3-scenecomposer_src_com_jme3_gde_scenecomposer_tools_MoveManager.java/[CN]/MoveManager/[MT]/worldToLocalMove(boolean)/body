@@ -1,0 +1,18 @@
+{
+  if (gridSnap) {
+    newPos.set(Math.round(newPos.x),Math.round(newPos.y),Math.round(newPos.z));
+  }
+  newPos.subtractLocal(spatial.getParent().getWorldTranslation());
+  newPos=spatial.getParent().getWorldRotation().inverse().normalizeLocal().multLocal(newPos);
+  newPos.divideLocal(spatial.getWorldScale());
+  lastLoc=newPos;
+  spatial.setLocalTranslation(newPos);
+  RigidBodyControl control=spatial.getControl(RigidBodyControl.class);
+  if (control != null) {
+    control.setPhysicsLocation(spatial.getWorldTranslation());
+  }
+  CharacterControl character=spatial.getControl(CharacterControl.class);
+  if (character != null) {
+    character.setPhysicsLocation(spatial.getWorldTranslation());
+  }
+}

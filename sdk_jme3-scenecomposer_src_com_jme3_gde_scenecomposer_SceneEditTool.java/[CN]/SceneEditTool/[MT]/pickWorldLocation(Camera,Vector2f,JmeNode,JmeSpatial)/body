@@ -1,4 +1,5 @@
 {
   Node rootNode=jmeRootNode.getLookup().lookup(Node.class);
-  return pickWorldLocation(cam,mouseLoc,rootNode,excludeSpat);
+  Spatial exclude=excludeSpat.getLookup().lookup(Spatial.class);
+  return pickWorldLocation(cam,mouseLoc,rootNode,exclude);
 }
