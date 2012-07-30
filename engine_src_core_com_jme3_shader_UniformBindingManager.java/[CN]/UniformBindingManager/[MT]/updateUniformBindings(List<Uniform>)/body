@@ -38,6 +38,9 @@ worldMatrixInv.invertLocal();
 u.setValue(VarType.Matrix4,worldMatrixInv);
 break;
 case WorldMatrixInverseTranspose:
+worldMatrix.toRotationMatrix(worldMatrixInvTrsp);
+worldMatrixInvTrsp.invertLocal().transposeLocal();
+u.setValue(VarType.Matrix3,worldMatrixInvTrsp);
 break;
 case ViewMatrixInverse:
 viewMatrixInv.set(viewMatrix);
