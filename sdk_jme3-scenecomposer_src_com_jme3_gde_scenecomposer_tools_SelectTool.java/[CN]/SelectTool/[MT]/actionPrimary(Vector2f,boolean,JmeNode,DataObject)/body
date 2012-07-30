@@ -25,7 +25,9 @@
  else {
         final Vector3f result=pickWorldLocation(getCamera(),screenCoord,rootNode);
         if (result != null) {
-          if (toolController.isSnapToGrid())           result.set(Math.round(result.x),result.y,Math.round(result.z));
+          if (toolController.isSnapToGrid()) {
+            result.set(Math.round(result.x),result.y,Math.round(result.z));
+          }
           toolController.doSetCursorLocation(result);
         }
       }

@@ -23,8 +23,12 @@
       }
  else {
         Spatial linkNodeParent=findModelNodeParent(s);
-        if (linkNodeParent != null)         s=linkNodeParent;
- else         return;
+        if (linkNodeParent != null) {
+          s=linkNodeParent;
+        }
+ else {
+          return;
+        }
         final Spatial selec=s;
         selected=selec;
         java.awt.EventQueue.invokeLater(new Runnable(){

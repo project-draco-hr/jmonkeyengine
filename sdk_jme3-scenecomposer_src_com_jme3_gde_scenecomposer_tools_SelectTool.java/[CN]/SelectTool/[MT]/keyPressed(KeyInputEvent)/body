@@ -1,6 +1,8 @@
 {
   checkModificatorKeys(kie);
-  if (selected == null)   return;
+  if (selected == null) {
+    return;
+  }
   if (kie.isReleased()) {
     boolean commandUsed=checkCommandKey(kie);
     boolean stateChange=checkStateKey(kie);
@@ -8,7 +10,9 @@
     boolean numberChange=checkNumberKey(kie);
     boolean enterHit=checkEnterHit(kie);
     boolean escHit=checkEscHit(kie);
-    if (commandUsed)     return;
+    if (commandUsed) {
+      return;
+    }
     if (stateChange) {
       currentAxis=Vector3f.UNIT_XYZ;
       numberBuilder=new StringBuilder();
@@ -25,7 +29,9 @@
       }
     }
     if (escHit) {
-      if (moving != null)       moving.sceneUndo();
+      if (moving != null) {
+        moving.sceneUndo();
+      }
       moving=null;
       clearState();
     }

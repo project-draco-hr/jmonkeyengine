@@ -1,17 +1,31 @@
 {
-  if (startMouseCoord == null)   startMouseCoord=screenCoord.clone();
+  if (startMouseCoord == null) {
+    startMouseCoord=screenCoord.clone();
+  }
   if (startSelectedCoord == null) {
     Vector3f screen=getCamera().getScreenCoordinates(selected.getWorldTranslation());
     startSelectedCoord=new Vector2f(screen.x,screen.y);
   }
-  if (scaling == null)   scaling=new ScaleUndo(selected,selected.getLocalScale().clone(),null);
+  if (scaling == null) {
+    scaling=new ScaleUndo(selected,selected.getLocalScale().clone(),null);
+  }
   float origDist=startMouseCoord.distanceSquared(startSelectedCoord);
   float newDist=screenCoord.distanceSquared(startSelectedCoord);
-  if (origDist == 0)   origDist=1;
+  if (origDist == 0) {
+    origDist=1;
+  }
   float ratio=newDist / origDist;
   Vector3f prev=selected.getLocalScale();
-  if (axis == Vector3f.UNIT_X)   selected.setLocalScale(ratio,prev.y,prev.z);
- else   if (axis == Vector3f.UNIT_Y)   selected.setLocalScale(prev.x,ratio,prev.z);
- else   if (axis == Vector3f.UNIT_Z)   selected.setLocalScale(prev.x,prev.y,ratio);
- else   selected.setLocalScale(ratio,ratio,ratio);
+  if (axis == Vector3f.UNIT_X) {
+    selected.setLocalScale(ratio,prev.y,prev.z);
+  }
+ else   if (axis == Vector3f.UNIT_Y) {
+    selected.setLocalScale(prev.x,ratio,prev.z);
+  }
+ else   if (axis == Vector3f.UNIT_Z) {
+    selected.setLocalScale(prev.x,prev.y,ratio);
+  }
+ else {
+    selected.setLocalScale(ratio,ratio,ratio);
+  }
 }

@@ -8,7 +8,9 @@
         numberBuilder.insert(0,'-');
       }
     }
- else     numberBuilder.append('-');
+ else {
+      numberBuilder.append('-');
+    }
     return true;
   }
  else   if (kie.getKeyCode() == KeyInput.KEY_0 || kie.getKeyCode() == KeyInput.KEY_NUMPAD0) {
@@ -53,8 +55,12 @@
   }
  else   if (kie.getKeyCode() == KeyInput.KEY_PERIOD) {
     if (numberBuilder.indexOf(".") == -1) {
-      if (numberBuilder.length() == 0 || (numberBuilder.length() == 1 && numberBuilder.charAt(0) == '-'))       numberBuilder.append("0.");
- else       numberBuilder.append(".");
+      if (numberBuilder.length() == 0 || (numberBuilder.length() == 1 && numberBuilder.charAt(0) == '-')) {
+        numberBuilder.append("0.");
+      }
+ else {
+        numberBuilder.append(".");
+      }
     }
     return true;
   }
