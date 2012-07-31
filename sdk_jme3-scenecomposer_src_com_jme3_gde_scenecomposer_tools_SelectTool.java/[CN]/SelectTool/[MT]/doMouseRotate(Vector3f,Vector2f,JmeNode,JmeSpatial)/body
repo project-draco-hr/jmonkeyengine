@@ -19,10 +19,10 @@
   lastRotAngle=temp;
   Quaternion rotate=new Quaternion();
   if (axis != Vector3f.UNIT_XYZ) {
-    rotate=rotate.fromAngleAxis(newRotAngle,axis);
+    rotate=rotate.fromAngleAxis(newRotAngle,selected.getWorldRotation().inverse().mult(axis));
   }
  else {
-    rotate=rotate.fromAngleAxis(newRotAngle,getCamera().getDirection());
+    rotate=rotate.fromAngleAxis(newRotAngle,selected.getWorldRotation().inverse().mult(getCamera().getDirection().mult(-1).normalizeLocal()));
   }
   selected.setLocalRotation(selected.getLocalRotation().mult(rotate));
 }

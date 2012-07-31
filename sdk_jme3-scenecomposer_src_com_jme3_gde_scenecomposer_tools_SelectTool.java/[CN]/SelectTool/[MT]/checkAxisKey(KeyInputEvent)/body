@@ -1,44 +1,17 @@
 {
   if (kie.getKeyCode() == KeyInput.KEY_X) {
     currentAxis=Vector3f.UNIT_X;
-    MoveManager moveManager=Lookup.getDefault().lookup(MoveManager.class);
-    Quaternion rot=camera.getRotation().mult(new Quaternion().fromAngleAxis(FastMath.PI,Vector3f.UNIT_Y));
-    Quaternion planRot=null;
-    if (rot.dot(MoveManager.XY) < rot.dot(MoveManager.XZ)) {
-      planRot=MoveManager.XY;
-    }
- else {
-      planRot=MoveManager.XZ;
-    }
-    moveManager.updatePlaneRotation(planRot);
+    checkMovePlane(MoveManager.XY,MoveManager.XZ);
     return true;
   }
  else   if (kie.getKeyCode() == KeyInput.KEY_Y) {
     currentAxis=Vector3f.UNIT_Y;
-    MoveManager moveManager=Lookup.getDefault().lookup(MoveManager.class);
-    Quaternion rot=camera.getRotation().mult(new Quaternion().fromAngleAxis(FastMath.PI,Vector3f.UNIT_Y));
-    Quaternion planRot=null;
-    if (rot.dot(MoveManager.XY) < rot.dot(MoveManager.YZ)) {
-      planRot=MoveManager.XY;
-    }
- else {
-      planRot=MoveManager.YZ;
-    }
-    moveManager.updatePlaneRotation(planRot);
+    checkMovePlane(MoveManager.XY,MoveManager.YZ);
     return true;
   }
  else   if (kie.getKeyCode() == KeyInput.KEY_Z) {
     currentAxis=Vector3f.UNIT_Z;
-    MoveManager moveManager=Lookup.getDefault().lookup(MoveManager.class);
-    Quaternion rot=camera.getRotation().mult(new Quaternion().fromAngleAxis(FastMath.PI,Vector3f.UNIT_Y));
-    Quaternion planRot=null;
-    if (rot.dot(MoveManager.XZ) < rot.dot(MoveManager.YZ)) {
-      planRot=MoveManager.XZ;
-    }
- else {
-      planRot=MoveManager.YZ;
-    }
-    moveManager.updatePlaneRotation(planRot);
+    checkMovePlane(MoveManager.XZ,MoveManager.YZ);
     return true;
   }
   return false;
