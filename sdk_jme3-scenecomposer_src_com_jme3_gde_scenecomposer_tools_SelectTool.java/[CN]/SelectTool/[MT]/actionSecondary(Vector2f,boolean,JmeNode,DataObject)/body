@@ -34,13 +34,12 @@
         java.awt.EventQueue.invokeLater(new Runnable(){
           @Override public void run(){
             if (selec != null) {
-              SceneViewerTopComponent.findInstance().setActivatedNodes(new org.openide.nodes.Node[]{rootNode.getChild(selec)});
-              SceneExplorerTopComponent.findInstance().setSelectedNode(rootNode.getChild(selec));
+              doSelect();
             }
- else {
-              SceneViewerTopComponent.findInstance().setActivatedNodes(new org.openide.nodes.Node[]{rootNode});
-              SceneExplorerTopComponent.findInstance().setSelectedNode(rootNode);
-            }
+          }
+          private void doSelect(){
+            SceneViewerTopComponent.findInstance().setActivatedNodes(new org.openide.nodes.Node[]{rootNode.getChild(selec)});
+            SceneExplorerTopComponent.findInstance().setSelectedNode(rootNode.getChild(selec));
           }
         }
 );
