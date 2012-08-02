@@ -1,10 +1,12 @@
 {
-  if (mbe.isReleased()) {
-    java.awt.EventQueue.invokeLater(new Runnable(){
-      public void run(){
-        SceneViewerTopComponent.findInstance().requestActive();
+  if ("true".equals(NbPreferences.forModule(Installer.class).get("use_lwjgl_canvas","false"))) {
+    if (mbe.isReleased()) {
+      java.awt.EventQueue.invokeLater(new Runnable(){
+        public void run(){
+          SceneViewerTopComponent.findInstance().requestActive();
+        }
       }
-    }
 );
+    }
   }
 }
