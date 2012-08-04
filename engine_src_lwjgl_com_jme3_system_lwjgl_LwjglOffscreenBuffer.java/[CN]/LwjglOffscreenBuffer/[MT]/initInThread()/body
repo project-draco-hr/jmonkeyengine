@@ -3,11 +3,8 @@
     logger.severe("Offscreen surfaces are not supported.");
     return;
   }
-  int samples=0;
-  if (settings.getSamples() > 1) {
-    samples=settings.getSamples();
-  }
-  pixelFormat=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),settings.getSamples());
+  int samples=getNumSamplesToUse();
+  pixelFormat=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),samples);
   width=settings.getWidth();
   height=settings.getHeight();
   try {

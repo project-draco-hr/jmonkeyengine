@@ -1,0 +1,11 @@
+{
+  int samples=0;
+  if (settings.getSamples() > 1) {
+    samples=settings.getSamples();
+    int supportedSamples=determineMaxSamples(samples);
+    if (supportedSamples < samples) {
+      samples=supportedSamples;
+    }
+  }
+  return samples;
+}

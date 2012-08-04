@@ -7,10 +7,7 @@
   }
  else {
     if (canvasFormat == null) {
-      int samples=0;
-      if (settings.getSamples() > 1) {
-        samples=settings.getSamples();
-      }
+      int samples=getNumSamplesToUse();
       canvasFormat=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),samples);
     }
     return canvasFormat;

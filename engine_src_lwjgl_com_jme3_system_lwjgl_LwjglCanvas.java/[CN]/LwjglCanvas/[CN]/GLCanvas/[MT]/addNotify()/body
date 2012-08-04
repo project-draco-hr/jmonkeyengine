@@ -1,6 +1,8 @@
 {
   super.addNotify();
-  if (renderThread != null && renderThread.getState() == Thread.State.TERMINATED)   return;
+  if (renderThread != null && renderThread.getState() == Thread.State.TERMINATED) {
+    return;
+  }
   if (renderThread == null) {
     logger.log(Level.INFO,"EDT: Creating OGL thread.");
     canvas.setFocusable(true);
