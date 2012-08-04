@@ -1,0 +1,21 @@
+{
+  int xDir=SensorManager.AXIS_X;
+  int yDir=SensorManager.AXIS_Y;
+  if (getScreenRotation() == Surface.ROTATION_0) {
+    xDir=SensorManager.AXIS_X;
+    yDir=SensorManager.AXIS_Y;
+  }
+  if (getScreenRotation() == Surface.ROTATION_90) {
+    xDir=SensorManager.AXIS_MINUS_Y;
+    yDir=SensorManager.AXIS_MINUS_X;
+  }
+  if (getScreenRotation() == Surface.ROTATION_180) {
+    xDir=SensorManager.AXIS_MINUS_X;
+    yDir=SensorManager.AXIS_MINUS_Y;
+  }
+  if (getScreenRotation() == Surface.ROTATION_270) {
+    xDir=SensorManager.AXIS_Y;
+    yDir=SensorManager.AXIS_MINUS_X;
+  }
+  return SensorManager.remapCoordinateSystem(inR,xDir,yDir,outR);
+}

@@ -1,0 +1,31 @@
+{
+  SensorData sensorData=sensors.get((Integer)sensorType);
+  if (sensorData != null) {
+    if (sensorData.enabled) {
+      logger.log(Level.INFO,"Sensor Already Active: SensorType: {0}, active: {1}",new Object[]{sensorType,sensorData.enabled});
+      return true;
+    }
+    if (sensorData.sensor != null) {
+      if (sensorManager.registerListener(this,sensorData.sensor,sensorData.androidSensorSpeed)) {
+        sensorData.enabled=true;
+        logger.log(Level.INFO,"SensorType: {0}, active: {1}",new Object[]{sensorType,sensorData.enabled});
+        logger.log(Level.INFO,"Sensor Type {0} activated.",sensorType);
+        return true;
+      }
+ else {
+        sensorData.enabled=false;
+        logger.log(Level.INFO,"Sensor Type {0} activation failed.",sensorType);
+      }
+    }
+ else     if (sensorType == SensorInput.SENSOR_TYPE_ORIENTATION) {
+      logger.log(Level.INFO,"Sensor is Orientation");
+      if (registerListener(SensorInput.SENSOR_TYPE_MAGNETIC_FIELD) && registerListener(SensorInput.SENSOR_TYPE_ACCELEROMETER)) {
+        sensorData.enabled=true;
+        logger.log(Level.INFO,"Magnetic and Acceleration Sensors Registered and Orientation Sensor being simulated.");
+        return true;
+      }
+    }
+    sensorData.lastValues=null;
+  }
+  return false;
+}

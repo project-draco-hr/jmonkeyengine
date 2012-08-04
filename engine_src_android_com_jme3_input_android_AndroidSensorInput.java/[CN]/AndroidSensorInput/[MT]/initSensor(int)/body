@@ -1,0 +1,40 @@
+{
+  boolean result=false;
+  boolean previouslyActive=false;
+  SensorData sensorData=sensors.get((Integer)sensorType);
+  if (sensorData != null) {
+    if (sensorData.enabled) {
+      previouslyActive=true;
+    }
+    unRegisterListener(sensorType);
+  }
+ else {
+    sensorData=new SensorData(sensorType,null);
+    sensors.put(sensorType,sensorData);
+  }
+switch (sensorType) {
+case SensorInput.SENSOR_TYPE_MAGNETIC_FIELD:
+    sensorData.androidSensorType=Sensor.TYPE_MAGNETIC_FIELD;
+  sensorData.sensor=sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+break;
+case SensorInput.SENSOR_TYPE_ACCELEROMETER:
+sensorData.androidSensorType=Sensor.TYPE_ACCELEROMETER;
+sensorData.sensor=sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+break;
+case SensorInput.SENSOR_TYPE_ORIENTATION:
+sensorData.androidSensorType=Sensor.TYPE_ORIENTATION;
+sensorData.sensor=null;
+break;
+default :
+throw new IllegalArgumentException("Invalid Sensor Type.");
+}
+if (sensorData.sensor != null || sensorType == SensorInput.SENSOR_TYPE_ORIENTATION) {
+logger.log(Level.INFO,"Sensor Type {0} found.",sensorType);
+if (previouslyActive) {
+logger.log(Level.INFO,"Reactivating Sensor Type {0}.",sensorType);
+registerListener(sensorType);
+}
+result=true;
+}
+return result;
+}

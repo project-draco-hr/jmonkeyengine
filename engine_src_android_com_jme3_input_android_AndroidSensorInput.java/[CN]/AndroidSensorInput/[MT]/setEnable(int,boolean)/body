@@ -1,0 +1,9 @@
+{
+  logger.log(Level.INFO,"Setting Sensor {0} Enable to {1}",new Object[]{sensorType,enable});
+  if (enable) {
+    registerListener(sensorType);
+  }
+ else {
+    unRegisterListener(sensorType);
+  }
+}

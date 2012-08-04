@@ -1,0 +1,11 @@
+{
+  for (  Integer i : sensors.keySet()) {
+    unRegisterListener(i);
+  }
+  logger.log(Level.INFO,"Doing Destroy");
+  if (sensorManager != null) {
+    sensorManager.unregisterListener(this);
+  }
+  sensors.clear();
+  eventQueue.clear();
+}

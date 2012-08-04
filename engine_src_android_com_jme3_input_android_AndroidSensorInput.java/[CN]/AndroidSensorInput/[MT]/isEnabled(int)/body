@@ -1,0 +1,8 @@
+{
+  logger.log(Level.INFO,"Checking isEnabled for type: {0}",sensorType);
+  SensorData sensorData=sensors.get((Integer)sensorType);
+  if (sensorData == null) {
+    return false;
+  }
+  return sensors.get((Integer)sensorType).enabled;
+}

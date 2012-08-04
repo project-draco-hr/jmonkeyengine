@@ -1,0 +1,7 @@
+{
+  SensorData sensorData=sensors.get((Integer)sensorType);
+  if (sensorData == null || sensorData.enabled) {
+    throw new IllegalArgumentException("Sensor Type Not Configured or is already active.");
+  }
+  sensorData.androidSensorSpeed=getAndroidSensorSpeed(updateSpeed);
+}

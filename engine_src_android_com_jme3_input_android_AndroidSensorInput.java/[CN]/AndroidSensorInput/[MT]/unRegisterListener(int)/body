@@ -1,0 +1,16 @@
+{
+  SensorData sensorData=sensors.get((Integer)sensorType);
+  if (sensorData != null) {
+    if (sensorData.sensor != null) {
+      sensorManager.unregisterListener(this,sensorData.sensor);
+    }
+ else     if (sensorType == SensorInput.SENSOR_TYPE_ORIENTATION) {
+      logger.log(Level.INFO,"Mangetic and Acceleration Sensors are being deactivated with Orientation Sensor.");
+      unRegisterListener(SensorInput.SENSOR_TYPE_MAGNETIC_FIELD);
+      unRegisterListener(SensorInput.SENSOR_TYPE_ACCELEROMETER);
+    }
+    sensorData.enabled=false;
+    logger.log(Level.INFO,"SensorType: {0}, active: {1}",new Object[]{sensorType,sensorData.enabled});
+    logger.log(Level.INFO,"Sensor Type {0} deactivated.",sensorType);
+  }
+}

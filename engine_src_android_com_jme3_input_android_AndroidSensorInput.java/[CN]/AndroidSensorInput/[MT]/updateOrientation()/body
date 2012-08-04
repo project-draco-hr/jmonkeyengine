@@ -1,0 +1,43 @@
+{
+  SensorData sensorData;
+  sensorData=sensors.get((Integer)SensorInput.SENSOR_TYPE_MAGNETIC_FIELD);
+  if (sensorData == null || !sensorData.enabled) {
+    return false;
+  }
+  sensorData=sensors.get((Integer)SensorInput.SENSOR_TYPE_ACCELEROMETER);
+  if (sensorData == null || !sensorData.enabled) {
+    return false;
+  }
+  sensorData=sensors.get((Integer)SensorInput.SENSOR_TYPE_ORIENTATION);
+  if (sensorData != null && sensorData.enabled) {
+    final float[] accValues=new float[3];
+    final float[] magValues=new float[3];
+synchronized (curAccValues) {
+      accValues[0]=curAccValues[0];
+      accValues[1]=curAccValues[1];
+      accValues[2]=curAccValues[2];
+    }
+synchronized (curMagValues) {
+      magValues[0]=curMagValues[0];
+      magValues[1]=curMagValues[1];
+      magValues[2]=curMagValues[2];
+    }
+    if (SensorManager.getRotationMatrix(curRotation,curInclination,accValues,magValues)) {
+      final float[] orientValues=new float[3];
+      if (remapCoordinates(curRotation,rotatedRotation)) {
+        SensorManager.getOrientation(rotatedRotation,orientValues);
+        updateEventQueue(SensorInput.SENSOR_TYPE_ORIENTATION,orientValues[0],orientValues[1],orientValues[2],System.nanoTime());
+        return true;
+      }
+ else {
+      }
+    }
+ else {
+    }
+  }
+ else {
+    if (!sensorData.enabled) {
+    }
+  }
+  return false;
+}
