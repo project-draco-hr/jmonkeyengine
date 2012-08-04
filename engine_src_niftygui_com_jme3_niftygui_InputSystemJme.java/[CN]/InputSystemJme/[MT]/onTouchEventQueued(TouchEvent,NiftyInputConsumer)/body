@@ -1,30 +1,23 @@
 {
-  boolean consumed=false;
+  if (inputManager.getSimulateMouse()) {
+    return;
+  }
   x=(int)evt.getX();
   y=(int)(height - evt.getY());
-  if (!inputManager.getSimulateMouse()) {
 switch (evt.getType()) {
 case DOWN:
-      consumed=nic.processMouseEvent(x,y,0,0,true);
-    isDragging=true;
-  niftyOwnsDragging=consumed;
-if (consumed) {
-  evt.setConsumed();
-}
+    if (inputPointerId != -1) {
+      break;
+    }
+  inputPointerId=evt.getPointerId();
+handleMouseEvent(0,true,nic,evt);
 break;
 case UP:
-if (niftyOwnsDragging) {
-consumed=nic.processMouseEvent(x,y,0,0,false);
-if (consumed) {
-evt.setConsumed();
-}
-}
-isDragging=false;
-niftyOwnsDragging=false;
-if (consumed) {
-processSoftKeyboard();
-}
+if (inputPointerId != evt.getPointerId()) {
 break;
 }
+inputPointerId=-1;
+handleMouseEvent(0,false,nic,evt);
+break;
 }
 }
