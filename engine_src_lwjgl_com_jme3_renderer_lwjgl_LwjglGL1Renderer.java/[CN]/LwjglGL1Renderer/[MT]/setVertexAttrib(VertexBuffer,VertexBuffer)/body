@@ -1,4 +1,7 @@
 {
+  if (vb.getBufferType() == VertexBuffer.Type.Color && !context.useVertexColor) {
+    return;
+  }
   int arrayType=convertArrayType(vb.getBufferType());
   if (arrayType == -1) {
     return;
