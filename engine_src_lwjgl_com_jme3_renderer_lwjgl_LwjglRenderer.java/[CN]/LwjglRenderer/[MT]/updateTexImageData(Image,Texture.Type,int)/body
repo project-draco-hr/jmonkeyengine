@@ -17,9 +17,10 @@
     context.boundTextures[unit]=img;
     statistics.onTextureUse(img,true);
   }
-  if (!img.hasMipmaps() && mips) {
+  if (!img.hasMipmaps() && img.isGeneratedMipmapsRequired()) {
     if (!GLContext.getCapabilities().OpenGL30) {
       glTexParameteri(target,GL_GENERATE_MIPMAP,GL_TRUE);
+      img.setMipmapsGenerated(true);
     }
   }
  else {
@@ -77,10 +78,11 @@
     img.setMultiSamples(imageSamples);
   }
   if (GLContext.getCapabilities().OpenGL30) {
-    if (!img.hasMipmaps() && mips && img.getData() != null) {
+    if (!img.hasMipmaps() && img.isGeneratedMipmapsRequired() && img.getData() != null) {
       glEnable(target);
       glGenerateMipmapEXT(target);
       glDisable(target);
+      img.setMipmapsGenerated(true);
     }
   }
   img.clearUpdateNeeded();

@@ -21,13 +21,14 @@
       }
     }
   }
-  if (!img.hasMipmaps() && mips) {
+  if (!img.hasMipmaps() && img.isGeneratedMipmapsRequired()) {
     if (GLContext.getCapabilities().OpenGL14) {
       glTexParameteri(target,GL14.GL_GENERATE_MIPMAP,GL_TRUE);
     }
  else {
       MipMapGenerator.generateMipMaps(img);
     }
+    img.setMipmapsGenerated(true);
   }
  else {
   }

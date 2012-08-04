@@ -16,6 +16,11 @@
     GLES20.glBindTexture(target,texId);
     context.boundTextures[0]=img;
   }
+  boolean needMips=false;
+  if (img.isGeneratedMipmapsRequired()) {
+    needMips=true;
+    img.setMipmapsGenerated(true);
+  }
   if (target == GLES20.GL_TEXTURE_CUBE_MAP) {
     @SuppressWarnings("unchecked") List<AndroidImageInfo> bmps=(List<AndroidImageInfo>)img.getEfficentData();
     if (bmps != null) {
