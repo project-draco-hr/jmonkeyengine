@@ -1,9 +1,10 @@
 {
   RenderImageJme jmeImage=(RenderImageJme)image;
   Texture2D texture=jmeImage.getTexture();
-  niftyMat.getAdditionalRenderState().setBlendMode(convertBlend());
-  niftyMat.setColor("Color",convertColor(color,tempColor));
-  niftyMat.setTexture("Texture",texture);
+  unshadedMat.getAdditionalRenderState().setBlendMode(convertBlend());
+  unshadedMat.setColor("Color",convertColor(color,tempColor));
+  unshadedMat.setTexture("ColorMap",texture);
+  unshadedMat.setBoolean("VertexColor",false);
   float imageWidth=jmeImage.getWidth();
   float imageHeight=jmeImage.getHeight();
   FloatBuffer texCoords=(FloatBuffer)quadModTC.getData();
@@ -28,5 +29,5 @@
   tempMat.setTranslation(x0,getHeight() - y0,0);
   tempMat.setScale(w * scale,h * scale,0);
   rm.setWorldMatrix(tempMat);
-  niftyMat.render(quadGeom,rm);
+  unshadedMat.render(quadGeom,rm);
 }

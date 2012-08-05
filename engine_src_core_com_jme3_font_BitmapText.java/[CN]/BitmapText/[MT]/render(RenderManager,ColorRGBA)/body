@@ -1,7 +1,8 @@
 {
   for (  BitmapTextPage page : textPages) {
     Material mat=page.getMaterial();
-    mat.setTexture("Texture",page.getTexture());
+    mat.setTexture("ColorMap",page.getTexture());
+    mat.setColor("Color",color);
     mat.render(page,rm);
   }
 }

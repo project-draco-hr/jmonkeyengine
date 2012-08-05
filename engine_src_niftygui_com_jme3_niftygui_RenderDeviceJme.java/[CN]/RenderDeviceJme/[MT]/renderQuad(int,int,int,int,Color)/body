@@ -1,11 +1,11 @@
 {
-  if (color.getAlpha() > 0) {
-    niftyQuadMat.getAdditionalRenderState().setBlendMode(convertBlend());
-    niftyQuadMat.setColor("Color",convertColor(color,tempColor));
-    tempMat.loadIdentity();
-    tempMat.setTranslation(x,getHeight() - y,0);
-    tempMat.setScale(width,height,0);
-    rm.setWorldMatrix(tempMat);
-    niftyQuadMat.render(quadGeom,rm);
-  }
+  unshadedMat.getAdditionalRenderState().setBlendMode(convertBlend());
+  unshadedMat.setColor("Color",convertColor(color,tempColor));
+  unshadedMat.setTexture("ColorMap",null);
+  unshadedMat.setBoolean("VertexColor",false);
+  tempMat.loadIdentity();
+  tempMat.setTranslation(x,getHeight() - y,0);
+  tempMat.setScale(width,height,0);
+  rm.setWorldMatrix(tempMat);
+  unshadedMat.render(quadGeom,rm);
 }

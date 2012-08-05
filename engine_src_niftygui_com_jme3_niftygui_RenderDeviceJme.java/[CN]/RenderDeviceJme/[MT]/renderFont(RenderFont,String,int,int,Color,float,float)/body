@@ -6,7 +6,8 @@
     return;
   }
   RenderFontJme jmeFont=(RenderFontJme)font;
-  String key=font + str + color.getColorString();
+  ColorRGBA colorRgba=convertColor(color,tempColor);
+  CachedTextKey key=new CachedTextKey(jmeFont.getFont(),str);
   BitmapText text=textCacheLastFrame.get(key);
   if (text == null) {
     text=jmeFont.createText();
@@ -14,12 +15,12 @@
     text.updateLogicalState(0);
   }
   textCacheCurrentFrame.put(key,text);
-  niftyMat.setColor("Color",convertColor(color,tempColor));
-  niftyMat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
-  text.setMaterial(niftyMat);
+  float width=text.getLineWidth();
+  float x0=x + 0.5f * width * (1f - sizeX);
+  float y0=y;
   tempMat.loadIdentity();
-  tempMat.setTranslation(x,getHeight() - y,0);
+  tempMat.setTranslation(x0,getHeight() - y0,0);
   tempMat.setScale(sizeX,sizeY,0);
   rm.setWorldMatrix(tempMat);
-  text.render(rm);
+  text.render(rm,colorRgba);
 }
