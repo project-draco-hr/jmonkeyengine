@@ -2,7 +2,9 @@
   StringBuilder sb=new StringBuilder();
   sb.append(getClass().getSimpleName());
   sb.append("[name=").append(name);
-  if (image != null)   sb.append(", image=").append(image.toString());
+  if (image != null) {
+    sb.append(", image=").append(image.toString());
+  }
   sb.append("]");
   return sb.toString();
 }
