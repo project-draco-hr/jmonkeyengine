@@ -5,8 +5,13 @@
   }
   if (!emitted && time >= startOffset) {
     emitted=true;
+    stopRequested=false;
+    emitter.setCullHint(CullHint.Dynamic);
+    emitter.setEnabled(true);
     if (particlesPerSeconds == 0) {
       emitter.emitAllParticles();
+      emitter.addControl(killParticles);
+      stopRequested=true;
     }
  else {
       emitter.setParticlesPerSec(particlesPerSeconds);
