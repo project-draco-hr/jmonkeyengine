@@ -1,3 +1,6 @@
 {
   tracks.remove(track);
+  if (track instanceof ClonableTrack) {
+    ((ClonableTrack)track).cleanUp();
+  }
 }

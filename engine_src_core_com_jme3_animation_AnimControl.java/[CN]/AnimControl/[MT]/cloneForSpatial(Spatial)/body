@@ -7,6 +7,10 @@
     if (skeleton != null) {
       clone.skeleton=new Skeleton(skeleton);
     }
+    clone.animationMap=new HashMap<String,Animation>();
+    for (    Entry<String,Animation> animEntry : animationMap.entrySet()) {
+      clone.animationMap.put(animEntry.getKey(),animEntry.getValue().cloneForSpatial(spatial));
+    }
     return clone;
   }
  catch (  CloneNotSupportedException ex) {

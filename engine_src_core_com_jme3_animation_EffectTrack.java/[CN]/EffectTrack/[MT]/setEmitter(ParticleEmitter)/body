@@ -1,3 +1,8 @@
 {
+  if (this.emitter != null) {
+    TrackInfo data=(TrackInfo)emitter.getUserData("TrackInfo");
+    data.getTracks().remove(this);
+  }
   this.emitter=emitter;
+  setUserData(this);
 }
