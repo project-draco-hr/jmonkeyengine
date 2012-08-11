@@ -1,0 +1,11 @@
+{
+  if (root instanceof Node) {
+    Node n=(Node)root;
+    for (    Spatial child : n.getChildren()) {
+      populateModel(child,model);
+    }
+  }
+ else   if (root instanceof ParticleEmitter) {
+    model.addElement((ParticleEmitter)root);
+  }
+}

@@ -1,0 +1,8 @@
+{
+  if (key instanceof Animation) {
+    JmeTrackChildren children=new JmeTrackChildren();
+    children.setReadOnly(readOnly);
+    return new Node[]{new JmeAnimation(jmeAnimControl,(Animation)key,children,dataObject).setReadOnly(readOnly)};
+  }
+  return new Node[]{Node.EMPTY};
+}

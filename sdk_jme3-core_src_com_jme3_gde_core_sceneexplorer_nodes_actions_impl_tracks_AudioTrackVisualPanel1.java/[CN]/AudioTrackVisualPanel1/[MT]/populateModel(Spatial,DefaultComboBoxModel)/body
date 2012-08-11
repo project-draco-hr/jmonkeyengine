@@ -1,0 +1,11 @@
+{
+  if (root instanceof AudioNode) {
+    model.addElement((AudioNode)root);
+  }
+ else   if (root instanceof Node) {
+    Node n=(Node)root;
+    for (    Spatial child : n.getChildren()) {
+      populateModel(child,model);
+    }
+  }
+}

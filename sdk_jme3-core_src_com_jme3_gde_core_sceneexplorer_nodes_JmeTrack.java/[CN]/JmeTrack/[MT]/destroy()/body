@@ -1,0 +1,21 @@
+{
+  super.destroy();
+  fireSave(true);
+  final Animation anim=getParentNode().getLookup().lookup(Animation.class);
+  try {
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        anim.removeTrack(track);
+        return null;
+      }
+    }
+).get();
+    ((AbstractSceneExplorerNode)getParentNode()).refresh(true);
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

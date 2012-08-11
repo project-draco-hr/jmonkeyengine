@@ -1,0 +1,13 @@
+{
+  super(children);
+  this.dataObject=dataObject;
+  children.setDataObject(dataObject);
+  this.animation=animation;
+  this.jmeControl=control;
+  lookupContents.add(this);
+  lookupContents.add(animation);
+  setName(animation.getName());
+  children.setAnimation(this);
+  children.setAnimControl(jmeControl);
+  icon=ImageUtilities.loadImage(ICON);
+}

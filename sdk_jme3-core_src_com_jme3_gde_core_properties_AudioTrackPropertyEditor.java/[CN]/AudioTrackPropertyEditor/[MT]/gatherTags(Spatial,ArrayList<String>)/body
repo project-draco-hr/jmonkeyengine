@@ -1,0 +1,11 @@
+{
+  if (root instanceof AudioNode) {
+    list.add(root.getName());
+  }
+ else   if (root instanceof Node) {
+    Node n=(Node)root;
+    for (    Spatial child : n.getChildren()) {
+      gatherTags(child,list);
+    }
+  }
+}

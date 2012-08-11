@@ -1,0 +1,28 @@
+{
+  final AnimControl control=jmeControl.getLookup().lookup(AnimControl.class);
+  if (control == null) {
+    return;
+  }
+  try {
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        if (playing) {
+          control.clearChannels();
+          jmeControl.setAnim(null);
+          return null;
+        }
+        control.clearChannels();
+        control.createChannel().setAnim(animation.getName());
+        play();
+        return null;
+      }
+    }
+).get();
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

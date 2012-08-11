@@ -1,0 +1,46 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("Track");
+  set.setName(track.getClass().getSimpleName());
+  Track obj=track;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,float.class,"getLength","Track length"));
+  if (track instanceof EffectTrack) {
+    EffectTrackEmitterProperty prop=new EffectTrackEmitterProperty((EffectTrack)track,control.getSpatial());
+    prop.addPropertyChangeListener(this);
+    set.put(prop);
+  }
+  if (track instanceof AudioTrack) {
+    AudioTrackProperty prop=new AudioTrackProperty((AudioTrack)track,control.getSpatial());
+    prop.addPropertyChangeListener(this);
+    set.put(prop);
+  }
+  if (track instanceof EffectTrack || track instanceof AudioTrack) {
+    try {
+      SceneExplorerProperty prop=new SceneExplorerProperty(track,float.class,"getStartOffset","setStartOffset",this){
+        SliderPropertyEditor editor=null;
+        @Override public PropertyEditor getPropertyEditor(){
+          if (editor == null) {
+            if (track instanceof EffectTrack) {
+              editor=new SliderPropertyEditor(0f,((EffectTrack)track).getLength());
+            }
+ else {
+              editor=new SliderPropertyEditor(0f,((AudioTrack)track).getLength());
+            }
+          }
+          return editor;
+        }
+      }
+;
+      set.put(prop);
+    }
+ catch (    NoSuchMethodException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+  sheet.put(set);
+  return sheet;
+}
