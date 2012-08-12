@@ -38,8 +38,11 @@
             }
           }
           private void doSelect(){
-            SceneViewerTopComponent.findInstance().setActivatedNodes(new org.openide.nodes.Node[]{rootNode.getChild(selec)});
-            SceneExplorerTopComponent.findInstance().setSelectedNode(rootNode.getChild(selec));
+            JmeSpatial n=rootNode.getChild(selec);
+            if (n != null) {
+              SceneViewerTopComponent.findInstance().setActivatedNodes(new org.openide.nodes.Node[]{n});
+              SceneExplorerTopComponent.findInstance().setSelectedNode(n);
+            }
           }
         }
 );
