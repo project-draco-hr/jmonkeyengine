@@ -1,6 +1,7 @@
 {
   super.setName(s);
   try {
+    fireSave(true);
     SceneApplication.getApplication().enqueue(new Callable<Void>(){
       public Void call() throws Exception {
         spatial.setName(s);
