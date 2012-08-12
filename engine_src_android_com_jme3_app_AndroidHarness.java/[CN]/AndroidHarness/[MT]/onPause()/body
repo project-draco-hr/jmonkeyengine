@@ -12,15 +12,6 @@
         renderer.pauseAll();
       }
     }
-    if (app.getInputManager() != null) {
-      SensorInput sensorInput=app.getInputManager().getSensorInput();
-      if (sensorInput != null) {
-        logger.log(Level.INFO,"pause: {0}",sensorInput.getClass().getSimpleName());
-        if (sensorInput instanceof AndroidSensorInput) {
-          ((AndroidSensorInput)sensorInput).resumeSensors();
-        }
-      }
-    }
   }
   isGLThreadPaused=true;
   logger.info("onPause");

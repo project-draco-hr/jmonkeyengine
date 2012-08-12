@@ -9,7 +9,5 @@
     joyInput=context.getJoyInput();
     if (joyInput != null)     joyInput.initialize();
   }
-  sensorInput=context.getSensorInput();
-  if (sensorInput != null)   sensorInput.initialize();
-  inputManager=new InputManager(mouseInput,keyInput,joyInput,touchInput,sensorInput);
+  inputManager=new InputManager(mouseInput,keyInput,joyInput,touchInput);
 }

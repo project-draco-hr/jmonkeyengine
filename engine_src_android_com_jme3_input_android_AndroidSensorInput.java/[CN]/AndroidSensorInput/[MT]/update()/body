@@ -1,9 +1,0 @@
-{
-  updateOrientation();
-synchronized (eventQueue) {
-    for (int i=0; i < eventQueue.size(); i++) {
-      listener.onMotionSensorEvent(eventQueue.get(i));
-    }
-    eventQueue.clear();
-  }
-}

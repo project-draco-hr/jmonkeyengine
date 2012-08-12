@@ -1,9 +1,0 @@
-{
-  for (  Entry<Integer,SensorData> entry : sensors.entrySet()) {
-    SensorData sensorData=entry.getValue();
-    if (sensorData.sensor != null) {
-      unRegisterListener(entry.getKey());
-      sensorData.paused=true;
-    }
-  }
-}

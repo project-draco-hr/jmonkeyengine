@@ -6,7 +6,6 @@
   this.mouse=mouse;
   this.joystick=joystick;
   this.touch=touch;
-  this.sensor=sensor;
   keys.setInputListener(this);
   mouse.setInputListener(this);
   if (joystick != null) {
@@ -15,9 +14,6 @@
   }
   if (touch != null) {
     touch.setInputListener(this);
-  }
-  if (sensor != null) {
-    sensor.setInputListener(this);
   }
   firstTime=keys.getInputTimeNanos();
 }
