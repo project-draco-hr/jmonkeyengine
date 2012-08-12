@@ -22,12 +22,14 @@
         return;
       }
  else {
-        Spatial linkNodeParent=findModelNodeParent(s);
-        if (linkNodeParent != null) {
-          s=linkNodeParent;
-        }
+        if (!toolController.isSelectGeometries()) {
+          Spatial linkNodeParent=findModelNodeParent(s);
+          if (linkNodeParent != null) {
+            s=linkNodeParent;
+          }
  else {
-          return;
+            return;
+          }
         }
         final Spatial selec=s;
         selected=selec;
