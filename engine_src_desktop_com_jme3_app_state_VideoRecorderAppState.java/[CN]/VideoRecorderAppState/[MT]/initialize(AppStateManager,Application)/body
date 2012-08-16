@@ -1,6 +1,7 @@
 {
   super.initialize(stateManager,app);
   this.app=app;
+  this.oldTimer=app.getTimer();
   app.setTimer(new IsoTimer(framerate));
   if (file == null) {
     String filename=System.getProperty("user.home") + File.separator + "jMonkey-"+ System.currentTimeMillis() / 1000 + ".avi";
