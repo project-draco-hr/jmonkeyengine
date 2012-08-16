@@ -42,13 +42,4 @@
   final List<Product> products=new LinkedList<Product>();
   products.addAll(successfulInstall);
   products.addAll(warningInstall);
-  runAppNow.setSelected(false);
-  if (!products.isEmpty()) {
-    runAppNow.setText(StringUtils.format(DEFAULT_MESSAGE_LAUNCH_APPLICATION_NOW,products.get(0).getDisplayName()));
-    runAppNow.doClick();
-    app=products.get(0);
-  }
- else {
-    runAppNow.setVisible(false);
-  }
 }

@@ -9,16 +9,6 @@
  catch (    InitializationException e) {
     }
     final File executable=l != null ? new File(app.getInstallationLocation(),l.getExecutable()) : null;
-    if (executable != null && runAppNow.isSelected()) {
-      LogManager.log("... running: " + executable.getAbsolutePath());
-      ProcessBuilder pb=new ProcessBuilder(new String[]{executable.getAbsolutePath()});
-      try {
-        pb.start();
-      }
- catch (      IOException e) {
-        LogManager.log(e);
-      }
-    }
   }
   super.evaluateNextButtonClick();
 }
