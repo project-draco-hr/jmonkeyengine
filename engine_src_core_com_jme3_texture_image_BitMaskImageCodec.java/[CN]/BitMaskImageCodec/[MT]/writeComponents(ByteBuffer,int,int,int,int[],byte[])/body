@@ -1,0 +1,4 @@
+{
+  int outputPixel=((components[0] & maxAlpha) << as) | ((components[1] & maxRed) << rs) | ((components[2] & maxGreen) << gs)| ((components[3] & maxBlue) << bs);
+  writePixelRaw(buf,(x + y * width) * bpp,outputPixel,bpp);
+}

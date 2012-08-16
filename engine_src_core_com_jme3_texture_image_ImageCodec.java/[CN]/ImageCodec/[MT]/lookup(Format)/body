@@ -1,0 +1,7 @@
+{
+  ImageCodec codec=params.get(format);
+  if (codec == null) {
+    throw new UnsupportedOperationException("The format " + format + " is not supported");
+  }
+  return codec;
+}

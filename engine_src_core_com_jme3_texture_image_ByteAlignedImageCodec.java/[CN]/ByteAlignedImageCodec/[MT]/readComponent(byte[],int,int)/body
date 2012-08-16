@@ -1,0 +1,13 @@
+{
+  try {
+    int component=0;
+    for (int i=size - 1; i >= 0; i--) {
+      component=(component << 8) | (encoded[position + i] & 0xff);
+    }
+    return component;
+  }
+ catch (  ArrayIndexOutOfBoundsException ex) {
+    ex.printStackTrace();
+    return 0;
+  }
+}

@@ -1,0 +1,8 @@
+{
+  idx+=bpp;
+  int original=buf.get(--idx) & 0xff;
+  while ((--bpp) > 0) {
+    original=(original << 8) | (buf.get(--idx) & 0xff);
+  }
+  return original;
+}

@@ -1,0 +1,21 @@
+{
+  Texture tex=new Texture2D(image);
+  tex.setMagFilter(MagFilter.Nearest);
+  tex.setMinFilter(MinFilter.NearestNoMipMaps);
+  tex.setAnisotropicFilter(16);
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  mat.setTexture("ColorMap",tex);
+  Quad q=new Quad(5,5);
+  Geometry g=new Geometry("quad",q);
+  g.setLocalTranslation(posX,posY - 5,-0.0001f);
+  g.setMaterial(mat);
+  rootNode.attachChild(g);
+  BitmapFont fnt=assetManager.loadFont("Interface/Fonts/Default.fnt");
+  BitmapText txt=new BitmapText(fnt);
+  txt.setBox(new Rectangle(0,0,5,5));
+  txt.setQueueBucket(RenderQueue.Bucket.Transparent);
+  txt.setSize(0.5f);
+  txt.setText(image.getFormat().name());
+  txt.setLocalTranslation(posX,posY,0);
+  rootNode.attachChild(txt);
+}

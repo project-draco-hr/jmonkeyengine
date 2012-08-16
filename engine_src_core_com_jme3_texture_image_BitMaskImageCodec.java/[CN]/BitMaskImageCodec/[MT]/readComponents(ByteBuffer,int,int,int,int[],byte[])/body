@@ -1,0 +1,7 @@
+{
+  int inputPixel=readPixelRaw(buf,(x + y * width) * bpp,bpp);
+  components[0]=(inputPixel >> as) & maxAlpha;
+  components[1]=(inputPixel >> rs) & maxRed;
+  components[2]=(inputPixel >> gs) & maxGreen;
+  components[3]=(inputPixel >> bs) & maxBlue;
+}

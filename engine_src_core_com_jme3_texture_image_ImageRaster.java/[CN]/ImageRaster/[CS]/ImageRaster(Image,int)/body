@@ -1,0 +1,13 @@
+{
+  this.image=image;
+  this.buffer=image.getData(slice);
+  this.codec=ImageCodec.lookup(image.getFormat());
+  this.width=image.getWidth();
+  this.height=image.getHeight();
+  if (codec instanceof ByteAlignedImageCodec) {
+    this.temp=new byte[codec.bpp];
+  }
+ else {
+    this.temp=null;
+  }
+}
