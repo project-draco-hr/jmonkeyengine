@@ -1,0 +1,7 @@
+{
+  super.read(im);
+  InputCapsule ic=im.getCapsule(this);
+  radialVelocity=ic.readFloat("radialVelocity",0f);
+  origin=(Vector3f)ic.readSavable("origin",new Vector3f());
+  horizontal=ic.readBoolean("horizontal",false);
+}

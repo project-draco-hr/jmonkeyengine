@@ -1,0 +1,13 @@
+{
+  particle.velocity.set(initialVelocity);
+  temp.set(particle.position).subtractLocal(origin).normalizeLocal().multLocal(radialVelocity);
+  if (horizontal) {
+    temp.y=0;
+  }
+  particle.velocity.addLocal(temp);
+  temp.set(FastMath.nextRandomFloat(),FastMath.nextRandomFloat(),FastMath.nextRandomFloat());
+  temp.multLocal(2f);
+  temp.subtractLocal(1f,1f,1f);
+  temp.multLocal(initialVelocity.length());
+  particle.velocity.interpolate(temp,velocityVariation);
+}
