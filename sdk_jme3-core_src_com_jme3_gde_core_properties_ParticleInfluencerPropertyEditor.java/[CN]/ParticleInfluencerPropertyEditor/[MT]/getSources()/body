@@ -1,0 +1,44 @@
+{
+  Sources sources=proj.getLookup().lookup(Sources.class);
+  final List<String> list=new LinkedList<String>();
+  if (sources != null) {
+    SourceGroup[] groups=sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA);
+    if (groups != null) {
+      for (      SourceGroup sourceGroup : groups) {
+        ClasspathInfo cpInfo=ClasspathInfo.create(ClassPath.getClassPath(sourceGroup.getRootFolder(),ClassPath.BOOT),ClassPath.getClassPath(sourceGroup.getRootFolder(),ClassPath.COMPILE),ClassPath.getClassPath(sourceGroup.getRootFolder(),ClassPath.SOURCE));
+        HashSet<SearchScope> set=new HashSet<SearchScope>();
+        set.add(ClassIndex.SearchScope.SOURCE);
+        Set<ElementHandle<TypeElement>> types=cpInfo.getClassIndex().getDeclaredTypes("",NameKind.PREFIX,set);
+        for (Iterator<ElementHandle<TypeElement>> it=types.iterator(); it.hasNext(); ) {
+          final ElementHandle<TypeElement> elementHandle=it.next();
+          JavaSource js=JavaSource.create(cpInfo);
+          try {
+            js.runUserActionTask(new Task<CompilationController>(){
+              public void run(              CompilationController control) throws Exception {
+                control.toPhase(Phase.RESOLVED);
+                TypeElement elem=elementHandle.resolve(control);
+                List<? extends TypeMirror> interfaces=elem.getInterfaces();
+                for (                TypeMirror typeMirror : interfaces) {
+                  String interfaceName=typeMirror.toString();
+                  if ("com.jme3.effect.influencers.ParticleInfluencer".equals(interfaceName)) {
+                    list.add(elem.getQualifiedName().toString());
+                  }
+                }
+                TypeMirror superClass=elem.getSuperclass();
+                String superClassName=superClass.toString();
+                if ("com.jme3.effect.influencers.DefaultParticleInfluencer".equals(superClassName)) {
+                  list.add(elem.getQualifiedName().toString());
+                }
+              }
+            }
+,false);
+          }
+ catch (          Exception ioe) {
+            Exceptions.printStackTrace(ioe);
+          }
+        }
+      }
+    }
+  }
+  return list;
+}

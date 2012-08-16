@@ -1,5 +1,5 @@
 {
-  Sheet sheet=super.createSheet();
+  sheet=super.createSheet();
   Sheet.Set set=Sheet.createPropertiesSet();
   set.setDisplayName("ParticleEmitter");
   set.setName(ParticleEmitter.class.getName());
@@ -20,8 +20,6 @@
   set.put(makeProperty(obj,float.class,"getHighLife","setHighLife","High Life"));
   set.put(makeProperty(obj,float.class,"getLowLife","setLowLife","Low Life"));
   set.put(makeProperty(obj,Vector3f.class,"getGravity","setGravity","Gravity"));
-  set.put(makeEmbedProperty(obj.getParticleInfluencer(),ParticleInfluencer.class,Vector3f.class,"getInitialVelocity","setInitialVelocity","Initial Velocity"));
-  set.put(makeEmbedProperty(obj.getParticleInfluencer(),ParticleInfluencer.class,float.class,"getVelocityVariation","setVelocityVariation","Velocity Variation"));
   set.put(makeProperty(obj,Vector3f.class,"getFaceNormal","setFaceNormal","Face Normal"));
   set.put(makeProperty(obj,boolean.class,"isFacingVelocity","setFacingVelocity","Facing Velocity"));
   set.put(makeProperty(obj,boolean.class,"isRandomAngle","setRandomAngle","Random Angle"));
@@ -31,5 +29,7 @@
   set.put(makeProperty(obj,int.class,"getImagesX","setImagesX","Images X"));
   set.put(makeProperty(obj,int.class,"getImagesY","setImagesY","Images Y"));
   sheet.put(set);
+  set2=Sheet.createPropertiesSet();
+  createParticleInfluencerSet(sheet,obj);
   return sheet;
 }

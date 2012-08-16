@@ -1,0 +1,15 @@
+{
+  for (  Property<?> property : set2.getProperties()) {
+    set2.remove(property.getName());
+  }
+  set2.setDisplayName("Particle Influencer" + " - " + obj.getParticleInfluencer().getClass().getSimpleName());
+  set2.setName(obj.getParticleInfluencer().getClass().getName());
+  ParticleInfluencerProperty prop=new ParticleInfluencerProperty(obj,this.getLookup().lookup(ProjectAssetManager.class).getProject());
+  prop.addPropertyChangeListener(this);
+  set2.put(prop);
+  if (obj.getParticleInfluencer().getClass().getSuperclass() == DefaultParticleInfluencer.class) {
+    createEmbedFields(DefaultParticleInfluencer.class,set2,obj.getParticleInfluencer());
+  }
+  createEmbedFields(obj.getParticleInfluencer().getClass(),set2,obj.getParticleInfluencer());
+  sheet.put(set2);
+}
