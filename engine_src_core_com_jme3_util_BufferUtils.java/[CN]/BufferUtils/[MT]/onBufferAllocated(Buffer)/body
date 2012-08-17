@@ -1,5 +1,28 @@
 {
-  if (trackDirectMemory) {
-    trackingHash.put(buffer,ref);
+  if (BufferUtils.trackDirectMemory) {
+    if (BufferUtils.cleanupthread == null) {
+      BufferUtils.cleanupthread=new ClearReferences();
+      BufferUtils.cleanupthread.start();
+    }
+    if (buffer instanceof ByteBuffer) {
+      BufferInfo info=new BufferInfo(ByteBuffer.class,buffer.capacity(),buffer,BufferUtils.removeCollected);
+      BufferUtils.trackedBuffers.put(info,info);
+    }
+ else     if (buffer instanceof FloatBuffer) {
+      BufferInfo info=new BufferInfo(FloatBuffer.class,buffer.capacity() * 4,buffer,BufferUtils.removeCollected);
+      BufferUtils.trackedBuffers.put(info,info);
+    }
+ else     if (buffer instanceof IntBuffer) {
+      BufferInfo info=new BufferInfo(IntBuffer.class,buffer.capacity() * 4,buffer,BufferUtils.removeCollected);
+      BufferUtils.trackedBuffers.put(info,info);
+    }
+ else     if (buffer instanceof ShortBuffer) {
+      BufferInfo info=new BufferInfo(ShortBuffer.class,buffer.capacity() * 2,buffer,BufferUtils.removeCollected);
+      BufferUtils.trackedBuffers.put(info,info);
+    }
+ else     if (buffer instanceof DoubleBuffer) {
+      BufferInfo info=new BufferInfo(DoubleBuffer.class,buffer.capacity() * 8,buffer,BufferUtils.removeCollected);
+      BufferUtils.trackedBuffers.put(info,info);
+    }
   }
 }
