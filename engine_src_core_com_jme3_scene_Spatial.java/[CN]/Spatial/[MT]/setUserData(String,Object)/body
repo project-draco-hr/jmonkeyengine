@@ -2,7 +2,10 @@
   if (userData == null) {
     userData=new HashMap<String,Savable>();
   }
-  if (data instanceof Savable) {
+  if (data == null) {
+    userData.remove(key);
+  }
+ else   if (data instanceof Savable) {
     userData.put(key,(Savable)data);
   }
  else {
