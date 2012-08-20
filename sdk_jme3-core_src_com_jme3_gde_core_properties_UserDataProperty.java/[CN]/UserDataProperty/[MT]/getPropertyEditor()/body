@@ -1,3 +1,11 @@
 {
-  return null;
+  return new PropertyEditorSupport(spatial.getUserData(name)){
+    @Override public boolean supportsCustomEditor(){
+      return true;
+    }
+    @Override public Component getCustomEditor(){
+      return new UserDataDialog(new JFrame(),true,node,name);
+    }
+  }
+;
 }

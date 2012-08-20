@@ -24,6 +24,9 @@
  else         if (format.equals("Long")) {
           spatial.setUserData(name,Long.parseLong(data));
         }
+ else         if (userData != null) {
+          spatial.setUserData(name,userData);
+        }
         return null;
       }
     }

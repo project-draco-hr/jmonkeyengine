@@ -1,0 +1,7 @@
+{
+  super(name,String.class,name,"");
+  this.spatial=node.getLookup().lookup(Spatial.class);
+  this.node=node;
+  this.name=name;
+  this.type=getObjectType(spatial.getUserData(name));
+}

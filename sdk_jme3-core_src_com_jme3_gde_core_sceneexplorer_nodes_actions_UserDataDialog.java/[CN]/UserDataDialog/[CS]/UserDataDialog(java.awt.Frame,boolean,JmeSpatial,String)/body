@@ -1,0 +1,35 @@
+{
+  super(parent,modal);
+  this.spat=spat;
+  setLocationRelativeTo(null);
+  initComponents();
+  jButton3.setVisible(false);
+  if (userDataName != null) {
+    jButton3.setVisible(true);
+    jTextField2.setEditable(false);
+    jComboBox1.setEnabled(false);
+    userData=spat.getLookup().lookup(Spatial.class).getUserData(userDataName);
+    jTextField2.setText(userDataName);
+    jTextField1.setText(userData.toString());
+    jPanel1.setVisible(false);
+    if (userData instanceof String) {
+      jComboBox1.setSelectedItem("String");
+    }
+ else     if (userData instanceof Integer) {
+      jComboBox1.setSelectedItem("Int");
+    }
+ else     if (userData instanceof Float) {
+      jComboBox1.setSelectedItem("Float");
+    }
+ else     if (userData instanceof Boolean) {
+      jComboBox1.setSelectedItem("Boolean");
+    }
+ else     if (userData instanceof Long) {
+      jComboBox1.setSelectedItem("Long");
+    }
+ else {
+      jComboBox1.setSelectedItem("Custom");
+      buildCustomSheet(userData);
+    }
+  }
+}

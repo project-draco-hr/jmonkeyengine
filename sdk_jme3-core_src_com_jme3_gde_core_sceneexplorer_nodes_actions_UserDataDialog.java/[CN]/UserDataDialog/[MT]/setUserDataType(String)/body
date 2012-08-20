@@ -1,0 +1,42 @@
+{
+  ProjectAssetManager manager=(ProjectAssetManager)spat.getLookup().lookup(ProjectAssetManager.class);
+  List<ClassLoader> loaders=manager.getClassLoaders();
+  Class clazz=null;
+  try {
+    clazz=getClass().getClassLoader().loadClass(className);
+  }
+ catch (  ClassNotFoundException ex) {
+  }
+  for (  ClassLoader classLoader : loaders) {
+    if (clazz == null) {
+      try {
+        clazz=classLoader.loadClass(className);
+      }
+ catch (      ClassNotFoundException ex) {
+      }
+    }
+  }
+  if (clazz != null) {
+    try {
+      Object obj=clazz.newInstance();
+      if (obj instanceof Savable) {
+        userData=obj;
+        buildCustomSheet(userData);
+      }
+ else {
+        DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("This is no ParticleInfluencer class!"));
+      }
+    }
+ catch (    InstantiationException ex) {
+      Exceptions.printStackTrace(ex);
+      DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Error instatiating class!"));
+    }
+catch (    IllegalAccessException ex) {
+      Exceptions.printStackTrace(ex);
+      DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Error instatiating class!"));
+    }
+  }
+ else {
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Cannot find class: " + className + "\nMake sure the name is correct and the project is compiled,\nbest enable 'Save on Compile' in the project preferences."));
+  }
+}

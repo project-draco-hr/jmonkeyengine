@@ -1,0 +1,22 @@
+{
+  jPanel1.setVisible(true);
+  jTextField1.setEditable(false);
+  jTextField1.setText(userData.getClass().getName());
+  Class c=userData.getClass();
+  if (!initialized) {
+    initialized=true;
+    GridLayout layout=new GridLayout(0,2);
+    layout.setHgap(10);
+    jPanel1.setLayout(layout);
+    jPanel1.setPreferredSize(new Dimension(300,c.getDeclaredFields().length * 20));
+    for (    Field field : c.getDeclaredFields()) {
+      PropertyDescriptor prop=PropertyUtils.getPropertyDescriptor(c,field);
+      if (prop != null) {
+        PropertyPanel p=new PropertyPanel(makeProperty(userData,prop.getPropertyType(),prop.getReadMethod().getName(),prop.getWriteMethod().getName(),prop.getDisplayName()));
+        jPanel1.add(new Label(field.getName() + " :",Label.RIGHT));
+        jPanel1.add(p);
+      }
+    }
+  }
+  setSize(getWidth(),getHeight() + c.getDeclaredFields().length * 20);
+}
