@@ -11,7 +11,7 @@
       shape=RagdollUtils.makeShapeFromVerticeWeights(model,RagdollUtils.getBoneIndices(link.bone,skeleton,boneList),initScale,link.bone.getModelSpacePosition(),weightThreshold);
     }
     PhysicsRigidBody shapeNode=new PhysicsRigidBody(shape,rootMass / (float)reccount);
-    shapeNode.setKinematic(mode == Mode.Kinetmatic);
+    shapeNode.setKinematic(mode == Mode.Kinematic);
     totalMass+=rootMass / (float)reccount;
     link.rigidBody=shapeNode;
     link.initalWorldRotation=bone.getModelSpaceRotation().clone();
