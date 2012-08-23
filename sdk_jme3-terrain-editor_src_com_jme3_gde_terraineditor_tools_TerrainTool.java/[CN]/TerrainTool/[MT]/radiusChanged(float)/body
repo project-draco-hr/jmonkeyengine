@@ -2,6 +2,7 @@
   this.radius=maxToolSize * radius;
   if (markerPrimary != null) {
     for (    Entry e : markerPrimary.getMesh().getBuffers())     ((VertexBuffer)e.getValue()).resetObject();
-    ((Sphere)markerPrimary.getMesh()).updateGeometry(8,8,this.radius);
+    if (markerPrimary.getMesh() instanceof Sphere)     ((Sphere)markerPrimary.getMesh()).updateGeometry(8,8,this.radius);
+ else     if (markerPrimary.getMesh() instanceof Box)     ((Box)markerPrimary.getMesh()).updateGeometry(Vector3f.ZERO,this.radius,this.radius,this.radius);
   }
 }

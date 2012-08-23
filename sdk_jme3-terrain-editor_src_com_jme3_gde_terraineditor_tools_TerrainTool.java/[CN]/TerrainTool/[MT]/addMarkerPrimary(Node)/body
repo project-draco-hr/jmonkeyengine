@@ -1,8 +1,7 @@
 {
   if (markerPrimary == null) {
     markerPrimary=new Geometry("edit marker primary");
-    Mesh m=new Sphere(8,8,radius);
-    markerPrimary.setMesh(m);
+    setMesh(Meshes.Sphere);
     Material mat=new Material(manager,"Common/MatDefs/Misc/Unshaded.j3md");
     mat.getAdditionalRenderState().setWireframe(true);
     markerPrimary.setMaterial(mat);
