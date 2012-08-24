@@ -1,2 +1,9 @@
 {
+  if (useStraightLine() && (kie.getKeyCode() == KeyInput.KEY_LCONTROL || kie.getKeyCode() == KeyInput.KEY_RCONTROL)) {
+    doStraightline=kie.isPressed();
+    if (!doStraightline) {
+      startPress=null;
+      axis=null;
+    }
+  }
 }

@@ -1,3 +1,29 @@
 {
-  if (markerPrimary != null)   markerPrimary.setLocalTranslation(newLoc);
+  if (markerPrimary != null) {
+    if (!useStraightLine() || (!doStraightline && useStraightLine()))     markerPrimary.setLocalTranslation(newLoc);
+ else {
+      if (startPress == null)       startPress=newLoc.clone();
+ else {
+        Vector3f sub=newLoc.subtract(startPress);
+        if (axis == null) {
+          Vector3f closest=Vector3f.UNIT_X;
+          float dist=sub.distance(closest);
+          float ddist;
+          if ((ddist=sub.distance(Vector3f.UNIT_Z)) < dist) {
+            closest=Vector3f.UNIT_Z;
+            dist=ddist;
+          }
+          if ((ddist=sub.distance(Vector3f.UNIT_Z.negate())) < dist) {
+            closest=Vector3f.UNIT_Z;
+            dist=ddist;
+          }
+          if (sub.distance(Vector3f.UNIT_X.negate()) < dist) {
+            closest=Vector3f.UNIT_X;
+          }
+          axis=closest;
+        }
+        markerPrimary.setLocalTranslation(sub.mult(axis).add(startPress));
+      }
+    }
+  }
 }
