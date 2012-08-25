@@ -1,8 +1,16 @@
 {
-  String fullname=System.mapLibraryName(name);
-  String path="native/" + sysName + "/"+ fullname;
-  if (sysName.equals("macosx")) {
-    path=path.replaceAll("dylib","jnilib");
+  String fullname;
+  String path;
+  if (!name.contains(".")) {
+    fullname=System.mapLibraryName(name);
+    path="native/" + sysName + "/"+ fullname;
+    if (sysName.equals("macosx")) {
+      path=path.replaceAll("dylib","jnilib");
+    }
+  }
+ else {
+    fullname=name;
+    path="native/" + sysName + "/"+ fullname;
   }
   URL url=Thread.currentThread().getContextClassLoader().getResource(path);
   if (url == null) {
