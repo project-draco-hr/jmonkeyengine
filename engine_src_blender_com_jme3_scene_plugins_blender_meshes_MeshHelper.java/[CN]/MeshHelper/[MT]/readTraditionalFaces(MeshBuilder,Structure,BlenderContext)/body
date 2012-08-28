@@ -1,6 +1,6 @@
 {
   Pointer pMFace=(Pointer)meshStructure.getFieldValue("mface");
-  List<Structure> mFaces=pMFace.fetchData(blenderContext.getInputStream());
+  List<Structure> mFaces=pMFace.isNotNull() ? pMFace.fetchData(blenderContext.getInputStream()) : null;
   if (mFaces != null && mFaces.size() > 0) {
     Pointer pMTFace=(Pointer)meshStructure.getFieldValue("mtface");
     List<Structure> mtFaces=null;
@@ -36,6 +36,19 @@
           uvCoordinatesForFace[2]=new Vector2f(uvs.get(3,0).floatValue(),uvs.get(3,1).floatValue());
         }
         meshBuilder.appendFace(v1,v3,v4,smooth,materialNumber,uvs == null ? null : uvCoordinatesForFace,true,i);
+      }
+    }
+  }
+ else {
+    Pointer pMEdge=(Pointer)meshStructure.getFieldValue("medge");
+    List<Structure> mEdges=pMEdge.isNotNull() ? pMEdge.fetchData(blenderContext.getInputStream()) : null;
+    if (mEdges != null && mEdges.size() > 0) {
+      for (int i=0; i < mEdges.size(); ++i) {
+        Structure mEdge=mEdges.get(i);
+        boolean smooth=(((Number)mEdge.getFieldValue("flag")).byteValue() & 0x01) != 0x00;
+        int v1=((Number)mEdge.getFieldValue("v1")).intValue();
+        int v2=((Number)mEdge.getFieldValue("v2")).intValue();
+        meshBuilder.appendEdge(v1,v2,smooth);
       }
     }
   }

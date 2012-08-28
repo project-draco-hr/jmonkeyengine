@@ -17,12 +17,11 @@
   Vector3f[][] verticesAndNormals=this.getVerticesAndNormals(structure,blenderContext);
   List<byte[]> verticesColors=this.getVerticesColors(structure,blenderContext);
   MeshBuilder meshBuilder=new MeshBuilder(verticesAndNormals,verticesColors,this.areGeneratedTexturesPresent(materials));
-  Pointer pMFace=(Pointer)structure.getFieldValue("mface");
-  if (pMFace.isNotNull()) {
-    this.readTraditionalFaces(meshBuilder,structure,blenderContext);
+  if (this.isBMeshCompatible(structure)) {
+    this.readBMesh(meshBuilder,structure,blenderContext);
   }
  else {
-    this.readBMesh(meshBuilder,structure,blenderContext);
+    this.readTraditionalFaces(meshBuilder,structure,blenderContext);
   }
   if (meshBuilder.isEmpty()) {
     geometries=new ArrayList<Geometry>(0);
