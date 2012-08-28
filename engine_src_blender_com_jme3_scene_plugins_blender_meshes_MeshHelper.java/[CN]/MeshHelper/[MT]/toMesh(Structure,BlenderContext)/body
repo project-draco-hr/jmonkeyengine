@@ -91,6 +91,10 @@
         MaterialContext materialContext=materials[materialNumber];
         materialContext.applyMaterial(geometry,structure.getOldMemoryAddress(),uvCoordinates,blenderContext);
       }
+ else {
+        geometry.setMaterial(blenderContext.getDefaultMaterial());
+        LOGGER.warning("The importer came accross mesh that points to a null material. Default material is used to prevent loader from crashing, " + "but the model might look not the way it should. Sometimes blender does not assign materials properly. " + "Enter the edit mode and assign materials once more to your faces.");
+      }
     }
   }
  else {
