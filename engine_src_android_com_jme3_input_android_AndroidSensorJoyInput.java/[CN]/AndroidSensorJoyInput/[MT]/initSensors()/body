@@ -1,0 +1,19 @@
+{
+  SensorData sensorData;
+  List<Sensor> availSensors=sensorManager.getSensorList(Sensor.TYPE_ALL);
+  for (  Sensor sensor : availSensors) {
+    logger.log(Level.INFO,"{0} Sensor is available, Type: {1}, Vendor: {2}, Version: {3}",new Object[]{sensor.getName(),sensor.getType(),sensor.getVendor(),sensor.getVersion()});
+  }
+  sensorData=initSensor(Sensor.TYPE_MAGNETIC_FIELD);
+  if (sensorData != null) {
+    sensorData.joyName="Device Direction";
+    sensorData.lastValues=new float[3];
+    sensorData.createJoystick=false;
+  }
+  sensorData=initSensor(Sensor.TYPE_ACCELEROMETER);
+  if (sensorData != null) {
+    sensorData.joyName="Device Acceleration";
+    sensorData.lastValues=new float[3];
+    sensorData.createJoystick=false;
+  }
+}

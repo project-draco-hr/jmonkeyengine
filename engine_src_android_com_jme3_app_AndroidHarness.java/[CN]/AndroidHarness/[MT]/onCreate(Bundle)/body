@@ -41,6 +41,8 @@
       Display disp=wind.getDefaultDisplay();
       logger.log(Level.WARNING,"Resolution from Window: {0}, {1}",new Object[]{disp.getWidth(),disp.getHeight()});
       ctx.getSettings().setResolution(disp.getWidth(),disp.getHeight());
+      settings.setUseJoysticks(joystickEventsEnabled);
+      ctx.getSettings().setUseJoysticks(joystickEventsEnabled);
       ctx.setSystemListener(this);
       layoutDisplay();
     }

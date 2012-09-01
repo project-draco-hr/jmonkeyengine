@@ -1,0 +1,30 @@
+{
+  this.inputManager=inputManager;
+  int joyIndex=1;
+  for (  Entry entry : sensors) {
+    SensorData sensorData=(SensorData)entry.getValue();
+    if (sensorData != null) {
+      if (sensorData.sensor != null && sensorData.createJoystick) {
+        joyIndex++;
+      }
+    }
+  }
+  joysticks=new Joystick[joyIndex];
+  joyIndex=0;
+  Joystick joystick;
+  joystick=new Joystick(inputManager,this,joyIndex,"Device Orientation",0,3,0,1);
+  joysticks[joyIndex]=joystick;
+  joyIndex++;
+  for (  Entry entry : sensors) {
+    SensorData sensorData=(SensorData)entry.getValue();
+    if (sensorData != null) {
+      if (sensorData.sensor != null && sensorData.createJoystick) {
+        sensorData.joyID=joyIndex;
+        joystick=new Joystick(inputManager,this,joyIndex,sensorData.joyName,0,sensorData.lastValues.length,0,1);
+        joysticks[joyIndex]=joystick;
+        joyIndex++;
+      }
+    }
+  }
+  return joysticks;
+}

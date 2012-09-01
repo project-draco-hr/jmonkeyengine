@@ -11,6 +11,15 @@
         renderer.resumeAll();
       }
     }
+    if (app.getContext() != null) {
+      JoyInput joyInput=app.getContext().getJoyInput();
+      if (joyInput != null) {
+        if (joyInput instanceof AndroidSensorJoyInput) {
+          AndroidSensorJoyInput androidJoyInput=(AndroidSensorJoyInput)joyInput;
+          androidJoyInput.resumeSensors();
+        }
+      }
+    }
   }
   isGLThreadPaused=false;
   logger.info("onResume");

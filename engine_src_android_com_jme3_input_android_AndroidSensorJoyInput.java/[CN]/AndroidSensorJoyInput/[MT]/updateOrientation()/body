@@ -1,0 +1,56 @@
+{
+  SensorData sensorData;
+  final float[] curInclinationMat=new float[16];
+  final float[] curRotationMat=new float[16];
+  final float[] rotatedRotationMat=new float[16];
+  final float[] accValues=new float[3];
+  final float[] magValues=new float[3];
+  final float[] deltaOrientation=new float[3];
+  sensorData=sensors.get(Sensor.TYPE_ACCELEROMETER);
+  if (sensorData == null || !sensorData.enabled || !sensorData.haveData) {
+    return false;
+  }
+synchronized (sensorData.valuesLock) {
+    accValues[0]=sensorData.lastValues[0];
+    accValues[1]=sensorData.lastValues[1];
+    accValues[2]=sensorData.lastValues[2];
+  }
+  sensorData=sensors.get(Sensor.TYPE_MAGNETIC_FIELD);
+  if (sensorData == null || !sensorData.enabled || !sensorData.haveData) {
+    return false;
+  }
+synchronized (sensorData.valuesLock) {
+    magValues[0]=sensorData.lastValues[0];
+    magValues[1]=sensorData.lastValues[1];
+    magValues[2]=sensorData.lastValues[2];
+  }
+  if (SensorManager.getRotationMatrix(curRotationMat,curInclinationMat,accValues,magValues)) {
+    final float[] orientValues=new float[3];
+    if (remapCoordinates(curRotationMat,rotatedRotationMat)) {
+      SensorManager.getOrientation(rotatedRotationMat,orientValues);
+      deltaOrientation[0]=orientValues[1] - orientationLastValues[1];
+      deltaOrientation[1]=orientValues[2] - orientationLastValues[2];
+      deltaOrientation[2]=orientValues[0] - orientationLastValues[0];
+synchronized (eventQueue) {
+        if (Math.abs(deltaOrientation[0]) > FastMath.ZERO_TOLERANCE) {
+          eventQueue.add(new JoyAxisEvent(0,0,orientValues[1] / maxOrientationValues[1]));
+        }
+        if (Math.abs(deltaOrientation[1]) > FastMath.ZERO_TOLERANCE) {
+          eventQueue.add(new JoyAxisEvent(0,1,orientValues[2] / maxOrientationValues[2]));
+        }
+        if (Math.abs(deltaOrientation[2]) > FastMath.ZERO_TOLERANCE) {
+          eventQueue.add(new JoyAxisEvent(0,2,orientValues[0] / maxOrientationValues[0]));
+        }
+      }
+      orientationLastValues[0]=orientValues[0];
+      orientationLastValues[1]=orientValues[1];
+      orientationLastValues[2]=orientValues[2];
+      return true;
+    }
+ else {
+    }
+  }
+ else {
+  }
+  return false;
+}

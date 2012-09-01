@@ -1,0 +1,12 @@
+{
+  int sensorType=sensor.getType();
+  SensorData sensorData=sensors.get(sensorType);
+  if (sensorData != null) {
+    logger.log(Level.INFO,"onAccuracyChanged for {0} ({1}): accuracy: {2}",new Object[]{sensor.toString(),sensorData.joyName,i});
+    logger.log(Level.INFO,"MaxRange: {0}, Resolution: {1}",new Object[]{sensor.getMaximumRange(),sensor.getResolution()});
+    if (sensorData.sensor != null && sensorData.sensor.equals(sensor)) {
+      sensorData.resolution=sensor.getResolution();
+      sensorData.maxRange=sensor.getMaximumRange();
+    }
+  }
+}

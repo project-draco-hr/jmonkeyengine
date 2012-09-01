@@ -1,0 +1,11 @@
+{
+  updateOrientation();
+synchronized (eventQueue) {
+    if (listener != null && eventQueue.size() > 0) {
+      for (int i=0; i < eventQueue.size(); i++) {
+        listener.onJoyAxisEvent(eventQueue.get(i));
+      }
+      eventQueue.clear();
+    }
+  }
+}

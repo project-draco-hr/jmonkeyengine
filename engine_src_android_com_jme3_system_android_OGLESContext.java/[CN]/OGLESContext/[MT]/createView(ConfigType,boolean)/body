@@ -1,4 +1,7 @@
 {
+  if (androidSensorJoyInput != null && androidSensorJoyInput instanceof AndroidSensorJoyInput) {
+    ((AndroidSensorJoyInput)androidSensorJoyInput).initWindow();
+  }
   view=new AndroidGLSurfaceView(JmeAndroidSystem.getActivity());
   if (androidInput == null) {
     androidInput=new AndroidInput(view);
