@@ -75,38 +75,10 @@ Pointer pLamp=(Pointer)objectStructure.getFieldValue("data");
 if (pLamp.isNotNull()) {
 LightHelper lightHelper=blenderContext.getHelper(LightHelper.class);
 List<Structure> lampsArray=pLamp.fetchData(blenderContext.getInputStream());
-Light light=lightHelper.toLight(lampsArray.get(0),blenderContext);
+LightNode light=lightHelper.toLight(lampsArray.get(0),blenderContext);
 if (light != null) {
 light.setName(name);
-}
-if (light instanceof PointLight) {
-((PointLight)light).setPosition(t.getTranslation());
-}
- else if (light instanceof DirectionalLight) {
-Quaternion quaternion=t.getRotation();
-Vector3f[] axes=new Vector3f[3];
-quaternion.toAxes(axes);
-if (fixUpAxis) {
-((DirectionalLight)light).setDirection(axes[1].negate());
-}
- else {
-((DirectionalLight)light).setDirection(axes[2].negate());
-}
-}
- else if (light instanceof SpotLight) {
-((SpotLight)light).setPosition(t.getTranslation());
-Quaternion quaternion=t.getRotation();
-Vector3f[] axes=new Vector3f[3];
-quaternion.toAxes(axes);
-if (fixUpAxis) {
-((SpotLight)light).setDirection(axes[1].negate());
-}
- else {
-((SpotLight)light).setDirection(axes[2].negate());
-}
-}
- else {
-LOGGER.log(Level.WARNING,"Unknown type of light: {0}",light);
+light.setLocalTransform(t);
 }
 result=light;
 }

@@ -8,7 +8,12 @@
 switch (block.getCode()) {
 case FileBlockHeader.BLOCK_OB00:
         Object object=this.toObject(block.getStructure(blenderContext));
-      if (object instanceof Node) {
+      if (object instanceof LightNode) {
+        if ((blenderKey.getFeaturesToLoad() & FeaturesToLoad.LIGHTS) != 0) {
+          loadingResults.addLight((LightNode)object);
+        }
+      }
+ else       if (object instanceof Node) {
         if ((blenderKey.getFeaturesToLoad() & FeaturesToLoad.OBJECTS) != 0) {
           LOGGER.log(Level.INFO,"{0}: {1}--> {2}",new Object[]{((Node)object).getName(),((Node)object).getLocalTranslation().toString(),((Node)object).getParent() == null ? "null" : ((Node)object).getParent().getName()});
           if (this.isRootObject(loadingResults,(Node)object)) {
@@ -19,11 +24,6 @@ case FileBlockHeader.BLOCK_OB00:
  else       if (object instanceof Camera) {
         if ((blenderKey.getFeaturesToLoad() & FeaturesToLoad.CAMERAS) != 0) {
           loadingResults.addCamera((Camera)object);
-        }
-      }
- else       if (object instanceof Light) {
-        if ((blenderKey.getFeaturesToLoad() & FeaturesToLoad.LIGHTS) != 0) {
-          loadingResults.addLight((Light)object);
         }
       }
     break;
