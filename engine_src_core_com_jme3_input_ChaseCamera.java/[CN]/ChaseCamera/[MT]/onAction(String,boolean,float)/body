@@ -3,11 +3,15 @@
     if (name.equals(ChaseCamToggleRotate) && enabled) {
       if (keyPressed) {
         canRotate=true;
-        inputManager.setCursorVisible(false);
+        if (hideCursorOnRotate) {
+          inputManager.setCursorVisible(false);
+        }
       }
  else {
         canRotate=false;
-        inputManager.setCursorVisible(true);
+        if (hideCursorOnRotate) {
+          inputManager.setCursorVisible(true);
+        }
       }
     }
   }
