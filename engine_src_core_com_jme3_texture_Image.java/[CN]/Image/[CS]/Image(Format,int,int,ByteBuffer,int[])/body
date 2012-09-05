@@ -3,6 +3,10 @@
   if (mipMapSizes != null && mipMapSizes.length <= 1) {
     mipMapSizes=null;
   }
+ else {
+    needGeneratedMips=false;
+    mipsWereGenerated=true;
+  }
   setFormat(format);
   this.width=width;
   this.height=height;

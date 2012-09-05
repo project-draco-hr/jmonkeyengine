@@ -7,4 +7,8 @@
   mipMapSizes=capsule.readIntArray("mipMapSizes",null);
   multiSamples=capsule.readInt("multiSamples",1);
   data=(ArrayList<ByteBuffer>)capsule.readByteBufferArrayList("data",null);
+  if (mipMapSizes != null) {
+    needGeneratedMips=false;
+    mipsWereGenerated=true;
+  }
 }
