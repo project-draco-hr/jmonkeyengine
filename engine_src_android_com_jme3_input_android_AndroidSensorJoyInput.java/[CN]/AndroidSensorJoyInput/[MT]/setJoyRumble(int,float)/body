@@ -1,5 +1,15 @@
 {
   if (vibrator != null) {
-    vibrator.vibrate((long)(amount * 1000));
+    final long rumbleOnDur=(long)(amount * maxRumbleTime);
+    final long rumbleOffDur=maxRumbleTime - rumbleOnDur;
+    final long[] rumblePattern={0,rumbleOnDur,rumbleOffDur};
+    final int rumbleRepeatFrom=0;
+    logger.log(Level.INFO,"Rumble amount: {0}, rumbleOnDur: {1}, rumbleOffDur: {2}",new Object[]{amount,rumbleOnDur,rumbleOffDur});
+    if (rumbleOnDur > 0) {
+      vibrator.vibrate(rumblePattern,rumbleRepeatFrom);
+    }
+ else {
+      vibrator.cancel();
+    }
   }
 }
