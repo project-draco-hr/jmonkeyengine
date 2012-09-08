@@ -2,4 +2,7 @@
   for (  Entry entry : sensors) {
     unRegisterListener(entry.getKey());
   }
+  if (vibrator != null) {
+    vibrator.cancel();
+  }
 }
