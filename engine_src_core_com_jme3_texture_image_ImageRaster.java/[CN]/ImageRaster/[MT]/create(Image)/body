@@ -1,6 +1,6 @@
 {
-  this(image,0);
   if (image.getData().size() > 1) {
     throw new IllegalStateException("Use constructor that takes slices argument to read from multislice image");
   }
+  return JmeSystem.createImageRaster(image,0);
 }

@@ -1,6 +1,6 @@
 {
-  while ((--bpp) >= 0) {
-    byte bt=(byte)((pixel >> (bpp * 8)) & 0xff);
-    buf.put(idx + bpp,bt);
+  buf.position(idx);
+  for (int i=0; i < bpp; i++) {
+    buf.put((byte)((pixel >> (8 * i)) & 0xff));
   }
 }
