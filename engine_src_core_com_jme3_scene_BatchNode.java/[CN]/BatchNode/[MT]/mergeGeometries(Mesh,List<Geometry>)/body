@@ -4,6 +4,7 @@
   int totalVerts=0;
   int totalTris=0;
   int totalLodLevels=0;
+  int maxWeights=-1;
   Mesh.Mode mode=null;
   for (  Geometry geom : geometries) {
     totalVerts+=geom.getVertexCount();
@@ -38,12 +39,14 @@ for (VertexBuffer vb : geom.getMesh().getBufferList().getArray()) {
 compsForBuf[vb.getBufferType().ordinal()]=vb.getNumComponents();
 formatForBuf[vb.getBufferType().ordinal()]=vb.getFormat();
 }
+maxWeights=Math.max(maxWeights,geom.getMesh().getMaxNumWeights());
 if (mode != null && mode != listMode) {
 throw new UnsupportedOperationException("Cannot combine different" + " primitive types: " + mode + " != "+ listMode);
 }
 mode=listMode;
 compsForBuf[VertexBuffer.Type.Index.ordinal()]=components;
 }
+outMesh.setMaxNumWeights(maxWeights);
 outMesh.setMode(mode);
 if (totalVerts >= 65536) {
 formatForBuf[VertexBuffer.Type.Index.ordinal()]=VertexBuffer.Format.UnsignedInt;
