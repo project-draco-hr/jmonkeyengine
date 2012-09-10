@@ -6,14 +6,15 @@
     for (    FileBlockHeader block : blocks) {
       if (block.getCode() == FileBlockHeader.BLOCK_OB00) {
         Object object=this.toObject(block.getStructure(blenderContext));
-        if (object instanceof Node) {
+        if (object instanceof LightNode && (blenderKey.getFeaturesToLoad() & FeaturesToLoad.LIGHTS) != 0) {
+          modelRoot.addLight(((LightNode)object).getLight());
+          modelRoot.attachChild((LightNode)object);
+        }
+ else         if (object instanceof Node && (blenderKey.getFeaturesToLoad() & FeaturesToLoad.OBJECTS) != 0) {
           LOGGER.log(Level.INFO,"{0}: {1}--> {2}",new Object[]{((Node)object).getName(),((Node)object).getLocalTranslation().toString(),((Node)object).getParent() == null ? "null" : ((Node)object).getParent().getName()});
           if (((Node)object).getParent() == null) {
             modelRoot.attachChild((Node)object);
           }
-        }
- else         if (object instanceof Light) {
-          modelRoot.addLight((Light)object);
         }
       }
     }
