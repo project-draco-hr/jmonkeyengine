@@ -2,5 +2,8 @@
   initWindow();
   sensorManager=(SensorManager)JmeAndroidSystem.getActivity().getSystemService(Context.SENSOR_SERVICE);
   vibrator=(Vibrator)JmeAndroidSystem.getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+  if (vibrator == null) {
+    logger.log(Level.INFO,"Vibrator Service not found.");
+  }
   initSensors();
 }
