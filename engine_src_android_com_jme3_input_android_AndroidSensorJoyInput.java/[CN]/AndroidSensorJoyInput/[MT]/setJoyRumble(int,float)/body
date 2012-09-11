@@ -7,9 +7,11 @@
     logger.log(Level.INFO,"Rumble amount: {0}, rumbleOnDur: {1}, rumbleOffDur: {2}",new Object[]{amount,rumbleOnDur,rumbleOffDur});
     if (rumbleOnDur > 0) {
       vibrator.vibrate(rumblePattern,rumbleRepeatFrom);
+      vibratorActive=true;
     }
  else {
       vibrator.cancel();
+      vibratorActive=false;
     }
   }
 }
