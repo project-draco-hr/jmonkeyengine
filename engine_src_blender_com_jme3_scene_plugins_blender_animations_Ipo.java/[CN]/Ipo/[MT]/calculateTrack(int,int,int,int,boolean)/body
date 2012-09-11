@@ -11,7 +11,10 @@
     float[] objectRotation=new float[3];
     Vector3f[] scales=new Vector3f[framesAmount + 1];
     float[] scale=new float[]{1.0f,1.0f,1.0f};
-    float degreeToRadiansFactor=FastMath.DEG_TO_RAD * 10;
+    float degreeToRadiansFactor=1;
+    if (blenderVersion < 250) {
+      degreeToRadiansFactor*=FastMath.DEG_TO_RAD * 10;
+    }
     for (int frame=startFrame; frame <= stopFrame; ++frame) {
       int index=frame - startFrame;
       times[index]=start + (frame - 1) * timeBetweenFrames;
