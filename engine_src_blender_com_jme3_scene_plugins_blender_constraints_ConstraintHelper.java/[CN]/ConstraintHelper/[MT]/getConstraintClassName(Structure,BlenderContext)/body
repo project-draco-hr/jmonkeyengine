@@ -1,8 +1,0 @@
-{
-  Pointer pData=(Pointer)constraintStructure.getFieldValue("data");
-  if (pData.isNotNull()) {
-    Structure data=pData.fetchData(blenderContext.getInputStream()).get(0);
-    return data.getType();
-  }
-  return constraintStructure.getType();
-}

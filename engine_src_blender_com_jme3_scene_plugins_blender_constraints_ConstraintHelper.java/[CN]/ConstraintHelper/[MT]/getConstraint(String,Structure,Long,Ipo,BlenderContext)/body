@@ -1,0 +1,11 @@
+{
+  if (dataType == null || "Mesh".equalsIgnoreCase(dataType) || "Camera".equalsIgnoreCase(dataType) || "Lamp".equalsIgnoreCase(dataType)) {
+    return new SpatialConstraint(constraintStructure,ownerOMA,influenceIpo,blenderContext);
+  }
+ else   if ("Armature".equalsIgnoreCase(dataType)) {
+    return new SkeletonConstraint(constraintStructure,ownerOMA,influenceIpo,blenderContext);
+  }
+ else {
+    throw new IllegalArgumentException("Unsupported data type for applying constraints: " + dataType);
+  }
+}

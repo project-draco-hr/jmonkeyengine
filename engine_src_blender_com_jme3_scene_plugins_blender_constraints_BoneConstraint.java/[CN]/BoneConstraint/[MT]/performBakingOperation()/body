@@ -1,0 +1,28 @@
+{
+  Bone owner=blenderContext.getBoneContext(ownerOMA).getBone();
+  Bone target=null;
+  if (targetArmatureOMA != null) {
+    ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
+    try {
+      objectHelper.toObject((Structure)blenderContext.getLoadedFeature(targetArmatureOMA,LoadedFeatureDataType.LOADED_STRUCTURE),blenderContext);
+    }
+ catch (    BlenderFileException e) {
+      LOGGER.warning("Problems occured during target object loading. The constraint " + name + " will not be applied.");
+      return;
+    }
+    BoneContext boneContext=blenderContext.getBoneByName(subtargetName);
+    target=boneContext.getBone();
+    this.targetOMA=boneContext.getBoneOma();
+  }
+  this.prepareTracksForApplyingConstraints();
+  AnimData animData=blenderContext.getAnimData(ownerOMA);
+  if (animData != null) {
+    for (    Animation animation : animData.anims) {
+      Transform ownerTransform=constraintHelper.getBoneTransform(ownerSpace,owner);
+      Transform targetTransform=target != null ? constraintHelper.getBoneTransform(targetSpace,target) : null;
+      BoneTrack boneTrack=constraintHelper.getTrack(owner,animData.skeleton,animation);
+      BoneTrack targetTrack=target != null ? constraintHelper.getTrack(target,animData.skeleton,animation) : null;
+      constraintDefinition.bake(ownerTransform,targetTransform,boneTrack,targetTrack,this.ipo);
+    }
+  }
+}

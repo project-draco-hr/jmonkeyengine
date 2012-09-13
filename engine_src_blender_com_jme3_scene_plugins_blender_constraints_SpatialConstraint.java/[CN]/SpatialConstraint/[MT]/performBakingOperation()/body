@@ -1,0 +1,21 @@
+{
+  this.owner=(Spatial)blenderContext.getLoadedFeature(ownerOMA,LoadedFeatureDataType.LOADED_FEATURE);
+  this.target=targetOMA != null ? blenderContext.getLoadedFeature(targetOMA,LoadedFeatureDataType.LOADED_FEATURE) : null;
+  this.prepareTracksForApplyingConstraints();
+  Transform ownerTransform=constraintHelper.getNodeObjectTransform(ownerSpace,ownerOMA,blenderContext);
+  Transform targetTransform=targetOMA != null ? constraintHelper.getNodeObjectTransform(targetSpace,targetOMA,blenderContext) : null;
+  constraintDefinition.bake(ownerTransform,targetTransform,null,null,this.ipo);
+  constraintHelper.applyTransform(owner,ownerSpace,ownerTransform);
+  AnimData animData=blenderContext.getAnimData(ownerOMA);
+  if (animData != null) {
+    for (    Animation animation : animData.anims) {
+      SpatialTrack ownerTrack=constraintHelper.getTrack(owner,animation);
+      AnimData targetAnimData=blenderContext.getAnimData(targetOMA);
+      SpatialTrack targetTrack=null;
+      if (targetAnimData != null) {
+        targetTrack=constraintHelper.getTrack((Spatial)target,targetAnimData.anims.get(0));
+      }
+      constraintDefinition.bake(ownerTransform,targetTransform,ownerTrack,targetTrack,this.ipo);
+    }
+  }
+}

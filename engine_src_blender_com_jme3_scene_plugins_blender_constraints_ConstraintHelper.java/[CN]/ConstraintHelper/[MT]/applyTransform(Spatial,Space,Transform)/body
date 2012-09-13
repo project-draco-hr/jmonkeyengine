@@ -1,0 +1,28 @@
+{
+switch (space) {
+case CONSTRAINT_SPACE_LOCAL:
+    Transform ownerLocalTransform=spatial.getLocalTransform();
+  ownerLocalTransform.getTranslation().addLocal(transform.getTranslation());
+ownerLocalTransform.getRotation().multLocal(transform.getRotation());
+ownerLocalTransform.getScale().multLocal(transform.getScale());
+break;
+case CONSTRAINT_SPACE_WORLD:
+Matrix4f m=this.getParentWorldTransformMatrix(spatial);
+m.invertLocal();
+Matrix4f matrix=this.toMatrix(transform);
+m.multLocal(matrix);
+float scaleX=(float)Math.sqrt(m.m00 * m.m00 + m.m10 * m.m10 + m.m20 * m.m20);
+float scaleY=(float)Math.sqrt(m.m01 * m.m01 + m.m11 * m.m11 + m.m21 * m.m21);
+float scaleZ=(float)Math.sqrt(m.m02 * m.m02 + m.m12 * m.m12 + m.m22 * m.m22);
+transform.setTranslation(m.toTranslationVector());
+transform.setRotation(m.toRotationQuat());
+transform.setScale(scaleX,scaleY,scaleZ);
+spatial.setLocalTransform(transform);
+break;
+case CONSTRAINT_SPACE_PARLOCAL:
+case CONSTRAINT_SPACE_POSE:
+throw new IllegalStateException("Invalid space type (" + space.toString() + ") for owner object.");
+default :
+throw new IllegalStateException("Invalid space type for target object: " + space.toString());
+}
+}

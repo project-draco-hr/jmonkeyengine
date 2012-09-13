@@ -1,0 +1,35 @@
+{
+  Long[] spatialsOMAs=new Long[]{ownerOMA,targetOMA};
+  Space[] spaces=new Space[]{ownerSpace,targetSpace};
+  for (int i=0; i < spatialsOMAs.length; ++i) {
+    Long oma=spatialsOMAs[i];
+    if (oma != null && oma > 0L) {
+      AnimData animData=blenderContext.getAnimData(oma);
+      if (animData == null) {
+        Spatial currentSpatial=(Spatial)blenderContext.getLoadedFeature(oma,LoadedFeatureDataType.LOADED_FEATURE);
+        Spatial parent=currentSpatial.getParent();
+        while (parent != null && animData == null) {
+          Structure parentStructure=(Structure)blenderContext.getLoadedFeature(parent.getName(),LoadedFeatureDataType.LOADED_STRUCTURE);
+          if (parentStructure == null) {
+            parent=null;
+          }
+ else {
+            Long parentOma=parentStructure.getOldMemoryAddress();
+            animData=blenderContext.getAnimData(parentOma);
+            parent=parent.getParent();
+          }
+        }
+        if (animData != null) {
+          this.applyAnimData(currentSpatial,oma,spaces[i],animData.anims.get(0));
+        }
+      }
+    }
+  }
+  AnimData animData=blenderContext.getAnimData(ownerOMA);
+  if (animData == null) {
+    AnimData targetAnimData=blenderContext.getAnimData(targetOMA);
+    if (targetAnimData != null) {
+      this.applyAnimData(owner,ownerOMA,ownerSpace,targetAnimData.anims.get(0));
+    }
+  }
+}

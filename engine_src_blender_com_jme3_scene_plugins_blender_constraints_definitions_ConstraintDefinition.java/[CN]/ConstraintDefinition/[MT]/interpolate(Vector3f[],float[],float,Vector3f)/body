@@ -1,0 +1,24 @@
+{
+  int index=0;
+  for (int i=1; i < targetTimes.length; ++i) {
+    if (targetTimes[i] < currentTime) {
+      ++index;
+    }
+ else {
+      break;
+    }
+  }
+  if (index >= targetTimes.length - 1) {
+    result.set(targetVectors[targetTimes.length - 1]);
+  }
+ else {
+    float delta=targetTimes[index + 1] - targetTimes[index];
+    if (delta == 0.0f) {
+      result.set(targetVectors[index + 1]);
+    }
+ else {
+      float scale=(currentTime - targetTimes[index]) / (targetTimes[index + 1] - targetTimes[index]);
+      FastMath.interpolateLinear(scale,targetVectors[index],targetVectors[index + 1],result);
+    }
+  }
+}

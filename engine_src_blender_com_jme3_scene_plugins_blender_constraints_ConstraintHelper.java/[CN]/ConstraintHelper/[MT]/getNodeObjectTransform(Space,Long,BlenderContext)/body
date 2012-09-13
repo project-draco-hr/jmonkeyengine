@@ -1,0 +1,40 @@
+{
+switch (space) {
+case CONSTRAINT_SPACE_LOCAL:
+    Structure targetStructure=(Structure)blenderContext.getLoadedFeature(spatialOMA,LoadedFeatureDataType.LOADED_STRUCTURE);
+  DynamicArray<Number> locArray=((DynamicArray<Number>)targetStructure.getFieldValue("loc"));
+Vector3f loc=new Vector3f(locArray.get(0).floatValue(),locArray.get(1).floatValue(),locArray.get(2).floatValue());
+DynamicArray<Number> rotArray=((DynamicArray<Number>)targetStructure.getFieldValue("rot"));
+Quaternion rot=new Quaternion(new float[]{rotArray.get(0).floatValue(),rotArray.get(1).floatValue(),rotArray.get(2).floatValue()});
+DynamicArray<Number> sizeArray=((DynamicArray<Number>)targetStructure.getFieldValue("size"));
+Vector3f size=new Vector3f(sizeArray.get(0).floatValue(),sizeArray.get(1).floatValue(),sizeArray.get(2).floatValue());
+if (blenderContext.getBlenderKey().isFixUpAxis()) {
+float y=loc.y;
+loc.y=loc.z;
+loc.z=-y;
+y=rot.getY();
+float z=rot.getZ();
+rot.set(rot.getX(),z,-y,rot.getW());
+y=size.y;
+size.y=size.z;
+size.z=y;
+}
+Transform result=new Transform(loc,rot);
+result.setScale(size);
+return result;
+case CONSTRAINT_SPACE_WORLD:
+Object feature=blenderContext.getLoadedFeature(spatialOMA,LoadedFeatureDataType.LOADED_FEATURE);
+if (feature instanceof Spatial) {
+return ((Spatial)feature).getWorldTransform();
+}
+ else if (feature instanceof Skeleton) {
+LOGGER.warning("Trying to get transformation for skeleton. This is not supported. Returning null.");
+return null;
+}
+ else {
+throw new IllegalArgumentException("Given old memory address does not point to a valid object type (spatial, camera or light).");
+}
+default :
+throw new IllegalStateException("Invalid space type for target object: " + space.toString());
+}
+}

@@ -1,0 +1,18 @@
+{
+  Vector3f ownerScale=ownerTransform.getScale();
+  Vector3f targetScale=targetTransform.getScale();
+  Vector3f offset=Vector3f.ZERO;
+  if ((flag & LOCLIKE_OFFSET) != 0) {
+    offset=ownerScale.clone();
+  }
+  if ((flag & SIZELIKE_X) != 0) {
+    ownerScale.x=targetScale.x * influence + (1.0f - influence) * ownerScale.x;
+  }
+  if ((flag & SIZELIKE_Y) != 0) {
+    ownerScale.y=targetScale.y * influence + (1.0f - influence) * ownerScale.y;
+  }
+  if ((flag & SIZELIKE_Z) != 0) {
+    ownerScale.z=targetScale.z * influence + (1.0f - influence) * ownerScale.z;
+  }
+  ownerScale.addLocal(offset);
+}

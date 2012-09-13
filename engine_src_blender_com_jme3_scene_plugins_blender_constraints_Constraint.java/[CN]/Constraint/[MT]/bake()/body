@@ -1,7 +1,19 @@
 {
-  this.owner.update();
-  if (this.target != null) {
-    this.target.update();
+  if (invalid) {
+    LOGGER.warning("The constraint " + name + " is invalid and will not be applied.");
   }
-  this.bakeConstraint();
+ else   if (!baked) {
+    if (targetOMA != null) {
+      List<Constraint> targetConstraints=blenderContext.getConstraints(targetOMA);
+      if (targetConstraints != null && targetConstraints.size() > 0) {
+        LOGGER.log(Level.FINE,"Baking target constraints of constraint: {0}",name);
+        for (        Constraint targetConstraint : targetConstraints) {
+          targetConstraint.bake();
+        }
+      }
+    }
+    LOGGER.log(Level.FINE,"Performing baking of constraint: {0}",name);
+    this.performBakingOperation();
+    baked=true;
+  }
 }

@@ -1,0 +1,11 @@
+{
+  super(constraintStructure,ownerOMA,influenceIpo,blenderContext);
+  targetArmatureOMA=targetOMA;
+  if (targetArmatureOMA != null && targetArmatureOMA <= 0L) {
+    targetArmatureOMA=null;
+  }
+  targetOMA=null;
+  if (targetArmatureOMA != null && targetArmatureOMA > 0L && (subtargetName == null || subtargetName.length() == 0)) {
+    invalid=true;
+  }
+}

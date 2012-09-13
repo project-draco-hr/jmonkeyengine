@@ -1,0 +1,10 @@
+{
+  super(constraintData,blenderContext);
+  if (blenderContext.getBlenderKey().isFixUpAxis()) {
+    int y=flag & SIZELIKE_Y;
+    int z=flag & SIZELIKE_Z;
+    flag&=SIZELIKE_X | LOCLIKE_OFFSET;
+    flag|=y << 1;
+    flag|=z >> 1;
+  }
+}

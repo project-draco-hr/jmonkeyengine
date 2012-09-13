@@ -114,12 +114,6 @@ if (result != null) {
 blenderContext.addLoadedFeatures(objectStructure.getOldMemoryAddress(),name,objectStructure,result);
 ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
 constraintHelper.loadConstraints(objectStructure,blenderContext);
-List<Constraint> objectConstraints=blenderContext.getConstraints(objectStructure.getOldMemoryAddress());
-if (objectConstraints != null) {
-for (Constraint objectConstraint : objectConstraints) {
-objectConstraint.bake();
-}
-}
 if (blenderContext.getBlenderKey().isLoadObjectProperties()) {
 Properties properties=this.loadProperties(objectStructure,blenderContext);
 if (result instanceof Spatial && properties != null && properties.getValue() != null) {

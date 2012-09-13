@@ -1,0 +1,22 @@
+{
+switch (space) {
+case CONSTRAINT_SPACE_LOCAL:
+    Transform localTransform=new Transform(bone.getLocalPosition(),bone.getLocalRotation());
+  localTransform.setScale(bone.getLocalScale());
+return localTransform;
+case CONSTRAINT_SPACE_WORLD:
+Transform worldTransform=new Transform(bone.getWorldBindPosition(),bone.getWorldBindRotation());
+worldTransform.setScale(bone.getWorldBindScale());
+return worldTransform;
+case CONSTRAINT_SPACE_POSE:
+Transform poseTransform=new Transform(bone.getLocalPosition(),bone.getLocalRotation());
+poseTransform.setScale(bone.getLocalScale());
+return poseTransform;
+case CONSTRAINT_SPACE_PARLOCAL:
+Transform parentLocalTransform=new Transform(bone.getLocalPosition(),bone.getLocalRotation());
+parentLocalTransform.setScale(bone.getLocalScale());
+return parentLocalTransform;
+default :
+throw new IllegalStateException("Invalid space type for target object: " + space.toString());
+}
+}

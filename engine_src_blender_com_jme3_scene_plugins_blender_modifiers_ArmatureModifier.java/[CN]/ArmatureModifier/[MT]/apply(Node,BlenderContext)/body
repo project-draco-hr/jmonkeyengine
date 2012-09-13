@@ -33,16 +33,6 @@
       return node;
     }
   }
-  ArmatureHelper armatureHelper=blenderContext.getHelper(ArmatureHelper.class);
-  for (int i=0; i < animData.skeleton.getBoneCount(); ++i) {
-    Long boneOMA=armatureHelper.getBoneOMA(animData.skeleton.getBone(i));
-    List<Constraint> constraints=blenderContext.getConstraints(boneOMA);
-    if (constraints != null && constraints.size() > 0) {
-      for (      Constraint constraint : constraints) {
-        constraint.bake();
-      }
-    }
-  }
   AnimControl control=new AnimControl(animData.skeleton);
   ArrayList<Animation> animList=animData.anims;
   if (animList != null && animList.size() > 0) {

@@ -1,6 +1,7 @@
 {
   try {
     this.setup(assetInfo);
+    List<FileBlockHeader> sceneBlocks=new ArrayList<FileBlockHeader>();
     BlenderKey blenderKey=blenderContext.getBlenderKey();
     LoadingResults loadingResults=blenderKey.prepareLoadingResults();
     WorldData worldData=null;
@@ -23,7 +24,7 @@ case FileBlockHeader.BLOCK_OB00:
     break;
 case FileBlockHeader.BLOCK_SC00:
   if ((blenderKey.getFeaturesToLoad() & FeaturesToLoad.SCENES) != 0) {
-    loadingResults.addScene(this.toScene(block.getStructure(blenderContext)));
+    sceneBlocks.add(block);
   }
 break;
 case FileBlockHeader.BLOCK_WO00:
@@ -39,6 +40,11 @@ if (blenderKey.getUsedWorld() == null || blenderKey.getUsedWorld().equals(worldN
 }
 break;
 }
+}
+ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
+constraintHelper.bakeConstraints(blenderContext);
+for (FileBlockHeader sceneBlock : sceneBlocks) {
+loadingResults.addScene(this.toScene(sceneBlock.getStructure(blenderContext)));
 }
 blenderContext.dispose();
 return loadingResults;
