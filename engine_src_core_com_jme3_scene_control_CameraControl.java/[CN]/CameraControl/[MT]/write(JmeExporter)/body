@@ -1,4 +1,6 @@
 {
   super.write(ex);
-  ex.getCapsule(this).write(controlDir,CONTROL_DIR_NAME,ControlDirection.SpatialToCamera);
+  OutputCapsule oc=ex.getCapsule(this);
+  oc.write(controlDir,CONTROL_DIR_NAME,ControlDirection.SpatialToCamera);
+  oc.write(camera,CAMERA_NAME,null);
 }
