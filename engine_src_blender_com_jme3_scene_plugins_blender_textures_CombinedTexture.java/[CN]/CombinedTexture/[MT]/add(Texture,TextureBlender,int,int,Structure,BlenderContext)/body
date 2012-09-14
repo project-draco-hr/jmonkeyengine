@@ -10,7 +10,7 @@
       textureData.uvCoordinatesType=UVCoordinatesType.valueOf(uvCoordinatesType);
       textureData.projectionType=UVProjectionType.valueOf(projectionType);
       textureData.textureStructure=textureStructure;
-      if (this.isWithoutAlpha(textureData,blenderContext)) {
+      if (textureDatas.size() > 0 && this.isWithoutAlpha(textureData,blenderContext)) {
         textureDatas.clear();
       }
       textureDatas.add(textureData);
