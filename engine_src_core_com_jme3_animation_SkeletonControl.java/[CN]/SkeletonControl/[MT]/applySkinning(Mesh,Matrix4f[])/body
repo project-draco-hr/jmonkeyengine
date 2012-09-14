@@ -29,6 +29,11 @@
     int verts=bufLength / 3;
     int idxPositions=0;
     for (int vert=verts - 1; vert >= 0; vert--) {
+      if (weights[idxWeights] == 0) {
+        idxPositions+=3;
+        idxWeights+=4;
+        continue;
+      }
       float nmx=normBuf[idxPositions];
       float vtx=posBuf[idxPositions++];
       float nmy=normBuf[idxPositions];
