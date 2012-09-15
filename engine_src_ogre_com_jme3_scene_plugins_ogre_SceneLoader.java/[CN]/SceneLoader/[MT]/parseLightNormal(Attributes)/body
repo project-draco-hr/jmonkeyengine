@@ -1,6 +1,8 @@
 {
   checkTopNode("light");
-  if (light instanceof DirectionalLight)   ((DirectionalLight)light).setDirection(parseVector3(attribs));
+  if (light instanceof DirectionalLight) {
+    ((DirectionalLight)light).setDirection(parseVector3(attribs));
+  }
  else   if (light instanceof SpotLight) {
     ((SpotLight)light).setDirection(parseVector3(attribs));
   }

@@ -9,6 +9,10 @@
     node=entityNode.getParent();
     entityNode=null;
   }
+ else   if (qName.equals("camera")) {
+    node=cameraNode.getParent();
+    cameraNode=null;
+  }
  else   if (qName.equals("light")) {
     root.updateGeometricState();
     if (light != null) {

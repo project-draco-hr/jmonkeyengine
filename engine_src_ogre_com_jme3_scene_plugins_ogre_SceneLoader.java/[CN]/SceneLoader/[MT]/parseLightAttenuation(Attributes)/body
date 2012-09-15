@@ -5,7 +5,9 @@
     float constant=parseFloat(attribs.getValue("constant"));
     float linear=parseFloat(attribs.getValue("linear"));
     String quadraticStr=attribs.getValue("quadratic");
-    if (quadraticStr == null)     quadraticStr=attribs.getValue("quadric");
+    if (quadraticStr == null) {
+      quadraticStr=attribs.getValue("quadric");
+    }
     float quadratic=parseFloat(quadraticStr);
     if (constant == 1 && quadratic == 0 && linear > 0) {
       range=1f / linear;

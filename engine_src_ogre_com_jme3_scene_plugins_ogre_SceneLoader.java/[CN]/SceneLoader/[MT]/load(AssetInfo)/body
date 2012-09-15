@@ -6,15 +6,18 @@
     String ext=key.getExtension();
     folderName=key.getFolder();
     sceneName=sceneName.substring(0,sceneName.length() - ext.length() - 1);
-    OgreMaterialKey materialKey=new OgreMaterialKey(sceneName + ".material");
-    try {
-      materialList=(MaterialList)assetManager.loadAsset(materialKey);
-    }
- catch (    AssetNotFoundException ex) {
-      logger.log(Level.WARNING,"Cannot locate {0} for scene {1}",new Object[]{materialKey,key});
-      materialList=null;
-    }
     reset();
+    materialList=materialLoader.load(assetManager,folderName,info.openStream());
+    if (materialList.isEmpty()) {
+      OgreMaterialKey materialKey=new OgreMaterialKey(sceneName + ".material");
+      try {
+        materialList=(MaterialList)assetManager.loadAsset(materialKey);
+      }
+ catch (      AssetNotFoundException ex) {
+        logger.log(Level.WARNING,"Cannot locate {0} for scene {1}",new Object[]{materialKey,key});
+        materialList=null;
+      }
+    }
     SAXParserFactory factory=SAXParserFactory.newInstance();
     factory.setNamespaceAware(true);
     XMLReader xr=factory.newSAXParser().getXMLReader();

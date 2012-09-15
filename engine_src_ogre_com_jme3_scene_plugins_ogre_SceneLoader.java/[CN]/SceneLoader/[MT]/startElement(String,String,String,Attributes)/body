@@ -4,14 +4,20 @@
       throw new SAXException("dotScene parse error: 'scene' element must be the root XML element");
     }
     String version=attribs.getValue("formatVersion");
-    if (version == null || (!version.equals("1.0.0") && !version.equals("1.0.1")))     logger.log(Level.WARNING,"Unrecognized version number" + " in dotScene file: {0}",version);
+    if (version == null || (!version.equals("1.0.0") && !version.equals("1.0.1"))) {
+      logger.log(Level.WARNING,"Unrecognized version number" + " in dotScene file: {0}",version);
+    }
   }
  else   if (qName.equals("nodes")) {
     if (root != null) {
       throw new SAXException("dotScene parse error: nodes element was specified twice");
     }
-    if (sceneName == null)     root=new com.jme3.scene.Node("OgreDotScene" + (++sceneIdx));
- else     root=new com.jme3.scene.Node(sceneName + "-scene_node");
+    if (sceneName == null) {
+      root=new com.jme3.scene.Node("OgreDotScene" + (++sceneIdx));
+    }
+ else {
+      root=new com.jme3.scene.Node(sceneName + "-scene_node");
+    }
     node=root;
   }
  else   if (qName.equals("externals")) {
@@ -28,13 +34,7 @@
     if (!curElement.equals("node") && !curElement.equals("nodes")) {
       throw new SAXException("dotScene parse error: " + "node element can only appear under 'node' or 'nodes'");
     }
-    String name=attribs.getValue("name");
-    if (name == null)     name="OgreNode-" + (++nodeIdx);
-    com.jme3.scene.Node newNode=new com.jme3.scene.Node(name);
-    if (node != null) {
-      node.attachChild(newNode);
-    }
-    node=newNode;
+    parseNode(attribs);
   }
  else   if (qName.equals("property")) {
     if (node != null) {
@@ -57,34 +57,22 @@
   }
  else   if (qName.equals("entity")) {
     checkTopNode("node");
-    String name=attribs.getValue("name");
-    if (name == null)     name="OgreEntity-" + (++nodeIdx);
- else     name+="-entity";
-    String meshFile=attribs.getValue("meshFile");
-    if (meshFile == null) {
-      throw new SAXException("Required attribute 'meshFile' missing for 'entity' node");
-    }
-    String materialName=attribs.getValue("materialName");
-    if (folderName != null) {
-      meshFile=folderName + meshFile;
-    }
-    meshFile+=".xml";
-    entityNode=new com.jme3.scene.Node(name);
-    OgreMeshKey meshKey=new OgreMeshKey(meshFile,materialList);
-    try {
-      Spatial ogreMesh=assetManager.loadModel(meshKey);
-      entityNode.attachChild(ogreMesh);
-    }
- catch (    AssetNotFoundException ex) {
-      logger.log(Level.WARNING,"Cannot locate {0} for scene {1}",new Object[]{meshKey,key});
-      entityNode.attachChild(PlaceholderAssets.getPlaceholderModel(assetManager));
-    }
-    node.attachChild(entityNode);
-    node=null;
+    parseEntity(attribs);
+  }
+ else   if (qName.equals("camera")) {
+    checkTopNode("node");
+    parseCamera(attribs);
+  }
+ else   if (qName.equals("clipping")) {
+    checkTopNode("camera");
+    parseCameraClipping(attribs);
   }
  else   if (qName.equals("position")) {
     if (elementStack.peek().equals("node")) {
       node.setLocalTranslation(SAXUtil.parseVector3(attribs));
+    }
+ else     if (elementStack.peek().equals("camera")) {
+      cameraNode.setLocalTranslation(SAXUtil.parseVector3(attribs));
     }
   }
  else   if (qName.equals("quaternion") || qName.equals("rotation")) {
@@ -104,6 +92,16 @@
     }
  else {
       checkTopNode("environment");
+    }
+  }
+ else   if (qName.equals("colourAmbient") || qName.equals("colorAmbient")) {
+    if (elementStack.peek().equals("environment")) {
+      ColorRGBA color=parseColor(attribs);
+      if (!color.equals(ColorRGBA.Black) && !color.equals(ColorRGBA.BlackNoAlpha)) {
+        AmbientLight al=new AmbientLight();
+        al.setColor(color);
+        root.addLight(al);
+      }
     }
   }
  else   if (qName.equals("normal") || qName.equals("direction")) {

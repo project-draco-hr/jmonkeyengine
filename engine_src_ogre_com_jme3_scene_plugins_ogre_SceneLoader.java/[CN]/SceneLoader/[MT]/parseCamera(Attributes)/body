@@ -1,0 +1,15 @@
+{
+  camera=new Camera(DEFAULT_CAM_WIDTH,DEFAULT_CAM_HEIGHT);
+  if (SAXUtil.parseString(attribs.getValue("projectionType"),"perspective").equals("parallel")) {
+    camera.setParallelProjection(true);
+  }
+  float fov=SAXUtil.parseFloat(attribs.getValue("fov"),45f);
+  if (fov < FastMath.PI) {
+    fov=fov * FastMath.RAD_TO_DEG;
+  }
+  camera.setFrustumPerspective(fov,(float)DEFAULT_CAM_WIDTH / DEFAULT_CAM_HEIGHT,1,1000);
+  cameraNode=new CameraNode(attribs.getValue("name"),camera);
+  cameraNode.setControlDir(ControlDirection.SpatialToCamera);
+  node.attachChild(cameraNode);
+  node=null;
+}
