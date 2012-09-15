@@ -1,4 +1,7 @@
 {
+  if (buffer != null) {
+    buffer.limit(buffer.capacity());
+  }
   if (buffer == null || (buffer.remaining() < required)) {
     int position=(buffer != null ? buffer.position() : 0);
     ByteBuffer newVerts=createByteBuffer(position + required);
