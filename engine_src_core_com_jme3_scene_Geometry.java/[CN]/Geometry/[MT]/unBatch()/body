@@ -2,7 +2,9 @@
   this.startIndex=0;
   prevBatchTransforms=null;
   cachedOffsetMat=null;
-  this.batchNode.setNeedsFullRebatch(true);
-  this.batchNode=null;
+  if (batchNode != null) {
+    this.batchNode.setNeedsFullRebatch(true);
+    this.batchNode=null;
+  }
   setCullHint(CullHint.Dynamic);
 }
