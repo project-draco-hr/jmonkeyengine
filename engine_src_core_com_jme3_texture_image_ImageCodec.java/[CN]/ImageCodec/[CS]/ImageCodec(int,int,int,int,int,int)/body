@@ -1,6 +1,7 @@
 {
   this.bpp=bpp;
-  this.flags=flags;
+  this.isGray=(flags & FLAG_GRAY) != 0;
+  this.type=flags & ~FLAG_GRAY;
   this.maxAlpha=maxAlpha;
   this.maxRed=maxRed;
   this.maxGreen=maxGreen;
