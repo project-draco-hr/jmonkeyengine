@@ -1,5 +1,8 @@
 {
   logger.log(Level.INFO,"Splash Screen Picture Resource ID: {0}",splashPicID);
+  if (view == null) {
+    logger.log(Level.INFO,"view is null!");
+  }
   if (splashPicID != 0) {
     FrameLayout.LayoutParams lp=new FrameLayout.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT,Gravity.CENTER);
     frameLayout=new FrameLayout(this);

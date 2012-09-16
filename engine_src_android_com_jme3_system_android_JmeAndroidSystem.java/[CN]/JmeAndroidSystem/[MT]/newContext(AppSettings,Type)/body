@@ -1,4 +1,6 @@
 {
   initialize(settings);
-  return new OGLESContext();
+  JmeContext ctx=new OGLESContext();
+  ctx.setSettings(settings);
+  return ctx;
 }
