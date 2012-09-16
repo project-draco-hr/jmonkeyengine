@@ -1,0 +1,15 @@
+{
+  int i=(y * width + x) * bpp;
+  if (alphaPos != -1) {
+    buf.put(i + alphaPos,(byte)components[0]);
+  }
+  if (redPos != -1) {
+    buf.put(i + redPos,(byte)components[1]);
+  }
+  if (greenPos != -1) {
+    buf.put(i + greenPos,(byte)components[2]);
+  }
+  if (bluePos != -1) {
+    buf.put(i + bluePos,(byte)components[3]);
+  }
+}
