@@ -1,15 +1,17 @@
 {
   int i=(y * width + x) * bpp;
+  buf.position(i);
+  buf.get(tmp,0,bpp);
   if (alphaPos != -1) {
-    components[0]=buf.get(i + alphaPos) & 0xff;
+    components[0]=tmp[alphaPos] & 0xff;
   }
   if (redPos != -1) {
-    components[1]=buf.get(i + redPos) & 0xff;
+    components[1]=tmp[redPos] & 0xff;
   }
   if (greenPos != -1) {
-    components[2]=buf.get(i + greenPos) & 0xff;
+    components[2]=tmp[greenPos] & 0xff;
   }
   if (bluePos != -1) {
-    components[3]=buf.get(i + bluePos) & 0xff;
+    components[3]=tmp[bluePos] & 0xff;
   }
 }
