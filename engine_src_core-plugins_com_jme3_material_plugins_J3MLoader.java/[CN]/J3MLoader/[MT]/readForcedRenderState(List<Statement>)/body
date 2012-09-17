@@ -1,0 +1,8 @@
+{
+  renderState=new RenderState();
+  for (  Statement statement : renderStates) {
+    readRenderStateStatement(statement.getLine());
+  }
+  technique.setForcedRenderState(renderState);
+  renderState=null;
+}

@@ -9,8 +9,13 @@
     if (g.getMaterial().getMaterialDef().getTechniqueDef(forcedTechnique) != null) {
       tmpTech=g.getMaterial().getActiveTechnique() != null ? g.getMaterial().getActiveTechnique().getDef().getName() : "Default";
       g.getMaterial().selectTechnique(forcedTechnique,this);
+      RenderState tmpRs=forcedRenderState;
+      if (g.getMaterial().getActiveTechnique().getDef().getForcedRenderState() != null) {
+        forcedRenderState=g.getMaterial().getActiveTechnique().getDef().getForcedRenderState();
+      }
       g.getMaterial().render(g,this);
       g.getMaterial().selectTechnique(tmpTech,this);
+      forcedRenderState=tmpRs;
     }
  else     if (forcedMaterial != null) {
       forcedMaterial.render(g,this);
