@@ -7,13 +7,10 @@
   }
   if (forcedTechnique != null) {
     if (g.getMaterial().getMaterialDef().getTechniqueDef(forcedTechnique) != null) {
-      RenderState s=forcedRenderState;
-      forcedRenderState=g.getMaterial().getMaterialDef().getTechniqueDef(forcedTechnique).getRenderState();
       tmpTech=g.getMaterial().getActiveTechnique() != null ? g.getMaterial().getActiveTechnique().getDef().getName() : "Default";
       g.getMaterial().selectTechnique(forcedTechnique,this);
       g.getMaterial().render(g,this);
       g.getMaterial().selectTechnique(tmpTech,this);
-      forcedRenderState=s;
     }
  else     if (forcedMaterial != null) {
       forcedMaterial.render(g,this);
