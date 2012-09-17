@@ -16,14 +16,14 @@
     glDisable(GL_DEPTH_TEST);
     context.depthTestEnabled=false;
   }
-  if (state.isAlphaTest() && !context.alphaTestEnabled) {
+  if (state.isAlphaTest() && context.alphaTestFallOff == 0) {
     glEnable(GL_ALPHA_TEST);
     glAlphaFunc(GL_GREATER,state.getAlphaFallOff());
-    context.alphaTestEnabled=true;
+    context.alphaTestFallOff=state.getAlphaFallOff();
   }
- else   if (!state.isAlphaTest() && context.alphaTestEnabled) {
+ else   if (!state.isAlphaTest() && context.alphaTestFallOff != 0) {
     glDisable(GL_ALPHA_TEST);
-    context.alphaTestEnabled=false;
+    context.alphaTestFallOff=0;
   }
   if (state.isDepthWrite() && !context.depthWriteEnabled) {
     glDepthMask(true);

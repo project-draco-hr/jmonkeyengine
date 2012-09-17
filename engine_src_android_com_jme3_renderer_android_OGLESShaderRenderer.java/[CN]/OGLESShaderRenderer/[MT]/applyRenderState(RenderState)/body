@@ -8,12 +8,6 @@
     GLES20.glDisable(GLES20.GL_DEPTH_TEST);
     context.depthTestEnabled=false;
   }
-  if (state.isAlphaTest() && !context.alphaTestEnabled) {
-    context.alphaTestEnabled=true;
-  }
- else   if (!state.isAlphaTest() && context.alphaTestEnabled) {
-    context.alphaTestEnabled=false;
-  }
   if (state.isDepthWrite() && !context.depthWriteEnabled) {
     GLES20.glDepthMask(true);
     context.depthWriteEnabled=true;
@@ -29,10 +23,6 @@
  else   if (!state.isColorWrite() && context.colorWriteEnabled) {
     GLES20.glColorMask(false,false,false,false);
     context.colorWriteEnabled=false;
-  }
-  if (state.isPointSprite() && !context.pointSprite) {
-  }
- else   if (!state.isPointSprite() && context.pointSprite) {
   }
   if (state.isPolyOffset()) {
     if (!context.polyOffsetEnabled) {
