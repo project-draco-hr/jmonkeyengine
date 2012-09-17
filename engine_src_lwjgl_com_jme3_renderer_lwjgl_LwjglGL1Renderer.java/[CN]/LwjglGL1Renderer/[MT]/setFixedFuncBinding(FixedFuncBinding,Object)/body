@@ -1,4 +1,5 @@
 {
+  float falloff;
 switch (ffBinding) {
 case Color:
     context.color=(ColorRGBA)val;
@@ -17,6 +18,9 @@ context.shininess=(Float)val;
 break;
 case UseVertexColor:
 context.useVertexColor=(Boolean)val;
+break;
+case AlphaTestFallOff:
+context.alphaTestFallOff=(Float)val;
 break;
 }
 }
