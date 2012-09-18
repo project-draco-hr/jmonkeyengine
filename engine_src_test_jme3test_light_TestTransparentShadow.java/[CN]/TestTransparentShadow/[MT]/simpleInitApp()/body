@@ -10,7 +10,7 @@
   geom.setMaterial(mat);
   geom.rotate(-FastMath.HALF_PI,0,0);
   geom.center();
-  geom.setShadowMode(ShadowMode.Receive);
+  geom.setShadowMode(ShadowMode.CastAndReceive);
   rootNode.attachChild(geom);
   Spatial tree=assetManager.loadModel("Models/Tree/Tree.mesh.j3o");
   tree.setQueueBucket(Bucket.Transparent);

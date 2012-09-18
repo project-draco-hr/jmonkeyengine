@@ -13,6 +13,9 @@
       mat.setInt("FilterMode",filterMode.ordinal());
       mat.setFloat("PCFEdge",edgesThickness);
       mat.setFloat("ShadowIntensity",shadowIntensity);
+      if (mat.getParam("ShadowMapSize") == null) {
+        mat.setFloat("ShadowMapSize",shadowMapSize);
+      }
     }
  else {
       needsfallBackMaterial=true;

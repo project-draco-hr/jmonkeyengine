@@ -1,5 +1,9 @@
 {
+  guiFont=assetManager.loadFont("Interface/Fonts/Default.fnt");
+  infoText=new BitmapText(guiFont,false);
+  infoText.setSize(guiFont.getCharSet().getRenderedSize());
   inputManager.addMapping("toggle",new KeyTrigger(KeyInput.KEY_SPACE));
+  inputManager.addMapping("changeFiltering",new KeyTrigger(KeyInput.KEY_F));
   inputManager.addMapping("ShadowUp",new KeyTrigger(KeyInput.KEY_T));
   inputManager.addMapping("ShadowDown",new KeyTrigger(KeyInput.KEY_G));
   inputManager.addMapping("ThicknessUp",new KeyTrigger(KeyInput.KEY_Y));
@@ -7,5 +11,6 @@
   inputManager.addMapping("lambdaUp",new KeyTrigger(KeyInput.KEY_U));
   inputManager.addMapping("lambdaDown",new KeyTrigger(KeyInput.KEY_J));
   inputManager.addMapping("toggleHW",new KeyTrigger(KeyInput.KEY_RETURN));
-  inputManager.addListener(this,"lambdaUp","lambdaDown","toggleHW","toggle","ShadowUp","ShadowDown","ThicknessUp","ThicknessDown");
+  inputManager.addMapping("switchGroundMat",new KeyTrigger(KeyInput.KEY_M));
+  inputManager.addListener(this,"lambdaUp","lambdaDown","toggleHW","toggle","ShadowUp","ShadowDown","ThicknessUp","ThicknessDown","changeFiltering","switchGroundMat");
 }

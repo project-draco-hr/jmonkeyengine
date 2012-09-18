@@ -14,6 +14,12 @@
     pssmRenderer.setCompareMode(hardwareShadows ? CompareMode.Hardware : CompareMode.Software);
     System.out.println("HW Shadows: " + hardwareShadows);
   }
+  if (name.equals("changeFiltering") && keyPressed) {
+    filteringIndex=(filteringIndex + 1) % FilterMode.values().length;
+    FilterMode m=FilterMode.values()[filteringIndex];
+    pssmRenderer.setFilterMode(m);
+    print("Filter mode : " + m.toString());
+  }
   if (name.equals("lambdaUp") && keyPressed) {
     pssmRenderer.setLambda(pssmRenderer.getLambda() + 0.01f);
     System.out.println("Lambda : " + pssmRenderer.getLambda());
@@ -37,5 +43,13 @@
   if (name.equals("ThicknessDown") && keyPressed) {
     pssmRenderer.setEdgesThickness(pssmRenderer.getEdgesThickness() - 1);
     System.out.println("Shadow thickness : " + pssmRenderer.getEdgesThickness());
+  }
+  if (name.equals("switchGroundMat") && keyPressed) {
+    if (ground.getMaterial() == matGroundL) {
+      ground.setMaterial(matGroundU);
+    }
+ else {
+      ground.setMaterial(matGroundL);
+    }
   }
 }
