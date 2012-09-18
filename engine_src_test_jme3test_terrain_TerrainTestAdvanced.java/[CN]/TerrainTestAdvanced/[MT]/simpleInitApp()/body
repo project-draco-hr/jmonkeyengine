@@ -6,14 +6,14 @@
   matTerrain.setTexture("AlphaMap",assetManager.loadTexture("Textures/Terrain/splat/alpha1.png"));
   matTerrain.setTexture("AlphaMap_1",assetManager.loadTexture("Textures/Terrain/splat/alpha2.png"));
   Texture heightMapImage=assetManager.loadTexture("Textures/Terrain/splat/mountains512.png");
-  Texture grass=assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
-  grass.setWrap(WrapMode.Repeat);
-  matTerrain.setTexture("DiffuseMap_1",grass);
-  matTerrain.setFloat("DiffuseMap_1_scale",grassScale);
   Texture dirt=assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
   dirt.setWrap(WrapMode.Repeat);
   matTerrain.setTexture("DiffuseMap",dirt);
   matTerrain.setFloat("DiffuseMap_0_scale",dirtScale);
+  Texture grass=assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
+  grass.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("DiffuseMap_1",grass);
+  matTerrain.setFloat("DiffuseMap_1_scale",grassScale);
   Texture rock=assetManager.loadTexture("Textures/Terrain/splat/road.jpg");
   rock.setWrap(WrapMode.Repeat);
   matTerrain.setTexture("DiffuseMap_2",rock);
@@ -32,13 +32,9 @@
   normalMap1.setWrap(WrapMode.Repeat);
   Texture normalMap2=assetManager.loadTexture("Textures/Terrain/splat/road_normal.png");
   normalMap2.setWrap(WrapMode.Repeat);
-  matTerrain.setTexture("NormalMap",normalMap0);
   matTerrain.setTexture("NormalMap_1",normalMap2);
   matTerrain.setTexture("NormalMap_2",normalMap2);
   matTerrain.setTexture("NormalMap_4",normalMap2);
-  matWire=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
-  matWire.getAdditionalRenderState().setWireframe(true);
-  matWire.setColor("Color",ColorRGBA.Green);
   createSky();
   AbstractHeightMap heightmap=null;
   try {
@@ -60,7 +56,7 @@
   terrain.setLocalScale(1f,1f,1f);
   rootNode.attachChild(terrain);
   DirectionalLight light=new DirectionalLight();
-  light.setDirection((new Vector3f(-0.5f,-0.5f,-0.5f)).normalize());
+  light.setDirection((new Vector3f(-0.1f,-0.1f,-0.1f)).normalize());
   rootNode.addLight(light);
   cam.setLocation(new Vector3f(0,10,-10));
   cam.lookAtDirection(new Vector3f(0,-1.5f,-1).normalizeLocal(),Vector3f.UNIT_Y);
