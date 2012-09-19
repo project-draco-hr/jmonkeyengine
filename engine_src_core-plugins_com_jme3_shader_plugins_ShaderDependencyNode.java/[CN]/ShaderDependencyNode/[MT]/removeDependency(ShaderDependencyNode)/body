@@ -1,0 +1,8 @@
+{
+  int positionInList=this.dependencies.indexOf(node);
+  if (positionInList == -1) {
+    throw new IllegalArgumentException("The given node " + node.getName() + " is not in this node's ("+ getName()+ ") dependency list");
+  }
+  this.dependencies.remove(positionInList);
+  this.dependencyInjectIndices.remove(positionInList);
+}
