@@ -11,6 +11,13 @@
   final JMenuItem gray=filters.add("Grayscale");
   final JMenuItem bright=filters.add("Brightness");
   final JMenuItem spheremap=filters.add("SphereMapped");
+  final JMenu invertMenu=new JMenu("Invert");
+  final JMenuItem invertAll=invertMenu.add("All");
+  final JMenuItem invertAlpha=invertMenu.add("Alpha");
+  final JMenuItem invertRed=invertMenu.add("Red");
+  final JMenuItem invertGreen=invertMenu.add("Green");
+  final JMenuItem invertBlue=invertMenu.add("Blue");
+  filters.add(invertMenu);
   ActionListener al=new ActionListener(){
     public void actionPerformed(    ActionEvent e){
       Object source=e.getSource();
@@ -31,6 +38,21 @@
       }
  else       if (source == spheremap) {
         spawnEditor(SphereMappedFilter.create().filter(editedImage));
+      }
+ else       if (source == invertAll) {
+        spawnEditor(new InvertFilter().filter(editedImage,InvertFilter.Channel.All));
+      }
+ else       if (source == invertAlpha) {
+        spawnEditor(new InvertFilter().filter(editedImage,InvertFilter.Channel.Alpha));
+      }
+ else       if (source == invertRed) {
+        spawnEditor(new InvertFilter().filter(editedImage,InvertFilter.Channel.Red));
+      }
+ else       if (source == invertGreen) {
+        spawnEditor(new InvertFilter().filter(editedImage,InvertFilter.Channel.Green));
+      }
+ else       if (source == invertBlue) {
+        spawnEditor(new InvertFilter().filter(editedImage,InvertFilter.Channel.Blue));
       }
     }
   }

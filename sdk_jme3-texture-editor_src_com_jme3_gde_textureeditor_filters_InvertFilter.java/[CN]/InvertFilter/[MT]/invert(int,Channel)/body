@@ -1,0 +1,26 @@
+{
+  int a=(sourceARGB >> 24) & 0xff;
+  int r=(sourceARGB >> 16) & 0xff;
+  int g=(sourceARGB >> 8) & 0xff;
+  int b=sourceARGB & 0xff;
+switch (channel) {
+case Alpha:
+    a=255 - a;
+  break;
+case Red:
+r=255 - r;
+break;
+case Green:
+g=255 - g;
+break;
+case Blue:
+b=255 - b;
+break;
+default :
+a=255 - a;
+r=255 - r;
+g=255 - g;
+b=255 - b;
+}
+return packPixel(a,r,g,b);
+}
