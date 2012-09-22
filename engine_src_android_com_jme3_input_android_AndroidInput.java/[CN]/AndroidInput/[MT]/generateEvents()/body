@@ -2,6 +2,7 @@
   if (listener != null) {
     TouchEvent event;
     MouseButtonEvent btn;
+    MouseMotionEvent mot;
     int newX;
     int newY;
     while (!eventQueue.isEmpty()) {
@@ -38,7 +39,23 @@ listener.onMouseButtonEvent(btn);
 lastX=-1;
 lastY=-1;
 break;
+case SCALE_MOVE:
+if (lastX != -1 && lastY != -1) {
+newX=lastX;
+newY=lastY;
+}
+int wheel=(int)(event.getScaleSpan() / 4f);
+int dwheel=(int)(event.getDeltaScaleSpan() / 4f);
+mot=new MouseMotionEvent(newX,newX,0,0,wheel,dwheel);
+mot.setTime(event.getTime());
+listener.onMouseMotionEvent(mot);
+lastX=newX;
+lastY=newY;
+break;
 case MOVE:
+if (event.isScaleSpanInProgress()) {
+break;
+}
 int dx;
 int dy;
 if (lastX != -1) {
@@ -49,7 +66,7 @@ dy=newY - lastY;
 dx=0;
 dy=0;
 }
-MouseMotionEvent mot=new MouseMotionEvent(newX,newY,dx,dy,0,0);
+mot=new MouseMotionEvent(newX,newY,dx,dy,(int)event.getScaleSpan(),(int)event.getDeltaScaleSpan());
 mot.setTime(event.getTime());
 listener.onMouseMotionEvent(mot);
 lastX=newX;

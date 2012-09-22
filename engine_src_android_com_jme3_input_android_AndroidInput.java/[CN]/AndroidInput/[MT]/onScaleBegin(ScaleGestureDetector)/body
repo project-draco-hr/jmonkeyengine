@@ -1,10 +1,13 @@
 {
+  scaleInProgress=true;
   TouchEvent touch=getNextFreeTouchEvent();
   touch.set(Type.SCALE_START,scaleGestureDetector.getFocusX(),scaleGestureDetector.getFocusY(),0f,0f);
   touch.setPointerId(0);
   touch.setTime(scaleGestureDetector.getEventTime());
   touch.setScaleSpan(scaleGestureDetector.getCurrentSpan());
+  touch.setDeltaScaleSpan(scaleGestureDetector.getCurrentSpan() - scaleGestureDetector.getPreviousSpan());
   touch.setScaleFactor(scaleGestureDetector.getScaleFactor());
+  touch.setScaleSpanInProgress(scaleInProgress);
   processEvent(touch);
   return true;
 }
