@@ -7,10 +7,10 @@
     rotateCamera(-value,initialUpVec);
   }
  else   if (name.equals("FLYCAM_Up")) {
-    rotateCamera(-value,cam.getLeft());
+    rotateCamera(-value * (invertY ? -1 : 1),cam.getLeft());
   }
  else   if (name.equals("FLYCAM_Down")) {
-    rotateCamera(value,cam.getLeft());
+    rotateCamera(value * (invertY ? -1 : 1),cam.getLeft());
   }
  else   if (name.equals("FLYCAM_Forward")) {
     moveCamera(value,false);
