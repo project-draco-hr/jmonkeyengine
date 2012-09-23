@@ -1,0 +1,12 @@
+{
+  Identifier id=comp.getIdentifier();
+  if (id instanceof Button) {
+    addButton(comp);
+  }
+ else   if (id instanceof Axis) {
+    addAxis(comp);
+  }
+ else {
+    logger.log(Level.INFO,"Ignoring: \"{0}\"",comp);
+  }
+}

@@ -1,6 +1,6 @@
 {
-  Controller c=indicesToController.get(joyId);
-  if (c == null)   throw new IllegalArgumentException();
+  if (joyId >= joysticks.length)   throw new IllegalArgumentException();
+  Controller c=joysticks[joyId].controller;
   for (  Rumbler r : c.getRumblers()) {
     r.rumble(amount);
   }

@@ -4,9 +4,10 @@
   Event e=new Event();
   for (int i=0; i < cs.length; i++) {
     Controller c=cs[i];
-    if (c.getType() == Controller.Type.UNKNOWN || c.getType() == Controller.Type.KEYBOARD || c.getType() == Controller.Type.MOUSE)     continue;
+    JInputJoystick stick=joystickIndex.get(c);
+    if (stick == null)     continue;
     if (!c.poll())     continue;
-    int joyId=controllerToIndices.get(c);
+    int joyId=stick.getJoyId();
     EventQueue q=c.getEventQueue();
     while (q.getNextEvent(e)) {
       Identifier id=e.getComponent().getIdentifier();
@@ -49,20 +50,20 @@
           x=1f;
           y=1f;
         }
-        JoyAxisEvent evt1=new JoyAxisEvent(joyId,JoyInput.AXIS_POV_X,x);
-        JoyAxisEvent evt2=new JoyAxisEvent(joyId,JoyInput.AXIS_POV_Y,y);
+        JoyAxisEvent evt1=new JoyAxisEvent(stick.povX,x);
+        JoyAxisEvent evt2=new JoyAxisEvent(stick.povY,y);
         listener.onJoyAxisEvent(evt1);
         listener.onJoyAxisEvent(evt2);
       }
  else       if (id instanceof Axis) {
         float value=e.getValue();
-        Axis axis=(Axis)id;
-        JoyAxisEvent evt=new JoyAxisEvent(joyId,axisIdsToIndices[joyId].get(axis),value);
+        JoystickAxis axis=stick.axisIndex.get(e.getComponent());
+        JoyAxisEvent evt=new JoyAxisEvent(axis,value);
         listener.onJoyAxisEvent(evt);
       }
  else       if (id instanceof Button) {
-        Button button=(Button)id;
-        JoyButtonEvent evt=new JoyButtonEvent(joyId,buttonIdsToIndices[joyId].get(button),e.getValue() == 1f);
+        JoystickButton button=stick.buttonIndex.get(e.getComponent());
+        JoyButtonEvent evt=new JoyButtonEvent(button,e.getValue() == 1f);
         listener.onJoyButtonEvent(evt);
       }
     }
