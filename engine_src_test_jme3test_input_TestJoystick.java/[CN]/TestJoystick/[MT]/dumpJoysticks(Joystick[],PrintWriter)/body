@@ -1,0 +1,9 @@
+{
+  for (  Joystick j : joysticks) {
+    out.println("Joystick[" + j.getJoyId() + "]:"+ j.getName());
+    out.println("  buttons:" + j.getButtonCount());
+    for (    JoystickAxis axis : j.getAxes()) {
+      out.println("   " + axis);
+    }
+  }
+}
