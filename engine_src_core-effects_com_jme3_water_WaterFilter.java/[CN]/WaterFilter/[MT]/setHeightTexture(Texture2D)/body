@@ -1,4 +1,7 @@
 {
   this.heightTexture=heightTexture;
   heightTexture.setWrap(WrapMode.Repeat);
+  if (material != null) {
+    material.setTexture("HeightMap",heightTexture);
+  }
 }
