@@ -17,7 +17,6 @@
 synchronized (eventQueue) {
           for (int i=0; i < deltaValues.length; i++) {
             if (FastMath.abs(deltaValues[i]) > sensorData.lastValues[i] + FastMath.ZERO_TOLERANCE) {
-              eventQueue.add(new JoyAxisEvent(sensorData.joyID,i,se.values[i]));
             }
           }
         }

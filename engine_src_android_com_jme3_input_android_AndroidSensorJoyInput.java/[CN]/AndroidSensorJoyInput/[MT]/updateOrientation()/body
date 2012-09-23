@@ -33,13 +33,10 @@ synchronized (sensorData.valuesLock) {
       deltaOrientation[2]=orientValues[0] - orientationLastValues[0];
 synchronized (eventQueue) {
         if (Math.abs(deltaOrientation[0]) > FastMath.ZERO_TOLERANCE) {
-          eventQueue.add(new JoyAxisEvent(0,0,orientValues[1] / maxOrientationValues[1]));
         }
         if (Math.abs(deltaOrientation[1]) > FastMath.ZERO_TOLERANCE) {
-          eventQueue.add(new JoyAxisEvent(0,1,orientValues[2] / maxOrientationValues[2]));
         }
         if (Math.abs(deltaOrientation[2]) > FastMath.ZERO_TOLERANCE) {
-          eventQueue.add(new JoyAxisEvent(0,2,orientValues[0] / maxOrientationValues[0]));
         }
       }
       orientationLastValues[0]=orientValues[0];
