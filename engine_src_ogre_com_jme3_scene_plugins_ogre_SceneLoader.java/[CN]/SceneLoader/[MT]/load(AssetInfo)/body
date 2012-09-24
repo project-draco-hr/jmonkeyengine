@@ -8,7 +8,7 @@
     sceneName=sceneName.substring(0,sceneName.length() - ext.length() - 1);
     reset();
     materialList=materialLoader.load(assetManager,folderName,info.openStream());
-    if (materialList.isEmpty()) {
+    if (materialList == null || materialList.isEmpty()) {
       OgreMaterialKey materialKey=new OgreMaterialKey(sceneName + ".material");
       try {
         materialList=(MaterialList)assetManager.loadAsset(materialKey);
