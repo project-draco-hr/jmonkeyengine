@@ -18,12 +18,26 @@
         }
       }
       cache.put(quadCell,q);
+      final int quadrant=getQuadrant(quadIdx);
+      final TerrainQuad newQuad=q;
       if (isCenter(quadIdx)) {
-        final int quadrant=getQuadrant(quadIdx);
-        final TerrainQuad newQuad=q;
         getControl(UpdateControl.class).enqueue(new Callable(){
           public Object call() throws Exception {
-            attachQuadAt(newQuad,quadrant,quadCell);
+            if (newQuad.getParent() != null) {
+              attachQuadAt(newQuad,quadrant,quadCell,true);
+            }
+ else {
+              attachQuadAt(newQuad,quadrant,quadCell,false);
+            }
+            return null;
+          }
+        }
+);
+      }
+ else {
+        getControl(UpdateControl.class).enqueue(new Callable(){
+          public Object call() throws Exception {
+            removeQuad(newQuad);
             return null;
           }
         }

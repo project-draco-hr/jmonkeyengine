@@ -1,9 +1,0 @@
-{
-  if (this.getQuad(idx) != null) {
-    for (    TerrainGridListener l : listeners) {
-      l.tileDetached(getTileCell(this.getQuad(idx).getWorldTranslation()),this.getQuad(idx));
-    }
-    this.detachChild(this.getQuad(idx));
-    cellsLoaded++;
-  }
-}
