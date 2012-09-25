@@ -1,7 +1,10 @@
 {
-  int hash=7;
-  hash=41 * hash + name.hashCode();
-  hash=41 * hash + fragName.hashCode();
-  hash=41 * hash + (defines != null ? defines.getCompiled().hashCode() : 0);
-  return hash;
+  if (cachedHashedCode == 0) {
+    int hash=7;
+    hash=41 * hash + name.hashCode();
+    hash=41 * hash + fragName.hashCode();
+    hash=41 * hash + (defines != null ? defines.hashCode() : 0);
+    cachedHashedCode=hash;
+  }
+  return cachedHashedCode;
 }

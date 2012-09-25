@@ -1,15 +1,15 @@
 {
-  if (obj == null) {
-    return false;
-  }
-  if (getClass() != obj.getClass()) {
-    return false;
-  }
   final ShaderKey other=(ShaderKey)obj;
   if (name.equals(other.name) && fragName.equals(other.fragName)) {
-    if (defines != null && other.defines != null)     return defines.getCompiled().equals(other.defines.getCompiled());
- else     if (defines != null || other.defines != null)     return false;
- else     return true;
+    if (defines != null && other.defines != null) {
+      return defines.equals(other.defines);
+    }
+ else     if (defines != null || other.defines != null) {
+      return false;
+    }
+ else {
+      return true;
+    }
   }
   return false;
 }
