@@ -4,7 +4,12 @@
   if (!(id instanceof Axis)) {
     throw new IllegalArgumentException("Component is not an axis:" + comp);
   }
-  JoystickAxis axis=new DefaultJoystickAxis(getInputManager(),this,getAxisCount(),comp.getName(),id.getName(),comp.isAnalog(),comp.isRelative(),comp.getDeadZone());
+  String original=comp.getName();
+  String name=JoystickCompatibilityMappings.remapComponent(controller.getName(),original);
+  if (name != original) {
+    logger.log(Level.INFO,"Remapped:" + original + " to:"+ name);
+  }
+  JoystickAxis axis=new DefaultJoystickAxis(getInputManager(),this,getAxisCount(),name,id.getName(),comp.isAnalog(),comp.isRelative(),comp.getDeadZone());
   addAxis(axis);
   axisIndex.put(comp,axis);
   if (id == Axis.X) {

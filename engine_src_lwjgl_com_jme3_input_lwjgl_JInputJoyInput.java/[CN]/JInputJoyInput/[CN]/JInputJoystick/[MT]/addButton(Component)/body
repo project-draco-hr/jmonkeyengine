@@ -4,7 +4,12 @@
   if (!(id instanceof Button)) {
     throw new IllegalArgumentException("Component is not an axis:" + comp);
   }
-  JoystickButton button=new DefaultJoystickButton(getInputManager(),this,getButtonCount(),comp.getName(),id.getName());
+  String original=comp.getName();
+  String name=JoystickCompatibilityMappings.remapComponent(controller.getName(),original);
+  if (name != original) {
+    logger.log(Level.INFO,"Remapped:" + original + " to:"+ name);
+  }
+  JoystickButton button=new DefaultJoystickButton(getInputManager(),this,getButtonCount(),name,id.getName());
   addButton(button);
   buttonIndex.put(comp,button);
 }
