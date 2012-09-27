@@ -1,4 +1,7 @@
 {
+  if (!loaded) {
+    return;
+  }
   updateOrientation();
 synchronized (eventQueue) {
     if (listener != null && eventQueue.size() > 0) {

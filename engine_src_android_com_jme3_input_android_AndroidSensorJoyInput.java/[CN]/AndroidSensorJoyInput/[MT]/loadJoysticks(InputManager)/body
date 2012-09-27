@@ -1,30 +1,38 @@
 {
   this.inputManager=inputManager;
-  int joyIndex=1;
-  for (  Entry entry : sensors) {
-    SensorData sensorData=(SensorData)entry.getValue();
-    if (sensorData != null) {
-      if (sensorData.sensor != null && sensorData.createJoystick) {
-        joyIndex++;
-      }
-    }
+  initSensorManager();
+  SensorData sensorData;
+  List<Joystick> list=new ArrayList<Joystick>();
+  AndroidJoystick joystick;
+  AndroidJoystickAxis axis;
+  joystick=new AndroidJoystick(inputManager,this,list.size(),"AndroidSensorsJoystick");
+  list.add(joystick);
+  List<Sensor> availSensors=sensorManager.getSensorList(Sensor.TYPE_ALL);
+  for (  Sensor sensor : availSensors) {
+    logger.log(Level.INFO,"{0} Sensor is available, Type: {1}, Vendor: {2}, Version: {3}",new Object[]{sensor.getName(),sensor.getType(),sensor.getVendor(),sensor.getVersion()});
   }
-  joysticks=new Joystick[joyIndex];
-  joyIndex=0;
-  Joystick joystick;
-  joystick=new AndroidJoystick(inputManager,this,joyIndex,"Device Orientation");
-  joysticks[joyIndex]=joystick;
-  joyIndex++;
-  for (  Entry entry : sensors) {
-    SensorData sensorData=(SensorData)entry.getValue();
-    if (sensorData != null) {
-      if (sensorData.sensor != null && sensorData.createJoystick) {
-        sensorData.joyID=joyIndex;
-        joystick=new AndroidJoystick(inputManager,this,joyIndex,sensorData.joyName);
-        joysticks[joyIndex]=joystick;
-        joyIndex++;
-      }
-    }
+  sensorData=new SensorData(Sensor.TYPE_ORIENTATION,null);
+  sensorData.lastValues=new float[3];
+  sensors.put(Sensor.TYPE_ORIENTATION,sensorData);
+  axis=joystick.addAxis(SensorJoystickAxis.ORIENTATION_X,SensorJoystickAxis.ORIENTATION_X,joystick.getAxisCount(),FastMath.HALF_PI);
+  joystick.setYAxis(axis);
+  sensorData.axes.add(axis);
+  axis=joystick.addAxis(SensorJoystickAxis.ORIENTATION_Y,SensorJoystickAxis.ORIENTATION_Y,joystick.getAxisCount(),FastMath.HALF_PI);
+  joystick.setXAxis(axis);
+  sensorData.axes.add(axis);
+  axis=joystick.addAxis(SensorJoystickAxis.ORIENTATION_Z,SensorJoystickAxis.ORIENTATION_Z,joystick.getAxisCount(),FastMath.HALF_PI);
+  sensorData.axes.add(axis);
+  sensorData=initSensor(Sensor.TYPE_MAGNETIC_FIELD);
+  if (sensorData != null) {
+    sensorData.lastValues=new float[3];
+    sensors.put(Sensor.TYPE_MAGNETIC_FIELD,sensorData);
   }
+  sensorData=initSensor(Sensor.TYPE_ACCELEROMETER);
+  if (sensorData != null) {
+    sensorData.lastValues=new float[3];
+    sensors.put(Sensor.TYPE_ACCELEROMETER,sensorData);
+  }
+  joysticks=list.toArray(new AndroidJoystick[list.size()]);
+  loaded=true;
   return joysticks;
 }

@@ -1,11 +1,12 @@
 {
   SensorData sensorData;
+  AndroidJoystickAxis axis;
   final float[] curInclinationMat=new float[16];
   final float[] curRotationMat=new float[16];
   final float[] rotatedRotationMat=new float[16];
   final float[] accValues=new float[3];
   final float[] magValues=new float[3];
-  final float[] deltaOrientation=new float[3];
+  final float[] orderedOrientation=new float[3];
   sensorData=sensors.get(Sensor.TYPE_ACCELEROMETER);
   if (sensorData == null || !sensorData.enabled || !sensorData.haveData) {
     return false;
@@ -28,26 +29,41 @@ synchronized (sensorData.valuesLock) {
     final float[] orientValues=new float[3];
     if (remapCoordinates(curRotationMat,rotatedRotationMat)) {
       SensorManager.getOrientation(rotatedRotationMat,orientValues);
-      deltaOrientation[0]=orientValues[1] - orientationLastValues[1];
-      deltaOrientation[1]=orientValues[2] - orientationLastValues[2];
-      deltaOrientation[2]=orientValues[0] - orientationLastValues[0];
+      orderedOrientation[0]=orientValues[1];
+      orderedOrientation[1]=orientValues[2];
+      orderedOrientation[2]=orientValues[0];
+      sensorData=sensors.get(Sensor.TYPE_ORIENTATION);
+      if (sensorData != null && sensorData.axes.size() > 0) {
+        for (int i=0; i < orderedOrientation.length; i++) {
+          axis=sensorData.axes.get(i);
+          if (axis != null) {
+            axis.setCurRawValue(orderedOrientation[i]);
+            if (!sensorData.haveData) {
+              sensorData.haveData=true;
+            }
+ else {
 synchronized (eventQueue) {
-        if (Math.abs(deltaOrientation[0]) > FastMath.ZERO_TOLERANCE) {
-        }
-        if (Math.abs(deltaOrientation[1]) > FastMath.ZERO_TOLERANCE) {
-        }
-        if (Math.abs(deltaOrientation[2]) > FastMath.ZERO_TOLERANCE) {
+                if (axis.isChanged()) {
+                  eventQueue.add(new JoyAxisEvent(axis,axis.getJoystickAxisValue()));
+                }
+              }
+            }
+          }
         }
       }
-      orientationLastValues[0]=orientValues[0];
-      orientationLastValues[1]=orientValues[1];
-      orientationLastValues[2]=orientValues[2];
+ else       if (sensorData != null) {
+        if (!sensorData.haveData) {
+          sensorData.haveData=true;
+        }
+      }
       return true;
     }
  else {
+      logger.log(Level.INFO,"remapCoordinateSystem failed");
     }
   }
  else {
+    logger.log(Level.INFO,"getRotationMatrix returned false");
   }
   return false;
 }

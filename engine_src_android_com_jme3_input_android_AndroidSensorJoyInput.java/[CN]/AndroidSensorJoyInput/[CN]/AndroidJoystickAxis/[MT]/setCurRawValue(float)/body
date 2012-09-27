@@ -1,0 +1,10 @@
+{
+  this.curRawValue=rawValue;
+  if (Math.abs(curRawValue - lastRawValue) > getDeadZone()) {
+    hasChanged=true;
+    lastRawValue=curRawValue;
+  }
+ else {
+    hasChanged=false;
+  }
+}

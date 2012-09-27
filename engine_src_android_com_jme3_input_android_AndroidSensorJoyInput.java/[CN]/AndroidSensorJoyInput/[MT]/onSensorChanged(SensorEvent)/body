@@ -1,30 +1,37 @@
 {
-  if (!initialized) {
+  if (!initialized || !loaded) {
     return;
   }
   int sensorType=se.sensor.getType();
   SensorData sensorData=sensors.get(sensorType);
   if (sensorData != null && sensorData.sensor.equals(se.sensor) && sensorData.enabled) {
-    if (!sensorData.haveData) {
-      sensorData.haveData=true;
+synchronized (sensorData.valuesLock) {
+      for (int i=0; i < sensorData.lastValues.length; i++) {
+        sensorData.lastValues[i]=se.values[i];
+      }
     }
+    if (sensorData != null && sensorData.axes.size() > 0) {
+      AndroidJoystickAxis axis;
+      for (int i=0; i < se.values.length; i++) {
+        axis=sensorData.axes.get(i);
+        if (axis != null) {
+          axis.setCurRawValue(se.values[i]);
+          if (!sensorData.haveData) {
+            sensorData.haveData=true;
+          }
  else {
-      if (sensorData.joyID != -1) {
-        final float[] deltaValues=new float[sensorData.lastValues.length];
-        for (int i=0; i < sensorData.lastValues.length; i++) {
-          deltaValues[i]=se.values[i] - sensorData.lastValues[i];
-        }
 synchronized (eventQueue) {
-          for (int i=0; i < deltaValues.length; i++) {
-            if (FastMath.abs(deltaValues[i]) > sensorData.lastValues[i] + FastMath.ZERO_TOLERANCE) {
+              if (axis.isChanged()) {
+                eventQueue.add(new JoyAxisEvent(axis,axis.getJoystickAxisValue()));
+              }
             }
           }
         }
       }
     }
-synchronized (sensorData.valuesLock) {
-      for (int i=0; i < sensorData.lastValues.length; i++) {
-        sensorData.lastValues[i]=se.values[i];
+ else     if (sensorData != null) {
+      if (!sensorData.haveData) {
+        sensorData.haveData=true;
       }
     }
   }

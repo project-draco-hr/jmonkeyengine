@@ -1,5 +1,7 @@
 {
   for (  Entry entry : sensors) {
-    registerListener(entry.getKey());
+    if (entry.getKey() != Sensor.TYPE_ORIENTATION) {
+      registerListener(entry.getKey());
+    }
   }
 }
