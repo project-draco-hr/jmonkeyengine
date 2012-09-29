@@ -9,7 +9,16 @@
   pssmRenderer.setShadowIntensity(0.6f);
   pssmRenderer.setCompareMode(CompareMode.Software);
   pssmRenderer.setFilterMode(FilterMode.Dither);
-  pssmRenderer.displayDebug();
   viewPort.addProcessor(pssmRenderer);
+  pssmFilter=new PssmShadowFilter(assetManager,1024,3);
+  pssmRenderer.setDirection(new Vector3f(0.5973172f,-0.16583486f,0.7846725f).normalizeLocal());
+  pssmFilter.setLambda(0.55f);
+  pssmFilter.setShadowIntensity(0.6f);
+  pssmFilter.setCompareMode(CompareMode.Software);
+  pssmFilter.setFilterMode(FilterMode.Dither);
+  pssmFilter.setEnabled(false);
+  FilterPostProcessor fpp=new FilterPostProcessor(assetManager);
+  fpp.addFilter(pssmFilter);
+  viewPort.addProcessor(fpp);
   initInputs();
 }

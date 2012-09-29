@@ -1,30 +1,50 @@
 {
   GeometryList l=viewPort.getQueue().getShadowQueueContent(ShadowMode.Receive);
+  matCache.clear();
   for (int i=0; i < l.size(); i++) {
     Material mat=l.get(i).getMaterial();
     if (mat.getMaterialDef().getTechniqueDef(postTechniqueName) != null) {
-      mat.setColor("Splits",splits);
-      postshadowMat.setColor("Splits",splits);
-      for (int j=0; j < nbSplits; j++) {
-        mat.setMatrix4("LightViewProjectionMatrix" + j,lightViewProjectionsMatrices[j]);
-        mat.setTexture("ShadowMap" + j,shadowMaps[j]);
-      }
-      mat.setBoolean("HardwareShadows",compareMode == CompareMode.Hardware);
-      mat.setInt("FilterMode",filterMode.ordinal());
-      mat.setFloat("PCFEdge",edgesThickness);
-      mat.setFloat("ShadowIntensity",shadowIntensity);
-      if (mat.getParam("ShadowMapSize") == null) {
-        mat.setFloat("ShadowMapSize",shadowMapSize);
+      if (!matCache.contains(mat)) {
+        matCache.add(mat);
       }
     }
  else {
       needsfallBackMaterial=true;
     }
   }
-  if (needsfallBackMaterial) {
-    postshadowMat.setColor("Splits",splits);
-    for (int j=0; j < nbSplits; j++) {
-      postshadowMat.setMatrix4("LightViewProjectionMatrix" + j,lightViewProjectionsMatrices[j]);
+  for (  Material mat : matCache) {
+    if (mat.getParam("Splits") == null) {
+      mat.setColor("Splits",splits);
     }
+    if (mat.getParam("ShadowMapSize") == null) {
+      mat.setFloat("ShadowMapSize",shadowMapSize);
+    }
+    for (int j=0; j < nbSplits; j++) {
+      mat.setMatrix4("LightViewProjectionMatrix" + j,lightViewProjectionsMatrices[j]);
+    }
+    if (mat.getParam("ShadowMap0") == null) {
+      for (int j=0; j < nbSplits; j++) {
+        mat.setTexture("ShadowMap" + j,shadowMaps[j]);
+      }
+    }
+    if (applyHWShadows || mat.getParam("HardwareShadows") == null) {
+      mat.setBoolean("HardwareShadows",compareMode == CompareMode.Hardware);
+      applyHWShadows=false;
+    }
+    if (applyFilterMode || mat.getParam("FilterMode") == null) {
+      mat.setInt("FilterMode",filterMode.ordinal());
+      applyFilterMode=false;
+    }
+    if (mat.getParam("PCFEdge") == null || applyPCFEdge) {
+      mat.setFloat("PCFEdge",edgesThickness);
+      applyPCFEdge=false;
+    }
+    if (mat.getParam("ShadowIntensity") == null || applyShadowIntensity) {
+      mat.setFloat("ShadowIntensity",shadowIntensity);
+      applyShadowIntensity=false;
+    }
+  }
+  if (needsfallBackMaterial) {
+    setPostShadowParams();
   }
 }

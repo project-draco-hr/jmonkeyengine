@@ -1,4 +1,5 @@
 {
+  this.postshadowMat=postShadowMat;
   assetManager=manager;
   nbSplits=Math.max(Math.min(nbSplits,4),1);
   this.nbSplits=nbSplits;
@@ -11,7 +12,6 @@
   splitsArray=new float[nbSplits + 1];
   dummyTex=new Texture2D(size,size,Format.RGBA8);
   preshadowMat=new Material(manager,"Common/MatDefs/Shadow/PreShadow.j3md");
-  this.postshadowMat=postShadowMat;
   postshadowMat.setFloat("ShadowMapSize",size);
   for (int i=0; i < nbSplits; i++) {
     lightViewProjectionsMatrices[i]=new Matrix4f();

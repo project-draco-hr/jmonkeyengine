@@ -1,7 +1,10 @@
 {
-  Camera cam=viewPort.getCamera();
+  if (debug) {
+    displayShadowMap(renderManager.getRenderer());
+  }
   if (!noOccluders) {
     setMatParams();
+    Camera cam=viewPort.getCamera();
     if (needsfallBackMaterial) {
       renderManager.setForcedMaterial(postshadowMat);
     }
@@ -10,8 +13,5 @@
     renderManager.setForcedTechnique(null);
     renderManager.setForcedMaterial(null);
     renderManager.setCamera(cam,false);
-  }
-  if (debug) {
-    displayShadowMap(renderManager.getRenderer());
   }
 }
