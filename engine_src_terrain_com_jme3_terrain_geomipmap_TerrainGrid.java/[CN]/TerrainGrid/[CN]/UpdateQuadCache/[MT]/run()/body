@@ -45,4 +45,18 @@
       }
     }
   }
+  getControl(UpdateControl.class).enqueue(new Callable(){
+    public Object call() throws Exception {
+      for (      Spatial s : getChildren()) {
+        if (s instanceof TerrainQuad) {
+          TerrainQuad tq=(TerrainQuad)s;
+          tq.resetCachedNeighbours();
+        }
+      }
+      System.out.println("fixed normals " + location.clone().mult(size));
+      setNeedToRecalculateNormals();
+      return null;
+    }
+  }
+);
 }

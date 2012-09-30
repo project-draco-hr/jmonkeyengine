@@ -9,4 +9,6 @@
   this.heightMapGrid=heightMapGrid;
   heightMapGrid.setSize(this.quadSize);
   addControl(new UpdateControl());
+  fixNormalEdges(new BoundingBox(new Vector3f(0,0,0),size * 2,Float.MAX_VALUE,size * 2));
+  addControl(new NormalRecalcControl(this));
 }

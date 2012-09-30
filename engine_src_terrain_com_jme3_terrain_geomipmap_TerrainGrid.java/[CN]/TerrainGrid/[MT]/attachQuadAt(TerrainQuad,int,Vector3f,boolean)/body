@@ -9,11 +9,4 @@
     }
   }
   updateModelBound();
-  for (  Spatial s : getChildren()) {
-    if (s instanceof TerrainQuad) {
-      TerrainQuad tq=(TerrainQuad)s;
-      tq.resetCachedNeighbours();
-      tq.fixNormalEdges(new BoundingBox(tq.getWorldTranslation(),totalSize * 2,Float.MAX_VALUE,totalSize * 2));
-    }
-  }
 }
