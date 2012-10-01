@@ -5,6 +5,9 @@
   int sensorType=se.sensor.getType();
   SensorData sensorData=sensors.get(sensorType);
   if (sensorData != null && sensorData.sensor.equals(se.sensor) && sensorData.enabled) {
+    if (sensorData.sensorAccuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
+      return;
+    }
 synchronized (sensorData.valuesLock) {
       for (int i=0; i < sensorData.lastValues.length; i++) {
         sensorData.lastValues[i]=se.values[i];

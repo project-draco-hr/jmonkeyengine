@@ -11,6 +11,9 @@
   if (sensorData == null || !sensorData.enabled || !sensorData.haveData) {
     return false;
   }
+  if (sensorData.sensorAccuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
+    return false;
+  }
 synchronized (sensorData.valuesLock) {
     accValues[0]=sensorData.lastValues[0];
     accValues[1]=sensorData.lastValues[1];
@@ -18,6 +21,9 @@ synchronized (sensorData.valuesLock) {
   }
   sensorData=sensors.get(Sensor.TYPE_MAGNETIC_FIELD);
   if (sensorData == null || !sensorData.enabled || !sensorData.haveData) {
+    return false;
+  }
+  if (sensorData.sensorAccuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
     return false;
   }
 synchronized (sensorData.valuesLock) {
