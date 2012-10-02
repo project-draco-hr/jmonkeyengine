@@ -1,0 +1,9 @@
+def modal(self, context, event):
+    if (event.type == 'LEFTMOUSE'):
+        print 'Left mouse'
+        return {'FINISHED'}
+    elif (event.type in ('RIGHTMOUSE', 'ESC')):
+        print 'right mouse'
+        return {'FINISHED'}
+    print 'running modal'
+    return {'RUNNING_MODAL'}

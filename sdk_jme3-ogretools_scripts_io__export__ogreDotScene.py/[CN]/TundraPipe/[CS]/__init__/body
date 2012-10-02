@@ -1,0 +1,41 @@
+def __init__(self, context, debug=False):
+    self._physics_debug = True
+    self._objects = []
+    self.proc = None
+    exe = None
+    if ('Tundra.exe' in os.listdir(CONFIG['TUNDRA_ROOT'])):
+        exe = os.path.join(CONFIG['TUNDRA_ROOT'], 'Tundra.exe')
+    elif ('Tundra' in os.listdir(CONFIG['TUNDRA_ROOT'])):
+        exe = os.path.join(CONFIG['TUNDRA_ROOT'], 'Tundra')
+    cmd = []
+    if (not exe):
+        print 'ERROR: failed to find Tundra executable'
+        assert 0
+    elif sys.platform.startswith('win'):
+        cmd.append(exe)
+    else:
+        if exe.endswith('.exe'):
+            cmd.append('wine')
+        cmd.append(exe)
+    if debug:
+        cmd.append('--loglevel')
+        cmd.append('debug')
+    if CONFIG['TUNDRA_STREAMING']:
+        cmd.append('--config')
+        cmd.append(self.CONFIG_PATH)
+        with open(self.CONFIG_PATH, 'wb') as fp:
+            fp.write(bytes(self.CONFIG_XML, 'utf-8'))
+        with open(self.TUNDRA_SCRIPT_PATH, 'wb') as fp:
+            fp.write(bytes(TUNDRA_SCRIPT, 'utf-8'))
+        self.server = Server()
+    cmd.append('--storage')
+    if sys.platform.startswith('win'):
+        cmd.append('C:\\tmp\\rex')
+    else:
+        cmd.append('/tmp/rex')
+    self.proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, cwd=CONFIG['TUNDRA_ROOT'])
+    self.physics = True
+    if self.proc:
+        time.sleep(0.1)
+        self.load(context, '/tmp/rex/preview.txml')
+        self.stop()

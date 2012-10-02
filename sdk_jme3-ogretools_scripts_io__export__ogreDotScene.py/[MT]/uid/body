@@ -1,0 +1,14 @@
+def uid(ob):
+    if (ob.uid == 0):
+        high = 0
+        multires = 0
+        for o in bpy.data.objects:
+            if (o.uid > high):
+                high = o.uid
+            if o.use_multires_lod:
+                multires += 1
+        high += (1 + (multires * 10))
+        if (high < 100):
+            high = 100
+        ob.uid = high
+    return ob.uid

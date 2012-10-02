@@ -1,0 +1,17 @@
+def invoke(self, context, event):
+    if OgreToggleInterfaceOp.TOGGLE:
+        print 'ogre.toggle_interface ENABLE'
+        bpy.utils.register_module(__name__)
+        try:
+            bpy.utils.unregister_class(_header_)
+        except:
+            pass
+        bpy.utils.unregister_class(INFO_HT_microheader)
+        OgreToggleInterfaceOp.TOGGLE = False
+    else:
+        print 'ogre.toggle_interface DISABLE'
+        hide_user_interface()
+        bpy.utils.register_class(_header_)
+        restore_minimal_interface()
+        OgreToggleInterfaceOp.TOGGLE = True
+    return {'FINISHED'}

@@ -1,0 +1,7 @@
+def deselect_previously_updated(self, context):
+    r = []
+    for ob in context.selected_objects:
+        if (ob.name in self._objects):
+            ob.select = False
+            r.append(ob)
+    return r

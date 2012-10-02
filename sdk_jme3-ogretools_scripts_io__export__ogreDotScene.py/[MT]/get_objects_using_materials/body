@@ -1,0 +1,10 @@
+def get_objects_using_materials(mats):
+    obs = []
+    for ob in bpy.data.objects:
+        if (ob.type == 'MESH'):
+            for mat in ob.data.materials:
+                if (mat in mats):
+                    if (ob not in obs):
+                        obs.append(ob)
+                    break
+    return obs

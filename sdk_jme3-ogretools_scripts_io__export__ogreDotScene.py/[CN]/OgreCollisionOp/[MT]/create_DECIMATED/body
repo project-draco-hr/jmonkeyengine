@@ -1,0 +1,13 @@
+def create_DECIMATED(self, ob):
+    child = ob.copy()
+    bpy.context.scene.objects.link(child)
+    child.matrix_local = mathutils.Matrix()
+    child.parent = ob
+    child.hide_select = True
+    child.draw_type = 'WIRE'
+    child.lock_location = ([True] * 3)
+    child.lock_rotation = ([True] * 3)
+    child.lock_scale = ([True] * 3)
+    decmod = child.modifiers.new('proxy', type='DECIMATE')
+    decmod.ratio = 0.5
+    return child

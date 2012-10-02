@@ -1,0 +1,16 @@
+def merge_group(group):
+    print ('--------------- merge group ->', group)
+    copies = []
+    for ob in group.objects:
+        if (ob.type == 'MESH'):
+            print ('\t group member', ob.name)
+            o2 = ob.copy()
+            copies.append(o2)
+            o2.data = o2.to_mesh(bpy.context.scene, True, 'PREVIEW')
+            while o2.modifiers:
+                o2.modifiers.remove(o2.modifiers[0])
+            bpy.context.scene.objects.link(o2)
+    merged = merge(copies)
+    merged.name = group.name
+    merged.data.name = group.name
+    return merged

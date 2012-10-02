@@ -1,0 +1,11 @@
+def dot_material_write_separate(self, mat, data, path='/tmp'):
+    try:
+        url = os.path.join(path, ('%s.material' % material_name(mat)))
+        f = open(url, 'wb')
+        f.write(bytes(data, 'utf-8'))
+        f.close()
+        print ('    - Exported Material:', url)
+        return url
+    except Exception as e:
+        show_dialog(('Invalid material object name: ' + material_name(mat)))
+        return ''

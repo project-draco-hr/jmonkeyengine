@@ -1,0 +1,34 @@
+def __init__(self, url):
+    self.url = url
+    self.data = ''
+    data = open(url, 'rb').read()
+    try:
+        self.data = data.decode('utf-8')
+    except:
+        self.data = data.decode('latin-1')
+    self.materials = {}
+    mats = []
+    mat = []
+    skip = False
+    for line in self.data.splitlines():
+        if (not line.strip()):
+            continue
+        a = line.split()[0]
+        if (a == 'material'):
+            mat = []
+            mats.append(mat)
+            mat.append(line)
+        elif (a in ('vertex_program', 'fragment_program', 'abstract')):
+            skip = True
+        elif (mat and (not skip)):
+            mat.append(line)
+        elif (skip and (line == '}')):
+            skip = False
+    for mat in mats:
+        omat = OgreMaterialScript('\n'.join(mat), url)
+        if (omat.name in self.ALL_MATERIALS):
+            print ('WARNING: material %s redefined' % omat.name)
+        self.materials[omat.name] = omat
+        self.ALL_MATERIALS[omat.name] = omat
+        if (omat.vertex_programs or omat.fragment_programs):
+            self.ENUM_ITEMS.append((omat.name, omat.name, url))

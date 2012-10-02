@@ -1,0 +1,30 @@
+def create_TERRAIN(self, ob):
+    x = ob.collision_terrain_x_steps
+    y = ob.collision_terrain_y_steps
+    bpy.ops.mesh.primitive_grid_add(x_subdivisions=x, y_subdivisions=y, size=1.0)
+    grid = bpy.context.active_object
+    assert grid.name.startswith('Grid')
+    grid.collision_terrain_x_steps = x
+    grid.collision_terrain_y_steps = y
+    (x, y, z) = ob.dimensions
+    (sx, sy, sz) = ob.scale
+    x *= (1.0 / sx)
+    y *= (1.0 / sy)
+    z *= (1.0 / sz)
+    grid.scale.x = (x / 2)
+    grid.scale.y = (y / 2)
+    grid.location.z -= (z / 2)
+    grid.data.show_all_edges = True
+    grid.draw_type = 'WIRE'
+    grid.hide_select = True
+    grid.lock_location = ([True] * 3)
+    grid.lock_rotation = ([True] * 3)
+    grid.lock_scale = ([True] * 3)
+    grid.parent = ob
+    bpy.context.scene.objects.active = ob
+    mod = grid.modifiers.new(name='temp', type='SHRINKWRAP')
+    mod.wrap_method = 'PROJECT'
+    mod.use_project_z = True
+    mod.target = ob
+    mod.cull_face = 'FRONT'
+    return grid

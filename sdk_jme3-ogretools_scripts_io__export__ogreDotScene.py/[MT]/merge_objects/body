@@ -1,0 +1,18 @@
+def merge_objects(objects, name='_temp_', transform=None):
+    assert objects
+    copies = []
+    for ob in objects:
+        ob.select = False
+        if (ob.type == 'MESH'):
+            o2 = ob.copy()
+            copies.append(o2)
+            o2.data = o2.to_mesh(bpy.context.scene, True, 'PREVIEW')
+            while o2.modifiers:
+                o2.modifiers.remove(o2.modifiers[0])
+            if transform:
+                o2.matrix_world = (transform * o2.matrix_local)
+            bpy.context.scene.objects.link(o2)
+    merged = merge(copies)
+    merged.name = name
+    merged.data.name = name
+    return merged

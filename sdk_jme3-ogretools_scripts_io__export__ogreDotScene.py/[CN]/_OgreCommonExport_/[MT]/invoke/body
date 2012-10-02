@@ -1,0 +1,22 @@
+def invoke(self, context, event):
+    global last_export_filepath
+    if (last_export_filepath == ''):
+        if ((self.filepath == '') and (context.blend_data.filepath != '')):
+            (path, name) = os.path.split(context.blend_data.filepath)
+            self.filepath = os.path.join(path, name.split('.')[0])
+        if (self.filepath == ''):
+            self.filepath = 'blender2ogre-export'
+        if (self.EXPORT_TYPE == 'OGRE'):
+            self.filepath += '.scene'
+        elif (self.EXPORT_TYPE == 'REX'):
+            self.filepath += '.txml'
+    else:
+        self.filepath = last_export_filepath
+    if (self.EXPORT_TYPE == 'OGRE'):
+        self.filepath = self.filepath.replace('.txml', '.scene')
+    elif (self.EXPORT_TYPE == 'REX'):
+        self.filepath = self.filepath.replace('.scene', '.txml')
+    self.update_ui()
+    wm = context.window_manager
+    fs = wm.fileselect_add(self)
+    return {'RUNNING_MODAL'}

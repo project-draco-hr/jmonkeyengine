@@ -1,0 +1,5 @@
+def save(blenderobject, path):
+    cmesh = Mesh(blenderobject.data)
+    start = time.time()
+    dotmesh(path, ctypes.addressof(cmesh.faces), ctypes.addressof(cmesh.faces_smooth), ctypes.addressof(cmesh.faces_material_index), ctypes.addressof(cmesh.vertex_positions), ctypes.addressof(cmesh.vertex_normals), cmesh.numFaces, cmesh.numVerts)
+    print ('Mesh dumped in %s seconds' % (time.time() - start))

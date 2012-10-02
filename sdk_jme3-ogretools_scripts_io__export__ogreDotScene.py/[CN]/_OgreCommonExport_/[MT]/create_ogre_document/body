@@ -1,0 +1,54 @@
+def create_ogre_document(self, context, material_files=[]):
+    now = time.time()
+    doc = RDocument()
+    scn = doc.createElement('scene')
+    doc.appendChild(scn)
+    scn.setAttribute('export_time', str(now))
+    scn.setAttribute('formatVersion', '1.0.1')
+    bscn = bpy.context.scene
+    if ('_previous_export_time_' in bscn.keys()):
+        scn.setAttribute('previous_export_time', str(bscn['_previous_export_time_']))
+    else:
+        scn.setAttribute('previous_export_time', '0')
+    bscn['_previous_export_time_'] = now
+    scn.setAttribute('exported_by', getpass.getuser())
+    nodes = doc.createElement('nodes')
+    doc._scene_nodes = nodes
+    extern = doc.createElement('externals')
+    environ = doc.createElement('environment')
+    for n in (nodes, extern, environ):
+        scn.appendChild(n)
+    for url in material_files:
+        item = doc.createElement('item')
+        extern.appendChild(item)
+        item.setAttribute('type', 'material')
+        a = doc.createElement('file')
+        item.appendChild(a)
+        a.setAttribute('name', url)
+    world = context.scene.world
+    if world:
+        _c = {'colourAmbient': world.ambient_color, 'colourBackground': world.horizon_color, 'colourDiffuse': world.horizon_color, }
+        for ctag in _c:
+            a = doc.createElement(ctag)
+            environ.appendChild(a)
+            color = _c[ctag]
+            a.setAttribute('r', ('%s' % color.r))
+            a.setAttribute('g', ('%s' % color.g))
+            a.setAttribute('b', ('%s' % color.b))
+    if (world and world.mist_settings.use_mist):
+        a = doc.createElement('fog')
+        environ.appendChild(a)
+        a.setAttribute('linearStart', ('%s' % world.mist_settings.start))
+        mist_falloff = world.mist_settings.falloff
+        if (mist_falloff == 'QUADRATIC'):
+            a.setAttribute('mode', 'exp')
+        elif (mist_falloff == 'LINEAR'):
+            a.setAttribute('mode', 'linear')
+        else:
+            a.setAttribute('mode', 'exp2')
+        a.setAttribute('linearEnd', ('%s' % (world.mist_settings.start + world.mist_settings.depth)))
+        a.setAttribute('expDensity', world.mist_settings.intensity)
+        a.setAttribute('colourR', world.horizon_color.r)
+        a.setAttribute('colourG', world.horizon_color.g)
+        a.setAttribute('colourB', world.horizon_color.b)
+    return doc

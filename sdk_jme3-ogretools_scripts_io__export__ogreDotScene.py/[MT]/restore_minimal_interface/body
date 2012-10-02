@@ -1,0 +1,15 @@
+def restore_minimal_interface():
+    for cls in get_minimal_interface_classes():
+        try:
+            bpy.utils.register_class(cls)
+        except:
+            pass
+    return False
+    try:
+        bpy.utils.register_class(INFO_HT_microheader)
+        for op in get_minimal_interface_classes():
+            bpy.utils.register_class(op)
+        return False
+    except:
+        print 'b2ogre minimal UI already setup'
+        return True

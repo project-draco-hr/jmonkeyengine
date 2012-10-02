@@ -1,0 +1,11 @@
+def merge(objects):
+    print ('MERGE', objects)
+    for ob in bpy.context.selected_objects:
+        ob.select = False
+    for ob in objects:
+        print ('\t' + ob.name)
+        ob.select = True
+        assert (not ob.library)
+    bpy.context.scene.objects.active = ob
+    bpy.ops.object.join()
+    return bpy.context.active_object

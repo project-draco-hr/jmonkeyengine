@@ -1,0 +1,15 @@
+@staticmethod
+def get_or_create_material_passes(mat, n=8):
+    if (not mat.node_tree):
+        print ('CREATING MATERIAL PASSES', n)
+        bpyShaders.create_material_passes(mat, n)
+    d = {}
+    for node in mat.node_tree.nodes:
+        if ((node.type == 'MATERIAL_EXT') and node.name.startswith('GEN.')):
+            d[node.name] = node
+    keys = list(d.keys())
+    keys.sort()
+    r = []
+    for key in keys:
+        r.append(d[key])
+    return r

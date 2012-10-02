@@ -1,0 +1,21 @@
+def swap(vec):
+    if (CONFIG['SWAP_AXIS'] == 'xyz'):
+        return vec
+    elif (CONFIG['SWAP_AXIS'] == 'xzy'):
+        if (len(vec) == 3):
+            return mathutils.Vector([vec.x, vec.z, vec.y])
+        elif (len(vec) == 4):
+            return mathutils.Quaternion([vec.w, vec.x, vec.z, vec.y])
+    elif (CONFIG['SWAP_AXIS'] == '-xzy'):
+        if (len(vec) == 3):
+            return mathutils.Vector([(- vec.x), vec.z, vec.y])
+        elif (len(vec) == 4):
+            return mathutils.Quaternion([vec.w, (- vec.x), vec.z, vec.y])
+    elif (CONFIG['SWAP_AXIS'] == 'xz-y'):
+        if (len(vec) == 3):
+            return mathutils.Vector([vec.x, vec.z, (- vec.y)])
+        elif (len(vec) == 4):
+            return mathutils.Quaternion([vec.w, vec.x, vec.z, (- vec.y)])
+    else:
+        print ('unknown swap axis mode', CONFIG['SWAP_AXIS'])
+        assert 0

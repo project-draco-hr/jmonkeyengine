@@ -1,0 +1,14 @@
+def multires_lod(self):
+    '\n        Ogre builtin LOD sucks for character animation\n        '
+    ob = bpy.context.active_object
+    cam = bpy.context.scene.camera
+    if (ob and cam and (ob.type == 'MESH') and ob.use_multires_lod):
+        delta = (bpy.context.active_object.matrix_world.to_translation() - cam.matrix_world.to_translation())
+        dist = delta.length
+        if (ob.modifiers and (ob.modifiers[0].type == 'MULTIRES') and (ob.modifiers[0].total_levels > 1)):
+            mod = ob.modifiers[0]
+            step = (ob.multires_lod_range / mod.total_levels)
+            level = (mod.total_levels - int((dist / step)))
+            if (mod.levels != level):
+                mod.levels = level
+            return level

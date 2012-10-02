@@ -1,0 +1,32 @@
+def parse_material_and_program_scripts(path, scripts, progs, missing):
+    for name in os.listdir(path):
+        url = os.path.join(path, name)
+        if os.path.isdir(url):
+            parse_material_and_program_scripts(url, scripts, progs, missing)
+        elif os.path.isfile(url):
+            if name.endswith('.material'):
+                print ('<found material>', url)
+                scripts.append(MaterialScripts(url))
+            if name.endswith('.program'):
+                print ('<found program>', url)
+                data = open(url, 'rb').read().decode('utf-8')
+                chk = []
+                chunks = [chk]
+                for line in data.splitlines():
+                    line = line.split('//')[0]
+                    if line.startswith('}'):
+                        chk.append(line)
+                        chk = []
+                        chunks.append(chk)
+                    elif line.strip():
+                        chk.append(line)
+                for chk in chunks:
+                    if (not chk):
+                        continue
+                    p = OgreProgram(data='\n'.join(chk))
+                    if p.source:
+                        ok = p.reload()
+                        if (not ok):
+                            missing.append(p)
+                        else:
+                            progs.append(p)

@@ -1,0 +1,14 @@
+def __init__(self):
+    import socket
+    self.buffer = []
+    self.socket = sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    host = 'localhost'
+    port = 9420
+    sock.connect((host, port))
+    print ('SERVER: socket connected', sock)
+    self._handle = None
+    self.setup_callback(bpy.context)
+    import threading
+    self.ready = threading._allocate_lock()
+    self.ID = threading._start_new_thread(self.loop, (None,))
+    print 'SERVER: thread started'

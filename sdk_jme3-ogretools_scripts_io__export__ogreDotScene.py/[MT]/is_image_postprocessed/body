@@ -1,0 +1,5 @@
+def is_image_postprocessed(image):
+    if ((CONFIG['FORCE_IMAGE_FORMAT'] != 'NONE') or image.use_resize_half or image.use_resize_absolute or image.use_color_quantize or image.use_convert_format):
+        return True
+    else:
+        return False

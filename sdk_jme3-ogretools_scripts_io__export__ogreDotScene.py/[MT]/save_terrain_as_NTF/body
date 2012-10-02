@@ -1,0 +1,27 @@
+def save_terrain_as_NTF(path, ob):
+    info = bake_terrain(ob)
+    url = os.path.join(path, ('%s.ntf' % ob.data.name))
+    f = open(url, 'wb')
+    buf = array.array('I')
+    xs = ob.collision_terrain_x_steps
+    ys = ob.collision_terrain_y_steps
+    xpatches = int((xs / 16))
+    ypatches = int((ys / 16))
+    header = [xpatches, ypatches]
+    buf.fromlist(header)
+    buf.tofile(f)
+    rows = info['data']
+    for x in range(xpatches):
+        for y in range(ypatches):
+            patch = []
+            for i in range(16):
+                for j in range(16):
+                    v = rows[((x * 16) + i)][((y * 16) + j)]
+                    patch.append(v)
+            buf = array.array('f')
+            buf.fromlist(patch)
+            buf.tofile(f)
+    f.close()
+    (path, name) = os.path.split(url)
+    R = {'url': url, 'min': info['min'], 'max': info['max'], 'path': path, 'name': name, 'xpatches': xpatches, 'ypatches': ypatches, 'depth': info['depth'], }
+    return R

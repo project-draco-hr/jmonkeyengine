@@ -1,0 +1,95 @@
+def draw(self, context):
+    layout = self.layout
+    ob = context.active_object
+    game = ob.game
+    if (ob.type != 'MESH'):
+        return
+    elif (ob.subcollision == True):
+        box = layout.box()
+        if ob.parent:
+            box.label(text=('object is a collision proxy for: %s' % ob.parent.name))
+        else:
+            box.label(text='WARNING: collision proxy missing parent')
+        return
+    mode = ob.collision_mode
+    if (mode == 'NONE'):
+        box = layout.box()
+        op = box.operator('ogre.set_collision', text='Enable Collision', icon='PHYSICS')
+        op.MODE = ('PRIMITIVE:%s' % game.collision_bounds_type)
+    else:
+        prim = game.collision_bounds_type
+        box = layout.box()
+        op = box.operator('ogre.set_collision', text='Disable Collision', icon='X')
+        op.MODE = 'NONE'
+        box.prop(game, 'collision_margin', text='Collision Margin', slider=True)
+        box = layout.box()
+        if (mode == 'PRIMITIVE'):
+            box.label(text=('Primitive: %s' % prim))
+        else:
+            box.label(text='Primitive')
+        row = box.row()
+        _icons = {'BOX': 'MESH_CUBE', 'SPHERE': 'MESH_UVSPHERE', 'CYLINDER': 'MESH_CYLINDER', 'CONE': 'MESH_CONE', 'CAPSULE': 'META_CAPSULE', }
+        for a in 'BOX SPHERE CYLINDER CONE CAPSULE'.split():
+            if ((prim == a) and (mode == 'PRIMITIVE')):
+                op = row.operator('ogre.set_collision', text='', icon=_icons[a], emboss=True)
+                op.MODE = ('PRIMITIVE:%s' % a)
+            else:
+                op = row.operator('ogre.set_collision', text='', icon=_icons[a], emboss=False)
+                op.MODE = ('PRIMITIVE:%s' % a)
+        box = layout.box()
+        if (mode == 'MESH'):
+            box.label(text=('Mesh: %s' % prim.split('_')[0]))
+        else:
+            box.label(text='Mesh')
+        row = box.row()
+        row.label(text='- - - - - - - - - - - - - -')
+        _icons = {'TRIANGLE_MESH': 'MESH_ICOSPHERE', 'CONVEX_HULL': 'SURFACE_NCURVE', }
+        for a in 'TRIANGLE_MESH CONVEX_HULL'.split():
+            if ((prim == a) and (mode == 'MESH')):
+                op = row.operator('ogre.set_collision', text='', icon=_icons[a], emboss=True)
+                op.MODE = ('MESH:%s' % a)
+            else:
+                op = row.operator('ogre.set_collision', text='', icon=_icons[a], emboss=False)
+                op.MODE = ('MESH:%s' % a)
+        box = layout.box()
+        if (mode == 'DECIMATED'):
+            box.label(text=('Decimate: %s' % prim.split('_')[0]))
+            row = box.row()
+            mod = _get_proxy_decimate_mod(ob)
+            assert mod
+            row.label(text=('Faces: %s' % mod.face_count))
+            box.prop(mod, 'ratio', text='')
+        else:
+            box.label(text='Decimate')
+            row = box.row()
+            row.label(text='- - - - - - - - - - - - - -')
+        _icons = {'TRIANGLE_MESH': 'MESH_ICOSPHERE', 'CONVEX_HULL': 'SURFACE_NCURVE', }
+        for a in 'TRIANGLE_MESH CONVEX_HULL'.split():
+            if ((prim == a) and (mode == 'DECIMATED')):
+                op = row.operator('ogre.set_collision', text='', icon=_icons[a], emboss=True)
+                op.MODE = ('DECIMATED:%s' % a)
+            else:
+                op = row.operator('ogre.set_collision', text='', icon=_icons[a], emboss=False)
+                op.MODE = ('DECIMATED:%s' % a)
+        box = layout.box()
+        if (mode == 'TERRAIN'):
+            terrain = get_subcollisions(ob)[0]
+            if ((ob.collision_terrain_x_steps != terrain.collision_terrain_x_steps) or (ob.collision_terrain_y_steps != terrain.collision_terrain_y_steps)):
+                op = box.operator('ogre.set_collision', text='Rebuild Terrain', icon='MESH_GRID')
+                op.MODE = 'TERRAIN'
+            else:
+                box.label(text='Terrain:')
+            row = box.row()
+            row.prop(ob, 'collision_terrain_x_steps', 'X')
+            row.prop(ob, 'collision_terrain_y_steps', 'Y')
+            box.prop(terrain.modifiers[0], 'cull_face', text='Cull')
+            box.prop(terrain, 'location')
+        else:
+            op = box.operator('ogre.set_collision', text='Terrain Collision', icon='MESH_GRID')
+            op.MODE = 'TERRAIN'
+        box = layout.box()
+        if (mode == 'COMPOUND'):
+            op = box.operator('ogre.set_collision', text='Compound Collision', icon='ROTATECOLLECTION')
+        else:
+            op = box.operator('ogre.set_collision', text='Compound Collision', icon='ROTATECOLLECTION')
+        op.MODE = 'COMPOUND'

@@ -1,0 +1,8 @@
+def start(self):
+    self.physics = True
+    self.proc.stdin.write('startphysics\n')
+    try:
+        self.proc.stdin.flush()
+    except:
+        global TundraSingleton
+        TundraSingleton = None
