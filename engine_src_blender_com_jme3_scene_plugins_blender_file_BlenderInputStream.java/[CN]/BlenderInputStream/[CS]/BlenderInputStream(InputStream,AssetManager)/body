@@ -1,6 +1,5 @@
 {
   this.assetManager=assetManager;
-  this.inputStream=inputStream;
   try {
     size=inputStream.available();
   }
@@ -22,6 +21,14 @@
   }
  catch (  IOException e) {
     throw new BlenderFileException("Problems occured while caching the file!",e);
+  }
+ finally {
+    try {
+      inputStream.close();
+    }
+ catch (    IOException e) {
+      LOGGER.warning("Unable to close stream with blender file.");
+    }
   }
   try {
     this.readFileHeader();

@@ -1,10 +1,15 @@
 {
-  try {
-    inputStream.close();
-  }
- catch (  IOException e) {
-    LOGGER.log(Level.SEVERE,e.getLocalizedMessage(),e);
-  }
+  LOGGER.fine("Disposing blender context resources.");
+  inputStream.forceClose();
   loadedFeatures.clear();
   loadedFeaturesByName.clear();
+  parentStack.clear();
+  loadedIpos.clear();
+  modifiers.clear();
+  constraints.clear();
+  animData.clear();
+  skeletons.clear();
+  meshContexts.clear();
+  boneContexts.clear();
+  helpers.clear();
 }

@@ -3,12 +3,12 @@
   cachedBuffer=new byte[size];
   size=0;
   while (data != -1) {
-    cachedBuffer[size++]=(byte)data;
     if (size >= cachedBuffer.length) {
       byte[] newBuffer=new byte[cachedBuffer.length + (cachedBuffer.length >> 1)];
       System.arraycopy(cachedBuffer,0,newBuffer,0,cachedBuffer.length);
       cachedBuffer=newBuffer;
     }
+    cachedBuffer[size++]=(byte)data;
     data=inputStream.read();
   }
 }
