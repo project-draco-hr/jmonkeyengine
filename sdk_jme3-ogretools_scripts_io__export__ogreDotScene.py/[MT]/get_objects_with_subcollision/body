@@ -1,7 +1,0 @@
-def get_objects_with_subcollision():
-    ' returns objects that have active sub-collisions '
-    r = []
-    for ob in bpy.context.scene.objects:
-        if ((ob.type == 'MESH') and (ob.collision_mode not in ('NONE', 'PRIMITIVE'))):
-            r.append(ob)
-    return r

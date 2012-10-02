@@ -1,8 +1,0 @@
-def gather_instances():
-    instances = {}
-    for ob in bpy.context.scene.objects:
-        if (ob.data and (ob.data.users > 1)):
-            if (ob.data not in instances):
-                instances[ob.data] = []
-            instances[ob.data].append(ob)
-    return instances

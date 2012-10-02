@@ -1,8 +1,0 @@
-def get_active_programs(self):
-    r = []
-    for mat in self.passes:
-        if (mat.use_ogre_parent_material and mat.ogre_parent_material):
-            usermat = get_ogre_user_material(mat.ogre_parent_material)
-            for prog in usermat.get_programs():
-                r.append(prog)
-    return r

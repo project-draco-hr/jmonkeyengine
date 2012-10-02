@@ -1,7 +1,0 @@
-def _get_proxy_decimate_mod(ob):
-    proxy = None
-    for child in ob.children:
-        if (child.subcollision and child.name.startswith('DECIMATED')):
-            for mod in child.modifiers:
-                if (mod.type == 'DECIMATE'):
-                    return mod
