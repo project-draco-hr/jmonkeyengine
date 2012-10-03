@@ -8,6 +8,9 @@
       return;
     }
   }
+  if (context.getLookup().lookup(ProjectAssetManager.class) == null) {
+    return;
+  }
   final WizardDescriptor wiz=new WizardDescriptor(getPanels());
   wiz.setTitleFormat(new MessageFormat("{0}"));
   wiz.setTitle("Import Model to Project " + context.getLookup().lookup(ProjectInformation.class).getDisplayName());
