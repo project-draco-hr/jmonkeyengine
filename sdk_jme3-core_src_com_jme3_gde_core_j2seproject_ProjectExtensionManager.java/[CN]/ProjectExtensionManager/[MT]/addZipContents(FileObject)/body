@@ -22,9 +22,13 @@
           Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Deleting old file " + fo.getNameExt());
           fo.delete();
         }
-        fo=FileUtil.createData(projectRoot,fileName);
-        if (entry.getSize() != fo.getSize()) {
+        fo=projectRoot.getFileObject(fileName);
+        if (fo == null) {
+          fo=FileUtil.createData(projectRoot,fileName);
           writeFile(str,fo);
+        }
+ else {
+          Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Not overwriting existing file " + fo.getNameExt());
         }
       }
     }
