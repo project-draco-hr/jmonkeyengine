@@ -1,7 +1,16 @@
 {
+  if (context == null) {
+    this.context=OpenProjects.getDefault().getMainProject();
+    if (context == null) {
+      context=ProjectSelection.showProjectSelection();
+    }
+    if (context == null) {
+      return;
+    }
+  }
   final WizardDescriptor wiz=new WizardDescriptor(getPanels());
   wiz.setTitleFormat(new MessageFormat("{0}"));
-  wiz.setTitle("Import Model to Project");
+  wiz.setTitle("Import Model to Project " + context.getLookup().lookup(ProjectInformation.class).getDisplayName());
   wiz.putProperty("project",context);
   Dialog dialog=DialogDisplayer.getDefault().createDialog(wiz);
   dialog.setVisible(true);

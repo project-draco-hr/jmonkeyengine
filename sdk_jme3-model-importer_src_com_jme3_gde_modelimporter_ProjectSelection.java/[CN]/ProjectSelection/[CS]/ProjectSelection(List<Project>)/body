@@ -1,0 +1,12 @@
+{
+  super(new JFrame(),true);
+  initComponents();
+  setLocationRelativeTo(null);
+  this.projects=projects;
+  jComboBox1.removeAllItems();
+  for (Iterator<Project> it=projects.iterator(); it.hasNext(); ) {
+    Project project=it.next();
+    ProjectInformation info=project.getLookup().lookup(ProjectInformation.class);
+    jComboBox1.addItem(info.getName());
+  }
+}
