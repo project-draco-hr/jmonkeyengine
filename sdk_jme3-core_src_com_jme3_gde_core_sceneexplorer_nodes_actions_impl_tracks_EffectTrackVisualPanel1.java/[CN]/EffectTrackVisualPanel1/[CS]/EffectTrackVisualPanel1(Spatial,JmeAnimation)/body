@@ -8,7 +8,12 @@
   jComboBox1.setModel(model);
   jComboBox1.setRenderer(new ListCellRenderer(){
     public Component getListCellRendererComponent(    JList list,    Object value,    int index,    boolean isSelected,    boolean cellHasFocus){
-      return new JLabel(((Spatial)value).getName());
+      if (value instanceof Spatial) {
+        return new JLabel(((Spatial)value).getName());
+      }
+ else {
+        return new JLabel("?");
+      }
     }
   }
 );
