@@ -19,7 +19,9 @@
       while (jarEntry.hasMoreElements()) {
         FileObject jarEntryAsset=jarEntry.nextElement();
         if (jarEntryAsset.getExt().equalsIgnoreCase(suffix)) {
-          list.add(jarEntryAsset.getPath());
+          if (!jarEntryAsset.getPath().startsWith("/")) {
+            list.add(jarEntryAsset.getPath());
+          }
         }
       }
     }
