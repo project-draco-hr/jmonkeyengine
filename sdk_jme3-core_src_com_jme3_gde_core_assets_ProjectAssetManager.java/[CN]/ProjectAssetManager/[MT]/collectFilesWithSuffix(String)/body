@@ -1,0 +1,28 @@
+{
+  ArrayList<String> list=new ArrayList<String>();
+  FileObject assetsFolder=getAssetFolder();
+  if (assetsFolder != null) {
+    Enumeration<FileObject> assets=(Enumeration<FileObject>)assetsFolder.getChildren(true);
+    while (assets.hasMoreElements()) {
+      FileObject asset=assets.nextElement();
+      if (asset.getExt().equalsIgnoreCase(suffix)) {
+        list.add(getRelativeAssetPath(asset.getPath()));
+      }
+    }
+  }
+  if (classPathItems != null) {
+    Iterator<ClassPathItem> classPathItemsIter=classPathItems.iterator();
+    while (classPathItemsIter.hasNext()) {
+      ClassPathItem classPathItem=classPathItemsIter.next();
+      FileObject jarFile=classPathItem.object;
+      Enumeration<FileObject> jarEntry=(Enumeration<FileObject>)jarFile.getChildren(true);
+      while (jarEntry.hasMoreElements()) {
+        FileObject jarEntryAsset=jarEntry.nextElement();
+        if (jarEntryAsset.getExt().equalsIgnoreCase(suffix)) {
+          list.add(jarEntryAsset.getPath());
+        }
+      }
+    }
+  }
+  return list.toArray(new String[list.size()]);
+}

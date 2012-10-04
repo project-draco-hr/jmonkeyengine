@@ -1,15 +1,3 @@
 {
-  FileObject assetsFolder=getAssetFolder();
-  if (assetsFolder == null) {
-    return new String[]{};
-  }
-  Enumeration<FileObject> assets=(Enumeration<FileObject>)assetsFolder.getChildren(true);
-  ArrayList<String> list=new ArrayList<String>();
-  while (assets.hasMoreElements()) {
-    FileObject asset=assets.nextElement();
-    if (asset.getExt().equalsIgnoreCase("j3md")) {
-      list.add(getRelativeAssetPath(asset.getPath()));
-    }
-  }
-  return list.toArray(new String[list.size()]);
+  return collectFilesWithSuffix("j3md");
 }
