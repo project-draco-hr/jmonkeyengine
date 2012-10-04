@@ -1,0 +1,17 @@
+{
+  for (  FileObject fileObject : jarItems) {
+    try {
+      Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Remove locator:{0}",fileObject.getURL());
+      unregisterLocator(fileObject.toURL().toExternalForm(),com.jme3.asset.plugins.UrlLocator.class);
+    }
+ catch (    FileStateInvalidException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+  jarItems.clear();
+  for (  ClassPathItem fileObject : classPathItems) {
+    Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Remove classpath:{0}",fileObject.object);
+    fileObject.object.removeRecursiveListener(fileObject.listener);
+  }
+  classPathItems.clear();
+}
