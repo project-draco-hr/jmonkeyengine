@@ -1,0 +1,8 @@
+{
+  if (emitter.getNumVisibleParticles() == 0) {
+    emitter.setCullHint(CullHint.Always);
+    emitter.setEnabled(false);
+    emitter.removeControl(this);
+    stopRequested=false;
+  }
+}

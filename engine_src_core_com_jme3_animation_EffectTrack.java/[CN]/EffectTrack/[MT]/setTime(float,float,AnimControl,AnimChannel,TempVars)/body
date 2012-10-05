@@ -9,9 +9,9 @@
     emitter.setEnabled(true);
     if (particlesPerSeconds == 0) {
       emitter.emitAllParticles();
-      if (!stopRequested) {
+      if (!killParticles.stopRequested) {
         emitter.addControl(killParticles);
-        stopRequested=true;
+        killParticles.stopRequested=true;
       }
     }
  else {
