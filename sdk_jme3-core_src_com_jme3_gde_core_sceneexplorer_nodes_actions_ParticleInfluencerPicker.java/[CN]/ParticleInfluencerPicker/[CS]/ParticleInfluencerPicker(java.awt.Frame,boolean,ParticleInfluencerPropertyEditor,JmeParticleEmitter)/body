@@ -1,0 +1,22 @@
+{
+  super(parent,modal);
+  this.jmePE=spat;
+  initComponents();
+  this.editor=editor;
+  setLocationRelativeTo(null);
+  ScheduledThreadPoolExecutor exec=new ScheduledThreadPoolExecutor(1);
+  jList1.setEnabled(false);
+  exec.execute(new Runnable(){
+    public void run(){
+      final DefaultListModel model=getSources();
+      EventQueue.invokeLater(new Runnable(){
+        public void run(){
+          jList1.setModel(model);
+          jList1.setEnabled(true);
+        }
+      }
+);
+    }
+  }
+);
+}
