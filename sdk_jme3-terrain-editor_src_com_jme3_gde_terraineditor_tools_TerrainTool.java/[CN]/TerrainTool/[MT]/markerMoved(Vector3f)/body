@@ -5,24 +5,21 @@
       if (startPress == null)       startPress=newLoc.clone();
  else {
         Vector3f sub=newLoc.subtract(startPress);
-        if (axis == null) {
-          Vector3f closest=Vector3f.UNIT_X;
-          float dist=sub.distance(closest);
-          float ddist;
-          if ((ddist=sub.distance(Vector3f.UNIT_Z)) < dist) {
-            closest=Vector3f.UNIT_Z;
-            dist=ddist;
+        if (axis == null && newLoc.distance(startPress) > 3f) {
+          for (          Vector3f v : cachedMap.keySet()) {
+            cachedMap.put(v,sub.distance(v));
           }
-          if ((ddist=sub.distance(Vector3f.UNIT_Z.negate())) < dist) {
-            closest=Vector3f.UNIT_Z;
-            dist=ddist;
+          Vector3f closest=null;
+          float dist=Float.MAX_VALUE;
+          for (          Map.Entry<Vector3f,Float> entry : cachedMap.entrySet()) {
+            if (entry.getValue() < dist) {
+              dist=entry.getValue();
+              closest=entry.getKey();
+            }
           }
-          if (sub.distance(Vector3f.UNIT_X.negate()) < dist) {
-            closest=Vector3f.UNIT_X;
-          }
-          axis=closest;
+          axis=closest.clone();
         }
-        markerPrimary.setLocalTranslation(sub.mult(axis).add(startPress));
+        if (axis != null)         markerPrimary.setLocalTranslation(startPress.add(sub.project(axis)));
       }
     }
   }
