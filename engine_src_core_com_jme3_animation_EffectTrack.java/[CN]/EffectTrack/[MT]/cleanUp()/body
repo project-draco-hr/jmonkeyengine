@@ -1,7 +1,7 @@
 {
   TrackInfo t=(TrackInfo)emitter.getUserData("TrackInfo");
   t.getTracks().remove(this);
-  if (!t.getTracks().isEmpty()) {
+  if (t.getTracks().isEmpty()) {
     emitter.setUserData("TrackInfo",null);
   }
 }

@@ -8,6 +8,7 @@
     logger.log(Level.WARNING,"{0} was not found in {1} or is not bound to this track",new Object[]{emitter.getName(),spatial.getName()});
     effectTrack.emitter=emitter;
   }
+  removeUserData(this);
   setUserData(effectTrack);
   effectTrack.emitter.setParticlesPerSec(0);
   return effectTrack;
