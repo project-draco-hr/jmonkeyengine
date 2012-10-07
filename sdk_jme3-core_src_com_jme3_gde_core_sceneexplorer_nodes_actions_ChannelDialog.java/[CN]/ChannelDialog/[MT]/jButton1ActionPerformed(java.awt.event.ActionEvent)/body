@@ -1,0 +1,11 @@
+{
+  jmeAnim.setAnimLoopMode(LoopMode.valueOf(jComboBox1.getSelectedItem().toString()));
+  float speed=1.0f;
+  try {
+    speed=Float.parseFloat(jTextField1.getText());
+  }
+ catch (  NumberFormatException e) {
+  }
+  jmeAnim.setAnimSpeed(speed);
+  setVisible(false);
+}
