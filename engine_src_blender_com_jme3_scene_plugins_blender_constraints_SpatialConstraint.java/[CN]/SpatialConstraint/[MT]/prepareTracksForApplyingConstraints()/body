@@ -7,20 +7,42 @@
       AnimData animData=blenderContext.getAnimData(oma);
       if (animData == null) {
         Spatial currentSpatial=(Spatial)blenderContext.getLoadedFeature(oma,LoadedFeatureDataType.LOADED_FEATURE);
-        Spatial parent=currentSpatial.getParent();
-        while (parent != null && animData == null) {
-          Structure parentStructure=(Structure)blenderContext.getLoadedFeature(parent.getName(),LoadedFeatureDataType.LOADED_STRUCTURE);
-          if (parentStructure == null) {
-            parent=null;
+        if (currentSpatial != null) {
+          if (currentSpatial.getUserData(ArmatureHelper.ARMETURE_NODE_MARKER) == Boolean.TRUE) {
+            BoneContext currentBoneContext=blenderContext.getBoneByName(subtargetName);
+            Bone currentBone=currentBoneContext.getBone();
+            Bone parent=currentBone.getParent();
+            boolean foundAnimation=false;
+            while (parent != null && !foundAnimation) {
+              BoneContext boneContext=blenderContext.getBoneByName(parent.getName());
+              foundAnimation=this.hasAnimation(boneContext.getBoneOma());
+              animData=blenderContext.getAnimData(boneContext.getBoneOma());
+              parent=parent.getParent();
+            }
+            if (foundAnimation) {
+              this.applyAnimData(currentBoneContext,spaces[i],animData);
+            }
           }
  else {
-            Long parentOma=parentStructure.getOldMemoryAddress();
-            animData=blenderContext.getAnimData(parentOma);
-            parent=parent.getParent();
+            Spatial parent=currentSpatial.getParent();
+            while (parent != null && animData == null) {
+              Structure parentStructure=(Structure)blenderContext.getLoadedFeature(parent.getName(),LoadedFeatureDataType.LOADED_STRUCTURE);
+              if (parentStructure == null) {
+                parent=null;
+              }
+ else {
+                Long parentOma=parentStructure.getOldMemoryAddress();
+                animData=blenderContext.getAnimData(parentOma);
+                parent=parent.getParent();
+              }
+            }
+            if (animData != null) {
+              this.applyAnimData(currentSpatial,oma,spaces[i],animData.anims.get(0));
+            }
           }
         }
-        if (animData != null) {
-          this.applyAnimData(currentSpatial,oma,spaces[i],animData.anims.get(0));
+ else {
+          LOGGER.warning("Couldn't find target object for constraint: " + name + ". Make sure that the target is on layer that is defined to be loaded in blender key!");
         }
       }
     }
