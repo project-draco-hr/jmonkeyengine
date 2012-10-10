@@ -1,0 +1,24 @@
+{
+  InputStream in=this.getClass().getResourceAsStream(name);
+  if (in == null && classPathItems != null) {
+    Iterator<ClassPathItem> classPathItemsIter=classPathItems.iterator();
+    while (classPathItemsIter.hasNext()) {
+      ClassPathItem classPathItem=classPathItemsIter.next();
+      FileObject jarFile=classPathItem.object;
+      Enumeration<FileObject> jarEntry=(Enumeration<FileObject>)jarFile.getChildren(true);
+      while (jarEntry.hasMoreElements()) {
+        FileObject jarEntryAsset=jarEntry.nextElement();
+        if (jarEntryAsset.getPath().equalsIgnoreCase(name)) {
+          try {
+            in=jarEntryAsset.getInputStream();
+          }
+ catch (          FileNotFoundException ex) {
+            Exceptions.printStackTrace(ex);
+          }
+          break;
+        }
+      }
+    }
+  }
+  return in;
+}
