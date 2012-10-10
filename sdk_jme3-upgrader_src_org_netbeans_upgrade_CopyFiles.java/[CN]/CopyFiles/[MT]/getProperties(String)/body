@@ -1,0 +1,14 @@
+{
+  EditableProperties properties=new EditableProperties(false);
+  InputStream in=null;
+  try {
+    in=new FileInputStream(new File(sourceRoot,relativePath));
+    properties.load(in);
+  }
+  finally {
+    if (in != null) {
+      in.close();
+    }
+  }
+  return properties;
+}

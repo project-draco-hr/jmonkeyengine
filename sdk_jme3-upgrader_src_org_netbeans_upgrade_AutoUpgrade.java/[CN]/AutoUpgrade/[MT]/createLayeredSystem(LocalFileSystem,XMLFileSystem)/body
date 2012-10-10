@@ -1,0 +1,10 @@
+{
+  MultiFileSystem old;
+  old=new MultiFileSystem(new org.openide.filesystems.FileSystem[]{lfs,xmlfs}){
+{
+      setPropagateMasks(true);
+    }
+  }
+;
+  return old;
+}

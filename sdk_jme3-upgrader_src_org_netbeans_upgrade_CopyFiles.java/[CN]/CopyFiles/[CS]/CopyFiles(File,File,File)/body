@@ -1,0 +1,15 @@
+{
+  this.sourceRoot=source;
+  this.targetRoot=target;
+  try {
+    InputStream is=new FileInputStream(patternsFile);
+    Reader reader=new InputStreamReader(is,"utf-8");
+    readPatterns(reader);
+    reader.close();
+  }
+ catch (  IOException ex) {
+    JDialog dialog=Util.createJOptionDialog(new JOptionPane(ex,JOptionPane.ERROR_MESSAGE),ex.getMessage());
+    dialog.setVisible(true);
+    return;
+  }
+}

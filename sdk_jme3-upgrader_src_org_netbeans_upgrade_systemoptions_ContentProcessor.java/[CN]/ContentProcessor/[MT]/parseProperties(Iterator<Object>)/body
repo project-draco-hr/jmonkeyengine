@@ -1,0 +1,30 @@
+{
+  Map<String,Object> properties=new HashMap<String,Object>();
+  for (; it.hasNext(); ) {
+    Object name=it.next();
+    if ("null".equals(name) || name == null) {
+      return properties;
+    }
+ else     if (!(name instanceof String)) {
+      throw new IllegalStateException(name.getClass().getName());
+    }
+ else {
+      if (!it.hasNext()) {
+        throw new IllegalStateException(name.toString());
+      }
+      Object value=it.next();
+      properties.put((String)name,value);
+      Object propertyRead=it.next();
+      if (!(propertyRead instanceof SerParser.ObjectWrapper)) {
+        throw new IllegalStateException(propertyRead.getClass().getName());
+      }
+ else {
+        SerParser.ObjectWrapper ow=(SerParser.ObjectWrapper)propertyRead;
+        if (!ow.classdesc.name.endsWith("java.lang.Boolean;")) {
+          throw new IllegalStateException(ow.classdesc.name);
+        }
+      }
+    }
+  }
+  throw new IllegalStateException("Unexpected end");
+}

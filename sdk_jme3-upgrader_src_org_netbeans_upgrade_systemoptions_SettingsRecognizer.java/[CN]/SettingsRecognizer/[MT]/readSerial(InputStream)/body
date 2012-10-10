@@ -1,0 +1,26 @@
+{
+  if (is == null)   return null;
+  try {
+    ObjectInput oi=new ObjectInputStream(is);
+    try {
+      Object o=oi.readObject();
+      return o;
+    }
+  finally {
+      oi.close();
+    }
+  }
+ catch (  IOException ex) {
+    ErrorManager emgr=ErrorManager.getDefault();
+    emgr.annotate(ex,"Content: \n" + getFileContent(source));
+    emgr.annotate(ex,"Source: " + source);
+    emgr.annotate(ex,"Cannot read class: " + instanceClass);
+    throw ex;
+  }
+catch (  ClassNotFoundException ex) {
+    ErrorManager emgr=ErrorManager.getDefault();
+    emgr.annotate(ex,"Content: \n" + getFileContent(source));
+    emgr.annotate(ex,"Source: " + source);
+    throw ex;
+  }
+}

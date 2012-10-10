@@ -1,0 +1,16 @@
+{
+  SettingsRecognizer instance=getRecognizer(settingsFo);
+  SystemOptionsParser rImpl=null;
+  InputStream is=instance.getSerializedInstance();
+  try {
+    SerParser sp=new SerParser(is);
+    SerParser.Stream s=sp.parse();
+    rImpl=new SystemOptionsParser(instance.instanceName(),types);
+    DefaultResult ret=(DefaultResult)rImpl.processContent(s.contents.iterator(),false);
+    ret.setModuleName(instance.getCodeNameBase().replace('.','/'));
+    return ret;
+  }
+  finally {
+    is.close();
+  }
+}

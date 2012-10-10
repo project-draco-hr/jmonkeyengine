@@ -1,0 +1,21 @@
+{
+  String userHome=System.getProperty("user.home");
+  File sourceFolder=null;
+  if (userHome != null) {
+    File userHomeFile=new File(userHome);
+    Iterator<String> it=versionsToCheck.iterator();
+    String ver;
+    while (it.hasNext() && sourceFolder == null) {
+      ver=it.next();
+      sourceFolder=new File(userHomeFile.getAbsolutePath(),ver);
+      if (sourceFolder.isDirectory()) {
+        break;
+      }
+      sourceFolder=null;
+    }
+    return sourceFolder;
+  }
+ else {
+    return null;
+  }
+}

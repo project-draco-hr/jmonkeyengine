@@ -1,0 +1,22 @@
+{
+  File userdir=new File(System.getProperty("netbeans.user",""));
+  java.util.Set<?> includeExclude;
+  try {
+    InputStream is=AutoUpgrade.class.getResourceAsStream("nonstandard" + oldVersion);
+    if (is == null) {
+      return;
+    }
+    Reader r=new InputStreamReader(is,"utf-8");
+    includeExclude=IncludeExclude.create(r);
+    r.close();
+  }
+ catch (  IOException ex) {
+    throw new IOException("Cannot import from version: " + oldVersion + "nonstandard",ex);
+  }
+  ErrorManager.getDefault().log(ErrorManager.USER,"Import: Old version: " + oldVersion + "nonstandard"+ ". Importing from "+ source+ " to "+ userdir);
+  LocalFileSystem old=new LocalFileSystem();
+  old.setRootDirectory(source);
+  LocalFileSystem nfs=new LocalFileSystem();
+  nfs.setRootDirectory(userdir);
+  Copy.copyDeep(old.getRoot(),nfs.getRoot(),includeExclude,PathTransformation.getInstance(oldVersion));
+}

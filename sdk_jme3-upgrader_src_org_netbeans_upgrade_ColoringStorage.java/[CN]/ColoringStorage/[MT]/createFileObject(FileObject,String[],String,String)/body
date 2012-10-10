@@ -1,0 +1,16 @@
+{
+  try {
+    FileObject fo=getFO(FileUtil.getConfigRoot(),"Editors");
+    int i, k=mimeTypes.length;
+    for (i=0; i < k; i++)     fo=getFO(fo,mimeTypes[i]);
+    if (profile != null)     fo=getFO(fo,profile);
+    if (fileName == null)     return fo;
+    FileObject fo1=fo.getFileObject(fileName);
+    if (fo1 != null)     return fo1;
+    return fo.createData(fileName);
+  }
+ catch (  IOException ex) {
+    ErrorManager.getDefault().notify(ex);
+    return null;
+  }
+}

@@ -1,0 +1,33 @@
+{
+  final StringBuffer sb=XMLStorage.generateHeader();
+  XMLStorage.generateFolderStart(sb,"fontscolors",null,"");
+  Iterator it=colorings.iterator();
+  while (it.hasNext()) {
+    AttributeSet category=(AttributeSet)it.next();
+    Attribs attributes=new Attribs(true);
+    attributes.add("name",(String)category.getAttribute(StyleConstants.NameAttribute));
+    if (category.isDefined(StyleConstants.Foreground))     attributes.add("foreColor",XMLStorage.colorToString((Color)category.getAttribute(StyleConstants.Foreground)));
+    if (category.isDefined(StyleConstants.Background))     attributes.add("bgColor",XMLStorage.colorToString((Color)category.getAttribute(StyleConstants.Background)));
+    if (category.isDefined(StyleConstants.StrikeThrough))     attributes.add("strikeThrough",XMLStorage.colorToString((Color)category.getAttribute(StyleConstants.StrikeThrough)));
+    if (category.isDefined("waveUnderlined"))     attributes.add("waveUnderlined",XMLStorage.colorToString((Color)category.getAttribute("waveUnderlined")));
+    if (category.isDefined(StyleConstants.Underline))     attributes.add("underline",XMLStorage.colorToString((Color)category.getAttribute(StyleConstants.Underline)));
+    if (category.isDefined("default"))     attributes.add("default",(String)category.getAttribute("default"));
+    if (category.isDefined(StyleConstants.FontFamily) || category.isDefined(StyleConstants.FontSize) || category.isDefined(StyleConstants.Bold)|| category.isDefined(StyleConstants.Italic)) {
+      XMLStorage.generateFolderStart(sb,"fontcolor",attributes,"    ");
+      attributes=new Attribs(true);
+      if (category.isDefined(StyleConstants.FontFamily))       attributes.add("name",(String)category.getAttribute(StyleConstants.FontFamily));
+      if (category.isDefined(StyleConstants.FontSize))       attributes.add("size","" + category.getAttribute(StyleConstants.FontSize));
+      if (category.isDefined(StyleConstants.Bold) || category.isDefined(StyleConstants.Italic)) {
+        Boolean bold=Boolean.FALSE, italic=Boolean.FALSE;
+        if (category.isDefined(StyleConstants.Bold))         bold=(Boolean)category.getAttribute(StyleConstants.Bold);
+        if (category.isDefined(StyleConstants.Italic))         italic=(Boolean)category.getAttribute(StyleConstants.Italic);
+        attributes.add("style",bold.booleanValue() ? (italic.booleanValue() ? "bold+italic" : "bold") : (italic.booleanValue() ? "italic" : "plain"));
+      }
+      XMLStorage.generateLeaf(sb,"font",attributes,"        ");
+      XMLStorage.generateFolderEnd(sb,"fontcolor","    ");
+    }
+ else     XMLStorage.generateLeaf(sb,"fontcolor",attributes,"    ");
+  }
+  XMLStorage.generateFolderEnd(sb,"fontscolors","");
+  XMLStorage.save(fo,new String(sb));
+}

@@ -1,0 +1,7 @@
+{
+  ContentProcessor cp=clsname2Delegate.get(systemOptionInstanceName);
+  if (cp == null) {
+    cp=new ContentProcessor(systemOptionInstanceName);
+  }
+  return cp.parseContent(it,types);
+}

@@ -1,0 +1,8 @@
+{
+  String result=file.getAbsolutePath().substring(root.getAbsolutePath().length());
+  result=result.replace('\\','/');
+  if (result.startsWith("/") && !result.startsWith("//")) {
+    result=result.substring(1);
+  }
+  return result;
+}

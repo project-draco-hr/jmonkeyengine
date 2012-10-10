@@ -1,0 +1,7 @@
+{
+  Util.setDefaultLookAndFeel();
+  JOptionPane p=new JOptionPane(new AutoUpgradePanel(source.getAbsolutePath(),note),JOptionPane.QUESTION_MESSAGE,JOptionPane.YES_NO_OPTION);
+  JDialog d=Util.createJOptionDialog(p,NbBundle.getMessage(AutoUpgrade.class,"MSG_Confirmation_Title"));
+  d.setVisible(true);
+  return new Integer(JOptionPane.YES_OPTION).equals(p.getValue());
+}

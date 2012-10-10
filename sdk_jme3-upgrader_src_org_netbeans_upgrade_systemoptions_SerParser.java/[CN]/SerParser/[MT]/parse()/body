@@ -1,0 +1,14 @@
+{
+  Stream s=new Stream();
+  s.magic=readShort();
+  s.version=readShort();
+  if (s.magic != STREAM_MAGIC || s.version != STREAM_VERSION) {
+    throw new CorruptException("stream version mismatch: " + hexify(s.magic) + " != "+ hexify(STREAM_MAGIC)+ " or "+ hexify(s.version)+ " != "+ hexify(STREAM_VERSION));
+  }
+  s.contents=new ArrayList<Object>(10);
+  while (peek() != -1) {
+    s.contents.add(readContent());
+  }
+  if (DEBUG)   System.err.println("parsed: " + s);
+  return s;
+}

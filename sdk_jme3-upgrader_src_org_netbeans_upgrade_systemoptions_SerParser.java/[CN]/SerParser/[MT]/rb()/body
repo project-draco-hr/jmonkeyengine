@@ -1,0 +1,15 @@
+{
+  if (pushback != -1) {
+    int c=pushback;
+    pushback=-1;
+    return c;
+  }
+  int c=is.read();
+  if (DEBUG)   System.err.println("read: " + Integer.toHexString(c));
+  if (c == -1) {
+    throw new EOFException();
+  }
+ else {
+    return c;
+  }
+}

@@ -1,0 +1,40 @@
+{
+  int dotIndex=instanceMethod.lastIndexOf('.');
+  String targetClass;
+  String targetMethod;
+  if (dotIndex > 0) {
+    targetClass=srcMethod.substring(0,dotIndex);
+    targetMethod=srcMethod.substring(dotIndex + 1);
+  }
+ else {
+    targetClass=srcClazz;
+    targetMethod=srcMethod;
+  }
+  Class<?> clazz=loadClass(targetClass);
+  try {
+    Object instance;
+    try {
+      Method method=clazz.getMethod(targetMethod,new Class[]{FileObject.class});
+      method.setAccessible(true);
+      instance=method.invoke(null,source);
+    }
+ catch (    NoSuchMethodException ex) {
+      Method method=clazz.getMethod(targetMethod);
+      method.setAccessible(true);
+      instance=method.invoke(null,new Object[0]);
+    }
+    if (instance == null) {
+      throw new IOException("Null return not permitted from " + targetClass + "."+ targetMethod);
+    }
+    return instance;
+  }
+ catch (  Exception ex) {
+    IOException ioe=new IOException("Error reading " + source + ": "+ ex);
+    ErrorManager emgr=ErrorManager.getDefault();
+    emgr.annotate(ioe,"Class: " + clazz);
+    emgr.annotate(ioe,"Method: " + srcMethod);
+    emgr.annotate(ioe,ex);
+    emgr.annotate(ioe,"Content:\n" + getFileContent(source));
+    throw ioe;
+  }
+}

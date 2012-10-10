@@ -1,0 +1,26 @@
+{
+  String uiClassName;
+  if (Utilities.isWindows()) {
+    uiClassName="com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+  }
+ else   if (Utilities.isMac()) {
+    uiClassName="apple.laf.AquaLookAndFeel";
+  }
+ else   if (Utilities.isUnix()) {
+    uiClassName="javax.swing.plaf.metal.MetalLookAndFeel";
+  }
+ else {
+    uiClassName=UIManager.getSystemLookAndFeelClassName();
+  }
+  if (uiClassName.equals(UIManager.getLookAndFeel().getClass().getName())) {
+    return;
+  }
+  try {
+    UIManager.setLookAndFeel(uiClassName);
+  }
+ catch (  Exception ex) {
+    System.err.println("Cannot set L&F " + uiClassName);
+    System.err.println("Exception:" + ex.getMessage());
+    ex.printStackTrace();
+  }
+}

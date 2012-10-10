@@ -1,0 +1,10 @@
+{
+  if (color.startsWith("#"))   color=color.substring(1);
+  if (nameToColor.containsKey(color))   return (Color)nameToColor.get(color);
+  try {
+    return new Color((int)Long.parseLong(color,16));
+  }
+ catch (  NumberFormatException ex) {
+    throw new Exception();
+  }
+}

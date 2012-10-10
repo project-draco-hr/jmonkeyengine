@@ -1,0 +1,6 @@
+{
+  int i=s;
+  if (i < 0)   i+=65536;
+  String st=Integer.toHexString(i).toUpperCase(Locale.US);
+  return "0x" + pad(st,4);
+}
