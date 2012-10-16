@@ -1,0 +1,8 @@
+{
+  for (  Filter c : filters) {
+    if (filterType.isAssignableFrom(c.getClass())) {
+      return (T)c;
+    }
+  }
+  return null;
+}
