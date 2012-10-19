@@ -1,7 +1,7 @@
 {
   Map<Integer,Vector3f> normalMap=new TreeMap<Integer,Vector3f>();
   Vector3f[] allVerts=BufferUtils.getVector3Array(points);
-  for (int i=0; i < indexes.limit(); i+=3) {
+  for (int i=0; i < indexes.size(); i+=3) {
     int index1=indexes.get(i);
     int index2=indexes.get(i + 1);
     int index3=indexes.get(i + 2);
