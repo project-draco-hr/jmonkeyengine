@@ -1,0 +1,7 @@
+{
+  Vector3f taperScaleVector=new Vector3f();
+  for (  Vector3f p : points) {
+    taperScaleVector.set(centerPoint).subtractLocal(p).multLocal(1 - scale);
+    p.addLocal(taperScaleVector);
+  }
+}

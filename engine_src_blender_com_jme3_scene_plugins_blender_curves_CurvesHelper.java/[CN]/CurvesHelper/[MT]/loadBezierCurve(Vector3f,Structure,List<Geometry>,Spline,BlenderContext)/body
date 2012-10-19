@@ -7,6 +7,21 @@
     boolean cyclic=(((Number)nurb.getFieldValue("flagu")).intValue() & 0x01) != 0;
     BezierCurve bezierCurve=new BezierCurve(0,pBezierTriple.fetchData(blenderContext.getInputStream()),3);
     List<Vector3f> controlPoints=bezierCurve.getControlPoints();
+    if (fixUpAxis) {
+      for (      Vector3f v : controlPoints) {
+        float y=v.y;
+        v.y=v.z;
+        v.z=-y;
+      }
+    }
+    if (bevelObject != null && taperObject == null) {
+      int triplesCount=controlPoints.size() / 3;
+      List<Vector3f> taperControlPoints=new ArrayList<Vector3f>(triplesCount);
+      for (int i=0; i < triplesCount; ++i) {
+        taperControlPoints.add(new Vector3f(controlPoints.get(i * 3 + 1).x,bezierCurve.getRadius(i),0));
+      }
+      taperObject=new Spline(SplineType.Linear,taperControlPoints,0,false);
+    }
     if (cyclic) {
       for (int i=0; i < 3; ++i) {
         controlPoints.add(controlPoints.get(i));

@@ -8,9 +8,7 @@
       controlPoints.remove(0);
       controlPoints.remove(controlPoints.size() - 1);
       if (controlPoints.size() > 3) {
-        Spline spline=new Spline(SplineType.Bezier,controlPoints,0,false);
-        int resolution=((Number)taperStructure.getFieldValue("resolu")).intValue();
-        return new Curve(spline,resolution);
+        return new Spline(SplineType.Bezier,controlPoints,0,false);
       }
     }
   }

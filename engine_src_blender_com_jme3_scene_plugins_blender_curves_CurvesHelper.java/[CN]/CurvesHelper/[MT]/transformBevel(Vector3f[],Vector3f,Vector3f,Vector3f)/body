@@ -1,0 +1,27 @@
+{
+  bevel=bevel.clone();
+  Vector3f directionVector=prevPos != null ? currPos.subtract(prevPos) : nextPos.subtract(currPos);
+  directionVector.normalizeLocal();
+  Vector3f planeNormal=null;
+  if (prevPos != null) {
+    planeNormal=currPos.subtract(prevPos).normalizeLocal();
+    if (nextPos != null) {
+      planeNormal.addLocal(nextPos.subtract(currPos).normalizeLocal()).normalizeLocal();
+    }
+  }
+ else {
+    planeNormal=nextPos.subtract(currPos).normalizeLocal();
+  }
+  float D=-planeNormal.dot(currPos);
+  float temp=planeNormal.dot(directionVector);
+  for (int i=0; i < bevel.length; ++i) {
+    float t=-(planeNormal.dot(bevel[i]) + D) / temp;
+    if (fixUpAxis) {
+      bevel[i]=new Vector3f(bevel[i].x + directionVector.x * t,bevel[i].y + directionVector.y * t,bevel[i].z + directionVector.z * t);
+    }
+ else {
+      bevel[i]=new Vector3f(bevel[i].x + directionVector.x * t,-bevel[i].z + directionVector.z * t,bevel[i].y + directionVector.y * t);
+    }
+  }
+  return bevel;
+}

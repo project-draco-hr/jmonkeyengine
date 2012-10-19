@@ -5,6 +5,7 @@
   this.type=type;
   this.dimension=dimension;
   bezierPoints=new float[bezTriples.size()][3][dimension];
+  radiuses=new float[bezTriples.size()];
   int i=0, j, k;
   for (  Structure bezTriple : bezTriples) {
     DynamicArray<Number> vec=(DynamicArray<Number>)bezTriple.getFieldValue("vec");
@@ -13,6 +14,6 @@
         bezierPoints[i][j][k]=vec.get(j,k).floatValue();
       }
     }
-    ++i;
+    radiuses[i++]=((Number)bezTriple.getFieldValue("radius")).floatValue();
   }
 }
