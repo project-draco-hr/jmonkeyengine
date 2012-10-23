@@ -1,0 +1,39 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  Image image=tex.getImage();
+  int target=convertTextureType(tex.getType(),image != null ? image.getMultiSamples() : 1,-1);
+  int minFilter=convertMinFilter(tex.getMinFilter());
+  int magFilter=convertMagFilter(tex.getMagFilter());
+  gl.glTexParameteri(target,GL.GL_TEXTURE_MIN_FILTER,minFilter);
+  gl.glTexParameteri(target,GL.GL_TEXTURE_MAG_FILTER,magFilter);
+  if (tex.getAnisotropicFilter() > 1) {
+    if (gl.isExtensionAvailable("GL_EXT_texture_filter_anisotropic")) {
+      gl.glTexParameterf(target,GL.GL_TEXTURE_MAX_ANISOTROPY_EXT,tex.getAnisotropicFilter());
+    }
+  }
+  if (context.pointSprite) {
+    return;
+  }
+switch (tex.getType()) {
+case ThreeDimensional:
+case CubeMap:
+    gl.glTexParameteri(target,GL2.GL_TEXTURE_WRAP_R,convertWrapMode(tex.getWrap(WrapAxis.R)));
+case TwoDimensional:
+case TwoDimensionalArray:
+  gl.glTexParameteri(target,GL2.GL_TEXTURE_WRAP_T,convertWrapMode(tex.getWrap(WrapAxis.T)));
+gl.glTexParameteri(target,GL2.GL_TEXTURE_WRAP_S,convertWrapMode(tex.getWrap(WrapAxis.S)));
+break;
+default :
+throw new UnsupportedOperationException("Unknown texture type: " + tex.getType());
+}
+if (tex.getShadowCompareMode() != Texture.ShadowCompareMode.Off) {
+gl.glTexParameteri(target,GL2.GL_TEXTURE_COMPARE_MODE,GL2.GL_COMPARE_R_TO_TEXTURE);
+gl.glTexParameteri(target,GL2.GL_DEPTH_TEXTURE_MODE,GL2.GL_INTENSITY);
+if (tex.getShadowCompareMode() == Texture.ShadowCompareMode.GreaterOrEqual) {
+gl.glTexParameteri(target,GL2.GL_TEXTURE_COMPARE_FUNC,GL.GL_GEQUAL);
+}
+ else {
+gl.glTexParameteri(target,GL2.GL_TEXTURE_COMPARE_FUNC,GL.GL_LEQUAL);
+}
+}
+}

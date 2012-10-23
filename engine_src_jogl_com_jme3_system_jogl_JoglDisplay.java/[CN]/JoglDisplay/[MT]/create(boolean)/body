@@ -1,0 +1,28 @@
+{
+  try {
+    if (waitFor) {
+      try {
+        SwingUtilities.invokeAndWait(new Runnable(){
+          public void run(){
+            initInEDT();
+          }
+        }
+);
+      }
+ catch (      InterruptedException ex) {
+        listener.handleError("Interrupted",ex);
+      }
+    }
+ else {
+      SwingUtilities.invokeLater(new Runnable(){
+        public void run(){
+          initInEDT();
+        }
+      }
+);
+    }
+  }
+ catch (  InvocationTargetException ex) {
+    throw new AssertionError();
+  }
+}

@@ -1,0 +1,10 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  Texture tex=rb.getTexture();
+  Image image=tex.getImage();
+  if (image.isUpdateNeeded()) {
+    updateTexImageData(image,tex.getType(),0);
+    setupTextureParams(tex);
+  }
+  gl.glFramebufferTexture2D(GL.GL_FRAMEBUFFER,convertAttachmentSlot(rb.getSlot()),convertTextureType(tex.getType(),image.getMultiSamples(),rb.getFace()),image.getId(),0);
+}

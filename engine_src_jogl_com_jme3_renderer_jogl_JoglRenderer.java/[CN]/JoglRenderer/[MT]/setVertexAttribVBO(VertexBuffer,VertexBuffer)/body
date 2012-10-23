@@ -1,0 +1,43 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  int arrayType=convertArrayType(vb.getBufferType());
+  if (arrayType == -1) {
+    return;
+  }
+  if (vb.isUpdateNeeded() && idb == null) {
+    updateBufferData(vb);
+  }
+  int bufId=idb != null ? idb.getId() : vb.getId();
+  if (context.boundArrayVBO != bufId) {
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER,bufId);
+    context.boundArrayVBO=bufId;
+  }
+  gl.getGL2().glEnableClientState(arrayType);
+  context.boundAttribs[vb.getBufferType().ordinal()]=vb;
+  if (vb.getBufferType() == Type.Normal) {
+    if (vb.isNormalized() && !context.normalizeEnabled) {
+      gl.glEnable(GLLightingFunc.GL_NORMALIZE);
+      context.normalizeEnabled=true;
+    }
+ else     if (!vb.isNormalized() && context.normalizeEnabled) {
+      gl.glDisable(GLLightingFunc.GL_NORMALIZE);
+      context.normalizeEnabled=false;
+    }
+  }
+  int comps=vb.getNumComponents();
+  int type=convertVertexFormat(vb.getFormat());
+switch (vb.getBufferType()) {
+case Position:
+    gl.getGL2().glVertexPointer(comps,type,vb.getStride(),vb.getOffset());
+  break;
+case Normal:
+gl.getGL2().glNormalPointer(type,vb.getStride(),vb.getOffset());
+break;
+case Color:
+gl.getGL2().glColorPointer(comps,type,vb.getStride(),vb.getOffset());
+break;
+case TexCoord:
+gl.getGL2().glTexCoordPointer(comps,type,vb.getStride(),vb.getOffset());
+break;
+}
+}

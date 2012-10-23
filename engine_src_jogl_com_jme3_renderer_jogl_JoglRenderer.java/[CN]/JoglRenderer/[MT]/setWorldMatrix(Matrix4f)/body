@@ -1,0 +1,10 @@
+{
+  this.worldMatrix.set(worldMatrix);
+  GL gl=GLContext.getCurrentGL();
+  if (context.matrixMode != GLMatrixFunc.GL_MODELVIEW) {
+    gl.getGL2().glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
+    context.matrixMode=GLMatrixFunc.GL_MODELVIEW;
+  }
+  gl.getGL2().glLoadMatrixf(storeMatrix(viewMatrix,fb16));
+  gl.getGL2().glMultMatrixf(storeMatrix(worldMatrix,fb16));
+}

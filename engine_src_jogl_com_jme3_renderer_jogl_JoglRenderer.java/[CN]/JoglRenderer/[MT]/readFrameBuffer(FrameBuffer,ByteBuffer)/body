@@ -1,0 +1,7 @@
+{
+  if (fb != null) {
+    return;
+  }
+  GL gl=GLContext.getCurrentGL();
+  gl.glReadPixels(vpX,vpY,vpW,vpH,GL2GL3.GL_BGRA,GL.GL_UNSIGNED_BYTE,byteBuf);
+}

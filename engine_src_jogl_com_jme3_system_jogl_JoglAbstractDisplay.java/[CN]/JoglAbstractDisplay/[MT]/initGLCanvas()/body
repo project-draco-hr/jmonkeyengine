@@ -1,0 +1,30 @@
+{
+  device=GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+  GLCapabilities caps=new GLCapabilities(GLProfile.getDefault());
+  caps.setHardwareAccelerated(true);
+  caps.setDoubleBuffered(true);
+  caps.setStencilBits(settings.getStencilBits());
+  caps.setDepthBits(settings.getDepthBits());
+  if (settings.getSamples() > 1) {
+    caps.setSampleBuffers(true);
+    caps.setNumSamples(settings.getSamples());
+  }
+  canvas=new GLCanvas(caps){
+    @Override public void addNotify(){
+      super.addNotify();
+      onCanvasAdded();
+    }
+    @Override public void removeNotify(){
+      onCanvasRemoved();
+      super.removeNotify();
+    }
+  }
+;
+  if (settings.isVSync()) {
+    canvas.getGL().setSwapInterval(1);
+  }
+  canvas.setFocusable(true);
+  canvas.setIgnoreRepaint(true);
+  canvas.addGLEventListener(this);
+  renderer=new JoglRenderer();
+}

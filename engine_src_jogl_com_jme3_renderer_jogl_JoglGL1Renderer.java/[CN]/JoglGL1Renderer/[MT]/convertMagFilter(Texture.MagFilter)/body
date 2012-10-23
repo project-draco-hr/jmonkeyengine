@@ -1,0 +1,10 @@
+{
+switch (filter) {
+case Bilinear:
+    return GL2.GL_LINEAR;
+case Nearest:
+  return GL2.GL_NEAREST;
+default :
+throw new UnsupportedOperationException("Unknown mag filter: " + filter);
+}
+}
