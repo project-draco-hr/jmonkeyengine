@@ -1,0 +1,11 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  int loc=gl.getGL2().glGetUniformLocation(shader.getId(),uniform.getName());
+  if (loc < 0) {
+    uniform.setLocation(-1);
+    logger.log(Level.INFO,"Uniform {0} is not declared in shader {1}.",new Object[]{uniform.getName(),shader.getSources()});
+  }
+ else {
+    uniform.setLocation(loc);
+  }
+}

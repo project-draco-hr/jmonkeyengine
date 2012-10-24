@@ -1,0 +1,22 @@
+{
+switch (testFunc) {
+case Never:
+    return GL.GL_NEVER;
+case Less:
+  return GL.GL_LESS;
+case LessOrEqual:
+return GL.GL_LEQUAL;
+case Greater:
+return GL.GL_GREATER;
+case GreaterOrEqual:
+return GL.GL_GEQUAL;
+case Equal:
+return GL.GL_EQUAL;
+case NotEqual:
+return GL.GL_NOTEQUAL;
+case Always:
+return GL.GL_ALWAYS;
+default :
+throw new UnsupportedOperationException("Unrecognized test function: " + testFunc);
+}
+}
