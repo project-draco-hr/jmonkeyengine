@@ -9,28 +9,5 @@
     context.lineWidth=mesh.getLineWidth();
   }
   checkTexturingUsed();
-  if (vbo) {
-    renderMeshVBO(mesh,lod,count);
-  }
- else {
-    boolean dynamic=false;
-    if (mesh.getNumLodLevels() == 0) {
-      IntMap<VertexBuffer> bufs=mesh.getBuffers();
-      for (      Entry<VertexBuffer> entry : bufs) {
-        if (entry.getValue().getUsage() != VertexBuffer.Usage.Static) {
-          dynamic=true;
-          break;
-        }
-      }
-    }
- else {
-      dynamic=true;
-    }
-    if (!dynamic) {
-      renderMeshDisplayList(mesh);
-    }
- else {
-      renderMeshDefault(mesh,lod,count);
-    }
-  }
+  renderMeshVBO(mesh,lod,count);
 }
