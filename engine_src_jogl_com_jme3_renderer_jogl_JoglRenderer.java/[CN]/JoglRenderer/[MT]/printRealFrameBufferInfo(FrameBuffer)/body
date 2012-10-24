@@ -1,0 +1,33 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  final byte[] param=new byte[1];
+  gl.glGetBooleanv(GL2.GL_DOUBLEBUFFER,param,0);
+  boolean doubleBuffer=param[0] != (byte)0x00;
+  gl.glGetIntegerv(GL2.GL_DRAW_BUFFER,intBuf16);
+  String drawBuf=getTargetBufferName(intBuf16.get(0));
+  gl.glGetIntegerv(GL2.GL_READ_BUFFER,intBuf16);
+  String readBuf=getTargetBufferName(intBuf16.get(0));
+  int fbId=fb.getId();
+  gl.glGetIntegerv(GL2.GL_DRAW_FRAMEBUFFER_BINDING,intBuf16);
+  int curDrawBinding=intBuf16.get(0);
+  gl.glGetIntegerv(GL2.GL_READ_FRAMEBUFFER_BINDING,intBuf16);
+  int curReadBinding=intBuf16.get(0);
+  System.out.println("=== OpenGL FBO State ===");
+  System.out.println("Context doublebuffered? " + doubleBuffer);
+  System.out.println("FBO ID: " + fbId);
+  System.out.println("Is proper? " + gl.glIsFramebuffer(fbId));
+  System.out.println("Is bound to draw? " + (fbId == curDrawBinding));
+  System.out.println("Is bound to read? " + (fbId == curReadBinding));
+  System.out.println("Draw buffer: " + drawBuf);
+  System.out.println("Read buffer: " + readBuf);
+  if (context.boundFBO != fbId) {
+    gl.glBindFramebuffer(GL2.GL_DRAW_FRAMEBUFFER,fbId);
+    context.boundFBO=fbId;
+  }
+  if (fb.getDepthBuffer() != null) {
+    printRealRenderBufferInfo(fb,fb.getDepthBuffer(),"Depth");
+  }
+  for (int i=0; i < fb.getNumColorBuffers(); i++) {
+    printRealRenderBufferInfo(fb,fb.getColorBuffer(i),"Color" + i);
+  }
+}

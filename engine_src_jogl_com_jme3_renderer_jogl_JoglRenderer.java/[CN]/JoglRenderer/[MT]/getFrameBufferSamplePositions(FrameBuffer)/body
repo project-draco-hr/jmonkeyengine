@@ -1,0 +1,15 @@
+{
+  if (fb.getSamples() <= 1) {
+    throw new IllegalArgumentException("Framebuffer must be multisampled");
+  }
+  setFrameBuffer(fb);
+  Vector2f[] samplePositions=new Vector2f[fb.getSamples()];
+  FloatBuffer samplePos=BufferUtils.createFloatBuffer(2);
+  GL gl=GLContext.getCurrentGL();
+  for (int i=0; i < samplePositions.length; i++) {
+    gl.getGL2().glGetMultisamplefv(GL2.GL_SAMPLE_POSITION,i,samplePos);
+    samplePos.clear();
+    samplePositions[i]=new Vector2f(samplePos.get(0) - 0.5f,samplePos.get(1) - 0.5f);
+  }
+  return samplePositions;
+}

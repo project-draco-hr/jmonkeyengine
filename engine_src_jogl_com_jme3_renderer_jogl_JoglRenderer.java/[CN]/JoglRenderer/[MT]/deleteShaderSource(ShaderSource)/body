@@ -1,2 +1,10 @@
 {
+  if (source.getId() < 0) {
+    logger.warning("Shader source is not uploaded to GPU, cannot delete.");
+    return;
+  }
+  source.clearUpdateNeeded();
+  GL gl=GLContext.getCurrentGL();
+  gl.getGL2().glDeleteShader(source.getId());
+  source.resetObject();
 }
