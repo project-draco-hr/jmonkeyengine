@@ -1,5 +1,19 @@
 {
+  if (mesh.getVertexCount() == 0) {
+    return;
+  }
   GL gl=GLContext.getCurrentGL();
+  if (context.pointSprite && mesh.getMode() != Mode.Points) {
+    if (context.boundTextures[0] != null) {
+      if (context.boundTextureUnit != 0) {
+        gl.glActiveTexture(GL.GL_TEXTURE0);
+        context.boundTextureUnit=0;
+      }
+      gl.glDisable(GL2.GL_POINT_SPRITE);
+      gl.glDisable(GL2.GL_VERTEX_PROGRAM_POINT_SIZE);
+      context.pointSprite=false;
+    }
+  }
   if (context.pointSize != mesh.getPointSize()) {
     gl.getGL2().glPointSize(mesh.getPointSize());
     context.pointSize=mesh.getPointSize();
@@ -8,6 +22,6 @@
     gl.glLineWidth(mesh.getLineWidth());
     context.lineWidth=mesh.getLineWidth();
   }
-  checkTexturingUsed();
-  renderMeshVBO(mesh,lod,count);
+  statistics.onMeshDrawn(mesh,lod);
+  renderMeshDefault(mesh,lod,count);
 }
