@@ -85,5 +85,5 @@
     y=(Toolkit.getDefaultToolkit().getScreenSize().height - settings.getHeight()) / 2;
     frame.setLocation(x,y);
   }
-  logger.log(Level.INFO,"Selected display mode: {0}x{1}x{2} @{3}",new Object[]{frame.getWidth(),frame.getHeight(),0,0});
+  logger.log(Level.INFO,"Selected display mode: {0}x{1}x{2} @{3}",new Object[]{gd.getDisplayMode().getWidth(),gd.getDisplayMode().getHeight(),gd.getDisplayMode().getBitDepth(),gd.getDisplayMode().getRefreshRate()});
 }
