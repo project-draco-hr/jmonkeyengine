@@ -4,5 +4,11 @@
     gl.glEnable(GL.GL_SCISSOR_TEST);
     context.clipRectEnabled=true;
   }
-  gl.glScissor(x,y,width,height);
+  if (clipX != x || clipY != y || clipW != width || clipH != height) {
+    gl.glScissor(x,y,width,height);
+    clipX=x;
+    clipY=y;
+    clipW=width;
+    clipH=height;
+  }
 }

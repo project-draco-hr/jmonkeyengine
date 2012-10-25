@@ -1,0 +1,9 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  if (count > 1) {
+    gl.getGL2().glDrawArraysInstanced(convertElementMode(mode),0,vertCount,count);
+  }
+ else {
+    gl.glDrawArrays(convertElementMode(mode),0,vertCount);
+  }
+}

@@ -1,11 +1,13 @@
 {
   GL gl=GLContext.getCurrentGL();
   int bufId=vb.getId();
+  boolean created=false;
   if (bufId == -1) {
     gl.glGenBuffers(1,intBuf1);
     bufId=intBuf1.get(0);
     vb.setId(bufId);
     objManager.registerForCleanup(vb);
+    created=true;
   }
   int target;
   if (vb.getBufferType() == VertexBuffer.Type.Index) {
@@ -14,6 +16,8 @@
       gl.glBindBuffer(target,bufId);
       context.boundElementArrayVBO=bufId;
     }
+ else {
+    }
   }
  else {
     target=GL.GL_ARRAY_BUFFER;
@@ -21,10 +25,17 @@
       gl.glBindBuffer(target,bufId);
       context.boundArrayVBO=bufId;
     }
+ else {
+    }
   }
   int usage=convertUsage(vb.getUsage());
   Buffer data=vb.getData();
   data.rewind();
-  gl.glBufferData(target,data.capacity() * vb.getFormat().getComponentSize(),data,usage);
+  if (created || vb.hasDataSizeChanged()) {
+    gl.glBufferData(target,data.capacity() * vb.getFormat().getComponentSize(),data,usage);
+  }
+ else {
+    gl.glBufferSubData(target,0,data.capacity() * vb.getFormat().getComponentSize(),data);
+  }
   vb.clearUpdateNeeded();
 }

@@ -3,12 +3,12 @@
   if (gl.isExtensionAvailable("GL_EXT_framebuffer_blit")) {
     int srcX0=0;
     int srcY0=0;
-    int srcX1=0;
-    int srcY1=0;
+    int srcX1;
+    int srcY1;
     int dstX0=0;
     int dstY0=0;
-    int dstX1=0;
-    int dstY1=0;
+    int dstX1;
+    int dstY1;
     int prevFBO=context.boundFBO;
     if (mainFbOverride != null) {
       if (src == null) {

@@ -1,11 +1,11 @@
 {
   GL gl=GLContext.getCurrentGL();
   if (state.isWireframe() && !context.wireframe) {
-    gl.getGL2().glPolygonMode(GL.GL_FRONT_AND_BACK,GL2GL3.GL_LINE);
+    gl.getGL2().glPolygonMode(GL.GL_FRONT_AND_BACK,GL2.GL_LINE);
     context.wireframe=true;
   }
  else   if (!state.isWireframe() && context.wireframe) {
-    gl.getGL2().glPolygonMode(GL.GL_FRONT_AND_BACK,GL2GL3.GL_FILL);
+    gl.getGL2().glPolygonMode(GL.GL_FRONT_AND_BACK,GL2.GL_FILL);
     context.wireframe=false;
   }
   if (state.isDepthTest() && !context.depthTestEnabled) {
@@ -18,12 +18,12 @@
     context.depthTestEnabled=false;
   }
   if (state.isAlphaTest() && context.alphaTestFallOff == 0) {
-    gl.glEnable(GL2ES1.GL_ALPHA_TEST);
+    gl.glEnable(GL2.GL_ALPHA_TEST);
     gl.getGL2().glAlphaFunc(GL.GL_GREATER,state.getAlphaFallOff());
     context.alphaTestFallOff=state.getAlphaFallOff();
   }
  else   if (!state.isAlphaTest() && context.alphaTestFallOff != 0) {
-    gl.glDisable(GL2ES1.GL_ALPHA_TEST);
+    gl.glDisable(GL2.GL_ALPHA_TEST);
     context.alphaTestFallOff=0;
   }
   if (state.isDepthWrite() && !context.depthWriteEnabled) {
@@ -41,6 +41,28 @@
  else   if (!state.isColorWrite() && context.colorWriteEnabled) {
     gl.glColorMask(false,false,false,false);
     context.colorWriteEnabled=false;
+  }
+  if (state.isPointSprite() && !context.pointSprite) {
+    if (context.boundTextures[0] != null) {
+      if (context.boundTextureUnit != 0) {
+        gl.glActiveTexture(GL.GL_TEXTURE0);
+        context.boundTextureUnit=0;
+      }
+      gl.glEnable(GL2.GL_POINT_SPRITE);
+      gl.glEnable(GL2.GL_VERTEX_PROGRAM_POINT_SIZE);
+    }
+    context.pointSprite=true;
+  }
+ else   if (!state.isPointSprite() && context.pointSprite) {
+    if (context.boundTextures[0] != null) {
+      if (context.boundTextureUnit != 0) {
+        gl.glActiveTexture(GL.GL_TEXTURE0);
+        context.boundTextureUnit=0;
+      }
+      gl.glDisable(GL2.GL_POINT_SPRITE);
+      gl.glDisable(GL2.GL_VERTEX_PROGRAM_POINT_SIZE);
+      context.pointSprite=false;
+    }
   }
   if (state.isPolyOffset()) {
     if (!context.polyOffsetEnabled) {
@@ -96,7 +118,6 @@ gl.glDisable(GL.GL_BLEND);
 }
  else {
 gl.glEnable(GL.GL_BLEND);
-}
 switch (state.getBlendMode()) {
 case Off:
 break;
@@ -106,11 +127,11 @@ break;
 case AlphaAdditive:
 gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE);
 break;
-case Alpha:
-gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE_MINUS_SRC_ALPHA);
-break;
 case Color:
 gl.glBlendFunc(GL.GL_ONE,GL.GL_ONE_MINUS_SRC_COLOR);
+break;
+case Alpha:
+gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE_MINUS_SRC_ALPHA);
 break;
 case PremultAlpha:
 gl.glBlendFunc(GL.GL_ONE,GL.GL_ONE_MINUS_SRC_ALPHA);
@@ -124,6 +145,27 @@ break;
 default :
 throw new UnsupportedOperationException("Unrecognized blend mode: " + state.getBlendMode());
 }
+}
 context.blendMode=state.getBlendMode();
+}
+if (context.stencilTest != state.isStencilTest() || context.frontStencilStencilFailOperation != state.getFrontStencilStencilFailOperation() || context.frontStencilDepthFailOperation != state.getFrontStencilDepthFailOperation() || context.frontStencilDepthPassOperation != state.getFrontStencilDepthPassOperation() || context.backStencilStencilFailOperation != state.getBackStencilStencilFailOperation() || context.backStencilDepthFailOperation != state.getBackStencilDepthFailOperation() || context.backStencilDepthPassOperation != state.getBackStencilDepthPassOperation() || context.frontStencilFunction != state.getFrontStencilFunction() || context.backStencilFunction != state.getBackStencilFunction()) {
+context.frontStencilStencilFailOperation=state.getFrontStencilStencilFailOperation();
+context.frontStencilDepthFailOperation=state.getFrontStencilDepthFailOperation();
+context.frontStencilDepthPassOperation=state.getFrontStencilDepthPassOperation();
+context.backStencilStencilFailOperation=state.getBackStencilStencilFailOperation();
+context.backStencilDepthFailOperation=state.getBackStencilDepthFailOperation();
+context.backStencilDepthPassOperation=state.getBackStencilDepthPassOperation();
+context.frontStencilFunction=state.getFrontStencilFunction();
+context.backStencilFunction=state.getBackStencilFunction();
+if (state.isStencilTest()) {
+gl.glEnable(GL.GL_STENCIL_TEST);
+gl.getGL2().glStencilOpSeparate(GL.GL_FRONT,convertStencilOperation(state.getFrontStencilStencilFailOperation()),convertStencilOperation(state.getFrontStencilDepthFailOperation()),convertStencilOperation(state.getFrontStencilDepthPassOperation()));
+gl.getGL2().glStencilOpSeparate(GL.GL_BACK,convertStencilOperation(state.getBackStencilStencilFailOperation()),convertStencilOperation(state.getBackStencilDepthFailOperation()),convertStencilOperation(state.getBackStencilDepthPassOperation()));
+gl.getGL2().glStencilFuncSeparate(GL.GL_FRONT,convertTestFunction(state.getFrontStencilFunction()),0,Integer.MAX_VALUE);
+gl.getGL2().glStencilFuncSeparate(GL.GL_BACK,convertTestFunction(state.getBackStencilFunction()),0,Integer.MAX_VALUE);
+}
+ else {
+gl.glDisable(GL.GL_STENCIL_TEST);
+}
 }
 }

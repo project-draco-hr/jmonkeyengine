@@ -1,7 +1,6 @@
 {
+  logger.log(Level.INFO,"Reseting objects and invalidating state");
   objManager.resetObjects();
   statistics.clearMemory();
-  boundShader=null;
-  lastFb=null;
-  context.reset();
+  invalidateState();
 }

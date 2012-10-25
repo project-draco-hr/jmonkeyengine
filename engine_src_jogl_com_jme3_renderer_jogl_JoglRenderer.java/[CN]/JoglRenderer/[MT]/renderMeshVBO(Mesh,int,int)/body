@@ -1,6 +1,6 @@
 {
   GL gl=GLContext.getCurrentGL();
-  VertexBuffer indices=null;
+  VertexBuffer indices;
   VertexBuffer interleavedData=mesh.getBuffer(Type.InterleavedData);
   if (interleavedData != null && interleavedData.isUpdateNeeded()) {
     updateBufferData(interleavedData);
