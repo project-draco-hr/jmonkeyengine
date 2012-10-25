@@ -1,23 +1,13 @@
 {
-  Container contentPane;
   if (useAwt) {
     frame=new Frame(settings.getTitle());
-    contentPane=frame;
   }
  else {
     frame=new JFrame(settings.getTitle());
-    contentPane=((JFrame)frame).getContentPane();
   }
-  contentPane.setLayout(new BorderLayout());
-  applySettings(settings);
   frame.setResizable(false);
-  frame.setFocusable(true);
-  contentPane.add(canvas,BorderLayout.CENTER);
-  frame.setSize(settings.getWidth(),settings.getHeight());
-  if (device.getFullScreenWindow() == null) {
-    Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
-    frame.setLocation((screenSize.width - frame.getWidth()) / 2,(screenSize.height - frame.getHeight()) / 2);
-  }
+  frame.add(canvas);
+  applySettings(settings);
   frame.addWindowListener(new WindowAdapter(){
     @Override public void windowClosing(    WindowEvent evt){
       windowCloseRequest.set(true);
@@ -30,4 +20,7 @@
     }
   }
 );
+  frame.setVisible(true);
+  canvas.setVisible(true);
+  final GLContext context=canvas.getContext();
 }

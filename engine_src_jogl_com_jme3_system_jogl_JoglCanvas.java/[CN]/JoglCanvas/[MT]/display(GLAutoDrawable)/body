@@ -5,10 +5,14 @@
     super.internalDestroy();
     return;
   }
-  if (width != canvas.getWidth() || height != canvas.getHeight()) {
-    width=canvas.getWidth();
-    height=canvas.getHeight();
-    if (listener != null)     listener.reshape(width,height);
+  int newWidth=Math.max(canvas.getWidth(),1);
+  int newHeight=Math.max(canvas.getHeight(),1);
+  if (width != newWidth || height != newHeight) {
+    width=newWidth;
+    height=newHeight;
+    if (listener != null) {
+      listener.reshape(width,height);
+    }
   }
   boolean flush=autoFlush.get();
   if (flush && !wasAnimating) {

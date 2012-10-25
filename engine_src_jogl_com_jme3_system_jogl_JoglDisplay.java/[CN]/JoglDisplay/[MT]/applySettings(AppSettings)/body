@@ -1,41 +1,89 @@
 {
-  DisplayMode displayMode;
-  if (settings.getWidth() <= 0 || settings.getHeight() <= 0) {
-    displayMode=device.getDisplayMode();
-    settings.setResolution(displayMode.getWidth(),displayMode.getHeight());
-  }
- else   if (settings.isFullscreen()) {
-    displayMode=getFullscreenDisplayMode(device.getDisplayModes(),settings.getWidth(),settings.getHeight(),settings.getBitsPerPixel(),settings.getFrequency());
-    if (displayMode == null)     throw new RuntimeException("Unable to find fullscreen display mode matching settings");
-  }
- else {
-    displayMode=new DisplayMode(settings.getWidth(),settings.getHeight(),DisplayMode.BIT_DEPTH_MULTI,DisplayMode.REFRESH_RATE_UNKNOWN);
-  }
-  frameRate=settings.getFrameRate();
-  logger.log(Level.INFO,"Selected display mode: {0}x{1}x{2} @{3}",new Object[]{displayMode.getWidth(),displayMode.getHeight(),displayMode.getBitDepth(),displayMode.getRefreshRate()});
-  canvas.setSize(displayMode.getWidth(),displayMode.getHeight());
-  DisplayMode prevDisplayMode=device.getDisplayMode();
-  if (settings.isFullscreen() && device.isFullScreenSupported()) {
+  final boolean isDisplayModeModified;
+  final GraphicsDevice gd=GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+  final DisplayMode previousDisplayMode=gd.getDisplayMode();
+  if (settings.isFullscreen()) {
     frame.setUndecorated(true);
-    try {
-      device.setFullScreenWindow(frame);
-      if (!prevDisplayMode.equals(displayMode) && device.isDisplayChangeSupported()) {
-        device.setDisplayMode(displayMode);
+    boolean isFullScreenSupported=gd.isFullScreenSupported();
+    if (isFullScreenSupported) {
+      gd.setFullScreenWindow(frame);
+      if (gd.isDisplayChangeSupported()) {
+        final DisplayMode[] displayModes=gd.getDisplayModes();
+        DisplayMode multiBitsDepthSupportedDisplayMode=null;
+        DisplayMode refreshRateUnknownDisplayMode=null;
+        DisplayMode multiBitsDepthSupportedAndRefreshRateUnknownDisplayMode=null;
+        DisplayMode matchingDisplayMode=null;
+        DisplayMode currentDisplayMode;
+        for (int i=0; i < displayModes.length && matchingDisplayMode == null; i++) {
+          currentDisplayMode=displayModes[i];
+          if (currentDisplayMode.getWidth() == settings.getWidth() && currentDisplayMode.getHeight() == settings.getHeight()) {
+            if (currentDisplayMode.getBitDepth() == settings.getBitsPerPixel()) {
+              if (currentDisplayMode.getRefreshRate() == settings.getFrequency()) {
+                matchingDisplayMode=currentDisplayMode;
+              }
+ else               if (currentDisplayMode.getRefreshRate() == DisplayMode.REFRESH_RATE_UNKNOWN) {
+                refreshRateUnknownDisplayMode=currentDisplayMode;
+              }
+            }
+ else             if (currentDisplayMode.getBitDepth() == DisplayMode.BIT_DEPTH_MULTI) {
+              if (currentDisplayMode.getRefreshRate() == settings.getFrequency()) {
+                multiBitsDepthSupportedDisplayMode=currentDisplayMode;
+              }
+ else               if (currentDisplayMode.getRefreshRate() == DisplayMode.REFRESH_RATE_UNKNOWN) {
+                multiBitsDepthSupportedAndRefreshRateUnknownDisplayMode=currentDisplayMode;
+              }
+            }
+          }
+        }
+        DisplayMode nextDisplayMode=null;
+        if (matchingDisplayMode != null) {
+          nextDisplayMode=matchingDisplayMode;
+        }
+ else         if (multiBitsDepthSupportedDisplayMode != null) {
+          nextDisplayMode=multiBitsDepthSupportedDisplayMode;
+        }
+ else         if (refreshRateUnknownDisplayMode != null) {
+          nextDisplayMode=refreshRateUnknownDisplayMode;
+        }
+ else         if (multiBitsDepthSupportedAndRefreshRateUnknownDisplayMode != null) {
+          nextDisplayMode=multiBitsDepthSupportedAndRefreshRateUnknownDisplayMode;
+        }
+ else {
+          isFullScreenSupported=false;
+        }
+        if (nextDisplayMode != null) {
+          gd.setDisplayMode(nextDisplayMode);
+          isDisplayModeModified=true;
+        }
+ else {
+          isDisplayModeModified=false;
+        }
+      }
+ else {
+        isDisplayModeModified=false;
+        final Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
+        if (screenSize.width != settings.getWidth() || screenSize.height != settings.getHeight()) {
+          canvas.setSize(screenSize);
+        }
       }
     }
- catch (    Throwable t) {
-      logger.log(Level.SEVERE,"Failed to enter fullscreen mode",t);
-      device.setFullScreenWindow(null);
+ else {
+      isDisplayModeModified=false;
+    }
+    if (!isFullScreenSupported) {
+      final Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
+      canvas.setSize(screenSize);
+      frame.setSize(screenSize);
+      frame.setLocation(0,0);
     }
   }
  else {
-    if (!device.isFullScreenSupported()) {
-      logger.warning("Fullscreen not supported.");
-    }
- else {
-      frame.setUndecorated(false);
-      device.setFullScreenWindow(null);
-    }
-    frame.setVisible(true);
+    isDisplayModeModified=false;
+    frame.pack();
+    int x, y;
+    x=(Toolkit.getDefaultToolkit().getScreenSize().width - settings.getWidth()) / 2;
+    y=(Toolkit.getDefaultToolkit().getScreenSize().height - settings.getHeight()) / 2;
+    frame.setLocation(x,y);
   }
+  logger.log(Level.INFO,"Selected display mode: {0}x{1}x{2} @{3}",new Object[]{frame.getWidth(),frame.getHeight(),0,0});
 }

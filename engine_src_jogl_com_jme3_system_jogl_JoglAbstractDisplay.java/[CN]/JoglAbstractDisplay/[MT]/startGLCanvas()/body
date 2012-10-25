@@ -3,8 +3,8 @@
     animator=new FPSAnimator(canvas,frameRate);
   }
  else {
-    animator=new Animator(canvas);
-    ((Animator)animator).setRunAsFastAsPossible(true);
+    animator=new Animator();
+    animator.add(canvas);
   }
   animator.start();
   wasAnimating=true;
