@@ -1,0 +1,20 @@
+{
+  int id=f.getId();
+  if (id == -1) {
+    ib.position(0).limit(1);
+    al.alGenFilters(1,ib);
+    id=ib.get(0);
+    f.setId(id);
+    objManager.registerForCleanup(f);
+  }
+  if (f instanceof LowPassFilter) {
+    LowPassFilter lpf=(LowPassFilter)f;
+    al.alFilteri(id,AL.AL_FILTER_TYPE,AL.AL_FILTER_LOWPASS);
+    al.alFilterf(id,AL.AL_LOWPASS_GAIN,lpf.getVolume());
+    al.alFilterf(id,AL.AL_LOWPASS_GAINHF,lpf.getHighFreqVolume());
+  }
+ else {
+    throw new UnsupportedOperationException("Filter type unsupported: " + f.getClass().getName());
+  }
+  f.clearUpdateNeeded();
+}
