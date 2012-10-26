@@ -6,7 +6,12 @@
   }
   properties.setProperty("assets.jar.name",jTextField1.getText());
   properties.setProperty("assets.excludes",jTextField2.getText());
-  properties.setProperty("assets.folder.name",jTextField3.getText());
+  if (jTextField3.getText() != null && jTextField3.getText().trim().length() > 0) {
+    properties.setProperty("assets.folder.name",jTextField3.getText());
+  }
+ else {
+    properties.setProperty("assets.folder.name",(String)null);
+  }
   if (jCheckBox1.isSelected()) {
     properties.setProperty("assets.compress","true");
   }
