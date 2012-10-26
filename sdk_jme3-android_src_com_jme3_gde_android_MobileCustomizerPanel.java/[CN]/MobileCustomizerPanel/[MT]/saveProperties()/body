@@ -5,6 +5,12 @@
  else {
     properties.setProperty("mobile.android.enabled","");
   }
-  properties.setProperty("mobile.android.target",((AndroidTarget)jComboBox1.getSelectedItem()).getName());
+  AndroidTarget target=((AndroidTarget)jComboBox1.getSelectedItem());
+  if (target != null) {
+    properties.setProperty("mobile.android.target",target.getName());
+  }
+ else {
+    properties.setProperty("mobile.android.target","");
+  }
   properties.setProperty("mobile.android.package",jTextField1.getText());
 }
