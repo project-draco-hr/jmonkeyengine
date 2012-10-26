@@ -8,7 +8,6 @@
   URL url=null;
   try {
     String tempFileName=extractionPath + "_tmp.zip";
-    System.out.println("ZipPath: " + zipPath);
     url=new URL("nbres:" + zipPath);
     in=new BufferedInputStream(url.openStream());
     out=new BufferedOutputStream(new FileOutputStream(tempFileName));
