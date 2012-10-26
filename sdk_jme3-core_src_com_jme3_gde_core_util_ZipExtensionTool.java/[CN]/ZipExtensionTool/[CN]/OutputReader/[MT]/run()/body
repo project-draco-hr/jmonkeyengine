@@ -1,0 +1,18 @@
+{
+  try {
+    String line;
+    while ((line=in.readLine()) != null) {
+      if (line.trim().length() > 0) {
+        if (progress != null) {
+          progress.progress(line);
+        }
+ else {
+          Logger.getLogger(this.getClass().getName()).log(Level.INFO,line);
+        }
+      }
+    }
+  }
+ catch (  Exception e) {
+    Exceptions.printStackTrace(e);
+  }
+}

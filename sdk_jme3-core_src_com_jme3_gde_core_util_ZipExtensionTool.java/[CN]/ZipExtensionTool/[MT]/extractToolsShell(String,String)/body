@@ -1,0 +1,60 @@
+{
+  File path=new File(extractionPath);
+  if (!path.exists()) {
+    path.mkdirs();
+  }
+  BufferedInputStream in=null;
+  BufferedOutputStream out=null;
+  URL url=null;
+  try {
+    String tempFileName=extractionPath + "_tmp.zip";
+    System.out.println("ZipPath: " + zipPath);
+    url=new URL("nbres:" + zipPath);
+    in=new BufferedInputStream(url.openStream());
+    out=new BufferedOutputStream(new FileOutputStream(tempFileName));
+    int inbyte=in.read();
+    while (inbyte != -1) {
+      out.write(inbyte);
+      inbyte=in.read();
+    }
+    in.close();
+    out.close();
+    String[] cmdStrings=new String[]{"unzip","-o","-q",tempFileName,"-d",extractionPath};
+    Process p=Runtime.getRuntime().exec(cmdStrings);
+    OutputReader outReader=new OutputReader(p.getInputStream());
+    OutputReader errReader=new OutputReader(p.getErrorStream());
+    outReader.start();
+    errReader.start();
+    p.waitFor();
+    File zipFile=new File(tempFileName);
+    zipFile.delete();
+    if (p.exitValue() != 0) {
+      return false;
+    }
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    NotifyDescriptor.Confirmation msg=new NotifyDescriptor.Confirmation("Error extracting " + extensionName,NotifyDescriptor.DEFAULT_OPTION,NotifyDescriptor.ERROR_MESSAGE);
+    DialogDisplayer.getDefault().notify(msg);
+    return false;
+  }
+ finally {
+    if (in != null) {
+      try {
+        in.close();
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+    if (out != null) {
+      try {
+        out.close();
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+  }
+  return true;
+}
