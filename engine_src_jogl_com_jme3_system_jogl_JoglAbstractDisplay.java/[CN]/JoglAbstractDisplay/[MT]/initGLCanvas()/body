@@ -1,6 +1,14 @@
 {
   device=GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-  GLCapabilities caps=new GLCapabilities(GLProfile.getDefault());
+  GLCapabilities caps=new GLCapabilities(GLProfile.getMaxFixedFunc(true));
+  caps.setHardwareAccelerated(true);
+  caps.setDoubleBuffered(true);
+  caps.setStencilBits(settings.getStencilBits());
+  caps.setDepthBits(settings.getDepthBits());
+  if (settings.getSamples() > 1) {
+    caps.setSampleBuffers(true);
+    caps.setNumSamples(settings.getSamples());
+  }
   canvas=new GLCanvas(caps){
     @Override public void addNotify(){
       super.addNotify();
@@ -13,7 +21,13 @@
   }
 ;
   if (settings.isVSync()) {
-    canvas.getGL().setSwapInterval(1);
+    canvas.invoke(false,new GLRunnable(){
+      public boolean run(      GLAutoDrawable glad){
+        canvas.getGL().setSwapInterval(1);
+        return true;
+      }
+    }
+);
   }
   canvas.setFocusable(true);
   canvas.requestFocus();
