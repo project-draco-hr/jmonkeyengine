@@ -34,5 +34,17 @@
   canvas.setSize(settings.getWidth(),settings.getHeight());
   canvas.setIgnoreRepaint(true);
   canvas.addGLEventListener(this);
+  if (settings.getBoolean("GraphicsDebug")) {
+    canvas.invoke(false,new GLRunnable(){
+      public boolean run(      GLAutoDrawable glad){
+        GL gl=glad.getGL();
+        if (gl.isGL4bc()) {
+          canvas.setGL(new DebugGL4bc(gl.getGL4bc()));
+        }
+        return true;
+      }
+    }
+);
+  }
   renderer=new JoglRenderer();
 }
