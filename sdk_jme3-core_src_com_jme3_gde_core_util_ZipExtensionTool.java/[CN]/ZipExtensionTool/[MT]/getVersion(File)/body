@@ -1,0 +1,22 @@
+{
+  Properties props=new Properties();
+  InputStream in=null;
+  try {
+    in=new BufferedInputStream(new FileInputStream(path));
+    props.load(in);
+  }
+ catch (  Exception ex) {
+    Exceptions.printStackTrace(ex);
+  }
+ finally {
+    if (in != null) {
+      try {
+        in.close();
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+  }
+  return props.getProperty("version");
+}

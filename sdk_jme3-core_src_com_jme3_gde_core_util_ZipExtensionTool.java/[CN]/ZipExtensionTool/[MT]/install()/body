@@ -1,17 +1,27 @@
 {
-  if (new File(settingsFolder + File.separator + extensionName).exists()) {
-    return;
+  File folder=new File(settingsFolder + File.separator + extensionName);
+  File versionFile=new File(settingsFolder + File.separator + extensionName+ File.separator+ ".zipextversion");
+  if (folder.exists()) {
+    if (versionFile.exists()) {
+      if (version.equals(getVersion(versionFile))) {
+        return;
+      }
+ else {
+        folder.delete();
+      }
+    }
   }
   ProgressHandle progressHandle=ProgressHandleFactory.createHandle("Installing " + extensionName + " data");
   progressHandle.start();
   if (Utilities.isWindows()) {
-    extractToolsJava(packageName + "/" + extensionName+ "-"+ SUFFIX_WIN+ ".zip",settingsFolder + File.separator + extensionName);
+    extractToolsJava(packageFolder + "/" + extensionName+ "-"+ SUFFIX_WIN+ ".zip",settingsFolder + File.separator + extensionName);
   }
  else   if (Utilities.isMac()) {
-    extractToolsShell(packageName + "/" + extensionName+ "-"+ SUFFIX_OSX+ ".zip",settingsFolder + File.separator + extensionName);
+    extractToolsShell(packageFolder + "/" + extensionName+ "-"+ SUFFIX_OSX+ ".zip",settingsFolder + File.separator + extensionName);
   }
  else   if (Utilities.isUnix()) {
-    extractToolsShell(packageName + "/" + extensionName+ "-"+ SUFFIX_LINUX+ ".zip",settingsFolder + File.separator + extensionName);
+    extractToolsShell(packageFolder + "/" + extensionName+ "-"+ SUFFIX_LINUX+ ".zip",settingsFolder + File.separator + extensionName);
   }
+  setVersion(versionFile,version);
   progressHandle.finish();
 }
