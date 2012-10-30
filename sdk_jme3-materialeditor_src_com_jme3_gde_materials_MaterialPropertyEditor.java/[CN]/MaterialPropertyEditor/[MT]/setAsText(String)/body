@@ -1,7 +1,7 @@
 {
   if ("create j3m file".equals(text)) {
     try {
-      AbstractSceneExplorerNode geom=SceneExplorerTopComponent.findInstance().getLastSelected();
+      Node geom=SceneExplorerTopComponent.findInstance().getLastSelected();
       assert(geom != null);
       ProjectAssetManager pm=geom.getLookup().lookup(ProjectAssetManager.class);
       assert(pm != null);
