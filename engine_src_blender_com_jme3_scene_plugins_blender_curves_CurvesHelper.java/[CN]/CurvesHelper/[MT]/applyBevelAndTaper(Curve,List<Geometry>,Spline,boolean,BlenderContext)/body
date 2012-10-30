@@ -1,5 +1,6 @@
 {
   Vector3f[] curvePoints=BufferUtils.getVector3Array(curve.getFloatBuffer(Type.Position));
+  Vector3f subtractResult=new Vector3f();
   float curveLength=curve.getLength();
   FloatBuffer[] vertexBuffers=new FloatBuffer[bevelObject.size()];
   FloatBuffer[] normalBuffers=new FloatBuffer[bevelObject.size()];
@@ -18,7 +19,6 @@
     bevelPoints=this.transformBevel(bevelPoints,curvePoints[curvePoints.length - 2],curvePoints[curvePoints.length - 1],null);
     bevels.add(bevelPoints);
     if (bevels.size() > 2) {
-      Vector3f subtractResult=new Vector3f();
       int[][] pointIndexes=new int[][]{{0,1},{curvePoints.length - 1,curvePoints.length - 2}};
       for (      int[] indexes : pointIndexes) {
         float distance=curvePoints[indexes[1]].subtract(curvePoints[indexes[0]],subtractResult).length();
@@ -34,7 +34,7 @@
     float lengthAlongCurve=0;
     for (int i=0; i < curvePoints.length; ++i) {
       if (i > 0) {
-        lengthAlongCurve+=curvePoints[i].subtract(curvePoints[i - 1]).length();
+        lengthAlongCurve+=curvePoints[i].subtract(curvePoints[i - 1],subtractResult).length();
       }
       float taperScale=this.getTaperScale(taperObject,i == 0 ? 0 : lengthAlongCurve / curveLength);
       this.applyScale(bevels.get(i),curvePoints[i],taperScale);
