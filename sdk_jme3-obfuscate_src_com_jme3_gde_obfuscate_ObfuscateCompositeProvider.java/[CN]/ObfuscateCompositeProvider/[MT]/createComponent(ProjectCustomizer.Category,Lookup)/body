@@ -1,5 +1,8 @@
 {
   jwsProps=new ProjectExtensionProperties(context.lookup(Project.class),keyList);
+  if (jwsProps.getProperty("obfuscate.options") == null) {
+    jwsProps.setProperty("obfuscate.options",defaultOpts);
+  }
   ObfuscateCustomizerPanel panel=new ObfuscateCustomizerPanel(jwsProps);
   category.setStoreListener(new SavePropsListener(jwsProps,context.lookup(Project.class)));
   category.setOkButtonListener(panel);
