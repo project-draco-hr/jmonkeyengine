@@ -43,6 +43,10 @@
       mat.setFloat("ShadowIntensity",shadowIntensity);
       applyShadowIntensity=false;
     }
+    if (fadeInfo != null && mat.getParam("FadeInfo") == null || applyFadeInfo) {
+      mat.setVector2("FadeInfo",fadeInfo);
+      applyFadeInfo=false;
+    }
   }
   if (needsfallBackMaterial) {
     setPostShadowParams();
