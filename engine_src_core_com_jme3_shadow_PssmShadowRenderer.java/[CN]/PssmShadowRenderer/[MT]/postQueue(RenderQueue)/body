@@ -36,7 +36,7 @@ renderManager.setForcedTechnique("PreShadow");
 for (int i=0; i < nbSplits; i++) {
 ShadowUtil.updateFrustumPoints(viewCam,splitsArray[i],splitsArray[i + 1],1.0f,points);
 ShadowUtil.updateShadowCamera(occluders,receivers,shadowCam,points,splitOccluders);
-lightViewProjectionsMatrices[i]=shadowCam.getViewProjectionMatrix().clone();
+lightViewProjectionsMatrices[i].set(shadowCam.getViewProjectionMatrix());
 renderManager.setCamera(shadowCam,false);
 r.setFrameBuffer(shadowFB[i]);
 r.clearBuffers(false,true,false);
