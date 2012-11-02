@@ -8,18 +8,6 @@
   frame.setResizable(false);
   frame.add(canvas);
   applySettings(settings);
-  frame.addWindowListener(new WindowAdapter(){
-    @Override public void windowClosing(    WindowEvent evt){
-      windowCloseRequest.set(true);
-    }
-    @Override public void windowActivated(    WindowEvent evt){
-      active.set(true);
-    }
-    @Override public void windowDeactivated(    WindowEvent evt){
-      active.set(false);
-    }
-  }
-);
   frame.setVisible(true);
   canvas.setVisible(true);
 }

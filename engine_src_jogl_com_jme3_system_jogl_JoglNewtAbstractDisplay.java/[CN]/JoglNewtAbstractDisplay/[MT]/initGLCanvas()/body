@@ -1,0 +1,37 @@
+{
+  GLCapabilities caps=new GLCapabilities(GLProfile.getMaxFixedFunc(true));
+  caps.setHardwareAccelerated(true);
+  caps.setDoubleBuffered(true);
+  caps.setStencilBits(settings.getStencilBits());
+  caps.setDepthBits(settings.getDepthBits());
+  if (settings.getSamples() > 1) {
+    caps.setSampleBuffers(true);
+    caps.setNumSamples(settings.getSamples());
+  }
+  canvas=GLWindow.create(caps);
+  if (settings.isVSync()) {
+    canvas.invoke(false,new GLRunnable(){
+      public boolean run(      GLAutoDrawable glad){
+        canvas.getGL().setSwapInterval(1);
+        return true;
+      }
+    }
+);
+  }
+  canvas.requestFocus();
+  canvas.setSize(settings.getWidth(),settings.getHeight());
+  canvas.addGLEventListener(this);
+  if (settings.getBoolean("GraphicsDebug")) {
+    canvas.invoke(false,new GLRunnable(){
+      public boolean run(      GLAutoDrawable glad){
+        GL gl=glad.getGL();
+        if (gl.isGL4bc()) {
+          canvas.setGL(new DebugGL4bc(gl.getGL4bc()));
+        }
+        return true;
+      }
+    }
+);
+  }
+  renderer=new JoglRenderer();
+}

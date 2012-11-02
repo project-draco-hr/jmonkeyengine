@@ -85,5 +85,23 @@
     y=(Toolkit.getDefaultToolkit().getScreenSize().height - settings.getHeight()) / 2;
     frame.setLocation(x,y);
   }
+  frame.addWindowListener(new WindowAdapter(){
+    @Override public void windowClosing(    WindowEvent evt){
+      if (isDisplayModeModified) {
+        gd.setDisplayMode(previousDisplayMode);
+      }
+      if (gd.getFullScreenWindow() == frame) {
+        gd.setFullScreenWindow(null);
+      }
+      windowCloseRequest.set(true);
+    }
+    @Override public void windowActivated(    WindowEvent evt){
+      active.set(true);
+    }
+    @Override public void windowDeactivated(    WindowEvent evt){
+      active.set(false);
+    }
+  }
+);
   logger.log(Level.INFO,"Selected display mode: {0}x{1}x{2} @{3}",new Object[]{gd.getDisplayMode().getWidth(),gd.getDisplayMode().getHeight(),gd.getDisplayMode().getBitDepth(),gd.getDisplayMode().getRefreshRate()});
 }
