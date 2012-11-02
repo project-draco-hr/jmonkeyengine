@@ -1,0 +1,37 @@
+{
+  if (needClose.get()) {
+    listener.destroy();
+    animator.stop();
+    if (settings.isFullscreen()) {
+      canvas.setFullscreen(false);
+    }
+    canvas.destroy();
+    logger.info("Display destroyed.");
+    super.internalDestroy();
+    return;
+  }
+  if (windowCloseRequest.get()) {
+    listener.requestClose(false);
+    windowCloseRequest.set(false);
+  }
+  if (needRestart.getAndSet(false)) {
+    if (canvas.isVisible()) {
+      animator.stop();
+      canvas.destroy();
+      createGLFrame();
+      startGLCanvas();
+    }
+  }
+  if (wasActive != active.get()) {
+    if (!wasActive) {
+      listener.gainFocus();
+      wasActive=true;
+    }
+ else {
+      listener.loseFocus();
+      wasActive=false;
+    }
+  }
+  listener.update();
+  renderer.onFrame();
+}
