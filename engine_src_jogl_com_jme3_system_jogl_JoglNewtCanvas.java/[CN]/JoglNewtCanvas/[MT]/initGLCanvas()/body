@@ -1,0 +1,14 @@
+{
+  super.initGLCanvas();
+  newtAwtCanvas=new NewtCanvasAWT(canvas){
+    @Override public void addNotify(){
+      super.addNotify();
+      onCanvasAdded();
+    }
+    @Override public void removeNotify(){
+      onCanvasRemoved();
+      super.removeNotify();
+    }
+  }
+;
+}

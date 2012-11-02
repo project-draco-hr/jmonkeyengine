@@ -1,0 +1,28 @@
+{
+  if (!created.get() && renderer != null) {
+    listener.destroy();
+    logger.info("Canvas destroyed.");
+    super.internalDestroy();
+    return;
+  }
+  int newWidth=Math.max(canvas.getWidth(),1);
+  int newHeight=Math.max(canvas.getHeight(),1);
+  if (width != newWidth || height != newHeight) {
+    width=newWidth;
+    height=newHeight;
+    if (listener != null) {
+      listener.reshape(width,height);
+    }
+  }
+  boolean flush=autoFlush.get();
+  if (flush && !wasAnimating) {
+    animator.start();
+    wasAnimating=true;
+  }
+ else   if (!flush && wasAnimating) {
+    animator.stop();
+    wasAnimating=false;
+  }
+  listener.update();
+  renderer.onFrame();
+}
