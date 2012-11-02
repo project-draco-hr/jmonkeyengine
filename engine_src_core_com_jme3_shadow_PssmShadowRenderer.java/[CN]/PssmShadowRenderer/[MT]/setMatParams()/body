@@ -29,25 +29,25 @@
     }
     if (applyHWShadows || mat.getParam("HardwareShadows") == null) {
       mat.setBoolean("HardwareShadows",compareMode == CompareMode.Hardware);
-      applyHWShadows=false;
     }
     if (applyFilterMode || mat.getParam("FilterMode") == null) {
       mat.setInt("FilterMode",filterMode.ordinal());
-      applyFilterMode=false;
     }
     if (mat.getParam("PCFEdge") == null || applyPCFEdge) {
       mat.setFloat("PCFEdge",edgesThickness);
-      applyPCFEdge=false;
     }
     if (mat.getParam("ShadowIntensity") == null || applyShadowIntensity) {
       mat.setFloat("ShadowIntensity",shadowIntensity);
-      applyShadowIntensity=false;
     }
     if (fadeInfo != null && mat.getParam("FadeInfo") == null || applyFadeInfo) {
       mat.setVector2("FadeInfo",fadeInfo);
-      applyFadeInfo=false;
     }
   }
+  applyHWShadows=false;
+  applyFilterMode=false;
+  applyPCFEdge=false;
+  applyShadowIntensity=false;
+  applyFadeInfo=false;
   if (needsfallBackMaterial) {
     setPostShadowParams();
   }
