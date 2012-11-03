@@ -1,3 +1,7 @@
 {
-  return null;
+  if (keyInput == null) {
+    keyInput=new NewtKeyInput();
+    ((NewtKeyInput)keyInput).setInputSource(canvas);
+  }
+  return keyInput;
 }
