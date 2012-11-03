@@ -1,0 +1,27 @@
+{
+  this.postshadowMat=postShadowMat;
+  assetManager=manager;
+  shadowMapSize=size;
+  shadowFB=new FrameBuffer[CAM_NUMBER];
+  shadowMaps=new Texture2D[CAM_NUMBER];
+  dispPic=new Picture[CAM_NUMBER];
+  lightViewProjectionsMatrices=new Matrix4f[CAM_NUMBER];
+  dummyTex=new Texture2D(size,size,Format.RGBA8);
+  preshadowMat=new Material(manager,"Common/MatDefs/Shadow/PreShadow.j3md");
+  postshadowMat.setFloat("ShadowMapSize",size);
+  shadowCams=new Camera[CAM_NUMBER];
+  for (int i=0; i < CAM_NUMBER; i++) {
+    lightViewProjectionsMatrices[i]=new Matrix4f();
+    shadowFB[i]=new FrameBuffer(size,size,1);
+    shadowMaps[i]=new Texture2D(size,size,Format.Depth);
+    shadowFB[i].setDepthTexture(shadowMaps[i]);
+    shadowFB[i].setColorTexture(dummyTex);
+    postshadowMat.setTexture("ShadowMap" + i,shadowMaps[i]);
+    dispPic[i]=new Picture("Picture" + i);
+    dispPic[i].setTexture(manager,shadowMaps[i],false);
+    shadowCams[i]=new Camera(size,size);
+  }
+  setCompareMode(CompareMode.Hardware);
+  setFilterMode(FilterMode.Bilinear);
+  setShadowIntensity(0.7f);
+}

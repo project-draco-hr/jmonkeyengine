@@ -1,0 +1,6 @@
+{
+  for (int j=0; j < CAM_NUMBER; j++) {
+    postshadowMat.setMatrix4("LightViewProjectionMatrix" + j,lightViewProjectionsMatrices[j]);
+  }
+  postshadowMat.setVector3("LightPos",light.getPosition());
+}

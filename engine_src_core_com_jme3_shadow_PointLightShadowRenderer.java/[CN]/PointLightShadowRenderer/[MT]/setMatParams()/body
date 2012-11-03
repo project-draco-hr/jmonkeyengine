@@ -1,0 +1,52 @@
+{
+  GeometryList l=viewPort.getQueue().getShadowQueueContent(ShadowMode.Receive);
+  matCache.clear();
+  for (int i=0; i < l.size(); i++) {
+    Material mat=l.get(i).getMaterial();
+    if (mat.getMaterialDef().getTechniqueDef(postTechniqueName) != null) {
+      if (!matCache.contains(mat)) {
+        matCache.add(mat);
+      }
+    }
+ else {
+      needsfallBackMaterial=true;
+    }
+  }
+  for (  Material mat : matCache) {
+    if (mat.getParam("ShadowMapSize") == null) {
+      mat.setFloat("ShadowMapSize",shadowMapSize);
+    }
+    for (int j=0; j < CAM_NUMBER; j++) {
+      mat.setMatrix4("LightViewProjectionMatrix" + j,lightViewProjectionsMatrices[j]);
+    }
+    mat.setVector3("LightPos",light.getPosition());
+    if (mat.getParam("ShadowMap0") == null) {
+      for (int j=0; j < CAM_NUMBER; j++) {
+        mat.setTexture("ShadowMap" + j,shadowMaps[j]);
+      }
+    }
+    if (applyHWShadows || mat.getParam("HardwareShadows") == null) {
+      mat.setBoolean("HardwareShadows",compareMode == CompareMode.Hardware);
+    }
+    if (applyFilterMode || mat.getParam("FilterMode") == null) {
+      mat.setInt("FilterMode",filterMode.ordinal());
+    }
+    if (mat.getParam("PCFEdge") == null || applyPCFEdge) {
+      mat.setFloat("PCFEdge",edgesThickness);
+    }
+    if (mat.getParam("ShadowIntensity") == null || applyShadowIntensity) {
+      mat.setFloat("ShadowIntensity",shadowIntensity);
+    }
+    if (fadeInfo != null && mat.getParam("FadeInfo") == null || applyFadeInfo) {
+      mat.setVector2("FadeInfo",fadeInfo);
+    }
+  }
+  applyHWShadows=false;
+  applyFilterMode=false;
+  applyPCFEdge=false;
+  applyShadowIntensity=false;
+  applyFadeInfo=false;
+  if (needsfallBackMaterial) {
+    setPostShadowParams();
+  }
+}
