@@ -1,0 +1,24 @@
+{
+  int index;
+switch (awtEvt.getButton()) {
+default :
+case MouseEvent.BUTTON1:
+    index=MouseInput.BUTTON_LEFT;
+  break;
+case MouseEvent.BUTTON2:
+index=MouseInput.BUTTON_MIDDLE;
+break;
+case MouseEvent.BUTTON3:
+index=MouseInput.BUTTON_RIGHT;
+break;
+case MouseEvent.BUTTON4:
+case MouseEvent.BUTTON5:
+case MouseEvent.BUTTON6:
+case MouseEvent.BUTTON7:
+case MouseEvent.BUTTON8:
+case MouseEvent.BUTTON9:
+index=0;
+break;
+}
+return index;
+}

@@ -1,0 +1,11 @@
+{
+  if (this.visible != visible) {
+    lastKnownLocation.setX(0);
+    lastKnownLocation.setY(0);
+    this.visible=visible;
+    component.setPointerVisible(visible);
+    if (!visible) {
+      recenterMouse(component);
+    }
+  }
+}

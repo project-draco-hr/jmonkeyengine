@@ -1,5 +1,7 @@
 {
-  AwtMouseInput awtMouseInput=new AwtMouseInput();
-  awtMouseInput.setInputSource(canvas);
-  return awtMouseInput;
+  if (mouseInput == null) {
+    mouseInput=new AwtMouseInput();
+    ((AwtMouseInput)mouseInput).setInputSource(canvas);
+  }
+  return mouseInput;
 }

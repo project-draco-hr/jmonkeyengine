@@ -1,5 +1,7 @@
 {
-  AwtKeyInput awtKeyInput=new AwtKeyInput();
-  awtKeyInput.setInputSource(canvas);
-  return awtKeyInput;
+  if (keyInput == null) {
+    keyInput=new AwtKeyInput();
+    ((AwtKeyInput)keyInput).setInputSource(canvas);
+  }
+  return keyInput;
 }
