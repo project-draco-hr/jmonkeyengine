@@ -49,6 +49,13 @@ cursor.update(block);
 cursor=cursor.getNext();
 }
 break;
+case Clip:
+l.clip(block);
+for (LetterQuad q=l.getNext(); !q.isTail() && !q.isLineFeed(); q=q.getNext()) {
+q.setBitmapChar(null);
+q.update(block);
+}
+break;
 }
 }
 }

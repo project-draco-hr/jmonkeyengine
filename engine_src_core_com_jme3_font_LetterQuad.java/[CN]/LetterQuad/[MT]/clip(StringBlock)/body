@@ -1,0 +1,10 @@
+{
+  Rectangle bound=block.getTextBox();
+  if (bound == null)   return;
+  float x1=Math.min(bound.x + bound.width,x0 + width);
+  float newWidth=x1 - x0;
+  if (newWidth == width)   return;
+  float rescale=newWidth / width;
+  u1=u0 + (u1 - u0) * rescale;
+  width=newWidth;
+}
