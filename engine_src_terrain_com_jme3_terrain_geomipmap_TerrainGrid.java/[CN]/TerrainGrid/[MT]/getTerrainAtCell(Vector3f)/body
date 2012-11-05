@@ -1,0 +1,5 @@
+{
+  Vector3f gridLocation=cellCoordinate.mult(getLocalScale()).multLocal(quadSize - 1);
+  Vector3f tileCell=getTileCell(gridLocation);
+  return cache.get(tileCell);
+}
