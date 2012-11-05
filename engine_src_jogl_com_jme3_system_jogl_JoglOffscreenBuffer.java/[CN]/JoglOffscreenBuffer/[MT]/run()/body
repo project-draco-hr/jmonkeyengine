@@ -1,0 +1,8 @@
+{
+  logger.log(Level.INFO,"Using JOGL {0}",NewtVersion.getInstance().getImplementationVersion());
+  initInThread();
+  while (!needClose.get()) {
+    runLoop();
+  }
+  deinitInThread();
+}

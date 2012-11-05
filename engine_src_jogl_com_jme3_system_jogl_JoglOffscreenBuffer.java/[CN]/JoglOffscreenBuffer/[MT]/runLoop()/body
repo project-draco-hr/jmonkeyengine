@@ -1,0 +1,11 @@
+{
+  if (!created.get()) {
+    throw new IllegalStateException();
+  }
+  listener.update();
+  checkGLError();
+  renderer.onFrame();
+  int frameRate=settings.getFrameRate();
+  if (frameRate >= 1) {
+  }
+}

@@ -1,0 +1,22 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  if (!gl.hasFullFBOSupport()) {
+    logger.severe("Offscreen surfaces are not supported.");
+    return;
+  }
+  int samples=getNumSamplesToUse();
+  caps=new GLCapabilities(GLProfile.getMaxFixedFunc(true));
+  caps.setHardwareAccelerated(true);
+  caps.setDoubleBuffered(true);
+  caps.setStencilBits(settings.getStencilBits());
+  caps.setDepthBits(settings.getDepthBits());
+  caps.setOnscreen(false);
+  caps.setSampleBuffers(true);
+  caps.setNumSamples(samples);
+  offscreenDrawable=GLDrawableFactory.getFactory(GLProfile.getMaxFixedFunc(true)).createOffscreenAutoDrawable(null,caps,null,width,width,null);
+  offscreenDrawable.display();
+  renderable.set(true);
+  logger.info("Offscreen buffer created.");
+  super.internalCreate();
+  listener.initialize();
+}

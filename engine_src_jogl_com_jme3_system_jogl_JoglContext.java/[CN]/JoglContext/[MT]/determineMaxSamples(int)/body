@@ -1,0 +1,9 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  if (gl.hasFullFBOSupport()) {
+    return gl.getMaxRenderbufferSamples();
+  }
+ else {
+    return Integer.MAX_VALUE;
+  }
+}
