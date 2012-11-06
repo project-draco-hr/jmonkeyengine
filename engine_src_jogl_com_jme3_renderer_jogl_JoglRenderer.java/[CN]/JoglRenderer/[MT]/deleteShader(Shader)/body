@@ -6,11 +6,11 @@
   GL gl=GLContext.getCurrentGL();
   for (  ShaderSource source : shader.getSources()) {
     if (source.getId() != -1) {
-      gl.getGL2().glDetachShader(shader.getId(),source.getId());
+      gl.getGL2GL3().glDetachShader(shader.getId(),source.getId());
       deleteShaderSource(source);
     }
   }
-  gl.getGL2().glDeleteProgram(shader.getId());
+  gl.getGL2GL3().glDeleteProgram(shader.getId());
   statistics.onDeleteShader();
   shader.resetObject();
 }

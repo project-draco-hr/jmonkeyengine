@@ -7,7 +7,7 @@
     }
     setFrameBuffer(fb);
     if (context.boundReadBuf != rb.getSlot()) {
-      gl.getGL2().glReadBuffer(GL.GL_COLOR_ATTACHMENT0 + rb.getSlot());
+      gl.getGL2GL3().glReadBuffer(GL.GL_COLOR_ATTACHMENT0 + rb.getSlot());
       context.boundReadBuf=rb.getSlot();
     }
   }

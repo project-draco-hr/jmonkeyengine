@@ -19,7 +19,7 @@
     if (maxFBOSamples < samples) {
       samples=maxFBOSamples;
     }
-    gl.getGL2().glRenderbufferStorageMultisample(GL.GL_RENDERBUFFER,samples,glFmt.internalFormat,fb.getWidth(),fb.getHeight());
+    gl.getGL2GL3().glRenderbufferStorageMultisample(GL.GL_RENDERBUFFER,samples,glFmt.internalFormat,fb.getWidth(),fb.getHeight());
   }
  else {
     gl.glRenderbufferStorage(GL.GL_RENDERBUFFER,glFmt.internalFormat,fb.getWidth(),fb.getHeight());

@@ -3,7 +3,7 @@
   int id=shader.getId();
   boolean needRegister=false;
   if (id == -1) {
-    id=gl.getGL2().glCreateProgram();
+    id=gl.getGL2GL3().glCreateProgram();
     if (id == 0) {
       throw new RendererException("Invalid ID (" + id + ") received when trying to create shader program.");
     }
@@ -14,24 +14,24 @@
     if (source.isUpdateNeeded()) {
       updateShaderSourceData(source);
     }
-    gl.getGL2().glAttachShader(id,source.getId());
+    gl.getGL2GL3().glAttachShader(id,source.getId());
   }
   if (caps.contains(Caps.OpenGL30)) {
-    gl.getGL2().glBindFragDataLocation(id,0,"outFragColor");
+    gl.getGL2GL3().glBindFragDataLocation(id,0,"outFragColor");
     for (int i=0; i < maxMRTFBOAttachs; i++) {
-      gl.getGL2().glBindFragDataLocation(id,i,"outFragData[" + i + "]");
+      gl.getGL2GL3().glBindFragDataLocation(id,i,"outFragData[" + i + "]");
     }
   }
-  gl.getGL2().glLinkProgram(id);
-  gl.getGL2().glGetProgramiv(id,GL2.GL_LINK_STATUS,intBuf1);
+  gl.getGL2GL3().glLinkProgram(id);
+  gl.getGL2GL3().glGetProgramiv(id,GL2.GL_LINK_STATUS,intBuf1);
   boolean linkOK=intBuf1.get(0) == GL.GL_TRUE;
   String infoLog=null;
   if (VALIDATE_SHADER || !linkOK) {
-    gl.getGL2().glGetProgramiv(id,GL2.GL_INFO_LOG_LENGTH,intBuf1);
+    gl.getGL2GL3().glGetProgramiv(id,GL2.GL_INFO_LOG_LENGTH,intBuf1);
     int length=intBuf1.get(0);
     if (length > 3) {
       ByteBuffer logBuf=BufferUtils.createByteBuffer(length);
-      gl.getGL2().glGetProgramInfoLog(id,length,null,logBuf);
+      gl.getGL2GL3().glGetProgramInfoLog(id,length,null,logBuf);
       byte[] logBytes=new byte[length];
       logBuf.get(logBytes,0,length);
       infoLog=new String(logBytes);
