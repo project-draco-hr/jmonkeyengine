@@ -10,16 +10,4 @@
   jTextPane1.setDocument(parser.getDocument());
   jTextPane1.addHyperlinkListener(this);
   jEditorPane1.addHyperlinkListener(this);
-  try {
-    jEditorPane1.setPage(new URL("http://jmonkeyengine.org/wiki/doku.php/sdk:welcome?do=export_xhtmlbody"));
-  }
- catch (  IOException ex) {
-    try {
-      jEditorPane1.setPage(new URL("nbres:/com/jme3/gde/core/docs/core-about.html"));
-    }
- catch (    IOException ex1) {
-      Exceptions.printStackTrace(ex1);
-    }
-  }
-  parser.updateFeed();
 }
