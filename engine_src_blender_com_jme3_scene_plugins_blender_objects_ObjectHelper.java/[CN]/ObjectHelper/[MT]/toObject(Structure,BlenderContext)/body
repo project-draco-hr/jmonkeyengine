@@ -9,7 +9,7 @@
   LOGGER.log(Level.INFO,"Loading obejct: {0}",name);
   int restrictflag=((Number)objectStructure.getFieldValue("restrictflag")).intValue();
   boolean visible=(restrictflag & 0x01) != 0;
-  Object result=null;
+  Node result=null;
   Pointer pParent=(Pointer)objectStructure.getFieldValue("parent");
   Object parent=blenderContext.getLoadedFeature(pParent.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
   if (parent == null && pParent.isNotNull()) {
@@ -26,7 +26,6 @@ case OBJECT_TYPE_EMPTY:
 if (parent instanceof Node) {
   ((Node)parent).attachChild(empty);
 }
-empty.updateModelBound();
 result=empty;
 break;
 case OBJECT_TYPE_MESH:
@@ -51,7 +50,6 @@ modifier.apply(node,blenderContext);
 if (parent instanceof Node) {
 ((Node)parent).attachChild(node);
 }
-node.updateModelBound();
 result=node;
 break;
 case OBJECT_TYPE_SURF:
@@ -101,7 +99,6 @@ armature.setUserData(ArmatureHelper.ARMETURE_NODE_MARKER,Boolean.TRUE);
 if (parent instanceof Node) {
 ((Node)parent).attachChild(armature);
 }
-armature.updateModelBound();
 result=armature;
 break;
 default :
@@ -112,6 +109,7 @@ LOGGER.log(Level.WARNING,"Unknown object type: {0}",type);
 blenderContext.popParent();
 }
 if (result != null) {
+result.updateModelBound();
 blenderContext.addLoadedFeatures(objectStructure.getOldMemoryAddress(),name,objectStructure,result);
 ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
 constraintHelper.loadConstraints(objectStructure,blenderContext);
