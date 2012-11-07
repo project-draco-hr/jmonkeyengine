@@ -20,6 +20,7 @@
   Vector3f loc=plane.reflect(sceneCam.getLocation(),new Vector3f());
   reflectionCam.setLocation(loc);
   reflectionCam.setFrustum(sceneCam.getFrustumNear(),sceneCam.getFrustumFar(),sceneCam.getFrustumLeft(),sceneCam.getFrustumRight(),sceneCam.getFrustumTop(),sceneCam.getFrustumBottom());
+  reflectionCam.setParallelProjection(false);
   TempVars vars=TempVars.get();
   vars.vect1.set(sceneCam.getLocation()).addLocal(sceneCam.getUp());
   float planeDistance=plane.pseudoDistance(vars.vect1);

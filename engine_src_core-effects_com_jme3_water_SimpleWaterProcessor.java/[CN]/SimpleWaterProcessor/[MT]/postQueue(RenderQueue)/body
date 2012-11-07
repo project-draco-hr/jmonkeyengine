@@ -5,6 +5,7 @@
   refractionCam.setLocation(sceneCam.getLocation());
   refractionCam.setRotation(sceneCam.getRotation());
   refractionCam.setFrustum(sceneCam.getFrustumNear(),sceneCam.getFrustumFar(),sceneCam.getFrustumLeft(),sceneCam.getFrustumRight(),sceneCam.getFrustumTop(),sceneCam.getFrustumBottom());
+  refractionCam.setParallelProjection(false);
   boolean inv=false;
   if (!ray.intersectsWherePlane(plane,targetLocation)) {
     ray.setDirection(ray.getDirection().negateLocal());
@@ -14,6 +15,7 @@
   Vector3f loc=plane.reflect(sceneCam.getLocation(),new Vector3f());
   reflectionCam.setLocation(loc);
   reflectionCam.setFrustum(sceneCam.getFrustumNear(),sceneCam.getFrustumFar(),sceneCam.getFrustumLeft(),sceneCam.getFrustumRight(),sceneCam.getFrustumTop(),sceneCam.getFrustumBottom());
+  reflectionCam.setParallelProjection(false);
   vect1.set(sceneCam.getLocation()).addLocal(sceneCam.getUp());
   float planeDistance=plane.pseudoDistance(vect1);
   vect2.set(plane.getNormal()).multLocal(planeDistance * 2.0f);
