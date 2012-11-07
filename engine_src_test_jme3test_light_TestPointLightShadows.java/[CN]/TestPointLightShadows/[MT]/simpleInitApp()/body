@@ -18,14 +18,14 @@
   box.setLocalTranslation(-1f,0.5f,-2);
   plsr=new PointLightShadowRenderer(assetManager,512);
   plsr.setLight((PointLight)scene.getLocalLightList().get(0));
-  plsr.setFilterMode(PointLightShadowRenderer.FilterMode.Nearest);
+  plsr.setEdgeFilteringMode(EdgeFilteringMode.Nearest);
   viewPort.addProcessor(plsr);
   plsf=new PointLightShadowFilter(assetManager,512);
   plsf.setLight((PointLight)scene.getLocalLightList().get(0));
-  plsf.setFilterMode(PointLightShadowRenderer.FilterMode.Nearest);
+  plsf.setEdgeFilteringMode(EdgeFilteringMode.Nearest);
   plsf.setEnabled(false);
   FilterPostProcessor fpp=new FilterPostProcessor(assetManager);
   fpp.addFilter(plsf);
   viewPort.addProcessor(fpp);
-  initUIAndInputs();
+  ShadowTestUIManager uiMan=new ShadowTestUIManager(assetManager,plsr,plsf,guiNode,inputManager,viewPort);
 }

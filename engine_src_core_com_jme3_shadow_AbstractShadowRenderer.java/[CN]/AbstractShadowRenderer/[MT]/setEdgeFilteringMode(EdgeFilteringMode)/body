@@ -1,0 +1,23 @@
+{
+  if (filterMode == null) {
+    throw new NullPointerException();
+  }
+  if (this.edgeFilteringMode == filterMode) {
+    return;
+  }
+  this.edgeFilteringMode=filterMode;
+  postshadowMat.setInt("FilterMode",filterMode.getMaterialParamValue());
+  postshadowMat.setFloat("PCFEdge",edgesThickness);
+  if (shadowCompareMode == CompareMode.Hardware) {
+    for (    Texture2D shadowMap : shadowMaps) {
+      if (filterMode == EdgeFilteringMode.Bilinear) {
+        shadowMap.setMagFilter(MagFilter.Bilinear);
+        shadowMap.setMinFilter(MinFilter.BilinearNoMipMaps);
+      }
+ else {
+        shadowMap.setMagFilter(MagFilter.Nearest);
+        shadowMap.setMinFilter(MinFilter.NearestNoMipMaps);
+      }
+    }
+  }
+}

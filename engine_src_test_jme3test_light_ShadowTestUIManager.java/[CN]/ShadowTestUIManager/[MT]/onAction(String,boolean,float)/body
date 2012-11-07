@@ -1,0 +1,55 @@
+{
+  if (name.equals("toggle") && keyPressed) {
+    renderModeIndex+=1;
+    renderModeIndex%=3;
+switch (renderModeIndex) {
+case 0:
+      viewPort.addProcessor(plsr);
+    shadowTypeText.setText(TYPE_TEXT + "Processor");
+  break;
+case 1:
+viewPort.removeProcessor(plsr);
+plsf.setEnabled(true);
+shadowTypeText.setText(TYPE_TEXT + "Filter");
+break;
+case 2:
+plsf.setEnabled(false);
+shadowTypeText.setText(TYPE_TEXT + "None");
+break;
+}
+}
+ else if (name.equals("toggleHW") && keyPressed) {
+hardwareShadows=!hardwareShadows;
+plsr.setShadowCompareMode(hardwareShadows ? CompareMode.Hardware : CompareMode.Software);
+plsf.setShadowCompareMode(hardwareShadows ? CompareMode.Hardware : CompareMode.Software);
+shadowCompareText.setText(COMPARE_TEXT + (hardwareShadows ? "Hardware" : "Software"));
+}
+if (name.equals("changeFiltering") && keyPressed) {
+filteringIndex=plsr.getEdgeFilteringMode().ordinal();
+filteringIndex=(filteringIndex + 1) % EdgeFilteringMode.values().length;
+EdgeFilteringMode m=EdgeFilteringMode.values()[filteringIndex];
+plsr.setEdgeFilteringMode(m);
+plsf.setEdgeFilteringMode(m);
+shadowFilterText.setText(FILTERING_TEXT + m.toString());
+}
+if (name.equals("ShadowUp") && keyPressed) {
+plsr.setShadowIntensity(plsr.getShadowIntensity() + 0.1f);
+plsf.setShadowIntensity(plsf.getShadowIntensity() + 0.1f);
+shadowIntensityText.setText(INTENSITY_TEXT + plsr.getShadowIntensity());
+}
+if (name.equals("ShadowDown") && keyPressed) {
+plsr.setShadowIntensity(plsr.getShadowIntensity() - 0.1f);
+plsf.setShadowIntensity(plsf.getShadowIntensity() - 0.1f);
+shadowIntensityText.setText(INTENSITY_TEXT + plsr.getShadowIntensity());
+}
+if (name.equals("ThicknessUp") && keyPressed) {
+plsr.setEdgesThickness(plsr.getEdgesThickness() + 1);
+plsf.setEdgesThickness(plsf.getEdgesThickness() + 1);
+System.out.println("Shadow thickness : " + plsr.getEdgesThickness());
+}
+if (name.equals("ThicknessDown") && keyPressed) {
+plsr.setEdgesThickness(plsr.getEdgesThickness() - 1);
+plsf.setEdgesThickness(plsf.getEdgesThickness() - 1);
+System.out.println("Shadow thickness : " + plsr.getEdgesThickness());
+}
+}

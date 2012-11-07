@@ -1,0 +1,17 @@
+{
+  if (light == null) {
+    throw new IllegalStateException("The light can't be null for a " + this.getClass().getName());
+  }
+  shadowCams[0].setAxes(Vector3f.UNIT_X.mult(-1f),Vector3f.UNIT_Z.mult(-1f),Vector3f.UNIT_Y.mult(-1f));
+  shadowCams[1].setAxes(Vector3f.UNIT_X.mult(-1f),Vector3f.UNIT_Z,Vector3f.UNIT_Y);
+  shadowCams[2].setAxes(Vector3f.UNIT_X.mult(-1f),Vector3f.UNIT_Y,Vector3f.UNIT_Z.mult(-1f));
+  shadowCams[3].setAxes(Vector3f.UNIT_X,Vector3f.UNIT_Y,Vector3f.UNIT_Z);
+  shadowCams[4].setAxes(Vector3f.UNIT_Z,Vector3f.UNIT_Y,Vector3f.UNIT_X.mult(-1f));
+  shadowCams[5].setAxes(Vector3f.UNIT_Z.mult(-1f),Vector3f.UNIT_Y,Vector3f.UNIT_X);
+  for (int i=0; i < CAM_NUMBER; i++) {
+    shadowCams[i].setFrustumPerspective(90f,1f,0.1f,light.getRadius());
+    shadowCams[i].setLocation(light.getPosition());
+    shadowCams[i].update();
+    shadowCams[i].updateViewProjection();
+  }
+}

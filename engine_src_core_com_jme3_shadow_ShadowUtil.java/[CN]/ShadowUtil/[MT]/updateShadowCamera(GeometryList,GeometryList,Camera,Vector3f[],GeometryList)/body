@@ -4,9 +4,6 @@
   if (ortho) {
     shadowCam.setFrustum(-1,1,-1,1,1,-1);
   }
- else {
-    shadowCam.setFrustumPerspective(45,1,1,150);
-  }
   Matrix4f viewProjMatrix=shadowCam.getViewProjectionMatrix();
   BoundingBox splitBB=computeBoundForPoints(points,viewProjMatrix);
   ArrayList<BoundingVolume> visRecvList=new ArrayList<BoundingVolume>();
@@ -59,9 +56,6 @@
   Vector3f splitMin=splitBB.getMin(vars.vect5);
   Vector3f splitMax=splitBB.getMax(vars.vect6);
   splitMin.z=0;
-  if (!ortho) {
-    shadowCam.setFrustumPerspective(45,1,1,splitMax.z);
-  }
   Matrix4f projMatrix=shadowCam.getProjectionMatrix();
   Vector3f cropMin=vars.vect7;
   Vector3f cropMax=vars.vect8;

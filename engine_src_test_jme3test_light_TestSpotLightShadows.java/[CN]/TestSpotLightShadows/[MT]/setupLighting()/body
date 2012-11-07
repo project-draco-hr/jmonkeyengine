@@ -1,0 +1,44 @@
+{
+  AmbientLight al=new AmbientLight();
+  al.setColor(ColorRGBA.White.mult(0.3f));
+  rootNode.addLight(al);
+  rootNode.setShadowMode(ShadowMode.CastAndReceive);
+  spot=new SpotLight();
+  spot.setSpotRange(1000);
+  spot.setSpotInnerAngle(5f * FastMath.DEG_TO_RAD);
+  spot.setSpotOuterAngle(10 * FastMath.DEG_TO_RAD);
+  spot.setPosition(new Vector3f(70.70334f,34.013165f,27.1017f));
+  spot.setDirection(lightTarget.subtract(spot.getPosition()));
+  spot.setColor(ColorRGBA.White.mult(2));
+  rootNode.addLight(spot);
+  lightMdl=new Geometry("Light",new Sphere(10,10,0.1f));
+  lightMdl.setMaterial(assetManager.loadMaterial("Common/Materials/RedColor.j3m"));
+  lightMdl.setLocalTranslation(new Vector3f(77.70334f,34.013165f,27.1017f));
+  lightMdl.setLocalScale(5);
+  rootNode.attachChild(lightMdl);
+  final SpotLightShadowRenderer slsr=new SpotLightShadowRenderer(assetManager,512);
+  slsr.setLight(spot);
+  slsr.setShadowIntensity(0.5f);
+  slsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
+  viewPort.addProcessor(slsr);
+  SpotLightShadowFilter slsf=new SpotLightShadowFilter(assetManager,512);
+  slsf.setLight(spot);
+  slsf.setShadowIntensity(0.5f);
+  slsf.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
+  slsf.setEnabled(false);
+  FilterPostProcessor fpp=new FilterPostProcessor(assetManager);
+  fpp.addFilter(slsf);
+  viewPort.addProcessor(fpp);
+  ShadowTestUIManager uiMan=new ShadowTestUIManager(assetManager,slsr,slsf,guiNode,inputManager,viewPort);
+  inputManager.addListener(new ActionListener(){
+    public void onAction(    String name,    boolean isPressed,    float tpf){
+      if (name.equals("stop") && isPressed) {
+        stop=!stop;
+        System.out.println("pos : " + spot.getPosition());
+        System.out.println("dir : " + spot.getDirection());
+      }
+    }
+  }
+,"stop");
+  inputManager.addMapping("stop",new KeyTrigger(KeyInput.KEY_1));
+}

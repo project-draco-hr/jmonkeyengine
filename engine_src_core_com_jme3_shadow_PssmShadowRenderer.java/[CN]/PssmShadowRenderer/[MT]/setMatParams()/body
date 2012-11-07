@@ -13,33 +13,19 @@
     }
   }
   for (  Material mat : matCache) {
-    if (mat.getParam("Splits") == null) {
-      mat.setColor("Splits",splits);
-    }
-    if (mat.getParam("ShadowMapSize") == null) {
-      mat.setFloat("ShadowMapSize",shadowMapSize);
-    }
+    mat.setColor("Splits",splits);
+    mat.setFloat("ShadowMapSize",shadowMapSize);
     for (int j=0; j < nbSplits; j++) {
       mat.setMatrix4("LightViewProjectionMatrix" + j,lightViewProjectionsMatrices[j]);
     }
-    if (mat.getParam("ShadowMap0") == null) {
-      for (int j=0; j < nbSplits; j++) {
-        mat.setTexture("ShadowMap" + j,shadowMaps[j]);
-      }
+    for (int j=0; j < nbSplits; j++) {
+      mat.setTexture("ShadowMap" + j,shadowMaps[j]);
     }
-    if (applyHWShadows || mat.getParam("HardwareShadows") == null) {
-      mat.setBoolean("HardwareShadows",compareMode == CompareMode.Hardware);
-    }
-    if (applyFilterMode || mat.getParam("FilterMode") == null) {
-      mat.setInt("FilterMode",filterMode.ordinal());
-    }
-    if (mat.getParam("PCFEdge") == null || applyPCFEdge) {
-      mat.setFloat("PCFEdge",edgesThickness);
-    }
-    if (mat.getParam("ShadowIntensity") == null || applyShadowIntensity) {
-      mat.setFloat("ShadowIntensity",shadowIntensity);
-    }
-    if (fadeInfo != null && mat.getParam("FadeInfo") == null || applyFadeInfo) {
+    mat.setBoolean("HardwareShadows",compareMode == CompareMode.Hardware);
+    mat.setInt("FilterMode",filterMode.ordinal());
+    mat.setFloat("PCFEdge",edgesThickness);
+    mat.setFloat("ShadowIntensity",shadowIntensity);
+    if (fadeInfo != null) {
       mat.setVector2("FadeInfo",fadeInfo);
     }
   }

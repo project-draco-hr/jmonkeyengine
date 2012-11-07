@@ -1,3 +1,7 @@
 {
-  this(manager,size,new Material(manager,"Common/MatDefs/Shadow/PostShadowPSSM.j3md"));
+  super(assetManager,shadowMapSize,CAM_NUMBER);
+  shadowCams=new Camera[CAM_NUMBER];
+  for (int i=0; i < CAM_NUMBER; i++) {
+    shadowCams[i]=new Camera(shadowMapSize,shadowMapSize);
+  }
 }

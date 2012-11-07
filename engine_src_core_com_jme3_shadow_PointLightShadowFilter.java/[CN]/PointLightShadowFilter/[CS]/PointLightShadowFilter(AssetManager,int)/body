@@ -1,6 +1,3 @@
 {
-  super("Post Shadow");
-  material=new Material(manager,"Common/MatDefs/Shadow/PostShadowFilter.j3md");
-  plRenderer=new PointLightShadowRenderer(manager,size,material);
-  plRenderer.needsfallBackMaterial=true;
+  super(assetManager,shadowMapSize,new PointLightShadowRenderer(assetManager,shadowMapSize));
 }

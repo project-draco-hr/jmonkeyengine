@@ -38,10 +38,16 @@ ShadowUtil.updateFrustumPoints(viewCam,splitsArray[i],splitsArray[i + 1],1.0f,po
 ShadowUtil.updateShadowCamera(occluders,receivers,shadowCam,points,splitOccluders);
 lightViewProjectionsMatrices[i].set(shadowCam.getViewProjectionMatrix());
 renderManager.setCamera(shadowCam,false);
+if (debugfrustums) {
+((Node)viewPort.getScenes().get(0)).attachChild(createFrustum(points,i));
+ShadowUtil.updateFrustumPoints2(shadowCam,points);
+((Node)viewPort.getScenes().get(0)).attachChild(createFrustum(points,i));
+}
 r.setFrameBuffer(shadowFB[i]);
 r.clearBuffers(false,true,false);
 viewPort.getQueue().renderShadowQueue(splitOccluders,renderManager,shadowCam,true);
 }
+debugfrustums=false;
 if (flushQueues) {
 occluders.clear();
 }
