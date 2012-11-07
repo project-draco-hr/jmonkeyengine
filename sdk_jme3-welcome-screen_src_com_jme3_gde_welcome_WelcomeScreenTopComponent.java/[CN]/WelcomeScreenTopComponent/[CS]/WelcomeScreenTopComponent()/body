@@ -1,13 +1,32 @@
 {
   initComponents();
+  setName(Bundle.CTL_WelcomeScreenTopComponent());
+  setToolTipText(Bundle.HINT_WelcomeScreenTopComponent());
   jScrollPane2.setOpaque(false);
   jScrollPane2.getViewport().setOpaque(false);
   jScrollPane3.setOpaque(false);
   jScrollPane3.getViewport().setOpaque(false);
-  setName(Bundle.CTL_WelcomeScreenTopComponent());
-  setToolTipText(Bundle.HINT_WelcomeScreenTopComponent());
+  jTextPane1.putClientProperty(SwingUtilities2.AA_TEXT_PROPERTY_KEY,null);
+  jEditorPane1.putClientProperty(SwingUtilities2.AA_TEXT_PROPERTY_KEY,null);
   jTextPane1.setEditorKit(parser.getEditorKit());
   jTextPane1.setDocument(parser.getDocument());
   jTextPane1.addHyperlinkListener(this);
-  jEditorPane1.addHyperlinkListener(this);
+  jEditorPane1.addHyperlinkListener(new HyperlinkListener(){
+    public void hyperlinkUpdate(    HyperlinkEvent he){
+      if (he.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+        try {
+          jEditorPane1.setPage(he.getURL());
+        }
+ catch (        IOException ex) {
+          try {
+            jEditorPane1.setPage(new URL(org.openide.util.NbBundle.getMessage(WelcomeScreenTopComponent.class,"WelcomeScreenTopComponent.local.link")));
+          }
+ catch (          IOException ex1) {
+            Exceptions.printStackTrace(ex1);
+          }
+        }
+      }
+    }
+  }
+);
 }
