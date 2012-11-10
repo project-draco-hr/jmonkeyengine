@@ -32,6 +32,9 @@
   }
  else {
   }
+  if (img.getWidth() > maxTexSize || img.getHeight() > maxTexSize) {
+    throw new RendererException("Cannot upload texture " + img + ". The maximum supported texture resolution is "+ maxTexSize);
+  }
   TextureUtil.uploadTexture(img,target,0,0);
   img.clearUpdateNeeded();
 }

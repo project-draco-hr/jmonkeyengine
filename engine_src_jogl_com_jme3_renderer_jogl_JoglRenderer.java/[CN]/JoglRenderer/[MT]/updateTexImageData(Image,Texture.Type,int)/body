@@ -56,6 +56,16 @@
     }
   }
   if (target == GL.GL_TEXTURE_CUBE_MAP) {
+    if (img.getWidth() > maxCubeTexSize || img.getHeight() > maxCubeTexSize) {
+      throw new RendererException("Cannot upload cubemap " + img + ". The maximum supported cubemap resolution is "+ maxCubeTexSize);
+    }
+  }
+ else {
+    if (img.getWidth() > maxTexSize || img.getHeight() > maxTexSize) {
+      throw new RendererException("Cannot upload texture " + img + ". The maximum supported texture resolution is "+ maxTexSize);
+    }
+  }
+  if (target == GL.GL_TEXTURE_CUBE_MAP) {
     List<ByteBuffer> data=img.getData();
     if (data.size() != 6) {
       logger.log(Level.WARNING,"Invalid texture: {0}\n" + "Cubemap textures must contain 6 data units.",img);
