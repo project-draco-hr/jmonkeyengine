@@ -1,45 +1,56 @@
 {
-  if ((Pbuffer.getCapabilities() & Pbuffer.PBUFFER_SUPPORTED) == 0) {
-    return Integer.MAX_VALUE;
-  }
- else {
-    Pbuffer pb=null;
-    try {
-      pb=new Pbuffer(1,1,new PixelFormat(0,0,0),null);
-      pb.makeCurrent();
+  boolean displayWasCurrent=false;
+  try {
+    if (Display.isCreated() && Display.isCurrent()) {
       if (GLContext.getCapabilities().GL_ARB_framebuffer_object) {
         return GL11.glGetInteger(ARBFramebufferObject.GL_MAX_SAMPLES);
       }
  else       if (GLContext.getCapabilities().GL_EXT_framebuffer_multisample) {
         return GL11.glGetInteger(EXTFramebufferMultisample.GL_MAX_SAMPLES_EXT);
       }
+      displayWasCurrent=true;
     }
- catch (    LWJGLException ex) {
-      return Integer.MAX_VALUE;
-    }
- finally {
-      if (pb != null) {
-        pb.destroy();
-        pb=null;
-      }
-    }
-    requestedSamples=FastMath.nearestPowerOfTwo(requestedSamples);
-    while (requestedSamples > 1) {
+  }
+ catch (  LWJGLException ex) {
+    listener.handleError("Failed to check if display is current",ex);
+  }
+  if ((Pbuffer.getCapabilities() & Pbuffer.PBUFFER_SUPPORTED) == 0) {
+    return Integer.MAX_VALUE;
+  }
+ else {
+    Pbuffer pb=null;
+    if (!displayWasCurrent) {
       try {
-        pb=new Pbuffer(1,1,new PixelFormat(0,0,0,requestedSamples),null);
+        pb=new Pbuffer(1,1,new PixelFormat(0,0,0),null);
+        pb.makeCurrent();
+        if (GLContext.getCapabilities().GL_ARB_framebuffer_object) {
+          return GL11.glGetInteger(ARBFramebufferObject.GL_MAX_SAMPLES);
+        }
+ else         if (GLContext.getCapabilities().GL_EXT_framebuffer_multisample) {
+          return GL11.glGetInteger(EXTFramebufferMultisample.GL_MAX_SAMPLES_EXT);
+        }
       }
  catch (      LWJGLException ex) {
-        if (ex.getMessage().startsWith("Failed to find ARB pixel format")) {
-          requestedSamples/=2;
-        }
- else {
-          return Integer.MAX_VALUE;
-        }
+        return Integer.MAX_VALUE;
       }
  finally {
         if (pb != null) {
           pb.destroy();
           pb=null;
+        }
+      }
+    }
+    requestedSamples=FastMath.nearestPowerOfTwo(requestedSamples);
+    try {
+      requestedSamples=Integer.MAX_VALUE;
+    }
+  finally {
+      if (displayWasCurrent) {
+        try {
+          Display.makeCurrent();
+        }
+ catch (        LWJGLException ex) {
+          listener.handleError("Failed to make display current after checking samples",ex);
         }
       }
     }
