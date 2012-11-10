@@ -1,7 +1,7 @@
 {
   GeometryList occluders=rq.getShadowQueueContent(ShadowMode.Cast);
-  GeometryList receivers=rq.getShadowQueueContent(ShadowMode.Receive);
-  if (receivers.size() == 0 || occluders.size() == 0) {
+  sceneReceivers=rq.getShadowQueueContent(ShadowMode.Receive);
+  if (sceneReceivers.size() == 0 || occluders.size() == 0) {
     return;
   }
   updateShadowCams(viewPort.getCamera());
@@ -12,7 +12,7 @@
     if (debugfrustums) {
       doDisplayFrustumDebug(shadowMapIndex);
     }
-    renderShadowMap(shadowMapIndex,occluders,receivers);
+    renderShadowMap(shadowMapIndex,occluders,sceneReceivers);
   }
   debugfrustums=false;
   if (flushQueues) {

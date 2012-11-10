@@ -2,14 +2,18 @@
   if (debug) {
     displayShadowMap(renderManager.getRenderer());
   }
-  if (!noOccluders) {
+  lightReceivers=getReceivers(sceneReceivers,lightReceivers);
+  if (lightReceivers.size() != 0) {
     setMatParams();
     Camera cam=viewPort.getCamera();
     if (needsfallBackMaterial) {
       renderManager.setForcedMaterial(postshadowMat);
     }
     renderManager.setForcedTechnique(postTechniqueName);
-    viewPort.getQueue().renderShadowQueue(ShadowMode.Receive,renderManager,cam,flushQueues);
+    viewPort.getQueue().renderShadowQueue(lightReceivers,renderManager,cam,true);
+    if (flushQueues) {
+      sceneReceivers.clear();
+    }
     renderManager.setForcedTechnique(null);
     renderManager.setForcedMaterial(null);
     renderManager.setCamera(cam,false);
