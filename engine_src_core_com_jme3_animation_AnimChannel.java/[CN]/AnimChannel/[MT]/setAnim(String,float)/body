@@ -1,5 +1,5 @@
 {
-  if (name == null)   throw new NullPointerException();
+  if (name == null)   throw new IllegalArgumentException("name cannot be null");
   if (blendTime < 0f)   throw new IllegalArgumentException("blendTime cannot be less than zero");
   Animation anim=control.animationMap.get(name);
   if (anim == null)   throw new IllegalArgumentException("Cannot find animation named: '" + name + "'");

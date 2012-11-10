@@ -1,5 +1,5 @@
 {
-  if (child == null)   throw new NullPointerException();
+  if (child == null)   throw new IllegalArgumentException("child cannot be null");
   if (child.getParent() != this && child != this) {
     if (child.getParent() != null) {
       child.getParent().detachChild(child);
