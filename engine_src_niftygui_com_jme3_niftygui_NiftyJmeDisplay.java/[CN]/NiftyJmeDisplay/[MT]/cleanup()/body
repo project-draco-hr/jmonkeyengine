@@ -1,4 +1,7 @@
 {
   inited=false;
   inputSys.reset();
+  if (inputManager != null) {
+    inputManager.removeRawInputListener(inputSys);
+  }
 }
