@@ -33,6 +33,6 @@
     }
   }
  else {
-    GLES20.glDrawElements(convertElementMode(mesh.getMode()),indexBuf.getData().capacity(),convertFormat(indexBuf.getFormat()),indexBuf.getData());
+    GLES20.glDrawElements(convertElementMode(mesh.getMode()),indexBuf.getData().limit(),convertFormat(indexBuf.getFormat()),indexBuf.getData());
   }
 }

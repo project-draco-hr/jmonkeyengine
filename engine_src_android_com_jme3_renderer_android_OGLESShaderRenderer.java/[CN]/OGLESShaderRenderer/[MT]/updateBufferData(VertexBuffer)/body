@@ -24,9 +24,9 @@
     }
   }
   int usage=convertUsage(vb.getUsage());
-  vb.getData().clear();
+  vb.getData().rewind();
   if (created || vb.hasDataSizeChanged()) {
-    int size=vb.getData().capacity() * vb.getFormat().getComponentSize();
+    int size=vb.getData().limit() * vb.getFormat().getComponentSize();
 switch (vb.getFormat()) {
 case Byte:
 case UnsignedByte:
@@ -51,7 +51,7 @@ throw new RuntimeException("Unknown buffer format.");
 }
 }
  else {
-int size=vb.getData().capacity() * vb.getFormat().getComponentSize();
+int size=vb.getData().limit() * vb.getFormat().getComponentSize();
 switch (vb.getFormat()) {
 case Byte:
 case UnsignedByte:
