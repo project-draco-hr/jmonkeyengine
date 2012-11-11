@@ -3,5 +3,8 @@
   if (statsView != null) {
     statsView.setEnabled(show);
     statsView.setCullHint(show ? CullHint.Never : CullHint.Always);
+    if (darkenStats != null) {
+      darkenStats.setCullHint(showStats && darkenBehind ? CullHint.Never : CullHint.Always);
+    }
   }
 }

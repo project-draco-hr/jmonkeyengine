@@ -2,5 +2,8 @@
   showFps=show;
   if (fpsText != null) {
     fpsText.setCullHint(show ? CullHint.Never : CullHint.Always);
+    if (darkenFps != null) {
+      darkenFps.setCullHint(showFps && darkenBehind ? CullHint.Never : CullHint.Always);
+    }
   }
 }
