@@ -1,10 +1,13 @@
 {
-  if (!created.get())   throw new IllegalStateException();
+  if (!created.get()) {
+    throw new IllegalStateException();
+  }
   if (pbuffer.isBufferLost()) {
     pbuffer.destroy();
     try {
       pbuffer=new Pbuffer(width,height,pixelFormat,null);
       pbuffer.makeCurrent();
+      renderer.invalidateState();
     }
  catch (    LWJGLException ex) {
       listener.handleError("Failed to restore pbuffer content",ex);
