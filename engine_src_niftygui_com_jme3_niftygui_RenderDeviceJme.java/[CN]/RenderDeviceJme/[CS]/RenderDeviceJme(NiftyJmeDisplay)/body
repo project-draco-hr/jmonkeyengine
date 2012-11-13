@@ -7,6 +7,6 @@
   quad.setBuffer(quadColor);
   quadModTC.setUsage(Usage.Stream);
   unshadedMat=new Material(display.getAssetManager(),"Common/MatDefs/Misc/Unshaded.j3md");
-  unshadedMat.getAdditionalRenderState().setDepthTest(false);
-  unshadedMat.getAdditionalRenderState().setDepthWrite(false);
+  renderState.setDepthTest(false);
+  renderState.setDepthWrite(false);
 }

@@ -1,8 +1,5 @@
 {
-  if (str.length() == 0) {
-    return;
-  }
-  if (font instanceof RenderFontNull) {
+  if (str.length() == 0 || font instanceof RenderFontNull) {
     return;
   }
   RenderFontJme jmeFont=(RenderFontJme)font;
@@ -22,5 +19,6 @@
   tempMat.setTranslation(x0,getHeight() - y0,0);
   tempMat.setScale(sizeX,sizeY,0);
   rm.setWorldMatrix(tempMat);
+  rm.setForcedRenderState(renderState);
   text.render(rm,colorRgba);
 }

@@ -7,7 +7,6 @@
   buf.putInt(convertColor(bottomRight));
   buf.flip();
   quadColor.updateData(buf);
-  unshadedMat.getAdditionalRenderState().setBlendMode(convertBlend());
   unshadedMat.setColor("Color",ColorRGBA.White);
   unshadedMat.setTexture("ColorMap",null);
   unshadedMat.setBoolean("VertexColor",true);
@@ -15,5 +14,6 @@
   tempMat.setTranslation(x,getHeight() - y,0);
   tempMat.setScale(width,height,0);
   rm.setWorldMatrix(tempMat);
+  rm.setForcedRenderState(renderState);
   unshadedMat.render(quadGeom,rm);
 }

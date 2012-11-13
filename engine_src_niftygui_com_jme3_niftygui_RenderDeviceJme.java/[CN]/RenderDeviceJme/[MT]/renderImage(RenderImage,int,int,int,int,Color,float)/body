@@ -1,6 +1,5 @@
 {
   RenderImageJme jmeImage=(RenderImageJme)image;
-  unshadedMat.getAdditionalRenderState().setBlendMode(convertBlend());
   unshadedMat.setColor("Color",convertColor(color,tempColor));
   unshadedMat.setTexture("ColorMap",jmeImage.getTexture());
   unshadedMat.setBoolean("VertexColor",false);
@@ -12,5 +11,6 @@
   tempMat.setTranslation(x0,getHeight() - y0,0);
   tempMat.setScale(width * imageScale,height * imageScale,0);
   rm.setWorldMatrix(tempMat);
+  rm.setForcedRenderState(renderState);
   unshadedMat.render(quadGeom,rm);
 }
