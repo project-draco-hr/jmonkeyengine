@@ -1,11 +1,9 @@
 {
-  unshadedMat.setColor("Color",convertColor(color,tempColor));
-  unshadedMat.setTexture("ColorMap",null);
-  unshadedMat.setBoolean("VertexColor",false);
+  colorMaterial.setColor("Color",convertColor(color,tempColor));
   tempMat.loadIdentity();
   tempMat.setTranslation(x,getHeight() - y,0);
   tempMat.setScale(width,height,0);
   rm.setWorldMatrix(tempMat);
   rm.setForcedRenderState(renderState);
-  unshadedMat.render(quadGeom,rm);
+  colorMaterial.render(quadGeom,rm);
 }

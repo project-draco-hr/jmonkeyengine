@@ -1,8 +1,7 @@
 {
   RenderImageJme jmeImage=(RenderImageJme)image;
-  unshadedMat.setColor("Color",convertColor(color,tempColor));
-  unshadedMat.setTexture("ColorMap",jmeImage.getTexture());
-  unshadedMat.setBoolean("VertexColor",false);
+  textureColorMaterial.setColor("Color",convertColor(color,tempColor));
+  textureColorMaterial.setTexture("ColorMap",jmeImage.getTexture());
   quad.clearBuffer(Type.TexCoord);
   quad.setBuffer(quadDefaultTC);
   float x0=x + 0.5f * width * (1f - imageScale);
@@ -12,5 +11,5 @@
   tempMat.setScale(width * imageScale,height * imageScale,0);
   rm.setWorldMatrix(tempMat);
   rm.setForcedRenderState(renderState);
-  unshadedMat.render(quadGeom,rm);
+  textureColorMaterial.render(quadGeom,rm);
 }

@@ -12,13 +12,14 @@
     text.updateLogicalState(0);
   }
   textCacheCurrentFrame.put(key,text);
-  float width=text.getLineWidth();
-  float x0=x + 0.5f * width * (1f - sizeX);
+  float x0=x;
   float y0=y;
   tempMat.loadIdentity();
   tempMat.setTranslation(x0,getHeight() - y0,0);
   tempMat.setScale(sizeX,sizeY,0);
   rm.setWorldMatrix(tempMat);
   rm.setForcedRenderState(renderState);
+  text.setColor(colorRgba);
+  text.updateLogicalState(0);
   text.render(rm,colorRgba);
 }
