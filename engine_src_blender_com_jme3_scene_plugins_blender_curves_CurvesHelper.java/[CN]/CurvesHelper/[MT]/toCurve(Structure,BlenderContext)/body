@@ -115,10 +115,10 @@
       }
     }
   }
-  Properties properties=this.loadProperties(curveStructure,blenderContext);
-  if (properties != null && properties.getValue() != null) {
-    for (    Geometry geom : result) {
-      geom.setUserData("properties",properties);
+  if (blenderContext.getBlenderKey().isLoadObjectProperties()) {
+    Properties properties=this.loadProperties(curveStructure,blenderContext);
+    if (result instanceof Spatial && properties != null && properties.getValue() != null) {
+      this.applyProperties((Spatial)result,properties);
     }
   }
   return result;
