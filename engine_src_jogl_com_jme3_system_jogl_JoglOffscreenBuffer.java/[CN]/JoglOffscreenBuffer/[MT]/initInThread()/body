@@ -13,7 +13,7 @@
   caps.setOnscreen(false);
   caps.setSampleBuffers(true);
   caps.setNumSamples(samples);
-  offscreenDrawable=GLDrawableFactory.getFactory(GLProfile.getMaxFixedFunc(true)).createOffscreenAutoDrawable(null,caps,null,width,width,null);
+  offscreenDrawable=GLDrawableFactory.getFactory(GLProfile.getMaxFixedFunc(true)).createOffscreenAutoDrawable(null,caps,null,width,height,null);
   offscreenDrawable.display();
   renderable.set(true);
   logger.info("Offscreen buffer created.");
