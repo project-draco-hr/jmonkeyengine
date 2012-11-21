@@ -4,7 +4,7 @@
   }
   buf.rewind();
   DoubleBuffer copy;
-  if (buf.isDirect()) {
+  if (isDirect(buf)) {
     copy=createDoubleBuffer(buf.limit());
   }
  else {

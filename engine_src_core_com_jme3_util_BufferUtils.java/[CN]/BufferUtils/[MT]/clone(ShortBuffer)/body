@@ -4,7 +4,7 @@
   }
   buf.rewind();
   ShortBuffer copy;
-  if (buf.isDirect()) {
+  if (isDirect(buf)) {
     copy=createShortBuffer(buf.limit());
   }
  else {

@@ -4,7 +4,7 @@
   }
   buf.rewind();
   FloatBuffer copy;
-  if (buf.isDirect()) {
+  if (isDirect(buf)) {
     copy=createFloatBuffer(buf.limit());
   }
  else {
