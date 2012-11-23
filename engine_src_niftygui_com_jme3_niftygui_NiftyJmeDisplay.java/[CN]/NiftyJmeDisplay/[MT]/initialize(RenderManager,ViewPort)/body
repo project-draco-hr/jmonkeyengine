@@ -1,6 +1,10 @@
 {
   this.renderManager=rm;
   renderDev.setRenderManager(rm);
+  if (inputManager != null) {
+    inputSys.setInputManager(inputManager);
+    inputManager.addRawInputListener(inputSys);
+  }
   inited=true;
   this.vp=vp;
   this.renderer=rm.getRenderer();
