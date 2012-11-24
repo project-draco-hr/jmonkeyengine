@@ -1,0 +1,6 @@
+{
+  super.read(im);
+  InputCapsule ic=(InputCapsule)im.getCapsule(this);
+  light=(PointLight)ic.readSavable("light",null);
+  init((int)shadowMapSize);
+}

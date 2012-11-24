@@ -1,0 +1,9 @@
+{
+  super.read(im);
+  InputCapsule ic=(InputCapsule)im.getCapsule(this);
+  zFarOverride=ic.readInt("zFarOverride",0);
+  light=(SpotLight)ic.readSavable("light",null);
+  fadeInfo=(Vector2f)ic.readSavable("fadeInfo",null);
+  fadeLength=ic.readFloat("fadeLength",0f);
+  init((int)shadowMapSize);
+}

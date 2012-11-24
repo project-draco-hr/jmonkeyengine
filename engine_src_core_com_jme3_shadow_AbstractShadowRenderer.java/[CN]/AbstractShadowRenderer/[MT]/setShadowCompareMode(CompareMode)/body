@@ -1,9 +1,6 @@
 {
   if (compareMode == null) {
-    throw new NullPointerException();
-  }
-  if (this.shadowCompareMode == compareMode) {
-    return;
+    throw new IllegalArgumentException("Shadow compare mode cannot be null");
   }
   this.shadowCompareMode=compareMode;
   for (  Texture2D shadowMap : shadowMaps) {

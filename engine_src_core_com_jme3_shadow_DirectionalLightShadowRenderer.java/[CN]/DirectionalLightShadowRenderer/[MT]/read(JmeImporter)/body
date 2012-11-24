@@ -1,0 +1,10 @@
+{
+  super.read(im);
+  InputCapsule ic=(InputCapsule)im.getCapsule(this);
+  lambda=ic.readFloat("lambda",0.65f);
+  zFarOverride=ic.readInt("zFarOverride",0);
+  light=(DirectionalLight)ic.readSavable("light",null);
+  fadeInfo=(Vector2f)ic.readSavable("fadeInfo",null);
+  fadeLength=ic.readFloat("fadeLength",0f);
+  init(nbShadowMaps,(int)shadowMapSize);
+}
