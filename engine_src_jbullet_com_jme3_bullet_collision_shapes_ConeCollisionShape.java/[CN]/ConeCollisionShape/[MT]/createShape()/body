@@ -8,6 +8,9 @@
  else   if (axis == PhysicsSpace.AXIS_Z) {
     cShape=new ConeShapeZ(radius,height);
   }
+ else {
+    throw new UnsupportedOperationException("Unexpected axis: " + axis);
+  }
   cShape.setLocalScaling(Converter.convert(getScale()));
   cShape.setMargin(margin);
 }
