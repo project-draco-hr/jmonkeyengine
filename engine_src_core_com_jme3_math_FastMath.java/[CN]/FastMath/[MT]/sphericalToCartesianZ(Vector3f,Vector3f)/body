@@ -1,4 +1,7 @@
 {
+  if (store == null) {
+    store=new Vector3f();
+  }
   store.z=sphereCoords.x * FastMath.sin(sphereCoords.z);
   float a=sphereCoords.x * FastMath.cos(sphereCoords.z);
   store.x=a * FastMath.cos(sphereCoords.y);
