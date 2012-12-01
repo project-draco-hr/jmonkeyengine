@@ -15,8 +15,8 @@
   canvas.setSize(settings.getWidth(),settings.getHeight());
   canvas.setUndecorated(settings.isFullscreen());
   canvas.setFullscreen(settings.isFullscreen());
-  canvas.setVisible(true);
   Screen screen=canvas.getScreen();
+  screen.addReference();
   if (settings.isFullscreen()) {
     List<ScreenMode> screenModes=screen.getScreenModes();
     Dimension dimension=new Dimension(settings.getWidth(),settings.getHeight());
