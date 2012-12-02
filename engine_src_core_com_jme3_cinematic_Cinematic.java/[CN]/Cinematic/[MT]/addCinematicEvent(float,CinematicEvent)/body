@@ -6,5 +6,8 @@
   }
   keyFrame.cinematicEvents.add(cinematicEvent);
   cinematicEvents.add(cinematicEvent);
+  if (isInitialized()) {
+    cinematicEvent.initEvent(null,this);
+  }
   return keyFrame;
 }
