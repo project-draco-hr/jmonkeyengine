@@ -1,0 +1,32 @@
+{
+  File storageFolder=null;
+switch (type) {
+case Internal:
+    storageFolder=storageFolders.get(type);
+  if (storageFolder == null) {
+    storageFolder=activity.getApplicationContext().getDir("",Context.MODE_PRIVATE);
+    storageFolders.put(type,storageFolder);
+  }
+break;
+case External:
+storageFolder=storageFolders.get(type);
+if (storageFolder == null) {
+String state=Environment.getExternalStorageState();
+logger.log(Level.INFO,"ExternalStorageState: {0}",state);
+if (state.equals(Environment.MEDIA_MOUNTED)) {
+storageFolder=activity.getApplicationContext().getExternalFilesDir(null);
+storageFolders.put(type,storageFolder);
+}
+}
+break;
+default :
+break;
+}
+if (storageFolder != null) {
+logger.log(Level.INFO,"Base Storage Folder Path: {0}",storageFolder.getAbsolutePath());
+}
+ else {
+logger.log(Level.INFO,"Base Storage Folder not found!");
+}
+return storageFolder;
+}
