@@ -3,7 +3,7 @@
   int imageHeight=colorImage.getHeight();
   if (imageWidth != imageHeight)   throw new RuntimeException("imageWidth: " + imageWidth + " != imageHeight: "+ imageHeight);
   size=imageWidth;
-  ByteBuffer buf=colorImage.getData(0);
+  ImageRaster raster=getImageRaster();
   heightData=new float[(imageWidth * imageHeight)];
   ColorRGBA colorStore=new ColorRGBA();
   int index=0;
@@ -11,14 +11,12 @@
     for (int h=0; h < imageHeight; ++h) {
       if (flipX) {
         for (int w=imageWidth - 1; w >= 0; --w) {
-          int baseIndex=(h * imageWidth) + w;
-          heightData[index++]=getHeightAtPostion(buf,colorImage,baseIndex,colorStore) * heightScale;
+          heightData[index++]=calculateHeight(raster.getPixel(w,h,colorStore)) * heightScale;
         }
       }
  else {
         for (int w=0; w < imageWidth; ++w) {
-          int baseIndex=(h * imageWidth) + w;
-          heightData[index++]=getHeightAtPostion(buf,colorImage,baseIndex,colorStore) * heightScale;
+          heightData[index++]=calculateHeight(raster.getPixel(w,h,colorStore)) * heightScale;
         }
       }
     }
@@ -27,14 +25,12 @@
     for (int h=imageHeight - 1; h >= 0; --h) {
       if (flipX) {
         for (int w=imageWidth - 1; w >= 0; --w) {
-          int baseIndex=(h * imageWidth) + w;
-          heightData[index++]=getHeightAtPostion(buf,colorImage,baseIndex,colorStore) * heightScale;
+          heightData[index++]=calculateHeight(raster.getPixel(w,h,colorStore)) * heightScale;
         }
       }
  else {
         for (int w=0; w < imageWidth; ++w) {
-          int baseIndex=(h * imageWidth) + w;
-          heightData[index++]=getHeightAtPostion(buf,colorImage,baseIndex,colorStore) * heightScale;
+          heightData[index++]=calculateHeight(raster.getPixel(w,h,colorStore)) * heightScale;
         }
       }
     }
