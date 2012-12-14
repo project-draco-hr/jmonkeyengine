@@ -11,12 +11,12 @@
     for (int h=0; h < imageHeight; ++h) {
       if (flipX) {
         for (int w=imageWidth - 1; w >= 0; --w) {
-          heightData[index++]=calculateHeight(raster.getPixel(w,h,colorStore)) * heightScale;
+          heightData[index++]=calculateHeight(raster.getPixel(w,h,colorStore)) * heightScale * backwardsCompScale;
         }
       }
  else {
         for (int w=0; w < imageWidth; ++w) {
-          heightData[index++]=calculateHeight(raster.getPixel(w,h,colorStore)) * heightScale;
+          heightData[index++]=calculateHeight(raster.getPixel(w,h,colorStore)) * heightScale * backwardsCompScale;
         }
       }
     }
@@ -25,12 +25,12 @@
     for (int h=imageHeight - 1; h >= 0; --h) {
       if (flipX) {
         for (int w=imageWidth - 1; w >= 0; --w) {
-          heightData[index++]=calculateHeight(raster.getPixel(w,h,colorStore)) * heightScale;
+          heightData[index++]=calculateHeight(raster.getPixel(w,h,colorStore)) * heightScale * backwardsCompScale;
         }
       }
  else {
         for (int w=0; w < imageWidth; ++w) {
-          heightData[index++]=calculateHeight(raster.getPixel(w,h,colorStore)) * heightScale;
+          heightData[index++]=calculateHeight(raster.getPixel(w,h,colorStore)) * heightScale * backwardsCompScale;
         }
       }
     }
