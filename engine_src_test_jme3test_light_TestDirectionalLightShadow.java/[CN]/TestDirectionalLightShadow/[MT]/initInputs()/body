@@ -4,13 +4,17 @@
   inputManager.addMapping("lambdaUp",new KeyTrigger(KeyInput.KEY_U));
   inputManager.addMapping("lambdaDown",new KeyTrigger(KeyInput.KEY_J));
   inputManager.addMapping("switchGroundMat",new KeyTrigger(KeyInput.KEY_M));
-  inputManager.addMapping("splits",new KeyTrigger(KeyInput.KEY_X));
+  inputManager.addMapping("debug",new KeyTrigger(KeyInput.KEY_X));
   inputManager.addMapping("up",new KeyTrigger(KeyInput.KEY_NUMPAD8));
   inputManager.addMapping("down",new KeyTrigger(KeyInput.KEY_NUMPAD2));
   inputManager.addMapping("right",new KeyTrigger(KeyInput.KEY_NUMPAD6));
   inputManager.addMapping("left",new KeyTrigger(KeyInput.KEY_NUMPAD4));
   inputManager.addMapping("fwd",new KeyTrigger(KeyInput.KEY_PGUP));
   inputManager.addMapping("back",new KeyTrigger(KeyInput.KEY_PGDN));
-  inputManager.addListener(this,"lambdaUp","lambdaDown","ThicknessUp","ThicknessDown","switchGroundMat","splits","up","down","right","left","fwd","back");
+  inputManager.addMapping("pp",new KeyTrigger(KeyInput.KEY_P));
+  inputManager.addListener(this,"lambdaUp","lambdaDown","ThicknessUp","ThicknessDown","switchGroundMat","debug","up","down","right","left","fwd","back","pp");
   ShadowTestUIManager uiMan=new ShadowTestUIManager(assetManager,dlsr,dlsf,guiNode,inputManager,viewPort);
+  inputManager.addListener(this,"Size+","Size-");
+  inputManager.addMapping("Size+",new KeyTrigger(KeyInput.KEY_W));
+  inputManager.addMapping("Size-",new KeyTrigger(KeyInput.KEY_S));
 }

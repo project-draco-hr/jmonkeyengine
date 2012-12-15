@@ -9,6 +9,11 @@
   shadowCam.update();
   shadowCam.updateViewProjection();
   PssmShadowUtil.updateFrustumSplits(splitsArray,frustumNear,zFar,lambda);
+  if (viewCam.isParallelProjection()) {
+    for (int i=0; i < nbShadowMaps; i++) {
+      splitsArray[i]=splitsArray[i] / (zFar - frustumNear);
+    }
+  }
 switch (splitsArray.length) {
 case 5:
     splits.a=splitsArray[4];

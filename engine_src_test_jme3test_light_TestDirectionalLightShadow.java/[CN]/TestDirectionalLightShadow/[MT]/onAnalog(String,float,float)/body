@@ -1,0 +1,12 @@
+{
+  if (cam.isParallelProjection()) {
+    if (name.equals("Size-")) {
+      frustumSize+=5f * tpf;
+    }
+ else {
+      frustumSize-=5f * tpf;
+    }
+    float aspect=(float)cam.getWidth() / cam.getHeight();
+    cam.setFrustum(-1000,1000,-aspect * frustumSize,aspect * frustumSize,frustumSize,-frustumSize);
+  }
+}

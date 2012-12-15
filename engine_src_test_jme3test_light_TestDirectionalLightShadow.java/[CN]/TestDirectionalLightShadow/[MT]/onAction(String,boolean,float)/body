@@ -1,4 +1,14 @@
 {
+  if (name.equals("pp") && keyPressed) {
+    if (cam.isParallelProjection()) {
+      cam.setFrustumPerspective(45,(float)cam.getWidth() / cam.getHeight(),1,1000);
+    }
+ else {
+      cam.setParallelProjection(true);
+      float aspect=(float)cam.getWidth() / cam.getHeight();
+      cam.setFrustum(-1000,1000,-aspect * frustumSize,aspect * frustumSize,frustumSize,-frustumSize);
+    }
+  }
   if (name.equals("lambdaUp") && keyPressed) {
     dlsr.setLambda(dlsr.getLambda() + 0.01f);
     dlsf.setLambda(dlsr.getLambda() + 0.01f);
@@ -9,25 +19,8 @@
     dlsf.setLambda(dlsr.getLambda() - 0.01f);
     System.out.println("Lambda : " + dlsr.getLambda());
   }
-  if (name.equals("ShadowUp") && keyPressed) {
-    dlsr.setShadowIntensity(dlsr.getShadowIntensity() + 0.1f);
-    dlsf.setShadowIntensity(dlsr.getShadowIntensity() + 0.1f);
-    System.out.println("Shadow intensity : " + dlsr.getShadowIntensity());
-  }
-  if (name.equals("ShadowDown") && keyPressed) {
-    dlsr.setShadowIntensity(dlsr.getShadowIntensity() - 0.1f);
-    dlsf.setShadowIntensity(dlsr.getShadowIntensity() - 0.1f);
-    System.out.println("Shadow intensity : " + dlsr.getShadowIntensity());
-  }
-  if (name.equals("ThicknessUp") && keyPressed) {
-    dlsr.setEdgesThickness(dlsr.getEdgesThickness() + 1);
-    dlsf.setEdgesThickness(dlsr.getEdgesThickness() + 1);
-    System.out.println("Shadow thickness : " + dlsr.getEdgesThickness());
-  }
-  if (name.equals("ThicknessDown") && keyPressed) {
-    dlsr.setEdgesThickness(dlsr.getEdgesThickness() - 1);
-    dlsf.setEdgesThickness(dlsr.getEdgesThickness() - 1);
-    System.out.println("Shadow thickness : " + dlsr.getEdgesThickness());
+  if (name.equals("debug") && keyPressed) {
+    dlsr.displayFrustum();
   }
   if (name.equals("switchGroundMat") && keyPressed) {
     if (ground.getMaterial() == matGroundL) {
