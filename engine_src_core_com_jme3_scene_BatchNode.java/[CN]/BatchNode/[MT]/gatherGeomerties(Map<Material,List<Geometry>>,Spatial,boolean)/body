@@ -1,5 +1,5 @@
 {
-  if (n.getClass() == Geometry.class) {
+  if (n instanceof Geometry) {
     if (!isBatch(n) && n.getBatchHint() != BatchHint.Never) {
       Geometry g=(Geometry)n;
       if (!g.isBatched() || rebatch) {
