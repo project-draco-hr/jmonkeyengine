@@ -2,7 +2,7 @@
 switch (directionType) {
 case Path:
     Quaternion q=new Quaternion();
-  q.lookAt(direction,Vector3f.UNIT_Y);
+  q.lookAt(direction,upVector);
 spatial.setLocalRotation(q);
 break;
 case LookAt:
@@ -13,7 +13,7 @@ break;
 case PathAndRotation:
 if (rotation != null) {
 Quaternion q2=new Quaternion();
-q2.lookAt(direction,Vector3f.UNIT_Y);
+q2.lookAt(direction,upVector);
 q2.multLocal(rotation);
 spatial.setLocalRotation(q2);
 }
