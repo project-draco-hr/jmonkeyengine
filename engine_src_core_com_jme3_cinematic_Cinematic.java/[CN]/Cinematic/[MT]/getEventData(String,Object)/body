@@ -1,8 +1,8 @@
 {
   if (eventsData != null) {
-    Map<String,Object> row=eventsData.get(type);
+    Map<Object,Object> row=eventsData.get(type);
     if (row != null) {
-      return row.get(name);
+      return row.get(key);
     }
   }
   return null;

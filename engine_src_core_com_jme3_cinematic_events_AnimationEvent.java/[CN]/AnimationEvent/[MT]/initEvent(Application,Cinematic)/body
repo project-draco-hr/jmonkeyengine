@@ -1,18 +1,24 @@
 {
   super.initEvent(app,cinematic);
+  this.cinematic=cinematic;
   if (channel == null) {
-    Object s=cinematic.getEventData("modelChannels",modelName);
-    if (s != null && s instanceof AnimChannel) {
-      this.channel=(AnimChannel)s;
+    Object s=cinematic.getEventData(MODEL_CHANNELS,model);
+    if (s == null) {
+      s=new HashMap<Integer,AnimChannel>();
+      cinematic.putEventData(MODEL_CHANNELS,model,s);
     }
- else     if (s == null) {
-      Spatial model=cinematic.getScene().getChild(modelName);
+    Map<Integer,AnimChannel> map=(Map<Integer,AnimChannel>)s;
+    this.channel=map.get(channelIndex);
+    if (this.channel == null) {
+      if (model == null) {
+        model=cinematic.getScene().getChild(modelName);
+      }
       if (model != null) {
         channel=model.getControl(AnimControl.class).createChannel();
-        cinematic.putEventData("modelChannels",modelName,channel);
+        map.put(channelIndex,channel);
       }
  else {
-        log.log(Level.WARNING,"spatial {0} not found in the scene, cannot perform animation",modelName);
+        throw new UnsupportedOperationException("model should not be null");
       }
     }
   }

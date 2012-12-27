@@ -1,7 +1,7 @@
 {
   super.setTime(time);
-  if (channel.getAnimationName() == null) {
-    channel.setAnim(animationName);
+  if (!animationName.equals(channel.getAnimationName())) {
+    channel.setAnim(animationName,blendTime);
   }
   float t=time;
   if (loopMode == loopMode.Loop) {

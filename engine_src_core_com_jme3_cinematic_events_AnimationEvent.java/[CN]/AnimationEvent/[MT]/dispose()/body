@@ -1,0 +1,13 @@
+{
+  super.dispose();
+  Object o=cinematic.getEventData(MODEL_CHANNELS,model);
+  if (o != null) {
+    ArrayList<AnimChannel> list=(ArrayList<AnimChannel>)o;
+    list.remove(channel);
+    if (list.isEmpty()) {
+      cinematic.removeEventData(MODEL_CHANNELS,model);
+    }
+  }
+  cinematic=null;
+  channel=null;
+}

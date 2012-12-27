@@ -1,0 +1,9 @@
+{
+  Map<String,Map<Object,Object>> data=getEventsData();
+  Map<Object,Object> row=data.get(type);
+  if (row == null) {
+    row=new HashMap<Object,Object>();
+  }
+  row.put(key,object);
+  data.put(type,row);
+}
