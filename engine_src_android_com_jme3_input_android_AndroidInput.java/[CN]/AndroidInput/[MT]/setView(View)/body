@@ -1,5 +1,9 @@
 {
   this.view=view;
-  this.view.setOnTouchListener(this);
-  this.view.setOnKeyListener(this);
+  if (view != null) {
+    detector=new GestureDetector(null,this,null,false);
+    scaledetector=new ScaleGestureDetector(view.getContext(),this);
+    view.setOnTouchListener(this);
+    view.setOnKeyListener(this);
+  }
 }

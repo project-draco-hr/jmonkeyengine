@@ -1,4 +1,5 @@
 {
+  logger.info("onCreate");
   super.onCreate(savedInstanceState);
   JmeAndroidSystem.setActivity(this);
   if (screenFullScreen) {
@@ -15,10 +16,6 @@
   if (data != null) {
     logger.log(Level.INFO,"Using Retained App");
     this.app=data.app;
-    ctx=(OGLESContext)app.getContext();
-    view=ctx.createView(eglConfigType,eglConfigVerboseLogging);
-    ctx.setSystemListener(this);
-    layoutDisplay();
   }
  else {
     WindowManager wind=this.getWindowManager();
@@ -37,14 +34,14 @@
       }
       app.setSettings(settings);
       app.start();
-      ctx=(OGLESContext)app.getContext();
-      view=ctx.createView(eglConfigType,eglConfigVerboseLogging);
-      ctx.setSystemListener(this);
-      layoutDisplay();
     }
  catch (    Exception ex) {
       handleError("Class " + appClass + " init failed",ex);
       setContentView(new TextView(this));
     }
   }
+  ctx=(OGLESContext)app.getContext();
+  view=ctx.createView(eglConfigType,eglConfigVerboseLogging);
+  ctx.setSystemListener(this);
+  layoutDisplay();
 }

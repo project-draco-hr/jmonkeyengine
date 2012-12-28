@@ -1,14 +1,10 @@
 {
-  if (androidSensorJoyInput != null && androidSensorJoyInput instanceof AndroidSensorJoyInput) {
-    ((AndroidSensorJoyInput)androidSensorJoyInput).initWindow();
-  }
-  view=new AndroidGLSurfaceView(JmeAndroidSystem.getActivity());
+  AndroidGLSurfaceView view;
+  view=new AndroidGLSurfaceView(JmeAndroidSystem.getActivity().getApplication());
   if (androidInput == null) {
-    androidInput=new AndroidInput(view);
+    androidInput=new AndroidInput();
   }
- else {
-    androidInput.setView(view);
-  }
+  androidInput.setView(view);
   androidInput.loadSettings(settings);
   if (configType == ConfigType.LEGACY) {
     clientOpenGLESVersion=2;

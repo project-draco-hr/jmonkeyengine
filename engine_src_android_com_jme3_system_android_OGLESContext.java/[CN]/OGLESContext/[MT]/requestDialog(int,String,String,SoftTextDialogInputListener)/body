@@ -1,9 +1,10 @@
 {
   logger.log(Level.INFO,"requestDialog: title: {0}, initialValue: {1}",new Object[]{title,initialValue});
-  JmeAndroidSystem.getActivity().runOnUiThread(new Runnable(){
+  final Activity activity=JmeAndroidSystem.getActivity();
+  activity.runOnUiThread(new Runnable(){
     @Override public void run(){
-      final FrameLayout layoutTextDialogInput=new FrameLayout(JmeAndroidSystem.getActivity());
-      final EditText editTextDialogInput=new EditText(JmeAndroidSystem.getActivity());
+      final FrameLayout layoutTextDialogInput=new FrameLayout(activity);
+      final EditText editTextDialogInput=new EditText(activity);
       editTextDialogInput.setWidth(LayoutParams.FILL_PARENT);
       editTextDialogInput.setHeight(LayoutParams.FILL_PARENT);
       editTextDialogInput.setPadding(20,20,20,20);
@@ -23,7 +24,7 @@ default :
 break;
 }
 layoutTextDialogInput.addView(editTextDialogInput);
-AlertDialog dialogTextInput=new AlertDialog.Builder(JmeAndroidSystem.getActivity()).setTitle(title).setView(layoutTextDialogInput).setPositiveButton("OK",new DialogInterface.OnClickListener(){
+AlertDialog dialogTextInput=new AlertDialog.Builder(activity).setTitle(title).setView(layoutTextDialogInput).setPositiveButton("OK",new DialogInterface.OnClickListener(){
 public void onClick(DialogInterface dialog,int whichButton){
 listener.onSoftText(SoftTextDialogInputListener.COMPLETE,editTextDialogInput.getText().toString());
 }
