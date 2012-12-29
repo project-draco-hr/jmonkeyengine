@@ -1,12 +1,12 @@
 {
   if (!fullscreenBox.isSelected()) {
-    displayResCombo.setModel(new DefaultComboBoxModel(windowedResolutions));
+    displayResCombo.setModel(new DefaultComboBoxModel(getWindowedResolutions(modes)));
     colorDepthCombo.setModel(new DefaultComboBoxModel(new String[]{"24 bpp","16 bpp"}));
-    displayFreqCombo.setModel(new DefaultComboBoxModel(new String[]{"n/a"}));
+    displayFreqCombo.setModel(new DefaultComboBoxModel(new String[]{resourceBundle.getString("refresh.na")}));
     displayFreqCombo.setEnabled(false);
   }
  else {
-    displayResCombo.setModel(new DefaultComboBoxModel(getResolutions(modes)));
+    displayResCombo.setModel(new DefaultComboBoxModel(getResolutions(modes,Integer.MAX_VALUE)));
     displayFreqCombo.setEnabled(true);
     updateDisplayChoices();
   }

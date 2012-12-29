@@ -1,7 +1,5 @@
 {
-  String[] res=getResolutions(modes);
-  JComboBox resolutionBox=new JComboBox(res);
-  resolutionBox.setSelectedItem(source.getWidth() + " x " + source.getHeight());
+  JComboBox resolutionBox=new JComboBox();
   resolutionBox.addActionListener(new ActionListener(){
     public void actionPerformed(    ActionEvent e){
       updateDisplayChoices();

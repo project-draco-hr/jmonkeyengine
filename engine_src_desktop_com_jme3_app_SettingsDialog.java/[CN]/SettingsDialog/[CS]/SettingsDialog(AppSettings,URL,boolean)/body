@@ -6,6 +6,7 @@
   this.imageFile=imageFile;
   setModal(true);
   setAlwaysOnTop(true);
+  setResizable(false);
   AppSettings registrySettings=new AppSettings(true);
   String appTitle;
   if (source.getTitle() != null) {
@@ -14,6 +15,8 @@
  else {
     appTitle=registrySettings.getTitle();
   }
+  minWidth=source.getMinWidth();
+  minHeight=source.getMinHeight();
   try {
     registrySettings.load(appTitle);
   }

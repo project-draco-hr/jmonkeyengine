@@ -1,4 +1,6 @@
 {
+  GridBagConstraints gbc;
+  JPanel mainPanel=new JPanel(new GridBagLayout());
   try {
     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
   }
@@ -6,7 +8,7 @@
     logger.warning("Could not set native look and feel.");
   }
   addWindowListener(new WindowAdapter(){
-    public void windowClosing(    WindowEvent e){
+    @Override public void windowClosing(    WindowEvent e){
       setUserSelection(CANCEL_SELECTION);
       dispose();
     }
@@ -15,18 +17,12 @@
   if (source.getIcons() != null) {
     safeSetIconImages((List<BufferedImage>)Arrays.asList((BufferedImage[])source.getIcons()));
   }
-  setTitle("Select Display Settings");
-  JPanel mainPanel=new JPanel();
-  JPanel centerPanel=new JPanel();
-  JPanel optionsPanel=new JPanel();
-  JPanel buttonPanel=new JPanel();
-  JButton ok=new JButton("Ok");
-  JButton cancel=new JButton("Cancel");
+  setTitle(MessageFormat.format(resourceBundle.getString("frame.title"),source.getTitle()));
+  JButton ok=new JButton(resourceBundle.getString("button.ok"));
+  JButton cancel=new JButton(resourceBundle.getString("button.cancel"));
   icon=new JLabel(imageFile != null ? new ImageIcon(imageFile) : null);
-  mainPanel.setLayout(new BorderLayout());
-  centerPanel.setLayout(new BorderLayout());
   KeyListener aListener=new KeyAdapter(){
-    public void keyPressed(    KeyEvent e){
+    @Override public void keyPressed(    KeyEvent e){
       if (e.getKeyCode() == KeyEvent.VK_ENTER) {
         if (verifyAndSaveCurrentSelection()) {
           setUserSelection(APPROVE_SELECTION);
@@ -48,7 +44,7 @@
   displayFreqCombo.addKeyListener(aListener);
   antialiasCombo=new JComboBox();
   antialiasCombo.addKeyListener(aListener);
-  fullscreenBox=new JCheckBox("Fullscreen?");
+  fullscreenBox=new JCheckBox(resourceBundle.getString("checkbox.fullscreen"));
   fullscreenBox.setSelected(source.isFullscreen());
   fullscreenBox.addActionListener(new ActionListener(){
     public void actionPerformed(    ActionEvent e){
@@ -56,18 +52,71 @@
     }
   }
 );
-  vsyncBox=new JCheckBox("VSync?");
+  vsyncBox=new JCheckBox(resourceBundle.getString("checkbox.vsync"));
   vsyncBox.setSelected(source.isVSync());
-  updateResolutionChoices();
-  updateAntialiasChoices();
-  displayResCombo.setSelectedItem(source.getWidth() + " x " + source.getHeight());
-  colorDepthCombo.setSelectedItem(source.getBitsPerPixel() + " bpp");
-  optionsPanel.add(displayResCombo);
-  optionsPanel.add(colorDepthCombo);
-  optionsPanel.add(displayFreqCombo);
-  optionsPanel.add(antialiasCombo);
-  optionsPanel.add(fullscreenBox);
-  optionsPanel.add(vsyncBox);
+  gbc=new GridBagConstraints();
+  gbc.weightx=0.5;
+  gbc.gridx=0;
+  gbc.gridwidth=2;
+  gbc.gridy=1;
+  gbc.anchor=GridBagConstraints.EAST;
+  mainPanel.add(fullscreenBox,gbc);
+  gbc=new GridBagConstraints();
+  gbc.weightx=0.5;
+  gbc.insets=new Insets(4,16,0,4);
+  gbc.gridx=2;
+  gbc.gridwidth=2;
+  gbc.gridy=1;
+  gbc.anchor=GridBagConstraints.WEST;
+  mainPanel.add(vsyncBox,gbc);
+  gbc=new GridBagConstraints();
+  gbc.insets=new Insets(4,4,4,4);
+  gbc.gridx=0;
+  gbc.gridy=2;
+  gbc.anchor=GridBagConstraints.EAST;
+  gbc.weightx=0.5;
+  mainPanel.add(new JLabel(resourceBundle.getString("label.resolutions")),gbc);
+  gbc=new GridBagConstraints();
+  gbc.gridx=1;
+  gbc.gridy=2;
+  gbc.anchor=GridBagConstraints.WEST;
+  mainPanel.add(displayResCombo,gbc);
+  gbc=new GridBagConstraints();
+  gbc.insets=new Insets(4,16,4,4);
+  gbc.gridx=2;
+  gbc.gridy=2;
+  gbc.anchor=GridBagConstraints.EAST;
+  mainPanel.add(new JLabel(resourceBundle.getString("label.colordepth")),gbc);
+  gbc=new GridBagConstraints();
+  gbc.weightx=0.5;
+  gbc.gridx=3;
+  gbc.gridy=2;
+  gbc.anchor=GridBagConstraints.WEST;
+  mainPanel.add(colorDepthCombo,gbc);
+  gbc=new GridBagConstraints();
+  gbc.insets=new Insets(4,4,4,4);
+  gbc.weightx=0.5;
+  gbc.gridx=0;
+  gbc.gridy=3;
+  gbc.anchor=GridBagConstraints.EAST;
+  mainPanel.add(new JLabel(resourceBundle.getString("label.refresh")),gbc);
+  gbc=new GridBagConstraints();
+  gbc.gridx=1;
+  gbc.gridy=3;
+  gbc.anchor=GridBagConstraints.WEST;
+  mainPanel.add(displayFreqCombo,gbc);
+  gbc=new GridBagConstraints();
+  gbc.insets=new Insets(4,16,4,4);
+  gbc.gridx=2;
+  gbc.gridy=3;
+  gbc.anchor=GridBagConstraints.EAST;
+  mainPanel.add(new JLabel(resourceBundle.getString("label.antialias")),gbc);
+  gbc=new GridBagConstraints();
+  gbc.weightx=0.5;
+  gbc.gridx=3;
+  gbc.gridy=3;
+  gbc.anchor=GridBagConstraints.WEST;
+  mainPanel.add(antialiasCombo,gbc);
   ok.addActionListener(new ActionListener(){
     public void actionPerformed(    ActionEvent e){
       if (verifyAndSaveCurrentSelection()) {
@@ -84,14 +133,38 @@
     }
   }
 );
-  buttonPanel.add(ok);
-  buttonPanel.add(cancel);
+  gbc=new GridBagConstraints();
+  gbc.gridx=0;
+  gbc.gridwidth=2;
+  gbc.gridy=4;
+  gbc.anchor=GridBagConstraints.EAST;
+  mainPanel.add(ok,gbc);
+  gbc=new GridBagConstraints();
+  gbc.insets=new Insets(4,16,4,4);
+  gbc.gridx=2;
+  gbc.gridwidth=2;
+  gbc.gridy=4;
+  gbc.anchor=GridBagConstraints.WEST;
+  mainPanel.add(cancel,gbc);
   if (icon != null) {
-    centerPanel.add(icon,BorderLayout.NORTH);
+    gbc=new GridBagConstraints();
+    gbc.gridwidth=4;
+    mainPanel.add(icon,gbc);
   }
-  centerPanel.add(optionsPanel,BorderLayout.SOUTH);
-  mainPanel.add(centerPanel,BorderLayout.CENTER);
-  mainPanel.add(buttonPanel,BorderLayout.SOUTH);
   this.getContentPane().add(mainPanel);
   pack();
+  SwingUtilities.invokeLater(new Runnable(){
+    public void run(){
+      updateResolutionChoices();
+      if (source.getWidth() != 0 && source.getHeight() != 0) {
+        displayResCombo.setSelectedItem(source.getWidth() + " x " + source.getHeight());
+      }
+ else {
+        displayResCombo.setSelectedIndex(displayResCombo.getItemCount() - 1);
+      }
+      updateAntialiasChoices();
+      colorDepthCombo.setSelectedItem(source.getBitsPerPixel() + " bpp");
+    }
+  }
+);
 }

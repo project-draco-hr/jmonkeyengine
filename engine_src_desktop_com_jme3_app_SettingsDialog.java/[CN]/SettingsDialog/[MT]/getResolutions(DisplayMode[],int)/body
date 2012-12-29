@@ -1,0 +1,21 @@
+{
+  ArrayList<String> resolutions=new ArrayList<String>(modes.length);
+  for (int i=0; i < modes.length; i++) {
+    int height=modes[i].getHeight();
+    int width=modes[i].getWidth();
+    if (width >= minWidth && height >= minHeight && height <= heightLimit) {
+      if (height == heightLimit) {
+        Insets insets=getInsets();
+        height-=insets.top + insets.bottom;
+        width-=insets.left + insets.right;
+      }
+      String res=width + " x " + height;
+      if (!resolutions.contains(res)) {
+        resolutions.add(res);
+      }
+    }
+  }
+  String[] res=new String[resolutions.size()];
+  resolutions.toArray(res);
+  return res;
+}
