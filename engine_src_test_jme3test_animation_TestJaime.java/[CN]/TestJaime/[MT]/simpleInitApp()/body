@@ -1,0 +1,12 @@
+{
+  stateManager.detach(stateManager.getState(FlyCamAppState.class));
+  stateManager.detach(stateManager.getState(ResetStatsState.class));
+  stateManager.detach(stateManager.getState(DebugKeysAppState.class));
+  stateManager.detach(stateManager.getState(StatsAppState.class));
+  final Node jaime=LoadModel();
+  setupLights();
+  setupCamera();
+  setupFloor();
+  setupCinematic(jaime);
+  setupInput();
+}

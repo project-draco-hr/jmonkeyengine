@@ -1,0 +1,38 @@
+{
+  cinematic=new Cinematic(rootNode,60);
+  stateManager.attach(cinematic);
+  jaime.move(0,0,-3);
+  AnimationFactory af=new AnimationFactory(0.7f,"JumpForward");
+  af.addTimeTranslation(0,new Vector3f(0,0,-3));
+  af.addTimeTranslation(0.35f,new Vector3f(0,1,-1.5f));
+  af.addTimeTranslation(0.7f,new Vector3f(0,0,0));
+  jaime.getControl(AnimControl.class).addAnim(af.buildAnimation());
+  cinematic.enqueueCinematicEvent(new AnimationEvent(jaime,"Idle",3,LoopMode.DontLoop));
+  float jumpStart=cinematic.enqueueCinematicEvent(new AnimationEvent(jaime,"JumpStart",LoopMode.DontLoop));
+  cinematic.addCinematicEvent(jumpStart + 0.2f,new AnimationEvent(jaime,"JumpForward",LoopMode.DontLoop,1));
+  cinematic.enqueueCinematicEvent(new AnimationEvent(jaime,"JumpEnd",LoopMode.DontLoop));
+  cinematic.enqueueCinematicEvent(new AnimationEvent(jaime,"Punches",LoopMode.DontLoop));
+  cinematic.enqueueCinematicEvent(new AnimationEvent(jaime,"SideKick",LoopMode.DontLoop));
+  float camStart=cinematic.enqueueCinematicEvent(new AnimationEvent(jaime,"Taunt",LoopMode.DontLoop));
+  cinematic.enqueueCinematicEvent(new AnimationEvent(jaime,"Idle",1,LoopMode.DontLoop));
+  cinematic.enqueueCinematicEvent(new AnimationEvent(jaime,"Wave",LoopMode.DontLoop));
+  cinematic.enqueueCinematicEvent(new AnimationEvent(jaime,"Idle",LoopMode.DontLoop));
+  CameraNode camNode=cinematic.bindCamera("cam",cam);
+  camNode.setLocalTranslation(new Vector3f(1.1f,1.2f,2.9f));
+  camNode.lookAt(new Vector3f(0,0.5f,0),Vector3f.UNIT_Y);
+  MotionPath path=new MotionPath();
+  path.addWayPoint(new Vector3f(1.1f,1.2f,2.9f));
+  path.addWayPoint(new Vector3f(0f,1.2f,3.0f));
+  path.addWayPoint(new Vector3f(-1.1f,1.2f,2.9f));
+  path.enableDebugShape(assetManager,rootNode);
+  path.setCurveTension(0.8f);
+  MotionEvent camMotion=new MotionEvent(camNode,path,6);
+  camMotion.setDirectionType(MotionEvent.Direction.LookAt);
+  camMotion.setLookAt(new Vector3f(0,0.5f,0),Vector3f.UNIT_Y);
+  cinematic.addCinematicEvent(camStart,camMotion);
+  cinematic.activateCamera(0,"cam");
+  cinematic.fitDuration();
+  cinematic.setSpeed(1.2f);
+  cinematic.setLoopMode(LoopMode.Loop);
+  cinematic.play();
+}
