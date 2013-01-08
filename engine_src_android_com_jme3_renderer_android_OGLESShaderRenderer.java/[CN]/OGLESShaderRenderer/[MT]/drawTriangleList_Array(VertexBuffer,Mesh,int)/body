@@ -8,7 +8,7 @@
   }
   int vertCount=mesh.getVertexCount();
   Buffer indexData=indexBuf.getData();
-  indexData.clear();
+  indexData.rewind();
   if (mesh.getMode() == Mode.Hybrid) {
     int[] modeStart=mesh.getModeStart();
     int[] elementLengths=mesh.getElementLengths();

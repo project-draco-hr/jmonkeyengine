@@ -23,7 +23,7 @@
     }
     if ((attribs[loc] != vb) || vb.isUpdateNeeded()) {
       VertexBuffer avb=idb != null ? idb : vb;
-      avb.getData().clear();
+      avb.getData().rewind();
       avb.getData().position(vb.getOffset());
       GLES20.glVertexAttribPointer(loc,vb.getNumComponents(),convertFormat(vb.getFormat()),vb.isNormalized(),vb.getStride(),avb.getData());
       GLES20.glEnableVertexAttribArray(loc);
