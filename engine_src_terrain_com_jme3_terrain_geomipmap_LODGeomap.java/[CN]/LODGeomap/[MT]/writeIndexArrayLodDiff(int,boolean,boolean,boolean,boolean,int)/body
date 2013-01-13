@@ -1,10 +1,7 @@
 {
-  IntBuffer buffer2=store;
   int numIndexes=calculateNumIndexesLodDiff(lod);
-  if (store == null) {
-    buffer2=BufferUtils.createIntBuffer(numIndexes);
-  }
-  VerboseIntBuffer buffer=new VerboseIntBuffer(buffer2);
+  IndexBuffer ib=IndexBuffer.createIndexBuffer(numIndexes,numIndexes);
+  VerboseBuffer buffer=new VerboseBuffer(ib);
   for (int r=lod; r < getWidth() - (2 * lod); r+=lod) {
     int rowIdx=r * getWidth();
     int nextRowIdx=(r + 1 * lod) * getWidth();

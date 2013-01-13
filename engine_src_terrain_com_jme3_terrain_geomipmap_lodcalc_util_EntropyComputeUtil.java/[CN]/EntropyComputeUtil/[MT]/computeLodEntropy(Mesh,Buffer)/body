@@ -7,7 +7,10 @@
   CollisionResults results=new CollisionResults();
   VertexBuffer originalIndices=terrainBlock.getBuffer(Type.Index);
   terrainBlock.clearBuffer(Type.Index);
-  terrainBlock.setBuffer(Type.Index,3,lodIndices);
+  if (lodIndices instanceof IntBuffer)   terrainBlock.setBuffer(Type.Index,3,(IntBuffer)lodIndices);
+ else   if (lodIndices instanceof ShortBuffer) {
+    terrainBlock.setBuffer(Type.Index,3,(ShortBuffer)lodIndices);
+  }
   terrainBlock.createCollisionData();
   float entropy=0;
   for (int i=0; i < positions.limit() / 3; i++) {

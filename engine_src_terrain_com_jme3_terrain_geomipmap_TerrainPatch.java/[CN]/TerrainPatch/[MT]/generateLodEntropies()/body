@@ -2,8 +2,11 @@
   float[] entropies=new float[getMaxLod() + 1];
   for (int i=0; i <= getMaxLod(); i++) {
     int curLod=(int)Math.pow(2,i);
-    IntBuffer buf=geomap.writeIndexArrayLodDiff(null,curLod,false,false,false,false);
-    entropies[i]=EntropyComputeUtil.computeLodEntropy(mesh,buf);
+    IndexBuffer idxB=geomap.writeIndexArrayLodDiff(curLod,false,false,false,false,totalSize);
+    Buffer ib;
+    if (idxB.getBuffer() instanceof IntBuffer)     ib=(IntBuffer)idxB.getBuffer();
+ else     ib=(ShortBuffer)idxB.getBuffer();
+    entropies[i]=EntropyComputeUtil.computeLodEntropy(mesh,ib);
   }
   lodEntropy=entropies;
 }

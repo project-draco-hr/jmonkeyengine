@@ -2,7 +2,10 @@
   FloatBuffer pb=writeVertexArray(null,scale,center);
   FloatBuffer texb=writeTexCoordArray(null,tcOffset,tcScale,offsetAmount,totalSize);
   FloatBuffer nb=writeNormalArray(null,scale);
-  IntBuffer ib=writeIndexArrayLodDiff(null,lod,rightLod,topLod,leftLod,bottomLod);
+  Buffer ib;
+  IndexBuffer idxB=writeIndexArrayLodDiff(lod,rightLod,topLod,leftLod,bottomLod,totalSize);
+  if (idxB.getBuffer() instanceof IntBuffer)   ib=(IntBuffer)idxB.getBuffer();
+ else   ib=(ShortBuffer)idxB.getBuffer();
   FloatBuffer bb=BufferUtils.createFloatBuffer(getWidth() * getHeight() * 3);
   FloatBuffer tanb=BufferUtils.createFloatBuffer(getWidth() * getHeight() * 3);
   writeTangentArray(nb,tanb,bb,texb,scale);
@@ -13,7 +16,8 @@
   m.setBuffer(Type.Tangent,3,tanb);
   m.setBuffer(Type.Binormal,3,bb);
   m.setBuffer(Type.TexCoord,2,texb);
-  m.setBuffer(Type.Index,3,ib);
+  if (ib instanceof IntBuffer)   m.setBuffer(Type.Index,3,(IntBuffer)ib);
+ else   if (ib instanceof ShortBuffer)   m.setBuffer(Type.Index,3,(ShortBuffer)ib);
   m.setStatic();
   m.updateBound();
   return m;
