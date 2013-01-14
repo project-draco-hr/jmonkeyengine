@@ -1,12 +1,7 @@
 {
   for (  FileObject fileObject : jarItems) {
-    try {
-      Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Remove locator:{0}",fileObject.getURL());
-      unregisterLocator(fileObject.toURL().toExternalForm(),com.jme3.asset.plugins.UrlLocator.class);
-    }
- catch (    FileStateInvalidException ex) {
-      Exceptions.printStackTrace(ex);
-    }
+    Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Remove locator:{0}",fileObject.toURL());
+    unregisterLocator(fileObject.toURL().toExternalForm(),com.jme3.asset.plugins.UrlLocator.class);
   }
   jarItems.clear();
   for (  ClassPathItem fileObject : classPathItems) {

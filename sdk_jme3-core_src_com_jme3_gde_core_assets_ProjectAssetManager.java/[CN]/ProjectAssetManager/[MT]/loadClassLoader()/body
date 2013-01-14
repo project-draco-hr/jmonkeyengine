@@ -1,5 +1,5 @@
 {
-  Sources sources=project.getLookup().lookup(Sources.class);
+  Sources sources=ProjectUtils.getSources(project);
   if (sources != null) {
     if (loader != null) {
       removeClassLoader(loader);
@@ -9,45 +9,40 @@
     for (    SourceGroup sourceGroup : groups) {
       ClassPath path=ClassPath.getClassPath(sourceGroup.getRootFolder(),ClassPath.EXECUTE);
       if (path != null) {
-        try {
-          FileObject[] roots=path.getRoots();
-          for (          FileObject fileObject : roots) {
-            if (!fileObject.equals(getAssetFolder())) {
-              FileChangeListener listener=new FileChangeListener(){
-                public void fileFolderCreated(                FileEvent fe){
-                }
-                public void fileDataCreated(                FileEvent fe){
-                  if (!fe.isExpected()) {
-                    notifyClassPathListeners();
-                  }
-                }
-                public void fileChanged(                FileEvent fe){
-                  if (!fe.isExpected()) {
-                    notifyClassPathListeners();
-                  }
-                }
-                public void fileDeleted(                FileEvent fe){
-                }
-                public void fileRenamed(                FileRenameEvent fre){
-                }
-                public void fileAttributeChanged(                FileAttributeEvent fae){
+        FileObject[] roots=path.getRoots();
+        for (        FileObject fileObject : roots) {
+          if (!fileObject.equals(getAssetFolder())) {
+            FileChangeListener listener=new FileChangeListener(){
+              public void fileFolderCreated(              FileEvent fe){
+              }
+              public void fileDataCreated(              FileEvent fe){
+                if (!fe.isExpected()) {
+                  notifyClassPathListeners();
                 }
               }
+              public void fileChanged(              FileEvent fe){
+                if (!fe.isExpected()) {
+                  notifyClassPathListeners();
+                }
+              }
+              public void fileDeleted(              FileEvent fe){
+              }
+              public void fileRenamed(              FileRenameEvent fre){
+              }
+              public void fileAttributeChanged(              FileAttributeEvent fae){
+              }
+            }
 ;
-              fileObject.addRecursiveListener(listener);
-              Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Add classpath:{0}",fileObject);
-              classPathItems.add(new ClassPathItem(fileObject,listener));
-              urls.add(fileObject.toURL());
-            }
-            if (fileObject.toURL().toExternalForm().startsWith("jar")) {
-              Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Add locator:{0}",fileObject.getURL());
-              jarItems.add(fileObject);
-              registerLocator(fileObject.toURL().toExternalForm(),"com.jme3.asset.plugins.UrlLocator");
-            }
+            fileObject.addRecursiveListener(listener);
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Add classpath:{0}",fileObject);
+            classPathItems.add(new ClassPathItem(fileObject,listener));
+            urls.add(fileObject.toURL());
           }
-        }
- catch (        FileStateInvalidException ex) {
-          Exceptions.printStackTrace(ex);
+          if (fileObject.toURL().toExternalForm().startsWith("jar")) {
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Add locator:{0}",fileObject.toURL());
+            jarItems.add(fileObject);
+            registerLocator(fileObject.toURL().toExternalForm(),"com.jme3.asset.plugins.UrlLocator");
+          }
         }
       }
     }
