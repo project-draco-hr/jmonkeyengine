@@ -1,0 +1,22 @@
+{
+  ByteArrayOutputStream str=new ByteArrayOutputStream();
+  new Throwable().printStackTrace(new PrintStream(new BufferedOutputStream(str)));
+  String trace="No stack trace available.";
+  try {
+    trace=str.toString("UTF-8");
+  }
+ catch (  UnsupportedEncodingException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  int idx=trace.indexOf("com.jme3.gde");
+  while (idx != -1) {
+    if (idx < 50) {
+      continue;
+    }
+ else {
+      trace=trace.substring(0,idx);
+      break;
+    }
+  }
+  showError("Fake app is fake!" + (severe ? "And WTF are you trying to do anyway?\n" : "\n") + trace);
+}

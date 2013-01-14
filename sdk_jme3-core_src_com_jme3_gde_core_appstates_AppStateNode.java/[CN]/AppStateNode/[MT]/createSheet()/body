@@ -1,0 +1,14 @@
+{
+  Sheet sheet=super.createSheet();
+  Object obj=appState;
+  if (obj == null) {
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("AppState unexpectedly null",NotifyDescriptor.WARNING_MESSAGE));
+    return sheet;
+  }
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("AppState");
+  set.setName(appState.getClass().getName());
+  createFields(appState.getClass(),set,obj);
+  sheet.put(set);
+  return sheet;
+}

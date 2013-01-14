@@ -1,0 +1,13 @@
+{
+  boolean ret=super.attach(state);
+  try {
+    states.add(state);
+  }
+ catch (  Exception e) {
+    Exceptions.printStackTrace(e);
+  }
+  if (node != null) {
+    node.refresh();
+  }
+  return ret;
+}

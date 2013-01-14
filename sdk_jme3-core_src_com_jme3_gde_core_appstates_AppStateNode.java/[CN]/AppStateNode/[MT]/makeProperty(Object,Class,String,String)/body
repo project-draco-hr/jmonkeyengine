@@ -1,0 +1,11 @@
+{
+  Property<?> prop=null;
+  try {
+    prop=new SceneExplorerProperty(appState.getClass().cast(obj),returntype,method,null,this);
+    prop.setName(name);
+  }
+ catch (  NoSuchMethodException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return prop;
+}

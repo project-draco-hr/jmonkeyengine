@@ -4,6 +4,7 @@
   }
   try {
     super.update();
+    FakeApplication fakap=fakeApp;
     float tpf=timer.getTimePerFrame();
     camLight.setPosition(cam.getLocation());
     secondCounter+=tpf;
@@ -13,12 +14,18 @@
       secondCounter=0.0f;
     }
     getStateManager().update(tpf);
+    if (fakap != null) {
+      fakap.updateFake(tpf);
+    }
     rootNode.updateLogicalState(tpf);
     guiNode.updateLogicalState(tpf);
     toolsNode.updateLogicalState(tpf);
     rootNode.updateGeometricState();
     guiNode.updateGeometricState();
     toolsNode.updateGeometricState();
+    if (fakap != null) {
+      fakap.renderFake();
+    }
     getStateManager().render(renderManager);
     renderManager.render(tpf,context.isRenderable());
     getStateManager().postRender();

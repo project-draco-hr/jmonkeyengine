@@ -1,0 +1,9 @@
+{
+  initComponents();
+  setName(Bundle.CTL_AppStateExplorerTopComponent());
+  setToolTipText(Bundle.HINT_AppStateExplorerTopComponent());
+  ActionMap map=getActionMap();
+  map.put("delete",ExplorerUtils.actionDelete(explorerManager,true));
+  associateLookup(ExplorerUtils.createLookup(explorerManager,map));
+  SceneApplication.getApplication().addSceneListener(listener);
+}
