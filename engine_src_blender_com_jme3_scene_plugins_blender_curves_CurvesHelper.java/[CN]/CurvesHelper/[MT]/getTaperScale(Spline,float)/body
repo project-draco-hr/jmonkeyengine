@@ -1,4 +1,7 @@
 {
+  if (taper == null) {
+    return 1;
+  }
   percent=FastMath.clamp(percent,0,1);
   List<Float> segmentLengths=taper.getSegmentsLength();
   float percentLength=taper.getTotalLength() * percent;
