@@ -2,5 +2,6 @@
   doBatch();
   for (  Batch batch : batches.getArray()) {
     batch.geometry.setIgnoreTransform(true);
+    batch.geometry.setUserData(UserData.JME_PHYSICSIGNORE,true);
   }
 }
