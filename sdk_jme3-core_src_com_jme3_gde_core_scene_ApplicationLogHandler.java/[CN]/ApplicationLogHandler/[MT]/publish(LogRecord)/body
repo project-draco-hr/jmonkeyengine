@@ -5,6 +5,9 @@
  else   if (record.getLevel().equals(Level.WARNING)) {
     io.getErr().println(formatter.formatMessage(record));
   }
+ else   if (record.getLevel().equals(Level.INFO)) {
+    io.getOut().println(formatter.formatMessage(record));
+  }
  else {
     io.getOut().println(formatter.formatMessage(record));
   }

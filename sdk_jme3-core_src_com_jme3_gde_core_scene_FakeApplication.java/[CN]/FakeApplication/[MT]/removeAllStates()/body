@@ -1,0 +1,6 @@
+{
+  for (Iterator<AppState> it=new ArrayList(appStateManager.getAddedStates()).iterator(); it.hasNext(); ) {
+    AppState appState=it.next();
+    appStateManager.detach(appState);
+  }
+}

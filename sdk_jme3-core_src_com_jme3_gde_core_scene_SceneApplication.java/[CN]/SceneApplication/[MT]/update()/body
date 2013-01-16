@@ -14,14 +14,20 @@
       secondCounter=0.0f;
     }
     getStateManager().update(tpf);
+    toolsNode.updateLogicalState(tpf);
     if (fakap != null) {
       fakap.updateFake(tpf);
+      fakap.updateExternalLogicalState(rootNode,tpf);
+      fakap.updateExternalLogicalState(guiNode,tpf);
+      fakap.updateExternalGeometricState(rootNode);
+      fakap.updateExternalGeometricState(guiNode);
     }
-    rootNode.updateLogicalState(tpf);
-    guiNode.updateLogicalState(tpf);
-    toolsNode.updateLogicalState(tpf);
-    rootNode.updateGeometricState();
-    guiNode.updateGeometricState();
+ else {
+      rootNode.updateLogicalState(tpf);
+      guiNode.updateLogicalState(tpf);
+      rootNode.updateGeometricState();
+      guiNode.updateGeometricState();
+    }
     toolsNode.updateGeometricState();
     if (fakap != null) {
       fakap.renderFake();

@@ -1,0 +1,27 @@
+{
+  Future fut=fakeAppThread.submit(new Callable<Void>(){
+    public Void call() throws Exception {
+      externalNode.updateGeometricState();
+      return null;
+    }
+  }
+);
+  try {
+    fut.get(1,TimeUnit.MINUTES);
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    clearNode(externalNode);
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Exception in Control, scene content removed.\n" + ex.getMessage()));
+    return false;
+  }
+catch (  TimeoutException ex) {
+    fut.cancel(true);
+    clearNode(externalNode);
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Render loop was blocked for too long, scene content removed."));
+    return false;
+  }
+  return true;
+}

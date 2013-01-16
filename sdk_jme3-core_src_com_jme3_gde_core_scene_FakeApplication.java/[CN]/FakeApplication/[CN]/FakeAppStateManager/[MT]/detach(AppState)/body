@@ -1,0 +1,10 @@
+{
+  boolean ret=super.detach(state);
+  if (ret) {
+    states.remove(state);
+  }
+  if (node != null) {
+    node.refresh();
+  }
+  return ret;
+}

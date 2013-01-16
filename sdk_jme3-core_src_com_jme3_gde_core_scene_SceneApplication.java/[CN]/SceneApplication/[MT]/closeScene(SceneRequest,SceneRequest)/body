@@ -20,6 +20,10 @@
       if (oldRequest.getRequester() instanceof SceneApplication) {
         camController.disable();
       }
+      if (fakeApp != null) {
+        fakeApp.stopFakeApp();
+      }
+      fakeApp=null;
       enqueue(new Callable(){
         public Object call() throws Exception {
           if (physicsState != null) {

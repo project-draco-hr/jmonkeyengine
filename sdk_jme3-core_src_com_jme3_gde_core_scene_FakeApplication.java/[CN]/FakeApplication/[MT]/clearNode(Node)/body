@@ -1,0 +1,26 @@
+{
+  while (!externalNode.getChildren().isEmpty()) {
+    try {
+      externalNode.detachAllChildren();
+    }
+ catch (    Exception e) {
+      Exceptions.printStackTrace(e);
+    }
+catch (    Error e) {
+      Exceptions.printStackTrace(e);
+    }
+  }
+  Control control=externalNode.getControl(Control.class);
+  while (control != null) {
+    try {
+      externalNode.removeControl(control);
+    }
+ catch (    Exception e) {
+      Exceptions.printStackTrace(e);
+    }
+catch (    Error e) {
+      Exceptions.printStackTrace(e);
+    }
+    control=externalNode.getControl(Control.class);
+  }
+}
