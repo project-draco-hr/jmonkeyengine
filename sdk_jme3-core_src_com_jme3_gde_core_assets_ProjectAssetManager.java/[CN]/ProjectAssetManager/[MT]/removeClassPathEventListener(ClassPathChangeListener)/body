@@ -1,3 +1,5 @@
 {
-  classPathListeners.remove(listener);
+synchronized (classPathListeners) {
+    classPathListeners.remove(listener);
+  }
 }

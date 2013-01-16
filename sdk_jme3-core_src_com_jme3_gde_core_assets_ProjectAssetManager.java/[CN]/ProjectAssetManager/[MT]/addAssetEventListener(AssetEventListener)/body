@@ -1,3 +1,5 @@
 {
-  assetEventListeners.add(listener);
+synchronized (assetEventListeners) {
+    assetEventListeners.add(listener);
+  }
 }

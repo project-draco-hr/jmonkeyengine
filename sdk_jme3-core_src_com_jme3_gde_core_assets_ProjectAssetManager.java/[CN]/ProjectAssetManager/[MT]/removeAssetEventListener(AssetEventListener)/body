@@ -1,3 +1,5 @@
 {
-  assetEventListeners.remove(listener);
+synchronized (assetEventListeners) {
+    assetEventListeners.remove(listener);
+  }
 }

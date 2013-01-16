@@ -1,12 +1,20 @@
 {
+  if (jarItems.isEmpty() && classPathItems.isEmpty()) {
+    return;
+  }
+  Logger.getLogger(ProjectAssetManager.class.getName()).log(Level.INFO,"Clear {0} classpath entries and {1} url locators for project {2}",new Object[]{classPathItems.size(),jarItems.size(),project.toString()});
   for (  FileObject fileObject : jarItems) {
-    Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Remove locator:{0}",fileObject.toURL());
+    Logger.getLogger(this.getClass().getName()).log(Level.FINE,"Remove locator:{0}",fileObject.toURL());
     unregisterLocator(fileObject.toURL().toExternalForm(),com.jme3.asset.plugins.UrlLocator.class);
   }
   jarItems.clear();
   for (  ClassPathItem fileObject : classPathItems) {
-    Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Remove classpath:{0}",fileObject.object);
+    Logger.getLogger(this.getClass().getName()).log(Level.FINE,"Remove classpath:{0}",fileObject.object);
     fileObject.object.removeRecursiveListener(fileObject.listener);
   }
   classPathItems.clear();
+  for (  ClassPath classPath : classPaths) {
+    classPath.removePropertyChangeListener(classPathListener);
+  }
+  classPaths.clear();
 }

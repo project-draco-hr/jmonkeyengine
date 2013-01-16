@@ -9,37 +9,18 @@
     for (    SourceGroup sourceGroup : groups) {
       ClassPath path=ClassPath.getClassPath(sourceGroup.getRootFolder(),ClassPath.EXECUTE);
       if (path != null) {
+        classPaths.add(path);
+        path.addPropertyChangeListener(classPathListener);
         FileObject[] roots=path.getRoots();
         for (        FileObject fileObject : roots) {
           if (!fileObject.equals(getAssetFolder())) {
-            FileChangeListener listener=new FileChangeListener(){
-              public void fileFolderCreated(              FileEvent fe){
-              }
-              public void fileDataCreated(              FileEvent fe){
-                if (!fe.isExpected()) {
-                  notifyClassPathListeners();
-                }
-              }
-              public void fileChanged(              FileEvent fe){
-                if (!fe.isExpected()) {
-                  notifyClassPathListeners();
-                }
-              }
-              public void fileDeleted(              FileEvent fe){
-              }
-              public void fileRenamed(              FileRenameEvent fre){
-              }
-              public void fileAttributeChanged(              FileAttributeEvent fae){
-              }
-            }
-;
             fileObject.addRecursiveListener(listener);
-            Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Add classpath:{0}",fileObject);
+            Logger.getLogger(this.getClass().getName()).log(Level.FINE,"Add classpath:{0}",fileObject);
             classPathItems.add(new ClassPathItem(fileObject,listener));
             urls.add(fileObject.toURL());
           }
           if (fileObject.toURL().toExternalForm().startsWith("jar")) {
-            Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Add locator:{0}",fileObject.toURL());
+            Logger.getLogger(this.getClass().getName()).log(Level.FINE,"Add locator:{0}",fileObject.toURL());
             jarItems.add(fileObject);
             registerLocator(fileObject.toURL().toExternalForm(),"com.jme3.asset.plugins.UrlLocator");
           }
@@ -48,5 +29,6 @@
     }
     loader=new URLClassLoader(urls.toArray(new URL[urls.size()]),getClass().getClassLoader());
     addClassLoader(loader);
+    Logger.getLogger(ProjectAssetManager.class.getName()).log(Level.INFO,"Updated {0} classpath entries and {1} url locators for project {2}",new Object[]{classPathItems.size(),jarItems.size(),project.toString()});
   }
 }

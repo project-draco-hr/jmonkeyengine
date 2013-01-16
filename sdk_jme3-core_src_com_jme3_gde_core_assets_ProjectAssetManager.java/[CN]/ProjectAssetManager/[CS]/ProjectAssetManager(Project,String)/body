@@ -5,11 +5,6 @@
     di.prepareManager(this);
   }
   addFolderLocator(folderName);
-  ProjectManager.mutex().postWriteRequest(new Runnable(){
-    public void run(){
-      updateClassLoader();
-    }
-  }
-);
+  updateClassLoader();
   prepAssetEventListeners();
 }

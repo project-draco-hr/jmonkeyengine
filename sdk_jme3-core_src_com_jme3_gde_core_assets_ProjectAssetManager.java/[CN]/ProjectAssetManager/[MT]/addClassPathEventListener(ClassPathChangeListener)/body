@@ -1,3 +1,5 @@
 {
-  classPathListeners.add(listener);
+synchronized (classPathListeners) {
+    classPathListeners.add(listener);
+  }
 }
