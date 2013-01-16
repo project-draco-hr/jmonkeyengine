@@ -1,5 +1,5 @@
 {
-  Set<String> list=new HashSet<String>();
+  List<String> list=new LinkedList<String>();
   FileObject assetsFolder=getAssetFolder();
   if (assetsFolder != null) {
     Enumeration<FileObject> assets=(Enumeration<FileObject>)assetsFolder.getChildren(true);
@@ -28,5 +28,5 @@ synchronized (classPathItems) {
       }
     }
   }
-  return list.toArray(new String[list.size()]);
+  return list;
 }

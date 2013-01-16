@@ -1,15 +1,6 @@
 {
-  FileObject assetsFolder=getAssetFolder();
-  if (assetsFolder == null) {
-    return new String[]{};
-  }
-  Enumeration<FileObject> assets=(Enumeration<FileObject>)assetsFolder.getChildren(true);
   ArrayList<String> list=new ArrayList<String>();
-  while (assets.hasMoreElements()) {
-    FileObject asset=assets.nextElement();
-    if (asset.getExt().equalsIgnoreCase("wav") || asset.getExt().equalsIgnoreCase("ogg")) {
-      list.add(getRelativeAssetPath(asset.getPath()));
-    }
-  }
+  list.addAll(collectFilesWithSuffix("wav"));
+  list.addAll(collectFilesWithSuffix("ogg"));
   return list.toArray(new String[list.size()]);
 }
