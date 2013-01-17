@@ -17,6 +17,8 @@
       createCanvas();
       startCanvas(true);
     }
+    nodeSync=new NodeSyncAppState();
+    stateManager.attach(nodeSync);
     progressHandle.progress("initialize Base Application",1);
   }
  catch (  Exception e) {

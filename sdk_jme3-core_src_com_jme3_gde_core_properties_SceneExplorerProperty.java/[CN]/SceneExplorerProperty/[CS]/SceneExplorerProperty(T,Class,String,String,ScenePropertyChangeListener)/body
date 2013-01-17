@@ -1,6 +1,14 @@
 {
   super(instance,valueType,getter,setter);
-  addPropertyChangeListener(listener);
+  primitive=isPrimitive(instance,getter);
+  if (!primitive) {
+    cloneable=canClone(instance,getter);
+    instantiable=canRecreate(instance,getter);
+  }
+ else {
+    cloneable=false;
+    instantiable=false;
+  }
   if (valueType == Vector3f.class) {
     setPropertyEditorClass(Vector3fPropertyEditor.class);
   }
@@ -25,4 +33,6 @@
   for (  SceneExplorerPropertyEditor di : Lookup.getDefault().lookupAll(SceneExplorerPropertyEditor.class)) {
     di.setEditor(valueType,this);
   }
+  editable=getPropertyEditor() != null;
+  addPropertyChangeListener(listener);
 }

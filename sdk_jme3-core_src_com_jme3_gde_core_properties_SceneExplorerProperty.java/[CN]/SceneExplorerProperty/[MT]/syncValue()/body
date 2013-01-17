@@ -1,0 +1,22 @@
+{
+  if (!editable) {
+    return;
+  }
+  mutex.postWriteRequest(new Runnable(){
+    public void run(){
+      T realValue=getSuperValue();
+      if (objectLocal == null && !inited) {
+        inited=true;
+        objectLocal=duplicateObject(realValue);
+        notifyListeners(PROP_INIT_CHANGE,null,objectLocal);
+      }
+ else       if (objectLocal != null && !objectLocal.equals(realValue)) {
+        T oldObject=objectLocal;
+        T newObject=duplicateObject(realValue);
+        notifyListeners(PROP_SCENE_CHANGE,oldObject,newObject);
+        objectLocal=newObject;
+      }
+    }
+  }
+);
+}

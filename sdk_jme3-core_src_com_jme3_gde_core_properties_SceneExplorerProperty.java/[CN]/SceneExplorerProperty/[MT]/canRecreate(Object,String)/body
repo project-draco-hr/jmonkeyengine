@@ -1,0 +1,22 @@
+{
+  try {
+    Class objClass=obj.getClass().getMethod(getter).getReturnType();
+    if (Enum.class.isAssignableFrom(objClass)) {
+      return false;
+    }
+    Constructor[] constructors=objClass.getConstructors();
+    for (    Constructor constructor : constructors) {
+      Class[] types=constructor.getParameterTypes();
+      if (types.length == 1 && types[0].equals(obj.getClass())) {
+        return true;
+      }
+    }
+  }
+ catch (  NoSuchMethodException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  SecurityException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return false;
+}

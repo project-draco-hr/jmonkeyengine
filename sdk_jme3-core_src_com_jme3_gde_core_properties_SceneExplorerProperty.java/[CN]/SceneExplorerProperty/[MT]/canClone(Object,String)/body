@@ -1,0 +1,20 @@
+{
+  try {
+    Class objClass=obj.getClass().getMethod(getter).getReturnType();
+    if (Enum.class.isAssignableFrom(objClass)) {
+      return false;
+    }
+    Method meth=objClass.getMethod("clone");
+    if (meth != null) {
+      if (meth.getParameterTypes().length == 0 && meth.getReturnType().equals(obj.getClass())) {
+        return true;
+      }
+    }
+  }
+ catch (  NoSuchMethodException ex) {
+  }
+catch (  SecurityException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return false;
+}

@@ -32,6 +32,9 @@
             StatusDisplayer.getDefault().setStatusText("could not load Spatial from request: " + getCurrentSceneRequest().getWindowTitle());
             return null;
           }
+          if (model instanceof Node) {
+            fakeApp.setRootNode((Node)model);
+          }
           rootNode.attachChild(model);
           if (request.getToolNode() != null) {
             toolsNode.attachChild(request.getToolNode());

@@ -1,0 +1,25 @@
+{
+  super.update(tpf);
+synchronized (newNodes) {
+    for (Iterator<AbstractSceneExplorerNode> it=newNodes.iterator(); it.hasNext(); ) {
+      AbstractSceneExplorerNode abstractSceneExplorerNode=it.next();
+      abstractSceneExplorerNode.syncSceneData();
+      it.remove();
+    }
+  }
+  timer+=tpf;
+  if (timer > timeStep) {
+    timer=0;
+    AbstractSceneExplorerNode node=this.node;
+    if (initialized && node != null) {
+      node.syncSceneData();
+    }
+  }
+synchronized (oldNodes) {
+    for (Iterator<AbstractSceneExplorerNode> it=oldNodes.iterator(); it.hasNext(); ) {
+      AbstractSceneExplorerNode abstractSceneExplorerNode=it.next();
+      abstractSceneExplorerNode.syncSceneData();
+      it.remove();
+    }
+  }
+}

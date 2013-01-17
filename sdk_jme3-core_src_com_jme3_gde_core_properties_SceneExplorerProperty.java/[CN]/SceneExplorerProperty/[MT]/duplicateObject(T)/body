@@ -1,0 +1,50 @@
+{
+  T obj=a;
+  if (primitive) {
+    return obj;
+  }
+ else   if (cloneable) {
+    try {
+      obj=(T)a.getClass().getMethod("clone").invoke(a);
+    }
+ catch (    IllegalAccessException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    IllegalArgumentException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    InvocationTargetException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    NoSuchMethodException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    SecurityException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+ else   if (instantiable) {
+    try {
+      obj=(T)a.getClass().getConstructor(a.getClass()).newInstance(a);
+    }
+ catch (    InstantiationException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    IllegalAccessException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    IllegalArgumentException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    InvocationTargetException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    NoSuchMethodException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    SecurityException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+  return obj;
+}

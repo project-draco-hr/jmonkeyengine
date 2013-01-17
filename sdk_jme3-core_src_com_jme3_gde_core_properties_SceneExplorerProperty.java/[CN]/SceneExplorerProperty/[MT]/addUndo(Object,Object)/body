@@ -6,10 +6,13 @@
   }
   undoRedo.addEdit(this,new AbstractUndoableSceneEdit(){
     @Override public void sceneUndo(){
-      Logger.getLogger(SceneExplorerProperty.class.getName()).log(Level.INFO,"Do undo {0}",before);
+      Logger.getLogger(SceneExplorerProperty.class.getName()).log(Level.FINE,"Do undo {0}",before);
+      notifyListeners(PROP_USER_CHANGE,after,before);
       setSuperValue((T)before,false);
     }
     @Override public void sceneRedo(){
+      Logger.getLogger(SceneExplorerProperty.class.getName()).log(Level.FINE,"Do redo {0}",before);
+      notifyListeners(PROP_USER_CHANGE,before,after);
       setSuperValue((T)after,false);
     }
     @Override public void awtUndo(){

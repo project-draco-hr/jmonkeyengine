@@ -1,18 +1,18 @@
 {
-  try {
-    notifyListeners(getSuperValue(),val);
-    SceneApplication.getApplication().enqueue(new Callable<Void>(){
-      public Void call() throws Exception {
-        setSuperValue(val);
-        return null;
+  mutex.postWriteRequest(new Runnable(){
+    public void run(){
+      final T oldObject=(T)objectLocal;
+      objectLocal=val;
+      final T sceneObject=(T)duplicateObject(val);
+      notifyListeners(PROP_USER_CHANGE,oldObject,objectLocal);
+      SceneApplication.getApplication().enqueue(new Callable<Void>(){
+        public Void call() throws Exception {
+          setSuperValue(sceneObject);
+          return null;
+        }
       }
+);
     }
-).get();
   }
- catch (  InterruptedException ex) {
-    Exceptions.printStackTrace(ex);
-  }
-catch (  ExecutionException ex) {
-    Exceptions.printStackTrace(ex);
-  }
+);
 }

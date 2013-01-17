@@ -1,0 +1,21 @@
+{
+  Collection collection=nodeSelectionResult.allInstances();
+  AbstractSceneExplorerNode newNode=null;
+  for (Iterator it=collection.iterator(); it.hasNext(); ) {
+    Object object=it.next();
+    if (object instanceof AbstractSceneExplorerNode) {
+      if (object != null) {
+synchronized (newNodes) {
+          newNodes.add((AbstractSceneExplorerNode)object);
+        }
+      }
+      newNode=(AbstractSceneExplorerNode)object;
+    }
+  }
+  if (node != null) {
+synchronized (oldNodes) {
+      oldNodes.add(node);
+    }
+  }
+  node=newNode;
+}

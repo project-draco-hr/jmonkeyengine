@@ -1,0 +1,11 @@
+{
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      for (Iterator<ScenePropertyChangeListener> it=listeners.iterator(); it.hasNext(); ) {
+        ScenePropertyChangeListener propertyChangeListener=it.next();
+        propertyChangeListener.propertyChange(type,getName(),before,after);
+      }
+    }
+  }
+);
+}
