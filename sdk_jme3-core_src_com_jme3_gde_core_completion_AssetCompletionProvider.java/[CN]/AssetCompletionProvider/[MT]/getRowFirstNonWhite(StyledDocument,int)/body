@@ -1,0 +1,16 @@
+{
+  Element lineElement=doc.getParagraphElement(offset);
+  int start=lineElement.getStartOffset();
+  while (start + 1 < lineElement.getEndOffset()) {
+    try {
+      if (doc.getText(start,1).charAt(0) != ' ') {
+        break;
+      }
+    }
+ catch (    BadLocationException ex) {
+      throw (BadLocationException)new BadLocationException("calling getText(" + start + ", "+ (start + 1)+ ") on doc of length: "+ doc.getLength(),start).initCause(ex);
+    }
+    start++;
+  }
+  return start;
+}

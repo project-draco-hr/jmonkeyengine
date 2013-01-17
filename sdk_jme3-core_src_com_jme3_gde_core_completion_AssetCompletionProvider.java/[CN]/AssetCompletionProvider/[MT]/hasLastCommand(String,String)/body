@@ -1,0 +1,10 @@
+{
+  int idx=line.lastIndexOf(command);
+  if (idx != -1) {
+    int bIdx=line.indexOf(")",idx);
+    if (bIdx == -1) {
+      return true;
+    }
+  }
+  return false;
+}
