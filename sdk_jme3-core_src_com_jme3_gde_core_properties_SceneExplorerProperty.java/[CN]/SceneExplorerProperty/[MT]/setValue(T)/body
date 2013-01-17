@@ -1,9 +1,9 @@
 {
   mutex.postWriteRequest(new Runnable(){
     public void run(){
-      final T oldObject=(T)objectLocal;
+      final T oldObject=objectLocal;
       objectLocal=val;
-      final T sceneObject=(T)duplicateObject(val);
+      final T sceneObject=duplicateObject(val);
       notifyListeners(PROP_USER_CHANGE,oldObject,objectLocal);
       SceneApplication.getApplication().enqueue(new Callable<Void>(){
         public Void call() throws Exception {

@@ -5,16 +5,22 @@
   mutex.postWriteRequest(new Runnable(){
     public void run(){
       T realValue=getSuperValue();
-      if (objectLocal == null && !inited) {
+      if ((objectLocal == null) && !inited) {
         inited=true;
+        T newObject=duplicateObject(realValue);
+        notifyListeners(PROP_INIT_CHANGE,null,newObject);
         objectLocal=duplicateObject(realValue);
-        notifyListeners(PROP_INIT_CHANGE,null,objectLocal);
       }
- else       if (objectLocal != null && !objectLocal.equals(realValue)) {
+ else       if ((objectLocal != null) && !objectLocal.equals(realValue)) {
         T oldObject=objectLocal;
         T newObject=duplicateObject(realValue);
         notifyListeners(PROP_SCENE_CHANGE,oldObject,newObject);
         objectLocal=newObject;
+      }
+ else       if ((objectLocal == null) && (realValue != null)) {
+        T newObject=duplicateObject(realValue);
+        notifyListeners(PROP_SCENE_CHANGE,null,newObject);
+        objectLocal=duplicateObject(realValue);
       }
     }
   }
