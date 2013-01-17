@@ -4,10 +4,7 @@
   if (parent == null || undo == null) {
     return;
   }
-  for (Iterator<Spatial> it=undo.newChildren.iterator(); it.hasNext(); ) {
-    Spatial spatial=it.next();
-    spatial.removeFromParent();
-  }
+  parent.detachChild(undo.newSpat);
   for (Iterator<Spatial> it=undo.oldChildren.iterator(); it.hasNext(); ) {
     Spatial spatial=it.next();
     parent.attachChild(spatial);

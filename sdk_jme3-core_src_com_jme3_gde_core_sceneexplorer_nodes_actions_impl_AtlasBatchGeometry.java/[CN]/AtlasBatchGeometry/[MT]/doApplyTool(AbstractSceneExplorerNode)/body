@@ -1,0 +1,16 @@
+{
+  Node parent=rootNode.getLookup().lookup(Node.class);
+  AssetManager mgr=rootNode.getLookup().lookup(ProjectAssetManager.class);
+  if (parent == null || mgr == null) {
+    return null;
+  }
+  Geometry batch=TextureAtlas.makeAtlasBatch(parent,mgr,4096);
+  batch.setName(parent.getName() + " - batched");
+  List<Spatial> currentChildren=new ArrayList<Spatial>();
+  if (parent != null && batch != null) {
+    currentChildren.addAll(parent.getChildren());
+    parent.detachAllChildren();
+    parent.attachChild(batch);
+  }
+  return new OldNew(batch,currentChildren);
+}
