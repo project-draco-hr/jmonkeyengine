@@ -1,9 +1,9 @@
 {
-  T obj=a;
   if (primitive) {
-    return obj;
+    return a;
   }
- else   if (cloneable) {
+  T obj=null;
+  if (cloneable) {
     try {
       obj=(T)a.getClass().getMethod("clone").invoke(a);
     }
@@ -45,6 +45,9 @@ catch (    NoSuchMethodException ex) {
 catch (    SecurityException ex) {
       Exceptions.printStackTrace(ex);
     }
+  }
+  if (obj == null) {
+    return a;
   }
   return obj;
 }

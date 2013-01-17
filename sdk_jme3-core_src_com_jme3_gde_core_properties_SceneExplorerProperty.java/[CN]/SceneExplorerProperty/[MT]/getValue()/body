@@ -1,3 +1,8 @@
 {
-  return objectLocal;
+  return mutex.readAccess(new Mutex.Action<T>(){
+    public T run(){
+      return objectLocal;
+    }
+  }
+);
 }
