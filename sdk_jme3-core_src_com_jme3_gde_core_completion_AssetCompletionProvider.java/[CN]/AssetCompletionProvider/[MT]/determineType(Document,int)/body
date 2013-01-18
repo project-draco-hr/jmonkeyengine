@@ -12,8 +12,20 @@
  else     if (hasLastCommand(line,".loadTexture(\"")) {
       return AssetType.Texture;
     }
+ else     if (hasLastCommand(line,".addXml(\"")) {
+      return AssetType.Xml;
+    }
+ else     if (hasLastCommand(line,".fromXml(\"")) {
+      return AssetType.Xml;
+    }
+ else     if (hasLastCommand(line,".loadSound(\"")) {
+      return AssetType.Sound;
+    }
  else     if (hasLastCommand(line,"new Material(")) {
       return AssetType.MatDef;
+    }
+ else     if (hasLastCommand(line,"new AudioNode(")) {
+      return AssetType.Sound;
     }
   }
  catch (  BadLocationException ex) {
