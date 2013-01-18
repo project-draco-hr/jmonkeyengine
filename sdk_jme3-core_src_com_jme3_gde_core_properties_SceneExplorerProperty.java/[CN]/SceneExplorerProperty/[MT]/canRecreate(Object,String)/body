@@ -2,12 +2,13 @@
   try {
     Class objClass=obj.getClass().getMethod(getter).getReturnType();
     if (Enum.class.isAssignableFrom(objClass)) {
+      logger.log(Level.FINE,"Found enum, not recreatable");
       return false;
     }
     Constructor[] constructors=objClass.getConstructors();
     for (    Constructor constructor : constructors) {
       Class[] types=constructor.getParameterTypes();
-      if (types.length == 1 && types[0].equals(obj.getClass())) {
+      if (types.length == 1 && types[0].isAssignableFrom(objClass)) {
         return true;
       }
     }

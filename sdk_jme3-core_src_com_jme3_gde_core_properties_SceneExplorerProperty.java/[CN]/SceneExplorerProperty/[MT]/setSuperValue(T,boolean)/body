@@ -1,8 +1,10 @@
 {
   try {
     if (undo) {
+      logger.log(Level.FINE,"Add undo for {0} on thread {1}");
       addUndo(duplicateObject(getSuperValue()),val);
     }
+    logger.log(Level.FINE,"Set super value of {0} on thread {1}",new Object[]{this,Thread.currentThread().getName()});
     super.setValue(val);
   }
  catch (  IllegalAccessException ex) {

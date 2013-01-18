@@ -1,5 +1,6 @@
 {
   try {
+    logger.log(Level.FINE,"Get super value of {0} on thread {1}",new Object[]{this,Thread.currentThread().getName()});
     return super.getValue();
   }
  catch (  IllegalAccessException ex) {

@@ -2,12 +2,17 @@
   try {
     Class objClass=obj.getClass().getMethod(getter).getReturnType();
     if (Enum.class.isAssignableFrom(objClass)) {
+      logger.log(Level.FINE,"Found enum, not cloneable");
       return false;
     }
     Method meth=objClass.getMethod("clone");
     if (meth != null) {
-      if (meth.getParameterTypes().length == 0 && meth.getReturnType().equals(obj.getClass())) {
+      logger.log(Level.FINE,"Found clone method");
+      if (meth.getParameterTypes().length == 0 && meth.getReturnType().isAssignableFrom(objClass)) {
         return true;
+      }
+ else {
+        logger.log(Level.FINE,"Wrong kind of clone method, parameter size {0}, returnType {1}",new Object[]{meth.getParameterTypes().length,meth.getReturnType()});
       }
     }
   }

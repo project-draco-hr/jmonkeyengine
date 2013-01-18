@@ -7,9 +7,9 @@
     mutex.postWriteRequest(new Runnable(){
       public void run(){
         inited=true;
-        T newObject=duplicateObject(realValue);
-        notifyListeners(PROP_INIT_CHANGE,null,newObject);
         objectLocal=duplicateObject(realValue);
+        notifyListeners(PROP_INIT_CHANGE,null,objectLocal);
+        logger.log(Level.FINE,"Get first sync duplicate for {0}",this);
       }
     }
 );
@@ -19,8 +19,9 @@
       public void run(){
         T oldObject=objectLocal;
         T newObject=duplicateObject(realValue);
-        notifyListeners(PROP_SCENE_CHANGE,oldObject,newObject);
         objectLocal=newObject;
+        notifyListeners(PROP_SCENE_CHANGE,oldObject,objectLocal);
+        logger.log(Level.FINE,"Get update for {0} due to equals check",this);
       }
     }
 );
@@ -28,9 +29,9 @@
  else   if ((objectLocal == null) && (realValue != null)) {
     mutex.postWriteRequest(new Runnable(){
       public void run(){
-        T newObject=duplicateObject(realValue);
-        notifyListeners(PROP_SCENE_CHANGE,null,newObject);
         objectLocal=duplicateObject(realValue);
+        notifyListeners(PROP_SCENE_CHANGE,null,objectLocal);
+        logger.log(Level.FINE,"Get update for {0} due to change from null",this);
       }
     }
 );
