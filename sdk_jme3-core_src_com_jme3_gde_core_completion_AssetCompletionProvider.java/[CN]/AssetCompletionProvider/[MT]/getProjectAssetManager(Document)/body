@@ -1,24 +1,24 @@
 {
   Object sdp=doc.getProperty(Document.StreamDescriptionProperty);
   if (sdp instanceof FileObject) {
-    Logger.getLogger(AssetCompletionProvider.class.getName()).log(Level.FINE,"Check FileObject for Project..");
+    logger.log(Level.FINE,"Check FileObject for Project..");
     FileObject fobj=(FileObject)sdp;
     Project proj=FileOwnerQuery.getOwner(fobj);
     if (proj != null) {
-      Logger.getLogger(AssetCompletionProvider.class.getName()).log(Level.FINE,"Project found, return ProjectAssetManager");
+      logger.log(Level.FINE,"Project found, return ProjectAssetManager");
       return proj.getLookup().lookup(ProjectAssetManager.class);
     }
   }
   if (sdp instanceof DataObject) {
-    Logger.getLogger(AssetCompletionProvider.class.getName()).log(Level.FINE,"Check DataObject for Project..");
+    logger.log(Level.FINE,"Check DataObject for Project..");
     DataObject dobj=(DataObject)sdp;
     FileObject fobj=dobj.getPrimaryFile();
     Project proj=FileOwnerQuery.getOwner(fobj);
     if (proj != null) {
-      Logger.getLogger(AssetCompletionProvider.class.getName()).log(Level.FINE,"Project found, return ProjectAssetManager");
+      logger.log(Level.FINE,"Project found, return ProjectAssetManager");
       return proj.getLookup().lookup(ProjectAssetManager.class);
     }
   }
-  Logger.getLogger(AssetCompletionProvider.class.getName()).log(Level.FINE,"No Project found");
+  logger.log(Level.FINE,"No Project found");
   return null;
 }

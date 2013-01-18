@@ -6,7 +6,7 @@
     @Override protected void query(    CompletionResultSet completionResultSet,    Document document,    int caretOffset){
       ProjectAssetManager manager=getProjectAssetManager(document);
       if (manager == null) {
-        Logger.getLogger(AssetCompletionProvider.class.getName()).log(Level.FINE,"No assetManager found");
+        logger.log(Level.FINE,"No assetManager found");
         completionResultSet.finish();
         return;
       }
@@ -29,7 +29,7 @@
  catch (      BadLocationException ex) {
         Exceptions.printStackTrace(ex);
       }
-      Logger.getLogger(AssetCompletionProvider.class.getName()).log(Level.FINE,"Searching with filter {0}",filter);
+      logger.log(Level.FINE,"Searching with filter {0}",filter);
 switch (type) {
 case Model:
         for (        String string : manager.getModels()) {
@@ -88,7 +88,7 @@ completionResultSet.addItem(new AssetCompletionItem(type,string,startOffset,care
 }
 break;
 case Invalid:
-Logger.getLogger(AssetCompletionProvider.class.getName()).log(Level.FINE,"Not a valid code line for assets");
+logger.log(Level.FINE,"Not a valid code line for assets");
 break;
 }
 completionResultSet.finish();
