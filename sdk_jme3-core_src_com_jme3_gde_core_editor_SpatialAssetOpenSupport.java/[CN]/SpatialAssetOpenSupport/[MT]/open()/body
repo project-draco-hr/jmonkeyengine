@@ -3,7 +3,6 @@
   if (app == null) {
     app=new SceneApplication();
     tc.setDataObject(dataObject);
-    System.out.println("Judge Thread: " + Thread.currentThread().getName());
     Thread t=new Thread(new Runnable(){
       public void run(){
         app.start();

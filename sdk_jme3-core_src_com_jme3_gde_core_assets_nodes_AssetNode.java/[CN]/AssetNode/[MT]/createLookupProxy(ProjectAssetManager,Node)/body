@@ -1,5 +1,6 @@
 {
-  DataObject obj=node.getLookup().lookup(DataObject.class);
+  DataObject obj=null;
+  obj=node.getLookup().lookup(DataObject.class);
   if (obj instanceof AssetDataObject && obj.getLookup().lookup(ProjectAssetManager.class) == null) {
     ((AssetDataObject)obj).getLookupContents().add(manager);
   }
