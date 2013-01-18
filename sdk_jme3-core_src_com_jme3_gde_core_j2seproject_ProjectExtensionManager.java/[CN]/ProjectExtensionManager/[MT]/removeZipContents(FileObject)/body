@@ -10,7 +10,7 @@
     while ((entry=str.getNextEntry()) != null) {
       FileObject old=projectRoot.getFileObject(entry.getName());
       if (old != null && !old.equals(projectRoot)) {
-        logger.log(Level.INFO,"Deleting old file " + old.getNameExt());
+        logger.log(Level.INFO,"Deleting old file {0}",old.getNameExt());
         if (entry.getSize() != -1 && entry.getSize() == old.getSize()) {
           old.delete();
         }
@@ -19,12 +19,12 @@
       FileObject obj=projectRoot.getFileObject(fileName);
       if (obj != null && !obj.equals(projectRoot) && !obj.isFolder()) {
         if (entry.getSize() != -1 && entry.getSize() == obj.getSize()) {
-          logger.log(Level.INFO,"Deleting file " + obj.getNameExt());
+          logger.log(Level.INFO,"Deleting file {0}",obj.getNameExt());
           obj.delete();
         }
  else {
           kept=true;
-          logger.log(Level.INFO,"Keeping file " + obj.getNameExt());
+          logger.log(Level.INFO,"Keeping file {0}",obj.getNameExt());
         }
       }
     }
