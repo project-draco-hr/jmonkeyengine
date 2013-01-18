@@ -15,12 +15,12 @@
         for (        FileObject fileObject : roots) {
           if (!fileObject.equals(getAssetFolder())) {
             fileObject.addRecursiveListener(listener);
-            Logger.getLogger(this.getClass().getName()).log(Level.FINE,"Add classpath:{0}",fileObject);
+            logger.log(Level.FINE,"Add classpath:{0}",fileObject);
             classPathItems.add(new ClassPathItem(fileObject,listener));
             urls.add(fileObject.toURL());
           }
           if (fileObject.toURL().toExternalForm().startsWith("jar")) {
-            Logger.getLogger(this.getClass().getName()).log(Level.FINE,"Add locator:{0}",fileObject.toURL());
+            logger.log(Level.FINE,"Add locator:{0}",fileObject.toURL());
             jarItems.add(fileObject);
             registerLocator(fileObject.toURL().toExternalForm(),"com.jme3.asset.plugins.UrlLocator");
           }
