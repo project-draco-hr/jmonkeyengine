@@ -66,6 +66,20 @@ completionResultSet.addItem(new AssetCompletionItem(type,string,startOffset,care
 }
 }
 break;
+case Font:
+for (String string : manager.getFilesWithSuffix("fnt")) {
+if (string.startsWith(filter)) {
+completionResultSet.addItem(new AssetCompletionItem(type,string,startOffset,caretOffset));
+}
+}
+break;
+case Filter:
+for (String string : manager.getFilesWithSuffix("j3f")) {
+if (string.startsWith(filter)) {
+completionResultSet.addItem(new AssetCompletionItem(type,string,startOffset,caretOffset));
+}
+}
+break;
 case Xml:
 for (String string : manager.getFilesWithSuffix("xml")) {
 if (string.startsWith(filter)) {
