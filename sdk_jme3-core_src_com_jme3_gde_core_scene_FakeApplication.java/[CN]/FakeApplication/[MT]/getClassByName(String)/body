@@ -1,0 +1,18 @@
+{
+  Class clazz=null;
+  try {
+    clazz=getClass().getClassLoader().loadClass(className);
+  }
+ catch (  ClassNotFoundException ex) {
+  }
+  for (  ClassLoader classLoader : assetManager.getClassLoaders()) {
+    if (clazz == null) {
+      try {
+        clazz=classLoader.loadClass(className);
+      }
+ catch (      ClassNotFoundException ex) {
+      }
+    }
+  }
+  return clazz;
+}

@@ -1,0 +1,26 @@
+{
+  SceneRequest req=SceneApplication.getApplication().getCurrentSceneRequest();
+  if (req != null) {
+    FakeApplication app=req.getFakeApp();
+    try {
+      AppState state=(AppState)app.getClassByName(className).newInstance();
+      app.getStateManager().attach(state);
+    }
+ catch (    InstantiationException ex) {
+      DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Error creating AppState, make sure it has an empty constructor!\n" + ex.getMessage()));
+      Exceptions.printStackTrace(ex);
+    }
+catch (    IllegalAccessException ex) {
+      DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Error creating AppState, make sure it has an empty constructor!\n" + ex.getMessage()));
+      Exceptions.printStackTrace(ex);
+    }
+catch (    Exception ex) {
+      DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Error creating AppState, exception when creating!\n" + ex.getMessage()));
+      Exceptions.printStackTrace(ex);
+    }
+  }
+ else {
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("No Scene opened to attach to,\nopen a j3o scene."));
+    logger.log(Level.INFO,"No Scene Request available");
+  }
+}
