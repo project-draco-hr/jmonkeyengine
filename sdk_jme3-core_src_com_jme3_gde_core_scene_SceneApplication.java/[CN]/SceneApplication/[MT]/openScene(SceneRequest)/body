@@ -20,20 +20,18 @@
  else {
         camController.disable();
       }
-      fakeApp=new FakeApplication(rootNode,guiNode,request.getManager(),cam);
+      final AssetManager manager=request.getManager();
       request.setFakeApp(fakeApp);
       enqueue(new Callable(){
         public Object call() throws Exception {
-          if (request.getManager() != null) {
-            assetManager=request.getManager();
+          if (manager != null) {
+            assetManager=manager;
+            fakeApp.newAssetManager(manager);
           }
           Spatial model=request.getRootNode();
           if (model == null) {
             StatusDisplayer.getDefault().setStatusText("could not load Spatial from request: " + getCurrentSceneRequest().getWindowTitle());
             return null;
-          }
-          if (model instanceof Node) {
-            fakeApp.setRootNode((Node)model);
           }
           rootNode.attachChild(model);
           if (request.getToolNode() != null) {

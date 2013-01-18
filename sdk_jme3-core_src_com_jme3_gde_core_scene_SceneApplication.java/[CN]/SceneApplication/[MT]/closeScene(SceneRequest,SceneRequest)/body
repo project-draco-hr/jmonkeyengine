@@ -20,16 +20,15 @@
       if (oldRequest.getRequester() instanceof SceneApplication) {
         camController.disable();
       }
-      if (fakeApp != null) {
-        fakeApp.stopFakeApp();
-      }
-      fakeApp=null;
       enqueue(new Callable(){
         public Object call() throws Exception {
           if (physicsState != null) {
             physicsState.getPhysicsSpace().removeAll(rootNode);
             getStateManager().detach(physicsState);
             physicsState=null;
+          }
+          if (fakeApp != null) {
+            fakeApp.cleanupFakeApp();
           }
           toolsNode.detachAllChildren();
           rootNode.detachAllChildren();

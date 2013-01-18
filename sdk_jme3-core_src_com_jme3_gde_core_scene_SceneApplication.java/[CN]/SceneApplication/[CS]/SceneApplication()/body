@@ -17,6 +17,7 @@
       createCanvas();
       startCanvas(true);
     }
+    fakeApp=new FakeApplication(rootNode,guiNode,assetManager,cam);
     nodeSync=new NodeSyncAppState();
     stateManager.attach(nodeSync);
     progressHandle.progress("initialize Base Application",1);
