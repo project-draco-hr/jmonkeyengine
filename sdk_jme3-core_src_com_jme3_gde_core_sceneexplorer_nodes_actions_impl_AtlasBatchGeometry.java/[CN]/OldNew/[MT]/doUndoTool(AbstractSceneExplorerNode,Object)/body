@@ -1,4 +1,7 @@
 {
+  if (undoObject == null) {
+    return;
+  }
   Node parent=rootNode.getLookup().lookup(Node.class);
   OldNew undo=(OldNew)undoObject;
   if (parent == null || undo == null) {
