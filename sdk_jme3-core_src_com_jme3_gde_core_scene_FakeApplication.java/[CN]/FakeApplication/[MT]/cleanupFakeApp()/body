@@ -1,7 +1,7 @@
 {
-  if (rootNode == null) {
-    return;
-  }
-  clearNode(rootNode);
+  runQueuedFake();
   appStateManager=new FakeAppStateManager(this);
+  if (rootNode != null) {
+    clearNode(rootNode);
+  }
 }
