@@ -9,7 +9,7 @@
         inited=true;
         objectLocal=duplicateObject(realValue);
         notifyListeners(PROP_INIT_CHANGE,null,objectLocal);
-        logger.log(Level.FINE,"Get first sync duplicate for {0}",this);
+        logger.log(Level.FINE,"Got first sync duplicate for {0}",objectLocal);
       }
     }
 );
@@ -21,7 +21,7 @@
         T newObject=duplicateObject(realValue);
         objectLocal=newObject;
         notifyListeners(PROP_SCENE_CHANGE,oldObject,objectLocal);
-        logger.log(Level.FINE,"Get update for {0} due to equals check",this);
+        logger.log(Level.FINE,"Got update for {0} due to equals check",objectLocal);
       }
     }
 );
@@ -31,7 +31,7 @@
       public void run(){
         objectLocal=duplicateObject(realValue);
         notifyListeners(PROP_SCENE_CHANGE,null,objectLocal);
-        logger.log(Level.FINE,"Get update for {0} due to change from null",this);
+        logger.log(Level.FINE,"Got update for {0} due to change from null",objectLocal);
       }
     }
 );
