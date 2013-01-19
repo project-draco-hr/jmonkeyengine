@@ -1,15 +1,18 @@
 {
   weightsFloatData.rewind();
+  float[] weights=new float[MAXIMUM_WEIGHTS_PER_VERTEX];
   for (int v=0; v < vertCount; ++v) {
-    float w0=weightsFloatData.get(), w1=weightsFloatData.get(), w2=weightsFloatData.get(), w3=weightsFloatData.get();
-    float sum=w0 + w1 + w2+ w3;
+    float sum=0;
+    for (int i=0; i < MAXIMUM_WEIGHTS_PER_VERTEX; ++i) {
+      weights[i]=weightsFloatData.get();
+      sum+=weights[i];
+    }
     if (sum != 1f && sum != 0.0f) {
-      weightsFloatData.position(weightsFloatData.position() - 4);
+      weightsFloatData.position(weightsFloatData.position() - MAXIMUM_WEIGHTS_PER_VERTEX);
       float sumToB=1f / sum;
-      weightsFloatData.put(w0 * sumToB);
-      weightsFloatData.put(w1 * sumToB);
-      weightsFloatData.put(w2 * sumToB);
-      weightsFloatData.put(w3 * sumToB);
+      for (int i=0; i < MAXIMUM_WEIGHTS_PER_VERTEX; ++i) {
+        weightsFloatData.put(weights[i] * sumToB);
+      }
     }
   }
   weightsFloatData.rewind();

@@ -4,35 +4,47 @@
   FloatBuffer weightsFloatData=BufferUtils.createFloatBuffer(vertexListSize * MAXIMUM_WEIGHTS_PER_VERTEX);
   ByteBuffer indicesData=BufferUtils.createByteBuffer(vertexListSize * MAXIMUM_WEIGHTS_PER_VERTEX);
   if (pDvert.isNotNull()) {
+    boolean warnAboutTooManyVertexWeights=false;
     List<Structure> dverts=pDvert.fetchData(blenderContext.getInputStream());
     int vertexIndex=0;
+    TreeMap<Float,Integer> weightToIndexMap=new TreeMap<Float,Integer>();
     for (    Structure dvert : dverts) {
       List<Integer> vertexIndices=vertexReferenceMap.get(Integer.valueOf(vertexIndex));
       if (vertexIndices != null) {
         int totweight=((Number)dvert.getFieldValue("totweight")).intValue();
         Pointer pDW=(Pointer)dvert.getFieldValue("dw");
-        if (totweight > 0 && pDW.isNotNull() && groupToBoneIndexMap != null) {
+        if (totweight > 0 && groupToBoneIndexMap != null) {
+          weightToIndexMap.clear();
           int weightIndex=0;
           List<Structure> dw=pDW.fetchData(blenderContext.getInputStream());
           for (          Structure deformWeight : dw) {
             Integer boneIndex=groupToBoneIndexMap.get(((Number)deformWeight.getFieldValue("def_nr")).intValue());
-            if (weightIndex == 4) {
-              LOGGER.log(Level.WARNING,"{0} has more than 4 weight on bone index {1}",new Object[]{meshStructure.getName(),boneIndex});
-              break;
-            }
             if (boneIndex != null) {
               float weight=((Number)deformWeight.getFieldValue("weight")).floatValue();
-              if (weight == 0.0f) {
-                boneIndex=Integer.valueOf(0);
+              if (weightIndex < MAXIMUM_WEIGHTS_PER_VERTEX) {
+                if (weight == 0.0f) {
+                  boneIndex=Integer.valueOf(0);
+                }
+                for (                Integer index : vertexIndices) {
+                  weightsFloatData.put(index * MAXIMUM_WEIGHTS_PER_VERTEX + weightIndex,weight);
+                  indicesData.put(index * MAXIMUM_WEIGHTS_PER_VERTEX + weightIndex,boneIndex.byteValue());
+                }
+                weightToIndexMap.put(weight,weightIndex);
+                bonesGroups[0]=Math.max(bonesGroups[0],weightIndex + 1);
               }
-              for (              Integer index : vertexIndices) {
-                weightsFloatData.put(index * MAXIMUM_WEIGHTS_PER_VERTEX + weightIndex,weight);
-                indicesData.put(index * MAXIMUM_WEIGHTS_PER_VERTEX + weightIndex,boneIndex.byteValue());
+ else               if (weight > 0) {
+                warnAboutTooManyVertexWeights=true;
+                Entry<Float,Integer> lowestWeightAndIndex=weightToIndexMap.firstEntry();
+                if (lowestWeightAndIndex.getKey() < weight) {
+                  weightsFloatData.put(lowestWeightAndIndex.getValue(),weight);
+                  indicesData.put(lowestWeightAndIndex.getValue(),boneIndex.byteValue());
+                  weightToIndexMap.remove(lowestWeightAndIndex.getKey());
+                  weightToIndexMap.put(weight,lowestWeightAndIndex.getValue());
+                }
               }
             }
             ++weightIndex;
           }
-          bonesGroups[0]=Math.max(bonesGroups[0],weightIndex);
         }
  else {
           for (          Integer index : vertexIndices) {
@@ -42,6 +54,9 @@
         }
       }
       ++vertexIndex;
+    }
+    if (warnAboutTooManyVertexWeights) {
+      LOGGER.log(Level.WARNING,"{0} has vertices with more than 4 weights assigned. The model may not behave as it should.",meshStructure.getName());
     }
   }
  else {
