@@ -1,10 +1,38 @@
 {
   int idx=line.lastIndexOf(command);
+  int brackState=0;
   if (idx != -1) {
-    int bIdx=line.indexOf(")",idx);
-    if (bIdx == -1) {
-      return true;
+    StringReader reader=null;
+    try {
+      line=line.substring(idx + command.length());
+      reader=new StringReader(line);
+      int in=reader.read();
+      while (in != -1) {
+        if (in == '(') {
+          brackState++;
+        }
+ else         if (in == ')') {
+          brackState--;
+        }
+        in=reader.read();
+      }
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+ finally {
+      if (reader != null) {
+        reader.close();
+      }
     }
   }
-  return false;
+ else {
+    brackState=-1;
+  }
+  if (brackState == 0) {
+    return true;
+  }
+ else {
+    return false;
+  }
 }
