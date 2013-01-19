@@ -1,6 +1,8 @@
 {
   runQueuedFake();
-  appStateManager=new FakeAppStateManager(this);
+  if (guiNode != null) {
+    clearNode(guiNode);
+  }
   if (rootNode != null) {
     clearNode(rootNode);
   }

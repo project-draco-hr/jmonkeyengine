@@ -6,11 +6,14 @@
         return;
       }
       currentSceneRequest=request;
-      if (request.getDataObject() != null) {
-        setCurrentFileNode(request.getDataObject().getNodeDelegate());
+      if (request.getDataNode() != null) {
+        setCurrentFileNode(request.getDataNode());
       }
  else {
         setCurrentFileNode(null);
+      }
+      if (request.getRootNode() == null && request.getJmeNode() == null) {
+        request.setJmeNode(NodeUtility.createNode(rootNode,false));
       }
       setHelpContext(request.getHelpCtx());
       setWindowTitle(request.getWindowTitle());
@@ -22,18 +25,16 @@
       }
       final AssetManager manager=request.getManager();
       request.setFakeApp(fakeApp);
+      fakeApp.newAssetManager(manager);
       enqueue(new Callable(){
         public Object call() throws Exception {
           if (manager != null) {
             assetManager=manager;
-            fakeApp.newAssetManager(manager);
           }
           Spatial model=request.getRootNode();
-          if (model == null) {
-            StatusDisplayer.getDefault().setStatusText("could not load Spatial from request: " + getCurrentSceneRequest().getWindowTitle());
-            return null;
+          if (model != null && model != rootNode) {
+            rootNode.attachChild(model);
           }
-          rootNode.attachChild(model);
           if (request.getToolNode() != null) {
             toolsNode.attachChild(request.getToolNode());
           }

@@ -1,6 +1,26 @@
 {
-  for (Iterator<AppState> it=new ArrayList(appStateManager.getAddedStates()).iterator(); it.hasNext(); ) {
-    AppState appState=it.next();
-    appStateManager.detach(appState);
+  try {
+    try {
+      for (Iterator<AppState> it=new ArrayList(appStateManager.getAddedStates()).iterator(); it.hasNext(); ) {
+        AppState appState=it.next();
+        appStateManager.detach(appState);
+      }
+    }
+ catch (    Exception e) {
+      Exceptions.printStackTrace(e);
+    }
+    AppState state=appStateManager.getState(AppState.class);
+    while (state != null) {
+      try {
+        appStateManager.update(0);
+      }
+ catch (      Exception e) {
+        Exceptions.printStackTrace(e);
+      }
+      state=appStateManager.getState(AppState.class);
+    }
+  }
+ catch (  Exception e) {
+    Exceptions.printStackTrace(e);
   }
 }

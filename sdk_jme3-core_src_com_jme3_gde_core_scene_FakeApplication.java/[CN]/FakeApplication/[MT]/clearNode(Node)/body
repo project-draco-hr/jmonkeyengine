@@ -30,4 +30,26 @@ catch (    Error e) {
       externalNode.setUserData(string,null);
     }
   }
+  LightList llist=null;
+  try {
+    llist=externalNode.getLocalLightList();
+    for (Iterator<Light> it=llist.iterator(); it.hasNext(); ) {
+      Light light=it.next();
+      try {
+        externalNode.removeLight(light);
+      }
+ catch (      Exception e) {
+        Exceptions.printStackTrace(e);
+      }
+catch (      Error e) {
+        Exceptions.printStackTrace(e);
+      }
+    }
+  }
+ catch (  Exception e) {
+    Exceptions.printStackTrace(e);
+  }
+catch (  Error e) {
+    Exceptions.printStackTrace(e);
+  }
 }
