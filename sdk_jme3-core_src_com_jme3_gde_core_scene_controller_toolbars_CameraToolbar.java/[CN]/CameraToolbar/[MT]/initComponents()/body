@@ -8,7 +8,7 @@
   bottomMenuItem=new javax.swing.JMenuItem();
   viewButton=new javax.swing.JButton();
   enableOrtho=new javax.swing.JToggleButton();
-  frontMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/core/scene/controller/toolbars/front.png")));
+  frontMenuItem.setIcon(IconList.frontView);
   frontMenuItem.setText(org.openide.util.NbBundle.getMessage(CameraToolbar.class,"CameraToolbar.frontMenuItem.text"));
   frontMenuItem.addActionListener(new java.awt.event.ActionListener(){
     public void actionPerformed(    java.awt.event.ActionEvent evt){
@@ -17,7 +17,7 @@
   }
 );
   viewMenu.add(frontMenuItem);
-  leftMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/core/scene/controller/toolbars/left.png")));
+  leftMenuItem.setIcon(IconList.leftView);
   leftMenuItem.setText(org.openide.util.NbBundle.getMessage(CameraToolbar.class,"CameraToolbar.leftMenuItem.text"));
   leftMenuItem.addActionListener(new java.awt.event.ActionListener(){
     public void actionPerformed(    java.awt.event.ActionEvent evt){
@@ -26,7 +26,7 @@
   }
 );
   viewMenu.add(leftMenuItem);
-  rightMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/core/scene/controller/toolbars/right.png")));
+  rightMenuItem.setIcon(IconList.rightView);
   rightMenuItem.setText(org.openide.util.NbBundle.getMessage(CameraToolbar.class,"CameraToolbar.rightMenuItem.text"));
   rightMenuItem.addActionListener(new java.awt.event.ActionListener(){
     public void actionPerformed(    java.awt.event.ActionEvent evt){
@@ -35,7 +35,7 @@
   }
 );
   viewMenu.add(rightMenuItem);
-  topMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/core/scene/controller/toolbars/top.png")));
+  topMenuItem.setIcon(IconList.topView);
   topMenuItem.setText(org.openide.util.NbBundle.getMessage(CameraToolbar.class,"CameraToolbar.topMenuItem.text"));
   topMenuItem.addActionListener(new java.awt.event.ActionListener(){
     public void actionPerformed(    java.awt.event.ActionEvent evt){
@@ -44,7 +44,7 @@
   }
 );
   viewMenu.add(topMenuItem);
-  backMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/core/scene/controller/toolbars/back.png")));
+  backMenuItem.setIcon(IconList.backView);
   backMenuItem.setText(org.openide.util.NbBundle.getMessage(CameraToolbar.class,"CameraToolbar.backMenuItem.text"));
   backMenuItem.addActionListener(new java.awt.event.ActionListener(){
     public void actionPerformed(    java.awt.event.ActionEvent evt){
@@ -53,7 +53,7 @@
   }
 );
   viewMenu.add(backMenuItem);
-  bottomMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/core/scene/controller/toolbars/bottom.png")));
+  bottomMenuItem.setIcon(IconList.bottomView);
   bottomMenuItem.setText(org.openide.util.NbBundle.getMessage(CameraToolbar.class,"CameraToolbar.bottomMenuItem.text"));
   bottomMenuItem.addActionListener(new java.awt.event.ActionListener(){
     public void actionPerformed(    java.awt.event.ActionEvent evt){
@@ -63,7 +63,7 @@
 );
   viewMenu.add(bottomMenuItem);
   viewButton.setFont(new java.awt.Font("Tahoma",0,8));
-  viewButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/core/scene/controller/toolbars/user.png")));
+  viewButton.setIcon(IconList.userMode);
   viewButton.setText(org.openide.util.NbBundle.getMessage(CameraToolbar.class,"CameraToolbar.viewButton.text"));
   viewButton.setFocusable(false);
   viewButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -76,7 +76,7 @@
   }
 );
   enableOrtho.setFont(new java.awt.Font("Tahoma",0,8));
-  enableOrtho.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/core/sceneviewer/icons/persp.png")));
+  enableOrtho.setIcon(IconList.perspMode);
   enableOrtho.setText(org.openide.util.NbBundle.getMessage(CameraToolbar.class,"CameraToolbar.enableOrtho.text"));
   enableOrtho.setToolTipText(org.openide.util.NbBundle.getMessage(CameraToolbar.class,"CameraToolbar.enableOrtho.toolTipText"));
   enableOrtho.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -85,7 +85,7 @@
   enableOrtho.setMaximumSize(new java.awt.Dimension(27,23));
   enableOrtho.setMinimumSize(new java.awt.Dimension(27,23));
   enableOrtho.setPreferredSize(new java.awt.Dimension(50,23));
-  enableOrtho.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/core/sceneviewer/icons/ortho.png")));
+  enableOrtho.setSelectedIcon(IconList.orthoMode);
   enableOrtho.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
   enableOrtho.addActionListener(new java.awt.event.ActionListener(){
     public void actionPerformed(    java.awt.event.ActionEvent evt){
@@ -95,6 +95,6 @@
 );
   javax.swing.GroupLayout layout=new javax.swing.GroupLayout(this);
   this.setLayout(layout);
-  layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addComponent(viewButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(enableOrtho,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(96,Short.MAX_VALUE)));
+  layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addComponent(viewButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(enableOrtho,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(116,Short.MAX_VALUE)));
   layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(viewButton,javax.swing.GroupLayout.PREFERRED_SIZE,23,javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(enableOrtho,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE));
 }
