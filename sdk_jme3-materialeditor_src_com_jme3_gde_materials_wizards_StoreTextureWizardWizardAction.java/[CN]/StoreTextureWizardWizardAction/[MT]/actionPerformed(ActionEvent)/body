@@ -1,0 +1,63 @@
+{
+  if (mgr == null) {
+    return;
+  }
+  List<WizardDescriptor.Panel<WizardDescriptor>> panels=new ArrayList<WizardDescriptor.Panel<WizardDescriptor>>();
+  panels.add(new StoreTextureWizardWizardPanel1());
+  String[] steps=new String[panels.size()];
+  for (int i=0; i < panels.size(); i++) {
+    Component c=panels.get(i).getComponent();
+    steps[i]=c.getName();
+    if (c instanceof JComponent) {
+      JComponent jc=(JComponent)c;
+      jc.putClientProperty(WizardDescriptor.PROP_CONTENT_SELECTED_INDEX,i);
+      jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DATA,steps);
+      jc.putClientProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE,true);
+      jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED,true);
+      jc.putClientProperty(WizardDescriptor.PROP_CONTENT_NUMBERED,true);
+    }
+  }
+  WizardDescriptor wiz=new WizardDescriptor(new WizardDescriptor.ArrayIterator<WizardDescriptor>(panels));
+  if (name != null) {
+    wiz.putProperty("path",name);
+  }
+ else {
+    wiz.putProperty("path","Textures/MyTexture.png");
+  }
+  wiz.setTitleFormat(new MessageFormat("{0}"));
+  wiz.setTitle("Save texture as..");
+  if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
+    String path=(String)wiz.getProperties().get("path");
+    if (path != null) {
+      name=path;
+      OutputStream out=null;
+      try {
+        FileObject file=mgr.getAssetFolder().getFileObject(path);
+        if (file != null) {
+          NotifyDescriptor.Confirmation mesg=new NotifyDescriptor.Confirmation("File exists, overwrite?","File Exists",NotifyDescriptor.YES_NO_OPTION);
+          DialogDisplayer.getDefault().notify(mesg);
+          if (mesg.getValue() != NotifyDescriptor.Confirmation.YES_OPTION) {
+            return;
+          }
+        }
+        file=FileUtil.createData(mgr.getAssetFolder(),path);
+        out=new BufferedOutputStream(file.getOutputStream());
+        out.write(data);
+      }
+ catch (      IOException ex) {
+        DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Failed to create data!\n" + ex));
+        Exceptions.printStackTrace(ex);
+      }
+ finally {
+        if (out != null) {
+          try {
+            out.close();
+          }
+ catch (          IOException ex) {
+            Exceptions.printStackTrace(ex);
+          }
+        }
+      }
+    }
+  }
+}

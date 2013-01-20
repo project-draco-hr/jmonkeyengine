@@ -1,0 +1,41 @@
+{
+  MaterialProperty prop=new MaterialProperty(param);
+  materialParameters.put(param.getName(),prop);
+  if (prop.getValue() == null) {
+switch (param.getVarType()) {
+case Texture2D:
+case Texture3D:
+case TextureArray:
+case TextureBuffer:
+case TextureCubeMap:
+      try {
+        Texture tex=mat.getTextureParam(param.getName()).getTextureValue();
+        Image img=tex.getImage();
+        if (img == null) {
+          logger.log(Level.INFO,"No image found");
+          return;
+        }
+        BufferedImage image=ImageToAwt.convert(img,false,false,0);
+        ByteArrayOutputStream out=new ByteArrayOutputStream();
+        ImageWriter imgWrtr=ImageIO.getImageWritersByFormatName("png").next();
+        ImageOutputStream imgOutStrm;
+        imgOutStrm=ImageIO.createImageOutputStream(out);
+        imgWrtr.setOutput(imgOutStrm);
+        ImageWriteParam jpgWrtPrm=imgWrtr.getDefaultWriteParam();
+        imgWrtr.write(null,new IIOImage(image,null,null),jpgWrtPrm);
+        imgOutStrm.close();
+        out.close();
+        String name=material.getName();
+        name="Textures/" + name + "-"+ param.getName()+ ".png";
+        StoreTextureWizardWizardAction act=new StoreTextureWizardWizardAction(manager,out.toByteArray(),name);
+        act.actionPerformed(null);
+        prop.setValue(act.getName());
+      }
+ catch (      Exception ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    break;
+default :
+}
+}
+}
