@@ -5,6 +5,9 @@
   final T realValue=getSuperValue();
   mutex.readAccess(new Runnable(){
     public void run(){
+      if (changing) {
+        return;
+      }
       if ((objectLocal == null) && !inited) {
         mutex.postWriteRequest(new Runnable(){
           public void run(){
