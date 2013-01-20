@@ -2,7 +2,7 @@
   if (jarItems.isEmpty() && classPathItems.isEmpty()) {
     return;
   }
-  Logger.getLogger(ProjectAssetManager.class.getName()).log(Level.INFO,"Clear {0} classpath entries and {1} url locators for project {2}",new Object[]{classPathItems.size(),jarItems.size(),project.toString()});
+  logger.log(Level.INFO,"Clear {0} classpath entries and {1} url locators for project {2}",new Object[]{classPathItems.size(),jarItems.size(),project.toString()});
   for (  FileObject fileObject : jarItems) {
     logger.log(Level.FINE,"Remove locator:{0}",fileObject.toURL());
     unregisterLocator(fileObject.toURL().toExternalForm(),com.jme3.asset.plugins.UrlLocator.class);
