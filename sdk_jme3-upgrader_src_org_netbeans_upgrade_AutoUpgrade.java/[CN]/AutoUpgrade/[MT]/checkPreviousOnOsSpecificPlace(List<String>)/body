@@ -4,15 +4,17 @@
     try {
       defaultUserdirRoot=new File(System.getProperty("netbeans.user")).getParentFile().getCanonicalPath();
     }
- catch (    IOException ex) {
+ catch (    Exception ex) {
       Exceptions.printStackTrace(ex);
     }
   }
+  LOGGER.log(Level.INFO,"determined userdir root of {0}",defaultUserdirRoot);
   File sourceFolder;
   if (defaultUserdirRoot != null) {
     File userHomeFile=new File(defaultUserdirRoot);
     for (    String ver : versionsToCheck) {
       sourceFolder=new File(userHomeFile.getAbsolutePath(),ver);
+      LOGGER.log(Level.INFO,"Look for {0} ",userHomeFile);
       if (sourceFolder.exists() && sourceFolder.isDirectory()) {
         return sourceFolder;
       }
