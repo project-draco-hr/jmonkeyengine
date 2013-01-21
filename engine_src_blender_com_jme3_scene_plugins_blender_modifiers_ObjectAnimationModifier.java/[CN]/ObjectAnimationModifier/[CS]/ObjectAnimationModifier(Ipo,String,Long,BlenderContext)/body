@@ -1,6 +1,7 @@
 {
   int fps=blenderContext.getBlenderKey().getFps();
-  SpatialTrack track=(SpatialTrack)ipo.calculateTrack(-1,0,ipo.getLastFrame(),fps,true);
+  Spatial object=(Spatial)blenderContext.getLoadedFeature(objectOMA,LoadedFeatureDataType.LOADED_FEATURE);
+  SpatialTrack track=(SpatialTrack)ipo.calculateTrack(-1,object.getLocalRotation(),0,ipo.getLastFrame(),fps,true);
   Animation animation=new Animation(objectAnimationName,ipo.getLastFrame() / (float)fps);
   animation.setTracks(new SpatialTrack[]{track});
   ArrayList<Animation> animations=new ArrayList<Animation>(1);

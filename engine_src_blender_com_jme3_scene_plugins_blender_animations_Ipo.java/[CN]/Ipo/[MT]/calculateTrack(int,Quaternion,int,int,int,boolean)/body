@@ -25,7 +25,7 @@ case AC_LOC_X:
           translation[0]=(float)value;
         break;
 case AC_LOC_Y:
-      if (fixUpAxis && spatialTrack) {
+      if (fixUpAxis) {
         translation[2]=(float)-value;
       }
  else {
@@ -33,7 +33,7 @@ case AC_LOC_Y:
       }
     break;
 case AC_LOC_Z:
-  translation[fixUpAxis && spatialTrack ? 1 : 2]=(float)value;
+  translation[fixUpAxis ? 1 : 2]=(float)value;
 break;
 case OB_ROT_X:
 objectRotation[0]=(float)value * degreeToRadiansFactor;
@@ -53,7 +53,7 @@ case AC_SIZE_X:
 scale[0]=(float)value;
 break;
 case AC_SIZE_Y:
-if (fixUpAxis && spatialTrack) {
+if (fixUpAxis) {
 scale[2]=(float)value;
 }
  else {
@@ -61,7 +61,7 @@ scale[1]=(float)value;
 }
 break;
 case AC_SIZE_Z:
-scale[fixUpAxis && spatialTrack ? 1 : 2]=(float)value;
+scale[fixUpAxis ? 1 : 2]=(float)value;
 break;
 case AC_QUAT_W:
 quaternionRotation[3]=(float)value;
@@ -89,7 +89,7 @@ default :
 LOGGER.warning("Unknown ipo curve type: " + bezierCurves[j].getType());
 }
 }
-translations[index]=new Vector3f(translation[0],translation[1],translation[2]);
+translations[index]=localQuaternionRotation.multLocal(new Vector3f(translation[0],translation[1],translation[2]));
 rotations[index]=spatialTrack ? new Quaternion().fromAngles(objectRotation) : new Quaternion(quaternionRotation[0],quaternionRotation[1],quaternionRotation[2],quaternionRotation[3]);
 scales[index]=new Vector3f(scale[0],scale[1],scale[2]);
 }

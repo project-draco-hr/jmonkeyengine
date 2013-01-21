@@ -12,9 +12,10 @@
       Pointer p=(Pointer)bActionChannel.getFieldValue("ipo");
       if (!p.isNull()) {
         Structure ipoStructure=p.fetchData(blenderContext.getInputStream()).get(0);
+        Bone bone=skeleton.getBone(boneIndex);
         Ipo ipo=ipoHelper.fromIpoStructure(ipoStructure,blenderContext);
         if (ipo != null) {
-          tracks.add((BoneTrack)ipo.calculateTrack(boneIndex,0,ipo.getLastFrame(),fps,false));
+          tracks.add((BoneTrack)ipo.calculateTrack(boneIndex,bone.getLocalRotation(),0,ipo.getLastFrame(),fps,false));
         }
       }
     }
