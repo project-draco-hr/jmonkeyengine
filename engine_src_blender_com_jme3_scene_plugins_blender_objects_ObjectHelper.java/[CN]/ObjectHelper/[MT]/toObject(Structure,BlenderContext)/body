@@ -42,11 +42,6 @@ node.attachChild(geometry);
 }
 }
 node.setLocalTransform(t);
-ModifierHelper modifierHelper=blenderContext.getHelper(ModifierHelper.class);
-Collection<Modifier> modifiers=modifierHelper.readModifiers(objectStructure,blenderContext);
-for (Modifier modifier : modifiers) {
-modifier.apply(node,blenderContext);
-}
 if (parent instanceof Node) {
 ((Node)parent).attachChild(node);
 }
@@ -111,6 +106,12 @@ blenderContext.popParent();
 if (result != null) {
 result.updateModelBound();
 blenderContext.addLoadedFeatures(objectStructure.getOldMemoryAddress(),name,objectStructure,result);
+LOGGER.log(Level.FINE,"Reading and applying object's modifiers.");
+ModifierHelper modifierHelper=blenderContext.getHelper(ModifierHelper.class);
+Collection<Modifier> modifiers=modifierHelper.readModifiers(objectStructure,blenderContext);
+for (Modifier modifier : modifiers) {
+modifier.apply(result,blenderContext);
+}
 ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
 constraintHelper.loadConstraints(objectStructure,blenderContext);
 if (blenderContext.getBlenderKey().isLoadObjectProperties()) {
