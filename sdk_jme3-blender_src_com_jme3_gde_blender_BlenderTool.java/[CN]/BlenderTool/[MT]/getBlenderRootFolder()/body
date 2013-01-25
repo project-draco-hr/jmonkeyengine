@@ -1,0 +1,7 @@
+{
+  File blender=InstalledFileLocator.getDefault().locate("../blender",null,false);
+  if (blender == null) {
+    DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("Error finding Blender!"));
+  }
+  return blender;
+}

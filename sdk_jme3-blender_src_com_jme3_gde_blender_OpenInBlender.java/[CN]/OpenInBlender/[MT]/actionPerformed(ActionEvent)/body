@@ -1,0 +1,5 @@
+{
+  if (!BlenderTool.openInBlender(context.getPrimaryFile())) {
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Error opening Blender with file " + context.getPrimaryFile().getNameExt()));
+  }
+}

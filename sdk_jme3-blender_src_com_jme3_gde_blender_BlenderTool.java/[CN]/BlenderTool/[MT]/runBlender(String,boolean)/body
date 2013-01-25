@@ -1,0 +1,57 @@
+{
+  if (running) {
+    return false;
+  }
+  running=true;
+  final Vector3f v=new Vector3f(0,0,0);
+  final File exe=getBlenderExecutable();
+  if (exe == null) {
+    return false;
+  }
+  Runnable r=new Runnable(){
+    public void run(){
+      try {
+        String command=null;
+        if (options != null) {
+          command=exe.getAbsolutePath() + " " + options;
+        }
+ else {
+          command=exe.getAbsolutePath();
+        }
+        Process proc=Runtime.getRuntime().exec(command);
+        OutputReader outReader=new OutputReader(proc.getInputStream());
+        OutputReader errReader=new OutputReader(proc.getErrorStream());
+        outReader.start();
+        errReader.start();
+        try {
+          proc.waitFor();
+        }
+ catch (        InterruptedException ex) {
+          Exceptions.printStackTrace(ex);
+        }
+        if (proc.exitValue() != 0) {
+          v.x=1;
+        }
+        running=false;
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+        v.x=1;
+        running=false;
+      }
+    }
+  }
+;
+  if (async) {
+    new Thread(r).start();
+  }
+ else {
+    r.run();
+  }
+  if (v.x != 1) {
+    return true;
+  }
+ else {
+    return false;
+  }
+}
