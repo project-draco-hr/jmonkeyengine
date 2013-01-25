@@ -65,5 +65,15 @@
       }
     }
   }
+ else {
+    String appName=ResourceUtils.getString(ConfigurationLogic.class,"CL.app.name");
+    File exeLink=new File(installLocation.getParentFile().getParent() + "/MacOS/" + appName);
+    try {
+      FileUtils.deleteWithEmptyParents(exeLink);
+    }
+ catch (    IOException ex) {
+      LogManager.log("Error removing app Link: " + ex);
+    }
+  }
   progress.setPercentage(Progress.COMPLETE);
 }

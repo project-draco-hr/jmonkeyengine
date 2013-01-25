@@ -2,6 +2,16 @@
   final Registry registry=Registry.getInstance();
   final List<Product> toInstall=registry.getProductsToInstall();
   final List<Product> toUninstall=registry.getProductsToUninstall();
+  if (toUninstall.size() > 0) {
+    Version ver;
+    ver=toUninstall.get(0).getVersion();
+    List<Product> products=registry.getProducts();
+    for (    Product product : products) {
+      if (product.getVersion().equals(ver)) {
+        product.setStatus(Status.TO_BE_UNINSTALLED);
+      }
+    }
+  }
   getChildren().clear();
   if (toInstall.size() > 0) {
     addChild(downloadConfigurationLogicAction);
