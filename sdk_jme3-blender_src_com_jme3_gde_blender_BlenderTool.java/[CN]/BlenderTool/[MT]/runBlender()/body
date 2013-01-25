@@ -1,5 +1,11 @@
 {
   if (!runBlender(null,true)) {
-    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Error running Blender."));
+    logger.log(Level.INFO,"Could not run blender, already running? Trying to focus window.");
+    if (!blenderToFront()) {
+      logger.log(Level.INFO,"Could not bring blender to front.");
+    }
+ else {
+      logger.log(Level.INFO,"Requested Blender window focus.");
+    }
   }
 }

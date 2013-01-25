@@ -1,13 +1,22 @@
 {
+  logger.log(Level.INFO,"Try running blender with options {0}",options);
   if (running) {
+    logger.log(Level.INFO,"Blender seems to be running");
     return false;
   }
+  blenderWindow=null;
   running=true;
   final Vector3f v=new Vector3f(0,0,0);
   final File exe=getBlenderExecutable();
   if (exe == null) {
+    logger.log(Level.SEVERE,"Could not find blender executable!");
+    running=false;
     return false;
   }
+  final Frame mainWin=WindowManager.getDefault().getMainWindow();
+  assert(mainWin != null);
+  logger.log(Level.INFO,"Adding focus listener to window {0}",mainWin);
+  mainWin.setState(Frame.ICONIFIED);
   Runnable r=new Runnable(){
     public void run(){
       try {
@@ -32,11 +41,25 @@
         if (proc.exitValue() != 0) {
           v.x=1;
         }
+        java.awt.EventQueue.invokeLater(new Runnable(){
+          public void run(){
+            mainWin.setState(Frame.NORMAL);
+          }
+        }
+);
+        blenderWindow=null;
         running=false;
       }
  catch (      IOException ex) {
         Exceptions.printStackTrace(ex);
         v.x=1;
+        java.awt.EventQueue.invokeLater(new Runnable(){
+          public void run(){
+            mainWin.setState(Frame.NORMAL);
+          }
+        }
+);
+        blenderWindow=null;
         running=false;
       }
     }
