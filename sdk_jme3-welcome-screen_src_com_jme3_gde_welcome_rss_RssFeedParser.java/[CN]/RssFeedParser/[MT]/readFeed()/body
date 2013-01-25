@@ -31,7 +31,12 @@
         }
         if (event.asStartElement().getName().getLocalPart() != null && event.asStartElement().getName().getLocalPart().equals(DESCRIPTION)) {
           event=eventReader.nextEvent();
-          description=event.asCharacters().getData();
+          if (event.getClass().getName().equals("com.ctc.wstx.evt.CompactStartElement")) {
+            description=event.asStartElement().asCharacters().getData();
+          }
+ else {
+            description=event.asCharacters().getData();
+          }
           continue;
         }
         if (event.asStartElement().getName().getLocalPart() != null && event.asStartElement().getName().getLocalPart().equals(LINK)) {
