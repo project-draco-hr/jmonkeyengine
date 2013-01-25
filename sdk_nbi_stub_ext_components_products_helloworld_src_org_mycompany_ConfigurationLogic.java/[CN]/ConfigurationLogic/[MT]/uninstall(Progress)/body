@@ -52,5 +52,18 @@
       LogManager.unindent();
     }
   }
+  if (!SystemUtils.isMacOS()) {
+    File jre=new File(installLocation,"jdk");
+    if (jre.exists()) {
+      try {
+        for (        File file : FileUtils.listFiles(jre).toList()) {
+          FileUtils.deleteOnExit(file);
+        }
+        FileUtils.deleteOnExit(installLocation);
+      }
+ catch (      IOException e) {
+      }
+    }
+  }
   progress.setPercentage(Progress.COMPLETE);
 }

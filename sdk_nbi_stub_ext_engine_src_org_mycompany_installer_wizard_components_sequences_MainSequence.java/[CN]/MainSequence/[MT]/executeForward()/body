@@ -6,9 +6,16 @@
   if (toInstall.size() > 0) {
     addChild(downloadConfigurationLogicAction);
     addChild(licensesPanel);
+    Product initProduct=null;
     for (    Product product : toInstall) {
       if (!productSequences.containsKey(product)) {
         productSequences.put(product,new ProductWizardSequence(product));
+      }
+      if (initProduct == null) {
+        initProduct=product;
+      }
+ else {
+        addChild(new CopyInstallLocationAction(initProduct,product));
       }
       addChild(productSequences.get(product));
     }

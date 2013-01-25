@@ -15,7 +15,13 @@
     }
     File shortcut=new File(installLocation.getParentFile().getParent() + "/MacOS/executable");
     if (shortcut.exists()) {
-      shortcut.renameTo(new File(installLocation.getParentFile().getParent() + "/MacOS/" + appName));
+      try {
+        shortcut.renameTo(new File(installLocation.getParentFile().getParent() + "/MacOS/" + appName));
+        getProduct().getInstalledFiles().add(shortcut.getAbsoluteFile());
+      }
+ catch (      IOException e) {
+        LogManager.log("... cannot rename executable " + f,e);
+      }
     }
     try {
       File plist=new File(installLocation.getParentFile().getParentFile(),"Info.plist");
@@ -71,5 +77,25 @@
       LogManager.log(getString("CL.install.error.start.menu"),e);
     }
     LogManager.logUnindent("... done");
+  }
+  if (!SystemUtils.isMacOS()) {
+    File javaHome=new File(System.getProperty("java.home"));
+    File target=new File(installLocation,"jdk");
+    try {
+      FileUtils.copyFile(javaHome,target,true);
+    }
+ catch (    IOException e) {
+      throw new InstallationException("Cannot copy JDK",e);
+    }
+    File binDir=new File(target,"bin");
+    for (    File file : binDir.listFiles()) {
+      try {
+        file.setExecutable(true);
+      }
+ catch (      Exception ex) {
+        ex.printStackTrace();
+      }
+    }
+    SystemUtils.getNativeUtils().addUninstallerJVM(new LauncherResource(false,target));
   }
 }
