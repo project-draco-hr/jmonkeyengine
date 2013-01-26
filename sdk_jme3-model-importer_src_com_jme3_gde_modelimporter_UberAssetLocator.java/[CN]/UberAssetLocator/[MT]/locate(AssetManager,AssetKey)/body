@@ -1,0 +1,24 @@
+{
+  final String ext=key.getExtension();
+  FileChooserBuilder fcb=new FileChooserBuilder(this.getClass());
+  fcb.setTitle("Locate " + key.getName());
+  fcb.setFileFilter(new FileFilter(){
+    @Override public boolean accept(    File f){
+      if (f.getName().endsWith(ext)) {
+        return true;
+      }
+      return false;
+    }
+    @Override public String getDescription(){
+      return "Filter for " + ext;
+    }
+  }
+);
+  fcb.setFilesOnly(true);
+  fcb.setApproveText("Select file");
+  File file=fcb.showOpenDialog();
+  if (file == null) {
+    return null;
+  }
+  return new UberAssetInfo(FileUtil.toFileObject(file),manager,key);
+}
