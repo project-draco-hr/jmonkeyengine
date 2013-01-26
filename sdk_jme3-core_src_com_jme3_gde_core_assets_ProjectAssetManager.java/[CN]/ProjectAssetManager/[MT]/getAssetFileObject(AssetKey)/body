@@ -1,9 +1,3 @@
 {
-  if (isAbsolutePathsDisabled()) {
-    String fileName=assetKey.getName().substring(assetKey.getFolder().length());
-    return getAssetFolder().getFileObject(fileName);
-  }
- else {
-    return getAssetFolder().getFileObject(assetKey.getName());
-  }
+  return getAssetFolder().getFileObject(assetKey.getName());
 }
