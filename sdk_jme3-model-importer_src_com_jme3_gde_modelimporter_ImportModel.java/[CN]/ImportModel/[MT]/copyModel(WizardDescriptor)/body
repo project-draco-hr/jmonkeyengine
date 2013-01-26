@@ -37,8 +37,8 @@
       if (fileObj != null) {
         DataObject obj=DataObject.find(fileObj);
         AssetData data=obj.getLookup().lookup(AssetData.class);
-        AssetKey assetKey=data.getAssetKey();
         if (data != null) {
+          AssetKey assetKey=data.getAssetKey();
           if (obj instanceof SpatialAssetDataObject) {
             if (!(obj instanceof BinaryModelDataObject)) {
               deleteList.add(fileObj);
