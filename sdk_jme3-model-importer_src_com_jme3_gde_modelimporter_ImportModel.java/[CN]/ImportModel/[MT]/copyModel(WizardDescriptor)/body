@@ -1,7 +1,8 @@
 {
-  AssetKey key=(AssetKey)wiz.getProperty("mainkey");
+  AssetKey modelKey=(AssetKey)wiz.getProperty("mainkey");
   boolean keepFiles=(Boolean)wiz.getProperty("keepfiles");
   List<FileObject> assetList=(List<FileObject>)wiz.getProperty("assetfiles");
+  List<AssetKey> assetKeys=(List<AssetKey>)wiz.getProperty("assetlist");
   String importPath=(String)wiz.getProperty("destpath");
   Project context=(Project)wiz.getProperty("project");
   ProjectAssetManager importManager=(ProjectAssetManager)wiz.getProperty("manager");
@@ -9,11 +10,19 @@
   if (manager == null) {
     throw new IllegalStateException("Cannot find project AssetManager!");
   }
+  importPath=correctImportPathLetterCase(importPath,assetKeys);
   List<FileObject> deleteList=new LinkedList<FileObject>();
-  for (Iterator<FileObject> it=assetList.iterator(); it.hasNext(); ) {
-    FileObject source=it.next();
+  int i=0;
+  for (  FileObject source : assetList) {
+    AssetKey assetKey=assetKeys.get(i++);
     try {
-      String folderName=importPath + "/" + importManager.getRelativeAssetPath(source.getParent().getPath());
+      String folderName;
+      if (assetKey.equals(modelKey) || assetKey.getFolder().equals("")) {
+        folderName=importPath + "/" + importManager.getRelativeAssetPath(source.getParent().getPath());
+      }
+ else {
+        folderName=assetKey.getFolder();
+      }
       FileObject dest=manager.getAssetFolder().getFileObject(folderName);
       if (dest == null) {
         dest=FileUtil.createFolder(manager.getAssetFolder(),folderName);
@@ -37,8 +46,12 @@
         DataObject obj=DataObject.find(fileObj);
         AssetData data=obj.getLookup().lookup(AssetData.class);
         if (data != null) {
-          AssetKey assetKey=data.getAssetKey();
-          if (!(assetKey instanceof TextureKey)) {
+          if (obj instanceof SpatialAssetDataObject) {
+            if (!(obj instanceof BinaryModelDataObject)) {
+              deleteList.add(fileObj);
+            }
+          }
+ else           if (!(assetKey instanceof TextureKey) && !(assetKey instanceof MaterialKey)) {
             deleteList.add(fileObj);
           }
         }
@@ -48,14 +61,14 @@
       Exceptions.printStackTrace(ex);
     }
   }
-  FileObject file=manager.getAssetFolder().getFileObject(importPath + "/" + key.getName());
+  FileObject file=manager.getAssetFolder().getFileObject(importPath + "/" + modelKey.getName());
   DataObject targetModel;
   try {
     targetModel=DataObject.find(file);
     if (targetModel instanceof SpatialAssetDataObject) {
       ((SpatialAssetDataObject)targetModel).getLookupContents().add(manager);
       AssetData data=targetModel.getLookup().lookup(AssetData.class);
-      data.setAssetKey(key);
+      data.setAssetKey(modelKey);
       Spatial spat=(Spatial)data.loadAsset();
       if (spat == null) {
         throw new IllegalStateException("Cannot load model after copying!");

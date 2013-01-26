@@ -1,0 +1,22 @@
+{
+  super(true);
+  if (path == null) {
+    this.project=new DummyProject(this);
+  }
+ else {
+    this.project=new DummyProject(this,path);
+  }
+  String projectRootPath=project.getProjectDirectory().getPath();
+  logger.log(Level.INFO,"Add locator: {0}",projectRootPath);
+  this.disableAbsolutePaths=disableAbsolutePaths;
+  if (disableAbsolutePaths) {
+    registerLocator(projectRootPath,RelativeOnlyFileLocator.class);
+  }
+ else {
+    registerLocator(projectRootPath,"com.jme3.asset.plugins.FileLocator");
+  }
+  for (  AssetManagerConfigurator di : Lookup.getDefault().lookupAll(AssetManagerConfigurator.class)) {
+    di.prepareManager(this);
+  }
+  prepAssetEventListeners();
+}
