@@ -37,14 +37,14 @@
       if (fileObj != null) {
         DataObject obj=DataObject.find(fileObj);
         AssetData data=obj.getLookup().lookup(AssetData.class);
-        if (data != null) {
-          AssetKey assetKey=data.getAssetKey();
-          if (obj instanceof SpatialAssetDataObject) {
-            if (!(obj instanceof BinaryModelDataObject)) {
-              deleteList.add(fileObj);
-            }
+        if (obj instanceof SpatialAssetDataObject) {
+          if (!(obj instanceof BinaryModelDataObject)) {
+            deleteList.add(fileObj);
           }
- else           if (!(assetKey instanceof TextureKey) && !(assetKey instanceof MaterialKey)) {
+        }
+ else         if (data != null) {
+          AssetKey assetKey=data.getAssetKey();
+          if (!(assetKey instanceof TextureKey) && !(assetKey instanceof MaterialKey)) {
             deleteList.add(fileObj);
           }
         }
