@@ -4,6 +4,8 @@
   wiz.putProperty("failedlist",failedKeys);
   wiz.putProperty("model",currentModel);
   if (currentModel != null) {
+    logger.log(Level.INFO,"Detaching model {0}",currentModel);
     offPanel.detach(currentModel);
   }
+  offPanel.stopPreview();
 }
