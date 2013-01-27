@@ -4,7 +4,7 @@
   }
   AssetManager assetManager=blenderContext.getAssetManager();
   name=name.replaceAll("\\\\","\\/");
-  Texture result=null;
+  Image result=null;
   List<String> assetNames=new ArrayList<String>();
   if (name.startsWith("//")) {
     String relativePath=name.substring(2);
@@ -30,7 +30,8 @@
       key.setAsCube(false);
       AssetInfo info=assetManager.locateAsset(key);
       if (info != null) {
-        result=assetManager.loadTexture(key);
+        Texture texture=assetManager.loadTexture(key);
+        result=texture.getImage();
         break;
       }
     }

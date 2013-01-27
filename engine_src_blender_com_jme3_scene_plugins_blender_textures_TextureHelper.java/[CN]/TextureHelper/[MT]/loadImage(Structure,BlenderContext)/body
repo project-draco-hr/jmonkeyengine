@@ -1,12 +1,12 @@
 {
   LOGGER.log(Level.FINE,"Fetching texture with OMA = {0}",image.getOldMemoryAddress());
-  Texture result=(Texture)blenderContext.getLoadedFeature(image.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
+  Image result=(Image)blenderContext.getLoadedFeature(image.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
   if (result == null) {
     String texturePath=image.getFieldValue("name").toString();
     Pointer pPackedFile=(Pointer)image.getFieldValue("packedfile");
     if (pPackedFile.isNull()) {
       LOGGER.log(Level.INFO,"Reading texture from file: {0}",texturePath);
-      result=this.loadTextureFromFile(texturePath,blenderContext);
+      result=this.loadImageFromFile(texturePath,blenderContext);
     }
  else {
       LOGGER.info("Packed texture. Reading directly from the blend file!");
@@ -15,16 +15,11 @@
       FileBlockHeader dataFileBlock=blenderContext.getFileBlock(pData.getOldMemoryAddress());
       blenderContext.getInputStream().setPosition(dataFileBlock.getBlockPosition());
       ImageLoader imageLoader=new ImageLoader();
-      Image im=imageLoader.loadImage(blenderContext.getInputStream(),dataFileBlock.getBlockPosition(),true);
-      if (im != null) {
-        result=new Texture2D(im);
-      }
+      result=imageLoader.loadImage(blenderContext.getInputStream(),dataFileBlock.getBlockPosition(),true);
     }
     if (result != null) {
-      result.setName(texturePath);
-      result.setWrap(Texture.WrapMode.Repeat);
       if (LOGGER.isLoggable(Level.FINE)) {
-        LOGGER.log(Level.FINE,"Adding texture {0} to the loaded features with OMA = {1}",new Object[]{texturePath,image.getOldMemoryAddress()});
+        LOGGER.log(Level.FINE,"Adding image {0} to the loaded features with OMA = {1}",new Object[]{texturePath,image.getOldMemoryAddress()});
       }
       blenderContext.addLoadedFeatures(image.getOldMemoryAddress(),image.getName(),image,result);
     }

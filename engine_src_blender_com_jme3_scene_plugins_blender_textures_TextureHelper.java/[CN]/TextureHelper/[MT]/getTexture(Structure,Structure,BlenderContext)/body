@@ -9,8 +9,9 @@ case TEX_IMAGE:
     Pointer pImage=(Pointer)tex.getFieldValue("ima");
   if (pImage.isNotNull()) {
     Structure image=pImage.fetchData(blenderContext.getInputStream()).get(0);
-    result=this.getTextureFromImage(image,blenderContext);
-    if (result != null) {
+    Image loadedImage=this.loadImage(image,blenderContext);
+    if (loadedImage != null) {
+      result=new Texture2D(loadedImage);
       this.applyColorbandAndColorFactors(tex,result.getImage(),blenderContext);
     }
   }
@@ -59,6 +60,7 @@ throw new IllegalStateException("Unknown mipmap generation method: " + blenderCo
 if (type != TEX_IMAGE) {
 result.setKey(new GeneratedTextureKey(tex.getName()));
 }
+blenderContext.addLoadedFeatures(tex.getOldMemoryAddress(),tex.getName(),tex,result);
 }
 return result;
 }
