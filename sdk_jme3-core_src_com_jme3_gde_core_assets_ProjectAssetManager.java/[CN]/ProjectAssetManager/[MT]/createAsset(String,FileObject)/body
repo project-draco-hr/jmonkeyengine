@@ -1,0 +1,41 @@
+{
+  FileObject assetFolder=getAssetFolder();
+  FileObject dest=getAssetFolder().getFileObject(path);
+  if (dest == null) {
+    try {
+      dest=FileUtil.createData(assetFolder,path);
+      if (source != null) {
+        FileObject parent=dest.getParent();
+        dest.delete();
+        return source.copy(parent,source.getName(),source.getExt());
+      }
+ else {
+        return dest;
+      }
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+ else {
+    NotifyDescriptor.Confirmation msg=new NotifyDescriptor.Confirmation("File " + source.getNameExt() + " exists, overwrite?",NotifyDescriptor.YES_NO_OPTION,NotifyDescriptor.WARNING_MESSAGE);
+    Object result=DialogDisplayer.getDefault().notify(msg);
+    if (NotifyDescriptor.YES_OPTION.equals(result)) {
+      try {
+        if (source != null) {
+          FileObject parent=dest.getParent();
+          dest.delete();
+          return source.copy(parent,source.getName(),source.getExt());
+        }
+ else {
+          dest.delete();
+          return FileUtil.createData(assetFolder,path);
+        }
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+  }
+  return null;
+}
