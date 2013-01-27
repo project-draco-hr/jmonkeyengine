@@ -1,0 +1,32 @@
+{
+  try {
+    Document doc=DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+    if (doc == null) {
+      return;
+    }
+    Element moduleElement=doc.getDocumentElement();
+    if (moduleElement == null || !moduleElement.getTagName().equalsIgnoreCase("module")) {
+      return;
+    }
+    Element versionElement=findChildElement(moduleElement,"module_version");
+    if (versionElement == null) {
+      return;
+    }
+    String name=moduleElement.getAttribute("codename");
+    int idx=name.indexOf("/");
+    if (idx != -1) {
+      name=name.substring(0,idx);
+    }
+    String version=versionElement.getAttribute("specification_version");
+    versionMap.put(name,version);
+  }
+ catch (  SAXException ex) {
+    Logger.getLogger(UpdateNetBeansDependencies.class.getName()).log(Level.SEVERE,null,ex);
+  }
+catch (  IOException ex) {
+    Logger.getLogger(UpdateNetBeansDependencies.class.getName()).log(Level.SEVERE,null,ex);
+  }
+catch (  ParserConfigurationException ex) {
+    Logger.getLogger(UpdateNetBeansDependencies.class.getName()).log(Level.SEVERE,null,ex);
+  }
+}

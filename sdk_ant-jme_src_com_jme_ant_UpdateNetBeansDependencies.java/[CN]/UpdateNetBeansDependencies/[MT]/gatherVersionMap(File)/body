@@ -1,0 +1,17 @@
+{
+  File[] packages=baseFolder.listFiles();
+  for (  File pkg : packages) {
+    if (pkg.isDirectory()) {
+      for (      File utr : pkg.listFiles()) {
+        if (utr.isDirectory() && utr.getName().equals("update_tracking")) {
+          File[] xmls=utr.listFiles();
+          for (          File file : xmls) {
+            if (file.getName().toLowerCase().endsWith(".xml")) {
+              parseModules(file);
+            }
+          }
+        }
+      }
+    }
+  }
+}
