@@ -1,4 +1,8 @@
 {
+  assets=null;
+  assetKeys=null;
+  failedKeys=null;
+  manager.registerLocator(manager.getAssetFolderName(),UberAssetLocator.class);
   try {
     currentModel=(Spatial)data.loadAsset();
     if (currentModel != null) {
@@ -27,6 +31,6 @@
     DialogDisplayer.getDefault().notifyLater(msg);
     Exceptions.printStackTrace(e);
   }
-  manager.clearCache();
+  manager.unregisterLocator(manager.getAssetFolderName(),UberAssetLocator.class);
   panel.fireChangeEvent();
 }

@@ -1,0 +1,47 @@
+{
+  spat.depthFirstTraversal(new SceneGraphVisitorAdapter(){
+    @Override public void visit(    Geometry geom){
+      Material mat=geom.getMaterial();
+      if (mat != null) {
+        Collection<MatParam> params=mat.getParams();
+        for (Iterator<MatParam> it=params.iterator(); it.hasNext(); ) {
+          MatParam matParam=it.next();
+          VarType paramType=matParam.getVarType();
+          String paramName=matParam.getName();
+switch (paramType) {
+case Texture2D:
+case Texture3D:
+case TextureArray:
+case TextureBuffer:
+case TextureCubeMap:
+            try {
+              Texture tex=mat.getTextureParam(paramName).getTextureValue();
+              AssetKey curKey=tex.getKey();
+              UberAssetInfo newInfo=UberAssetLocator.getInfo(curKey);
+              if (newInfo != null) {
+                TextureKey newKey=new TextureKey(newInfo.getNewAssetName());
+                Beans.copyProperties(curKey,newKey);
+                Texture texture=mgr.loadTexture(newKey);
+                if (texture != null) {
+                  mat.setTextureParam(paramName,paramType,texture);
+                  geom.setMaterial(mat);
+                  logger.log(Level.INFO,"Apply relocated texture {0} for {1}",new Object[]{geom,newKey.getName()});
+                }
+ else {
+                  logger.log(Level.WARNING,"Could not find relocated texture!");
+                }
+              }
+            }
+ catch (            Exception ex) {
+              Exceptions.printStackTrace(ex);
+            }
+          break;
+default :
+      }
+    }
+  }
+  super.visit(geom);
+}
+}
+);
+}

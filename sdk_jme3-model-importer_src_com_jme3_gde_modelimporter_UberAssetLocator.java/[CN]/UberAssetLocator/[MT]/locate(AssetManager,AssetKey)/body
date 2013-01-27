@@ -1,13 +1,20 @@
 {
+  if (!(key instanceof TextureKey)) {
+    return null;
+  }
   AssetInfo existing=getInfo(key);
   if (existing != null) {
     return existing;
   }
-  FileObject file=findFile(key);
-  if (file == null) {
-    return null;
+  if (findMode) {
+    FileObject file=findFile(key);
+    if (file == null) {
+      return null;
+    }
+    logger.log(Level.INFO,"Storing location for {0}",key.getName());
+    UberAssetInfo info=new UberAssetInfo(file,manager,key);
+    locatedAssets.add(info);
+    return info;
   }
-  UberAssetInfo info=new UberAssetInfo(file,manager,key);
-  locatedAssets.add(info);
-  return info;
+  return null;
 }

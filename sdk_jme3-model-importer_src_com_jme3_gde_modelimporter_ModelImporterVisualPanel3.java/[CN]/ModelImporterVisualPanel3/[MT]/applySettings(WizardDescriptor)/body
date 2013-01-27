@@ -1,4 +1,5 @@
 {
+  UberAssetLocator.setFindMode(false);
   wiz.putProperty("assetfiles",assets);
   wiz.putProperty("assetlist",assetKeys);
   wiz.putProperty("failedlist",failedKeys);
@@ -7,5 +8,6 @@
     logger.log(Level.INFO,"Detaching model {0}",currentModel);
     offPanel.detach(currentModel);
   }
+  logger.log(Level.INFO,"Stop offview panel");
   offPanel.stopPreview();
 }

@@ -1,6 +1,20 @@
 {
+  if (locatedAssets.isEmpty()) {
+    logger.log(Level.INFO,"Looking in empty list for {0}",key.getName());
+  }
   for (  UberAssetInfo uberAssetInfo : locatedAssets) {
-    if (uberAssetInfo.getKey().getName().equals(key.getName())) {
+    String normalName=uberAssetInfo.getKey().getName();
+    if (assetBaseFolder != null) {
+      String extendedName=new AssetKey(assetBaseFolder + "/" + normalName).getName();
+      logger.log(Level.INFO,"Looking for extended name {0}",extendedName);
+      if (extendedName.equals(key.getName())) {
+        logger.log(Level.INFO,"Found extended name {0}",extendedName);
+        return uberAssetInfo;
+      }
+    }
+    logger.log(Level.INFO,"Looking for normal name {0}",normalName);
+    if (normalName.equals(key.getName())) {
+      logger.log(Level.INFO,"Found normal name {0}",normalName);
       return uberAssetInfo;
     }
   }

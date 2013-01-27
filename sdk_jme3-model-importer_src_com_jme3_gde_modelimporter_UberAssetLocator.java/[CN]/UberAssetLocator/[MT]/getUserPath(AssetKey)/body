@@ -1,4 +1,9 @@
 {
+  NotifyDescriptor.Confirmation msg=new NotifyDescriptor.Confirmation("Referenced file " + key.getName() + " cannot be found!\nDo you want to look for it?",NotifyDescriptor.YES_NO_OPTION,NotifyDescriptor.WARNING_MESSAGE);
+  Object result=DialogDisplayer.getDefault().notify(msg);
+  if (!NotifyDescriptor.YES_OPTION.equals(result)) {
+    return null;
+  }
   final String ext=key.getExtension();
   FileChooserBuilder fcb=new FileChooserBuilder(this.getClass());
   fcb.setTitle("Locate " + key.getName());
