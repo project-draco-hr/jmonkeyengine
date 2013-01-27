@@ -1,0 +1,16 @@
+{
+  String rootPath=this.rootPath != null ? this.rootPath.replace("\\","/") : null;
+  if (rootPath != null) {
+    File file=new File(rootPath + "/" + key.getName());
+    FileObject fileObject=FileUtil.toFileObject(file);
+    if (fileObject != null) {
+      return fileObject;
+    }
+  }
+  File file=new File(key.getName());
+  FileObject fileObject=FileUtil.toFileObject(file);
+  if (fileObject != null) {
+    return fileObject;
+  }
+  return getUserPath(key);
+}
