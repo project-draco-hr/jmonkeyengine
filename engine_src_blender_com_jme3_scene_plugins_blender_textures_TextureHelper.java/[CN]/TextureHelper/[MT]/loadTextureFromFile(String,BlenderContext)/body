@@ -28,8 +28,11 @@
       TextureKey key=new TextureKey(assetName);
       key.setGenerateMips(true);
       key.setAsCube(false);
-      result=assetManager.loadTexture(key);
-      break;
+      AssetInfo info=assetManager.locateAsset(key);
+      if (info != null) {
+        result=assetManager.loadTexture(key);
+        break;
+      }
     }
  catch (    AssetNotFoundException e) {
       LOGGER.fine(e.getLocalizedMessage());
