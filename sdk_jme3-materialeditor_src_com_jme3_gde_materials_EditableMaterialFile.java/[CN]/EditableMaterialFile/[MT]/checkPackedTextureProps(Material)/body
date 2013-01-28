@@ -1,0 +1,57 @@
+{
+  Collection<MatParam> params=mat.getParams();
+  for (Iterator<MatParam> it=new ArrayList<MatParam>(params).iterator(); it.hasNext(); ) {
+    MatParam param=it.next();
+    MaterialProperty prop=new MaterialProperty(param);
+    if (prop.getValue() == null) {
+switch (param.getVarType()) {
+case Texture2D:
+case Texture3D:
+case TextureArray:
+case TextureBuffer:
+case TextureCubeMap:
+        try {
+          MatParamTexture texParam=mat.getTextureParam(param.getName());
+          Texture tex=texParam.getTextureValue();
+          Image img=tex.getImage();
+          if (img == null) {
+            logger.log(Level.INFO,"No image found");
+            return;
+          }
+          BufferedImage image=ImageToAwt.convert(img,false,false,0);
+          ByteArrayOutputStream out=new ByteArrayOutputStream();
+          ImageWriter imgWrtr=ImageIO.getImageWritersByFormatName("png").next();
+          ImageOutputStream imgOutStrm;
+          imgOutStrm=ImageIO.createImageOutputStream(out);
+          imgWrtr.setOutput(imgOutStrm);
+          ImageWriteParam jpgWrtPrm=imgWrtr.getDefaultWriteParam();
+          imgWrtr.write(null,new IIOImage(image,null,null),jpgWrtPrm);
+          imgOutStrm.close();
+          out.close();
+          String texturePath=material.getName();
+          texturePath="Textures/" + texturePath + "-"+ param.getName()+ ".png";
+          StoreTextureWizardWizardAction act=new StoreTextureWizardWizardAction(manager,out.toByteArray(),texturePath);
+          act.actionPerformed(null);
+          texturePath=act.getName();
+          TextureKey texKey=new TextureKey(texturePath);
+          TextureKey oldKey=(TextureKey)tex.getKey();
+          if (oldKey != null) {
+            Beans.copyProperties(texKey,oldKey);
+          }
+          texKey.setFlipY(false);
+          Texture texture=manager.loadTexture(texKey);
+          MatParamTexture newParam=new MatParamTexture(texParam.getVarType(),texParam.getName(),texture,texParam.getUnit());
+          materialParameters.put(newParam.getName(),new MaterialProperty(newParam));
+        }
+ catch (        Exception ex) {
+          Exceptions.printStackTrace(ex);
+        }
+      break;
+default :
+  }
+}
+ else {
+  materialParameters.put(param.getName(),prop);
+}
+}
+}
