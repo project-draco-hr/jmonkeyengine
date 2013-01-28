@@ -1,8 +1,8 @@
 {
-  File blender=InstalledFileLocator.getDefault().locate("../blender/2.64",null,false);
+  File blender=InstalledFileLocator.getDefault().locate(getBlenderOsPath() + "/2.64",null,false);
   if (blender == null) {
-    DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("Error finding Blender settings at\n" + blender.getPath()));
-    logger.log(Level.SEVERE,"Error finding Blender settings at {0}",blender.getPath());
+    DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("Error finding Blender settings"));
+    logger.log(Level.SEVERE,"Error finding Blender settings");
   }
   return blender;
 }

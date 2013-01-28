@@ -1,8 +1,8 @@
 {
-  File blender=InstalledFileLocator.getDefault().locate("../blender/" + getBlenderExeName(),null,false);
+  File blender=InstalledFileLocator.getDefault().locate(getBlenderOsPath() + "/" + getBlenderExeName(),null,false);
   if (blender == null) {
-    DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("Error finding Blender executable at\n" + blender.getPath()));
-    logger.log(Level.SEVERE,"Error finding Blender executable at {0}",blender.getPath());
+    DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("Error finding Blender executable"));
+    logger.log(Level.SEVERE,"Error finding Blender executable");
   }
   return blender;
 }

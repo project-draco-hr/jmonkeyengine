@@ -1,4 +1,7 @@
 {
+  if (!checkBlenderFolders()) {
+    logger.log(Level.SEVERE,"Could not create blender settings folders!");
+  }
   logger.log(Level.INFO,"Try running blender with options {0}",options);
   if (running) {
     logger.log(Level.INFO,"Blender seems to be running");
@@ -20,14 +23,13 @@
   Runnable r=new Runnable(){
     public void run(){
       try {
-        String command=null;
-        if (options != null) {
-          command=exe.getAbsolutePath() + " " + options;
-        }
- else {
-          command=exe.getAbsolutePath();
-        }
-        Process proc=Runtime.getRuntime().exec(command);
+        String command=exe.getAbsolutePath();
+        ProcessBuilder buildr=new ProcessBuilder(command,options);
+        buildr.directory(getBlenderRootFolder());
+        buildr.environment().put("BLENDER_USER_CONFIG",getConfigEnv());
+        buildr.environment().put("BLENDER_SYSTEM_SCRIPTS",getScriptsEnv());
+        buildr.environment().put("BLENDER_USER_SCRIPTS",getUserScriptsEnv());
+        Process proc=buildr.start();
         OutputReader outReader=new OutputReader(proc.getInputStream());
         OutputReader errReader=new OutputReader(proc.getErrorStream());
         outReader.start();

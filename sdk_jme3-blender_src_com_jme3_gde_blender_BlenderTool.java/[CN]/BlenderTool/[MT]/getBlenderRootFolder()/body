@@ -1,8 +1,8 @@
 {
-  File blender=InstalledFileLocator.getDefault().locate("../blender",null,false);
+  File blender=InstalledFileLocator.getDefault().locate(getBlenderOsPath(),null,false);
   if (blender == null) {
-    DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("Error finding Blender root folder at\n" + blender.getPath()));
-    logger.log(Level.SEVERE,"Error finding Blender root folder at {0}",blender.getPath());
+    DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("Error finding Blender root folder"));
+    logger.log(Level.SEVERE,"Error finding Blender root folder");
   }
   return blender;
 }
