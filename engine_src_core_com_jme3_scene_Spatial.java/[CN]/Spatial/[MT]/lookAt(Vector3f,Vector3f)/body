@@ -2,8 +2,14 @@
   Vector3f worldTranslation=getWorldTranslation();
   TempVars vars=TempVars.get();
   Vector3f compVecA=vars.vect4;
-  vars.release();
   compVecA.set(position).subtractLocal(worldTranslation);
   getLocalRotation().lookAt(compVecA,upVector);
+  if (getParent() != null) {
+    Quaternion rot=vars.quat1;
+    rot=rot.set(parent.getWorldRotation()).inverseLocal().multLocal(getLocalRotation());
+    rot.normalizeLocal();
+    setLocalRotation(rot);
+  }
+  vars.release();
   setTransformRefresh();
 }
