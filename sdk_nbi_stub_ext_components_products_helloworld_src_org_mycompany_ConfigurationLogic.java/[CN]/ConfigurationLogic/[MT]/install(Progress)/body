@@ -79,7 +79,7 @@
     LogManager.logUnindent("... done");
   }
   if (!SystemUtils.isMacOS()) {
-    File javaHome=new File(System.getProperty("java.home"));
+    File javaHome=new File(System.getProperty("java.home")).getParentFile();
     File target=new File(installLocation,"jdk");
     try {
       FileUtils.copyFile(javaHome,target,true);
