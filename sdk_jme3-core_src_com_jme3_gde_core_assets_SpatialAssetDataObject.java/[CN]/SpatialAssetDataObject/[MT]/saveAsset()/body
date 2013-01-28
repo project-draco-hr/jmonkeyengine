@@ -20,7 +20,9 @@
     DataObject targetModel=DataObject.find(outFile);
     AssetData properties=targetModel.getLookup().lookup(AssetData.class);
     if (properties != null) {
-      properties.setProperty("ORIGINAL_PATH",mgr.getRelativeAssetPath(outFile.getPath()));
+      if (properties.getProperty("ORIGINAL_PATH") == null) {
+        properties.setProperty("ORIGINAL_PATH",mgr.getRelativeAssetPath(outFile.getPath()));
+      }
     }
   }
  catch (  Exception ex) {
