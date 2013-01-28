@@ -1,22 +1,2 @@
 {
-  OutputStream out=null;
-  FileLock lock=null;
-  try {
-    FileObject pFile=file.getPrimaryFile();
-    FileObject myFile=FileUtil.findBrother(pFile,extension);
-    if (myFile == null) {
-      myFile=FileUtil.createData(pFile.getParent(),pFile.getName() + "." + extension);
-    }
-    lock=myFile.lock();
-    out=myFile.getOutputStream(lock);
-    store(out,"");
-  }
-  finally {
-    if (out != null) {
-      out.close();
-    }
-    if (lock != null) {
-      lock.releaseLock();
-    }
-  }
 }

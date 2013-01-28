@@ -1,4 +1,11 @@
 {
-  Object obj=super.setProperty(key,value);
-  return obj;
+  return propsMutex.writeAccess(new Action<String>(){
+    public String run(){
+      String ret=(String)props.setProperty(key,value);
+      readProperties();
+      writeProperties();
+      return ret;
+    }
+  }
+);
 }

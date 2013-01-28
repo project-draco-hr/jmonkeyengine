@@ -1,0 +1,38 @@
+{
+  propsMutex.writeAccess(new Runnable(){
+    public void run(){
+      OutputStream out=null;
+      FileLock lock=null;
+      try {
+        FileObject pFile=file.getPrimaryFile();
+        FileObject myFile=FileUtil.findBrother(pFile,extension);
+        if (myFile == null) {
+          myFile=FileUtil.createData(pFile.getParent(),pFile.getName() + "." + extension);
+        }
+        lock=myFile.lock();
+        out=new BufferedOutputStream(myFile.getOutputStream(lock));
+        props.store(out,"");
+        out.flush();
+        lastLoaded=myFile.lastModified();
+        logger.log(Level.INFO,"Written AssetData properties for {0}",file);
+      }
+ catch (      IOException e) {
+        Exceptions.printStackTrace(e);
+      }
+ finally {
+        if (out != null) {
+          try {
+            out.close();
+          }
+ catch (          IOException ex) {
+            Exceptions.printStackTrace(ex);
+          }
+        }
+        if (lock != null) {
+          lock.releaseLock();
+        }
+      }
+    }
+  }
+);
+}
