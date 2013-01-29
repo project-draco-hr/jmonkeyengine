@@ -1,6 +1,6 @@
 {
   LOGGER.log(Level.FINE,"Fetching texture with OMA = {0}",image.getOldMemoryAddress());
-  Image result=(Image)blenderContext.getLoadedFeature(image.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
+  Texture result=new Texture2D((Image)blenderContext.getLoadedFeature(image.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE));
   if (result == null) {
     String texturePath=image.getFieldValue("name").toString();
     Pointer pPackedFile=(Pointer)image.getFieldValue("packedfile");
@@ -15,7 +15,7 @@
       FileBlockHeader dataFileBlock=blenderContext.getFileBlock(pData.getOldMemoryAddress());
       blenderContext.getInputStream().setPosition(dataFileBlock.getBlockPosition());
       ImageLoader imageLoader=new ImageLoader();
-      result=imageLoader.loadImage(blenderContext.getInputStream(),dataFileBlock.getBlockPosition(),true);
+      result=new Texture2D(imageLoader.loadImage(blenderContext.getInputStream(),dataFileBlock.getBlockPosition(),true));
     }
     if (result != null) {
       if (LOGGER.isLoggable(Level.FINE)) {

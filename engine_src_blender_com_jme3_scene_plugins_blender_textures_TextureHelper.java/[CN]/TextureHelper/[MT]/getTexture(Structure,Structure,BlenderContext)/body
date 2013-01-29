@@ -9,9 +9,9 @@ case TEX_IMAGE:
     Pointer pImage=(Pointer)tex.getFieldValue("ima");
   if (pImage.isNotNull()) {
     Structure image=pImage.fetchData(blenderContext.getInputStream()).get(0);
-    Image loadedImage=this.loadImage(image,blenderContext);
-    if (loadedImage != null) {
-      result=new Texture2D(loadedImage);
+    Texture loadedTexture=this.loadImage(image,blenderContext);
+    if (loadedTexture != null) {
+      result=loadedTexture;
       this.applyColorbandAndColorFactors(tex,result.getImage(),blenderContext);
     }
   }
