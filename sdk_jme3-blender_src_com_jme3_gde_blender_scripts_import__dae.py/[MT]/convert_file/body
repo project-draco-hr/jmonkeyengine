@@ -1,0 +1,13 @@
+def convert_file(file_path, save_path):
+    bpy.ops.wm.collada_import(filepath=file_path)
+    scene = bpy.context.scene
+    try:
+        f = open(save_path, 'w')
+        f.close()
+        ok = True
+    except:
+        print ('Cannot save to path %r' % save_path)
+        import traceback
+        traceback.print_exc()
+    if ok:
+        bpy.ops.wm.save_as_mainfile(filepath=save_path)
