@@ -7,6 +7,7 @@
   mainKey=(AssetKey)wiz.getProperty("mainkey");
   data=(AssetData)wiz.getProperty("assetdata");
   loadModel();
+  offPanel.detachAll();
   if (currentModel != null) {
     logger.log(Level.INFO,"Attaching model {0}",currentModel);
     offPanel.attach(currentModel);
