@@ -1,0 +1,5 @@
+def clear_scene():
+    scene = bpy.context.scene
+    scene.camera = None
+    for obj in scene.objects:
+        scene.objects.unlink(obj)

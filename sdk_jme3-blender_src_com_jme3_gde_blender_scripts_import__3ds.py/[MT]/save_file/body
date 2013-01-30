@@ -1,6 +1,4 @@
-def convert_file(file_path, save_path):
-    bpy.ops.import_scene.autodesk_3ds(filepath=file_path)
-    scene = bpy.context.scene
+def save_file(save_path):
     try:
         f = open(save_path, 'w')
         f.close()
