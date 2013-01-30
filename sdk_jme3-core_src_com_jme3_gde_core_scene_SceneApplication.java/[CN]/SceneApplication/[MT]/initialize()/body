@@ -42,11 +42,11 @@
   }
  catch (  Exception e) {
     Exceptions.printStackTrace(e);
-    SceneViewerTopComponent.showOpenGLError(e.toString());
+    showStartupErrorMessage(e);
   }
 catch (  Error e) {
     Exceptions.printStackTrace(e);
-    SceneViewerTopComponent.showOpenGLError(e.toString());
+    showStartupErrorMessage(e);
   }
  finally {
     getProgressHandle().finish();

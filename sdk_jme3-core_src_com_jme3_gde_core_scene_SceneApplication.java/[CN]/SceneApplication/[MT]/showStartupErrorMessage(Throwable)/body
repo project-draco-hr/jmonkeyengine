@@ -1,0 +1,14 @@
+{
+  ActionListener lst=new ActionListener(){
+    public void actionPerformed(    ActionEvent e){
+      try {
+        HtmlBrowser.URLDisplayer.getDefault().showURL(new URL("http://jmonkeyengine.org/wiki/doku.php/sdk:troubleshooting"));
+      }
+ catch (      MalformedURLException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+  }
+;
+  NotifyUtil.show("Error starting OpenGL context!",exception.getMessage() + " - Click here to go to troubleshooting web page.",MessageType.EXCEPTION,lst,0);
+}

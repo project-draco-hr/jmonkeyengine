@@ -13,11 +13,11 @@
   }
  catch (  Exception e) {
     Exceptions.printStackTrace(e);
-    showOpenGLError(e.toString());
+    SceneApplication.showStartupErrorMessage(e);
   }
 catch (  Error err) {
     Exceptions.printStackTrace(err);
-    showOpenGLError(err.toString());
+    SceneApplication.showStartupErrorMessage(err);
   }
   addMouseWheelListener(new MouseWheelListener(){
     public void mouseWheelMoved(    final MouseWheelEvent e){

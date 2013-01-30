@@ -1,0 +1,18 @@
+{
+  final Notification n=(Notification)NotificationDisplayer.getDefault().notify(title,type.getIcon(),message,actionListener);
+  if (timeout > 0) {
+    java.awt.EventQueue.invokeLater(new Runnable(){
+      public void run(){
+        Timer timer=new Timer(10000,new ActionListener(){
+          public void actionPerformed(          ActionEvent e){
+            n.clear();
+          }
+        }
+);
+        timer.setRepeats(false);
+        timer.start();
+      }
+    }
+);
+  }
+}
