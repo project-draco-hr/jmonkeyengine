@@ -6,13 +6,13 @@
       for (      SpatialAssetDataObject spatialAssetDataObject : context) {
         if (!(spatialAssetDataObject instanceof BinaryModelDataObject)) {
           try {
-            spatialAssetDataObject.loadAsset();
-            spatialAssetDataObject.saveAsset();
+            Savable sav=spatialAssetDataObject.loadAsset();
+            if (sav != null) {
+              spatialAssetDataObject.saveAsset();
+            }
           }
  catch (          Exception ex) {
             Exceptions.printStackTrace(ex);
-            Confirmation msg=new NotifyDescriptor.Confirmation("Error converting " + spatialAssetDataObject.getName() + "\n"+ ex.toString(),NotifyDescriptor.OK_CANCEL_OPTION,NotifyDescriptor.ERROR_MESSAGE);
-            DialogDisplayer.getDefault().notifyLater(msg);
           }
         }
       }
