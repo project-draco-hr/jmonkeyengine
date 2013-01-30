@@ -23,7 +23,7 @@
     lock=getPrimaryFile().lock();
     listListener.start();
     Spatial spatial=mgr.loadModel(assetKey);
-    replaceXmlFiles();
+    replaceXmlFiles(mgr);
     listListener.stop();
     savable=spatial;
     lock.releaseLock();
