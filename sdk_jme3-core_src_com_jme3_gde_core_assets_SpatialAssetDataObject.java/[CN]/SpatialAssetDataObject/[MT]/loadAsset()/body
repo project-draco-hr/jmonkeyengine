@@ -15,6 +15,9 @@
     Spatial spatial=mgr.loadModel(getAssetKey());
     listListener.stop();
     savable=spatial;
+    if (!(this instanceof BinaryModelDataObject)) {
+      storeOriginalPathUserData();
+    }
     lock.releaseLock();
     return spatial;
   }
