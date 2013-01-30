@@ -7,14 +7,12 @@
     logger.log(Level.SEVERE,"Could not find blender executable!");
     return false;
   }
-  logger.log(Level.INFO,"Running blender as converter for file {0}",input.getPath());
-  String scriptPath=getScriptPath(type,"import");
+  logger.log(Level.INFO,"Running blender as {0} tool for file {1}",new Object[]{toolName,input.getPath()});
+  String scriptPath=getScriptPath(toolName,"tool");
   String inputPath=input.getPath().replace("/",File.separator);
-  String inputFolder=input.getParent().getPath().replace("/",File.separator) + File.separator;
-  String outputPath=inputFolder + input.getName() + "."+ TEMP_SUFFIX;
   try {
     String command=exe.getAbsolutePath();
-    ProcessBuilder buildr=new ProcessBuilder(command,"-b","--factory-startup","-P",scriptPath,"--","-i",inputPath,"-o",outputPath);
+    ProcessBuilder buildr=new ProcessBuilder(command,"-b","--factory-startup","-P",scriptPath,"--","-i",inputPath);
     buildr.directory(getBlenderRootFolder());
     buildr.environment().put("BLENDER_USER_CONFIG",getConfigEnv());
     buildr.environment().put("BLENDER_SYSTEM_SCRIPTS",getScriptsEnv());

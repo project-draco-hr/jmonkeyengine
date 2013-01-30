@@ -2,23 +2,20 @@
   if (!checkBlenderFolders()) {
     logger.log(Level.SEVERE,"Could not create blender settings folders!");
   }
-  logger.log(Level.INFO,"Try running blender with options {0}",options);
-  if (running) {
+  logger.log(Level.INFO,"Running blender with options {0}",options);
+  if (blenderOpened.getAndSet(true)) {
     logger.log(Level.INFO,"Blender seems to be running");
     return false;
   }
-  blenderWindow=null;
-  running=true;
-  final Vector3f v=new Vector3f(0,0,0);
+  final AtomicBoolean successful=new AtomicBoolean(true);
   final File exe=getBlenderExecutable();
   if (exe == null) {
     logger.log(Level.SEVERE,"Could not find blender executable!");
-    running=false;
+    blenderOpened.set(false);
     return false;
   }
   final Frame mainWin=WindowManager.getDefault().getMainWindow();
   assert(mainWin != null);
-  logger.log(Level.INFO,"Adding focus listener to window {0}",mainWin);
   mainWin.setState(Frame.ICONIFIED);
   Runnable r=new Runnable(){
     public void run(){
@@ -40,29 +37,22 @@
  catch (        InterruptedException ex) {
           Exceptions.printStackTrace(ex);
         }
-        if (proc.exitValue() != 0) {
-          v.x=1;
+        if (proc.exitValue() == 0) {
+          successful.set(true);
         }
-        java.awt.EventQueue.invokeLater(new Runnable(){
-          public void run(){
-            mainWin.setState(Frame.NORMAL);
-          }
-        }
-);
-        blenderWindow=null;
-        running=false;
       }
- catch (      IOException ex) {
+ catch (      Exception ex) {
         Exceptions.printStackTrace(ex);
-        v.x=1;
+      }
+ finally {
+        blenderOpened.set(false);
         java.awt.EventQueue.invokeLater(new Runnable(){
           public void run(){
             mainWin.setState(Frame.NORMAL);
           }
         }
 );
-        blenderWindow=null;
-        running=false;
+        successful.set(false);
       }
     }
   }
@@ -73,10 +63,5 @@
  else {
     r.run();
   }
-  if (v.x != 1) {
-    return true;
-  }
- else {
-    return false;
-  }
+  return successful.get();
 }
