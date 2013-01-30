@@ -2,7 +2,7 @@
   if (!checkBlenderFolders()) {
     logger.log(Level.SEVERE,"Could not create blender settings folders!");
   }
-  logger.log(Level.INFO,"Running blender with options {0}",options);
+  logger.log(Level.INFO,"Running blender with options {0}",file);
   if (blenderOpened.getAndSet(true)) {
     logger.log(Level.INFO,"Blender seems to be running");
     return false;
@@ -21,7 +21,7 @@
     public void run(){
       try {
         String command=exe.getAbsolutePath();
-        ProcessBuilder buildr=new ProcessBuilder(command,options);
+        ProcessBuilder buildr=new ProcessBuilder(command,file);
         buildr.directory(getBlenderRootFolder());
         buildr.environment().put("BLENDER_USER_CONFIG",getConfigEnv());
         buildr.environment().put("BLENDER_SYSTEM_SCRIPTS",getScriptsEnv());
@@ -49,6 +49,7 @@
         java.awt.EventQueue.invokeLater(new Runnable(){
           public void run(){
             mainWin.setState(Frame.NORMAL);
+            mainWin.requestFocus();
           }
         }
 );
