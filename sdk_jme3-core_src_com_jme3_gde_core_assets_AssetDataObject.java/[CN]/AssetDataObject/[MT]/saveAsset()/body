@@ -32,6 +32,6 @@
     }
   }
   progressHandle.finish();
-  StatusDisplayer.getDefault().setStatusText(getPrimaryFile().getNameExt() + " saved.");
+  NotifyUtil.info("Saved file","File " + getPrimaryFile().getNameExt() + " saved successfully.");
   setModified(false);
 }
