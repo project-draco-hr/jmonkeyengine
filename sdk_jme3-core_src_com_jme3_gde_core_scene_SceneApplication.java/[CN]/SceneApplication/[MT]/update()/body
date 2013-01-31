@@ -2,9 +2,9 @@
   if (!started) {
     try {
       runQueuedTasks();
+      getStateManager().update(0);
     }
  catch (    Exception e) {
-      getStateManager().update(0);
       logger.log(Level.INFO,"Exception calling Tasks:",e);
     }
   }
