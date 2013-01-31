@@ -32,6 +32,6 @@
     }
   }
   progressHandle.finish();
-  NotifyUtil.info("Saved file","File " + getPrimaryFile().getNameExt() + " saved successfully.");
+  logger.log(LogLevel.USERINFO,"File {0} saved successfully",getPrimaryFile().getNameExt());
   setModified(false);
 }
