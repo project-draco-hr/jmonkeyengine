@@ -1,8 +1,8 @@
 {
-  logger.info("onDestroy");
+  logger.fine("onDestroy");
   final DataObject data=(DataObject)getLastNonConfigurationInstance();
   if (data != null || inConfigChange) {
-    logger.info("In Config Change, not stopping app.");
+    logger.fine("In Config Change, not stopping app.");
   }
  else {
     if (app != null) {

@@ -2,7 +2,7 @@
   if (!context.isRenderable())   return;
   try {
     Mouse.create();
-    logger.info("Mouse created.");
+    logger.fine("Mouse created.");
     supportHardwareCursor=(Cursor.getCapabilities() & Cursor.CURSOR_ONE_BIT_TRANSPARENCY) != 0;
     Mouse.setGrabbed(!cursorVisible);
   }

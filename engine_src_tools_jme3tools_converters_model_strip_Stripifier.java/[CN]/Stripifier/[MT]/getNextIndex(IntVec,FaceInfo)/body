@@ -7,22 +7,22 @@
   int fv2=face.m_v2;
   if (fv0 != v0 && fv0 != v1) {
     if ((fv1 != v0 && fv1 != v1) || (fv2 != v0 && fv2 != v1)) {
-      logger.info("GetNextIndex: Triangle doesn't have all of its vertices\n");
-      logger.info("GetNextIndex: Duplicate triangle probably got us derailed\n");
+      logger.fine("GetNextIndex: Triangle doesn't have all of its vertices\n");
+      logger.fine("GetNextIndex: Duplicate triangle probably got us derailed\n");
     }
     return fv0;
   }
   if (fv1 != v0 && fv1 != v1) {
     if ((fv0 != v0 && fv0 != v1) || (fv2 != v0 && fv2 != v1)) {
-      logger.info("GetNextIndex: Triangle doesn't have all of its vertices\n");
-      logger.info("GetNextIndex: Duplicate triangle probably got us derailed\n");
+      logger.fine("GetNextIndex: Triangle doesn't have all of its vertices\n");
+      logger.fine("GetNextIndex: Duplicate triangle probably got us derailed\n");
     }
     return fv1;
   }
   if (fv2 != v0 && fv2 != v1) {
     if ((fv0 != v0 && fv0 != v1) || (fv1 != v0 && fv1 != v1)) {
-      logger.info("GetNextIndex: Triangle doesn't have all of its vertices\n");
-      logger.info("GetNextIndex: Duplicate triangle probably got us derailed\n");
+      logger.fine("GetNextIndex: Triangle doesn't have all of its vertices\n");
+      logger.fine("GetNextIndex: Duplicate triangle probably got us derailed\n");
     }
     return fv2;
   }
