@@ -11,14 +11,14 @@
     }
   }
  else   if (record.getLevel().equals(Level.WARNING)) {
-    io.getErr().println(formatter.formatMessage(record));
     NotifyUtil.show("Warning",formatter.formatMessage(record),MessageType.WARNING,listener,5000);
-  }
- else   if (record.getLevel().equals(Level.INFO)) {
-    io.getOut().println(formatter.formatMessage(record));
+    io.getErr().println(formatter.formatMessage(record));
   }
  else   if (record.getLevel().intValue() > 800) {
     NotifyUtil.show("Info",formatter.formatMessage(record),MessageType.INFO,listener,3000);
+    io.getOut().println(formatter.formatMessage(record));
+  }
+ else   if (record.getLevel().equals(Level.INFO)) {
     io.getOut().println(formatter.formatMessage(record));
   }
  else {
