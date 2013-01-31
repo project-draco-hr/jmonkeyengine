@@ -2,19 +2,19 @@
   SensorData sensorData=sensors.get(sensorType);
   if (sensorData != null) {
     if (sensorData.enabled) {
-      logger.log(Level.INFO,"Sensor Already Active: SensorType: {0}, active: {1}",new Object[]{sensorType,sensorData.enabled});
+      logger.log(Level.FINE,"Sensor Already Active: SensorType: {0}, active: {1}",new Object[]{sensorType,sensorData.enabled});
       return true;
     }
     sensorData.haveData=false;
     if (sensorData.sensor != null) {
       if (sensorManager.registerListener(this,sensorData.sensor,sensorData.androidSensorSpeed)) {
         sensorData.enabled=true;
-        logger.log(Level.INFO,"SensorType: {0}, actived: {1}",new Object[]{sensorType,sensorData.enabled});
+        logger.log(Level.FINE,"SensorType: {0}, actived: {1}",new Object[]{sensorType,sensorData.enabled});
         return true;
       }
  else {
         sensorData.enabled=false;
-        logger.log(Level.INFO,"Sensor Type {0} activation failed.",sensorType);
+        logger.log(Level.FINE,"Sensor Type {0} activation failed.",sensorType);
       }
     }
   }

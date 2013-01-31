@@ -1,5 +1,5 @@
 {
-  Logger.getLogger(PhysicsSpace.class.getName()).log(Level.INFO,"Adding Joint {0} to physics space.",Long.toHexString(joint.getObjectId()));
+  Logger.getLogger(PhysicsSpace.class.getName()).log(Level.FINE,"Adding Joint {0} to physics space.",Long.toHexString(joint.getObjectId()));
   physicsJoints.add(joint);
   addConstraintC(physicsSpaceId,joint.getObjectId(),!joint.isCollisionBetweenLinkedBodys());
 }

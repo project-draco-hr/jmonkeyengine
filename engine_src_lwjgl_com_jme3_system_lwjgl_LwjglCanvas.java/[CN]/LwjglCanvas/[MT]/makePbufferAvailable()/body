@@ -7,7 +7,7 @@
   if (pbuffer == null) {
     pbuffer=new Pbuffer(1,1,acquirePixelFormat(true),null);
     pbuffer.makeCurrent();
-    logger.log(Level.INFO,"OGL: Pbuffer has been created");
+    logger.log(Level.FINE,"OGL: Pbuffer has been created");
     if (!runningFirstTime) {
       renderer.resetGLObjects();
     }

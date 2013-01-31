@@ -11,11 +11,11 @@
   sensorData.androidSensorType=sensorType;
   sensorData.sensor=sensorManager.getDefaultSensor(sensorType);
   if (sensorData.sensor != null) {
-    logger.log(Level.INFO,"Sensor Type {0} found.",sensorType);
+    logger.log(Level.FINE,"Sensor Type {0} found.",sensorType);
     success=registerListener(sensorType);
   }
  else {
-    logger.log(Level.INFO,"Sensor Type {0} not found.",sensorType);
+    logger.log(Level.FINE,"Sensor Type {0} not found.",sensorType);
   }
   if (success) {
     return sensorData;

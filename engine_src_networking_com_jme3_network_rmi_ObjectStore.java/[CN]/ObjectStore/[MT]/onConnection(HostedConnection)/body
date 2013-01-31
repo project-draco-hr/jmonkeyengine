@@ -10,11 +10,11 @@
     defMsg.objects=defs;
     if (this.client != null) {
       this.client.send(defMsg);
-      logger.log(Level.INFO,"Client: Sending {0}",defMsg);
+      logger.log(Level.FINE,"Client: Sending {0}",defMsg);
     }
  else {
       conn.send(defMsg);
-      logger.log(Level.INFO,"Server: Sending {0}",defMsg);
+      logger.log(Level.FINE,"Server: Sending {0}",defMsg);
     }
   }
 }

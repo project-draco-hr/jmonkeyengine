@@ -2,7 +2,7 @@
   Matrix3f mat=new Matrix3f(2,1,1,1,2,1,1,1,2);
   Eigen3f eigenSystem=new Eigen3f(mat);
   logger.info("eigenvalues = ");
-  for (int i=0; i < 3; i++)   logger.log(Level.INFO,"{0} ",eigenSystem.getEigenValue(i));
+  for (int i=0; i < 3; i++)   logger.log(Level.FINE,"{0} ",eigenSystem.getEigenValue(i));
   logger.info("eigenvectors = ");
   for (int i=0; i < 3; i++) {
     Vector3f vector=eigenSystem.getEigenVector(i);

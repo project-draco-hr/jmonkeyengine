@@ -8,8 +8,8 @@
     children.add(child);
     child.setTransformRefresh();
     child.setLightListRefresh();
-    if (logger.isLoggable(Level.INFO)) {
-      logger.log(Level.INFO,"Child ({0}) attached to this node ({1})",new Object[]{child.getName(),getName()});
+    if (logger.isLoggable(Level.FINE)) {
+      logger.log(Level.FINE,"Child ({0}) attached to this node ({1})",new Object[]{child.getName(),getName()});
     }
   }
   return children.size();

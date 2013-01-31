@@ -14,14 +14,14 @@
   setRequestedOrientation(screenOrientation);
   final DataObject data=(DataObject)getLastNonConfigurationInstance();
   if (data != null) {
-    logger.log(Level.INFO,"Using Retained App");
+    logger.log(Level.FINE,"Using Retained App");
     this.app=data.app;
   }
  else {
     WindowManager wind=this.getWindowManager();
     Display disp=wind.getDefaultDisplay();
     Log.d("AndroidHarness","Resolution from Window, width:" + disp.getWidth() + ", height: "+ disp.getHeight());
-    logger.log(Level.INFO,"Creating settings");
+    logger.log(Level.FINE,"Creating settings");
     AppSettings settings=new AppSettings(true);
     settings.setEmulateMouse(mouseEventsEnabled);
     settings.setEmulateMouseFlipAxis(mouseEventsInvertX,mouseEventsInvertY);

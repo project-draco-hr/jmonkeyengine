@@ -1,6 +1,6 @@
 {
   if (p.isConnected()) {
-    log.log(Level.INFO,"Connection closed:{0}.",p);
+    log.log(Level.FINE,"Connection closed:{0}.",p);
   }
  else {
     log.log(Level.FINE,"Connection closed:{0}.",p);
@@ -16,7 +16,7 @@ synchronized (this) {
     log.log(Level.FINE,"Endpoint mappings size:{0}",endpointConnections.size());
   }
   if (removed != null && !removed.closed) {
-    log.log(Level.INFO,"Client closed:{0}.",removed);
+    log.log(Level.FINE,"Client closed:{0}.",removed);
     removed.closeConnection();
   }
 }

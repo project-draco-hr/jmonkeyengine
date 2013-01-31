@@ -1,10 +1,10 @@
 {
   if (needClose.get()) {
-    logger.log(Level.INFO,"EDT: Application is stopped. Not restoring canvas.");
+    logger.log(Level.FINE,"EDT: Application is stopped. Not restoring canvas.");
     super.removeNotify();
     return;
   }
-  logger.log(Level.INFO,"EDT: Telling OGL to destroy display ..");
+  logger.log(Level.FINE,"EDT: Telling OGL to destroy display ..");
 synchronized (taskLock) {
     desiredTask=TASK_DESTROY_DISPLAY;
     while (desiredTask != TASK_COMPLETE) {
@@ -18,6 +18,6 @@ synchronized (taskLock) {
     }
     desiredTask=TASK_NOTHING;
   }
-  logger.log(Level.INFO,"EDT: Acknowledged receipt of canvas death");
+  logger.log(Level.FINE,"EDT: Acknowledged receipt of canvas death");
   super.removeNotify();
 }

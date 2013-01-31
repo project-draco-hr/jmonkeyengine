@@ -6,7 +6,7 @@
     String texturePath=imageStructure.getFieldValue("name").toString();
     Pointer pPackedFile=(Pointer)imageStructure.getFieldValue("packedfile");
     if (pPackedFile.isNull()) {
-      LOGGER.log(Level.INFO,"Reading texture from file: {0}",texturePath);
+      LOGGER.log(Level.FINE,"Reading texture from file: {0}",texturePath);
       result=this.loadImageFromFile(texturePath,blenderContext);
     }
  else {

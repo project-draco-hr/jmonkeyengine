@@ -1,5 +1,5 @@
 {
-  logger.log(Level.INFO,"OGL: Waiting for canvas to become displayable..");
+  logger.log(Level.FINE,"OGL: Waiting for canvas to become displayable..");
   while (!canvas.isDisplayable()) {
     try {
       Thread.sleep(10);
@@ -8,10 +8,10 @@
       logger.log(Level.SEVERE,"OGL: Interrupted! ",ex);
     }
   }
-  logger.log(Level.INFO,"OGL: Creating display context ..");
+  logger.log(Level.FINE,"OGL: Creating display context ..");
   renderable.set(true);
   createContext(settings);
-  logger.log(Level.INFO,"OGL: Display is active!");
+  logger.log(Level.FINE,"OGL: Display is active!");
   try {
     if (mouseWasCreated) {
       Mouse.create();

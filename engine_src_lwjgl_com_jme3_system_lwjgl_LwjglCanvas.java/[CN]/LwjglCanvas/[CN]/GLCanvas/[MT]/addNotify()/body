@@ -4,7 +4,7 @@
     return;
   }
   if (renderThread == null) {
-    logger.log(Level.INFO,"EDT: Creating OGL thread.");
+    logger.log(Level.FINE,"EDT: Creating OGL thread.");
     canvas.setFocusable(true);
     canvas.setIgnoreRepaint(true);
     renderThread=new Thread(LwjglCanvas.this,"LWJGL Renderer Thread");
@@ -13,7 +13,7 @@
  else   if (needClose.get()) {
     return;
   }
-  logger.log(Level.INFO,"EDT: Telling OGL to create display ..");
+  logger.log(Level.FINE,"EDT: Telling OGL to create display ..");
 synchronized (taskLock) {
     desiredTask=TASK_CREATE_DISPLAY;
   }

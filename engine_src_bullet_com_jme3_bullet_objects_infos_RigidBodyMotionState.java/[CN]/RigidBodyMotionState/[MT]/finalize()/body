@@ -1,5 +1,5 @@
 {
   super.finalize();
-  Logger.getLogger(this.getClass().getName()).log(Level.INFO,"Finalizing MotionState {0}",Long.toHexString(motionStateId));
+  Logger.getLogger(this.getClass().getName()).log(Level.FINE,"Finalizing MotionState {0}",Long.toHexString(motionStateId));
   finalizeNative(motionStateId);
 }

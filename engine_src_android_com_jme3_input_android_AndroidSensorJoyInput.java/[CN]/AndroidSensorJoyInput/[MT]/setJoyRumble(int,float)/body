@@ -4,7 +4,7 @@
     final long rumbleOffDur=maxRumbleTime - rumbleOnDur;
     final long[] rumblePattern={0,rumbleOnDur,rumbleOffDur};
     final int rumbleRepeatFrom=0;
-    logger.log(Level.INFO,"Rumble amount: {0}, rumbleOnDur: {1}, rumbleOffDur: {2}",new Object[]{amount,rumbleOnDur,rumbleOffDur});
+    logger.log(Level.FINE,"Rumble amount: {0}, rumbleOnDur: {1}, rumbleOffDur: {2}",new Object[]{amount,rumbleOnDur,rumbleOffDur});
     if (rumbleOnDur > 0) {
       vibrator.vibrate(rumblePattern,rumbleRepeatFrom);
       vibratorActive=true;

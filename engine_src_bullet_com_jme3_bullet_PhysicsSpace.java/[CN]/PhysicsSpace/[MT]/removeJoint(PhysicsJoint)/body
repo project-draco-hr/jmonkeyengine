@@ -1,5 +1,5 @@
 {
-  Logger.getLogger(PhysicsSpace.class.getName()).log(Level.INFO,"Removing Joint {0} from physics space.",Long.toHexString(joint.getObjectId()));
+  Logger.getLogger(PhysicsSpace.class.getName()).log(Level.FINE,"Removing Joint {0} from physics space.",Long.toHexString(joint.getObjectId()));
   physicsJoints.remove(joint);
   removeConstraint(physicsSpaceId,joint.getObjectId());
 }

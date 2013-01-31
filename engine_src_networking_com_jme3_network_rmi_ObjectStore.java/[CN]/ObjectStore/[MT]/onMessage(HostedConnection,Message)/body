@@ -40,11 +40,11 @@ catch (    InvocationTargetException ex) {
       retMsg.retVal=ret;
       if (server != null) {
         source.send(retMsg);
-        logger.log(Level.INFO,"Server: Sending {0}",retMsg);
+        logger.log(Level.FINE,"Server: Sending {0}",retMsg);
       }
  else {
         client.send(retMsg);
-        logger.log(Level.INFO,"Client: Sending {0}",retMsg);
+        logger.log(Level.FINE,"Client: Sending {0}",retMsg);
       }
     }
   }

@@ -16,7 +16,7 @@
   int samples=getNumSamplesToUse();
   PixelFormat pf=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),samples,0,0,0,settings.useStereo3D());
   frameRate=settings.getFrameRate();
-  logger.log(Level.INFO,"Selected display mode: {0}",displayMode);
+  logger.log(Level.FINE,"Selected display mode: {0}",displayMode);
   boolean pixelFormatChanged=false;
   if (created.get() && (pixelFormat.getBitsPerPixel() != pf.getBitsPerPixel() || pixelFormat.getDepthBits() != pf.getDepthBits() || pixelFormat.getStencilBits() != pf.getStencilBits() || pixelFormat.getSamples() != pf.getSamples())) {
     renderer.resetGLObjects();

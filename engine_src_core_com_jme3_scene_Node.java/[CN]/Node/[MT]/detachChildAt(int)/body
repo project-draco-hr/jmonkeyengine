@@ -2,7 +2,7 @@
   Spatial child=children.remove(index);
   if (child != null) {
     child.setParent(null);
-    logger.log(Level.INFO,"{0}: Child removed.",this.toString());
+    logger.log(Level.FINE,"{0}: Child removed.",this.toString());
     setBoundRefresh();
     child.setTransformRefresh();
     child.setLightListRefresh();

@@ -4,13 +4,13 @@
   List<Joystick> list=new ArrayList<Joystick>();
   for (  Controller c : ce.getControllers()) {
     if (c.getType() == Controller.Type.KEYBOARD || c.getType() == Controller.Type.MOUSE)     continue;
-    logger.log(Level.INFO,"Attempting to create joystick for: \"{0}\"",c);
+    logger.log(Level.FINE,"Attempting to create joystick for: \"{0}\"",c);
     JInputJoystick stick=new JInputJoystick(inputManager,this,c,list.size(),c.getName());
     for (    Component comp : c.getComponents()) {
       stick.addComponent(comp);
     }
     if (stick.getAxisCount() == 0) {
-      logger.log(Level.INFO,"Not a joystick: {0}",c);
+      logger.log(Level.FINE,"Not a joystick: {0}",c);
       continue;
     }
     joystickIndex.put(c,stick);

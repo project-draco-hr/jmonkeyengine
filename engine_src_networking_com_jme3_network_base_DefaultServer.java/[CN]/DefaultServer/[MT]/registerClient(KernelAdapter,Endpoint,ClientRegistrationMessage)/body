@@ -15,7 +15,7 @@ synchronized (this) {
     log.log(Level.FINE,"Setting up channel:{0}",channel);
     if (channel == CH_RELIABLE) {
       if (!getGameName().equals(m.getGameName()) || getVersion() != m.getVersion()) {
-        log.log(Level.INFO,"Kicking client due to name/version mismatch:{0}.",c);
+        log.log(Level.FINE,"Kicking client due to name/version mismatch:{0}.",c);
         c.close("Server client mismatch, server:" + getGameName() + " v"+ getVersion()+ "  client:"+ m.getGameName()+ " v"+ m.getVersion());
         return;
       }
@@ -38,7 +38,7 @@ synchronized (this) {
     }
   }
   if (addedConnection != null) {
-    log.log(Level.INFO,"Client registered:{0}.",addedConnection);
+    log.log(Level.FINE,"Client registered:{0}.",addedConnection);
     m=new ClientRegistrationMessage();
     m.setId(addedConnection.getId());
     m.setReliable(true);

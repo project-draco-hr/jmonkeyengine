@@ -1,5 +1,5 @@
 {
-  Logger.getLogger(PhysicsSpace.class.getName()).log(Level.INFO,"Adding character {0} to physics space.",node.getObjectId());
+  Logger.getLogger(PhysicsSpace.class.getName()).log(Level.FINE,"Adding character {0} to physics space.",node.getObjectId());
   dynamicsWorld.addCollisionObject(node.getObjectId(),CollisionFilterGroups.CHARACTER_FILTER,(short)(CollisionFilterGroups.STATIC_FILTER | CollisionFilterGroups.DEFAULT_FILTER));
   dynamicsWorld.addAction(node.getControllerId());
 }

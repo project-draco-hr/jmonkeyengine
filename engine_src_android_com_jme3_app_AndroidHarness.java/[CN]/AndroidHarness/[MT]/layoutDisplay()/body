@@ -1,7 +1,7 @@
 {
-  logger.log(Level.INFO,"Splash Screen Picture Resource ID: {0}",splashPicID);
+  logger.log(Level.FINE,"Splash Screen Picture Resource ID: {0}",splashPicID);
   if (view == null) {
-    logger.log(Level.INFO,"view is null!");
+    logger.log(Level.FINE,"view is null!");
   }
   if (splashPicID != 0) {
     FrameLayout.LayoutParams lp=new FrameLayout.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT,Gravity.CENTER);
@@ -23,10 +23,10 @@
     }
     frameLayout.addView(splashImageView,lp);
     setContentView(frameLayout);
-    logger.log(Level.INFO,"Splash Screen Created");
+    logger.log(Level.FINE,"Splash Screen Created");
   }
  else {
-    logger.log(Level.INFO,"Splash Screen Skipped.");
+    logger.log(Level.FINE,"Splash Screen Skipped.");
     setContentView(view);
   }
 }

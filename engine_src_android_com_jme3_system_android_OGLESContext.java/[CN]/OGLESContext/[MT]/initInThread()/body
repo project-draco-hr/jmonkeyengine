@@ -1,7 +1,7 @@
 {
   created.set(true);
   logger.info("OGLESContext create");
-  logger.log(Level.INFO,"Running on thread: {0}",Thread.currentThread().getName());
+  logger.log(Level.FINE,"Running on thread: {0}",Thread.currentThread().getName());
   Thread.currentThread().setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler(){
     public void uncaughtException(    Thread thread,    Throwable thrown){
       listener.handleError("Exception thrown in " + thread.toString(),thrown);

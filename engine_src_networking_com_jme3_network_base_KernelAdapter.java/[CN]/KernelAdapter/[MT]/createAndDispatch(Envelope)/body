@@ -10,7 +10,7 @@
       for (int i=0; i < len; i++) {
         sb.append("[" + Integer.toHexString(data[i]) + "]");
       }
-      log.log(Level.INFO,"First 10 bytes of incomplete nessage:" + sb);
+      log.log(Level.FINE,"First 10 bytes of incomplete nessage:" + sb);
       throw new RuntimeException("Envelope contained incomplete data:" + env);
     }
   }

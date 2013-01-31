@@ -3,13 +3,13 @@
 synchronized (taskLock) {
 switch (desiredTask) {
 case TASK_CREATE_DISPLAY:
-        logger.log(Level.INFO,"OGL: Creating display ..");
+        logger.log(Level.FINE,"OGL: Creating display ..");
       restoreCanvas();
     listener.gainFocus();
   desiredTask=TASK_NOTHING;
 break;
 case TASK_DESTROY_DISPLAY:
-logger.log(Level.INFO,"OGL: Destroying display ..");
+logger.log(Level.FINE,"OGL: Destroying display ..");
 listener.loseFocus();
 pauseCanvas();
 break;

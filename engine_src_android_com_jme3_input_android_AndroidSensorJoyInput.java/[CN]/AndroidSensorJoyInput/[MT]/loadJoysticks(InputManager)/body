@@ -9,7 +9,7 @@
   list.add(joystick);
   List<Sensor> availSensors=sensorManager.getSensorList(Sensor.TYPE_ALL);
   for (  Sensor sensor : availSensors) {
-    logger.log(Level.INFO,"{0} Sensor is available, Type: {1}, Vendor: {2}, Version: {3}",new Object[]{sensor.getName(),sensor.getType(),sensor.getVendor(),sensor.getVersion()});
+    logger.log(Level.FINE,"{0} Sensor is available, Type: {1}, Vendor: {2}, Version: {3}",new Object[]{sensor.getName(),sensor.getType(),sensor.getVendor(),sensor.getVersion()});
   }
   sensorData=new SensorData(Sensor.TYPE_ORIENTATION,null);
   sensorData.lastValues=new float[3];

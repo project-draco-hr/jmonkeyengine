@@ -8,7 +8,7 @@
   if (app != null) {
     AudioRenderer result=app.getAudioRenderer();
     if (result != null) {
-      logger.log(Level.INFO,"pause: {0}",result.getClass().getSimpleName());
+      logger.log(Level.FINE,"pause: {0}",result.getClass().getSimpleName());
       if (result instanceof AndroidAudioRenderer) {
         AndroidAudioRenderer renderer=(AndroidAudioRenderer)result;
         renderer.pauseAll();

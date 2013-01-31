@@ -12,7 +12,7 @@ case External:
 storageFolder=storageFolders.get(type);
 if (storageFolder == null) {
 String state=Environment.getExternalStorageState();
-logger.log(Level.INFO,"ExternalStorageState: {0}",state);
+logger.log(Level.FINE,"ExternalStorageState: {0}",state);
 if (state.equals(Environment.MEDIA_MOUNTED)) {
 storageFolder=activity.getApplicationContext().getExternalFilesDir(null);
 storageFolders.put(type,storageFolder);
@@ -23,10 +23,10 @@ default :
 break;
 }
 if (storageFolder != null) {
-logger.log(Level.INFO,"Base Storage Folder Path: {0}",storageFolder.getAbsolutePath());
+logger.log(Level.FINE,"Base Storage Folder Path: {0}",storageFolder.getAbsolutePath());
 }
  else {
-logger.log(Level.INFO,"Base Storage Folder not found!");
+logger.log(Level.FINE,"Base Storage Folder not found!");
 }
 return storageFolder;
 }
