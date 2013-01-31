@@ -1,8 +1,8 @@
 {
   GL gl=GLContext.getCurrentGL();
-  if (context.matrixMode != GL2.GL_PROJECTION) {
-    gl.getGL2().glMatrixMode(GL2.GL_PROJECTION);
-    context.matrixMode=GL2.GL_PROJECTION;
+  if (context.matrixMode != GLMatrixFunc.GL_PROJECTION) {
+    gl.getGL2ES1().glMatrixMode(GLMatrixFunc.GL_PROJECTION);
+    context.matrixMode=GLMatrixFunc.GL_PROJECTION;
   }
-  gl.getGL2().glLoadMatrixf(storeMatrix(projMatrix,fb16));
+  gl.getGL2ES1().glLoadMatrixf(storeMatrix(projMatrix,fb16));
 }

@@ -1,20 +1,20 @@
 {
   GL gl=GLContext.getCurrentGL();
   if (state.isWireframe() && !context.wireframe) {
-    gl.getGL2().glPolygonMode(GL2.GL_FRONT_AND_BACK,GL2.GL_LINE);
+    gl.getGL2GL3().glPolygonMode(GL.GL_FRONT_AND_BACK,GL2GL3.GL_LINE);
     context.wireframe=true;
   }
  else   if (!state.isWireframe() && context.wireframe) {
-    gl.getGL2().glPolygonMode(GL2.GL_FRONT_AND_BACK,GL2.GL_FILL);
+    gl.getGL2GL3().glPolygonMode(GL.GL_FRONT_AND_BACK,GL2GL3.GL_FILL);
     context.wireframe=false;
   }
   if (state.isDepthTest() && !context.depthTestEnabled) {
-    gl.getGL2().glEnable(GL.GL_DEPTH_TEST);
-    gl.getGL2().glDepthFunc(GL.GL_LEQUAL);
+    gl.glEnable(GL.GL_DEPTH_TEST);
+    gl.glDepthFunc(GL.GL_LEQUAL);
     context.depthTestEnabled=true;
   }
  else   if (!state.isDepthTest() && context.depthTestEnabled) {
-    gl.getGL2().glDisable(GL.GL_DEPTH_TEST);
+    gl.glDisable(GL.GL_DEPTH_TEST);
     context.depthTestEnabled=false;
   }
   if (state.isAlphaTest()) {
@@ -24,19 +24,19 @@
     setFixedFuncBinding(FixedFuncBinding.AlphaTestFallOff,0f);
   }
   if (state.isDepthWrite() && !context.depthWriteEnabled) {
-    gl.getGL2().glDepthMask(true);
+    gl.glDepthMask(true);
     context.depthWriteEnabled=true;
   }
  else   if (!state.isDepthWrite() && context.depthWriteEnabled) {
-    gl.getGL2().glDepthMask(false);
+    gl.glDepthMask(false);
     context.depthWriteEnabled=false;
   }
   if (state.isColorWrite() && !context.colorWriteEnabled) {
-    gl.getGL2().glColorMask(true,true,true,true);
+    gl.glColorMask(true,true,true,true);
     context.colorWriteEnabled=true;
   }
  else   if (!state.isColorWrite() && context.colorWriteEnabled) {
-    gl.getGL2().glColorMask(false,false,false,false);
+    gl.glColorMask(false,false,false,false);
     context.colorWriteEnabled=false;
   }
   if (state.isPointSprite()) {
@@ -45,14 +45,14 @@
   if (state.isPolyOffset()) {
     if (!context.polyOffsetEnabled) {
       gl.glEnable(GL.GL_POLYGON_OFFSET_FILL);
-      gl.getGL2().glPolygonOffset(state.getPolyOffsetFactor(),state.getPolyOffsetUnits());
+      gl.glPolygonOffset(state.getPolyOffsetFactor(),state.getPolyOffsetUnits());
       context.polyOffsetEnabled=true;
       context.polyOffsetFactor=state.getPolyOffsetFactor();
       context.polyOffsetUnits=state.getPolyOffsetUnits();
     }
  else {
       if (state.getPolyOffsetFactor() != context.polyOffsetFactor || state.getPolyOffsetUnits() != context.polyOffsetUnits) {
-        gl.getGL2().glPolygonOffset(state.getPolyOffsetFactor(),state.getPolyOffsetUnits());
+        gl.glPolygonOffset(state.getPolyOffsetFactor(),state.getPolyOffsetUnits());
         context.polyOffsetFactor=state.getPolyOffsetFactor();
         context.polyOffsetUnits=state.getPolyOffsetUnits();
       }

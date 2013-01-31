@@ -24,7 +24,7 @@
   }
   if (!img.hasMipmaps() && img.isGeneratedMipmapsRequired()) {
     if (gl.isExtensionAvailable("GL_VERSION_1_4")) {
-      gl.glTexParameteri(target,GL2.GL_GENERATE_MIPMAP,GL.GL_TRUE);
+      gl.glTexParameteri(target,GL2ES1.GL_GENERATE_MIPMAP,GL.GL_TRUE);
     }
  else {
       MipMapGenerator.generateMipMaps(img);

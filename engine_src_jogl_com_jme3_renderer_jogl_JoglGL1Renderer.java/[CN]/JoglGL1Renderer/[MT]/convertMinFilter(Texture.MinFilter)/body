@@ -1,17 +1,17 @@
 {
 switch (filter) {
 case Trilinear:
-    return GL2.GL_LINEAR_MIPMAP_LINEAR;
+    return GL.GL_LINEAR_MIPMAP_LINEAR;
 case BilinearNearestMipMap:
-  return GL2.GL_LINEAR_MIPMAP_NEAREST;
+  return GL.GL_LINEAR_MIPMAP_NEAREST;
 case NearestLinearMipMap:
-return GL2.GL_NEAREST_MIPMAP_LINEAR;
+return GL.GL_NEAREST_MIPMAP_LINEAR;
 case NearestNearestMipMap:
-return GL2.GL_NEAREST_MIPMAP_NEAREST;
+return GL.GL_NEAREST_MIPMAP_NEAREST;
 case BilinearNoMipMaps:
-return GL2.GL_LINEAR;
+return GL.GL_LINEAR;
 case NearestNoMipMaps:
-return GL2.GL_NEAREST;
+return GL.GL_NEAREST;
 default :
 throw new UnsupportedOperationException("Unknown min filter: " + filter);
 }

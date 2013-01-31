@@ -7,15 +7,15 @@
     return;
   }
   GL gl=GLContext.getCurrentGL();
-  gl.getGL2().glEnableClientState(arrayType);
+  gl.getGL2GL3().glEnableClientState(arrayType);
   context.boundAttribs[vb.getBufferType().ordinal()]=vb;
   if (vb.getBufferType() == Type.Normal) {
     if (vb.isNormalized() && !context.normalizeEnabled) {
-      gl.glEnable(GL2.GL_NORMALIZE);
+      gl.glEnable(GLLightingFunc.GL_NORMALIZE);
       context.normalizeEnabled=true;
     }
  else     if (!vb.isNormalized() && context.normalizeEnabled) {
-      gl.glDisable(GL2.GL_NORMALIZE);
+      gl.glDisable(GLLightingFunc.GL_NORMALIZE);
       context.normalizeEnabled=false;
     }
   }
