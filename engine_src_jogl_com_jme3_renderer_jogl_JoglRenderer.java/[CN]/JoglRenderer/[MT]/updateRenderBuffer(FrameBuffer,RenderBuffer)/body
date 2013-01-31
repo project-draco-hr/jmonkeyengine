@@ -14,7 +14,7 @@
     throw new RendererException("Resolution " + fb.getWidth() + ":"+ fb.getHeight()+ " is not supported.");
   }
   TextureUtil.GLImageFormat glFmt=TextureUtil.getImageFormatWithError(rb.getFormat());
-  if (fb.getSamples() > 1 && gl.isExtensionAvailable("GL_EXT_framebuffer_multisample")) {
+  if (fb.getSamples() > 1 && gl.isExtensionAvailable("GL_EXT_framebuffer_multisample") && gl.isGL2GL3()) {
     int samples=fb.getSamples();
     if (maxFBOSamples < samples) {
       samples=maxFBOSamples;

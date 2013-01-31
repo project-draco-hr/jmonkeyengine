@@ -9,13 +9,19 @@
         gl.glActiveTexture(GL.GL_TEXTURE0);
         context.boundTextureUnit=0;
       }
-      gl.glDisable(GL2.GL_POINT_SPRITE);
-      gl.glDisable(GL2.GL_VERTEX_PROGRAM_POINT_SIZE);
+      if (gl.isGL2ES1()) {
+        gl.glDisable(GL2ES1.GL_POINT_SPRITE);
+      }
+      if (gl.isGL2GL3()) {
+        gl.glDisable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
+      }
       context.pointSprite=false;
     }
   }
   if (context.pointSize != mesh.getPointSize()) {
-    gl.getGL2GL3().glPointSize(mesh.getPointSize());
+    if (gl.isGL2GL3()) {
+      gl.getGL2GL3().glPointSize(mesh.getPointSize());
+    }
     context.pointSize=mesh.getPointSize();
   }
   if (context.lineWidth != mesh.getLineWidth()) {

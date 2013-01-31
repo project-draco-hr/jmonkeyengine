@@ -161,14 +161,14 @@ logger.log(Level.FINER,"FBO Max Samples: {0}",maxFBOSamples);
 }
 if (gl.isExtensionAvailable("GL_ARB_texture_multisample")) {
 caps.add(Caps.TextureMultisample);
-gl.glGetIntegerv(GL2.GL_MAX_COLOR_TEXTURE_SAMPLES,intBuf16);
+gl.glGetIntegerv(GL2GL3.GL_MAX_COLOR_TEXTURE_SAMPLES,intBuf16);
 maxColorTexSamples=intBuf16.get(0);
 logger.log(Level.FINER,"Texture Multisample Color Samples: {0}",maxColorTexSamples);
-gl.glGetIntegerv(GL2.GL_MAX_DEPTH_TEXTURE_SAMPLES,intBuf16);
+gl.glGetIntegerv(GL2GL3.GL_MAX_DEPTH_TEXTURE_SAMPLES,intBuf16);
 maxDepthTexSamples=intBuf16.get(0);
 logger.log(Level.FINER,"Texture Multisample Depth Samples: {0}",maxDepthTexSamples);
 }
-gl.glGetIntegerv(GL2GL3.GL_MAX_DRAW_BUFFERS,intBuf16);
+gl.glGetIntegerv(GL2ES2.GL_MAX_DRAW_BUFFERS,intBuf16);
 maxMRTFBOAttachs=intBuf16.get(0);
 if (maxMRTFBOAttachs > 1) {
 caps.add(Caps.FrameBufferMRT);

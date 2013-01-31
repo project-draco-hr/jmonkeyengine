@@ -4,9 +4,9 @@
   System.out.println("RB ID: " + rb.getId());
   System.out.println("Is proper? " + gl.glIsRenderbuffer(rb.getId()));
   int attachment=convertAttachmentSlot(rb.getSlot());
-  gl.glGetFramebufferAttachmentParameteriv(GL2.GL_DRAW_FRAMEBUFFER,attachment,GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,intBuf16);
+  gl.glGetFramebufferAttachmentParameteriv(GL2GL3.GL_DRAW_FRAMEBUFFER,attachment,GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,intBuf16);
   int type=intBuf16.get(0);
-  gl.glGetFramebufferAttachmentParameteriv(GL2.GL_DRAW_FRAMEBUFFER,attachment,GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME,intBuf16);
+  gl.glGetFramebufferAttachmentParameteriv(GL2GL3.GL_DRAW_FRAMEBUFFER,attachment,GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME,intBuf16);
   int rbName=intBuf16.get(0);
 switch (type) {
 case GL.GL_NONE:
@@ -15,7 +15,7 @@ case GL.GL_NONE:
 case GL.GL_TEXTURE:
 System.out.println("Type: Texture");
 break;
-case GL2.GL_RENDERBUFFER:
+case GL.GL_RENDERBUFFER:
 System.out.println("Type: Buffer");
 System.out.println("RB ID: " + rbName);
 break;

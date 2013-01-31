@@ -1,6 +1,6 @@
 {
   GL gl=GLContext.getCurrentGL();
-  if (gl.isExtensionAvailable("GL_EXT_framebuffer_blit")) {
+  if (gl.isExtensionAvailable("GL_EXT_framebuffer_blit") && gl.isGL2GL3()) {
     int srcX0=0;
     int srcY0=0;
     int srcX1;
@@ -25,26 +25,26 @@
       updateFrameBuffer(dst);
     }
     if (src == null) {
-      gl.glBindFramebuffer(GL2.GL_READ_FRAMEBUFFER,0);
+      gl.glBindFramebuffer(GL2GL3.GL_READ_FRAMEBUFFER,0);
       srcX0=vpX;
       srcY0=vpY;
       srcX1=vpX + vpW;
       srcY1=vpY + vpH;
     }
  else {
-      gl.glBindFramebuffer(GL2.GL_READ_FRAMEBUFFER,src.getId());
+      gl.glBindFramebuffer(GL2GL3.GL_READ_FRAMEBUFFER,src.getId());
       srcX1=src.getWidth();
       srcY1=src.getHeight();
     }
     if (dst == null) {
-      gl.glBindFramebuffer(GL2.GL_DRAW_FRAMEBUFFER,0);
+      gl.glBindFramebuffer(GL2GL3.GL_DRAW_FRAMEBUFFER,0);
       dstX0=vpX;
       dstY0=vpY;
       dstX1=vpX + vpW;
       dstY1=vpY + vpH;
     }
  else {
-      gl.glBindFramebuffer(GL2.GL_DRAW_FRAMEBUFFER,dst.getId());
+      gl.glBindFramebuffer(GL2GL3.GL_DRAW_FRAMEBUFFER,dst.getId());
       dstX1=dst.getWidth();
       dstY1=dst.getHeight();
     }
@@ -53,7 +53,7 @@
       mask|=GL.GL_DEPTH_BUFFER_BIT;
     }
     gl.getGL2GL3().glBlitFramebuffer(srcX0,srcY0,srcX1,srcY1,dstX0,dstY0,dstX1,dstY1,mask,GL.GL_NEAREST);
-    gl.glBindFramebuffer(GL2.GL_FRAMEBUFFER,prevFBO);
+    gl.glBindFramebuffer(GL2GL3.GL_FRAMEBUFFER,prevFBO);
     try {
       checkFrameBufferError();
     }

@@ -17,28 +17,28 @@
 switch (tex.getType()) {
 case ThreeDimensional:
 case CubeMap:
-    gl.glTexParameteri(target,GL2.GL_TEXTURE_WRAP_R,convertWrapMode(tex.getWrap(WrapAxis.R)));
+    gl.glTexParameteri(target,GL2ES2.GL_TEXTURE_WRAP_R,convertWrapMode(tex.getWrap(WrapAxis.R)));
 case TwoDimensional:
 case TwoDimensionalArray:
-  gl.glTexParameteri(target,GL2.GL_TEXTURE_WRAP_T,convertWrapMode(tex.getWrap(WrapAxis.T)));
-gl.glTexParameteri(target,GL2.GL_TEXTURE_WRAP_S,convertWrapMode(tex.getWrap(WrapAxis.S)));
+  gl.glTexParameteri(target,GL2ES2.GL_TEXTURE_WRAP_T,convertWrapMode(tex.getWrap(WrapAxis.T)));
+gl.glTexParameteri(target,GL2ES2.GL_TEXTURE_WRAP_S,convertWrapMode(tex.getWrap(WrapAxis.S)));
 break;
 default :
 throw new UnsupportedOperationException("Unknown texture type: " + tex.getType());
 }
 if (tex.isNeedCompareModeUpdate()) {
 if (tex.getShadowCompareMode() != Texture.ShadowCompareMode.Off) {
-gl.glTexParameteri(target,GL2.GL_TEXTURE_COMPARE_MODE,GL2.GL_COMPARE_R_TO_TEXTURE);
+gl.glTexParameteri(target,GL2ES2.GL_TEXTURE_COMPARE_MODE,GL2.GL_COMPARE_R_TO_TEXTURE);
 gl.glTexParameteri(target,GL2.GL_DEPTH_TEXTURE_MODE,GL2.GL_INTENSITY);
 if (tex.getShadowCompareMode() == Texture.ShadowCompareMode.GreaterOrEqual) {
-gl.glTexParameteri(target,GL2.GL_TEXTURE_COMPARE_FUNC,GL.GL_GEQUAL);
+gl.glTexParameteri(target,GL2ES2.GL_TEXTURE_COMPARE_FUNC,GL.GL_GEQUAL);
 }
  else {
-gl.glTexParameteri(target,GL2.GL_TEXTURE_COMPARE_FUNC,GL.GL_LEQUAL);
+gl.glTexParameteri(target,GL2ES2.GL_TEXTURE_COMPARE_FUNC,GL.GL_LEQUAL);
 }
 }
  else {
-gl.glTexParameteri(target,GL2.GL_TEXTURE_COMPARE_MODE,GL2.GL_NONE);
+gl.glTexParameteri(target,GL2ES2.GL_TEXTURE_COMPARE_MODE,GL.GL_NONE);
 }
 tex.compareModeUpdated();
 }

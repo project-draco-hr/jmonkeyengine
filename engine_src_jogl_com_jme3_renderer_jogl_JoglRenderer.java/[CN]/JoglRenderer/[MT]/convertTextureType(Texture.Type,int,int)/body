@@ -2,20 +2,20 @@
 switch (type) {
 case TwoDimensional:
     if (samples > 1) {
-      return GL2.GL_TEXTURE_2D_MULTISAMPLE;
+      return GL2GL3.GL_TEXTURE_2D_MULTISAMPLE;
     }
  else {
       return GL.GL_TEXTURE_2D;
     }
 case TwoDimensionalArray:
   if (samples > 1) {
-    return GL2.GL_TEXTURE_2D_MULTISAMPLE_ARRAY;
+    return GL2GL3.GL_TEXTURE_2D_MULTISAMPLE_ARRAY;
   }
  else {
-    return GL2.GL_TEXTURE_2D_ARRAY;
+    return GL.GL_TEXTURE_2D_ARRAY;
   }
 case ThreeDimensional:
-return GL2.GL_TEXTURE_3D;
+return GL2ES2.GL_TEXTURE_3D;
 case CubeMap:
 if (face < 0) {
 return GL.GL_TEXTURE_CUBE_MAP;

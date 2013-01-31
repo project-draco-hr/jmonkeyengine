@@ -20,13 +20,17 @@
   }
   if (!img.hasMipmaps() && img.isGeneratedMipmapsRequired()) {
     if (!gl.isExtensionAvailable("GL_VERSION_3_0")) {
-      gl.glTexParameteri(target,GL2.GL_GENERATE_MIPMAP,GL.GL_TRUE);
+      if (gl.isGL2ES1()) {
+        gl.glTexParameteri(target,GL2ES1.GL_GENERATE_MIPMAP,GL.GL_TRUE);
+      }
       img.setMipmapsGenerated(true);
     }
   }
  else {
     if (img.getMipMapSizes() != null) {
-      gl.glTexParameteri(target,GL2.GL_TEXTURE_MAX_LEVEL,img.getMipMapSizes().length - 1);
+      if (gl.isGL2GL3()) {
+        gl.glTexParameteri(target,GL2GL3.GL_TEXTURE_MAX_LEVEL,img.getMipMapSizes().length - 1);
+      }
     }
   }
   int imageSamples=img.getMultiSamples();
