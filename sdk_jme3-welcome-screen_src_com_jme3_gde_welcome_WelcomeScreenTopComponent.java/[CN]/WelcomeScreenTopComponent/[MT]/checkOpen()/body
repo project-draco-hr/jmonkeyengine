@@ -4,11 +4,15 @@
     URL startUrl=new URL(org.openide.util.NbBundle.getMessage(WelcomeScreenTopComponent.class,"WelcomeScreenTopComponent.http.link"));
     URLConnection conn=startUrl.openConnection();
     long lastMod=conn.getLastModified();
+    logger.log(Level.FINE,"Checking page time {0} vs stored time {1}",new Object[]{lastMod,lastCheck});
     if (lastCheck != lastMod) {
       WelcomeScreenTopComponent tc=(WelcomeScreenTopComponent)WindowManager.getDefault().findTopComponent("WelcomeScreenTopComponent");
       if (tc != null) {
         tc.open();
         tc.requestActive();
+      }
+ else {
+        logger.log(Level.WARNING,"Did not find Welcome Screen window");
       }
     }
   }

@@ -7,7 +7,7 @@
     jEditorPane1.setPage(startUrl);
   }
  catch (  IOException ex) {
-    logger.log(Level.INFO,"Loading page failed",ex);
+    logger.log(Level.FINE,"Loading page failed",ex);
     try {
       jEditorPane1.setPage(new URL(org.openide.util.NbBundle.getMessage(WelcomeScreenTopComponent.class,"WelcomeScreenTopComponent.local.link")));
     }
