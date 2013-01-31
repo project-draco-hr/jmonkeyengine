@@ -12,11 +12,14 @@
           jEditorPane1.setPage(he.getURL());
         }
  catch (        IOException ex) {
+          logger.log(Level.INFO,"Loading page failed",ex);
           try {
-            jEditorPane1.setPage(new URL(org.openide.util.NbBundle.getMessage(WelcomeScreenTopComponent.class,"WelcomeScreenTopComponent.local.link")));
+            logger.log(Level.WARNING,"Could not open web page!");
+            URL startUrl=new URL(org.openide.util.NbBundle.getMessage(WelcomeScreenTopComponent.class,"WelcomeScreenTopComponent.local.link"));
+            jEditorPane1.setPage(startUrl);
           }
  catch (          IOException ex1) {
-            Exceptions.printStackTrace(ex1);
+            logger.log(Level.SEVERE,"Could not open local help page!",ex1);
           }
         }
       }

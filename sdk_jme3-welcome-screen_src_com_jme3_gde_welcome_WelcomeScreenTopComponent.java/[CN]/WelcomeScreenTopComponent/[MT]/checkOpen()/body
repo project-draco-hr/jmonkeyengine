@@ -1,0 +1,18 @@
+{
+  try {
+    long lastCheck=NbPreferences.forModule(WelcomeScreenTopComponent.class).getLong("LAST_PAGE_UPDATE",0);
+    URL startUrl=new URL(org.openide.util.NbBundle.getMessage(WelcomeScreenTopComponent.class,"WelcomeScreenTopComponent.http.link"));
+    URLConnection conn=startUrl.openConnection();
+    long lastMod=conn.getLastModified();
+    if (lastCheck != lastMod) {
+      WelcomeScreenTopComponent tc=(WelcomeScreenTopComponent)WindowManager.getDefault().findTopComponent("WelcomeScreenTopComponent");
+      if (tc != null) {
+        tc.open();
+        tc.requestActive();
+      }
+    }
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

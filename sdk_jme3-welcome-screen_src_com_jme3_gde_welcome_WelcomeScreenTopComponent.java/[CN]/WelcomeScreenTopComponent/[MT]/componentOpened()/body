@@ -1,13 +1,3 @@
 {
-  try {
-    jEditorPane1.setPage(new URL(org.openide.util.NbBundle.getMessage(WelcomeScreenTopComponent.class,"WelcomeScreenTopComponent.http.link")));
-  }
- catch (  IOException ex) {
-    try {
-      jEditorPane1.setPage(new URL(org.openide.util.NbBundle.getMessage(WelcomeScreenTopComponent.class,"WelcomeScreenTopComponent.local.link")));
-    }
- catch (    IOException ex1) {
-      Exceptions.printStackTrace(ex1);
-    }
-  }
+  loadPage();
 }
