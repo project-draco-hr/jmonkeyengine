@@ -1,4 +1,8 @@
 {
+  if (failMessageShown) {
+    NotifyUtil.show("Error starting OpenGL context!","Click here to go to troubleshooting web page.",MessageType.EXCEPTION,lst,0);
+    return;
+  }
   closeScene(currentSceneRequest,request);
   java.awt.EventQueue.invokeLater(new Runnable(){
     public void run(){

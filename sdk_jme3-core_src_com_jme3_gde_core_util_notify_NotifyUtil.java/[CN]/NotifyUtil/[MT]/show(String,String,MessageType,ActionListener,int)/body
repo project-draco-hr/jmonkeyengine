@@ -1,9 +1,15 @@
 {
+  if (message == null) {
+    message="null";
+  }
+  if (title == null) {
+    title="null";
+  }
   final Notification n=(Notification)NotificationDisplayer.getDefault().notify(title,type.getIcon(),message,actionListener);
   if (timeout > 0) {
     java.awt.EventQueue.invokeLater(new Runnable(){
       public void run(){
-        Timer timer=new Timer(10000,new ActionListener(){
+        Timer timer=new Timer(timeout,new ActionListener(){
           public void actionPerformed(          ActionEvent e){
             n.clear();
           }
@@ -15,4 +21,5 @@
     }
 );
   }
+  return n;
 }

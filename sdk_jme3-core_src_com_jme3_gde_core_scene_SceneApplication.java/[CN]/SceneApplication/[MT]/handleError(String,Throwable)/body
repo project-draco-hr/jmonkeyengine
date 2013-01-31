@@ -1,17 +1,13 @@
 {
   progressHandle.finish();
   if (msg == null) {
-    return;
+    msg=t.getMessage();
   }
   if (!started) {
     showStartupErrorMessage(t);
-    Exceptions.printStackTrace(t);
   }
- else {
-    if (lastError != null && !lastError.equals(msg)) {
-      StatusDisplayer.getDefault().setStatusText("Error in Scene, check application log");
-      Exceptions.printStackTrace(t);
-      lastError=msg;
-    }
+ else   if (lastError != null && !lastError.equals(msg)) {
+    logger.log(Level.SEVERE,msg,t);
+    lastError=msg;
   }
 }

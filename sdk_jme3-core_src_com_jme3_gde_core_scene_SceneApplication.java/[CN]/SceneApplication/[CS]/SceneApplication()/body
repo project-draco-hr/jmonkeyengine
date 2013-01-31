@@ -1,4 +1,5 @@
 {
+  Logger.getLogger("com.jme3").addHandler(logHandler);
   progressHandle.start(7);
   useCanvas="true".equals(NbPreferences.forModule(Installer.class).get("use_lwjgl_canvas","false"));
   try {
@@ -11,7 +12,6 @@
       newSetting.setCustomRenderer(AwtPanelsContext.class);
     }
     setSettings(newSetting);
-    Logger.getLogger("com.jme3").addHandler(logHandler);
     setPauseOnLostFocus(false);
     if (useCanvas) {
       createCanvas();
@@ -26,11 +26,9 @@
     }
   }
  catch (  Exception e) {
-    Exceptions.printStackTrace(e);
     showStartupErrorMessage(e);
   }
 catch (  Error e) {
-    Exceptions.printStackTrace(e);
     showStartupErrorMessage(e);
   }
  finally {
