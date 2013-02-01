@@ -8,6 +8,7 @@
     builder.setTitle("Select Assets Folder");
     File file=builder.showOpenDialog();
     if (file != null) {
+      file=FileUtil.normalizeFile(file);
       try {
         jTextField2.setText(file.getAbsolutePath().substring(pathName.length(),file.getAbsolutePath().length()));
         panel.fireChangeEvent();
