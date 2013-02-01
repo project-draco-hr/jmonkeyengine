@@ -1,10 +1,11 @@
 {
   if (!checkBlenderFolders()) {
     logger.log(Level.SEVERE,"Could not create blender settings folders!");
+    return false;
   }
   logger.log(Level.INFO,"Running blender with options {0}",file);
   if (blenderOpened.getAndSet(true)) {
-    logger.log(Level.INFO,"Blender seems to be running");
+    logger.log(Level.WARNING,"Blender seems to be running already.");
     return false;
   }
   final AtomicBoolean successful=new AtomicBoolean(true);

@@ -1,6 +1,7 @@
 {
   if (!checkBlenderFolders()) {
     logger.log(Level.SEVERE,"Could not create blender settings folders!");
+    return false;
   }
   final File exe=getBlenderExecutable();
   if (exe == null) {
