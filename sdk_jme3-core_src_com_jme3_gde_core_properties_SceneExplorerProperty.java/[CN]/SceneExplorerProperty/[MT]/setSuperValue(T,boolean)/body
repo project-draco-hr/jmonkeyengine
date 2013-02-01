@@ -5,7 +5,7 @@
       logger.log(Level.FINE,"Add undo for {0}",dupe);
       addUndo(dupe,val);
     }
-    logger.log(Level.FINE,"Set super value on thread {0}",Thread.currentThread().getName());
+    logger.log(Level.FINER,"Set super value on thread {0}",Thread.currentThread().getName());
     super.setValue(val);
   }
  catch (  IllegalAccessException ex) {

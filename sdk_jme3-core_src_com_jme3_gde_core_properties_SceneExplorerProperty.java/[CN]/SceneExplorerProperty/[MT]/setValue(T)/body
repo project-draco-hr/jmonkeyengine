@@ -6,7 +6,6 @@
       changing=true;
       objectLocal=val;
       final T sceneObject=duplicateObject(val);
-      notifyListeners(PROP_USER_CHANGE,oldObject,objectLocal);
       SceneApplication.getApplication().enqueue(new Callable<Void>(){
         public Void call() throws Exception {
           mutex.postWriteRequest(new Runnable(){
@@ -20,6 +19,7 @@
         }
       }
 );
+      notifyListeners(PROP_USER_CHANGE,oldObject,objectLocal);
     }
   }
 );
