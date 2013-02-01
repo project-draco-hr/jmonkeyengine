@@ -18,7 +18,7 @@
       in.close();
       String assetsFolderName=properties.getProperty("assets.folder.name","assets");
       if (prj.getProjectDirectory().getFileObject(assetsFolderName) != null) {
-        Logger.getLogger(AssetsLookupProvider.class.getName()).log(Level.INFO,"Valid jMP project, extending with ProjectAssetManager");
+        logger.log(Level.FINE,"Valid jMP project, extending with ProjectAssetManager");
         return Lookups.fixed(new ProjectAssetManager(prj,assetsFolderName),openedHook);
       }
     }

@@ -1,5 +1,5 @@
 {
-  Logger.getLogger(SceneExplorerTopComponent.class.getName()).log(Level.INFO,"Swaping material listeners : {0} -> {1}",new Object[]{oldKey,newKey});
+  logger.log(Level.FINE,"Swaping material listeners : {0} -> {1}",new Object[]{oldKey,newKey});
   if (oldKey != null) {
     List<MaterialChangeListener> listeners=materialChangeListeners.get(oldKey);
     if (listeners != null) {

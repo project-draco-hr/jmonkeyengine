@@ -5,7 +5,7 @@
     SceneApplication.getApplication().enqueue(new Callable(){
       public Object call() throws Exception {
         SceneApplication.getApplication().getViewPort().addProcessor(fpp);
-        Logger.getLogger(FilterExplorerTopComponent.class.getName()).log(Level.INFO,"Enabled post filters");
+        logger.log(Level.FINE,"Enabled post filters");
         return null;
       }
     }

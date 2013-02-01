@@ -1,6 +1,6 @@
 {
   if (listener.getKey() != null) {
-    Logger.getLogger(SceneExplorerTopComponent.class.getName()).log(Level.INFO,"New material listener for : {0}",listener.getKey());
+    logger.log(Level.FINE,"New material listener for : {0}",listener.getKey());
     List<MaterialChangeListener> listeners=materialChangeListeners.get(listener.getKey());
     if (listeners == null) {
       listeners=new ArrayList<MaterialChangeListener>();

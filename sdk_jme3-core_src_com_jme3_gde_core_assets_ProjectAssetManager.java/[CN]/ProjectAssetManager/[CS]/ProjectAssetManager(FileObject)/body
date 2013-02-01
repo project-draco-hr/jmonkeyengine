@@ -7,7 +7,7 @@
     this.project=new DummyProject(this,path);
   }
   String projectRootPath=project.getProjectDirectory().getPath();
-  logger.log(Level.INFO,"Add locator: {0}",projectRootPath);
+  logger.log(Level.FINE,"Add locator: {0}",projectRootPath);
   registerLocator(projectRootPath,com.jme3.gde.core.assets.RootLockingFileLocator.class);
   for (  AssetManagerConfigurator di : Lookup.getDefault().lookupAll(AssetManagerConfigurator.class)) {
     di.prepareManager(this);

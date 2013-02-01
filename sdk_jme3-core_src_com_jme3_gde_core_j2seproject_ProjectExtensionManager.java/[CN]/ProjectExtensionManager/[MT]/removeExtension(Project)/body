@@ -1,26 +1,26 @@
 {
   if (!(proj instanceof J2SEProject)) {
-    Logger.getLogger(ProjectExtensionManager.class.getName()).log(Level.WARNING,"Trying to load Assets Properties from non-asset project");
+    logger.log(Level.WARNING,"Trying to load Assets Properties from non-asset project");
     return;
   }
   FileObject projDir=proj.getProjectDirectory();
   final FileObject buildXmlFO=J2SEProjectUtil.getBuildXml((J2SEProject)proj);
   if (buildXmlFO == null) {
-    Logger.getLogger(ProjectExtensionManager.class.getName()).log(Level.WARNING,"The project build script does not exist, the project cannot be extended by jMP.");
+    logger.log(Level.WARNING,"The project build script does not exist, the project cannot be extended by jMP.");
     return;
   }
   AntBuildExtender extender=proj.getLookup().lookup(AntBuildExtender.class);
   if (extender != null) {
     if (extender.getExtension(extensionName) != null) {
-      Logger.getLogger(ProjectExtensionManager.class.getName()).log(Level.INFO,"Removing extension {0}",extensionName);
+      logger.log(Level.FINE,"Removing extension {0}",extensionName);
       extender.removeExtension(extensionName);
       try {
         FileObject assetsBuildFile=getImplFile(projDir,false);
         if (assetsBuildFile != null) {
-          Logger.getLogger(ProjectExtensionManager.class.getName()).log(Level.INFO,"Deleting {0}",assetsBuildFile.getNameExt());
+          logger.log(Level.FINE,"Deleting {0}",assetsBuildFile.getNameExt());
           assetsBuildFile.delete();
         }
-        Logger.getLogger(ProjectExtensionManager.class.getName()).log(Level.INFO,"Saving project {0}",proj.getProjectDirectory().getName());
+        logger.log(Level.FINE,"Saving project {0}",proj.getProjectDirectory().getName());
       }
  catch (      IOException ex) {
         Exceptions.printStackTrace(ex);
@@ -35,6 +35,6 @@
     }
   }
  else {
-    Logger.getLogger(ProjectExtensionManager.class.getName()).log(Level.WARNING,"Trying to include assets build snippet in project type that doesn't support AntBuildExtender API contract.");
+    logger.log(Level.WARNING,"Trying to include assets build snippet in project type that doesn't support AntBuildExtender API contract.");
   }
 }

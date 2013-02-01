@@ -11,7 +11,7 @@
       if (entry.isDirectory()) {
         FileObject fo=projectRoot.getFileObject(entry.getName());
         if (fo != null && entry.getSize() != -1 && entry.getSize() == fo.getSize()) {
-          logger.log(Level.INFO,"Deleting old folder {0}",fo.getNameExt());
+          logger.log(Level.FINE,"Deleting old folder {0}",fo.getNameExt());
           fo.delete();
         }
         FileUtil.createFolder(projectRoot,fileName);
@@ -19,7 +19,7 @@
  else {
         FileObject fo=projectRoot.getFileObject(entry.getName());
         if (fo != null && !fo.equals(projectRoot)) {
-          logger.log(Level.INFO,"Deleting old file {0}",fo.getNameExt());
+          logger.log(Level.FINE,"Deleting old file {0}",fo.getNameExt());
           fo.delete();
         }
         fo=projectRoot.getFileObject(fileName);
@@ -28,7 +28,7 @@
           writeFile(str,fo);
         }
  else {
-          logger.log(Level.INFO,"Not overwriting existing file {0}",fo.getNameExt());
+          logger.log(Level.FINE,"Not overwriting existing file {0}",fo.getNameExt());
         }
       }
     }

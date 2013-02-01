@@ -1,21 +1,21 @@
 {
   FileObject assetsImpl=projDir.getFileObject("nbproject/" + extensionName + "-impl.xml");
   if (assetsImpl == null) {
-    Logger.getLogger(ProjectExtensionManager.class.getName()).log(Level.INFO,"No extension file {0}-impl.xml found",extensionName);
+    logger.log(Level.FINE,"No extension file {0}-impl.xml found",extensionName);
     if (create) {
-      Logger.getLogger(ProjectExtensionManager.class.getName()).log(Level.INFO,"Creating extension file {0}-impl.xml",extensionName);
+      logger.log(Level.FINE,"Creating extension file {0}-impl.xml",extensionName);
       assetsImpl=createImplFile(projDir);
     }
   }
  else {
-    Logger.getLogger(ProjectExtensionManager.class.getName()).log(Level.INFO,"Found extension file {0}-impl.xml",extensionName);
+    logger.log(Level.FINE,"Found extension file {0}-impl.xml",extensionName);
     try {
       if (create && !assetsImpl.asLines().get(1).startsWith("<!--" + extensionName + "-impl.xml "+ extensionVersion+ "-->")) {
-        Logger.getLogger(ProjectExtensionManager.class.getName()).log(Level.INFO,"Updating extension file {0}-impl.xml",extensionName);
+        logger.log(Level.FINE,"Updating extension file {0}-impl.xml",extensionName);
         assetsImpl.delete();
-        Logger.getLogger(ProjectExtensionManager.class.getName()).log(Level.INFO,"Deleted extension file {0}-impl.xml",extensionName);
+        logger.log(Level.FINE,"Deleted extension file {0}-impl.xml",extensionName);
         assetsImpl=createImplFile(projDir);
-        Logger.getLogger(ProjectExtensionManager.class.getName()).log(Level.INFO,"Recreated extension file {0}-impl.xml",extensionName);
+        logger.log(Level.FINE,"Recreated extension file {0}-impl.xml",extensionName);
       }
     }
  catch (    Exception ex) {

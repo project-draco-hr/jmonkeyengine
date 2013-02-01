@@ -29,6 +29,6 @@
     }
     loader=new URLClassLoader(urls.toArray(new URL[urls.size()]),getClass().getClassLoader());
     addClassLoader(loader);
-    logger.log(Level.INFO,"Updated {0} classpath entries and {1} url locators for project {2}",new Object[]{classPathItems.size(),jarItems.size(),project.toString()});
+    logger.log(Level.FINE,"Updated {0} classpath entries and {1} url locators for project {2}",new Object[]{classPathItems.size(),jarItems.size(),project.toString()});
   }
 }

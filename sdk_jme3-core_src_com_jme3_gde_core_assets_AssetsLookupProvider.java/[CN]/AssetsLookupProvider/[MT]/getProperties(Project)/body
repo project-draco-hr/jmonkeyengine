@@ -6,7 +6,7 @@
   FileObject projDir=project.getProjectDirectory();
   FileObject oldProperties=projDir.getFileObject("nbproject/assets.properties");
   if (oldProperties != null) {
-    Logger.getLogger(AssetsLookupProvider.class.getName()).log(Level.INFO,"Deleting old project assets.properties");
+    logger.log(Level.FINE,"Deleting old project assets.properties");
     try {
       props.load(oldProperties.getInputStream());
       store(props,project);
