@@ -27,12 +27,14 @@
     i++;
     blend1File=FileUtil.findBrother(mainFile,BlenderTool.TEMP_SUFFIX + i);
   }
-  String assetKey=mgr.getRelativeAssetPath(outFile.getPath());
+  String assetKeyName=mgr.getRelativeAssetPath(outFile.getPath());
+  BlenderKey key=new BlenderKey(assetKeyName);
+  Beans.copyProperties(key,getAssetKey());
   FileLock lock=null;
   try {
     lock=getPrimaryFile().lock();
     listListener.start();
-    Spatial spatial=mgr.loadModel(assetKey);
+    Spatial spatial=mgr.loadModel(assetKeyName);
     replaceFiles();
     listListener.stop();
     savable=spatial;
