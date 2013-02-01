@@ -20,6 +20,9 @@
       array[0]=theProject;
       OpenProjects.getDefault().open(array,false);
     }
+ else {
+      logger.log(Level.SEVERE,"Could not create project!");
+    }
   }
  catch (  IOException ex) {
     Exceptions.printStackTrace(ex);
