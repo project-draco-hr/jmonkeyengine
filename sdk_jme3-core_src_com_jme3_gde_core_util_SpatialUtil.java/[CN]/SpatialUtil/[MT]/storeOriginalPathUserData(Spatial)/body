@@ -1,10 +1,8 @@
 {
   final ArrayList<String> geomMap=new ArrayList<String>();
-  Spatial spat=(Spatial)savable;
   if (spat != null) {
     spat.depthFirstTraversal(new SceneGraphVisitorAdapter(){
       @Override public void visit(      Geometry geom){
-        StringBuilder geometryIdentifier=new StringBuilder();
         Spatial curSpat=geom;
         String geomName=curSpat.getName();
         if (geomName == null) {
@@ -13,17 +11,7 @@
         }
         geom.setUserData("ORIGINAL_NAME",geomName);
         logger.log(Level.FINE,"Set ORIGINAL_NAME for {0}",geomName);
-        while (curSpat != null) {
-          String name=curSpat.getName();
-          if (name == null) {
-            logger.log(Level.WARNING,"Null spatial name!");
-            name="null";
-          }
-          geometryIdentifier.insert(0,name);
-          geometryIdentifier.insert(0,'/');
-          curSpat=curSpat.getParent();
-        }
-        String id=geometryIdentifier.toString();
+        String id=SpatialUtil.getSpatialPath(curSpat);
         if (geomMap.contains(id)) {
           logger.log(Level.WARNING,"Cannot create unique name for Geometry {0}: {1}",new Object[]{geom,id});
         }

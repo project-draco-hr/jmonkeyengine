@@ -1,5 +1,5 @@
 {
-  if (isModified() && savable != null) {
+  if (savable != null) {
     return (Spatial)savable;
   }
   ProjectAssetManager mgr=getLookup().lookup(ProjectAssetManager.class);
@@ -16,7 +16,7 @@
     listListener.stop();
     savable=spatial;
     if (!(this instanceof BinaryModelDataObject)) {
-      storeOriginalPathUserData();
+      SpatialUtil.storeOriginalPathUserData(spatial);
     }
     lock.releaseLock();
     return spatial;

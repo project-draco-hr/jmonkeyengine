@@ -1,0 +1,15 @@
+{
+  original.depthFirstTraversal(new SceneGraphVisitorAdapter(){
+    @Override public void visit(    Geometry geom){
+      Geometry spat=(Geometry)findTaggedSpatial(root,geom);
+      if (spat != null) {
+        spat.setMesh(geom.getMesh().deepClone());
+        logger.log(LogLevel.USERINFO,"Updated mesh for geometry {0}",geom.getName());
+      }
+ else {
+      }
+    }
+  }
+);
+  return;
+}

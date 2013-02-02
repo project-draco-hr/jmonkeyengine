@@ -3,9 +3,9 @@
   if (pm == null || loadingThread != Thread.currentThread()) {
     return;
   }
-  FileObject obj=pm.getAssetFileObject(ak);
-  if (obj != null && !assetList.contains(obj)) {
-    assetList.add(obj);
+  FileObject fObj=pm.getAssetFileObject(ak);
+  if (fObj != null && !assetList.contains(fObj)) {
+    assetList.add(fObj);
     assetKeyList.add(ak);
   }
 }

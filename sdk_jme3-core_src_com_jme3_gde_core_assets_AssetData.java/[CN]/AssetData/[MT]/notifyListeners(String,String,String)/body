@@ -1,0 +1,8 @@
+{
+synchronized (listeners) {
+    for (Iterator<AssetDataPropertyChangeListener> it=listeners.iterator(); it.hasNext(); ) {
+      AssetDataPropertyChangeListener assetDataPropertyChangeListener=it.next();
+      assetDataPropertyChangeListener.assetDataPropertyChanged(property,before,after);
+    }
+  }
+}

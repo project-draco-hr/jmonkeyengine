@@ -1,0 +1,15 @@
+{
+  StringBuilder geometryIdentifier=new StringBuilder();
+  while (spat != null) {
+    String name=spat.getName();
+    if (name == null) {
+      logger.log(Level.WARNING,"Null spatial name!");
+      name="null";
+    }
+    geometryIdentifier.insert(0,name);
+    geometryIdentifier.insert(0,'/');
+    spat=spat.getParent();
+  }
+  String id=geometryIdentifier.toString();
+  return id;
+}

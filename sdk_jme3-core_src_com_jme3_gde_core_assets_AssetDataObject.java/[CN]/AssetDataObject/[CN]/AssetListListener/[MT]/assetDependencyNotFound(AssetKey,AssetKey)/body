@@ -3,9 +3,9 @@
   if (pm == null || loadingThread != Thread.currentThread()) {
     return;
   }
-  FileObject obj=pm.getAssetFileObject(ak1);
-  if (obj != null && assetList.contains(obj)) {
-    assetList.remove(obj);
+  FileObject fObj=pm.getAssetFileObject(ak1);
+  if (fObj != null && assetList.contains(fObj)) {
+    assetList.remove(fObj);
     assetKeyList.remove(ak1);
   }
   if (!failedList.contains(ak1)) {

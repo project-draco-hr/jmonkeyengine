@@ -1,6 +1,6 @@
 {
-  if (isModified() && savable != null) {
-    return savable;
+  if (savable != null) {
+    return (Spatial)savable;
   }
   ProjectAssetManager mgr=getLookup().lookup(ProjectAssetManager.class);
   if (mgr == null) {
