@@ -2,6 +2,12 @@
   if (savable != null) {
     return (Spatial)savable;
   }
+  ProjectAssetManager mgr=getLookup().lookup(ProjectAssetManager.class);
+  if (mgr == null) {
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("File is not part of a project!\nCannot load without ProjectAssetManager."));
+    return null;
+  }
+  closeAsset();
   ProgressHandle handle=ProgressHandleFactory.createHandle("Converting OgreBinary");
   handle.start();
   OgreXMLConvertOptions options=new OgreXMLConvertOptions(getPrimaryFile().getPath());
@@ -15,11 +21,6 @@
     conv2.doConvert(options2,handle);
   }
   handle.progress("Convert Model");
-  ProjectAssetManager mgr=getLookup().lookup(ProjectAssetManager.class);
-  if (mgr == null) {
-    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("File is not part of a project!\nCannot load without ProjectAssetManager."));
-    return null;
-  }
   String assetKey=mgr.getRelativeAssetPath(options.getDestFile());
   FileLock lock=null;
   try {
@@ -28,12 +29,13 @@
     Spatial spatial=mgr.loadModel(assetKey);
     replaceXmlFiles(mgr);
     listListener.stop();
-    savable=spatial;
     SpatialUtil.storeOriginalPathUserData(spatial);
     lock.releaseLock();
     File deleteFile=new File(options.getDestFile());
     deleteFile.delete();
     handle.finish();
+    savable=spatial;
+    logger.log(Level.INFO,"Loaded asset {0}",getName());
     return spatial;
   }
  catch (  IOException ex) {

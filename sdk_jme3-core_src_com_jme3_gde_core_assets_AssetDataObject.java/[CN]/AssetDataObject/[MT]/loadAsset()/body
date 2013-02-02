@@ -1,20 +1,22 @@
 {
   if (savable != null) {
-    return (Spatial)savable;
+    return savable;
   }
   ProjectAssetManager mgr=getLookup().lookup(ProjectAssetManager.class);
   if (mgr == null) {
     DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("File is not part of a project!\nCannot load without ProjectAssetManager."));
     return null;
   }
+  closeAsset();
   FileLock lock=null;
   try {
     lock=getPrimaryFile().lock();
     listListener.start();
     Savable spatial=(Savable)mgr.loadAsset(getAssetKey());
     listListener.stop();
-    savable=spatial;
     lock.releaseLock();
+    savable=spatial;
+    logger.log(Level.INFO,"Loaded asset {0}",getName());
   }
  catch (  Exception ex) {
     Exceptions.printStackTrace(ex);
