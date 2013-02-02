@@ -1,4 +1,7 @@
 {
+  if (savable != null) {
+    return (Spatial)savable;
+  }
   if (SUFFIX == null) {
     throw new IllegalStateException("Suffix for blender filetype is null! Set SUFFIX = \"sfx\" in constructor!");
   }
@@ -38,7 +41,7 @@
     replaceFiles();
     listListener.stop();
     savable=spatial;
-    storeOriginalPathUserData();
+    SpatialUtil.storeOriginalPathUserData(spatial);
     return spatial;
   }
  catch (  IOException ex) {

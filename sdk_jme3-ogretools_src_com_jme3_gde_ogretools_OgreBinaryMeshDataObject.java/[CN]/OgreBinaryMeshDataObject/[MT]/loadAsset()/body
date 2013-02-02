@@ -1,4 +1,7 @@
 {
+  if (savable != null) {
+    return (Spatial)savable;
+  }
   ProgressHandle handle=ProgressHandleFactory.createHandle("Converting OgreBinary");
   handle.start();
   OgreXMLConvertOptions options=new OgreXMLConvertOptions(getPrimaryFile().getPath());
@@ -26,7 +29,7 @@
     replaceXmlFiles(mgr);
     listListener.stop();
     savable=spatial;
-    storeOriginalPathUserData();
+    SpatialUtil.storeOriginalPathUserData(spatial);
     lock.releaseLock();
     File deleteFile=new File(options.getDestFile());
     deleteFile.delete();
