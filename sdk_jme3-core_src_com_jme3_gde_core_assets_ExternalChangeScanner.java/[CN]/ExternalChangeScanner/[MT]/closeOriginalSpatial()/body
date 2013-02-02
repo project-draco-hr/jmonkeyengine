@@ -1,0 +1,16 @@
+{
+  try {
+    DataObject dobj=DataObject.find(originalObject);
+    AssetData originalAssetData=dobj.getLookup().lookup(AssetData.class);
+    if (originalAssetData != null) {
+      originalAssetData.closeAsset();
+    }
+ else {
+      logger.log(Level.WARNING,"Could not get AssetData for {0}, original file {1}",new Object[]{assetDataObject.getName(),originalObject});
+    }
+  }
+ catch (  DataObjectNotFoundException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return null;
+}

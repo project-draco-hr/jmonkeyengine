@@ -1,0 +1,14 @@
+{
+  this.assetDataObject=assetDataObject;
+  assetData=assetDataObject.getLookup().lookup(AssetData.class);
+  if (assetData != null) {
+    String path=assetData.getProperty("ORIGINAL_PATH");
+    if (path != null) {
+      setObservedFilePath(path);
+    }
+    assetData.addPropertyChangeListener(this);
+  }
+ else {
+    logger.log(Level.WARNING,"Trying to observer changes for asset {0} which has no AssetData in Lookup.",assetDataObject.getName());
+  }
+}

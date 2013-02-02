@@ -1,0 +1,8 @@
+{
+  logger.log(Level.INFO,"External file {0} for {1} deleted!",new Object[]{fe.getFile(),assetDataObject.getName()});
+  if (originalObject != null) {
+    logger.log(ApplicationLogHandler.LogLevel.USERINFO,"Remove file change listener for deleted object on {0}",assetDataObject.getName());
+    originalObject.removeFileChangeListener(this);
+    originalObject=null;
+  }
+}
