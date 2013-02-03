@@ -5,15 +5,22 @@
   AssetManager assetManager=blenderContext.getAssetManager();
   name=name.replaceAll("\\\\","\\/");
   Texture result=null;
-  List<String> assetNames=new ArrayList<String>();
   if (name.startsWith("//")) {
     String relativePath=name.substring(2);
     BlenderKey blenderKey=blenderContext.getBlenderKey();
     int idx=blenderKey.getName().lastIndexOf('/');
     String blenderAssetFolder=blenderKey.getName().substring(0,idx != -1 ? idx : 0);
-    assetNames.add(blenderAssetFolder + '/' + relativePath);
+    String absoluteName=blenderAssetFolder + '/' + relativePath;
+    try {
+      TextureKey key=new TextureKey(absoluteName);
+      assetManager.loadTexture(key);
+    }
+ catch (    AssetNotFoundException e) {
+      LOGGER.fine(e.getLocalizedMessage());
+    }
   }
  else {
+    List<String> assetNames=new ArrayList<String>();
     String[] paths=name.split("\\/");
     StringBuilder sb=new StringBuilder(paths[paths.length - 1]);
     assetNames.add(paths[paths.length - 1]);
@@ -22,17 +29,24 @@
       sb.insert(0,paths[i]);
       assetNames.add(0,sb.toString());
     }
-  }
-  for (  String assetName : assetNames) {
-    try {
-      TextureKey key=new TextureKey(assetName);
-      key.setAsCube(false);
-      AssetInfo info=assetManager.locateAsset(key);
-      if (info != null) {
-        Texture texture=assetManager.loadTexture(key);
-        result=texture;
-        break;
+    for (    String assetName : assetNames) {
+      try {
+        TextureKey key=new TextureKey(assetName);
+        key.setAsCube(false);
+        AssetInfo info=assetManager.locateAsset(key);
+        if (info != null) {
+          Texture texture=assetManager.loadTexture(key);
+          result=texture;
+          return result;
+        }
       }
+ catch (      AssetNotFoundException e) {
+        LOGGER.fine(e.getLocalizedMessage());
+      }
+    }
+    try {
+      TextureKey key=new TextureKey(name);
+      assetManager.loadTexture(key);
     }
  catch (    AssetNotFoundException e) {
       LOGGER.fine(e.getLocalizedMessage());
