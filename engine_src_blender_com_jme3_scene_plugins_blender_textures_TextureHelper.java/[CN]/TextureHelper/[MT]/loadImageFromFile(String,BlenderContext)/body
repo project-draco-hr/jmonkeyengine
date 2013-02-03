@@ -3,7 +3,7 @@
     return null;
   }
   AssetManager assetManager=blenderContext.getAssetManager();
-  name=name.replaceAll("\\\\","\\/");
+  name=name.replace('\\','/');
   Texture result=null;
   if (name.startsWith("//")) {
     String relativePath=name.substring(2);
