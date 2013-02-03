@@ -1,16 +1,19 @@
 {
-  if (name.equals(root.getName()) && getSpatialPath(root).equals(path)) {
+  if (name == null || path == null) {
+    logger.log(Level.INFO,"Trying to find Spatial with null name spatial for {0}.",root);
+  }
+  if (name.equals(root.getName()) && path.equals(getSpatialPath(root))) {
     return root;
   }
   final SpatialHolder holder=new SpatialHolder();
   root.depthFirstTraversal(new SceneGraphVisitor(){
     public void visit(    Spatial spatial){
-      if (name.equals(spatial.getName()) && getSpatialPath(spatial).equals(path)) {
+      if (name.equals(spatial.getName()) && path.equals(getSpatialPath(spatial))) {
         if (holder.spatial == null) {
           holder.spatial=spatial;
         }
  else {
-          logger.log(Level.WARNING,"Found spatial {0} twice in {1}",new Object[]{path,root});
+          logger.log(Level.WARNING,"Found Spatial {0} twice in {1}",new Object[]{path,root});
         }
       }
     }

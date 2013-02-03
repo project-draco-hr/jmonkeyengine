@@ -1,0 +1,24 @@
+{
+  if (!(root instanceof Node)) {
+    logger.log(Level.WARNING,"Cannot add new Leaf {0} to {1}, is not a Node!",new Object[]{leaf.getName(),root.getName()});
+    return;
+  }
+  for (Spatial s=leaf; s.getParent() != null; s=s.getParent()) {
+    Spatial parent=s.getParent();
+    Spatial other=findSpatial(root,parent.getName(),getSpatialPath(parent));
+    if (other == null) {
+      continue;
+    }
+    if (other instanceof Node) {
+      logger.log(Level.INFO,"Attaching {0} to {1} in root {2} to add leaf {3}",new Object[]{s,other,root,leaf});
+      Node otherNode=(Node)other;
+      otherNode.attachChild(s);
+      leaf.setUserData(ORIGINAL_NAME,leaf.getName());
+      leaf.setUserData(ORIGINAL_PATH,getSpatialPath(leaf));
+      logger.log(LogLevel.USERINFO,"Attached Node {0} with leaf {0}",new Object[]{other,leaf});
+    }
+ else {
+      logger.log(Level.WARNING,"Cannot attach leaf {0} to found spatial {1} in root {2}, not a node.",new Object[]{leaf,other,root});
+    }
+  }
+}

@@ -6,7 +6,7 @@
   final String name=needle.getName();
   final String path=getSpatialPath(needle);
   if (name == null || path == null) {
-    logger.log(Level.INFO,"Trying to find tagged spatial with null name spatial for {0}.",root);
+    logger.log(Level.INFO,"Trying to find tagged Spatial with null name spatial for {0}.",root);
   }
   final Class clazz=needle.getClass();
   String rootName=root.getUserData("ORIGINAL_NAME");
@@ -24,7 +24,7 @@
           holder.spatial=spatial;
         }
  else {
-          logger.log(Level.WARNING,"Found spatial {0} twice in {1}",new Object[]{path,root});
+          logger.log(Level.WARNING,"Found Spatial {0} twice in {1}",new Object[]{path,root});
         }
       }
     }
