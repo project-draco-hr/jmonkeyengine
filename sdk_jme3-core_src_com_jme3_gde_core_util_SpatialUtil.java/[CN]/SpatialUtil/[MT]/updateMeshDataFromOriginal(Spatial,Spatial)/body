@@ -3,7 +3,7 @@
     @Override public void visit(    Geometry geom){
       Geometry spat=(Geometry)findTaggedSpatial(root,geom);
       if (spat != null) {
-        spat.setMesh(geom.getMesh().deepClone());
+        spat.setMesh(geom.getMesh());
         logger.log(LogLevel.USERINFO,"Updated mesh for Geometry {0}",geom.getName());
       }
  else {
