@@ -16,6 +16,7 @@
       leaf.setUserData(ORIGINAL_NAME,leaf.getName());
       leaf.setUserData(ORIGINAL_PATH,getSpatialPath(leaf));
       logger.log(LogLevel.USERINFO,"Attached Node {0} with leaf {0}",new Object[]{other,leaf});
+      return;
     }
  else {
       logger.log(Level.WARNING,"Cannot attach leaf {0} to found spatial {1} in root {2}, not a node.",new Object[]{leaf,other,root});
