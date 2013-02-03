@@ -1,9 +1,13 @@
 {
   int maxHeight=0;
+  int maxWidth=0;
   for (int i=0; i < modes.length; i++) {
     if (maxHeight < modes[i].getHeight()) {
       maxHeight=modes[i].getHeight();
     }
+    if (maxWidth < modes[i].getWidth()) {
+      maxWidth=modes[i].getWidth();
+    }
   }
-  return getResolutions(modes,maxHeight);
+  return getResolutions(modes,maxHeight,maxWidth);
 }
