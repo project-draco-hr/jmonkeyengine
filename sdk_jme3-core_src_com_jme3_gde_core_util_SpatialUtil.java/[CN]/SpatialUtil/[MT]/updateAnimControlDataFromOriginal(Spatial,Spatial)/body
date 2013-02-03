@@ -1,0 +1,21 @@
+{
+  original.depthFirstTraversal(new SceneGraphVisitor(){
+    @Override public void visit(    Spatial spat){
+      AnimControl animContol=spat.getControl(AnimControl.class);
+      if (animContol != null) {
+        Spatial otherSpatial=findTaggedSpatial(root,spat);
+        if (otherSpatial != null) {
+          AnimControl myControl=otherSpatial.getControl(AnimControl.class);
+          if (myControl != null) {
+          }
+ else {
+          }
+        }
+ else {
+          logger.log(Level.WARNING,"Could not find sibling for {0} in root {1} when trying to apply AnimControl data",new Object[]{spat,root});
+        }
+      }
+    }
+  }
+);
+}
