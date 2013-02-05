@@ -1,31 +1,23 @@
 {
   if (spatial.getControl(RigidBodyControl.class) != null) {
     RigidBodyControl physicsNode=spatial.getControl(RigidBodyControl.class);
-    if (!physicsNodes.containsValue(physicsNode)) {
-      physicsNode.setPhysicsSpace(this);
-    }
+    physicsNode.setPhysicsSpace(this);
     List<PhysicsJoint> joints=physicsNode.getJoints();
     for (Iterator<PhysicsJoint> it1=joints.iterator(); it1.hasNext(); ) {
       PhysicsJoint physicsJoint=it1.next();
-      if (!physicsNodes.containsValue(physicsJoint.getBodyA())) {
-        if (physicsJoint.getBodyA() instanceof PhysicsControl) {
-          add(physicsJoint.getBodyA());
-        }
+      if (physicsJoint.getBodyA() instanceof PhysicsControl) {
+        add(physicsJoint.getBodyA());
+      }
  else {
-          addRigidBody(physicsJoint.getBodyA());
-        }
+        addRigidBody(physicsJoint.getBodyA());
       }
-      if (!physicsNodes.containsValue(physicsJoint.getBodyB())) {
-        if (physicsJoint.getBodyA() instanceof PhysicsControl) {
-          add(physicsJoint.getBodyB());
-        }
+      if (physicsJoint.getBodyA() instanceof PhysicsControl) {
+        add(physicsJoint.getBodyB());
+      }
  else {
-          addRigidBody(physicsJoint.getBodyB());
-        }
+        addRigidBody(physicsJoint.getBodyB());
       }
-      if (!physicsJoints.contains(physicsJoint)) {
-        addJoint(physicsJoint);
-      }
+      addJoint(physicsJoint);
     }
   }
  else   if (spatial.getControl(PhysicsControl.class) != null) {

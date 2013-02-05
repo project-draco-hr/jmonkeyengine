@@ -1,5 +1,9 @@
 {
-  physicsNodes.put(node.getObjectId(),node);
+  if (physicsBodies.containsKey(node.getObjectId())) {
+    logger.log(Level.WARNING,"RigidBody {0} already exists in PhysicsSpace, cannot add.",node);
+    return;
+  }
+  physicsBodies.put(node.getObjectId(),node);
   boolean kinematic=false;
   if (node.isKinematic()) {
     kinematic=true;
@@ -12,6 +16,7 @@
   Logger.getLogger(PhysicsSpace.class.getName()).log(Level.FINE,"Adding RigidBody {0} to physics space.",node.getObjectId());
   if (node instanceof PhysicsVehicle) {
     Logger.getLogger(PhysicsSpace.class.getName()).log(Level.FINE,"Adding vehicle constraint {0} to physics space.",Long.toHexString(((PhysicsVehicle)node).getVehicleId()));
+    physicsVehicles.put(((PhysicsVehicle)node).getVehicleId(),(PhysicsVehicle)node);
     addVehicle(physicsSpaceId,((PhysicsVehicle)node).getVehicleId());
   }
 }

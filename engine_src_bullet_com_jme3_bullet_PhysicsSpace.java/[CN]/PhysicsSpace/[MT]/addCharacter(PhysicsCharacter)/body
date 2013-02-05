@@ -1,4 +1,9 @@
 {
+  if (physicsCharacters.containsKey(node.getObjectId())) {
+    logger.log(Level.WARNING,"Character {0} already exists in PhysicsSpace, cannot add.",node);
+    return;
+  }
+  physicsCharacters.put(node.getObjectId(),node);
   Logger.getLogger(PhysicsSpace.class.getName()).log(Level.FINE,"Adding character {0} to physics space.",Long.toHexString(node.getObjectId()));
   addCharacterObject(physicsSpaceId,node.getObjectId());
   addAction(physicsSpaceId,node.getControllerId());

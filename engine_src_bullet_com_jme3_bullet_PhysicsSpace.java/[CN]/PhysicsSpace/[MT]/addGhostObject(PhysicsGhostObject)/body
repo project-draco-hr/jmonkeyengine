@@ -1,4 +1,9 @@
 {
+  if (physicsGhostObjects.containsKey(node.getObjectId())) {
+    logger.log(Level.WARNING,"GhostObject {0} already exists in PhysicsSpace, cannot add.",node);
+    return;
+  }
+  physicsGhostObjects.put(node.getObjectId(),node);
   Logger.getLogger(PhysicsSpace.class.getName()).log(Level.FINE,"Adding ghost object {0} to physics space.",Long.toHexString(node.getObjectId()));
   addCollisionObject(physicsSpaceId,node.getObjectId());
 }
