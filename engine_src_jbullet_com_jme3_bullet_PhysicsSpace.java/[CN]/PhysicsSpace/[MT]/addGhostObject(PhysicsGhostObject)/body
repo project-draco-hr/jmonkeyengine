@@ -4,6 +4,6 @@
     return;
   }
   physicsGhostObjects.put(node.getObjectId(),node);
-  Logger.getLogger(PhysicsSpace.class.getName()).log(Level.FINE,"Adding ghost object {0} to physics space.",node.getObjectId());
+  logger.log(Level.FINE,"Adding ghost object {0} to physics space.",node.getObjectId());
   dynamicsWorld.addCollisionObject(node.getObjectId());
 }

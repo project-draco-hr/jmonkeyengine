@@ -4,11 +4,11 @@
     return;
   }
   if (node instanceof PhysicsVehicle) {
-    Logger.getLogger(PhysicsSpace.class.getName()).log(Level.FINE,"Removing vehicle constraint {0} from physics space.",((PhysicsVehicle)node).getVehicleId());
+    logger.log(Level.FINE,"Removing vehicle constraint {0} from physics space.",((PhysicsVehicle)node).getVehicleId());
     physicsVehicles.remove(((PhysicsVehicle)node).getVehicleId());
     dynamicsWorld.removeVehicle(((PhysicsVehicle)node).getVehicleId());
   }
-  Logger.getLogger(PhysicsSpace.class.getName()).log(Level.FINE,"Removing RigidBody {0} from physics space.",node.getObjectId());
+  logger.log(Level.FINE,"Removing RigidBody {0} from physics space.",node.getObjectId());
   physicsBodies.remove(node.getObjectId());
   dynamicsWorld.removeRigidBody(node.getObjectId());
 }

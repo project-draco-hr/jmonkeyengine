@@ -4,7 +4,7 @@
     return;
   }
   physicsCharacters.put(node.getObjectId(),node);
-  Logger.getLogger(PhysicsSpace.class.getName()).log(Level.FINE,"Adding character {0} to physics space.",node.getObjectId());
+  logger.log(Level.FINE,"Adding character {0} to physics space.",node.getObjectId());
   dynamicsWorld.addCollisionObject(node.getObjectId(),CollisionFilterGroups.CHARACTER_FILTER,(short)(CollisionFilterGroups.STATIC_FILTER | CollisionFilterGroups.DEFAULT_FILTER));
   dynamicsWorld.addAction(node.getControllerId());
 }

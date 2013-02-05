@@ -4,7 +4,7 @@
     return;
   }
   physicsCharacters.put(node.getObjectId(),node);
-  Logger.getLogger(PhysicsSpace.class.getName()).log(Level.FINE,"Adding character {0} to physics space.",Long.toHexString(node.getObjectId()));
+  logger.log(Level.FINE,"Adding character {0} to physics space.",Long.toHexString(node.getObjectId()));
   addCharacterObject(physicsSpaceId,node.getObjectId());
   addAction(physicsSpaceId,node.getControllerId());
 }

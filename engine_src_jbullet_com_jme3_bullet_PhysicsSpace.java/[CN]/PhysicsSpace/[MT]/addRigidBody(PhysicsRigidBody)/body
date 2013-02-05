@@ -13,9 +13,9 @@
   if (kinematic) {
     node.setKinematic(true);
   }
-  Logger.getLogger(PhysicsSpace.class.getName()).log(Level.FINE,"Adding RigidBody {0} to physics space.",node.getObjectId());
+  logger.log(Level.FINE,"Adding RigidBody {0} to physics space.",node.getObjectId());
   if (node instanceof PhysicsVehicle) {
-    Logger.getLogger(PhysicsSpace.class.getName()).log(Level.FINE,"Adding vehicle constraint {0} to physics space.",((PhysicsVehicle)node).getVehicleId());
+    logger.log(Level.FINE,"Adding vehicle constraint {0} to physics space.",((PhysicsVehicle)node).getVehicleId());
     ((PhysicsVehicle)node).createVehicle(this);
     physicsVehicles.put(((PhysicsVehicle)node).getVehicleId(),(PhysicsVehicle)node);
     dynamicsWorld.addVehicle(((PhysicsVehicle)node).getVehicleId());
