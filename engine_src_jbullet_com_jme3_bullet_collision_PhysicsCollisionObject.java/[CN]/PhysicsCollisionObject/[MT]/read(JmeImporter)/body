@@ -2,7 +2,6 @@
   InputCapsule capsule=e.getCapsule(this);
   collisionGroup=capsule.readInt("collisionGroup",0x00000001);
   collisionGroupsMask=capsule.readInt("collisionGroupsMask",0x00000001);
-  debugShape=(Spatial)capsule.readSavable("debugShape",null);
   CollisionShape shape=(CollisionShape)capsule.readSavable("collisionShape",null);
   collisionShape=shape;
 }
