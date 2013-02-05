@@ -1,0 +1,17 @@
+{
+  this.enabled=enabled;
+  if (space != null) {
+    if (enabled && !added) {
+      if (spatial != null) {
+        setPhysicsLocation(getSpatialTranslation());
+        setPhysicsRotation(getSpatialRotation());
+      }
+      addPhysics(space);
+      added=true;
+    }
+ else     if (!enabled && added) {
+      removePhysics(space);
+      added=false;
+    }
+  }
+}
