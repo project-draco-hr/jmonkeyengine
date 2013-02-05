@@ -1,0 +1,25 @@
+{
+  HashMap<PhysicsVehicle,Spatial> oldObjects=vehicles;
+  vehicles=new HashMap<PhysicsVehicle,Spatial>();
+  Collection<PhysicsVehicle> current=space.getVehicleList();
+  for (Iterator<PhysicsVehicle> it=current.iterator(); it.hasNext(); ) {
+    PhysicsVehicle physicsObject=it.next();
+    if (oldObjects.containsKey(physicsObject)) {
+      Spatial spat=oldObjects.get(physicsObject);
+      vehicles.put(physicsObject,spat);
+      oldObjects.remove(physicsObject);
+    }
+ else {
+      logger.log(Level.FINE,"Create new debug Vehicle");
+      Node node=new Node(physicsObject.toString());
+      node.addControl(new BulletVehicleDebugControl(this,physicsObject));
+      vehicles.put(physicsObject,node);
+      physicsDebugRootNode.attachChild(node);
+    }
+  }
+  for (  Map.Entry<PhysicsVehicle,Spatial> entry : oldObjects.entrySet()) {
+    PhysicsVehicle object=entry.getKey();
+    Spatial spatial=entry.getValue();
+    spatial.removeFromParent();
+  }
+}

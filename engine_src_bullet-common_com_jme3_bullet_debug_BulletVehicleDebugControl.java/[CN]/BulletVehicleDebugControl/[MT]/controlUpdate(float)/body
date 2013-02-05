@@ -1,0 +1,27 @@
+{
+  for (int i=0; i < body.getNumWheels(); i++) {
+    VehicleWheel physicsVehicleWheel=body.getWheel(i);
+    Vector3f location=physicsVehicleWheel.getLocation().clone();
+    Vector3f direction=physicsVehicleWheel.getDirection().clone();
+    Vector3f axle=physicsVehicleWheel.getAxle().clone();
+    float restLength=physicsVehicleWheel.getRestLength();
+    float radius=physicsVehicleWheel.getRadius();
+    Geometry locGeom=(Geometry)suspensionNode.getChild("WheelLocationDebugShape" + i);
+    Geometry dirGeom=(Geometry)suspensionNode.getChild("WheelDirectionDebugShape" + i);
+    Geometry axleGeom=(Geometry)suspensionNode.getChild("WheelAxleDebugShape" + i);
+    Geometry wheelGeom=(Geometry)suspensionNode.getChild("WheelRadiusDebugShape" + i);
+    Arrow locArrow=(Arrow)locGeom.getMesh();
+    locArrow.setArrowExtent(location);
+    Arrow axleArrow=(Arrow)axleGeom.getMesh();
+    axleArrow.setArrowExtent(axle.normalizeLocal().multLocal(0.3f));
+    Arrow wheelArrow=(Arrow)wheelGeom.getMesh();
+    wheelArrow.setArrowExtent(direction.normalizeLocal().multLocal(radius));
+    Arrow dirArrow=(Arrow)dirGeom.getMesh();
+    dirArrow.setArrowExtent(direction.normalizeLocal().multLocal(restLength));
+    dirGeom.setLocalTranslation(location);
+    axleGeom.setLocalTranslation(location.addLocal(direction));
+    wheelGeom.setLocalTranslation(location);
+    i++;
+  }
+  applyPhysicsTransform(body.getPhysicsLocation(location),body.getPhysicsRotation(rotation));
+}

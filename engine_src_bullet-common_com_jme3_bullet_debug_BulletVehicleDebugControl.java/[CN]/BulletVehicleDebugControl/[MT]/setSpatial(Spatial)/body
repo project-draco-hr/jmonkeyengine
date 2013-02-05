@@ -1,0 +1,11 @@
+{
+  if (spatial != null && spatial instanceof Node) {
+    Node node=(Node)spatial;
+    node.attachChild(suspensionNode);
+  }
+ else   if (spatial == null && this.spatial != null) {
+    Node node=(Node)this.spatial;
+    node.detachChild(suspensionNode);
+  }
+  super.setSpatial(spatial);
+}

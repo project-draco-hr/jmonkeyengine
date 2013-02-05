@@ -1,0 +1,13 @@
+{
+  if (shape == null) {
+    return null;
+  }
+  Mesh mesh=shapes.get(shape);
+  if (mesh == null) {
+    logger.log(Level.FINE,"Create new debug MESH");
+    mesh=DebugShapeFactory.getDebugMesh(shape);
+    shapes.put(shape,mesh);
+  }
+  usedShapes.put(shape,mesh);
+  return mesh;
+}

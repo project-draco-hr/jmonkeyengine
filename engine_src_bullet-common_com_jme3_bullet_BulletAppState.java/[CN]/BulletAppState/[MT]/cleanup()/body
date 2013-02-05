@@ -1,4 +1,8 @@
 {
+  if (debugAppState != null) {
+    stateManager.detach(debugAppState);
+    debugAppState=null;
+  }
   if (executor != null) {
     executor.shutdown();
     executor=null;

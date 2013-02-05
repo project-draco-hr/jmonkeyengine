@@ -1,0 +1,14 @@
+{
+  Mesh mesh=debugAppState.getShapeBuffer().getShapeMesh(body.getCollisionShape());
+  if (mesh != null) {
+    if (geom.getMesh() != mesh) {
+      geom.setMesh(mesh);
+    }
+  }
+ else {
+    if (geom.getMesh() != CollisionShapeBuffer.NO_MESH) {
+      geom.setMesh(CollisionShapeBuffer.NO_MESH);
+    }
+  }
+  applyPhysicsTransform(body.getPhysicsLocation(location),body.getPhysicsRotation(rotation));
+}

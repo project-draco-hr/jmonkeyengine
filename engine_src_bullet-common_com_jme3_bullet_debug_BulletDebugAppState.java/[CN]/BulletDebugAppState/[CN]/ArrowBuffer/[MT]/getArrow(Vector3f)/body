@@ -1,0 +1,11 @@
+{
+  Arrow arrow=arrows.poll();
+  if (arrow == null) {
+    arrow=new Arrow(extent);
+  }
+ else {
+    arrow.setArrowExtent(extent);
+  }
+  usedArrows.add(arrow);
+  return arrow;
+}

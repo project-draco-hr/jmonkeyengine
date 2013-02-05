@@ -1,0 +1,12 @@
+{
+  super.update(tpf);
+  updateRigidBodies();
+  updateGhosts();
+  updateCharacters();
+  updateJoints();
+  updateVehicles();
+  physicsDebugRootNode.updateLogicalState(tpf);
+  physicsDebugRootNode.updateGeometricState();
+  shapeBuffer.resetShapes();
+  arrowBuffer.resetArrows();
+}
