@@ -1,5 +1,5 @@
 {
-  if (debugEnabled && debugAppState == null) {
+  if (debugEnabled && debugAppState == null && pSpace != null) {
     debugAppState=new BulletDebugAppState(pSpace);
     stateManager.attach(debugAppState);
     pSpace.enableDebug(app.getAssetManager());
@@ -7,7 +7,9 @@
  else   if (!debugEnabled && debugAppState != null) {
     stateManager.detach(debugAppState);
     debugAppState=null;
-    pSpace.enableDebug(null);
+    if (pSpace != null) {
+      pSpace.enableDebug(null);
+    }
   }
   if (pSpace.getDebugManager() != null && !debugEnabled) {
     debugEnabled=true;
