@@ -1,15 +1,12 @@
 {
-  Mesh mesh=debugAppState.getShapeBuffer().getShapeMesh(body.getCollisionShape());
-  if (mesh != null) {
-    if (geom.getMesh() != mesh) {
-      geom.setMesh(mesh);
-    }
-  }
- else {
-    if (geom.getMesh() != BulletDebugAppState.CollisionShapeBuffer.NO_MESH) {
-      geom.setMesh(BulletDebugAppState.CollisionShapeBuffer.NO_MESH);
-    }
+  if (myShape != body.getCollisionShape()) {
+    Node node=(Node)this.spatial;
+    node.detachChild(geom);
+    geom=DebugShapeFactory.getDebugShape(body.getCollisionShape());
+    node.attachChild(geom);
   }
   applyPhysicsTransform(body.getPhysicsLocation(location),Quaternion.IDENTITY);
-  geom.setLocalScale(body.getCollisionShape().getScale());
+  if (!(body.getCollisionShape() instanceof CylinderCollisionShape) && !(body.getCollisionShape() instanceof CapsuleCollisionShape) || !(body.getCollisionShape() instanceof SphereCollisionShape)) {
+    geom.setLocalScale(body.getCollisionShape().getScale());
+  }
 }
