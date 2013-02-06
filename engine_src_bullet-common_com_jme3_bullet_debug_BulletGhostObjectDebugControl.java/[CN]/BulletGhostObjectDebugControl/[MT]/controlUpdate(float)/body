@@ -3,6 +3,7 @@
     Node node=(Node)this.spatial;
     node.detachChild(geom);
     geom=DebugShapeFactory.getDebugShape(body.getCollisionShape());
+    geom.setMaterial(debugAppState.DEBUG_YELLOW);
     node.attachChild(geom);
   }
   applyPhysicsTransform(body.getPhysicsLocation(location),Quaternion.IDENTITY);
