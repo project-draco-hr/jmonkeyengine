@@ -6,7 +6,5 @@
     node.attachChild(geom);
   }
   applyPhysicsTransform(body.getPhysicsLocation(location),Quaternion.IDENTITY);
-  if (!(body.getCollisionShape() instanceof CylinderCollisionShape) && !(body.getCollisionShape() instanceof CapsuleCollisionShape) || !(body.getCollisionShape() instanceof SphereCollisionShape)) {
-    geom.setLocalScale(body.getCollisionShape().getScale());
-  }
+  geom.setLocalScale(body.getCollisionShape().getScale());
 }
