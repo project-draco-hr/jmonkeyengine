@@ -10,11 +10,13 @@
       oldObjects.remove(physicsObject);
     }
  else {
-      logger.log(Level.FINE,"Create new debug GhostObject");
-      Node node=new Node(physicsObject.toString());
-      node.addControl(new BulletGhostObjectDebugControl(this,physicsObject));
-      ghosts.put(physicsObject,node);
-      physicsDebugRootNode.attachChild(node);
+      if (filter == null || filter.displayObject(physicsObject)) {
+        logger.log(Level.FINE,"Create new debug GhostObject");
+        Node node=new Node(physicsObject.toString());
+        node.addControl(new BulletGhostObjectDebugControl(this,physicsObject));
+        ghosts.put(physicsObject,node);
+        physicsDebugRootNode.attachChild(node);
+      }
     }
   }
   for (  Map.Entry<PhysicsGhostObject,Spatial> entry : oldObjects.entrySet()) {
