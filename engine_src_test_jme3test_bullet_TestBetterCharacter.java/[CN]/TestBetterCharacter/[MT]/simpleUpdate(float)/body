@@ -1,0 +1,32 @@
+{
+  checkPlanetGravity();
+  Vector3f modelForwardDir=characterNode.getWorldRotation().mult(Vector3f.UNIT_Z);
+  Vector3f modelLeftDir=characterNode.getWorldRotation().mult(Vector3f.UNIT_X);
+  walkDirection.set(0,0,0);
+  if (leftStrafe) {
+    walkDirection.addLocal(modelLeftDir.mult(3));
+  }
+ else   if (rightStrafe) {
+    walkDirection.addLocal(modelLeftDir.negate().multLocal(3));
+  }
+  if (forward) {
+    walkDirection.addLocal(modelForwardDir.mult(3));
+  }
+ else   if (backward) {
+    walkDirection.addLocal(modelForwardDir.negate().multLocal(3));
+  }
+  physicsCharacter.setWalkDirection(walkDirection);
+  if (leftRotate) {
+    Quaternion rotateL=new Quaternion().fromAngleAxis(FastMath.PI * tpf,Vector3f.UNIT_Y);
+    rotateL.multLocal(viewDirection);
+  }
+ else   if (rightRotate) {
+    Quaternion rotateR=new Quaternion().fromAngleAxis(-FastMath.PI * tpf,Vector3f.UNIT_Y);
+    rotateR.multLocal(viewDirection);
+  }
+  physicsCharacter.setViewDirection(viewDirection);
+  fpsText.setText("Touch da ground = " + physicsCharacter.isOnGround());
+  if (!lockView) {
+    cam.lookAt(characterNode.getWorldTranslation().add(new Vector3f(0,2,0)),Vector3f.UNIT_Y);
+  }
+}

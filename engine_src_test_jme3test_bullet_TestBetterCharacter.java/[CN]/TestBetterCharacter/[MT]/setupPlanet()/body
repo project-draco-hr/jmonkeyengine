@@ -1,0 +1,11 @@
+{
+  Material material=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  material.setTexture("ColorMap",assetManager.loadTexture("Interface/Logo/Monkey.jpg"));
+  Sphere sphere=new Sphere(64,64,20);
+  planet=new Geometry("Sphere",sphere);
+  planet.setMaterial(material);
+  planet.setLocalTranslation(30,-15,30);
+  planet.addControl(new RigidBodyControl(new MeshCollisionShape(sphere),0));
+  rootNode.attachChild(planet);
+  getPhysicsSpace().add(planet);
+}

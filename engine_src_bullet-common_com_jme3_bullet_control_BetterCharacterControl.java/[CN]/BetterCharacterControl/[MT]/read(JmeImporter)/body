@@ -1,0 +1,11 @@
+{
+  super.read(im);
+  InputCapsule in=im.getCapsule(this);
+  this.radius=in.readFloat("radius",1);
+  this.height=in.readFloat("height",2);
+  this.mass=in.readFloat("mass",80);
+  this.jumpForce.set((Vector3f)in.readSavable("jumpForce",new Vector3f(0,mass * 5,0)));
+  rigidBody=new PhysicsRigidBody(getShape(),mass);
+  jumpForce.set(new Vector3f(0,mass * 5,0));
+  rigidBody.setAngularFactor(0);
+}

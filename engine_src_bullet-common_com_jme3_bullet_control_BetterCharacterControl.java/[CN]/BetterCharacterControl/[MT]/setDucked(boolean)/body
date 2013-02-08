@@ -1,0 +1,16 @@
+{
+  if (enabled) {
+    setHeightPercent(duckedFactor);
+    ducked=true;
+    wantToUnDuck=false;
+  }
+ else {
+    if (checkCanUnDuck()) {
+      setHeightPercent(1);
+      ducked=false;
+    }
+ else {
+      wantToUnDuck=true;
+    }
+  }
+}
