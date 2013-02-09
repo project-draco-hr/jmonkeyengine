@@ -13,7 +13,11 @@
     String absoluteName=blenderAssetFolder + '/' + relativePath;
     try {
       TextureKey key=new TextureKey(absoluteName);
-      assetManager.loadTexture(key);
+      key.setAsCube(false);
+      key.setFlipY(true);
+      key.setGenerateMips(true);
+      result=assetManager.loadTexture(key);
+      result.setKey(key);
     }
  catch (    AssetNotFoundException e) {
       LOGGER.fine(e.getLocalizedMessage());
