@@ -2,9 +2,7 @@
   super.read(im);
   InputCapsule ic=im.getCapsule(this);
   String[] loadedBoneList=ic.readStringArray("boneList",new String[0]);
-  for (  String string : loadedBoneList) {
-    boneList.add(string);
-  }
+  boneList.addAll(Arrays.asList(loadedBoneList));
   PhysicsBoneLink[] loadedBoneLinks=(PhysicsBoneLink[])ic.readSavableArray("boneList",new PhysicsBoneLink[0]);
   for (  PhysicsBoneLink physicsBoneLink : loadedBoneLinks) {
     boneLinks.put(physicsBoneLink.bone.getName(),physicsBoneLink);
