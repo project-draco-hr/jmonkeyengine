@@ -1,4 +1,19 @@
 {
   super.write(ex);
   OutputCapsule oc=ex.getCapsule(this);
+  oc.write(boneList.toArray(new String[boneList.size()]),"boneList",new String[0]);
+  oc.write(boneLinks.values().toArray(new PhysicsBoneLink[boneLinks.size()]),"boneLinks",new PhysicsBoneLink[0]);
+  oc.write(modelPosition,"modelPosition",new Vector3f());
+  oc.write(modelRotation,"modelRotation",new Quaternion());
+  oc.write(targetModel,"targetModel",null);
+  oc.write(skeleton,"skeleton",null);
+  oc.write(initScale,"initScale",null);
+  oc.write(mode,"mode",null);
+  oc.write(blendedControl,"blendedControl",false);
+  oc.write(weightThreshold,"weightThreshold",-1.0f);
+  oc.write(blendStart,"blendStart",0.0f);
+  oc.write(blendTime,"blendTime",1.0f);
+  oc.write(eventDispatchImpulseThreshold,"eventDispatchImpulseThreshold",10);
+  oc.write(rootMass,"rootMass",15);
+  oc.write(totalMass,"totalMass",0);
 }
