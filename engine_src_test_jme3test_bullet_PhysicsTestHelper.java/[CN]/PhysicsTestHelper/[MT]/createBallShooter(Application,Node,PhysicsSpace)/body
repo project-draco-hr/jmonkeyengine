@@ -13,7 +13,7 @@
         bulletg.setMaterial(mat2);
         bulletg.setShadowMode(ShadowMode.CastAndReceive);
         bulletg.setLocalTranslation(app.getCamera().getLocation());
-        RigidBodyControl bulletControl=new RigidBodyControl(1);
+        RigidBodyControl bulletControl=new RigidBodyControl(10);
         bulletg.addControl(bulletControl);
         bulletControl.setLinearVelocity(app.getCamera().getDirection().mult(25));
         bulletg.addControl(bulletControl);
