@@ -33,10 +33,13 @@
       try {
         TextureKey key=new TextureKey(assetName);
         key.setAsCube(false);
+        key.setFlipY(true);
+        key.setGenerateMips(true);
         AssetInfo info=assetManager.locateAsset(key);
         if (info != null) {
           Texture texture=assetManager.loadTexture(key);
           result=texture;
+          texture.setKey(key);
           return result;
         }
       }
