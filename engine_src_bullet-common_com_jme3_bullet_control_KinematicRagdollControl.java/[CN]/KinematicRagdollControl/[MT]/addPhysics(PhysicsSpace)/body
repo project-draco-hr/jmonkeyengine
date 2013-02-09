@@ -1,10 +1,6 @@
 {
-  if (space == null) {
-    return;
-  }
   if (baseRigidBody != null) {
     space.add(baseRigidBody);
-    added=true;
   }
   for (Iterator<PhysicsBoneLink> it=boneLinks.values().iterator(); it.hasNext(); ) {
     PhysicsBoneLink physicsBoneLink=it.next();
@@ -13,7 +9,7 @@
       if (physicsBoneLink.joint != null) {
         space.add(physicsBoneLink.joint);
       }
-      added=true;
     }
   }
+  space.addCollisionListener(this);
 }

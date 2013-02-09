@@ -1,4 +1,10 @@
 {
-  setSpatial(targetModel);
-  addToPhysicsSpace();
+  if (added) {
+    removePhysics(space);
+    setSpatial(targetModel);
+    addPhysics(space);
+  }
+ else {
+    setSpatial(targetModel);
+  }
 }

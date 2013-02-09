@@ -1,7 +1,4 @@
 {
-  if (space == null) {
-    return;
-  }
   if (baseRigidBody != null) {
     space.remove(baseRigidBody);
   }
@@ -14,5 +11,5 @@
       }
     }
   }
-  added=false;
+  space.removeCollisionListener(this);
 }

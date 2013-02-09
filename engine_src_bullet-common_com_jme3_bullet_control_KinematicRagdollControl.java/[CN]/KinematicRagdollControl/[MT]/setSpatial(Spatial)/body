@@ -1,7 +1,11 @@
 {
+  super.setSpatial(model);
+  if (added) {
+    removePhysics(space);
+  }
+  boneLinks.clear();
+  baseRigidBody=null;
   if (model == null) {
-    removeFromPhysicsSpace();
-    clearData();
     return;
   }
   targetModel=model;
@@ -16,8 +20,6 @@
   SkeletonControl sc=model.getControl(SkeletonControl.class);
   model.removeControl(sc);
   model.addControl(sc);
-  removeFromPhysicsSpace();
-  clearData();
   scanSpatial(model);
   if (parent != null) {
     parent.attachChild(model);
@@ -25,5 +27,8 @@
   model.setLocalTranslation(initPosition);
   model.setLocalRotation(initRotation);
   model.setLocalScale(initScale);
+  if (added) {
+    addPhysics(space);
+  }
   logger.log(Level.FINE,"Created physics ragdoll for skeleton {0}",skeleton);
 }
