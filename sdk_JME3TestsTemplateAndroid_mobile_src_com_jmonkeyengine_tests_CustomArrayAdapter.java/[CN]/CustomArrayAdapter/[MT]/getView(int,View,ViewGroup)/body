@@ -1,0 +1,29 @@
+{
+  Log.i(TAG,"getView for position: " + position + " with selectedItem: "+ selectedPosition);
+  View v=convertView;
+  ViewHolder holder;
+  if (v == null) {
+    LayoutInflater vi=(LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    v=vi.inflate(R.layout.test_chooser_row,null);
+    holder=new ViewHolder();
+    holder.textView=(TextView)v.findViewById(R.id.txtClassName);
+    holder.layoutRow=(LinearLayout)v.findViewById(R.id.layoutTestChooserRow);
+    v.setTag(holder);
+  }
+ else {
+    holder=(ViewHolder)v.getTag();
+  }
+  final String itemText=filteredEntries.get(position);
+  if (itemText != null) {
+    holder.textView.setText(itemText);
+    if (position == selectedPosition) {
+      Log.i(TAG,"setting Background Color to: " + selectedBackgroundColor);
+      holder.layoutRow.setBackgroundResource(selectedBackgroundResource);
+    }
+ else {
+      Log.i(TAG,"setting Background Color to: " + nonselectedBackgroundColor);
+      holder.layoutRow.setBackgroundResource(nonselectedBackgroundResource);
+    }
+  }
+  return v;
+}

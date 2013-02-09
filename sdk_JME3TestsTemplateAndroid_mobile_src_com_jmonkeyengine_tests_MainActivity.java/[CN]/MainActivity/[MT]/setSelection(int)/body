@@ -1,0 +1,14 @@
+{
+  if (position == -1) {
+    arrayAdapter.setSelectedPosition(0);
+    currentPosition=-1;
+    currentSelection="";
+    listClasses.invalidateViews();
+  }
+ else {
+    arrayAdapter.setSelectedPosition(position);
+    currentPosition=position;
+    currentSelection=arrayAdapter.getItem(position);
+    listClasses.invalidateViews();
+  }
+}

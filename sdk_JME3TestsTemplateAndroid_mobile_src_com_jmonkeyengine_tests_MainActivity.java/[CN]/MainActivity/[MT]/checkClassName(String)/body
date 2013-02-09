@@ -1,0 +1,17 @@
+{
+  boolean include=true;
+  if (className.startsWith(rootPackage)) {
+    for (int i=0; i < exclusions.size(); i++) {
+      if (className.contains(exclusions.get(i))) {
+        Log.i(TAG,"Skipping Class " + className + ". Includes exclusion string: "+ exclusions.get(i)+ ".");
+        include=false;
+        break;
+      }
+    }
+  }
+ else {
+    include=false;
+    Log.i(TAG,"Skipping Class " + className + ". Not in the root package: "+ rootPackage+ ".");
+  }
+  return include;
+}

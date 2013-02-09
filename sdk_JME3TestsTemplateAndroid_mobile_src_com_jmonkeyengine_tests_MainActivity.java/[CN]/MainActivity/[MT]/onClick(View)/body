@@ -1,0 +1,12 @@
+{
+  if (view.equals(btnOK)) {
+    Log.i(TAG,"User selected OK for class: " + currentSelection);
+    Intent intent=new Intent(this,TestsHarness.class);
+    intent.putExtra(SELECTED_APP_CLASS,currentSelection);
+    startActivity(intent);
+  }
+ else   if (view.equals(btnCancel)) {
+    Log.i(TAG,"User selected Cancel");
+    finish();
+  }
+}

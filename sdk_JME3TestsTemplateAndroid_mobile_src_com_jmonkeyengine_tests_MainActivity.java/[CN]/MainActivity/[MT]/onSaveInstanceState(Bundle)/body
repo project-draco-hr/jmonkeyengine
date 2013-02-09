@@ -1,0 +1,6 @@
+{
+  super.onSaveInstanceState(savedInstanceState);
+  Log.i(TAG,"Saving selections in onSaveInstanceState: " + "position: " + currentPosition + ", "+ "class: "+ currentSelection);
+  savedInstanceState.putString(SELECTED_APP_CLASS,currentSelection);
+  savedInstanceState.putInt(SELECTED_LIST_POSITION,currentPosition);
+}

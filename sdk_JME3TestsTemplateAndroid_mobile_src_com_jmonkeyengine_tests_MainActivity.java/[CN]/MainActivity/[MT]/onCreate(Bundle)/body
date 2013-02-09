@@ -1,0 +1,54 @@
+{
+  super.onCreate(savedInstanceState);
+  if (savedInstanceState != null) {
+    Log.i(TAG,"Restoring selections in onCreate: " + "position: " + savedInstanceState.getInt(SELECTED_LIST_POSITION,0) + "class: "+ savedInstanceState.getString(SELECTED_APP_CLASS));
+    currentPosition=savedInstanceState.getInt(SELECTED_LIST_POSITION,0);
+    currentSelection=savedInstanceState.getString(SELECTED_APP_CLASS);
+  }
+  setContentView(R.layout.test_chooser_layout);
+  btnOK=(Button)findViewById(R.id.btnOK);
+  btnCancel=(Button)findViewById(R.id.btnCancel);
+  listClasses=(ListView)findViewById(R.id.listClasses);
+  editFilterText=(EditText)findViewById(R.id.txtFilter);
+  rootPackage="jme3test";
+  exclusions.add("$");
+  exclusions.add("TestChooser");
+  exclusions.add("awt");
+  Log.i(TAG,"Composing Test list...");
+  ApplicationInfo ai=this.getApplicationInfo();
+  String classPath=ai.sourceDir;
+  DexFile dex=null;
+  Enumeration<String> apkClassNames=null;
+  try {
+    dex=new DexFile(classPath);
+    apkClassNames=dex.entries();
+    while (apkClassNames.hasMoreElements()) {
+      String className=apkClassNames.nextElement();
+      if (checkClassName(className) && checkClassType(className)) {
+        classNames.add(className);
+      }
+    }
+  }
+ catch (  IOException e) {
+    e.printStackTrace();
+  }
+ finally {
+    try {
+      dex.close();
+    }
+ catch (    IOException e) {
+      e.printStackTrace();
+    }
+  }
+  arrayAdapter=new CustomArrayAdapter(this,R.layout.test_chooser_row,classNames);
+  Log.i(TAG,"Setting Adapter Background Resource IDs");
+  arrayAdapter.setSelectedBackgroundResource(R.drawable.selected);
+  arrayAdapter.setNonSelectedBackgroundResource(R.drawable.nonselected);
+  Log.i(TAG,"Setting ListView Adapter");
+  listClasses.setAdapter(arrayAdapter);
+  setSelection(currentPosition);
+  listClasses.setOnItemClickListener(this);
+  btnOK.setOnClickListener(this);
+  btnCancel.setOnClickListener(this);
+  editFilterText.addTextChangedListener(this);
+}
