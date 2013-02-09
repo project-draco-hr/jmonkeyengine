@@ -1,0 +1,34 @@
+{
+  TempVars vars=TempVars.get();
+  Quaternion tmpRot1=vars.quat1;
+  Quaternion tmpRot2=vars.quat2;
+  Vector3f position=vars.vect1;
+  for (  PhysicsBoneLink link : boneLinks.values()) {
+    if (blendedControl) {
+      Vector3f position2=vars.vect2;
+      position.set(link.startBlendingPos);
+      tmpRot1.set(link.startBlendingRot);
+      tmpRot2.set(tmpRot1).nlerp(link.bone.getModelSpaceRotation(),blendStart / blendTime);
+      position2.set(position).interpolate(link.bone.getModelSpacePosition(),blendStart / blendTime);
+      tmpRot1.set(tmpRot2);
+      position.set(position2);
+      if (boneList.isEmpty()) {
+        link.bone.setUserControl(true);
+        link.bone.setUserTransformsWorld(position,tmpRot1);
+        link.bone.setUserControl(false);
+      }
+ else {
+        RagdollUtils.setTransform(link.bone,position,tmpRot1,true,boneList);
+      }
+    }
+    matchPhysicObjectToBone(link,position,tmpRot1);
+    modelPosition.set(targetModel.getLocalTranslation());
+  }
+  if (blendedControl) {
+    blendStart+=tpf;
+    if (blendStart > blendTime) {
+      blendedControl=false;
+    }
+  }
+  vars.release();
+}

@@ -1,0 +1,31 @@
+{
+  TempVars vars=TempVars.get();
+  Quaternion tmpRot1=vars.quat1;
+  Quaternion tmpRot2=vars.quat2;
+  for (  PhysicsBoneLink link : boneLinks.values()) {
+    Vector3f position=vars.vect1;
+    Vector3f p=link.rigidBody.getMotionState().getWorldLocation();
+    targetModel.getWorldTransform().transformInverseVector(p,position);
+    Quaternion q=link.rigidBody.getMotionState().getWorldRotationQuat();
+    tmpRot1.set(q).multLocal(link.initalWorldRotation);
+    tmpRot2.set(targetModel.getWorldRotation()).inverseLocal().mult(tmpRot1,tmpRot1);
+    tmpRot1.normalizeLocal();
+    if (link.bone.getParent() == null) {
+      modelPosition.set(p).subtractLocal(link.bone.getWorldBindPosition());
+      targetModel.getParent().getWorldTransform().transformInverseVector(modelPosition,modelPosition);
+      modelRotation.set(q).multLocal(tmpRot2.set(link.bone.getWorldBindRotation()).inverseLocal());
+      targetModel.setLocalTranslation(modelPosition);
+      targetModel.setLocalRotation(modelRotation);
+      link.bone.setUserTransformsWorld(position,tmpRot1);
+    }
+ else {
+      if (boneList.isEmpty()) {
+        link.bone.setUserTransformsWorld(position,tmpRot1);
+      }
+ else {
+        RagdollUtils.setTransform(link.bone,position,tmpRot1,false,boneList);
+      }
+    }
+  }
+  vars.release();
+}

@@ -2,65 +2,10 @@
   if (!enabled) {
     return;
   }
-  TempVars vars=TempVars.get();
-  Quaternion tmpRot1=vars.quat1;
-  Quaternion tmpRot2=vars.quat2;
   if (mode == mode.Ragdoll && targetModel.getLocalTranslation().equals(modelPosition)) {
-    for (    PhysicsBoneLink link : boneLinks.values()) {
-      Vector3f position=vars.vect1;
-      Vector3f p=link.rigidBody.getMotionState().getWorldLocation();
-      targetModel.getWorldTransform().transformInverseVector(p,position);
-      Quaternion q=link.rigidBody.getMotionState().getWorldRotationQuat();
-      tmpRot1.set(q).multLocal(link.initalWorldRotation);
-      tmpRot2.set(targetModel.getWorldRotation()).inverseLocal().mult(tmpRot1,tmpRot1);
-      tmpRot1.normalizeLocal();
-      if (link.bone.getParent() == null) {
-        modelPosition.set(p).subtractLocal(link.bone.getWorldBindPosition());
-        targetModel.getParent().getWorldTransform().transformInverseVector(modelPosition,modelPosition);
-        modelRotation.set(q).multLocal(tmpRot2.set(link.bone.getWorldBindRotation()).inverseLocal());
-        targetModel.setLocalTranslation(modelPosition);
-        targetModel.setLocalRotation(modelRotation);
-        link.bone.setUserTransformsWorld(position,tmpRot1);
-      }
- else {
-        if (boneList.isEmpty()) {
-          link.bone.setUserTransformsWorld(position,tmpRot1);
-        }
- else {
-          RagdollUtils.setTransform(link.bone,position,tmpRot1,false,boneList);
-        }
-      }
-    }
+    ragDollUpdate(tpf);
   }
  else {
-    for (    PhysicsBoneLink link : boneLinks.values()) {
-      Vector3f position=vars.vect1;
-      if (blendedControl) {
-        Vector3f position2=vars.vect2;
-        position.set(link.startBlendingPos);
-        tmpRot1.set(link.startBlendingRot);
-        tmpRot2.set(tmpRot1).nlerp(link.bone.getModelSpaceRotation(),blendStart / blendTime);
-        position2.set(position).interpolate(link.bone.getModelSpacePosition(),blendStart / blendTime);
-        tmpRot1.set(tmpRot2);
-        position.set(position2);
-        if (boneList.isEmpty()) {
-          link.bone.setUserControl(true);
-          link.bone.setUserTransformsWorld(position,tmpRot1);
-          link.bone.setUserControl(false);
-        }
- else {
-          RagdollUtils.setTransform(link.bone,position,tmpRot1,true,boneList);
-        }
-      }
-      matchPhysicObjectToBone(link,position,tmpRot1);
-      modelPosition.set(targetModel.getLocalTranslation());
-    }
-    if (blendedControl) {
-      blendStart+=tpf;
-      if (blendStart > blendTime) {
-        blendedControl=false;
-      }
-    }
+    kinematicUpdate(tpf);
   }
-  vars.release();
 }
