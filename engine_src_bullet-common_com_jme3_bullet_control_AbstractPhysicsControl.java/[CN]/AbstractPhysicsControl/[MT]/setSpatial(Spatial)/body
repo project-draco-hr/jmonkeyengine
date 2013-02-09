@@ -1,8 +1,15 @@
 {
+  if (this.spatial != null && this.spatial != spatial) {
+    removeSpatialData(this.spatial);
+  }
+ else   if (this.spatial == spatial) {
+    return;
+  }
   this.spatial=spatial;
   if (spatial == null) {
     return;
   }
+  createSpatialData(this.spatial);
   setPhysicsLocation(getSpatialTranslation());
   setPhysicsRotation(getSpatialRotation());
 }
