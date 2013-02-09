@@ -8,7 +8,7 @@
     blenderKey=new BlenderKey(modelKey.getName());
     blenderKey.setAssetRootPath(modelKey.getFolder());
   }
-  BlenderInputStream inputStream=new BlenderInputStream(assetInfo.openStream(),assetInfo.getManager());
+  BlenderInputStream inputStream=new BlenderInputStream(assetInfo.openStream());
   blocks=new ArrayList<FileBlockHeader>();
   FileBlockHeader fileBlock;
   blenderContext=new BlenderContext();
