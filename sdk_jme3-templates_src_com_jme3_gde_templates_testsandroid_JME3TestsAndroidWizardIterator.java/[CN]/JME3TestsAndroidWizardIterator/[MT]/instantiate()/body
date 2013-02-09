@@ -1,0 +1,21 @@
+{
+  Set<FileObject> resultSet=new LinkedHashSet<FileObject>();
+  File dirF=FileUtil.normalizeFile((File)wiz.getProperty("projdir"));
+  dirF.mkdirs();
+  FileObject template=Templates.getTemplate(wiz);
+  FileObject dir=FileUtil.toFileObject(dirF);
+  unZipFile(template.getInputStream(),dir);
+  resultSet.add(dir);
+  Enumeration<? extends FileObject> e=dir.getFolders(true);
+  while (e.hasMoreElements()) {
+    FileObject subfolder=e.nextElement();
+    if (ProjectManager.getDefault().isProject(subfolder)) {
+      resultSet.add(subfolder);
+    }
+  }
+  File parent=dirF.getParentFile();
+  if (parent != null && parent.exists()) {
+    ProjectChooser.setProjectsFolder(parent);
+  }
+  return resultSet;
+}

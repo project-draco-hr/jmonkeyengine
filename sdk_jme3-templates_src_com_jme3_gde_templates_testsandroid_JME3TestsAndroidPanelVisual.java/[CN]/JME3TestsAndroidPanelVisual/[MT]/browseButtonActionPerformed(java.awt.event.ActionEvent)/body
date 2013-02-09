@@ -1,0 +1,21 @@
+{
+  String command=evt.getActionCommand();
+  if ("BROWSE".equals(command)) {
+    JFileChooser chooser=new JFileChooser();
+    FileUtil.preventFileChooserSymlinkTraversal(chooser,null);
+    chooser.setDialogTitle("Select Project Location");
+    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    String path=this.projectLocationTextField.getText();
+    if (path.length() > 0) {
+      File f=new File(path);
+      if (f.exists()) {
+        chooser.setSelectedFile(f);
+      }
+    }
+    if (JFileChooser.APPROVE_OPTION == chooser.showOpenDialog(this)) {
+      File projectDir=chooser.getSelectedFile();
+      projectLocationTextField.setText(FileUtil.normalizeFile(projectDir).getAbsolutePath());
+    }
+    panel.fireChangeEvent();
+  }
+}
