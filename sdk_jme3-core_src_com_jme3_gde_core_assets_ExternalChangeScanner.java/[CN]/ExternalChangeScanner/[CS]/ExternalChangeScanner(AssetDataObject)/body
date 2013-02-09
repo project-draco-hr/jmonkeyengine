@@ -7,6 +7,20 @@
       setObservedFilePath(path);
     }
     assetData.addPropertyChangeListener(this);
+    final ExternalChangeScanner main=this;
+    assetDataObject.getPrimaryFile().addFileChangeListener(new FileChangeAdapter(){
+      @Override public void fileDeleted(      FileEvent fe){
+        logger.log(Level.INFO,"File {0} deleted, remove!",new Object[]{fe.getFile()});
+        assetData.removePropertyChangeListener(main);
+        fe.getFile().removeFileChangeListener(this);
+        if (originalObject != null) {
+          logger.log(Level.INFO,"Remove file change listener for {0}",originalObject);
+          originalObject.removeFileChangeListener(main);
+          originalObject=null;
+        }
+      }
+    }
+);
   }
  else {
     logger.log(Level.WARNING,"Trying to observer changes for asset {0} which has no AssetData in Lookup.",assetDataObject.getName());

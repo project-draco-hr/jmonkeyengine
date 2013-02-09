@@ -1,7 +1,7 @@
 {
   logger.log(Level.INFO,"External file {0} for {1} renamed!",new Object[]{fe.getFile(),assetDataObject.getName()});
   if (originalObject != null) {
-    logger.log(Level.WARNING,"Remove file change listener for renamed object on {0}",assetDataObject.getName());
+    logger.log(Level.INFO,"Remove file change listener for renamed object on {0}",assetDataObject.getName());
     originalObject.removeFileChangeListener(this);
     originalObject=null;
   }

@@ -1,0 +1,17 @@
+{
+  ProgressHandle handle=ProgressHandleFactory.createHandle("Updating file data");
+  handle.start();
+  try {
+    Spatial original=loadOriginalSpatial();
+    Spatial spat=(Spatial)assetDataObject.loadAsset();
+    SpatialUtil.updateMeshDataFromOriginal(spat,original);
+    closeOriginalSpatial();
+    assetDataObject.saveAsset();
+  }
+ catch (  Exception e) {
+    logger.log(Level.SEVERE,"Exception when trying to update external data.",e);
+  }
+ finally {
+    handle.finish();
+  }
+}
