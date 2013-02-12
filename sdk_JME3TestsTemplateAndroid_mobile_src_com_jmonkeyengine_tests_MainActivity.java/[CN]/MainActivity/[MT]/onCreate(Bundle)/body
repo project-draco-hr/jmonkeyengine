@@ -4,6 +4,8 @@
     Log.i(TAG,"Restoring selections in onCreate: " + "position: " + savedInstanceState.getInt(SELECTED_LIST_POSITION,0) + "class: "+ savedInstanceState.getString(SELECTED_APP_CLASS));
     currentPosition=savedInstanceState.getInt(SELECTED_LIST_POSITION,0);
     currentSelection=savedInstanceState.getString(SELECTED_APP_CLASS);
+    enableMouseEvents=savedInstanceState.getBoolean(ENABLE_MOUSE_EVENTS,true);
+    enableJoystickEvents=savedInstanceState.getBoolean(ENABLE_JOYSTICK_EVENTS,false);
   }
   setContentView(R.layout.test_chooser_layout);
   btnOK=(Button)findViewById(R.id.btnOK);

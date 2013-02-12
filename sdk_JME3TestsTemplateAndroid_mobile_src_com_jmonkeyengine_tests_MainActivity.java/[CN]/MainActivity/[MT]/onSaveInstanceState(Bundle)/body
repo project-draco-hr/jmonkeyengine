@@ -1,6 +1,8 @@
 {
   super.onSaveInstanceState(savedInstanceState);
-  Log.i(TAG,"Saving selections in onSaveInstanceState: " + "position: " + currentPosition + ", "+ "class: "+ currentSelection);
+  Log.i(TAG,"Saving selections in onSaveInstanceState: " + "position: " + currentPosition + ", "+ "class: "+ currentSelection+ ", "+ "mouseEvents: "+ enableMouseEvents+ ", "+ "joystickEvents: "+ enableJoystickEvents+ ", ");
   savedInstanceState.putString(SELECTED_APP_CLASS,currentSelection);
   savedInstanceState.putInt(SELECTED_LIST_POSITION,currentPosition);
+  savedInstanceState.putBoolean(ENABLE_MOUSE_EVENTS,enableMouseEvents);
+  savedInstanceState.putBoolean(ENABLE_JOYSTICK_EVENTS,enableJoystickEvents);
 }

@@ -1,0 +1,24 @@
+{
+  MenuItem item;
+  item=menu.findItem(R.id.optionEnableMouseEvents);
+  if (item != null) {
+    Log.i(TAG,"Found EnableMouseEvents menu item");
+    if (enableMouseEvents) {
+      item.setTitle(R.string.strOptionDisableMouseEventsTitle);
+    }
+ else {
+      item.setTitle(R.string.strOptionEnableMouseEventsTitle);
+    }
+  }
+  item=menu.findItem(R.id.optionEnableJoystickEvents);
+  if (item != null) {
+    Log.i(TAG,"Found EnableJoystickEvents menu item");
+    if (enableJoystickEvents) {
+      item.setTitle(R.string.strOptionDisableJoystickEventsTitle);
+    }
+ else {
+      item.setTitle(R.string.strOptionEnableJoystickEventsTitle);
+    }
+  }
+  return true;
+}
