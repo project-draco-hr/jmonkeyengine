@@ -1,0 +1,16 @@
+{
+  if (targetOMA != null) {
+    Spatial nodeTarget=(Spatial)blenderContext.getLoadedFeature(targetOMA,LoadedFeatureDataType.LOADED_FEATURE);
+    if (nodeTarget == null || nodeTarget.getUserData(ArmatureHelper.ARMETURE_NODE_MARKER) != null) {
+      BoneContext boneContext=blenderContext.getBoneContext(ownerOMA);
+      if (targetOMA.longValue() != boneContext.getArmatureObjectOMA().longValue()) {
+        LOGGER.log(Level.WARNING,"Bone constraint {0} must target bone in the its own skeleton! Targeting bone in another skeleton is not supported!",name);
+        return false;
+      }
+    }
+ else {
+      isNodeTarget=true;
+    }
+  }
+  return true;
+}

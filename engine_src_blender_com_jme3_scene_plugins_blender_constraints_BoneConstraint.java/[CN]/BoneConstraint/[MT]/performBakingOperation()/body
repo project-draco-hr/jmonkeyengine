@@ -1,28 +1,46 @@
 {
   Bone owner=blenderContext.getBoneContext(ownerOMA).getBone();
-  Bone target=null;
-  if (targetArmatureOMA != null) {
-    ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
-    try {
-      objectHelper.toObject((Structure)blenderContext.getLoadedFeature(targetArmatureOMA,LoadedFeatureDataType.LOADED_STRUCTURE),blenderContext);
+  if (targetOMA != null) {
+    if (isNodeTarget) {
+      Spatial target=(Spatial)blenderContext.getLoadedFeature(targetOMA,LoadedFeatureDataType.LOADED_FEATURE);
+      this.prepareTracksForApplyingConstraints();
+      AnimData animData=blenderContext.getAnimData(ownerOMA);
+      if (animData != null) {
+        for (        Animation animation : animData.anims) {
+          Transform ownerTransform=constraintHelper.getBoneTransform(ownerSpace,owner);
+          Transform targetTransform=constraintHelper.getNodeObjectTransform(targetSpace,targetOMA,blenderContext);
+          Track boneTrack=constraintHelper.getTrack(owner,animData.skeleton,animation);
+          Track targetTrack=constraintHelper.getTrack(target,animation);
+          constraintDefinition.bake(ownerTransform,targetTransform,boneTrack,targetTrack,this.ipo);
+        }
+      }
     }
- catch (    BlenderFileException e) {
-      LOGGER.warning("Problems occured during target object loading. The constraint " + name + " will not be applied.");
-      return;
+ else {
+      BoneContext boneContext=blenderContext.getBoneByName(subtargetName);
+      Bone target=boneContext.getBone();
+      this.targetOMA=boneContext.getBoneOma();
+      this.prepareTracksForApplyingConstraints();
+      AnimData animData=blenderContext.getAnimData(ownerOMA);
+      if (animData != null) {
+        for (        Animation animation : animData.anims) {
+          Transform ownerTransform=constraintHelper.getBoneTransform(ownerSpace,owner);
+          Transform targetTransform=constraintHelper.getBoneTransform(targetSpace,target);
+          Track boneTrack=constraintHelper.getTrack(owner,animData.skeleton,animation);
+          Track targetTrack=constraintHelper.getTrack(target,animData.skeleton,animation);
+          constraintDefinition.bake(ownerTransform,targetTransform,boneTrack,targetTrack,this.ipo);
+        }
+      }
     }
-    BoneContext boneContext=blenderContext.getBoneByName(subtargetName);
-    target=boneContext.getBone();
-    this.targetOMA=boneContext.getBoneOma();
   }
-  this.prepareTracksForApplyingConstraints();
-  AnimData animData=blenderContext.getAnimData(ownerOMA);
-  if (animData != null) {
-    for (    Animation animation : animData.anims) {
-      Transform ownerTransform=constraintHelper.getBoneTransform(ownerSpace,owner);
-      Transform targetTransform=target != null ? constraintHelper.getBoneTransform(targetSpace,target) : null;
-      BoneTrack boneTrack=constraintHelper.getTrack(owner,animData.skeleton,animation);
-      BoneTrack targetTrack=target != null ? constraintHelper.getTrack(target,animData.skeleton,animation) : null;
-      constraintDefinition.bake(ownerTransform,targetTransform,boneTrack,targetTrack,this.ipo);
+ else {
+    this.prepareTracksForApplyingConstraints();
+    AnimData animData=blenderContext.getAnimData(ownerOMA);
+    if (animData != null) {
+      for (      Animation animation : animData.anims) {
+        Transform ownerTransform=constraintHelper.getBoneTransform(ownerSpace,owner);
+        Track boneTrack=constraintHelper.getTrack(owner,animData.skeleton,animation);
+        constraintDefinition.bake(ownerTransform,null,boneTrack,null,this.ipo);
+      }
     }
   }
 }

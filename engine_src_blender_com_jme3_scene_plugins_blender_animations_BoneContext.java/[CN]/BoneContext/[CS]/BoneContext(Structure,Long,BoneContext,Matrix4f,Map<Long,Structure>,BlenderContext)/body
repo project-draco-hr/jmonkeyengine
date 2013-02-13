@@ -1,6 +1,7 @@
 {
   this.parent=parent;
   this.boneStructure=boneStructure;
+  this.armatureObjectOMA=armatureObjectOMA;
   boneName=boneStructure.getFieldValue("name").toString();
   ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
   armatureMatrix=objectHelper.getMatrix(boneStructure,"arm_mat",true);
@@ -8,7 +9,7 @@
   this.computeRestMatrix(objectToArmatureMatrix);
   List<Structure> childbase=((Structure)boneStructure.getFieldValue("childbase")).evaluateListBase(blenderContext);
   for (  Structure child : childbase) {
-    this.children.add(new BoneContext(child,this,objectToArmatureMatrix,bonesPoseChannels,blenderContext));
+    this.children.add(new BoneContext(child,armatureObjectOMA,this,objectToArmatureMatrix,bonesPoseChannels,blenderContext));
   }
   poseChannel=bonesPoseChannels.get(boneStructure.getOldMemoryAddress());
   blenderContext.setBoneContext(boneStructure.getOldMemoryAddress(),this);
