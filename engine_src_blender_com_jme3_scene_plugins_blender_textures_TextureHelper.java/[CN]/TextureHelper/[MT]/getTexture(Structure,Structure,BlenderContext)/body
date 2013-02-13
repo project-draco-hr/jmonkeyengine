@@ -4,12 +4,13 @@
     return result;
   }
   int type=((Number)tex.getFieldValue("type")).intValue();
+  int imaflag=((Number)tex.getFieldValue("imaflag")).intValue();
 switch (type) {
 case TEX_IMAGE:
     Pointer pImage=(Pointer)tex.getFieldValue("ima");
   if (pImage.isNotNull()) {
     Structure image=pImage.fetchData(blenderContext.getInputStream()).get(0);
-    Texture loadedTexture=this.loadTexture(image,blenderContext);
+    Texture loadedTexture=this.loadTexture(image,imaflag,blenderContext);
     if (loadedTexture != null) {
       result=loadedTexture;
       this.applyColorbandAndColorFactors(tex,result.getImage(),blenderContext);
@@ -49,7 +50,6 @@ break;
 case NEVER_GENERATE:
 break;
 case GENERATE_WHEN_NEEDED:
-int imaflag=((Number)tex.getFieldValue("imaflag")).intValue();
 if ((imaflag & 0x04) != 0) {
 result.setMinFilter(MinFilter.Trilinear);
 }

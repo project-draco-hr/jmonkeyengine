@@ -7,7 +7,7 @@
     Pointer pPackedFile=(Pointer)imageStructure.getFieldValue("packedfile");
     if (pPackedFile.isNull()) {
       LOGGER.log(Level.FINE,"Reading texture from file: {0}",texturePath);
-      result=this.loadImageFromFile(texturePath,blenderContext);
+      result=this.loadImageFromFile(texturePath,imaflag,blenderContext);
     }
  else {
       LOGGER.fine("Packed texture. Reading directly from the blend file!");
