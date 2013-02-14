@@ -3,6 +3,7 @@
   this.boneStructure=boneStructure;
   this.armatureObjectOMA=armatureObjectOMA;
   boneName=boneStructure.getFieldValue("name").toString();
+  length=((Number)boneStructure.getFieldValue("length")).floatValue();
   ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
   armatureMatrix=objectHelper.getMatrix(boneStructure,"arm_mat",true);
   fixUpAxis=blenderContext.getBlenderKey().isFixUpAxis();
