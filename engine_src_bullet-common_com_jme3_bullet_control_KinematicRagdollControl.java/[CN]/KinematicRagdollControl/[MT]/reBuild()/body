@@ -1,10 +1,7 @@
 {
-  if (added) {
-    removePhysics(space);
-    setSpatial(targetModel);
-    addPhysics(space);
+  if (spatial == null) {
+    return;
   }
- else {
-    setSpatial(targetModel);
-  }
+  removeSpatialData(spatial);
+  createSpatialData(spatial);
 }
