@@ -3,11 +3,5 @@
     stateManager.detach(debugAppState);
     debugAppState=null;
   }
-  if (executor != null) {
-    executor.shutdown();
-    executor=null;
-  }
-  initialized=false;
-  pSpace.removeTickListener(this);
-  pSpace.destroy();
+  stopPhysics();
 }

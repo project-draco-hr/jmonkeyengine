@@ -1,0 +1,12 @@
+{
+  if (!initialized) {
+    return;
+  }
+  if (executor != null) {
+    executor.shutdown();
+    executor=null;
+  }
+  pSpace.removeTickListener(this);
+  pSpace.destroy();
+  initialized=false;
+}
