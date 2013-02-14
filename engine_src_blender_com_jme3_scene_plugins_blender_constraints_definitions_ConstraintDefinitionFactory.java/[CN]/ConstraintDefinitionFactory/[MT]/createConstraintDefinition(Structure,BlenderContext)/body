@@ -25,6 +25,12 @@ catch (    InvocationTargetException e) {
     }
   }
  else {
-    throw new BlenderFileException("Unknown constraint type: " + constraintClassName);
+    String constraintName=UNSUPPORTED_CONSTRAINTS.get(constraintClassName);
+    if (constraintName != null) {
+      return new UnsupportedConstraintDefinition(constraintName);
+    }
+ else {
+      throw new BlenderFileException("Unknown constraint type: " + constraintClassName);
+    }
   }
 }
