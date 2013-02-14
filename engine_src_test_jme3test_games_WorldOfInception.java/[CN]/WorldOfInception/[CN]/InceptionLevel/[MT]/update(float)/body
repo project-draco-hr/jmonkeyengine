@@ -48,12 +48,10 @@
       return;
     }
  else     if (currentActiveChild != null && currentActiveChild.getPositionInParent().equals(vector3f)) {
-      logger.log(Level.INFO,"Detach child {0}",currentActiveChild);
       rootNode.getChild(i).setCullHint(Spatial.CullHint.Inherit);
-      stateManager.detach(currentActiveChild);
-      currentActiveChild=null;
     }
   }
+  checkActiveChild(null);
   curScaleAmount=0;
   rootNode.setLocalScale(1);
   rootNode.setLocalTranslation(playerPos.negate());

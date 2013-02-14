@@ -1,5 +1,13 @@
 {
   AppStateManager stateManager=application.getStateManager();
+  if (vector3f == null) {
+    if (currentActiveChild != null) {
+      logger.log(Level.INFO,"Detach child {0}",currentActiveChild);
+      stateManager.detach(currentActiveChild);
+      currentActiveChild=null;
+    }
+    return;
+  }
   if (currentActiveChild == null) {
     currentActiveChild=new InceptionLevel(this,vector3f);
     stateManager.attach(currentActiveChild);
