@@ -1,0 +1,17 @@
+{
+  cam.setFrustumFar(10000);
+  cam.setLocation(Vector3f.ZERO);
+  debugTools=new DebugTools(assetManager);
+  rootNode.attachChild(debugTools.debugNode);
+  poiMaterial=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  poiMaterial.setTexture("ColorMap",assetManager.loadTexture("Interface/Logo/Monkey.jpg"));
+  poiMesh=new Sphere(16,16,1f);
+  ballMaterial=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  ballMaterial.setTexture("ColorMap",assetManager.loadTexture("Interface/Logo/Monkey.jpg"));
+  ballMaterial.setColor("Color",ColorRGBA.Red);
+  ballMesh=new Sphere(16,16,1.0f);
+  poiHorizonCollisionShape=new MeshCollisionShape(new Sphere(128,128,poiRadius));
+  poiCollisionShape=new SphereCollisionShape(1f);
+  ballCollisionShape=new SphereCollisionShape(1f);
+  setupKeys();
+}

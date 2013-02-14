@@ -1,0 +1,16 @@
+{
+  Vector3f localLocation=new Vector3f();
+  localLocation.set(location);
+  localLocation.addLocal(new Vector3f(random.nextFloat() - 0.5f,random.nextFloat() - 0.5f,random.nextFloat() - 0.5f).normalize().mult(3));
+  Geometry poiGeom=new Geometry("ball",ballMesh);
+  poiGeom.setLocalTranslation(localLocation);
+  poiGeom.setMaterial(ballMaterial);
+  RigidBodyControl control=new RigidBodyControl(ballCollisionShape,1);
+  control.setApplyPhysicsLocal(true);
+  poiGeom.addControl(control);
+  float x=(random.nextFloat() - 0.5f) * 100;
+  float y=(random.nextFloat() - 0.5f) * 100;
+  float z=(random.nextFloat() - 0.5f) * 100;
+  control.setLinearVelocity(new Vector3f(x,y,z));
+  return poiGeom;
+}

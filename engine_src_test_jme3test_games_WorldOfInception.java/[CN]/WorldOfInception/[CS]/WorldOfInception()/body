@@ -1,0 +1,7 @@
+{
+  super(new InceptionLevel(null,Vector3f.ZERO));
+  currentLevel=super.getStateManager().getState(InceptionLevel.class);
+  currentLevel.takeOverParent();
+  currentLevel.getRootNode().setLocalScale(Vector3f.UNIT_XYZ);
+  currentLevel.getRootNode().setLocalTranslation(Vector3f.ZERO);
+}

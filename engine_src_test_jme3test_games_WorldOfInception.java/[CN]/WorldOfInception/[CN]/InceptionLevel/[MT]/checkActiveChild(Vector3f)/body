@@ -1,0 +1,15 @@
+{
+  AppStateManager stateManager=application.getStateManager();
+  if (currentActiveChild == null) {
+    currentActiveChild=new InceptionLevel(this,vector3f);
+    stateManager.attach(currentActiveChild);
+    logger.log(Level.INFO,"Attach child {0}",currentActiveChild);
+  }
+ else   if (!currentActiveChild.getPositionInParent().equals(vector3f)) {
+    logger.log(Level.INFO,"Switching from child {0}",currentActiveChild);
+    stateManager.detach(currentActiveChild);
+    currentActiveChild=new InceptionLevel(this,vector3f);
+    stateManager.attach(currentActiveChild);
+    logger.log(Level.INFO,"Attach child {0}",currentActiveChild);
+  }
+}
