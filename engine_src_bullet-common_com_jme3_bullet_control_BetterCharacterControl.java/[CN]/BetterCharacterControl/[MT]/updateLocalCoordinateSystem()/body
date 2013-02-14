@@ -1,5 +1,6 @@
 {
   calculateNewForward(localForwardRotation,localForward,localUp);
+  localLeft.set(localUp).crossLocal(localForward);
   rigidBody.setPhysicsRotation(localForwardRotation);
   updateLocalViewDirection();
 }

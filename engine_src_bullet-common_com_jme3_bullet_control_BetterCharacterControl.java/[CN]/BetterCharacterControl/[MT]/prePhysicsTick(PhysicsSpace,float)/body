@@ -5,29 +5,30 @@
     wantToUnDuck=false;
     ducked=false;
   }
-  debugTools.setBlueArrow(location,walkDirection);
+  TempVars vars=TempVars.get();
+  float existingLeftVelocity=velocity.dot(localLeft);
+  float existingForwardVelocity=velocity.dot(localForward);
+  Vector3f counter=vars.vect1;
+  existingLeftVelocity=existingLeftVelocity * tpf * physicsDamping;
+  existingForwardVelocity=existingForwardVelocity * tpf * physicsDamping;
+  counter.set(-existingLeftVelocity,0,-existingForwardVelocity);
+  localForwardRotation.multLocal(counter);
+  velocity.addLocal(counter);
   float designatedVelocity=walkDirection.length();
   if (designatedVelocity > 0) {
-    TempVars vars=TempVars.get();
     Vector3f localWalkDirection=vars.vect1;
     localWalkDirection.set(walkDirection).normalizeLocal();
     float existingVelocity=velocity.dot(localWalkDirection);
     float finalVelocity=designatedVelocity - existingVelocity;
     localWalkDirection.multLocal(finalVelocity);
-    debugTools.setYellowArrow(location,localWalkDirection);
     velocity.addLocal(localWalkDirection);
-    vars.release();
-  }
- else {
-    debugTools.setYellowArrow(location,Vector3f.ZERO);
   }
   rigidBody.setLinearVelocity(velocity);
   if (jump) {
-    TempVars vars=TempVars.get();
     Vector3f rotatedJumpForce=vars.vect1;
     rotatedJumpForce.set(jumpForce);
     rigidBody.applyImpulse(localForwardRotation.multLocal(rotatedJumpForce),Vector3f.ZERO);
     jump=false;
-    vars.release();
   }
+  vars.release();
 }

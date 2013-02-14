@@ -5,7 +5,6 @@
   float height=getFinalHeight();
   location.set(localUp).multLocal(height).addLocal(this.location);
   rayVector.set(localUp).multLocal(-height - FastMath.ZERO_TOLERANCE).addLocal(location);
-  debugTools.setMagentaArrow(location,rayVector.subtract(location));
   List<PhysicsRayTestResult> results=space.rayTest(location,rayVector);
   vars.release();
   for (  PhysicsRayTestResult physicsRayTestResult : results) {
