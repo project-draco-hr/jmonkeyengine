@@ -3,7 +3,7 @@
     mp.seekTo(0);
     mp.stop();
   }
-  for (  AudioNode src : musicPlaying.keySet()) {
+  for (  AudioSource src : musicPlaying.keySet()) {
     if (musicPlaying.get(src) == mp) {
       src.setStatus(Status.Stopped);
       break;

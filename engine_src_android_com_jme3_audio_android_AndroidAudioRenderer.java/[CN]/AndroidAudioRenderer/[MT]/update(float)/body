@@ -1,10 +1,10 @@
 {
   float distance;
   float volume;
-  for (  AudioNode src : musicPlaying.keySet()) {
+  for (  AudioSource src : musicPlaying.keySet()) {
     MediaPlayer mp=musicPlaying.get(src);
     distanceVector.set(listenerPosition);
-    distanceVector.subtractLocal(src.getLocalTranslation());
+    distanceVector.subtractLocal(src.getPosition());
     distance=FastMath.abs(distanceVector.length());
     if (distance < src.getRefDistance()) {
       distance=src.getRefDistance();
