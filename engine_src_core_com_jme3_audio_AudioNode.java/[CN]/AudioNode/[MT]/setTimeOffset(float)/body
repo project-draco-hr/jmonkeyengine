@@ -6,7 +6,7 @@
   if (data instanceof AudioStream) {
     ((AudioStream)data).setTime(timeOffset);
   }
- else   if (status == Status.Playing) {
+ else   if (status == AudioSource.Status.Playing) {
     stop();
     play();
   }

@@ -1,6 +1,6 @@
 {
   if (chanSrcs[index] != null) {
-    AudioNode src=chanSrcs[index];
+    AudioSource src=chanSrcs[index];
     int sourceId=channels[index];
     al.alSourceStop(sourceId);
     if (src.getAudioData() instanceof AudioStream) {
@@ -16,7 +16,7 @@
       al.alSourcei(sourceId,AL.AL_DIRECT_FILTER,AL.AL_FILTER_NULL);
     }
     if (src.isPositional()) {
-      AudioNode pas=(AudioNode)src;
+      AudioSource pas=(AudioSource)src;
       if (pas.isReverbEnabled() && supportEfx) {
         al.alSource3i(sourceId,AL.AL_AUXILIARY_SEND_FILTER,0,0,AL.AL_FILTER_NULL);
       }

@@ -1,6 +1,6 @@
 {
   if (src.isPositional()) {
-    Vector3f pos=src.getWorldTranslation();
+    Vector3f pos=src.getPosition();
     Vector3f vel=src.getVelocity();
     al.alSource3f(id,ALConstants.AL_POSITION,pos.x,pos.y,pos.z);
     al.alSource3f(id,ALConstants.AL_VELOCITY,vel.x,vel.y,vel.z);

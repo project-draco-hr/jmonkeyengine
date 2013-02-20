@@ -21,10 +21,10 @@ catch (  UnsatisfiedLinkError ex) {
   }
   ALCdevice device=AL.getDevice();
   String deviceName=ALC10.alcGetString(device,ALC10.ALC_DEVICE_SPECIFIER);
-  logger.log(Level.FINER,"Audio Device: {0}",deviceName);
-  logger.log(Level.FINER,"Audio Vendor: {0}",alGetString(AL_VENDOR));
-  logger.log(Level.FINER,"Audio Renderer: {0}",alGetString(AL_RENDERER));
-  logger.log(Level.FINER,"Audio Version: {0}",alGetString(AL_VERSION));
+  logger.log(Level.INFO,"Audio Device: {0}",deviceName);
+  logger.log(Level.INFO,"Audio Vendor: {0}",alGetString(AL_VENDOR));
+  logger.log(Level.INFO,"Audio Renderer: {0}",alGetString(AL_RENDERER));
+  logger.log(Level.INFO,"Audio Version: {0}",alGetString(AL_VERSION));
   ArrayList<Integer> channelList=new ArrayList<Integer>();
   for (int i=0; i < MAX_NUM_CHANNELS; i++) {
     int chan=alGenSources();
@@ -40,8 +40,8 @@ catch (  UnsatisfiedLinkError ex) {
     channels[i]=channelList.get(i);
   }
   ib=BufferUtils.createIntBuffer(channels.length);
-  chanSrcs=new AudioNode[channels.length];
-  logger.log(Level.FINE,"AudioRenderer supports {0} channels",channels.length);
+  chanSrcs=new AudioSource[channels.length];
+  logger.log(Level.INFO,"AudioRenderer supports {0} channels",channels.length);
   supportEfx=ALC10.alcIsExtensionPresent(device,"ALC_EXT_EFX");
   if (supportEfx) {
     ib.position(0).limit(1);
@@ -50,10 +50,10 @@ catch (  UnsatisfiedLinkError ex) {
     ib.position(0).limit(1);
     ALC10.alcGetInteger(device,EFX10.ALC_EFX_MINOR_VERSION,ib);
     int minor=ib.get(0);
-    logger.log(Level.FINE,"Audio effect extension version: {0}.{1}",new Object[]{major,minor});
+    logger.log(Level.INFO,"Audio effect extension version: {0}.{1}",new Object[]{major,minor});
     ALC10.alcGetInteger(device,EFX10.ALC_MAX_AUXILIARY_SENDS,ib);
     auxSends=ib.get(0);
-    logger.log(Level.FINE,"Audio max auxilary sends: {0}",auxSends);
+    logger.log(Level.INFO,"Audio max auxilary sends: {0}",auxSends);
     ib.position(0).limit(1);
     EFX10.alGenAuxiliaryEffectSlots(ib);
     reverbFxSlot=ib.get(0);
