@@ -12,6 +12,5 @@
   for (  Structure child : childbase) {
     this.children.add(new BoneContext(child,armatureObjectOMA,this,objectToArmatureMatrix,bonesPoseChannels,blenderContext));
   }
-  poseChannel=bonesPoseChannels.get(boneStructure.getOldMemoryAddress());
   blenderContext.setBoneContext(boneStructure.getOldMemoryAddress(),this);
 }
