@@ -1,5 +1,7 @@
 {
 synchronized (eventQueue) {
-    eventQueue.push(event);
+    if (eventQueue.size() < MAX_EVENTS) {
+      eventQueue.push(event);
+    }
   }
 }
