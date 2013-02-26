@@ -1,7 +1,7 @@
 {
   super(parent,modal);
   initComponents();
-  DefaultComboBoxModel<String> model=new DefaultComboBoxModel<String>();
+  DefaultComboBoxModel model=new DefaultComboBoxModel();
   for (  VertexBuffer.Type attr : VertexBuffer.Type.values()) {
     model.addElement("in" + attr.name());
   }
