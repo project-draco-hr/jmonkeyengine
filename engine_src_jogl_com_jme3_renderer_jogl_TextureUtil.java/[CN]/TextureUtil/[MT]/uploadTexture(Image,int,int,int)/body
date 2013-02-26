@@ -13,6 +13,9 @@
   int height=image.getHeight();
   int depth=image.getDepth();
   if (data != null) {
+    if (abgrToRgbaConversionEnabled) {
+      convertABGRtoRGBA(data);
+    }
     gl.glPixelStorei(GL.GL_UNPACK_ALIGNMENT,1);
   }
   int[] mipSizes=image.getMipMapSizes();
