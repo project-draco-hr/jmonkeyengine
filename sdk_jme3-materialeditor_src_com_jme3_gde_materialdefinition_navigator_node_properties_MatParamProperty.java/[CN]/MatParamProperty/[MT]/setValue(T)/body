@@ -1,0 +1,25 @@
+{
+  Object v=val;
+  if (valueType == Vector3f.class) {
+    float[] f=getFloatArrayValue((String)val,3);
+    v=new Vector3f(f[0],f[1],f[2]);
+  }
+ else   if (valueType == Quaternion.class) {
+    float[] f=getFloatArrayValue((String)val,4);
+    v=new Quaternion(f[0],f[1],f[2],f[3]);
+  }
+ else   if (valueType == Vector4f.class) {
+    float[] f=getFloatArrayValue((String)val,4);
+    v=new Vector4f(f[0],f[1],f[2],f[3]);
+  }
+ else   if (valueType == Vector2f.class) {
+    float[] f=getFloatArrayValue((String)val,2);
+    v=new Vector2f(f[0],f[1]);
+  }
+  VarType vType=MatParamProperty.getVarType(type);
+  Material m=lookup.lookup(Material.class);
+  m.setParam(getName(),vType,v);
+  MatDefDataObject obj=lookup.lookup(MatDefDataObject.class);
+  obj.getLookupContents().remove(m);
+  obj.getLookupContents().add(m);
+}

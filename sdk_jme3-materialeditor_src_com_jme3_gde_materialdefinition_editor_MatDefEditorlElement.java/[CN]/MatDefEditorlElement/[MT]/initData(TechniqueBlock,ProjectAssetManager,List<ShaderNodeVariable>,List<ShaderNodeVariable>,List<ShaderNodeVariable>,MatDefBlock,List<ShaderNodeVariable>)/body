@@ -1,0 +1,58 @@
+{
+  for (  ShaderNodeBlock sn : technique.getShaderNodes()) {
+    ShaderNodeDefinition def=MaterialUtils.loadShaderNodeDefinition(sn,manager);
+    List<InputMappingBlock> in=sn.getInputs();
+    if (in != null) {
+      for (      InputMappingBlock map : in) {
+        ShaderNodeVariable var=new ShaderNodeVariable("",map.getRightNameSpace(),map.getRightVar());
+        if (var.getNameSpace().equals("Global")) {
+          var.setType("vec4");
+          if (def.getType() == Shader.ShaderType.Vertex) {
+            if (!MaterialUtils.contains(vertexGlobals,var)) {
+              vertexGlobals.add(var);
+            }
+          }
+ else {
+            if (!MaterialUtils.contains(fragmentGlobals,var)) {
+              fragmentGlobals.add(var);
+            }
+          }
+        }
+ else         if (var.getNameSpace().equals("Attr")) {
+          ShaderNodeVariable left=MaterialUtils.getVar(def.getInputs(),map.getLeftVar());
+          var.setType(MaterialUtils.guessType(map,left));
+          attributes.add(var);
+        }
+      }
+    }
+    List<OutputMappingBlock> out=sn.getOutputs();
+    if (out != null) {
+      for (      OutputMappingBlock map : out) {
+        ShaderNodeVariable var=new ShaderNodeVariable("",map.getLeftNameSpace(),map.getLeftVar());
+        if (var.getNameSpace().equals("Global")) {
+          var.setType("vec4");
+          if (def.getType() == Shader.ShaderType.Vertex) {
+            if (!MaterialUtils.contains(vertexGlobals,var)) {
+              vertexGlobals.add(var);
+            }
+          }
+ else {
+            if (!MaterialUtils.contains(fragmentGlobals,var)) {
+              fragmentGlobals.add(var);
+            }
+          }
+        }
+      }
+    }
+  }
+  for (  WorldParamBlock worldParamBlock : technique.getWorldParams()) {
+    ShaderNodeVariable var=new ShaderNodeVariable("","WorldParam",worldParamBlock.getName());
+    var.setType(MaterialUtils.getWorldParamType(var.getName()));
+    uniforms.add(var);
+  }
+  for (  MatParamBlock matParamBlock : matDef.getMatParams()) {
+    ShaderNodeVariable var=new ShaderNodeVariable("","MatParam",matParamBlock.getName());
+    var.setType(MaterialUtils.getMatParamType(matParamBlock));
+    uniforms.add(var);
+  }
+}

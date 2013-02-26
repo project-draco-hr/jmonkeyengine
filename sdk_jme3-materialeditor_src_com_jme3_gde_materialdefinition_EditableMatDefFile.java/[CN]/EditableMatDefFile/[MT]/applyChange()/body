@@ -1,0 +1,36 @@
+{
+  try {
+    EditorCookie ec=(EditorCookie)lookup.lookup(EditorCookie.class);
+    final StyledDocument doc=ec.getDocument();
+    final BadLocationException[] exc=new BadLocationException[]{null};
+    NbDocument.runAtomicAsUser(ec.getDocument(),new Runnable(){
+      public void run(){
+        try {
+          doc.remove(0,doc.getLength());
+          doc.insertString(doc.getLength(),matDefStructure.toString(),SimpleAttributeSet.EMPTY);
+        }
+ catch (        BadLocationException e) {
+          exc[0]=e;
+        }
+      }
+    }
+);
+  }
+ catch (  BadLocationException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  AssetKey<MaterialDef> key=new AssetKey<MaterialDef>(assetManager.getRelativeAssetPath(matDefFile.getPath()));
+  obj.getLookupContents().remove(materialDef);
+  matToRemove=material;
+  List<Statement> l=new ArrayList<Statement>();
+  l.add(matDefStructure);
+  try {
+    materialDef=loader.loadMaterialDef(l,assetManager,key);
+  }
+ catch (  IOException ex) {
+    Logger.getLogger(EditableMatDefFile.class.getName()).log(Level.SEVERE,ex.getMessage());
+  }
+  updateLookupWithMaterialData(obj);
+  AssetKey matDefKey=new AssetKey(assetManager.getRelativeAssetPath(assetManager.getRelativeAssetPath(matDefFile.getPath())));
+  assetManager.deleteFromCache(matDefKey);
+}

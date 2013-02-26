@@ -1,0 +1,12 @@
+{
+  WorldParametersBlock wpBlock=getWorldParameters();
+  if (wpBlock == null) {
+    return;
+  }
+  wpBlock.removeWorldParam(worldParam);
+  VertexShaderNodesBlock vblock=getBlock(VertexShaderNodesBlock.class);
+  FragmentShaderNodesBlock fblock=getBlock(FragmentShaderNodesBlock.class);
+  cleanMappings(vblock,"WorldParam",worldParam.getName());
+  cleanMappings(fblock,"WorldParam",worldParam.getName());
+  fire(REMOVE_WORLD_PARAM,null,worldParam);
+}

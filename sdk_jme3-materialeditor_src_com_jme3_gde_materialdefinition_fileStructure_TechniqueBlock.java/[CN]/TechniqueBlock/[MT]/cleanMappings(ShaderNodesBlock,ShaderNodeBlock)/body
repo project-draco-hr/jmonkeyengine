@@ -1,0 +1,14 @@
+{
+  if (vblock != null) {
+    for (    ShaderNodeBlock shaderNodeBlock : vblock.getShaderNodes()) {
+      List<InputMappingBlock> lInput=shaderNodeBlock.getInputs();
+      if (lInput != null) {
+        for (        InputMappingBlock inputMappingBlock : lInput) {
+          if (inputMappingBlock.getRightNameSpace().equals(block.getName())) {
+            shaderNodeBlock.removeInputMapping(inputMappingBlock);
+          }
+        }
+      }
+    }
+  }
+}

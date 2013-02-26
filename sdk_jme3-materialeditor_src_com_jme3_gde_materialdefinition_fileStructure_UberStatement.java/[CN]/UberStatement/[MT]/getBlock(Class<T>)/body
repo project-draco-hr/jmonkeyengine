@@ -1,0 +1,8 @@
+{
+  for (  Statement statement : contents) {
+    if (statement.getClass().isAssignableFrom(blockType)) {
+      return (T)statement;
+    }
+  }
+  return null;
+}

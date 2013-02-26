@@ -1,0 +1,14 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setName("Technique");
+  try {
+    DefaultProperty<String> prop=new DefaultProperty<String>(def,String.class,"Name","getName","setName");
+    set.put(prop);
+  }
+ catch (  NoSuchMethodException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  sheet.put(set);
+  return sheet;
+}

@@ -1,0 +1,13 @@
+{
+  readProperties();
+  return propsMutex.readAccess(new Action<String>(){
+    public String run(){
+      String prop=props.getProperty(key);
+      if (prop == null) {
+        return defaultProps.getProperty(key);
+      }
+      return prop;
+    }
+  }
+);
+}

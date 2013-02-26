@@ -1,0 +1,9 @@
+{
+  Diagram diag=getDiagram();
+  if (diag.draggedFrom != null && diag.draggedFrom != this) {
+    prevImg=img;
+    canConnect(diag.draggedFrom);
+    diag.draggedTo=this;
+    diag.draggedFrom.canConnect(this);
+  }
+}

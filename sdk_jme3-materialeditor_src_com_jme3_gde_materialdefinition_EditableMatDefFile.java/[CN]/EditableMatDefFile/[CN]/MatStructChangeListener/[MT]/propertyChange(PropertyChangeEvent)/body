@@ -1,0 +1,31 @@
+{
+  if (evt.getSource() instanceof ShaderNodeBlock && evt.getPropertyName().equals("name")) {
+    String oldValue=(String)evt.getOldValue();
+    String newValue=(String)evt.getNewValue();
+    for (    ShaderNodeBlock shaderNodeBlock : currentTechnique.getShaderNodes()) {
+      List<InputMappingBlock> lin=shaderNodeBlock.getInputs();
+      if (lin != null) {
+        for (        InputMappingBlock inputMappingBlock : shaderNodeBlock.getInputs()) {
+          if (inputMappingBlock.getLeftNameSpace().equals(oldValue)) {
+            inputMappingBlock.setLeftNameSpace(newValue);
+          }
+          if (inputMappingBlock.getRightNameSpace().equals(oldValue)) {
+            inputMappingBlock.setRightNameSpace(newValue);
+          }
+        }
+      }
+      List<OutputMappingBlock> l=shaderNodeBlock.getOutputs();
+      if (l != null) {
+        for (        OutputMappingBlock outputMappingBlock : l) {
+          if (outputMappingBlock.getRightNameSpace().equals(oldValue)) {
+            outputMappingBlock.setRightNameSpace(newValue);
+          }
+        }
+      }
+    }
+  }
+  if (evt.getPropertyName().equals(MatDefBlock.ADD_MAT_PARAM) || evt.getPropertyName().equals(TechniqueBlock.ADD_SHADER_NODE) || evt.getPropertyName().equals(ShaderNodeBlock.ADD_MAPPING)) {
+    registerListener((Statement)evt.getNewValue());
+  }
+  applyChange();
+}

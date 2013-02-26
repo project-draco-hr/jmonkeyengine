@@ -1,0 +1,11 @@
+{
+  String name=nameField.getText();
+  if (name.length() > 1) {
+    name=name.substring(0,1).toUpperCase() + name.substring(1);
+  }
+ else {
+    name=name.toUpperCase();
+  }
+  diagram.addMatParam((String)typeField.getSelectedItem(),name,clickPosition);
+  setVisible(false);
+}

@@ -10,7 +10,7 @@
     List<String> setStates=new LinkedList<String>();
     for (    String line : matLines) {
       String newLine=line;
-      line=trimLine(line);
+      line=MaterialUtils.trimLine(line);
       if (line.startsWith("Material ") || line.startsWith("Material\t") && level == 0) {
         String suffix="";
         if (line.indexOf("{") > -1) {

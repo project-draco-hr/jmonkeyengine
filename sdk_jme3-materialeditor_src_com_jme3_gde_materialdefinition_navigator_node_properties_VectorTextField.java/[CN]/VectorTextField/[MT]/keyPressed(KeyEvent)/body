@@ -1,0 +1,26 @@
+{
+  if (e.getKeyCode() == KeyEvent.VK_TAB) {
+    if (checkValidity()) {
+      backup=getText();
+      if (e.getModifiersEx() == KeyEvent.SHIFT_DOWN_MASK) {
+        index=index - 1;
+      }
+ else {
+        index=index + 1;
+      }
+      if (index == capacity) {
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+        return;
+      }
+      if (index == -1) {
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().focusPreviousComponent();
+        return;
+      }
+    }
+ else {
+      setText(backup);
+      Logger.getLogger(VectorTextField.class.getName()).log(Level.WARNING,"Invalid format");
+    }
+    findSelection(0);
+  }
+}

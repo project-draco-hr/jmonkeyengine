@@ -1,0 +1,12 @@
+{
+  Diagram diag=getDiagram();
+  if (diag.draggedFrom != null) {
+    diag.draggedFrom.canConnect(null);
+    if (diag.draggedFrom != this) {
+      reset();
+    }
+    if (diag.draggedTo == this) {
+      diag.draggedTo=null;
+    }
+  }
+}

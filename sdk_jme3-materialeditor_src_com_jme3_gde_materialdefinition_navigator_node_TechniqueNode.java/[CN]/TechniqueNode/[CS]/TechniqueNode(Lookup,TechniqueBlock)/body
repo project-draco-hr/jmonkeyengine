@@ -1,0 +1,6 @@
+{
+  super(new ShaderNodeChildren(lookup,def),lookup);
+  this.def=def;
+  def.addPropertyChangeListener(WeakListeners.propertyChange(this,def));
+  setName(def.getName());
+}

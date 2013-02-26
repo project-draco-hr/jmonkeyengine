@@ -1,0 +1,24 @@
+{
+  String[] values=extractValues();
+  int start=0;
+  int end=0;
+  if (caretPosition == getText().length()) {
+    caretPosition--;
+  }
+  int i;
+  if (caretPosition != 0) {
+    for (i=0; caretPosition > end; i++) {
+      start=end + 1;
+      end=values[i].length() + start;
+    }
+    i--;
+  }
+ else {
+    for (i=0; i <= index; i++) {
+      start=end + 1;
+      end=values[i].length() + start;
+    }
+  }
+  select(start,end);
+  return i;
+}

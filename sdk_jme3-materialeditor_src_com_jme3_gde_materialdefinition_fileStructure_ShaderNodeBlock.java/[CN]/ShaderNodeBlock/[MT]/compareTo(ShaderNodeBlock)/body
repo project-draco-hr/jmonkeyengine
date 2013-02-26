@@ -1,0 +1,12 @@
+{
+  if (inputNodes.contains(o.getName())) {
+    return 1;
+  }
+  if (o.inputNodes.contains(name)) {
+    return -1;
+  }
+  if ((globalInput && o.globalOutput) || (o.globalInput && globalOutput)) {
+    return (int)Math.signum(spatialOrder - o.spatialOrder);
+  }
+  return 0;
+}

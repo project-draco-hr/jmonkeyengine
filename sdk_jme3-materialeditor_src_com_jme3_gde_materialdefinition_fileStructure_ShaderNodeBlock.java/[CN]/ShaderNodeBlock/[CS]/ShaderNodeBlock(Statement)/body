@@ -1,0 +1,22 @@
+{
+  this(sta.getLineNumber(),sta.getLine());
+  String[] s=line.split("\\s");
+  name=s[1];
+  for (  Statement statement : sta.getContents()) {
+    if (statement.getLine().trim().startsWith("Definition")) {
+      addStatement(new DefinitionBlock(statement));
+    }
+ else     if (statement.getLine().trim().startsWith("Condition")) {
+      addStatement(new ConditionBlock(statement));
+    }
+ else     if (statement.getLine().trim().startsWith("InputMapping")) {
+      addStatement(new InputMappingsBlock(statement,name));
+    }
+ else     if (statement.getLine().trim().startsWith("OutputMapping")) {
+      addStatement(new OutputMappingsBlock(statement,name));
+    }
+ else {
+      addStatement(statement);
+    }
+  }
+}

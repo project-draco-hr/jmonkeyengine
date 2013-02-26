@@ -1,0 +1,17 @@
+{
+  super(pf,loader);
+  registerEditor("text/jme-materialdefinition",true);
+  contentLookup=new AbstractLookup(lookupContents);
+  lookupContents.add(this);
+  lookup=new ProxyLookup(getCookieSet().getLookup(),contentLookup);
+  findAssetManager();
+  final MatDefMetaData metaData=new MatDefMetaData(this);
+  lookupContents.add(metaData);
+  pf.addFileChangeListener(new FileChangeAdapter(){
+    @Override public void fileChanged(    FileEvent fe){
+      super.fileChanged(fe);
+      metaData.save();
+    }
+  }
+);
+}

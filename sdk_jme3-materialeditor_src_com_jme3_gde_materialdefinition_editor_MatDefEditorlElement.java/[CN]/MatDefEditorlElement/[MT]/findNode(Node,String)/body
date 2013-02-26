@@ -1,0 +1,18 @@
+{
+  if (root instanceof Selectable) {
+    Selectable s=(Selectable)root;
+    if (s.getKey().equals(key)) {
+      return root;
+    }
+ else     if (root.getChildren() != Children.LEAF) {
+      Node n;
+      for (      Node node : root.getChildren().getNodes()) {
+        n=findNode(node,key);
+        if (n != null) {
+          return n;
+        }
+      }
+    }
+  }
+  return null;
+}

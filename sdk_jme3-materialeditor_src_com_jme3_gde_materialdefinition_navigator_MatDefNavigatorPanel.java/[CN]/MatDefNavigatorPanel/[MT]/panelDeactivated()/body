@@ -1,0 +1,10 @@
+{
+  Collection data=curContext.allInstances();
+  if (!data.isEmpty()) {
+    MatDefDataObject obj=(MatDefDataObject)data.iterator().next();
+    obj.getLookupContents().remove(this);
+  }
+  curContext.removeLookupListener(getContextListener());
+  curContext=null;
+  mgr.setRootContext(Node.EMPTY);
+}

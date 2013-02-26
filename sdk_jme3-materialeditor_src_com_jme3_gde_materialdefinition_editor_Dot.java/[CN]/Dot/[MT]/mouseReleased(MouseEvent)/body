@@ -1,0 +1,19 @@
+{
+  Diagram diag=getDiagram();
+  if (diag.draggedFrom == this && diag.draggedTo != null) {
+    if (this.canConnect(diag.draggedTo)) {
+      diag.notifyMappingCreation(diag.connect(this,diag.draggedTo));
+    }
+ else {
+      diag.draggedTo.reset();
+      this.reset();
+    }
+    diag.draggedFrom=null;
+    diag.draggedTo=null;
+  }
+ else {
+    reset();
+    diag.draggedFrom=null;
+  }
+  e.consume();
+}

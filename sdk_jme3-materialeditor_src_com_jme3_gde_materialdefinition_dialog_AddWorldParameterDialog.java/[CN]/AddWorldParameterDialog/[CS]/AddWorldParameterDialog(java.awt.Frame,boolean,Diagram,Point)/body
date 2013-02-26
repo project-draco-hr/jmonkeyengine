@@ -1,0 +1,11 @@
+{
+  super(parent,modal);
+  initComponents();
+  DefaultComboBoxModel<UniformBinding> model=new DefaultComboBoxModel<UniformBinding>();
+  for (  UniformBinding binding : UniformBinding.values()) {
+    model.addElement(binding);
+  }
+  this.diagram=diagram;
+  this.clickPosition=clickPosition;
+  nameField.setModel(model);
+}

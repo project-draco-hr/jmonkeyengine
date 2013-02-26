@@ -1,0 +1,37 @@
+{
+  if (doc.getStyle("regular") == null) {
+    getInstance().makeStyles(doc);
+  }
+  try {
+    String[] lines=def.getDocumentation().split("\\n");
+    doc.insertString(doc.getLength(),"Shader type : " + def.getType().toString() + "\n",doc.getStyle("regular"));
+    for (int i=0; i < def.getShadersLanguage().size(); i++) {
+      doc.insertString(doc.getLength(),"Shader : " + def.getShadersLanguage().get(i) + " "+ def.getShadersPath().get(i)+ "\n",doc.getStyle("regular"));
+    }
+    for (    String string : lines) {
+      String l=string.trim() + "\n";
+      if (l.startsWith("@input")) {
+        l=l.substring(6).trim();
+        int spaceIdx=l.indexOf(' ');
+        doc.insertString(doc.getLength(),"\n",doc.getStyle("regular"));
+        doc.insertString(doc.getLength()," ",doc.getStyle("input"));
+        doc.insertString(doc.getLength(),l.substring(0,spaceIdx),doc.getStyle("bold"));
+        doc.insertString(doc.getLength(),l.substring(spaceIdx),doc.getStyle("regular"));
+      }
+ else       if (l.startsWith("@output")) {
+        l=l.substring(7).trim();
+        int spaceIdx=l.indexOf(' ');
+        doc.insertString(doc.getLength(),"\n",doc.getStyle("regular"));
+        doc.insertString(doc.getLength()," ",doc.getStyle("output"));
+        doc.insertString(doc.getLength(),l.substring(0,spaceIdx),doc.getStyle("bold"));
+        doc.insertString(doc.getLength(),l.substring(spaceIdx),doc.getStyle("regular"));
+      }
+ else {
+        doc.insertString(doc.getLength(),l,doc.getStyle("regular"));
+      }
+    }
+  }
+ catch (  BadLocationException ex) {
+    Logger.getLogger(AddNodeDialog.class.getName()).log(Level.SEVERE,null,ex);
+  }
+}

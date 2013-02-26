@@ -1,0 +1,13 @@
+{
+  if (sta instanceof UberStatement) {
+    ((UberStatement)sta).addPropertyChangeListener(WeakListeners.propertyChange(changeListener,((UberStatement)sta)));
+  }
+ else   if (sta instanceof LeafStatement) {
+    ((LeafStatement)sta).addPropertyChangeListener(WeakListeners.propertyChange(changeListener,((LeafStatement)sta)));
+  }
+  if (sta.getContents() != null) {
+    for (    Statement statement : sta.getContents()) {
+      registerListener(statement);
+    }
+  }
+}

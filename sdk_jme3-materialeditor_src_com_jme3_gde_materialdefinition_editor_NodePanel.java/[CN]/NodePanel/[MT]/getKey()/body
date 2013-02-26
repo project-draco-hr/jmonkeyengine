@@ -1,0 +1,12 @@
+{
+switch (type) {
+case Attribute:
+    return "Attr." + outputLabels.get(0).getText();
+case WorldParam:
+  return "WorldParam." + outputLabels.get(0).getText();
+case MatParam:
+return "MatParam." + outputLabels.get(0).getText();
+default :
+return techName + "/" + name;
+}
+}

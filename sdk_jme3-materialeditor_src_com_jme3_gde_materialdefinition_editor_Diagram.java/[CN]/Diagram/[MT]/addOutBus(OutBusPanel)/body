@@ -1,0 +1,9 @@
+{
+  outBuses.add(bus);
+  bus.setDiagram(this);
+  add(bus);
+  setComponentZOrder(bus,getComponentCount() - 1);
+  addComponentListener(bus);
+  bus.componentResized(new ComponentEvent(this,ActionEvent.ACTION_PERFORMED));
+  bus.revalidate();
+}

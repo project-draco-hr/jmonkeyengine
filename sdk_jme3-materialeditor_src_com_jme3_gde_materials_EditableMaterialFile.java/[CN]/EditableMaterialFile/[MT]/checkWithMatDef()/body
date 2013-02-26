@@ -5,7 +5,7 @@
   if (matDef != null && matDef.isValid()) {
     try {
       for (      String defLine : matDef.asLines()) {
-        defLine=trimLine(defLine.trim());
+        defLine=MaterialUtils.trimLine(defLine.trim());
         if (defLine.startsWith("MaterialParameters ") || defLine.startsWith("MaterialParameters\t") || defLine.startsWith("MaterialParameters{") && level == 1) {
           params=true;
         }
@@ -22,7 +22,7 @@
           for (int i=0; i < variableTypes.length; i++) {
             String string=variableTypes[i];
             if (defLine.startsWith(string)) {
-              String name=trimName(defLine.replaceFirst(string,""));
+              String name=MaterialUtils.trimName(defLine.replaceFirst(string,""));
               matDefEntries.add(name);
               MaterialProperty prop=materialParameters.get(name);
               if (prop == null) {

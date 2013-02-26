@@ -1,0 +1,14 @@
+{
+  super();
+  if (def.getType() == Shader.ShaderType.Vertex) {
+    type=NodePanel.NodeType.Vertex;
+  }
+ else {
+    type=NodePanel.NodeType.Fragment;
+  }
+  init(def.getInputs(),def.getOutputs());
+  node.addPropertyChangeListener(WeakListeners.propertyChange(this,node));
+  this.addPropertyChangeListener(WeakListeners.propertyChange(node,this));
+  refresh(node);
+  addKeyListener(this);
+}

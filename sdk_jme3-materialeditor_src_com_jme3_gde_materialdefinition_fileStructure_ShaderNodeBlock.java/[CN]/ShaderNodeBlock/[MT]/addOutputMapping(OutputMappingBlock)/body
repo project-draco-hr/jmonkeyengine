@@ -1,0 +1,9 @@
+{
+  OutputMappingsBlock b=getBlock(OutputMappingsBlock.class);
+  if (b == null) {
+    b=new OutputMappingsBlock(0,"OutputMappings");
+    addStatement(b);
+  }
+  b.addMapping(mapping);
+  fire(ADD_MAPPING,null,mapping);
+}

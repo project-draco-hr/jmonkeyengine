@@ -1,0 +1,40 @@
+{
+  VertexBuffer.Type attr=VertexBuffer.Type.valueOf(((String)nameField.getSelectedItem()).replaceFirst("in",""));
+switch (attr) {
+case BoneWeight:
+case BindPoseNormal:
+case Binormal:
+case Normal:
+    typeField.setText("vec3");
+  break;
+case Size:
+typeField.setText("float");
+break;
+case Position:
+case BindPosePosition:
+case BindPoseTangent:
+case Tangent:
+case Color:
+typeField.setText("vec4");
+break;
+case InterleavedData:
+typeField.setText("int");
+break;
+case Index:
+typeField.setText("uint");
+break;
+case BoneIndex:
+typeField.setText("uvec4");
+break;
+case TexCoord:
+case TexCoord2:
+case TexCoord3:
+case TexCoord4:
+case TexCoord5:
+case TexCoord6:
+case TexCoord7:
+case TexCoord8:
+typeField.setText("vec2");
+break;
+}
+}

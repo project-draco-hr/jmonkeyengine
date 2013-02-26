@@ -1,0 +1,40 @@
+{
+  btnGroup=new javax.swing.ButtonGroup();
+  jLabel1=new javax.swing.JLabel();
+  versionList=new javax.swing.JComboBox();
+  vertButton=new javax.swing.JToggleButton();
+  fragButton=new javax.swing.JToggleButton();
+  org.openide.awt.Mnemonics.setLocalizedText(jLabel1,org.openide.util.NbBundle.getMessage(ShaderVisualToolBar.class,"ShaderVisualToolBar.jLabel1.text"));
+  versionList.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"GLSL100","GLSL150"}));
+  versionList.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      versionListActionPerformed(evt);
+    }
+  }
+);
+  btnGroup.add(vertButton);
+  vertButton.setIcon(Icons.vert);
+  vertButton.setSelected(true);
+  vertButton.setToolTipText(org.openide.util.NbBundle.getMessage(ShaderVisualToolBar.class,"ShaderVisualToolBar.vertButton.toolTipText"));
+  vertButton.setIconTextGap(0);
+  vertButton.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      vertButtonActionPerformed(evt);
+    }
+  }
+);
+  btnGroup.add(fragButton);
+  fragButton.setIcon(Icons.frag);
+  fragButton.setToolTipText(org.openide.util.NbBundle.getMessage(ShaderVisualToolBar.class,"ShaderVisualToolBar.fragButton.toolTipText"));
+  fragButton.setActionCommand(org.openide.util.NbBundle.getMessage(ShaderVisualToolBar.class,"ShaderVisualToolBar.fragButton.actionCommand"));
+  fragButton.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      fragButtonActionPerformed(evt);
+    }
+  }
+);
+  javax.swing.GroupLayout layout=new javax.swing.GroupLayout(this);
+  this.setLayout(layout);
+  layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addComponent(vertButton,javax.swing.GroupLayout.PREFERRED_SIZE,25,javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(fragButton,javax.swing.GroupLayout.PREFERRED_SIZE,25,javax.swing.GroupLayout.PREFERRED_SIZE).addGap(10,10,10).addComponent(jLabel1).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(versionList,javax.swing.GroupLayout.PREFERRED_SIZE,131,javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(154,Short.MAX_VALUE)));
+  layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(fragButton,javax.swing.GroupLayout.Alignment.TRAILING,javax.swing.GroupLayout.PREFERRED_SIZE,25,javax.swing.GroupLayout.PREFERRED_SIZE).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel1).addComponent(versionList,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(vertButton,javax.swing.GroupLayout.PREFERRED_SIZE,25,javax.swing.GroupLayout.PREFERRED_SIZE)));
+}

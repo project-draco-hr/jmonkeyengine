@@ -1,0 +1,21 @@
+{
+  setBounds(0,0,120,30 + inputs.size() * 20 + outputs.size() * 20);
+  for (  ShaderNodeVariable input : inputs) {
+    JLabel label=createLabel(input.getType(),input.getName(),Dot.ParamType.Input);
+    Dot dot=createDot(input.getType(),Dot.ParamType.Input,input.getName());
+    inputLabels.add(label);
+    inputDots.add(dot);
+  }
+  int index=0;
+  for (  ShaderNodeVariable output : outputs) {
+    String outName=output.getName();
+    JLabel label=createLabel(output.getType(),outName,Dot.ParamType.Output);
+    Dot dot=createDot(output.getType(),Dot.ParamType.Output,outName);
+    dot.setIndex(index++);
+    outputLabels.add(label);
+    outputDots.add(dot);
+  }
+  initComponents();
+  updateType();
+  setOpaque(false);
+}

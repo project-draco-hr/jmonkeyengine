@@ -1,0 +1,6 @@
+{
+  this(sta.getLineNumber(),sta.getLine());
+  for (  Statement statement : sta.getContents()) {
+    addStatement(new OutputMappingBlock(statement,nodeName));
+  }
+}

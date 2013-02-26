@@ -1,0 +1,10 @@
+{
+  JLabel label=new JLabel(txt);
+  label.setToolTipText(glslType + " " + txt);
+  label.setOpaque(false);
+  label.setHorizontalAlignment(type == Dot.ParamType.Output ? SwingConstants.RIGHT : SwingConstants.LEFT);
+  label.setFont(new Font("Tahoma",0,10));
+  label.addMouseListener(labelMouseMotionListener);
+  label.addMouseMotionListener(labelMouseMotionListener);
+  return label;
+}

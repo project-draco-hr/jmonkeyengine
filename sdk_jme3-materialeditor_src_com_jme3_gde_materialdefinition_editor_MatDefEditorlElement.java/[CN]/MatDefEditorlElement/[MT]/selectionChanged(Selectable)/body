@@ -1,0 +1,15 @@
+{
+  MatDefNavigatorPanel nav=obj.getLookup().lookup(MatDefNavigatorPanel.class);
+  try {
+    Node n=findNode(nav.getExplorerManager().getRootContext(),selectable.getKey());
+    if (n == null) {
+      n=nav.getExplorerManager().getRootContext();
+    }
+    prevNode=selectable;
+    nav.getExplorerManager().setSelectedNodes(new Node[]{n});
+    callback.getTopComponent().setActivatedNodes(new Node[]{n});
+  }
+ catch (  PropertyVetoException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

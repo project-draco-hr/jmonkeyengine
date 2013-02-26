@@ -6,7 +6,7 @@
   boolean states=false;
   try {
     for (    String line : material.asLines()) {
-      line=trimLine(line);
+      line=MaterialUtils.trimLine(line);
       if (line.startsWith("Material ") || line.startsWith("Material\t") && level == 0) {
         parseMaterialProperties(line);
       }

@@ -1,0 +1,9 @@
+{
+  if (evt.getPropertyName().equals("name")) {
+    setName((String)evt.getNewValue());
+    setDisplayName((String)evt.getNewValue());
+  }
+  if (evt.getPropertyName().equals("reorder") || evt.getPropertyName().equals(TechniqueBlock.ADD_SHADER_NODE) || evt.getPropertyName().equals(TechniqueBlock.REMOVE_SHADER_NODE)) {
+    ((ShaderNodeChildren)getChildren()).reload();
+  }
+}

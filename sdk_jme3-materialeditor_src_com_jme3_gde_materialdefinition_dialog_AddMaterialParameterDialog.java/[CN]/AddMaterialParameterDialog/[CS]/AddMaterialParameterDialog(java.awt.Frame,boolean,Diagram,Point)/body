@@ -1,0 +1,12 @@
+{
+  super(parent,modal);
+  initComponents();
+  DefaultComboBoxModel<String> model=new DefaultComboBoxModel<String>();
+  model.addElement("Color");
+  for (  VarType varType : VarType.values()) {
+    model.addElement(varType.name());
+  }
+  this.diagram=diagram;
+  this.clickPosition=clickPosition;
+  typeField.setModel(model);
+}

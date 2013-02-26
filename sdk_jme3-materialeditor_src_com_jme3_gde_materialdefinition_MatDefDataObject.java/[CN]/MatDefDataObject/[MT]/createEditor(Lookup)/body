@@ -1,0 +1,16 @@
+{
+  final MatDefDataObject obj=lkp.lookup(MatDefDataObject.class);
+  obj.loaded=true;
+  MatDefNavigatorPanel nav=obj.getLookup().lookup(MatDefNavigatorPanel.class);
+  if (nav != null) {
+    nav.updateData(obj);
+  }
+  MultiViewEditorElement ed=new MultiViewEditorElement(lkp){
+    @Override public void componentClosed(){
+      super.componentClosed();
+      obj.unload();
+    }
+  }
+;
+  return ed;
+}

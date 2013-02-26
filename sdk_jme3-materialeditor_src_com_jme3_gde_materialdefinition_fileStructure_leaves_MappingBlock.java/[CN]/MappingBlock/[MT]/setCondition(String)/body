@@ -1,0 +1,9 @@
+{
+  String old=this.condition;
+  if (condition.trim().length() == 0 || condition.equals("<null value>")) {
+    condition=null;
+  }
+  this.condition=condition;
+  updateLine();
+  fire("condition",old,condition);
+}

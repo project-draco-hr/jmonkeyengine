@@ -1,0 +1,27 @@
+{
+  InOut startNode=(InOut)conn.start.getNode();
+  InOut endNode=(InOut)conn.end.getNode();
+  String leftVarName=conn.end.getText();
+  String rightVarName=conn.start.getText();
+  String leftVarSwizzle=null;
+  String rightVarSwizzle=null;
+  int endCard=ShaderUtils.getCardinality(conn.end.getType(),"");
+  int startCard=ShaderUtils.getCardinality(conn.start.getType(),"");
+  String swizzle="xyzw";
+  if (startCard > endCard) {
+    rightVarSwizzle=swizzle.substring(0,endCard);
+  }
+ else   if (endCard > startCard) {
+    leftVarSwizzle=swizzle.substring(0,startCard);
+  }
+  if (endNode instanceof OutBusPanel) {
+    OutputMappingBlock mapping=new OutputMappingBlock(leftVarName,rightVarName,leftVarSwizzle,rightVarSwizzle,endNode.getName(),startNode.getName(),null);
+    startNode.addOutputMapping(mapping);
+    conn.makeKey(mapping,diagram1.getCurrentTechniqueName());
+  }
+ else {
+    InputMappingBlock mapping=new InputMappingBlock(leftVarName,rightVarName,leftVarSwizzle,rightVarSwizzle,endNode.getName(),startNode.getName(),null);
+    endNode.addInputMapping(mapping);
+    conn.makeKey(mapping,diagram1.getCurrentTechniqueName());
+  }
+}

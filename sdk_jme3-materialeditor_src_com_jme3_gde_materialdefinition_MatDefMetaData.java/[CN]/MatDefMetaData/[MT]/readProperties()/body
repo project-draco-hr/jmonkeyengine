@@ -1,0 +1,48 @@
+{
+  propsMutex.writeAccess(new Runnable(){
+    public void run(){
+      try {
+        FileObject pFile=file.getPrimaryFile();
+        FileObject storageFolder=getFolder();
+        if (storageFolder == null) {
+          return;
+        }
+        final FileObject myFile=storageFolder.getFileObject(getFileFullName(pFile));
+        if (myFile == null) {
+          return;
+        }
+        final Date lastMod=myFile.lastModified();
+        if (!lastMod.equals(lastLoaded)) {
+          props.clear();
+          lastLoaded=lastMod;
+          InputStream in=null;
+          try {
+            in=new BufferedInputStream(myFile.getInputStream());
+            try {
+              props.load(in);
+            }
+ catch (            IOException ex) {
+              Exceptions.printStackTrace(ex);
+            }
+          }
+ catch (          FileNotFoundException ex) {
+            Exceptions.printStackTrace(ex);
+          }
+ finally {
+            try {
+              in.close();
+            }
+ catch (            IOException ex) {
+              Exceptions.printStackTrace(ex);
+            }
+          }
+          logger.log(Level.FINE,"Read AssetData properties for {0}",file);
+        }
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+  }
+);
+}

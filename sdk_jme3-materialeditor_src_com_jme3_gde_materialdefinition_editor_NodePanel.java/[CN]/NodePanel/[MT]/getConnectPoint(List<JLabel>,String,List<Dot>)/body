@@ -1,0 +1,11 @@
+{
+  if (varName.startsWith("m_") || varName.startsWith("g_")) {
+    varName=varName.substring(2);
+  }
+  for (int i=0; i < list.size(); i++) {
+    if (list.get(i).getText().equals(varName)) {
+      return listDot.get(i);
+    }
+  }
+  return null;
+}

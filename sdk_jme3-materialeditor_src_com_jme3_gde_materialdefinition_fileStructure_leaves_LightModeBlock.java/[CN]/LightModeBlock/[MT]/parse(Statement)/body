@@ -1,0 +1,13 @@
+{
+  try {
+    String[] split=sta.getLine().split("\\s");
+    lightMode=split[1].trim();
+    TechniqueDef.LightMode.valueOf(lightMode);
+  }
+ catch (  ArrayIndexOutOfBoundsException e) {
+    Logger.getLogger(LightModeBlock.class.getName()).log(Level.WARNING,"Parsing error line " + sta.getLineNumber() + " : "+ sta.getLine());
+  }
+catch (  IllegalArgumentException ex) {
+    Logger.getLogger(LightModeBlock.class.getName()).log(Level.WARNING,"Invalid light mode : " + sta.getLineNumber() + " : "+ sta.getLine());
+  }
+}

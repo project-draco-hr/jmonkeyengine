@@ -1,0 +1,19 @@
+{
+  obj.getLookupContents().add(materialDef);
+  material=new Material(materialDef);
+  try {
+    material.selectTechnique("Default",SceneApplication.getApplication().getRenderManager());
+    if (matToRemove != null) {
+      for (      MatParam matParam : matToRemove.getParams()) {
+        material.setParam(matParam.getName(),matParam.getVarType(),matParam.getValue());
+      }
+      obj.getLookupContents().remove(matToRemove);
+      matToRemove=null;
+    }
+    obj.getLookupContents().add(material);
+  }
+ catch (  Exception e) {
+    Logger.getLogger(EditableMatDefFile.class.getName()).log(Level.WARNING,"Error making material {0}",e.getMessage());
+    material=matToRemove;
+  }
+}

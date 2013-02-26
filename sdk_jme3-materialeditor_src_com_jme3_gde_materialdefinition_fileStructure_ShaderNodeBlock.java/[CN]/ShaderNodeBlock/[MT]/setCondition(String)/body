@@ -1,0 +1,22 @@
+{
+  ConditionBlock b=getBlock(ConditionBlock.class);
+  String prevCond=null;
+  if (condition.trim().length() == 0 || condition.equals("<null value>")) {
+    condition=null;
+  }
+  if (b == null) {
+    if (condition == null) {
+      return;
+    }
+    b=new ConditionBlock(condition);
+    addStatement(b);
+  }
+ else {
+    if (condition == null) {
+      contents.remove(b);
+    }
+    prevCond=b.getCondition();
+    b.setCondition(condition);
+  }
+  fire("condition",prevCond,condition);
+}

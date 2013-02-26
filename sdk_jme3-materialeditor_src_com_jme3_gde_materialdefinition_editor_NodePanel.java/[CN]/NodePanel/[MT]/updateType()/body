@@ -1,0 +1,29 @@
+{
+switch (type) {
+case Vertex:
+    header.setIcon(Icons.vert);
+  break;
+case Fragment:
+header.setIcon(Icons.frag);
+break;
+case Attribute:
+header.setIcon(Icons.attrib);
+header.setText("Attribute");
+header.setToolTipText("Attribute");
+name="Attr";
+break;
+case WorldParam:
+header.setIcon(Icons.world);
+header.setText("WorldParam");
+header.setToolTipText("WorldParam");
+name="WorldParam";
+break;
+case MatParam:
+header.setIcon(Icons.mat);
+header.setText("MatParam");
+header.setToolTipText("MatParam");
+name="MatParam";
+break;
+}
+color=type.getColor();
+}

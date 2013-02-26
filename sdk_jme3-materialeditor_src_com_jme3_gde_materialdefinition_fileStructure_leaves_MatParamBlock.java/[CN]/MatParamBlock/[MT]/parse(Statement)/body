@@ -1,0 +1,22 @@
+{
+  try {
+    String[] split=sta.getLine().split(":");
+    String statement=split[0].trim();
+    if (split.length > 1) {
+      defaultValue=split[1].trim();
+    }
+    int startParen=statement.indexOf("(");
+    if (startParen != -1) {
+      int endParen=statement.indexOf(")",startParen);
+      fixedFuncBinding=statement.substring(startParen + 1,endParen).trim();
+      statement=statement.substring(0,startParen);
+    }
+    split=statement.split("\\p{javaWhitespace}+");
+    type=split[0];
+    name=split[1];
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    Logger.getLogger(MatParamBlock.class.getName()).log(Level.WARNING,"Parsing error line " + sta.getLineNumber() + " : "+ sta.getLine());
+  }
+}

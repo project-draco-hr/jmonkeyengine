@@ -1,0 +1,44 @@
+{
+switch (corner) {
+case LeftTop:
+case TopLeft:
+    tp.x-=1;
+  bp.x+=1;
+tp.y+=1;
+bp.y-=1;
+break;
+case RightBottom:
+case BottomRight:
+tp.x+=1;
+bp.x-=1;
+tp.y-=1;
+bp.y+=1;
+break;
+case RightTop:
+case TopRight:
+tp.x-=1;
+bp.x+=1;
+tp.y-=1;
+bp.y+=1;
+break;
+case LeftBottom:
+case BottomLeft:
+tp.x+=1;
+bp.x-=1;
+tp.y+=1;
+bp.y-=1;
+break;
+case None:
+tp.y-=1;
+bp.y+=1;
+break;
+case Top:
+tp.x-=1;
+bp.x+=1;
+break;
+case Bottom:
+tp.x+=1;
+bp.x-=1;
+break;
+}
+}

@@ -1,0 +1,18 @@
+{
+  Sheet sheet=super.createSheet();
+  MatDefBlock def=lookup.lookup(MatDefBlock.class);
+  Sheet.Set set=new Sheet.Set();
+  set.setName(def.getName() + "MaterialDefinition");
+  set.setDisplayName(def.getName() + " Material Definition");
+  set.setShortDescription(def.getName() + " Material Definition");
+  try {
+    DefaultProperty<String> prop=new DefaultProperty<String>(def,String.class,"Name","getName","setName");
+    set.put(prop);
+  }
+ catch (  NoSuchMethodException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  def.addPropertyChangeListener(WeakListeners.propertyChange(this,def));
+  sheet.put(set);
+  return sheet;
+}

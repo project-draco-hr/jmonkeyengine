@@ -1,0 +1,42 @@
+{
+  propsMutex.writeAccess(new Runnable(){
+    public void run(){
+      OutputStream out=null;
+      FileLock lock=null;
+      try {
+        FileObject pFile=file.getPrimaryFile();
+        FileObject storageFolder=getFolder();
+        if (storageFolder == null) {
+          return;
+        }
+        String newName=name;
+        if (newName == null) {
+          newName=file.getName();
+        }
+        String path=FileUtil.getRelativePath(root,df.getPrimaryFile()).replaceAll("/",".") + "." + newName;
+        FileObject myFile=storageFolder.getFileObject(getFileFullName(pFile));
+        if (myFile == null) {
+          return;
+        }
+        myFile.copy(storageFolder,path,extension);
+      }
+ catch (      IOException e) {
+        Exceptions.printStackTrace(e);
+      }
+ finally {
+        if (out != null) {
+          try {
+            out.close();
+          }
+ catch (          IOException ex) {
+            Exceptions.printStackTrace(ex);
+          }
+        }
+        if (lock != null) {
+          lock.releaseLock();
+        }
+      }
+    }
+  }
+);
+}
