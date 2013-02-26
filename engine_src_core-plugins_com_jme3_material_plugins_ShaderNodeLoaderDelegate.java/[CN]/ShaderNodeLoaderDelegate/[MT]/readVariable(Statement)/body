@@ -1,0 +1,8 @@
+{
+  String[] splitVar=statement.getLine().trim().split("\\s");
+  if (varNames.contains(splitVar[1] + ";")) {
+    throw new MatParseException("Duplicate variable name " + splitVar[1],statement);
+  }
+  varNames+=splitVar[1] + ";";
+  return new ShaderNodeVariable(splitVar[0],splitVar[1]);
+}

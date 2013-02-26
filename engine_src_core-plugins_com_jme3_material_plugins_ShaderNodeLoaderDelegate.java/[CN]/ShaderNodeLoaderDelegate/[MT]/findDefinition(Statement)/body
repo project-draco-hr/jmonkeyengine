@@ -1,0 +1,29 @@
+{
+  String defLine[]=statement.getLine().split(":");
+  String defName=defLine[1].trim();
+  ShaderNodeDefinition def=getNodeDefinitions().get(defName);
+  if (def == null) {
+    if (defLine.length == 3) {
+      List<ShaderNodeDefinition> defs=null;
+      try {
+        defs=assetManager.loadAsset(new ShaderNodeDefinitionKey(defLine[2].trim()));
+      }
+ catch (      AssetNotFoundException e) {
+        throw new MatParseException("Couldn't find " + defLine[2].trim(),statement,e);
+      }
+      for (      ShaderNodeDefinition definition : defs) {
+        definition.setPath(defLine[2].trim());
+        if (defName.equals(definition.getName())) {
+          def=definition;
+        }
+        if (!(getNodeDefinitions().containsKey(definition.getName()))) {
+          getNodeDefinitions().put(definition.getName(),definition);
+        }
+      }
+    }
+    if (def == null) {
+      throw new MatParseException(defName + " is not a declared as Shader Node Definition",statement);
+    }
+  }
+  return def;
+}

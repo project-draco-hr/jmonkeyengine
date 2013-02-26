@@ -1,0 +1,32 @@
+{
+  for (  Statement statement : statements) {
+    String line=statement.getLine();
+    String[] split=statement.getLine().split("[ \\{]");
+    if (line.startsWith("Definition")) {
+      ShaderNodeDefinition def=findDefinition(statement);
+      shaderNode.setDefinition(def);
+    }
+ else     if (line.startsWith("Condition")) {
+      String condition=line.substring(line.lastIndexOf(":") + 1).trim();
+      extractCondition(condition,statement);
+      shaderNode.setCondition(conditionParser.getFormattedExpression());
+    }
+ else     if (line.startsWith("InputMapping")) {
+      for (      Statement statement1 : statement.getContents()) {
+        VariableMapping mapping=readInputMapping(statement1);
+        techniqueDef.getShaderGenerationInfo().getUnusedNodes().remove(mapping.getRightVariable().getNameSpace());
+        shaderNode.getInputMapping().add(mapping);
+      }
+    }
+ else     if (line.startsWith("OutputMapping")) {
+      for (      Statement statement1 : statement.getContents()) {
+        VariableMapping mapping=readOutputMapping(statement1);
+        techniqueDef.getShaderGenerationInfo().getUnusedNodes().remove(shaderNode.getName());
+        shaderNode.getOutputMapping().add(mapping);
+      }
+    }
+ else {
+      throw new MatParseException("ShaderNodeDefinition",split[0],statement);
+    }
+  }
+}

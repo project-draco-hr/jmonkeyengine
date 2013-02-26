@@ -1,0 +1,36 @@
+{
+  VariableMapping mapping=new VariableMapping();
+  String[] cond=statement.getLine().split(":");
+  String[] vars=cond[0].split("=");
+  checkMappingFormat(vars,statement);
+  ShaderNodeVariable[] variables=new ShaderNodeVariable[2];
+  String[] swizzle=new String[2];
+  for (int i=0; i < vars.length; i++) {
+    String[] expression=vars[i].trim().split("\\.");
+    if (hasNameSpace[i]) {
+      if (expression.length <= 3) {
+        variables[i]=new ShaderNodeVariable("",expression[0].trim(),expression[1].trim());
+      }
+      if (expression.length == 3) {
+        swizzle[i]=expression[2].trim();
+      }
+    }
+ else {
+      if (expression.length <= 2) {
+        variables[i]=new ShaderNodeVariable("",expression[0].trim());
+      }
+      if (expression.length == 2) {
+        swizzle[i]=expression[1].trim();
+      }
+    }
+  }
+  mapping.setLeftVariable(variables[0]);
+  mapping.setLeftSwizzling(swizzle[0] != null ? swizzle[0] : "");
+  mapping.setRightVariable(variables[1]);
+  mapping.setRightSwizzling(swizzle[1] != null ? swizzle[1] : "");
+  if (cond.length > 1) {
+    extractCondition(cond[1],statement);
+    mapping.setCondition(conditionParser.getFormattedExpression());
+  }
+  return mapping;
+}

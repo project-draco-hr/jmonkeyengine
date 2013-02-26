@@ -1,0 +1,9 @@
+{
+  InputCapsule ic=im.getCapsule(this);
+  attributes=ic.readSavableArrayList("attributes",new ArrayList<ShaderNodeVariable>());
+  vertexUniforms=ic.readSavableArrayList("vertexUniforms",new ArrayList<ShaderNodeVariable>());
+  varyings=ic.readSavableArrayList("varyings",new ArrayList<ShaderNodeVariable>());
+  fragmentUniforms=ic.readSavableArrayList("fragmentUniforms",new ArrayList<ShaderNodeVariable>());
+  fragmentGlobals=ic.readSavableArrayList("fragmentGlobals",new ArrayList<ShaderNodeVariable>());
+  vertexGlobal=(ShaderNodeVariable)ic.readSavable("vertexGlobal",null);
+}

@@ -1,0 +1,27 @@
+{
+  VariableMapping mapping=null;
+  try {
+    mapping=parseMapping(statement1,new boolean[]{true,false});
+  }
+ catch (  Exception e) {
+    throw new MatParseException("Unexpected mapping format",statement1,e);
+  }
+  ShaderNodeVariable left=mapping.getLeftVariable();
+  ShaderNodeVariable right=mapping.getRightVariable();
+  if (left.getType().startsWith("sampler") || right.getType().startsWith("sampler")) {
+    throw new MatParseException("Samplers can only be inputs",statement1);
+  }
+  if (left.getNameSpace().equals("Global")) {
+    left.setType("vec4");
+    updateCondition(left,mapping);
+    storeGlobal(left,statement1);
+  }
+ else {
+    throw new MatParseException("Only Global nameSpace is allowed for outputMapping, got" + left.getNameSpace(),statement1);
+  }
+  if (!updateVariableFromList(right,shaderNode.getDefinition().getOutputs())) {
+    throw new MatParseException(right.getName() + " is not an output variable of " + shaderNode.getDefinition().getName(),statement1);
+  }
+  checkTypes(mapping,statement1);
+  return mapping;
+}

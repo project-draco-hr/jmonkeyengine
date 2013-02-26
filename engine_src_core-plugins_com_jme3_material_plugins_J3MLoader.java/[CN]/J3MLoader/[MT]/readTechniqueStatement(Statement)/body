@@ -21,7 +21,25 @@
  else   if (split[0].equals("Defines")) {
     readDefines(statement.getContents());
   }
+ else   if (split[0].equals("ShaderNodesDefinitions")) {
+    initNodesLoader();
+    if (isUseNodes) {
+      nodesLoaderDelegate.readNodesDefinitions(statement.getContents());
+    }
+  }
+ else   if (split[0].equals("VertexShaderNodes")) {
+    initNodesLoader();
+    if (isUseNodes) {
+      nodesLoaderDelegate.readVertexShaderNodes(statement.getContents());
+    }
+  }
+ else   if (split[0].equals("FragmentShaderNodes")) {
+    initNodesLoader();
+    if (isUseNodes) {
+      nodesLoaderDelegate.readFragmentShaderNodes(statement.getContents());
+    }
+  }
  else {
-    throwIfNequal(null,split[0]);
+    throw new MatParseException(null,split[0],statement);
   }
 }

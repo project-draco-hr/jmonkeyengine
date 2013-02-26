@@ -1,0 +1,13 @@
+{
+  List<String> defines=new ArrayList<String>();
+  expression=expression.replaceAll("#ifdef","").replaceAll("#if","").replaceAll("defined","");
+  Pattern pattern=Pattern.compile("(\\w+)");
+  formattedExpression=expression;
+  Matcher m=pattern.matcher(expression);
+  while (m.find()) {
+    String match=m.group();
+    defines.add(match);
+    formattedExpression=formattedExpression.replaceAll(match,"defined(" + match.toUpperCase() + ")");
+  }
+  return defines;
+}

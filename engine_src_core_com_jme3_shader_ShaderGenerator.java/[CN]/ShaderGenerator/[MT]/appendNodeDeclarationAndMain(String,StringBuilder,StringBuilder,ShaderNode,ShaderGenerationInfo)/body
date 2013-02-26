@@ -1,0 +1,11 @@
+{
+  if (loadedSource.length() > 1) {
+    loadedSource=loadedSource.substring(0,loadedSource.lastIndexOf("}"));
+    String[] sourceParts=loadedSource.split("void main\\(\\)\\{");
+    generateDeclarativeSection(sourceDeclaration,shaderNode,sourceParts[0],info);
+    generateNodeMainSection(source,shaderNode,sourceParts[1],info);
+  }
+ else {
+    generateNodeMainSection(source,shaderNode,loadedSource,info);
+  }
+}

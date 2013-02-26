@@ -1,0 +1,38 @@
+{
+  nodeSource=updateDefinesName(nodeSource,shaderNode);
+  source.append("\n");
+  comment(source,shaderNode,"Begin");
+  startCondition(shaderNode.getCondition(),source);
+  List<String> declaredInputs=new ArrayList<String>();
+  for (  VariableMapping mapping : shaderNode.getInputMapping()) {
+    if (isWorldOrMaterialParam(mapping.getRightVariable())) {
+      nodeSource=replace(nodeSource,mapping.getLeftVariable(),mapping.getRightVariable().getName());
+    }
+ else {
+      if (mapping.getLeftVariable().getType().startsWith("sampler")) {
+        throw new IllegalArgumentException("a Sampler must be a uniform");
+      }
+      map(mapping,source);
+      String newName=shaderNode.getName() + "_" + mapping.getLeftVariable().getName();
+      if (!declaredInputs.contains(newName)) {
+        nodeSource=replace(nodeSource,mapping.getLeftVariable(),newName);
+        declaredInputs.add(newName);
+      }
+    }
+  }
+  for (  ShaderNodeVariable var : shaderNode.getDefinition().getOutputs()) {
+    ShaderNodeVariable v=new ShaderNodeVariable(var.getType(),shaderNode.getName(),var.getName());
+    if (!declaredInputs.contains(shaderNode.getName() + "_" + var.getName())) {
+      if (!isVarying(info,v)) {
+        declareVariable(source,v);
+      }
+      nodeSource=replaceVariableName(nodeSource,v);
+    }
+  }
+  source.append(nodeSource);
+  for (  VariableMapping mapping : shaderNode.getOutputMapping()) {
+    map(mapping,source);
+  }
+  endCondition(shaderNode.getCondition(),source);
+  comment(source,shaderNode,"End");
+}

@@ -1,0 +1,6 @@
+{
+  source.append("\n");
+  for (  ShaderNodeVariable var : info.getVaryings()) {
+    declareVarying(source,var,type == ShaderType.Vertex ? false : true);
+  }
+}

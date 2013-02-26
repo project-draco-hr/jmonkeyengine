@@ -1,0 +1,9 @@
+{
+  String condition=mergeConditions(shaderNode.getCondition(),mapping.getCondition(),"&&");
+  if (var.getCondition() == null) {
+    var.setCondition(condition);
+  }
+ else {
+    var.setCondition(mergeConditions(var.getCondition(),condition,"||"));
+  }
+}

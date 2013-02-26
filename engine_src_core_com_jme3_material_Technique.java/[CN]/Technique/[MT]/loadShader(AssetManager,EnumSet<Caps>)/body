@@ -1,0 +1,20 @@
+{
+  if (getDef().isUsingShaderNodes()) {
+    shader=manager.getShaderGenerator(rendererCaps).generateShader(this);
+  }
+ else {
+    ShaderKey key=new ShaderKey(def.getVertexShaderName(),def.getFragmentShaderName(),getAllDefines(),def.getVertexShaderLanguage(),def.getFragmentShaderLanguage());
+    shader=manager.loadShader(key);
+  }
+  worldBindUniforms.clear();
+  if (def.getWorldBindings() != null) {
+    for (    UniformBinding binding : def.getWorldBindings()) {
+      Uniform uniform=shader.getUniform("g_" + binding.name());
+      uniform.setBinding(binding);
+      if (uniform != null) {
+        worldBindUniforms.add(uniform);
+      }
+    }
+  }
+  needReload=false;
+}

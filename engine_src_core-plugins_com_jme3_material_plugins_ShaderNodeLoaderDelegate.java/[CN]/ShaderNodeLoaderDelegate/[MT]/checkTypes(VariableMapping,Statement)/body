@@ -1,0 +1,7 @@
+{
+  if (!ShaderUtils.typesMatch(mapping)) {
+    String ls=mapping.getLeftSwizzling().length() == 0 ? "" : "." + mapping.getLeftSwizzling();
+    String rs=mapping.getRightSwizzling().length() == 0 ? "" : "." + mapping.getRightSwizzling();
+    throw new MatParseException("Type mismatch, cannot convert" + mapping.getLeftVariable().getType() + ls+ " to "+ mapping.getRightVariable().getType()+ rs,statement1);
+  }
+}

@@ -1,0 +1,15 @@
+{
+  String leftType=mapping.getLeftVariable().getType();
+  String rightType=mapping.getRightVariable().getType();
+  String leftSwizzling=mapping.getLeftSwizzling();
+  String rightSwizzling=mapping.getRightSwizzling();
+  if (leftType.equals(rightType) && leftSwizzling.length() == rightSwizzling.length()) {
+    return true;
+  }
+  if (isSwizzlable(leftType) && isSwizzlable(rightType)) {
+    if (getCardinality(leftType,leftSwizzling) == getCardinality(rightType,rightSwizzling)) {
+      return true;
+    }
+  }
+  return false;
+}

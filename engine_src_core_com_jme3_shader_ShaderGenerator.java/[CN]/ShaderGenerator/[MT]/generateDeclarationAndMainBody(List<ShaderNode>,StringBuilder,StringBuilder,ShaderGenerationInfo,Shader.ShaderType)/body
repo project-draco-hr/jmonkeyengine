@@ -1,0 +1,12 @@
+{
+  for (  ShaderNode shaderNode : shaderNodes) {
+    if (info.getUnusedNodes().contains(shaderNode.getName())) {
+      continue;
+    }
+    if (shaderNode.getDefinition().getType() == type) {
+      int index=findShaderIndexFromVersion(shaderNode,type);
+      String loadedSource=(String)assetManager.loadAsset(new AssetKey(shaderNode.getDefinition().getShadersPath().get(index)));
+      appendNodeDeclarationAndMain(loadedSource,sourceDeclaration,source,shaderNode,info);
+    }
+  }
+}

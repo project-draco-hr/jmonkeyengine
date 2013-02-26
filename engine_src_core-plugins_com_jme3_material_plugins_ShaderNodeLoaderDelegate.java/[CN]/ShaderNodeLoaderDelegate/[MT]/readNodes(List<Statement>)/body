@@ -1,0 +1,29 @@
+{
+  if (techniqueDef.getShaderNodes() == null) {
+    techniqueDef.setShaderNodes(new ArrayList<ShaderNode>());
+    techniqueDef.setShaderGenerationInfo(new ShaderGenerationInfo());
+  }
+  for (  Statement statement : statements) {
+    String[] split=statement.getLine().split("[ \\{]");
+    if (statement.getLine().startsWith("ShaderNode ")) {
+      String name=statement.getLine().substring("ShaderNode".length()).trim();
+      if (nodes == null) {
+        nodes=new HashMap<String,ShaderNode>();
+      }
+      if (!nodes.containsKey(name)) {
+        shaderNode=new ShaderNode();
+        shaderNode.setName(name);
+        techniqueDef.getShaderGenerationInfo().getUnusedNodes().add(name);
+        readShaderNode(statement.getContents());
+        nodes.put(name,shaderNode);
+        techniqueDef.getShaderNodes().add(shaderNode);
+      }
+ else {
+        throw new MatParseException("ShaderNode " + name + " is already defined",statement);
+      }
+    }
+ else {
+      throw new MatParseException("ShaderNode",split[0],statement);
+    }
+  }
+}

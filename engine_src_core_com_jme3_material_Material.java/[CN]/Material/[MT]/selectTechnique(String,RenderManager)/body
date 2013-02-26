@@ -1,7 +1,7 @@
 {
   Technique tech=techniques.get(name);
+  EnumSet<Caps> rendererCaps=renderManager.getRenderer().getCaps();
   if (tech == null) {
-    EnumSet<Caps> rendererCaps=renderManager.getRenderer().getCaps();
     if (name.equals("Default")) {
       List<TechniqueDef> techDefs=def.getDefaultTechniques();
       if (techDefs == null || techDefs.isEmpty()) {
@@ -36,6 +36,6 @@
     return;
   }
   technique=tech;
-  tech.makeCurrent(def.getAssetManager(),true);
+  tech.makeCurrent(def.getAssetManager(),true,rendererCaps);
   sortingId=-1;
 }

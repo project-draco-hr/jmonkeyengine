@@ -1,0 +1,12 @@
+{
+  DefineList defines=technique.getAllDefines();
+  TechniqueDef def=technique.getDef();
+  ShaderGenerationInfo info=def.getShaderGenerationInfo();
+  String vertexSource=buildShader(def.getShaderNodes(),info,ShaderType.Vertex);
+  String fragmentSource=buildShader(def.getShaderNodes(),info,ShaderType.Fragment);
+  Shader shader=new Shader();
+  shader.initialize();
+  shader.addSource(Shader.ShaderType.Vertex,technique.getDef().getName() + ".vert",vertexSource,defines.getCompiled(),getLanguageAndVersion(ShaderType.Vertex));
+  shader.addSource(Shader.ShaderType.Fragment,technique.getDef().getName() + ".frag",fragmentSource,defines.getCompiled(),getLanguageAndVersion(ShaderType.Fragment));
+  return shader;
+}

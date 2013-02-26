@@ -1,0 +1,23 @@
+{
+  if (!def.isUsingShaders()) {
+    return;
+  }
+  if (techniqueSwitched) {
+    DefineList newDefines=new DefineList();
+    Collection<MatParam> params=owner.getParams();
+    for (    MatParam param : params) {
+      String defineName=def.getShaderParamDefine(param.getName());
+      if (defineName != null) {
+        newDefines.set(defineName,param.getVarType(),param.getValue());
+      }
+    }
+    if (!defines.getCompiled().equals(newDefines.getCompiled())) {
+      defines.clear();
+      defines.addFrom(newDefines);
+      needReload=true;
+    }
+  }
+  if (needReload) {
+    loadShader(assetManager,rendererCaps);
+  }
+}

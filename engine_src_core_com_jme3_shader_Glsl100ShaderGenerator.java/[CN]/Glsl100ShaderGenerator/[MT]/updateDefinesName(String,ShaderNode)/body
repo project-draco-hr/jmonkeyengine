@@ -1,0 +1,25 @@
+{
+  String[] lines=nodeSource.split("\\n");
+  ConditionParser parser=new ConditionParser();
+  for (  String line : lines) {
+    if (line.trim().startsWith("#if")) {
+      List<String> params=parser.extractDefines(line.trim());
+      String l=line.trim().replaceAll("defined","").replaceAll("#if ","").replaceAll("#ifdef","");
+      boolean match=false;
+      for (      String param : params) {
+        for (        VariableMapping map : shaderNode.getInputMapping()) {
+          if ((map.getLeftVariable().getName()).equals(param)) {
+            if (map.getCondition() != null) {
+              l=l.replaceAll(param,map.getCondition());
+              match=true;
+            }
+          }
+        }
+      }
+      if (match) {
+        nodeSource=nodeSource.replace(line.trim(),"#if " + l);
+      }
+    }
+  }
+  return nodeSource;
+}

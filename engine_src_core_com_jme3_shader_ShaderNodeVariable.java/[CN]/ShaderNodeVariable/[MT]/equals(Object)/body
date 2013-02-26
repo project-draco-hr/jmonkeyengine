@@ -1,0 +1,19 @@
+{
+  if (obj == null) {
+    return false;
+  }
+  if (getClass() != obj.getClass()) {
+    return false;
+  }
+  final ShaderNodeVariable other=(ShaderNodeVariable)obj;
+  if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
+    return false;
+  }
+  if ((this.type == null) ? (other.type != null) : !this.type.equals(other.type)) {
+    return false;
+  }
+  if ((this.nameSpace == null) ? (other.nameSpace != null) : !this.nameSpace.equals(other.nameSpace)) {
+    return false;
+  }
+  return true;
+}

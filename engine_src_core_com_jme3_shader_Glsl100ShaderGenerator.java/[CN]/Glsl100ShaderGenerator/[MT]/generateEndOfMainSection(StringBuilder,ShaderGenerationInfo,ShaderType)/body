@@ -1,0 +1,22 @@
+{
+  source.append("\n");
+  if (type == ShaderType.Vertex) {
+    appendOutput(source,"gl_Position",info.getVertexGlobal());
+  }
+ else   if (type == ShaderType.Fragment) {
+    List<ShaderNodeVariable> globals=info.getFragmentGlobals();
+    if (globals.size() == 1) {
+      appendOutput(source,"gl_FragColor",globals.get(0));
+    }
+ else {
+      int i=0;
+      for (      ShaderNodeVariable global : globals) {
+        appendOutput(source,"gl_FragData[" + i + "]",global);
+        i++;
+      }
+    }
+  }
+  unIndent();
+  appendIndent(source);
+  source.append("}\n");
+}

@@ -1,0 +1,11 @@
+{
+  if (nodeSource.replaceAll("\\n","").trim().length() > 0) {
+    nodeSource=updateDefinesName(nodeSource,shaderNode);
+    source.append("\n");
+    unIndent();
+    startCondition(shaderNode.getCondition(),source);
+    source.append(nodeSource);
+    endCondition(shaderNode.getCondition(),source);
+    indent();
+  }
+}

@@ -1,0 +1,25 @@
+{
+  startCondition(mapping.getCondition(),source);
+  appendIndent(source);
+  if (!mapping.getLeftVariable().isShaderOutput()) {
+    source.append(mapping.getLeftVariable().getType());
+    source.append(" ");
+  }
+  source.append(mapping.getLeftVariable().getNameSpace());
+  source.append("_");
+  source.append(mapping.getLeftVariable().getName());
+  if (mapping.getLeftSwizzling().length() > 0) {
+    source.append(".");
+    source.append(mapping.getLeftSwizzling());
+  }
+  source.append(" = ");
+  String namePrefix=getAppendableNameSpace(mapping.getRightVariable());
+  source.append(namePrefix);
+  source.append(mapping.getRightVariable().getName());
+  if (mapping.getRightSwizzling().length() > 0) {
+    source.append(".");
+    source.append(mapping.getRightSwizzling());
+  }
+  source.append(";\n");
+  endCondition(mapping.getCondition(),source);
+}

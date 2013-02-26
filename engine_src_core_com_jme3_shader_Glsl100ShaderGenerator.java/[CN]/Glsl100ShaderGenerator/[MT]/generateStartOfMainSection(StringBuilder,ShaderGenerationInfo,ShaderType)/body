@@ -1,0 +1,15 @@
+{
+  source.append("\n");
+  source.append("void main(){\n");
+  indent();
+  appendIndent(source);
+  if (type == ShaderType.Vertex) {
+    declareVariable(source,info.getVertexGlobal(),"inPosition");
+  }
+ else   if (type == ShaderType.Fragment) {
+    for (    ShaderNodeVariable global : info.getFragmentGlobals()) {
+      declareVariable(source,global,"vec4(1.0)");
+    }
+  }
+  source.append("\n");
+}

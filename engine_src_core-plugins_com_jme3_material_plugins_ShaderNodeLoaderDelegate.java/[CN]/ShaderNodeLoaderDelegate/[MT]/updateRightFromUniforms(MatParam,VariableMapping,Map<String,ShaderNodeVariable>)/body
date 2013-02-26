@@ -1,0 +1,13 @@
+{
+  ShaderNodeVariable right=mapping.getRightVariable();
+  ShaderNodeVariable var=map.get(param.getPrefixedName());
+  if (var == null) {
+    right.setType(param.getVarType().getGlslType());
+    right.setName(param.getPrefixedName());
+    map.put(right.getName(),right);
+    mapping.setRightVariable(right);
+    return true;
+  }
+  mapping.setRightVariable(var);
+  return false;
+}

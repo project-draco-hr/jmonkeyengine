@@ -1,0 +1,92 @@
+{
+  VariableMapping mapping=null;
+  try {
+    mapping=parseMapping(statement1,new boolean[]{false,true});
+  }
+ catch (  Exception e) {
+    throw new MatParseException("Unexpected mapping format",statement1,e);
+  }
+  ShaderNodeVariable left=mapping.getLeftVariable();
+  ShaderNodeVariable right=mapping.getRightVariable();
+  if (!updateVariableFromList(left,shaderNode.getDefinition().getInputs())) {
+    throw new MatParseException(left.getName() + " is not an input variable of " + shaderNode.getDefinition().getName(),statement1);
+  }
+  if (left.getType().startsWith("sampler") && !right.getNameSpace().equals("MatParam")) {
+    throw new MatParseException("Samplers can only be assigned to MatParams",statement1);
+  }
+  if (right.getNameSpace().equals("Global")) {
+    right.setType("vec4");
+    updateCondition(right,mapping);
+    storeGlobal(right,statement1);
+  }
+ else   if (right.getNameSpace().equals("Attr")) {
+    if (shaderNode.getDefinition().getType() == Shader.ShaderType.Fragment) {
+      throw new MatParseException("Cannot have an attribute as input in a fragment shader" + right.getName(),statement1);
+    }
+    updateVarFromAttributes(mapping.getRightVariable(),mapping);
+    updateCondition(mapping.getRightVariable(),mapping);
+    storeAttribute(mapping.getRightVariable());
+  }
+ else   if (right.getNameSpace().equals("MatParam")) {
+    MatParam param=findMatParam(right.getName());
+    if (param == null) {
+      throw new MatParseException("Could not find a Material Parameter named " + right.getName(),statement1);
+    }
+    if (shaderNode.getDefinition().getType() == Shader.ShaderType.Vertex) {
+      if (updateRightFromUniforms(param,mapping,vertexDeclaredUniforms)) {
+        updateCondition(mapping.getRightVariable(),mapping);
+        storeVertexUniform(mapping.getRightVariable());
+      }
+    }
+ else {
+      if (updateRightFromUniforms(param,mapping,fragmentDeclaredUniforms)) {
+        if (mapping.getRightVariable().getType().contains("|")) {
+          String type=fixSamplerType(left.getType(),mapping.getRightVariable().getType());
+          if (type != null) {
+            mapping.getRightVariable().setType(type);
+          }
+ else {
+            throw new MatParseException(param.getVarType().toString() + " can only be matched to one of " + param.getVarType().getGlslType().replaceAll("\\|",",")+ " found "+ left.getType(),statement1);
+          }
+        }
+        updateCondition(mapping.getRightVariable(),mapping);
+        storeFragmentUniform(mapping.getRightVariable());
+      }
+    }
+  }
+ else   if (right.getNameSpace().equals("WorldParam")) {
+    UniformBinding worldParam=findWorldParam(right.getName());
+    if (worldParam == null) {
+      throw new MatParseException("Could not find a World Parameter named " + right.getName(),statement1);
+    }
+    if (shaderNode.getDefinition().getType() == Shader.ShaderType.Vertex) {
+      if (updateRightFromUniforms(worldParam,mapping,vertexDeclaredUniforms)) {
+        updateCondition(mapping.getRightVariable(),mapping);
+        storeVertexUniform(mapping.getRightVariable());
+      }
+    }
+ else {
+      if (updateRightFromUniforms(worldParam,mapping,fragmentDeclaredUniforms)) {
+        updateCondition(mapping.getRightVariable(),mapping);
+        storeFragmentUniform(mapping.getRightVariable());
+      }
+    }
+  }
+ else {
+    ShaderNode node=nodes.get(right.getNameSpace());
+    if (node == null) {
+      throw new MatParseException("Undeclared node" + right.getNameSpace() + ". Make sure this node is declared before the current node",statement1);
+    }
+    ShaderNodeVariable var=findNodeOutput(node.getDefinition().getOutputs(),right.getName());
+    if (var == null) {
+      throw new MatParseException("Cannot find output variable" + right.getName() + " form ShaderNode "+ node.getName(),statement1);
+    }
+    right.setNameSpace(node.getName());
+    right.setType(var.getType());
+    mapping.setRightVariable(right);
+    updateCondition(mapping.getRightVariable(),mapping);
+    storeVaryings(node,mapping.getRightVariable());
+  }
+  checkTypes(mapping,statement1);
+  return mapping;
+}

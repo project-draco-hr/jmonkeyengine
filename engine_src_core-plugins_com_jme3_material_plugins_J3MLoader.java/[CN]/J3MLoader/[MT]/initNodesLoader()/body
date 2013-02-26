@@ -1,0 +1,11 @@
+{
+  if (!isUseNodes) {
+    isUseNodes=fragName == null && vertName == null;
+    if (isUseNodes) {
+      nodesLoaderDelegate=new ShaderNodeLoaderDelegate();
+      nodesLoaderDelegate.setTechniqueDef(technique);
+      nodesLoaderDelegate.setMaterialDef(materialDef);
+      nodesLoaderDelegate.setAssetManager(assetManager);
+    }
+  }
+}

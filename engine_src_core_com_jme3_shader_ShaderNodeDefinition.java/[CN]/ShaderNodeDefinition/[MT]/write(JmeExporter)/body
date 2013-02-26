@@ -1,0 +1,10 @@
+{
+  OutputCapsule oc=(OutputCapsule)ex.getCapsule(this);
+  oc.write(name,"name","");
+  String[] str=new String[shadersLanguage.size()];
+  oc.write(shadersLanguage.toArray(str),"shadersLanguage",null);
+  oc.write(shadersPath.toArray(str),"shadersPath",null);
+  oc.write(type,"type",null);
+  oc.writeSavableArrayList((ArrayList)inputs,"inputs",new ArrayList<ShaderNodeVariable>());
+  oc.writeSavableArrayList((ArrayList)outputs,"inputs",new ArrayList<ShaderNodeVariable>());
+}
