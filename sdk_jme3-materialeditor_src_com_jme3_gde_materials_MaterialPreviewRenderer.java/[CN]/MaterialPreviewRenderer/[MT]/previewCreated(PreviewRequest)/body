@@ -1,0 +1,11 @@
+{
+  if (request.getRequester() == this) {
+    final ImageIcon icon=new ImageIcon(request.getImage());
+    java.awt.EventQueue.invokeLater(new Runnable(){
+      public void run(){
+        label.setIcon(icon);
+      }
+    }
+);
+  }
+}
