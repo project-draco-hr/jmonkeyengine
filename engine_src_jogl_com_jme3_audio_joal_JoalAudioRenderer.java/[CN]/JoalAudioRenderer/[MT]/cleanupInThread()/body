@@ -15,9 +15,9 @@
   if (supportEfx) {
     ib.position(0).limit(1);
     ib.put(0,reverbFx);
-    al.alDeleteEffects(1,ib);
+    alExt.alDeleteEffects(1,ib);
     ib.position(0).limit(1);
     ib.put(0,reverbFxSlot);
-    al.alDeleteAuxiliaryEffectSlots(1,ib);
+    alExt.alDeleteAuxiliaryEffectSlots(1,ib);
   }
 }

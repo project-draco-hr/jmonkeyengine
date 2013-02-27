@@ -11,18 +11,18 @@ synchronized (threadLock) {
     if (audioDisabled || !supportEfx) {
       return;
     }
-    al.alEffectf(reverbFx,ALExtConstants.AL_REVERB_DENSITY,env.getDensity());
-    al.alEffectf(reverbFx,ALExtConstants.AL_REVERB_DIFFUSION,env.getDiffusion());
-    al.alEffectf(reverbFx,ALExtConstants.AL_REVERB_GAIN,env.getGain());
-    al.alEffectf(reverbFx,ALExtConstants.AL_REVERB_GAINHF,env.getGainHf());
-    al.alEffectf(reverbFx,ALExtConstants.AL_REVERB_DECAY_TIME,env.getDecayTime());
-    al.alEffectf(reverbFx,ALExtConstants.AL_REVERB_DECAY_HFRATIO,env.getDecayHFRatio());
-    al.alEffectf(reverbFx,ALExtConstants.AL_REVERB_REFLECTIONS_GAIN,env.getReflectGain());
-    al.alEffectf(reverbFx,ALExtConstants.AL_REVERB_REFLECTIONS_DELAY,env.getReflectDelay());
-    al.alEffectf(reverbFx,ALExtConstants.AL_REVERB_LATE_REVERB_GAIN,env.getLateReverbGain());
-    al.alEffectf(reverbFx,ALExtConstants.AL_REVERB_LATE_REVERB_DELAY,env.getLateReverbDelay());
-    al.alEffectf(reverbFx,ALExtConstants.AL_REVERB_AIR_ABSORPTION_GAINHF,env.getAirAbsorbGainHf());
-    al.alEffectf(reverbFx,ALExtConstants.AL_REVERB_ROOM_ROLLOFF_FACTOR,env.getRoomRolloffFactor());
-    al.alAuxiliaryEffectSloti(reverbFxSlot,ALExtConstants.AL_EFFECTSLOT_EFFECT,reverbFx);
+    alExt.alEffectf(reverbFx,ALExtConstants.AL_REVERB_DENSITY,env.getDensity());
+    alExt.alEffectf(reverbFx,ALExtConstants.AL_REVERB_DIFFUSION,env.getDiffusion());
+    alExt.alEffectf(reverbFx,ALExtConstants.AL_REVERB_GAIN,env.getGain());
+    alExt.alEffectf(reverbFx,ALExtConstants.AL_REVERB_GAINHF,env.getGainHf());
+    alExt.alEffectf(reverbFx,ALExtConstants.AL_REVERB_DECAY_TIME,env.getDecayTime());
+    alExt.alEffectf(reverbFx,ALExtConstants.AL_REVERB_DECAY_HFRATIO,env.getDecayHFRatio());
+    alExt.alEffectf(reverbFx,ALExtConstants.AL_REVERB_REFLECTIONS_GAIN,env.getReflectGain());
+    alExt.alEffectf(reverbFx,ALExtConstants.AL_REVERB_REFLECTIONS_DELAY,env.getReflectDelay());
+    alExt.alEffectf(reverbFx,ALExtConstants.AL_REVERB_LATE_REVERB_GAIN,env.getLateReverbGain());
+    alExt.alEffectf(reverbFx,ALExtConstants.AL_REVERB_LATE_REVERB_DELAY,env.getLateReverbDelay());
+    alExt.alEffectf(reverbFx,ALExtConstants.AL_REVERB_AIR_ABSORPTION_GAINHF,env.getAirAbsorbGainHf());
+    alExt.alEffectf(reverbFx,ALExtConstants.AL_REVERB_ROOM_ROLLOFF_FACTOR,env.getRoomRolloffFactor());
+    alExt.alAuxiliaryEffectSloti(reverbFxSlot,ALExtConstants.AL_EFFECTSLOT_EFFECT,reverbFx);
   }
 }

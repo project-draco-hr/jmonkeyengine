@@ -2,6 +2,7 @@
   try {
     alc=ALFactory.getALC();
     al=ALFactory.getAL();
+    alExt=ALFactory.getALExt();
     ALCdevice device=alc.alcOpenDevice(null);
     if (device == null) {
       throw new ALException("Error opening default OpenAL device");
@@ -51,13 +52,13 @@
       auxSends=ib.get(0);
       logger.log(Level.FINE,"Audio max auxilary sends: {0}",auxSends);
       ib.position(0).limit(1);
-      al.alGenAuxiliaryEffectSlots(1,ib);
+      alExt.alGenAuxiliaryEffectSlots(1,ib);
       reverbFxSlot=ib.get(0);
       ib.position(0).limit(1);
-      al.alGenEffects(1,ib);
+      alExt.alGenEffects(1,ib);
       reverbFx=ib.get(0);
-      al.alEffecti(reverbFx,ALExtConstants.AL_EFFECT_TYPE,ALExtConstants.AL_EFFECT_REVERB);
-      al.alAuxiliaryEffectSloti(reverbFxSlot,ALExtConstants.AL_EFFECTSLOT_EFFECT,reverbFx);
+      alExt.alEffecti(reverbFx,ALExtConstants.AL_EFFECT_TYPE,ALExtConstants.AL_EFFECT_REVERB);
+      alExt.alAuxiliaryEffectSloti(reverbFxSlot,ALExtConstants.AL_EFFECTSLOT_EFFECT,reverbFx);
     }
  else {
       logger.log(Level.WARNING,"OpenAL EFX not available! Audio effects won't work.");

@@ -2,16 +2,16 @@
   int id=f.getId();
   if (id == -1) {
     ib.position(0).limit(1);
-    al.alGenFilters(1,ib);
+    alExt.alGenFilters(1,ib);
     id=ib.get(0);
     f.setId(id);
     objManager.registerForCleanup(f);
   }
   if (f instanceof LowPassFilter) {
     LowPassFilter lpf=(LowPassFilter)f;
-    al.alFilteri(id,ALExtConstants.AL_FILTER_TYPE,ALExtConstants.AL_FILTER_LOWPASS);
-    al.alFilterf(id,ALExtConstants.AL_LOWPASS_GAIN,lpf.getVolume());
-    al.alFilterf(id,ALExtConstants.AL_LOWPASS_GAINHF,lpf.getHighFreqVolume());
+    alExt.alFilteri(id,ALExtConstants.AL_FILTER_TYPE,ALExtConstants.AL_FILTER_LOWPASS);
+    alExt.alFilterf(id,ALExtConstants.AL_LOWPASS_GAIN,lpf.getVolume());
+    alExt.alFilterf(id,ALExtConstants.AL_LOWPASS_GAINHF,lpf.getHighFreqVolume());
   }
  else {
     throw new UnsupportedOperationException("Filter type unsupported: " + f.getClass().getName());
