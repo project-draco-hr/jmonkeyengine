@@ -41,13 +41,13 @@
     supportEfx=false;
     if (supportEfx) {
       ib.position(0).limit(1);
-      alc.alcGetIntegerv(device,AL.ALC_EFX_MAJOR_VERSION,1,ib);
+      alc.alcGetIntegerv(device,ALExtConstants.ALC_EFX_MAJOR_VERSION,1,ib);
       int major=ib.get(0);
       ib.position(0).limit(1);
-      alc.alcGetIntegerv(device,AL.ALC_EFX_MINOR_VERSION,1,ib);
+      alc.alcGetIntegerv(device,ALExtConstants.ALC_EFX_MINOR_VERSION,1,ib);
       int minor=ib.get(0);
       logger.log(Level.FINE,"Audio effect extension version: {0}.{1}",new Object[]{major,minor});
-      alc.alcGetIntegerv(device,AL.ALC_MAX_AUXILIARY_SENDS,1,ib);
+      alc.alcGetIntegerv(device,ALExtConstants.ALC_MAX_AUXILIARY_SENDS,1,ib);
       auxSends=ib.get(0);
       logger.log(Level.FINE,"Audio max auxilary sends: {0}",auxSends);
       ib.position(0).limit(1);
@@ -56,8 +56,8 @@
       ib.position(0).limit(1);
       al.alGenEffects(1,ib);
       reverbFx=ib.get(0);
-      al.alEffecti(reverbFx,AL.AL_EFFECT_TYPE,AL.AL_EFFECT_REVERB);
-      al.alAuxiliaryEffectSloti(reverbFxSlot,AL.AL_EFFECTSLOT_EFFECT,reverbFx);
+      al.alEffecti(reverbFx,ALExtConstants.AL_EFFECT_TYPE,ALExtConstants.AL_EFFECT_REVERB);
+      al.alAuxiliaryEffectSloti(reverbFxSlot,ALExtConstants.AL_EFFECTSLOT_EFFECT,reverbFx);
     }
  else {
       logger.log(Level.WARNING,"OpenAL EFX not available! Audio effects won't work.");

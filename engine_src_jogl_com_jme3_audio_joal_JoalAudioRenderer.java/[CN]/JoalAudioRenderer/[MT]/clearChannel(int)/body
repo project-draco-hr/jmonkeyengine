@@ -13,12 +13,12 @@
       al.alSourcei(sourceId,AL.AL_BUFFER,0);
     }
     if (src.getDryFilter() != null && supportEfx) {
-      al.alSourcei(sourceId,AL.AL_DIRECT_FILTER,AL.AL_FILTER_NULL);
+      al.alSourcei(sourceId,ALExtConstants.AL_DIRECT_FILTER,ALExtConstants.AL_FILTER_NULL);
     }
     if (src.isPositional()) {
       AudioSource pas=(AudioSource)src;
       if (pas.isReverbEnabled() && supportEfx) {
-        al.alSource3i(sourceId,AL.AL_AUXILIARY_SEND_FILTER,0,0,AL.AL_FILTER_NULL);
+        al.alSource3i(sourceId,ALExtConstants.AL_AUXILIARY_SEND_FILTER,0,0,ALExtConstants.AL_FILTER_NULL);
       }
     }
     chanSrcs[index]=null;

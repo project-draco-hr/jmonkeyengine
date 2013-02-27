@@ -8,7 +8,7 @@
     al.alSourcef(id,ALConstants.AL_REFERENCE_DISTANCE,src.getRefDistance());
     al.alSourcei(id,ALConstants.AL_SOURCE_RELATIVE,ALConstants.AL_FALSE);
     if (src.isReverbEnabled() && supportEfx) {
-      int filter=AL.AL_FILTER_NULL;
+      int filter=ALExtConstants.AL_FILTER_NULL;
       if (src.getReverbFilter() != null) {
         Filter f=src.getReverbFilter();
         if (f.isUpdateNeeded()) {
@@ -16,7 +16,7 @@
         }
         filter=f.getId();
       }
-      al.alSource3i(id,AL.AL_AUXILIARY_SEND_FILTER,reverbFxSlot,0,filter);
+      al.alSource3i(id,ALExtConstants.AL_AUXILIARY_SEND_FILTER,reverbFxSlot,0,filter);
     }
   }
  else {
@@ -28,7 +28,7 @@
     Filter f=src.getDryFilter();
     if (f.isUpdateNeeded()) {
       updateFilter(f);
-      al.alSourcei(id,AL.AL_DIRECT_FILTER,f.getId());
+      al.alSourcei(id,ALExtConstants.AL_DIRECT_FILTER,f.getId());
     }
   }
   if (forceNonLoop) {
