@@ -3,6 +3,7 @@
     try {
       super.initialize();
       thread=Thread.currentThread();
+      fakeApp.setAudioRenderer(audioRenderer);
       fakeApp.startFakeApp();
 {
         overlayView=getRenderManager().createMainView("Overlay",cam);
