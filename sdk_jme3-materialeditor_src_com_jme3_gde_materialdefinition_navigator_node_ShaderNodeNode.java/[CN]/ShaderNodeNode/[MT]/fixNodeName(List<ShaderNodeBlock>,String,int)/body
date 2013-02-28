@@ -1,0 +1,8 @@
+{
+  for (  ShaderNodeBlock nodePanel : nodes) {
+    if ((name + (count == 0 ? "" : count)).equals(nodePanel.getName())) {
+      return fixNodeName(nodes,name,count + 1);
+    }
+  }
+  return name + (count == 0 ? "" : count);
+}

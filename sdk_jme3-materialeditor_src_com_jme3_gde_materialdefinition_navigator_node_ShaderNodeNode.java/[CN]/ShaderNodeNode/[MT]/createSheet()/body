@@ -5,7 +5,16 @@
   set.setDisplayName(shaderNode.getName() + " ShaderNode");
   set.setShortDescription(def.getDocumentation());
   try {
-    set.put(new DefaultProperty<String>(shaderNode,String.class,"Name","getName","setName"));
+    set.put(new DefaultProperty<String>(shaderNode,String.class,"Name","getName","setName"){
+      @Override public void setValue(      String val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        val=fixNodeName(val);
+        if (val.matches("^\\d.*")) {
+          return;
+        }
+        super.setValue(val);
+      }
+    }
+);
     set.put(new DefaultProperty<String>(shaderNode,String.class,"Condition","getCondition","setCondition"));
   }
  catch (  NoSuchMethodException ex) {

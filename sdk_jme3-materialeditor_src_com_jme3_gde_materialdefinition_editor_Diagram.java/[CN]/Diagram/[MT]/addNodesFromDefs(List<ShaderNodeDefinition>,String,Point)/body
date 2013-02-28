@@ -2,6 +2,7 @@
   int i=0;
   for (  ShaderNodeDefinition def : defList) {
     ShaderNodeBlock sn=new ShaderNodeBlock(def,path);
+    sn.setName(fixNodeName(sn.getName()));
     NodePanel np=new NodePanel(sn,def);
     addNode(np);
     np.setLocation(clickPosition.x + i * 150,clickPosition.y);
