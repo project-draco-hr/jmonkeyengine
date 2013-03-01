@@ -36,8 +36,10 @@
     glslVer=(int)(version * 100);
   }
  catch (  NumberFormatException e) {
-    logger.warning("Failed parsing GLSL version assuming it's v1.00");
-    glslVer=100;
+    if (NativeWindowFactory.getNativeWindowType(false).equals(NativeWindowFactory.TYPE_BCM_VC_IV)) {
+      logger.warning("Failed parsing GLSL version assuming it's v1.00");
+      glslVer=100;
+    }
   }
 switch (glslVer) {
 default :
