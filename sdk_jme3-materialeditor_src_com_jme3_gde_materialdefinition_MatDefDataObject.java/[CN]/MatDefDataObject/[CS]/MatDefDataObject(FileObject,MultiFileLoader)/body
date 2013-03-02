@@ -11,6 +11,10 @@
     @Override public void fileChanged(    FileEvent fe){
       super.fileChanged(fe);
       metaData.save();
+      if (file.isDirty()) {
+        file.setLoaded(false);
+        file.setDirty(false);
+      }
     }
   }
 );

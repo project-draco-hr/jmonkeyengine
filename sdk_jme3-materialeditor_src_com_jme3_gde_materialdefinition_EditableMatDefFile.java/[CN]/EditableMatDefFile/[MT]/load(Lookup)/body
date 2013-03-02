@@ -1,0 +1,51 @@
+{
+  this.matDefFile=obj.getPrimaryFile();
+  this.assetManager=lookup.lookup(ProjectAssetManager.class);
+  this.glsl100=new Glsl100ShaderGenerator(assetManager);
+  this.glsl150=new Glsl150ShaderGenerator(assetManager);
+  this.lookup=lookup;
+  if (matDefStructure != null) {
+    obj.getLookupContents().remove(matDefStructure);
+    matDefStructure=null;
+  }
+  if (materialDef != null) {
+    obj.getLookupContents().remove(materialDef);
+    materialDef=null;
+  }
+  FileLock lock=null;
+  try {
+    lock=matDefFile.lock();
+    List<Statement> sta=BlockLanguageParser.parse(obj.getPrimaryFile().getInputStream());
+    matDefStructure=new MatDefBlock(sta.get(0));
+    AssetKey matDefKey=new AssetKey(assetManager.getRelativeAssetPath(assetManager.getRelativeAssetPath(matDefFile.getPath())));
+    assetManager.deleteFromCache(matDefKey);
+    materialDef=(MaterialDef)assetManager.loadAsset(assetManager.getRelativeAssetPath(matDefFile.getPath()));
+    lock.releaseLock();
+  }
+ catch (  Exception ex) {
+    Throwable t=ex.getCause();
+    boolean matParseError=false;
+    while (t != null) {
+      if (t instanceof MatParseException) {
+        Logger.getLogger(EditableMatDefFile.class.getName()).log(Level.SEVERE,t.getMessage());
+        matParseError=true;
+      }
+      t=t.getCause();
+    }
+    if (!matParseError) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+ finally {
+    if (lock != null) {
+      lock.releaseLock();
+    }
+  }
+  if (materialDef != null) {
+    currentTechnique=matDefStructure.getTechniques().get(0);
+    registerListener(matDefStructure);
+    obj.getLookupContents().add(matDefStructure);
+    updateLookupWithMaterialData(obj);
+    loaded=true;
+  }
+}

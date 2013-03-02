@@ -6,6 +6,27 @@
     nav.updateData(obj);
   }
   MultiViewEditorElement ed=new MultiViewEditorElement(lkp){
+    KeyListener listener=new KeyListener(){
+      public void keyTyped(      KeyEvent e){
+      }
+      public void keyPressed(      KeyEvent e){
+        EditableMatDefFile f=obj.getEditableFile();
+        if (f != null) {
+          f.setDirty(true);
+        }
+      }
+      public void keyReleased(      KeyEvent e){
+      }
+    }
+;
+    @Override public void componentActivated(){
+      super.componentActivated();
+      getEditorPane().addKeyListener(listener);
+    }
+    @Override public void componentDeactivated(){
+      super.componentDeactivated();
+      getEditorPane().removeKeyListener(listener);
+    }
     @Override public void componentClosed(){
       super.componentClosed();
       obj.unload();

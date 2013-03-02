@@ -1,7 +1,7 @@
 {
   try {
     material.selectTechnique("Default",SceneApplication.getApplication().getRenderManager());
-    Shader s=null;
+    Shader s;
     if (version.equals(GLSL100)) {
       s=glsl100.generateShader(material.getActiveTechnique());
     }

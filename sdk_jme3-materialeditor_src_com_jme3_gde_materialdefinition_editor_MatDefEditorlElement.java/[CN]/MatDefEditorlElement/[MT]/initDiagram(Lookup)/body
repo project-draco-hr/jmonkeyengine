@@ -1,0 +1,111 @@
+{
+  diagram1.clear();
+  diagram1.setParent(this);
+  Material mat=lkp.lookup(Material.class);
+  ProjectAssetManager manager=obj.getLookup().lookup(ProjectAssetManager.class);
+  final MatDefBlock matDef=obj.getLookup().lookup(MatDefBlock.class);
+  TechniqueBlock technique=getTechnique(matDef);
+  diagram1.setCurrentTechniqueName(technique.getName());
+  List<ShaderNodeVariable> vertexGlobals=new ArrayList<ShaderNodeVariable>();
+  List<ShaderNodeVariable> fragmentGlobals=new ArrayList<ShaderNodeVariable>();
+  List<ShaderNodeVariable> attributes=new ArrayList<ShaderNodeVariable>();
+  List<ShaderNodeVariable> uniforms=new ArrayList<ShaderNodeVariable>();
+  initData(technique,manager,vertexGlobals,fragmentGlobals,attributes,matDef,uniforms);
+  int i=0;
+  for (  ShaderNodeBlock sn : technique.getShaderNodes()) {
+    ShaderNodeDefinition def=MaterialUtils.loadShaderNodeDefinition(sn,manager);
+    NodePanel np=new NodePanel(sn,def);
+    diagram1.addNode(np);
+    Point position=getPositionFromMetaData(np.getKey(),150 * i + 20,190);
+    np.setLocation(position);
+    sn.setSpatialOrder(np.getLocation().x);
+    i++;
+  }
+  for (  ShaderNodeVariable shaderNodeVariable : vertexGlobals) {
+    OutBusPanel out=new OutBusPanel(shaderNodeVariable.getName(),Shader.ShaderType.Vertex);
+    diagram1.addOutBus(out);
+    Point position=getPositionFromMetaData(out.getKey(),0,125);
+    out.setLocation(position);
+  }
+  i=2;
+  for (  ShaderNodeVariable var : fragmentGlobals) {
+    OutBusPanel out2=new OutBusPanel(var.getName(),Shader.ShaderType.Fragment);
+    diagram1.addOutBus(out2);
+    Point position=getPositionFromMetaData(out2.getKey(),0,150 * i + 190);
+    out2.setLocation(position);
+    i++;
+  }
+  i=0;
+  for (  ShaderNodeVariable shaderNodeVariable : attributes) {
+    NodePanel np=diagram1.getNodePanel(shaderNodeVariable.getNameSpace() + "." + shaderNodeVariable.getName());
+    if (np == null) {
+      np=new NodePanel(shaderNodeVariable,NodePanel.NodeType.Attribute);
+      diagram1.addNode(np);
+      Point position=getPositionFromMetaData(np.getKey(),150 * i + 20,5);
+      np.setLocation(position);
+      i++;
+    }
+  }
+  i=0;
+  for (  ShaderNodeVariable shaderNodeVariable : uniforms) {
+    NodePanel np=diagram1.getNodePanel(shaderNodeVariable.getNameSpace() + "." + shaderNodeVariable.getName());
+    if (np == null) {
+      np=new NodePanel(shaderNodeVariable,shaderNodeVariable.getNameSpace().equals("MatParam") ? NodePanel.NodeType.MatParam : NodePanel.NodeType.WorldParam);
+      diagram1.addNode(np);
+      Point position=getPositionFromMetaData(np.getKey(),150 * i + 20,65);
+      np.setLocation(position);
+      i++;
+    }
+  }
+  for (  ShaderNodeBlock sn : technique.getShaderNodes()) {
+    List<InputMappingBlock> ins=sn.getInputs();
+    if (ins != null) {
+      for (      InputMappingBlock mapping : ins) {
+        makeConnection(mapping);
+        if (!mapping.getRightNameSpace().equals("Global") && !mapping.getRightNameSpace().equals("MatParam") && !mapping.getRightNameSpace().equals("Attribute")&& !mapping.getRightNameSpace().equals("WorldParam")) {
+          sn.addInputNode(mapping.getRightNameSpace());
+        }
+ else         if (mapping.getRightNameSpace().equals("Global")) {
+          sn.setGlobalInput(true);
+        }
+      }
+    }
+    List<OutputMappingBlock> outs=sn.getOutputs();
+    if (outs != null) {
+      for (      OutputMappingBlock mapping : outs) {
+        makeConnection(mapping);
+        if (mapping.getLeftNameSpace().equals("Global")) {
+          sn.setGlobalOutput(true);
+        }
+      }
+    }
+  }
+  diagram1.setPreferredSize(new Dimension(jScrollPane1.getWidth() - 2,jScrollPane1.getHeight() - 2));
+  diagram1.revalidate();
+  jScrollPane1.addComponentListener(diagram1);
+  diagram1.refreshPreviews(mat);
+  final Lookup.Result<Material> resMat=obj.getLookup().lookupResult(Material.class);
+  resMat.addLookupListener(new LookupListener(){
+    public void resultChanged(    LookupEvent ev){
+      Collection<Material> col=(Collection<Material>)resMat.allInstances();
+      if (!col.isEmpty()) {
+        Material material=col.iterator().next();
+        diagram1.refreshPreviews(material);
+      }
+    }
+  }
+);
+  final MatDefNavigatorPanel nav=obj.getLookup().lookup(MatDefNavigatorPanel.class);
+  if (nav != null) {
+    Lookup.Result<Selectable> res=nav.getLookup().lookupResult(Selectable.class);
+    res.addLookupListener(new LookupListener(){
+      public void resultChanged(      LookupEvent ev){
+        Selectable selected=nav.getLookup().lookup(Selectable.class);
+        if (selected != null && (prevNode == null || !(selected.getKey().equals(prevNode.getKey())))) {
+          prevNode=diagram1.select(selected.getKey());
+        }
+      }
+    }
+);
+  }
+}

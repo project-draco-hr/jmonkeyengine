@@ -1,0 +1,28 @@
+{
+  if (file.isLoaded()) {
+    initDiagram(lkp);
+    MatDefNavigatorPanel nav=obj.getLookup().lookup(MatDefNavigatorPanel.class);
+    if (nav != null) {
+      nav.updateData(obj);
+    }
+  }
+ else {
+    diagram1.clear();
+    JLabel error=new JLabel("Cannot load material definition.");
+    error.setForeground(Color.RED);
+    error.setBounds(0,0,200,20);
+    diagram1.add(error);
+    JButton btn=new JButton("retry");
+    btn.addActionListener(new ActionListener(){
+      public void actionPerformed(      ActionEvent e){
+        file.load(lkp);
+        if (file.isLoaded()) {
+          initDiagram(lkp);
+        }
+      }
+    }
+);
+    btn.setBounds(0,25,150,20);
+    diagram1.add(btn);
+  }
+}
