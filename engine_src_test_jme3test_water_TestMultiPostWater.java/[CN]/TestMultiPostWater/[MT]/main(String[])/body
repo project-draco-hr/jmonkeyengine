@@ -1,5 +1,8 @@
 {
   TestMultiPostWater app=new TestMultiPostWater();
-  app.setSettings(new AppSettings(true));
+  AppSettings s=new AppSettings(true);
+  s.setRenderer(AppSettings.LWJGL_OPENGL2);
+  s.setAudioRenderer(AppSettings.LWJGL_OPENAL);
+  app.setSettings(s);
   app.start();
 }

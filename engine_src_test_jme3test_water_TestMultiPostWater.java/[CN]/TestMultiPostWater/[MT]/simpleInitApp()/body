@@ -7,7 +7,7 @@
   sun.setColor(ColorRGBA.White.clone().multLocal(1.7f));
   mainScene.addLight(sun);
   flyCam.setMoveSpeed(100);
-  cam.setLocation(new Vector3f(-327.21957f,61.6459f,126.884346f));
+  cam.setLocation(new Vector3f(-327.21957f,251.6459f,126.884346f));
   cam.setRotation(new Quaternion().fromAngles(new float[]{FastMath.PI * 0.06f,FastMath.PI * 0.65f,0}));
   Spatial sky=SkyFactory.createSky(assetManager,"Scenes/Beach/FullskiesSunset0068.dds",false);
   sky.setLocalScale(350);
@@ -22,12 +22,12 @@
   water.setFoamExistence(new Vector3f(1f,4,0.5f));
   water.setFoamTexture((Texture2D)assetManager.loadTexture("Common/MatDefs/Water/Textures/foam2.jpg"));
   water.setRefractionStrength(0.2f);
-  water.setWaterHeight(0.8f);
+  water.setWaterHeight(WATER_HEIGHT);
   fpp.addFilter(water);
   WaterFilter water2=new WaterFilter(rootNode,lightDir);
   water2.setCenter(new Vector3f(-280.46027f,-24.971727f,-271.71976f));
   water2.setRadius(260);
-  water2.setWaterHeight(0.8f);
+  water2.setWaterHeight(WATER_HEIGHT);
   water2.setUseFoam(false);
   water2.setUseRipples(false);
   water2.setDeepWaterColor(ColorRGBA.Brown);
@@ -45,13 +45,12 @@
   WaterFilter water3=new WaterFilter(rootNode,lightDir);
   water3.setCenter(new Vector3f(319.6663f,-18.367947f,-236.67674f));
   water3.setRadius(260);
-  water3.setWaterHeight(0.8f);
+  water3.setWaterHeight(WATER_HEIGHT);
   water3.setWaveScale(0.003f);
   water3.setMaxAmplitude(2f);
   water3.setFoamExistence(new Vector3f(1f,4,0.5f));
   water3.setFoamTexture((Texture2D)assetManager.loadTexture("Common/MatDefs/Water/Textures/foam2.jpg"));
   water3.setRefractionStrength(0.2f);
-  water3.setWaterHeight(0.8f);
   water3.setDeepWaterColor(ColorRGBA.Red);
   water3.setWaterColor(ColorRGBA.Red.mult(2.0f));
   water3.setLightColor(ColorRGBA.Red);
