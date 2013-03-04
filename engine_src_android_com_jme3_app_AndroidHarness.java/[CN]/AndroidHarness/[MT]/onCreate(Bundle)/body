@@ -27,6 +27,7 @@
     settings.setEmulateMouseFlipAxis(mouseEventsInvertX,mouseEventsInvertY);
     settings.setUseJoysticks(joystickEventsEnabled);
     settings.setResolution(disp.getWidth(),disp.getHeight());
+    settings.put(AndroidConfigChooser.SETTINGS_CONFIG_TYPE,eglConfigType);
     try {
       if (app == null) {
         @SuppressWarnings("unchecked") Class<? extends Application> clazz=(Class<? extends Application>)Class.forName(appClass);
@@ -41,7 +42,7 @@
     }
   }
   ctx=(OGLESContext)app.getContext();
-  view=ctx.createView(eglConfigType,eglConfigVerboseLogging);
+  view=ctx.createView();
   ctx.setSystemListener(this);
   layoutDisplay();
 }

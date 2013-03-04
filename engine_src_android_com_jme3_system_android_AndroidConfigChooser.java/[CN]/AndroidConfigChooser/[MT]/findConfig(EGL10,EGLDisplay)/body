@@ -1,41 +1,23 @@
 {
-  ComponentSizeChooser compChooser=null;
-switch (type) {
-case BEST:
-    compChooser=new ComponentSizeChooser(8,8,8,0,32,0);
+  ConfigType type=(ConfigType)settings.get(SETTINGS_CONFIG_TYPE);
+  ComponentSizeChooser compChooser=new ComponentSizeChooser(type.r,type.g,type.b,type.a,type.d,type.s,4,1,2);
   choosenConfig=compChooser.chooseConfig(egl,display);
-if (choosenConfig == null) {
-  compChooser=new ComponentSizeChooser(8,8,8,0,16,0);
-  choosenConfig=compChooser.chooseConfig(egl,display);
-}
-logger.fine("JME3 using best EGL configuration available here: ");
-break;
-case BEST_TRANSLUCENT:
-compChooser=new ComponentSizeChooser(8,8,8,8,32,0);
-choosenConfig=compChooser.chooseConfig(egl,display);
-if (choosenConfig == null) {
-compChooser=new ComponentSizeChooser(8,8,8,8,16,0);
-choosenConfig=compChooser.chooseConfig(egl,display);
-}
-logger.fine("JME3 using best EGL configuration available here with translucent pixels: ");
-break;
-case FASTEST:
-compChooser=new ComponentSizeChooser(5,6,5,0,16,0);
-choosenConfig=compChooser.chooseConfig(egl,display);
-logger.fine("JME3 using fastest EGL configuration available here: ");
-break;
-}
-if (choosenConfig != null) {
-logger.fine("JME3 using choosen config: ");
-logEGLConfig(choosenConfig,display,egl);
-pixelFormat=getPixelFormat(choosenConfig,display,egl);
-clientOpenGLESVersion=getOpenGLVersion(choosenConfig,display,egl);
-return true;
-}
+  if (choosenConfig == null) {
+    compChooser=new ComponentSizeChooser(type.fbr,type.fbg,type.fbb,type.fba,type.fbd,type.fbs);
+    choosenConfig=compChooser.chooseConfig(egl,display);
+  }
+  logger.log(Level.FINE,"JME3 using {0} EGL configuration available here: ",type.name());
+  if (choosenConfig != null) {
+    logger.fine("JME3 using choosen config: ");
+    logEGLConfig(choosenConfig,display,egl);
+    pixelFormat=getPixelFormat(choosenConfig,display,egl);
+    clientOpenGLESVersion=getOpenGLVersion(choosenConfig,display,egl);
+    return true;
+  }
  else {
-logger.severe("ERROR: Unable to get a valid OpenGL ES 2.0 config, neither Fastest nor Best found! Bug. Please report this.");
-clientOpenGLESVersion=1;
-pixelFormat=PixelFormat.UNKNOWN;
-return false;
-}
+    logger.severe("ERROR: Unable to get a valid OpenGL ES 2.0 config, neither Fastest nor Best found! Bug. Please report this.");
+    clientOpenGLESVersion=1;
+    pixelFormat=PixelFormat.UNKNOWN;
+    return false;
+  }
 }

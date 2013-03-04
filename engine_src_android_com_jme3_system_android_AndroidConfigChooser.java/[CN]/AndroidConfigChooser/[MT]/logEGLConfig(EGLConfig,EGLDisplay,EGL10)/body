@@ -16,4 +16,8 @@
   logger.fine(String.format("EGL_RENDERABLE_TYPE  = %d",value[0]));
   egl.eglGetConfigAttrib(display,conf,EGL10.EGL_SURFACE_TYPE,value);
   logger.fine(String.format("EGL_SURFACE_TYPE  = %d",value[0]));
+  egl.eglGetConfigAttrib(display,conf,EGL10.EGL_SAMPLE_BUFFERS,value);
+  logger.fine(String.format("EGL_SAMPLE_BUFFERS  = %d",value[0]));
+  egl.eglGetConfigAttrib(display,conf,EGL10.EGL_SAMPLES,value);
+  logger.fine(String.format("EGL_SAMPLES  = %d",value[0]));
 }
