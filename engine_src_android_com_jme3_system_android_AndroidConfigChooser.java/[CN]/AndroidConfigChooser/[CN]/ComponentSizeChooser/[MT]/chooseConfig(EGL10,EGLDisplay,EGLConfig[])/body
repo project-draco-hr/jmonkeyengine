@@ -1,4 +1,7 @@
 {
+  EGLConfig keptConfig=null;
+  int kd=0;
+  int knbMs=0;
   for (  EGLConfig config : configs) {
     int r=findConfigAttrib(egl,display,config,EGL10.EGL_RED_SIZE,0);
     int g=findConfigAttrib(egl,display,config,EGL10.EGL_GREEN_SIZE,0);
@@ -6,22 +9,36 @@
     int a=findConfigAttrib(egl,display,config,EGL10.EGL_ALPHA_SIZE,0);
     int d=findConfigAttrib(egl,display,config,EGL10.EGL_DEPTH_SIZE,0);
     int s=findConfigAttrib(egl,display,config,EGL10.EGL_STENCIL_SIZE,0);
-    if ((r == mRedSize) && (g == mGreenSize) && (b == mBlueSize)&& (a == mAlphaSize)&& (d == mDepthSize)&& (s == mStencilSize)) {
-      return config;
-    }
-  }
-  for (  EGLConfig config : configs) {
-    int d=findConfigAttrib(egl,display,config,EGL10.EGL_DEPTH_SIZE,0);
-    int s=findConfigAttrib(egl,display,config,EGL10.EGL_STENCIL_SIZE,0);
-    if ((d >= mDepthSize) && (s >= mStencilSize)) {
-      int r=findConfigAttrib(egl,display,config,EGL10.EGL_RED_SIZE,0);
-      int g=findConfigAttrib(egl,display,config,EGL10.EGL_GREEN_SIZE,0);
-      int b=findConfigAttrib(egl,display,config,EGL10.EGL_BLUE_SIZE,0);
-      int a=findConfigAttrib(egl,display,config,EGL10.EGL_ALPHA_SIZE,0);
-      if ((r == mRedSize) && (g == mGreenSize) && (b == mBlueSize)&& (a == mAlphaSize)) {
-        return config;
+    int isMs=findConfigAttrib(egl,display,config,EGL10.EGL_SAMPLE_BUFFERS,0);
+    int nbMs=findConfigAttrib(egl,display,config,EGL10.EGL_SAMPLES,0);
+    if (inRange(r,configType.mr,configType.r) && inRange(g,configType.mg,configType.g) && inRange(b,configType.mb,configType.b)&& inRange(a,configType.ma,configType.a)&& inRange(d,configType.md,configType.d)&& inRange(s,configType.ms,configType.s)) {
+      if (mSamples == 0 && isMs != 0) {
+        continue;
+      }
+      boolean keep=false;
+      if (d >= kd) {
+        kd=d;
+        keep=true;
+      }
+ else {
+        keep=false;
+      }
+      if (mSamples != 0) {
+        if (nbMs >= knbMs && nbMs <= mSamples) {
+          knbMs=nbMs;
+          keep=true;
+        }
+ else {
+          keep=false;
+        }
+      }
+      if (keep) {
+        keptConfig=config;
       }
     }
+  }
+  if (keptConfig != null) {
+    return keptConfig;
   }
   if (configs.length > 0) {
     return configs[0];

@@ -1,16 +1,10 @@
 {
   int[] num_config=new int[1];
-  if (!egl.eglChooseConfig(display,mConfigSpec,null,0,num_config)) {
-    throw new IllegalArgumentException("eglChooseConfig failed");
-  }
+  int[] configSpec=new int[]{EGL10.EGL_RENDERABLE_TYPE,EGL_OPENGL_ES2_BIT,EGL10.EGL_NONE};
+  egl.eglChooseConfig(display,configSpec,null,0,num_config);
   int numConfigs=num_config[0];
-  if (numConfigs <= 0) {
-    return null;
-  }
   EGLConfig[] configs=new EGLConfig[numConfigs];
-  if (!egl.eglChooseConfig(display,mConfigSpec,configs,numConfigs,num_config)) {
-    throw new IllegalArgumentException("eglChooseConfig#2 failed");
-  }
+  egl.eglChooseConfig(display,configSpec,configs,numConfigs,num_config);
   EGLConfig config=chooseConfig(egl,display,configs);
   return config;
 }
