@@ -1,21 +1,12 @@
 {
-  Level level=record.getLevel();
-  String clsName=record.getSourceClassName();
-  String msg=String.format(record.getMessage(),record.getParameters());
-  Throwable t=record.getThrown();
-  if (level == Level.FINE) {
-    Log.i(clsName,msg,t);
+  try {
+    Level level=record.getLevel();
+    String tag=record.getLoggerName();
+    String msg=THE_FORMATTER.format(record);
+    int lv=getAndroidLevel(level);
+    Log.println(lv,tag,msg);
   }
- else   if (level == Level.SEVERE) {
-    Log.e(clsName,msg,t);
-  }
- else   if (level == Level.WARNING) {
-    Log.w(clsName,msg,t);
-  }
- else   if (level == Level.CONFIG) {
-    Log.d(clsName,msg,t);
-  }
- else   if (level == Level.FINE || level == Level.FINER || level == Level.FINEST) {
-    Log.v(clsName,msg,t);
+ catch (  RuntimeException e) {
+    Log.e("AndroidHandler","Error logging message.",e);
   }
 }
