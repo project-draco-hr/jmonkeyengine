@@ -14,6 +14,7 @@
         fr.read(b);
         materialTextPreview.setText(new String(b).trim());
       }
+      prefs.put(PREF_LAST_SELECTED,selected);
     }
  catch (    IOException ex) {
       Exceptions.printStackTrace(ex);
