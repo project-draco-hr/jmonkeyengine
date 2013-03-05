@@ -3,8 +3,11 @@
   materialFile=null;
   jComboBox1.removeAllItems();
   jComboBox1.addItem("");
-  for (int i=0; i < strings.length; i++) {
-    String string=strings[i];
+  List<String> matDefList=Arrays.asList(matDefs);
+  Collections.sort(matDefList);
+  String[] sortedMatDefs=matDefList.toArray(new String[0]);
+  for (int i=0; i < sortedMatDefs.length; i++) {
+    String string=sortedMatDefs[i];
     jComboBox1.addItem(string);
   }
   jComboBox1.setSelectedItem(selected);
