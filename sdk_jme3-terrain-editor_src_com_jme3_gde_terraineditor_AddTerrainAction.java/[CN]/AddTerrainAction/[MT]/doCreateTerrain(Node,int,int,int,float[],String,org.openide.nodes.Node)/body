@@ -9,6 +9,8 @@
     if (i == 0) {
       for (int h=0; h < alphaTextureSize; h++)       for (int w=0; w < alphaTextureSize; w++)       alphaBlend.setRGB(w,h,0x00FF0000);
     }
+    File textureFolder=new File(assetFolder + "/Textures/");
+    if (!textureFolder.exists())     textureFolder.mkdir();
     File alphaFolder=new File(assetFolder + "/Textures/terrain-alpha/");
     if (!alphaFolder.exists())     alphaFolder.mkdir();
     String alphaBlendFileName="/Textures/terrain-alpha/" + sceneName + "-"+ ((Node)terrain).getName()+ "-alphablend"+ i+ ".png";
