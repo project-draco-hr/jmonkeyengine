@@ -19,8 +19,8 @@
           List<Structure> dw=pDW.fetchData(blenderContext.getInputStream());
           for (          Structure deformWeight : dw) {
             Integer boneIndex=groupToBoneIndexMap.get(((Number)deformWeight.getFieldValue("def_nr")).intValue());
-            if (boneIndex != null) {
-              float weight=((Number)deformWeight.getFieldValue("weight")).floatValue();
+            float weight=((Number)deformWeight.getFieldValue("weight")).floatValue();
+            if (boneIndex != null && (weight > 0.0f || weightIndex > 0)) {
               if (weightIndex < MAXIMUM_WEIGHTS_PER_VERTEX) {
                 if (weight == 0.0f) {
                   boneIndex=Integer.valueOf(0);
@@ -44,8 +44,8 @@
                   weightToIndexMap.put(weight,lowestWeightAndIndex.getValue());
                 }
               }
+              ++weightIndex;
             }
-            ++weightIndex;
           }
         }
  else {
