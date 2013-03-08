@@ -20,7 +20,6 @@
   createTerrainButton=new javax.swing.JButton();
   jSeparator1=new javax.swing.JToolBar.Separator();
   raiseTerrainButton=new javax.swing.JToggleButton();
-  lowerTerrainButton=new javax.swing.JToggleButton();
   smoothTerrainButton=new javax.swing.JToggleButton();
   roughTerrainButton=new javax.swing.JToggleButton();
   levelTerrainButton=new javax.swing.JToggleButton();
@@ -190,18 +189,6 @@
   }
 );
   jToolBar1.add(raiseTerrainButton);
-  terrainModButtonGroup.add(lowerTerrainButton);
-  lowerTerrainButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/terraineditor/icon_terrain-down.png")));
-  org.openide.awt.Mnemonics.setLocalizedText(lowerTerrainButton,org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.lowerTerrainButton.text"));
-  lowerTerrainButton.setToolTipText(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.lowerTerrainButton.toolTipText"));
-  lowerTerrainButton.setActionCommand(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.lowerTerrainButton.actionCommand"));
-  lowerTerrainButton.addActionListener(new java.awt.event.ActionListener(){
-    public void actionPerformed(    java.awt.event.ActionEvent evt){
-      lowerTerrainButtonActionPerformed(evt);
-    }
-  }
-);
-  jToolBar1.add(lowerTerrainButton);
   terrainModButtonGroup.add(smoothTerrainButton);
   smoothTerrainButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/terraineditor/icon_terrain-smooth.png")));
   org.openide.awt.Mnemonics.setLocalizedText(smoothTerrainButton,org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.smoothTerrainButton.text"));

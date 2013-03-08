@@ -1,0 +1,9 @@
+{
+  if (radius == 0 || weight == 0)   return;
+  if (!modifying)   modifying=true;
+  RaiseTerrainToolAction action;
+  if (isPrimary())   action=new RaiseTerrainToolAction(point,radius,weight,getMesh());
+ else   action=new RaiseTerrainToolAction(point,radius,-weight,getMesh());
+  action.doActionPerformed(rootNode,dataObject,false);
+  actions.add(action);
+}
