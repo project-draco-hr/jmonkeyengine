@@ -1,6 +1,8 @@
 {
+  if (terrain != null)   return terrain;
   if (root instanceof Terrain && root instanceof Node) {
-    return (Terrain)root;
+    terrain=(Terrain)root;
+    return terrain;
   }
   if (root instanceof Node) {
     Node n=(Node)root;

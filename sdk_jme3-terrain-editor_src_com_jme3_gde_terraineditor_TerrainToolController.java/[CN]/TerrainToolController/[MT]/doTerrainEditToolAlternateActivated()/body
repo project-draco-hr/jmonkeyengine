@@ -1,7 +1,8 @@
 {
-  if (terrainTool != null) {
-    Vector3f point=cameraController.getTerrainCollisionPoint();
+  if (terrainTool != null && alternate && !primary) {
+    Vector3f point=getMarkerLocation();
     if (point != null) {
+      topComponent.getExtraToolParams();
       terrainTool.actionSecondary(point,selectedTextureIndex,jmeRootNode,editorController.getCurrentDataObject());
     }
   }

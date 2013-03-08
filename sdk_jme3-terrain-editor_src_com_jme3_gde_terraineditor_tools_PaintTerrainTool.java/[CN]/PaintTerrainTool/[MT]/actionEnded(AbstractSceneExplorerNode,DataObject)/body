@@ -1,0 +1,10 @@
+{
+  if (painting) {
+    painting=false;
+    if (actions.isEmpty())     return;
+    List<PaintTerrainToolAction> cloned=new ArrayList<PaintTerrainToolAction>();
+    cloned.addAll(actions);
+    recordUndo(cloned,rootNode,dataObject);
+    actions.clear();
+  }
+}
