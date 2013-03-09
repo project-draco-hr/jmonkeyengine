@@ -63,11 +63,21 @@
         if (name.equals("foam3")) {
           water.setFoamTexture((Texture2D)assetManager.loadTexture("Common/MatDefs/Water/Textures/foam3.jpg"));
         }
+        if (name.equals("upRM")) {
+          water.setReflectionMapSize(Math.min(water.getReflectionMapSize() * 2,4096));
+          System.out.println("Reflection map size : " + water.getReflectionMapSize());
+        }
+        if (name.equals("downRM")) {
+          water.setReflectionMapSize(Math.max(water.getReflectionMapSize() / 2,32));
+          System.out.println("Reflection map size : " + water.getReflectionMapSize());
+        }
       }
     }
   }
-,"foam1","foam2","foam3");
-  inputManager.addMapping("foam1",new KeyTrigger(keyInput.KEY_1));
-  inputManager.addMapping("foam2",new KeyTrigger(keyInput.KEY_2));
-  inputManager.addMapping("foam3",new KeyTrigger(keyInput.KEY_3));
+,"foam1","foam2","foam3","upRM","downRM");
+  inputManager.addMapping("foam1",new KeyTrigger(KeyInput.KEY_1));
+  inputManager.addMapping("foam2",new KeyTrigger(KeyInput.KEY_2));
+  inputManager.addMapping("foam3",new KeyTrigger(KeyInput.KEY_3));
+  inputManager.addMapping("upRM",new KeyTrigger(KeyInput.KEY_PGUP));
+  inputManager.addMapping("downRM",new KeyTrigger(KeyInput.KEY_PGDN));
 }
