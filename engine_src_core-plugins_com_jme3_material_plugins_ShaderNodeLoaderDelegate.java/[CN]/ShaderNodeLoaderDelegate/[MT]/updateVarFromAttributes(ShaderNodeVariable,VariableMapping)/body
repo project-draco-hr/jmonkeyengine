@@ -1,9 +1,12 @@
 {
-  ShaderNodeVariable var=attributes.get(right.getName());
-  if (var == null) {
+  DeclaredVariable dv=attributes.get(right.getName());
+  if (dv == null) {
+    dv=new DeclaredVariable(right);
+    attributes.put(right.getName(),dv);
     updateRightTypeFromLeftType(mapping);
   }
  else {
-    mapping.setRightVariable(var);
+    mapping.setRightVariable(dv.var);
   }
+  dv.addNode(shaderNode);
 }

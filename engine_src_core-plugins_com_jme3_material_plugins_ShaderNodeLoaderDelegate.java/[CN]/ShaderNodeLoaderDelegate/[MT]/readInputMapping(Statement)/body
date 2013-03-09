@@ -16,7 +16,6 @@
   }
   if (right.getNameSpace().equals("Global")) {
     right.setType("vec4");
-    updateCondition(right,mapping);
     storeGlobal(right,statement1);
   }
  else   if (right.getNameSpace().equals("Attr")) {
@@ -24,7 +23,6 @@
       throw new MatParseException("Cannot have an attribute as input in a fragment shader" + right.getName(),statement1);
     }
     updateVarFromAttributes(mapping.getRightVariable(),mapping);
-    updateCondition(mapping.getRightVariable(),mapping);
     storeAttribute(mapping.getRightVariable());
   }
  else   if (right.getNameSpace().equals("MatParam")) {
@@ -34,7 +32,6 @@
     }
     if (shaderNode.getDefinition().getType() == Shader.ShaderType.Vertex) {
       if (updateRightFromUniforms(param,mapping,vertexDeclaredUniforms)) {
-        updateCondition(mapping.getRightVariable(),mapping);
         storeVertexUniform(mapping.getRightVariable());
       }
     }
@@ -49,7 +46,6 @@
             throw new MatParseException(param.getVarType().toString() + " can only be matched to one of " + param.getVarType().getGlslType().replaceAll("\\|",",")+ " found "+ left.getType(),statement1);
           }
         }
-        updateCondition(mapping.getRightVariable(),mapping);
         storeFragmentUniform(mapping.getRightVariable());
       }
     }
@@ -61,13 +57,11 @@
     }
     if (shaderNode.getDefinition().getType() == Shader.ShaderType.Vertex) {
       if (updateRightFromUniforms(worldParam,mapping,vertexDeclaredUniforms)) {
-        updateCondition(mapping.getRightVariable(),mapping);
         storeVertexUniform(mapping.getRightVariable());
       }
     }
  else {
       if (updateRightFromUniforms(worldParam,mapping,fragmentDeclaredUniforms)) {
-        updateCondition(mapping.getRightVariable(),mapping);
         storeFragmentUniform(mapping.getRightVariable());
       }
     }
@@ -84,7 +78,6 @@
     right.setNameSpace(node.getName());
     right.setType(var.getType());
     mapping.setRightVariable(right);
-    updateCondition(mapping.getRightVariable(),mapping);
     storeVaryings(node,mapping.getRightVariable());
   }
   checkTypes(mapping,statement1);

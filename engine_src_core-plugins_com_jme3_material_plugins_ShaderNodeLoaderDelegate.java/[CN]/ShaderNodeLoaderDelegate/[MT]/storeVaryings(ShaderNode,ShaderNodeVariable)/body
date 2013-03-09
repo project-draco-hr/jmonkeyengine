@@ -1,15 +1,13 @@
 {
   variable.setShaderOutput(true);
   if (node.getDefinition().getType() == Shader.ShaderType.Vertex && shaderNode.getDefinition().getType() == Shader.ShaderType.Fragment) {
-    ShaderNodeVariable var=varyings.get(variable.getName());
-    if (var == null) {
+    DeclaredVariable dv=varyings.get(variable.getName());
+    if (dv == null) {
       techniqueDef.getShaderGenerationInfo().getVaryings().add(variable);
-      varyings.put(variable.getName(),variable);
+      dv=new DeclaredVariable(variable);
+      varyings.put(variable.getName(),dv);
     }
- else {
-      var.setCondition(mergeConditions(var.getCondition(),variable.getCondition(),"||"));
-      variable.setCondition(var.getCondition());
-    }
+    dv.addNode(shaderNode);
     for (    VariableMapping variableMapping : node.getInputMapping()) {
       if (variableMapping.getLeftVariable().getName().equals(variable.getName())) {
         variableMapping.getLeftVariable().setShaderOutput(true);

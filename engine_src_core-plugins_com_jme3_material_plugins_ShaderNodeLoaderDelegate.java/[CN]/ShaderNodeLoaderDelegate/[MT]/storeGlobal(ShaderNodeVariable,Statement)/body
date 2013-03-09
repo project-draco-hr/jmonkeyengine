@@ -3,8 +3,6 @@
   if (shaderNode.getDefinition().getType() == Shader.ShaderType.Vertex) {
     ShaderNodeVariable global=techniqueDef.getShaderGenerationInfo().getVertexGlobal();
     if (global != null) {
-      global.setCondition(mergeConditions(global.getCondition(),var.getCondition(),"||"));
-      var.setCondition(global.getCondition());
       if (!global.getName().equals(var.getName())) {
         throw new MatParseException("A global output is already defined for the vertex shader: " + global.getName() + ". vertex shader can only have one global output",statement1);
       }
@@ -14,6 +12,6 @@
     }
   }
  else   if (shaderNode.getDefinition().getType() == Shader.ShaderType.Fragment) {
-    mergeConditionsAndStoreVariable(var,techniqueDef.getShaderGenerationInfo().getFragmentGlobals());
+    storeVariable(var,techniqueDef.getShaderGenerationInfo().getFragmentGlobals());
   }
 }
