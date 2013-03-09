@@ -1,6 +1,11 @@
 {
   this.renderManager=rm;
-  renderDev.setRenderManager(rm);
+  if (renderDev != null) {
+    renderDev.setRenderManager(rm);
+  }
+ else {
+    batchRendererBackend.setRenderManager(rm);
+  }
   if (inputManager != null) {
     inputManager.addRawInputListener(inputSys);
   }

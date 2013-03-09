@@ -1,11 +1,7 @@
 {
-  this.assetManager=assetManager;
-  this.inputManager=inputManager;
-  w=vp.getCamera().getWidth();
-  h=vp.getCamera().getHeight();
-  soundDev=new SoundDeviceJme(assetManager,audioRenderer);
-  renderDev=new RenderDeviceJme(this);
-  inputSys=new InputSystemJme(inputManager);
+  initialize(assetManager,inputManager,audioRenderer,vp);
+  this.renderDev=new RenderDeviceJme(this);
+  this.batchRendererBackend=null;
   nifty=new Nifty(renderDev,soundDev,inputSys,new TimeProvider());
   inputSys.setNifty(nifty);
   resourceLocation=new ResourceLocationJme();

@@ -1,0 +1,16 @@
+{
+  renderState.setBlendMode(convertBlend(blendMode));
+  vertexPosBuffer.flip();
+  vertexPos.updateData(vertexPosBuffer);
+  vertexTexCoordBuffer.flip();
+  vertexTexCoord.updateData(vertexTexCoordBuffer);
+  vertexColorBuffer.flip();
+  vertexColor.updateData(vertexColorBuffer);
+  indexBufferBuffer.flip();
+  indexBuffer.updateData(indexBufferBuffer);
+  tempMat.loadIdentity();
+  renderManager.setWorldMatrix(tempMat);
+  renderManager.setForcedRenderState(renderState);
+  material.setTexture("ColorMap",textureAtlas);
+  material.render(meshGeometry,renderManager);
+}

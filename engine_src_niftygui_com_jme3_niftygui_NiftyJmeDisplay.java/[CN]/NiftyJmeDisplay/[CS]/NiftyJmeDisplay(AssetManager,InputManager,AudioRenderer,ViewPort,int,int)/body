@@ -1,0 +1,10 @@
+{
+  initialize(assetManager,inputManager,audioRenderer,viewport);
+  this.renderDev=null;
+  this.batchRendererBackend=new JmeBatchRenderBackend(this);
+  nifty=new Nifty(new BatchRenderDevice(batchRendererBackend,atlasWidth,atlasHeight),soundDev,inputSys,new TimeProvider());
+  inputSys.setNifty(nifty);
+  resourceLocation=new ResourceLocationJme();
+  nifty.getResourceLoader().removeAllResourceLocations();
+  nifty.getResourceLoader().addResourceLocation(resourceLocation);
+}

@@ -1,0 +1,14 @@
+{
+  log.fine("beginFrame()");
+  for (int i=0; i < batches.size(); i++) {
+    batchPool.free(batches.get(i));
+  }
+  batches.clear();
+  if (!modifyTextureCalls.isEmpty()) {
+    Renderer renderer=display.getRenderer();
+    for (int i=0; i < modifyTextureCalls.size(); i++) {
+      modifyTextureCalls.get(i).execute(renderer);
+    }
+    modifyTextureCalls.clear();
+  }
+}

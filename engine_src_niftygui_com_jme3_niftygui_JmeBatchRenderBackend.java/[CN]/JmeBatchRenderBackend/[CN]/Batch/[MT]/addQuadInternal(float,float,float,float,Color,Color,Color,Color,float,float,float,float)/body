@@ -1,0 +1,14 @@
+{
+  indexBufferBuffer.put((short)(globalVertexIndex + 0));
+  indexBufferBuffer.put((short)(globalVertexIndex + 3));
+  indexBufferBuffer.put((short)(globalVertexIndex + 2));
+  indexBufferBuffer.put((short)(globalVertexIndex + 0));
+  indexBufferBuffer.put((short)(globalVertexIndex + 2));
+  indexBufferBuffer.put((short)(globalVertexIndex + 1));
+  addVertex(x,y,textureX,textureY,color1);
+  addVertex(x + width,y,textureX + textureWidth,textureY,color2);
+  addVertex(x + width,y + height,textureX + textureWidth,textureY + textureHeight,color4);
+  addVertex(x,y + height,textureX,textureY + textureHeight,color3);
+  quadCount++;
+  globalVertexIndex+=4;
+}

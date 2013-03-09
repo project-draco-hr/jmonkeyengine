@@ -1,0 +1,8 @@
+{
+  Renderer renderer=display.getRenderer();
+  if (renderer == null) {
+    modifyTextureCalls.add(new ModifyTexture(textureAtlas,image,x,y));
+    return;
+  }
+  renderer.modifyTexture(textureAtlas,image,x,y);
+}
