@@ -1,6 +1,6 @@
 {
   try {
-    EditorCookie ec=(EditorCookie)lookup.lookup(EditorCookie.class);
+    EditorCookie ec=lookup.lookup(EditorCookie.class);
     final StyledDocument doc=ec.getDocument();
     final BadLocationException[] exc=new BadLocationException[]{null};
     NbDocument.runAtomicAsUser(ec.getDocument(),new Runnable(){

@@ -1,5 +1,5 @@
 {
-  Collection data=curContext.allInstances();
+  Collection<? extends MatDefDataObject> data=curContext.allInstances();
   if (!data.isEmpty()) {
     MatDefDataObject obj=(MatDefDataObject)data.iterator().next();
     obj.getLookupContents().remove(this);
