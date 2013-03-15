@@ -1,0 +1,75 @@
+{
+  AndroidGLImageFormat imageFormat=new AndroidGLImageFormat();
+switch (fmt) {
+case RGBA16:
+case RGB16:
+case RGB10:
+case Luminance16:
+case Luminance16Alpha16:
+case Alpha16:
+case Depth32:
+case Depth32F:
+    throw new UnsupportedOperationException("The image format '" + fmt + "' is not supported by OpenGL ES 2.0 specification.");
+case Alpha8:
+  imageFormat.format=GLES20.GL_ALPHA;
+imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
+break;
+case Luminance8:
+imageFormat.format=GLES20.GL_LUMINANCE;
+imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
+break;
+case Luminance8Alpha8:
+imageFormat.format=GLES20.GL_LUMINANCE_ALPHA;
+imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
+break;
+case RGB565:
+imageFormat.format=GLES20.GL_RGB;
+imageFormat.dataType=GLES20.GL_UNSIGNED_SHORT_5_6_5;
+break;
+case ARGB4444:
+imageFormat.format=GLES20.GL_RGBA4;
+imageFormat.dataType=GLES20.GL_UNSIGNED_SHORT_4_4_4_4;
+break;
+case RGB5A1:
+imageFormat.format=GLES20.GL_RGBA;
+imageFormat.dataType=GLES20.GL_UNSIGNED_SHORT_5_5_5_1;
+break;
+case RGB8:
+imageFormat.format=GLES20.GL_RGB;
+imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
+break;
+case BGR8:
+imageFormat.format=GLES20.GL_RGB;
+imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
+break;
+case RGBA8:
+imageFormat.format=GLES20.GL_RGBA;
+imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
+break;
+case Depth:
+case Depth16:
+case Depth24:
+imageFormat.format=GLES20.GL_DEPTH_COMPONENT;
+imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
+break;
+case DXT1:
+if (!DXT1) {
+unsupportedFormat(fmt);
+}
+imageFormat.format=0x83F0;
+imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
+imageFormat.compress=true;
+break;
+case DXT1A:
+if (!DXT1) {
+unsupportedFormat(fmt);
+}
+imageFormat.format=0x83F1;
+imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
+imageFormat.compress=true;
+break;
+default :
+throw new UnsupportedOperationException("Unrecognized format: " + fmt);
+}
+return imageFormat;
+}

@@ -1,35 +1,3 @@
 {
-  boolean recycleBitmap=false;
-  if (!NPOT || needMips) {
-    int width=bitmap.getWidth();
-    int height=bitmap.getHeight();
-    if (!FastMath.isPowerOfTwo(width) || !FastMath.isPowerOfTwo(height)) {
-      width=FastMath.nearestPowerOfTwo(width);
-      height=FastMath.nearestPowerOfTwo(height);
-      logger.log(Level.WARNING," - Image is not POT, so scaling it to new resolution: {0}x{1}",new Object[]{width,height});
-      Bitmap bitmap2=Bitmap.createScaledBitmap(bitmap,width,height,true);
-      bitmap=bitmap2;
-      recycleBitmap=true;
-    }
-  }
-  boolean willCompress=ENABLE_COMPRESSION && ETC1support && !bitmap.hasAlpha();
-  if (needMips && willCompress) {
-    buildMipmap(bitmap,willCompress);
-  }
- else {
-    if (willCompress) {
-      logger.log(Level.FINEST," - Uploading compressed bitmap. Mipmaps are not generated.");
-      uploadBitmapAsCompressed(target,0,bitmap);
-    }
- else {
-      logger.log(Level.FINEST," - Uploading bitmap directly.{0}",(needMips ? " Mipmaps will be generated in HARDWARE" : " Mipmaps are not generated."));
-      GLUtils.texImage2D(target,0,bitmap,0);
-      if (needMips) {
-        GLES20.glGenerateMipmap(target);
-      }
-    }
-  }
-  if (recycleBitmap) {
-    bitmap.recycle();
-  }
+  uploadTextureBitmap(target,bitmap,needMips,false,0,0);
 }

@@ -1,0 +1,32 @@
+{
+  boolean recycleBitmap=false;
+  boolean willCompress=ENABLE_COMPRESSION && ETC1support && !bitmap.hasAlpha();
+  if (needMips && willCompress) {
+    buildMipmap(bitmap,willCompress);
+  }
+ else {
+    if (willCompress) {
+      logger.log(Level.FINEST," - Uploading compressed bitmap. Mipmaps are not generated.");
+      uploadBitmapAsCompressed(target,0,bitmap,subTexture,x,y);
+    }
+ else {
+      logger.log(Level.FINEST," - Uploading bitmap directly.{0}",(needMips ? " Mipmaps will be generated in HARDWARE" : " Mipmaps are not generated."));
+      if (subTexture) {
+        System.err.println("x : " + x + " y :"+ y+ " , "+ bitmap.getWidth()+ "/"+ bitmap.getHeight());
+        GLUtils.texSubImage2D(target,0,x,y,bitmap);
+        checkGLError();
+      }
+ else {
+        GLUtils.texImage2D(target,0,bitmap,0);
+        checkGLError();
+      }
+      if (needMips) {
+        GLES20.glGenerateMipmap(target);
+        checkGLError();
+      }
+    }
+  }
+  if (recycleBitmap) {
+    bitmap.recycle();
+  }
+}

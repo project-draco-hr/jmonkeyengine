@@ -1,7 +1,14 @@
 {
   if (bitmap.hasAlpha()) {
     logger.log(Level.FINEST," - Uploading bitmap directly. Cannot compress as alpha present.");
-    GLUtils.texImage2D(target,level,bitmap,0);
+    if (subTexture) {
+      GLUtils.texSubImage2D(target,level,x,y,bitmap);
+      checkGLError();
+    }
+ else {
+      GLUtils.texImage2D(target,level,bitmap,0);
+      checkGLError();
+    }
   }
  else {
     int bytesPerPixel=2;
@@ -19,7 +26,14 @@
       int oldSize=(bitmap.getRowBytes() * bitmap.getHeight());
       int newSize=compressedImage.capacity();
       logger.log(Level.FINEST," - Uploading compressed image to GL, oldSize = {0}, newSize = {1}, ratio = {2}",new Object[]{oldSize,newSize,(float)oldSize / newSize});
-      GLES20.glCompressedTexImage2D(target,level,ETC1.ETC1_RGB8_OES,bitmap.getWidth(),bitmap.getHeight(),0,etc1tex.getData().capacity(),etc1tex.getData());
+      if (subTexture) {
+        GLES20.glCompressedTexSubImage2D(target,level,x,y,bitmap.getWidth(),bitmap.getHeight(),ETC1.ETC1_RGB8_OES,etc1tex.getData().capacity(),etc1tex.getData());
+        checkGLError();
+      }
+ else {
+        GLES20.glCompressedTexImage2D(target,level,ETC1.ETC1_RGB8_OES,bitmap.getWidth(),bitmap.getHeight(),0,etc1tex.getData().capacity(),etc1tex.getData());
+        checkGLError();
+      }
     }
     BufferUtils.destroyDirectBuffer(compressedImage);
   }

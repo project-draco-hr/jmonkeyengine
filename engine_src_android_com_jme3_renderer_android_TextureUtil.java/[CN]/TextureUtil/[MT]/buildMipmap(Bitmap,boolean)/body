@@ -7,7 +7,7 @@
   while (height >= 1 || width >= 1) {
     if (compress) {
       logger.log(Level.FINEST," - Uploading LOD level {0} ({1}x{2}) with compression.",new Object[]{level,width,height});
-      uploadBitmapAsCompressed(GLES20.GL_TEXTURE_2D,level,bitmap);
+      uploadBitmapAsCompressed(GLES20.GL_TEXTURE_2D,level,bitmap,false,0,0);
     }
  else {
       logger.log(Level.FINEST," - Uploading LOD level {0} ({1}x{2}) directly.",new Object[]{level,width,height});
