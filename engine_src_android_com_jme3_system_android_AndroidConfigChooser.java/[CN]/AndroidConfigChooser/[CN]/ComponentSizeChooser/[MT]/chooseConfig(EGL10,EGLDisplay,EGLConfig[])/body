@@ -15,7 +15,7 @@
       if (mSamples == 0 && isMs != 0) {
         continue;
       }
-      boolean keep=false;
+      boolean keep;
       if (d >= kd) {
         kd=d;
         keep=true;
@@ -40,10 +40,28 @@
   if (keptConfig != null) {
     return keptConfig;
   }
-  if (configs.length > 0) {
-    return configs[0];
+  if (configType == ConfigType.BEST) {
+    logger.log(Level.WARNING,"Failed to find a suitable display configuration for BEST, attempting BEST_TRANSLUCENT");
+    configType=ConfigType.BEST_TRANSLUCENT;
+    keptConfig=chooseConfig(egl,display,configs);
+    if (keptConfig != null) {
+      return keptConfig;
+    }
   }
- else {
-    return null;
+  if (configType == ConfigType.BEST_TRANSLUCENT) {
+    logger.log(Level.WARNING,"Failed to find a suitable display configuration for BEST_TRANSLUCENT, attempting FASTEST");
+    configType=ConfigType.FASTEST;
+    keptConfig=chooseConfig(egl,display,configs);
+    if (keptConfig != null) {
+      return keptConfig;
+    }
   }
+  logger.log(Level.WARNING,"Failed to find a suitable display configuration for FASTEST, hoping for the best...");
+  for (  EGLConfig config : configs) {
+    int d=findConfigAttrib(egl,display,config,EGL10.EGL_DEPTH_SIZE,0);
+    if (d >= 16) {
+      return config;
+    }
+  }
+  return null;
 }
