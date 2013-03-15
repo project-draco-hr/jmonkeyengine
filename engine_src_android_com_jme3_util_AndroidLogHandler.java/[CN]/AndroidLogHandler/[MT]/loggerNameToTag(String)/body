@@ -1,0 +1,11 @@
+{
+  if (loggerName == null) {
+    return "null";
+  }
+  int length=loggerName.length();
+  int lastPeriod=loggerName.lastIndexOf(".");
+  if (lastPeriod == -1) {
+    return loggerName;
+  }
+  return loggerName.substring(lastPeriod + 1);
+}
