@@ -1,6 +1,5 @@
 {
   Map<Material,List<Geometry>> matMap=new HashMap<Material,List<Geometry>>();
-  maxVertCount=0;
   int nbGeoms=0;
   gatherGeomerties(matMap,this,needsFullRebatch);
   if (needsFullRebatch) {
@@ -9,6 +8,9 @@
     }
     batches.clear();
     batchesByGeom.clear();
+  }
+  if (matMap.size() > 0) {
+    maxVertCount=0;
   }
   for (  Map.Entry<Material,List<Geometry>> entry : matMap.entrySet()) {
     Mesh m=new Mesh();
@@ -46,9 +48,11 @@
     needsFullRebatch=false;
   }
   logger.log(Level.FINE,"Batched {0} geometries in {1} batches.",new Object[]{nbGeoms,batches.size()});
-  tmpFloat=new float[maxVertCount * 3];
-  tmpFloatN=new float[maxVertCount * 3];
-  if (useTangents) {
-    tmpFloatT=new float[maxVertCount * 4];
+  if (matMap.size() > 0) {
+    tmpFloat=new float[maxVertCount * 3];
+    tmpFloatN=new float[maxVertCount * 3];
+    if (useTangents) {
+      tmpFloatT=new float[maxVertCount * 4];
+    }
   }
 }
