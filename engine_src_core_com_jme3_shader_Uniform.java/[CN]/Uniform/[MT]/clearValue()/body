@@ -1,9 +1,9 @@
 {
   updateNeeded=true;
   if (multiData != null) {
-    ZERO_BUF.clear();
     multiData.clear();
     while (multiData.remaining() > 0) {
+      ZERO_BUF.clear();
       ZERO_BUF.limit(Math.min(multiData.remaining(),16));
       multiData.put(ZERO_BUF);
     }

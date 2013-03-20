@@ -1,0 +1,16 @@
+{
+  if (buffer != null) {
+    buffer.limit(buffer.capacity());
+  }
+  if (buffer == null || (buffer.remaining() < required)) {
+    int position=(buffer != null ? buffer.position() : 0);
+    IntBuffer newVerts=createIntBuffer(position + required);
+    if (buffer != null) {
+      buffer.flip();
+      newVerts.put(buffer);
+      newVerts.position(position);
+    }
+    buffer=newVerts;
+  }
+  return buffer;
+}

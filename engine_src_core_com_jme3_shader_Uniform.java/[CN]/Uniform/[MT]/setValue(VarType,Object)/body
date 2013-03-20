@@ -26,6 +26,16 @@ multiData=BufferUtils.createFloatBuffer(16);
 m4.fillFloatBuffer(multiData,true);
 multiData.clear();
 break;
+case IntArray:
+int[] ia=(int[])value;
+if (this.value == null) {
+this.value=BufferUtils.createIntBuffer(ia);
+}
+ else {
+this.value=BufferUtils.ensureLargeEnough((IntBuffer)this.value,ia.length);
+}
+((IntBuffer)this.value).clear();
+break;
 case FloatArray:
 float[] fa=(float[])value;
 if (multiData == null) {
