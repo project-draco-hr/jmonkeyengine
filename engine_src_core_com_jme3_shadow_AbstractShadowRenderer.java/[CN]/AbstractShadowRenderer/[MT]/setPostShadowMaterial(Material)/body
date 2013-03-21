@@ -2,7 +2,7 @@
   this.postshadowMat=postShadowMat;
   postshadowMat.setFloat("ShadowMapSize",shadowMapSize);
   for (int i=0; i < nbShadowMaps; i++) {
-    postshadowMat.setTexture("ShadowMap" + i,shadowMaps[i]);
+    postshadowMat.setTexture(shadowMapStringCache[i],shadowMaps[i]);
   }
   setShadowCompareMode(shadowCompareMode);
   setEdgeFilteringMode(edgeFilteringMode);

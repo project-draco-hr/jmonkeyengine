@@ -3,17 +3,15 @@
     return;
   }
   if (techniqueSwitched) {
-    DefineList newDefines=new DefineList();
     Collection<MatParam> params=owner.getParams();
-    for (    MatParam param : params) {
-      String defineName=def.getShaderParamDefine(param.getName());
-      if (defineName != null) {
-        newDefines.set(defineName,param.getVarType(),param.getValue());
-      }
-    }
-    if (!defines.getCompiled().equals(newDefines.getCompiled())) {
+    if (!defines.equalsParams(params,def)) {
       defines.clear();
-      defines.addFrom(newDefines);
+      for (      MatParam param : params) {
+        String defineName=def.getShaderParamDefine(param.getName());
+        if (defineName != null) {
+          defines.set(defineName,param.getVarType(),param.getValue());
+        }
+      }
       needReload=true;
     }
   }

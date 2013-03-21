@@ -1,0 +1,52 @@
+{
+  int size=0;
+  for (  MatParam param : params) {
+    String key=def.getShaderParamDefine(param.getName());
+    if (key != null) {
+      Object val=param.getValue();
+      if (val != null) {
+switch (param.getVarType()) {
+case Boolean:
+{
+            String current=defines.get(key);
+            if (((Boolean)val).booleanValue()) {
+              if (current == null || current != ONE) {
+                return false;
+              }
+              size++;
+            }
+ else {
+              if (current != null) {
+                return false;
+              }
+            }
+          }
+        break;
+case Float:
+case Int:
+{
+        String newValue=val.toString();
+        String current=defines.get(key);
+        if (!newValue.equals(current)) {
+          return false;
+        }
+        size++;
+      }
+    break;
+default :
+{
+    if (!defines.containsKey(key)) {
+      return false;
+    }
+    size++;
+  }
+break;
+}
+}
+}
+}
+if (size != defines.size()) {
+return false;
+}
+return true;
+}

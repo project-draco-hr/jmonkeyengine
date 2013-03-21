@@ -15,10 +15,10 @@
   for (  Material mat : matCache) {
     mat.setFloat("ShadowMapSize",shadowMapSize);
     for (int j=0; j < nbShadowMaps; j++) {
-      mat.setMatrix4("LightViewProjectionMatrix" + j,lightViewProjectionsMatrices[j]);
+      mat.setMatrix4(lightViewStringCache[j],lightViewProjectionsMatrices[j]);
     }
     for (int j=0; j < nbShadowMaps; j++) {
-      mat.setTexture("ShadowMap" + j,shadowMaps[j]);
+      mat.setTexture(shadowMapStringCache[j],shadowMaps[j]);
     }
     mat.setBoolean("HardwareShadows",shadowCompareMode == CompareMode.Hardware);
     mat.setInt("FilterMode",edgeFilteringMode.getMaterialParamValue());

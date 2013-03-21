@@ -4,6 +4,8 @@
   shadowMaps=new Texture2D[nbShadowMaps];
   dispPic=new Picture[nbShadowMaps];
   lightViewProjectionsMatrices=new Matrix4f[nbShadowMaps];
+  shadowMapStringCache=new String[nbShadowMaps];
+  lightViewStringCache=new String[nbShadowMaps];
   dummyTex=new Texture2D(shadowMapSize,shadowMapSize,Format.RGBA8);
   preshadowMat=new Material(assetManager,"Common/MatDefs/Shadow/PreShadow.j3md");
   postshadowMat.setFloat("ShadowMapSize",shadowMapSize);
@@ -13,7 +15,9 @@
     shadowMaps[i]=new Texture2D(shadowMapSize,shadowMapSize,Format.Depth);
     shadowFB[i].setDepthTexture(shadowMaps[i]);
     shadowFB[i].setColorTexture(dummyTex);
-    postshadowMat.setTexture("ShadowMap" + i,shadowMaps[i]);
+    shadowMapStringCache[i]="ShadowMap" + i;
+    lightViewStringCache[i]="LightViewProjectionMatrix" + i;
+    postshadowMat.setTexture(shadowMapStringCache[i],shadowMaps[i]);
     dispPic[i]=new Picture("Picture" + i);
     dispPic[i].setTexture(assetManager,shadowMaps[i],false);
   }
