@@ -1,0 +1,60 @@
+{
+  final int l_start=start;
+  final int l_end=end;
+  final String l_name=name;
+  if ("".equals(name) || name == null) {
+    throw new IllegalStateException("Please enter name for new animation");
+  }
+  if (_animControl.getLookup().lookup(AnimControl.class).getAnim(l_name) != null) {
+    throw new IllegalStateException("Please enter unique name for new animation");
+  }
+  if (start >= end) {
+    throw new IllegalStateException("Start frame must not be greater than end frame");
+  }
+  if (end >= ((BoneTrack)_animation.getTracks()[0]).getTimes().length) {
+    throw new IllegalStateException("End frame must not be greater than source animation end frame");
+  }
+  try {
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        Animation l_newAnim;
+        float l_newTimes[];
+        Vector3f l_newTranslations[];
+        Quaternion l_newRotations[];
+        Vector3f l_newScales[];
+        float l_newLength;
+        Track[] l_tracks=new Track[_animation.getTracks().length];
+        l_newLength=(_animation.getLength() / (float)((BoneTrack)_animation.getTracks()[0]).getTimes().length) * (float)(l_end - l_start);
+        l_newAnim=new Animation(l_name,l_newLength);
+        for (int j=0; j < _animation.getTracks().length; j++) {
+          BoneTrack l_track=(BoneTrack)_animation.getTracks()[j];
+          l_newTimes=new float[l_end - l_start];
+          l_newTranslations=new Vector3f[l_end - l_start];
+          l_newRotations=new Quaternion[l_end - l_start];
+          l_newScales=new Vector3f[l_end - l_start];
+          for (int i=l_start; i < l_end; i++) {
+            int l_newFrame=i - l_start;
+            Vector3f l_trans=l_track.getTranslations()[i];
+            Vector3f l_scale=l_track.getScales()[i];
+            Quaternion l_rot=l_track.getRotations()[i];
+            l_newTimes[l_newFrame]=l_track.getTimes()[i] - l_track.getTimes()[l_start];
+            l_newTranslations[l_newFrame]=l_trans.clone();
+            l_newRotations[l_newFrame]=l_rot.clone();
+            l_newScales[l_newFrame]=l_scale.clone();
+          }
+          l_tracks[j]=new BoneTrack(l_track.getTargetBoneIndex(),l_newTimes,l_newTranslations,l_newRotations,l_newScales);
+        }
+        l_newAnim.setTracks(l_tracks);
+        _animControl.getLookup().lookup(AnimControl.class).addAnim(l_newAnim);
+        return null;
+      }
+    }
+).get();
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

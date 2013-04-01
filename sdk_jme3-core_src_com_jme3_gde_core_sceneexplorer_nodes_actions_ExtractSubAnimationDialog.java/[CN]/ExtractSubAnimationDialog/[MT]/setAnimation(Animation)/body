@@ -1,0 +1,11 @@
+{
+  _animation=animation;
+  _txtStartFrame.setValue(0);
+  if (animation.getTracks().length <= 0) {
+    throw new IllegalArgumentException("No Tracks found");
+  }
+  if (animation.getTracks()[0].getClass() != BoneTrack.class) {
+    throw new UnsupportedOperationException("Only Bonetracks are supported");
+  }
+  _txtEndFrame.setValue(((BoneTrack)animation.getTracks()[0]).getTimes().length);
+}
