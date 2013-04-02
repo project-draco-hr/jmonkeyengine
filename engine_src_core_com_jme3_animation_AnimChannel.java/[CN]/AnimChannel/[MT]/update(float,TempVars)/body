@@ -17,11 +17,11 @@
   animation.setTime(time,blendAmount,control,this,vars);
   time+=tpf * speed;
   if (animation.getLength() > 0) {
-    if (time >= animation.getLength()) {
+    if (!notified && (time >= animation.getLength() || time < 0)) {
       control.notifyAnimCycleDone(this,animation.getName());
-    }
- else     if (time < 0) {
-      control.notifyAnimCycleDone(this,animation.getName());
+      if (loopMode == LoopMode.DontLoop) {
+        notified=true;
+      }
     }
   }
   time=clampWrapTime(time,animation.getLength(),loopMode);
