@@ -22,5 +22,8 @@
   bf.setBloomIntensity(2.3f);
   bf.setExposurePower(0.6f);
   fpp.addFilter(bf);
+  DirectionalLight l=new DirectionalLight();
+  l.setDirection(new Vector3f(0,-1,-1));
+  rootNode.addLight(l);
   viewPort.addProcessor(fpp);
 }
