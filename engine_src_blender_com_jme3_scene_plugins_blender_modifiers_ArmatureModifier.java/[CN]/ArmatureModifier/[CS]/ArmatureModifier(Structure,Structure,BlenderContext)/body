@@ -14,10 +14,13 @@
         Pointer pBone=(Pointer)poseChannel.getFieldValue("bone");
         bonesPoseChannels.put(pBone.getOldMemoryAddress(),poseChannel);
       }
+      Matrix4f objectToArmatureTransformation=Matrix4f.IDENTITY;
       ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
-      Matrix4f armatureObjectMatrix=objectHelper.getMatrix(armatureObject,"obmat",true);
-      Matrix4f inverseMeshObjectMatrix=objectHelper.getMatrix(objectStructure,"obmat",true).invertLocal();
-      Matrix4f objectToArmatureTransformation=armatureObjectMatrix.multLocal(inverseMeshObjectMatrix);
+      if (objectHelper.isLineage(armatureObject,objectStructure,blenderContext)) {
+        Matrix4f armatureObjectMatrix=objectHelper.getMatrix(armatureObject,"obmat",blenderContext.getBlenderKey().isFixUpAxis());
+        Matrix4f inverseMeshObjectMatrix=objectHelper.getMatrix(objectStructure,"obmat",true).invertLocal();
+        objectToArmatureTransformation=armatureObjectMatrix.multLocal(inverseMeshObjectMatrix);
+      }
       List<Structure> bonebase=((Structure)armatureStructure.getFieldValue("bonebase")).evaluateListBase(blenderContext);
       List<Bone> bonesList=new ArrayList<Bone>();
       for (int i=0; i < bonebase.size(); ++i) {

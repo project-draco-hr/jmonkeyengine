@@ -2,11 +2,8 @@
   if (parent != null) {
     inverseParentMatrix=parent.inverseTotalTransformation.clone();
   }
- else   if (fixUpAxis) {
-    inverseParentMatrix=objectToArmatureMatrix.clone();
-  }
  else {
-    inverseParentMatrix=Matrix4f.IDENTITY.clone();
+    inverseParentMatrix=objectToArmatureMatrix.clone();
   }
   restMatrix=armatureMatrix.clone();
   inverseTotalTransformation=restMatrix.invert();

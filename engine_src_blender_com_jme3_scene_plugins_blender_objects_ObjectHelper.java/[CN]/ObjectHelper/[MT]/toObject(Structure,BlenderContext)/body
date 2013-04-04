@@ -57,9 +57,9 @@ Structure curveData=pCurve.fetchData(blenderContext.getInputStream()).get(0);
 List<Geometry> curves=curvesHelper.toCurve(curveData,blenderContext);
 result=new Node(name);
 for (Geometry curve : curves) {
-((Node)result).attachChild(curve);
+result.attachChild(curve);
 }
-((Node)result).setLocalTransform(t);
+result.setLocalTransform(t);
 }
 break;
 case OBJECT_TYPE_LAMP:
@@ -117,7 +117,7 @@ constraintHelper.loadConstraints(objectStructure,blenderContext);
 if (blenderContext.getBlenderKey().isLoadObjectProperties()) {
 Properties properties=this.loadProperties(objectStructure,blenderContext);
 if (result instanceof Spatial && properties != null && properties.getValue() != null) {
-this.applyProperties((Spatial)result,properties);
+this.applyProperties(result,properties);
 }
 }
 }

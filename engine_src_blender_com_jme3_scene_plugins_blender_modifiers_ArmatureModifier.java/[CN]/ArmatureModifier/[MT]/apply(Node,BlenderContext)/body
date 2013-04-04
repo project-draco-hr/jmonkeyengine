@@ -17,11 +17,11 @@
         mesh.setMaxNumWeights(bonesGroups[0]);
         mesh.setBuffer(buffers[0]);
         mesh.setBuffer(buffers[1]);
-        VertexBuffer bindNormalBuffer=(meshContext.getBindNormalBuffer(materialIndex));
+        VertexBuffer bindNormalBuffer=meshContext.getBindNormalBuffer(materialIndex);
         if (bindNormalBuffer != null) {
           mesh.setBuffer(bindNormalBuffer);
         }
-        VertexBuffer bindPoseBuffer=(meshContext.getBindPoseBuffer(materialIndex));
+        VertexBuffer bindPoseBuffer=meshContext.getBindPoseBuffer(materialIndex);
         if (bindPoseBuffer != null) {
           mesh.setBuffer(bindPoseBuffer);
         }
