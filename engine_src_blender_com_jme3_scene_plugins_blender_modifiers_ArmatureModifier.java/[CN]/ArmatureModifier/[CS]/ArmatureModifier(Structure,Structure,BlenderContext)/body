@@ -20,6 +20,9 @@
         Matrix4f armatureObjectMatrix=objectHelper.getMatrix(armatureObject,"obmat",blenderContext.getBlenderKey().isFixUpAxis());
         Matrix4f inverseMeshObjectMatrix=objectHelper.getMatrix(objectStructure,"obmat",true).invertLocal();
         objectToArmatureTransformation=armatureObjectMatrix.multLocal(inverseMeshObjectMatrix);
+        Matrix3f rot=objectToArmatureTransformation.toRotationMatrix();
+        objectToArmatureTransformation=new Matrix4f();
+        objectToArmatureTransformation.setRotationQuaternion(new Quaternion().fromRotationMatrix(rot));
       }
       List<Structure> bonebase=((Structure)armatureStructure.getFieldValue("bonebase")).evaluateListBase(blenderContext);
       List<Bone> bonesList=new ArrayList<Bone>();
