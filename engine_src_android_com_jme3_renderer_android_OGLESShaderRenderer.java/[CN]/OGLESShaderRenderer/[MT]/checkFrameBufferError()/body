@@ -1,3 +1,17 @@
 {
-  logger.warning("checkFrameBufferError is not supported.");
+  int status=GLES20.glCheckFramebufferStatus(GLES20.GL_FRAMEBUFFER);
+switch (status) {
+case GLES20.GL_FRAMEBUFFER_COMPLETE:
+    break;
+case GLES20.GL_FRAMEBUFFER_UNSUPPORTED:
+  throw new IllegalStateException("Framebuffer object format is " + "unsupported by the video hardware.");
+case GLES20.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+throw new IllegalStateException("Framebuffer has erronous attachment.");
+case GLES20.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+throw new IllegalStateException("Framebuffer doesn't have any renderbuffers attached.");
+case GLES20.GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
+throw new IllegalStateException("Framebuffer attachments must have same dimensions.");
+default :
+throw new IllegalStateException("Some video driver error " + "or programming error occured. " + "Framebuffer object status is invalid: "+ status);
+}
 }

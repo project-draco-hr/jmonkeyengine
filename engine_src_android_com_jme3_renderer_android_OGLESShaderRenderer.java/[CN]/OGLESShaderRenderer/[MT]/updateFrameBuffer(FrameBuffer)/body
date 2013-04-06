@@ -1,3 +1,25 @@
 {
-  logger.warning("updateFrameBuffer is not supported.");
+  int id=fb.getId();
+  if (id == -1) {
+    intBuf1.clear();
+    GLES20.glGenFramebuffers(1,intBuf1);
+    id=intBuf1.get(0);
+    fb.setId(id);
+    objManager.registerForCleanup(fb);
+    statistics.onNewFrameBuffer();
+  }
+  if (context.boundFBO != id) {
+    GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER,id);
+    context.boundDrawBuf=0;
+    context.boundFBO=id;
+  }
+  FrameBuffer.RenderBuffer depthBuf=fb.getDepthBuffer();
+  if (depthBuf != null) {
+    updateFrameBufferAttachment(fb,depthBuf);
+  }
+  for (int i=0; i < fb.getNumColorBuffers(); i++) {
+    FrameBuffer.RenderBuffer colorBuf=fb.getColorBuffer(i);
+    updateFrameBufferAttachment(fb,colorBuf);
+  }
+  fb.clearUpdateNeeded();
 }

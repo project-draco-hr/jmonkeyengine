@@ -1,3 +1,9 @@
 {
-  logger.warning("updateRenderTexture is not supported.");
+  Texture tex=rb.getTexture();
+  Image image=tex.getImage();
+  if (image.isUpdateNeeded()) {
+    updateTexImageData(image,tex.getType());
+    setupTextureParams(tex);
+  }
+  GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER,convertAttachmentSlot(rb.getSlot()),convertTextureType(tex.getType()),image.getId(),0);
 }

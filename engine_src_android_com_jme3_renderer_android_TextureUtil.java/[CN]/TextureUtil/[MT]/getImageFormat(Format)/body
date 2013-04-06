@@ -25,14 +25,17 @@ break;
 case RGB565:
 imageFormat.format=GLES20.GL_RGB;
 imageFormat.dataType=GLES20.GL_UNSIGNED_SHORT_5_6_5;
+imageFormat.renderBufferStorageFormat=GLES20.GL_RGB565;
 break;
 case ARGB4444:
 imageFormat.format=GLES20.GL_RGBA4;
 imageFormat.dataType=GLES20.GL_UNSIGNED_SHORT_4_4_4_4;
+imageFormat.renderBufferStorageFormat=GLES20.GL_RGBA4;
 break;
 case RGB5A1:
 imageFormat.format=GLES20.GL_RGBA;
 imageFormat.dataType=GLES20.GL_UNSIGNED_SHORT_5_5_5_1;
+imageFormat.renderBufferStorageFormat=GLES20.GL_RGB5_A1;
 break;
 case RGB8:
 imageFormat.format=GLES20.GL_RGB;
@@ -49,8 +52,12 @@ break;
 case Depth:
 case Depth16:
 case Depth24:
+if (!DEPTH_TEXTURE) {
+unsupportedFormat(fmt);
+}
 imageFormat.format=GLES20.GL_DEPTH_COMPONENT;
-imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
+imageFormat.dataType=GLES20.GL_UNSIGNED_SHORT;
+imageFormat.renderBufferStorageFormat=GLES20.GL_DEPTH_COMPONENT16;
 break;
 case DXT1:
 if (!DXT1) {

@@ -1,4 +1,9 @@
 {
-  logger.warning("convertAttachmentSlot is not supported.");
-  return -1;
+  if (attachmentSlot == -100) {
+    return GLES20.GL_DEPTH_ATTACHMENT;
+  }
+ else   if (attachmentSlot < 0 || attachmentSlot >= 16) {
+    throw new UnsupportedOperationException("Invalid FBO attachment slot: " + attachmentSlot);
+  }
+  return GLES20.GL_COLOR_ATTACHMENT0 + attachmentSlot;
 }
