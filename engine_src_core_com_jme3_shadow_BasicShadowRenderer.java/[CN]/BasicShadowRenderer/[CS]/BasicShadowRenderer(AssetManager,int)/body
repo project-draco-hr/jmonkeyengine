@@ -5,6 +5,7 @@
   shadowCam=new Camera(size,size);
   dummyTex=new Texture2D(size,size,Format.RGBA8);
   shadowFB.setColorTexture(dummyTex);
+  shadowMapSize=(float)size;
   preshadowMat=new Material(manager,"Common/MatDefs/Shadow/PreShadow.j3md");
   postshadowMat=new Material(manager,"Common/MatDefs/Shadow/BasicPostShadow.j3md");
   postshadowMat.setTexture("ShadowMap",shadowMap);

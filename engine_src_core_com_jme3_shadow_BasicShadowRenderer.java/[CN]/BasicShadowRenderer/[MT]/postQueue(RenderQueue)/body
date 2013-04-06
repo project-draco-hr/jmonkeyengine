@@ -22,7 +22,7 @@
   shadowCam.setLocation(frustaCenter);
   shadowCam.update();
   shadowCam.updateViewProjection();
-  ShadowUtil.updateShadowCamera(occluders,receivers,shadowCam,points);
+  ShadowUtil.updateShadowCamera(occluders,receivers,shadowCam,points,shadowMapSize);
   Renderer r=renderManager.getRenderer();
   renderManager.setCamera(shadowCam,false);
   renderManager.setForcedMaterial(preshadowMat);

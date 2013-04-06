@@ -22,6 +22,11 @@
   if (name.equals("debug") && keyPressed) {
     dlsr.displayFrustum();
   }
+  if (name.equals("stabilize") && keyPressed) {
+    dlsr.setEnabledStabilization(!dlsr.isEnabledStabilization());
+    dlsf.setEnabledStabilization(!dlsf.isEnabledStabilization());
+    shadowStabilizationText.setText("(b:on/off) Shadow stabilization : " + dlsr.isEnabledStabilization());
+  }
   if (name.equals("switchGroundMat") && keyPressed) {
     if (ground.getMaterial() == matGroundL) {
       ground.setMaterial(matGroundU);

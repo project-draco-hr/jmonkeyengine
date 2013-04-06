@@ -1,5 +1,5 @@
 {
   ShadowUtil.updateFrustumPoints(viewPort.getCamera(),splitsArray[shadowMapIndex],splitsArray[shadowMapIndex + 1],1.0f,points);
-  ShadowUtil.updateShadowCamera(sceneOccluders,sceneReceivers,shadowCam,points,shadowMapOccluders);
+  ShadowUtil.updateShadowCamera(sceneOccluders,sceneReceivers,shadowCam,points,shadowMapOccluders,stabilize ? shadowMapSize : 0);
   return shadowMapOccluders;
 }
