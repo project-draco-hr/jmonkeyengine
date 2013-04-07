@@ -13,14 +13,32 @@ case Depth32F:
 case Alpha8:
   imageFormat.format=GLES20.GL_ALPHA;
 imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
+if (RGBA8) {
+imageFormat.renderBufferStorageFormat=GL_RGBA8;
+}
+ else {
+imageFormat.renderBufferStorageFormat=GLES20.GL_RGBA4;
+}
 break;
 case Luminance8:
 imageFormat.format=GLES20.GL_LUMINANCE;
 imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
+if (RGBA8) {
+imageFormat.renderBufferStorageFormat=GL_RGBA8;
+}
+ else {
+imageFormat.renderBufferStorageFormat=GLES20.GL_RGB565;
+}
 break;
 case Luminance8Alpha8:
 imageFormat.format=GLES20.GL_LUMINANCE_ALPHA;
 imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
+if (RGBA8) {
+imageFormat.renderBufferStorageFormat=GL_RGBA8;
+}
+ else {
+imageFormat.renderBufferStorageFormat=GLES20.GL_RGBA4;
+}
 break;
 case RGB565:
 imageFormat.format=GLES20.GL_RGB;
@@ -40,20 +58,35 @@ break;
 case RGB8:
 imageFormat.format=GLES20.GL_RGB;
 imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
-imageFormat.renderBufferStorageFormat=0x8058;
+if (RGBA8) {
+imageFormat.renderBufferStorageFormat=GL_RGBA8;
+}
+ else {
+imageFormat.renderBufferStorageFormat=GLES20.GL_RGB565;
+}
 break;
 case BGR8:
 imageFormat.format=GLES20.GL_RGB;
 imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
+if (RGBA8) {
+imageFormat.renderBufferStorageFormat=GL_RGBA8;
+}
+ else {
+imageFormat.renderBufferStorageFormat=GLES20.GL_RGB565;
+}
 break;
 case RGBA8:
 imageFormat.format=GLES20.GL_RGBA;
 imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
-imageFormat.renderBufferStorageFormat=0x8058;
+if (RGBA8) {
+imageFormat.renderBufferStorageFormat=GL_RGBA8;
+}
+ else {
+imageFormat.renderBufferStorageFormat=GLES20.GL_RGBA4;
+}
 break;
 case Depth:
 case Depth16:
-case Depth24:
 if (!DEPTH_TEXTURE) {
 unsupportedFormat(fmt);
 }
@@ -61,11 +94,27 @@ imageFormat.format=GLES20.GL_DEPTH_COMPONENT;
 imageFormat.dataType=GLES20.GL_UNSIGNED_SHORT;
 imageFormat.renderBufferStorageFormat=GLES20.GL_DEPTH_COMPONENT16;
 break;
+case Depth24:
+case Depth24Stencil8:
+if (!DEPTH_TEXTURE) {
+unsupportedFormat(fmt);
+}
+if (DEPTH24_STENCIL8) {
+imageFormat.format=GL_DEPTH_STENCIL_OES;
+imageFormat.dataType=GL_UNSIGNED_INT_24_8_OES;
+imageFormat.renderBufferStorageFormat=GL_DEPTH24_STENCIL8_OES;
+}
+ else {
+imageFormat.format=GLES20.GL_DEPTH_COMPONENT;
+imageFormat.dataType=GLES20.GL_UNSIGNED_SHORT;
+imageFormat.renderBufferStorageFormat=GLES20.GL_DEPTH_COMPONENT16;
+}
+break;
 case DXT1:
 if (!DXT1) {
 unsupportedFormat(fmt);
 }
-imageFormat.format=0x83F0;
+imageFormat.format=GL_DXT1;
 imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
 imageFormat.compress=true;
 break;
@@ -73,7 +122,7 @@ case DXT1A:
 if (!DXT1) {
 unsupportedFormat(fmt);
 }
-imageFormat.format=0x83F1;
+imageFormat.format=GL_DXT1A;
 imageFormat.dataType=GLES20.GL_UNSIGNED_BYTE;
 imageFormat.compress=true;
 break;
