@@ -1,22 +1,2 @@
 {
-  int id=rb.getId();
-  if (id == -1) {
-    GLES20.glGenRenderbuffers(1,intBuf1);
-    id=intBuf1.get(0);
-    rb.setId(id);
-  }
-  if (context.boundRB != id) {
-    GLES20.glBindRenderbuffer(GLES20.GL_RENDERBUFFER,id);
-    context.boundRB=id;
-  }
-  if (fb.getWidth() > maxRBSize || fb.getHeight() > maxRBSize) {
-    throw new RendererException("Resolution " + fb.getWidth() + ":"+ fb.getHeight()+ " is not supported.");
-  }
-  int glRenderBufferStorageFormat=TextureUtil.getImageFormat(rb.getFormat()).renderBufferStorageFormat;
-  if (fb.getSamples() > 1) {
-    throw new RendererException("Multisample FrameBuffer is not supported yet.");
-  }
- else {
-    GLES20.glRenderbufferStorage(GLES20.GL_RENDERBUFFER,glRenderBufferStorageFormat,fb.getWidth(),fb.getHeight());
-  }
 }
