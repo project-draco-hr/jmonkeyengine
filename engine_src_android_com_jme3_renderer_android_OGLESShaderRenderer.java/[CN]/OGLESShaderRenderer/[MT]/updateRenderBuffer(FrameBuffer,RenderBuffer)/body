@@ -1,2 +1,25 @@
 {
+  int id=rb.getId();
+  if (id == -1) {
+    GLES20.glGenRenderbuffers(1,intBuf1);
+    id=intBuf1.get(0);
+    rb.setId(id);
+  }
+  if (context.boundRB != id) {
+    GLES20.glBindRenderbuffer(GLES20.GL_RENDERBUFFER,id);
+    context.boundRB=id;
+  }
+  if (fb.getWidth() > maxRBSize || fb.getHeight() > maxRBSize) {
+    throw new RendererException("Resolution " + fb.getWidth() + ":"+ fb.getHeight()+ " is not supported.");
+  }
+  AndroidGLImageFormat imageFormat=TextureUtil.getImageFormat(rb.getFormat());
+  if (imageFormat.renderBufferStorageFormat == 0) {
+    throw new RendererException("The format '" + rb.getFormat() + "' cannot be used for renderbuffers.");
+  }
+  if (fb.getSamples() > 1) {
+    throw new RendererException("Multisample FrameBuffer is not supported yet.");
+  }
+ else {
+    GLES20.glRenderbufferStorage(GLES20.GL_RENDERBUFFER,imageFormat.renderBufferStorageFormat,fb.getWidth(),fb.getHeight());
+  }
 }
