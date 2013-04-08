@@ -8,7 +8,4 @@
   restMatrix=armatureMatrix.clone();
   inverseTotalTransformation=restMatrix.invert();
   restMatrix=inverseParentMatrix.mult(restMatrix);
-  for (  BoneContext child : this.children) {
-    child.computeRestMatrix(objectToArmatureMatrix);
-  }
 }

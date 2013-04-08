@@ -5,7 +5,7 @@
   boneName=boneStructure.getFieldValue("name").toString();
   length=((Number)boneStructure.getFieldValue("length")).floatValue();
   ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
-  armatureMatrix=objectHelper.getMatrix(boneStructure,"arm_mat",true);
+  armatureMatrix=objectHelper.getMatrix(boneStructure,"arm_mat",blenderContext.getBlenderKey().isFixUpAxis());
   this.computeRestMatrix(objectToArmatureMatrix);
   List<Structure> childbase=((Structure)boneStructure.getFieldValue("childbase")).evaluateListBase(blenderContext);
   for (  Structure child : childbase) {
