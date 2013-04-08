@@ -5,11 +5,6 @@
       throw new IllegalArgumentException("Specified framebuffer" + " does not have a colorbuffer");
     }
     setFrameBuffer(fb);
-    if (context.boundReadBuf != rb.getSlot()) {
-      GLES20.glActiveTexture(convertAttachmentSlot(rb.getSlot()));
-      RendererUtil.checkGLError();
-      context.boundReadBuf=rb.getSlot();
-    }
   }
  else {
     setFrameBuffer(null);
