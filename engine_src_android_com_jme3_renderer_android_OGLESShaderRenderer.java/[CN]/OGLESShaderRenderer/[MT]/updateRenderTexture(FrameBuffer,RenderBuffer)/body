@@ -6,4 +6,5 @@
     setupTextureParams(tex);
   }
   GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER,convertAttachmentSlot(rb.getSlot()),convertTextureType(tex.getType()),image.getId(),0);
+  RendererUtil.checkGLError();
 }

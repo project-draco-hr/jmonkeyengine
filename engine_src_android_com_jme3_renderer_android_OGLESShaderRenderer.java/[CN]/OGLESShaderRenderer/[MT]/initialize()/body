@@ -54,12 +54,14 @@ GLES20.glGetIntegerv(GLES20.GL_NUM_COMPRESSED_TEXTURE_FORMATS,intBuf16);
 int numCompressedFormats=intBuf16.get(0);
 IntBuffer compressedFormats=BufferUtils.createIntBuffer(numCompressedFormats);
 GLES20.glGetIntegerv(GLES20.GL_COMPRESSED_TEXTURE_FORMATS,compressedFormats);
+RendererUtil.checkGLError();
 for (int i=0; i < numCompressedFormats; i++) {
 logger.log(Level.FINE,"Compressed Texture Formats: {0}",compressedFormats.get(i));
 }
 TextureUtil.loadTextureFeatures(extensions);
 applyRenderState(RenderState.DEFAULT);
 GLES20.glDisable(GLES20.GL_DITHER);
+RendererUtil.checkGLError();
 useVBO=false;
 if (Build.VERSION.SDK_INT >= 9) {
 logger.log(Level.FINE,"Force-enabling VBO (Android 2.3 or higher)");

@@ -14,15 +14,15 @@
       if (subTexture) {
         System.err.println("x : " + x + " y :"+ y+ " , "+ bitmap.getWidth()+ "/"+ bitmap.getHeight());
         GLUtils.texSubImage2D(target,0,x,y,bitmap);
-        checkGLError();
+        RendererUtil.checkGLError();
       }
  else {
         GLUtils.texImage2D(target,0,bitmap,0);
-        checkGLError();
+        RendererUtil.checkGLError();
       }
       if (needMips) {
         GLES20.glGenerateMipmap(target);
-        checkGLError();
+        RendererUtil.checkGLError();
       }
     }
   }

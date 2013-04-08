@@ -7,6 +7,7 @@
     setFrameBuffer(fb);
     if (context.boundReadBuf != rb.getSlot()) {
       GLES20.glActiveTexture(convertAttachmentSlot(rb.getSlot()));
+      RendererUtil.checkGLError();
       context.boundReadBuf=rb.getSlot();
     }
   }
@@ -14,4 +15,5 @@
     setFrameBuffer(null);
   }
   GLES20.glReadPixels(vpX,vpY,vpW,vpH,GLES20.GL_RGBA,GLES20.GL_UNSIGNED_BYTE,byteBuf);
+  RendererUtil.checkGLError();
 }

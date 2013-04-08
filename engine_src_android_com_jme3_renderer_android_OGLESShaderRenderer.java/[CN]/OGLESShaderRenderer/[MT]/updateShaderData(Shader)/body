@@ -3,6 +3,7 @@
   boolean needRegister=false;
   if (id == -1) {
     id=GLES20.glCreateProgram();
+    RendererUtil.checkGLError();
     if (id <= 0) {
       throw new RendererException("Invalid ID received when trying to create shader program.");
     }
@@ -14,16 +15,21 @@
       updateShaderSourceData(source);
     }
     GLES20.glAttachShader(id,source.getId());
+    RendererUtil.checkGLError();
   }
   GLES20.glLinkProgram(id);
+  RendererUtil.checkGLError();
   GLES20.glGetProgramiv(id,GLES20.GL_LINK_STATUS,intBuf1);
+  RendererUtil.checkGLError();
   boolean linkOK=intBuf1.get(0) == GLES20.GL_TRUE;
   String infoLog=null;
   if (VALIDATE_SHADER || !linkOK) {
     GLES20.glGetProgramiv(id,GLES20.GL_INFO_LOG_LENGTH,intBuf1);
+    RendererUtil.checkGLError();
     int length=intBuf1.get(0);
     if (length > 3) {
       infoLog=GLES20.glGetProgramInfoLog(id);
+      RendererUtil.checkGLError();
     }
   }
   if (linkOK) {

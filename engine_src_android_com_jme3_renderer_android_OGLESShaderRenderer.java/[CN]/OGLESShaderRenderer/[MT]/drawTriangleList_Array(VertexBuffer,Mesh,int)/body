@@ -24,15 +24,17 @@
         elMode=convertElementMode(Mode.TriangleStrip);
       }
  else       if (i == fanStart) {
-        elMode=convertElementMode(Mode.TriangleStrip);
+        elMode=convertElementMode(Mode.TriangleFan);
       }
       int elementLength=elementLengths[i];
       indexBuf.getData().position(curOffset);
       GLES20.glDrawElements(elMode,elementLength,fmt,indexBuf.getData());
+      RendererUtil.checkGLError();
       curOffset+=elementLength * elSize;
     }
   }
  else {
     GLES20.glDrawElements(convertElementMode(mesh.getMode()),indexBuf.getData().limit(),convertVertexBufferFormat(indexBuf.getFormat()),indexBuf.getData());
+    RendererUtil.checkGLError();
   }
 }

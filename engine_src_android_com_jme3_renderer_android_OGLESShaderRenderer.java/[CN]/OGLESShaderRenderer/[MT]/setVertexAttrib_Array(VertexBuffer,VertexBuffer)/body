@@ -13,6 +13,7 @@
  else     if (loc == -2) {
       String attributeName="in" + vb.getBufferType().name();
       loc=GLES20.glGetAttribLocation(programId,attributeName);
+      RendererUtil.checkGLError();
       if (loc < 0) {
         attrib.setLocation(-1);
         return;
@@ -26,7 +27,9 @@
       avb.getData().rewind();
       avb.getData().position(vb.getOffset());
       GLES20.glVertexAttribPointer(loc,vb.getNumComponents(),convertVertexBufferFormat(vb.getFormat()),vb.isNormalized(),vb.getStride(),avb.getData());
+      RendererUtil.checkGLError();
       GLES20.glEnableVertexAttribArray(loc);
+      RendererUtil.checkGLError();
       attribs[loc]=vb;
     }
   }

@@ -2,11 +2,13 @@
   int id=rb.getId();
   if (id == -1) {
     GLES20.glGenRenderbuffers(1,intBuf1);
+    RendererUtil.checkGLError();
     id=intBuf1.get(0);
     rb.setId(id);
   }
   if (context.boundRB != id) {
     GLES20.glBindRenderbuffer(GLES20.GL_RENDERBUFFER,id);
+    RendererUtil.checkGLError();
     context.boundRB=id;
   }
   if (fb.getWidth() > maxRBSize || fb.getHeight() > maxRBSize) {
@@ -21,5 +23,6 @@
   }
  else {
     GLES20.glRenderbufferStorage(GLES20.GL_RENDERBUFFER,imageFormat.renderBufferStorageFormat,fb.getWidth(),fb.getHeight());
+    RendererUtil.checkGLError();
   }
 }

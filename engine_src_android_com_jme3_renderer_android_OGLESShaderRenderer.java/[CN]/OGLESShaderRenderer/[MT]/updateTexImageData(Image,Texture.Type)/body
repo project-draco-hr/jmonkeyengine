@@ -2,6 +2,7 @@
   int texId=img.getId();
   if (texId == -1) {
     GLES20.glGenTextures(1,intBuf1);
+    RendererUtil.checkGLError();
     texId=intBuf1.get(0);
     img.setId(texId);
     objManager.registerForCleanup(img);
@@ -11,9 +12,11 @@
   if (context.boundTextures[0] != img) {
     if (context.boundTextureUnit != 0) {
       GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+      RendererUtil.checkGLError();
       context.boundTextureUnit=0;
     }
     GLES20.glBindTexture(target,texId);
+    RendererUtil.checkGLError();
     context.boundTextures[0]=img;
   }
   boolean needMips=false;

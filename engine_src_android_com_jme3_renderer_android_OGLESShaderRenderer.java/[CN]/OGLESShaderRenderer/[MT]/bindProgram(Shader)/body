@@ -2,6 +2,7 @@
   int shaderId=shader.getId();
   if (context.boundShaderProgram != shaderId) {
     GLES20.glUseProgram(shaderId);
+    RendererUtil.checkGLError();
     statistics.onShaderUse(shader,true);
     boundShader=shader;
     context.boundShaderProgram=shaderId;

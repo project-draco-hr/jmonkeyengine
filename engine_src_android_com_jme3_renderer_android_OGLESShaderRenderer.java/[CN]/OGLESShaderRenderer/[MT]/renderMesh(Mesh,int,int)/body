@@ -1,10 +1,7 @@
 {
-  if (context.pointSize != mesh.getPointSize()) {
-    GLES10.glPointSize(mesh.getPointSize());
-    context.pointSize=mesh.getPointSize();
-  }
   if (context.lineWidth != mesh.getLineWidth()) {
     GLES20.glLineWidth(mesh.getLineWidth());
+    RendererUtil.checkGLError();
     context.lineWidth=mesh.getLineWidth();
   }
   statistics.onMeshDrawn(mesh,lod);

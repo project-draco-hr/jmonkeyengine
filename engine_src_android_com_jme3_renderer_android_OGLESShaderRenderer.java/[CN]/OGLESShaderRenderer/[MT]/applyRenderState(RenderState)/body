@@ -2,32 +2,39 @@
   if (state.isDepthTest() && !context.depthTestEnabled) {
     GLES20.glEnable(GLES20.GL_DEPTH_TEST);
     GLES20.glDepthFunc(GLES20.GL_LEQUAL);
+    RendererUtil.checkGLError();
     context.depthTestEnabled=true;
   }
  else   if (!state.isDepthTest() && context.depthTestEnabled) {
     GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+    RendererUtil.checkGLError();
     context.depthTestEnabled=false;
   }
   if (state.isDepthWrite() && !context.depthWriteEnabled) {
     GLES20.glDepthMask(true);
+    RendererUtil.checkGLError();
     context.depthWriteEnabled=true;
   }
  else   if (!state.isDepthWrite() && context.depthWriteEnabled) {
     GLES20.glDepthMask(false);
+    RendererUtil.checkGLError();
     context.depthWriteEnabled=false;
   }
   if (state.isColorWrite() && !context.colorWriteEnabled) {
     GLES20.glColorMask(true,true,true,true);
+    RendererUtil.checkGLError();
     context.colorWriteEnabled=true;
   }
  else   if (!state.isColorWrite() && context.colorWriteEnabled) {
     GLES20.glColorMask(false,false,false,false);
+    RendererUtil.checkGLError();
     context.colorWriteEnabled=false;
   }
   if (state.isPolyOffset()) {
     if (!context.polyOffsetEnabled) {
       GLES20.glEnable(GLES20.GL_POLYGON_OFFSET_FILL);
       GLES20.glPolygonOffset(state.getPolyOffsetFactor(),state.getPolyOffsetUnits());
+      RendererUtil.checkGLError();
       context.polyOffsetEnabled=true;
       context.polyOffsetFactor=state.getPolyOffsetFactor();
       context.polyOffsetUnits=state.getPolyOffsetUnits();
@@ -35,6 +42,7 @@
  else {
       if (state.getPolyOffsetFactor() != context.polyOffsetFactor || state.getPolyOffsetUnits() != context.polyOffsetUnits) {
         GLES20.glPolygonOffset(state.getPolyOffsetFactor(),state.getPolyOffsetUnits());
+        RendererUtil.checkGLError();
         context.polyOffsetFactor=state.getPolyOffsetFactor();
         context.polyOffsetUnits=state.getPolyOffsetUnits();
       }
@@ -43,6 +51,7 @@
  else {
     if (context.polyOffsetEnabled) {
       GLES20.glDisable(GLES20.GL_POLYGON_OFFSET_FILL);
+      RendererUtil.checkGLError();
       context.polyOffsetEnabled=false;
       context.polyOffsetFactor=0;
       context.polyOffsetUnits=0;
@@ -51,21 +60,26 @@
   if (state.getFaceCullMode() != context.cullMode) {
     if (state.getFaceCullMode() == RenderState.FaceCullMode.Off) {
       GLES20.glDisable(GLES20.GL_CULL_FACE);
+      RendererUtil.checkGLError();
     }
  else {
       GLES20.glEnable(GLES20.GL_CULL_FACE);
+      RendererUtil.checkGLError();
     }
 switch (state.getFaceCullMode()) {
 case Off:
       break;
 case Back:
     GLES20.glCullFace(GLES20.GL_BACK);
-  break;
+  RendererUtil.checkGLError();
+break;
 case Front:
 GLES20.glCullFace(GLES20.GL_FRONT);
+RendererUtil.checkGLError();
 break;
 case FrontAndBack:
 GLES20.glCullFace(GLES20.GL_FRONT_AND_BACK);
+RendererUtil.checkGLError();
 break;
 default :
 throw new UnsupportedOperationException("Unrecognized face cull mode: " + state.getFaceCullMode());
@@ -75,6 +89,7 @@ context.cullMode=state.getFaceCullMode();
 if (state.getBlendMode() != context.blendMode) {
 if (state.getBlendMode() == RenderState.BlendMode.Off) {
 GLES20.glDisable(GLES20.GL_BLEND);
+RendererUtil.checkGLError();
 }
  else {
 GLES20.glEnable(GLES20.GL_BLEND);
@@ -105,6 +120,7 @@ break;
 default :
 throw new UnsupportedOperationException("Unrecognized blend mode: " + state.getBlendMode());
 }
+RendererUtil.checkGLError();
 }
 context.blendMode=state.getBlendMode();
 }

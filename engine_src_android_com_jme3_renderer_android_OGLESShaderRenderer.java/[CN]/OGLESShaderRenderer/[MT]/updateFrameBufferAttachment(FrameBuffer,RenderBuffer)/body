@@ -10,5 +10,6 @@
   }
   if (needAttach) {
     GLES20.glFramebufferRenderbuffer(GLES20.GL_FRAMEBUFFER,convertAttachmentSlot(rb.getSlot()),GLES20.GL_RENDERBUFFER,rb.getId());
+    RendererUtil.checkGLError();
   }
 }

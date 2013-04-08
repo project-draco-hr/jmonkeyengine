@@ -26,6 +26,7 @@
   }
  else {
     GLES20.glDrawArrays(convertElementMode(mesh.getMode()),0,mesh.getVertexCount());
+    RendererUtil.checkGLError();
   }
   clearVertexAttribs();
   clearTextureUnits();

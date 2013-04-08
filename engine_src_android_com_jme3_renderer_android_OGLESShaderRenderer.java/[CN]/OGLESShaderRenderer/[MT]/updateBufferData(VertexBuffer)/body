@@ -3,6 +3,7 @@
   boolean created=false;
   if (bufId == -1) {
     GLES20.glGenBuffers(1,intBuf1);
+    RendererUtil.checkGLError();
     bufId=intBuf1.get(0);
     vb.setId(bufId);
     objManager.registerForCleanup(vb);
@@ -13,6 +14,7 @@
     target=GLES20.GL_ELEMENT_ARRAY_BUFFER;
     if (context.boundElementArrayVBO != bufId) {
       GLES20.glBindBuffer(target,bufId);
+      RendererUtil.checkGLError();
       context.boundElementArrayVBO=bufId;
     }
   }
@@ -20,6 +22,7 @@
     target=GLES20.GL_ARRAY_BUFFER;
     if (context.boundArrayVBO != bufId) {
       GLES20.glBindBuffer(target,bufId);
+      RendererUtil.checkGLError();
       context.boundArrayVBO=bufId;
     }
   }
@@ -31,20 +34,21 @@ switch (vb.getFormat()) {
 case Byte:
 case UnsignedByte:
       GLES20.glBufferData(target,size,(ByteBuffer)vb.getData(),usage);
-    break;
+    RendererUtil.checkGLError();
+  break;
 case Short:
 case UnsignedShort:
-  GLES20.glBufferData(target,size,(ShortBuffer)vb.getData(),usage);
+GLES20.glBufferData(target,size,(ShortBuffer)vb.getData(),usage);
+RendererUtil.checkGLError();
 break;
 case Int:
 case UnsignedInt:
 GLES20.glBufferData(target,size,(IntBuffer)vb.getData(),usage);
+RendererUtil.checkGLError();
 break;
 case Float:
 GLES20.glBufferData(target,size,(FloatBuffer)vb.getData(),usage);
-break;
-case Double:
-GLES20.glBufferData(target,size,(DoubleBuffer)vb.getData(),usage);
+RendererUtil.checkGLError();
 break;
 default :
 throw new RuntimeException("Unknown buffer format.");
@@ -56,20 +60,21 @@ switch (vb.getFormat()) {
 case Byte:
 case UnsignedByte:
 GLES20.glBufferSubData(target,0,size,(ByteBuffer)vb.getData());
+RendererUtil.checkGLError();
 break;
 case Short:
 case UnsignedShort:
 GLES20.glBufferSubData(target,0,size,(ShortBuffer)vb.getData());
+RendererUtil.checkGLError();
 break;
 case Int:
 case UnsignedInt:
 GLES20.glBufferSubData(target,0,size,(IntBuffer)vb.getData());
+RendererUtil.checkGLError();
 break;
 case Float:
 GLES20.glBufferSubData(target,0,size,(FloatBuffer)vb.getData());
-break;
-case Double:
-GLES20.glBufferSubData(target,0,size,(DoubleBuffer)vb.getData());
+RendererUtil.checkGLError();
 break;
 default :
 throw new RuntimeException("Unknown buffer format.");

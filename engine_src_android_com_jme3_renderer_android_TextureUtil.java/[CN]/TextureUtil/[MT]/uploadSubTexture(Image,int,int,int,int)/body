@@ -42,11 +42,11 @@
     }
     if (imageFormat.compress && data != null) {
       GLES20.glCompressedTexSubImage2D(target,i,x,y,mipWidth,mipHeight,imageFormat.format,data.remaining(),data);
-      checkGLError();
+      RendererUtil.checkGLError();
     }
  else {
       GLES20.glTexSubImage2D(target,i,x,y,mipWidth,mipHeight,imageFormat.format,imageFormat.dataType,data);
-      checkGLError();
+      RendererUtil.checkGLError();
     }
     pos+=mipSizes[i];
   }

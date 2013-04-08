@@ -3,11 +3,11 @@
     logger.log(Level.FINEST," - Uploading bitmap directly. Cannot compress as alpha present.");
     if (subTexture) {
       GLUtils.texSubImage2D(target,level,x,y,bitmap);
-      checkGLError();
+      RendererUtil.checkGLError();
     }
  else {
       GLUtils.texImage2D(target,level,bitmap,0);
-      checkGLError();
+      RendererUtil.checkGLError();
     }
   }
  else {
@@ -28,11 +28,11 @@
       logger.log(Level.FINEST," - Uploading compressed image to GL, oldSize = {0}, newSize = {1}, ratio = {2}",new Object[]{oldSize,newSize,(float)oldSize / newSize});
       if (subTexture) {
         GLES20.glCompressedTexSubImage2D(target,level,x,y,bitmap.getWidth(),bitmap.getHeight(),ETC1.ETC1_RGB8_OES,etc1tex.getData().capacity(),etc1tex.getData());
-        checkGLError();
+        RendererUtil.checkGLError();
       }
  else {
         GLES20.glCompressedTexImage2D(target,level,ETC1.ETC1_RGB8_OES,bitmap.getWidth(),bitmap.getHeight(),0,etc1tex.getData().capacity(),etc1tex.getData());
-        checkGLError();
+        RendererUtil.checkGLError();
       }
     }
     BufferUtils.destroyDirectBuffer(compressedImage);
