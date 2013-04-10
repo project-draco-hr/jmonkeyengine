@@ -27,7 +27,7 @@
   jSeparator2=new javax.swing.JToolBar.Separator();
   addTextureButton=new javax.swing.JButton();
   removeTextureButton=new javax.swing.JButton();
-  eraseButton=new javax.swing.JToggleButton();
+  paintButton=new javax.swing.JToggleButton();
   jSeparator3=new javax.swing.JToolBar.Separator();
   radiusLabel=new javax.swing.JLabel();
   radiusSlider=new javax.swing.JSlider();
@@ -266,21 +266,20 @@
   }
 );
   jToolBar1.add(removeTextureButton);
-  terrainModButtonGroup.add(eraseButton);
-  eraseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/terraineditor/icon_terrain-erase-circle.png")));
-  org.openide.awt.Mnemonics.setLocalizedText(eraseButton,org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.eraseButton.text"));
-  eraseButton.setToolTipText(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.eraseButton.toolTipText"));
-  eraseButton.setEnabled(false);
-  eraseButton.setFocusable(false);
-  eraseButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-  eraseButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-  eraseButton.addActionListener(new java.awt.event.ActionListener(){
+  terrainModButtonGroup.add(paintButton);
+  paintButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/terraineditor/icon_terrain-paint-circle.png")));
+  org.openide.awt.Mnemonics.setLocalizedText(paintButton,org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.paintButton.text"));
+  paintButton.setToolTipText(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.paintButton.toolTipText"));
+  paintButton.setFocusable(false);
+  paintButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+  paintButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+  paintButton.addActionListener(new java.awt.event.ActionListener(){
     public void actionPerformed(    java.awt.event.ActionEvent evt){
-      eraseButtonActionPerformed(evt);
+      paintButtonActionPerformed(evt);
     }
   }
 );
-  jToolBar1.add(eraseButton);
+  jToolBar1.add(paintButton);
   jToolBar1.add(jSeparator3);
   org.openide.awt.Mnemonics.setLocalizedText(radiusLabel,org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.radiusLabel.text"));
   jToolBar1.add(radiusLabel);
