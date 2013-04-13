@@ -7,4 +7,9 @@
     System.arraycopy(sav,0,targets,0,sav.length);
   }
   skeleton=(Skeleton)in.readSavable("skeleton",null);
+  sav=in.readSavableArray("materials",null);
+  if (sav != null) {
+    materials=new Material[sav.length];
+    System.arraycopy(sav,0,materials,0,sav.length);
+  }
 }

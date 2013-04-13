@@ -2,9 +2,15 @@
   super.setSpatial(spatial);
   if (spatial != null) {
     Node node=(Node)spatial;
-    targets=findTargets(node);
+    HashSet<Material> mats=new HashSet<Material>();
+    ArrayList<Mesh> meshes=new ArrayList<Mesh>();
+    findTargets(node,meshes,mats);
+    targets=meshes.toArray(new Mesh[meshes.size()]);
+    materials=mats.toArray(new Material[mats.size()]);
+    setUseHwSkinning(true);
   }
  else {
     targets=null;
+    materials=null;
   }
 }

@@ -1,9 +1,24 @@
 {
   if (!wasMeshUpdated) {
-    resetToBind();
-    Matrix4f[] offsetMatrices=skeleton.computeSkinningMatrices();
-    for (int i=0; i < targets.length; i++) {
-      softwareSkinUpdate(targets[i],offsetMatrices);
+    if (useHwSkinning) {
+      if (!triedHwSkinning) {
+        triedHwSkinning=true;
+        try {
+          rm.preloadScene(this.spatial);
+        }
+ catch (        RendererException e) {
+          setUseHwSkinning(false);
+        }
+      }
+      offsetMatrices=skeleton.computeSkinningMatrices();
+      hardwareSkinUpdate();
+    }
+ else {
+      resetToBind();
+      offsetMatrices=skeleton.computeSkinningMatrices();
+      for (int i=0; i < targets.length; i++) {
+        softwareSkinUpdate(targets[i],offsetMatrices);
+      }
     }
     wasMeshUpdated=true;
   }

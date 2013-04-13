@@ -1,10 +1,10 @@
 {
   for (  Mesh mesh : targets) {
     if (isMeshAnimated(mesh)) {
-      FloatBuffer bwBuff=(FloatBuffer)mesh.getBuffer(Type.BoneWeight).getData();
-      ByteBuffer biBuff=(ByteBuffer)mesh.getBuffer(Type.BoneIndex).getData();
+      Buffer bwBuff=mesh.getBuffer(Type.BoneWeight).getData();
+      Buffer biBuff=mesh.getBuffer(Type.BoneIndex).getData();
       if (!biBuff.hasArray() || !bwBuff.hasArray()) {
-        mesh.prepareForAnim(true);
+        mesh.prepareForAnim(!useHwSkinning);
       }
       VertexBuffer bindPos=mesh.getBuffer(Type.BindPosePosition);
       VertexBuffer bindNorm=mesh.getBuffer(Type.BindPoseNormal);

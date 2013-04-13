@@ -2,9 +2,8 @@
   Node clonedNode=(Node)spatial;
   AnimControl ctrl=spatial.getControl(AnimControl.class);
   SkeletonControl clone=new SkeletonControl();
-  clone.setSpatial(clonedNode);
   clone.skeleton=ctrl.getSkeleton();
-  clone.targets=findTargets(clonedNode);
+  clone.setSpatial(clonedNode);
   for (int i=0; i < clonedNode.getQuantity(); i++) {
     Spatial child=clonedNode.getChild(i);
     if (child instanceof Node) {

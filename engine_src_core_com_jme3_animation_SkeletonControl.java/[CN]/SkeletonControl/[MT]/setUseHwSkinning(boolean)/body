@@ -1,0 +1,28 @@
+{
+  this.useHwSkinning=useHwSkinning;
+  this.triedHwSkinning=false;
+  int bones=((skeleton.getBoneCount() / 10) + 1) * 10;
+  for (  Material m : materials) {
+    if (useHwSkinning) {
+      try {
+        m.setInt("NumberOfBones",bones);
+      }
+ catch (      java.lang.IllegalArgumentException e) {
+        Logger.getLogger(SkeletonControl.class.getName()).log(Level.INFO,"{0} material doesn't support Hardware Skinning reverting to software",new String[]{m.getName()});
+        setUseHwSkinning(false);
+      }
+    }
+ else {
+      if (m.getParam("NumberOfBones") != null) {
+        m.clearParam("NumberOfBones");
+      }
+    }
+  }
+  for (  Mesh mesh : targets) {
+    if (isMeshAnimated(mesh)) {
+      mesh.prepareForAnim(!useHwSkinning);
+    }
+  }
+  if (useHwSkinning) {
+  }
+}
