@@ -1,7 +1,7 @@
 {
   if (location == -1)   return;
   FloatBuffer fb=(FloatBuffer)value;
-  if (fb == null || fb.capacity() < length) {
+  if (fb == null || fb.capacity() < length * 4) {
     value=BufferUtils.createFloatBuffer(length * 4);
   }
   varType=VarType.Vector4Array;
