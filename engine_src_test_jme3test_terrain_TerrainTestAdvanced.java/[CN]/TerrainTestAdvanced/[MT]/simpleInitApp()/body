@@ -35,6 +35,9 @@
   matTerrain.setTexture("NormalMap_1",normalMap2);
   matTerrain.setTexture("NormalMap_2",normalMap2);
   matTerrain.setTexture("NormalMap_4",normalMap2);
+  matWire=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  matWire.getAdditionalRenderState().setWireframe(true);
+  matWire.setColor("Color",ColorRGBA.Green);
   createSky();
   AbstractHeightMap heightmap=null;
   try {

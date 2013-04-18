@@ -9,8 +9,9 @@
   }
  else   lodOffCount=0;
   if (lastCameraLocations != null) {
-    if (lastCameraLocationsTheSame(locations) && !lodCalculator.isLodOff())     return;
+    if (!forceUpdate && lastCameraLocationsTheSame(locations) && !lodCalculator.isLodOff())     return;
  else     lastCameraLocations=cloneVectorList(locations);
+    forceUpdate=false;
   }
  else {
     lastCameraLocations=cloneVectorList(locations);
