@@ -1,0 +1,12 @@
+{
+  for (  Material m : materials) {
+    if (m.getParam("NumberOfBones") != null) {
+      m.clearParam("NumberOfBones");
+    }
+  }
+  for (  Mesh mesh : targets) {
+    if (isMeshAnimated(mesh)) {
+      mesh.prepareForAnim(true);
+    }
+  }
+}

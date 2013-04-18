@@ -1,4 +1,5 @@
 {
+  offsetMatrices=skeleton.computeSkinningMatrices();
   for (  Material m : materials) {
     m.setParam("BoneMatrices",VarType.Matrix4Array,offsetMatrices);
   }

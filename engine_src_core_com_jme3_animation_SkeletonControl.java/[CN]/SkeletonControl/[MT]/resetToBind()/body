@@ -4,7 +4,7 @@
       Buffer bwBuff=mesh.getBuffer(Type.BoneWeight).getData();
       Buffer biBuff=mesh.getBuffer(Type.BoneIndex).getData();
       if (!biBuff.hasArray() || !bwBuff.hasArray()) {
-        mesh.prepareForAnim(!useHwSkinning);
+        mesh.prepareForAnim(true);
       }
       VertexBuffer bindPos=mesh.getBuffer(Type.BindPosePosition);
       VertexBuffer bindNorm=mesh.getBuffer(Type.BindPoseNormal);

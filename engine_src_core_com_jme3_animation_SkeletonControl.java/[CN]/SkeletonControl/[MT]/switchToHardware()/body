@@ -1,0 +1,11 @@
+{
+  int numBones=((skeleton.getBoneCount() / 10) + 1) * 10;
+  for (  Material m : materials) {
+    m.setInt("NumberOfBones",numBones);
+  }
+  for (  Mesh mesh : targets) {
+    if (isMeshAnimated(mesh)) {
+      mesh.prepareForAnim(false);
+    }
+  }
+}
