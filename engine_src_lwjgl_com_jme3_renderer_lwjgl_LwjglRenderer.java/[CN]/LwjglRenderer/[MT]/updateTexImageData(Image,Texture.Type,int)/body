@@ -75,6 +75,9 @@
     }
   }
  else   if (target == EXTTextureArray.GL_TEXTURE_2D_ARRAY_EXT) {
+    if (!caps.contains(Caps.TextureArray)) {
+      throw new RendererException("Texture arrays not supported by graphics hardware");
+    }
     List<ByteBuffer> data=img.getData();
     TextureUtil.uploadTexture(img,target,-1,0);
     for (int i=0; i < data.size(); i++) {
