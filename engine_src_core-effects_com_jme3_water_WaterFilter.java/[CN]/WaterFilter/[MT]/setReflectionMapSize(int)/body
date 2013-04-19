@@ -1,7 +1,9 @@
 {
   this.reflectionMapSize=reflectionMapSize;
-  reflectionPass.init(renderManager.getRenderer(),reflectionMapSize,reflectionMapSize,Format.RGBA8,Format.Depth);
-  reflectionCam.resize(reflectionMapSize,reflectionMapSize,true);
-  reflectionProcessor.setReflectionBuffer(reflectionPass.getRenderFrameBuffer());
-  material.setTexture("ReflectionMap",reflectionPass.getRenderedTexture());
+  if (reflectionPass != null) {
+    reflectionPass.init(renderManager.getRenderer(),reflectionMapSize,reflectionMapSize,Format.RGBA8,Format.Depth);
+    reflectionCam.resize(reflectionMapSize,reflectionMapSize,true);
+    reflectionProcessor.setReflectionBuffer(reflectionPass.getRenderFrameBuffer());
+    material.setTexture("ReflectionMap",reflectionPass.getRenderedTexture());
+  }
 }
