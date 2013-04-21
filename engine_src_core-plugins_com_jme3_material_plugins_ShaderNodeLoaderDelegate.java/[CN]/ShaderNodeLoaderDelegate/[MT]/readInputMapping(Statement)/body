@@ -31,12 +31,12 @@
       throw new MatParseException("Could not find a Material Parameter named " + right.getName(),statement1);
     }
     if (shaderNode.getDefinition().getType() == Shader.ShaderType.Vertex) {
-      if (updateRightFromUniforms(param,mapping,vertexDeclaredUniforms)) {
+      if (updateRightFromUniforms(param,mapping,vertexDeclaredUniforms,statement1)) {
         storeVertexUniform(mapping.getRightVariable());
       }
     }
  else {
-      if (updateRightFromUniforms(param,mapping,fragmentDeclaredUniforms)) {
+      if (updateRightFromUniforms(param,mapping,fragmentDeclaredUniforms,statement1)) {
         if (mapping.getRightVariable().getType().contains("|")) {
           String type=fixSamplerType(left.getType(),mapping.getRightVariable().getType());
           if (type != null) {

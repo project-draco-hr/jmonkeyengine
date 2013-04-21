@@ -12,6 +12,11 @@
     source.append("_");
   }
   source.append(var.getName());
+  if (var.getMultiplicity() != null) {
+    source.append("[");
+    source.append(var.getMultiplicity().toUpperCase());
+    source.append("]");
+  }
   if (value != null) {
     source.append(" = ");
     source.append(value);
