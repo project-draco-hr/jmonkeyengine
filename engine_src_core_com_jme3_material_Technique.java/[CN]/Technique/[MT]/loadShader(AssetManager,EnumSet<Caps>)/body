@@ -1,11 +1,10 @@
 {
+  ShaderKey key=new ShaderKey(def.getVertexShaderName(),def.getFragmentShaderName(),getAllDefines(),def.getVertexShaderLanguage(),def.getFragmentShaderLanguage());
   if (getDef().isUsingShaderNodes()) {
-    shader=manager.getShaderGenerator(rendererCaps).generateShader(this);
+    manager.getShaderGenerator(rendererCaps).initialize(this);
+    key.setUsesShaderNodes(true);
   }
- else {
-    ShaderKey key=new ShaderKey(def.getVertexShaderName(),def.getFragmentShaderName(),getAllDefines(),def.getVertexShaderLanguage(),def.getFragmentShaderLanguage());
-    shader=manager.loadShader(key);
-  }
+  shader=manager.loadShader(key);
   worldBindUniforms.clear();
   if (def.getWorldBindings() != null) {
     for (    UniformBinding binding : def.getWorldBindings()) {
