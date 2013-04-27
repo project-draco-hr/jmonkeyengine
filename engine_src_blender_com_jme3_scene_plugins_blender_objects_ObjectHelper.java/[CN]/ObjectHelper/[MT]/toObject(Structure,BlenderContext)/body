@@ -106,6 +106,7 @@ blenderContext.popParent();
 if (result != null) {
 result.updateModelBound();
 blenderContext.addLoadedFeatures(objectStructure.getOldMemoryAddress(),name,objectStructure,result);
+result.setUserData("oma",objectStructure.getOldMemoryAddress());
 LOGGER.log(Level.FINE,"Reading and applying object's modifiers.");
 ModifierHelper modifierHelper=blenderContext.getHelper(ModifierHelper.class);
 Collection<Modifier> modifiers=modifierHelper.readModifiers(objectStructure,blenderContext);

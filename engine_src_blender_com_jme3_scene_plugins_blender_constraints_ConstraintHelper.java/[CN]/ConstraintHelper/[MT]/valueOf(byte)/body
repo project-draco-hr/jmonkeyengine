@@ -9,6 +9,6 @@ return CONSTRAINT_SPACE_POSE;
 case 3:
 return CONSTRAINT_SPACE_PARLOCAL;
 default :
-return CONSTRAINT_SPACE_INVALID;
+throw new IllegalArgumentException("Value: " + c + " cannot be converted to Space enum instance!");
 }
 }

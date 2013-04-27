@@ -10,13 +10,13 @@
   if (applyFixUpAxis && fixUpAxis) {
     Vector3f translation=result.toTranslationVector();
     Quaternion rotation=result.toRotationQuat();
-    Vector3f scale=this.getScale(result);
+    Vector3f scale=result.toScaleVector();
     float y=translation.y;
     translation.y=translation.z;
-    translation.z=-y;
+    translation.z=y == 0 ? 0 : -y;
     y=rotation.getY();
     float z=rotation.getZ();
-    rotation.set(rotation.getX(),z,-y,rotation.getW());
+    rotation.set(rotation.getX(),z,y == 0 ? 0 : -y,rotation.getW());
     y=scale.y;
     scale.y=scale.z;
     scale.z=y;
@@ -24,6 +24,14 @@
     result.setTranslation(translation);
     result.setRotationQuaternion(rotation);
     result.setScale(scale);
+  }
+  for (int i=0; i < 4; ++i) {
+    for (int j=0; j < 4; ++j) {
+      float value=result.get(i,j);
+      if (Math.abs(value) <= FastMath.FLT_EPSILON) {
+        result.set(i,j,0);
+      }
+    }
   }
   return result;
 }

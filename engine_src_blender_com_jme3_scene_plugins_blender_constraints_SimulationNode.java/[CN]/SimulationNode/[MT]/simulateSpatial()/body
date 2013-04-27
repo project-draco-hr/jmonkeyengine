@@ -1,0 +1,39 @@
+{
+  if (constraints != null && constraints.size() > 0) {
+    boolean applyStaticConstraints=true;
+    if (animations != null) {
+      for (      Animation animation : animations) {
+        float[] animationTimeBoundaries=computeAnimationTimeBoundaries(animation);
+        int maxFrame=(int)animationTimeBoundaries[0];
+        float maxTime=animationTimeBoundaries[1];
+        VirtualTrack vTrack=new VirtualTrack(maxFrame,maxTime);
+        virtualTrack.put(animation.getName(),vTrack);
+        for (        Track track : animation.getTracks()) {
+          for (int frame=0; frame < maxFrame; ++frame) {
+            spatial.setLocalTranslation(((SpatialTrack)track).getTranslations()[frame]);
+            spatial.setLocalRotation(((SpatialTrack)track).getRotations()[frame]);
+            spatial.setLocalScale(((SpatialTrack)track).getScales()[frame]);
+            for (            Constraint constraint : constraints) {
+              constraint.apply(frame);
+              vTrack.setTransform(frame,spatial.getLocalTransform());
+            }
+          }
+          Track newTrack=vTrack.getAsSpatialTrack();
+          if (newTrack != null) {
+            animation.removeTrack(track);
+            animation.addTrack(newTrack);
+          }
+          applyStaticConstraints=false;
+        }
+      }
+    }
+    if (applyStaticConstraints) {
+      for (      Constraint constraint : constraints) {
+        constraint.apply(0);
+      }
+    }
+  }
+  for (  SimulationNode child : children) {
+    child.simulate();
+  }
+}

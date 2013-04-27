@@ -1,9 +1,0 @@
-{
-  int boneIndex=skeleton.getBoneIndex(bone);
-  for (  Track track : animation.getTracks()) {
-    if (((BoneTrack)track).getTargetBoneIndex() == boneIndex) {
-      return (BoneTrack)track;
-    }
-  }
-  return null;
-}

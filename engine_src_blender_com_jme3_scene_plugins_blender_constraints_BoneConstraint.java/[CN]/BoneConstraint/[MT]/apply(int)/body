@@ -1,0 +1,18 @@
+{
+  BoneContext boneContext=blenderContext.getBoneContext(ownerOMA);
+  Transform ownerTransform=constraintHelper.getTransform(boneContext.getArmatureObjectOMA(),boneContext.getBone().getName(),ownerSpace);
+  if (targetOMA != null) {
+    if (isNodeTarget) {
+      Transform targetTransform=targetOMA != null ? constraintHelper.getTransform(targetOMA,subtargetName,targetSpace) : null;
+      constraintDefinition.bake(ownerTransform,targetTransform,this.ipo.calculateValue(frame));
+    }
+ else {
+      Transform targetTransform=constraintHelper.getTransform(targetOMA,subtargetName,targetSpace);
+      constraintDefinition.bake(ownerTransform,targetTransform,this.ipo.calculateValue(frame));
+    }
+  }
+ else {
+    constraintDefinition.bake(ownerTransform,null,this.ipo.calculateValue(frame));
+  }
+  constraintHelper.applyTransform(boneContext.getArmatureObjectOMA(),boneContext.getBone().getName(),ownerSpace,ownerTransform);
+}

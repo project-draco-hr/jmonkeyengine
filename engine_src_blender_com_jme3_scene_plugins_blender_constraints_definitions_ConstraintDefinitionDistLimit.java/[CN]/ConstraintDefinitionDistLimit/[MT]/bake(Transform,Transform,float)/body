@@ -1,4 +1,7 @@
 {
+  if (this.getOwner() instanceof Bone && ((Bone)this.getOwner()).getParent() != null) {
+    return;
+  }
   Vector3f v=ownerTransform.getTranslation().subtract(targetTransform.getTranslation());
   float currentDistance=v.length();
 switch (mode) {

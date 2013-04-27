@@ -1,8 +1,0 @@
-{
-  Matrix4f result=new Matrix4f();
-  if (spatial.getParent() != null) {
-    Transform t=spatial.getParent().getWorldTransform();
-    result.setTransform(t.getTranslation(),t.getScale(),t.getRotation().toRotationMatrix());
-  }
-  return result;
-}

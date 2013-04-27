@@ -1,0 +1,8 @@
+{
+  for (  Entry<Long,BoneContext> entry : boneContexts.entrySet()) {
+    if (entry.getValue().getBone().equals(bone)) {
+      return entry.getValue();
+    }
+  }
+  throw new IllegalStateException("Cannot find context for bone: " + bone);
+}

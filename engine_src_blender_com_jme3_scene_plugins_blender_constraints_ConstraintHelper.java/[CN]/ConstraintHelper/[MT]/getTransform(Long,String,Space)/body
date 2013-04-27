@@ -1,0 +1,59 @@
+{
+  Spatial feature=(Spatial)blenderContext.getLoadedFeature(oma,LoadedFeatureDataType.LOADED_FEATURE);
+  boolean isArmature=feature.getUserData(ArmatureHelper.ARMETURE_NODE_MARKER) != null;
+  if (isArmature) {
+    BoneContext targetBoneContext=blenderContext.getBoneByName(subtargetName);
+    Bone bone=targetBoneContext.getBone();
+switch (space) {
+case CONSTRAINT_SPACE_WORLD:
+      Transform t=new Transform(bone.getModelSpacePosition(),bone.getModelSpaceRotation(),bone.getModelSpaceScale());
+    System.out.println("A: " + Arrays.toString(t.getRotation().toAngles(null)));
+  return t;
+case CONSTRAINT_SPACE_LOCAL:
+Transform localTransform=new Transform(bone.getLocalPosition(),bone.getLocalRotation());
+localTransform.setScale(bone.getLocalScale());
+return localTransform;
+case CONSTRAINT_SPACE_POSE:
+Node nodeWithAnimationControl=blenderContext.getControlledNode(targetBoneContext.getSkeleton());
+Matrix4f m=this.toMatrix(nodeWithAnimationControl.getWorldTransform());
+Matrix4f boneAgainstModifiedNodeMatrix=this.toMatrix(bone.getLocalPosition(),bone.getLocalRotation(),bone.getLocalScale());
+Matrix4f boneWorldMatrix=m.multLocal(boneAgainstModifiedNodeMatrix);
+Matrix4f armatureWorldMatrix=this.toMatrix(feature.getWorldTransform()).invertLocal();
+Matrix4f r2=armatureWorldMatrix.multLocal(boneWorldMatrix);
+Vector3f loc2=r2.toTranslationVector();
+Quaternion rot2=r2.toRotationQuat().normalizeLocal().multLocal(POS_POSE_SPACE_QUATERNION);
+Vector3f scl2=r2.toScaleVector();
+return new Transform(loc2,rot2,scl2);
+case CONSTRAINT_SPACE_PARLOCAL:
+Matrix4f parentLocalMatrix=Matrix4f.IDENTITY;
+if (bone.getParent() != null) {
+Bone parent=bone.getParent();
+parentLocalMatrix=this.toMatrix(parent.getLocalPosition(),parent.getLocalRotation(),parent.getLocalScale());
+}
+ else {
+parentLocalMatrix=parentLocalMatrix.clone();
+}
+Matrix4f boneLocalMatrix=this.toMatrix(bone.getLocalPosition(),bone.getLocalRotation(),bone.getLocalScale());
+Matrix4f result=parentLocalMatrix.multLocal(boneLocalMatrix);
+Vector3f loc=result.toTranslationVector();
+Quaternion rot=result.toRotationQuat().normalizeLocal().multLocal(NEG_PARLOC_SPACE_QUATERNION);
+Vector3f scl=result.toScaleVector();
+return new Transform(loc,rot,scl);
+default :
+throw new IllegalStateException("Unknown space type: " + space);
+}
+}
+ else {
+switch (space) {
+case CONSTRAINT_SPACE_LOCAL:
+return ((Spatial)feature).getLocalTransform();
+case CONSTRAINT_SPACE_WORLD:
+return ((Spatial)feature).getWorldTransform();
+case CONSTRAINT_SPACE_PARLOCAL:
+case CONSTRAINT_SPACE_POSE:
+throw new IllegalStateException("Nodes can have only Local and World spaces applied!");
+default :
+throw new IllegalStateException("Unknown space type: " + space);
+}
+}
+}

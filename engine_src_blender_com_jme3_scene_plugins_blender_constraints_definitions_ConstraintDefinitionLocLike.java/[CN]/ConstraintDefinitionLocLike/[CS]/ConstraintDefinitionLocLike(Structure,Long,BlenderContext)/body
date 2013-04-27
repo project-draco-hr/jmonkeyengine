@@ -1,0 +1,14 @@
+{
+  super(constraintData,ownerOMA,blenderContext);
+  if (blenderContext.getBlenderKey().isFixUpAxis()) {
+    int y=flag & LOCLIKE_Y;
+    int invY=flag & LOCLIKE_Y_INVERT;
+    int z=flag & LOCLIKE_Z;
+    int invZ=flag & LOCLIKE_Z_INVERT;
+    flag&=LOCLIKE_X | LOCLIKE_X_INVERT | LOCLIKE_OFFSET;
+    flag|=y << 1;
+    flag|=invY << 1;
+    flag|=z >> 1;
+    flag|=invZ >> 1;
+  }
+}

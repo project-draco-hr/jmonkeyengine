@@ -1,4 +1,7 @@
 {
+  if (this.getOwner() instanceof Bone && ((Bone)this.getOwner()).getParent() != null) {
+    return;
+  }
   Vector3f ownerLocation=ownerTransform.getTranslation();
   Vector3f targetLocation=targetTransform.getTranslation();
   Vector3f startLocation=ownerTransform.getTranslation().clone();

@@ -1,0 +1,18 @@
+{
+  int maxFrame=Integer.MIN_VALUE;
+  float maxTime=Float.MIN_VALUE;
+  for (  Track track : animation.getTracks()) {
+    if (track instanceof BoneTrack) {
+      maxFrame=Math.max(maxFrame,((BoneTrack)track).getTranslations().length);
+      maxTime=Math.max(maxTime,((BoneTrack)track).getTimes()[((BoneTrack)track).getTimes().length - 1]);
+    }
+ else     if (track instanceof SpatialTrack) {
+      maxFrame=Math.max(maxFrame,((SpatialTrack)track).getTranslations().length);
+      maxTime=Math.max(maxTime,((SpatialTrack)track).getTimes()[((SpatialTrack)track).getTimes().length - 1]);
+    }
+ else {
+      throw new IllegalStateException("Unsupported track type for simuation: " + track);
+    }
+  }
+  return new float[]{maxFrame,maxTime};
+}

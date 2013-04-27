@@ -1,4 +1,7 @@
 {
+  if (this.getOwner() instanceof Bone && ((Bone)this.getOwner()).getParent() != null) {
+    return;
+  }
   Vector3f translation=ownerTransform.getTranslation();
   if ((flag & LIMIT_XMIN) != 0 && translation.x < limits[0][0]) {
     translation.x-=(translation.x - limits[0][0]) * influence;

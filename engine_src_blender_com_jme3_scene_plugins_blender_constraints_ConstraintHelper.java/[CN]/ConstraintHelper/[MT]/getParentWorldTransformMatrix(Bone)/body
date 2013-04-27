@@ -1,8 +1,0 @@
-{
-  Matrix4f result=new Matrix4f();
-  Bone parent=bone.getParent();
-  if (parent != null) {
-    result.setTransform(parent.getWorldBindPosition(),parent.getWorldBindScale(),parent.getWorldBindRotation().toRotationMatrix());
-  }
-  return result;
-}

@@ -1,0 +1,84 @@
+{
+  Spatial feature=(Spatial)blenderContext.getLoadedFeature(oma,LoadedFeatureDataType.LOADED_FEATURE);
+  boolean isArmature=feature.getUserData(ArmatureHelper.ARMETURE_NODE_MARKER) != null;
+  if (isArmature) {
+    Skeleton skeleton=blenderContext.getSkeleton(oma);
+    BoneContext targetBoneContext=blenderContext.getBoneByName(subtargetName);
+    Bone bone=targetBoneContext.getBone();
+    Node nodeControlledBySkeleton=blenderContext.getControlledNode(skeleton);
+    Transform nodeTransform=nodeControlledBySkeleton.getWorldTransform();
+    Matrix4f invertedNodeMatrix=this.toMatrix(nodeTransform).invertLocal();
+switch (space) {
+case CONSTRAINT_SPACE_LOCAL:
+      bone.setBindTransforms(transform.getTranslation(),transform.getRotation(),transform.getScale());
+    break;
+case CONSTRAINT_SPACE_WORLD:
+  System.out.println("B: " + Arrays.toString(transform.getRotation().toAngles(null)));
+Matrix4f boneMatrix=this.toMatrix(transform);
+Bone parent=bone.getParent();
+if (parent != null) {
+Matrix4f invertedParentWorldMatrix=this.toMatrix(parent.getModelSpacePosition(),parent.getModelSpaceRotation(),parent.getModelSpaceScale()).invertLocal();
+boneMatrix=invertedParentWorldMatrix.multLocal(boneMatrix);
+}
+boneMatrix=invertedNodeMatrix.multLocal(boneMatrix);
+bone.setBindTransforms(boneMatrix.toTranslationVector(),boneMatrix.toRotationQuat(),boneMatrix.toScaleVector());
+break;
+case CONSTRAINT_SPACE_POSE:
+Matrix4f armatureWorldMatrix=this.toMatrix(feature.getWorldTransform());
+Matrix4f bonePoseMatrix=this.toMatrix(transform);
+Matrix4f boneWorldMatrix=armatureWorldMatrix.multLocal(bonePoseMatrix);
+Matrix4f boneLocalMatrix=invertedNodeMatrix.multLocal(boneWorldMatrix);
+Vector3f loc2=boneLocalMatrix.toTranslationVector();
+Quaternion rot2=boneLocalMatrix.toRotationQuat().normalizeLocal().multLocal(new Quaternion(NEG_POSE_SPACE_QUATERNION));
+Vector3f scl2=boneLocalMatrix.toScaleVector();
+bone.setBindTransforms(loc2,rot2,scl2);
+break;
+case CONSTRAINT_SPACE_PARLOCAL:
+Matrix4f parentLocalMatrix=Matrix4f.IDENTITY;
+if (bone.getParent() != null) {
+parentLocalMatrix=this.toMatrix(bone.getParent().getLocalPosition(),bone.getParent().getLocalRotation(),bone.getParent().getLocalScale());
+parentLocalMatrix.invertLocal();
+}
+ else {
+parentLocalMatrix=parentLocalMatrix.clone();
+}
+Matrix4f m=this.toMatrix(transform.getTranslation(),transform.getRotation(),transform.getScale());
+Matrix4f result=parentLocalMatrix.multLocal(m);
+Vector3f loc=result.toTranslationVector();
+Quaternion rot=result.toRotationQuat().normalizeLocal().multLocal(POS_PARLOC_SPACE_QUATERNION);
+Vector3f scl=result.toScaleVector();
+bone.setBindTransforms(loc,rot,scl);
+break;
+default :
+throw new IllegalStateException("Invalid space type for target object: " + space.toString());
+}
+}
+ else if (feature instanceof Spatial) {
+Spatial spatial=(Spatial)feature;
+switch (space) {
+case CONSTRAINT_SPACE_LOCAL:
+spatial.getLocalTransform().set(transform);
+break;
+case CONSTRAINT_SPACE_WORLD:
+if (spatial.getParent() == null) {
+spatial.setLocalTransform(transform);
+}
+ else {
+Transform parentWorldTransform=spatial.getParent().getWorldTransform();
+Matrix4f parentMatrix=this.toMatrix(parentWorldTransform).invertLocal();
+Matrix4f m=this.toMatrix(transform);
+m=m.multLocal(parentMatrix);
+transform.setTranslation(m.toTranslationVector());
+transform.setRotation(m.toRotationQuat());
+transform.setScale(m.toScaleVector());
+spatial.setLocalTransform(transform);
+}
+break;
+default :
+throw new IllegalStateException("Invalid space type for spatial object: " + space.toString());
+}
+}
+ else {
+throw new IllegalStateException("Constrained transformation can be applied only to Bone or Spatial feature!");
+}
+}

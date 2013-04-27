@@ -1,0 +1,17 @@
+{
+  if (translations == null) {
+    translations=this.createList(Vector3f.ZERO,frameIndex);
+  }
+  this.append(translations,Vector3f.ZERO,frameIndex - translations.size());
+  translations.add(transform.getTranslation().clone());
+  if (rotations == null) {
+    rotations=this.createList(Quaternion.IDENTITY,frameIndex);
+  }
+  this.append(rotations,Quaternion.IDENTITY,frameIndex - rotations.size());
+  rotations.add(transform.getRotation().clone());
+  if (scales == null) {
+    scales=this.createList(Vector3f.UNIT_XYZ,frameIndex);
+  }
+  this.append(scales,Vector3f.UNIT_XYZ,frameIndex - scales.size());
+  scales.add(transform.getScale().clone());
+}

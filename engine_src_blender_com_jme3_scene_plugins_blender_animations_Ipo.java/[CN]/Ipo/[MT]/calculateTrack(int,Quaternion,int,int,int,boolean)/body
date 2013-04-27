@@ -25,7 +25,7 @@ case AC_LOC_X:
         break;
 case AC_LOC_Y:
       if (fixUpAxis) {
-        translation[2]=(float)-value;
+        translation[2]=value == 0.0f ? 0 : (float)-value;
       }
  else {
         translation[1]=(float)value;
@@ -39,7 +39,7 @@ objectRotation[0]=(float)value * degreeToRadiansFactor;
 break;
 case OB_ROT_Y:
 if (fixUpAxis) {
-objectRotation[2]=(float)-value * degreeToRadiansFactor;
+objectRotation[2]=value == 0.0f ? 0 : (float)-value * degreeToRadiansFactor;
 }
  else {
 objectRotation[1]=(float)value * degreeToRadiansFactor;
@@ -52,12 +52,7 @@ case AC_SIZE_X:
 scale[0]=(float)value;
 break;
 case AC_SIZE_Y:
-if (fixUpAxis) {
-scale[2]=(float)value;
-}
- else {
-scale[1]=(float)value;
-}
+scale[fixUpAxis ? 2 : 1]=(float)value;
 break;
 case AC_SIZE_Z:
 scale[fixUpAxis ? 1 : 2]=(float)value;
@@ -70,19 +65,14 @@ quaternionRotation[0]=(float)value;
 break;
 case AC_QUAT_Y:
 if (fixUpAxis) {
-quaternionRotation[2]=-(float)value;
+quaternionRotation[2]=value == 0.0f ? 0 : -(float)value;
 }
  else {
 quaternionRotation[1]=(float)value;
 }
 break;
 case AC_QUAT_Z:
-if (fixUpAxis) {
-quaternionRotation[1]=(float)value;
-}
- else {
-quaternionRotation[2]=(float)value;
-}
+quaternionRotation[fixUpAxis ? 1 : 2]=(float)value;
 break;
 default :
 LOGGER.warning("Unknown ipo curve type: " + bezierCurves[j].getType());

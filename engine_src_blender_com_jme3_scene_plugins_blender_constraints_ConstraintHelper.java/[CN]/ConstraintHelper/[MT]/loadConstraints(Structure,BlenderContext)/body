@@ -60,7 +60,7 @@
         float enforce=((Number)constraint.getFieldValue("enforce")).floatValue();
         ipo=ipoHelper.fromValue(enforce);
       }
-      constraintsList.add(this.getConstraint(dataType,constraint,objectStructure.getOldMemoryAddress(),ipo,blenderContext));
+      constraintsList.add(this.createConstraint(dataType,constraint,objectStructure.getOldMemoryAddress(),ipo,blenderContext));
     }
     blenderContext.addConstraints(objectStructure.getOldMemoryAddress(),constraintsList);
   }

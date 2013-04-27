@@ -10,14 +10,14 @@
   Matrix4f localMatrix=parentInv.mult(globalMatrix);
   Vector3f translation=localMatrix.toTranslationVector();
   Quaternion rotation=localMatrix.toRotationQuat();
-  Vector3f scale=this.getScale(parentInv).multLocal(size.get(0).floatValue(),size.get(1).floatValue(),size.get(2).floatValue());
+  Vector3f scale=parentInv.toScaleVector().multLocal(size.get(0).floatValue(),size.get(1).floatValue(),size.get(2).floatValue());
   if (fixUpAxis) {
     float y=translation.y;
     translation.y=translation.z;
-    translation.z=-y;
+    translation.z=y == 0 ? 0 : -y;
     y=rotation.getY();
     float z=rotation.getZ();
-    rotation.set(rotation.getX(),z,-y,rotation.getW());
+    rotation.set(rotation.getX(),z,y == 0 ? 0 : -y,rotation.getW());
     y=scale.y;
     scale.y=scale.z;
     scale.z=y;
