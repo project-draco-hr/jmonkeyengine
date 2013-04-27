@@ -1,15 +1,5 @@
 {
   super.read(im);
   InputCapsule in=im.getCapsule(this);
-  Savable[] sav=in.readSavableArray("targets",null);
-  if (sav != null) {
-    targets=new Mesh[sav.length];
-    System.arraycopy(sav,0,targets,0,sav.length);
-  }
   skeleton=(Skeleton)in.readSavable("skeleton",null);
-  sav=in.readSavableArray("materials",null);
-  if (sav != null) {
-    materials=new Material[sav.length];
-    System.arraycopy(sav,0,materials,0,sav.length);
-  }
 }
