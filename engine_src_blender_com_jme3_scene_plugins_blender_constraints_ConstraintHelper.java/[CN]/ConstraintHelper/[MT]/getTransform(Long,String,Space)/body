@@ -1,17 +1,15 @@
 {
   Spatial feature=(Spatial)blenderContext.getLoadedFeature(oma,LoadedFeatureDataType.LOADED_FEATURE);
-  boolean isArmature=feature.getUserData(ArmatureHelper.ARMETURE_NODE_MARKER) != null;
+  boolean isArmature=feature.getUserData(ArmatureHelper.ARMATURE_NODE_MARKER) != null;
   if (isArmature) {
     BoneContext targetBoneContext=blenderContext.getBoneByName(subtargetName);
     Bone bone=targetBoneContext.getBone();
 switch (space) {
 case CONSTRAINT_SPACE_WORLD:
-      Transform t=new Transform(bone.getModelSpacePosition(),bone.getModelSpaceRotation(),bone.getModelSpaceScale());
-    System.out.println("A: " + Arrays.toString(t.getRotation().toAngles(null)));
-  return t;
+      return new Transform(bone.getModelSpacePosition(),bone.getModelSpaceRotation(),bone.getModelSpaceScale());
 case CONSTRAINT_SPACE_LOCAL:
-Transform localTransform=new Transform(bone.getLocalPosition(),bone.getLocalRotation());
-localTransform.setScale(bone.getLocalScale());
+    Transform localTransform=new Transform(bone.getLocalPosition(),bone.getLocalRotation());
+  localTransform.setScale(bone.getLocalScale());
 return localTransform;
 case CONSTRAINT_SPACE_POSE:
 Node nodeWithAnimationControl=blenderContext.getControlledNode(targetBoneContext.getSkeleton());

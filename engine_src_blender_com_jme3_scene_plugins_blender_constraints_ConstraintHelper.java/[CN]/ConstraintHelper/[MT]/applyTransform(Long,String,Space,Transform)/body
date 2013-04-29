@@ -1,6 +1,6 @@
 {
   Spatial feature=(Spatial)blenderContext.getLoadedFeature(oma,LoadedFeatureDataType.LOADED_FEATURE);
-  boolean isArmature=feature.getUserData(ArmatureHelper.ARMETURE_NODE_MARKER) != null;
+  boolean isArmature=feature.getUserData(ArmatureHelper.ARMATURE_NODE_MARKER) != null;
   if (isArmature) {
     Skeleton skeleton=blenderContext.getSkeleton(oma);
     BoneContext targetBoneContext=blenderContext.getBoneByName(subtargetName);
@@ -13,8 +13,7 @@ case CONSTRAINT_SPACE_LOCAL:
       bone.setBindTransforms(transform.getTranslation(),transform.getRotation(),transform.getScale());
     break;
 case CONSTRAINT_SPACE_WORLD:
-  System.out.println("B: " + Arrays.toString(transform.getRotation().toAngles(null)));
-Matrix4f boneMatrix=this.toMatrix(transform);
+  Matrix4f boneMatrix=this.toMatrix(transform);
 Bone parent=bone.getParent();
 if (parent != null) {
 Matrix4f invertedParentWorldMatrix=this.toMatrix(parent.getModelSpacePosition(),parent.getModelSpaceRotation(),parent.getModelSpaceScale()).invertLocal();

@@ -10,7 +10,6 @@
       Ipo ipo=ipoHelper.fromAction(actionStructure,blenderContext);
       if (ipo != null) {
         result=new ObjectAnimationModifier(ipo,actionStructure.getName(),objectStructure.getOldMemoryAddress(),blenderContext);
-        blenderContext.addModifier(objectStructure.getOldMemoryAddress(),result);
       }
     }
   }

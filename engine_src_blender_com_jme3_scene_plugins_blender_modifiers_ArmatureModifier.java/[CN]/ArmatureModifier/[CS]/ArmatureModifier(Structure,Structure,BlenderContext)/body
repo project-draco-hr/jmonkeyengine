@@ -65,9 +65,12 @@
       }
       animData=new AnimData(skeleton,animations);
       for (      Bone bone : bones) {
-        Long boneOma=armatureHelper.getBoneOMA(bone);
-        if (boneOma != null) {
-          blenderContext.setAnimData(boneOma,animData);
+        if (bone.getName().length() > 0) {
+          BoneContext boneContext=blenderContext.getBoneContext(bone);
+          Long boneOma=boneContext.getBoneOma();
+          if (boneOma != null) {
+            blenderContext.setAnimData(boneOma,animData);
+          }
         }
       }
     }
