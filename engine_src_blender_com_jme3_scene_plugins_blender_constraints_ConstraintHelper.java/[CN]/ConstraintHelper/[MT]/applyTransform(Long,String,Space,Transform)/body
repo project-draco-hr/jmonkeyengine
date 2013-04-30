@@ -1,6 +1,6 @@
 {
   Spatial feature=(Spatial)blenderContext.getLoadedFeature(oma,LoadedFeatureDataType.LOADED_FEATURE);
-  boolean isArmature=feature.getUserData(ArmatureHelper.ARMATURE_NODE_MARKER) != null;
+  boolean isArmature=blenderContext.getMarkerValue(ArmatureHelper.ARMATURE_NODE_MARKER,feature) != null;
   if (isArmature) {
     Skeleton skeleton=blenderContext.getSkeleton(oma);
     BoneContext targetBoneContext=blenderContext.getBoneByName(subtargetName);
@@ -52,32 +52,28 @@ default :
 throw new IllegalStateException("Invalid space type for target object: " + space.toString());
 }
 }
- else if (feature instanceof Spatial) {
-Spatial spatial=(Spatial)feature;
+ else {
 switch (space) {
 case CONSTRAINT_SPACE_LOCAL:
-spatial.getLocalTransform().set(transform);
+feature.getLocalTransform().set(transform);
 break;
 case CONSTRAINT_SPACE_WORLD:
-if (spatial.getParent() == null) {
-spatial.setLocalTransform(transform);
+if (feature.getParent() == null) {
+feature.setLocalTransform(transform);
 }
  else {
-Transform parentWorldTransform=spatial.getParent().getWorldTransform();
+Transform parentWorldTransform=feature.getParent().getWorldTransform();
 Matrix4f parentMatrix=this.toMatrix(parentWorldTransform).invertLocal();
 Matrix4f m=this.toMatrix(transform);
 m=m.multLocal(parentMatrix);
 transform.setTranslation(m.toTranslationVector());
 transform.setRotation(m.toRotationQuat());
 transform.setScale(m.toScaleVector());
-spatial.setLocalTransform(transform);
+feature.setLocalTransform(transform);
 }
 break;
 default :
 throw new IllegalStateException("Invalid space type for spatial object: " + space.toString());
 }
-}
- else {
-throw new IllegalStateException("Constrained transformation can be applied only to Bone or Spatial feature!");
 }
 }

@@ -1,6 +1,6 @@
 {
   Node spatial=(Node)blenderContext.getLoadedFeature(featureOMA,LoadedFeatureDataType.LOADED_FEATURE);
-  if (spatial.getUserData(ArmatureHelper.ARMATURE_NODE_MARKER) != null) {
+  if (blenderContext.getMarkerValue(ArmatureHelper.ARMATURE_NODE_MARKER,spatial) != null) {
     this.skeleton=blenderContext.getSkeleton(featureOMA);
     Node nodeWithAnimationControl=blenderContext.getControlledNode(skeleton);
     this.animControl=nodeWithAnimationControl.getControl(AnimControl.class);
@@ -38,7 +38,7 @@
     animations=blenderContext.getAnimData(featureOMA) == null ? null : blenderContext.getAnimData(featureOMA).anims;
     for (    Spatial child : spatial.getChildren()) {
       if (child instanceof Node) {
-        children.add(new SimulationNode((Long)child.getUserData("oma"),blenderContext,false));
+        children.add(new SimulationNode((Long)blenderContext.getMarkerValue(ObjectHelper.OMA_MARKER,child),blenderContext,false));
       }
     }
   }

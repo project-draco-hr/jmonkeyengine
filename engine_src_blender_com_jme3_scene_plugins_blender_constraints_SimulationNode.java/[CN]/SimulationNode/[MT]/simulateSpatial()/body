@@ -3,7 +3,7 @@
     boolean applyStaticConstraints=true;
     if (animations != null) {
       for (      Animation animation : animations) {
-        float[] animationTimeBoundaries=computeAnimationTimeBoundaries(animation);
+        float[] animationTimeBoundaries=this.computeAnimationTimeBoundaries(animation);
         int maxFrame=(int)animationTimeBoundaries[0];
         float maxTime=animationTimeBoundaries[1];
         VirtualTrack vTrack=new VirtualTrack(maxFrame,maxTime);

@@ -90,7 +90,7 @@ break;
 case OBJECT_TYPE_ARMATURE:
 Node armature=new Node(name);
 armature.setLocalTransform(t);
-armature.setUserData(ArmatureHelper.ARMATURE_NODE_MARKER,Boolean.TRUE);
+blenderContext.addMarker(ArmatureHelper.ARMATURE_NODE_MARKER,armature,Boolean.TRUE);
 if (parent instanceof Node) {
 ((Node)parent).attachChild(armature);
 }
@@ -106,7 +106,7 @@ blenderContext.popParent();
 if (result != null) {
 result.updateModelBound();
 blenderContext.addLoadedFeatures(objectStructure.getOldMemoryAddress(),name,objectStructure,result);
-result.setUserData("oma",objectStructure.getOldMemoryAddress());
+blenderContext.addMarker(OMA_MARKER,result,objectStructure.getOldMemoryAddress());
 LOGGER.log(Level.FINE,"Reading and applying object's modifiers.");
 ModifierHelper modifierHelper=blenderContext.getHelper(ModifierHelper.class);
 Collection<Modifier> modifiers=modifierHelper.readModifiers(objectStructure,blenderContext);

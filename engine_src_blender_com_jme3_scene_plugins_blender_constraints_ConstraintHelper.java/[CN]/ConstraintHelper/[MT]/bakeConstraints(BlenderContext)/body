@@ -18,7 +18,7 @@
         while (spatial.getParent() != null) {
           spatial=spatial.getParent();
         }
-        simulationRootNodes.add(new SimulationNode((Long)spatial.getUserData("oma"),blenderContext));
+        simulationRootNodes.add(new SimulationNode((Long)blenderContext.getMarkerValue(ObjectHelper.OMA_MARKER,spatial),blenderContext));
       }
  else {
         throw new IllegalStateException("Unsupported constraint type: " + constraint);
