@@ -1,4 +1,5 @@
 {
+  if (locations == null || locations.isEmpty())   return false;
   float distance=getCenterLocation(terrainPatch).distance(locations.get(0));
   if (turnOffLod) {
     int prevLOD=terrainPatch.getLod();
