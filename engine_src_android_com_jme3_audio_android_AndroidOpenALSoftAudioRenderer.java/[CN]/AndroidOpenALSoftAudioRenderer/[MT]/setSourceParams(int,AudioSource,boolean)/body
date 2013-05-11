@@ -1,0 +1,57 @@
+{
+  if (src.isPositional()) {
+    Vector3f pos=src.getPosition();
+    Vector3f vel=src.getVelocity();
+    alSource3f(id,AL.AL_POSITION,pos.x,pos.y,pos.z);
+    checkError(true);
+    alSource3f(id,AL.AL_VELOCITY,vel.x,vel.y,vel.z);
+    checkError(true);
+    alSourcef(id,AL.AL_MAX_DISTANCE,src.getMaxDistance());
+    checkError(true);
+    alSourcef(id,AL.AL_REFERENCE_DISTANCE,src.getRefDistance());
+    checkError(true);
+    alSourcei(id,AL.AL_SOURCE_RELATIVE,AL.AL_FALSE);
+    checkError(true);
+  }
+ else {
+    alSourcei(id,AL.AL_SOURCE_RELATIVE,AL.AL_TRUE);
+    checkError(true);
+    alSource3f(id,AL.AL_POSITION,0,0,0);
+    checkError(true);
+    alSource3f(id,AL.AL_VELOCITY,0,0,0);
+    checkError(true);
+  }
+  if (forceNonLoop) {
+    alSourcei(id,AL.AL_LOOPING,AL.AL_FALSE);
+    checkError(true);
+  }
+ else {
+    alSourcei(id,AL.AL_LOOPING,src.isLooping() ? AL.AL_TRUE : AL.AL_FALSE);
+    checkError(true);
+  }
+  alSourcef(id,AL.AL_GAIN,src.getVolume());
+  checkError(true);
+  alSourcef(id,AL.AL_PITCH,src.getPitch());
+  checkError(true);
+  alSourcef(id,AL.AL_SEC_OFFSET,src.getTimeOffset());
+  checkError(true);
+  if (src.isDirectional()) {
+    Vector3f dir=src.getDirection();
+    alSource3f(id,AL.AL_DIRECTION,dir.x,dir.y,dir.z);
+    checkError(true);
+    alSourcef(id,AL.AL_CONE_INNER_ANGLE,src.getInnerAngle());
+    checkError(true);
+    alSourcef(id,AL.AL_CONE_OUTER_ANGLE,src.getOuterAngle());
+    checkError(true);
+    alSourcef(id,AL.AL_CONE_OUTER_GAIN,0);
+    checkError(true);
+  }
+ else {
+    alSourcef(id,AL.AL_CONE_INNER_ANGLE,360);
+    checkError(true);
+    alSourcef(id,AL.AL_CONE_OUTER_ANGLE,360);
+    checkError(true);
+    alSourcef(id,AL.AL_CONE_OUTER_GAIN,1f);
+    checkError(true);
+  }
+}

@@ -1,0 +1,36 @@
+{
+  try {
+    if (!alIsCreated()) {
+      logger.log(Level.INFO,"Creating OpenAL Soft Renderer");
+      alCreate();
+      checkError(false);
+    }
+  }
+ catch (  UnsatisfiedLinkError ex) {
+    logger.log(Level.SEVERE,"Failed to load audio library",ex);
+    audioDisabled=true;
+    return;
+  }
+  String deviceName=alcGetString(AL.ALC_DEVICE_SPECIFIER);
+  logger.log(Level.INFO,"Audio Device: {0}",deviceName);
+  logger.log(Level.INFO,"Audio Vendor: {0}",alGetString(AL.AL_VENDOR));
+  logger.log(Level.INFO,"Audio Renderer: {0}",alGetString(AL.AL_RENDERER));
+  logger.log(Level.INFO,"Audio Version: {0}",alGetString(AL.AL_VERSION));
+  ArrayList<Integer> channelList=new ArrayList<Integer>();
+  for (int i=0; i < MAX_NUM_CHANNELS; i++) {
+    int chan=alGenSources();
+    if (checkError(false) != 0) {
+      break;
+    }
+ else {
+      channelList.add(chan);
+    }
+  }
+  channels=new int[channelList.size()];
+  for (int i=0; i < channels.length; i++) {
+    channels[i]=channelList.get(i);
+  }
+  ib=BufferUtils.createIntBuffer(channels.length);
+  chanSrcs=new AudioSource[channels.length];
+  logger.log(Level.INFO,"AudioRenderer supports {0} channels",channels.length);
+}

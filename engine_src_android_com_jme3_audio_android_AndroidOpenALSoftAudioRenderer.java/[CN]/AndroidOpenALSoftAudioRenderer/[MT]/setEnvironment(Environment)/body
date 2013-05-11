@@ -1,0 +1,15 @@
+{
+  checkDead();
+synchronized (threadLock) {
+    while (!threadLock.get()) {
+      try {
+        threadLock.wait();
+      }
+ catch (      InterruptedException ex) {
+      }
+    }
+    if (audioDisabled || !supportEfx) {
+      return;
+    }
+  }
+}

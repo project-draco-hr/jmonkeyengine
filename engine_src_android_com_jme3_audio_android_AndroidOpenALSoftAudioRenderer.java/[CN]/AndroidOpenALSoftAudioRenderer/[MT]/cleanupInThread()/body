@@ -1,0 +1,22 @@
+{
+  logger.log(Level.INFO,"cleanupInThread");
+  if (audioDisabled) {
+    logger.log(Level.INFO,"Destroying OpenAL Soft Renderer with audioDisabled");
+    alDestroy();
+    checkError(true);
+    return;
+  }
+  for (int i=0; i < chanSrcs.length; i++) {
+    if (chanSrcs[i] != null) {
+      clearChannel(i);
+    }
+  }
+  ib.clear();
+  ib.put(channels);
+  ib.flip();
+  alDeleteSources(channels.length,ib);
+  checkError(true);
+  objManager.deleteAllObjects(this);
+  logger.log(Level.INFO,"Destroying OpenAL Soft Renderer");
+  alDestroy();
+}

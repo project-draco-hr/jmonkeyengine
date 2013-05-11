@@ -1,0 +1,26 @@
+{
+  String errorText;
+switch (errorCode) {
+case AL_NO_ERROR:
+    errorText="No Error";
+  break;
+case AL_INVALID_NAME:
+errorText="Invalid Name";
+break;
+case AL_INVALID_ENUM:
+errorText="Invalid Enum";
+break;
+case AL_INVALID_VALUE:
+errorText="Invalid Value";
+break;
+case AL_INVALID_OPERATION:
+errorText="Invalid Operation";
+break;
+case AL_OUT_OF_MEMORY:
+errorText="Out of Memory";
+break;
+default :
+errorText="Unknown Error Code: " + String.valueOf(errorCode);
+}
+return errorText;
+}

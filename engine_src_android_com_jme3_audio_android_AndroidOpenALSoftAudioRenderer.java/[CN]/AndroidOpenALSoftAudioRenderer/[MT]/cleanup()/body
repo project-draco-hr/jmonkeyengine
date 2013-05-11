@@ -1,0 +1,7 @@
+{
+  logger.log(Level.INFO,"cleanup");
+  if (audioThread.isAlive()) {
+    logger.log(Level.INFO,"Interrupting audioThread");
+    audioThread.interrupt();
+  }
+}

@@ -1,0 +1,41 @@
+{
+  checkDead();
+synchronized (threadLock) {
+    while (!threadLock.get()) {
+      try {
+        threadLock.wait();
+      }
+ catch (      InterruptedException ex) {
+      }
+    }
+    if (audioDisabled) {
+      return;
+    }
+switch (param) {
+case Position:
+      Vector3f pos=listener.getLocation();
+    alListener3f(AL.AL_POSITION,pos.x,pos.y,pos.z);
+  checkError(true);
+break;
+case Rotation:
+Vector3f dir=listener.getDirection();
+Vector3f up=listener.getUp();
+fb.rewind();
+fb.put(dir.x).put(dir.y).put(dir.z);
+fb.put(up.x).put(up.y).put(up.z);
+fb.flip();
+alListener(AL.AL_ORIENTATION,fb);
+checkError(true);
+break;
+case Velocity:
+Vector3f vel=listener.getVelocity();
+alListener3f(AL.AL_VELOCITY,vel.x,vel.y,vel.z);
+checkError(true);
+break;
+case Volume:
+alListenerf(AL.AL_GAIN,listener.getVolume());
+checkError(true);
+break;
+}
+}
+}
