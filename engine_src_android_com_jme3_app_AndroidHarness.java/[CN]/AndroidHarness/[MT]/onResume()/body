@@ -1,27 +1,5 @@
 {
   logger.fine("onResume");
   super.onResume();
-  if (view != null) {
-    view.onResume();
-  }
-  if (app != null) {
-    AudioRenderer result=app.getAudioRenderer();
-    if (result != null) {
-      if (result instanceof AndroidAudioRenderer) {
-        AndroidAudioRenderer renderer=(AndroidAudioRenderer)result;
-        renderer.resumeAll();
-      }
-    }
-    if (app.getContext() != null) {
-      JoyInput joyInput=app.getContext().getJoyInput();
-      if (joyInput != null) {
-        if (joyInput instanceof AndroidSensorJoyInput) {
-          AndroidSensorJoyInput androidJoyInput=(AndroidSensorJoyInput)joyInput;
-          androidJoyInput.resumeSensors();
-        }
-      }
-    }
-  }
-  isGLThreadPaused=false;
   gainFocus();
 }
