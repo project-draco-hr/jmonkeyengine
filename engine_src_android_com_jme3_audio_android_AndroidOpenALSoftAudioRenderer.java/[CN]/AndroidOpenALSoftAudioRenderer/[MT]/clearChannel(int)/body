@@ -18,10 +18,12 @@
       checkError(true);
     }
     if (src.getDryFilter() != null && supportEfx) {
+      alSourcei(sourceId,AL.AL_DIRECT_FILTER,AL.AL_FILTER_NULL);
     }
     if (src.isPositional()) {
       AudioSource pas=(AudioSource)src;
       if (pas.isReverbEnabled() && supportEfx) {
+        alSource3i(sourceId,AL.AL_AUXILIARY_SEND_FILTER,0,0,AL.AL_FILTER_NULL);
       }
     }
     chanSrcs[index]=null;

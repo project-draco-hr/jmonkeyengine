@@ -17,6 +17,14 @@
   alDeleteSources(channels.length,ib);
   checkError(true);
   objManager.deleteAllObjects(this);
+  if (supportEfx) {
+    ib.position(0).limit(1);
+    ib.put(0,reverbFx);
+    alDeleteEffects(1,ib);
+    ib.position(0).limit(1);
+    ib.put(0,reverbFxSlot);
+    alDeleteAuxiliaryEffectSlots(1,ib);
+  }
   logger.log(Level.INFO,"Destroying OpenAL Soft Renderer");
   alDestroy();
 }

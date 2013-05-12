@@ -12,6 +12,17 @@
     checkError(true);
     alSourcei(id,AL.AL_SOURCE_RELATIVE,AL.AL_FALSE);
     checkError(true);
+    if (src.isReverbEnabled() && supportEfx) {
+      int filter=AL.AL_FILTER_NULL;
+      if (src.getReverbFilter() != null) {
+        Filter f=src.getReverbFilter();
+        if (f.isUpdateNeeded()) {
+          updateFilter(f);
+        }
+        filter=f.getId();
+      }
+      alSource3i(id,AL.AL_AUXILIARY_SEND_FILTER,reverbFxSlot,0,filter);
+    }
   }
  else {
     alSourcei(id,AL.AL_SOURCE_RELATIVE,AL.AL_TRUE);
@@ -20,6 +31,13 @@
     checkError(true);
     alSource3f(id,AL.AL_VELOCITY,0,0,0);
     checkError(true);
+  }
+  if (src.getDryFilter() != null && supportEfx) {
+    Filter f=src.getDryFilter();
+    if (f.isUpdateNeeded()) {
+      updateFilter(f);
+      alSourcei(id,AL.AL_DIRECT_FILTER,f.getId());
+    }
   }
   if (forceNonLoop) {
     alSourcei(id,AL.AL_LOOPING,AL.AL_FALSE);
