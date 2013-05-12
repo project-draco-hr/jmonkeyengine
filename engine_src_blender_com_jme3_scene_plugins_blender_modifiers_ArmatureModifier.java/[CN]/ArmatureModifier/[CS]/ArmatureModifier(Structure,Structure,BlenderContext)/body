@@ -63,13 +63,13 @@
           animations.add(boneAnimation);
         }
       }
-      animData=new AnimData(skeleton,animations);
+      animationData=new AnimationData(skeleton,animations);
       for (      Bone bone : bones) {
         if (bone.getName().length() > 0) {
           BoneContext boneContext=blenderContext.getBoneContext(bone);
           Long boneOma=boneContext.getBoneOma();
           if (boneOma != null) {
-            blenderContext.setAnimData(boneOma,animData);
+            blenderContext.setAnimData(boneOma,animationData);
           }
         }
       }

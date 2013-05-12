@@ -2,7 +2,7 @@
   if (invalid) {
     LOGGER.log(Level.WARNING,"Armature modifier is invalid! Cannot be applied to: {0}",node.getName());
   }
-  if (animData == null || skeleton == null) {
+  if (animationData == null || skeleton == null) {
     return node;
   }
   List<Geometry> geomList=(List<Geometry>)blenderContext.getLoadedFeature(meshOMA,LoadedFeatureDataType.LOADED_FEATURE);
@@ -35,8 +35,8 @@
       return node;
     }
   }
-  AnimControl control=new AnimControl(animData.skeleton);
-  ArrayList<Animation> animList=animData.anims;
+  AnimControl control=new AnimControl(animationData.skeleton);
+  List<Animation> animList=animationData.anims;
   if (animList != null && animList.size() > 0) {
     HashMap<String,Animation> anims=new HashMap<String,Animation>(animList.size());
     for (int i=0; i < animList.size(); ++i) {
@@ -46,7 +46,7 @@
     control.setAnimations(anims);
   }
   node.addControl(control);
-  node.addControl(new SkeletonControl(animData.skeleton));
+  node.addControl(new SkeletonControl(animationData.skeleton));
   blenderContext.setNodeForSkeleton(skeleton,node);
   return node;
 }
