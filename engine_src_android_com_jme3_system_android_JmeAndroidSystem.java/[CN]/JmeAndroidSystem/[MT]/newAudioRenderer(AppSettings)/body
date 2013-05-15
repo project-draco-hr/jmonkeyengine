@@ -1,3 +1,17 @@
 {
-  return new AndroidAudioRenderer(activity);
+  if (settings.getAudioRenderer().equals(AppSettings.ANDROID_MEDIAPLAYER)) {
+    logger.log(Level.INFO,"newAudioRenderer settings set to Android MediaPlayer / SoundPool");
+    audioRendererType=AppSettings.ANDROID_MEDIAPLAYER;
+    return new AndroidMediaPlayerAudioRenderer(activity);
+  }
+ else   if (settings.getAudioRenderer().equals(AppSettings.ANDROID_OPENAL_SOFT)) {
+    logger.log(Level.INFO,"newAudioRenderer settings set to Android OpenAL Soft");
+    audioRendererType=AppSettings.ANDROID_OPENAL_SOFT;
+    return new AndroidOpenALSoftAudioRenderer();
+  }
+ else {
+    logger.log(Level.INFO,"AudioRenderer not set. Defaulting to Android MediaPlayer / SoundPool");
+    audioRendererType=AppSettings.ANDROID_MEDIAPLAYER;
+    return new AndroidMediaPlayerAudioRenderer(activity);
+  }
 }

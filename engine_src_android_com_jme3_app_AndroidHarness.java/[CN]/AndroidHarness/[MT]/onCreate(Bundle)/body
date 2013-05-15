@@ -30,6 +30,7 @@
     settings.setSamples(antiAliasingSamples);
     settings.setResolution(disp.getWidth(),disp.getHeight());
     settings.put(AndroidConfigChooser.SETTINGS_CONFIG_TYPE,eglConfigType);
+    settings.setAudioRenderer(audioRendererType);
     try {
       if (app == null) {
         @SuppressWarnings("unchecked") Class<? extends Application> clazz=(Class<? extends Application>)Class.forName(appClass);

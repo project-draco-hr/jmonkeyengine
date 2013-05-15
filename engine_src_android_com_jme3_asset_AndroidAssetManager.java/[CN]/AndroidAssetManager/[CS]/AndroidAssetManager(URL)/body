@@ -3,7 +3,16 @@
   registerLocator("",AndroidLocator.class);
   registerLocator("",ClasspathLocator.class);
   registerLoader(AndroidImageLoader.class,"jpg","bmp","gif","png","jpeg");
-  registerLoader(AndroidAudioLoader.class,"ogg","mp3","wav");
+  if (JmeAndroidSystem.getAudioRendererType().equals(AppSettings.ANDROID_MEDIAPLAYER)) {
+    registerLoader(AndroidAudioLoader.class,"ogg","mp3","wav");
+  }
+ else   if (JmeAndroidSystem.getAudioRendererType().equals(AppSettings.ANDROID_OPENAL_SOFT)) {
+    registerLoader(WAVLoader.class,"wav");
+    registerLoaderSafe("com.jme3.audio.plugins.OGGLoader","ogg");
+  }
+ else {
+    throw new IllegalStateException("No Audio Renderer Type defined!");
+  }
   registerLoader(com.jme3.material.plugins.J3MLoader.class,"j3m");
   registerLoader(com.jme3.material.plugins.J3MLoader.class,"j3md");
   registerLoader(com.jme3.material.plugins.ShaderNodeDefinitionLoader.class,"j3sn");
