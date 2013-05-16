@@ -6,7 +6,7 @@
     checkError(true);
     id=ib.get(0);
     ab.setId(id);
-    objManager.registerForCleanup(ab);
+    objManager.registerObject(ab);
   }
   ab.getData().clear();
   alBufferData(id,convertFormat(ab),ab.getData(),ab.getData().limit(),ab.getSampleRate());

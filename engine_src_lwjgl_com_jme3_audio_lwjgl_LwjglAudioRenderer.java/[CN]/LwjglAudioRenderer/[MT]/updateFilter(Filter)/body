@@ -5,7 +5,7 @@
     EFX10.alGenFilters(ib);
     id=ib.get(0);
     f.setId(id);
-    objManager.registerForCleanup(f);
+    objManager.registerObject(f);
   }
   if (f instanceof LowPassFilter) {
     LowPassFilter lpf=(LowPassFilter)f;

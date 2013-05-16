@@ -4,7 +4,7 @@
     glGenTextures(intBuf1);
     texId=intBuf1.get(0);
     img.setId(texId);
-    objManager.registerForCleanup(img);
+    objManager.registerObject(img);
     statistics.onNewTexture();
   }
   int target=convertTextureType(type,img.getMultiSamples(),-1);

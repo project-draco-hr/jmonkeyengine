@@ -5,7 +5,7 @@
     al.alGenBuffers(ib.limit(),ib);
     id=ib.get(0);
     ab.setId(id);
-    objManager.registerForCleanup(ab);
+    objManager.registerObject(ab);
   }
   ab.getData().clear();
   al.alBufferData(id,convertFormat(ab),ab.getData(),ab.getData().remaining(),ab.getSampleRate());

@@ -5,7 +5,7 @@
     gl.glGenFramebuffers(1,intBuf1);
     id=intBuf1.get(0);
     fb.setId(id);
-    objManager.registerForCleanup(fb);
+    objManager.registerObject(fb);
     statistics.onNewFrameBuffer();
   }
   if (context.boundFBO != id) {

@@ -1,9 +1,13 @@
 {
-  for (  NativeObjectRef ref : refList) {
-    NativeObject realObj=ref.realObj.get();
-    if (realObj == null)     continue;
+  for (  IntMap.Entry<NativeObjectRef> entry : refMap) {
+    NativeObject realObj=entry.getValue().realObj.get();
+    if (realObj == null) {
+      continue;
+    }
     realObj.resetObject();
-    if (logger.isLoggable(Level.FINEST))     logger.log(Level.FINEST,"Reset: {0}",realObj);
+    if (logger.isLoggable(Level.FINEST)) {
+      logger.log(Level.FINEST,"Reset: {0}",realObj);
+    }
   }
-  refList.clear();
+  refMap.clear();
 }

@@ -1,12 +1,16 @@
 {
   int removed=0;
+  while (removed < MAX_REMOVES_PER_FRAME && !userDeletionQueue.isEmpty()) {
+    NativeObject obj=userDeletionQueue.pop();
+    deleteNativeObject(rendererObject,obj,null,true,true);
+    removed++;
+  }
   while (removed < MAX_REMOVES_PER_FRAME) {
     NativeObjectRef ref=(NativeObjectRef)refQueue.poll();
     if (ref == null) {
       break;
     }
-    refList.remove(ref);
-    ref.objClone.deleteObject(rendererObject);
+    deleteNativeObject(rendererObject,ref.objClone,ref,true,false);
     removed++;
   }
   if (removed >= 1) {

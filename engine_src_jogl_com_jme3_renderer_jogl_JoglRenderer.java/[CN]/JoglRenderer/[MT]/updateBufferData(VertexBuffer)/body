@@ -6,7 +6,7 @@
     gl.glGenBuffers(1,intBuf1);
     bufId=intBuf1.get(0);
     vb.setId(bufId);
-    objManager.registerForCleanup(vb);
+    objManager.registerObject(vb);
     created=true;
   }
   int target;
