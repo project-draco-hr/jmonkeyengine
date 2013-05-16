@@ -1,4 +1,6 @@
 {
-  if (this.id != -1)   throw new IllegalStateException("ID has already been set for this GL object.");
+  if (this.id != INVALID_ID) {
+    throw new IllegalStateException("ID has already been set for this GL object.");
+  }
   this.id=id;
 }
