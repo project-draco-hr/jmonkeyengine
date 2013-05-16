@@ -1,7 +1,6 @@
 {
   try {
     if (!alIsCreated()) {
-      logger.log(Level.INFO,"Creating OpenAL Soft Renderer");
       alCreate();
       checkError(false);
     }
@@ -34,7 +33,6 @@
   chanSrcs=new AudioSource[channels.length];
   logger.log(Level.INFO,"AudioRenderer supports {0} channels",channels.length);
   supportEfx=alcIsExtensionPresent(AL.ALC_EXT_EFX_NAME);
-  logger.log(Level.INFO,"{0} found: {1}",new Object[]{AL.ALC_EXT_EFX_NAME,supportEfx});
   if (supportEfx) {
     ib.position(0).limit(1);
     alcGetInteger(AL.ALC_EFX_MAJOR_VERSION,ib,1);

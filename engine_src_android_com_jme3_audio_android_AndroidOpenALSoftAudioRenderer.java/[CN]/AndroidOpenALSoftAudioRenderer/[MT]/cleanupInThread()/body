@@ -1,7 +1,5 @@
 {
-  logger.log(Level.INFO,"cleanupInThread");
   if (audioDisabled) {
-    logger.log(Level.INFO,"Destroying OpenAL Soft Renderer with audioDisabled");
     alDestroy();
     checkError(true);
     return;
