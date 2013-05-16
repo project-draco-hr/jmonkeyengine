@@ -1,5 +1,5 @@
 {
-  int code=convertAwtKey(evt.getKeyCode());
+  int code=convertNewtKey(evt.getKeySymbol());
   if (!keyStateSet.get(code)) {
     keyStateSet.set(code);
     KeyInputEvent keyEvent=new KeyInputEvent(code,evt.getKeyChar(),true,false);

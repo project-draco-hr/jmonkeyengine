@@ -18,18 +18,18 @@
   Screen screen=canvas.getScreen();
   screen.addReference();
   if (settings.isFullscreen()) {
-    List<ScreenMode> screenModes=screen.getScreenModes();
+    List<MonitorMode> screenModes=canvas.getMainMonitor().getSupportedModes();
     Dimension dimension=new Dimension(settings.getWidth(),settings.getHeight());
-    screenModes=ScreenModeUtil.filterByResolution(screenModes,dimension);
-    screenModes=ScreenModeUtil.getHighestAvailableBpp(screenModes);
+    screenModes=MonitorModeUtil.filterByResolution(screenModes,dimension);
+    screenModes=MonitorModeUtil.getHighestAvailableBpp(screenModes);
     if (settings.getFrequency() > 0) {
-      screenModes=ScreenModeUtil.filterByRate(screenModes,settings.getFrequency());
+      screenModes=MonitorModeUtil.filterByRate(screenModes,settings.getFrequency());
     }
  else {
-      screenModes=ScreenModeUtil.getHighestAvailableRate(screenModes);
+      screenModes=MonitorModeUtil.getHighestAvailableRate(screenModes);
     }
-    screen.setCurrentScreenMode(screenModes.get(0));
+    canvas.getMainMonitor().setCurrentMode(screenModes.get(0));
   }
-  ScreenMode currentScreenMode=screen.getCurrentScreenMode();
-  logger.log(Level.FINE,"Selected display mode: {0}x{1}x{2} @{3}",new Object[]{currentScreenMode.getRotatedWidth(),currentScreenMode.getRotatedHeight(),currentScreenMode.getMonitorMode().getSurfaceSize().getBitsPerPixel(),currentScreenMode.getMonitorMode().getRefreshRate()});
+  MonitorMode currentScreenMode=canvas.getMainMonitor().getCurrentMode();
+  logger.log(Level.FINE,"Selected display mode: {0}x{1}x{2} @{3}",new Object[]{currentScreenMode.getRotatedWidth(),currentScreenMode.getRotatedHeight(),currentScreenMode.getSurfaceSize().getBitsPerPixel(),currentScreenMode.getRefreshRate()});
 }
