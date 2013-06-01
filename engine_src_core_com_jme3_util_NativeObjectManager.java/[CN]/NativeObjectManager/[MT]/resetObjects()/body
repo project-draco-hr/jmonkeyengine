@@ -1,6 +1,6 @@
 {
-  for (  IntMap.Entry<NativeObjectRef> entry : refMap) {
-    NativeObject realObj=entry.getValue().realObj.get();
+  for (  NativeObjectRef ref : refMap.values()) {
+    NativeObject realObj=ref.realObj.get();
     if (realObj == null) {
       continue;
     }
