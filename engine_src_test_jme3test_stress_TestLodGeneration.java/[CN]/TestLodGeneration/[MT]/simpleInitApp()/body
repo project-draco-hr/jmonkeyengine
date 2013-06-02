@@ -5,7 +5,7 @@
   AmbientLight al=new AmbientLight();
   al.setColor(ColorRGBA.White.mult(0.6f));
   rootNode.addLight(al);
-  model=(Node)assetManager.loadModel("Models/Sinbad/Sinbad.mesh.xml");
+  model=(Node)assetManager.loadModel("Models/Jaime/Jaime.j3o");
   BoundingBox b=((BoundingBox)model.getWorldBound());
   model.setLocalScale(1.2f / (b.getYExtent() * 2));
   for (  Spatial spatial : model.getChildren()) {
@@ -23,11 +23,11 @@
   if (c != null) {
     c.setEnabled(false);
   }
-  reductionvalue=0.001f;
+  reductionvalue=0.80f;
   lodLevel=1;
   for (  final Geometry geometry : listGeoms) {
-    LodGenerator lODGenerator=new LodGenerator(geometry);
-    lODGenerator.bakeLods(LodGenerator.TriangleReductionMethod.PROPORTIONAL,reductionvalue);
+    LodGenerator lodGenerator=new LodGenerator(geometry);
+    lodGenerator.bakeLods(LodGenerator.TriangleReductionMethod.PROPORTIONAL,reductionvalue);
     geometry.setLodLevel(lodLevel);
   }
   rootNode.attachChild(model);
