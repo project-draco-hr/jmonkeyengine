@@ -1,0 +1,24 @@
+{
+  exec.execute(new Runnable(){
+    public void run(){
+      for (      final Geometry geometry : listGeoms) {
+        LodGenerator lODGenerator=new LodGenerator(geometry);
+        final VertexBuffer[] lods=lODGenerator.computeLods(method,value);
+        enqueue(new Callable<Void>(){
+          public Void call() throws Exception {
+            geometry.getMesh().setLodLevels(lods);
+            lodLevel=0;
+            if (geometry.getMesh().getNumLodLevels() > ll) {
+              lodLevel=ll;
+            }
+            geometry.setLodLevel(lodLevel);
+            hudText.setText(computeNbTri() + " tris");
+            return null;
+          }
+        }
+);
+      }
+    }
+  }
+);
+}

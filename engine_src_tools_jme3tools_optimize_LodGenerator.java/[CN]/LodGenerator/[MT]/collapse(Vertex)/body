@@ -1,0 +1,75 @@
+{
+  Vertex dest=src.collapseTo;
+  if (src.edges.isEmpty()) {
+    return false;
+  }
+  assert(assertValidVertex(dest));
+  assert(assertValidVertex(src));
+  assert(src.collapseCost != NEVER_COLLAPSE_COST);
+  assert(src.collapseCost != UNINITIALIZED_COLLAPSE_COST);
+  assert(!src.edges.isEmpty());
+  assert(!src.triangles.isEmpty());
+  assert(src.edges.contains(new Edge(dest)));
+  List<CollapsedEdge> tmpCollapsedEdges=new ArrayList<CollapsedEdge>();
+  for (Iterator<Triangle> it=src.triangles.iterator(); it.hasNext(); ) {
+    Triangle triangle=it.next();
+    if (triangle.hasVertex(dest)) {
+      int srcID=triangle.getVertexIndex(src);
+      if (!hasSrcID(srcID,tmpCollapsedEdges)) {
+        CollapsedEdge cEdge=new CollapsedEdge();
+        cEdge.srcID=srcID;
+        cEdge.dstID=triangle.getVertexIndex(dest);
+        tmpCollapsedEdges.add(cEdge);
+      }
+      indexCount-=3;
+      triangle.isRemoved=true;
+      nbCollapsedTri++;
+      removeTriangleFromEdges(triangle,src);
+      it.remove();
+    }
+  }
+  assert(!tmpCollapsedEdges.isEmpty());
+  assert(!dest.edges.contains(new Edge(src)));
+  for (Iterator<Triangle> it=src.triangles.iterator(); it.hasNext(); ) {
+    Triangle triangle=it.next();
+    if (!triangle.hasVertex(dest)) {
+      int srcID=triangle.getVertexIndex(src);
+      int id=findDstID(srcID,tmpCollapsedEdges);
+      if (id == Integer.MAX_VALUE) {
+        triangle.isRemoved=true;
+        indexCount-=3;
+        removeTriangleFromEdges(triangle,src);
+        it.remove();
+        nbCollapsedTri++;
+        continue;
+      }
+      int dstID=tmpCollapsedEdges.get(id).dstID;
+      replaceVertexID(triangle,srcID,dstID,dest);
+      if (bestQuality) {
+        triangle.computeNormal();
+      }
+    }
+  }
+  if (bestQuality) {
+    for (    Edge edge : src.edges) {
+      updateVertexCollapseCost(edge.destination);
+    }
+    updateVertexCollapseCost(dest);
+    for (    Edge edge : dest.edges) {
+      updateVertexCollapseCost(edge.destination);
+    }
+  }
+ else {
+    SortedSet<Vertex> updatable=new TreeSet<Vertex>(collapseComparator);
+    for (    Edge edge : src.edges) {
+      updatable.add(edge.destination);
+      for (      Edge edge1 : edge.destination.edges) {
+        updatable.add(edge1.destination);
+      }
+    }
+    for (    Vertex vertex : updatable) {
+      updateVertexCollapseCost(vertex);
+    }
+  }
+  return true;
+}

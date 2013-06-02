@@ -1,0 +1,11 @@
+{
+  assert(edge.destination != v);
+  for (  Edge ed : v.edges) {
+    if (ed.equals(edge)) {
+      ed.refCount++;
+      return;
+    }
+  }
+  v.edges.add(edge);
+  edge.refCount=1;
+}

@@ -1,0 +1,13 @@
+{
+  collapseCostSet.clear();
+  for (  Vertex vertex : vertexList) {
+    if (!vertex.edges.isEmpty()) {
+      computeVertexCollapseCost(vertex);
+    }
+ else {
+      logger.log(Level.FINE,"Found isolated vertex {0} It will be excluded from Lod level calculations.",vertex);
+    }
+  }
+  assert(vertexList.size() == collapseCostSet.size());
+  assert(checkCosts());
+}

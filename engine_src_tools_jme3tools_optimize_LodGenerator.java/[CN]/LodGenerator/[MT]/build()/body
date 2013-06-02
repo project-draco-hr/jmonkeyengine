@@ -1,0 +1,11 @@
+{
+  BoundingSphere bs=new BoundingSphere();
+  bs.computeFromPoints(mesh.getFloatBuffer(VertexBuffer.Type.Position));
+  meshBoundingSphereRadius=bs.getRadius();
+  List<Vertex> vertexLookup=new ArrayList<Vertex>();
+  initialize();
+  gatherVertexData(mesh,vertexLookup);
+  gatherIndexData(mesh,vertexLookup);
+  computeCosts();
+  assert(assertValidMesh());
+}

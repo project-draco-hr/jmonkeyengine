@@ -1,0 +1,23 @@
+{
+  float collapseCost=UNINITIALIZED_COLLAPSE_COST;
+  Vertex collapseTo=null;
+  for (  Edge edge : vertex.edges) {
+    edge.collapseCost=computeEdgeCollapseCost(vertex,edge);
+    assert(edge.collapseCost != UNINITIALIZED_COLLAPSE_COST);
+    if (collapseCost > edge.collapseCost) {
+      collapseCost=edge.collapseCost;
+      collapseTo=edge.destination;
+    }
+  }
+  if (collapseCost != vertex.collapseCost || vertex.collapseTo != collapseTo) {
+    assert(vertex.collapseTo != null);
+    assert(find(collapseCostSet,vertex));
+    collapseCostSet.remove(vertex);
+    if (collapseCost != UNINITIALIZED_COLLAPSE_COST) {
+      vertex.collapseCost=collapseCost;
+      vertex.collapseTo=collapseTo;
+      collapseCostSet.add(vertex);
+    }
+  }
+  assert(vertex.collapseCost != UNINITIALIZED_COLLAPSE_COST);
+}

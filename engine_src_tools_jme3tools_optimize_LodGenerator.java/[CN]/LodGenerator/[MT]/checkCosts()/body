@@ -1,0 +1,10 @@
+{
+  for (  Vertex vertex : vertexList) {
+    boolean test=find(collapseCostSet,vertex);
+    if (!test) {
+      System.out.println("vertex " + vertex.index + " not present in collapse costs");
+      return false;
+    }
+  }
+  return true;
+}
