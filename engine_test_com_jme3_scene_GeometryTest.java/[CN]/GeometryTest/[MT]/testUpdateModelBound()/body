@@ -1,0 +1,10 @@
+{
+  Mesh mockedMesh=createMock(Mesh.class);
+  mockedMesh.updateBound();
+  expectLastCall();
+  replay(mockedMesh);
+  Geometry geom=new Geometry();
+  geom.setMesh(mockedMesh);
+  geom.updateModelBound();
+  verify(mockedMesh);
+}

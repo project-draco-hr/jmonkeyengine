@@ -1,0 +1,12 @@
+{
+  Mesh mockedMesh=createMock(Mesh.class);
+  BoundingVolume mockedBoundingVolume=createMock(BoundingVolume.class);
+  expect(mockedMesh.getBound()).andReturn(mockedBoundingVolume).times(2);
+  expect(mockedBoundingVolume.clone(null)).andReturn(null);
+  replay(mockedMesh,mockedBoundingVolume);
+  Geometry geom=new Geometry();
+  geom.setMesh(mockedMesh);
+  geom.setIgnoreTransform(true);
+  geom.updateWorldBound();
+  verify(mockedMesh,mockedBoundingVolume);
+}
