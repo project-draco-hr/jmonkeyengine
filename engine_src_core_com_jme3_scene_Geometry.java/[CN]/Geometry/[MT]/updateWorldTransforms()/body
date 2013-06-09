@@ -2,9 +2,7 @@
   super.updateWorldTransforms();
   computeWorldMatrix();
   if (isBatched()) {
-    computeOffsetTransform();
     batchNode.updateSubBatch(this);
-    prevBatchTransforms.set(batchNode.getTransforms(this));
   }
   worldLights.sort(true);
 }

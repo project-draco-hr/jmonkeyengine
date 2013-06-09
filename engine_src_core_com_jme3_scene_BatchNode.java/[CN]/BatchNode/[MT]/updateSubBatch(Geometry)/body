@@ -2,18 +2,26 @@
   Batch batch=batchesByGeom.get(bg);
   if (batch != null) {
     Mesh mesh=batch.geometry.getMesh();
+    Mesh origMesh=bg.getMesh();
     VertexBuffer pvb=mesh.getBuffer(VertexBuffer.Type.Position);
     FloatBuffer posBuf=(FloatBuffer)pvb.getData();
     VertexBuffer nvb=mesh.getBuffer(VertexBuffer.Type.Normal);
     FloatBuffer normBuf=(FloatBuffer)nvb.getData();
+    VertexBuffer opvb=origMesh.getBuffer(VertexBuffer.Type.Position);
+    FloatBuffer oposBuf=(FloatBuffer)opvb.getData();
+    VertexBuffer onvb=origMesh.getBuffer(VertexBuffer.Type.Normal);
+    FloatBuffer onormBuf=(FloatBuffer)onvb.getData();
+    Matrix4f transformMat=getTransformMatrix(bg);
     if (mesh.getBuffer(VertexBuffer.Type.Tangent) != null) {
       VertexBuffer tvb=mesh.getBuffer(VertexBuffer.Type.Tangent);
       FloatBuffer tanBuf=(FloatBuffer)tvb.getData();
-      doTransformsTangents(posBuf,normBuf,tanBuf,bg.startIndex,bg.startIndex + bg.getVertexCount(),bg.cachedOffsetMat);
+      VertexBuffer otvb=origMesh.getBuffer(VertexBuffer.Type.Tangent);
+      FloatBuffer otanBuf=(FloatBuffer)otvb.getData();
+      doTransformsTangents(oposBuf,onormBuf,otanBuf,posBuf,normBuf,tanBuf,bg.startIndex,bg.startIndex + bg.getVertexCount(),transformMat);
       tvb.updateData(tanBuf);
     }
  else {
-      doTransforms(posBuf,normBuf,bg.startIndex,bg.startIndex + bg.getVertexCount(),bg.cachedOffsetMat);
+      doTransforms(oposBuf,onormBuf,posBuf,normBuf,bg.startIndex,bg.startIndex + bg.getVertexCount(),transformMat);
     }
     pvb.updateData(posBuf);
     nvb.updateData(normBuf);
