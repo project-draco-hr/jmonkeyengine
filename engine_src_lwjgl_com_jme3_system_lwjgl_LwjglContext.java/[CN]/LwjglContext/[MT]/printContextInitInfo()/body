@@ -1,5 +1,5 @@
 {
-  logger.log(Level.INFO,"Lwjgl context running on thread {0}",Thread.currentThread().getName());
+  logger.log(Level.INFO,"Lwjgl {0} context running on thread {1}",new Object[]{Sys.getVersion(),Thread.currentThread().getName()});
   logger.log(Level.INFO,"Adapter: {0}",Display.getAdapter());
   logger.log(Level.INFO,"Driver Version: {0}",Display.getVersion());
   String vendor=GL11.glGetString(GL11.GL_VENDOR);
