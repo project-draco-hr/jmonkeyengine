@@ -27,6 +27,10 @@
         }
         mesh.getBuffer(Type.Position).setUsage(Usage.Stream);
         mesh.getBuffer(Type.Normal).setUsage(Usage.Stream);
+        VertexBuffer verticesWeightsHW=new VertexBuffer(Type.HWBoneWeight);
+        VertexBuffer verticesWeightsIndicesHW=new VertexBuffer(Type.HWBoneIndex);
+        mesh.setBuffer(verticesWeightsHW);
+        mesh.setBuffer(verticesWeightsIndicesHW);
       }
     }
  catch (    BlenderFileException e) {
