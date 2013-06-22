@@ -9,16 +9,26 @@
   out.write(elementLengths,"elementLengths",null);
   out.write(modeStart,"modeStart",null);
   out.write(pointSize,"pointSize",1f);
+  VertexBuffer hwBoneIndex=null;
+  VertexBuffer hwBoneWeight=null;
   if (isAnimated()) {
-    VertexBuffer vb=getBuffer(Type.HWBoneIndex);
-    if (vb != null) {
+    hwBoneIndex=getBuffer(Type.HWBoneIndex);
+    if (hwBoneIndex != null) {
       buffers.remove(Type.HWBoneIndex.ordinal());
     }
-    vb=getBuffer(Type.HWBoneWeight);
-    if (vb != null) {
+    hwBoneWeight=getBuffer(Type.HWBoneWeight);
+    if (hwBoneWeight != null) {
       buffers.remove(Type.HWBoneWeight.ordinal());
     }
   }
   out.writeIntSavableMap(buffers,"buffers",null);
+  if (isAnimated()) {
+    if (hwBoneIndex != null) {
+      buffers.put(hwBoneIndex.getBufferType().ordinal(),hwBoneIndex);
+    }
+    if (hwBoneWeight != null) {
+      buffers.put(hwBoneWeight.getBufferType().ordinal(),hwBoneWeight);
+    }
+  }
   out.write(lodLevels,"lodLevels",null);
 }

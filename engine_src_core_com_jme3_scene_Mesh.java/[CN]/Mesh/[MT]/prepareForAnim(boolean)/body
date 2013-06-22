@@ -1,5 +1,23 @@
 {
   if (forSoftwareAnim) {
+    VertexBuffer indices=getBuffer(Type.BoneIndex);
+    if (!indices.getData().hasArray()) {
+      ByteBuffer originalIndex=(ByteBuffer)indices.getData();
+      ByteBuffer arrayIndex=ByteBuffer.allocate(originalIndex.capacity());
+      originalIndex.clear();
+      arrayIndex.put(originalIndex);
+      indices.updateData(arrayIndex);
+    }
+    indices.setUsage(Usage.CpuOnly);
+    VertexBuffer weights=getBuffer(Type.BoneWeight);
+    if (!weights.getData().hasArray()) {
+      FloatBuffer originalWeight=(FloatBuffer)weights.getData();
+      FloatBuffer arrayWeight=FloatBuffer.allocate(originalWeight.capacity());
+      originalWeight.clear();
+      arrayWeight.put(originalWeight);
+      weights.updateData(arrayWeight);
+    }
+    weights.setUsage(Usage.CpuOnly);
     VertexBuffer positions=getBuffer(Type.Position);
     VertexBuffer normals=getBuffer(Type.Normal);
     VertexBuffer tangents=getBuffer(Type.Tangent);
