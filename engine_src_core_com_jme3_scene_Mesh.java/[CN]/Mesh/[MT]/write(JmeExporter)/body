@@ -9,6 +9,16 @@
   out.write(elementLengths,"elementLengths",null);
   out.write(modeStart,"modeStart",null);
   out.write(pointSize,"pointSize",1f);
+  if (isAnimated()) {
+    VertexBuffer vb=getBuffer(Type.HWBoneIndex);
+    if (vb != null) {
+      buffers.remove(Type.HWBoneIndex.ordinal());
+    }
+    vb=getBuffer(Type.HWBoneWeight);
+    if (vb != null) {
+      buffers.remove(Type.HWBoneWeight.ordinal());
+    }
+  }
   out.writeIntSavableMap(buffers,"buffers",null);
   out.write(lodLevels,"lodLevels",null);
 }

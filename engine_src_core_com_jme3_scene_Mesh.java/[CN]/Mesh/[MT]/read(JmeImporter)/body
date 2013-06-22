@@ -15,6 +15,14 @@
   for (  Entry<VertexBuffer> entry : buffers) {
     buffersList.add(entry.getValue());
   }
+  if (isAnimated()) {
+    VertexBuffer hwBoneIndex=new VertexBuffer(Type.HWBoneIndex);
+    hwBoneIndex.setUsage(Usage.CpuOnly);
+    setBuffer(hwBoneIndex);
+    VertexBuffer hwBoneWeight=new VertexBuffer(Type.HWBoneWeight);
+    hwBoneWeight.setUsage(Usage.CpuOnly);
+    setBuffer(hwBoneWeight);
+  }
   Savable[] lodLevelsSavable=in.readSavableArray("lodLevels",null);
   if (lodLevelsSavable != null) {
     lodLevels=new VertexBuffer[lodLevelsSavable.length];

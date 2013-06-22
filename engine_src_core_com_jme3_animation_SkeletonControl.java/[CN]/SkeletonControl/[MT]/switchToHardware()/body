@@ -4,7 +4,7 @@
     m.setInt("NumberOfBones",numBones);
   }
   for (  Mesh mesh : targets) {
-    if (isMeshAnimated(mesh)) {
+    if (mesh.isAnimated()) {
       mesh.prepareForAnim(false);
     }
   }

@@ -5,7 +5,7 @@
       Geometry geom=(Geometry)child;
       Mesh childSharedMesh=geom.getUserData(UserData.JME_SHAREDMESH);
       if (childSharedMesh != null) {
-        if (isMeshAnimated(childSharedMesh)) {
+        if (childSharedMesh.isAnimated()) {
           if (sharedMesh == null) {
             sharedMesh=childSharedMesh;
           }
@@ -17,7 +17,7 @@
       }
  else {
         Mesh mesh=geom.getMesh();
-        if (isMeshAnimated(mesh)) {
+        if (mesh.isAnimated()) {
           targets.add(mesh);
           materials.add(geom.getMaterial());
         }

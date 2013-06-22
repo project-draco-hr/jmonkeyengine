@@ -1,6 +1,6 @@
 {
   for (  Mesh mesh : targets) {
-    if (isMeshAnimated(mesh)) {
+    if (mesh.isAnimated()) {
       Buffer bwBuff=mesh.getBuffer(Type.BoneWeight).getData();
       Buffer biBuff=mesh.getBuffer(Type.BoneIndex).getData();
       if (!biBuff.hasArray() || !bwBuff.hasArray()) {
