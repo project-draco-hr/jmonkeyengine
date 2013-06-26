@@ -30,9 +30,7 @@
   cameras.add(getCamera());
   TerrainLodControl control=new TerrainLodControl(terrain,cameras);
   terrain.addControl(control);
-  CollisionShape terrainShape=CollisionShapeFactory.createMeshShape((Node)terrain);
-  landscape=new RigidBodyControl(terrainShape,0);
-  terrain.addControl(landscape);
+  terrain.addControl(new RigidBodyControl(0));
   CapsuleCollisionShape capsuleShape=new CapsuleCollisionShape(1.5f,6f,1);
   player=new CharacterControl(capsuleShape,0.05f);
   player.setJumpSpeed(20);
