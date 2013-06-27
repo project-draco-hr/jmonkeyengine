@@ -1,10 +1,8 @@
 {
   ArrayList<VertexInfo> vertexMap=linkVertices(mesh);
-  FloatBuffer normalBuffer=(FloatBuffer)mesh.getBuffer(Type.Normal).getData();
   FloatBuffer tangents=BufferUtils.createFloatBuffer(vertices.length * 4);
   Vector3f tangent=new Vector3f();
   Vector3f binormal=new Vector3f();
-  Vector3f normal=new Vector3f();
   Vector3f givenNormal=new Vector3f();
   Vector3f tangentUnit=new Vector3f();
   Vector3f binormalUnit=new Vector3f();
@@ -44,17 +42,10 @@
     for (    int i : vertexInfo.indices) {
       ArrayList<TriangleData> triangles=vertices[i].triangles;
       triangleCount+=triangles.size();
-      boolean flippedNormal=false;
       for (int j=0; j < triangles.size(); j++) {
         TriangleData triangleData=triangles.get(j);
         tangent.addLocal(triangleData.tangent);
         binormal.addLocal(triangleData.binormal);
-        if (givenNormal.dot(triangleData.normal) < 0) {
-          flippedNormal=true;
-        }
-      }
-      if (flippedNormal) {
-        wCoord=1;
       }
     }
     int blameVertex=vertexInfo.indices.get(0);
@@ -99,14 +90,16 @@
         log.log(Level.WARNING,"Tangent and binormal are parallel for vertex {0}.",blameVertex);
       }
     }
+    Vector3f finalTangent=new Vector3f();
+    Vector3f tmp=new Vector3f();
     for (    int i : vertexInfo.indices) {
       if (approxTangent) {
-        givenNormal.cross(tangent,binormal);
-        binormal.cross(givenNormal,tangent);
-        tangent.normalizeLocal();
-        tangents.put((i * 4),tangent.x);
-        tangents.put((i * 4) + 1,tangent.y);
-        tangents.put((i * 4) + 2,tangent.z);
+        finalTangent.set(tangent).subtractLocal(tmp.set(givenNormal).multLocal(givenNormal.dot(tangent)));
+        finalTangent.normalizeLocal();
+        wCoord=tmp.set(givenNormal).crossLocal(tangent).dot(binormal) < 0f ? -1f : 1f;
+        tangents.put((i * 4),finalTangent.x);
+        tangents.put((i * 4) + 1,finalTangent.y);
+        tangents.put((i * 4) + 2,finalTangent.z);
         tangents.put((i * 4) + 3,wCoord);
       }
  else {
