@@ -1,0 +1,20 @@
+{
+  try {
+    assert(config.className != null);
+    AppState state=(AppState)app.getClassByName(config.className).newInstance();
+    app.getStateManager().attach(state);
+    AppStateExplorerTopComponent.openExplorer();
+  }
+ catch (  InstantiationException ex) {
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Error creating AppState, is the project compiled?\nAlso make sure it has an empty constructor!\n" + ex.getMessage()));
+    Exceptions.printStackTrace(ex);
+  }
+catch (  IllegalAccessException ex) {
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Error creating AppState, is the project compiled?\nAlso make sure it has an empty constructor!\n" + ex.getMessage()));
+    Exceptions.printStackTrace(ex);
+  }
+catch (  Exception ex) {
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Error creating AppState, exception when creating!\n" + ex.getMessage()));
+    Exceptions.printStackTrace(ex);
+  }
+}

@@ -1,21 +1,28 @@
 {
-  source=null;
-  className=null;
+  final ActionConfig ret=new ActionConfig();
   try {
     DataObject dObj=actionContext.lookup(DataObject.class);
     if (dObj == null) {
       logger.log(Level.FINE,"No DataObject");
-      return;
+      return null;
+    }
+    Project proj=FileOwnerQuery.getOwner(dObj.getPrimaryFile());
+    ;
+    if (proj != null) {
+      ret.manager=proj.getLookup().lookup(ProjectAssetManager.class);
+    }
+ else {
+      logger.log(Level.INFO,"Project null");
     }
     FileObject fObj=dObj.getPrimaryFile();
     if (fObj == null) {
       logger.log(Level.FINE,"No FileObject");
-      return;
+      return null;
     }
     final JavaSource src=JavaSource.forFileObject(fObj);
     if (src == null) {
       logger.log(Level.FINE,"No JavaSource");
-      return;
+      return null;
     }
     CancellableTask task=new CancellableTask<CompilationController>(){
       public void run(      CompilationController controller) throws IOException {
@@ -40,8 +47,8 @@
               TypeMirror elementType=myElement.asType();
               logger.log(Level.FINE,"Check {0} against {1}",new Object[]{elementType,appState});
               if (elementType != null && SourceUtils.checkTypesAssignable(controller,elementType,appState)) {
-                source=src;
-                className=elementName;
+                ret.source=src;
+                ret.className=elementName;
               }
             }
           }
@@ -52,8 +59,10 @@
     }
 ;
     src.runUserActionTask(task,true);
+    return ret;
   }
  catch (  IOException ex) {
     Exceptions.printStackTrace(ex);
   }
+  return null;
 }
