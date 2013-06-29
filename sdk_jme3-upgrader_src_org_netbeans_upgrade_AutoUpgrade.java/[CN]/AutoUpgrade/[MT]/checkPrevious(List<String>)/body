@@ -8,7 +8,6 @@
     while (it.hasNext() && sourceFolder == null) {
       ver=it.next();
       sourceFolder=new File(userHomeFile.getAbsolutePath(),ver);
-      LOGGER.log(Level.INFO,"Look for previous {0} ",userHomeFile);
       if (sourceFolder.isDirectory()) {
         break;
       }

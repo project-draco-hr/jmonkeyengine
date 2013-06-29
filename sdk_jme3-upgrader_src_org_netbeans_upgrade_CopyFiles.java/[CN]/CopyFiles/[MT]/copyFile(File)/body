@@ -34,6 +34,9 @@
   if (!includeFile && includeKeys.isEmpty()) {
     return;
   }
+  if (relativePath.startsWith(ORIG_CSSSP)) {
+    relativePath=TARG_CSSSP + relativePath.substring(ORIG_CSSSP.length());
+  }
   File targetFile=new File(targetRoot,relativePath);
   LOGGER.log(Level.FINE,"Path: {0}",relativePath);
   if (includeKeys.isEmpty() && excludeKeys.isEmpty()) {

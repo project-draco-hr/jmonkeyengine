@@ -14,7 +14,6 @@
     File userHomeFile=new File(defaultUserdirRoot);
     for (    String ver : versionsToCheck) {
       sourceFolder=new File(userHomeFile.getAbsolutePath(),ver);
-      LOGGER.log(Level.INFO,"Look for {0} ",userHomeFile);
       if (sourceFolder.exists() && sourceFolder.isDirectory()) {
         return sourceFolder;
       }
