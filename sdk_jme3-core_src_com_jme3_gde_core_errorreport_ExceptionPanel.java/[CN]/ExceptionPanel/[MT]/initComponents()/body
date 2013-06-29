@@ -1,0 +1,23 @@
+{
+  jScrollPane1=new javax.swing.JScrollPane();
+  jTextArea1=new javax.swing.JTextArea();
+  jButton1=new javax.swing.JButton();
+  jButton2=new javax.swing.JButton();
+  jTextArea1.setEditable(false);
+  jTextArea1.setColumns(20);
+  jTextArea1.setRows(5);
+  jTextArea1.setDisabledTextColor(new java.awt.Color(0,0,0));
+  jScrollPane1.setViewportView(jTextArea1);
+  org.openide.awt.Mnemonics.setLocalizedText(jButton1,org.openide.util.NbBundle.getMessage(ExceptionPanel.class,"ExceptionPanel.jButton1.text"));
+  jButton1.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      jButton1ActionPerformed(evt);
+    }
+  }
+);
+  org.openide.awt.Mnemonics.setLocalizedText(jButton2,org.openide.util.NbBundle.getMessage(ExceptionPanel.class,"ExceptionPanel.jButton2.text"));
+  org.jdesktop.layout.GroupLayout layout=new org.jdesktop.layout.GroupLayout(this);
+  this.setLayout(layout);
+  layout.setHorizontalGroup(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(layout.createSequentialGroup().addContainerGap().add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(jScrollPane1,org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,388,Short.MAX_VALUE).add(layout.createSequentialGroup().add(jButton1).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED,org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE).add(jButton2))).addContainerGap()));
+  layout.setVerticalGroup(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(layout.createSequentialGroup().addContainerGap().add(jScrollPane1,org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,248,org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED,11,Short.MAX_VALUE).add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(jButton1).add(jButton2)).addContainerGap()));
+}
