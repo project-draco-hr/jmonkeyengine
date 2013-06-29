@@ -33,7 +33,7 @@
   for (  SceneExplorerPropertyEditor di : Lookup.getDefault().lookupAll(SceneExplorerPropertyEditor.class)) {
     di.setEditor(valueType,this);
   }
-  editable=getPropertyEditor() != null;
+  editable=this.canWrite();
   logger.log(Level.FINE,"Created SceneExplorerProperty for {0},\n cloneable = {1},\n instantiatable = {2},\n primitive = {3},\n editable = {4}",new Object[]{valueType,cloneable,instantiable,primitive,editable});
   addPropertyChangeListener(listener);
 }
