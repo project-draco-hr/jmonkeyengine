@@ -1,0 +1,12 @@
+{
+  final AtomicBoolean animFound=new AtomicBoolean(false);
+  root.depthFirstTraversal(new SceneGraphVisitor(){
+    public void visit(    Spatial spatial){
+      if (spatial.getControl(AnimControl.class) != null) {
+        animFound.set(true);
+      }
+    }
+  }
+);
+  return animFound.get();
+}
