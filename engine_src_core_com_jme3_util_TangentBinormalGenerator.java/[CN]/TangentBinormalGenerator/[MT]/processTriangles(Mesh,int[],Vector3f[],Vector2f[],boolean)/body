@@ -5,7 +5,7 @@
     throw new IllegalArgumentException("Can only generate tangents for " + "meshes with texture coordinates");
   }
   FloatBuffer textureBuffer=(FloatBuffer)mesh.getBuffer(Type.TexCoord).getData();
-  VertexData[] vertices=initVertexData(vertexBuffer.limit() / 3);
+  List<VertexData> vertices=initVertexData(vertexBuffer.limit() / 3);
   for (int i=0; i < indexBuffer.size() / 3; i++) {
     for (int j=0; j < 3; j++) {
       index[j]=indexBuffer.get(i * 3 + j);
@@ -13,10 +13,14 @@
       populateFromBuffer(t[j],textureBuffer,index[j]);
     }
     TriangleData triData=processTriangle(index,v,t);
+    if (splitMirrored) {
+      triData.setIndex(index);
+      triData.triangleOffset=i * 3;
+    }
     if (triData != null) {
-      vertices[index[0]].triangles.add(triData);
-      vertices[index[1]].triangles.add(triData);
-      vertices[index[2]].triangles.add(triData);
+      vertices.get(index[0]).triangles.add(triData);
+      vertices.get(index[1]).triangles.add(triData);
+      vertices.get(index[2]).triangles.add(triData);
     }
   }
   return vertices;

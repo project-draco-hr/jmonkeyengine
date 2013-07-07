@@ -9,11 +9,14 @@
   if (mesh.getBuffer(Type.Normal) == null) {
     throw new IllegalArgumentException("The given mesh has no normal data!");
   }
-  VertexData[] vertices;
+  List<VertexData> vertices;
 switch (mesh.getMode()) {
 case Triangles:
-    vertices=processTriangles(mesh,index,v,t);
-  break;
+    vertices=processTriangles(mesh,index,v,t,splitMirrored);
+  if (splitMirrored) {
+    splitVertices(mesh,vertices,splitMirrored);
+  }
+break;
 case TriangleStrip:
 vertices=processTriangleStrip(mesh,index,v,t);
 break;

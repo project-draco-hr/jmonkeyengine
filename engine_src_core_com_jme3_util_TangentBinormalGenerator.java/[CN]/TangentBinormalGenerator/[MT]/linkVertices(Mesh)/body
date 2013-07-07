@@ -12,14 +12,6 @@
     populateFromBuffer(normal,normalBuffer,i);
     populateFromBuffer(texCoord,texcoordBuffer,i);
     boolean found=false;
-    for (int j=0; j < vertexMap.size(); j++) {
-      VertexInfo vertexInfo=vertexMap.get(j);
-      if (approxEqual(vertexInfo.position,position) && approxEqual(vertexInfo.normal,normal) && approxEqual(vertexInfo.texCoord,texCoord)) {
-        vertexInfo.indices.add(i);
-        found=true;
-        break;
-      }
-    }
     if (!found) {
       VertexInfo vertexInfo=new VertexInfo(position.clone(),normal.clone(),texCoord.clone());
       vertexInfo.indices.add(i);

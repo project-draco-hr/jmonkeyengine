@@ -1,0 +1,30 @@
+{
+switch (format) {
+case Byte:
+case Half:
+case UnsignedByte:
+    byte b=((ByteBuffer)buf2).get(index);
+  ((ByteBuffer)buf1).put(b);
+break;
+case Short:
+case UnsignedShort:
+short s=((ShortBuffer)buf2).get(index);
+((ShortBuffer)buf1).put(s);
+break;
+case Int:
+case UnsignedInt:
+int i=((IntBuffer)buf2).get(index);
+((IntBuffer)buf1).put(i);
+break;
+case Float:
+float f=((FloatBuffer)buf2).get(index);
+((FloatBuffer)buf1).put(f);
+break;
+case Double:
+double d=((DoubleBuffer)buf2).get(index);
+((DoubleBuffer)buf1).put(d);
+break;
+default :
+throw new UnsupportedOperationException("Unrecoginized buffer format: " + format);
+}
+}

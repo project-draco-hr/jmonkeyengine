@@ -1,15 +1,3 @@
 {
-  if (scene instanceof Node) {
-    Node node=(Node)scene;
-    for (    Spatial child : node.getChildren()) {
-      generate(child);
-    }
-  }
- else {
-    Geometry geom=(Geometry)scene;
-    Mesh mesh=geom.getMesh();
-    if (mesh.getBuffer(Type.TexCoord) != null && mesh.getBuffer(Type.Normal) != null) {
-      generate(geom.getMesh());
-    }
-  }
+  generate(scene,false);
 }
