@@ -1,0 +1,19 @@
+{
+  WizardDescriptor wiz=(WizardDescriptor)settings;
+  Geometry geom=rootNode.getLookup().lookup(Geometry.class);
+  boolean splitMirrored=(Boolean)wiz.getProperties().get("splitMirrored");
+  Mesh mesh=geom.getMesh();
+  Mesh keptMesh=null;
+  if (mesh != null) {
+    if (splitMirrored) {
+      keptMesh=mesh.deepClone();
+    }
+    TangentBinormalGenerator.generate(geom,splitMirrored);
+  }
+  if (keptMesh == null) {
+    return splitMirrored;
+  }
+ else {
+    return keptMesh;
+  }
+}
