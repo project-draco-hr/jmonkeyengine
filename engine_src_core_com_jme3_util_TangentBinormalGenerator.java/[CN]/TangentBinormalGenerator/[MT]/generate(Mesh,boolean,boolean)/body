@@ -26,7 +26,7 @@ break;
 default :
 throw new UnsupportedOperationException(mesh.getMode() + " is not supported.");
 }
-processTriangleData(mesh,vertices,approxTangents);
+processTriangleData(mesh,vertices,approxTangents,splitMirrored);
 if (mesh.getBuffer(Type.BindPosePosition) != null) {
 VertexBuffer tangents=mesh.getBuffer(Type.Tangent);
 if (tangents != null) {
