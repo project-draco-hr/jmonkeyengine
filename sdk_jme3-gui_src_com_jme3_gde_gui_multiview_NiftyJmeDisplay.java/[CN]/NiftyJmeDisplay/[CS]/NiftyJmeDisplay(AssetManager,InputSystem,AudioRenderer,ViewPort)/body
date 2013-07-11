@@ -6,4 +6,5 @@
   soundDev=new SoundDeviceJme(assetManager,audioRenderer);
   renderDev=new RenderDeviceJme(this);
   nifty=new Nifty(renderDev,soundDev,inputManager,new TimeProvider());
+  nifty.getResourceLoader().addResourceLocation(resourceLocation);
 }
