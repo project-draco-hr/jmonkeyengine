@@ -1,0 +1,6 @@
+{
+  if (geometry.getMesh().getNumLodLevels() > 0) {
+    return geometry.getMesh().getLodLevel(geometry.getMesh().getNumLodLevels() - 1).hashCode();
+  }
+  return 0;
+}

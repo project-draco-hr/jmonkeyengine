@@ -1,0 +1,27 @@
+{
+  WizardDescriptor wiz=(WizardDescriptor)settings;
+  Geometry geom=rootNode.getLookup().lookup(Geometry.class);
+  Mesh mesh=geom.getMesh();
+  if (mesh != null) {
+    VertexBuffer[] lods=null;
+    if (geom.getMesh().getNumLodLevels() > 0) {
+      lods=new VertexBuffer[geom.getMesh().getNumLodLevels()];
+      for (int i=0; i < lods.length; i++) {
+        lods[i]=geom.getMesh().getLodLevel(i);
+      }
+    }
+    if (wiz != null) {
+      float[] values=(float[])wiz.getProperties().get("reductionValues");
+      if (values != null) {
+        LodGenerator generator=new LodGenerator(geom);
+        LodGenerator.TriangleReductionMethod method=(LodGenerator.TriangleReductionMethod)wiz.getProperties().get("reductionMethod");
+        generator.bakeLods(method,values);
+      }
+ else {
+        mesh.setLodLevels(null);
+      }
+    }
+    return lods;
+  }
+  return null;
+}
