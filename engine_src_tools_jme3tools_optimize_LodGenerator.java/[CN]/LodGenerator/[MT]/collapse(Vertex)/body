@@ -3,13 +3,6 @@
   if (src.edges.isEmpty()) {
     return false;
   }
-  assert(assertValidVertex(dest));
-  assert(assertValidVertex(src));
-  assert(src.collapseCost != NEVER_COLLAPSE_COST);
-  assert(src.collapseCost != UNINITIALIZED_COLLAPSE_COST);
-  assert(!src.edges.isEmpty());
-  assert(!src.triangles.isEmpty());
-  assert(src.edges.contains(new Edge(dest)));
   List<CollapsedEdge> tmpCollapsedEdges=new ArrayList<CollapsedEdge>();
   for (Iterator<Triangle> it=src.triangles.iterator(); it.hasNext(); ) {
     Triangle triangle=it.next();
@@ -28,8 +21,6 @@
       it.remove();
     }
   }
-  assert(!tmpCollapsedEdges.isEmpty());
-  assert(!dest.edges.contains(new Edge(src)));
   for (Iterator<Triangle> it=src.triangles.iterator(); it.hasNext(); ) {
     Triangle triangle=it.next();
     if (!triangle.hasVertex(dest)) {

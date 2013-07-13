@@ -14,7 +14,6 @@
  else {
         tri.vertexId[i]=((ShortBuffer)b).get();
       }
-      assert(tri.vertexId[i] < vertexLookup.size());
       tri.vertex[i]=vertexLookup.get(tri.vertexId[i]);
       tri.vertex[i].index=tri.vertexId[i];
     }

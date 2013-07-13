@@ -1,14 +1,11 @@
 {
   vertex.collapseCost=UNINITIALIZED_COLLAPSE_COST;
-  assert(!vertex.edges.isEmpty());
   for (  Edge edge : vertex.edges) {
     edge.collapseCost=computeEdgeCollapseCost(vertex,edge);
-    assert(edge.collapseCost != UNINITIALIZED_COLLAPSE_COST);
     if (vertex.collapseCost > edge.collapseCost) {
       vertex.collapseCost=edge.collapseCost;
       vertex.collapseTo=edge.destination;
     }
   }
-  assert(vertex.collapseCost != UNINITIALIZED_COLLAPSE_COST);
   collapseCostSet.add(vertex);
 }

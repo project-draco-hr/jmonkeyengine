@@ -26,7 +26,6 @@
   buf.rewind();
   for (  Triangle triangle : triangleList) {
     if (!triangle.isRemoved) {
-      assert(indexCount != 0);
       if (isShortBuffer) {
         for (int m=0; m < 3; m++) {
           ((ShortBuffer)buf).put((short)triangle.vertexId[m]);
