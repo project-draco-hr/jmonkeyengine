@@ -3,6 +3,6 @@
   inputManager.addMapping("Left",new KeyTrigger(KeyInput.KEY_J));
   inputManager.addMapping("Right",new KeyTrigger(KeyInput.KEY_K));
   inputManager.addMapping("Rotate",new KeyTrigger(KeyInput.KEY_SPACE),new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
-  inputManager.addListener(actionListener,new String[]{"Pause"});
-  inputManager.addListener(analogListener,new String[]{"Left","Right","Rotate"});
+  inputManager.addListener(actionListener,"Pause");
+  inputManager.addListener(analogListener,"Left","Right","Rotate");
 }
