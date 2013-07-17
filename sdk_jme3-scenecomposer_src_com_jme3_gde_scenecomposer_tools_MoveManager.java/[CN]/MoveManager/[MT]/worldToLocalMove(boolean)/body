@@ -4,6 +4,7 @@
   }
   newPos.subtractLocal(spatial.getParent().getWorldTranslation());
   newPos=spatial.getParent().getWorldRotation().inverse().normalizeLocal().multLocal(newPos);
+  newPos.divideLocal(spatial.getParent().getWorldScale());
   lastLoc=newPos;
   spatial.setLocalTranslation(newPos);
   RigidBodyControl control=spatial.getControl(RigidBodyControl.class);
