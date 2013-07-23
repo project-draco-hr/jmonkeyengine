@@ -10,7 +10,7 @@
       renderManager.setForcedMaterial(postshadowMat);
     }
     renderManager.setForcedTechnique(postTechniqueName);
-    viewPort.getQueue().renderShadowQueue(lightReceivers,renderManager,cam,flushQueues);
+    viewPort.getQueue().renderShadowQueue(lightReceivers,renderManager,cam,false);
     if (flushQueues) {
       sceneReceivers.clear();
     }
