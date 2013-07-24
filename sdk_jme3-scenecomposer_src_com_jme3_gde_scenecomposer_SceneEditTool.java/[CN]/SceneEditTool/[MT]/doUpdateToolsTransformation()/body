@@ -1,7 +1,7 @@
 {
   if (toolController.getSelectedSpatial() != null) {
     axisMarker.setLocalTranslation(toolController.getSelectedSpatial().getWorldTranslation());
-    axisMarker.setLocalRotation(toolController.getSelectedSpatial().getWorldRotation());
+    axisMarker.setLocalRotation(toolController.getSelectedSpatial().getLocalRotation());
     setAxisMarkerScale(toolController.getSelectedSpatial());
   }
  else {
