@@ -20,6 +20,9 @@ material.setTexture(MaterialHelper.TEXTURE_TYPE_ALPHA,texture);
 LOGGER.warning("JME does not support alpha map on unshaded material. Material name is " + name);
 }
 break;
+case MTEX_AMB:
+material.setTexture(MaterialHelper.TEXTURE_TYPE_LIGHTMAP,texture);
+break;
 default :
 LOGGER.severe("Unknown mapping type: " + mapTo);
 }

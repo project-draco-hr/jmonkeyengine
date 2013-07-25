@@ -1,0 +1,43 @@
+{
+  Map<String,List<Vector2f>> result=new HashMap<String,List<Vector2f>>();
+  if (useBMesh) {
+    Structure loopData=(Structure)meshStructure.getFieldValue("ldata");
+    Pointer pLoopDataLayers=(Pointer)loopData.getFieldValue("layers");
+    List<Structure> loopDataLayers=pLoopDataLayers.fetchData(blenderContext.getInputStream());
+    for (    Structure structure : loopDataLayers) {
+      Pointer p=(Pointer)structure.getFieldValue("data");
+      if (p.isNotNull() && ((Number)structure.getFieldValue("type")).intValue() == UV_DATA_LAYER_TYPE_BMESH) {
+        String uvSetName=structure.getFieldValue("name").toString();
+        List<Structure> uvsStructures=p.fetchData(blenderContext.getInputStream());
+        List<Vector2f> uvs=new ArrayList<Vector2f>(uvsStructures.size());
+        for (        Structure uvStructure : uvsStructures) {
+          DynamicArray<Number> loopUVS=(DynamicArray<Number>)uvStructure.getFieldValue("uv");
+          uvs.add(new Vector2f(loopUVS.get(0).floatValue(),loopUVS.get(1).floatValue()));
+        }
+        result.put(uvSetName,uvs);
+      }
+    }
+  }
+ else {
+    Structure facesData=(Structure)meshStructure.getFieldValue("fdata");
+    Pointer pFacesDataLayers=(Pointer)facesData.getFieldValue("layers");
+    List<Structure> facesDataLayers=pFacesDataLayers.fetchData(blenderContext.getInputStream());
+    for (    Structure structure : facesDataLayers) {
+      Pointer p=(Pointer)structure.getFieldValue("data");
+      if (p.isNotNull() && ((Number)structure.getFieldValue("type")).intValue() == UV_DATA_LAYER_TYPE_FMESH) {
+        String uvSetName=structure.getFieldValue("name").toString();
+        List<Structure> uvsStructures=p.fetchData(blenderContext.getInputStream());
+        List<Vector2f> uvs=new ArrayList<Vector2f>(uvsStructures.size());
+        for (        Structure uvStructure : uvsStructures) {
+          DynamicArray<Number> mFaceUVs=(DynamicArray<Number>)uvStructure.getFieldValue("uv");
+          uvs.add(new Vector2f(mFaceUVs.get(0).floatValue(),mFaceUVs.get(1).floatValue()));
+          uvs.add(new Vector2f(mFaceUVs.get(2).floatValue(),mFaceUVs.get(3).floatValue()));
+          uvs.add(new Vector2f(mFaceUVs.get(4).floatValue(),mFaceUVs.get(5).floatValue()));
+          uvs.add(new Vector2f(mFaceUVs.get(6).floatValue(),mFaceUVs.get(7).floatValue()));
+        }
+        result.put(uvSetName,uvs);
+      }
+    }
+  }
+  return result;
+}

@@ -87,7 +87,7 @@
     for (    Geometry geometry : geometries) {
       int materialNumber=meshContext.getMaterialIndex(geometry);
       if (materials[materialNumber] != null) {
-        List<Vector2f> uvCoordinates=meshBuilder.getUVCoordinates(materialNumber);
+        LinkedHashMap<String,List<Vector2f>> uvCoordinates=meshBuilder.getUVCoordinates(materialNumber);
         MaterialContext materialContext=materials[materialNumber];
         materialContext.applyMaterial(geometry,structure.getOldMemoryAddress(),uvCoordinates,blenderContext);
       }
@@ -98,16 +98,25 @@
     }
   }
  else {
-    VertexBuffer uvCoordsBuffer=null;
+    List<VertexBuffer> uvCoordsBuffer=null;
     if (meshBuilder.hasUVCoordinates()) {
-      List<Vector2f> uvs=meshBuilder.getUVCoordinates(0);
-      uvCoordsBuffer=new VertexBuffer(Type.TexCoord);
-      uvCoordsBuffer.setupData(Usage.Static,2,Format.Float,BufferUtils.createFloatBuffer(uvs.toArray(new Vector2f[uvs.size()])));
+      Map<String,List<Vector2f>> uvs=meshBuilder.getUVCoordinates(0);
+      if (uvs != null && uvs.size() > 0) {
+        uvCoordsBuffer=new ArrayList<VertexBuffer>(uvs.size());
+        int uvIndex=0;
+        for (        Entry<String,List<Vector2f>> entry : uvs.entrySet()) {
+          VertexBuffer buffer=new VertexBuffer(TextureHelper.TEXCOORD_TYPES[uvIndex++]);
+          buffer.setupData(Usage.Static,2,Format.Float,BufferUtils.createFloatBuffer(entry.getValue().toArray(new Vector2f[uvs.size()])));
+          uvCoordsBuffer.add(buffer);
+        }
+      }
     }
     for (    Geometry geometry : geometries) {
       geometry.setMaterial(blenderContext.getDefaultMaterial());
       if (uvCoordsBuffer != null) {
-        geometry.getMesh().setBuffer(uvCoordsBuffer);
+        for (        VertexBuffer buffer : uvCoordsBuffer) {
+          geometry.getMesh().setBuffer(buffer);
+        }
       }
     }
   }

@@ -2,26 +2,20 @@
   Pointer pMLoop=(Pointer)meshStructure.getFieldValue("mloop");
   Pointer pMPoly=(Pointer)meshStructure.getFieldValue("mpoly");
   Pointer pMEdge=(Pointer)meshStructure.getFieldValue("medge");
-  Pointer pMLoopUV=(Pointer)meshStructure.getFieldValue("mloopuv");
-  Vector2f[] uvCoordinatesForFace=new Vector2f[3];
+  Map<String,Vector2f[]> uvCoordinatesForFace=new HashMap<String,Vector2f[]>();
   if (pMPoly.isNotNull() && pMLoop.isNotNull() && pMEdge.isNotNull()) {
+    Map<String,List<Vector2f>> uvs=this.loadUVCoordinates(meshStructure,true,blenderContext);
     int faceIndex=0;
     List<Structure> polys=pMPoly.fetchData(blenderContext.getInputStream());
     List<Structure> loops=pMLoop.fetchData(blenderContext.getInputStream());
-    List<Structure> loopuvs=pMLoopUV.isNotNull() ? pMLoopUV.fetchData(blenderContext.getInputStream()) : null;
     for (    Structure poly : polys) {
       int materialNumber=((Number)poly.getFieldValue("mat_nr")).intValue();
       int loopStart=((Number)poly.getFieldValue("loopstart")).intValue();
       int totLoop=((Number)poly.getFieldValue("totloop")).intValue();
       boolean smooth=(((Number)poly.getFieldValue("flag")).byteValue() & 0x01) != 0x00;
       int[] vertexIndexes=new int[totLoop];
-      Vector2f[] uvs=loopuvs != null ? new Vector2f[totLoop] : null;
       for (int i=loopStart; i < loopStart + totLoop; ++i) {
         vertexIndexes[i - loopStart]=((Number)loops.get(i).getFieldValue("v")).intValue();
-        if (uvs != null) {
-          DynamicArray<Number> loopUVS=(DynamicArray<Number>)loopuvs.get(i).getFieldValue("uv");
-          uvs[i - loopStart]=new Vector2f(loopUVS.get(0).floatValue(),loopUVS.get(1).floatValue());
-        }
       }
       int i=0;
       while (i < totLoop - 2) {
@@ -29,11 +23,16 @@
         int v2=vertexIndexes[i + 1];
         int v3=vertexIndexes[i + 2];
         if (uvs != null) {
-          uvCoordinatesForFace[0]=uvs[0];
-          uvCoordinatesForFace[1]=uvs[i + 1];
-          uvCoordinatesForFace[2]=uvs[i + 2];
+          for (          Entry<String,List<Vector2f>> entry : uvs.entrySet()) {
+            Vector2f[] uvCoordsForASingleFace=new Vector2f[3];
+            uvCoordsForASingleFace[0]=entry.getValue().get(loopStart);
+            uvCoordsForASingleFace[1]=entry.getValue().get(loopStart + i + 1);
+            uvCoordsForASingleFace[2]=entry.getValue().get(loopStart + i + 2);
+            uvCoordinatesForFace.put(entry.getKey(),uvCoordsForASingleFace);
+          }
         }
         meshBuilder.appendFace(v1,v2,v3,smooth,materialNumber,uvs == null ? null : uvCoordinatesForFace,false,faceIndex);
+        uvCoordinatesForFace.clear();
         ++i;
       }
       ++faceIndex;

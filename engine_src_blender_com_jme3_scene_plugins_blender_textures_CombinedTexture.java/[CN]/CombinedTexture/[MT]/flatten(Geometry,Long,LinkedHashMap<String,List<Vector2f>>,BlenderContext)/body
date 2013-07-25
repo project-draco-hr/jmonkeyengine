@@ -3,6 +3,7 @@
   Mesh mesh=geometry.getMesh();
   Texture previousTexture=null;
   UVCoordinatesType masterUVCoordinatesType=null;
+  String masterUserUVSetName=null;
   for (  TextureData textureData : textureDatas) {
     if (textureDatas.size() > 1 && textureData.texture.getImage().getFormat().isCompressed()) {
       textureData.texture.setImage(textureHelper.decompress(textureData.texture.getImage()));
@@ -15,7 +16,13 @@
  else       if (textureData.texture instanceof Texture2D) {
         resultTexture=textureData.texture;
         if (textureData.uvCoordinatesType == UVCoordinatesType.TEXCO_UV && userDefinedUVCoordinates != null && userDefinedUVCoordinates.size() > 0) {
-          resultUVS=userDefinedUVCoordinates;
+          if (textureData.uvCoordinatesName == null) {
+            resultUVS=userDefinedUVCoordinates.values().iterator().next();
+          }
+ else {
+            resultUVS=userDefinedUVCoordinates.get(textureData.uvCoordinatesName);
+          }
+          masterUserUVSetName=textureData.uvCoordinatesName;
         }
  else {
           List<Geometry> geometries=(List<Geometry>)blenderContext.getLoadedFeature(geometriesOMA,LoadedFeatureDataType.LOADED_FEATURE);
@@ -39,7 +46,7 @@
         resultTexture=previousTexture=triangulatedTexture;
       }
  else       if (textureData.texture instanceof Texture2D) {
-        if (masterUVCoordinatesType == textureData.uvCoordinatesType && resultTexture instanceof Texture2D) {
+        if (this.isUVTypesMatch(masterUVCoordinatesType,masterUserUVSetName,textureData.uvCoordinatesType,textureData.uvCoordinatesName) && resultTexture instanceof Texture2D) {
           this.scale((Texture2D)textureData.texture,resultTexture.getImage().getWidth(),resultTexture.getImage().getHeight());
           this.merge((Texture2D)resultTexture,(Texture2D)textureData.texture);
           previousTexture=resultTexture;
@@ -51,7 +58,12 @@
           }
           List<Vector2f> textureUVS=null;
           if (textureData.uvCoordinatesType == UVCoordinatesType.TEXCO_UV && userDefinedUVCoordinates != null && userDefinedUVCoordinates.size() > 0) {
-            textureUVS=userDefinedUVCoordinates;
+            if (textureData.uvCoordinatesName == null) {
+              textureUVS=userDefinedUVCoordinates.values().iterator().next();
+            }
+ else {
+              textureUVS=userDefinedUVCoordinates.get(textureData.uvCoordinatesName);
+            }
           }
  else {
             List<Geometry> geometries=(List<Geometry>)blenderContext.getLoadedFeature(geometriesOMA,LoadedFeatureDataType.LOADED_FEATURE);
@@ -73,7 +85,6 @@
     }
     resultUVS=((TriangulatedTexture)resultTexture).getResultUVS();
     resultTexture=((TriangulatedTexture)resultTexture).getResultTexture();
-    wasTriangulated=true;
   }
   resultTexture.setWrap(WrapMode.Repeat);
   resultTexture.setMagFilter(MagFilter.Nearest);

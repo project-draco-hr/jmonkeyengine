@@ -39,6 +39,10 @@
       textureData.mtex=p.fetchData(blenderContext.getInputStream()).get(0);
       textureData.uvCoordinatesType=((Number)textureData.mtex.getFieldValue("texco")).intValue();
       textureData.projectionType=((Number)textureData.mtex.getFieldValue("mapping")).intValue();
+      textureData.uvCoordinatesName=textureData.mtex.getFieldValue("uvName").toString();
+      if (textureData.uvCoordinatesName != null && textureData.uvCoordinatesName.trim().length() == 0) {
+        textureData.uvCoordinatesName=null;
+      }
       Pointer pTex=(Pointer)textureData.mtex.getFieldValue("tex");
       if (pTex.isNotNull()) {
         Structure tex=pTex.fetchData(blenderContext.getInputStream()).get(0);
@@ -63,7 +67,7 @@
           float[] color=new float[]{((Number)textureData.mtex.getFieldValue("r")).floatValue(),((Number)textureData.mtex.getFieldValue("g")).floatValue(),((Number)textureData.mtex.getFieldValue("b")).floatValue()};
           float colfac=((Number)textureData.mtex.getFieldValue("colfac")).floatValue();
           TextureBlender textureBlender=TextureBlenderFactory.createTextureBlender(texture.getImage().getFormat(),texflag,negateTexture,blendType,diffuseColorArray,color,colfac);
-          combinedTexture.add(texture,textureBlender,textureData.uvCoordinatesType,textureData.projectionType,textureData.textureStructure,blenderContext);
+          combinedTexture.add(texture,textureBlender,textureData.uvCoordinatesType,textureData.projectionType,textureData.textureStructure,textureData.uvCoordinatesName,blenderContext);
         }
       }
       if (combinedTexture.getTexturesCount() > 0) {

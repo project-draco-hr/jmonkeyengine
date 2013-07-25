@@ -1,0 +1,19 @@
+{
+  LinkedHashMap<String,List<Vector2f>> uvsForMaterial=uvCoordinates.get(materialIndex);
+  if (uvsForMaterial == null) {
+    uvsForMaterial=new LinkedHashMap<String,List<Vector2f>>();
+    uvCoordinates.put(materialIndex,uvsForMaterial);
+  }
+  List<Vector2f> uvsForName=uvsForMaterial.get(uvSetName);
+  if (uvsForName == null) {
+    uvsForName=new ArrayList<Vector2f>();
+    uvsForMaterial.put(uvSetName,uvsForName);
+  }
+  uvsForName.add(uv);
+  Map<Integer,Vector2f> uvToVertexIndexMapping=uvsMap.get(uvSetName);
+  if (uvToVertexIndexMapping == null) {
+    uvToVertexIndexMapping=new HashMap<Integer,Vector2f>();
+    uvsMap.put(uvSetName,uvToVertexIndexMapping);
+  }
+  uvToVertexIndexMapping.put(jmeVertexIndex,uv);
+}
