@@ -8,20 +8,14 @@
   int miny=(int)Math.max(0,(uv.y * height - radius * height));
   int maxy=(int)Math.min(height,(uv.y * height + radius * height));
   float radiusSquared=radius * radius;
-  float radiusFalloff=radius * fadeFalloff;
+  float radiusFalloff=radiusSquared * fadeFalloff;
   for (int y=miny; y < maxy; y++) {
     for (int x=minx; x < maxx; x++) {
       texuv.set((float)x / width,(float)y / height);
       float dist=texuv.distanceSquared(uv);
       if (dist < radiusSquared) {
         manipulatePixel(image,x,y,color,false);
-        float intensity=0.1f;
-        if (dist > radiusFalloff) {
-          float dr=radius - radiusFalloff;
-          float d2=dist - radiusFalloff;
-          d2=d2 / dr;
-          intensity=1 - d2;
-        }
+        float intensity=(1.0f - (dist / radiusSquared)) * fadeFalloff;
         if (erase) {
 switch (texIndex) {
 case 0:
