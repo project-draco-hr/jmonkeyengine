@@ -5,9 +5,15 @@
   float ratio=(FastMath.PI / (8f * atanNH));
   float newDistance=bv.distanceTo(vp.getCamera().getLocation()) / ratio;
   int level;
-  if (Math.abs(newDistance - lastDistance) <= distTolerance)   level=lastLevel;
- else   if (lastDistance > newDistance && lastLevel == 0)   level=lastLevel;
- else   if (lastDistance < newDistance && lastLevel == numLevels - 1)   level=lastLevel;
+  if (Math.abs(newDistance - lastDistance) <= distTolerance) {
+    level=lastLevel;
+  }
+ else   if (lastDistance > newDistance && lastLevel == 0) {
+    level=lastLevel;
+  }
+ else   if (lastDistance < newDistance && lastLevel == numLevels - 1) {
+    level=lastLevel;
+  }
  else {
     lastDistance=newDistance;
     float area=AreaUtils.calcScreenArea(bv,lastDistance,cam.getWidth());
