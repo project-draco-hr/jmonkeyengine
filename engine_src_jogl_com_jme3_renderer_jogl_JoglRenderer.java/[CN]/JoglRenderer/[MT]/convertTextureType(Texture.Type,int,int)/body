@@ -2,14 +2,14 @@
 switch (type) {
 case TwoDimensional:
     if (samples > 1) {
-      return GL2GL3.GL_TEXTURE_2D_MULTISAMPLE;
+      return GL3.GL_TEXTURE_2D_MULTISAMPLE;
     }
  else {
       return GL.GL_TEXTURE_2D;
     }
 case TwoDimensionalArray:
   if (samples > 1) {
-    return GL2GL3.GL_TEXTURE_2D_MULTISAMPLE_ARRAY;
+    return GL3.GL_TEXTURE_2D_MULTISAMPLE_ARRAY;
   }
  else {
     return GL.GL_TEXTURE_2D_ARRAY;
