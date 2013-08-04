@@ -36,10 +36,10 @@
     }
     if (glFmt.compressed && data != null) {
       if (target == GL2ES2.GL_TEXTURE_3D) {
-        gl.getGL2ES2().glCompressedTexImage3D(target,i,glFmt.internalFormat,mipWidth,mipHeight,mipDepth,0,border,data);
+        gl.getGL2ES2().glCompressedTexImage3D(target,i,glFmt.internalFormat,mipWidth,mipHeight,mipDepth,data.remaining(),border,data);
       }
  else {
-        gl.glCompressedTexImage2D(target,i,glFmt.internalFormat,mipWidth,mipHeight,0,border,data);
+        gl.glCompressedTexImage2D(target,i,glFmt.internalFormat,mipWidth,mipHeight,data.remaining(),border,data);
       }
     }
  else {
