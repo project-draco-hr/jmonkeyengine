@@ -14,9 +14,11 @@
  else {
       viewPort.setOutputFrameBuffer(renderFrameBuffer);
     }
-    if (!cameraInit) {
-      viewPort.getCamera().resize(width,height,true);
+    if (multiView) {
+      viewPort.getCamera().resize(width,height,false);
       viewPort.getCamera().setViewPort(0,1,0,1);
+      viewPort.getCamera().update();
+      renderManager.setCamera(viewPort.getCamera(),false);
     }
   }
   for (Iterator<Filter> it=filters.iterator(); it.hasNext(); ) {
