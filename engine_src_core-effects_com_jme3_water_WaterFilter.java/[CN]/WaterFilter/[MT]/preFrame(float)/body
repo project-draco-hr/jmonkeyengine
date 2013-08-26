@@ -5,7 +5,6 @@
   biasMatrix.mult(sceneCam.getViewProjectionMatrix(),textureProjMatrix);
   material.setMatrix4("TextureProjMatrix",textureProjMatrix);
   material.setVector3("CameraPosition",sceneCam.getLocation());
-  material.setMatrix4("ViewProjectionMatrixInverse",sceneCam.getViewProjectionMatrix().invert());
   material.setFloat("WaterHeight",waterHeight);
   ray.setOrigin(sceneCam.getLocation());
   ray.setDirection(sceneCam.getDirection());
