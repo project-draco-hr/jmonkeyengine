@@ -21,13 +21,13 @@
     int spec_shader=((Number)structure.getFieldValue("spec_shader")).intValue();
     specularShader=SpecularShader.values()[spec_shader];
     specularColor=this.readSpecularColor(structure,specularShader);
+    float shininess=((Number)structure.getFieldValue("har")).floatValue();
+    this.shininess=shininess > 0.0f ? shininess : MaterialHelper.DEFAULT_SHININESS;
     float r=((Number)structure.getFieldValue("ambr")).floatValue();
     float g=((Number)structure.getFieldValue("ambg")).floatValue();
     float b=((Number)structure.getFieldValue("ambb")).floatValue();
     float alpha=((Number)structure.getFieldValue("alpha")).floatValue();
     ambientColor=new ColorRGBA(r,g,b,alpha);
-    float shininess=((Number)structure.getFieldValue("emit")).floatValue();
-    this.shininess=shininess > 0.0f ? shininess : MaterialHelper.DEFAULT_SHININESS;
   }
   DynamicArray<Pointer> mtexsArray=(DynamicArray<Pointer>)structure.getFieldValue("mtex");
   int separatedTextures=((Number)structure.getFieldValue("septex")).intValue();
