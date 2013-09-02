@@ -1,5 +1,19 @@
 {
-  m00*=x;
-  m11*=y;
-  m22*=z;
+  TempVars vars=TempVars.get();
+  vars.vect1.set(m00,m10,m20);
+  vars.vect1.normalizeLocal().multLocal(x);
+  m00=vars.vect1.x;
+  m10=vars.vect1.y;
+  m20=vars.vect1.z;
+  vars.vect1.set(m01,m11,m21);
+  vars.vect1.normalizeLocal().multLocal(y);
+  m01=vars.vect1.x;
+  m11=vars.vect1.y;
+  m21=vars.vect1.z;
+  vars.vect1.set(m02,m12,m22);
+  vars.vect1.normalizeLocal().multLocal(z);
+  m02=vars.vect1.x;
+  m12=vars.vect1.y;
+  m22=vars.vect1.z;
+  vars.release();
 }

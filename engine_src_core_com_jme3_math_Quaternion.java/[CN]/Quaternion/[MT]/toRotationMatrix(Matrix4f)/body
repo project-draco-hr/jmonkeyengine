@@ -1,4 +1,6 @@
 {
+  Vector3f originalScale=result.toScaleVector();
+  result.setScale(1,1,1);
   float norm=norm();
   float s=(norm == 1f) ? 2f : (norm > 0f) ? 2f / norm : 0;
   float xs=x * s;
@@ -22,5 +24,6 @@
   result.m20=(xz - yw);
   result.m21=(yz + xw);
   result.m22=1 - (xx + yy);
+  result.setScale(originalScale);
   return result;
 }
