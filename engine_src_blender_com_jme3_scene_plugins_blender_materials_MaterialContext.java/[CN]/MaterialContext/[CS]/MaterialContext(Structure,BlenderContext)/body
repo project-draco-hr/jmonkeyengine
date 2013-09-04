@@ -20,7 +20,7 @@
     diffuseColor=this.readDiffuseColor(structure,diffuseShader);
     int spec_shader=((Number)structure.getFieldValue("spec_shader")).intValue();
     specularShader=SpecularShader.values()[spec_shader];
-    specularColor=this.readSpecularColor(structure,specularShader);
+    specularColor=this.readSpecularColor(structure);
     float shininess=((Number)structure.getFieldValue("har")).floatValue();
     this.shininess=shininess > 0.0f ? shininess : MaterialHelper.DEFAULT_SHININESS;
     float r=((Number)structure.getFieldValue("ambr")).floatValue();

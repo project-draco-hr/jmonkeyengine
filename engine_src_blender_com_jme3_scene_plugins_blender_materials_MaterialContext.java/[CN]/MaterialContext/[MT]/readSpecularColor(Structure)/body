@@ -1,0 +1,8 @@
+{
+  float specularIntensity=((Number)materialStructure.getFieldValue("spec")).floatValue();
+  float r=((Number)materialStructure.getFieldValue("specr")).floatValue() * specularIntensity;
+  float g=((Number)materialStructure.getFieldValue("specg")).floatValue() * specularIntensity;
+  float b=((Number)materialStructure.getFieldValue("specb")).floatValue() * specularIntensity;
+  float alpha=((Number)materialStructure.getFieldValue("alpha")).floatValue();
+  return new ColorRGBA(r,g,b,alpha);
+}
