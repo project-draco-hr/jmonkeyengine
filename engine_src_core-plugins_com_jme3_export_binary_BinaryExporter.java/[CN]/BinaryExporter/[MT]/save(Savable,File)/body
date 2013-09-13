@@ -4,7 +4,12 @@
     parentDirectory.mkdirs();
   }
   FileOutputStream fos=new FileOutputStream(f);
-  boolean rVal=save(object,fos);
-  fos.close();
-  return rVal;
+  try {
+    return save(object,fos);
+  }
+  finally {
+    if (fos != null) {
+      fos.close();
+    }
+  }
 }
