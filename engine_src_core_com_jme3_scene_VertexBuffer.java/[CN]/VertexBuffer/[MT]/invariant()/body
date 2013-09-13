@@ -2,6 +2,12 @@
   if (data == null) {
     throw new AssertionError();
   }
+  if (data.position() != 0) {
+    throw new AssertionError();
+  }
+  if (data.limit() == 0) {
+    throw new AssertionError();
+  }
   if (offset > data.limit() || offset < 0) {
     throw new AssertionError();
   }
