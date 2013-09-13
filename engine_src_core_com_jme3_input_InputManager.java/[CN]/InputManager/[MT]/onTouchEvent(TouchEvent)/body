@@ -2,5 +2,6 @@
   if (!eventsPermitted) {
     throw new UnsupportedOperationException("TouchInput has raised an event at an illegal time.");
   }
+  cursorPos.set(evt.getX(),evt.getY());
   inputQueue.add(evt);
 }
