@@ -1,0 +1,9 @@
+{
+  int size=uniforms.size();
+  for (int i=0; i < size; i++) {
+    Uniform u=uniforms.getValue(i);
+    if (!u.isSetByCurrentMaterial()) {
+      u.clearValue();
+    }
+  }
+}
