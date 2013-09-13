@@ -1,4 +1,5 @@
 {
+  URLConnection conn=null;
   try {
     String classpath=System.getProperty("java.class.path");
     URL url=Thread.currentThread().getContextClassLoader().getResource("com/jme3/system/Natives.class");
@@ -14,11 +15,21 @@
  catch (    MalformedURLException ex) {
       throw new UnsupportedOperationException(ex);
     }
-    URLConnection conn=url.openConnection();
+    conn=url.openConnection();
     int hash=classpath.hashCode() ^ (int)conn.getLastModified();
     return hash;
   }
  catch (  IOException ex) {
     throw new UnsupportedOperationException(ex);
+  }
+ finally {
+    if (conn != null) {
+      try {
+        conn.getInputStream().close();
+        conn.getOutputStream().close();
+      }
+ catch (      IOException ex) {
+      }
+    }
   }
 }
