@@ -1,4 +1,7 @@
 {
+  if (mesh.getVertexCount() == 0) {
+    return;
+  }
   if (context.lineWidth != mesh.getLineWidth()) {
     GLES20.glLineWidth(mesh.getLineWidth());
     RendererUtil.checkGLError();
