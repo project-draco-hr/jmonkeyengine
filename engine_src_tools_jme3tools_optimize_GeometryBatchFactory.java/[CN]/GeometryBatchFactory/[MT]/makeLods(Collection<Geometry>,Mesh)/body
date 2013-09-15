@@ -6,16 +6,50 @@
   if (lodLevels == Integer.MAX_VALUE || lodLevels == 0) {
     return;
   }
-  int[] lodSizes=new int[lodLevels];
+  int[] lodSize=null;
   for (  Geometry g : geometries) {
+    if (lodLevels == 0) {
+      lodLevels=g.getMesh().getNumLodLevels();
+    }
+    if (lodSize == null) {
+      lodSize=new int[lodLevels];
+    }
     for (int i=0; i < lodLevels; i++) {
-      lodSizes[i]+=g.getMesh().getLodLevel(i).getData().limit();
+      lodSize[i]+=g.getMesh().getLodLevel(i).getData().limit();
     }
   }
-  IndexBuffer[] lods=new IndexBuffer[lodLevels];
+  int[][] lodData=new int[lodLevels][];
+  for (int i=0; i < lodLevels; i++) {
+    lodData[i]=new int[lodSize[i]];
+  }
+  VertexBuffer[] lods=new VertexBuffer[lodLevels];
   int bufferPos[]=new int[lodLevels];
   int numOfVertices=0;
-  int curGeom=0;
-  for (int lodLevel=0; lodLevel < lodLevels; lodLevel++) {
+  int[] indexPos=new int[lodLevels];
+  for (  Geometry g : geometries) {
+    numOfVertices=g.getVertexCount();
+    for (int i=0; i < lodLevels; i++) {
+      boolean isShortBuffer=g.getMesh().getLodLevel(i).getFormat() == VertexBuffer.Format.UnsignedShort;
+      if (isShortBuffer) {
+        ShortBuffer buffer=(ShortBuffer)g.getMesh().getLodLevel(i).getDataReadOnly();
+        for (int j=0; j < buffer.limit(); j++) {
+          lodData[i][bufferPos[i]]=(buffer.get() & 0xffff) + indexPos[i];
+          bufferPos[i]++;
+        }
+      }
+ else {
+        IntBuffer buffer=(IntBuffer)g.getMesh().getLodLevel(i).getDataReadOnly();
+        for (int j=0; j < buffer.limit(); j++) {
+          lodData[i][bufferPos[i]]=buffer.get() + indexPos[i];
+          bufferPos[i]++;
+        }
+      }
+      indexPos[i]+=numOfVertices;
+    }
   }
+  for (int i=0; i < lodLevels; i++) {
+    lods[i]=new VertexBuffer(Type.Index);
+    lods[i].setupData(Usage.Dynamic,1,Format.UnsignedInt,BufferUtils.createIntBuffer(lodData[i]));
+  }
+  outMesh.setLodLevels(lods);
 }
