@@ -12,7 +12,7 @@
         tri.vertexId[i]=((IntBuffer)b).get();
       }
  else {
-        tri.vertexId[i]=((ShortBuffer)b).get();
+        tri.vertexId[i]=((ShortBuffer)b).get() & 0xffff;
       }
       tri.vertex[i]=vertexLookup.get(tri.vertexId[i]);
       tri.vertex[i].index=tri.vertexId[i];
