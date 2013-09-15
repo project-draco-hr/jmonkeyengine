@@ -21,6 +21,8 @@
   backStencilDepthPassOperation=ic.readEnum("backStencilDepthPassOperation",StencilOperation.class,StencilOperation.Keep);
   frontStencilFunction=ic.readEnum("frontStencilFunction",TestFunction.class,TestFunction.Always);
   backStencilFunction=ic.readEnum("backStencilFunction",TestFunction.class,TestFunction.Always);
+  depthFunc=ic.readEnum("depthFunc",TestFunction.class,TestFunction.LessOrEqual);
+  alphaFunc=ic.readEnum("alphaFunc",TestFunction.class,TestFunction.Greater);
   applyPointSprite=ic.readBoolean("applyPointSprite",true);
   applyWireFrame=ic.readBoolean("applyWireFrame",true);
   applyCullMode=ic.readBoolean("applyCullMode",true);
@@ -31,4 +33,6 @@
   applyAlphaTest=ic.readBoolean("applyAlphaTest",true);
   applyAlphaFallOff=ic.readBoolean("applyAlphaFallOff",true);
   applyPolyOffset=ic.readBoolean("applyPolyOffset",true);
+  applyDepthFunc=ic.readBoolean("applyDepthFunc",true);
+  applyAlphaFunc=ic.readBoolean("applyAlphaFunc",false);
 }

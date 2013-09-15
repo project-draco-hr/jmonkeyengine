@@ -1,7 +1,7 @@
 {
   if (state.isDepthTest() && !context.depthTestEnabled) {
     GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-    GLES20.glDepthFunc(GLES20.GL_LEQUAL);
+    GLES20.glDepthFunc(convertTestFunction(context.depthFunc));
     RendererUtil.checkGLError();
     context.depthTestEnabled=true;
   }
@@ -9,6 +9,10 @@
     GLES20.glDisable(GLES20.GL_DEPTH_TEST);
     RendererUtil.checkGLError();
     context.depthTestEnabled=false;
+  }
+  if (state.getDepthFunc() != context.depthFunc) {
+    GLES20.glDepthFunc(convertTestFunction(state.getDepthFunc()));
+    context.depthFunc=state.getDepthFunc();
   }
   if (state.isDepthWrite() && !context.depthWriteEnabled) {
     GLES20.glDepthMask(true);

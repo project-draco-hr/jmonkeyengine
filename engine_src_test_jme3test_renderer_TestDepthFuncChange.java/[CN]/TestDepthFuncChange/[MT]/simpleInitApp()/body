@@ -1,0 +1,23 @@
+{
+  viewPort.setBackgroundColor(ColorRGBA.DarkGray);
+  flyCam.setMoveSpeed(20);
+  Box boxshape1=new Box(1f,1f,1f);
+  Geometry cube1=new Geometry("box",boxshape1);
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  mat.setColor("Color",ColorRGBA.Blue);
+  cube1.setMaterial(mat);
+  rootNode.attachChild(cube1);
+  cube1.move(0,1.5f,0);
+  Geometry cube2=cube1.clone(true);
+  cube2.move(0.2f,0,0);
+  cube2.setQueueBucket(RenderQueue.Bucket.Transparent);
+  cube2.getMaterial().setColor("Color",ColorRGBA.Red);
+  rootNode.attachChild(cube2);
+  Geometry cube3=cube1.clone();
+  Geometry cube4=cube2.clone(true);
+  cube4.getMaterial().getAdditionalRenderState().setDepthFunc(RenderState.TestFunction.Less);
+  cube3.move(0,-3,0);
+  cube4.move(0,-3,0);
+  rootNode.attachChild(cube3);
+  rootNode.attachChild(cube4);
+}

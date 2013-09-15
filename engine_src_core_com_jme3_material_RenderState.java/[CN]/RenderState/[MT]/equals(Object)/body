@@ -21,6 +21,11 @@
   if (depthTest != rs.depthTest) {
     return false;
   }
+  if (depthTest) {
+    if (depthFunc != rs.depthFunc) {
+      return false;
+    }
+  }
   if (colorWrite != rs.colorWrite) {
     return false;
   }
@@ -29,6 +34,11 @@
   }
   if (alphaTest != rs.alphaTest) {
     return false;
+  }
+  if (alphaTest) {
+    if (alphaFunc != rs.alphaFunc) {
+      return false;
+    }
   }
   if (alphaFallOff != rs.alphaFallOff) {
     return false;

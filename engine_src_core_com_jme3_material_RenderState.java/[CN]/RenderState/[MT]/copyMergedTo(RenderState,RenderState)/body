@@ -32,6 +32,12 @@
  else {
     state.depthTest=depthTest;
   }
+  if (additionalState.applyDepthFunc) {
+    state.depthFunc=additionalState.depthFunc;
+  }
+ else {
+    state.depthFunc=depthFunc;
+  }
   if (additionalState.applyColorWrite) {
     state.colorWrite=additionalState.colorWrite;
   }
@@ -49,6 +55,12 @@
   }
  else {
     state.alphaTest=alphaTest;
+  }
+  if (additionalState.applyAlphaFunc) {
+    state.alphaFunc=additionalState.alphaFunc;
+  }
+ else {
+    state.alphaFunc=alphaFunc;
   }
   if (additionalState.applyAlphaFallOff) {
     state.alphaFallOff=additionalState.alphaFallOff;
