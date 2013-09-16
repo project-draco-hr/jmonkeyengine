@@ -3,7 +3,7 @@
   int totalSize=1;
   for (  int size : tableSizes) {
     if (size <= 0) {
-      throw new BlenderFileException("The size of the table must be positive!");
+      throw new IllegalArgumentException("The size of the table must be positive!");
     }
     totalSize*=size;
   }

@@ -24,7 +24,6 @@
     return modelRoot;
   }
  catch (  BlenderFileException e) {
-    LOGGER.log(Level.SEVERE,e.getMessage(),e);
+    throw new IOException(e.getLocalizedMessage(),e);
   }
-  return null;
 }
