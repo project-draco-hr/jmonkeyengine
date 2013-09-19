@@ -11,8 +11,8 @@
  else {
       float invWeightSum=1f - currentWeightSum;
       localRot.nlerp(initialRot,invWeightSum);
-      localPos.interpolate(initialPos,invWeightSum);
-      localScale.interpolate(initialScale,invWeightSum);
+      localPos.interpolateLocal(initialPos,invWeightSum);
+      localScale.interpolateLocal(initialScale,invWeightSum);
     }
     currentWeightSum=-1;
   }

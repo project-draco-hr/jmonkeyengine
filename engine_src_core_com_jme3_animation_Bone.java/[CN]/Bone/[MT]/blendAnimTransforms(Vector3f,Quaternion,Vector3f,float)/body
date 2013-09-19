@@ -22,12 +22,12 @@
     Vector3f tmpV2=vars.vect2;
     Quaternion tmpQ=vars.quat1;
     tmpV.set(initialPos).addLocal(translation);
-    localPos.interpolate(tmpV,weight);
+    localPos.interpolateLocal(tmpV,weight);
     tmpQ.set(initialRot).multLocal(rotation);
     localRot.nlerp(tmpQ,weight);
     if (scale != null) {
       tmpV2.set(initialScale).multLocal(scale);
-      localScale.interpolate(tmpV2,weight);
+      localScale.interpolateLocal(tmpV2,weight);
     }
     currentWeightSum=1;
     vars.release();
