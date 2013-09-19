@@ -8,9 +8,6 @@
     }
   }
 );
-  if (clientOpenGLESVersion < 2) {
-    throw new UnsupportedOperationException("OpenGL ES 2.0 is not supported on this device");
-  }
   timer=new AndroidTimer();
   renderer=new OGLESShaderRenderer();
   renderer.initialize();

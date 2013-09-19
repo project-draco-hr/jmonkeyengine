@@ -7,50 +7,20 @@
   }
   androidInput.setView(view);
   androidInput.loadSettings(settings);
-  if (configType == ConfigType.LEGACY) {
-    clientOpenGLESVersion=2;
-    view.setEGLContextClientVersion(2);
-    view.setEGLConfigChooser(5,6,5,0,16,0);
-    logger.fine("ConfigType.LEGACY using RGB565");
+  int rawOpenGLESVersion=getOpenGLESVersion();
+  logger.log(Level.FINE,"clientOpenGLESVersion {0}.{1}",new Object[]{clientOpenGLESVersion >> 16,clientOpenGLESVersion << 16});
+  if (rawOpenGLESVersion < 0x20000) {
+    throw new UnsupportedOperationException("OpenGL ES 2.0 is not supported on this device");
   }
  else {
-    EGL10 egl=(EGL10)EGLContext.getEGL();
-    EGLDisplay display=egl.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY);
-    if (display == EGL10.EGL_NO_DISPLAY) {
-      throw new RendererException("No default EGL display is available");
-    }
-    int[] version=new int[2];
-    if (!egl.eglInitialize(display,version)) {
-      RendererUtil.checkEGLError(egl);
-    }
-    logger.log(Level.INFO,"Display EGL Version: {0}.{1}",new Object[]{version[0],version[1]});
-    try {
-      AndroidConfigChooser configChooser=new AndroidConfigChooser(settings);
-      if (!configChooser.findConfig(egl,display)) {
-        listener.handleError("Unable to find suitable EGL config",null);
-        return null;
-      }
-      clientOpenGLESVersion=configChooser.getClientOpenGLESVersion();
-      if (clientOpenGLESVersion < 2) {
-        listener.handleError("OpenGL ES 2.0 is not supported on this device",null);
-        return null;
-      }
-      view.setEGLContextClientVersion(clientOpenGLESVersion);
-      view.setEGLConfigChooser(configChooser);
-      view.getHolder().setFormat(configChooser.getPixelFormat());
-    }
-  finally {
-      if (display != null && display != EGL10.EGL_NO_DISPLAY) {
-        egl.eglTerminate(display);
-      }
-    }
+    clientOpenGLESVersion=2;
+    view.setEGLContextClientVersion(clientOpenGLESVersion);
   }
   view.setFocusableInTouchMode(true);
   view.setFocusable(true);
   view.getHolder().setType(SurfaceHolder.SURFACE_TYPE_GPU);
-  if (configType == ConfigType.BEST_TRANSLUCENT) {
-    view.setZOrderOnTop(true);
-  }
+  AndroidConfigChooser configChooser=new AndroidConfigChooser(settings,view);
+  view.setEGLConfigChooser(configChooser);
   view.setRenderer(this);
   return view;
 }

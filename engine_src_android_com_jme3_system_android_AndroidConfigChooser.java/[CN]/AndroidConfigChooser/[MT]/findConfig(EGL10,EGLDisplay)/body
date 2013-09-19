@@ -8,12 +8,13 @@
     logger.info("JME3 using choosen config: ");
     logEGLConfig(choosenConfig,display,egl,Level.INFO);
     pixelFormat=getPixelFormat(choosenConfig,display,egl);
-    clientOpenGLESVersion=getOpenGLVersion(choosenConfig,display,egl);
+    if (pixelFormat == PixelFormat.TRANSLUCENT) {
+      view.setZOrderOnTop(true);
+    }
     return true;
   }
  else {
     logger.severe("ERROR: Unable to get a valid OpenGL ES 2.0 config, neither Fastest nor Best found! Bug. Please report this.");
-    clientOpenGLESVersion=1;
     pixelFormat=PixelFormat.UNKNOWN;
     return false;
   }

@@ -1,8 +1,14 @@
 {
-  if (configForDisplay != display) {
-    throw new RendererException("The display used for finding config is not the same as the render display");
+  logger.fine("GLSurfaceView asking for egl config");
+  boolean configFound=findConfig(egl,display);
+  if (configFound) {
+    logger.fine("GLSurfaceView asks for egl config, returning: ");
+    logEGLConfig(choosenConfig,display,egl,Level.FINE);
+    view.getHolder().setFormat(pixelFormat);
+    return choosenConfig;
   }
-  logger.fine("GLSurfaceView asks for egl config, returning: ");
-  logEGLConfig(choosenConfig,display,egl,Level.FINE);
-  return choosenConfig;
+ else {
+    logger.fine("GLSurfaceView asks for egl config, No config found");
+    return null;
+  }
 }
