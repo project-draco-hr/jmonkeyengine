@@ -4,6 +4,7 @@
   choosenConfig=compChooser.chooseConfig(egl,display);
   logger.log(Level.FINE,"JME3 using {0} EGL configuration available here: ",type.name());
   if (choosenConfig != null) {
+    configForDisplay=display;
     logger.info("JME3 using choosen config: ");
     logEGLConfig(choosenConfig,display,egl,Level.INFO);
     pixelFormat=getPixelFormat(choosenConfig,display,egl);

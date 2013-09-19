@@ -1,4 +1,7 @@
 {
+  if (configForDisplay != display) {
+    throw new RendererException("The display used for finding config is not the same as the render display");
+  }
   logger.fine("GLSurfaceView asks for egl config, returning: ");
   logEGLConfig(choosenConfig,display,egl,Level.FINE);
   return choosenConfig;
