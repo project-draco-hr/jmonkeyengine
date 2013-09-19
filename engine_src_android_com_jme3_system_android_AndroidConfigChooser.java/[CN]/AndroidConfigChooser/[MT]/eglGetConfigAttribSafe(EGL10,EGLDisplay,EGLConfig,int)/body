@@ -1,0 +1,8 @@
+{
+  int[] value=new int[1];
+  if (!egl.eglGetConfigAttrib(display,config,attribute,value)) {
+    RendererUtil.checkEGLError(egl);
+    throw new AssertionError();
+  }
+  return value[0];
+}

@@ -1,9 +1,0 @@
-{
-  int[] value=new int[1];
-  if (egl.eglGetConfigAttrib(display,conf,eglConfigAttrib,value)) {
-    logger.log(level,"{0} = {1}",new Object[]{configName,value[0]});
-  }
- else {
-    logger.log(level,"Error getting {0} = {1}",new Object[]{configName,egl.eglGetError()});
-  }
-}

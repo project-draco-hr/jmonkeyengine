@@ -1,5 +1,7 @@
 {
-  if (!ENABLE_ERROR_CHECKING)   return;
+  if (!ENABLE_ERROR_CHECKING) {
+    return;
+  }
   int error=GLES20.glGetError();
   if (error != 0) {
     String message=GLU.gluErrorString(error);

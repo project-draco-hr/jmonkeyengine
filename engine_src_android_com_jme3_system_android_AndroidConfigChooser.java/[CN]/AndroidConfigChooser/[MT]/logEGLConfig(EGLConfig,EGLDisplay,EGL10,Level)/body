@@ -1,12 +1,12 @@
 {
-  logger.log(level,"Logging EGLConfig Attributes");
-  logEGLConfigAttrib(conf,display,egl,level,"EGL_RED_SIZE",EGL10.EGL_RED_SIZE);
-  logEGLConfigAttrib(conf,display,egl,level,"EGL_GREEN_SIZE",EGL10.EGL_GREEN_SIZE);
-  logEGLConfigAttrib(conf,display,egl,level,"EGL_BLUE_SIZE",EGL10.EGL_BLUE_SIZE);
-  logEGLConfigAttrib(conf,display,egl,level,"EGL_ALPHA_SIZE",EGL10.EGL_ALPHA_SIZE);
-  logEGLConfigAttrib(conf,display,egl,level,"EGL_STENCIL_SIZE",EGL10.EGL_STENCIL_SIZE);
-  logEGLConfigAttrib(conf,display,egl,level,"EGL_RENDERABLE_TYPE",EGL10.EGL_RENDERABLE_TYPE);
-  logEGLConfigAttrib(conf,display,egl,level,"EGL_SURFACE_TYPE",EGL10.EGL_SURFACE_TYPE);
-  logEGLConfigAttrib(conf,display,egl,level,"EGL_SAMPLE_BUFFERS",EGL10.EGL_SAMPLE_BUFFERS);
-  logEGLConfigAttrib(conf,display,egl,level,"EGL_SAMPLES",EGL10.EGL_SAMPLES);
+  logger.log(level,"EGL_RED_SIZE = {0}",eglGetConfigAttribSafe(egl,display,conf,EGL10.EGL_RED_SIZE));
+  logger.log(level,"EGL_GREEN_SIZE = {0}",eglGetConfigAttribSafe(egl,display,conf,EGL10.EGL_GREEN_SIZE));
+  logger.log(level,"EGL_BLUE_SIZE = {0}",eglGetConfigAttribSafe(egl,display,conf,EGL10.EGL_BLUE_SIZE));
+  logger.log(level,"EGL_ALPHA_SIZE = {0}",eglGetConfigAttribSafe(egl,display,conf,EGL10.EGL_ALPHA_SIZE));
+  logger.log(level,"EGL_DEPTH_SIZE = {0}",eglGetConfigAttribSafe(egl,display,conf,EGL10.EGL_DEPTH_SIZE));
+  logger.log(level,"EGL_STENCIL_SIZE = {0}",eglGetConfigAttribSafe(egl,display,conf,EGL10.EGL_STENCIL_SIZE));
+  logger.log(level,"EGL_RENDERABLE_TYPE = {0}",eglGetConfigAttribSafe(egl,display,conf,EGL10.EGL_RENDERABLE_TYPE));
+  logger.log(level,"EGL_SURFACE_TYPE = {0}",eglGetConfigAttribSafe(egl,display,conf,EGL10.EGL_SURFACE_TYPE));
+  logger.log(level,"EGL_SAMPLE_BUFFERS = {0}",eglGetConfigAttribSafe(egl,display,conf,EGL10.EGL_SAMPLE_BUFFERS));
+  logger.log(level,"EGL_SAMPLES = {0}",eglGetConfigAttribSafe(egl,display,conf,EGL10.EGL_SAMPLES));
 }

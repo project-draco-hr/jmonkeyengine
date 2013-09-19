@@ -3,14 +3,14 @@
   int kd=0;
   int knbMs=0;
   for (  EGLConfig config : configs) {
-    int r=findConfigAttrib(egl,display,config,EGL10.EGL_RED_SIZE,0);
-    int g=findConfigAttrib(egl,display,config,EGL10.EGL_GREEN_SIZE,0);
-    int b=findConfigAttrib(egl,display,config,EGL10.EGL_BLUE_SIZE,0);
-    int a=findConfigAttrib(egl,display,config,EGL10.EGL_ALPHA_SIZE,0);
-    int d=findConfigAttrib(egl,display,config,EGL10.EGL_DEPTH_SIZE,0);
-    int s=findConfigAttrib(egl,display,config,EGL10.EGL_STENCIL_SIZE,0);
-    int isMs=findConfigAttrib(egl,display,config,EGL10.EGL_SAMPLE_BUFFERS,0);
-    int nbMs=findConfigAttrib(egl,display,config,EGL10.EGL_SAMPLES,0);
+    int r=eglGetConfigAttribSafe(egl,display,config,EGL10.EGL_RED_SIZE);
+    int g=eglGetConfigAttribSafe(egl,display,config,EGL10.EGL_GREEN_SIZE);
+    int b=eglGetConfigAttribSafe(egl,display,config,EGL10.EGL_BLUE_SIZE);
+    int a=eglGetConfigAttribSafe(egl,display,config,EGL10.EGL_ALPHA_SIZE);
+    int d=eglGetConfigAttribSafe(egl,display,config,EGL10.EGL_DEPTH_SIZE);
+    int s=eglGetConfigAttribSafe(egl,display,config,EGL10.EGL_STENCIL_SIZE);
+    int isMs=eglGetConfigAttribSafe(egl,display,config,EGL10.EGL_SAMPLE_BUFFERS);
+    int nbMs=eglGetConfigAttribSafe(egl,display,config,EGL10.EGL_SAMPLES);
     if (inRange(r,configType.mr,configType.r) && inRange(g,configType.mg,configType.g) && inRange(b,configType.mb,configType.b)&& inRange(a,configType.ma,configType.a)&& inRange(d,configType.md,configType.d)&& inRange(s,configType.ms,configType.s)) {
       if (mSamples == 0 && isMs != 0) {
         continue;
@@ -58,7 +58,7 @@
   }
   logger.log(Level.WARNING,"Failed to find a suitable display configuration for FASTEST, hoping for the best...");
   for (  EGLConfig config : configs) {
-    int d=findConfigAttrib(egl,display,config,EGL10.EGL_DEPTH_SIZE,0);
+    int d=eglGetConfigAttribSafe(egl,display,config,EGL10.EGL_DEPTH_SIZE);
     if (d >= 16) {
       return config;
     }
