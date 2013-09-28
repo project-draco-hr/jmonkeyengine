@@ -2,55 +2,54 @@
   if (invalid) {
     LOGGER.log(Level.WARNING,"Armature modifier is invalid! Cannot be applied to: {0}",node.getName());
   }
-  if (animationData == null || skeleton == null) {
-    return node;
-  }
-  List<Geometry> geomList=(List<Geometry>)blenderContext.getLoadedFeature(meshOMA,LoadedFeatureDataType.LOADED_FEATURE);
-  MeshContext meshContext=blenderContext.getMeshContext(meshOMA);
-  int[] bonesGroups=new int[]{0};
-  for (  Geometry geom : geomList) {
-    int materialIndex=meshContext.getMaterialIndex(geom);
-    Mesh mesh=geom.getMesh();
-    try {
-      VertexBuffer[] buffers=this.readVerticesWeightsData(objectStructure,meshStructure,skeleton,materialIndex,bonesGroups,blenderContext);
-      if (buffers != null) {
-        mesh.setMaxNumWeights(bonesGroups[0]);
-        mesh.setBuffer(buffers[0]);
-        mesh.setBuffer(buffers[1]);
-        VertexBuffer bindNormalBuffer=meshContext.getBindNormalBuffer(materialIndex);
-        if (bindNormalBuffer != null) {
-          mesh.setBuffer(bindNormalBuffer);
+  if (animationData != null && skeleton != null) {
+    List<Geometry> geomList=(List<Geometry>)blenderContext.getLoadedFeature(meshOMA,LoadedFeatureDataType.LOADED_FEATURE);
+    MeshContext meshContext=blenderContext.getMeshContext(meshOMA);
+    int[] bonesGroups=new int[]{0};
+    for (    Geometry geom : geomList) {
+      int materialIndex=meshContext.getMaterialIndex(geom);
+      Mesh mesh=geom.getMesh();
+      try {
+        VertexBuffer[] buffers=this.readVerticesWeightsData(objectStructure,meshStructure,skeleton,materialIndex,bonesGroups,blenderContext);
+        if (buffers != null) {
+          mesh.setMaxNumWeights(bonesGroups[0]);
+          mesh.setBuffer(buffers[0]);
+          mesh.setBuffer(buffers[1]);
+          VertexBuffer bindNormalBuffer=meshContext.getBindNormalBuffer(materialIndex);
+          if (bindNormalBuffer != null) {
+            mesh.setBuffer(bindNormalBuffer);
+          }
+          VertexBuffer bindPoseBuffer=meshContext.getBindPoseBuffer(materialIndex);
+          if (bindPoseBuffer != null) {
+            mesh.setBuffer(bindPoseBuffer);
+          }
+          mesh.getBuffer(Type.Position).setUsage(Usage.Stream);
+          mesh.getBuffer(Type.Normal).setUsage(Usage.Stream);
+          VertexBuffer verticesWeightsHW=new VertexBuffer(Type.HWBoneWeight);
+          VertexBuffer verticesWeightsIndicesHW=new VertexBuffer(Type.HWBoneIndex);
+          mesh.setBuffer(verticesWeightsHW);
+          mesh.setBuffer(verticesWeightsIndicesHW);
         }
-        VertexBuffer bindPoseBuffer=meshContext.getBindPoseBuffer(materialIndex);
-        if (bindPoseBuffer != null) {
-          mesh.setBuffer(bindPoseBuffer);
-        }
-        mesh.getBuffer(Type.Position).setUsage(Usage.Stream);
-        mesh.getBuffer(Type.Normal).setUsage(Usage.Stream);
-        VertexBuffer verticesWeightsHW=new VertexBuffer(Type.HWBoneWeight);
-        VertexBuffer verticesWeightsIndicesHW=new VertexBuffer(Type.HWBoneIndex);
-        mesh.setBuffer(verticesWeightsHW);
-        mesh.setBuffer(verticesWeightsIndicesHW);
+      }
+ catch (      BlenderFileException e) {
+        LOGGER.log(Level.SEVERE,e.getLocalizedMessage(),e);
+        invalid=true;
       }
     }
- catch (    BlenderFileException e) {
-      LOGGER.log(Level.SEVERE,e.getLocalizedMessage(),e);
-      this.invalid=true;
-      return node;
+    if (!invalid) {
+      AnimControl control=new AnimControl(animationData.skeleton);
+      List<Animation> animList=animationData.anims;
+      if (animList != null && animList.size() > 0) {
+        HashMap<String,Animation> anims=new HashMap<String,Animation>(animList.size());
+        for (int i=0; i < animList.size(); ++i) {
+          Animation animation=animList.get(i);
+          anims.put(animation.getName(),animation);
+        }
+        control.setAnimations(anims);
+      }
+      node.addControl(control);
+      node.addControl(new SkeletonControl(animationData.skeleton));
+      blenderContext.setNodeForSkeleton(skeleton,node);
     }
   }
-  AnimControl control=new AnimControl(animationData.skeleton);
-  List<Animation> animList=animationData.anims;
-  if (animList != null && animList.size() > 0) {
-    HashMap<String,Animation> anims=new HashMap<String,Animation>(animList.size());
-    for (int i=0; i < animList.size(); ++i) {
-      Animation animation=animList.get(i);
-      anims.put(animation.getName(),animation);
-    }
-    control.setAnimations(anims);
-  }
-  node.addControl(control);
-  node.addControl(new SkeletonControl(animationData.skeleton));
-  blenderContext.setNodeForSkeleton(skeleton,node);
-  return node;
 }
