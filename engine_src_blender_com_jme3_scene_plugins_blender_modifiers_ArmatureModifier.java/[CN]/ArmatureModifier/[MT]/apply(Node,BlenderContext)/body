@@ -15,14 +15,8 @@
           mesh.setMaxNumWeights(bonesGroups[0]);
           mesh.setBuffer(buffers[0]);
           mesh.setBuffer(buffers[1]);
-          VertexBuffer bindNormalBuffer=meshContext.getBindNormalBuffer(materialIndex);
-          if (bindNormalBuffer != null) {
-            mesh.setBuffer(bindNormalBuffer);
-          }
-          VertexBuffer bindPoseBuffer=meshContext.getBindPoseBuffer(materialIndex);
-          if (bindPoseBuffer != null) {
-            mesh.setBuffer(bindPoseBuffer);
-          }
+          LOGGER.fine("Generating bind pose and normal buffers.");
+          mesh.generateBindPose(true);
           mesh.getBuffer(Type.Position).setUsage(Usage.Stream);
           mesh.getBuffer(Type.Normal).setUsage(Usage.Stream);
           VertexBuffer verticesWeightsHW=new VertexBuffer(Type.HWBoneWeight);

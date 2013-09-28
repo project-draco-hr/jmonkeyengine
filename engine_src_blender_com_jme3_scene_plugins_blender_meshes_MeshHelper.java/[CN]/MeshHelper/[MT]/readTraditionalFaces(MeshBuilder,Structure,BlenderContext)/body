@@ -1,4 +1,5 @@
 {
+  LOGGER.fine("Reading traditional faces.");
   Pointer pMFace=(Pointer)meshStructure.getFieldValue("mface");
   List<Structure> mFaces=pMFace.isNotNull() ? pMFace.fetchData(blenderContext.getInputStream()) : null;
   if (mFaces != null && mFaces.size() > 0) {

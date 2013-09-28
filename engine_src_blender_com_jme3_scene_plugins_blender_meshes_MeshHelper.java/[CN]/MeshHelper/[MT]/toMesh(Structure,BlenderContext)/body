@@ -9,11 +9,14 @@
   }
   String name=structure.getName();
   MeshContext meshContext=new MeshContext();
+  LOGGER.log(Level.FINE,"Reading mesh: {0}.",name);
+  LOGGER.fine("Loading materials.");
   MaterialHelper materialHelper=blenderContext.getHelper(MaterialHelper.class);
   MaterialContext[] materials=null;
   if ((blenderContext.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.MATERIALS) != 0) {
     materials=materialHelper.getMaterials(structure,blenderContext);
   }
+  LOGGER.fine("Reading vertices and their colors.");
   Vector3f[][] verticesAndNormals=this.getVerticesAndNormals(structure,blenderContext);
   List<byte[]> verticesColors=this.getVerticesColors(structure,blenderContext);
   MeshBuilder meshBuilder=new MeshBuilder(verticesAndNormals,verticesColors,this.areGeneratedTexturesPresent(materials));
@@ -24,12 +27,14 @@
     this.readTraditionalFaces(meshBuilder,structure,blenderContext);
   }
   if (meshBuilder.isEmpty()) {
+    LOGGER.fine("The geometry is empty.");
     geometries=new ArrayList<Geometry>(0);
     blenderContext.addLoadedFeatures(structure.getOldMemoryAddress(),structure.getName(),structure,geometries);
     blenderContext.setMeshContext(structure.getOldMemoryAddress(),meshContext);
     return geometries;
   }
   meshContext.setVertexReferenceMap(meshBuilder.getVertexReferenceMap());
+  LOGGER.fine("Reading vertices groups (from the Object structure).");
   Structure parent=blenderContext.peekParent();
   Structure defbase=(Structure)parent.getFieldValue("defbase");
   List<Structure> defs=defbase.evaluateListBase(blenderContext);
@@ -38,8 +43,10 @@
   for (  Structure def : defs) {
     verticesGroups[defIndex++]=def.getFieldValue("name").toString();
   }
-  geometries=new ArrayList<Geometry>(meshBuilder.getMeshesPartAmount());
+  LOGGER.fine("Reading custom properties.");
   Properties properties=this.loadProperties(structure,blenderContext);
+  LOGGER.fine("Generating meshes.");
+  geometries=new ArrayList<Geometry>(meshBuilder.getMeshesPartAmount());
   for (  Entry<Integer,List<Integer>> meshEntry : meshBuilder.getMeshesMap().entrySet()) {
     int materialIndex=meshEntry.getKey();
     Mesh mesh=new Mesh();
@@ -58,22 +65,20 @@
       }
       mesh.setBuffer(Type.Index,1,indices);
     }
+    LOGGER.fine("Creating vertices buffer.");
     VertexBuffer verticesBuffer=new VertexBuffer(Type.Position);
     verticesBuffer.setupData(Usage.Static,3,Format.Float,BufferUtils.createFloatBuffer(meshBuilder.getVertices(materialIndex)));
-    VertexBuffer verticesBind=new VertexBuffer(Type.BindPosePosition);
-    verticesBind.setupData(Usage.CpuOnly,3,Format.Float,BufferUtils.createFloatBuffer(meshBuilder.getVertices(materialIndex)));
+    mesh.setBuffer(verticesBuffer);
+    LOGGER.fine("Creating normals buffer.");
     VertexBuffer normalsBuffer=new VertexBuffer(Type.Normal);
     normalsBuffer.setupData(Usage.Static,3,Format.Float,BufferUtils.createFloatBuffer(meshBuilder.getNormals(materialIndex)));
-    VertexBuffer normalsBind=new VertexBuffer(Type.BindPoseNormal);
-    normalsBind.setupData(Usage.CpuOnly,3,Format.Float,BufferUtils.createFloatBuffer(meshBuilder.getNormals(materialIndex)));
-    mesh.setBuffer(verticesBuffer);
-    meshContext.setBindPoseBuffer(materialIndex,verticesBind);
+    mesh.setBuffer(normalsBuffer);
     if (verticesColors != null) {
+      LOGGER.fine("Setting vertices colors.");
       mesh.setBuffer(Type.Color,4,meshBuilder.getVertexColorsBuffer(materialIndex));
       mesh.getBuffer(Type.Color).setNormalized(true);
     }
-    mesh.setBuffer(normalsBuffer);
-    meshContext.setBindNormalBuffer(materialIndex,normalsBind);
+    LOGGER.fine("Preparing the result part.");
     Geometry geometry=new Geometry(name + (geometries.size() + 1),mesh);
     if (properties != null && properties.getValue() != null) {
       this.applyProperties(geometry,properties);
