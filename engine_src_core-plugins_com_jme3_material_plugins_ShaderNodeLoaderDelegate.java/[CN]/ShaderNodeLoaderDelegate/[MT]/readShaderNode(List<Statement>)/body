@@ -5,6 +5,9 @@
     if (line.startsWith("Definition")) {
       ShaderNodeDefinition def=findDefinition(statement);
       shaderNode.setDefinition(def);
+      if (def.isNoOutput()) {
+        techniqueDef.getShaderGenerationInfo().getUnusedNodes().remove(shaderNode.getName());
+      }
     }
  else     if (line.startsWith("Condition")) {
       String condition=line.substring(line.lastIndexOf(":") + 1).trim();

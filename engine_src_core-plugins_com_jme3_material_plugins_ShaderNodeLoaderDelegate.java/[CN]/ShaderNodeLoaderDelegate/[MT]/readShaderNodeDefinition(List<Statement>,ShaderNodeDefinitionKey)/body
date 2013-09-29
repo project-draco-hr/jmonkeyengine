@@ -30,7 +30,12 @@
  else     if (line.startsWith("Output")) {
       varNames="";
       for (      Statement statement1 : statement.getContents()) {
-        shaderNodeDefinition.getOutputs().add(readVariable(statement1));
+        if (statement1.getLine().trim().equals("None")) {
+          shaderNodeDefinition.setNoOutput(true);
+        }
+ else {
+          shaderNodeDefinition.getOutputs().add(readVariable(statement1));
+        }
       }
     }
  else {
