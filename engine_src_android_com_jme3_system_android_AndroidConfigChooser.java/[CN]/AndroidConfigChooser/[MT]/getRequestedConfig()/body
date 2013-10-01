@@ -1,0 +1,18 @@
+{
+  int r, g, b;
+  if (settings.getBitsPerPixel() == 24) {
+    r=g=b=8;
+  }
+ else {
+    if (settings.getBitsPerPixel() != 16) {
+      logger.log(Level.SEVERE,"Invalid bitsPerPixel setting: {0}, setting to RGB565 (16)",settings.getBitsPerPixel());
+      settings.setBitsPerPixel(16);
+    }
+    r=5;
+    g=6;
+    b=5;
+  }
+  logger.log(Level.FINE,"Requested Display Config:");
+  logger.log(Level.FINE,"RGB: {0}, alpha: {1}, depth: {2}, samples: {3}, stencil: {4}",new Object[]{settings.getBitsPerPixel(),settings.getAlphaBits(),settings.getDepthBits(),settings.getSamples(),settings.getStencilBits()});
+  return new Config(r,g,b,settings.getAlphaBits(),settings.getDepthBits(),settings.getSamples(),settings.getStencilBits());
+}

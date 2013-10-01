@@ -1,0 +1,75 @@
+{
+  EGLConfig keptConfig=null;
+  int kr=0;
+  int kg=0;
+  int kb=0;
+  int ka=0;
+  int kd=0;
+  int ks=0;
+  int kst=0;
+  for (  EGLConfig config : configs) {
+    int r=eglGetConfigAttribSafe(egl,display,config,EGL10.EGL_RED_SIZE);
+    int g=eglGetConfigAttribSafe(egl,display,config,EGL10.EGL_GREEN_SIZE);
+    int b=eglGetConfigAttribSafe(egl,display,config,EGL10.EGL_BLUE_SIZE);
+    int a=eglGetConfigAttribSafe(egl,display,config,EGL10.EGL_ALPHA_SIZE);
+    int d=eglGetConfigAttribSafe(egl,display,config,EGL10.EGL_DEPTH_SIZE);
+    int s=eglGetConfigAttribSafe(egl,display,config,EGL10.EGL_SAMPLES);
+    int st=eglGetConfigAttribSafe(egl,display,config,EGL10.EGL_STENCIL_SIZE);
+    logger.log(Level.FINE,"Checking Config r: {0}, g: {1}, b: {2}, alpha: {3}, depth: {4}, samples: {5}, stencil: {6}",new Object[]{r,g,b,a,d,s,st});
+    if (higherRGB && r < requestedConfig.r) {
+      continue;
+    }
+    if (!higherRGB && r != requestedConfig.r) {
+      continue;
+    }
+    if (higherRGB && g < requestedConfig.g) {
+      continue;
+    }
+    if (!higherRGB && g != requestedConfig.g) {
+      continue;
+    }
+    if (higherRGB && b < requestedConfig.b) {
+      continue;
+    }
+    if (!higherRGB && b != requestedConfig.b) {
+      continue;
+    }
+    if (higherAlpha && a < requestedConfig.a) {
+      continue;
+    }
+    if (!higherAlpha && a != requestedConfig.a) {
+      continue;
+    }
+    if (d < requestedConfig.d) {
+      continue;
+    }
+    if (higherSamples && s < requestedConfig.s) {
+      continue;
+    }
+    if (!higherSamples && s != requestedConfig.s) {
+      continue;
+    }
+    if (higherStencil && st < requestedConfig.st) {
+      continue;
+    }
+    if (!higherStencil && !inRange(st,0,requestedConfig.st)) {
+      continue;
+    }
+    if (r >= kr || g >= kg || b >= kb || a >= ka || d >= kd || s >= ks || st >= kst) {
+      kr=r;
+      kg=g;
+      kb=b;
+      ka=a;
+      kd=d;
+      ks=s;
+      kst=st;
+      keptConfig=config;
+      logger.log(Level.FINE,"Keeping Config r: {0}, g: {1}, b: {2}, alpha: {3}, depth: {4}, samples: {5}, stencil: {6}",new Object[]{r,g,b,a,d,s,st});
+    }
+  }
+  if (keptConfig != null) {
+    return keptConfig;
+  }
+  logger.log(Level.SEVERE,"No egl config match found");
+  return null;
+}
