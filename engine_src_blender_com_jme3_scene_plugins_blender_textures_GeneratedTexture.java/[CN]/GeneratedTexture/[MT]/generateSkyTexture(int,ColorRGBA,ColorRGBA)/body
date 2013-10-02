@@ -19,6 +19,8 @@
       pixelIO.write(image,NEGATIVE_Z,ImageUtils.color(pixel,horizontalColor,zenithColor),x,y);
       textureGenerator.getPixel(pixel,forwardU,0,upS);
       pixelIO.write(image,NEGATIVE_Y,ImageUtils.color(pixel,horizontalColor,zenithColor),x,y);
+      textureGenerator.getPixel(pixel,forwardU,1,1 - upS);
+      pixelIO.write(image,POSITIVE_Y,ImageUtils.color(pixel,horizontalColor,zenithColor),x,y);
       sideV=FastMath.clamp(sideV - delta,0,1);
       forwardV=FastMath.clamp(forwardV - delta,0,1);
       upS=FastMath.clamp(upS + delta,0,1);
