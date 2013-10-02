@@ -1,0 +1,53 @@
+{
+  LOGGER.log(Level.FINE,"Preparing sky texture from {0} applied textures.",textureDatas.size());
+  LOGGER.fine("Computing the texture size.");
+  int size=-1;
+  for (  TextureData textureData : textureDatas) {
+    if (textureData.texture instanceof Texture2D) {
+      size=Math.max(textureData.texture.getImage().getWidth(),size);
+      size=Math.max(textureData.texture.getImage().getHeight(),size);
+    }
+  }
+  if (size < 0) {
+    size=blenderContext.getBlenderKey().getSkyGeneratedTextureSize();
+  }
+  LOGGER.log(Level.FINE,"The sky texture size will be: {0}x{0}.",size);
+  TextureCubeMap result=null;
+  for (  TextureData textureData : textureDatas) {
+    TextureCubeMap texture=null;
+    if (textureData.texture instanceof GeneratedTexture) {
+      texture=((GeneratedTexture)textureData.texture).generateSkyTexture(size,horizontalColor,zenithColor);
+    }
+ else {
+      Image image=textureData.texture.getImage();
+      if (image.getWidth() != image.getHeight() || image.getWidth() != size) {
+        image=ImageUtils.resizeTo(image,size,size);
+      }
+      Image grayscaleImage=ImageUtils.convertToGrayscaleTexture(image);
+      PixelInputOutput sourcePixelIO=PixelIOFactory.getPixelIO(grayscaleImage.getFormat());
+      PixelInputOutput targetPixelIO=PixelIOFactory.getPixelIO(image.getFormat());
+      TexturePixel texturePixel=new TexturePixel();
+      for (int x=0; x < image.getWidth(); ++x) {
+        for (int y=0; y < image.getHeight(); ++y) {
+          sourcePixelIO.read(grayscaleImage,0,texturePixel,x,y);
+          texturePixel.intensity=texturePixel.red;
+          ImageUtils.color(texturePixel,horizontalColor,zenithColor);
+          targetPixelIO.write(image,0,texturePixel,x,y);
+        }
+      }
+      ByteBuffer sourceData=image.getData(0);
+      ArrayList<ByteBuffer> data=new ArrayList<ByteBuffer>(6);
+      for (int i=0; i < 6; ++i) {
+        data.add(BufferUtils.clone(sourceData));
+      }
+      texture=new TextureCubeMap(new Image(image.getFormat(),image.getWidth(),image.getHeight(),6,data));
+    }
+    if (result == null) {
+      result=texture;
+    }
+ else {
+      ImageUtils.mix(result.getImage(),texture.getImage());
+    }
+  }
+  return result;
+}

@@ -1,0 +1,7 @@
+{
+  float intensity=pixel.intensity;
+  pixel.fromColor(lowIntensityColor);
+  pixel.mult(1 - pixel.intensity);
+  pixel.add(highIntensityColor.mult(intensity));
+  return pixel;
+}

@@ -1,0 +1,32 @@
+{
+  Image image=ImageUtils.createEmptyImage(Format.RGB8,size,size,6);
+  PixelInputOutput pixelIO=PixelIOFactory.getPixelIO(image.getFormat());
+  TexturePixel pixel=new TexturePixel();
+  float delta=1 / (float)(size - 1);
+  float sideV, sideS=1, forwardU=1, forwardV, upS;
+  long time=System.currentTimeMillis();
+  for (int x=0; x < size; ++x) {
+    sideV=1;
+    forwardV=1;
+    upS=0;
+    for (int y=0; y < size; ++y) {
+      textureGenerator.getPixel(pixel,1,sideV,sideS);
+      pixelIO.write(image,NEGATIVE_X,ImageUtils.color(pixel,horizontalColor,zenithColor),x,y);
+      textureGenerator.getPixel(pixel,0,sideV,1 - sideS);
+      pixelIO.write(image,POSITIVE_X,ImageUtils.color(pixel,horizontalColor,zenithColor),x,y);
+      textureGenerator.getPixel(pixel,forwardU,forwardV,0);
+      pixelIO.write(image,POSITIVE_Z,ImageUtils.color(pixel,horizontalColor,zenithColor),x,y);
+      textureGenerator.getPixel(pixel,1 - forwardU,forwardV,1);
+      pixelIO.write(image,NEGATIVE_Z,ImageUtils.color(pixel,horizontalColor,zenithColor),x,y);
+      textureGenerator.getPixel(pixel,forwardU,0,upS);
+      pixelIO.write(image,NEGATIVE_Y,ImageUtils.color(pixel,horizontalColor,zenithColor),x,y);
+      sideV=FastMath.clamp(sideV - delta,0,1);
+      forwardV=FastMath.clamp(forwardV - delta,0,1);
+      upS=FastMath.clamp(upS + delta,0,1);
+    }
+    sideS=FastMath.clamp(sideS - delta,0,1);
+    forwardU=FastMath.clamp(forwardU - delta,0,1);
+  }
+  System.out.println(System.currentTimeMillis() - time);
+  return new TextureCubeMap(image);
+}

@@ -1,0 +1,23 @@
+{
+  if (colors == null || colors.size() < 1) {
+    throw new IllegalArgumentException("The amount of colorband's colors must be at least 1.");
+  }
+  if (ipoType < IPO_LINEAR || ipoType > IPO_CONSTANT) {
+    throw new IllegalArgumentException("Unknown colorband interpolation type: " + ipoType);
+  }
+  if (positions == null || positions.size() != colors.size()) {
+    throw new IllegalArgumentException("The size of positions and colors list should be equal!");
+  }
+  for (  Integer position : positions) {
+    if (position.intValue() < 0 || position.intValue() >= resultSize) {
+      throw new IllegalArgumentException("Invalid position value: " + position + "! Should be from range: [0, "+ resultSize+ "]!");
+    }
+  }
+  cursorsAmount=colors.size();
+  this.ipoType=ipoType;
+  this.resultSize=resultSize;
+  data=new ColorBandData[this.cursorsAmount];
+  for (int i=0; i < cursorsAmount; ++i) {
+    data[i]=new ColorBandData(colors.get(i),positions.get(i));
+  }
+}

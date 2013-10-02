@@ -1,0 +1,5 @@
+{
+  ByteBuffer byteBuffer=BufferUtils.createByteBuffer(bufferedImage.getWidth() * bufferedImage.getHeight() * 3);
+  ImageToAwt.convert(bufferedImage,format,byteBuffer);
+  return new Image(format,bufferedImage.getWidth(),bufferedImage.getHeight(),byteBuffer);
+}

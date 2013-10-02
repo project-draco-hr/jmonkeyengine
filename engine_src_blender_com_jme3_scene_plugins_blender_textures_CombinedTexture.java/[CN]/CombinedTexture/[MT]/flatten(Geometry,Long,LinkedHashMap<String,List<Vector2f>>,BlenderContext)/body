@@ -1,12 +1,11 @@
 {
-  TextureHelper textureHelper=blenderContext.getHelper(TextureHelper.class);
   Mesh mesh=geometry.getMesh();
   Texture previousTexture=null;
   UVCoordinatesType masterUVCoordinatesType=null;
   String masterUserUVSetName=null;
   for (  TextureData textureData : textureDatas) {
     if (textureDatas.size() > 1 && textureData.texture.getImage().getFormat().isCompressed()) {
-      textureData.texture.setImage(textureHelper.decompress(textureData.texture.getImage()));
+      textureData.texture.setImage(ImageUtils.decompress(textureData.texture.getImage()));
       textureData.textureBlender=TextureBlenderFactory.alterTextureType(textureData.texture.getImage().getFormat(),textureData.textureBlender);
     }
     if (previousTexture == null) {
@@ -48,7 +47,7 @@
  else       if (textureData.texture instanceof Texture2D) {
         if (this.isUVTypesMatch(masterUVCoordinatesType,masterUserUVSetName,textureData.uvCoordinatesType,textureData.uvCoordinatesName) && resultTexture instanceof Texture2D) {
           this.scale((Texture2D)textureData.texture,resultTexture.getImage().getWidth(),resultTexture.getImage().getHeight());
-          this.merge((Texture2D)resultTexture,(Texture2D)textureData.texture);
+          ImageUtils.merge(resultTexture.getImage(),textureData.texture.getImage());
           previousTexture=resultTexture;
         }
  else {
@@ -71,7 +70,9 @@
           }
           TriangulatedTexture triangulatedTexture=new TriangulatedTexture((Texture2D)textureData.texture,textureUVS,blenderContext);
           triangulatedTexture.castToUVS((TriangulatedTexture)resultTexture,blenderContext);
-          ((TriangulatedTexture)resultTexture).merge(triangulatedTexture);
+          for (int i=0; i < ((TriangulatedTexture)resultTexture).getFaceTextureCount(); ++i) {
+            ImageUtils.merge(((TriangulatedTexture)resultTexture).getFaceTextureElement(i).image,triangulatedTexture.getImage());
+          }
         }
       }
     }
@@ -80,7 +81,7 @@
     if (mappingType == MaterialContext.MTEX_NOR) {
       for (int i=0; i < ((TriangulatedTexture)resultTexture).getFaceTextureCount(); ++i) {
         TriangleTextureElement triangleTextureElement=((TriangulatedTexture)resultTexture).getFaceTextureElement(i);
-        triangleTextureElement.image=textureHelper.convertToNormalMapTexture(triangleTextureElement.image,1);
+        triangleTextureElement.image=ImageUtils.convertToNormalMapTexture(triangleTextureElement.image,1);
       }
     }
     resultUVS=((TriangulatedTexture)resultTexture).getResultUVS();

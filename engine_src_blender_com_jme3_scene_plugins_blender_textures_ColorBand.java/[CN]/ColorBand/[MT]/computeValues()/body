@@ -1,7 +1,7 @@
 {
   float[][] result=null;
   if (data != null) {
-    result=new float[1001][4];
+    result=new float[resultSize][4];
     if (data.length == 1) {
       for (int i=0; i < result.length; ++i) {
         result[i][0]=data[0].r;
@@ -49,7 +49,7 @@ if (data[0].pos == 0) {
 cbDataMap.put(Integer.valueOf(-1),data[0]);
 }
  else {
-ColorBandData cbData=data[0].clone();
+ColorBandData cbData=new ColorBandData(data[0]);
 cbData.pos=0;
 cbDataMap.put(Integer.valueOf(-1),cbData);
 cbDataMap.put(Integer.valueOf(-2),cbData);
@@ -58,7 +58,7 @@ if (data[data.length - 1].pos == 1000) {
 cbDataMap.put(Integer.valueOf(data.length),data[data.length - 1]);
 }
  else {
-ColorBandData cbData=data[data.length - 1].clone();
+ColorBandData cbData=new ColorBandData(data[data.length - 1]);
 cbData.pos=1000;
 cbDataMap.put(Integer.valueOf(data.length),cbData);
 cbDataMap.put(Integer.valueOf(data.length + 1),cbData);

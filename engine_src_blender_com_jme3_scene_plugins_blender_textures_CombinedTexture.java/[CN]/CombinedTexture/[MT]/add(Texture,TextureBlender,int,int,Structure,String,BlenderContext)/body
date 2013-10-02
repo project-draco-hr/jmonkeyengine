@@ -11,7 +11,7 @@
       textureData.projectionType=UVProjectionType.valueOf(projectionType);
       textureData.textureStructure=textureStructure;
       textureData.uvCoordinatesName=uvCoordinatesName;
-      if (textureDatas.size() > 0 && this.isWithoutAlpha(textureData,blenderContext)) {
+      if (discardCoveredTextures && textureDatas.size() > 0 && this.isWithoutAlpha(textureData,blenderContext)) {
         textureDatas.clear();
       }
       textureDatas.add(textureData);

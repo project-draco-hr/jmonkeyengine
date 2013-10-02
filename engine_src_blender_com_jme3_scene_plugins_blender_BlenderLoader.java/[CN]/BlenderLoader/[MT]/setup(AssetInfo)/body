@@ -28,6 +28,7 @@
   blenderContext.putHelper(ConstraintHelper.class,new ConstraintHelper(inputStream.getVersionNumber(),blenderContext));
   blenderContext.putHelper(IpoHelper.class,new IpoHelper(inputStream.getVersionNumber(),blenderContext));
   blenderContext.putHelper(ParticlesHelper.class,new ParticlesHelper(inputStream.getVersionNumber(),blenderContext));
+  blenderContext.putHelper(LandscapeHelper.class,new LandscapeHelper(inputStream.getVersionNumber(),blenderContext));
   FileBlockHeader sceneFileBlock=null;
   do {
     fileBlock=new FileBlockHeader(inputStream,blenderContext);
