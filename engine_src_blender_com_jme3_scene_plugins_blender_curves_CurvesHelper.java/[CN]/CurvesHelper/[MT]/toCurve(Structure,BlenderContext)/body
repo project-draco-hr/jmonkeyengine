@@ -115,10 +115,12 @@
       }
     }
   }
-  if (blenderContext.getBlenderKey().isLoadObjectProperties()) {
+  if (blenderContext.getBlenderKey().isLoadObjectProperties() && result.size() > 0) {
     Properties properties=this.loadProperties(curveStructure,blenderContext);
-    if (result instanceof Spatial && properties != null && properties.getValue() != null) {
-      this.applyProperties((Spatial)result,properties);
+    if (properties != null && properties.getValue() != null) {
+      for (      Geometry geom : result) {
+        this.applyProperties(geom,properties);
+      }
     }
   }
   return result;

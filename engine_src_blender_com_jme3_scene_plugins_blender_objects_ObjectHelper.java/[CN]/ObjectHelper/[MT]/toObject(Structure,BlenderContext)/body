@@ -98,7 +98,7 @@ constraintHelper.loadConstraints(objectStructure,blenderContext);
 LOGGER.fine("Loading custom properties.");
 if (blenderContext.getBlenderKey().isLoadObjectProperties()) {
 Properties properties=this.loadProperties(objectStructure,blenderContext);
-if (result instanceof Spatial && properties != null && properties.getValue() != null) {
+if (properties != null && properties.getValue() != null) {
 this.applyProperties(result,properties);
 }
 }
