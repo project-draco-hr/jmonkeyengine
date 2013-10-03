@@ -43,15 +43,9 @@ case Intensity16:
 case Intensity8:
 case LATC:
 case LTC:
+case Depth24Stencil8:
 LOGGER.log(Level.WARNING,"Image type not yet supported for blending: {0}. Returning a blender that does not change the texture.",format);
-return new TextureBlender(){
-public Image blend(Image image,Image baseImage,BlenderContext blenderContext){
-return image;
-}
-public void copyBlendingData(TextureBlender textureBlender){
-}
-}
-;
+return NON_CHANGING_BLENDER;
 default :
 throw new IllegalStateException("Unknown image format type: " + format);
 }
