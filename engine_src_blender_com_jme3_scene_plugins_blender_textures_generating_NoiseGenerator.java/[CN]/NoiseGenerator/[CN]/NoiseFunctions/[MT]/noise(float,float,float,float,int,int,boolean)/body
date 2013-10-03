@@ -16,5 +16,5 @@
     z*=noiseSize;
   }
   float result=abstractNoiseFunc.execute(x,y,z);
-  return isHard ? Math.abs(2.0f * result - 1.0f) : result;
+  return isHard ? FastMath.abs(2.0f * result - 1.0f) : result;
 }
