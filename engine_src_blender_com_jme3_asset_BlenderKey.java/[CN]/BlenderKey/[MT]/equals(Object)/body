@@ -40,10 +40,31 @@
   if (generatedTexturePPU != other.generatedTexturePPU) {
     return false;
   }
+  if (skyGeneratedTextureShape != other.skyGeneratedTextureShape) {
+    return false;
+  }
   if (layersToLoad != other.layersToLoad) {
     return false;
   }
+  if (loadGeneratedTextures != other.loadGeneratedTextures) {
+    return false;
+  }
+  if (loadObjectProperties != other.loadObjectProperties) {
+    return false;
+  }
   if (loadUnlinkedAssets != other.loadUnlinkedAssets) {
+    return false;
+  }
+  if (maxTextureSize != other.maxTextureSize) {
+    return false;
+  }
+  if (mipmapGenerationMethod != other.mipmapGenerationMethod) {
+    return false;
+  }
+  if (Float.floatToIntBits(skyGeneratedTextureRadius) != Float.floatToIntBits(other.skyGeneratedTextureRadius)) {
+    return false;
+  }
+  if (skyGeneratedTextureSize != other.skyGeneratedTextureSize) {
     return false;
   }
   if (usedWorld == null) {

@@ -8,8 +8,15 @@
   result=prime * result + (fixUpAxis ? 1231 : 1237);
   result=prime * result + fps;
   result=prime * result + generatedTexturePPU;
+  result=prime * result + (skyGeneratedTextureShape == null ? 0 : skyGeneratedTextureShape.hashCode());
   result=prime * result + layersToLoad;
+  result=prime * result + (loadGeneratedTextures ? 1231 : 1237);
+  result=prime * result + (loadObjectProperties ? 1231 : 1237);
   result=prime * result + (loadUnlinkedAssets ? 1231 : 1237);
+  result=prime * result + maxTextureSize;
+  result=prime * result + (mipmapGenerationMethod == null ? 0 : mipmapGenerationMethod.hashCode());
+  result=prime * result + Float.floatToIntBits(skyGeneratedTextureRadius);
+  result=prime * result + skyGeneratedTextureSize;
   result=prime * result + (usedWorld == null ? 0 : usedWorld.hashCode());
   return result;
 }
