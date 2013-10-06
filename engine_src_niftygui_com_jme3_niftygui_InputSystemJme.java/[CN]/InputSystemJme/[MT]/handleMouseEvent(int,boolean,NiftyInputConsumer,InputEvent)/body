@@ -7,12 +7,10 @@
     }
   }
  else {
-    if (niftyOwnsDragging[button] || inputManager.isCursorVisible()) {
-      boolean consumed=nic.processMouseEvent(x,y,0,button,false);
-      if (niftyOwnsDragging[button] && consumed) {
-        evt.setConsumed();
-        processSoftKeyboard();
-      }
+    boolean consumed=nic.processMouseEvent(x,y,0,button,false);
+    if (niftyOwnsDragging[button] && consumed) {
+      evt.setConsumed();
+      processSoftKeyboard();
     }
     niftyOwnsDragging[button]=false;
   }
