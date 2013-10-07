@@ -5,7 +5,8 @@
     Node modelRoot=new Node(blenderKey.getName());
     for (    FileBlockHeader block : blocks) {
       if (block.getCode() == FileBlockHeader.BLOCK_OB00) {
-        Object object=this.toObject(block.getStructure(blenderContext));
+        ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
+        Object object=objectHelper.toObject(block.getStructure(blenderContext),blenderContext);
         if (object instanceof LightNode && (blenderKey.getFeaturesToLoad() & FeaturesToLoad.LIGHTS) != 0) {
           modelRoot.addLight(((LightNode)object).getLight());
           modelRoot.attachChild((LightNode)object);

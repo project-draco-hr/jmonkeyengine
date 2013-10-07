@@ -1,7 +1,5 @@
 {
-  if ((blenderContext.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.SCENES) == 0) {
-    return null;
-  }
+  ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
   Node result=new Node(structure.getName());
   try {
     List<Structure> base=((Structure)structure.getFieldValue("base")).evaluateListBase(blenderContext);
@@ -9,13 +7,15 @@
       Pointer pObject=(Pointer)b.getFieldValue("object");
       if (pObject.isNotNull()) {
         Structure objectStructure=pObject.fetchData(blenderContext.getInputStream()).get(0);
-        Object object=this.toObject(objectStructure);
-        if (object instanceof LightNode && (blenderContext.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.LIGHTS) != 0) {
+        Object object=objectHelper.toObject(objectStructure,blenderContext);
+        if (object instanceof LightNode) {
           result.addLight(((LightNode)object).getLight());
           result.attachChild((LightNode)object);
         }
- else         if (object instanceof Node && (blenderContext.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.OBJECTS) != 0) {
-          LOGGER.log(Level.FINE,"{0}: {1}--> {2}",new Object[]{((Node)object).getName(),((Node)object).getLocalTranslation().toString(),((Node)object).getParent() == null ? "null" : ((Node)object).getParent().getName()});
+ else         if (object instanceof Node) {
+          if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.log(Level.FINE,"{0}: {1}--> {2}",new Object[]{((Node)object).getName(),((Node)object).getLocalTranslation().toString(),((Node)object).getParent() == null ? "null" : ((Node)object).getParent().getName()});
+          }
           if (((Node)object).getParent() == null) {
             result.attachChild((Spatial)object);
           }

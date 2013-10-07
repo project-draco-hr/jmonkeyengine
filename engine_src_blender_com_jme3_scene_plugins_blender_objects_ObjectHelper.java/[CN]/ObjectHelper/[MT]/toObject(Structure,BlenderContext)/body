@@ -1,11 +1,26 @@
 {
+  LOGGER.fine("Loading blender object.");
+  int type=((Number)objectStructure.getFieldValue("type")).intValue();
+  ObjectType objectType=ObjectType.valueOf(type);
+  LOGGER.log(Level.FINE,"Type of the object: {0}.",objectType);
+  if (objectType == ObjectType.LAMP && !blenderContext.getBlenderKey().shouldLoad(FeaturesToLoad.LIGHTS)) {
+    LOGGER.fine("Lamps are not included in loading.");
+    return null;
+  }
+  if (objectType == ObjectType.CAMERA && !blenderContext.getBlenderKey().shouldLoad(FeaturesToLoad.CAMERAS)) {
+    LOGGER.fine("Cameras are not included in loading.");
+    return null;
+  }
+  if (!blenderContext.getBlenderKey().shouldLoad(FeaturesToLoad.OBJECTS)) {
+    LOGGER.fine("Objects are not included in loading.");
+    return null;
+  }
+  LOGGER.fine("Checking if the object has not been already loaded.");
   Object loadedResult=blenderContext.getLoadedFeature(objectStructure.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
   if (loadedResult != null) {
     return loadedResult;
   }
   blenderContext.pushParent(objectStructure);
-  int type=((Number)objectStructure.getFieldValue("type")).intValue();
-  ObjectType objectType=ObjectType.valueOf(type);
   String name=objectStructure.getName();
   LOGGER.log(Level.FINE,"Loading obejct: {0}",name);
   int restrictflag=((Number)objectStructure.getFieldValue("restrictflag")).intValue();
