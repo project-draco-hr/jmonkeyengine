@@ -7,7 +7,7 @@
   List<BoneTrack> tracks=new ArrayList<BoneTrack>();
   for (  Structure bActionChannel : actionChannels) {
     String name=bActionChannel.getFieldValue("name").toString();
-    int boneIndex=this.getBoneIndex(skeleton,name);
+    int boneIndex=skeleton.getBoneIndex(name);
     if (boneIndex >= 0) {
       Pointer p=(Pointer)bActionChannel.getFieldValue("ipo");
       if (!p.isNull()) {
