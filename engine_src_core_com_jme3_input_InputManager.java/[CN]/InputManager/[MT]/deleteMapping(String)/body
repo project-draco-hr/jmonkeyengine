@@ -2,6 +2,7 @@
   Mapping mapping=mappings.remove(mappingName);
   if (mapping == null) {
     logger.log(Level.WARNING,"Cannot find mapping to be removed, skipping: {0}",mappingName);
+    return;
   }
   ArrayList<Integer> triggers=mapping.triggers;
   for (int i=triggers.size() - 1; i >= 0; i--) {
