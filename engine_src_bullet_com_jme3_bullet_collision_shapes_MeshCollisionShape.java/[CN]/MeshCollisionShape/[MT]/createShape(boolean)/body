@@ -1,0 +1,8 @@
+{
+  this.meshId=NativeMeshUtil.createTriangleIndexVertexArray(this.triangleIndexBase,this.vertexBase,this.numTriangles,this.numVertices,this.vertexStride,this.triangleIndexStride);
+  Logger.getLogger(this.getClass().getName()).log(Level.FINE,"Created Mesh {0}",Long.toHexString(this.meshId));
+  this.objectId=createShape(memoryOptimized,buildBvt,this.meshId);
+  Logger.getLogger(this.getClass().getName()).log(Level.FINE,"Created Shape {0}",Long.toHexString(this.objectId));
+  this.setScale(this.scale);
+  this.setMargin(this.margin);
+}
