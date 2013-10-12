@@ -1,3 +1,5 @@
 {
-  shadowRenderer.setPostShadowParams();
+  if (!shadowRenderer.skipPostPass) {
+    shadowRenderer.setPostShadowParams();
+  }
 }
