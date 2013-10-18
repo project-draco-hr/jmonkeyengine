@@ -1,0 +1,32 @@
+{
+  AbstractSceneExplorerNode rootNode=(AbstractSceneExplorerNode)node;
+  TerrainQuad quad=rootNode.getLookup().lookup(TerrainQuad.class);
+  MatParam param=quad.getMaterial().getParam("AlphaMap");
+  if (param == null)   oldName=null;
+ else {
+    String[] splita=param.getValueAsString().split("/");
+    String[] split=splita[splita.length - 1].split("-alphablend0.png");
+    String first=split[0];
+    oldName=first;
+  }
+  List<WizardDescriptor.Panel<WizardDescriptor>> panels=new ArrayList<WizardDescriptor.Panel<WizardDescriptor>>();
+  panels.add(new RenameTerrainWizardPanel1());
+  for (int i=0; i < panels.size(); i++) {
+    Component c=panels.get(i).getComponent();
+    if (c instanceof JComponent) {
+      JComponent jc=(JComponent)c;
+      jc.putClientProperty(WizardDescriptor.PROP_CONTENT_SELECTED_INDEX,i);
+      jc.putClientProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE,true);
+      jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED,true);
+      jc.putClientProperty(WizardDescriptor.PROP_CONTENT_NUMBERED,true);
+    }
+  }
+  WizardDescriptor wiz=new WizardDescriptor(new WizardDescriptor.ArrayIterator<WizardDescriptor>(panels));
+  wiz.setTitleFormat(new MessageFormat("{0}"));
+  wiz.setTitle("Rename the alphamaps of the terrain");
+  wiz.putProperty("oldName",oldName);
+  if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
+    return wiz;
+  }
+  return null;
+}

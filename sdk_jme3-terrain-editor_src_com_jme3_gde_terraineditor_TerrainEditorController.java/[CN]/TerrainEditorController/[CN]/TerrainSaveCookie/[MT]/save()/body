@@ -2,8 +2,7 @@
   SceneApplication.getApplication().enqueue(new Callable(){
     public Object call() throws Exception {
       currentFileObject.saveAsset();
-      Node root=rootNode.getLookup().lookup(Node.class);
-      doSaveAlphaImages((Terrain)getTerrain(root));
+      doSaveAlphaImages();
       return null;
     }
   }
