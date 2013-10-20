@@ -7,15 +7,10 @@
       ArmatureHelper armatureHelper=blenderContext.getHelper(ArmatureHelper.class);
       Structure armatureObject=pArmatureObject.fetchData(blenderContext.getInputStream()).get(0);
       Structure armatureStructure=((Pointer)armatureObject.getFieldValue("data")).fetchData(blenderContext.getInputStream()).get(0);
-      ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
-      boolean fixUpAxis=blenderContext.getBlenderKey().isFixUpAxis();
-      Matrix4f armatureObjectMatrix=objectHelper.getMatrix(armatureObject,"obmat",fixUpAxis);
-      Matrix4f inverseMeshObjectMatrix=objectHelper.getMatrix(objectStructure,"imat",fixUpAxis);
-      Matrix4f objectToArmatureTransformation=armatureObjectMatrix.multLocal(inverseMeshObjectMatrix);
       List<Structure> bonebase=((Structure)armatureStructure.getFieldValue("bonebase")).evaluateListBase(blenderContext);
       List<Bone> bonesList=new ArrayList<Bone>();
       for (int i=0; i < bonebase.size(); ++i) {
-        armatureHelper.buildBones(armatureObject.getOldMemoryAddress(),bonebase.get(i),null,bonesList,objectToArmatureTransformation,blenderContext);
+        armatureHelper.buildBones(armatureObject.getOldMemoryAddress(),bonebase.get(i),null,bonesList,objectStructure.getOldMemoryAddress(),blenderContext);
       }
       bonesList.add(0,new Bone(""));
       Bone[] bones=bonesList.toArray(new Bone[bonesList.size()]);
@@ -23,7 +18,7 @@
       blenderContext.setSkeleton(armatureObject.getOldMemoryAddress(),skeleton);
       this.objectStructure=objectStructure;
       this.meshStructure=meshStructure;
-      this.meshOMA=meshStructure.getOldMemoryAddress();
+      meshOMA=meshStructure.getOldMemoryAddress();
       ArrayList<Animation> animations=new ArrayList<Animation>();
       List<FileBlockHeader> actionHeaders=blenderContext.getFileBlocks(Integer.valueOf(FileBlockHeader.BLOCK_AC00));
       if (actionHeaders != null) {

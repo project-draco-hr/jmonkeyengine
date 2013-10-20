@@ -4,17 +4,18 @@
   this.boneStructure=boneStructure;
   this.armatureObjectOMA=armatureObjectOMA;
   boneName=boneStructure.getFieldValue("name").toString();
+  flag=((Number)boneStructure.getFieldValue("flag")).intValue();
   length=((Number)boneStructure.getFieldValue("length")).floatValue();
   ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
-  armatureMatrix=objectHelper.getMatrix(boneStructure,"arm_mat",blenderContext.getBlenderKey().isFixUpAxis());
-  restMatrix=armatureMatrix.clone();
-  inverseTotalTransformation=restMatrix.invert();
-  if (parent != null) {
-    restMatrix=parent.inverseTotalTransformation.mult(restMatrix);
-  }
+  globalBoneMatrix=objectHelper.getMatrix(boneStructure,"arm_mat",blenderContext.getBlenderKey().isFixUpAxis());
+  globalBoneMatrix.multLocal(BONE_ARMATURE_TRANSFORMATION_MATRIX);
+  Spatial armature=(Spatial)blenderContext.getLoadedFeature(armatureObjectOMA,LoadedFeatureDataType.LOADED_FEATURE);
+  ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
+  Matrix4f armatureWorldMatrix=constraintHelper.toMatrix(armature.getWorldTransform());
+  globalBoneMatrix=armatureWorldMatrix.mult(globalBoneMatrix);
   List<Structure> childbase=((Structure)boneStructure.getFieldValue("childbase")).evaluateListBase(blenderContext);
   for (  Structure child : childbase) {
-    this.children.add(new BoneContext(child,armatureObjectOMA,this,blenderContext));
+    children.add(new BoneContext(child,armatureObjectOMA,this,blenderContext));
   }
   blenderContext.setBoneContext(boneStructure.getOldMemoryAddress(),this);
 }
