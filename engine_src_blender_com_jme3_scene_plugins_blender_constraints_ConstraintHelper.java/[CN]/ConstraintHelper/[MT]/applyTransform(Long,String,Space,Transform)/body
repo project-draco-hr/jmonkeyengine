@@ -13,14 +13,15 @@ case CONSTRAINT_SPACE_LOCAL:
       bone.setBindTransforms(transform.getTranslation(),transform.getRotation(),transform.getScale());
     break;
 case CONSTRAINT_SPACE_WORLD:
-  Matrix4f boneMatrix=this.toMatrix(transform);
+  Matrix4f boneMatrixInWorldSpace=this.toMatrix(transform);
+Matrix4f invertedModelMatrix=this.toMatrix(this.getTransform(targetBoneContext.getSkeletonOwnerOma(),null,Space.CONSTRAINT_SPACE_WORLD)).invertLocal();
+Matrix4f boneMatrixInModelSpace=invertedModelMatrix.mult(boneMatrixInWorldSpace);
 Bone parent=bone.getParent();
 if (parent != null) {
-Matrix4f invertedParentWorldMatrix=this.toMatrix(parent.getModelSpacePosition(),parent.getModelSpaceRotation(),parent.getModelSpaceScale()).invertLocal();
-boneMatrix=invertedParentWorldMatrix.multLocal(boneMatrix);
+Matrix4f invertedParentMatrixInModelSpace=this.toMatrix(parent.getModelSpacePosition(),parent.getModelSpaceRotation(),parent.getModelSpaceScale()).invertLocal();
+boneMatrixInModelSpace=invertedParentMatrixInModelSpace.mult(boneMatrixInModelSpace);
 }
-boneMatrix=invertedNodeMatrix.multLocal(boneMatrix);
-bone.setBindTransforms(boneMatrix.toTranslationVector(),boneMatrix.toRotationQuat(),boneMatrix.toScaleVector());
+bone.setBindTransforms(boneMatrixInModelSpace.toTranslationVector(),boneMatrixInModelSpace.toRotationQuat(),boneMatrixInModelSpace.toScaleVector());
 break;
 case CONSTRAINT_SPACE_POSE:
 Matrix4f armatureWorldMatrix=this.toMatrix(feature.getWorldTransform());

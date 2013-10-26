@@ -1,9 +1,10 @@
 {
+  this.blenderContext=blenderContext;
   Node spatial=(Node)blenderContext.getLoadedFeature(featureOMA,LoadedFeatureDataType.LOADED_FEATURE);
   if (blenderContext.getMarkerValue(ArmatureHelper.ARMATURE_NODE_MARKER,spatial) != null) {
-    this.skeleton=blenderContext.getSkeleton(featureOMA);
+    skeleton=blenderContext.getSkeleton(featureOMA);
     Node nodeWithAnimationControl=blenderContext.getControlledNode(skeleton);
-    this.animControl=nodeWithAnimationControl.getControl(AnimControl.class);
+    animControl=nodeWithAnimationControl.getControl(AnimControl.class);
     boneStartTransforms=new HashMap<Bone,Transform>();
     for (int i=0; i < skeleton.getBoneCount(); ++i) {
       Bone bone=skeleton.getBone(i);
@@ -15,9 +16,9 @@
       throw new IllegalStateException("Given spatial must be a root node!");
     }
     this.spatial=spatial;
-    this.spatialStartTransform=spatial.getLocalTransform().clone();
+    spatialStartTransform=spatial.getLocalTransform().clone();
   }
-  this.name='>' + spatial.getName() + '<';
+  name='>' + spatial.getName() + '<';
   constraints=this.findConstraints(featureOMA,blenderContext);
   if (constraints == null) {
     constraints=new ArrayList<Constraint>();
@@ -44,7 +45,7 @@
   }
   LOGGER.info("Removing invalid constraints.");
   List<Constraint> validConstraints=new ArrayList<Constraint>(constraints.size());
-  for (  Constraint constraint : this.constraints) {
+  for (  Constraint constraint : constraints) {
     if (constraint.validate()) {
       validConstraints.add(constraint);
     }
@@ -52,5 +53,5 @@
       LOGGER.log(Level.WARNING,"Constraint {0} is invalid and will not be applied.",constraint.name);
     }
   }
-  this.constraints=validConstraints;
+  constraints=validConstraints;
 }

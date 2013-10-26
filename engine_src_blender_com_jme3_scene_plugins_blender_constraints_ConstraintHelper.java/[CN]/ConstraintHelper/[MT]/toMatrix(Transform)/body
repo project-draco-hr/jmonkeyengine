@@ -1,7 +1,6 @@
 {
-  Matrix4f result=Matrix4f.IDENTITY;
   if (transform != null) {
-    result=this.toMatrix(transform.getTranslation(),transform.getRotation(),transform.getScale());
+    return this.toMatrix(transform.getTranslation(),transform.getRotation(),transform.getScale());
   }
-  return result;
+  return Matrix4f.IDENTITY.clone();
 }

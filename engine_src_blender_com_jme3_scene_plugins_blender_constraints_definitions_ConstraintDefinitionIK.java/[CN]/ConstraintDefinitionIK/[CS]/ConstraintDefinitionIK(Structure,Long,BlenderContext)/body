@@ -1,0 +1,10 @@
+{
+  super(constraintData,ownerOMA,blenderContext);
+  bonesAffected=((Number)constraintData.getFieldValue("rootbone")).intValue();
+  if ((flag & FLAG_POSITION) == 0) {
+    needToCompute=false;
+  }
+  if (needToCompute) {
+    alteredOmas=new HashSet<Long>();
+  }
+}

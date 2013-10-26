@@ -1,14 +1,14 @@
 {
   this.blenderContext=blenderContext;
-  this.name=constraintStructure.getFieldValue("name").toString();
+  name=constraintStructure.getFieldValue("name").toString();
   Pointer pData=(Pointer)constraintStructure.getFieldValue("data");
   if (pData.isNotNull()) {
     Structure data=pData.fetchData(blenderContext.getInputStream()).get(0);
     constraintDefinition=ConstraintDefinitionFactory.createConstraintDefinition(data,ownerOMA,blenderContext);
     Pointer pTar=(Pointer)data.getFieldValue("tar");
     if (pTar != null && pTar.isNotNull()) {
-      this.targetOMA=pTar.getOldMemoryAddress();
-      this.targetSpace=Space.valueOf(((Number)constraintStructure.getFieldValue("tarspace")).byteValue());
+      targetOMA=pTar.getOldMemoryAddress();
+      targetSpace=Space.valueOf(((Number)constraintStructure.getFieldValue("tarspace")).byteValue());
       Object subtargetValue=data.getFieldValue("subtarget");
       if (subtargetValue != null) {
         subtargetName=subtargetValue.toString();
@@ -18,9 +18,9 @@
  else {
     constraintDefinition=ConstraintDefinitionFactory.createConstraintDefinition(null,null,blenderContext);
   }
-  this.ownerSpace=Space.valueOf(((Number)constraintStructure.getFieldValue("ownspace")).byteValue());
-  this.ipo=influenceIpo;
+  ownerSpace=Space.valueOf(((Number)constraintStructure.getFieldValue("ownspace")).byteValue());
+  ipo=influenceIpo;
   this.ownerOMA=ownerOMA;
-  this.constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
+  constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
   LOGGER.log(Level.INFO,"Created constraint: {0} with definition: {1}",new Object[]{name,constraintDefinition});
 }

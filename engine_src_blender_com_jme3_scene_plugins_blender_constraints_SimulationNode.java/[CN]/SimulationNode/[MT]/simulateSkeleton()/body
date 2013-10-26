@@ -1,6 +1,7 @@
 {
   if (constraints != null && constraints.size() > 0) {
     boolean applyStaticConstraints=true;
+    Set<Long> alteredOmas=new HashSet<Long>();
     if (animations != null) {
       TempVars vars=TempVars.get();
       AnimChannel animChannel=animControl.createChannel();
@@ -9,36 +10,33 @@
         int maxFrame=(int)animationTimeBoundaries[0];
         float maxTime=animationTimeBoundaries[1];
         Map<Integer,VirtualTrack> tracks=new HashMap<Integer,VirtualTrack>();
-        Map<Integer,Transform> previousTransforms=new HashMap<Integer,Transform>();
+        Map<Integer,Transform> previousTransforms=this.getInitialTransforms();
         for (int frame=0; frame < maxFrame; ++frame) {
           this.reset();
           for (          Track track : animation.getTracks()) {
             float time=((BoneTrack)track).getTimes()[frame];
-            Integer boneIndex=((BoneTrack)track).getTargetBoneIndex();
             track.setTime(time,1,animControl,animChannel,vars);
             skeleton.updateWorldVectors();
-            Transform previousTransform=previousTransforms.get(boneIndex);
-            if (previousTransform == null) {
-              Bone bone=skeleton.getBone(boneIndex);
-              previousTransform=new Transform();
-              previousTransform.setTranslation(bone.getLocalPosition());
-              previousTransform.setRotation(bone.getLocalRotation());
-              previousTransform.setScale(bone.getLocalScale());
-              previousTransforms.put(boneIndex,previousTransform);
-            }
           }
           for (          Constraint constraint : constraints) {
             constraint.apply(frame);
+            if (constraint.getAlteredOmas() != null) {
+              alteredOmas.addAll(constraint.getAlteredOmas());
+            }
           }
-          for (          Track track : animation.getTracks()) {
-            Integer boneIndex=((BoneTrack)track).getTargetBoneIndex();
+          for (          Long boneOMA : alteredOmas) {
+            BoneContext boneContext=blenderContext.getBoneContext(boneOMA);
+            int boneIndex=skeleton.getBoneIndex(boneContext.getBone());
+            if (!tracks.containsKey(boneIndex)) {
+              tracks.put(boneIndex,new VirtualTrack(maxFrame,maxTime));
+            }
+          }
+          alteredOmas.clear();
+          for (          Entry<Integer,VirtualTrack> trackEntry : tracks.entrySet()) {
+            Integer boneIndex=trackEntry.getKey();
             Bone bone=skeleton.getBone(boneIndex);
             Transform previousTransform=previousTransforms.get(boneIndex);
-            VirtualTrack vTrack=tracks.get(boneIndex);
-            if (vTrack == null) {
-              vTrack=new VirtualTrack(maxFrame,maxTime);
-              tracks.put(boneIndex,vTrack);
-            }
+            VirtualTrack vTrack=trackEntry.getValue();
             Vector3f bonePositionDifference=bone.getLocalPosition().subtract(previousTransform.getTranslation());
             Quaternion boneRotationDifference=bone.getLocalRotation().mult(previousTransform.getRotation().inverse()).normalizeLocal();
             Vector3f boneScaleDifference=bone.getLocalScale().divide(previousTransform.getScale());
@@ -56,12 +54,17 @@
         for (        Entry<Integer,VirtualTrack> trackEntry : tracks.entrySet()) {
           Track newTrack=trackEntry.getValue().getAsBoneTrack(trackEntry.getKey());
           if (newTrack != null) {
+            boolean trackReplaced=false;
             for (            Track track : animation.getTracks()) {
               if (((BoneTrack)track).getTargetBoneIndex() == trackEntry.getKey().intValue()) {
                 animation.removeTrack(track);
                 animation.addTrack(newTrack);
+                trackReplaced=true;
                 break;
               }
+            }
+            if (!trackReplaced) {
+              animation.addTrack(newTrack);
             }
           }
           applyStaticConstraints=false;
@@ -75,6 +78,7 @@
       for (      Constraint constraint : constraints) {
         constraint.apply(0);
       }
+      skeleton.updateWorldVectors();
     }
   }
 }

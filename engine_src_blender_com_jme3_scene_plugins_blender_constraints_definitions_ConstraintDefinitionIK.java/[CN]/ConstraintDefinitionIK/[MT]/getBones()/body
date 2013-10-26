@@ -1,0 +1,17 @@
+{
+  if (bones == null) {
+    List<BoneContext> bones=new ArrayList<BoneContext>();
+    Bone bone=(Bone)this.getOwner();
+    while (bone != null) {
+      BoneContext boneContext=blenderContext.getBoneContext(bone);
+      bones.add(0,boneContext);
+      chainLength+=boneContext.getLength();
+      if (bonesAffected != 0 && bones.size() >= bonesAffected) {
+        break;
+      }
+      bone=bone.getParent();
+    }
+    this.bones=bones.toArray(new BoneContext[bones.size()]);
+  }
+  return bones;
+}

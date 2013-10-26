@@ -6,11 +6,14 @@
     Bone bone=targetBoneContext.getBone();
 switch (space) {
 case CONSTRAINT_SPACE_WORLD:
-      return new Transform(bone.getModelSpacePosition(),bone.getModelSpaceRotation(),bone.getModelSpaceScale());
+      Spatial model=(Spatial)blenderContext.getLoadedFeature(targetBoneContext.getSkeletonOwnerOma(),LoadedFeatureDataType.LOADED_FEATURE);
+    Transform worldTransform=new Transform(bone.getModelSpacePosition(),bone.getModelSpaceRotation(),bone.getModelSpaceScale());
+  worldTransform.getTranslation().addLocal(model.getWorldTranslation());
+worldTransform.getRotation().multLocal(model.getWorldRotation());
+worldTransform.getScale().multLocal(model.getWorldScale());
+return worldTransform;
 case CONSTRAINT_SPACE_LOCAL:
-    Transform localTransform=new Transform(bone.getLocalPosition(),bone.getLocalRotation());
-  localTransform.setScale(bone.getLocalScale());
-return localTransform;
+return new Transform(bone.getLocalPosition(),bone.getLocalRotation(),bone.getLocalScale());
 case CONSTRAINT_SPACE_POSE:
 Node nodeWithAnimationControl=blenderContext.getControlledNode(targetBoneContext.getSkeleton());
 Matrix4f m=this.toMatrix(nodeWithAnimationControl.getWorldTransform());
