@@ -1,7 +1,6 @@
 {
   Structure meshStructure=((Pointer)objectStructure.getFieldValue("data")).fetchData(blenderContext.getInputStream()).get(0);
-  Pointer pDvert=(Pointer)meshStructure.getFieldValue("dvert");
-  if (this.validate(modifierStructure,blenderContext) && pDvert.isNotNull()) {
+  if (this.validate(modifierStructure,blenderContext)) {
     Pointer pArmatureObject=(Pointer)modifierStructure.getFieldValue("object");
     if (pArmatureObject.isNotNull()) {
       ArmatureHelper armatureHelper=blenderContext.getHelper(ArmatureHelper.class);
