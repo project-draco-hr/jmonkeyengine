@@ -1,6 +1,5 @@
 {
-  BoneContext boneContext=blenderContext.getBoneContext(ownerOMA);
-  Transform ownerTransform=constraintHelper.getTransform(boneContext.getArmatureObjectOMA(),boneContext.getBone().getName(),ownerSpace);
+  Transform ownerTransform=this.getOwnerTransform(ownerSpace);
   Vector3f scale=ownerTransform.getScale();
   if ((flag & LIMIT_XMIN) != 0 && scale.x < limits[0][0]) {
     scale.x-=(scale.x - limits[0][0]) * influence;
@@ -20,5 +19,5 @@
   if ((flag & LIMIT_ZMAX) != 0 && scale.z > limits[2][1]) {
     scale.z-=(scale.z - limits[2][1]) * influence;
   }
-  constraintHelper.applyTransform(boneContext.getArmatureObjectOMA(),boneContext.getBone().getName(),ownerSpace,ownerTransform);
+  this.applyOwnerTransform(ownerTransform,ownerSpace);
 }

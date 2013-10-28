@@ -1,6 +1,5 @@
 {
-  BoneContext boneContext=blenderContext.getBoneContext(ownerOMA);
-  Transform ownerTransform=constraintHelper.getTransform(boneContext.getArmatureObjectOMA(),boneContext.getBone().getName(),ownerSpace);
+  Transform ownerTransform=this.getOwnerTransform(ownerSpace);
   Quaternion ownerRotation=ownerTransform.getRotation();
   ownerAngles=ownerRotation.toAngles(ownerAngles);
   targetAngles=targetTransform.getRotation().toAngles(targetAngles);
@@ -30,5 +29,5 @@
   ownerRotation.fromAngles(ownerAngles).multLocal(offset);
   if (influence < 1.0f) {
   }
-  constraintHelper.applyTransform(boneContext.getArmatureObjectOMA(),boneContext.getBone().getName(),ownerSpace,ownerTransform);
+  this.applyOwnerTransform(ownerTransform,ownerSpace);
 }

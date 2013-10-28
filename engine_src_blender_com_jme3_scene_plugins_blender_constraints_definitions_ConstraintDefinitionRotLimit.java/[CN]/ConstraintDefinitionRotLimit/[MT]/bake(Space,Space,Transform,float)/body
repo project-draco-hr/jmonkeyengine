@@ -1,6 +1,5 @@
 {
-  BoneContext boneContext=blenderContext.getBoneContext(ownerOMA);
-  Transform ownerTransform=constraintHelper.getTransform(boneContext.getArmatureObjectOMA(),boneContext.getBone().getName(),ownerSpace);
+  Transform ownerTransform=this.getOwnerTransform(ownerSpace);
   ownerTransform.getRotation().toAngles(angles);
   if ((flag & LIMIT_XROT) != 0) {
     float difference=0.0f;
@@ -33,5 +32,5 @@
     angles[2]-=difference;
   }
   ownerTransform.getRotation().fromAngles(angles);
-  constraintHelper.applyTransform(boneContext.getArmatureObjectOMA(),boneContext.getBone().getName(),ownerSpace,ownerTransform);
+  this.applyOwnerTransform(ownerTransform,ownerSpace);
 }

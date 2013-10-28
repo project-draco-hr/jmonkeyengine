@@ -2,8 +2,7 @@
   if (this.getOwner() instanceof Bone && ((Bone)this.getOwner()).getParent() != null) {
     return;
   }
-  BoneContext boneContext=blenderContext.getBoneContext(ownerOMA);
-  Transform ownerTransform=constraintHelper.getTransform(boneContext.getArmatureObjectOMA(),boneContext.getBone().getName(),ownerSpace);
+  Transform ownerTransform=this.getOwnerTransform(ownerSpace);
   Vector3f v=ownerTransform.getTranslation().subtract(targetTransform.getTranslation());
   float currentDistance=v.length();
 switch (mode) {
@@ -34,5 +33,5 @@ break;
 default :
 throw new IllegalStateException("Unknown distance limit constraint mode: " + mode);
 }
-constraintHelper.applyTransform(boneContext.getArmatureObjectOMA(),boneContext.getBone().getName(),ownerSpace,ownerTransform);
+this.applyOwnerTransform(ownerTransform,ownerSpace);
 }
