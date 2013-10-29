@@ -18,10 +18,9 @@
             track.setTime(time,1,animControl,animChannel,vars);
             skeleton.updateWorldVectors();
           }
-          for (          Constraint constraint : constraints) {
-            constraint.apply(frame);
-            if (constraint.getAlteredOmas() != null) {
-              alteredOmas.addAll(constraint.getAlteredOmas());
+          for (          Bone rootBone : skeleton.getRoots()) {
+            if (skeleton.getBoneIndex(rootBone) > 0) {
+              this.applyConstraints(rootBone,alteredOmas,frame);
             }
           }
           for (          Long boneOMA : alteredOmas) {

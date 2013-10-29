@@ -1,8 +1,9 @@
 {
   List<Constraint> result=new ArrayList<Constraint>();
-  for (  Constraint constraint : blenderContext.getAllConstraints()) {
-    if (constraint.ownerOMA.longValue() == ownerOMA.longValue()) {
-      if (constraint.isImplemented()) {
+  List<Constraint> constraints=blenderContext.getConstraints(ownerOMA);
+  if (constraints != null) {
+    for (    Constraint constraint : constraints) {
+      if (constraint.isImplemented() && constraint.validate()) {
         result.add(constraint);
       }
  else {
