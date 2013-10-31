@@ -2,7 +2,12 @@
   if (!isUseNodes) {
     isUseNodes=fragName == null && vertName == null;
     if (isUseNodes) {
-      nodesLoaderDelegate=new ShaderNodeLoaderDelegate();
+      if (nodesLoaderDelegate == null) {
+        nodesLoaderDelegate=new ShaderNodeLoaderDelegate();
+      }
+ else {
+        nodesLoaderDelegate.clear();
+      }
       nodesLoaderDelegate.setTechniqueDef(technique);
       nodesLoaderDelegate.setMaterialDef(materialDef);
       nodesLoaderDelegate.setAssetManager(assetManager);
