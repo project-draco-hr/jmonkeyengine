@@ -1,10 +1,12 @@
 {
-  SceneApplication.getApplication().enqueue(new Callable(){
-    public Object call() throws Exception {
-      currentFileObject.saveAsset();
-      doSaveAlphaImages();
-      return null;
+  if (alphaLayersChanged) {
+    SceneApplication.getApplication().enqueue(new Callable(){
+      public Object call() throws Exception {
+        doSaveAlphaImages();
+        return null;
+      }
     }
-  }
 );
+    alphaLayersChanged=false;
+  }
 }

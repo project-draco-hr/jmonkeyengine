@@ -15,7 +15,7 @@
   request.setDataObject(file);
   request.setHelpCtx(ctx);
   addSaveNode(jmeNode);
-  Logger.getLogger(TerrainEditorTopComponent.class.getName()).finer("Terrain openScene " + file.getName());
+  Logger.getLogger(TerrainEditorTopComponent.class.getName()).log(Level.FINER,"Terrain openScene {0}",file.getName());
   if (editorController != null) {
     editorController.cleanup();
   }

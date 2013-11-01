@@ -25,6 +25,7 @@
     toolController.setShowSelection(true);
     editorController.setToolController(toolController);
     toolController.refreshNonSpatialMarkers();
+    toolController.setCamController(camController);
     editorController.setTerrainLodCamera();
     final SpatialAssetDataObject dobj=((SpatialAssetDataObject)currentRequest.getDataObject());
     listener=new ProjectAssetManager.ClassPathChangeListener(){

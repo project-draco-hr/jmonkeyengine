@@ -4,6 +4,6 @@
     editorController.setShininess(Math.max(0,f));
   }
  catch (  Exception e) {
-    return;
+    Logger.getLogger(TerrainEditorTopComponent.class.getName()).log(Level.WARNING,"Error accessing shininess field in terrain material.",e);
   }
 }

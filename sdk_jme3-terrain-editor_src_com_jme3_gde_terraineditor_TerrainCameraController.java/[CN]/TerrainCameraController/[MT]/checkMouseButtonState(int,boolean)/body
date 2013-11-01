@@ -6,13 +6,17 @@
   if (button == 0) {
     if (isTerrainEditButtonEnabled() && !forceCameraControls) {
       toolController.setPrimary(pressed);
-      System.out.println("primary " + pressed);
+    }
+ else     if (!isTerrainEditButtonEnabled() && !forceCameraControls) {
+      if (!pressed) {
+        Vector3f pick=getTerrainCollisionPoint();
+        toolController.setCursorLocation(pick);
+      }
     }
   }
   if (button == 1) {
     if (isTerrainEditButtonEnabled() && !forceCameraControls) {
       toolController.setAlternate(pressed);
-      System.out.println("alternate " + pressed);
     }
   }
 }
