@@ -18,6 +18,10 @@
   sky.setLocalScale(350);
   mainScene.attachChild(sky);
   fpp=new FilterPostProcessor(assetManager);
+  int numSamples=getContext().getSettings().getSamples();
+  if (numSamples > 0) {
+    fpp.setNumSamples(numSamples);
+  }
   dofFilter=new DepthOfFieldFilter();
   dofFilter.setFocusDistance(0);
   dofFilter.setFocusRange(50);

@@ -19,6 +19,10 @@
   mainScene.attachChild(scene);
   rootNode.attachChild(mainScene);
   fpp=new FilterPostProcessor(assetManager);
+  int numSamples=getContext().getSettings().getSamples();
+  if (numSamples > 0) {
+    fpp.setNumSamples(numSamples);
+  }
   fog=new FogFilter();
   fog.setFogColor(new ColorRGBA(0.9f,0.9f,0.9f,1.0f));
   fog.setFogDistance(155);
