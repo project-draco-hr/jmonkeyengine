@@ -7,7 +7,7 @@
       result.set(i,j,obmat.get(j,i).floatValue());
     }
   }
-  if (applyFixUpAxis && fixUpAxis) {
+  if (fixUpAxis) {
     Vector3f translation=result.toTranslationVector();
     Quaternion rotation=result.toRotationQuat();
     Vector3f scale=result.toScaleVector();
