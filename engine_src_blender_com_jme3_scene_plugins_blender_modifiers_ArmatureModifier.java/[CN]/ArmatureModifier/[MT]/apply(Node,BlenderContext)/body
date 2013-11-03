@@ -44,6 +44,45 @@
       node.addControl(control);
       node.addControl(new SkeletonControl(animationData.skeleton));
       blenderContext.setNodeForSkeleton(skeleton,node);
+      TempVars tempVars=TempVars.get();
+      try {
+        Pointer pPose=(Pointer)armatureObject.getFieldValue("pose");
+        if (pPose.isNotNull()) {
+          LOGGER.fine("Loading the pose of the armature.");
+          ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
+          ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
+          Structure pose=pPose.fetchData(blenderContext.getInputStream()).get(0);
+          Structure chanbase=(Structure)pose.getFieldValue("chanbase");
+          List<Structure> chans=chanbase.evaluateListBase(blenderContext);
+          Transform transform=new Transform();
+          for (          Structure poseChannel : chans) {
+            Pointer pBone=(Pointer)poseChannel.getFieldValue("bone");
+            if (pBone.isNull()) {
+              throw new BlenderFileException("Cannot find bone for pose channel named: " + poseChannel.getName());
+            }
+            BoneContext boneContext=blenderContext.getBoneContext(pBone.getOldMemoryAddress());
+            LOGGER.log(Level.FINEST,"Getting the global pose transformation for bone: {0}",boneContext);
+            Matrix4f poseMat=objectHelper.getMatrix(poseChannel,"pose_mat",blenderContext.getBlenderKey().isFixUpAxis());
+            poseMat.multLocal(BoneContext.BONE_ARMATURE_TRANSFORMATION_MATRIX);
+            Matrix4f armatureWorldMat=objectHelper.getMatrix(armatureObject,"obmat",blenderContext.getBlenderKey().isFixUpAxis());
+            Matrix4f boneWorldMat=armatureWorldMat.multLocal(poseMat);
+            boneWorldMat.toTranslationVector(tempVars.vect1);
+            boneWorldMat.toRotationQuat(tempVars.quat1);
+            boneWorldMat.toScaleVector(tempVars.vect2);
+            transform.setTranslation(tempVars.vect1);
+            transform.setRotation(tempVars.quat1);
+            transform.setScale(tempVars.vect2);
+            constraintHelper.applyTransform(boneContext.getArmatureObjectOMA(),boneContext.getBone().getName(),Space.CONSTRAINT_SPACE_WORLD,transform);
+          }
+        }
+      }
+ catch (      BlenderFileException e) {
+        LOGGER.log(Level.WARNING,"Problems occured during pose loading: {0}.",e.getLocalizedMessage());
+      }
+ finally {
+        tempVars.release();
+      }
+      node.updateModelBound();
     }
   }
 }

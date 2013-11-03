@@ -4,7 +4,7 @@
     Pointer pArmatureObject=(Pointer)modifierStructure.getFieldValue("object");
     if (pArmatureObject.isNotNull()) {
       ArmatureHelper armatureHelper=blenderContext.getHelper(ArmatureHelper.class);
-      Structure armatureObject=pArmatureObject.fetchData(blenderContext.getInputStream()).get(0);
+      armatureObject=pArmatureObject.fetchData(blenderContext.getInputStream()).get(0);
       Structure armatureStructure=((Pointer)armatureObject.getFieldValue("data")).fetchData(blenderContext.getInputStream()).get(0);
       List<Structure> bonebase=((Structure)armatureStructure.getFieldValue("bonebase")).evaluateListBase(blenderContext);
       List<Bone> bonesList=new ArrayList<Bone>();

@@ -9,7 +9,7 @@
   ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
   globalBoneMatrix=objectHelper.getMatrix(boneStructure,"arm_mat",blenderContext.getBlenderKey().isFixUpAxis());
   globalBoneMatrix.multLocal(BONE_ARMATURE_TRANSFORMATION_MATRIX);
-  Spatial armature=(Spatial)blenderContext.getLoadedFeature(armatureObjectOMA,LoadedFeatureDataType.LOADED_FEATURE);
+  Spatial armature=(Spatial)objectHelper.toObject(blenderContext.getFileBlock(armatureObjectOMA).getStructure(blenderContext),blenderContext);
   ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
   Matrix4f armatureWorldMatrix=constraintHelper.toMatrix(armature.getWorldTransform());
   globalBoneMatrix=armatureWorldMatrix.mult(globalBoneMatrix);

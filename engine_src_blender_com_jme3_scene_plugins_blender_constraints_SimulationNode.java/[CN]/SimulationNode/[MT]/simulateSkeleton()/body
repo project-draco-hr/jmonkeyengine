@@ -1,6 +1,5 @@
 {
   if (constraints != null && constraints.size() > 0) {
-    boolean applyStaticConstraints=true;
     Set<Long> alteredOmas=new HashSet<Long>();
     if (animations != null) {
       TempVars vars=TempVars.get();
@@ -66,18 +65,11 @@
               animation.addTrack(newTrack);
             }
           }
-          applyStaticConstraints=false;
         }
       }
       vars.release();
       animControl.clearChannels();
       this.reset();
-    }
-    if (applyStaticConstraints) {
-      for (      Constraint constraint : constraints) {
-        constraint.apply(0);
-      }
-      skeleton.updateWorldVectors();
     }
   }
 }
