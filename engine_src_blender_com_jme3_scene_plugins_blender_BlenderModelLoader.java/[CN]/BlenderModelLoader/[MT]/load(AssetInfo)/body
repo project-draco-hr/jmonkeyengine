@@ -28,10 +28,12 @@
       }
       modelRoot.attachChild(node);
     }
-    blenderContext.dispose();
     return modelRoot;
   }
  catch (  BlenderFileException e) {
     throw new IOException(e.getLocalizedMessage(),e);
+  }
+ finally {
+    this.clear();
   }
 }

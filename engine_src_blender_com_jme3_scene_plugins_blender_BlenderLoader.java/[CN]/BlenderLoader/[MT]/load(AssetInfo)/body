@@ -48,10 +48,12 @@ constraintHelper.bakeConstraints(blenderContext);
 for (FileBlockHeader sceneBlock : sceneBlocks) {
 loadingResults.addScene(this.toScene(sceneBlock.getStructure(blenderContext)));
 }
-blenderContext.dispose();
 return loadingResults;
 }
  catch (BlenderFileException e) {
 throw new IOException(e.getLocalizedMessage(),e);
+}
+ finally {
+this.clear();
 }
 }
