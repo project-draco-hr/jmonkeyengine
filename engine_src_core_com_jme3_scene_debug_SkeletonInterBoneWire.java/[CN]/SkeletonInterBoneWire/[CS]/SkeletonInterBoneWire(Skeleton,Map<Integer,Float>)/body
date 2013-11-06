@@ -1,0 +1,14 @@
+{
+  this.skeleton=skeleton;
+  for (  Bone bone : skeleton.getRoots()) {
+    this.countConnections(bone);
+  }
+  this.setMode(Mode.Points);
+  this.setPointSize(1);
+  this.boneLengths=boneLengths;
+  VertexBuffer pb=new VertexBuffer(Type.Position);
+  FloatBuffer fpb=BufferUtils.createFloatBuffer(POINT_AMOUNT * connectionsAmount * 3);
+  pb.setupData(Usage.Stream,3,Format.Float,fpb);
+  this.setBuffer(pb);
+  this.updateCounts();
+}

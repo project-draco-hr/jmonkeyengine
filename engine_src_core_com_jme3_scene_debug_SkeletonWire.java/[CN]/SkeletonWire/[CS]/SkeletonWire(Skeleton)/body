@@ -1,16 +1,3 @@
 {
-  this.skeleton=skeleton;
-  for (  Bone bone : skeleton.getRoots())   countConnections(bone);
-  setMode(Mode.Lines);
-  VertexBuffer pb=new VertexBuffer(Type.Position);
-  FloatBuffer fpb=BufferUtils.createFloatBuffer(skeleton.getBoneCount() * 3);
-  pb.setupData(Usage.Stream,3,Format.Float,fpb);
-  setBuffer(pb);
-  VertexBuffer ib=new VertexBuffer(Type.Index);
-  ShortBuffer sib=BufferUtils.createShortBuffer(numConnections * 2);
-  ib.setupData(Usage.Static,2,Format.UnsignedShort,sib);
-  setBuffer(ib);
-  for (  Bone bone : skeleton.getRoots())   writeConnections(sib,bone);
-  sib.flip();
-  updateCounts();
+  this(skeleton,null);
 }

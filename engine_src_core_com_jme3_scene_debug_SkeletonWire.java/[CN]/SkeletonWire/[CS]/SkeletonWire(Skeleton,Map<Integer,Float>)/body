@@ -1,0 +1,32 @@
+{
+  this.skeleton=skeleton;
+  for (  Bone bone : skeleton.getRoots()) {
+    this.countConnections(bone);
+  }
+  this.setMode(Mode.Lines);
+  int lineVerticesCount=skeleton.getBoneCount();
+  if (boneLengths != null) {
+    this.boneLengths=boneLengths;
+    lineVerticesCount*=2;
+  }
+  VertexBuffer pb=new VertexBuffer(Type.Position);
+  FloatBuffer fpb=BufferUtils.createFloatBuffer(lineVerticesCount * 3);
+  pb.setupData(Usage.Stream,3,Format.Float,fpb);
+  this.setBuffer(pb);
+  VertexBuffer ib=new VertexBuffer(Type.Index);
+  ShortBuffer sib=BufferUtils.createShortBuffer(boneLengths != null ? lineVerticesCount : numConnections * 2);
+  ib.setupData(Usage.Static,2,Format.UnsignedShort,sib);
+  this.setBuffer(ib);
+  if (boneLengths != null) {
+    for (int i=0; i < lineVerticesCount; ++i) {
+      sib.put((short)i);
+    }
+  }
+ else {
+    for (    Bone bone : skeleton.getRoots()) {
+      this.writeConnections(sib,bone);
+    }
+  }
+  sib.flip();
+  this.updateCounts();
+}

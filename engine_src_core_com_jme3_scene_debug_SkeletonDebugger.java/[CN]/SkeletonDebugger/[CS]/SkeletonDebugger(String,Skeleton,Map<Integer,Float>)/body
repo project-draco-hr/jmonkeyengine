@@ -1,0 +1,12 @@
+{
+  super(name);
+  wires=new SkeletonWire(skeleton,boneLengths);
+  points=new SkeletonPoints(skeleton,boneLengths);
+  this.attachChild(new Geometry(name + "_wires",wires));
+  this.attachChild(new Geometry(name + "_points",points));
+  if (boneLengths != null) {
+    interBoneWires=new SkeletonInterBoneWire(skeleton,boneLengths);
+    this.attachChild(new Geometry(name + "_interwires",interBoneWires));
+  }
+  this.setQueueBucket(Bucket.Transparent);
+}

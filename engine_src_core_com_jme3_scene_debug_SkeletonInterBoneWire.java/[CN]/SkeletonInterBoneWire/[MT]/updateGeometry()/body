@@ -1,0 +1,23 @@
+{
+  VertexBuffer vb=this.getBuffer(Type.Position);
+  FloatBuffer posBuf=this.getFloatBuffer(Type.Position);
+  posBuf.clear();
+  for (int i=0; i < skeleton.getBoneCount(); ++i) {
+    Bone bone=skeleton.getBone(i);
+    Vector3f parentTail=bone.getModelSpacePosition().add(bone.getModelSpaceRotation().mult(Vector3f.UNIT_Y.mult(boneLengths.get(i))));
+    for (    Bone child : bone.getChildren()) {
+      Vector3f childHead=child.getModelSpacePosition();
+      Vector3f v=childHead.subtract(parentTail);
+      float pointDelta=v.length() / POINT_AMOUNT;
+      v.normalizeLocal().multLocal(pointDelta);
+      Vector3f pointPosition=parentTail.clone();
+      for (int j=0; j < POINT_AMOUNT; ++j) {
+        posBuf.put(pointPosition.getX()).put(pointPosition.getY()).put(pointPosition.getZ());
+        pointPosition.addLocal(v);
+      }
+    }
+  }
+  posBuf.flip();
+  vb.updateData(posBuf);
+  this.updateBound();
+}

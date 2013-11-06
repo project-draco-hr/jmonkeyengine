@@ -1,0 +1,15 @@
+{
+  this.skeleton=skeleton;
+  this.setMode(Mode.Points);
+  int pointsCount=skeleton.getBoneCount();
+  if (boneLengths != null) {
+    this.boneLengths=boneLengths;
+    pointsCount*=2;
+  }
+  VertexBuffer pb=new VertexBuffer(Type.Position);
+  FloatBuffer fpb=BufferUtils.createFloatBuffer(pointsCount * 3);
+  pb.setupData(Usage.Stream,3,Format.Float,fpb);
+  this.setBuffer(pb);
+  this.setPointSize(7);
+  this.updateCounts();
+}

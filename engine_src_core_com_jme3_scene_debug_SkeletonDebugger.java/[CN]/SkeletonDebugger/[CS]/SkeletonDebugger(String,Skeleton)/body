@@ -1,9 +1,3 @@
 {
-  super(name);
-  this.skeleton=skeleton;
-  wires=new SkeletonWire(skeleton);
-  points=new SkeletonPoints(skeleton);
-  attachChild(new Geometry(name + "_wires",wires));
-  attachChild(new Geometry(name + "_points",points));
-  setQueueBucket(Bucket.Transparent);
+  this(name,skeleton,null);
 }
