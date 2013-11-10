@@ -8,12 +8,7 @@
     }
   }
  else {
-    if (renderFrameBufferMS != null) {
-      viewPort.setOutputFrameBuffer(renderFrameBufferMS);
-    }
- else {
-      viewPort.setOutputFrameBuffer(renderFrameBuffer);
-    }
+    setupViewPortFrameBuffer();
     if (multiView) {
       viewPort.getCamera().resize(width,height,false);
       viewPort.getCamera().setViewPort(0,1,0,1);

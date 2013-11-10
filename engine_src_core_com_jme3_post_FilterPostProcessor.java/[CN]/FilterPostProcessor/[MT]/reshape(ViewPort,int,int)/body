@@ -46,10 +46,5 @@
     Filter filter=it.next();
     initFilter(filter,vp);
   }
-  if (renderFrameBufferMS != null) {
-    viewPort.setOutputFrameBuffer(renderFrameBufferMS);
-  }
- else {
-    viewPort.setOutputFrameBuffer(renderFrameBuffer);
-  }
+  setupViewPortFrameBuffer();
 }
