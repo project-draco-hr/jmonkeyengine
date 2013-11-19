@@ -1,9 +1,5 @@
 {
   float xd, yd, zd, d;
-  DistanceFunction distanceFunc=distanceFunctions.get(Integer.valueOf(distanceType));
-  if (distanceFunc == null) {
-    distanceFunc=distanceFunctions.get(Integer.valueOf(0));
-  }
   int xi=(int)FastMath.floor(x);
   int yi=(int)FastMath.floor(y);
   int zi=(int)FastMath.floor(z);
@@ -15,7 +11,7 @@
         xd=x - (voronoiP[0] + i);
         yd=y - (voronoiP[1] + j);
         zd=z - (voronoiP[2] + k);
-        d=distanceFunc.execute(xd,yd,zd,distanceExponent);
+        d=distanceFunction.execute(xd,yd,zd,distanceExponent);
         if (d < da[0]) {
           da[3]=da[2];
           da[2]=da[1];

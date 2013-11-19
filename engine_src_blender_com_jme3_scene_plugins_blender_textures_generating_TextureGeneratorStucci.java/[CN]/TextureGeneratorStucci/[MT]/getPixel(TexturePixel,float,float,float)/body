@@ -1,10 +1,15 @@
 {
-  float noiseValue=NoiseGenerator.NoiseFunctions.noise(x,y,z,noisesize,0,noisebasis,isHard);
+  if (noisebasis == 0) {
+    ++x;
+    ++y;
+    ++z;
+  }
+  float noiseValue=NoiseGenerator.NoiseFunctions.noise(x,y,z,noisesize,0,noiseFunction,isHard);
   float ofs=turbul / 200.0f;
   if (stype != 0) {
     ofs*=noiseValue * noiseValue;
   }
-  pixel.intensity=NoiseGenerator.NoiseFunctions.noise(x,y,z + ofs,noisesize,0,noisebasis,isHard);
+  pixel.intensity=NoiseGenerator.NoiseFunctions.noise(x,y,z + ofs,noisesize,0,noiseFunction,isHard);
   if (colorBand != null) {
     int colorbandIndex=(int)(pixel.intensity * 1000.0f);
     pixel.red=colorBand[colorbandIndex][0];

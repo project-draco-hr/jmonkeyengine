@@ -1,4 +1,10 @@
 {
   super.readData(tex,blenderContext);
   marbleData=new MarbleData(tex);
+  noisebasis=marbleData.noisebasis;
+  noiseFunction=NoiseGenerator.noiseFunctions.get(noisebasis);
+  if (noiseFunction == null) {
+    noiseFunction=NoiseGenerator.noiseFunctions.get(0);
+    noisebasis=0;
+  }
 }

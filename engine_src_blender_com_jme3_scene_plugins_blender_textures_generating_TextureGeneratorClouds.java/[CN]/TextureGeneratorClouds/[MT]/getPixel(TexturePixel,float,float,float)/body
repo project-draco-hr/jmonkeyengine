@@ -1,6 +1,10 @@
 {
-  pixel.intensity=NoiseGenerator.NoiseFunctions.turbulence(x,y,z,noisesize,noiseDepth,noiseBasis,isHard);
-  pixel.intensity=FastMath.clamp(pixel.intensity,0.0f,1.0f);
+  if (noiseBasis == 0) {
+    ++x;
+    ++y;
+    ++z;
+  }
+  pixel.intensity=NoiseGenerator.NoiseFunctions.turbulence(x,y,z,noisesize,noiseDepth,noiseFunction,isHard);
   if (colorBand != null) {
     int colorbandIndex=(int)(pixel.intensity * 1000.0f);
     pixel.red=colorBand[colorbandIndex][0];
@@ -11,8 +15,8 @@
   }
  else   if (sType == TEX_COLOR) {
     pixel.red=pixel.intensity;
-    pixel.green=NoiseGenerator.NoiseFunctions.turbulence(y,x,z,noisesize,noiseDepth,noiseBasis,isHard);
-    pixel.blue=NoiseGenerator.NoiseFunctions.turbulence(y,z,x,noisesize,noiseDepth,noiseBasis,isHard);
+    pixel.green=NoiseGenerator.NoiseFunctions.turbulence(y,x,z,noisesize,noiseDepth,noiseFunction,isHard);
+    pixel.blue=NoiseGenerator.NoiseFunctions.turbulence(y,z,x,noisesize,noiseDepth,noiseFunction,isHard);
     pixel.green=FastMath.clamp(pixel.green,0.0f,1.0f);
     pixel.blue=FastMath.clamp(pixel.blue,0.0f,1.0f);
     pixel.alpha=1.0f;

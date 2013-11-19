@@ -4,7 +4,12 @@
     waveform=0;
   }
   waveformFunction=waveformFunctions[waveform];
-  noisebasis=((Number)tex.getFieldValue("noisebasis")).intValue();
+  int noisebasis=((Number)tex.getFieldValue("noisebasis")).intValue();
+  if (noiseFunction == null) {
+    noiseFunction=NoiseGenerator.noiseFunctions.get(0);
+    noisebasis=0;
+  }
+  this.noisebasis=noisebasis;
   woodType=((Number)tex.getFieldValue("stype")).intValue();
   noisesize=((Number)tex.getFieldValue("noisesize")).floatValue();
   turbul=((Number)tex.getFieldValue("turbul")).floatValue();

@@ -1,5 +1,5 @@
 {
-  NoiseGenerator.NoiseFunctions.voronoi(x * 4,y * 4,z * 4,da,pa,mexp,distanceType);
+  NoiseGenerator.NoiseFunctions.voronoi(x * 4,y * 4,z * 4,da,pa,mexp,distanceFunction);
   pixel.intensity=weightSum * FastMath.abs(voronoiWeights[0] * da[0] + voronoiWeights[1] * da[1] + voronoiWeights[2] * da[2] + voronoiWeights[3] * da[3]);
   if (pixel.intensity > 1.0f) {
     pixel.intensity=1.0f;
