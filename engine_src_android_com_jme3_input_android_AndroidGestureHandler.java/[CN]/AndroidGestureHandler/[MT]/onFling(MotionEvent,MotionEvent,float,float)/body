@@ -1,0 +1,9 @@
+{
+  TouchEvent touchEvent=androidInput.getFreeTouchEvent();
+  touchEvent.set(TouchEvent.Type.FLING,startEvent.getX(),androidInput.invertY(startEvent.getY()),velocityX,velocityY);
+  touchEvent.setPointerId(getPointerId(endEvent));
+  touchEvent.setTime(endEvent.getEventTime());
+  touchEvent.setPressure(endEvent.getPressure());
+  processEvent(touchEvent);
+  return true;
+}

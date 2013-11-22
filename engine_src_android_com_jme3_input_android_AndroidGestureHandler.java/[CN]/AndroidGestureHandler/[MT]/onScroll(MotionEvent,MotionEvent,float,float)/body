@@ -1,0 +1,11 @@
+{
+  if (!scaleDetector.isInProgress()) {
+    TouchEvent touchEvent=androidInput.getFreeTouchEvent();
+    touchEvent.set(TouchEvent.Type.SCROLL,endEvent.getX(),androidInput.invertY(endEvent.getY()),-distX,distY);
+    touchEvent.setPointerId(getPointerId(endEvent));
+    touchEvent.setTime(endEvent.getEventTime());
+    touchEvent.setPressure(endEvent.getPressure());
+    processEvent(touchEvent);
+  }
+  return true;
+}

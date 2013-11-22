@@ -1,0 +1,65 @@
+{
+  if (!androidInput.isInitialized() || view != androidInput.getView()) {
+    return false;
+  }
+  boolean bWasHandled=false;
+  TouchEvent touch=null;
+  int action=getAction(event);
+  int pointerIndex=getPointerIndex(event);
+  int pointerId=getPointerId(event);
+  Vector2f lastPos=lastPositions.get(pointerId);
+  numPointers=event.getPointerCount();
+switch (getAction(event)) {
+case MotionEvent.ACTION_POINTER_DOWN:
+case MotionEvent.ACTION_DOWN:
+    touch=androidInput.getFreeTouchEvent();
+  touch.set(TouchEvent.Type.DOWN,event.getX(pointerIndex),androidInput.invertY(event.getY(pointerIndex)),0,0);
+touch.setPointerId(pointerId);
+touch.setTime(event.getEventTime());
+touch.setPressure(event.getPressure(pointerIndex));
+lastPos=new Vector2f(event.getX(pointerIndex),androidInput.invertY(event.getY(pointerIndex)));
+lastPositions.put(pointerId,lastPos);
+processEvent(touch);
+bWasHandled=true;
+break;
+case MotionEvent.ACTION_POINTER_UP:
+case MotionEvent.ACTION_CANCEL:
+case MotionEvent.ACTION_UP:
+touch=androidInput.getFreeTouchEvent();
+touch.set(TouchEvent.Type.UP,event.getX(pointerIndex),androidInput.invertY(event.getY(pointerIndex)),0,0);
+touch.setPointerId(pointerId);
+touch.setTime(event.getEventTime());
+touch.setPressure(event.getPressure(pointerIndex));
+lastPositions.remove(pointerId);
+processEvent(touch);
+bWasHandled=true;
+break;
+case MotionEvent.ACTION_MOVE:
+for (int p=0; p < event.getPointerCount(); p++) {
+lastPos=lastPositions.get(event.getPointerId(p));
+if (lastPos == null) {
+lastPos=new Vector2f(event.getX(p),androidInput.invertY(event.getY(p)));
+lastPositions.put(event.getPointerId(p),lastPos);
+}
+float dX=event.getX(p) - lastPos.x;
+float dY=androidInput.invertY(event.getY(p)) - lastPos.y;
+if (dX != 0 || dY != 0) {
+touch=androidInput.getFreeTouchEvent();
+touch.set(TouchEvent.Type.MOVE,event.getX(p),androidInput.invertY(event.getY(p)),dX,dY);
+touch.setPointerId(event.getPointerId(p));
+touch.setTime(event.getEventTime());
+touch.setPressure(event.getPressure(p));
+lastPos.set(event.getX(p),androidInput.invertY(event.getY(p)));
+processEvent(touch);
+bWasHandled=true;
+}
+}
+break;
+case MotionEvent.ACTION_OUTSIDE:
+break;
+}
+if (gestureHandler != null) {
+gestureHandler.detectGesture(event);
+}
+return bWasHandled;
+}

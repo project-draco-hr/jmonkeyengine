@@ -1,0 +1,15 @@
+{
+  logger.log(Level.INFO,"onScale");
+  scaleStartX=gestureDownX;
+  scaleStartY=gestureDownY;
+  TouchEvent touchEvent=androidInput.getFreeTouchEvent();
+  touchEvent.set(TouchEvent.Type.SCALE_MOVE,scaleStartX,scaleStartY,0f,0f);
+  touchEvent.setPointerId(0);
+  touchEvent.setTime(scaleGestureDetector.getEventTime());
+  touchEvent.setScaleSpan(scaleGestureDetector.getCurrentSpan());
+  touchEvent.setDeltaScaleSpan(scaleGestureDetector.getCurrentSpan() - scaleGestureDetector.getPreviousSpan());
+  touchEvent.setScaleFactor(scaleGestureDetector.getScaleFactor());
+  touchEvent.setScaleSpanInProgress(scaleDetector.isInProgress());
+  processEvent(touchEvent);
+  return true;
+}

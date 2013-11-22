@@ -1,0 +1,14 @@
+{
+  initialized=false;
+  touchEventPool.destroy();
+  if (touchHandler != null) {
+    touchHandler.destroy();
+  }
+  if (keyHandler != null) {
+    keyHandler.destroy();
+  }
+  if (gestureHandler != null) {
+    gestureHandler.destroy();
+  }
+  setView(null);
+}
