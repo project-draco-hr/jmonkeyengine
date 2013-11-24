@@ -1,0 +1,27 @@
+{
+  LOGGER.fine("Reading points mesh.");
+  Pointer pMEdge=(Pointer)meshStructure.getFieldValue("medge");
+  if (pMEdge.isNotNull()) {
+    int count=((Number)meshStructure.getFieldValue("totvert")).intValue();
+    Set<Vector3f> usedVertices=new HashSet<Vector3f>(count);
+    List<Structure> edges=pMEdge.fetchData(blenderContext.getInputStream());
+    for (    Structure edge : edges) {
+      int v1=((Number)edge.getFieldValue("v1")).intValue();
+      int v2=((Number)edge.getFieldValue("v2")).intValue();
+      usedVertices.add(verticesAndNormals[v1][0]);
+      usedVertices.add(verticesAndNormals[v2][0]);
+    }
+    if (usedVertices.size() < count) {
+      vertices=new ArrayList<Vector3f>(count - usedVertices.size());
+      int vertexIndex=0, blenderVertexIndex=0;
+      for (      Vector3f[] vertAndNormal : verticesAndNormals) {
+        if (!usedVertices.contains(vertAndNormal[0])) {
+          vertices.add(vertAndNormal[0]);
+          normals.add(vertAndNormal[1]);
+          this.appendVertexReference(blenderVertexIndex,vertexIndex++,globalVertexReferenceMap);
+        }
+        ++blenderVertexIndex;
+      }
+    }
+  }
+}

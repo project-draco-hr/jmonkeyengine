@@ -1,7 +1,10 @@
 {
   fixUpAxis=blenderContext.getBlenderKey().isFixUpAxis();
   Vector3f[][] verticesAndNormals=this.getVerticesAndNormals(meshStructure,blenderContext);
-  boolean generatedTexturesPresent=this.areGeneratedTexturesPresent(materials);
-  faceMeshBuilder=new FaceMeshBuilder(verticesAndNormals,generatedTexturesPresent);
+  faceMeshBuilder=new FaceMeshBuilder(verticesAndNormals,this.areGeneratedTexturesPresent(materials));
   faceMeshBuilder.readMesh(meshStructure,blenderContext);
+  lineMeshBuilder=new LineMeshBuilder(verticesAndNormals);
+  lineMeshBuilder.readMesh(meshStructure,blenderContext);
+  pointMeshBuilder=new PointMeshBuilder(verticesAndNormals);
+  pointMeshBuilder.readMesh(meshStructure,blenderContext);
 }

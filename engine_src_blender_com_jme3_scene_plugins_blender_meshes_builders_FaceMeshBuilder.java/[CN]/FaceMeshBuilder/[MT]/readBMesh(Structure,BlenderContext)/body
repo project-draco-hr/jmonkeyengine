@@ -2,9 +2,8 @@
   LOGGER.fine("Reading BMesh.");
   Pointer pMLoop=(Pointer)meshStructure.getFieldValue("mloop");
   Pointer pMPoly=(Pointer)meshStructure.getFieldValue("mpoly");
-  Pointer pMEdge=(Pointer)meshStructure.getFieldValue("medge");
   Map<String,Vector2f[]> uvCoordinatesForFace=new HashMap<String,Vector2f[]>();
-  if (pMPoly.isNotNull() && pMLoop.isNotNull() && pMEdge.isNotNull()) {
+  if (pMPoly.isNotNull() && pMLoop.isNotNull()) {
     Map<String,List<Vector2f>> uvs=this.loadUVCoordinates(meshStructure,true,blenderContext);
     List<Structure> polys=pMPoly.fetchData(blenderContext.getInputStream());
     List<Structure> loops=pMLoop.fetchData(blenderContext.getInputStream());

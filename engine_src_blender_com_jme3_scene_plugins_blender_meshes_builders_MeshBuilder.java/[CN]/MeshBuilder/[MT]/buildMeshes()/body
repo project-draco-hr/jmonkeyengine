@@ -6,5 +6,26 @@
     meshList.add(entry.getValue());
     result.put(entry.getKey(),meshList);
   }
+  meshes=lineMeshBuilder.buildMeshes();
+  for (  Entry<Integer,Mesh> entry : meshes.entrySet()) {
+    List<Mesh> meshList=result.get(entry.getKey());
+    if (meshList == null) {
+      meshList=new ArrayList<Mesh>();
+      result.put(entry.getKey(),meshList);
+    }
+    meshList.add(entry.getValue());
+  }
+  meshes=pointMeshBuilder.buildMeshes();
+  for (  Entry<Integer,Mesh> entry : meshes.entrySet()) {
+    List<Mesh> meshList=result.get(entry.getKey());
+    if (meshList == null) {
+      meshList=new ArrayList<Mesh>();
+      result.put(entry.getKey(),meshList);
+    }
+    meshList.add(entry.getValue());
+  }
+  globalVertexReferenceMap.putAll(faceMeshBuilder.getVertexReferenceMap());
+  globalVertexReferenceMap.put(-1,lineMeshBuilder.getGlobalVertexReferenceMap());
+  globalVertexReferenceMap.get(-1).putAll(pointMeshBuilder.getGlobalVertexReferenceMap());
   return result;
 }

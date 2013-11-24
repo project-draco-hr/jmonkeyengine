@@ -57,7 +57,10 @@
   if (materials != null) {
     for (    Geometry geometry : geometries) {
       int materialNumber=meshContext.getMaterialIndex(geometry);
-      if (materials[materialNumber] != null) {
+      if (materialNumber < 0) {
+        geometry.setMaterial(this.getBlackUnshadedMaterial(blenderContext));
+      }
+ else       if (materials[materialNumber] != null) {
         LinkedHashMap<String,List<Vector2f>> uvCoordinates=meshBuilder.getUVCoordinates(materialNumber);
         MaterialContext materialContext=materials[materialNumber];
         materialContext.applyMaterial(geometry,structure.getOldMemoryAddress(),uvCoordinates,blenderContext);
@@ -83,7 +86,13 @@
       }
     }
     for (    Geometry geometry : geometries) {
-      geometry.setMaterial(blenderContext.getDefaultMaterial());
+      Mode mode=geometry.getMesh().getMode();
+      if (mode != Mode.Triangles && mode != Mode.TriangleFan && mode != Mode.TriangleStrip) {
+        geometry.setMaterial(this.getBlackUnshadedMaterial(blenderContext));
+      }
+ else {
+        geometry.setMaterial(blenderContext.getDefaultMaterial());
+      }
       if (uvCoordsBuffer != null) {
         for (        VertexBuffer buffer : uvCoordsBuffer) {
           geometry.getMesh().setBuffer(buffer);

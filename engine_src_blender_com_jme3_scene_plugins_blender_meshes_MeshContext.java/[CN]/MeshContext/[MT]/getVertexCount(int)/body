@@ -1,3 +1,7 @@
 {
-  return geometries.get(materialIndex).getVertexCount();
+  int result=0;
+  for (  Geometry geometry : geometries.get(materialIndex)) {
+    result+=geometry.getVertexCount();
+  }
+  return result;
 }
