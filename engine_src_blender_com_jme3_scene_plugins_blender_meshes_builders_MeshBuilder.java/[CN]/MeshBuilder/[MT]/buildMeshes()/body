@@ -1,0 +1,10 @@
+{
+  Map<Integer,List<Mesh>> result=new HashMap<Integer,List<Mesh>>();
+  Map<Integer,Mesh> meshes=faceMeshBuilder.buildMeshes();
+  for (  Entry<Integer,Mesh> entry : meshes.entrySet()) {
+    List<Mesh> meshList=new ArrayList<Mesh>();
+    meshList.add(entry.getValue());
+    result.put(entry.getKey(),meshList);
+  }
+  return result;
+}

@@ -17,15 +17,7 @@
     materials=materialHelper.getMaterials(structure,blenderContext);
   }
   LOGGER.fine("Reading vertices and their colors.");
-  Vector3f[][] verticesAndNormals=this.getVerticesAndNormals(structure,blenderContext);
-  List<byte[]> verticesColors=this.getVerticesColors(structure,blenderContext);
-  MeshBuilder meshBuilder=new MeshBuilder(verticesAndNormals,verticesColors,this.areGeneratedTexturesPresent(materials));
-  if (this.isBMeshCompatible(structure)) {
-    this.readBMesh(meshBuilder,structure,blenderContext);
-  }
- else {
-    this.readTraditionalFaces(meshBuilder,structure,blenderContext);
-  }
+  MeshBuilder meshBuilder=new MeshBuilder(structure,materials,blenderContext);
   if (meshBuilder.isEmpty()) {
     LOGGER.fine("The geometry is empty.");
     geometries=new ArrayList<Geometry>(0);
@@ -46,45 +38,19 @@
   LOGGER.fine("Reading custom properties.");
   Properties properties=this.loadProperties(structure,blenderContext);
   LOGGER.fine("Generating meshes.");
-  geometries=new ArrayList<Geometry>(meshBuilder.getMeshesPartAmount());
-  for (  Entry<Integer,List<Integer>> meshEntry : meshBuilder.getMeshesMap().entrySet()) {
+  Map<Integer,List<Mesh>> meshes=meshBuilder.buildMeshes();
+  geometries=new ArrayList<Geometry>(meshes.size());
+  for (  Entry<Integer,List<Mesh>> meshEntry : meshes.entrySet()) {
     int materialIndex=meshEntry.getKey();
-    Mesh mesh=new Mesh();
-    List<Integer> indexList=meshEntry.getValue();
-    if (meshBuilder.getVerticesAmount(materialIndex) <= Short.MAX_VALUE) {
-      short[] indices=new short[indexList.size()];
-      for (int i=0; i < indexList.size(); ++i) {
-        indices[i]=indexList.get(i).shortValue();
+    for (    Mesh mesh : meshEntry.getValue()) {
+      LOGGER.fine("Preparing the result part.");
+      Geometry geometry=new Geometry(name + (geometries.size() + 1),mesh);
+      if (properties != null && properties.getValue() != null) {
+        this.applyProperties(geometry,properties);
       }
-      mesh.setBuffer(Type.Index,1,indices);
+      geometries.add(geometry);
+      meshContext.putGeometry(materialIndex,geometry);
     }
- else {
-      int[] indices=new int[indexList.size()];
-      for (int i=0; i < indexList.size(); ++i) {
-        indices[i]=indexList.get(i).intValue();
-      }
-      mesh.setBuffer(Type.Index,1,indices);
-    }
-    LOGGER.fine("Creating vertices buffer.");
-    VertexBuffer verticesBuffer=new VertexBuffer(Type.Position);
-    verticesBuffer.setupData(Usage.Static,3,Format.Float,BufferUtils.createFloatBuffer(meshBuilder.getVertices(materialIndex)));
-    mesh.setBuffer(verticesBuffer);
-    LOGGER.fine("Creating normals buffer.");
-    VertexBuffer normalsBuffer=new VertexBuffer(Type.Normal);
-    normalsBuffer.setupData(Usage.Static,3,Format.Float,BufferUtils.createFloatBuffer(meshBuilder.getNormals(materialIndex)));
-    mesh.setBuffer(normalsBuffer);
-    if (verticesColors != null) {
-      LOGGER.fine("Setting vertices colors.");
-      mesh.setBuffer(Type.Color,4,meshBuilder.getVertexColorsBuffer(materialIndex));
-      mesh.getBuffer(Type.Color).setNormalized(true);
-    }
-    LOGGER.fine("Preparing the result part.");
-    Geometry geometry=new Geometry(name + (geometries.size() + 1),mesh);
-    if (properties != null && properties.getValue() != null) {
-      this.applyProperties(geometry,properties);
-    }
-    geometries.add(geometry);
-    meshContext.putGeometry(materialIndex,geometry);
   }
   blenderContext.addLoadedFeatures(structure.getOldMemoryAddress(),structure.getName(),structure,geometries);
   blenderContext.setMeshContext(structure.getOldMemoryAddress(),meshContext);
