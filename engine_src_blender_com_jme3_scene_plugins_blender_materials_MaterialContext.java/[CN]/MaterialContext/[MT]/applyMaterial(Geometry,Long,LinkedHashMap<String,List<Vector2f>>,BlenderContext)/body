@@ -25,12 +25,11 @@
     if (loadedTextures.size() > TextureHelper.TEXCOORD_TYPES.length) {
       LOGGER.log(Level.WARNING,"The blender file has defined more than {0} different textures. JME supports only {0} UV mappings.",TextureHelper.TEXCOORD_TYPES.length);
     }
-    for (    Entry<Number,CombinedTexture> entry : loadedTextures.entrySet()) {
+    for (    CombinedTexture combinedTexture : loadedTextures) {
       if (textureIndex < TextureHelper.TEXCOORD_TYPES.length) {
-        CombinedTexture combinedTexture=entry.getValue();
         combinedTexture.flatten(geometry,geometriesOMA,userDefinedUVCoordinates,blenderContext);
-        this.setTexture(material,entry.getKey().intValue(),combinedTexture.getResultTexture());
-        List<Vector2f> uvs=entry.getValue().getResultUVS();
+        this.setTexture(material,combinedTexture.getMappingType(),combinedTexture.getResultTexture());
+        List<Vector2f> uvs=combinedTexture.getResultUVS();
         VertexBuffer uvCoordsBuffer=new VertexBuffer(TextureHelper.TEXCOORD_TYPES[textureIndex++]);
         uvCoordsBuffer.setupData(Usage.Static,2,Format.Float,BufferUtils.createFloatBuffer(uvs.toArray(new Vector2f[uvs.size()])));
         geometry.getMesh().setBuffer(uvCoordsBuffer);

@@ -40,9 +40,6 @@
   if (generatedTexturePPU != other.generatedTexturePPU) {
     return false;
   }
-  if (skyGeneratedTextureShape != other.skyGeneratedTextureShape) {
-    return false;
-  }
   if (layersToLoad != other.layersToLoad) {
     return false;
   }
@@ -61,7 +58,13 @@
   if (mipmapGenerationMethod != other.mipmapGenerationMethod) {
     return false;
   }
+  if (optimiseTextures != other.optimiseTextures) {
+    return false;
+  }
   if (Float.floatToIntBits(skyGeneratedTextureRadius) != Float.floatToIntBits(other.skyGeneratedTextureRadius)) {
+    return false;
+  }
+  if (skyGeneratedTextureShape != other.skyGeneratedTextureShape) {
     return false;
   }
   if (skyGeneratedTextureSize != other.skyGeneratedTextureSize) {

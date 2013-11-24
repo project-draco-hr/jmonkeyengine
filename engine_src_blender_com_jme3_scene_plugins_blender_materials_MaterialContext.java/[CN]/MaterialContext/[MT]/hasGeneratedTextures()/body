@@ -1,7 +1,7 @@
 {
   if (loadedTextures != null) {
-    for (    Entry<Number,CombinedTexture> entry : loadedTextures.entrySet()) {
-      if (entry.getValue().hasGeneratedTextures()) {
+    for (    CombinedTexture generatedTextures : loadedTextures) {
+      if (generatedTextures.hasGeneratedTextures()) {
         return true;
       }
     }

@@ -12,7 +12,7 @@
   boolean loadGeneratedTextures=blenderContext.getBlenderKey().isLoadGeneratedTextures();
   blenderContext.getBlenderKey().setLoadGeneratedTextures(true);
   TextureHelper textureHelper=blenderContext.getHelper(TextureHelper.class);
-  Map<Number,CombinedTexture> loadedTextures=null;
+  List<CombinedTexture> loadedTextures=null;
   try {
     loadedTextures=textureHelper.readTextureData(worldStructure,new float[]{horizontalColor.r,horizontalColor.g,horizontalColor.b,horizontalColor.a},true);
   }
@@ -24,7 +24,7 @@
     if (loadedTextures.size() > 1) {
       throw new IllegalStateException("There should be only one combined texture for sky!");
     }
-    CombinedTexture combinedTexture=loadedTextures.get(1);
+    CombinedTexture combinedTexture=loadedTextures.get(0);
     texture=combinedTexture.generateSkyTexture(horizontalColor,zenithColor,blenderContext);
   }
  else {
