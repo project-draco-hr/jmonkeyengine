@@ -16,7 +16,7 @@
   if ((blenderContext.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.MATERIALS) != 0) {
     materials=materialHelper.getMaterials(structure,blenderContext);
   }
-  LOGGER.fine("Reading vertices and their colors.");
+  LOGGER.fine("Reading vertices.");
   MeshBuilder meshBuilder=new MeshBuilder(structure,materials,blenderContext);
   if (meshBuilder.isEmpty()) {
     LOGGER.fine("The geometry is empty.");
@@ -91,7 +91,12 @@
         geometry.setMaterial(this.getBlackUnshadedMaterial(blenderContext));
       }
  else {
-        geometry.setMaterial(blenderContext.getDefaultMaterial());
+        Material defaultMaterial=blenderContext.getDefaultMaterial();
+        if (geometry.getMesh().getBuffer(Type.Color) != null) {
+          defaultMaterial=defaultMaterial.clone();
+          defaultMaterial.setBoolean("VertexColor",true);
+        }
+        geometry.setMaterial(defaultMaterial);
       }
       if (uvCoordsBuffer != null) {
         for (        VertexBuffer buffer : uvCoordsBuffer) {
