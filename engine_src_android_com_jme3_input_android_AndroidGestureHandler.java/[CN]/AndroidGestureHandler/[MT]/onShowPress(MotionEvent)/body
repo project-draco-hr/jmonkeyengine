@@ -1,6 +1,8 @@
 {
+  float jmeX=androidInput.getJmeX(event.getX());
+  float jmeY=androidInput.invertY(androidInput.getJmeY(event.getY()));
   TouchEvent touchEvent=androidInput.getFreeTouchEvent();
-  touchEvent.set(TouchEvent.Type.SHOWPRESS,event.getX(),androidInput.invertY(event.getY()),0,0);
+  touchEvent.set(TouchEvent.Type.SHOWPRESS,jmeX,jmeY,0,0);
   touchEvent.setPointerId(getPointerId(event));
   touchEvent.setTime(event.getEventTime());
   touchEvent.setPressure(event.getPressure());
