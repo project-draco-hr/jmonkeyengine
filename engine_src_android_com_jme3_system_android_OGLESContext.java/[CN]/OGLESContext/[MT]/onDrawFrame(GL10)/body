@@ -3,7 +3,14 @@
     deinitInThread();
     return;
   }
-  if (renderable.get()) {
+  if (!renderable.get()) {
+    if (created.get()) {
+      logger.fine("GL Surface is setup, initializing application");
+      listener.initialize();
+      renderable.set(true);
+    }
+  }
+ else {
     if (!created.get()) {
       throw new IllegalStateException("onDrawFrame without create");
     }
