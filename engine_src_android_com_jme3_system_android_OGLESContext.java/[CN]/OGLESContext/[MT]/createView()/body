@@ -1,5 +1,6 @@
 {
   AndroidGLSurfaceView view;
+  int buildVersion=Build.VERSION.SDK_INT;
   view=new AndroidGLSurfaceView(JmeAndroidSystem.getActivity().getApplication());
   if (androidInput == null) {
     androidInput=new AndroidInputHandler();
@@ -35,5 +36,8 @@
   AndroidConfigChooser configChooser=new AndroidConfigChooser(settings);
   view.setEGLConfigChooser(configChooser);
   view.setRenderer(this);
+  if (buildVersion >= 11) {
+    view.setPreserveEGLContextOnPause(true);
+  }
   return view;
 }
