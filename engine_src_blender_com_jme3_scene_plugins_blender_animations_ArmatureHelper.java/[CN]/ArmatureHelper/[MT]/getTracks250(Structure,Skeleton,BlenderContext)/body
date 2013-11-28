@@ -23,5 +23,6 @@
       tracks.add((BoneTrack)ipo.calculateTrack(boneIndex,bone.getLocalRotation(),0,ipo.getLastFrame(),fps,false));
     }
   }
+  this.equaliseBoneTracks(tracks);
   return tracks.toArray(new BoneTrack[tracks.size()]);
 }
