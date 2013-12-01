@@ -1,0 +1,11 @@
+{
+  for (  Entry<Long,BoneContext> entry : boneContexts.entrySet()) {
+    if (entry.getValue().getArmatureObjectOMA().equals(skeletonOMA)) {
+      Bone bone=entry.getValue().getBone();
+      if (bone != null && name.equals(bone.getName())) {
+        return entry.getValue();
+      }
+    }
+  }
+  return null;
+}
