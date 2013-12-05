@@ -6,7 +6,9 @@
     List<ViewPort> vps=app.getRenderManager().getPostViews();
     ViewPort last=vps.get(vps.size() - 1);
     last.addProcessor(this);
-    appName=app.getClass().getSimpleName();
+    if (shotName == null) {
+      shotName=app.getClass().getSimpleName();
+    }
   }
   super.initialize(stateManager,app);
 }

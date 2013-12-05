@@ -1,7 +1,6 @@
 {
   if (capture) {
     capture=false;
-    shotIndex++;
     Camera curCamera=rm.getCurrentCamera();
     int viewX=(int)(curCamera.getViewPortLeft() * curCamera.getWidth());
     int viewY=(int)(curCamera.getViewPortBottom() * curCamera.getHeight());
@@ -11,11 +10,19 @@
     renderer.readFrameBuffer(out,outBuf);
     renderer.setViewPort(viewX,viewY,viewWidth,viewHeight);
     File file;
-    if (filePath == null) {
-      file=new File(JmeSystem.getStorageFolder() + File.separator + appName+ shotIndex+ ".png").getAbsoluteFile();
+    String filename;
+    if (numbered) {
+      shotIndex++;
+      filename=shotName + shotIndex;
     }
  else {
-      file=new File(filePath + appName + shotIndex+ ".png").getAbsoluteFile();
+      filename=shotName;
+    }
+    if (filePath == null) {
+      file=new File(JmeSystem.getStorageFolder() + File.separator + filename+ ".png").getAbsoluteFile();
+    }
+ else {
+      file=new File(filePath + filename + ".png").getAbsoluteFile();
     }
     logger.log(Level.FINE,"Saving ScreenShot to: {0}",file.getAbsolutePath());
     OutputStream outStream=null;
