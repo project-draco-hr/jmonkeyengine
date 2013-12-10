@@ -11,7 +11,7 @@
   globalBoneMatrix.multLocal(BONE_ARMATURE_TRANSFORMATION_MATRIX);
   Spatial armature=(Spatial)objectHelper.toObject(blenderContext.getFileBlock(armatureObjectOMA).getStructure(blenderContext),blenderContext);
   ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
-  Matrix4f armatureWorldMatrix=constraintHelper.toMatrix(armature.getWorldTransform());
+  Matrix4f armatureWorldMatrix=constraintHelper.toMatrix(armature.getWorldTransform(),new Matrix4f());
   globalBoneMatrix=armatureWorldMatrix.mult(globalBoneMatrix);
   List<Structure> childbase=((Structure)boneStructure.getFieldValue("childbase")).evaluateListBase(blenderContext);
   for (  Structure child : childbase) {
