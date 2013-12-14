@@ -1,0 +1,35 @@
+{
+  float s=scale.x * scale.y * scale.z;
+  if (s < 0 && geometry.getMesh() != null) {
+    FloatBuffer normals=geometry.getMesh().getFloatBuffer(Type.Normal);
+    if (normals != null) {
+      for (int i=0; i < normals.limit(); i+=3) {
+        if (scale.x < 0) {
+          normals.put(i,-normals.get(i));
+        }
+        if (scale.y < 0) {
+          normals.put(i + 1,-normals.get(i + 1));
+        }
+        if (scale.z < 0) {
+          normals.put(i + 2,-normals.get(i + 2));
+        }
+      }
+    }
+    if (geometry.getMesh().getMode() == Mode.Triangles) {
+      LOGGER.finer("Flipping index order in triangle mesh.");
+      Buffer indexBuffer=geometry.getMesh().getBuffer(Type.Index).getData();
+      for (int i=0; i < indexBuffer.limit(); i+=3) {
+        if (indexBuffer instanceof ShortBuffer) {
+          short index=((ShortBuffer)indexBuffer).get(i + 1);
+          ((ShortBuffer)indexBuffer).put(i + 1,((ShortBuffer)indexBuffer).get(i + 2));
+          ((ShortBuffer)indexBuffer).put(i + 2,index);
+        }
+ else {
+          int index=((IntBuffer)indexBuffer).get(i + 1);
+          ((IntBuffer)indexBuffer).put(i + 1,((IntBuffer)indexBuffer).get(i + 2));
+          ((IntBuffer)indexBuffer).put(i + 2,index);
+        }
+      }
+    }
+  }
+}

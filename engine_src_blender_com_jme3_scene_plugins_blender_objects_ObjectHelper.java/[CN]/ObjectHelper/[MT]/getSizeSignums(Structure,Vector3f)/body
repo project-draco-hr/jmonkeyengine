@@ -1,0 +1,13 @@
+{
+  DynamicArray<Number> size=(DynamicArray<Number>)objectStructure.getFieldValue("size");
+  if (fixUpAxis) {
+    store.x=Math.signum(size.get(0).floatValue());
+    store.y=Math.signum(size.get(2).floatValue());
+    store.z=Math.signum(size.get(1).floatValue());
+  }
+ else {
+    store.x=Math.signum(size.get(0).floatValue());
+    store.y=Math.signum(size.get(1).floatValue());
+    store.z=Math.signum(size.get(2).floatValue());
+  }
+}

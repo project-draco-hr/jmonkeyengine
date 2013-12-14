@@ -100,6 +100,13 @@ result.setCullHint(visible ? CullHint.Always : CullHint.Inherit);
 if (parent instanceof Node) {
 ((Node)parent).attachChild(result);
 }
+if (result.getChildren() != null) {
+for (Spatial child : result.getChildren()) {
+if (child instanceof Geometry) {
+this.flipMeshIfRequired((Geometry)child,child.getWorldScale());
+}
+}
+}
 LOGGER.fine("Reading and applying object's modifiers.");
 ModifierHelper modifierHelper=blenderContext.getHelper(ModifierHelper.class);
 Collection<Modifier> modifiers=modifierHelper.readModifiers(objectStructure,blenderContext);
