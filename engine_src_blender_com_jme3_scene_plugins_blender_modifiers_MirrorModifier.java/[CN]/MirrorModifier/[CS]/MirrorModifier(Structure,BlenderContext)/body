@@ -1,10 +1,16 @@
 {
   if (this.validate(modifierStructure,blenderContext)) {
-    modifierData.put("flag",modifierStructure.getFieldValue("flag"));
-    modifierData.put("tolerance",modifierStructure.getFieldValue("tolerance"));
-    Pointer pMirrorOb=(Pointer)modifierStructure.getFieldValue("mirror_ob");
-    if (pMirrorOb.isNotNull()) {
-      modifierData.put("mirrorob",pMirrorOb);
+    int flag=((Number)modifierStructure.getFieldValue("flag")).intValue();
+    isMirrored=new boolean[]{(flag & FLAG_MIRROR_X) != 0,(flag & FLAG_MIRROR_Y) != 0,(flag & FLAG_MIRROR_Z) != 0};
+    if (blenderContext.getBlenderKey().isFixUpAxis()) {
+      boolean temp=isMirrored[1];
+      isMirrored[1]=isMirrored[2];
+      isMirrored[2]=temp;
     }
+    mirrorU=(flag & FLAG_MIRROR_U) != 0;
+    mirrorV=(flag & FLAG_MIRROR_V) != 0;
+    merge=(flag & FLAG_MIRROR_MERGE) == 0;
+    tolerance=((Number)modifierStructure.getFieldValue("tolerance")).floatValue();
+    pMirrorObject=(Pointer)modifierStructure.getFieldValue("mirror_ob");
   }
 }
