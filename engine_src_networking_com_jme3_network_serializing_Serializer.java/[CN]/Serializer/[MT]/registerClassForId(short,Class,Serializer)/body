@@ -4,5 +4,6 @@
   classRegistrations.put(cls,reg);
   log.log(Level.FINE,"Registered class[" + id + "]:{0} to:"+ serializer,cls);
   serializer.initialize(cls);
+  registrations.add(reg);
   return reg;
 }
