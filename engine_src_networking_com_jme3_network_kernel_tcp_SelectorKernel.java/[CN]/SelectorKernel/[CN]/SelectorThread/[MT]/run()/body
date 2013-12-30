@@ -9,6 +9,10 @@
       if (!go.get())       return;
       throw new KernelException("Premature selector closing",e);
     }
+catch (    CancelledKeyException e) {
+      if (!go.get())       return;
+      throw new KernelException("Invalid key state",e);
+    }
 catch (    IOException e) {
       if (!go.get())       return;
       reportError(e);
