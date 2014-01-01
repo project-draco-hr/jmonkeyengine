@@ -4,7 +4,7 @@
   this.blenderContext=blenderContext;
   int fieldsAmount=inputStream.readShort();
   if (fieldsAmount < 0) {
-    throw new BlenderFileException("The amount of fields of " + this.type + " structure cannot be negative!");
+    throw new BlenderFileException("The amount of fields of " + type + " structure cannot be negative!");
   }
   if (fieldsAmount > 0) {
     fields=new Field[fieldsAmount];
@@ -14,5 +14,5 @@
       fields[i]=new Field(names[nameIndex],types[typeIndex],blenderContext);
     }
   }
-  this.oldMemoryAddress=Long.valueOf(-1L);
+  oldMemoryAddress=Long.valueOf(-1L);
 }

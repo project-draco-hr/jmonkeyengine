@@ -1,7 +1,7 @@
 {
   int position=inputStream.getPosition();
   inputStream.setPosition(position - 8 - inputStream.getPointerSize());
-  this.oldMemoryAddress=Long.valueOf(inputStream.readPointer());
+  oldMemoryAddress=Long.valueOf(inputStream.readPointer());
   inputStream.setPosition(position);
   for (  Field field : fields) {
     field.fill(inputStream);
