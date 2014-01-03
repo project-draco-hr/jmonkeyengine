@@ -15,7 +15,7 @@
         Bone bone=skeleton.getBone(boneIndex);
         Ipo ipo=ipoHelper.fromIpoStructure(ipoStructure,blenderContext);
         if (ipo != null) {
-          tracks.add((BoneTrack)ipo.calculateTrack(boneIndex,bone.getLocalRotation(),0,ipo.getLastFrame(),fps,false));
+          tracks.add((BoneTrack)ipo.calculateTrack(boneIndex,bone.getLocalPosition(),bone.getLocalRotation(),bone.getLocalScale(),0,ipo.getLastFrame(),fps,false));
         }
       }
     }

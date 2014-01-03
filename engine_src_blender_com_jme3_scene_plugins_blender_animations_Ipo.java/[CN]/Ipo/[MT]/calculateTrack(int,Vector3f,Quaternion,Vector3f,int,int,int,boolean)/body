@@ -4,12 +4,12 @@
     float timeBetweenFrames=1.0f / fps;
     float[] times=new float[framesAmount + 1];
     Vector3f[] translations=new Vector3f[framesAmount + 1];
-    float[] translation=new float[3];
+    float[] translation=new float[]{localTranslation.x,localTranslation.y,localTranslation.z};
     Quaternion[] rotations=new Quaternion[framesAmount + 1];
-    float[] quaternionRotation=new float[]{0,0,0,1};
-    float[] objectRotation=new float[3];
+    float[] quaternionRotation=new float[]{localRotation.getX(),localRotation.getY(),localRotation.getZ(),localRotation.getW()};
+    float[] objectRotation=localRotation.toAngles(null);
     Vector3f[] scales=new Vector3f[framesAmount + 1];
-    float[] scale=new float[]{1.0f,1.0f,1.0f};
+    float[] scale=new float[]{localScale.x,localScale.y,localScale.z};
     float degreeToRadiansFactor=1;
     if (blenderVersion < 250) {
       degreeToRadiansFactor*=FastMath.DEG_TO_RAD * 10;
@@ -77,7 +77,7 @@ default :
 LOGGER.log(Level.WARNING,"Unknown ipo curve type: {0}.",bezierCurves[j].getType());
 }
 }
-translations[index]=localQuaternionRotation.multLocal(new Vector3f(translation[0],translation[1],translation[2]));
+translations[index]=localRotation.multLocal(new Vector3f(translation[0],translation[1],translation[2]));
 rotations[index]=spatialTrack ? new Quaternion().fromAngles(objectRotation) : new Quaternion(quaternionRotation[0],quaternionRotation[1],quaternionRotation[2],quaternionRotation[3]);
 scales[index]=new Vector3f(scale[0],scale[1],scale[2]);
 }
