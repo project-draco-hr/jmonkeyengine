@@ -63,7 +63,7 @@ throw new IllegalStateException("Invalid array subtype: " + subType);
 }
 case IDP_GROUP:
 Structure group=(Structure)data.getFieldValue("group");
-List<Structure> dataList=group.evaluateListBase(blenderContext);
+List<Structure> dataList=group.evaluateListBase();
 List<Properties> subProperties=new ArrayList<Properties>(len);
 for (Structure d : dataList) {
 Properties properties=new Properties();
@@ -81,14 +81,14 @@ break;
 case IDP_IDPARRAY:
 {
 Pointer pointer=(Pointer)data.getFieldValue("pointer");
-List<Structure> arrays=pointer.fetchData(blenderContext.getInputStream());
+List<Structure> arrays=pointer.fetchData();
 List<Object> result=new ArrayList<Object>(arrays.size());
 Properties temp=new Properties();
 for (Structure array : arrays) {
 temp.load(array,blenderContext);
 result.add(temp.value);
 }
-this.value=result;
+value=result;
 break;
 }
 case IDP_NUMTYPES:

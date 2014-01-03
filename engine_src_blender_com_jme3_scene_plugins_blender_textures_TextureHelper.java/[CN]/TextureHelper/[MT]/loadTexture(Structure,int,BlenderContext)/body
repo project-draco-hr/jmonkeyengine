@@ -11,7 +11,7 @@
     }
  else {
       LOGGER.fine("Packed texture. Reading directly from the blend file!");
-      Structure packedFile=pPackedFile.fetchData(blenderContext.getInputStream()).get(0);
+      Structure packedFile=pPackedFile.fetchData().get(0);
       Pointer pData=(Pointer)packedFile.getFieldValue("data");
       FileBlockHeader dataFileBlock=blenderContext.getFileBlock(pData.getOldMemoryAddress());
       blenderContext.getInputStream().setPosition(dataFileBlock.getBlockPosition());

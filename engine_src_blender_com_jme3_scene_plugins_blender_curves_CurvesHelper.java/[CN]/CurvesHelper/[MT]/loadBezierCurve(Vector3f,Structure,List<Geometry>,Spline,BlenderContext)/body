@@ -5,7 +5,7 @@
     boolean smooth=(((Number)nurb.getFlatFieldValue("flag")).intValue() & 0x01) != 0;
     int resolution=((Number)nurb.getFieldValue("resolu")).intValue();
     boolean cyclic=(((Number)nurb.getFieldValue("flagu")).intValue() & 0x01) != 0;
-    BezierCurve bezierCurve=new BezierCurve(0,pBezierTriple.fetchData(blenderContext.getInputStream()),3);
+    BezierCurve bezierCurve=new BezierCurve(0,pBezierTriple.fetchData(),3);
     List<Vector3f> controlPoints=bezierCurve.getControlPoints();
     if (fixUpAxis) {
       for (      Vector3f v : controlPoints) {

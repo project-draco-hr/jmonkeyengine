@@ -19,7 +19,7 @@
   int orderV=((Number)nurb.getFieldValue("orderv")).intValue();
   int pntsU=((Number)nurb.getFieldValue("pntsu")).intValue();
   int pntsV=((Number)nurb.getFieldValue("pntsv")).intValue();
-  List<Structure> bPoints=((Pointer)nurb.getFieldValue("bp")).fetchData(blenderContext.getInputStream());
+  List<Structure> bPoints=((Pointer)nurb.getFieldValue("bp")).fetchData();
   List<List<Vector4f>> controlPoints=new ArrayList<List<Vector4f>>(pntsV);
   for (int i=0; i < pntsV; ++i) {
     List<Vector4f> uControlPoints=new ArrayList<Vector4f>(pntsU);

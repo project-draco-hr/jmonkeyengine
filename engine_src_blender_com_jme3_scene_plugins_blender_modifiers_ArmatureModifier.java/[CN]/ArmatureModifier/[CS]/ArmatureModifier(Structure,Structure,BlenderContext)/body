@@ -1,12 +1,12 @@
 {
-  Structure meshStructure=((Pointer)objectStructure.getFieldValue("data")).fetchData(blenderContext.getInputStream()).get(0);
+  Structure meshStructure=((Pointer)objectStructure.getFieldValue("data")).fetchData().get(0);
   if (this.validate(modifierStructure,blenderContext)) {
     Pointer pArmatureObject=(Pointer)modifierStructure.getFieldValue("object");
     if (pArmatureObject.isNotNull()) {
       ArmatureHelper armatureHelper=blenderContext.getHelper(ArmatureHelper.class);
-      armatureObject=pArmatureObject.fetchData(blenderContext.getInputStream()).get(0);
-      Structure armatureStructure=((Pointer)armatureObject.getFieldValue("data")).fetchData(blenderContext.getInputStream()).get(0);
-      List<Structure> bonebase=((Structure)armatureStructure.getFieldValue("bonebase")).evaluateListBase(blenderContext);
+      armatureObject=pArmatureObject.fetchData().get(0);
+      Structure armatureStructure=((Pointer)armatureObject.getFieldValue("data")).fetchData().get(0);
+      List<Structure> bonebase=((Structure)armatureStructure.getFieldValue("bonebase")).evaluateListBase();
       List<Bone> bonesList=new ArrayList<Bone>();
       for (int i=0; i < bonebase.size(); ++i) {
         armatureHelper.buildBones(armatureObject.getOldMemoryAddress(),bonebase.get(i),null,bonesList,objectStructure.getOldMemoryAddress(),blenderContext);
@@ -41,7 +41,7 @@
       }
       Pointer pAction=(Pointer)objectStructure.getFieldValue("action");
       if (pAction.isNotNull()) {
-        Structure actionStructure=pAction.fetchData(blenderContext.getInputStream()).get(0);
+        Structure actionStructure=pAction.fetchData().get(0);
         String actionName=actionStructure.getName();
         BoneTrack[] tracks=armatureHelper.getTracks(actionStructure,skeleton,blenderContext);
         if (tracks != null && tracks.length > 0) {

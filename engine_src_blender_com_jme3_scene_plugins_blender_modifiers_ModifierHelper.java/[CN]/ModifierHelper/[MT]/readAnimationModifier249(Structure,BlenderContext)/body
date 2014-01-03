@@ -3,7 +3,7 @@
   Pointer pIpo=(Pointer)objectStructure.getFieldValue("ipo");
   if (pIpo.isNotNull()) {
     IpoHelper ipoHelper=blenderContext.getHelper(IpoHelper.class);
-    Structure ipoStructure=pIpo.fetchData(blenderContext.getInputStream()).get(0);
+    Structure ipoStructure=pIpo.fetchData().get(0);
     Ipo ipo=ipoHelper.fromIpoStructure(ipoStructure,blenderContext);
     if (ipo != null) {
       result=new ObjectAnimationModifier(ipo,objectStructure.getName(),objectStructure.getOldMemoryAddress(),blenderContext);

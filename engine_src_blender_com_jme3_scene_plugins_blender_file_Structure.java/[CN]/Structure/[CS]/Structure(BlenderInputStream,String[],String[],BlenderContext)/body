@@ -1,7 +1,6 @@
 {
   int nameIndex=inputStream.readShort();
   type=types[nameIndex];
-  this.blenderContext=blenderContext;
   int fieldsAmount=inputStream.readShort();
   if (fieldsAmount < 0) {
     throw new BlenderFileException("The amount of fields of " + type + " structure cannot be negative!");

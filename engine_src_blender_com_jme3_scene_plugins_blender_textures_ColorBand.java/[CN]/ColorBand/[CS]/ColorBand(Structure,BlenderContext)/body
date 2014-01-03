@@ -3,12 +3,12 @@
   if ((flag & GeneratedTexture.TEX_COLORBAND) != 0) {
     Pointer pColorband=(Pointer)tex.getFieldValue("coba");
     try {
-      Structure colorbandStructure=pColorband.fetchData(blenderContext.getInputStream()).get(0);
-      this.cursorsAmount=((Number)colorbandStructure.getFieldValue("tot")).intValue();
-      this.ipoType=((Number)colorbandStructure.getFieldValue("ipotype")).intValue();
-      this.data=new ColorBandData[this.cursorsAmount];
+      Structure colorbandStructure=pColorband.fetchData().get(0);
+      cursorsAmount=((Number)colorbandStructure.getFieldValue("tot")).intValue();
+      ipoType=((Number)colorbandStructure.getFieldValue("ipotype")).intValue();
+      data=new ColorBandData[cursorsAmount];
       DynamicArray<Structure> data=(DynamicArray<Structure>)colorbandStructure.getFieldValue("data");
-      for (int i=0; i < this.cursorsAmount; ++i) {
+      for (int i=0; i < cursorsAmount; ++i) {
         this.data[i]=new ColorBandData(data.get(i));
       }
     }

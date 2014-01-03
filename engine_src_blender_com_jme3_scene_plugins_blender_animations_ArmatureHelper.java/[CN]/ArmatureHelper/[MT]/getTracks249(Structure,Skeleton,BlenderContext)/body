@@ -3,7 +3,7 @@
   IpoHelper ipoHelper=blenderContext.getHelper(IpoHelper.class);
   int fps=blenderContext.getBlenderKey().getFps();
   Structure chanbase=(Structure)actionStructure.getFieldValue("chanbase");
-  List<Structure> actionChannels=chanbase.evaluateListBase(blenderContext);
+  List<Structure> actionChannels=chanbase.evaluateListBase();
   List<BoneTrack> tracks=new ArrayList<BoneTrack>();
   for (  Structure bActionChannel : actionChannels) {
     String name=bActionChannel.getFieldValue("name").toString();
@@ -11,7 +11,7 @@
     if (boneIndex >= 0) {
       Pointer p=(Pointer)bActionChannel.getFieldValue("ipo");
       if (!p.isNull()) {
-        Structure ipoStructure=p.fetchData(blenderContext.getInputStream()).get(0);
+        Structure ipoStructure=p.fetchData().get(0);
         Bone bone=skeleton.getBone(boneIndex);
         Ipo ipo=ipoHelper.fromIpoStructure(ipoStructure,blenderContext);
         if (ipo != null) {

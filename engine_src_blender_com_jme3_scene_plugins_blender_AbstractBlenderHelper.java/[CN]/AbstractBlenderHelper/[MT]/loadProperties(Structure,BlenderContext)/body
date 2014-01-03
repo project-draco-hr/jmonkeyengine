@@ -4,7 +4,7 @@
   if (id != null) {
     Pointer pProperties=(Pointer)id.getFieldValue("properties");
     if (pProperties.isNotNull()) {
-      Structure propertiesStructure=pProperties.fetchData(blenderContext.getInputStream()).get(0);
+      Structure propertiesStructure=pProperties.fetchData().get(0);
       properties=new Properties();
       properties.load(propertiesStructure,blenderContext);
     }

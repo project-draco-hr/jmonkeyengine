@@ -4,7 +4,7 @@
   List<byte[]> verticesColors=null;
   boolean useBGRA=blenderContext.getBlenderVersion() < 263;
   if (pMCol.isNotNull()) {
-    List<Structure> mCol=pMCol.fetchData(blenderContext.getInputStream());
+    List<Structure> mCol=pMCol.fetchData();
     verticesColors=new ArrayList<byte[]>(mCol.size());
     for (    Structure color : mCol) {
       byte r=((Number)color.getFieldValue("r")).byteValue();

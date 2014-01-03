@@ -2,7 +2,7 @@
   Set<String> alreadyReadModifiers=new HashSet<String>();
   Collection<Modifier> result=new ArrayList<Modifier>();
   Structure modifiersListBase=(Structure)objectStructure.getFieldValue("modifiers");
-  List<Structure> modifiers=modifiersListBase.evaluateListBase(blenderContext);
+  List<Structure> modifiers=modifiersListBase.evaluateListBase();
   for (  Structure modifierStructure : modifiers) {
     String modifierType=modifierStructure.getType();
     if (!Modifier.canBeAppliedMultipleTimes(modifierType) && alreadyReadModifiers.contains(modifierType)) {

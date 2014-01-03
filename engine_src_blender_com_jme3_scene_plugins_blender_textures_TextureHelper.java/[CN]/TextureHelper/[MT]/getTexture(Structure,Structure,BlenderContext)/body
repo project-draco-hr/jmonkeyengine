@@ -9,7 +9,7 @@ switch (type) {
 case TEX_IMAGE:
     Pointer pImage=(Pointer)tex.getFieldValue("ima");
   if (pImage.isNotNull()) {
-    Structure image=pImage.fetchData(blenderContext.getInputStream()).get(0);
+    Structure image=pImage.fetchData().get(0);
     Texture loadedTexture=this.loadTexture(image,imaflag,blenderContext);
     if (loadedTexture != null) {
       result=loadedTexture;

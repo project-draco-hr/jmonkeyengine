@@ -51,9 +51,9 @@
           LOGGER.fine("Loading the pose of the armature.");
           ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
           ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
-          Structure pose=pPose.fetchData(blenderContext.getInputStream()).get(0);
+          Structure pose=pPose.fetchData().get(0);
           Structure chanbase=(Structure)pose.getFieldValue("chanbase");
-          List<Structure> chans=chanbase.evaluateListBase(blenderContext);
+          List<Structure> chans=chanbase.evaluateListBase();
           Transform transform=new Transform();
           for (          Structure poseChannel : chans) {
             Pointer pBone=(Pointer)poseChannel.getFieldValue("bone");

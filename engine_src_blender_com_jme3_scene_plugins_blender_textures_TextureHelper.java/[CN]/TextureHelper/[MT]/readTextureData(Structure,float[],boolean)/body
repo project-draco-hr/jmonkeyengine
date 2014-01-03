@@ -6,7 +6,7 @@
     Pointer p=mtexsArray.get(i);
     if (p.isNotNull() && (separatedTextures & 1 << i) == 0) {
       TextureData textureData=new TextureData();
-      textureData.mtex=p.fetchData(blenderContext.getInputStream()).get(0);
+      textureData.mtex=p.fetchData().get(0);
       textureData.uvCoordinatesType=skyTexture ? UVCoordinatesType.TEXCO_ORCO.blenderValue : ((Number)textureData.mtex.getFieldValue("texco")).intValue();
       textureData.projectionType=((Number)textureData.mtex.getFieldValue("mapping")).intValue();
       textureData.uvCoordinatesName=textureData.mtex.getFieldValue("uvName").toString();
@@ -15,7 +15,7 @@
       }
       Pointer pTex=(Pointer)textureData.mtex.getFieldValue("tex");
       if (pTex.isNotNull()) {
-        Structure tex=pTex.fetchData(blenderContext.getInputStream()).get(0);
+        Structure tex=pTex.fetchData().get(0);
         textureData.textureStructure=tex;
         texturesList.add(textureData);
       }

@@ -2,10 +2,10 @@
   Modifier result=null;
   Pointer pAnimData=(Pointer)objectStructure.getFieldValue("adt");
   if (pAnimData.isNotNull()) {
-    Structure animData=pAnimData.fetchData(blenderContext.getInputStream()).get(0);
+    Structure animData=pAnimData.fetchData().get(0);
     Pointer pAction=(Pointer)animData.getFieldValue("action");
     if (pAction.isNotNull()) {
-      Structure actionStructure=pAction.fetchData(blenderContext.getInputStream()).get(0);
+      Structure actionStructure=pAction.fetchData().get(0);
       IpoHelper ipoHelper=blenderContext.getHelper(IpoHelper.class);
       Ipo ipo=ipoHelper.fromAction(actionStructure,blenderContext);
       if (ipo != null) {

@@ -2,9 +2,9 @@
   verticesColors=this.getVerticesColors(structure,blenderContext);
   MeshHelper meshHelper=blenderContext.getHelper(MeshHelper.class);
   if (meshHelper.isBMeshCompatible(structure)) {
-    this.readBMesh(structure,blenderContext);
+    this.readBMesh(structure);
   }
  else {
-    this.readTraditionalFaces(structure,blenderContext);
+    this.readTraditionalFaces(structure);
   }
 }

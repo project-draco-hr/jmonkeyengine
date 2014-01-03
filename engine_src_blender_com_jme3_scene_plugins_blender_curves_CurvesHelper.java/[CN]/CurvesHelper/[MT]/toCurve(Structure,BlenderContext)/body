@@ -10,7 +10,7 @@
   if (isBack) {
     LOGGER.warning("No back face in curve implemented yet!");
   }
-  List<Structure> nurbStructures=((Structure)curveStructure.getFieldValue("nurb")).evaluateListBase(blenderContext);
+  List<Structure> nurbStructures=((Structure)curveStructure.getFieldValue("nurb")).evaluateListBase();
   Map<Number,List<Structure>> nurbs=new HashMap<Number,List<Structure>>();
   for (  Structure nurb : nurbStructures) {
     Number matNumber=(Number)nurb.getFieldValue("mat_nr");
@@ -36,8 +36,8 @@
   List<Geometry> bevelObject=null;
   Pointer pBevelObject=(Pointer)curveStructure.getFieldValue("bevobj");
   if (pBevelObject.isNotNull()) {
-    Pointer pBevelStructure=(Pointer)pBevelObject.fetchData(blenderContext.getInputStream()).get(0).getFieldValue("data");
-    Structure bevelStructure=pBevelStructure.fetchData(blenderContext.getInputStream()).get(0);
+    Pointer pBevelStructure=(Pointer)pBevelObject.fetchData().get(0).getFieldValue("data");
+    Structure bevelStructure=pBevelStructure.fetchData().get(0);
     bevelObject=this.toCurve(bevelStructure,blenderContext);
   }
  else {
@@ -85,9 +85,9 @@
   Spline taperObject=null;
   Pointer pTaperObject=(Pointer)curveStructure.getFieldValue("taperobj");
   if (bevelObject != null && pTaperObject.isNotNull()) {
-    Pointer pTaperStructure=(Pointer)pTaperObject.fetchData(blenderContext.getInputStream()).get(0).getFieldValue("data");
-    Structure taperStructure=pTaperStructure.fetchData(blenderContext.getInputStream()).get(0);
-    taperObject=this.loadTaperObject(taperStructure,blenderContext);
+    Pointer pTaperStructure=(Pointer)pTaperObject.fetchData().get(0).getFieldValue("data");
+    Structure taperStructure=pTaperStructure.fetchData().get(0);
+    taperObject=this.loadTaperObject(taperStructure);
   }
   Vector3f loc=this.getLoc(curveStructure);
   List<Geometry> result=new ArrayList<Geometry>(nurbs.size());
