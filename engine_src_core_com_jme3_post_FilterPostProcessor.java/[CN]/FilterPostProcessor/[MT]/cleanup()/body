@@ -4,6 +4,14 @@
     viewPort.getCamera().setViewPort(left,right,bottom,top);
     viewPort.setOutputFrameBuffer(outputBuffer);
     viewPort=null;
+    renderManager.getRenderer().deleteFrameBuffer(renderFrameBuffer);
+    if (depthTexture != null) {
+      renderManager.getRenderer().deleteImage(depthTexture.getImage());
+    }
+    renderManager.getRenderer().deleteImage(filterTexture.getImage());
+    if (renderFrameBufferMS != null) {
+      renderManager.getRenderer().deleteFrameBuffer(renderFrameBufferMS);
+    }
     for (    Filter filter : filters) {
       filter.cleanup(renderer);
     }

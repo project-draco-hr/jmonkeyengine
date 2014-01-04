@@ -4,16 +4,18 @@
     viewPort.getCamera().setViewPort(left,right,bottom,top);
     viewPort.getCamera().update();
     renderManager.setCamera(viewPort.getCamera(),false);
+    if (mat.getAdditionalRenderState().isDepthWrite()) {
+      mat.getAdditionalRenderState().setDepthTest(false);
+      mat.getAdditionalRenderState().setDepthWrite(false);
+    }
   }
  else {
     viewPort.getCamera().resize(buff.getWidth(),buff.getHeight(),false);
     viewPort.getCamera().setViewPort(0,1,0,1);
     viewPort.getCamera().update();
     renderManager.setCamera(viewPort.getCamera(),false);
-  }
-  if (mat.getAdditionalRenderState().isDepthWrite()) {
-    mat.getAdditionalRenderState().setDepthTest(false);
-    mat.getAdditionalRenderState().setDepthWrite(false);
+    mat.getAdditionalRenderState().setDepthTest(true);
+    mat.getAdditionalRenderState().setDepthWrite(true);
   }
   fsQuad.setMaterial(mat);
   fsQuad.updateGeometricState();
