@@ -1,0 +1,32 @@
+{
+  super.setTime(time);
+  if (!animationName.equals(channel.getAnimationName())) {
+    channel.setAnim(animationName,blendTime);
+  }
+  float t=time;
+  if (loopMode == loopMode.Loop) {
+    t=t % channel.getAnimMaxTime();
+  }
+  if (loopMode == loopMode.Cycle) {
+    float parity=(float)Math.ceil(time / channel.getAnimMaxTime());
+    if (parity > 0 && parity % 2 == 0) {
+      t=channel.getAnimMaxTime() - t % channel.getAnimMaxTime();
+    }
+ else {
+      t=t % channel.getAnimMaxTime();
+    }
+  }
+  if (t < 0) {
+    channel.setTime(0);
+    channel.reset(true);
+  }
+  if (t > channel.getAnimMaxTime()) {
+    channel.setTime(t);
+    channel.getControl().update(0);
+    stop();
+  }
+ else {
+    channel.setTime(t);
+    channel.getControl().update(0);
+  }
+}

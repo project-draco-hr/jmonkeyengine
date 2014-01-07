@@ -1,0 +1,6 @@
+{
+  VertexBuffer posBuf=getBuffer(VertexBuffer.Type.Position);
+  if (meshBound != null && posBuf != null) {
+    meshBound.computeFromPoints((FloatBuffer)posBuf.getData());
+  }
+}

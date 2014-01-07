@@ -1,0 +1,14 @@
+{
+  InputCapsule ic=im.getCapsule(this);
+  name=ic.readString("name",null);
+  worldBound=(BoundingVolume)ic.readSavable("world_bound",null);
+  cullHint=ic.readEnum("cull_mode",CullHint.class,CullHint.Inherit);
+  batchHint=ic.readEnum("batch_hint",BatchHint.class,BatchHint.Inherit);
+  queueBucket=ic.readEnum("queue",RenderQueue.Bucket.class,RenderQueue.Bucket.Inherit);
+  shadowMode=ic.readEnum("shadow_mode",ShadowMode.class,ShadowMode.Inherit);
+  localTransform=(Transform)ic.readSavable("transform",Transform.IDENTITY);
+  localLights=(LightList)ic.readSavable("lights",null);
+  localLights.setOwner(this);
+  controls.addAll(0,ic.readSavableArrayList("controlsList",null));
+  userData=(HashMap<String,Savable>)ic.readStringSavableMap("user_data",null);
+}

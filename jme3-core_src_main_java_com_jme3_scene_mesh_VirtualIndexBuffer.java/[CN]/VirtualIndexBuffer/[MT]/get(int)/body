@@ -1,0 +1,39 @@
+{
+  if (meshMode == Mode.Triangles || meshMode == Mode.Lines || meshMode == Mode.Points) {
+    return i;
+  }
+ else   if (meshMode == Mode.LineStrip) {
+    return (i + 1) / 2;
+  }
+ else   if (meshMode == Mode.LineLoop) {
+    return (i == (numVerts - 1)) ? 0 : ((i + 1) / 2);
+  }
+ else   if (meshMode == Mode.TriangleStrip) {
+    int triIndex=i / 3;
+    int vertIndex=i % 3;
+    boolean isBack=(i / 3) % 2 == 1;
+    if (!isBack) {
+      return triIndex + vertIndex;
+    }
+ else {
+switch (vertIndex) {
+case 0:
+        return triIndex + 1;
+case 1:
+      return triIndex;
+case 2:
+    return triIndex + 2;
+default :
+  throw new AssertionError();
+}
+}
+}
+ else if (meshMode == Mode.TriangleFan) {
+int vertIndex=i % 3;
+if (vertIndex == 0) return 0;
+ else return (i / 3) + vertIndex;
+}
+ else {
+throw new UnsupportedOperationException();
+}
+}

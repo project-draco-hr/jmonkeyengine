@@ -1,0 +1,35 @@
+{
+  if (column == null) {
+    logger.warning("Column is null. Ignoring.");
+    return;
+  }
+switch (i) {
+case 0:
+    m00=column[0];
+  m10=column[1];
+m20=column[2];
+m30=column[3];
+break;
+case 1:
+m01=column[0];
+m11=column[1];
+m21=column[2];
+m31=column[3];
+break;
+case 2:
+m02=column[0];
+m12=column[1];
+m22=column[2];
+m32=column[3];
+break;
+case 3:
+m03=column[0];
+m13=column[1];
+m23=column[2];
+m33=column[3];
+break;
+default :
+logger.warning("Invalid column index.");
+throw new IllegalArgumentException("Invalid column index. " + i);
+}
+}

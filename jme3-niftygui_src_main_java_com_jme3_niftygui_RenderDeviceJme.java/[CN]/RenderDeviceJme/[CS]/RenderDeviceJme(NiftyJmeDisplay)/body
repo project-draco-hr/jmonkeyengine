@@ -1,0 +1,15 @@
+{
+  this.display=display;
+  quadColor=new VertexBuffer(Type.Color);
+  quadColor.setNormalized(true);
+  ByteBuffer bb=BufferUtils.createByteBuffer(4 * 4);
+  quadColor.setupData(Usage.Stream,4,Format.UnsignedByte,bb);
+  quad.setBuffer(quadColor);
+  quadModTC.setUsage(Usage.Stream);
+  colorMaterial=new Material(display.getAssetManager(),"Common/MatDefs/Misc/Unshaded.j3md");
+  textureColorMaterial=new Material(display.getAssetManager(),"Common/MatDefs/Misc/Unshaded.j3md");
+  vertexColorMaterial=new Material(display.getAssetManager(),"Common/MatDefs/Misc/Unshaded.j3md");
+  vertexColorMaterial.setBoolean("VertexColor",true);
+  renderState.setDepthTest(false);
+  renderState.setDepthWrite(false);
+}

@@ -1,0 +1,23 @@
+{
+  super.read(e);
+  InputCapsule capsule=e.getCapsule(this);
+  BinaryImporter importer=BinaryImporter.getInstance();
+  AssetManager loaderManager=e.getAssetManager();
+  assetLoaderKeys=(ArrayList<ModelKey>)capsule.readSavableArrayList("assetLoaderKeyList",new ArrayList<ModelKey>());
+  for (Iterator<ModelKey> it=assetLoaderKeys.iterator(); it.hasNext(); ) {
+    ModelKey modelKey=it.next();
+    AssetInfo info=loaderManager.locateAsset(modelKey);
+    Spatial child=null;
+    if (info != null) {
+      child=(Spatial)importer.load(info);
+    }
+    if (child != null) {
+      child.parent=this;
+      children.add(child);
+      assetChildren.put(modelKey,child);
+    }
+ else {
+      Logger.getLogger(this.getClass().getName()).log(Level.WARNING,"Cannot locate {0} for asset link node {1}",new Object[]{modelKey,key});
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  if (store == null) {
+    store=new Quaternion();
+  }
+  Vector3f axis=new Vector3f();
+  float angle=toAngleAxis(axis);
+  store.fromAngleAxis(FastMath.PI + angle,axis);
+  return store;
+}

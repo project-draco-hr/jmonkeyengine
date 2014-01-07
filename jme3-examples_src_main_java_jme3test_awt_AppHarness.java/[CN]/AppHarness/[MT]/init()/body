@@ -1,0 +1,13 @@
+{
+  appClass=getParameter("AppClass");
+  if (appClass == null)   throw new RuntimeException("The required parameter AppClass isn't specified!");
+  try {
+    appCfg=new URL(getParameter("AppSettingsURL"));
+  }
+ catch (  MalformedURLException ex) {
+    ex.printStackTrace();
+    appCfg=null;
+  }
+  createCanvas();
+  System.out.println("applet:init");
+}

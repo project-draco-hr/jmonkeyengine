@@ -1,0 +1,11 @@
+{
+  if (context.clipRectEnabled) {
+    GLES20.glDisable(GLES20.GL_SCISSOR_TEST);
+    RendererUtil.checkGLError();
+    context.clipRectEnabled=false;
+    clipX=0;
+    clipY=0;
+    clipW=0;
+    clipH=0;
+  }
+}

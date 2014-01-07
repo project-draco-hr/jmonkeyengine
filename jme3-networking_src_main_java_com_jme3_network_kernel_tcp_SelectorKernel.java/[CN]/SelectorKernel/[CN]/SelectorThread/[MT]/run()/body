@@ -1,0 +1,21 @@
+{
+  log.log(Level.FINE,"Kernel started for connection:{0}.",address);
+  while (go.get()) {
+    setupSelectorOptions();
+    try {
+      select();
+    }
+ catch (    ClosedSelectorException e) {
+      if (!go.get())       return;
+      throw new KernelException("Premature selector closing",e);
+    }
+catch (    CancelledKeyException e) {
+      if (!go.get())       return;
+      throw new KernelException("Invalid key state",e);
+    }
+catch (    IOException e) {
+      if (!go.get())       return;
+      reportError(e);
+    }
+  }
+}

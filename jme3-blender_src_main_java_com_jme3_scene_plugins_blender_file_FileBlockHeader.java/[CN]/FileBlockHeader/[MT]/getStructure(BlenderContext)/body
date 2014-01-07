@@ -1,0 +1,6 @@
+{
+  blenderContext.getInputStream().setPosition(blockPosition);
+  Structure structure=blenderContext.getDnaBlockData().getStructure(sdnaIndex);
+  structure.fill(blenderContext.getInputStream());
+  return structure;
+}

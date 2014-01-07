@@ -1,0 +1,22 @@
+{
+  int radiusStepsX=(int)(radius / terrain.getLocalScale().x);
+  int radiusStepsZ=(int)(radius / terrain.getLocalScale().z);
+  float xStepAmount=terrain.getLocalScale().x;
+  float zStepAmount=terrain.getLocalScale().z;
+  long start=System.currentTimeMillis();
+  List<Vector2f> locs=new ArrayList<Vector2f>();
+  List<Float> heights=new ArrayList<Float>();
+  for (int z=-radiusStepsZ; z < radiusStepsZ; z++) {
+    for (int x=-radiusStepsX; x < radiusStepsX; x++) {
+      float locX=loc.x + (x * xStepAmount);
+      float locZ=loc.z + (z * zStepAmount);
+      if (isInRadius(locX - loc.x,locZ - loc.z,radius)) {
+        float h=calculateHeight(radius,height,locX - loc.x,locZ - loc.z);
+        locs.add(new Vector2f(locX,locZ));
+        heights.add(h);
+      }
+    }
+  }
+  terrain.adjustHeight(locs,heights);
+  terrain.updateModelBound();
+}

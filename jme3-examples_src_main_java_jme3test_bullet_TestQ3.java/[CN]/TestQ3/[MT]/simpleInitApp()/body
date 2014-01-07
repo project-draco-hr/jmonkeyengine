@@ -1,0 +1,33 @@
+{
+  bulletAppState=new BulletAppState();
+  stateManager.attach(bulletAppState);
+  flyCam.setMoveSpeed(100);
+  setupKeys();
+  this.cam.setFrustumFar(2000);
+  DirectionalLight dl=new DirectionalLight();
+  dl.setColor(ColorRGBA.White.clone().multLocal(2));
+  dl.setDirection(new Vector3f(-1,-1,-1).normalize());
+  rootNode.addLight(dl);
+  AmbientLight am=new AmbientLight();
+  am.setColor(ColorRGBA.White.mult(2));
+  rootNode.addLight(am);
+  if (useHttp) {
+    assetManager.registerLocator("http://jmonkeyengine.googlecode.com/files/quake3level.zip",HttpZipLocator.class);
+  }
+ else {
+    assetManager.registerLocator("quake3level.zip",ZipLocator.class);
+  }
+  MaterialList matList=(MaterialList)assetManager.loadAsset("Scene.material");
+  OgreMeshKey key=new OgreMeshKey("main.meshxml",matList);
+  gameLevel=(Node)assetManager.loadAsset(key);
+  gameLevel.setLocalScale(0.1f);
+  gameLevel.addControl(new RigidBodyControl(0));
+  player=new PhysicsCharacter(new SphereCollisionShape(5),.01f);
+  player.setJumpSpeed(20);
+  player.setFallSpeed(30);
+  player.setGravity(30);
+  player.setPhysicsLocation(new Vector3f(60,10,-60));
+  rootNode.attachChild(gameLevel);
+  getPhysicsSpace().addAll(gameLevel);
+  getPhysicsSpace().add(player);
+}

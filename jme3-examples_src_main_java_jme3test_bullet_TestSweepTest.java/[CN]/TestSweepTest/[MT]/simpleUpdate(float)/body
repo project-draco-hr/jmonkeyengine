@@ -1,0 +1,12 @@
+{
+  float move=tpf * 1;
+  List<PhysicsSweepTestResult> sweepTest=bulletAppState.getPhysicsSpace().sweepTest(capsuleCollisionShape,new Transform(capsule.getWorldTranslation()),new Transform(capsule.getWorldTranslation().add(dist,0,0)));
+  if (sweepTest.size() > 0) {
+    PhysicsSweepTestResult get=sweepTest.get(0);
+    PhysicsCollisionObject collisionObject=get.getCollisionObject();
+    fpsText.setText("Almost colliding with " + collisionObject.getUserObject().toString());
+  }
+ else {
+    capsule.move(move,0,0);
+  }
+}

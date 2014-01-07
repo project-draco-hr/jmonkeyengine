@@ -1,0 +1,17 @@
+{
+  if (args.length == 0) {
+    System.out.println("Usage: java -jar FolderConverter <input folder>");
+    System.out.println();
+    System.out.println("  Converts files from input to output");
+    System.exit(1);
+  }
+  sourceRoot=new File(args[0]);
+  File jarFile=new File(sourceRoot.getParent(),sourceRoot.getName() + ".jar");
+  FileOutputStream out=new FileOutputStream(jarFile);
+  jarOut=new JarOutputStream(out);
+  assetManager=JmeSystem.newAssetManager();
+  assetManager.registerLocator(sourceRoot.toString(),"com.jme3.asset.plugins.FileSystemLocator");
+  for (  File f : sourceRoot.listFiles()) {
+    process(f);
+  }
+}

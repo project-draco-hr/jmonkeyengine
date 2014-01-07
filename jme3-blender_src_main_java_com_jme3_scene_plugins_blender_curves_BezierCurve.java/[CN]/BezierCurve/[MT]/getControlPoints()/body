@@ -1,0 +1,9 @@
+{
+  List<Vector3f> controlPoints=new ArrayList<Vector3f>(bezierPoints.length * 3);
+  for (int i=0; i < bezierPoints.length; ++i) {
+    controlPoints.add(new Vector3f(bezierPoints[i][0][0],bezierPoints[i][0][1],bezierPoints[i][0][2]));
+    controlPoints.add(new Vector3f(bezierPoints[i][1][0],bezierPoints[i][1][1],bezierPoints[i][1][2]));
+    controlPoints.add(new Vector3f(bezierPoints[i][2][0],bezierPoints[i][2][1],bezierPoints[i][2][2]));
+  }
+  return controlPoints;
+}

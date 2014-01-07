@@ -1,0 +1,70 @@
+{
+  Texture result=(Texture)blenderContext.getLoadedFeature(tex.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
+  if (result != null) {
+    return result;
+  }
+  int type=((Number)tex.getFieldValue("type")).intValue();
+  int imaflag=((Number)tex.getFieldValue("imaflag")).intValue();
+switch (type) {
+case TEX_IMAGE:
+    Pointer pImage=(Pointer)tex.getFieldValue("ima");
+  if (pImage.isNotNull()) {
+    Structure image=pImage.fetchData().get(0);
+    Texture loadedTexture=this.loadTexture(image,imaflag,blenderContext);
+    if (loadedTexture != null) {
+      result=loadedTexture;
+      this.applyColorbandAndColorFactors(tex,result.getImage(),blenderContext);
+    }
+  }
+break;
+case TEX_CLOUDS:
+case TEX_WOOD:
+case TEX_MARBLE:
+case TEX_MAGIC:
+case TEX_BLEND:
+case TEX_STUCCI:
+case TEX_NOISE:
+case TEX_MUSGRAVE:
+case TEX_VORONOI:
+case TEX_DISTNOISE:
+result=new GeneratedTexture(tex,mTex,textureGeneratorFactory.createTextureGenerator(type),blenderContext);
+break;
+case TEX_NONE:
+break;
+case TEX_POINTDENSITY:
+case TEX_VOXELDATA:
+case TEX_PLUGIN:
+case TEX_ENVMAP:
+case TEX_OCEAN:
+LOGGER.log(Level.WARNING,"Unsupported texture type: {0} for texture: {1}",new Object[]{type,tex.getName()});
+break;
+default :
+throw new BlenderFileException("Unknown texture type: " + type + " for texture: "+ tex.getName());
+}
+if (result != null) {
+result.setName(tex.getName());
+result.setWrap(WrapMode.Repeat);
+switch (blenderContext.getBlenderKey().getMipmapGenerationMethod()) {
+case ALWAYS_GENERATE:
+result.setMinFilter(MinFilter.Trilinear);
+break;
+case NEVER_GENERATE:
+break;
+case GENERATE_WHEN_NEEDED:
+if ((imaflag & 0x04) != 0) {
+result.setMinFilter(MinFilter.Trilinear);
+}
+break;
+default :
+throw new IllegalStateException("Unknown mipmap generation method: " + blenderContext.getBlenderKey().getMipmapGenerationMethod());
+}
+if (type != TEX_IMAGE) {
+result.setKey(new GeneratedTextureKey(tex.getName()));
+}
+if (LOGGER.isLoggable(Level.FINE)) {
+LOGGER.log(Level.FINE,"Adding texture {0} to the loaded features with OMA = {1}",new Object[]{result.getName(),tex.getOldMemoryAddress()});
+}
+blenderContext.addLoadedFeatures(tex.getOldMemoryAddress(),tex.getName(),tex,result);
+}
+return result;
+}

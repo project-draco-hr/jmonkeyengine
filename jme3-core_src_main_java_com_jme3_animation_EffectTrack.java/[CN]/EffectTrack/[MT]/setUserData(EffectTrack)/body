@@ -1,0 +1,8 @@
+{
+  TrackInfo data=(TrackInfo)effectTrack.emitter.getUserData("TrackInfo");
+  if (data == null) {
+    data=new TrackInfo();
+    effectTrack.emitter.setUserData("TrackInfo",data);
+  }
+  data.addTrack(effectTrack);
+}

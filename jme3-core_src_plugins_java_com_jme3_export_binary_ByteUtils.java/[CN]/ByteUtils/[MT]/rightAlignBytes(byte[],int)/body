@@ -1,0 +1,10 @@
+{
+  if (bytes.length != width) {
+    byte[] rVal=new byte[width];
+    for (int x=width - bytes.length; x < width; x++) {
+      rVal[x]=bytes[x - (width - bytes.length)];
+    }
+    return rVal;
+  }
+  return bytes;
+}

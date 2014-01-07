@@ -1,0 +1,7 @@
+{
+  if (connections.isEmpty())   return;
+  checkChannel(channel);
+  ByteBuffer buffer=MessageProtocol.messageToBuffer(message,null);
+  FilterAdapter adapter=filter == null ? null : new FilterAdapter(filter);
+  channels.get(channel + CH_FIRST).broadcast(adapter,buffer,true,false);
+}

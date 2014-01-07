@@ -1,0 +1,30 @@
+{
+  int numFaces=parseInt(count);
+  int indicesPerFace=0;
+switch (mesh.getMode()) {
+case Triangles:
+    indicesPerFace=3;
+  break;
+case Lines:
+indicesPerFace=2;
+break;
+case Points:
+indicesPerFace=1;
+break;
+default :
+throw new SAXException("Strips or fans not supported!");
+}
+int numIndices=indicesPerFace * numFaces;
+vb=new VertexBuffer(VertexBuffer.Type.Index);
+if (!usesBigIndices) {
+sb=BufferUtils.createShortBuffer(numIndices);
+ib=null;
+vb.setupData(Usage.Static,indicesPerFace,Format.UnsignedShort,sb);
+}
+ else {
+ib=BufferUtils.createIntBuffer(numIndices);
+sb=null;
+vb.setupData(Usage.Static,indicesPerFace,Format.UnsignedInt,ib);
+}
+mesh.setBuffer(vb);
+}

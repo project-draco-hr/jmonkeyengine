@@ -1,0 +1,19 @@
+{
+  if (enabled && spatial != null) {
+    Vector3f localLocation=spatial.getLocalTranslation();
+    Quaternion localRotationQuat=spatial.getLocalRotation();
+    if (!applyLocal && spatial.getParent() != null) {
+      localLocation.set(worldLocation).subtractLocal(spatial.getParent().getWorldTranslation());
+      localLocation.divideLocal(spatial.getParent().getWorldScale());
+      tmp_inverseWorldRotation.set(spatial.getParent().getWorldRotation()).inverseLocal().multLocal(localLocation);
+      localRotationQuat.set(worldRotation);
+      tmp_inverseWorldRotation.set(spatial.getParent().getWorldRotation()).inverseLocal().mult(localRotationQuat,localRotationQuat);
+      spatial.setLocalTranslation(localLocation);
+      spatial.setLocalRotation(localRotationQuat);
+    }
+ else {
+      spatial.setLocalTranslation(worldLocation);
+      spatial.setLocalRotation(worldRotation);
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  return new FileFilter(){
+    public boolean accept(    File pathname){
+      return (pathname.isDirectory() && !pathname.getName().startsWith(".")) || (pathname.getName().endsWith(".class") && (pathname.getName().indexOf("Test") >= 0) && pathname.getName().indexOf('$') < 0);
+    }
+  }
+;
+}

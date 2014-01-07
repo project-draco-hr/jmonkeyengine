@@ -1,0 +1,33 @@
+{
+  VertexBuffer indexBuffer=mesh.getBuffer(VertexBuffer.Type.Index);
+  indexCount=indexBuffer.getNumElements() * 3;
+  Buffer b=indexBuffer.getDataReadOnly();
+  b.rewind();
+  while (b.remaining() != 0) {
+    Triangle tri=new Triangle();
+    tri.isRemoved=false;
+    triangleList.add(tri);
+    for (int i=0; i < 3; i++) {
+      if (b instanceof IntBuffer) {
+        tri.vertexId[i]=((IntBuffer)b).get();
+      }
+ else {
+        tri.vertexId[i]=((ShortBuffer)b).get() & 0xffff;
+      }
+      tri.vertex[i]=vertexLookup.get(tri.vertexId[i]);
+      tri.vertex[i].index=tri.vertexId[i];
+    }
+    if (tri.isMalformed()) {
+      if (!tri.isRemoved) {
+        logger.log(Level.FINE,"malformed triangle found with ID:{0}\n{1} It will be excluded from Lod level calculations.",new Object[]{triangleList.indexOf(tri),tri.toString()});
+        tri.isRemoved=true;
+        indexCount-=3;
+      }
+    }
+ else {
+      tri.computeNormal();
+      addTriangleToEdges(tri);
+    }
+  }
+  b.rewind();
+}

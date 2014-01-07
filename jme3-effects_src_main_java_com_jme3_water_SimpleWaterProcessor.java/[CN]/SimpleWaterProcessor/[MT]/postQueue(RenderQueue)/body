@@ -1,0 +1,12 @@
+{
+  Camera sceneCam=rm.getCurrentCamera();
+  refractionCam.setLocation(sceneCam.getLocation());
+  refractionCam.setRotation(sceneCam.getRotation());
+  refractionCam.setFrustum(sceneCam.getFrustumNear(),sceneCam.getFrustumFar(),sceneCam.getFrustumLeft(),sceneCam.getFrustumRight(),sceneCam.getFrustumTop(),sceneCam.getFrustumBottom());
+  refractionCam.setParallelProjection(sceneCam.isParallelProjection());
+  WaterUtils.updateReflectionCam(reflectionCam,plane,sceneCam);
+  rm.renderViewPort(reflectionView,savedTpf);
+  rm.renderViewPort(refractionView,savedTpf);
+  rm.getRenderer().setFrameBuffer(vp.getOutputFrameBuffer());
+  rm.setCamera(sceneCam,false);
+}

@@ -1,0 +1,18 @@
+{
+  if (null == vec) {
+    logger.warning("Source vector is null, null result returned.");
+    return null;
+  }
+  if (store == null) {
+    store=new Quaternion();
+  }
+  float x=m00 * vec.x + m10 * vec.y + m20 * vec.z + m30 * vec.w;
+  float y=m01 * vec.x + m11 * vec.y + m21 * vec.z + m31 * vec.w;
+  float z=m02 * vec.x + m12 * vec.y + m22 * vec.z + m32 * vec.w;
+  float w=m03 * vec.x + m13 * vec.y + m23 * vec.z + m33 * vec.w;
+  store.x=x;
+  store.y=y;
+  store.z=z;
+  store.w=w;
+  return store;
+}

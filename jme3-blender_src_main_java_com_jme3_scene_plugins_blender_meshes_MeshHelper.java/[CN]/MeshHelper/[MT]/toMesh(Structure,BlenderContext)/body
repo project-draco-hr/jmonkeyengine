@@ -1,0 +1,109 @@
+{
+  List<Geometry> geometries=(List<Geometry>)blenderContext.getLoadedFeature(structure.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
+  if (geometries != null) {
+    List<Geometry> copiedGeometries=new ArrayList<Geometry>(geometries.size());
+    for (    Geometry geometry : geometries) {
+      copiedGeometries.add(geometry.clone());
+    }
+    return copiedGeometries;
+  }
+  String name=structure.getName();
+  MeshContext meshContext=new MeshContext();
+  LOGGER.log(Level.FINE,"Reading mesh: {0}.",name);
+  LOGGER.fine("Loading materials.");
+  MaterialHelper materialHelper=blenderContext.getHelper(MaterialHelper.class);
+  MaterialContext[] materials=null;
+  if ((blenderContext.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.MATERIALS) != 0) {
+    materials=materialHelper.getMaterials(structure,blenderContext);
+  }
+  LOGGER.fine("Reading vertices.");
+  MeshBuilder meshBuilder=new MeshBuilder(structure,materials,blenderContext);
+  if (meshBuilder.isEmpty()) {
+    LOGGER.fine("The geometry is empty.");
+    geometries=new ArrayList<Geometry>(0);
+    blenderContext.addLoadedFeatures(structure.getOldMemoryAddress(),structure.getName(),structure,geometries);
+    blenderContext.setMeshContext(structure.getOldMemoryAddress(),meshContext);
+    return geometries;
+  }
+  meshContext.setVertexReferenceMap(meshBuilder.getVertexReferenceMap());
+  LOGGER.fine("Reading vertices groups (from the Object structure).");
+  Structure parent=blenderContext.peekParent();
+  Structure defbase=(Structure)parent.getFieldValue("defbase");
+  List<Structure> defs=defbase.evaluateListBase();
+  String[] verticesGroups=new String[defs.size()];
+  int defIndex=0;
+  for (  Structure def : defs) {
+    verticesGroups[defIndex++]=def.getFieldValue("name").toString();
+  }
+  LOGGER.fine("Reading custom properties.");
+  Properties properties=this.loadProperties(structure,blenderContext);
+  LOGGER.fine("Generating meshes.");
+  Map<Integer,List<Mesh>> meshes=meshBuilder.buildMeshes();
+  geometries=new ArrayList<Geometry>(meshes.size());
+  for (  Entry<Integer,List<Mesh>> meshEntry : meshes.entrySet()) {
+    int materialIndex=meshEntry.getKey();
+    for (    Mesh mesh : meshEntry.getValue()) {
+      LOGGER.fine("Preparing the result part.");
+      Geometry geometry=new Geometry(name + (geometries.size() + 1),mesh);
+      if (properties != null && properties.getValue() != null) {
+        this.applyProperties(geometry,properties);
+      }
+      geometries.add(geometry);
+      meshContext.putGeometry(materialIndex,geometry);
+    }
+  }
+  blenderContext.addLoadedFeatures(structure.getOldMemoryAddress(),structure.getName(),structure,geometries);
+  blenderContext.setMeshContext(structure.getOldMemoryAddress(),meshContext);
+  if (materials != null) {
+    for (    Geometry geometry : geometries) {
+      int materialNumber=meshContext.getMaterialIndex(geometry);
+      if (materialNumber < 0) {
+        geometry.setMaterial(this.getBlackUnshadedMaterial(blenderContext));
+      }
+ else       if (materials[materialNumber] != null) {
+        LinkedHashMap<String,List<Vector2f>> uvCoordinates=meshBuilder.getUVCoordinates(materialNumber);
+        MaterialContext materialContext=materials[materialNumber];
+        materialContext.applyMaterial(geometry,structure.getOldMemoryAddress(),uvCoordinates,blenderContext);
+      }
+ else {
+        geometry.setMaterial(blenderContext.getDefaultMaterial());
+        LOGGER.warning("The importer came accross mesh that points to a null material. Default material is used to prevent loader from crashing, " + "but the model might look not the way it should. Sometimes blender does not assign materials properly. " + "Enter the edit mode and assign materials once more to your faces.");
+      }
+    }
+  }
+ else {
+    List<VertexBuffer> uvCoordsBuffer=null;
+    if (meshBuilder.hasUVCoordinates()) {
+      Map<String,List<Vector2f>> uvs=meshBuilder.getUVCoordinates(0);
+      if (uvs != null && uvs.size() > 0) {
+        uvCoordsBuffer=new ArrayList<VertexBuffer>(uvs.size());
+        int uvIndex=0;
+        for (        Entry<String,List<Vector2f>> entry : uvs.entrySet()) {
+          VertexBuffer buffer=new VertexBuffer(TextureHelper.TEXCOORD_TYPES[uvIndex++]);
+          buffer.setupData(Usage.Static,2,Format.Float,BufferUtils.createFloatBuffer(entry.getValue().toArray(new Vector2f[uvs.size()])));
+          uvCoordsBuffer.add(buffer);
+        }
+      }
+    }
+    for (    Geometry geometry : geometries) {
+      Mode mode=geometry.getMesh().getMode();
+      if (mode != Mode.Triangles && mode != Mode.TriangleFan && mode != Mode.TriangleStrip) {
+        geometry.setMaterial(this.getBlackUnshadedMaterial(blenderContext));
+      }
+ else {
+        Material defaultMaterial=blenderContext.getDefaultMaterial();
+        if (geometry.getMesh().getBuffer(Type.Color) != null) {
+          defaultMaterial=defaultMaterial.clone();
+          defaultMaterial.setBoolean("VertexColor",true);
+        }
+        geometry.setMaterial(defaultMaterial);
+      }
+      if (uvCoordsBuffer != null) {
+        for (        VertexBuffer buffer : uvCoordsBuffer) {
+          geometry.getMesh().setBuffer(buffer);
+        }
+      }
+    }
+  }
+  return geometries;
+}

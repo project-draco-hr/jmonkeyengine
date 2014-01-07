@@ -1,0 +1,14 @@
+{
+  String v=document.getXmlVersion();
+  writer.append("<?xml ");
+  writer.append(" version='").append(v == null ? "1.0" : v).append("'");
+  writer.append(" encoding='").append(encoding.name()).append("'");
+  if (document.getXmlStandalone()) {
+    writer.append(" standalone='yes'");
+  }
+  writer.append("?>").append(lineSeparator);
+  NodeList nodes=document.getChildNodes();
+  for (int i=0, imax=nodes.getLength(); i < imax; ++i) {
+    write(nodes.item(i),writer,0);
+  }
+}

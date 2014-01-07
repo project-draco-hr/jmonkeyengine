@@ -1,0 +1,9 @@
+{
+  cinematicEvent.dispose();
+  boolean ret=keyFrame.cinematicEvents.remove(cinematicEvent);
+  cinematicEvents.remove(cinematicEvent);
+  if (keyFrame.isEmpty()) {
+    timeLine.removeKeyFrame(keyFrame.getIndex());
+  }
+  return ret;
+}

@@ -1,0 +1,15 @@
+{
+  try {
+    ProcessBuilder pb=new ProcessBuilder("GPUShaderAnalyzer","-ListModules");
+    Process p=pb.start();
+    Scanner scan=new Scanner(p.getInputStream());
+    String ln=scan.nextLine();
+    scan.close();
+    p.destroy();
+    return ln;
+  }
+ catch (  IOException ex) {
+    logger.log(Level.SEVERE,"IOEx",ex);
+  }
+  return null;
+}

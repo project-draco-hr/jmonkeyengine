@@ -1,0 +1,11 @@
+{
+  for (  ShaderNodeVariable shaderNodeVariable : list) {
+    if (shaderNodeVariable.getName().equals(var.getName())) {
+      var.setType(shaderNodeVariable.getType());
+      var.setMultiplicity(shaderNodeVariable.getMultiplicity());
+      var.setNameSpace(shaderNode.getName());
+      return true;
+    }
+  }
+  return false;
+}

@@ -1,0 +1,7 @@
+{
+  int w=mainSceneFB.getWidth();
+  int h=mainSceneFB.getHeight();
+  hdr64=createLumShader(w,h,64,64,LUMMODE_ENCODE_LUM,maxIterations,mainScene);
+  hdr8=createLumShader(64,64,8,8,LUMMODE_NONE,maxIterations,scene64);
+  hdr1=createLumShader(8,8,1,1,LUMMODE_NONE,maxIterations,scene8);
+}

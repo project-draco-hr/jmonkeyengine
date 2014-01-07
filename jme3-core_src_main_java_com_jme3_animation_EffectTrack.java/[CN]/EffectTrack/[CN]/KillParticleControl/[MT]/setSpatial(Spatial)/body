@@ -1,0 +1,11 @@
+{
+  super.setSpatial(spatial);
+  if (spatial != null) {
+    if (spatial instanceof ParticleEmitter) {
+      emitter=(ParticleEmitter)spatial;
+    }
+ else {
+      throw new IllegalArgumentException("KillParticleEmitter can only ba attached to ParticleEmitter");
+    }
+  }
+}

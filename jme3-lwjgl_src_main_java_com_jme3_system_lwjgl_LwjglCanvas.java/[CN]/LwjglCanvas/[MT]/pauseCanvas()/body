@@ -1,0 +1,16 @@
+{
+  if (Mouse.isCreated()) {
+    if (Mouse.isGrabbed()) {
+      Mouse.setGrabbed(false);
+      mouseWasGrabbed=true;
+    }
+    mouseWasCreated=true;
+    Mouse.destroy();
+  }
+  if (Keyboard.isCreated()) {
+    keyboardWasCreated=true;
+    Keyboard.destroy();
+  }
+  renderable.set(false);
+  destroyContext();
+}

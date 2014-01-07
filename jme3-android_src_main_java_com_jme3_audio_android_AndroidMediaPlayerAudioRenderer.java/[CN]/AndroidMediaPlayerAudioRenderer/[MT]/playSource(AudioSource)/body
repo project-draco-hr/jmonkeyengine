@@ -1,0 +1,35 @@
+{
+  if (audioDisabled) {
+    return;
+  }
+  AndroidAudioData audioData=(AndroidAudioData)src.getAudioData();
+  MediaPlayer mp=musicPlaying.get(src);
+  if (mp == null) {
+    mp=new MediaPlayer();
+    mp.setOnCompletionListener(this);
+    mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+  }
+  try {
+    if (src.getStatus() == Status.Stopped) {
+      mp.reset();
+      AssetKey<?> key=audioData.getAssetKey();
+      AssetFileDescriptor afd=assetManager.openFd(key.getName());
+      mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+      mp.prepare();
+      setSourceParams(src,mp);
+      src.setChannel(0);
+      src.setStatus(Status.Playing);
+      musicPlaying.put(src,mp);
+      mp.start();
+    }
+ else {
+      mp.start();
+    }
+  }
+ catch (  IllegalStateException e) {
+    e.printStackTrace();
+  }
+catch (  Exception e) {
+    e.printStackTrace();
+  }
+}

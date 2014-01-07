@@ -1,0 +1,13 @@
+{
+  x-=0.5f;
+  z-=0.5f;
+  float col=FastMath.floor(x);
+  float row=FastMath.floor(z);
+  boolean onX=false;
+  if (1 - (x - col) - (z - row) < 0)   onX=true;
+  Vector3f n1=getMeshNormal((int)FastMath.ceil(x),(int)FastMath.ceil(z));
+  Vector3f n2=getMeshNormal((int)FastMath.floor(x),(int)FastMath.ceil(z));
+  Vector3f n3=getMeshNormal((int)FastMath.ceil(x),(int)FastMath.floor(z));
+  Vector3f n4=getMeshNormal((int)FastMath.floor(x),(int)FastMath.floor(z));
+  return n1.add(n2).add(n3).add(n4).normalize();
+}

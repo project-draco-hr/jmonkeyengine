@@ -1,0 +1,8 @@
+{
+  try {
+    return (JmeSystemDelegate)Class.forName(className).newInstance();
+  }
+ catch (  ClassNotFoundException ex) {
+    return null;
+  }
+}

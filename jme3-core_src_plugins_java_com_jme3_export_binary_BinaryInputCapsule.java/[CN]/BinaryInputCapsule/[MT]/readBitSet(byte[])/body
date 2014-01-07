@@ -1,0 +1,7 @@
+{
+  int length=readInt(content);
+  if (length == BinaryOutputCapsule.NULL_OBJECT)   return null;
+  BitSet value=new BitSet(length);
+  for (int x=0; x < length; x++)   value.set(x,readBoolean(content));
+  return value;
+}

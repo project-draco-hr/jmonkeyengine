@@ -1,0 +1,8 @@
+{
+  if (projectionMatrixOverride != null) {
+    viewProjectionMatrix.set(projectionMatrixOverride).multLocal(viewMatrix);
+  }
+ else {
+    viewProjectionMatrix.set(projectionMatrix).multLocal(viewMatrix);
+  }
+}

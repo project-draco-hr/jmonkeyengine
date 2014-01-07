@@ -1,0 +1,60 @@
+{
+  setMode(Mode.Triangles);
+  this.emitter=emitter;
+  FloatBuffer pb=BufferUtils.createVector3Buffer(numParticles * 4);
+  VertexBuffer buf=getBuffer(VertexBuffer.Type.Position);
+  if (buf != null) {
+    buf.updateData(pb);
+  }
+ else {
+    VertexBuffer pvb=new VertexBuffer(VertexBuffer.Type.Position);
+    pvb.setupData(Usage.Stream,3,Format.Float,pb);
+    setBuffer(pvb);
+  }
+  ByteBuffer cb=BufferUtils.createByteBuffer(numParticles * 4 * 4);
+  buf=getBuffer(VertexBuffer.Type.Color);
+  if (buf != null) {
+    buf.updateData(cb);
+  }
+ else {
+    VertexBuffer cvb=new VertexBuffer(VertexBuffer.Type.Color);
+    cvb.setupData(Usage.Stream,4,Format.UnsignedByte,cb);
+    cvb.setNormalized(true);
+    setBuffer(cvb);
+  }
+  FloatBuffer tb=BufferUtils.createVector2Buffer(numParticles * 4);
+  uniqueTexCoords=false;
+  for (int i=0; i < numParticles; i++) {
+    tb.put(0f).put(1f);
+    tb.put(1f).put(1f);
+    tb.put(0f).put(0f);
+    tb.put(1f).put(0f);
+  }
+  tb.flip();
+  buf=getBuffer(VertexBuffer.Type.TexCoord);
+  if (buf != null) {
+    buf.updateData(tb);
+  }
+ else {
+    VertexBuffer tvb=new VertexBuffer(VertexBuffer.Type.TexCoord);
+    tvb.setupData(Usage.Static,2,Format.Float,tb);
+    setBuffer(tvb);
+  }
+  ShortBuffer ib=BufferUtils.createShortBuffer(numParticles * 6);
+  for (int i=0; i < numParticles; i++) {
+    int startIdx=(i * 4);
+    ib.put((short)(startIdx + 1)).put((short)(startIdx + 0)).put((short)(startIdx + 2));
+    ib.put((short)(startIdx + 1)).put((short)(startIdx + 2)).put((short)(startIdx + 3));
+  }
+  ib.flip();
+  buf=getBuffer(VertexBuffer.Type.Index);
+  if (buf != null) {
+    buf.updateData(ib);
+  }
+ else {
+    VertexBuffer ivb=new VertexBuffer(VertexBuffer.Type.Index);
+    ivb.setupData(Usage.Static,3,Format.UnsignedShort,ib);
+    setBuffer(ivb);
+  }
+  updateCounts();
+}

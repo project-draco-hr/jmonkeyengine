@@ -1,0 +1,13 @@
+{
+  assetManager=info.getManager();
+  InputStream in=null;
+  try {
+    in=info.openStream();
+    return load(in);
+  }
+  finally {
+    if (in != null) {
+      in.close();
+    }
+  }
+}

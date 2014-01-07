@@ -1,0 +1,30 @@
+{
+  int xDir=SensorManager.AXIS_X;
+  int yDir=SensorManager.AXIS_Y;
+  int curRotation=getScreenRotation();
+  if (lastRotation != curRotation) {
+    logger.log(Level.FINE,"Device Rotation changed to: {0}",curRotation);
+  }
+  lastRotation=curRotation;
+switch (getScreenRotation()) {
+case Surface.ROTATION_0:
+    xDir=SensorManager.AXIS_X;
+  yDir=SensorManager.AXIS_Y;
+break;
+case Surface.ROTATION_90:
+xDir=SensorManager.AXIS_Y;
+yDir=SensorManager.AXIS_MINUS_X;
+break;
+case Surface.ROTATION_180:
+xDir=SensorManager.AXIS_MINUS_X;
+yDir=SensorManager.AXIS_MINUS_Y;
+break;
+case Surface.ROTATION_270:
+xDir=SensorManager.AXIS_MINUS_Y;
+yDir=SensorManager.AXIS_X;
+break;
+default :
+break;
+}
+return SensorManager.remapCoordinateSystem(inR,xDir,yDir,outR);
+}

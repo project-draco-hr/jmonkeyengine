@@ -1,0 +1,22 @@
+{
+  this.assetManager=assetManager;
+  this.matExts=matExts;
+  this.key=key;
+  list=new MaterialList();
+  for (  Statement statement : statements) {
+    if (statement.getLine().startsWith("import")) {
+      continue;
+    }
+ else     if (statement.getLine().startsWith("material")) {
+      Material material=readExtendingMaterial(statement);
+      list.put(matName,material);
+      List<String> matAliases=matExts.getNameMappings(matName);
+      if (matAliases != null) {
+        for (        String string : matAliases) {
+          list.put(string,material);
+        }
+      }
+    }
+  }
+  return list;
+}

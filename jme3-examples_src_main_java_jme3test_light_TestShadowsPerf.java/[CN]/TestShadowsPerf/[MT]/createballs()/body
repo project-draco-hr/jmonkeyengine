@@ -1,0 +1,16 @@
+{
+  System.out.println((frames / time) + ";" + val);
+  for (int i=val; i < val + 1; i++) {
+    Geometry s=sphere.clone().clone(false);
+    s.setMaterial(mat);
+    s.setLocalTranslation(i - 30,5,(((i) * 2) % 40) - 50);
+    s.setShadowMode(ShadowMode.CastAndReceive);
+    rootNode.attachChild(s);
+  }
+  if (val == 300) {
+    stop();
+  }
+  val+=1;
+  time=0;
+  frames=0;
+}

@@ -1,0 +1,22 @@
+{
+  if (procClass == null)   return null;
+  T proc=(T)classToProcMap.get(procClass);
+  if (proc == null) {
+synchronized (classToProcMap) {
+      proc=(T)classToProcMap.get(procClass);
+      if (proc == null) {
+        try {
+          proc=procClass.newInstance();
+          classToProcMap.put(procClass,proc);
+        }
+ catch (        InstantiationException ex) {
+          throw new IllegalArgumentException("The processor class cannot" + " be created, ensure it has empty constructor",ex);
+        }
+catch (        IllegalAccessException ex) {
+          throw new IllegalArgumentException("The processor class cannot " + "be accessed",ex);
+        }
+      }
+    }
+  }
+  return proc;
+}

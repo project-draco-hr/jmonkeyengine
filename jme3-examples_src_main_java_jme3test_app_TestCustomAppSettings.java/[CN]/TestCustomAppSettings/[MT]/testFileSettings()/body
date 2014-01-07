@@ -1,0 +1,27 @@
+{
+  ByteArrayOutputStream baos=new ByteArrayOutputStream();
+  AppSettings settings=new AppSettings(false);
+  settings.putBoolean("TestBool",true);
+  settings.putInteger("TestInt",123);
+  settings.putString("TestStr","HelloWorld");
+  settings.putFloat("TestFloat",123.567f);
+  settings.put("TestObj",new Mesh());
+  try {
+    settings.save(baos);
+  }
+ catch (  IOException ex) {
+    ex.printStackTrace();
+  }
+  AppSettings loadedSettings=new AppSettings(false);
+  try {
+    ByteArrayInputStream bais=new ByteArrayInputStream(baos.toByteArray());
+    loadedSettings.load(bais);
+  }
+ catch (  IOException ex) {
+    ex.printStackTrace();
+  }
+  assertEqual(loadedSettings.getBoolean("TestBool"),true);
+  assertEqual(loadedSettings.getInteger("TestInt"),123);
+  assertEqual(loadedSettings.getString("TestStr"),"HelloWorld");
+  assertEqual(loadedSettings.get("TestFloat"),123.567f);
+}

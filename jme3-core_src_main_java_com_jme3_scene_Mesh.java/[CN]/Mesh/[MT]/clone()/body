@@ -1,0 +1,20 @@
+{
+  try {
+    Mesh clone=(Mesh)super.clone();
+    clone.meshBound=meshBound.clone();
+    clone.collisionTree=collisionTree != null ? collisionTree : null;
+    clone.buffers=buffers.clone();
+    clone.buffersList=new SafeArrayList<VertexBuffer>(VertexBuffer.class,buffersList);
+    clone.vertexArrayID=-1;
+    if (elementLengths != null) {
+      clone.elementLengths=elementLengths.clone();
+    }
+    if (modeStart != null) {
+      clone.modeStart=modeStart.clone();
+    }
+    return clone;
+  }
+ catch (  CloneNotSupportedException ex) {
+    throw new AssertionError();
+  }
+}

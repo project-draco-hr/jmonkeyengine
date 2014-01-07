@@ -1,0 +1,9 @@
+{
+  if (!(other instanceof Texture2D)) {
+    return false;
+  }
+  Texture2D that=(Texture2D)other;
+  if (this.getWrap(WrapAxis.S) != that.getWrap(WrapAxis.S))   return false;
+  if (this.getWrap(WrapAxis.T) != that.getWrap(WrapAxis.T))   return false;
+  return super.equals(other);
+}

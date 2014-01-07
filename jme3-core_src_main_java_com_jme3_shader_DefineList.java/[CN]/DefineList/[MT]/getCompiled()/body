@@ -1,0 +1,11 @@
+{
+  if (compiled == null) {
+    StringBuilder sb=new StringBuilder();
+    for (    Map.Entry<String,String> entry : defines.entrySet()) {
+      sb.append("#define ").append(entry.getKey()).append(" ");
+      sb.append(entry.getValue()).append('\n');
+    }
+    compiled=sb.toString();
+  }
+  return compiled;
+}

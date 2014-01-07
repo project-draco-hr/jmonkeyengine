@@ -1,0 +1,14 @@
+{
+  if (getBuffer(Type.Normal) == null) {
+    float[] normals=new float[8 * 3];
+    Vector3f[] vert=computeVertices();
+    Vector3f norm=new Vector3f();
+    for (int i=0; i < 8; i++) {
+      norm.set(vert[i]).normalizeLocal();
+      normals[i * 3 + 0]=norm.x;
+      normals[i * 3 + 1]=norm.y;
+      normals[i * 3 + 2]=norm.z;
+    }
+    setBuffer(Type.Normal,3,BufferUtils.createFloatBuffer(normals));
+  }
+}

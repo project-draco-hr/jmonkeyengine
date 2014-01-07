@@ -1,0 +1,11 @@
+{
+  if (obj.getId() <= 0) {
+    throw new IllegalArgumentException("object id must be greater than zero");
+  }
+  NativeObjectRef ref=new NativeObjectRef(refQueue,obj);
+  refMap.put(obj.getUniqueId(),ref);
+  obj.setNativeObjectManager(this);
+  if (logger.isLoggable(Level.FINEST)) {
+    logger.log(Level.FINEST,"Registered: {0}",new String[]{obj.toString()});
+  }
+}

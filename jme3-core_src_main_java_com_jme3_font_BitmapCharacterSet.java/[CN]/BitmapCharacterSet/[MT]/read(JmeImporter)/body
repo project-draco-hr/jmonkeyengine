@@ -1,0 +1,13 @@
+{
+  InputCapsule ic=im.getCapsule(this);
+  lineHeight=ic.readInt("lineHeight",0);
+  base=ic.readInt("base",0);
+  renderedSize=ic.readInt("renderedSize",0);
+  width=ic.readInt("width",0);
+  height=ic.readInt("height",0);
+  pageSize=ic.readInt("pageSize",0);
+  int[] styles=ic.readIntArray("styles",null);
+  for (  int style : styles) {
+    characters.put(style,readCharset(ic,style));
+  }
+}

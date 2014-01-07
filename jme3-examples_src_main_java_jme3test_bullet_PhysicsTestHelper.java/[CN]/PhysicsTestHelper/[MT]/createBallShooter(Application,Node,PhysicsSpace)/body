@@ -1,0 +1,28 @@
+{
+  ActionListener actionListener=new ActionListener(){
+    public void onAction(    String name,    boolean keyPressed,    float tpf){
+      Sphere bullet=new Sphere(32,32,0.4f,true,false);
+      bullet.setTextureMode(TextureMode.Projected);
+      Material mat2=new Material(app.getAssetManager(),"Common/MatDefs/Misc/Unshaded.j3md");
+      TextureKey key2=new TextureKey("Textures/Terrain/Rock/Rock.PNG");
+      key2.setGenerateMips(true);
+      Texture tex2=app.getAssetManager().loadTexture(key2);
+      mat2.setTexture("ColorMap",tex2);
+      if (name.equals("shoot") && !keyPressed) {
+        Geometry bulletg=new Geometry("bullet",bullet);
+        bulletg.setMaterial(mat2);
+        bulletg.setShadowMode(ShadowMode.CastAndReceive);
+        bulletg.setLocalTranslation(app.getCamera().getLocation());
+        RigidBodyControl bulletControl=new RigidBodyControl(10);
+        bulletg.addControl(bulletControl);
+        bulletControl.setLinearVelocity(app.getCamera().getDirection().mult(25));
+        bulletg.addControl(bulletControl);
+        rootNode.attachChild(bulletg);
+        space.add(bulletControl);
+      }
+    }
+  }
+;
+  app.getInputManager().addMapping("shoot",new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+  app.getInputManager().addListener(actionListener,"shoot");
+}

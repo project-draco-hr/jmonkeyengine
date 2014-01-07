@@ -1,0 +1,9 @@
+{
+  if (fpsText == null) {
+    fpsText=new BitmapText(guiFont,false);
+  }
+  fpsText.setLocalTranslation(0,fpsText.getLineHeight(),0);
+  fpsText.setText("Frames per second");
+  fpsText.setCullHint(showFps ? CullHint.Never : CullHint.Always);
+  guiNode.attachChild(fpsText);
+}

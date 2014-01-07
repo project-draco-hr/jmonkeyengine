@@ -1,0 +1,6 @@
+{
+  super.read(im);
+  InputCapsule ic=im.getCapsule(this);
+  terrain=(Terrain)ic.readSavable("terrain",null);
+  lodCalculator=(LodCalculator)ic.readSavable("lodCalculator",new DistanceLodCalculator());
+}

@@ -1,0 +1,19 @@
+{
+  if (paramName == null) {
+    throw new IllegalArgumentException();
+  }
+  Uniform u=shader.getUniform(paramName);
+switch (type) {
+case TextureBuffer:
+case Texture2D:
+case Texture3D:
+case TextureArray:
+case TextureCubeMap:
+case Int:
+    u.setValue(VarType.Int,value);
+  break;
+default :
+u.setValue(type,value);
+break;
+}
+}

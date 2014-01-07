@@ -1,0 +1,14 @@
+{
+switch (mode) {
+case BorderClamp:
+case Clamp:
+case EdgeClamp:
+    return GLES20.GL_CLAMP_TO_EDGE;
+case Repeat:
+  return GLES20.GL_REPEAT;
+case MirroredRepeat:
+return GLES20.GL_MIRRORED_REPEAT;
+default :
+throw new UnsupportedOperationException("Unknown wrap mode: " + mode);
+}
+}

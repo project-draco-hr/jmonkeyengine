@@ -1,0 +1,10 @@
+{
+  if (axisId == JoyInput.AXIS_POV_X) {
+    axisId=getPovXAxis().getAxisId();
+  }
+ else   if (axisId == JoyInput.AXIS_POV_Y) {
+    axisId=getPovYAxis().getAxisId();
+  }
+  inputManager.addMapping(positiveMapping,new JoyAxisTrigger(joyId,axisId,false));
+  inputManager.addMapping(negativeMapping,new JoyAxisTrigger(joyId,axisId,true));
+}

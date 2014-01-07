@@ -1,0 +1,7 @@
+{
+  if (evt.getButtonIndex() >= 0 && evt.getButtonIndex() <= 2) {
+    if (evt.isReleased() || inputManager.isCursorVisible()) {
+      inputQueue.add(evt);
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  for (  Map.Entry<Object,Object> e : p.entrySet()) {
+    String key=String.valueOf(e.getKey()).trim();
+    int split=key.indexOf('.');
+    if (split < 0) {
+      logger.log(Level.WARNING,"Skipping mapping:{0}",e);
+      continue;
+    }
+    String stick=key.substring(0,split).trim();
+    String component=key.substring(split + 1).trim();
+    String value=String.valueOf(e.getValue()).trim();
+    addMapping(stick,component,value);
+  }
+}

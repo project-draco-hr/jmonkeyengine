@@ -1,0 +1,89 @@
+{
+  aliasCount=1;
+  idCount=1;
+  classes.clear();
+  contentTable.clear();
+  locationTable.clear();
+  contentKeys.clear();
+  os.write(ByteUtils.convertToBytes(FormatVersion.SIGNATURE));
+  os.write(ByteUtils.convertToBytes(FormatVersion.VERSION));
+  int id=processBinarySavable(object);
+  int classTableSize=0;
+  int classNum=classes.keySet().size();
+  int aliasSize=((int)FastMath.log(classNum,256) + 1);
+  os.write(ByteUtils.convertToBytes(classNum));
+  for (  String key : classes.keySet()) {
+    BinaryClassObject bco=classes.get(key);
+    byte[] aliasBytes=fixClassAlias(bco.alias,aliasSize);
+    os.write(aliasBytes);
+    classTableSize+=aliasSize;
+    os.write(bco.classHierarchyVersions.length);
+    for (    int version : bco.classHierarchyVersions) {
+      os.write(ByteUtils.convertToBytes(version));
+    }
+    classTableSize+=1 + bco.classHierarchyVersions.length * 4;
+    byte[] classBytes=key.getBytes();
+    os.write(ByteUtils.convertToBytes(classBytes.length));
+    os.write(classBytes);
+    classTableSize+=4 + classBytes.length;
+    os.write(ByteUtils.convertToBytes(bco.nameFields.size()));
+    for (    String fieldName : bco.nameFields.keySet()) {
+      BinaryClassField bcf=bco.nameFields.get(fieldName);
+      os.write(bcf.alias);
+      os.write(bcf.type);
+      byte[] fNameBytes=fieldName.getBytes();
+      os.write(ByteUtils.convertToBytes(fNameBytes.length));
+      os.write(fNameBytes);
+      classTableSize+=2 + 4 + fNameBytes.length;
+    }
+  }
+  ByteArrayOutputStream out=new ByteArrayOutputStream();
+  int location=0;
+  HashMap<String,ArrayList<BinaryIdContentPair>> alreadySaved=new HashMap<String,ArrayList<BinaryIdContentPair>>(contentTable.size());
+  for (  Savable savable : contentKeys) {
+    String savableName=savable.getClass().getName();
+    BinaryIdContentPair pair=contentTable.get(savable);
+    ArrayList<BinaryIdContentPair> bucket=alreadySaved.get(savableName + getChunk(pair));
+    int prevLoc=findPrevMatch(pair,bucket);
+    if (prevLoc != -1) {
+      locationTable.put(pair.getId(),prevLoc);
+      continue;
+    }
+    locationTable.put(pair.getId(),location);
+    if (bucket == null) {
+      bucket=new ArrayList<BinaryIdContentPair>();
+      alreadySaved.put(savableName + getChunk(pair),bucket);
+    }
+    bucket.add(pair);
+    byte[] aliasBytes=fixClassAlias(classes.get(savableName).alias,aliasSize);
+    out.write(aliasBytes);
+    location+=aliasSize;
+    BinaryOutputCapsule cap=contentTable.get(savable).getContent();
+    out.write(ByteUtils.convertToBytes(cap.bytes.length));
+    location+=4;
+    out.write(cap.bytes);
+    location+=cap.bytes.length;
+  }
+  int numLocations=locationTable.keySet().size();
+  os.write(ByteUtils.convertToBytes(numLocations));
+  int locationTableSize=0;
+  for (  Integer key : locationTable.keySet()) {
+    os.write(ByteUtils.convertToBytes(key));
+    os.write(ByteUtils.convertToBytes(locationTable.get(key)));
+    locationTableSize+=8;
+  }
+  os.write(ByteUtils.convertToBytes(1));
+  os.write(ByteUtils.convertToBytes(id));
+  out.writeTo(os);
+  out=null;
+  os=null;
+  if (debug) {
+    logger.fine("Stats:");
+    logger.log(Level.FINE,"classes: {0}",classNum);
+    logger.log(Level.FINE,"class table: {0} bytes",classTableSize);
+    logger.log(Level.FINE,"objects: {0}",numLocations);
+    logger.log(Level.FINE,"location table: {0} bytes",locationTableSize);
+    logger.log(Level.FINE,"data: {0} bytes",location);
+  }
+  return true;
+}

@@ -1,0 +1,18 @@
+{
+  if (map == null) {
+    return;
+  }
+  if (map.equals(defVal)) {
+    return;
+  }
+  Element stringMap=appendElement(name);
+  for (  Entry<? extends Savable> entry : map) {
+    int key=entry.getKey();
+    Element mapEntry=appendElement("MapEntry");
+    mapEntry.setAttribute("key",Integer.toString(key));
+    Savable s=entry.getValue();
+    write(s,"Savable",null);
+    currentElement=stringMap;
+  }
+  currentElement=(Element)stringMap.getParentNode();
+}

@@ -1,0 +1,11 @@
+{
+  float value=0;
+  float cutoff=ShaderUtils.clamp(0.5f / swidth,0,maxFreq);
+  float f;
+  for (f=minFreq; f < 0.5 * cutoff; f*=2) {
+    value+=Math.sin(2 * Math.PI * f* s) / f;
+  }
+  float fade=ShaderUtils.clamp(2 * (cutoff - f) / cutoff,0,1);
+  value+=fade * Math.sin(2 * Math.PI * f* s) / f;
+  return value;
+}

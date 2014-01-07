@@ -1,0 +1,11 @@
+{
+  String name=attribs.getValue("name");
+  if (name == null) {
+    name="OgreNode-" + (++nodeIdx);
+  }
+  com.jme3.scene.Node newNode=new com.jme3.scene.Node(name);
+  if (node != null) {
+    node.attachChild(newNode);
+  }
+  node=newNode;
+}

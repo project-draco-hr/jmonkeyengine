@@ -1,0 +1,7 @@
+{
+  setMaterialParameters(postshadowMat);
+  for (int j=0; j < nbShadowMaps; j++) {
+    postshadowMat.setMatrix4(lightViewStringCache[j],lightViewProjectionsMatrices[j]);
+    postshadowMat.setTexture(shadowMapStringCache[j],shadowMaps[j]);
+  }
+}

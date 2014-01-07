@@ -1,0 +1,11 @@
+{
+  Mesh mesh=new Mesh();
+  mesh.setBuffer(Type.Position,3,new float[]{0,0,0,1,0,0,1,1,0,0,1,0});
+  mesh.setBuffer(Type.Index,2,new short[]{0,1,1,2,2,3,3,0});
+  Geometry g1=new Geometry("g1",mesh);
+  ArrayList<Geometry> geoms=new ArrayList<Geometry>();
+  geoms.add(g1);
+  Mesh outMesh=new Mesh();
+  mergeGeometries(geoms,outMesh);
+  printMesh(outMesh);
+}

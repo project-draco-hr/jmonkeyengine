@@ -1,0 +1,13 @@
+{
+  int width=((int)FastMath.log(aliasCount,256) + 1);
+  int count=aliasCount;
+  aliasCount++;
+  byte[] bytes=new byte[width];
+  for (int x=width - 1; x >= 0; x--) {
+    int pow=(int)FastMath.pow(256,x);
+    int factor=count / pow;
+    bytes[width - x - 1]=(byte)factor;
+    count%=pow;
+  }
+  return bytes;
+}

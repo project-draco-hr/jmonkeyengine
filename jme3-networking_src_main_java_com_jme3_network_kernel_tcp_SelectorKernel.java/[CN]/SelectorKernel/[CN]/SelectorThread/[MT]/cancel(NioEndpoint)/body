@@ -1,0 +1,12 @@
+{
+  SelectionKey key=endpointKeys.remove(p);
+  if (key == null) {
+    return;
+  }
+  log.log(Level.FINE,"Endpoint keys size:{0}",endpointKeys.size());
+  log.log(Level.FINE,"Closing endpoint:{0}.",p);
+  SocketChannel c=(SocketChannel)key.channel();
+  key.cancel();
+  c.close();
+  removeEndpoint(p,c);
+}

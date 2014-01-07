@@ -1,0 +1,13 @@
+{
+  if (!context.clipRectEnabled) {
+    glEnable(GL_SCISSOR_TEST);
+    context.clipRectEnabled=true;
+  }
+  if (clipX != x || clipY != y || clipW != width || clipH != height) {
+    glScissor(x,y,width,height);
+    clipX=x;
+    clipY=y;
+    clipW=width;
+    clipH=height;
+  }
+}

@@ -1,0 +1,17 @@
+{
+  serverApp=new SimpleApplication(){
+    @Override public void simpleInitApp(){
+    }
+  }
+;
+  serverApp.start();
+  try {
+    Server server=Network.createServer(5110);
+    server.start();
+    ObjectStore store=new ObjectStore(server);
+    store.exposeObject("access",new ServerAccessImpl());
+  }
+ catch (  IOException ex) {
+    ex.printStackTrace();
+  }
+}

@@ -1,0 +1,10 @@
+{
+  Vector3f min=bb.getMin(null);
+  float[] ext=new float[]{bb.getXExtent() * 2.0f,bb.getZExtent() * 2.0f};
+  float[] uvCoordinates=new float[positions.length / 3 * 2];
+  for (int i=0, j=0; i < positions.length; i+=3, j+=2) {
+    uvCoordinates[j]=(positions[i] - min.x) / ext[0];
+    uvCoordinates[j + 1]=(positions[i + 2] - min.z) / ext[1];
+  }
+  return uvCoordinates;
+}

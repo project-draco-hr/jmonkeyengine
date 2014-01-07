@@ -1,0 +1,15 @@
+{
+  Material mat=new Material(app.assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  mat.setColor("Color",new ColorRGBA(0,0,0,0.5f));
+  mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+  darkenFps=new Geometry("StatsDarken",new Quad(200,fpsText.getLineHeight()));
+  darkenFps.setMaterial(mat);
+  darkenFps.setLocalTranslation(0,0,-1);
+  darkenFps.setCullHint(showFps && darkenBehind ? CullHint.Never : CullHint.Always);
+  guiNode.attachChild(darkenFps);
+  darkenStats=new Geometry("StatsDarken",new Quad(200,statsView.getHeight()));
+  darkenStats.setMaterial(mat);
+  darkenStats.setLocalTranslation(0,fpsText.getHeight(),-1);
+  darkenStats.setCullHint(showStats && darkenBehind ? CullHint.Never : CullHint.Always);
+  guiNode.attachChild(darkenStats);
+}

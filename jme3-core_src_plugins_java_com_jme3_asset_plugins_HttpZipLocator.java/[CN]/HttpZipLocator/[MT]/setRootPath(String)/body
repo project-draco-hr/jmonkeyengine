@@ -1,0 +1,11 @@
+{
+  if (!rootPath.equals(path)) {
+    rootPath=path;
+    try {
+      load(new URL(path));
+    }
+ catch (    IOException ex) {
+      logger.log(Level.WARNING,"Failed to set root path " + path,ex);
+    }
+  }
+}

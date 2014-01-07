@@ -1,0 +1,7 @@
+{
+  float far=getFrustumFar();
+  float near=getFrustumNear();
+  float a=far / (far - near);
+  float b=far * near / (near - far);
+  return a + b / viewZPos;
+}

@@ -1,0 +1,18 @@
+{
+  int x=(int)location.x;
+  int z=(int)location.z;
+  AbstractHeightMap heightmap=null;
+  String name=null;
+  try {
+    name=namer.getName(x,z);
+    logger.log(Level.FINE,"Loading heightmap from file: {0}",name);
+    final Texture texture=assetManager.loadTexture(new TextureKey(name));
+    heightmap=new ImageBasedHeightMap(texture.getImage());
+    heightmap.setHeightScale(1);
+    heightmap.load();
+  }
+ catch (  AssetNotFoundException e) {
+    logger.log(Level.WARNING,"Asset {0} not found, loading zero heightmap instead",name);
+  }
+  return heightmap;
+}

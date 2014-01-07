@@ -1,0 +1,19 @@
+{
+  OutputCapsule oc=ex.getCapsule(this);
+  oc.write(lineHeight,"lineHeight",0);
+  oc.write(base,"base",0);
+  oc.write(renderedSize,"renderedSize",0);
+  oc.write(width,"width",0);
+  oc.write(height,"height",0);
+  oc.write(pageSize,"pageSize",0);
+  int[] styles=new int[characters.size()];
+  int index=0;
+  for (  Entry<IntMap<BitmapCharacter>> entry : characters) {
+    int style=entry.getKey();
+    styles[index]=style;
+    index++;
+    IntMap<BitmapCharacter> charset=entry.getValue();
+    writeCharset(oc,style,charset);
+  }
+  oc.write(styles,"styles",null);
+}

@@ -1,0 +1,11 @@
+{
+  if (color.getAlpha() > 0) {
+    colorMaterial.setColor("Color",convertColor(color,tempColor));
+    tempMat.loadIdentity();
+    tempMat.setTranslation(x,getHeight() - y,0);
+    tempMat.setScale(width,height,0);
+    rm.setWorldMatrix(tempMat);
+    rm.setForcedRenderState(renderState);
+    colorMaterial.render(quadGeom,rm);
+  }
+}

@@ -1,0 +1,9 @@
+{
+  int total=0;
+  if (other instanceof Ray)   return collideWithRay((Ray)other,results);
+  if (other instanceof BoundingVolume)   if (!this.getWorldBound().intersects((BoundingVolume)other))   return total;
+  for (  Spatial child : children) {
+    total+=child.collideWith(other,results);
+  }
+  return total;
+}

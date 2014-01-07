@@ -1,0 +1,6 @@
+{
+  Transform transA=new Transform(Converter.convert(new Matrix3f()));
+  Converter.convert(location,transA.origin);
+  children.add(new ChildCollisionShape(location.clone(),new Matrix3f(),shape));
+  ((CompoundShape)cShape).addChildShape(transA,shape.getCShape());
+}

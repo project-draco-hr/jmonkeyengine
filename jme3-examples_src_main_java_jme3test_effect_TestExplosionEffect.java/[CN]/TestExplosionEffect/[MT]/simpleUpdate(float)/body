@@ -1,0 +1,27 @@
+{
+  time+=tpf / speed;
+  if (time > 1f && state == 0) {
+    flash.emitAllParticles();
+    spark.emitAllParticles();
+    smoketrail.emitAllParticles();
+    debris.emitAllParticles();
+    shockwave.emitAllParticles();
+    state++;
+  }
+  if (time > 1f + .05f / speed && state == 1) {
+    flame.emitAllParticles();
+    roundspark.emitAllParticles();
+    state++;
+  }
+  if (time > 5 / speed && state == 2) {
+    state=0;
+    time=0;
+    flash.killAllParticles();
+    spark.killAllParticles();
+    smoketrail.killAllParticles();
+    debris.killAllParticles();
+    flame.killAllParticles();
+    roundspark.killAllParticles();
+    shockwave.killAllParticles();
+  }
+}

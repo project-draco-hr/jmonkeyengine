@@ -1,0 +1,41 @@
+{
+  int i=0;
+  while (i < totalFrames) {
+    int key=getNextKeyFrame(i,keyFrames);
+    if (key != -1) {
+      int span=key - i;
+      for (int j=i; j <= key; j++) {
+        float val=(float)(j - i) / (float)span;
+switch (type) {
+case Translation:
+          translations[j]=FastMath.interpolateLinear(val,(Vector3f)keyFrames[i],(Vector3f)keyFrames[key]);
+        break;
+case Rotation:
+      Quaternion rot=new Quaternion();
+    rotations[j]=rot.slerp(((Rotation)keyFrames[i]).rotation,((Rotation)keyFrames[key]).rotation,val);
+  break;
+case Scale:
+scales[j]=FastMath.interpolateLinear(val,(Vector3f)keyFrames[i],(Vector3f)keyFrames[key]);
+break;
+}
+}
+i=key;
+}
+ else {
+for (int j=i; j < totalFrames; j++) {
+switch (type) {
+case Translation:
+translations[j]=((Vector3f)keyFrames[i]).clone();
+break;
+case Rotation:
+rotations[j]=((Quaternion)((Rotation)keyFrames[i]).rotation).clone();
+break;
+case Scale:
+scales[j]=((Vector3f)keyFrames[i]).clone();
+break;
+}
+}
+i=totalFrames;
+}
+}
+}

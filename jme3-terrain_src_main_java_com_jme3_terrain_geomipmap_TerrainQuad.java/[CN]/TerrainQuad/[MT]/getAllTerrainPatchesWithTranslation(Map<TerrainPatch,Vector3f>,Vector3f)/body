@@ -1,0 +1,13 @@
+{
+  if (children != null) {
+    for (int i=children.size(); --i >= 0; ) {
+      Spatial child=children.get(i);
+      if (child instanceof TerrainQuad) {
+        ((TerrainQuad)child).getAllTerrainPatchesWithTranslation(holder,translation.clone().add(child.getLocalTranslation()));
+      }
+ else       if (child instanceof TerrainPatch) {
+        holder.put((TerrainPatch)child,translation.clone().add(child.getLocalTranslation()));
+      }
+    }
+  }
+}

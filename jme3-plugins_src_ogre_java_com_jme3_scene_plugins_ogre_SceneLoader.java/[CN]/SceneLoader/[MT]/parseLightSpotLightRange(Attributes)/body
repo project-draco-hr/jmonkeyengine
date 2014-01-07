@@ -1,0 +1,11 @@
+{
+  checkTopNode("light");
+  float outer=SAXUtil.parseFloat(attribs.getValue("outer"));
+  float inner=SAXUtil.parseFloat(attribs.getValue("inner"));
+  if (!(light instanceof SpotLight)) {
+    throw new SAXException("dotScene parse error: spotLightRange " + "can only appear under 'spot' light elements");
+  }
+  SpotLight sl=(SpotLight)light;
+  sl.setSpotInnerAngle(inner * 0.5f);
+  sl.setSpotOuterAngle(outer * 0.5f);
+}

@@ -1,0 +1,16 @@
+{
+  renderManager=rm;
+  renderer=rm.getRenderer();
+  viewPort=vp;
+  fsQuad=new Picture("filter full screen quad");
+  fsQuad.setWidth(1);
+  fsQuad.setHeight(1);
+  Camera cam=vp.getCamera();
+  left=cam.getViewPortLeft();
+  right=cam.getViewPortRight();
+  top=cam.getViewPortTop();
+  bottom=cam.getViewPortBottom();
+  originalWidth=cam.getWidth();
+  originalHeight=cam.getHeight();
+  reshape(vp,cam.getWidth(),cam.getHeight());
+}

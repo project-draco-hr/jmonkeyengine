@@ -1,0 +1,15 @@
+{
+  if (forward) {
+    model.move(model.getLocalRotation().multLocal(new Vector3f(0,0,1)).multLocal(tpf));
+  }
+ else   if (backward) {
+    model.move(model.getLocalRotation().multLocal(new Vector3f(0,0,1)).multLocal(-tpf));
+  }
+ else   if (leftRotate) {
+    model.rotate(0,tpf,0);
+  }
+ else   if (rightRotate) {
+    model.rotate(0,-tpf,0);
+  }
+  fpsText.setText(cam.getLocation() + "/" + cam.getRotation());
+}

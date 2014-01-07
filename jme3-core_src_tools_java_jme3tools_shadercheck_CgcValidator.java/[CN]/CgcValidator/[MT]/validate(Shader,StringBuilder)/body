@@ -1,0 +1,13 @@
+{
+  for (  ShaderSource source : shader.getSources()) {
+    results.append("Checking: ").append(source.getName());
+switch (source.getType()) {
+case Fragment:
+      executeCg(source.getSource(),source.getLanguage(),source.getDefines(),"arbfp1",results);
+    break;
+case Vertex:
+  executeCg(source.getSource(),source.getLanguage(),source.getDefines(),"arbvp1",results);
+break;
+}
+}
+}

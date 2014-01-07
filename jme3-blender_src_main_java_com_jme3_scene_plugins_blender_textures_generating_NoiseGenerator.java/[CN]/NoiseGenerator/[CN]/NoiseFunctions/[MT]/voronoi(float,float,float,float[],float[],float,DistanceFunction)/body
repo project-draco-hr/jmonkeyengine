@@ -1,0 +1,66 @@
+{
+  float xd, yd, zd, d;
+  int xi=(int)FastMath.floor(x);
+  int yi=(int)FastMath.floor(y);
+  int zi=(int)FastMath.floor(z);
+  da[0]=da[1]=da[2]=da[3]=Float.MAX_VALUE;
+  for (int i=xi - 1; i <= xi + 1; ++i) {
+    for (int j=yi - 1; j <= yi + 1; ++j) {
+      for (int k=zi - 1; k <= zi + 1; ++k) {
+        NoiseMath.hash(i,j,k,voronoiP);
+        xd=x - (voronoiP[0] + i);
+        yd=y - (voronoiP[1] + j);
+        zd=z - (voronoiP[2] + k);
+        d=distanceFunction.execute(xd,yd,zd,distanceExponent);
+        if (d < da[0]) {
+          da[3]=da[2];
+          da[2]=da[1];
+          da[1]=da[0];
+          da[0]=d;
+          pa[9]=pa[6];
+          pa[10]=pa[7];
+          pa[11]=pa[8];
+          pa[6]=pa[3];
+          pa[7]=pa[4];
+          pa[8]=pa[5];
+          pa[3]=pa[0];
+          pa[4]=pa[1];
+          pa[5]=pa[2];
+          pa[0]=voronoiP[0] + i;
+          pa[1]=voronoiP[1] + j;
+          pa[2]=voronoiP[2] + k;
+        }
+ else         if (d < da[1]) {
+          da[3]=da[2];
+          da[2]=da[1];
+          da[1]=d;
+          pa[9]=pa[6];
+          pa[10]=pa[7];
+          pa[11]=pa[8];
+          pa[6]=pa[3];
+          pa[7]=pa[4];
+          pa[8]=pa[5];
+          pa[3]=voronoiP[0] + i;
+          pa[4]=voronoiP[1] + j;
+          pa[5]=voronoiP[2] + k;
+        }
+ else         if (d < da[2]) {
+          da[3]=da[2];
+          da[2]=d;
+          pa[9]=pa[6];
+          pa[10]=pa[7];
+          pa[11]=pa[8];
+          pa[6]=voronoiP[0] + i;
+          pa[7]=voronoiP[1] + j;
+          pa[8]=voronoiP[2] + k;
+        }
+ else         if (d < da[3]) {
+          da[3]=d;
+          pa[9]=voronoiP[0] + i;
+          pa[10]=voronoiP[1] + j;
+          pa[11]=voronoiP[2] + k;
+        }
+      }
+    }
+  }
+}

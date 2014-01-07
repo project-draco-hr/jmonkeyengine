@@ -1,0 +1,19 @@
+{
+  if (pbuffer != null && pbuffer.isBufferLost()) {
+    logger.log(Level.WARNING,"PBuffer was lost!");
+    pbuffer.destroy();
+    pbuffer=null;
+  }
+  if (pbuffer == null) {
+    pbuffer=new Pbuffer(1,1,acquirePixelFormat(true),null);
+    pbuffer.makeCurrent();
+    logger.log(Level.FINE,"OGL: Pbuffer has been created");
+    if (!runningFirstTime) {
+      renderer.resetGLObjects();
+    }
+  }
+  pbuffer.makeCurrent();
+  if (!pbuffer.isCurrent()) {
+    throw new LWJGLException("Pbuffer cannot be made current");
+  }
+}

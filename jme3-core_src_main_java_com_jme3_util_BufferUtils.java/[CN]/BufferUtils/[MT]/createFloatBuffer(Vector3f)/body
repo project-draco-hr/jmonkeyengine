@@ -1,0 +1,16 @@
+{
+  if (data == null) {
+    return null;
+  }
+  FloatBuffer buff=createFloatBuffer(3 * data.length);
+  for (  Vector3f element : data) {
+    if (element != null) {
+      buff.put(element.x).put(element.y).put(element.z);
+    }
+ else {
+      buff.put(0).put(0).put(0);
+    }
+  }
+  buff.flip();
+  return buff;
+}

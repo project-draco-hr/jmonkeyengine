@@ -1,0 +1,31 @@
+{
+  InputCapsule in=im.getCapsule(this);
+  meshBound=(BoundingVolume)in.readSavable("modelBound",null);
+  vertCount=in.readInt("vertCount",-1);
+  elementCount=in.readInt("elementCount",-1);
+  maxNumWeights=in.readInt("max_num_weights",-1);
+  mode=in.readEnum("mode",Mode.class,Mode.Triangles);
+  elementLengths=in.readIntArray("elementLengths",null);
+  modeStart=in.readIntArray("modeStart",null);
+  collisionTree=(BIHTree)in.readSavable("collisionTree",null);
+  elementLengths=in.readIntArray("elementLengths",null);
+  modeStart=in.readIntArray("modeStart",null);
+  pointSize=in.readFloat("pointSize",1f);
+  buffers=(IntMap<VertexBuffer>)in.readIntSavableMap("buffers",null);
+  for (  Entry<VertexBuffer> entry : buffers) {
+    buffersList.add(entry.getValue());
+  }
+  if (isAnimated()) {
+    VertexBuffer hwBoneIndex=new VertexBuffer(Type.HWBoneIndex);
+    hwBoneIndex.setUsage(Usage.CpuOnly);
+    setBuffer(hwBoneIndex);
+    VertexBuffer hwBoneWeight=new VertexBuffer(Type.HWBoneWeight);
+    hwBoneWeight.setUsage(Usage.CpuOnly);
+    setBuffer(hwBoneWeight);
+  }
+  Savable[] lodLevelsSavable=in.readSavableArray("lodLevels",null);
+  if (lodLevelsSavable != null) {
+    lodLevels=new VertexBuffer[lodLevelsSavable.length];
+    System.arraycopy(lodLevelsSavable,0,lodLevels,0,lodLevels.length);
+  }
+}

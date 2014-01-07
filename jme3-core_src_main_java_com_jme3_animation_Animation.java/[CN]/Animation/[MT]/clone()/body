@@ -1,0 +1,13 @@
+{
+  try {
+    Animation result=(Animation)super.clone();
+    result.tracks=new SafeArrayList<Track>(Track.class);
+    for (    Track track : tracks) {
+      result.tracks.add(track.clone());
+    }
+    return result;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
+}

@@ -1,0 +1,7 @@
+{
+  InputCapsule capsule=e.getCapsule(this);
+  center=(Vector3f)capsule.readSavable("center",Vector3f.ZERO.clone());
+  up=(Vector3f)capsule.readSavable("up",Vector3f.UNIT_Z.clone());
+  innerRadius=capsule.readFloat("innerRadius",0f);
+  outerRadius=capsule.readFloat("outerRadius",1f);
+}

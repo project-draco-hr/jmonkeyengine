@@ -1,0 +1,14 @@
+{
+  FloatBuffer pb=writeVertexArray(null,scale,center);
+  FloatBuffer tb=writeTexCoordArray(null,Vector2f.ZERO,tcScale);
+  FloatBuffer nb=writeNormalArray(null,scale);
+  IntBuffer ib=writeIndexArray(null);
+  Mesh m=new Mesh();
+  m.setBuffer(Type.Position,3,pb);
+  m.setBuffer(Type.Normal,3,nb);
+  m.setBuffer(Type.TexCoord,2,tb);
+  m.setBuffer(Type.Index,3,ib);
+  m.setStatic();
+  m.updateBound();
+  return m;
+}

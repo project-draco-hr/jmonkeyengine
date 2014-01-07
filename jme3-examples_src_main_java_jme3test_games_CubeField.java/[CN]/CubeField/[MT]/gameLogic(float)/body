@@ -1,0 +1,44 @@
+{
+  if (timer.getTimeInSeconds() >= coreTime2) {
+    coreTime2=timer.getTimeInSeconds() + 10;
+    if (difficulty <= lowCap) {
+      difficulty=lowCap;
+    }
+ else     if (difficulty > lowCap) {
+      difficulty-=5;
+      diffHelp+=1;
+    }
+  }
+  if (speed < .1f) {
+    speed+=.000001f * tpf * fpsRate;
+  }
+  player.move(speed * tpf * fpsRate,0,0);
+  if (cubeField.size() > difficulty) {
+    cubeField.remove(0);
+  }
+ else   if (cubeField.size() != difficulty) {
+    randomizeCube();
+  }
+  if (cubeField.isEmpty()) {
+    requestClose(false);
+  }
+ else {
+    for (int i=0; i < cubeField.size(); i++) {
+      Geometry playerModel=(Geometry)player.getChild(0);
+      Geometry cubeModel=cubeField.get(i);
+      cubeModel.updateGeometricState();
+      BoundingVolume pVol=playerModel.getWorldBound();
+      BoundingVolume vVol=cubeModel.getWorldBound();
+      if (pVol.intersects(vVol)) {
+        gameLost();
+        return;
+      }
+      if (cubeField.get(i).getLocalTranslation().getX() + 10 < player.getLocalTranslation().getX()) {
+        cubeField.get(i).removeFromParent();
+        cubeField.remove(cubeField.get(i));
+      }
+    }
+  }
+  Score+=fpsRate * tpf;
+  fpsScoreText.setText("Current Score: " + Score);
+}

@@ -1,0 +1,19 @@
+{
+  StringBuilder result=new StringBuilder();
+  if (function) {
+    result.append('(');
+  }
+  for (int i=0; i < pointerLevel; ++i) {
+    result.append('*');
+  }
+  result.append(name);
+  if (tableSizes != null) {
+    for (int i=0; i < tableSizes.length; ++i) {
+      result.append('[').append(tableSizes[i]).append(']');
+    }
+  }
+  if (function) {
+    result.append(")()");
+  }
+  return result.toString();
+}

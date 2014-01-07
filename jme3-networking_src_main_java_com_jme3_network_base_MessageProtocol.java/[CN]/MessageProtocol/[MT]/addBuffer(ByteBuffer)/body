@@ -1,0 +1,33 @@
+{
+  while (buffer.remaining() > 0) {
+    if (current == null) {
+      if (carry != null) {
+        byte high=carry;
+        byte low=buffer.get();
+        size=(high & 0xff) << 8 | (low & 0xff);
+        carry=null;
+      }
+ else       if (buffer.remaining() < 2) {
+        carry=buffer.get();
+        break;
+      }
+ else {
+        size=buffer.getShort();
+      }
+      current=ByteBuffer.allocate(size);
+    }
+    if (current.remaining() <= buffer.remaining()) {
+      int extra=buffer.remaining() - current.remaining();
+      buffer.limit(buffer.position() + current.remaining());
+      current.put(buffer);
+      current.flip();
+      buffer.limit(buffer.position() + extra);
+      createMessage(current);
+      current=null;
+    }
+ else {
+      current.put(buffer);
+    }
+  }
+  return messages.size();
+}

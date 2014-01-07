@@ -1,0 +1,21 @@
+{
+  TempVars tempVars=TempVars.get();
+  Matrix4f parentInv=tempVars.tempMat4;
+  Pointer pParent=(Pointer)objectStructure.getFieldValue("parent");
+  if (pParent.isNotNull()) {
+    Structure parentObjectStructure=(Structure)blenderContext.getLoadedFeature(pParent.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_STRUCTURE);
+    this.getMatrix(parentObjectStructure,"obmat",fixUpAxis,parentInv).invertLocal();
+  }
+ else {
+    parentInv.loadIdentity();
+  }
+  Matrix4f globalMatrix=this.getMatrix(objectStructure,"obmat",fixUpAxis,tempVars.tempMat42);
+  Matrix4f localMatrix=parentInv.multLocal(globalMatrix);
+  this.getSizeSignums(objectStructure,tempVars.vect1);
+  localMatrix.toTranslationVector(tempVars.vect2);
+  localMatrix.toRotationQuat(tempVars.quat1);
+  localMatrix.toScaleVector(tempVars.vect3);
+  Transform t=new Transform(tempVars.vect2,tempVars.quat1.normalizeLocal(),tempVars.vect3.multLocal(tempVars.vect1));
+  tempVars.release();
+  return t;
+}

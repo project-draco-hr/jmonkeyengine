@@ -1,0 +1,12 @@
+{
+  if (uniforms != null) {
+    for (    Uniform uniform : uniforms.values()) {
+      uniform.reset();
+    }
+  }
+  if (attribs != null) {
+    for (    Entry<Attribute> entry : attribs) {
+      entry.getValue().location=ShaderVariable.LOC_UNKNOWN;
+    }
+  }
+}

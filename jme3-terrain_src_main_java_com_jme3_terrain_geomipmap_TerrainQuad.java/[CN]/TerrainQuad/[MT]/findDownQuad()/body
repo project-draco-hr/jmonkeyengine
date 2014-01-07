@@ -1,0 +1,26 @@
+{
+  boolean useFinder=false;
+  if (getParent() == null || !(getParent() instanceof TerrainQuad)) {
+    if (neighbourFinder == null)     return null;
+ else     useFinder=true;
+  }
+  TerrainQuad pQuad=null;
+  if (!useFinder)   pQuad=(TerrainQuad)getParent();
+  if (quadrant == 1)   return pQuad.getQuad(2);
+ else   if (quadrant == 3)   return pQuad.getQuad(4);
+ else   if (quadrant == 2) {
+    TerrainQuad quad=pQuad.findDownQuad();
+    if (quad != null)     return quad.getQuad(1);
+  }
+ else   if (quadrant == 4) {
+    TerrainQuad quad=pQuad.findDownQuad();
+    if (quad != null)     return quad.getQuad(3);
+  }
+ else   if (quadrant == 0) {
+    if (useFinder) {
+      TerrainQuad quad=neighbourFinder.getDownQuad(this);
+      return quad;
+    }
+  }
+  return null;
+}

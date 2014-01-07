@@ -1,0 +1,26 @@
+{
+  if (forSoftwareAnim) {
+    VertexBuffer pos=getBuffer(Type.Position);
+    if (pos == null || getBuffer(Type.BoneIndex) == null) {
+      return;
+    }
+    VertexBuffer bindPos=new VertexBuffer(Type.BindPosePosition);
+    bindPos.setupData(Usage.CpuOnly,pos.getNumComponents(),pos.getFormat(),BufferUtils.clone(pos.getData()));
+    setBuffer(bindPos);
+    pos.setUsage(Usage.Stream);
+    VertexBuffer norm=getBuffer(Type.Normal);
+    if (norm != null) {
+      VertexBuffer bindNorm=new VertexBuffer(Type.BindPoseNormal);
+      bindNorm.setupData(Usage.CpuOnly,norm.getNumComponents(),norm.getFormat(),BufferUtils.clone(norm.getData()));
+      setBuffer(bindNorm);
+      norm.setUsage(Usage.Stream);
+    }
+    VertexBuffer tangents=getBuffer(Type.Tangent);
+    if (tangents != null) {
+      VertexBuffer bindTangents=new VertexBuffer(Type.BindPoseTangent);
+      bindTangents.setupData(Usage.CpuOnly,tangents.getNumComponents(),tangents.getFormat(),BufferUtils.clone(tangents.getData()));
+      setBuffer(bindTangents);
+      tangents.setUsage(Usage.Stream);
+    }
+  }
+}

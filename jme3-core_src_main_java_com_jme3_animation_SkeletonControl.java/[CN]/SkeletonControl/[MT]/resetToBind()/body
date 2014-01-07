@@ -1,0 +1,34 @@
+{
+  for (  Mesh mesh : targets) {
+    if (mesh.isAnimated()) {
+      Buffer bwBuff=mesh.getBuffer(Type.BoneWeight).getData();
+      Buffer biBuff=mesh.getBuffer(Type.BoneIndex).getData();
+      if (!biBuff.hasArray() || !bwBuff.hasArray()) {
+        mesh.prepareForAnim(true);
+      }
+      VertexBuffer bindPos=mesh.getBuffer(Type.BindPosePosition);
+      VertexBuffer bindNorm=mesh.getBuffer(Type.BindPoseNormal);
+      VertexBuffer pos=mesh.getBuffer(Type.Position);
+      VertexBuffer norm=mesh.getBuffer(Type.Normal);
+      FloatBuffer pb=(FloatBuffer)pos.getData();
+      FloatBuffer nb=(FloatBuffer)norm.getData();
+      FloatBuffer bpb=(FloatBuffer)bindPos.getData();
+      FloatBuffer bnb=(FloatBuffer)bindNorm.getData();
+      pb.clear();
+      nb.clear();
+      bpb.clear();
+      bnb.clear();
+      VertexBuffer bindTangents=mesh.getBuffer(Type.BindPoseTangent);
+      if (bindTangents != null) {
+        VertexBuffer tangents=mesh.getBuffer(Type.Tangent);
+        FloatBuffer tb=(FloatBuffer)tangents.getData();
+        FloatBuffer btb=(FloatBuffer)bindTangents.getData();
+        tb.clear();
+        btb.clear();
+        tb.put(btb).clear();
+      }
+      pb.put(bpb).clear();
+      nb.put(bnb).clear();
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  StringBuilder result=new StringBuilder("struct ").append(type).append(" {\n");
+  for (int i=0; i < fields.length; ++i) {
+    result.append(fields[i].toString()).append('\n');
+  }
+  return result.append('}').toString();
+}

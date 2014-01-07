@@ -1,0 +1,35 @@
+{
+  cam.setLocation(new Vector3f(-15.445636f,30.162927f,60.252777f));
+  cam.setRotation(new Quaternion(0.05173137f,0.92363626f,-0.13454558f,0.35513034f));
+  flyCam.setMoveSpeed(30);
+  setupLighting();
+  setupSkyBox();
+  setupFloor();
+  setupSignpost();
+  inputManager.addListener(new AnalogListener(){
+    public void onAnalog(    String name,    float value,    float tpf){
+      if ("heightUP".equals(name)) {
+        parallaxHeigh+=0.0001;
+        mat.setFloat("ParallaxHeight",parallaxHeigh);
+      }
+      if ("heightDown".equals(name)) {
+        parallaxHeigh-=0.0001;
+        parallaxHeigh=Math.max(parallaxHeigh,0);
+        mat.setFloat("ParallaxHeight",parallaxHeigh);
+      }
+    }
+  }
+,"heightUP","heightDown");
+  inputManager.addMapping("heightUP",new KeyTrigger(KeyInput.KEY_I));
+  inputManager.addMapping("heightDown",new KeyTrigger(KeyInput.KEY_K));
+  inputManager.addListener(new ActionListener(){
+    public void onAction(    String name,    boolean isPressed,    float tpf){
+      if (isPressed && "toggleSteep".equals(name)) {
+        steep=!steep;
+        mat.setBoolean("SteepParallax",steep);
+      }
+    }
+  }
+,"toggleSteep");
+  inputManager.addMapping("toggleSteep",new KeyTrigger(KeyInput.KEY_SPACE));
+}

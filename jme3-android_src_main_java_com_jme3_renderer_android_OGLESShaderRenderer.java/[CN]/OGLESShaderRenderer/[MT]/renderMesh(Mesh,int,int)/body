@@ -1,0 +1,17 @@
+{
+  if (mesh.getVertexCount() == 0) {
+    return;
+  }
+  if (context.lineWidth != mesh.getLineWidth()) {
+    GLES20.glLineWidth(mesh.getLineWidth());
+    RendererUtil.checkGLError();
+    context.lineWidth=mesh.getLineWidth();
+  }
+  statistics.onMeshDrawn(mesh,lod);
+  if (useVBO) {
+    renderMeshDefault(mesh,lod,count);
+  }
+ else {
+    renderMeshVertexArray(mesh,lod,count);
+  }
+}

@@ -1,0 +1,6 @@
+{
+  byte[] dataCopy=new byte[size];
+  System.arraycopy(shared.array(),0,dataCopy,0,size);
+  Envelope env=new Envelope(p,dataCopy,true);
+  addEnvelope(env);
+}

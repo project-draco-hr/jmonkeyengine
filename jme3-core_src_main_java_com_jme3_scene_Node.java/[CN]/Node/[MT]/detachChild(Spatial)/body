@@ -1,0 +1,11 @@
+{
+  if (child == null)   throw new NullPointerException();
+  if (child.getParent() == this) {
+    int index=children.indexOf(child);
+    if (index != -1) {
+      detachChildAt(index);
+    }
+    return index;
+  }
+  return -1;
+}

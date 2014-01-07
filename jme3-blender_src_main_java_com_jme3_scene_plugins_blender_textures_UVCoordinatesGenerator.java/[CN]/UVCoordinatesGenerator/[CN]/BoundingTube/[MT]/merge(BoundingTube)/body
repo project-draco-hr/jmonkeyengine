@@ -1,0 +1,22 @@
+{
+  BoundingTube tube1, tube2;
+  if (this.radius >= boundingTube.radius) {
+    tube1=this;
+    tube2=boundingTube;
+  }
+ else {
+    tube1=boundingTube;
+    tube2=this;
+  }
+  float r1=tube1.radius;
+  float r2=tube2.radius;
+  float minZ=Math.min(tube1.center.z - tube1.height * 0.5f,tube2.center.z - tube2.height * 0.5f);
+  float maxZ=Math.max(tube1.center.z + tube1.height * 0.5f,tube2.center.z + tube2.height * 0.5f);
+  float height=maxZ - minZ;
+  Vector3f distance=tube2.center.subtract(tube1.center);
+  Vector3f center=tube1.center.add(distance.mult(0.5f));
+  distance.z=0;
+  float d=distance.length();
+  float radius=d <= r1 - r2 ? tube1.radius : (d + r1 + r2) * 0.5f;
+  return new BoundingTube(radius,height,center);
+}

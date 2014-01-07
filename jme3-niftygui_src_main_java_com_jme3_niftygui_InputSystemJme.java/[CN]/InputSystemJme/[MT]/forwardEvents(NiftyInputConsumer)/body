@@ -1,0 +1,19 @@
+{
+  int queueSize=inputQueue.size();
+  for (int i=0; i < queueSize; i++) {
+    InputEvent evt=inputQueue.get(i);
+    if (evt instanceof MouseMotionEvent) {
+      onMouseMotionEventQueued((MouseMotionEvent)evt,nic);
+    }
+ else     if (evt instanceof MouseButtonEvent) {
+      onMouseButtonEventQueued((MouseButtonEvent)evt,nic);
+    }
+ else     if (evt instanceof KeyInputEvent) {
+      onKeyEventQueued((KeyInputEvent)evt,nic);
+    }
+ else     if (evt instanceof TouchEvent) {
+      onTouchEventQueued((TouchEvent)evt,nic);
+    }
+  }
+  inputQueue.clear();
+}

@@ -1,0 +1,12 @@
+{
+  FloatBuffer colors=BufferUtils.createFloatBuffer(vertices.size() * 4);
+  colors.rewind();
+  for (  ColorRGBA color : cols) {
+    colors.put(color.r);
+    colors.put(color.g);
+    colors.put(color.b);
+    colors.put(color.a);
+  }
+  mesh.clearBuffer(Type.Color);
+  mesh.setBuffer(Type.Color,4,colors);
+}

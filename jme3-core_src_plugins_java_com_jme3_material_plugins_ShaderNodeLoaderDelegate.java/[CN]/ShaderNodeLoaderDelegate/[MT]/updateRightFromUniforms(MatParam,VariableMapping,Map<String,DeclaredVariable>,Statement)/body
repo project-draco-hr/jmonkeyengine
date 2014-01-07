@@ -1,0 +1,36 @@
+{
+  ShaderNodeVariable right=mapping.getRightVariable();
+  DeclaredVariable dv=map.get(param.getPrefixedName());
+  if (dv == null) {
+    right.setType(param.getVarType().getGlslType());
+    right.setName(param.getPrefixedName());
+    if (mapping.getLeftVariable().getMultiplicity() != null) {
+      if (!param.getVarType().name().endsWith("Array")) {
+        throw new MatParseException(param.getName() + " is not of Array type",statement);
+      }
+      String multiplicity=mapping.getLeftVariable().getMultiplicity();
+      try {
+        Integer.parseInt(multiplicity);
+      }
+ catch (      NumberFormatException nfe) {
+        MatParam mp=findMatParam(multiplicity);
+        if (mp != null) {
+          addDefine(multiplicity);
+          multiplicity=multiplicity.toUpperCase();
+        }
+ else {
+          throw new MatParseException("Wrong multiplicity for variable" + mapping.getLeftVariable().getName() + ". "+ multiplicity+ " should be an int or a declared material parameter.",statement);
+        }
+      }
+      right.setMultiplicity(multiplicity);
+    }
+    dv=new DeclaredVariable(right);
+    map.put(right.getName(),dv);
+    dv.addNode(shaderNode);
+    mapping.setRightVariable(right);
+    return true;
+  }
+  dv.addNode(shaderNode);
+  mapping.setRightVariable(dv.var);
+  return false;
+}

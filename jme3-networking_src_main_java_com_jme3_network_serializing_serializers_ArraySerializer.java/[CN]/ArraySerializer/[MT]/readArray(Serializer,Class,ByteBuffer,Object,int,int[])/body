@@ -1,0 +1,22 @@
+{
+  boolean elementsAreArrays=dimension < dimensions.length - 1;
+  int length;
+  if (dimension == 0) {
+    length=dimensions[0];
+  }
+ else {
+    length=buffer.getInt();
+  }
+  for (int i=0; i < length; i++) {
+    if (elementsAreArrays) {
+      Object element=Array.get(array,i);
+      if (element != null)       readArray(elementSerializer,elementClass,buffer,element,dimension + 1,dimensions);
+    }
+ else     if (elementSerializer != null) {
+      Array.set(array,i,elementSerializer.readObject(buffer,elementClass));
+    }
+ else {
+      Array.set(array,i,Serializer.readClassAndObject(buffer));
+    }
+  }
+}

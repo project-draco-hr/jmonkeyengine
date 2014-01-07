@@ -1,0 +1,48 @@
+{
+  if (object == null) {
+    return;
+  }
+  if (object.equals(defVal)) {
+    return;
+  }
+  Element old=currentElement;
+  Element el=writtenSavables.get(object);
+  String className=null;
+  if (!object.getClass().getName().equals(name)) {
+    className=object.getClass().getName();
+  }
+  try {
+    doc.createElement(name);
+  }
+ catch (  DOMException e) {
+    name="Object";
+    className=object.getClass().getName();
+  }
+  if (el != null) {
+    String refID=el.getAttribute("reference_ID");
+    if (refID.length() == 0) {
+      refID=object.getClass().getName() + "@" + object.hashCode();
+      el.setAttribute("reference_ID",refID);
+    }
+    el=appendElement(name);
+    el.setAttribute("ref",refID);
+  }
+ else {
+    el=appendElement(name);
+    int[] versions=SavableClassUtil.getSavableVersions(object.getClass());
+    StringBuilder sb=new StringBuilder();
+    for (int i=0; i < versions.length; i++) {
+      sb.append(versions[i]);
+      if (i != versions.length - 1) {
+        sb.append(", ");
+      }
+    }
+    el.setAttribute("savable_versions",sb.toString());
+    writtenSavables.put(object,el);
+    object.write(exporter);
+  }
+  if (className != null) {
+    el.setAttribute("class",className);
+  }
+  currentElement=old;
+}

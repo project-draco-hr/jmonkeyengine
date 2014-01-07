@@ -1,0 +1,14 @@
+{
+  FrameBuffer sceneBuffer=renderFrameBuffer;
+  if (renderFrameBufferMS != null && !renderer.getCaps().contains(Caps.OpenGL31)) {
+    renderer.copyFrameBuffer(renderFrameBufferMS,renderFrameBuffer);
+  }
+ else   if (renderFrameBufferMS != null) {
+    sceneBuffer=renderFrameBufferMS;
+  }
+  renderFilterChain(renderer,sceneBuffer);
+  renderer.setFrameBuffer(outputBuffer);
+  if (viewPort != null) {
+    renderManager.setCamera(viewPort.getCamera(),false);
+  }
+}

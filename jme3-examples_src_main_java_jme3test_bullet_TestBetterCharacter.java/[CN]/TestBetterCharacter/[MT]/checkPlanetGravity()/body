@@ -1,0 +1,9 @@
+{
+  Vector3f planetDist=planet.getWorldTranslation().subtract(characterNode.getWorldTranslation());
+  if (planetDist.length() < 24) {
+    physicsCharacter.setGravity(planetDist.normalizeLocal().multLocal(9.81f));
+  }
+ else {
+    physicsCharacter.setGravity(normalGravity);
+  }
+}

@@ -1,0 +1,15 @@
+{
+  if (!context.clipRectEnabled) {
+    GLES20.glEnable(GLES20.GL_SCISSOR_TEST);
+    RendererUtil.checkGLError();
+    context.clipRectEnabled=true;
+  }
+  if (clipX != x || clipY != y || clipW != width || clipH != height) {
+    GLES20.glScissor(x,y,width,height);
+    RendererUtil.checkGLError();
+    clipX=x;
+    clipY=y;
+    clipW=width;
+    clipH=height;
+  }
+}

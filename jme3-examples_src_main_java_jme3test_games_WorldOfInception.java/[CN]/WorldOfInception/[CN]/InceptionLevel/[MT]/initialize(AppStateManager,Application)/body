@@ -1,0 +1,7 @@
+{
+  super.initialize(stateManager,app);
+  initData();
+  application=(SimpleApplication)app;
+  application.getRootNode().attachChild(getRootNode());
+  application.getStateManager().attach(physicsState);
+}

@@ -1,0 +1,14 @@
+{
+  if (!this.isEnabled()) {
+    return data;
+  }
+  FloatBuffer retval=data;
+  for (  Filter f : this.preFilters) {
+    retval=f.doFilter(sx,sy,base,retval,size);
+  }
+  retval=this.filter(sx,sy,base,retval,size);
+  for (  Filter f : this.postFilters) {
+    retval=f.doFilter(sx,sy,base,retval,size);
+  }
+  return retval;
+}

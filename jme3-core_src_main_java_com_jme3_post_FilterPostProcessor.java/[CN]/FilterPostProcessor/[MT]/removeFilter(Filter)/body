@@ -1,0 +1,8 @@
+{
+  if (filter == null) {
+    throw new IllegalArgumentException("Filter cannot be null.");
+  }
+  filters.remove(filter);
+  filter.cleanup(renderer);
+  updateLastFilterIndex();
+}

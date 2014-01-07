@@ -1,0 +1,16 @@
+{
+  GL gl=GLContext.getCurrentGL();
+switch (format) {
+case GL.GL_UNSIGNED_BYTE:
+    gl.getGL2().glDrawElements(mode,data.limit(),format,(ByteBuffer)data);
+  break;
+case GL.GL_UNSIGNED_SHORT:
+gl.getGL2().glDrawElements(mode,data.limit(),format,(ShortBuffer)data);
+break;
+case GL.GL_UNSIGNED_INT:
+gl.getGL2().glDrawElements(mode,data.limit(),format,(IntBuffer)data);
+break;
+default :
+throw new UnsupportedOperationException();
+}
+}

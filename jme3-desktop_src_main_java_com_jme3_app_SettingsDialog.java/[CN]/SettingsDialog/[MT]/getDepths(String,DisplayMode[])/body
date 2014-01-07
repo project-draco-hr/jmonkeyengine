@@ -1,0 +1,20 @@
+{
+  ArrayList<String> depths=new ArrayList<String>(4);
+  for (int i=0; i < modes.length; i++) {
+    if (modes[i].getBitDepth() < 16 && modes[i].getBitDepth() > 0) {
+      continue;
+    }
+    String res=modes[i].getWidth() + " x " + modes[i].getHeight();
+    String depth=modes[i].getBitDepth() + " bpp";
+    if (res.equals(resolution) && !depths.contains(depth)) {
+      depths.add(depth);
+    }
+  }
+  if (depths.size() == 1 && depths.contains("-1 bpp")) {
+    depths.clear();
+    depths.add("24 bpp");
+  }
+  String[] res=new String[depths.size()];
+  depths.toArray(res);
+  return res;
+}

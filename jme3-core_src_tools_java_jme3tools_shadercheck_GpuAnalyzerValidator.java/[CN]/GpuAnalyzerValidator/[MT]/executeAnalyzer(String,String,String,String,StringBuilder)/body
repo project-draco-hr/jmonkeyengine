@@ -1,0 +1,41 @@
+{
+  try {
+    File tempFile=File.createTempFile("test_shader",".glsl");
+    FileWriter writer=new FileWriter(tempFile);
+    String glslVer=language.substring(4);
+    writer.append("#version ").append(glslVer).append('\n');
+    writer.append("#extension all : warn").append('\n');
+    writer.append(defines).append('\n');
+    writer.write(sourceCode);
+    writer.close();
+    ProcessBuilder pb=new ProcessBuilder("GPUShaderAnalyzer",tempFile.getAbsolutePath(),"-I","-ASIC",asic);
+    Process p=pb.start();
+    Scanner scan=new Scanner(p.getInputStream());
+    if (!scan.hasNextLine()) {
+      String x=scan.next();
+      System.out.println(x);
+    }
+    String ln=scan.nextLine();
+    if (ln.startsWith(";")) {
+      results.append(" - Success!").append('\n');
+    }
+ else {
+      results.append(" - Failure!").append('\n');
+      results.append(ln).append('\n');
+      while (scan.hasNextLine()) {
+        results.append(scan.nextLine()).append('\n');
+      }
+    }
+    scan.close();
+    p.getOutputStream().close();
+    p.getErrorStream().close();
+    p.waitFor();
+    p.destroy();
+    tempFile.delete();
+  }
+ catch (  InterruptedException ex) {
+  }
+catch (  IOException ex) {
+    logger.log(Level.SEVERE,"IOEx",ex);
+  }
+}

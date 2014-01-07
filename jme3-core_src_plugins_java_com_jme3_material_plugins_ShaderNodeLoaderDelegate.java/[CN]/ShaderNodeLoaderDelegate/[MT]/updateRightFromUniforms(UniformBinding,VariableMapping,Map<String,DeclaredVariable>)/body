@@ -1,0 +1,17 @@
+{
+  ShaderNodeVariable right=mapping.getRightVariable();
+  String name="g_" + param.toString();
+  DeclaredVariable dv=map.get(name);
+  if (dv == null) {
+    right.setType(param.getGlslType());
+    right.setName(name);
+    dv=new DeclaredVariable(right);
+    map.put(right.getName(),dv);
+    dv.addNode(shaderNode);
+    mapping.setRightVariable(right);
+    return true;
+  }
+  dv.addNode(shaderNode);
+  mapping.setRightVariable(dv.var);
+  return false;
+}

@@ -1,0 +1,13 @@
+{
+  E[] array=getArray();
+  for (int i=array.length - 1; i >= 0; i--) {
+    E element=array[i];
+    if (element == o) {
+      return i;
+    }
+    if (element != null && element.equals(o)) {
+      return i;
+    }
+  }
+  return -1;
+}

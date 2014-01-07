@@ -1,0 +1,28 @@
+{
+  LOGGER.log(Level.FINE,"Getting tracks!");
+  IpoHelper ipoHelper=blenderContext.getHelper(IpoHelper.class);
+  int fps=blenderContext.getBlenderKey().getFps();
+  Structure groups=(Structure)actionStructure.getFieldValue("groups");
+  List<Structure> actionGroups=groups.evaluateListBase();
+  List<BoneTrack> tracks=new ArrayList<BoneTrack>();
+  for (  Structure actionGroup : actionGroups) {
+    String name=actionGroup.getFieldValue("name").toString();
+    int boneIndex=skeleton.getBoneIndex(name);
+    if (boneIndex >= 0) {
+      List<Structure> channels=((Structure)actionGroup.getFieldValue("channels")).evaluateListBase();
+      BezierCurve[] bezierCurves=new BezierCurve[channels.size()];
+      int channelCounter=0;
+      for (      Structure c : channels) {
+        int type=ipoHelper.getCurveType(c,blenderContext);
+        Pointer pBezTriple=(Pointer)c.getFieldValue("bezt");
+        List<Structure> bezTriples=pBezTriple.fetchData();
+        bezierCurves[channelCounter++]=new BezierCurve(type,bezTriples,2);
+      }
+      Bone bone=skeleton.getBone(boneIndex);
+      Ipo ipo=new Ipo(bezierCurves,fixUpAxis,blenderContext.getBlenderVersion());
+      tracks.add((BoneTrack)ipo.calculateTrack(boneIndex,bone.getLocalPosition(),bone.getLocalRotation(),bone.getLocalScale(),0,ipo.getLastFrame(),fps,false));
+    }
+  }
+  this.equaliseBoneTracks(tracks);
+  return tracks.toArray(new BoneTrack[tracks.size()]);
+}

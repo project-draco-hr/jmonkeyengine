@@ -1,0 +1,8 @@
+{
+  super.read(im);
+  InputCapsule ic=im.getCapsule(this);
+  trisPerPixel=ic.readFloat("trisPerPixel",1f);
+  distTolerance=ic.readFloat("distTolerance",1f);
+  numLevels=ic.readInt("numLevels",0);
+  numTris=ic.readIntArray("numTris",null);
+}

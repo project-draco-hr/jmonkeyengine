@@ -1,0 +1,8 @@
+{
+  if (result == null)   result=new Vector3f();
+  float resX=((y * otherZ) - (z * otherY));
+  float resY=((z * otherX) - (x * otherZ));
+  float resZ=((x * otherY) - (y * otherX));
+  result.set(resX,resY,resZ);
+  return result;
+}

@@ -1,0 +1,10 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  int bufId=vb.getId();
+  if (bufId != -1) {
+    intBuf1.put(0,bufId);
+    intBuf1.position(0).limit(1);
+    gl.glDeleteBuffers(1,intBuf1);
+    vb.resetObject();
+  }
+}

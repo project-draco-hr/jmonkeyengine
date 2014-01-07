@@ -1,0 +1,9 @@
+{
+  Vector2f point=new Vector2f(x,z);
+  float val=point.length() / radius;
+  val=1 - val;
+  if (val <= 0) {
+    val=0;
+  }
+  return heightFactor * val;
+}

@@ -1,0 +1,24 @@
+{
+  BlenderInputStream bis=blenderContext.getInputStream();
+  int currentPosition=bis.getPosition();
+  Pointer pRnaPath=(Pointer)structure.getFieldValue("rna_path");
+  FileBlockHeader dataFileBlock=blenderContext.getFileBlock(pRnaPath.getOldMemoryAddress());
+  bis.setPosition(dataFileBlock.getBlockPosition());
+  String rnaPath=bis.readString();
+  bis.setPosition(currentPosition);
+  int arrayIndex=((Number)structure.getFieldValue("array_index")).intValue();
+  if (rnaPath.endsWith("location")) {
+    return Ipo.AC_LOC_X + arrayIndex;
+  }
+  if (rnaPath.endsWith("rotation_quaternion")) {
+    return Ipo.AC_QUAT_W + arrayIndex;
+  }
+  if (rnaPath.endsWith("scale")) {
+    return Ipo.AC_SIZE_X + arrayIndex;
+  }
+  if (rnaPath.endsWith("rotation") || rnaPath.endsWith("rotation_euler")) {
+    return Ipo.OB_ROT_X + arrayIndex;
+  }
+  LOGGER.warning("Unknown curve rna path: " + rnaPath);
+  return -1;
+}

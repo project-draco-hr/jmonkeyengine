@@ -1,0 +1,13 @@
+{
+  List<String> result=null;
+  if (type == IDP_GROUP) {
+    List<Properties> properties=(List<Properties>)value;
+    if (properties != null && properties.size() > 0) {
+      result=new ArrayList<String>(properties.size());
+      for (      Properties property : properties) {
+        result.add(property.getName());
+      }
+    }
+  }
+  return result;
+}

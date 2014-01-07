@@ -1,0 +1,94 @@
+{
+  contentTable.clear();
+  BufferedInputStream bis=new BufferedInputStream(is);
+  int numClasses;
+  int maybeSignature=ByteUtils.readInt(bis);
+  if (maybeSignature == FormatVersion.SIGNATURE) {
+    formatVersion=ByteUtils.readInt(bis);
+    numClasses=ByteUtils.readInt(bis);
+    if (formatVersion > FormatVersion.VERSION) {
+      throw new IOException("The binary file is of newer version than expected! " + formatVersion + " > "+ FormatVersion.VERSION);
+    }
+  }
+ else {
+    numClasses=maybeSignature;
+    formatVersion=0;
+  }
+  int bytes=4;
+  aliasWidth=((int)FastMath.log(numClasses,256) + 1);
+  classes.clear();
+  for (int i=0; i < numClasses; i++) {
+    String alias=readString(bis,aliasWidth);
+    int[] classHierarchyVersions;
+    if (formatVersion >= 1) {
+      int classHierarchySize=bis.read();
+      classHierarchyVersions=new int[classHierarchySize];
+      for (int j=0; j < classHierarchySize; j++) {
+        classHierarchyVersions[j]=ByteUtils.readInt(bis);
+      }
+    }
+ else {
+      classHierarchyVersions=new int[]{0};
+    }
+    int classLength=ByteUtils.readInt(bis);
+    String className=readString(bis,classLength);
+    BinaryClassObject bco=new BinaryClassObject();
+    bco.alias=alias.getBytes();
+    bco.className=className;
+    bco.classHierarchyVersions=classHierarchyVersions;
+    int fields=ByteUtils.readInt(bis);
+    bytes+=(8 + aliasWidth + classLength);
+    bco.nameFields=new HashMap<String,BinaryClassField>(fields);
+    bco.aliasFields=new HashMap<Byte,BinaryClassField>(fields);
+    for (int x=0; x < fields; x++) {
+      byte fieldAlias=(byte)bis.read();
+      byte fieldType=(byte)bis.read();
+      int fieldNameLength=ByteUtils.readInt(bis);
+      String fieldName=readString(bis,fieldNameLength);
+      BinaryClassField bcf=new BinaryClassField(fieldName,fieldAlias,fieldType);
+      bco.nameFields.put(fieldName,bcf);
+      bco.aliasFields.put(fieldAlias,bcf);
+      bytes+=(6 + fieldNameLength);
+    }
+    classes.put(alias,bco);
+  }
+  if (listener != null)   listener.readBytes(bytes);
+  int numLocs=ByteUtils.readInt(bis);
+  bytes=4;
+  capsuleTable.clear();
+  locationTable.clear();
+  for (int i=0; i < numLocs; i++) {
+    int id=ByteUtils.readInt(bis);
+    int loc=ByteUtils.readInt(bis);
+    locationTable.put(id,loc);
+    bytes+=8;
+  }
+  @SuppressWarnings("unused") int numbIDs=ByteUtils.readInt(bis);
+  int id=ByteUtils.readInt(bis);
+  bytes+=8;
+  if (listener != null)   listener.readBytes(bytes);
+  if (baos == null) {
+    baos=new ByteArrayOutputStream(bytes);
+  }
+ else {
+    baos.reset();
+  }
+  int size=-1;
+  byte[] cache=new byte[4096];
+  while ((size=bis.read(cache)) != -1) {
+    baos.write(cache,0,size);
+    if (listener != null)     listener.readBytes(size);
+  }
+  bis=null;
+  dataArray=baos.toByteArray();
+  baos=null;
+  Savable rVal=readObject(id);
+  if (debug) {
+    logger.fine("Importer Stats: ");
+    logger.log(Level.FINE,"Tags: {0}",numClasses);
+    logger.log(Level.FINE,"Objects: {0}",numLocs);
+    logger.log(Level.FINE,"Data Size: {0}",dataArray.length);
+  }
+  dataArray=null;
+  return rVal;
+}

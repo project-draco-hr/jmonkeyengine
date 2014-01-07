@@ -1,0 +1,32 @@
+{
+  ArrayList<VertexInfo> vertexMap=new ArrayList<VertexInfo>();
+  FloatBuffer vertexBuffer=mesh.getFloatBuffer(Type.Position);
+  FloatBuffer normalBuffer=mesh.getFloatBuffer(Type.Normal);
+  FloatBuffer texcoordBuffer=mesh.getFloatBuffer(Type.TexCoord);
+  Vector3f position=new Vector3f();
+  Vector3f normal=new Vector3f();
+  Vector2f texCoord=new Vector2f();
+  final int size=vertexBuffer.limit() / 3;
+  for (int i=0; i < size; i++) {
+    populateFromBuffer(position,vertexBuffer,i);
+    populateFromBuffer(normal,normalBuffer,i);
+    populateFromBuffer(texCoord,texcoordBuffer,i);
+    boolean found=false;
+    if (!splitMirrored) {
+      for (int j=0; j < vertexMap.size(); j++) {
+        VertexInfo vertexInfo=vertexMap.get(j);
+        if (approxEqual(vertexInfo.position,position) && approxEqual(vertexInfo.normal,normal) && approxEqual(vertexInfo.texCoord,texCoord)) {
+          vertexInfo.indices.add(i);
+          found=true;
+          break;
+        }
+      }
+    }
+    if (!found) {
+      VertexInfo vertexInfo=new VertexInfo(position.clone(),normal.clone(),texCoord.clone());
+      vertexInfo.indices.add(i);
+      vertexMap.add(vertexInfo);
+    }
+  }
+  return vertexMap;
+}

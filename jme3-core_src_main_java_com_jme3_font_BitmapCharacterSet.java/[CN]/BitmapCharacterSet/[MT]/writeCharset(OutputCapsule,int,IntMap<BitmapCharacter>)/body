@@ -1,0 +1,13 @@
+{
+  int size=charset.size();
+  short[] indexes=new short[size];
+  BitmapCharacter[] chars=new BitmapCharacter[size];
+  int i=0;
+  for (  Entry<BitmapCharacter> chr : charset) {
+    indexes[i]=(short)chr.getKey();
+    chars[i]=chr.getValue();
+    i++;
+  }
+  oc.write(indexes,"indexes" + style,null);
+  oc.write(chars,"chars" + style,null);
+}

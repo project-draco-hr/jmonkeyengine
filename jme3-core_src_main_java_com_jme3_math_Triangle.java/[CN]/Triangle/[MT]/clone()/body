@@ -1,0 +1,12 @@
+{
+  try {
+    Triangle t=(Triangle)super.clone();
+    t.pointa=pointa.clone();
+    t.pointb=pointb.clone();
+    t.pointc=pointc.clone();
+    return t;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
+}

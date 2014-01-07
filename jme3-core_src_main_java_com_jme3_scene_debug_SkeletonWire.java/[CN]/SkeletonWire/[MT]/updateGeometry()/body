@@ -1,0 +1,17 @@
+{
+  VertexBuffer vb=this.getBuffer(Type.Position);
+  FloatBuffer posBuf=this.getFloatBuffer(Type.Position);
+  posBuf.clear();
+  for (int i=0; i < skeleton.getBoneCount(); ++i) {
+    Bone bone=skeleton.getBone(i);
+    Vector3f head=bone.getModelSpacePosition();
+    posBuf.put(head.getX()).put(head.getY()).put(head.getZ());
+    if (boneLengths != null) {
+      Vector3f tail=head.add(bone.getModelSpaceRotation().mult(Vector3f.UNIT_Y.mult(boneLengths.get(i))));
+      posBuf.put(tail.getX()).put(tail.getY()).put(tail.getZ());
+    }
+  }
+  posBuf.flip();
+  vb.updateData(posBuf);
+  this.updateBound();
+}

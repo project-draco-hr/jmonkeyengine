@@ -1,0 +1,11 @@
+{
+  int x=(int)position.x;
+  int z=(int)position.z;
+  if (x < 0 || x >= patch.getSize() - 1) {
+    return -1;
+  }
+  if (z < 0 || z >= patch.getSize() - 1) {
+    return -1;
+  }
+  return z * patch.getSize() + x;
+}

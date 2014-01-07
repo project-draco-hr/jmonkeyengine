@@ -1,0 +1,9 @@
+{
+  Sphere s=new Sphere(6,6,1);
+  collisionMarker=new Geometry("collisionMarker");
+  collisionMarker.setMesh(s);
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  mat.setColor("Color",ColorRGBA.Orange);
+  collisionMarker.setMaterial(mat);
+  rootNode.attachChild(collisionMarker);
+}

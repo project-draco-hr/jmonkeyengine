@@ -1,0 +1,18 @@
+{
+  TerrainGrid terrainGrid=(TerrainGrid)getSpatial();
+  Vector3f cam=locations.isEmpty() ? Vector3f.ZERO.clone() : locations.get(0);
+  Vector3f camCell=terrainGrid.getCamCell(cam);
+  if (terrainGrid.cellsLoaded > 1) {
+    terrainGrid.gridOffset[0]=Math.round(camCell.x * (terrainGrid.size / 2));
+    terrainGrid.gridOffset[1]=Math.round(camCell.z * (terrainGrid.size / 2));
+    terrainGrid.cellsLoaded=0;
+  }
+  if (camCell.x != terrainGrid.currentCamCell.x || camCell.z != terrainGrid.currentCamCell.z || !terrainGrid.runOnce) {
+    terrainGrid.updateChildren(camCell);
+    for (    TerrainGridListener l : terrainGrid.listeners) {
+      l.gridMoved(camCell);
+    }
+  }
+  terrainGrid.runOnce=true;
+  super.updateLOD(locations,lodCalculator);
+}

@@ -1,0 +1,6 @@
+{
+  for (Iterator<PhysicsTickListener> it=tickListeners.iterator(); it.hasNext(); ) {
+    PhysicsTickListener physicsTickCallback=it.next();
+    physicsTickCallback.physicsTick(this,f);
+  }
+}

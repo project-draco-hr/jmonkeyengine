@@ -1,0 +1,12 @@
+{
+  List<Integer> freeIds=new ArrayList();
+  for (int i=0; i < 16; i++) {
+    freeIds.add(i);
+  }
+  int numStates=rand.nextInt(6) + 1;
+  for (int i=0; i < numStates; i++) {
+    int idx=rand.nextInt(freeIds.size());
+    int id=freeIds.remove(idx);
+    objs.put(id,new Object());
+  }
+}

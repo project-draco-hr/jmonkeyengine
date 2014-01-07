@@ -1,0 +1,11 @@
+{
+  InputStream in=readData(tableOffset,tableLength);
+  byte[] header=new byte[tableLength];
+  fillByteArray(header,in);
+  in.close();
+  entries=new HashMap<String,ZipEntry2>(numEntries);
+  int offset=0;
+  for (int i=0; i < numEntries; i++) {
+    offset=readTableEntry(header,offset);
+  }
+}

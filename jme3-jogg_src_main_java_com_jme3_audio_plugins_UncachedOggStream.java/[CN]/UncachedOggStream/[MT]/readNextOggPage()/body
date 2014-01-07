@@ -1,0 +1,17 @@
+{
+  OggPage op=OggPage.create(sourceStream);
+  if (!op.isBos()) {
+    bos=true;
+  }
+  if (op.isEos()) {
+    eos=true;
+    lastPage=op;
+  }
+  LogicalOggStreamImpl los=(LogicalOggStreamImpl)getLogicalStream(op.getStreamSerialNumber());
+  if (los == null) {
+    los=new LogicalOggStreamImpl(this,op.getStreamSerialNumber());
+    logicalStreams.put(op.getStreamSerialNumber(),los);
+    los.checkFormat(op);
+  }
+  pageCache.add(op);
+}

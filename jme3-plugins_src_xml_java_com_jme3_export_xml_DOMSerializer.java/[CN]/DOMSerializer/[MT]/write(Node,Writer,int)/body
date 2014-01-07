@@ -1,0 +1,38 @@
+{
+switch (node.getNodeType()) {
+case Node.DOCUMENT_NODE:
+    writeDocument((Document)node,writer);
+  break;
+case Node.ELEMENT_NODE:
+writeElement((Element)node,writer,depth);
+break;
+case Node.TEXT_NODE:
+escape(writer,node.getNodeValue());
+break;
+case Node.CDATA_SECTION_NODE:
+writer.write("<![CDATA[");
+escape(writer,node.getNodeValue());
+writer.write("]]>");
+break;
+case Node.COMMENT_NODE:
+for (int i=0; i < depth; ++i) {
+writer.append(' ');
+}
+writer.append("<!-- ").append(node.getNodeValue()).append(" -->").append(lineSeparator);
+break;
+case Node.PROCESSING_INSTRUCTION_NODE:
+String n=node.getNodeName();
+String v=node.getNodeValue();
+for (int i=0; i < depth; ++i) {
+writer.append(' ');
+}
+writer.append("<?").append(n).append(' ').append(v).append("?>").append(lineSeparator);
+break;
+case Node.ENTITY_REFERENCE_NODE:
+writer.append('&').append(node.getNodeName()).append(';');
+break;
+case Node.DOCUMENT_TYPE_NODE:
+writeDocumentType((DocumentType)node,writer,depth);
+break;
+}
+}

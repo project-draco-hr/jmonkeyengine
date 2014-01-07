@@ -1,0 +1,9 @@
+{
+  int sensorType=sensor.getType();
+  SensorData sensorData=sensors.get(sensorType);
+  if (sensorData != null) {
+    logger.log(Level.FINE,"onAccuracyChanged for {0}: accuracy: {1}",new Object[]{sensor.getName(),i});
+    logger.log(Level.FINE,"MaxRange: {0}, Resolution: {1}",new Object[]{sensor.getMaximumRange(),sensor.getResolution()});
+    sensorData.sensorAccuracy=i;
+  }
+}

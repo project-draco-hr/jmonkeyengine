@@ -1,0 +1,11 @@
+{
+  super.read(im);
+  InputCapsule ic=im.getCapsule(this);
+  if (im.getFormatVersion() == 0) {
+    modelName=ic.readString("modelName","");
+  }
+  model=(Spatial)ic.readSavable("model",null);
+  animationName=ic.readString("animationName","");
+  blendTime=ic.readFloat("blendTime",0f);
+  channelIndex=ic.readInt("channelIndex",0);
+}

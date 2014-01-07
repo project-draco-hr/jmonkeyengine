@@ -1,0 +1,9 @@
+{
+  int index=Integer.parseInt(indexStr);
+  if (index >= geoms.size()) {
+    logger.log(Level.WARNING,"Submesh name index is larger than number of geometries: {0} >= {1}",new Object[]{index,geoms.size()});
+  }
+ else {
+    geoms.get(index).setName(nameStr);
+  }
+}

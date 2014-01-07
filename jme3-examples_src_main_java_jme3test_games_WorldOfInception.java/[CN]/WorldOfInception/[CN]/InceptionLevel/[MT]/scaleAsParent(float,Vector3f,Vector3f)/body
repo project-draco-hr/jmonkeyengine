@@ -1,0 +1,10 @@
+{
+  float scale=mapValue(percent,1.0f,poiRadius);
+  Vector3f distToHorizon=dist.subtract(dist.normalize());
+  Vector3f offLocation=playerPos.add(distToHorizon);
+  Vector3f rootOff=offLocation.mult(scale).negate();
+  rootOff.addLocal(dist);
+  debugTools.setGreenArrow(Vector3f.ZERO,offLocation);
+  getRootNode().setLocalScale(scale);
+  getRootNode().setLocalTranslation(rootOff);
+}

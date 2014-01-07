@@ -1,0 +1,12 @@
+{
+  if (isInitialized()) {
+    if (playState == PlayState.Paused) {
+      for (int i=0; i < cinematicEvents.size(); i++) {
+        CinematicEvent ce=cinematicEvents.get(i);
+        if (ce.getPlayState() == PlayState.Paused) {
+          ce.play();
+        }
+      }
+    }
+  }
+}

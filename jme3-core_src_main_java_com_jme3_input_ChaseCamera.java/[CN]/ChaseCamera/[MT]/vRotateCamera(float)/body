@@ -1,0 +1,24 @@
+{
+  if (!canRotate || !enabled) {
+    return;
+  }
+  vRotating=true;
+  float lastGoodRot=targetVRotation;
+  targetVRotation+=value * rotationSpeed;
+  if (targetVRotation > maxVerticalRotation) {
+    targetVRotation=lastGoodRot;
+  }
+  if (veryCloseRotation) {
+    if ((targetVRotation < minVerticalRotation) && (targetDistance > (minDistance + 1.0f))) {
+      targetVRotation=minVerticalRotation;
+    }
+ else     if (targetVRotation < -FastMath.DEG_TO_RAD * 90) {
+      targetVRotation=lastGoodRot;
+    }
+  }
+ else {
+    if ((targetVRotation < minVerticalRotation)) {
+      targetVRotation=lastGoodRot;
+    }
+  }
+}

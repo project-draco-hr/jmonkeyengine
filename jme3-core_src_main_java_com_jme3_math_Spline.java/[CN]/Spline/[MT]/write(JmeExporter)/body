@@ -1,0 +1,17 @@
+{
+  OutputCapsule oc=ex.getCapsule(this);
+  oc.writeSavableArrayList((ArrayList)controlPoints,"controlPoints",null);
+  oc.write(type,"type",SplineType.CatmullRom);
+  float list[]=new float[segmentsLength.size()];
+  for (int i=0; i < segmentsLength.size(); i++) {
+    list[i]=segmentsLength.get(i);
+  }
+  oc.write(list,"segmentsLength",null);
+  oc.write(totalLength,"totalLength",0);
+  oc.writeSavableArrayList((ArrayList)CRcontrolPoints,"CRControlPoints",null);
+  oc.write(curveTension,"curveTension",0.5f);
+  oc.write(cycle,"cycle",false);
+  oc.writeSavableArrayList((ArrayList<Float>)knots,"knots",null);
+  oc.write(weights,"weights",null);
+  oc.write(basisFunctionDegree,"basisFunctionDegree",0);
+}

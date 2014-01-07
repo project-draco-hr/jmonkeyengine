@@ -1,0 +1,57 @@
+{
+  this.prepareImagesForBlending(image,baseImage);
+  float[] pixelColor=new float[]{color[0],color[1],color[2],1.0f};
+  Format format=image.getFormat();
+  PixelInputOutput basePixelIO=null, pixelReader=PixelIOFactory.getPixelIO(format);
+  TexturePixel basePixel=null, pixel=new TexturePixel();
+  float[] materialColor=this.materialColor;
+  if (baseImage != null) {
+    basePixelIO=PixelIOFactory.getPixelIO(baseImage.getFormat());
+    materialColor=new float[this.materialColor.length];
+    basePixel=new TexturePixel();
+  }
+  int width=image.getWidth();
+  int height=image.getHeight();
+  int depth=image.getDepth();
+  if (depth == 0) {
+    depth=1;
+  }
+  int bytesPerPixel=image.getFormat().getBitsPerPixel() >> 3;
+  ArrayList<ByteBuffer> dataArray=new ArrayList<ByteBuffer>(depth);
+  float[] resultPixel=new float[4];
+  for (int dataLayerIndex=0; dataLayerIndex < depth; ++dataLayerIndex) {
+    ByteBuffer data=image.getData(dataLayerIndex);
+    data.rewind();
+    int imagePixelCount=data.limit() / bytesPerPixel;
+    ByteBuffer newData=BufferUtils.createByteBuffer(imagePixelCount * 4);
+    int dataIndex=0, x=0, y=0, index=0;
+    while (index < data.limit()) {
+      if (basePixelIO != null) {
+        basePixelIO.read(baseImage,dataLayerIndex,basePixel,x,y);
+        basePixel.toRGBA(materialColor);
+        ++x;
+        if (x >= width) {
+          x=0;
+          ++y;
+        }
+      }
+      pixelReader.read(image,dataLayerIndex,pixel,index);
+      index+=bytesPerPixel;
+      pixel.toRGBA(pixelColor);
+      if (negateTexture) {
+        pixel.negate();
+      }
+      this.blendPixel(resultPixel,materialColor,pixelColor,blenderContext);
+      newData.put(dataIndex++,(byte)(resultPixel[0] * 255.0f));
+      newData.put(dataIndex++,(byte)(resultPixel[1] * 255.0f));
+      newData.put(dataIndex++,(byte)(resultPixel[2] * 255.0f));
+      newData.put(dataIndex++,(byte)(pixelColor[3] * 255.0f));
+    }
+    dataArray.add(newData);
+  }
+  Image result=depth > 1 ? new Image(Format.RGBA8,width,height,depth,dataArray) : new Image(Format.RGBA8,width,height,dataArray.get(0));
+  if (image.getMipMapSizes() != null) {
+    result.setMipMapSizes(image.getMipMapSizes().clone());
+  }
+  return result;
+}

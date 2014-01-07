@@ -1,0 +1,33 @@
+{
+  isUseNodes=false;
+  String[] split=techStat.getLine().split(whitespacePattern);
+  if (split.length == 1) {
+    technique=new TechniqueDef(null);
+  }
+ else   if (split.length == 2) {
+    String techName=split[1];
+    if (techName.equals("FixedFunc")) {
+      throw new UnsupportedOperationException("In material: " + key + "\nThe 'FixedFunc' technique name no longer has any special meanining.\n"+ "To support fixed pipeline mode, remove that technique's name entirely.");
+    }
+    technique=new TechniqueDef(techName);
+  }
+ else {
+    throw new IOException("Technique statement syntax incorrect");
+  }
+  for (  Statement statement : techStat.getContents()) {
+    readTechniqueStatement(statement);
+  }
+  if (isUseNodes) {
+    nodesLoaderDelegate.computeConditions();
+    technique.setShaderFile(technique.hashCode() + "",technique.hashCode() + "","GLSL100","GLSL100");
+  }
+  if (vertName != null && fragName != null) {
+    technique.setShaderFile(vertName,fragName,vertLanguage,fragLanguage);
+  }
+  materialDef.addTechniqueDef(technique);
+  technique=null;
+  vertName=null;
+  fragName=null;
+  vertLanguage=null;
+  fragLanguage=null;
+}

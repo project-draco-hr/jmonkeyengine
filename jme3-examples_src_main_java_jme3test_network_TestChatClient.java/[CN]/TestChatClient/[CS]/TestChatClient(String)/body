@@ -1,0 +1,26 @@
+{
+  super("jME3 Test Chat Client - to:" + host);
+  setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+  setSize(800,600);
+  chatLog=new JEditorPane();
+  chatLog.setEditable(false);
+  chatLog.setContentType("text/html");
+  chatLog.setText("<html><body>");
+  getContentPane().add(new JScrollPane(chatLog),"Center");
+  JPanel p=new JPanel();
+  p.setLayout(new BoxLayout(p,BoxLayout.X_AXIS));
+  p.add(new JLabel("Name:"));
+  nameField=new JTextField(System.getProperty("user.name","yourname"));
+  Dimension d=nameField.getPreferredSize();
+  nameField.setMaximumSize(new Dimension(120,d.height + 6));
+  p.add(nameField);
+  p.add(new JLabel("  Message:"));
+  messageField=new JTextField();
+  p.add(messageField);
+  p.add(new JButton(new SendAction(true)));
+  p.add(new JButton(new SendAction(false)));
+  getContentPane().add(p,"South");
+  client=Network.connectToServer(TestChatServer.NAME,TestChatServer.VERSION,host,TestChatServer.PORT,TestChatServer.UDP_PORT);
+  client.addMessageListener(new ChatHandler(),ChatMessage.class);
+  client.start();
+}

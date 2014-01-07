@@ -1,0 +1,21 @@
+{
+  if (buf instanceof FloatBuffer) {
+    return ((FloatBuffer)buf).isDirect();
+  }
+  if (buf instanceof IntBuffer) {
+    return ((IntBuffer)buf).isDirect();
+  }
+  if (buf instanceof ShortBuffer) {
+    return ((ShortBuffer)buf).isDirect();
+  }
+  if (buf instanceof ByteBuffer) {
+    return ((ByteBuffer)buf).isDirect();
+  }
+  if (buf instanceof DoubleBuffer) {
+    return ((DoubleBuffer)buf).isDirect();
+  }
+  if (buf instanceof LongBuffer) {
+    return ((LongBuffer)buf).isDirect();
+  }
+  throw new UnsupportedOperationException(" BufferUtils.isDirect was called on " + buf.getClass().getName());
+}

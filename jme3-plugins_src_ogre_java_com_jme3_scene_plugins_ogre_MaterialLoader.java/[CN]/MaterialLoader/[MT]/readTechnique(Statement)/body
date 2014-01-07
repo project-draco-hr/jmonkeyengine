@@ -1,0 +1,13 @@
+{
+  String[] split=statement.getLine().split(" ",2);
+  String name;
+  if (split.length == 1) {
+    name=null;
+  }
+ else {
+    name=split[1];
+  }
+  for (  Statement techStat : statement.getContents()) {
+    readPass(techStat);
+  }
+}

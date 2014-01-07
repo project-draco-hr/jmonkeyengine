@@ -1,0 +1,11 @@
+{
+  if (cShape == null) {
+    return;
+  }
+  if (this instanceof MeshCollisionShape) {
+    vector.set(0,0,0);
+  }
+ else {
+    cShape.calculateLocalInertia(mass,vector);
+  }
+}

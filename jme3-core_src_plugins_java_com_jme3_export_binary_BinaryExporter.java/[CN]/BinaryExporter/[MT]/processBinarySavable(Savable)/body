@@ -1,0 +1,21 @@
+{
+  if (object == null) {
+    return -1;
+  }
+  Class<? extends Savable> clazz=object.getClass();
+  BinaryClassObject bco=classes.get(object.getClass().getName());
+  if (bco == null) {
+    bco=createClassObject(object.getClass());
+  }
+  if (contentTable.get(object) != null) {
+    return (contentTable.get(object).getId());
+  }
+  BinaryIdContentPair newPair=generateIdContentPair(bco);
+  BinaryIdContentPair old=contentTable.put(object,newPair);
+  if (old == null) {
+    contentKeys.add(object);
+  }
+  object.write(this);
+  newPair.getContent().finish();
+  return newPair.getId();
+}

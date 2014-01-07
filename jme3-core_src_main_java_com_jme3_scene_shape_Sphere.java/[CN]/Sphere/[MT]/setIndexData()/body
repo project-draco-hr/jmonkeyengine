@@ -1,0 +1,56 @@
+{
+  triCount=2 * (zSamples - 2) * radialSamples;
+  ShortBuffer idxBuf=BufferUtils.createShortBuffer(3 * triCount);
+  setBuffer(Type.Index,3,idxBuf);
+  int index=0;
+  for (int iZ=0, iZStart=0; iZ < (zSamples - 3); iZ++) {
+    int i0=iZStart;
+    int i1=i0 + 1;
+    iZStart+=(radialSamples + 1);
+    int i2=iZStart;
+    int i3=i2 + 1;
+    for (int i=0; i < radialSamples; i++, index+=6) {
+      if (!interior) {
+        idxBuf.put((short)i0++);
+        idxBuf.put((short)i1);
+        idxBuf.put((short)i2);
+        idxBuf.put((short)i1++);
+        idxBuf.put((short)i3++);
+        idxBuf.put((short)i2++);
+      }
+ else {
+        idxBuf.put((short)i0++);
+        idxBuf.put((short)i2);
+        idxBuf.put((short)i1);
+        idxBuf.put((short)i1++);
+        idxBuf.put((short)i2++);
+        idxBuf.put((short)i3++);
+      }
+    }
+  }
+  for (int i=0; i < radialSamples; i++, index+=3) {
+    if (!interior) {
+      idxBuf.put((short)i);
+      idxBuf.put((short)(vertCount - 2));
+      idxBuf.put((short)(i + 1));
+    }
+ else {
+      idxBuf.put((short)i);
+      idxBuf.put((short)(i + 1));
+      idxBuf.put((short)(vertCount - 2));
+    }
+  }
+  int iOffset=(zSamples - 3) * (radialSamples + 1);
+  for (int i=0; i < radialSamples; i++, index+=3) {
+    if (!interior) {
+      idxBuf.put((short)(i + iOffset));
+      idxBuf.put((short)(i + 1 + iOffset));
+      idxBuf.put((short)(vertCount - 1));
+    }
+ else {
+      idxBuf.put((short)(i + iOffset));
+      idxBuf.put((short)(vertCount - 1));
+      idxBuf.put((short)(i + 1 + iOffset));
+    }
+  }
+}

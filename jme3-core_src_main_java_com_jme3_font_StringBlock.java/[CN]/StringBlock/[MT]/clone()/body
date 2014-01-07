@@ -1,0 +1,11 @@
+{
+  try {
+    StringBlock clone=(StringBlock)super.clone();
+    clone.color=color.clone();
+    if (textBox != null)     clone.textBox=textBox.clone();
+    return clone;
+  }
+ catch (  CloneNotSupportedException ex) {
+    throw new AssertionError();
+  }
+}

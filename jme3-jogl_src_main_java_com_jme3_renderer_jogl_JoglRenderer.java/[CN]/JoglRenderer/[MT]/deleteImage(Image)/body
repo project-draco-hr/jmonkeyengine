@@ -1,0 +1,11 @@
+{
+  int texId=image.getId();
+  if (texId != -1) {
+    intBuf1.put(0,texId);
+    intBuf1.position(0).limit(1);
+    GL gl=GLContext.getCurrentGL();
+    gl.glDeleteTextures(1,intBuf1);
+    image.resetObject();
+    statistics.onDeleteTexture();
+  }
+}

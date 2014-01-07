@@ -1,0 +1,9 @@
+{
+  super.setCollisionShape(collisionShape);
+  if (gObject == null) {
+    buildObject();
+  }
+ else {
+    gObject.setCollisionShape(collisionShape.getCShape());
+  }
+}

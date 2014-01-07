@@ -1,0 +1,19 @@
+{
+  super.read(e);
+  InputCapsule ic=e.getCapsule(this);
+  fps=ic.readInt("fps",DEFAULT_FPS);
+  featuresToLoad=ic.readInt("features-to-load",FeaturesToLoad.ALL);
+  loadUnlinkedAssets=ic.readBoolean("load-unlinked-assets",false);
+  assetRootPath=ic.readString("asset-root-path",null);
+  fixUpAxis=ic.readBoolean("fix-up-axis",true);
+  generatedTexturePPU=ic.readInt("generated-texture-ppu",128);
+  usedWorld=ic.readString("used-world",null);
+  defaultMaterial=(Material)ic.readSavable("default-material",null);
+  faceCullMode=ic.readEnum("face-cull-mode",FaceCullMode.class,FaceCullMode.Off);
+  layersToLoad=ic.readInt("layers-to=load",-1);
+  mipmapGenerationMethod=ic.readEnum("mipmap-generation-method",MipmapGenerationMethod.class,MipmapGenerationMethod.GENERATE_WHEN_NEEDED);
+  skyGeneratedTextureSize=ic.readInt("sky-generated-texture-size",1000);
+  skyGeneratedTextureRadius=ic.readFloat("sky-generated-texture-radius",1f);
+  skyGeneratedTextureShape=ic.readEnum("sky-generated-texture-shape",SkyGeneratedTextureShape.class,SkyGeneratedTextureShape.SPHERE);
+  optimiseTextures=ic.readBoolean("optimise-textures",false);
+}

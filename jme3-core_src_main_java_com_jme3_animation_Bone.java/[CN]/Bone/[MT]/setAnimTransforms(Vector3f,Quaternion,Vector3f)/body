@@ -1,0 +1,10 @@
+{
+  if (userControl) {
+    return;
+  }
+  localPos.set(initialPos).addLocal(translation);
+  localRot.set(initialRot).multLocal(rotation);
+  if (scale != null) {
+    localScale.set(initialScale).multLocal(scale);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  int r=eglGetConfigAttribSafe(egl,display,eglConfig,EGL10.EGL_RED_SIZE);
+  int g=eglGetConfigAttribSafe(egl,display,eglConfig,EGL10.EGL_GREEN_SIZE);
+  int b=eglGetConfigAttribSafe(egl,display,eglConfig,EGL10.EGL_BLUE_SIZE);
+  settings.setBitsPerPixel(r + g + b);
+  settings.setAlphaBits(eglGetConfigAttribSafe(egl,display,eglConfig,EGL10.EGL_ALPHA_SIZE));
+  settings.setDepthBits(eglGetConfigAttribSafe(egl,display,eglConfig,EGL10.EGL_DEPTH_SIZE));
+  settings.setSamples(eglGetConfigAttribSafe(egl,display,eglConfig,EGL10.EGL_SAMPLES));
+  settings.setStencilBits(eglGetConfigAttribSafe(egl,display,eglConfig,EGL10.EGL_STENCIL_SIZE));
+}

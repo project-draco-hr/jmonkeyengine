@@ -1,0 +1,11 @@
+{
+  List<SceneProcessor> processors=vp.getProcessors();
+  for (  SceneProcessor proc : processors) {
+    if (!proc.isInitialized()) {
+      proc.initialize(this,vp);
+    }
+ else {
+      proc.reshape(vp,w,h);
+    }
+  }
+}

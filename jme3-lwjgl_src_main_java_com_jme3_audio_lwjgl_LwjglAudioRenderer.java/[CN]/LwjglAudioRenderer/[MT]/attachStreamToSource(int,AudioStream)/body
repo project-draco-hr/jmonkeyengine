@@ -1,0 +1,10 @@
+{
+  boolean active=true;
+  for (  int id : stream.getIds()) {
+    active=fillBuffer(stream,id);
+    ib.position(0).limit(1);
+    ib.put(id).flip();
+    alSourceQueueBuffers(sourceId,ib);
+  }
+  return active;
+}

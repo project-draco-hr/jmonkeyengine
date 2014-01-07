@@ -1,0 +1,16 @@
+{
+  inputStream.alignPosition(4);
+  code=inputStream.readByte() << 24 | inputStream.readByte() << 16 | inputStream.readByte() << 8 | inputStream.readByte();
+  size=inputStream.readInt();
+  oldMemoryAddress=inputStream.readPointer();
+  sdnaIndex=inputStream.readInt();
+  count=inputStream.readInt();
+  blockPosition=inputStream.getPosition();
+  if (FileBlockHeader.BLOCK_DNA1 == code) {
+    blenderContext.setBlockData(new DnaBlockData(inputStream,blenderContext));
+  }
+ else {
+    inputStream.setPosition(blockPosition + size);
+    blenderContext.addFileBlockHeader(Long.valueOf(oldMemoryAddress),this);
+  }
+}

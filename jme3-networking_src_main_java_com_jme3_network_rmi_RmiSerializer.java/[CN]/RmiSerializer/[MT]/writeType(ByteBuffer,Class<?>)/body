@@ -1,0 +1,13 @@
+{
+  if (clazz == void.class) {
+    buffer.putShort((short)0);
+  }
+ else {
+    SerializerRegistration reg=Serializer.getSerializerRegistration(clazz);
+    if (reg == null) {
+      logger.log(Level.WARNING,"Unknown class: {0}",clazz);
+      throw new IOException();
+    }
+    buffer.putShort(reg.getId());
+  }
+}

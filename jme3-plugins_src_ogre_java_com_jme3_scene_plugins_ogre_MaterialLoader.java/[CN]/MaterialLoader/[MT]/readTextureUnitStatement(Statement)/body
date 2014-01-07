@@ -1,0 +1,37 @@
+{
+  String[] split=statement.getLine().split(" ",2);
+  String keyword=split[0];
+  if (keyword.equals("texture")) {
+    readTextureImage(split[1]);
+  }
+ else   if (keyword.equals("tex_address_mode")) {
+    String mode=split[1];
+    if (mode.equals("wrap")) {
+      textures[texUnit].setWrap(WrapMode.Repeat);
+    }
+ else     if (mode.equals("clamp")) {
+      textures[texUnit].setWrap(WrapMode.Clamp);
+    }
+ else     if (mode.equals("mirror")) {
+      textures[texUnit].setWrap(WrapMode.MirroredRepeat);
+    }
+ else     if (mode.equals("border")) {
+      textures[texUnit].setWrap(WrapMode.BorderClamp);
+    }
+  }
+ else   if (keyword.equals("filtering")) {
+  }
+ else   if (keyword.equals("tex_coord_set")) {
+    int texCoord=Integer.parseInt(split[1]);
+    if (texCoord == 1) {
+      separateTexCoord=true;
+    }
+  }
+ else   if (keyword.equals("max_anisotropy")) {
+    int amount=Integer.parseInt(split[1]);
+    textures[texUnit].setAnisotropicFilter(amount);
+  }
+ else {
+    logger.log(Level.WARNING,"Unsupported texture_unit directive: {0}",keyword);
+  }
+}

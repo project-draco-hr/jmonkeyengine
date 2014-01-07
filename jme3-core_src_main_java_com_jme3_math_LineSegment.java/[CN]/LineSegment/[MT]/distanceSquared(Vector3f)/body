@@ -1,0 +1,21 @@
+{
+  TempVars vars=TempVars.get();
+  Vector3f compVec1=vars.vect1;
+  point.subtract(origin,compVec1);
+  float segmentParameter=direction.dot(compVec1);
+  if (-extent < segmentParameter) {
+    if (segmentParameter < extent) {
+      origin.add(direction.mult(segmentParameter,compVec1),compVec1);
+    }
+ else {
+      origin.add(direction.mult(extent,compVec1),compVec1);
+    }
+  }
+ else {
+    origin.subtract(direction.mult(extent,compVec1),compVec1);
+  }
+  compVec1.subtractLocal(point);
+  float len=compVec1.lengthSquared();
+  vars.release();
+  return len;
+}

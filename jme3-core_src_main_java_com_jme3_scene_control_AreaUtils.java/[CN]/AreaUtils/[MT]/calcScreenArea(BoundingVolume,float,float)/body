@@ -1,0 +1,9 @@
+{
+  if (bound.getType() == BoundingVolume.Type.Sphere) {
+    return calcScreenArea((BoundingSphere)bound,distance,screenWidth);
+  }
+ else   if (bound.getType() == BoundingVolume.Type.AABB) {
+    return calcScreenArea((BoundingBox)bound,distance,screenWidth);
+  }
+  return 0.0f;
+}

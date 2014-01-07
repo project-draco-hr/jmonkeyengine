@@ -1,0 +1,11 @@
+{
+  TempVars vars=TempVars.get();
+{
+    vars.vect1.set(0.1f,0.2f,0.3f);
+    if (recurse < 4) {
+      recursiveMethod(recurse + 1);
+    }
+    sumCompute.addLocal(vars.vect1);
+  }
+  vars.release();
+}

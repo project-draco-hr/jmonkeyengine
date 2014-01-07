@@ -1,0 +1,50 @@
+{
+  if (binding.equals("Lefts")) {
+    if (value) {
+      steeringValue+=.5f;
+    }
+ else {
+      steeringValue+=-.5f;
+    }
+    player.steer(steeringValue);
+  }
+ else   if (binding.equals("Rights")) {
+    if (value) {
+      steeringValue+=-.5f;
+    }
+ else {
+      steeringValue+=.5f;
+    }
+    player.steer(steeringValue);
+  }
+ else   if (binding.equals("Ups")) {
+    if (value) {
+      accelerationValue-=800;
+    }
+ else {
+      accelerationValue+=800;
+    }
+    player.accelerate(accelerationValue);
+    player.setCollisionShape(CollisionShapeFactory.createDynamicMeshShape(findGeom(carNode,"Car")));
+  }
+ else   if (binding.equals("Downs")) {
+    if (value) {
+      player.brake(40f);
+    }
+ else {
+      player.brake(0f);
+    }
+  }
+ else   if (binding.equals("Reset")) {
+    if (value) {
+      System.out.println("Reset");
+      player.setPhysicsLocation(Vector3f.ZERO);
+      player.setPhysicsRotation(new Matrix3f());
+      player.setLinearVelocity(Vector3f.ZERO);
+      player.setAngularVelocity(Vector3f.ZERO);
+      player.resetSuspension();
+    }
+ else {
+    }
+  }
+}

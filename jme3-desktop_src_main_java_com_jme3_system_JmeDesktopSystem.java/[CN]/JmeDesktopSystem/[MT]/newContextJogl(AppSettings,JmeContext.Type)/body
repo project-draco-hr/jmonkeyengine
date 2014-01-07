@@ -1,0 +1,29 @@
+{
+  try {
+    Class<? extends JmeContext> ctxClazz=null;
+switch (type) {
+case Display:
+      ctxClazz=(Class<? extends JmeContext>)Class.forName("com.jme3.system.jogl.JoglNewtDisplay");
+    break;
+case Canvas:
+  ctxClazz=(Class<? extends JmeContext>)Class.forName("com.jme3.system.jogl.JoglNewtCanvas");
+break;
+case OffscreenSurface:
+ctxClazz=(Class<? extends JmeContext>)Class.forName("com.jme3.system.jogl.JoglOffscreenBuffer");
+break;
+default :
+throw new IllegalArgumentException("Unsupported context type " + type);
+}
+return ctxClazz.newInstance();
+}
+ catch (InstantiationException ex) {
+logger.log(Level.SEVERE,"Failed to create context",ex);
+}
+catch (IllegalAccessException ex) {
+logger.log(Level.SEVERE,"Failed to create context",ex);
+}
+catch (ClassNotFoundException ex) {
+logger.log(Level.SEVERE,"CRITICAL ERROR: Context class is missing!\n" + "Make sure jme3_jogl is on the classpath.",ex);
+}
+return null;
+}

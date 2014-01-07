@@ -1,0 +1,15 @@
+{
+  if (rewind) {
+    setTime(0);
+    if (control.getSkeleton() != null) {
+      control.getSkeleton().resetAndUpdate();
+    }
+ else {
+      TempVars vars=TempVars.get();
+      update(0,vars);
+      vars.release();
+    }
+  }
+  animation=null;
+  notified=false;
+}

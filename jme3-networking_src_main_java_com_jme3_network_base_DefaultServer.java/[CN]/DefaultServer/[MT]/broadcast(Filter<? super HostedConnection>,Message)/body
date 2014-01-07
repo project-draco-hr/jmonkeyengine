@@ -1,0 +1,11 @@
+{
+  if (connections.isEmpty())   return;
+  ByteBuffer buffer=MessageProtocol.messageToBuffer(message,null);
+  FilterAdapter adapter=filter == null ? null : new FilterAdapter(filter);
+  if (message.isReliable() || fastAdapter == null) {
+    reliableAdapter.broadcast(adapter,buffer,true,false);
+  }
+ else {
+    fastAdapter.broadcast(adapter,buffer,false,false);
+  }
+}

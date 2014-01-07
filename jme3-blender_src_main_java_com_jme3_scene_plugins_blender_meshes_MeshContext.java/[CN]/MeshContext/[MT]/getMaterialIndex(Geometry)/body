@@ -1,0 +1,10 @@
+{
+  for (  Entry<Integer,List<Geometry>> entry : geometries.entrySet()) {
+    for (    Geometry g : entry.getValue()) {
+      if (g.equals(geometry)) {
+        return entry.getKey();
+      }
+    }
+  }
+  throw new IllegalStateException("Cannot find material index for the given geometry: " + geometry);
+}

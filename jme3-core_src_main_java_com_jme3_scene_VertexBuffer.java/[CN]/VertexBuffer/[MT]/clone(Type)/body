@@ -1,0 +1,15 @@
+{
+  VertexBuffer vb=new VertexBuffer(overrideType);
+  vb.components=components;
+  vb.componentsLength=componentsLength;
+  vb.data=BufferUtils.clone(getDataReadOnly());
+  vb.format=format;
+  vb.handleRef=new Object();
+  vb.id=-1;
+  vb.normalized=normalized;
+  vb.offset=offset;
+  vb.stride=stride;
+  vb.updateNeeded=true;
+  vb.usage=usage;
+  return vb;
+}

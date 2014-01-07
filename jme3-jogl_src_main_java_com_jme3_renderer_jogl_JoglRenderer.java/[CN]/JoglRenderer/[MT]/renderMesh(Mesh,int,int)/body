@@ -1,0 +1,33 @@
+{
+  if (mesh.getVertexCount() == 0) {
+    return;
+  }
+  GL gl=GLContext.getCurrentGL();
+  if (context.pointSprite && mesh.getMode() != Mode.Points) {
+    if (context.boundTextures[0] != null) {
+      if (context.boundTextureUnit != 0) {
+        gl.glActiveTexture(GL.GL_TEXTURE0);
+        context.boundTextureUnit=0;
+      }
+      if (gl.isGL2ES1()) {
+        gl.glDisable(GL2ES1.GL_POINT_SPRITE);
+      }
+      if (gl.isGL2GL3()) {
+        gl.glDisable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
+      }
+      context.pointSprite=false;
+    }
+  }
+  if (context.pointSize != mesh.getPointSize()) {
+    if (gl.isGL2GL3()) {
+      gl.getGL2GL3().glPointSize(mesh.getPointSize());
+    }
+    context.pointSize=mesh.getPointSize();
+  }
+  if (context.lineWidth != mesh.getLineWidth()) {
+    gl.glLineWidth(mesh.getLineWidth());
+    context.lineWidth=mesh.getLineWidth();
+  }
+  statistics.onMeshDrawn(mesh,lod);
+  renderMeshDefault(mesh,lod,count);
+}

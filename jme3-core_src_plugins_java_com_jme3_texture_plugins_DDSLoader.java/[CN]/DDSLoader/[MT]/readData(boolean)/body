@@ -1,0 +1,43 @@
+{
+  int totalSize=0;
+  for (int i=0; i < sizes.length; i++) {
+    totalSize+=sizes[i];
+  }
+  ArrayList<ByteBuffer> allMaps=new ArrayList<ByteBuffer>();
+  if (depth > 1 && !texture3D) {
+    for (int i=0; i < depth; i++) {
+      if (compressed) {
+        allMaps.add(readDXT2D(flip,totalSize));
+      }
+ else       if (grayscaleOrAlpha) {
+        allMaps.add(readGrayscale2D(flip,totalSize));
+      }
+ else {
+        allMaps.add(readRGB2D(flip,totalSize));
+      }
+    }
+  }
+ else   if (texture3D) {
+    if (compressed) {
+      allMaps.add(readDXT3D(flip,totalSize));
+    }
+ else     if (grayscaleOrAlpha) {
+      allMaps.add(readGrayscale3D(flip,totalSize));
+    }
+ else {
+      allMaps.add(readRGB3D(flip,totalSize));
+    }
+  }
+ else {
+    if (compressed) {
+      allMaps.add(readDXT2D(flip,totalSize));
+    }
+ else     if (grayscaleOrAlpha) {
+      allMaps.add(readGrayscale2D(flip,totalSize));
+    }
+ else {
+      allMaps.add(readRGB2D(flip,totalSize));
+    }
+  }
+  return allMaps;
+}

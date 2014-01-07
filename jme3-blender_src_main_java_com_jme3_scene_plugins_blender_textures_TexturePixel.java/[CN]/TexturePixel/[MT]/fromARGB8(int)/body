@@ -1,0 +1,10 @@
+{
+  byte pixelValue=(byte)((argb8 & 0xFF000000) >> 24);
+  this.alpha=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - ~pixelValue / 255.0f;
+  pixelValue=(byte)((argb8 & 0xFF0000) >> 16);
+  this.red=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - ~pixelValue / 255.0f;
+  pixelValue=(byte)((argb8 & 0xFF00) >> 8);
+  this.green=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - ~pixelValue / 255.0f;
+  pixelValue=(byte)(argb8 & 0xFF);
+  this.blue=pixelValue >= 0 ? pixelValue / 255.0f : 1.0f - ~pixelValue / 255.0f;
+}

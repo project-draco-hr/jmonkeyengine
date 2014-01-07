@@ -1,0 +1,16 @@
+{
+  if (frustums == null) {
+    frustums=new Geometry[CAM_NUMBER];
+    Vector3f[] points=new Vector3f[8];
+    for (int i=0; i < 8; i++) {
+      points[i]=new Vector3f();
+    }
+    for (int i=0; i < CAM_NUMBER; i++) {
+      ShadowUtil.updateFrustumPoints2(shadowCams[i],points);
+      frustums[i]=createFrustum(points,i);
+    }
+  }
+  if (frustums[shadowMapIndex].getParent() == null) {
+    ((Node)viewPort.getScenes().get(0)).attachChild(frustums[shadowMapIndex]);
+  }
+}

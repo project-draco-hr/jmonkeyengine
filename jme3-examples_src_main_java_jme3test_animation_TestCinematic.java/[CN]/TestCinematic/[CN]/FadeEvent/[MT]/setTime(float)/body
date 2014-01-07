@@ -1,0 +1,16 @@
+{
+  super.setTime(time);
+  if (time >= fade.getDuration()) {
+    value=in ? 1 : 0;
+    fade.setValue(value);
+  }
+ else {
+    value=time;
+    if (in) {
+      fade.setValue(time / cinematic.getSpeed());
+    }
+ else {
+      fade.setValue(1 - time / cinematic.getSpeed());
+    }
+  }
+}

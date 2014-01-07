@@ -1,0 +1,37 @@
+{
+  logger.log(Level.FINE,"OGL: Waiting for canvas to become displayable..");
+  while (!canvas.isDisplayable()) {
+    try {
+      Thread.sleep(10);
+    }
+ catch (    InterruptedException ex) {
+      logger.log(Level.SEVERE,"OGL: Interrupted! ",ex);
+    }
+  }
+  logger.log(Level.FINE,"OGL: Creating display context ..");
+  renderable.set(true);
+  createContext(settings);
+  logger.log(Level.FINE,"OGL: Display is active!");
+  try {
+    if (mouseWasCreated) {
+      Mouse.create();
+      if (mouseWasGrabbed) {
+        Mouse.setGrabbed(true);
+        mouseWasGrabbed=false;
+      }
+    }
+    if (keyboardWasCreated) {
+      Keyboard.create();
+      keyboardWasCreated=false;
+    }
+  }
+ catch (  LWJGLException ex) {
+    logger.log(Level.SEVERE,"Encountered exception when restoring input",ex);
+  }
+  SwingUtilities.invokeLater(new Runnable(){
+    public void run(){
+      canvas.requestFocus();
+    }
+  }
+);
+}

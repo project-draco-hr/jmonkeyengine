@@ -1,0 +1,10 @@
+{
+  checkClosed();
+  try {
+    DatagramPacket p=new DatagramPacket(data.array(),data.position(),data.remaining(),remoteAddress);
+    sock.send(p);
+  }
+ catch (  IOException e) {
+    throw new ConnectorException("Error writing to connection:" + remoteAddress,e);
+  }
+}

@@ -1,0 +1,14 @@
+{
+  initInput();
+  initScene();
+  waterProcessor=new SimpleWaterProcessor(assetManager);
+  waterProcessor.setReflectionScene(sceneNode);
+  waterProcessor.setDebug(true);
+  viewPort.addProcessor(waterProcessor);
+  waterProcessor.setLightPosition(lightPos);
+  waterPlane=(Spatial)assetManager.loadModel("Models/WaterTest/WaterTest.mesh.xml");
+  waterPlane.setMaterial(waterProcessor.getMaterial());
+  waterPlane.setLocalScale(40);
+  waterPlane.setLocalTranslation(-5,0,5);
+  rootNode.attachChild(waterPlane);
+}

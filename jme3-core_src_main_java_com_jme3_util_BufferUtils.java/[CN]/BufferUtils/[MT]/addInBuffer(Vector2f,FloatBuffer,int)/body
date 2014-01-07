@@ -1,0 +1,8 @@
+{
+  TempVars vars=TempVars.get();
+  Vector2f tempVec2=vars.vect2d;
+  populateFromBuffer(tempVec2,buf,index);
+  tempVec2.addLocal(toAdd);
+  setInBuffer(tempVec2,buf,index);
+  vars.release();
+}

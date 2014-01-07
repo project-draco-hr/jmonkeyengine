@@ -1,0 +1,17 @@
+{
+  super.read(im);
+  InputCapsule c=im.getCapsule(this);
+  name=c.readString("name",null);
+  size=c.readInt("size",0);
+  patchSize=c.readInt("patchSize",0);
+  stepScale=(Vector3f)c.readSavable("stepScale",null);
+  offset=(Vector2f)c.readSavable("offset",null);
+  offsetAmount=c.readFloat("offsetAmount",0);
+  gridTileLoader=(TerrainGridTileLoader)c.readSavable("terrainQuadGrid",null);
+  material=(Material)c.readSavable("material",null);
+  initData();
+  if (gridTileLoader != null) {
+    gridTileLoader.setPatchSize(this.patchSize);
+    gridTileLoader.setQuadSize(this.quadSize);
+  }
+}

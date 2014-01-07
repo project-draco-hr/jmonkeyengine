@@ -1,0 +1,11 @@
+{
+  if (id != -1)   throw new UnsupportedOperationException("FrameBuffer already initialized.");
+  Image img=tex.getImage();
+  checkSetTexture(tex,false);
+  RenderBuffer colorBuf=new RenderBuffer();
+  colorBuf.slot=colorBufs.size();
+  colorBuf.tex=tex;
+  colorBuf.format=img.getFormat();
+  colorBuf.face=face.ordinal();
+  colorBufs.add(colorBuf);
+}

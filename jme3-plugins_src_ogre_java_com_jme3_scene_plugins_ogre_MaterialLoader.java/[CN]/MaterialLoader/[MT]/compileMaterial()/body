@@ -1,0 +1,97 @@
+{
+  Material mat;
+  if (noLight) {
+    mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  }
+ else {
+    mat=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  }
+  if (blend) {
+    RenderState rs=mat.getAdditionalRenderState();
+    rs.setAlphaTest(true);
+    rs.setAlphaFallOff(0.01f);
+    rs.setBlendMode(RenderState.BlendMode.Alpha);
+    if (twoSide) {
+      rs.setFaceCullMode(RenderState.FaceCullMode.Off);
+    }
+    mat.setTransparent(true);
+    if (!noLight) {
+      mat.setBoolean("UseAlpha",true);
+    }
+  }
+ else {
+    if (twoSide) {
+      RenderState rs=mat.getAdditionalRenderState();
+      rs.setFaceCullMode(RenderState.FaceCullMode.Off);
+    }
+  }
+  if (!noLight) {
+    if (shinines > 0f) {
+      mat.setFloat("Shininess",shinines);
+    }
+ else {
+      mat.setFloat("Shininess",16f);
+    }
+    if (vcolor)     mat.setBoolean("UseVertexColor",true);
+    if (textures[0] != null)     mat.setTexture("DiffuseMap",textures[0]);
+    mat.setBoolean("UseMaterialColors",true);
+    if (diffuse != null) {
+      mat.setColor("Diffuse",diffuse);
+    }
+ else {
+      mat.setColor("Diffuse",ColorRGBA.White);
+    }
+    if (ambient != null) {
+      mat.setColor("Ambient",ambient);
+    }
+ else {
+      mat.setColor("Ambient",ColorRGBA.DarkGray);
+    }
+    if (specular != null) {
+      mat.setColor("Specular",specular);
+    }
+ else {
+      mat.setColor("Specular",ColorRGBA.Black);
+    }
+    if (emissive != null) {
+      mat.setColor("GlowColor",emissive);
+    }
+  }
+ else {
+    if (vcolor) {
+      mat.setBoolean("VertexColor",true);
+    }
+    if (textures[0] != null && textures[1] == null) {
+      if (separateTexCoord) {
+        mat.setTexture("LightMap",textures[0]);
+        mat.setBoolean("SeparateTexCoord",true);
+      }
+ else {
+        mat.setTexture("ColorMap",textures[0]);
+      }
+    }
+ else     if (textures[1] != null) {
+      mat.setTexture("ColorMap",textures[0]);
+      mat.setTexture("LightMap",textures[1]);
+      if (separateTexCoord) {
+        mat.setBoolean("SeparateTexCoord",true);
+      }
+    }
+    if (diffuse != null) {
+      mat.setColor("Color",diffuse);
+    }
+    if (emissive != null) {
+      mat.setColor("GlowColor",emissive);
+    }
+  }
+  noLight=false;
+  Arrays.fill(textures,null);
+  diffuse=null;
+  specular=null;
+  shinines=0f;
+  vcolor=false;
+  blend=false;
+  texUnit=0;
+  separateTexCoord=false;
+  return mat;
+}

@@ -1,0 +1,64 @@
+{
+  if (key == null)   throw new IllegalArgumentException("key cannot be null");
+  for (  AssetEventListener listener : eventListeners) {
+    listener.assetRequested(key);
+  }
+  AssetCache cache=handler.getCache(key.getCacheType());
+  AssetProcessor proc=handler.getProcessor(key.getProcessorType());
+  Object obj=cache != null ? cache.getFromCache(key) : null;
+  if (obj == null) {
+    AssetLoader loader=handler.aquireLoader(key);
+    AssetInfo info=handler.tryLocate(key);
+    if (info == null) {
+      if (handler.getParentKey() != null) {
+        for (        AssetEventListener listener : eventListeners) {
+          listener.assetDependencyNotFound(handler.getParentKey(),key);
+        }
+      }
+      throw new AssetNotFoundException(key.toString());
+    }
+    try {
+      handler.establishParentKey(key);
+      obj=loader.load(info);
+    }
+ catch (    IOException ex) {
+      throw new AssetLoadException("An exception has occured while loading asset: " + key,ex);
+    }
+ finally {
+      handler.releaseParentKey(key);
+    }
+    if (obj == null) {
+      throw new AssetLoadException("Error occured while loading asset \"" + key + "\" using "+ loader.getClass().getSimpleName());
+    }
+ else {
+      if (logger.isLoggable(Level.FINER)) {
+        logger.log(Level.FINER,"Loaded {0} with {1}",new Object[]{key,loader.getClass().getSimpleName()});
+      }
+      if (proc != null) {
+        obj=proc.postProcess(key,obj);
+      }
+      if (cache != null) {
+        cache.addToCache(key,(T)obj);
+      }
+      for (      AssetEventListener listener : eventListeners) {
+        listener.assetLoaded(key);
+      }
+    }
+  }
+  T clone=(T)obj;
+  if (clone instanceof CloneableSmartAsset) {
+    if (proc == null) {
+      throw new IllegalStateException("Asset implements " + "CloneableSmartAsset but doesn't " + "have processor to handle cloning");
+    }
+ else {
+      clone=(T)proc.createClone(obj);
+      if (cache != null && clone != obj) {
+        cache.registerAssetClone(key,clone);
+      }
+ else {
+        throw new IllegalStateException("Asset implements " + "CloneableSmartAsset but doesn't have cache or " + "was not cloned");
+      }
+    }
+  }
+  return clone;
+}

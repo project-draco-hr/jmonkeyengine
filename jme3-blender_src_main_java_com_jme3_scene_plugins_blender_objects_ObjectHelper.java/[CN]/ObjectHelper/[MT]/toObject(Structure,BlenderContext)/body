@@ -1,0 +1,134 @@
+{
+  LOGGER.fine("Loading blender object.");
+  int type=((Number)objectStructure.getFieldValue("type")).intValue();
+  ObjectType objectType=ObjectType.valueOf(type);
+  LOGGER.log(Level.FINE,"Type of the object: {0}.",objectType);
+  if (objectType == ObjectType.LAMP && !blenderContext.getBlenderKey().shouldLoad(FeaturesToLoad.LIGHTS)) {
+    LOGGER.fine("Lamps are not included in loading.");
+    return null;
+  }
+  if (objectType == ObjectType.CAMERA && !blenderContext.getBlenderKey().shouldLoad(FeaturesToLoad.CAMERAS)) {
+    LOGGER.fine("Cameras are not included in loading.");
+    return null;
+  }
+  if (!blenderContext.getBlenderKey().shouldLoad(FeaturesToLoad.OBJECTS)) {
+    LOGGER.fine("Objects are not included in loading.");
+    return null;
+  }
+  int lay=((Number)objectStructure.getFieldValue("lay")).intValue();
+  if ((lay & blenderContext.getBlenderKey().getLayersToLoad()) == 0) {
+    LOGGER.fine("The layer this object is located in is not included in loading.");
+    return null;
+  }
+  LOGGER.fine("Checking if the object has not been already loaded.");
+  Object loadedResult=blenderContext.getLoadedFeature(objectStructure.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
+  if (loadedResult != null) {
+    return loadedResult;
+  }
+  blenderContext.pushParent(objectStructure);
+  String name=objectStructure.getName();
+  LOGGER.log(Level.FINE,"Loading obejct: {0}",name);
+  int restrictflag=((Number)objectStructure.getFieldValue("restrictflag")).intValue();
+  boolean visible=(restrictflag & 0x01) != 0;
+  Pointer pParent=(Pointer)objectStructure.getFieldValue("parent");
+  Object parent=blenderContext.getLoadedFeature(pParent.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
+  if (parent == null && pParent.isNotNull()) {
+    Structure parentStructure=pParent.fetchData().get(0);
+    parent=this.toObject(parentStructure,blenderContext);
+  }
+  Transform t=this.getTransformation(objectStructure,blenderContext);
+  LOGGER.log(Level.FINE,"Importing object of type: {0}",objectType);
+  Node result=null;
+  try {
+switch (objectType) {
+case EMPTY:
+case ARMATURE:
+      result=new Node(name);
+    break;
+case MESH:
+  result=new Node(name);
+MeshHelper meshHelper=blenderContext.getHelper(MeshHelper.class);
+Pointer pMesh=(Pointer)objectStructure.getFieldValue("data");
+List<Structure> meshesArray=pMesh.fetchData();
+List<Geometry> geometries=meshHelper.toMesh(meshesArray.get(0),blenderContext);
+if (geometries != null) {
+for (Geometry geometry : geometries) {
+result.attachChild(geometry);
+}
+}
+break;
+case SURF:
+case CURVE:
+result=new Node(name);
+Pointer pCurve=(Pointer)objectStructure.getFieldValue("data");
+if (pCurve.isNotNull()) {
+CurvesHelper curvesHelper=blenderContext.getHelper(CurvesHelper.class);
+Structure curveData=pCurve.fetchData().get(0);
+List<Geometry> curves=curvesHelper.toCurve(curveData,blenderContext);
+for (Geometry curve : curves) {
+result.attachChild(curve);
+}
+}
+break;
+case LAMP:
+Pointer pLamp=(Pointer)objectStructure.getFieldValue("data");
+if (pLamp.isNotNull()) {
+LightHelper lightHelper=blenderContext.getHelper(LightHelper.class);
+List<Structure> lampsArray=pLamp.fetchData();
+result=lightHelper.toLight(lampsArray.get(0),blenderContext);
+}
+break;
+case CAMERA:
+Pointer pCamera=(Pointer)objectStructure.getFieldValue("data");
+if (pCamera.isNotNull()) {
+CameraHelper cameraHelper=blenderContext.getHelper(CameraHelper.class);
+List<Structure> camerasArray=pCamera.fetchData();
+result=cameraHelper.toCamera(camerasArray.get(0),blenderContext);
+}
+break;
+default :
+LOGGER.log(Level.WARNING,"Unsupported object type: {0}",type);
+}
+}
+  finally {
+blenderContext.popParent();
+}
+if (result != null) {
+blenderContext.addLoadedFeatures(objectStructure.getOldMemoryAddress(),name,objectStructure,result);
+result.setLocalTransform(t);
+result.setCullHint(visible ? CullHint.Always : CullHint.Inherit);
+if (parent instanceof Node) {
+((Node)parent).attachChild(result);
+}
+if (result.getChildren() != null) {
+for (Spatial child : result.getChildren()) {
+if (child instanceof Geometry) {
+this.flipMeshIfRequired((Geometry)child,child.getWorldScale());
+}
+}
+}
+LOGGER.fine("Reading and applying object's modifiers.");
+ModifierHelper modifierHelper=blenderContext.getHelper(ModifierHelper.class);
+Collection<Modifier> modifiers=modifierHelper.readModifiers(objectStructure,blenderContext);
+for (Modifier modifier : modifiers) {
+modifier.apply(result,blenderContext);
+}
+result.updateModelBound();
+LOGGER.fine("Applying markers (those will be removed before the final result is released).");
+blenderContext.addMarker(OMA_MARKER,result,objectStructure.getOldMemoryAddress());
+if (objectType == ObjectType.ARMATURE) {
+blenderContext.addMarker(ArmatureHelper.ARMATURE_NODE_MARKER,result,Boolean.TRUE);
+}
+LOGGER.fine("Loading constraints connected with this object.");
+ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
+constraintHelper.loadConstraints(objectStructure,blenderContext);
+LOGGER.fine("Loading custom properties.");
+if (blenderContext.getBlenderKey().isLoadObjectProperties()) {
+Properties properties=this.loadProperties(objectStructure,blenderContext);
+if (properties != null && properties.getValue() != null) {
+this.applyProperties(result,properties);
+}
+}
+}
+return result;
+}

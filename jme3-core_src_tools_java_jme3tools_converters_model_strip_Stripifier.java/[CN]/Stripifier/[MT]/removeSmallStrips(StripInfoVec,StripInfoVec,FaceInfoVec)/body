@@ -1,0 +1,33 @@
+{
+  faceList.clear();
+  allBigStrips.clear();
+  FaceInfoVec tempFaceList=new FaceInfoVec();
+  for (int i=0; i < allStrips.size(); i++) {
+    if (allStrips.at(i).m_faces.size() < minStripLength) {
+      for (int j=0; j < allStrips.at(i).m_faces.size(); j++)       tempFaceList.add(allStrips.at(i).m_faces.at(j));
+    }
+ else {
+      allBigStrips.add(allStrips.at(i));
+    }
+  }
+  boolean[] bVisitedList=new boolean[tempFaceList.size()];
+  VertexCache vcache=new VertexCache(cacheSize);
+  int bestNumHits=-1;
+  int numHits;
+  int bestIndex=-9999;
+  while (true) {
+    bestNumHits=-1;
+    for (int i=0; i < tempFaceList.size(); i++) {
+      if (bVisitedList[i])       continue;
+      numHits=calcNumHitsFace(vcache,tempFaceList.at(i));
+      if (numHits > bestNumHits) {
+        bestNumHits=numHits;
+        bestIndex=i;
+      }
+    }
+    if (bestNumHits == -1.0f)     break;
+    bVisitedList[bestIndex]=true;
+    updateCacheFace(vcache,tempFaceList.at(bestIndex));
+    faceList.add(tempFaceList.at(bestIndex));
+  }
+}

@@ -1,0 +1,13 @@
+{
+  updatedPatch.setLod(newLod);
+  updatedPatch.setLodRight(rightLod);
+  updatedPatch.setLodTop(topLod);
+  updatedPatch.setLodLeft(leftLod);
+  updatedPatch.setLodBottom(bottomLod);
+  if (newIndexBuffer != null && isReIndexNeeded()) {
+    updatedPatch.setPreviousLod(previousLod);
+    updatedPatch.getMesh().clearBuffer(Type.Index);
+    if (newIndexBuffer instanceof IntBuffer)     updatedPatch.getMesh().setBuffer(Type.Index,3,(IntBuffer)newIndexBuffer);
+ else     if (newIndexBuffer instanceof ShortBuffer)     updatedPatch.getMesh().setBuffer(Type.Index,3,(ShortBuffer)newIndexBuffer);
+  }
+}

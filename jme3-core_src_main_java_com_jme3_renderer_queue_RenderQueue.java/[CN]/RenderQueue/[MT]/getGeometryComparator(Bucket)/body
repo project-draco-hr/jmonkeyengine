@@ -1,0 +1,16 @@
+{
+switch (bucket) {
+case Gui:
+    return guiList.getComparator();
+case Opaque:
+  return opaqueList.getComparator();
+case Sky:
+return skyList.getComparator();
+case Transparent:
+return transparentList.getComparator();
+case Translucent:
+return translucentList.getComparator();
+default :
+throw new UnsupportedOperationException("Unknown bucket type: " + bucket);
+}
+}

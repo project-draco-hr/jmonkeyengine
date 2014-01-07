@@ -1,0 +1,9 @@
+{
+  super.setCollisionShape(collisionShape);
+  if (objectId == 0) {
+    buildObject();
+  }
+ else {
+    attachCollisionShape(objectId,collisionShape.getObjectId());
+  }
+}

@@ -1,0 +1,30 @@
+{
+  if (name.equals("use_water") && value) {
+    if (!useWater) {
+      useWater=true;
+      waterPlane.setMaterial(waterProcessor.getMaterial());
+    }
+ else {
+      useWater=false;
+      waterPlane.setMaterial(mat);
+    }
+  }
+ else   if (name.equals("lightup") && value) {
+    lightPos.y++;
+  }
+ else   if (name.equals("lightdown") && value) {
+    lightPos.y--;
+  }
+ else   if (name.equals("lightleft") && value) {
+    lightPos.x--;
+  }
+ else   if (name.equals("lightright") && value) {
+    lightPos.x++;
+  }
+ else   if (name.equals("lightforward") && value) {
+    lightPos.z--;
+  }
+ else   if (name.equals("lightback") && value) {
+    lightPos.z++;
+  }
+}

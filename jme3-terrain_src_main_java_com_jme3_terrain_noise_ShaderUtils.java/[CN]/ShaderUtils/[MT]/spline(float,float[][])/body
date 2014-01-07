@@ -1,0 +1,7 @@
+{
+  float[] retval=new float[knots.length];
+  for (int i=0; i < knots.length; i++) {
+    retval[i]=ShaderUtils.spline(x,knots[i]);
+  }
+  return retval;
+}

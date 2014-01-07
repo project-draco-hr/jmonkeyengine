@@ -1,0 +1,94 @@
+{
+  int maxWeightsPerVert=mesh.getMaxNumWeights();
+  if (maxWeightsPerVert <= 0) {
+    throw new IllegalStateException("Max weights per vert is incorrectly set!");
+  }
+  int fourMinusMaxWeights=4 - maxWeightsPerVert;
+  VertexBuffer vb=mesh.getBuffer(Type.Position);
+  FloatBuffer fvb=(FloatBuffer)vb.getData();
+  fvb.rewind();
+  VertexBuffer nb=mesh.getBuffer(Type.Normal);
+  FloatBuffer fnb=(FloatBuffer)nb.getData();
+  fnb.rewind();
+  FloatBuffer ftb=(FloatBuffer)tb.getData();
+  ftb.rewind();
+  ByteBuffer ib=(ByteBuffer)mesh.getBuffer(Type.BoneIndex).getData();
+  FloatBuffer wb=(FloatBuffer)mesh.getBuffer(Type.BoneWeight).getData();
+  ib.rewind();
+  wb.rewind();
+  float[] weights=wb.array();
+  byte[] indices=ib.array();
+  int idxWeights=0;
+  TempVars vars=TempVars.get();
+  float[] posBuf=vars.skinPositions;
+  float[] normBuf=vars.skinNormals;
+  float[] tanBuf=vars.skinTangents;
+  int iterations=(int)FastMath.ceil(fvb.limit() / ((float)posBuf.length));
+  int bufLength=0;
+  int tanLength=0;
+  for (int i=iterations - 1; i >= 0; i--) {
+    bufLength=Math.min(posBuf.length,fvb.remaining());
+    tanLength=Math.min(tanBuf.length,ftb.remaining());
+    fvb.get(posBuf,0,bufLength);
+    fnb.get(normBuf,0,bufLength);
+    ftb.get(tanBuf,0,tanLength);
+    int verts=bufLength / 3;
+    int idxPositions=0;
+    int idxTangents=0;
+    for (int vert=verts - 1; vert >= 0; vert--) {
+      if (weights[idxWeights] == 0) {
+        idxTangents+=4;
+        idxPositions+=3;
+        idxWeights+=4;
+        continue;
+      }
+      float nmx=normBuf[idxPositions];
+      float vtx=posBuf[idxPositions++];
+      float nmy=normBuf[idxPositions];
+      float vty=posBuf[idxPositions++];
+      float nmz=normBuf[idxPositions];
+      float vtz=posBuf[idxPositions++];
+      float tnx=tanBuf[idxTangents++];
+      float tny=tanBuf[idxTangents++];
+      float tnz=tanBuf[idxTangents++];
+      idxTangents++;
+      float rx=0, ry=0, rz=0, rnx=0, rny=0, rnz=0, rtx=0, rty=0, rtz=0;
+      for (int w=maxWeightsPerVert - 1; w >= 0; w--) {
+        float weight=weights[idxWeights];
+        Matrix4f mat=offsetMatrices[indices[idxWeights++]];
+        rx+=(mat.m00 * vtx + mat.m01 * vty + mat.m02 * vtz + mat.m03) * weight;
+        ry+=(mat.m10 * vtx + mat.m11 * vty + mat.m12 * vtz + mat.m13) * weight;
+        rz+=(mat.m20 * vtx + mat.m21 * vty + mat.m22 * vtz + mat.m23) * weight;
+        rnx+=(nmx * mat.m00 + nmy * mat.m01 + nmz * mat.m02) * weight;
+        rny+=(nmx * mat.m10 + nmy * mat.m11 + nmz * mat.m12) * weight;
+        rnz+=(nmx * mat.m20 + nmy * mat.m21 + nmz * mat.m22) * weight;
+        rtx+=(tnx * mat.m00 + tny * mat.m01 + tnz * mat.m02) * weight;
+        rty+=(tnx * mat.m10 + tny * mat.m11 + tnz * mat.m12) * weight;
+        rtz+=(tnx * mat.m20 + tny * mat.m21 + tnz * mat.m22) * weight;
+      }
+      idxWeights+=fourMinusMaxWeights;
+      idxPositions-=3;
+      normBuf[idxPositions]=rnx;
+      posBuf[idxPositions++]=rx;
+      normBuf[idxPositions]=rny;
+      posBuf[idxPositions++]=ry;
+      normBuf[idxPositions]=rnz;
+      posBuf[idxPositions++]=rz;
+      idxTangents-=4;
+      tanBuf[idxTangents++]=rtx;
+      tanBuf[idxTangents++]=rty;
+      tanBuf[idxTangents++]=rtz;
+      idxTangents++;
+    }
+    fvb.position(fvb.position() - bufLength);
+    fvb.put(posBuf,0,bufLength);
+    fnb.position(fnb.position() - bufLength);
+    fnb.put(normBuf,0,bufLength);
+    ftb.position(ftb.position() - tanLength);
+    ftb.put(tanBuf,0,tanLength);
+  }
+  vars.release();
+  vb.updateData(fvb);
+  nb.updateData(fnb);
+  tb.updateData(ftb);
+}

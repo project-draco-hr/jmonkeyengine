@@ -1,0 +1,17 @@
+{
+  RemoteObject ro=remoteObjects.get(name);
+  if (ro == null) {
+    if (!waitFor)     throw new RuntimeException("Cannot find remote object named: " + name);
+ else {
+      do {
+synchronized (receiveObjectLock) {
+          receiveObjectLock.wait();
+        }
+      }
+ while ((ro=remoteObjects.get(name)) == null);
+    }
+  }
+  Object proxy=Proxy.newProxyInstance(getClass().getClassLoader(),new Class[]{type},ro);
+  ro.loadMethods(type);
+  return (T)proxy;
+}

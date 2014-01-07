@@ -1,0 +1,27 @@
+{
+  initialize(settings);
+  Class<? extends AudioRenderer> clazz=null;
+  try {
+    if (settings.getAudioRenderer().startsWith("LWJGL")) {
+      clazz=(Class<? extends AudioRenderer>)Class.forName("com.jme3.audio.lwjgl.LwjglAudioRenderer");
+    }
+ else     if (settings.getAudioRenderer().startsWith("JOAL")) {
+      clazz=(Class<? extends AudioRenderer>)Class.forName("com.jme3.audio.joal.JoalAudioRenderer");
+    }
+ else {
+      throw new UnsupportedOperationException("Unrecognizable audio renderer specified: " + settings.getAudioRenderer());
+    }
+    AudioRenderer ar=clazz.newInstance();
+    return ar;
+  }
+ catch (  InstantiationException ex) {
+    logger.log(Level.SEVERE,"Failed to create context",ex);
+  }
+catch (  IllegalAccessException ex) {
+    logger.log(Level.SEVERE,"Failed to create context",ex);
+  }
+catch (  ClassNotFoundException ex) {
+    logger.log(Level.SEVERE,"CRITICAL ERROR: Audio implementation class is missing!\n" + "Make sure jme3_lwjgl-oal or jm3_joal is on the classpath.",ex);
+  }
+  return null;
+}

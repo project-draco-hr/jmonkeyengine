@@ -1,0 +1,9 @@
+{
+  bulletAppState=new BulletAppState();
+  stateManager.attach(bulletAppState);
+  bulletAppState.getPhysicsSpace().enableDebug(assetManager);
+  inputManager.addMapping("Pull ragdoll up",new MouseButtonTrigger(0));
+  inputManager.addListener(this,"Pull ragdoll up");
+  PhysicsTestHelper.createPhysicsTestWorld(rootNode,assetManager,bulletAppState.getPhysicsSpace());
+  createRagDoll();
+}

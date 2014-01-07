@@ -1,0 +1,8 @@
+{
+  int pixel=0;
+  buf.position(idx);
+  for (int i=0; i < bpp; i++) {
+    pixel=pixel | (buf.get() & 0xff) << (i * 8);
+  }
+  return pixel;
+}

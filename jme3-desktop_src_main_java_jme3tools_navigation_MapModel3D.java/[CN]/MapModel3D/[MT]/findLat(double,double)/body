@@ -1,0 +1,13 @@
+{
+  DecimalFormat form=new DecimalFormat("#.#####");
+  mp=Double.parseDouble(form.format(mp));
+  double guessMP;
+  for (double lat=previousLat - 0.25; lat < previousLat + 1; lat+=0.00001) {
+    guessMP=NavCalculator.computeDMPClarkeSpheroid(0,lat);
+    guessMP=Double.parseDouble(form.format(guessMP));
+    if (guessMP == mp || Math.abs(guessMP - mp) < 0.05) {
+      return lat;
+    }
+  }
+  return -1000;
+}

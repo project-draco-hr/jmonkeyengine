@@ -1,0 +1,9 @@
+{
+  try {
+    URL file=new URL("file:" + image);
+    setImage(file);
+  }
+ catch (  MalformedURLException e) {
+    logger.log(Level.WARNING,"Couldn???t read from file '" + image + "'",e);
+  }
+}

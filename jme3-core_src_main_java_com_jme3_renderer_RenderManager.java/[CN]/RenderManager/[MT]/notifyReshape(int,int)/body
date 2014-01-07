@@ -1,0 +1,23 @@
+{
+  for (  ViewPort vp : preViewPorts) {
+    if (vp.getOutputFrameBuffer() == null) {
+      Camera cam=vp.getCamera();
+      cam.resize(w,h,true);
+    }
+    notifyReshape(vp,w,h);
+  }
+  for (  ViewPort vp : viewPorts) {
+    if (vp.getOutputFrameBuffer() == null) {
+      Camera cam=vp.getCamera();
+      cam.resize(w,h,true);
+    }
+    notifyReshape(vp,w,h);
+  }
+  for (  ViewPort vp : postViewPorts) {
+    if (vp.getOutputFrameBuffer() == null) {
+      Camera cam=vp.getCamera();
+      cam.resize(w,h,true);
+    }
+    notifyReshape(vp,w,h);
+  }
+}

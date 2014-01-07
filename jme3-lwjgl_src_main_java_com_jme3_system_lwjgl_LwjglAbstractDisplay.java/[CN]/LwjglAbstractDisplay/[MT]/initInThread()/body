@@ -1,0 +1,31 @@
+{
+  try {
+    if (!JmeSystem.isLowPermissions()) {
+      Thread.currentThread().setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler(){
+        public void uncaughtException(        Thread thread,        Throwable thrown){
+          listener.handleError("Uncaught exception thrown in " + thread.toString(),thrown);
+          if (needClose.get()) {
+            deinitInThread();
+          }
+        }
+      }
+);
+    }
+    createContext(settings);
+    printContextInitInfo();
+    created.set(true);
+    super.internalCreate();
+  }
+ catch (  Exception ex) {
+    try {
+      if (Display.isCreated())       Display.destroy();
+    }
+ catch (    Exception ex2) {
+      logger.log(Level.WARNING,null,ex2);
+    }
+    listener.handleError("Failed to create display",ex);
+    return false;
+  }
+  listener.initialize();
+  return true;
+}

@@ -1,0 +1,59 @@
+{
+  int id=shader.getId();
+  boolean needRegister=false;
+  if (id == -1) {
+    id=GLES20.glCreateProgram();
+    RendererUtil.checkGLError();
+    if (id <= 0) {
+      throw new RendererException("Invalid ID received when trying to create shader program.");
+    }
+    shader.setId(id);
+    needRegister=true;
+  }
+  for (  ShaderSource source : shader.getSources()) {
+    if (source.isUpdateNeeded()) {
+      updateShaderSourceData(source);
+    }
+    GLES20.glAttachShader(id,source.getId());
+    RendererUtil.checkGLError();
+  }
+  GLES20.glLinkProgram(id);
+  RendererUtil.checkGLError();
+  GLES20.glGetProgramiv(id,GLES20.GL_LINK_STATUS,intBuf1);
+  RendererUtil.checkGLError();
+  boolean linkOK=intBuf1.get(0) == GLES20.GL_TRUE;
+  String infoLog=null;
+  if (VALIDATE_SHADER || !linkOK) {
+    GLES20.glGetProgramiv(id,GLES20.GL_INFO_LOG_LENGTH,intBuf1);
+    RendererUtil.checkGLError();
+    int length=intBuf1.get(0);
+    if (length > 3) {
+      infoLog=GLES20.glGetProgramInfoLog(id);
+      RendererUtil.checkGLError();
+    }
+  }
+  if (linkOK) {
+    if (infoLog != null) {
+      logger.log(Level.FINE,"shader link success. \n{0}",infoLog);
+    }
+ else {
+      logger.fine("shader link success");
+    }
+    shader.clearUpdateNeeded();
+    if (needRegister) {
+      objManager.registerObject(shader);
+      statistics.onNewShader();
+    }
+ else {
+      resetUniformLocations(shader);
+    }
+  }
+ else {
+    if (infoLog != null) {
+      throw new RendererException("Shader link failure, shader:" + shader + " info:"+ infoLog);
+    }
+ else {
+      throw new RendererException("Shader link failure, shader:" + shader + " info: <not provided>");
+    }
+  }
+}

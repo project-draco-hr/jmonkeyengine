@@ -1,0 +1,18 @@
+{
+  logger.fine("onDestroy");
+  final DataObject data=(DataObject)getLastNonConfigurationInstance();
+  if (data != null || inConfigChange) {
+    logger.fine("In Config Change, not stopping app.");
+  }
+ else {
+    if (app != null) {
+      app.stop(!isGLThreadPaused);
+    }
+  }
+  setContentView(new TextView(this));
+  JmeAndroidSystem.setActivity(null);
+  ctx=null;
+  app=null;
+  view=null;
+  super.onDestroy();
+}

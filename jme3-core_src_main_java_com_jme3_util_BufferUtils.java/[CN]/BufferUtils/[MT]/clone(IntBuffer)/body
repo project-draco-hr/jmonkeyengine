@@ -1,0 +1,15 @@
+{
+  if (buf == null) {
+    return null;
+  }
+  buf.rewind();
+  IntBuffer copy;
+  if (isDirect(buf)) {
+    copy=createIntBuffer(buf.limit());
+  }
+ else {
+    copy=IntBuffer.allocate(buf.limit());
+  }
+  copy.put(buf);
+  return copy;
+}

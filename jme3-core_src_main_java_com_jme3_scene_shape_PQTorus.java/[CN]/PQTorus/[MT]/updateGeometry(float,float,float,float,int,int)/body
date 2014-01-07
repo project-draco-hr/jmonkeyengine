@@ -1,0 +1,73 @@
+{
+  this.p=p;
+  this.q=q;
+  this.radius=radius;
+  this.width=width;
+  this.steps=steps;
+  this.radialSamples=radialSamples;
+  final float thetaStep=(FastMath.TWO_PI / steps);
+  final float betaStep=(FastMath.TWO_PI / radialSamples);
+  Vector3f[] torusPoints=new Vector3f[steps];
+  int vertCount=radialSamples * steps;
+  FloatBuffer fpb=createVector3Buffer(vertCount);
+  FloatBuffer fnb=createVector3Buffer(vertCount);
+  FloatBuffer ftb=createVector2Buffer(vertCount);
+  Vector3f pointB, T, N, B;
+  Vector3f tempNorm=new Vector3f();
+  float r, x, y, z, theta=0.0f, beta;
+  int nvertex=0;
+  for (int i=0; i < steps; i++) {
+    theta+=thetaStep;
+    float circleFraction=((float)i) / (float)steps;
+    r=(0.5f * (2.0f + FastMath.sin(q * theta)) * radius);
+    x=(r * FastMath.cos(p * theta) * radius);
+    y=(r * FastMath.sin(p * theta) * radius);
+    z=(r * FastMath.cos(q * theta) * radius);
+    torusPoints[i]=new Vector3f(x,y,z);
+    r=(0.5f * (2.0f + FastMath.sin(q * (theta + 0.01f))) * radius);
+    x=(r * FastMath.cos(p * (theta + 0.01f)) * radius);
+    y=(r * FastMath.sin(p * (theta + 0.01f)) * radius);
+    z=(r * FastMath.cos(q * (theta + 0.01f)) * radius);
+    pointB=new Vector3f(x,y,z);
+    T=pointB.subtract(torusPoints[i]);
+    N=torusPoints[i].add(pointB);
+    B=T.cross(N);
+    N=B.cross(T);
+    N=N.normalize();
+    B=B.normalize();
+    beta=0.0f;
+    for (int j=0; j < radialSamples; j++, nvertex++) {
+      beta+=betaStep;
+      float cx=FastMath.cos(beta) * width;
+      float cy=FastMath.sin(beta) * width;
+      float radialFraction=((float)j) / radialSamples;
+      tempNorm.x=(cx * N.x + cy * B.x);
+      tempNorm.y=(cx * N.y + cy * B.y);
+      tempNorm.z=(cx * N.z + cy * B.z);
+      fnb.put(tempNorm.x).put(tempNorm.y).put(tempNorm.z);
+      tempNorm.addLocal(torusPoints[i]);
+      fpb.put(tempNorm.x).put(tempNorm.y).put(tempNorm.z);
+      ftb.put(radialFraction).put(circleFraction);
+    }
+  }
+  ShortBuffer sib=createShortBuffer(6 * vertCount);
+  for (int i=0; i < vertCount; i++) {
+    sib.put(new short[]{(short)(i),(short)(i - radialSamples),(short)(i + 1),(short)(i + 1),(short)(i - radialSamples),(short)(i - radialSamples + 1)});
+  }
+  for (int i=0, len=sib.capacity(); i < len; i++) {
+    int ind=sib.get(i);
+    if (ind < 0) {
+      ind+=vertCount;
+      sib.put(i,(short)ind);
+    }
+ else     if (ind >= vertCount) {
+      ind-=vertCount;
+      sib.put(i,(short)ind);
+    }
+  }
+  sib.rewind();
+  setBuffer(Type.Position,3,fpb);
+  setBuffer(Type.Normal,3,fnb);
+  setBuffer(Type.TexCoord,2,ftb);
+  setBuffer(Type.Index,3,sib);
+}

@@ -1,0 +1,32 @@
+{
+  logger.log(Level.FINE,"Splash Screen Picture Resource ID: {0}",splashPicID);
+  if (view == null) {
+    logger.log(Level.FINE,"view is null!");
+  }
+  if (splashPicID != 0) {
+    FrameLayout.LayoutParams lp=new FrameLayout.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT,Gravity.CENTER);
+    frameLayout=new FrameLayout(this);
+    splashImageView=new ImageView(this);
+    Drawable drawable=this.getResources().getDrawable(splashPicID);
+    if (drawable instanceof NinePatchDrawable) {
+      splashImageView.setBackgroundDrawable(drawable);
+    }
+ else {
+      splashImageView.setImageResource(splashPicID);
+    }
+    if (view.getParent() != null) {
+      ((ViewGroup)view.getParent()).removeView(view);
+    }
+    frameLayout.addView(view);
+    if (splashImageView.getParent() != null) {
+      ((ViewGroup)splashImageView.getParent()).removeView(splashImageView);
+    }
+    frameLayout.addView(splashImageView,lp);
+    setContentView(frameLayout);
+    logger.log(Level.FINE,"Splash Screen Created");
+  }
+ else {
+    logger.log(Level.FINE,"Splash Screen Skipped.");
+    setContentView(view);
+  }
+}

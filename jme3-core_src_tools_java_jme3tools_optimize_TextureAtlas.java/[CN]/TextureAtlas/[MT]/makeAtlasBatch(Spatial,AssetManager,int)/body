@@ -1,0 +1,32 @@
+{
+  List<Geometry> geometries=new ArrayList<Geometry>();
+  GeometryBatchFactory.gatherGeoms(spat,geometries);
+  TextureAtlas atlas=createAtlas(spat,atlasSize);
+  if (atlas == null) {
+    return null;
+  }
+  Geometry geom=new Geometry();
+  Mesh mesh=new Mesh();
+  GeometryBatchFactory.mergeGeometries(geometries,mesh);
+  applyAtlasCoords(geometries,mesh,atlas);
+  mesh.updateCounts();
+  mesh.updateBound();
+  geom.setMesh(mesh);
+  Material mat=new Material(mgr,"Common/MatDefs/Light/Lighting.j3md");
+  mat.getAdditionalRenderState().setAlphaTest(true);
+  Texture diffuseMap=atlas.getAtlasTexture("DiffuseMap");
+  Texture normalMap=atlas.getAtlasTexture("NormalMap");
+  Texture specularMap=atlas.getAtlasTexture("SpecularMap");
+  if (diffuseMap != null) {
+    mat.setTexture("DiffuseMap",diffuseMap);
+  }
+  if (normalMap != null) {
+    mat.setTexture("NormalMap",normalMap);
+  }
+  if (specularMap != null) {
+    mat.setTexture("SpecularMap",specularMap);
+  }
+  mat.setFloat("Shininess",16.0f);
+  geom.setMaterial(mat);
+  return geom;
+}

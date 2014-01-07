@@ -1,0 +1,10 @@
+{
+  int p1=index1 * 9;
+  int p2=index2 * 9;
+  System.arraycopy(pointData,p1,bihSwapTmp,0,9);
+  System.arraycopy(pointData,p2,pointData,p1,9);
+  System.arraycopy(bihSwapTmp,0,pointData,p2,9);
+  int tmp2=triIndices[index1];
+  triIndices[index1]=triIndices[index2];
+  triIndices[index2]=tmp2;
+}

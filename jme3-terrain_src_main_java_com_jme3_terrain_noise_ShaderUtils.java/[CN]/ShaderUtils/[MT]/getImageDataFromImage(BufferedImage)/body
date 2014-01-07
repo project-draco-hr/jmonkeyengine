@@ -1,0 +1,17 @@
+{
+  WritableRaster wr;
+  DataBuffer db;
+  BufferedImage bi=new BufferedImage(128,64,BufferedImage.TYPE_INT_ARGB);
+  Graphics2D g=bi.createGraphics();
+  g.drawImage(bufferedImage,null,null);
+  bufferedImage=bi;
+  wr=bi.getRaster();
+  db=wr.getDataBuffer();
+  DataBufferInt dbi=(DataBufferInt)db;
+  int[] data=dbi.getData();
+  ByteBuffer byteBuffer=ByteBuffer.allocateDirect(data.length * 4);
+  byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+  byteBuffer.asIntBuffer().put(data);
+  byteBuffer.flip();
+  return byteBuffer;
+}

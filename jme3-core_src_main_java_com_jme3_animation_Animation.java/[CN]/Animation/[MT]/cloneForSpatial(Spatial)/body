@@ -1,0 +1,18 @@
+{
+  try {
+    Animation result=(Animation)super.clone();
+    result.tracks=new SafeArrayList<Track>(Track.class);
+    for (    Track track : tracks) {
+      if (track instanceof ClonableTrack) {
+        result.tracks.add(((ClonableTrack)track).cloneForSpatial(spat));
+      }
+ else {
+        result.tracks.add(track);
+      }
+    }
+    return result;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
+}

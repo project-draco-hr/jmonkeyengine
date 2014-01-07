@@ -1,0 +1,11 @@
+{
+  int level=getAndroidLevel(record.getLevel());
+  String tag=record.getLoggerName();
+  try {
+    String message=JME_FORMATTER.format(record);
+    Log.println(level,tag,message);
+  }
+ catch (  RuntimeException e) {
+    Log.e("AndroidHandler","Error logging message.",e);
+  }
+}

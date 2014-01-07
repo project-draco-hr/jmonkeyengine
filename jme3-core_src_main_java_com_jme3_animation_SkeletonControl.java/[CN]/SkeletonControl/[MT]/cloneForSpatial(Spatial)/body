@@ -1,0 +1,20 @@
+{
+  Node clonedNode=(Node)spatial;
+  AnimControl ctrl=spatial.getControl(AnimControl.class);
+  SkeletonControl clone=new SkeletonControl();
+  clone.skeleton=ctrl.getSkeleton();
+  clone.setSpatial(clonedNode);
+  for (int i=0; i < clonedNode.getQuantity(); i++) {
+    Spatial child=clonedNode.getChild(i);
+    if (child instanceof Node) {
+      Node clonedAttachNode=(Node)child;
+      Bone originalBone=(Bone)clonedAttachNode.getUserData("AttachedBone");
+      if (originalBone != null) {
+        Bone clonedBone=clone.skeleton.getBone(originalBone.getName());
+        clonedAttachNode.setUserData("AttachedBone",clonedBone);
+        clonedBone.setAttachmentsNode(clonedAttachNode);
+      }
+    }
+  }
+  return clone;
+}

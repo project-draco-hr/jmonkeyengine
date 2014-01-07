@@ -1,0 +1,60 @@
+{
+  if (null != heightData) {
+    unloadHeightMap();
+  }
+  heightData=new float[size * size];
+  float[][] tempBuffer=new float[2][size * size];
+  Random random=new Random(seed);
+  coefA=(4 - (8 * waveSpeed * waveSpeed* timeStep* timeStep) / (nodeDistance * nodeDistance)) / (viscosity * timeStep + 2);
+  coefB=(viscosity * timeStep - 2) / (viscosity * timeStep + 2);
+  coefC=((2 * waveSpeed * waveSpeed* timeStep* timeStep) / (nodeDistance * nodeDistance)) / (viscosity * timeStep + 2);
+  for (int i=0; i < size; i++) {
+    for (int j=0; j < size; j++) {
+      tempBuffer[0][j + i * size]=tempBuffer[1][j + i * size]=randomRange(random,minInitialHeight,maxInitialHeight);
+    }
+  }
+  int curBuf=0;
+  int ind;
+  float[] oldBuffer;
+  float[] newBuffer;
+  for (int i=0; i < iterations; i++) {
+    oldBuffer=tempBuffer[1 - curBuf];
+    newBuffer=tempBuffer[curBuf];
+    for (int y=0; y < size; y++) {
+      for (int x=0; x < size; x++) {
+        ind=x + y * size;
+        float neighborsValue=0;
+        int neighbors=0;
+        if (x > 0) {
+          neighborsValue+=newBuffer[ind - 1];
+          neighbors++;
+        }
+        if (x < size - 1) {
+          neighborsValue+=newBuffer[ind + 1];
+          neighbors++;
+        }
+        if (y > 0) {
+          neighborsValue+=newBuffer[ind - size];
+          neighbors++;
+        }
+        if (y < size - 1) {
+          neighborsValue+=newBuffer[ind + size];
+          neighbors++;
+        }
+        if (neighbors != 4) {
+          neighborsValue*=4 / neighbors;
+        }
+        oldBuffer[ind]=coefA * newBuffer[ind] + coefB * oldBuffer[ind] + coefC * (neighborsValue);
+      }
+    }
+    curBuf=1 - curBuf;
+  }
+  for (int y=0; y < size; y++) {
+    for (int x=0; x < size; x++) {
+      heightData[x + y * size]=(float)(tempBuffer[curBuf][x + y * size]);
+    }
+  }
+  normalizeTerrain(NORMALIZE_RANGE);
+  logger.fine("Created Heightmap using fluid simulation");
+  return true;
+}

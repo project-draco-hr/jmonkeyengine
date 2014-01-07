@@ -1,0 +1,9 @@
+{
+  if (texture.getImage() == null) {
+    throw new IllegalArgumentException("texture.getImage() cannot be null");
+  }
+  this.texture=texture;
+  this.image=texture.getImage();
+  width=image.getWidth();
+  height=image.getHeight();
+}

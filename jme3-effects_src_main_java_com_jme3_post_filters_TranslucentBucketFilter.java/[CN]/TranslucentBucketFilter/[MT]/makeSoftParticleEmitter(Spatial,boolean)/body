@@ -1,0 +1,29 @@
+{
+  if (scene instanceof Node) {
+    Node n=(Node)scene;
+    for (    Spatial child : n.getChildren()) {
+      makeSoftParticleEmitter(child,enabled);
+    }
+  }
+  if (scene instanceof ParticleEmitter) {
+    ParticleEmitter emitter=(ParticleEmitter)scene;
+    if (enabled) {
+      enabledSoftParticles=enabled;
+      if (processor.getNumSamples() > 1) {
+        emitter.getMaterial().selectTechnique("SoftParticles15",renderManager);
+        emitter.getMaterial().setInt("NumSamplesDepth",processor.getNumSamples());
+      }
+ else {
+        emitter.getMaterial().selectTechnique("SoftParticles",renderManager);
+      }
+      emitter.getMaterial().setTexture("DepthTexture",processor.getDepthTexture());
+      emitter.setQueueBucket(RenderQueue.Bucket.Translucent);
+      logger.log(Level.FINE,"Made particle Emitter {0} soft.",emitter.getName());
+    }
+ else {
+      emitter.getMaterial().clearParam("DepthTexture");
+      emitter.getMaterial().selectTechnique("Default",renderManager);
+      logger.log(Level.FINE,"Particle Emitter {0} is not soft anymore.",emitter.getName());
+    }
+  }
+}

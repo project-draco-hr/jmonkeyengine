@@ -1,0 +1,12 @@
+{
+  if (FastMath.abs(point.x - origin.x) > FastMath.abs(direction.x * extent) + error) {
+    return false;
+  }
+  if (FastMath.abs(point.y - origin.y) > FastMath.abs(direction.y * extent) + error) {
+    return false;
+  }
+  if (FastMath.abs(point.z - origin.z) > FastMath.abs(direction.z * extent) + error) {
+    return false;
+  }
+  return true;
+}

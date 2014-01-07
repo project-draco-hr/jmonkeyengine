@@ -1,0 +1,18 @@
+{
+  VertexBuffer tc=getBuffer(Type.TexCoord);
+  if (tc == null)   throw new IllegalStateException("The mesh has no texture coordinates");
+  if (tc.getFormat() != VertexBuffer.Format.Float)   throw new UnsupportedOperationException("Only float texture coord format is supported");
+  if (tc.getNumComponents() != 2)   throw new UnsupportedOperationException("Only 2D texture coords are supported");
+  FloatBuffer fb=(FloatBuffer)tc.getData();
+  fb.clear();
+  for (int i=0; i < fb.limit() / 2; i++) {
+    float x=fb.get();
+    float y=fb.get();
+    fb.position(fb.position() - 2);
+    x*=scaleFactor.getX();
+    y*=scaleFactor.getY();
+    fb.put(x).put(y);
+  }
+  fb.clear();
+  tc.updateData(fb);
+}

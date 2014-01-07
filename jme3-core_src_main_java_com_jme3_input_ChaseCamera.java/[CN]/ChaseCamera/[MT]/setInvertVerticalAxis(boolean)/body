@@ -1,0 +1,14 @@
+{
+  this.invertYaxis=invertYaxis;
+  inputManager.deleteMapping(ChaseCamDown);
+  inputManager.deleteMapping(ChaseCamUp);
+  if (!invertYaxis) {
+    inputManager.addMapping(ChaseCamDown,new MouseAxisTrigger(MouseInput.AXIS_Y,true));
+    inputManager.addMapping(ChaseCamUp,new MouseAxisTrigger(MouseInput.AXIS_Y,false));
+  }
+ else {
+    inputManager.addMapping(ChaseCamDown,new MouseAxisTrigger(MouseInput.AXIS_Y,false));
+    inputManager.addMapping(ChaseCamUp,new MouseAxisTrigger(MouseInput.AXIS_Y,true));
+  }
+  inputManager.addListener(this,ChaseCamDown,ChaseCamUp);
+}

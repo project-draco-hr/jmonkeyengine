@@ -1,0 +1,10 @@
+{
+  try {
+    Object obj=Serializer.readClassAndObject(buffer);
+    Message m=(Message)obj;
+    messages.add(m);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException("Error deserializing object",e);
+  }
+}

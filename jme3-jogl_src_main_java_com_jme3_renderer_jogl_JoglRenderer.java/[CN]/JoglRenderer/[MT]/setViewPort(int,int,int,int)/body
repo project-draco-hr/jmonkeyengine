@@ -1,0 +1,10 @@
+{
+  if (x != vpX || vpY != y || vpW != w || vpH != h) {
+    GL gl=GLContext.getCurrentGL();
+    gl.glViewport(x,y,w,h);
+    vpX=x;
+    vpY=y;
+    vpW=w;
+    vpH=h;
+  }
+}

@@ -1,0 +1,14 @@
+{
+  super.updateWorldBound();
+  if (mesh == null) {
+    throw new NullPointerException("Geometry: " + getName() + " has null mesh");
+  }
+  if (mesh.getBound() != null) {
+    if (ignoreTransform) {
+      worldBound=mesh.getBound().clone(worldBound);
+    }
+ else {
+      worldBound=mesh.getBound().transform(worldTransform,worldBound);
+    }
+  }
+}

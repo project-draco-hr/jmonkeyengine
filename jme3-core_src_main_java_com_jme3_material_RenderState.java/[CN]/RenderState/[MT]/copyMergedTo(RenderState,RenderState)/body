@@ -1,0 +1,105 @@
+{
+  if (additionalState == null) {
+    return this;
+  }
+  if (additionalState.applyPointSprite) {
+    state.pointSprite=additionalState.pointSprite;
+  }
+ else {
+    state.pointSprite=pointSprite;
+  }
+  if (additionalState.applyWireFrame) {
+    state.wireframe=additionalState.wireframe;
+  }
+ else {
+    state.wireframe=wireframe;
+  }
+  if (additionalState.applyCullMode) {
+    state.cullMode=additionalState.cullMode;
+  }
+ else {
+    state.cullMode=cullMode;
+  }
+  if (additionalState.applyDepthWrite) {
+    state.depthWrite=additionalState.depthWrite;
+  }
+ else {
+    state.depthWrite=depthWrite;
+  }
+  if (additionalState.applyDepthTest) {
+    state.depthTest=additionalState.depthTest;
+  }
+ else {
+    state.depthTest=depthTest;
+  }
+  if (additionalState.applyDepthFunc) {
+    state.depthFunc=additionalState.depthFunc;
+  }
+ else {
+    state.depthFunc=depthFunc;
+  }
+  if (additionalState.applyColorWrite) {
+    state.colorWrite=additionalState.colorWrite;
+  }
+ else {
+    state.colorWrite=colorWrite;
+  }
+  if (additionalState.applyBlendMode) {
+    state.blendMode=additionalState.blendMode;
+  }
+ else {
+    state.blendMode=blendMode;
+  }
+  if (additionalState.applyAlphaTest) {
+    state.alphaTest=additionalState.alphaTest;
+  }
+ else {
+    state.alphaTest=alphaTest;
+  }
+  if (additionalState.applyAlphaFunc) {
+    state.alphaFunc=additionalState.alphaFunc;
+  }
+ else {
+    state.alphaFunc=alphaFunc;
+  }
+  if (additionalState.applyAlphaFallOff) {
+    state.alphaFallOff=additionalState.alphaFallOff;
+  }
+ else {
+    state.alphaFallOff=alphaFallOff;
+  }
+  if (additionalState.applyPolyOffset) {
+    state.offsetEnabled=additionalState.offsetEnabled;
+    state.offsetFactor=additionalState.offsetFactor;
+    state.offsetUnits=additionalState.offsetUnits;
+  }
+ else {
+    state.offsetEnabled=offsetEnabled;
+    state.offsetFactor=offsetFactor;
+    state.offsetUnits=offsetUnits;
+  }
+  if (additionalState.applyStencilTest) {
+    state.stencilTest=additionalState.stencilTest;
+    state.frontStencilStencilFailOperation=additionalState.frontStencilStencilFailOperation;
+    state.frontStencilDepthFailOperation=additionalState.frontStencilDepthFailOperation;
+    state.frontStencilDepthPassOperation=additionalState.frontStencilDepthPassOperation;
+    state.backStencilStencilFailOperation=additionalState.backStencilStencilFailOperation;
+    state.backStencilDepthFailOperation=additionalState.backStencilDepthFailOperation;
+    state.backStencilDepthPassOperation=additionalState.backStencilDepthPassOperation;
+    state.frontStencilFunction=additionalState.frontStencilFunction;
+    state.backStencilFunction=additionalState.backStencilFunction;
+  }
+ else {
+    state.stencilTest=stencilTest;
+    state.frontStencilStencilFailOperation=frontStencilStencilFailOperation;
+    state.frontStencilDepthFailOperation=frontStencilDepthFailOperation;
+    state.frontStencilDepthPassOperation=frontStencilDepthPassOperation;
+    state.backStencilStencilFailOperation=backStencilStencilFailOperation;
+    state.backStencilDepthFailOperation=backStencilDepthFailOperation;
+    state.backStencilDepthPassOperation=backStencilDepthPassOperation;
+    state.frontStencilFunction=frontStencilFunction;
+    state.backStencilFunction=backStencilFunction;
+  }
+  state.cachedHashCode=-1;
+  return state;
+}

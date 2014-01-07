@@ -1,0 +1,23 @@
+{
+  clear();
+  while (list.length <= local.listSize) {
+    doubleSize();
+  }
+  System.arraycopy(local.list,0,list,0,local.listSize);
+  for (int i=0; i < local.listSize; i++) {
+    distToOwner[i]=Float.NEGATIVE_INFINITY;
+  }
+  if (parent != null) {
+    int sz=local.listSize + parent.listSize;
+    while (list.length <= sz)     doubleSize();
+    for (int i=0; i < parent.listSize; i++) {
+      int p=i + local.listSize;
+      list[p]=parent.list[i];
+      distToOwner[p]=Float.NEGATIVE_INFINITY;
+    }
+    listSize=local.listSize + parent.listSize;
+  }
+ else {
+    listSize=local.listSize;
+  }
+}

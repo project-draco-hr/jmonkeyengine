@@ -1,0 +1,12 @@
+{
+  if (parent == null) {
+    worldTransform.set(localTransform);
+    refreshFlags&=~RF_TRANSFORM;
+  }
+ else {
+    assert((parent.refreshFlags & RF_TRANSFORM) == 0);
+    worldTransform.set(localTransform);
+    worldTransform.combineWithParent(parent.worldTransform);
+    refreshFlags&=~RF_TRANSFORM;
+  }
+}

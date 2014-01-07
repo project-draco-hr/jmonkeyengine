@@ -1,0 +1,12 @@
+{
+  if (!context.isRenderable())   return;
+  try {
+    Mouse.create();
+    logger.fine("Mouse created.");
+    supportHardwareCursor=(Cursor.getCapabilities() & Cursor.CURSOR_ONE_BIT_TRANSPARENCY) != 0;
+    Mouse.setGrabbed(!cursorVisible);
+  }
+ catch (  LWJGLException ex) {
+    logger.log(Level.SEVERE,"Error while creating mouse",ex);
+  }
+}

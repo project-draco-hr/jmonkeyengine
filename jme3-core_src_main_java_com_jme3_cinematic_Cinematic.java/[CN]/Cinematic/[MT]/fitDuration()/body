@@ -1,0 +1,12 @@
+{
+  KeyFrame kf=timeLine.getKeyFrameAtIndex(timeLine.getLastKeyFrameIndex());
+  float d=0;
+  for (int i=0; i < kf.getCinematicEvents().size(); i++) {
+    CinematicEvent ce=kf.getCinematicEvents().get(i);
+    float dur=timeLine.getKeyFrameTime(kf) + ce.getDuration() * ce.getSpeed();
+    if (d < dur) {
+      d=dur;
+    }
+  }
+  initialDuration=d;
+}

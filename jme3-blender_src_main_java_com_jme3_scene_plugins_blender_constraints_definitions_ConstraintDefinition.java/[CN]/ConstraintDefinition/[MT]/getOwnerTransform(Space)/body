@@ -1,0 +1,7 @@
+{
+  if (this.getOwner() instanceof Bone) {
+    BoneContext boneContext=blenderContext.getBoneContext(ownerOMA);
+    return constraintHelper.getTransform(boneContext.getArmatureObjectOMA(),boneContext.getBone().getName(),ownerSpace);
+  }
+  return constraintHelper.getTransform(ownerOMA,null,ownerSpace);
+}

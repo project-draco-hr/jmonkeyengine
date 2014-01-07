@@ -1,0 +1,11 @@
+{
+  if (array == null) {
+    write(NULL_OBJECT);
+    return;
+  }
+  write(array.size());
+  String[] keys=array.keySet().toArray(new String[]{});
+  write(keys);
+  Savable[] values=array.values().toArray(new Savable[]{});
+  write(values);
+}

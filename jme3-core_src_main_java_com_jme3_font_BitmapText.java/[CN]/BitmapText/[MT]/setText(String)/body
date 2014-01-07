@@ -1,0 +1,9 @@
+{
+  text=text == null ? "" : text;
+  if (text == block.getText() || block.getText().equals(text)) {
+    return;
+  }
+  block.setText(text);
+  letters.setText(text);
+  needRefresh=true;
+}

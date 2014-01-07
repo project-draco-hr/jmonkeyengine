@@ -1,0 +1,20 @@
+{
+  frameTPF=tpf;
+  safeMode=tpf < 0.015f;
+  long currentTime=keys.getInputTimeNanos();
+  frameDelta=currentTime - lastUpdateTime;
+  eventsPermitted=true;
+  keys.update();
+  mouse.update();
+  if (joystick != null) {
+    joystick.update();
+  }
+  if (touch != null) {
+    touch.update();
+  }
+  eventsPermitted=false;
+  processQueue();
+  invokeUpdateActions();
+  lastLastUpdateTime=lastUpdateTime;
+  lastUpdateTime=currentTime;
+}

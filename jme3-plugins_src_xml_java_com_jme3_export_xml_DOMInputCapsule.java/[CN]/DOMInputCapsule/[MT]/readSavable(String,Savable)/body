@@ -1,0 +1,37 @@
+{
+  Savable ret=defVal;
+  if (name != null && name.equals(""))   logger.warning("Reading Savable String with name \"\"?");
+  try {
+    Element tmpEl=null;
+    if (name != null) {
+      tmpEl=findChildElement(currentElem,name);
+      if (tmpEl == null) {
+        return defVal;
+      }
+    }
+ else     if (isAtRoot) {
+      tmpEl=doc.getDocumentElement();
+      isAtRoot=false;
+    }
+ else {
+      tmpEl=findFirstChildElement(currentElem);
+    }
+    currentElem=tmpEl;
+    ret=readSavableFromCurrentElem(defVal);
+    if (currentElem.getParentNode() instanceof Element) {
+      currentElem=(Element)currentElem.getParentNode();
+    }
+ else {
+      currentElem=null;
+    }
+  }
+ catch (  IOException ioe) {
+    throw ioe;
+  }
+catch (  Exception e) {
+    IOException io=new IOException(e.toString());
+    io.initCause(e);
+    throw io;
+  }
+  return ret;
+}

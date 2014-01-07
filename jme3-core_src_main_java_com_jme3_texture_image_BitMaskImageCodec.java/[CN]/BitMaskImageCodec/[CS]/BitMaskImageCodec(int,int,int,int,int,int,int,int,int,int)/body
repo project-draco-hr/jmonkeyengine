@@ -1,0 +1,10 @@
+{
+  super(bpp,flags,(int)(((long)1 << ac) - 1),(int)(((long)1 << rc) - 1),(int)(((long)1 << gc) - 1),(int)(((long)1 << bc) - 1));
+  if (bpp > 4) {
+    throw new UnsupportedOperationException("Use ByteAlignedImageCodec for codecs with pixel sizes larger than 4 bytes");
+  }
+  this.as=as;
+  this.rs=rs;
+  this.gs=gs;
+  this.bs=bs;
+}

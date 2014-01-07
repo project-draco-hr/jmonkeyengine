@@ -1,0 +1,18 @@
+{
+  try {
+    ProcessBuilder pb=new ProcessBuilder("cgc","--version");
+    Process p=pb.start();
+    Scanner scan=new Scanner(p.getErrorStream());
+    String ln=scan.nextLine();
+    scan.close();
+    p.waitFor();
+    String versionNumber=ln.split("\\s")[2];
+    return versionNumber.substring(0,versionNumber.length() - 1);
+  }
+ catch (  IOException ex) {
+    logger.log(Level.SEVERE,"IOEx",ex);
+  }
+catch (  InterruptedException ex) {
+  }
+  return null;
+}

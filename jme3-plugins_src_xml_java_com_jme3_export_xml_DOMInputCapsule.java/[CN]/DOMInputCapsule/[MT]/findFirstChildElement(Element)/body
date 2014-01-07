@@ -1,0 +1,7 @@
+{
+  Node ret=parent.getFirstChild();
+  while (ret != null && (!(ret instanceof Element))) {
+    ret=ret.getNextSibling();
+  }
+  return (Element)ret;
+}

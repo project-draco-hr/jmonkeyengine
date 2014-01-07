@@ -1,0 +1,42 @@
+{
+  TempVars vars=TempVars.get();
+  Vector3f diff=vars.vect1.set(ray.getOrigin()).subtractLocal(center);
+  float a=diff.dot(diff) - (getRadius() * getRadius());
+  float a1, discr, root;
+  if (a <= 0.0) {
+    a1=ray.direction.dot(diff);
+    discr=(a1 * a1) - a;
+    root=FastMath.sqrt(discr);
+    float distance=root - a1;
+    Vector3f point=new Vector3f(ray.direction).multLocal(distance).addLocal(ray.origin);
+    CollisionResult result=new CollisionResult(point,distance);
+    results.addCollision(result);
+    vars.release();
+    return 1;
+  }
+  a1=ray.direction.dot(diff);
+  vars.release();
+  if (a1 >= 0.0) {
+    return 0;
+  }
+  discr=a1 * a1 - a;
+  if (discr < 0.0) {
+    return 0;
+  }
+ else   if (discr >= FastMath.ZERO_TOLERANCE) {
+    root=FastMath.sqrt(discr);
+    float dist=-a1 - root;
+    Vector3f point=new Vector3f(ray.direction).multLocal(dist).addLocal(ray.origin);
+    results.addCollision(new CollisionResult(point,dist));
+    dist=-a1 + root;
+    point=new Vector3f(ray.direction).multLocal(dist).addLocal(ray.origin);
+    results.addCollision(new CollisionResult(point,dist));
+    return 2;
+  }
+ else {
+    float dist=-a1;
+    Vector3f point=new Vector3f(ray.direction).multLocal(dist).addLocal(ray.origin);
+    results.addCollision(new CollisionResult(point,dist));
+    return 1;
+  }
+}

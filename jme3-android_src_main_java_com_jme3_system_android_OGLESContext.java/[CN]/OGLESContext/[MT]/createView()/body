@@ -1,0 +1,43 @@
+{
+  AndroidGLSurfaceView view;
+  int buildVersion=Build.VERSION.SDK_INT;
+  view=new AndroidGLSurfaceView(JmeAndroidSystem.getActivity().getApplication());
+  if (androidInput == null) {
+    androidInput=new AndroidInputHandler();
+  }
+  androidInput.setView(view);
+  androidInput.loadSettings(settings);
+  int rawOpenGLESVersion=getOpenGLESVersion();
+  if (rawOpenGLESVersion < 0x20000) {
+    throw new UnsupportedOperationException("OpenGL ES 2.0 is not supported on this device");
+  }
+ else {
+    clientOpenGLESVersion=2;
+    view.setEGLContextClientVersion(clientOpenGLESVersion);
+  }
+  view.setFocusableInTouchMode(true);
+  view.setFocusable(true);
+  view.getHolder().setType(SurfaceHolder.SURFACE_TYPE_GPU);
+  int curAlphaBits=settings.getAlphaBits();
+  logger.log(Level.FINE,"curAlphaBits: {0}",curAlphaBits);
+  if (curAlphaBits >= 8) {
+    logger.log(Level.FINE,"Pixel Format: TRANSLUCENT");
+    view.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+    view.setZOrderOnTop(true);
+  }
+ else   if (curAlphaBits >= 1) {
+    logger.log(Level.FINE,"Pixel Format: TRANSPARENT");
+    view.getHolder().setFormat(PixelFormat.TRANSPARENT);
+  }
+ else {
+    logger.log(Level.FINE,"Pixel Format: OPAQUE");
+    view.getHolder().setFormat(PixelFormat.OPAQUE);
+  }
+  AndroidConfigChooser configChooser=new AndroidConfigChooser(settings);
+  view.setEGLConfigChooser(configChooser);
+  view.setRenderer(this);
+  if (buildVersion >= 11) {
+    view.setPreserveEGLContextOnPause(true);
+  }
+  return view;
+}

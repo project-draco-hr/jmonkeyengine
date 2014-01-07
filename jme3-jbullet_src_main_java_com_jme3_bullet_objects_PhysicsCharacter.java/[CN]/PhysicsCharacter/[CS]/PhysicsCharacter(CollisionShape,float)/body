@@ -1,0 +1,8 @@
+{
+  this.collisionShape=shape;
+  if (!(shape.getCShape() instanceof ConvexShape)) {
+    throw (new UnsupportedOperationException("Kinematic character nodes cannot have mesh collision shapes"));
+  }
+  this.stepHeight=stepHeight;
+  buildObject();
+}

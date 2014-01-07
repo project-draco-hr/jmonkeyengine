@@ -1,0 +1,23 @@
+{
+  InputCapsule ic=im.getCapsule(this);
+  name=ic.readString("name",null);
+  vertName=ic.readString("vertName",null);
+  fragName=ic.readString("fragName",null);
+  presetDefines=(DefineList)ic.readSavable("presetDefines",null);
+  lightMode=ic.readEnum("lightMode",LightMode.class,LightMode.Disable);
+  shadowMode=ic.readEnum("shadowMode",ShadowMode.class,ShadowMode.Disable);
+  renderState=(RenderState)ic.readSavable("renderState",null);
+  usesShaders=ic.readBoolean("usesShaders",false);
+  if (ic.getSavableVersion(TechniqueDef.class) == 0) {
+    vertLanguage=ic.readString("shaderLang",null);
+    fragLanguage=vertLanguage;
+  }
+ else {
+    vertLanguage=ic.readString("vertLanguage",null);
+    fragLanguage=ic.readString("fragLanguage",null);
+    ;
+  }
+  usesNodes=ic.readBoolean("usesNodes",false);
+  shaderNodes=ic.readSavableArrayList("shaderNodes",null);
+  shaderGenerationInfo=(ShaderGenerationInfo)ic.readSavable("shaderGenerationInfo",null);
+}

@@ -1,0 +1,38 @@
+{
+  if (desiredTask != TASK_NOTHING) {
+synchronized (taskLock) {
+switch (desiredTask) {
+case TASK_CREATE_DISPLAY:
+        logger.log(Level.FINE,"OGL: Creating display ..");
+      restoreCanvas();
+    listener.gainFocus();
+  desiredTask=TASK_NOTHING;
+break;
+case TASK_DESTROY_DISPLAY:
+logger.log(Level.FINE,"OGL: Destroying display ..");
+listener.loseFocus();
+pauseCanvas();
+break;
+}
+desiredTask=TASK_COMPLETE;
+taskLock.notifyAll();
+}
+}
+if (renderable.get()) {
+int newWidth=Math.max(canvas.getWidth(),1);
+int newHeight=Math.max(canvas.getHeight(),1);
+if (width != newWidth || height != newHeight) {
+width=newWidth;
+height=newHeight;
+if (listener != null) {
+listener.reshape(width,height);
+}
+}
+}
+ else {
+if (frameRate <= 0) {
+Display.sync(30);
+}
+}
+super.runLoop();
+}

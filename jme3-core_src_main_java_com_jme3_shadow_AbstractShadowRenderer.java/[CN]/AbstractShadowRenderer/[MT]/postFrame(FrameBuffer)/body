@@ -1,0 +1,24 @@
+{
+  if (skipPostPass) {
+    return;
+  }
+  if (debug) {
+    displayShadowMap(renderManager.getRenderer());
+  }
+  lightReceivers=getReceivers(sceneReceivers,lightReceivers);
+  if (lightReceivers.size() != 0) {
+    setMatParams();
+    Camera cam=viewPort.getCamera();
+    if (needsfallBackMaterial) {
+      renderManager.setForcedMaterial(postshadowMat);
+    }
+    renderManager.setForcedTechnique(postTechniqueName);
+    viewPort.getQueue().renderShadowQueue(lightReceivers,renderManager,cam,false);
+    if (flushQueues) {
+      sceneReceivers.clear();
+    }
+    renderManager.setForcedTechnique(null);
+    renderManager.setForcedMaterial(null);
+    renderManager.setCamera(cam,false);
+  }
+}

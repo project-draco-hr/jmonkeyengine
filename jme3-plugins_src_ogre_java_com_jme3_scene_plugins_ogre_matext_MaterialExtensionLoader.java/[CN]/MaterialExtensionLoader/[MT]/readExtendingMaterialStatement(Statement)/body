@@ -1,0 +1,23 @@
+{
+  if (statement.getLine().startsWith("set_texture_alias")) {
+    String[] split=statement.getLine().split(" ",3);
+    String aliasName=split[1];
+    String texturePath=split[2];
+    String jmeParamName=matExt.getTextureMapping(aliasName);
+    TextureKey texKey=new TextureKey(texturePath,false);
+    texKey.setGenerateMips(true);
+    texKey.setAsCube(false);
+    Texture tex;
+    try {
+      tex=assetManager.loadTexture(texKey);
+      tex.setWrap(WrapMode.Repeat);
+    }
+ catch (    AssetNotFoundException ex) {
+      logger.log(Level.WARNING,"Cannot locate {0} for material {1}",new Object[]{texKey,key});
+      tex=new Texture2D(PlaceholderAssets.getPlaceholderImage());
+      tex.setWrap(WrapMode.Repeat);
+      tex.setKey(texKey);
+    }
+    material.setTexture(jmeParamName,tex);
+  }
+}

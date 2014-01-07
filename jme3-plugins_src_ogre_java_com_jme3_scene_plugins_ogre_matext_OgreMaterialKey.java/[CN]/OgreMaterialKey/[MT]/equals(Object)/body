@@ -1,0 +1,16 @@
+{
+  if (obj == null) {
+    return false;
+  }
+  if (getClass() != obj.getClass()) {
+    return false;
+  }
+  final OgreMaterialKey other=(OgreMaterialKey)obj;
+  if (!super.equals(other)) {
+    return false;
+  }
+  if (this.matExts != other.matExts && (this.matExts == null || !this.matExts.equals(other.matExts))) {
+    return false;
+  }
+  return true;
+}

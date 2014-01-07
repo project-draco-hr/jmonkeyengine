@@ -1,0 +1,10 @@
+{
+  float x1=x * qw + y * qz - z * qy + w * qx;
+  float y1=-x * qz + y * qw + z * qx + w * qy;
+  float z1=x * qy - y * qx + z * qw + w * qz;
+  w=-x * qx - y * qy - z * qz + w * qw;
+  x=x1;
+  y=y1;
+  z=z1;
+  return this;
+}

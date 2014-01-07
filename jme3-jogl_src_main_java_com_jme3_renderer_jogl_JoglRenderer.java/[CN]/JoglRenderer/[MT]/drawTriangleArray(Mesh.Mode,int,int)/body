@@ -1,0 +1,11 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  if (count > 1) {
+    if (gl.isGL2GL3()) {
+      gl.getGL2GL3().glDrawArraysInstanced(convertElementMode(mode),0,vertCount,count);
+    }
+  }
+ else {
+    gl.glDrawArrays(convertElementMode(mode),0,vertCount);
+  }
+}

@@ -1,0 +1,8 @@
+{
+  TrackInfo data=(TrackInfo)audioTrack.audio.getUserData("TrackInfo");
+  if (data == null) {
+    data=new TrackInfo();
+    audioTrack.audio.setUserData("TrackInfo",data);
+  }
+  data.addTrack(audioTrack);
+}

@@ -1,0 +1,42 @@
+{
+  float[] array=new float[((spline.getControlPoints().size() - 1) * nbSubSegments + 1) * 3];
+  short[] indices=new short[(spline.getControlPoints().size() - 1) * nbSubSegments * 2];
+  int i=0;
+  int cptCP=0;
+  for (Iterator<Vector3f> it=spline.getControlPoints().iterator(); it.hasNext(); ) {
+    Vector3f vector3f=it.next();
+    array[i]=vector3f.x;
+    i++;
+    array[i]=vector3f.y;
+    i++;
+    array[i]=vector3f.z;
+    i++;
+    if (it.hasNext()) {
+      for (int j=1; j < nbSubSegments; j++) {
+        spline.interpolate((float)j / nbSubSegments,cptCP,temp);
+        array[i]=temp.getX();
+        i++;
+        array[i]=temp.getY();
+        i++;
+        array[i]=temp.getZ();
+        i++;
+      }
+    }
+    cptCP++;
+  }
+  i=0;
+  int k;
+  for (int j=0; j < (spline.getControlPoints().size() - 1) * nbSubSegments; j++) {
+    k=j;
+    indices[i]=(short)k;
+    i++;
+    k++;
+    indices[i]=(short)k;
+    i++;
+  }
+  this.setMode(Mesh.Mode.Lines);
+  this.setBuffer(VertexBuffer.Type.Position,3,array);
+  this.setBuffer(VertexBuffer.Type.Index,2,indices);
+  this.updateBound();
+  this.updateCounts();
+}

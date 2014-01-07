@@ -1,0 +1,12 @@
+{
+  if (texture instanceof TriangulatedTexture) {
+    ((TriangulatedTexture)texture).blend(textureBlender,null,blenderContext);
+  }
+ else   if (texture instanceof Texture2D) {
+    Image blendedImage=textureBlender.blend(texture.getImage(),null,blenderContext);
+    texture.setImage(blendedImage);
+  }
+ else {
+    throw new IllegalArgumentException("Invalid type for texture to blend!");
+  }
+}

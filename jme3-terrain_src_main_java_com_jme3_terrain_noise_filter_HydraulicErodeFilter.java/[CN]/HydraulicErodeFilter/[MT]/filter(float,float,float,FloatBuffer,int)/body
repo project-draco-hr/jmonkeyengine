@@ -1,0 +1,55 @@
+{
+  float[] ga=buffer.array();
+  float[] wt=new float[workSize * workSize];
+  float[] st=new float[workSize * workSize];
+  int[] idxrel={-workSize - 1,-workSize + 1,workSize - 1,workSize + 1};
+  for (int y=0; y < workSize; y++) {
+    for (int x=0; x < workSize; x++) {
+      int idx=y * workSize + x;
+      float wtemp=this.Kr;
+      float stemp=this.Ks;
+      if (wtemp > 0) {
+        wt[idx]+=wtemp;
+        if (stemp > 0) {
+          ga[idx]-=stemp * wt[idx];
+          st[idx]+=stemp * wt[idx];
+        }
+      }
+      float a=ga[idx] + wt[idx];
+      float amax=0;
+      int amaxidx=-1;
+      float ac=0;
+      float dtotal=0;
+      for (int j=0; j < idxrel.length; j++) {
+        if (idx + idxrel[j] > 0 && idx + idxrel[j] < workSize) {
+          float at=ga[idx + idxrel[j]] + wt[idx + idxrel[j]];
+          if (a - at > a - amax) {
+            dtotal+=at;
+            amax=at;
+            amaxidx=j;
+            ac++;
+          }
+        }
+      }
+      float aa=(dtotal + a) / (ac + 1);
+      if (amaxidx > -1) {
+        float dwj=Math.min(wt[idx],a - aa) * (a - amax) / dtotal;
+        float dsj=st[idx] * dwj / wt[idx];
+        wt[idx]-=dwj;
+        st[idx]-=dsj;
+        wt[idx + idxrel[amaxidx]]+=dwj;
+        st[idx + idxrel[amaxidx]]+=dsj;
+      }
+      wt[idx]=wt[idx] * (1 - this.Ke);
+      if (wt[idx] < this.T) {
+        wt[idx]=0;
+      }
+      float smax=this.Kc * wt[idx];
+      if (st[idx] > smax) {
+        ga[idx]+=st[idx] - smax;
+        st[idx]-=st[idx] - smax;
+      }
+    }
+  }
+  return buffer;
+}

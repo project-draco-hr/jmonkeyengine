@@ -1,0 +1,12 @@
+{
+  if (spotRange < 0) {
+    throw new IllegalArgumentException("SpotLight range cannot be negative");
+  }
+  this.spotRange=spotRange;
+  if (spotRange != 0) {
+    this.invSpotRange=1 / spotRange;
+  }
+ else {
+    this.invSpotRange=0;
+  }
+}

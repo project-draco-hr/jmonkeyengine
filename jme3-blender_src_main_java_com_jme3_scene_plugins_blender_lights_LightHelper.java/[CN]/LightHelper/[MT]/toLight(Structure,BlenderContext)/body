@@ -1,0 +1,44 @@
+{
+  LightNode result=(LightNode)blenderContext.getLoadedFeature(structure.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
+  if (result != null) {
+    return result;
+  }
+  Light light=null;
+  int type=((Number)structure.getFieldValue("type")).intValue();
+switch (type) {
+case 0:
+    light=new PointLight();
+  float distance=((Number)structure.getFieldValue("dist")).floatValue();
+((PointLight)light).setRadius(distance);
+break;
+case 1:
+LOGGER.log(Level.WARNING,"'Sun' lamp is not supported in jMonkeyEngine.");
+break;
+case 2:
+light=new SpotLight();
+((SpotLight)light).setSpotRange(((Number)structure.getFieldValue("dist")).floatValue());
+float outerAngle=((Number)structure.getFieldValue("spotsize")).floatValue() * FastMath.DEG_TO_RAD * 0.5f;
+((SpotLight)light).setSpotOuterAngle(outerAngle);
+float spotblend=((Number)structure.getFieldValue("spotblend")).floatValue();
+spotblend=FastMath.clamp(spotblend,0,1);
+float innerAngle=outerAngle * (1 - spotblend);
+((SpotLight)light).setSpotInnerAngle(innerAngle);
+break;
+case 3:
+LOGGER.log(Level.WARNING,"'Hemi' lamp is not supported in jMonkeyEngine.");
+break;
+case 4:
+light=new DirectionalLight();
+break;
+default :
+throw new BlenderFileException("Unknown light source type: " + type);
+}
+if (light != null) {
+float r=((Number)structure.getFieldValue("r")).floatValue();
+float g=((Number)structure.getFieldValue("g")).floatValue();
+float b=((Number)structure.getFieldValue("b")).floatValue();
+light.setColor(new ColorRGBA(r,g,b,1.0f));
+result=new LightNode(null,light);
+}
+return result;
+}

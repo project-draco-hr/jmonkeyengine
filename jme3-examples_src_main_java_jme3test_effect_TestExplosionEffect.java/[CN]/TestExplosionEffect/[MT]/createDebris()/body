@@ -1,0 +1,22 @@
+{
+  debris=new ParticleEmitter("Debris",Type.Triangle,15 * COUNT_FACTOR);
+  debris.setSelectRandomImage(true);
+  debris.setRandomAngle(true);
+  debris.setRotateSpeed(FastMath.TWO_PI * 4);
+  debris.setStartColor(new ColorRGBA(1f,0.59f,0.28f,(float)(1.0f / COUNT_FACTOR_F)));
+  debris.setEndColor(new ColorRGBA(.5f,0.5f,0.5f,0f));
+  debris.setStartSize(.2f);
+  debris.setEndSize(.2f);
+  debris.setParticlesPerSec(0);
+  debris.setGravity(0,12f,0);
+  debris.setLowLife(1.4f);
+  debris.setHighLife(1.5f);
+  debris.setInitialVelocity(new Vector3f(0,15,0));
+  debris.setVelocityVariation(.60f);
+  debris.setImagesX(3);
+  debris.setImagesY(3);
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Particle.j3md");
+  mat.setTexture("Texture",assetManager.loadTexture("Effects/Explosion/Debris.png"));
+  debris.setMaterial(mat);
+  explosionEffect.attachChild(debris);
+}

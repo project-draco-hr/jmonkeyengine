@@ -1,0 +1,9 @@
+{
+  super.read(e);
+  try {
+    radius=e.getCapsule(this).readFloat("radius",0);
+  }
+ catch (  IOException ex) {
+    logger.logp(Level.SEVERE,this.getClass().toString(),"read(JMEImporter)","Exception",ex);
+  }
+}

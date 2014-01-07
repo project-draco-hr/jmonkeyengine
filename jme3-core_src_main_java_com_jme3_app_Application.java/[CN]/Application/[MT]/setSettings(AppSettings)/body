@@ -1,0 +1,15 @@
+{
+  this.settings=settings;
+  if (context != null && settings.useInput() != inputEnabled) {
+    inputEnabled=!inputEnabled;
+    if (inputEnabled) {
+      initInput();
+    }
+ else {
+      destroyInput();
+    }
+  }
+ else {
+    inputEnabled=settings.useInput();
+  }
+}

@@ -1,0 +1,18 @@
+{
+  AmbientLight al=new AmbientLight();
+  al.setColor(ColorRGBA.White.mult(0.8f));
+  rootNode.addLight(al);
+  spot=new SpotLight();
+  spot.setSpotRange(1000);
+  spot.setSpotInnerAngle(5 * FastMath.DEG_TO_RAD);
+  spot.setSpotOuterAngle(10 * FastMath.DEG_TO_RAD);
+  spot.setPosition(new Vector3f(77.70334f,34.013165f,27.1017f));
+  spot.setDirection(lightTarget.subtract(spot.getPosition()));
+  spot.setColor(ColorRGBA.White.mult(2));
+  rootNode.addLight(spot);
+  lightMdl=new Geometry("Light",new Sphere(10,10,0.1f));
+  lightMdl.setMaterial(assetManager.loadMaterial("Common/Materials/RedColor.j3m"));
+  lightMdl.setLocalTranslation(new Vector3f(77.70334f,34.013165f,27.1017f));
+  lightMdl.setLocalScale(5);
+  rootNode.attachChild(lightMdl);
+}

@@ -1,0 +1,16 @@
+{
+  try {
+    PoseFrame result=(PoseFrame)super.clone();
+    result.weights=this.weights.clone();
+    if (this.poses != null) {
+      result.poses=new Pose[this.poses.length];
+      for (int i=0; i < this.poses.length; ++i) {
+        result.poses[i]=this.poses[i].clone();
+      }
+    }
+    return result;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
+}

@@ -1,0 +1,9 @@
+{
+  if (!physicsJoints.containsKey(joint.getObjectId())) {
+    logger.log(Level.WARNING,"Joint {0} does not exist in PhysicsSpace, cannot remove.",joint);
+    return;
+  }
+  logger.log(Level.FINE,"Removing Joint {0} from physics space.",Long.toHexString(joint.getObjectId()));
+  physicsJoints.remove(joint.getObjectId());
+  removeConstraint(physicsSpaceId,joint.getObjectId());
+}

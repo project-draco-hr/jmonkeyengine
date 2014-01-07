@@ -1,0 +1,9 @@
+{
+  AssetCache cache=handler.getCache(key.getCacheType());
+  if (cache != null) {
+    return cache.deleteFromCache(key);
+  }
+ else {
+    throw new IllegalArgumentException("Key " + key + " specifies no cache.");
+  }
+}

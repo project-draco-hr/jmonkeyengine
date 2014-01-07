@@ -1,0 +1,15 @@
+{
+  if (volume == null) {
+    return this;
+  }
+switch (volume.getType()) {
+case AABB:
+    BoundingBox vBox=(BoundingBox)volume;
+  return mergeLocal(vBox.center,vBox.xExtent,vBox.yExtent,vBox.zExtent);
+case Sphere:
+BoundingSphere vSphere=(BoundingSphere)volume;
+return mergeLocal(vSphere.center,vSphere.radius,vSphere.radius,vSphere.radius);
+default :
+return null;
+}
+}

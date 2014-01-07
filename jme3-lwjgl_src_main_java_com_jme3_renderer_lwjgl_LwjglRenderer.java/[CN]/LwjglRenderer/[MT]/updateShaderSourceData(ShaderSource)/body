@@ -1,0 +1,68 @@
+{
+  int id=source.getId();
+  if (id == -1) {
+    id=glCreateShader(convertShaderType(source.getType()));
+    if (id <= 0) {
+      throw new RendererException("Invalid ID received when trying to create shader.");
+    }
+    source.setId(id);
+  }
+ else {
+    throw new RendererException("Cannot recompile shader source");
+  }
+  String language=source.getLanguage();
+  stringBuf.setLength(0);
+  if (language.startsWith("GLSL")) {
+    int version=Integer.parseInt(language.substring(4));
+    if (version > 100) {
+      stringBuf.append("#version ");
+      stringBuf.append(language.substring(4));
+      if (version >= 150) {
+        stringBuf.append(" core");
+      }
+      stringBuf.append("\n");
+    }
+  }
+  updateNameBuffer();
+  byte[] definesCodeData=source.getDefines().getBytes();
+  byte[] sourceCodeData=source.getSource().getBytes();
+  ByteBuffer codeBuf=BufferUtils.createByteBuffer(nameBuf.limit() + definesCodeData.length + sourceCodeData.length);
+  codeBuf.put(nameBuf);
+  codeBuf.put(definesCodeData);
+  codeBuf.put(sourceCodeData);
+  codeBuf.flip();
+  glShaderSource(id,codeBuf);
+  glCompileShader(id);
+  glGetShader(id,GL_COMPILE_STATUS,intBuf1);
+  boolean compiledOK=intBuf1.get(0) == GL_TRUE;
+  String infoLog=null;
+  if (VALIDATE_SHADER || !compiledOK) {
+    glGetShader(id,GL_INFO_LOG_LENGTH,intBuf1);
+    int length=intBuf1.get(0);
+    if (length > 3) {
+      ByteBuffer logBuf=BufferUtils.createByteBuffer(length);
+      glGetShaderInfoLog(id,null,logBuf);
+      byte[] logBytes=new byte[length];
+      logBuf.get(logBytes,0,length);
+      infoLog=new String(logBytes);
+    }
+  }
+  if (compiledOK) {
+    if (infoLog != null) {
+      logger.log(Level.FINE,"{0} compile success\n{1}",new Object[]{source.getName(),infoLog});
+    }
+ else {
+      logger.log(Level.FINE,"{0} compile success",source.getName());
+    }
+    source.clearUpdateNeeded();
+  }
+ else {
+    logger.log(Level.WARNING,"Bad compile of:\n{0}",new Object[]{ShaderDebug.formatShaderSource(source.getDefines(),source.getSource(),stringBuf.toString())});
+    if (infoLog != null) {
+      throw new RendererException("compile error in:" + source + " error:"+ infoLog);
+    }
+ else {
+      throw new RendererException("compile error in:" + source + " error: <not provided>");
+    }
+  }
+}

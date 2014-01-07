@@ -1,0 +1,12 @@
+{
+  float faultHeight=minFaultHeight + random.nextFloat() * (maxFaultHeight - minFaultHeight);
+  float range=minRange + random.nextFloat() * (maxRange - minRange);
+switch (faultShape) {
+case FAULTSHAPE_LINE:
+    addLineFault(tempBuffer,random,faultHeight,range);
+  break;
+case FAULTSHAPE_CIRCLE:
+addCircleFault(tempBuffer,random,faultHeight,range);
+break;
+}
+}

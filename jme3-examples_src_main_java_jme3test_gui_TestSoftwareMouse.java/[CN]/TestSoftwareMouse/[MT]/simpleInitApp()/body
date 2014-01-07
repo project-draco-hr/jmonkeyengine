@@ -1,0 +1,10 @@
+{
+  flyCam.setEnabled(false);
+  Texture tex=assetManager.loadTexture("Interface/Logo/Cursor.png");
+  cursor=new Picture("cursor");
+  cursor.setTexture(assetManager,(Texture2D)tex,true);
+  cursor.setWidth(64);
+  cursor.setHeight(64);
+  guiNode.attachChild(cursor);
+  inputManager.addRawInputListener(inputListener);
+}

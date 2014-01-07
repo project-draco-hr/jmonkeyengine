@@ -1,0 +1,23 @@
+{
+  viewPort.setBackgroundColor(ColorRGBA.DarkGray);
+  Spatial bumpy=(Spatial)assetManager.loadModel("Models/MonkeyHead/MonkeyHead.mesh.xml");
+  rootNode.attachChild(bumpy);
+  lightMdl=new Geometry("Light",new Sphere(10,10,0.1f));
+  lightMdl.setMaterial(assetManager.loadMaterial("Common/Materials/RedColor.j3m"));
+  rootNode.attachChild(lightMdl);
+  pl=new PointLight();
+  pl.setColor(new ColorRGBA(0.88f,0.92f,0.95f,1.0f));
+  rootNode.addLight(pl);
+  DirectionalLight dl=new DirectionalLight();
+  dl.setDirection(new Vector3f(-0.1f,-0.7f,1).normalizeLocal());
+  dl.setColor(new ColorRGBA(0.44f,0.30f,0.20f,1.0f));
+  rootNode.addLight(dl);
+  dl=new DirectionalLight();
+  dl.setDirection(new Vector3f(-0.6f,-1,-0.6f).normalizeLocal());
+  dl.setColor(new ColorRGBA(0.10f,0.22f,0.44f,1.0f));
+  rootNode.addLight(dl);
+  dl=new DirectionalLight();
+  dl.setDirection(new Vector3f(1,-0.5f,-0.1f).normalizeLocal());
+  dl.setColor(new ColorRGBA(0.50f,0.40f,0.50f,1.0f));
+  rootNode.addLight(dl);
+}

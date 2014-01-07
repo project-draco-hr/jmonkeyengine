@@ -1,0 +1,22 @@
+{
+  Vector3f intersection=getWorldIntersection();
+  updateHintText(intersection);
+  if (raiseTerrain) {
+    if (intersection != null) {
+      adjustHeight(intersection,64,tpf * 60);
+    }
+  }
+ else   if (lowerTerrain) {
+    if (intersection != null) {
+      adjustHeight(intersection,64,-tpf * 60);
+    }
+  }
+  if (terrain != null && intersection != null) {
+    float h=terrain.getHeight(new Vector2f(intersection.x,intersection.z));
+    Vector3f tl=terrain.getWorldTranslation();
+    marker.setLocalTranslation(tl.add(new Vector3f(intersection.x,h,intersection.z)));
+    markerNormal.setLocalTranslation(tl.add(new Vector3f(intersection.x,h,intersection.z)));
+    Vector3f normal=terrain.getNormal(new Vector2f(intersection.x,intersection.z));
+    ((Arrow)markerNormal.getMesh()).setArrowExtent(normal);
+  }
+}

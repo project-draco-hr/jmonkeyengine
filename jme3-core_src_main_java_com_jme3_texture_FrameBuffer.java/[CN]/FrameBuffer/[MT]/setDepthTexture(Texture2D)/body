@@ -1,0 +1,9 @@
+{
+  if (id != -1)   throw new UnsupportedOperationException("FrameBuffer already initialized.");
+  Image img=tex.getImage();
+  checkSetTexture(tex,true);
+  depthBuf=new RenderBuffer();
+  depthBuf.slot=-100;
+  depthBuf.tex=tex;
+  depthBuf.format=img.getFormat();
+}

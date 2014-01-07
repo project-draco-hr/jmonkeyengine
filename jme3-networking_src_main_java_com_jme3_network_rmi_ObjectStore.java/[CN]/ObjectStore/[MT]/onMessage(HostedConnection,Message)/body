@@ -1,0 +1,64 @@
+{
+  if (message instanceof RemoteObjectDefMessage) {
+    RemoteObjectDefMessage defMsg=(RemoteObjectDefMessage)message;
+    ObjectDef[] defs=defMsg.objects;
+    for (    ObjectDef def : defs) {
+      RemoteObject remoteObject=new RemoteObject(this,source);
+      remoteObject.objectId=(short)def.objectId;
+      remoteObject.methodDefs=def.methodDefs;
+      remoteObjects.put(def.objectName,remoteObject);
+      remoteObjectsById.put(def.objectId,remoteObject);
+    }
+synchronized (receiveObjectLock) {
+      receiveObjectLock.notifyAll();
+    }
+  }
+ else   if (message instanceof RemoteMethodCallMessage) {
+    RemoteMethodCallMessage call=(RemoteMethodCallMessage)message;
+    LocalObject localObj=localObjects.get(call.objectId);
+    if (localObj == null)     return;
+    if (call.methodId < 0 || call.methodId >= localObj.methods.length)     return;
+    Object obj=localObj.theObject;
+    Method method=localObj.methods[call.methodId];
+    Object[] args=call.args;
+    Object ret=null;
+    try {
+      ret=method.invoke(obj,args);
+    }
+ catch (    IllegalAccessException ex) {
+      logger.log(Level.WARNING,"RMI: Error accessing method",ex);
+    }
+catch (    IllegalArgumentException ex) {
+      logger.log(Level.WARNING,"RMI: Invalid arguments",ex);
+    }
+catch (    InvocationTargetException ex) {
+      logger.log(Level.WARNING,"RMI: Invocation exception",ex);
+    }
+    if (method.getReturnType() != void.class) {
+      RemoteMethodReturnMessage retMsg=new RemoteMethodReturnMessage();
+      retMsg.invocationID=call.invocationId;
+      retMsg.retVal=ret;
+      if (server != null) {
+        source.send(retMsg);
+        logger.log(Level.FINE,"Server: Sending {0}",retMsg);
+      }
+ else {
+        client.send(retMsg);
+        logger.log(Level.FINE,"Client: Sending {0}",retMsg);
+      }
+    }
+  }
+ else   if (message instanceof RemoteMethodReturnMessage) {
+    RemoteMethodReturnMessage retMsg=(RemoteMethodReturnMessage)message;
+    Invocation invoke=pendingInvocations.get(retMsg.invocationID);
+    if (invoke == null) {
+      logger.log(Level.WARNING,"Cannot find invocation ID: {0}",retMsg.invocationID);
+      return;
+    }
+synchronized (invoke) {
+      invoke.retVal=retMsg.retVal;
+      invoke.available=true;
+      invoke.notifyAll();
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  float h=cam.getFrustumTop();
+  float w=cam.getFrustumRight();
+  float aspect=w / h;
+  float near=cam.getFrustumNear();
+  float fovY=FastMath.atan(h / near) / (FastMath.DEG_TO_RAD * .5f);
+  fovY+=value * 0.1f * zoomSpeed;
+  h=FastMath.tan(fovY * FastMath.DEG_TO_RAD * .5f) * near;
+  w=h * aspect;
+  cam.setFrustumTop(h);
+  cam.setFrustumBottom(-h);
+  cam.setFrustumLeft(-w);
+  cam.setFrustumRight(w);
+}

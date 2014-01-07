@@ -1,0 +1,14 @@
+{
+  if (created.get() && renderer != null) {
+    renderer.resetGLObjects();
+  }
+ else {
+    if (!created.get()) {
+      logger.fine("GL Surface created, initializing JME3 renderer");
+      initInThread();
+    }
+ else {
+      logger.warning("GL Surface already created");
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  checkSetParam(type,name);
+  if (type.isTextureType()) {
+    setTextureParam(name,type,(Texture)value);
+  }
+ else {
+    MatParam val=getParam(name);
+    if (val == null) {
+      MatParam paramDef=def.getMaterialParam(name);
+      paramValues.put(name,new MatParam(type,name,value,paramDef.getFixedFuncBinding()));
+    }
+ else {
+      val.setValue(value);
+    }
+    if (technique != null) {
+      technique.notifyParamChanged(name,type,value);
+    }
+  }
+}

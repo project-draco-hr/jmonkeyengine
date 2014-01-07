@@ -1,0 +1,34 @@
+{
+  if (!context.isRenderable())   return;
+  while (Mouse.next()) {
+    int btn=Mouse.getEventButton();
+    int wheelDelta=Mouse.getEventDWheel();
+    int xDelta=Mouse.getEventDX();
+    int yDelta=Mouse.getEventDY();
+    int x=Mouse.getX();
+    int y=Mouse.getY();
+    curWheel+=wheelDelta;
+    if (cursorVisible) {
+      xDelta=x - curX;
+      yDelta=y - curY;
+      curX=x;
+      curY=y;
+    }
+ else {
+      x=curX + xDelta;
+      y=curY + yDelta;
+      curX=x;
+      curY=y;
+    }
+    if (xDelta != 0 || yDelta != 0 || wheelDelta != 0) {
+      MouseMotionEvent evt=new MouseMotionEvent(x,y,xDelta,yDelta,curWheel,wheelDelta);
+      evt.setTime(Mouse.getEventNanoseconds());
+      listener.onMouseMotionEvent(evt);
+    }
+    if (btn != -1) {
+      MouseButtonEvent evt=new MouseButtonEvent(btn,Mouse.getEventButtonState(),x,y);
+      evt.setTime(Mouse.getEventNanoseconds());
+      listener.onMouseButtonEvent(evt);
+    }
+  }
+}

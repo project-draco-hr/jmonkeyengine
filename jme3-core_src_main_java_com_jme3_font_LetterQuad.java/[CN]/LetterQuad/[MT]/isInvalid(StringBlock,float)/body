@@ -1,0 +1,11 @@
+{
+  if (isHead() || isTail())   return false;
+  if (x0 == Integer.MIN_VALUE || y0 == Integer.MIN_VALUE) {
+    return true;
+  }
+  Rectangle bound=block.getTextBox();
+  if (bound == null) {
+    return false;
+  }
+  return x0 > 0 && bound.x + bound.width - gap < getX1();
+}

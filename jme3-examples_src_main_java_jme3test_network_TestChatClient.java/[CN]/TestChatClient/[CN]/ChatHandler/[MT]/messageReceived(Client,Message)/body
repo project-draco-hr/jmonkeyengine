@@ -1,0 +1,11 @@
+{
+  ChatMessage chat=(ChatMessage)m;
+  System.out.println("Received:" + chat);
+  chatMessages.append("<font color='#00a000'>" + (m.isReliable() ? "TCP" : "UDP") + "</font>");
+  chatMessages.append(" -- <font color='#000080'><b>" + chat.getName() + "</b></font> : ");
+  chatMessages.append(chat.getMessage());
+  chatMessages.append("<br />");
+  String s="<html><body>" + chatMessages + "</body></html>";
+  chatLog.setText(s);
+  chatLog.select(s.length(),s.length());
+}

@@ -1,0 +1,8 @@
+{
+  listener.destroy();
+  timer=null;
+synchronized (createdLock) {
+    created.set(false);
+    createdLock.notifyAll();
+  }
+}

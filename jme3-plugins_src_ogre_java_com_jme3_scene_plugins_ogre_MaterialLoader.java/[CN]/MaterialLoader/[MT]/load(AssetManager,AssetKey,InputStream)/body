@@ -1,0 +1,30 @@
+{
+  folderName=key.getFolder();
+  this.assetManager=assetManager;
+  MaterialList list=null;
+  List<Statement> statements=BlockLanguageParser.parse(in);
+  for (  Statement statement : statements) {
+    if (statement.getLine().startsWith("import")) {
+      MaterialExtensionSet matExts=null;
+      if (key instanceof OgreMaterialKey) {
+        matExts=((OgreMaterialKey)key).getMaterialExtensionSet();
+      }
+      if (matExts == null) {
+        throw new IOException("Must specify MaterialExtensionSet when loading\n" + "Ogre3D materials with extended materials");
+      }
+      list=new MaterialExtensionLoader().load(assetManager,key,matExts,statements);
+      break;
+    }
+ else     if (statement.getLine().startsWith("material")) {
+      if (list == null) {
+        list=new MaterialList();
+      }
+      String[] split=statement.getLine().split(" ",2);
+      matName=split[1].trim();
+      readMaterial(statement);
+      Material mat=compileMaterial();
+      list.put(matName,mat);
+    }
+  }
+  return list;
+}

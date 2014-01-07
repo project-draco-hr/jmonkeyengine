@@ -1,0 +1,33 @@
+{
+  NumUtil nu=new NumUtil();
+switch (coOrdinate) {
+case LAT:
+switch (quad) {
+case N:
+      this.deg=deg;
+    this.minsDecMins=minsDecMins;
+  this.coOrdinate=coOrdinate;
+decCoordinate=nu.Round(this.deg + (float)this.minsDecMins / 60,Coordinate.MINPRECISION);
+break;
+case S:
+this.deg=-deg;
+this.minsDecMins=minsDecMins;
+this.coOrdinate=coOrdinate;
+decCoordinate=nu.Round(this.deg - ((float)this.minsDecMins / 60),Coordinate.MINPRECISION);
+}
+case LNG:
+switch (quad) {
+case E:
+this.deg=deg;
+this.minsDecMins=minsDecMins;
+this.coOrdinate=coOrdinate;
+decCoordinate=nu.Round(this.deg + ((float)this.minsDecMins / 60),Coordinate.MINPRECISION);
+break;
+case W:
+this.deg=-deg;
+this.minsDecMins=minsDecMins;
+this.coOrdinate=coOrdinate;
+decCoordinate=nu.Round(this.deg - ((float)this.minsDecMins / 60),Coordinate.MINPRECISION);
+}
+}
+}

@@ -1,0 +1,11 @@
+{
+  if (null == filename || size <= 0) {
+    throw new Exception("Must supply valid filename and " + "size (> 0)");
+  }
+  try {
+    setup(new FileInputStream(filename),size,format,swapxy);
+  }
+ catch (  FileNotFoundException e) {
+    throw new Exception("height file not found: " + filename);
+  }
+}

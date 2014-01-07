@@ -1,0 +1,45 @@
+{
+  int length=readInt(content);
+  if (length == BinaryOutputCapsule.NULL_OBJECT)   return null;
+  byte[] bytes=new byte[length];
+  int utf8State=UTF8_START;
+  int b;
+  for (int x=0; x < length; x++) {
+    bytes[x]=content[index++];
+    b=(int)bytes[x] & 0xFF;
+switch (utf8State) {
+case UTF8_START:
+      if (b < 0x80) {
+      }
+ else       if ((b & 0xC0) == 0xC0) {
+        utf8State=UTF8_2BYTE;
+      }
+ else       if ((b & 0xE0) == 0xE0) {
+        utf8State=UTF8_3BYTE_1;
+      }
+ else {
+        utf8State=UTF8_ILLEGAL;
+      }
+    break;
+case UTF8_3BYTE_1:
+case UTF8_3BYTE_2:
+case UTF8_2BYTE:
+  if ((b & 0x80) == 0x80)   utf8State=utf8State == UTF8_3BYTE_1 ? UTF8_3BYTE_2 : UTF8_START;
+ else   utf8State=UTF8_ILLEGAL;
+break;
+}
+}
+try {
+if (utf8State == UTF8_START) {
+return new String(bytes,"UTF8");
+}
+ else {
+logger.log(Level.WARNING,"Your export has been saved with an incorrect encoding for it's String fields which means it might not load correctly " + "due to encoding issues. You should probably re-export your work. See ISSUE 276 in the jME issue tracker.");
+return new String(bytes,"ISO8859_1");
+}
+}
+ catch (UnsupportedEncodingException uee) {
+logger.log(Level.SEVERE,"Your export has been saved with an incorrect encoding or your version of Java is unable to decode the stored string. " + "While your export may load correctly by falling back, using it on different platforms or java versions might lead to " + "very strange inconsitenties. You should probably re-export your work. See ISSUE 276 in the jME issue tracker.");
+return new String(bytes);
+}
+}

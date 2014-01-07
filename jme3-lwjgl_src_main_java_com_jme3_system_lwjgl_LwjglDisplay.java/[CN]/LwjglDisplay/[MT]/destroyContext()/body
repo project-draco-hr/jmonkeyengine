@@ -1,0 +1,10 @@
+{
+  try {
+    renderer.cleanup();
+    Display.releaseContext();
+    Display.destroy();
+  }
+ catch (  LWJGLException ex) {
+    listener.handleError("Failed to destroy context",ex);
+  }
+}

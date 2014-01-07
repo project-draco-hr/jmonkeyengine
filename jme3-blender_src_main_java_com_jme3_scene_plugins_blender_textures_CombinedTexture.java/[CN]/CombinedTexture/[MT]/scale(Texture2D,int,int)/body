@@ -1,0 +1,19 @@
+{
+  boolean scaleRequired=texture.getImage().getWidth() != width || texture.getImage().getHeight() != height;
+  if (scaleRequired) {
+    Image image=texture.getImage();
+    BufferedImage sourceImage=ImageToAwt.convert(image,false,true,0);
+    int sourceWidth=sourceImage.getWidth();
+    int sourceHeight=sourceImage.getHeight();
+    BufferedImage targetImage=new BufferedImage(width,height,sourceImage.getType());
+    Graphics2D g=targetImage.createGraphics();
+    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+    g.drawImage(sourceImage,0,0,width,height,0,0,sourceWidth,sourceHeight,null);
+    g.dispose();
+    Image output=new ImageLoader().load(targetImage,false);
+    image.setWidth(width);
+    image.setHeight(height);
+    image.setData(output.getData(0));
+    image.setFormat(output.getFormat());
+  }
+}

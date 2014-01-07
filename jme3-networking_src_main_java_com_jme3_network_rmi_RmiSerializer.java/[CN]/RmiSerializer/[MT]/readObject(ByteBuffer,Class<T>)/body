@@ -1,0 +1,12 @@
+{
+  if (c == RemoteObjectDefMessage.class) {
+    return (T)readObjectDefs(data);
+  }
+ else   if (c == RemoteMethodCallMessage.class) {
+    return (T)readMethodCall(data);
+  }
+ else   if (c == RemoteMethodReturnMessage.class) {
+    return (T)readMethodReturn(data);
+  }
+  return null;
+}

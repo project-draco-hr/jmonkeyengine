@@ -1,0 +1,15 @@
+{
+  Class<? extends AssetLocator> clazz=null;
+  try {
+    clazz=(Class<? extends AssetLocator>)Class.forName(clsName);
+  }
+ catch (  ClassNotFoundException ex) {
+    logger.log(Level.WARNING,"Failed to find locator: " + clsName,ex);
+  }
+catch (  NoClassDefFoundError ex) {
+    logger.log(Level.WARNING,"Failed to find loader: " + clsName,ex);
+  }
+  if (clazz != null) {
+    registerLocator(rootPath,clazz);
+  }
+}

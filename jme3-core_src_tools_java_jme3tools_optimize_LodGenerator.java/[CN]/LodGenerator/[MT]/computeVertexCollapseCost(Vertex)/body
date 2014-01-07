@@ -1,0 +1,11 @@
+{
+  vertex.collapseCost=UNINITIALIZED_COLLAPSE_COST;
+  for (  Edge edge : vertex.edges) {
+    edge.collapseCost=computeEdgeCollapseCost(vertex,edge);
+    if (vertex.collapseCost > edge.collapseCost) {
+      vertex.collapseCost=edge.collapseCost;
+      vertex.collapseTo=edge.destination;
+    }
+  }
+  collapseCostSet.add(vertex);
+}

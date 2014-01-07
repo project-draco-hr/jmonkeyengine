@@ -1,0 +1,8 @@
+{
+  boolean updatePos=false;
+  if ((refreshFlags & RF_TRANSFORM) != 0) {
+    updatePos=true;
+  }
+  super.updateGeometricState();
+  if (updatePos && channel >= 0)   getRenderer().updateSourceParam(this,AudioParam.Position);
+}

@@ -1,0 +1,81 @@
+{
+  if (roots.size() == 2) {
+    Statement exception=roots.get(0);
+    String line=exception.getLine();
+    if (line.startsWith("Exception")) {
+      throw new AssetLoadException(line.substring("Exception ".length()));
+    }
+ else {
+      throw new IOException("In multiroot material, expected first statement to be 'Exception'");
+    }
+  }
+ else   if (roots.size() != 1) {
+    throw new IOException("Too many roots in J3M/J3MD file");
+  }
+  boolean extending=false;
+  Statement materialStat=roots.get(0);
+  String materialName=materialStat.getLine();
+  if (materialName.startsWith("MaterialDef")) {
+    materialName=materialName.substring("MaterialDef ".length()).trim();
+    extending=false;
+  }
+ else   if (materialName.startsWith("Material")) {
+    materialName=materialName.substring("Material ".length()).trim();
+    extending=true;
+  }
+ else {
+    throw new IOException("Specified file is not a Material file");
+  }
+  String[] split=materialName.split(":",2);
+  if (materialName.equals("")) {
+    throw new MatParseException("Material name cannot be empty",materialStat);
+  }
+  if (split.length == 2) {
+    if (!extending) {
+      throw new MatParseException("Must use 'Material' when extending.",materialStat);
+    }
+    String extendedMat=split[1].trim();
+    MaterialDef def=(MaterialDef)assetManager.loadAsset(new AssetKey(extendedMat));
+    if (def == null) {
+      throw new MatParseException("Extended material " + extendedMat + " cannot be found.",materialStat);
+    }
+    material=new Material(def);
+    material.setKey(key);
+  }
+ else   if (split.length == 1) {
+    if (extending) {
+      throw new MatParseException("Expected ':', got '{'",materialStat);
+    }
+    materialDef=new MaterialDef(assetManager,materialName);
+    materialDef.setAssetName(key.getName());
+  }
+ else {
+    throw new MatParseException("Cannot use colon in material name/path",materialStat);
+  }
+  for (  Statement statement : materialStat.getContents()) {
+    split=statement.getLine().split("[ \\{]");
+    String statType=split[0];
+    if (extending) {
+      if (statType.equals("MaterialParameters")) {
+        readExtendingMaterialParams(statement.getContents());
+      }
+ else       if (statType.equals("AdditionalRenderState")) {
+        readAdditionalRenderState(statement.getContents());
+      }
+ else       if (statType.equals("Transparent")) {
+        readTransparentStatement(statement.getLine());
+      }
+    }
+ else {
+      if (statType.equals("Technique")) {
+        readTechnique(statement);
+      }
+ else       if (statType.equals("MaterialParameters")) {
+        readMaterialParams(statement.getContents());
+      }
+ else {
+        throw new MatParseException("Expected material statement, got '" + statType + "'",statement);
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  float traveledDistance=0;
+  TempVars vars=TempVars.get();
+  Vector3f temp=vars.vect1;
+  Vector3f tmpVector=vars.vect2;
+  traveledDistance=time * (getLength() / control.getInitialDuration());
+  Vector2f v=getWayPointIndexForDistance(traveledDistance);
+  control.setCurrentWayPoint((int)v.x);
+  control.setCurrentValue(v.y);
+  getSpline().interpolate(control.getCurrentValue(),control.getCurrentWayPoint(),temp);
+  if (control.needsDirection()) {
+    tmpVector.set(temp);
+    control.setDirection(tmpVector.subtractLocal(control.getSpatial().getLocalTranslation()).normalizeLocal());
+  }
+  checkWayPoint(control,tpf);
+  control.getSpatial().setLocalTranslation(temp);
+  vars.release();
+  return traveledDistance;
+}

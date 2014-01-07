@@ -1,0 +1,11 @@
+{
+  Serializer.registerClass(SomeObject.class);
+  Serializer.registerClass(TestSerializationMessage.class);
+  Server server=Network.createServer(5110);
+  server.start();
+  Client client=Network.connectToServer("localhost",5110);
+  client.start();
+  server.addMessageListener(new TestSerialization(),TestSerializationMessage.class);
+  client.send(new TestSerializationMessage(true));
+  Thread.sleep(10000);
+}

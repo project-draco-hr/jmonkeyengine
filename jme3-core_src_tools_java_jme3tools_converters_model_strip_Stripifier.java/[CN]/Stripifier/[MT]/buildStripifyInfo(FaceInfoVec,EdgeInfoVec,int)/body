@@ -1,0 +1,87 @@
+{
+  int numIndices=indices.size();
+  faceInfos.reserve(numIndices / 3);
+  for (int i=0; i < maxIndex + 1; i++)   edgeInfos.add(null);
+  int numTriangles=numIndices / 3;
+  int index=0;
+  boolean[] bFaceUpdated=new boolean[3];
+  for (int i=0; i < numTriangles; i++) {
+    boolean bMightAlreadyExist=true;
+    bFaceUpdated[0]=false;
+    bFaceUpdated[1]=false;
+    bFaceUpdated[2]=false;
+    int v0=indices.get(index++);
+    int v1=indices.get(index++);
+    int v2=indices.get(index++);
+    if (isDegenerate(v0,v1,v2))     continue;
+    FaceInfo faceInfo=new FaceInfo(v0,v1,v2);
+    EdgeInfo edgeInfo01=findEdgeInfo(edgeInfos,v0,v1);
+    if (edgeInfo01 == null) {
+      bMightAlreadyExist=false;
+      edgeInfo01=new EdgeInfo(v0,v1);
+      edgeInfo01.m_nextV0=edgeInfos.at(v0);
+      edgeInfo01.m_nextV1=edgeInfos.at(v1);
+      edgeInfos.set(v0,edgeInfo01);
+      edgeInfos.set(v1,edgeInfo01);
+      edgeInfo01.m_face0=faceInfo;
+    }
+ else {
+      if (edgeInfo01.m_face1 != null) {
+        logger.fine("BuildStripifyInfo: > 2 triangles on an edge" + v0 + ","+ v1+ "... uncertain consequences\n");
+      }
+ else {
+        edgeInfo01.m_face1=faceInfo;
+        bFaceUpdated[0]=true;
+      }
+    }
+    EdgeInfo edgeInfo12=findEdgeInfo(edgeInfos,v1,v2);
+    if (edgeInfo12 == null) {
+      bMightAlreadyExist=false;
+      edgeInfo12=new EdgeInfo(v1,v2);
+      edgeInfo12.m_nextV0=edgeInfos.at(v1);
+      edgeInfo12.m_nextV1=edgeInfos.at(v2);
+      edgeInfos.set(v1,edgeInfo12);
+      edgeInfos.set(v2,edgeInfo12);
+      edgeInfo12.m_face0=faceInfo;
+    }
+ else {
+      if (edgeInfo12.m_face1 != null) {
+        logger.fine("BuildStripifyInfo: > 2 triangles on an edge" + v1 + ","+ v2+ "... uncertain consequences\n");
+      }
+ else {
+        edgeInfo12.m_face1=faceInfo;
+        bFaceUpdated[1]=true;
+      }
+    }
+    EdgeInfo edgeInfo20=findEdgeInfo(edgeInfos,v2,v0);
+    if (edgeInfo20 == null) {
+      bMightAlreadyExist=false;
+      edgeInfo20=new EdgeInfo(v2,v0);
+      edgeInfo20.m_nextV0=edgeInfos.at(v2);
+      edgeInfo20.m_nextV1=edgeInfos.at(v0);
+      edgeInfos.set(v2,edgeInfo20);
+      edgeInfos.set(v0,edgeInfo20);
+      edgeInfo20.m_face0=faceInfo;
+    }
+ else {
+      if (edgeInfo20.m_face1 != null) {
+        logger.fine("BuildStripifyInfo: > 2 triangles on an edge" + v2 + ","+ v0+ "... uncertain consequences\n");
+      }
+ else {
+        edgeInfo20.m_face1=faceInfo;
+        bFaceUpdated[2]=true;
+      }
+    }
+    if (bMightAlreadyExist) {
+      if (!alreadyExists(faceInfo,faceInfos))       faceInfos.add(faceInfo);
+ else {
+        if (bFaceUpdated[0])         edgeInfo01.m_face1=null;
+        if (bFaceUpdated[1])         edgeInfo12.m_face1=null;
+        if (bFaceUpdated[2])         edgeInfo20.m_face1=null;
+      }
+    }
+ else {
+      faceInfos.add(faceInfo);
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  checkClosed();
+  try {
+    return in.available() > 0;
+  }
+ catch (  IOException e) {
+    throw new ConnectorException("Error retrieving data availability for:" + remoteAddress,e);
+  }
+}

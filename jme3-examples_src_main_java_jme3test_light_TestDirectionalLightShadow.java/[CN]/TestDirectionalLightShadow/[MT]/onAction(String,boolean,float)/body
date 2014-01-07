@@ -1,0 +1,56 @@
+{
+  if (name.equals("pp") && keyPressed) {
+    if (cam.isParallelProjection()) {
+      cam.setFrustumPerspective(45,(float)cam.getWidth() / cam.getHeight(),1,1000);
+    }
+ else {
+      cam.setParallelProjection(true);
+      float aspect=(float)cam.getWidth() / cam.getHeight();
+      cam.setFrustum(-1000,1000,-aspect * frustumSize,aspect * frustumSize,frustumSize,-frustumSize);
+    }
+  }
+  if (name.equals("lambdaUp") && keyPressed) {
+    dlsr.setLambda(dlsr.getLambda() + 0.01f);
+    dlsf.setLambda(dlsr.getLambda() + 0.01f);
+    System.out.println("Lambda : " + dlsr.getLambda());
+  }
+ else   if (name.equals("lambdaDown") && keyPressed) {
+    dlsr.setLambda(dlsr.getLambda() - 0.01f);
+    dlsf.setLambda(dlsr.getLambda() - 0.01f);
+    System.out.println("Lambda : " + dlsr.getLambda());
+  }
+  if (name.equals("debug") && keyPressed) {
+    dlsr.displayFrustum();
+  }
+  if (name.equals("stabilize") && keyPressed) {
+    dlsr.setEnabledStabilization(!dlsr.isEnabledStabilization());
+    dlsf.setEnabledStabilization(!dlsf.isEnabledStabilization());
+    shadowStabilizationText.setText("(b:on/off) Shadow stabilization : " + dlsr.isEnabledStabilization());
+  }
+  if (name.equals("switchGroundMat") && keyPressed) {
+    if (ground.getMaterial() == matGroundL) {
+      ground.setMaterial(matGroundU);
+    }
+ else {
+      ground.setMaterial(matGroundL);
+    }
+  }
+  if (name.equals("up")) {
+    up=keyPressed;
+  }
+  if (name.equals("down")) {
+    down=keyPressed;
+  }
+  if (name.equals("right")) {
+    right=keyPressed;
+  }
+  if (name.equals("left")) {
+    left=keyPressed;
+  }
+  if (name.equals("fwd")) {
+    fwd=keyPressed;
+  }
+  if (name.equals("back")) {
+    back=keyPressed;
+  }
+}

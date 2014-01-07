@@ -1,0 +1,23 @@
+{
+  int compression=in.readShort();
+  if (compression != 1) {
+    throw new IOException("WAV Loader only supports PCM wave files");
+  }
+  int channels=in.readShort();
+  int sampleRate=in.readInt();
+  bytesPerSec=in.readInt();
+  int bytesPerSample=in.readShort();
+  int bitsPerSample=in.readShort();
+  int expectedBytesPerSec=(bitsPerSample * channels * sampleRate) / 8;
+  if (expectedBytesPerSec != bytesPerSec) {
+    logger.log(Level.WARNING,"Expected {0} bytes per second, got {1}",new Object[]{expectedBytesPerSec,bytesPerSec});
+  }
+  if (bitsPerSample != 8 && bitsPerSample != 16)   throw new IOException("Only 8 and 16 bits per sample are supported!");
+  if ((bitsPerSample / 8) * channels != bytesPerSample)   throw new IOException("Invalid bytes per sample value");
+  if (bytesPerSample * sampleRate != bytesPerSec)   throw new IOException("Invalid bytes per second value");
+  audioData.setupFormat(channels,bitsPerSample,sampleRate);
+  int remaining=size - 16;
+  if (remaining > 0) {
+    in.skipBytes(remaining);
+  }
+}

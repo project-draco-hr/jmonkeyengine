@@ -1,0 +1,11 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  if (context.clipRectEnabled) {
+    gl.glDisable(GL.GL_SCISSOR_TEST);
+    context.clipRectEnabled=false;
+    clipX=0;
+    clipY=0;
+    clipW=0;
+    clipH=0;
+  }
+}

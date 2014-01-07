@@ -1,0 +1,16 @@
+{
+  Pointer ppMaterials=(Pointer)structureWithMaterials.getFieldValue("mat");
+  MaterialContext[] materials=null;
+  if (ppMaterials.isNotNull()) {
+    List<Structure> materialStructures=ppMaterials.fetchData();
+    if (materialStructures != null && materialStructures.size() > 0) {
+      MaterialHelper materialHelper=blenderContext.getHelper(MaterialHelper.class);
+      materials=new MaterialContext[materialStructures.size()];
+      int i=0;
+      for (      Structure s : materialStructures) {
+        materials[i++]=s == null ? null : materialHelper.toMaterialContext(s,blenderContext);
+      }
+    }
+  }
+  return materials;
+}

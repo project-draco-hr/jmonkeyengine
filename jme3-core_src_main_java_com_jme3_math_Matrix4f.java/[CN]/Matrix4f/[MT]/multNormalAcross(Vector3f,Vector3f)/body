@@ -1,0 +1,10 @@
+{
+  if (store == null) {
+    store=new Vector3f();
+  }
+  float vx=vec.x, vy=vec.y, vz=vec.z;
+  store.x=m00 * vx + m10 * vy + m20 * vz;
+  store.y=m01 * vx + m11 * vy + m21 * vz;
+  store.z=m02 * vx + m12 * vy + m22 * vz;
+  return store;
+}

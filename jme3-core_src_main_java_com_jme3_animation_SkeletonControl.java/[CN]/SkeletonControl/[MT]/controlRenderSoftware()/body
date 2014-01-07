@@ -1,0 +1,7 @@
+{
+  resetToBind();
+  offsetMatrices=skeleton.computeSkinningMatrices();
+  for (  Mesh mesh : targets) {
+    softwareSkinUpdate(mesh,offsetMatrices);
+  }
+}

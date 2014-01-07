@@ -1,0 +1,75 @@
+{
+  SensorData sensorData;
+  AndroidJoystickAxis axis;
+  final float[] curInclinationMat=new float[16];
+  final float[] curRotationMat=new float[16];
+  final float[] rotatedRotationMat=new float[16];
+  final float[] accValues=new float[3];
+  final float[] magValues=new float[3];
+  final float[] orderedOrientation=new float[3];
+  sensorData=sensors.get(Sensor.TYPE_ACCELEROMETER);
+  if (sensorData == null || !sensorData.enabled || !sensorData.haveData) {
+    return false;
+  }
+  if (sensorData.sensorAccuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
+    return false;
+  }
+synchronized (sensorData.valuesLock) {
+    accValues[0]=sensorData.lastValues[0];
+    accValues[1]=sensorData.lastValues[1];
+    accValues[2]=sensorData.lastValues[2];
+  }
+  sensorData=sensors.get(Sensor.TYPE_MAGNETIC_FIELD);
+  if (sensorData == null || !sensorData.enabled || !sensorData.haveData) {
+    return false;
+  }
+  if (sensorData.sensorAccuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
+    return false;
+  }
+synchronized (sensorData.valuesLock) {
+    magValues[0]=sensorData.lastValues[0];
+    magValues[1]=sensorData.lastValues[1];
+    magValues[2]=sensorData.lastValues[2];
+  }
+  if (SensorManager.getRotationMatrix(curRotationMat,curInclinationMat,accValues,magValues)) {
+    final float[] orientValues=new float[3];
+    if (remapCoordinates(curRotationMat,rotatedRotationMat)) {
+      SensorManager.getOrientation(rotatedRotationMat,orientValues);
+      orderedOrientation[0]=orientValues[1];
+      orderedOrientation[1]=orientValues[2];
+      orderedOrientation[2]=orientValues[0];
+      sensorData=sensors.get(Sensor.TYPE_ORIENTATION);
+      if (sensorData != null && sensorData.axes.size() > 0) {
+        for (int i=0; i < orderedOrientation.length; i++) {
+          axis=sensorData.axes.get(i);
+          if (axis != null) {
+            axis.setCurRawValue(orderedOrientation[i]);
+            if (!sensorData.haveData) {
+              sensorData.haveData=true;
+            }
+ else {
+synchronized (eventQueue) {
+                if (axis.isChanged()) {
+                  eventQueue.add(new JoyAxisEvent(axis,axis.getJoystickAxisValue()));
+                }
+              }
+            }
+          }
+        }
+      }
+ else       if (sensorData != null) {
+        if (!sensorData.haveData) {
+          sensorData.haveData=true;
+        }
+      }
+      return true;
+    }
+ else {
+      logger.log(Level.FINE,"remapCoordinateSystem failed");
+    }
+  }
+ else {
+    logger.log(Level.FINE,"getRotationMatrix returned false");
+  }
+  return false;
+}

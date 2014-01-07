@@ -1,0 +1,28 @@
+{
+  try {
+    Element tmpEl=findChildElement(currentElem,name);
+    if (tmpEl == null) {
+      return defVal;
+    }
+    currentElem=tmpEl;
+    String sizeString=tmpEl.getAttribute("size");
+    ArrayList<Savable>[] arr;
+    List<ArrayList<Savable>[]> sall=new ArrayList<ArrayList<Savable>[]>();
+    int i=-1;
+    while ((arr=readSavableArrayListArray("SavableArrayListArray_" + ++i,null)) != null)     sall.add(arr);
+    if (sizeString.length() > 0) {
+      int requiredSize=Integer.parseInt(sizeString);
+      if (sall.size() != requiredSize)       throw new IOException("String array contains wrong element count.  " + "Specified size " + requiredSize + ", data contains "+ sall.size());
+    }
+    currentElem=(Element)tmpEl.getParentNode();
+    return sall.toArray(new ArrayList[0][]);
+  }
+ catch (  IOException ioe) {
+    throw ioe;
+  }
+catch (  Exception e) {
+    IOException io=new IOException(e.toString());
+    io.initCause(e);
+    throw io;
+  }
+}

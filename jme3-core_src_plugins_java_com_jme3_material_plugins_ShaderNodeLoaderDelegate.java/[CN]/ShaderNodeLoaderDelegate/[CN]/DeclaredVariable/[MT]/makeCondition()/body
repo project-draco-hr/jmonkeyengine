@@ -1,0 +1,44 @@
+{
+  var.setCondition(null);
+  for (  ShaderNode node : nodes) {
+    String condition=null;
+    for (    VariableMapping mapping : node.getInputMapping()) {
+      if (mapping.getRightVariable().equals(var)) {
+        if (mapping.getCondition() == null) {
+          condition=null;
+          break;
+        }
+        if (condition == null) {
+          condition="(" + mapping.getCondition() + ")";
+        }
+ else {
+          if (!condition.contains(mapping.getCondition())) {
+            condition=condition + " || (" + mapping.getCondition()+ ")";
+          }
+        }
+      }
+    }
+    if (node.getCondition() == null && condition == null) {
+      var.setCondition(null);
+      return;
+    }
+    if (node.getCondition() != null) {
+      if (condition == null) {
+        condition=node.getCondition();
+      }
+ else {
+        if (!condition.contains(node.getCondition())) {
+          condition="(" + node.getCondition() + ") && ("+ condition+ ")";
+        }
+      }
+    }
+    if (var.getCondition() == null) {
+      var.setCondition(condition);
+    }
+ else {
+      if (!var.getCondition().contains(condition)) {
+        var.setCondition("(" + var.getCondition() + ") || ("+ condition+ ")");
+      }
+    }
+  }
+}

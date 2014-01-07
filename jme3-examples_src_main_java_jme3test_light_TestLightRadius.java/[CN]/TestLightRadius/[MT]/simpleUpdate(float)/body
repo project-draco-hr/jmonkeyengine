@@ -1,0 +1,11 @@
+{
+  pos+=tpf * vel * 5f;
+  if (pos > 15) {
+    vel*=-1;
+  }
+ else   if (pos < -15) {
+    vel*=-1;
+  }
+  pl.setPosition(new Vector3f(pos,2,0));
+  lightMdl.setLocalTranslation(pl.getPosition());
+}

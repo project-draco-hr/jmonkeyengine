@@ -1,0 +1,10 @@
+{
+  URL url=null;
+  try {
+    url=new URL("file:" + file);
+  }
+ catch (  MalformedURLException e) {
+    logger.log(Level.WARNING,"Invalid file name '" + file + "'",e);
+  }
+  return url;
+}

@@ -1,0 +1,28 @@
+{
+  if (bound == null) {
+    return FrustumIntersect.Inside;
+  }
+  int mask;
+  FrustumIntersect rVal=FrustumIntersect.Inside;
+  for (int planeCounter=FRUSTUM_PLANES; planeCounter >= 0; planeCounter--) {
+    if (planeCounter == bound.getCheckPlane()) {
+      continue;
+    }
+    int planeId=(planeCounter == FRUSTUM_PLANES) ? bound.getCheckPlane() : planeCounter;
+    mask=1 << (planeId);
+    if ((planeState & mask) == 0) {
+      Plane.Side side=bound.whichSide(worldPlane[planeId]);
+      if (side == Plane.Side.Negative) {
+        bound.setCheckPlane(planeId);
+        return FrustumIntersect.Outside;
+      }
+ else       if (side == Plane.Side.Positive) {
+        planeState|=mask;
+      }
+ else {
+        rVal=FrustumIntersect.Intersects;
+      }
+    }
+  }
+  return rVal;
+}

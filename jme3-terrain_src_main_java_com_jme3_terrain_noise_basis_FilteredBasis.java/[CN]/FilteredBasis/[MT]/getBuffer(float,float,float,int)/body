@@ -1,0 +1,6 @@
+{
+  int margin=this.getMargin(size,0);
+  int workSize=size + 2 * margin;
+  FloatBuffer retval=this.basis.getBuffer(sx - margin,sy - margin,base,workSize);
+  return this.clip(this.doFilter(sx,sy,base,retval,workSize),workSize,size,margin);
+}

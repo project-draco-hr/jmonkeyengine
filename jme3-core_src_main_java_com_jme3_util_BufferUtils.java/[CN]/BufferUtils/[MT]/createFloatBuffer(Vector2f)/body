@@ -1,0 +1,16 @@
+{
+  if (data == null) {
+    return null;
+  }
+  FloatBuffer buff=createFloatBuffer(2 * data.length);
+  for (  Vector2f element : data) {
+    if (element != null) {
+      buff.put(element.x).put(element.y);
+    }
+ else {
+      buff.put(0).put(0);
+    }
+  }
+  buff.flip();
+  return buff;
+}

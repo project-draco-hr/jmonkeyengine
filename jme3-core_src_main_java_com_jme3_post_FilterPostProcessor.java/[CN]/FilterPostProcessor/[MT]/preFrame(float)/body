@@ -1,0 +1,25 @@
+{
+  if (filters.isEmpty() || lastFilterIndex == -1) {
+    if (cameraInit) {
+      viewPort.getCamera().resize(originalWidth,originalHeight,true);
+      viewPort.getCamera().setViewPort(left,right,bottom,top);
+      viewPort.setOutputFrameBuffer(outputBuffer);
+      cameraInit=false;
+    }
+  }
+ else {
+    setupViewPortFrameBuffer();
+    if (multiView) {
+      viewPort.getCamera().resize(width,height,false);
+      viewPort.getCamera().setViewPort(0,1,0,1);
+      viewPort.getCamera().update();
+      renderManager.setCamera(viewPort.getCamera(),false);
+    }
+  }
+  for (Iterator<Filter> it=filters.iterator(); it.hasNext(); ) {
+    Filter filter=it.next();
+    if (filter.isEnabled()) {
+      filter.preFrame(tpf);
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  if (!initialized) {
+    startPhysics();
+  }
+  if (threadingType == ThreadingType.PARALLEL) {
+    PhysicsSpace.setLocalThreadPhysicsSpace(pSpace);
+  }
+  if (debugEnabled) {
+    debugAppState=new BulletDebugAppState(pSpace);
+    stateManager.attach(debugAppState);
+  }
+}

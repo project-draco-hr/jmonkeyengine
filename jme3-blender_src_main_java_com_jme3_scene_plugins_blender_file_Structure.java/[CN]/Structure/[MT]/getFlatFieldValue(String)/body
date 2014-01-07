@@ -1,0 +1,15 @@
+{
+  for (  Field field : fields) {
+    Object value=field.value;
+    if (field.name.equalsIgnoreCase(fieldName)) {
+      return value;
+    }
+ else     if (value instanceof Structure) {
+      value=((Structure)value).getFlatFieldValue(fieldName);
+      if (value != null) {
+        return value;
+      }
+    }
+  }
+  return null;
+}

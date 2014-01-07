@@ -1,0 +1,8 @@
+{
+  E[] array=getArray();
+  int result=1;
+  for (  E e : array) {
+    result=31 * result + (e == null ? 0 : e.hashCode());
+  }
+  return result;
+}

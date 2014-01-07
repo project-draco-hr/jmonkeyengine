@@ -1,0 +1,30 @@
+{
+  sb.append(indent).append("name: ").append(name).append("\n\r");
+  sb.append(indent).append("type: ").append(type).append("\n\r");
+  sb.append(indent).append("subType: ").append(subType).append("\n\r");
+  sb.append(indent).append("description: ").append(description).append("\n\r");
+  indent.append('\t');
+  sb.append(indent).append("value: ");
+  if (value instanceof Properties) {
+    ((Properties)value).append(sb,indent);
+  }
+ else   if (value instanceof List) {
+    for (    Object v : (List<Object>)value) {
+      if (v instanceof Properties) {
+        sb.append(indent).append("{\n\r");
+        indent.append('\t');
+        ((Properties)v).append(sb,indent);
+        indent.deleteCharAt(indent.length() - 1);
+        sb.append(indent).append("}\n\r");
+      }
+ else {
+        sb.append(v);
+      }
+    }
+  }
+ else {
+    sb.append(value);
+  }
+  sb.append("\n\r");
+  indent.deleteCharAt(indent.length() - 1);
+}

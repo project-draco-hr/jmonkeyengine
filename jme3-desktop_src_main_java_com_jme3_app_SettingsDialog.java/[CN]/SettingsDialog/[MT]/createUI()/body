@@ -1,0 +1,171 @@
+{
+  GridBagConstraints gbc;
+  JPanel mainPanel=new JPanel(new GridBagLayout());
+  try {
+    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+  }
+ catch (  Exception e) {
+    logger.warning("Could not set native look and feel.");
+  }
+  addWindowListener(new WindowAdapter(){
+    @Override public void windowClosing(    WindowEvent e){
+      setUserSelection(CANCEL_SELECTION);
+      dispose();
+    }
+  }
+);
+  if (source.getIcons() != null) {
+    safeSetIconImages((List<BufferedImage>)Arrays.asList((BufferedImage[])source.getIcons()));
+  }
+  setTitle(MessageFormat.format(resourceBundle.getString("frame.title"),source.getTitle()));
+  JButton ok=new JButton(resourceBundle.getString("button.ok"));
+  JButton cancel=new JButton(resourceBundle.getString("button.cancel"));
+  icon=new JLabel(imageFile != null ? new ImageIcon(imageFile) : null);
+  KeyListener aListener=new KeyAdapter(){
+    @Override public void keyPressed(    KeyEvent e){
+      if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (verifyAndSaveCurrentSelection()) {
+          setUserSelection(APPROVE_SELECTION);
+          dispose();
+        }
+      }
+ else       if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        setUserSelection(CANCEL_SELECTION);
+        dispose();
+      }
+    }
+  }
+;
+  displayResCombo=setUpResolutionChooser();
+  displayResCombo.addKeyListener(aListener);
+  colorDepthCombo=new JComboBox();
+  colorDepthCombo.addKeyListener(aListener);
+  displayFreqCombo=new JComboBox();
+  displayFreqCombo.addKeyListener(aListener);
+  antialiasCombo=new JComboBox();
+  antialiasCombo.addKeyListener(aListener);
+  fullscreenBox=new JCheckBox(resourceBundle.getString("checkbox.fullscreen"));
+  fullscreenBox.setSelected(source.isFullscreen());
+  fullscreenBox.addActionListener(new ActionListener(){
+    public void actionPerformed(    ActionEvent e){
+      updateResolutionChoices();
+    }
+  }
+);
+  vsyncBox=new JCheckBox(resourceBundle.getString("checkbox.vsync"));
+  vsyncBox.setSelected(source.isVSync());
+  gbc=new GridBagConstraints();
+  gbc.weightx=0.5;
+  gbc.gridx=0;
+  gbc.gridwidth=2;
+  gbc.gridy=1;
+  gbc.anchor=GridBagConstraints.EAST;
+  mainPanel.add(fullscreenBox,gbc);
+  gbc=new GridBagConstraints();
+  gbc.weightx=0.5;
+  gbc.insets=new Insets(4,16,0,4);
+  gbc.gridx=2;
+  gbc.gridwidth=2;
+  gbc.gridy=1;
+  gbc.anchor=GridBagConstraints.WEST;
+  mainPanel.add(vsyncBox,gbc);
+  gbc=new GridBagConstraints();
+  gbc.insets=new Insets(4,4,4,4);
+  gbc.gridx=0;
+  gbc.gridy=2;
+  gbc.anchor=GridBagConstraints.EAST;
+  gbc.weightx=0.5;
+  mainPanel.add(new JLabel(resourceBundle.getString("label.resolutions")),gbc);
+  gbc=new GridBagConstraints();
+  gbc.gridx=1;
+  gbc.gridy=2;
+  gbc.anchor=GridBagConstraints.WEST;
+  mainPanel.add(displayResCombo,gbc);
+  gbc=new GridBagConstraints();
+  gbc.insets=new Insets(4,16,4,4);
+  gbc.gridx=2;
+  gbc.gridy=2;
+  gbc.anchor=GridBagConstraints.EAST;
+  mainPanel.add(new JLabel(resourceBundle.getString("label.colordepth")),gbc);
+  gbc=new GridBagConstraints();
+  gbc.weightx=0.5;
+  gbc.gridx=3;
+  gbc.gridy=2;
+  gbc.anchor=GridBagConstraints.WEST;
+  mainPanel.add(colorDepthCombo,gbc);
+  gbc=new GridBagConstraints();
+  gbc.insets=new Insets(4,4,4,4);
+  gbc.weightx=0.5;
+  gbc.gridx=0;
+  gbc.gridy=3;
+  gbc.anchor=GridBagConstraints.EAST;
+  mainPanel.add(new JLabel(resourceBundle.getString("label.refresh")),gbc);
+  gbc=new GridBagConstraints();
+  gbc.gridx=1;
+  gbc.gridy=3;
+  gbc.anchor=GridBagConstraints.WEST;
+  mainPanel.add(displayFreqCombo,gbc);
+  gbc=new GridBagConstraints();
+  gbc.insets=new Insets(4,16,4,4);
+  gbc.gridx=2;
+  gbc.gridy=3;
+  gbc.anchor=GridBagConstraints.EAST;
+  mainPanel.add(new JLabel(resourceBundle.getString("label.antialias")),gbc);
+  gbc=new GridBagConstraints();
+  gbc.weightx=0.5;
+  gbc.gridx=3;
+  gbc.gridy=3;
+  gbc.anchor=GridBagConstraints.WEST;
+  mainPanel.add(antialiasCombo,gbc);
+  ok.addActionListener(new ActionListener(){
+    public void actionPerformed(    ActionEvent e){
+      if (verifyAndSaveCurrentSelection()) {
+        setUserSelection(APPROVE_SELECTION);
+        dispose();
+      }
+    }
+  }
+);
+  cancel.addActionListener(new ActionListener(){
+    public void actionPerformed(    ActionEvent e){
+      setUserSelection(CANCEL_SELECTION);
+      dispose();
+    }
+  }
+);
+  gbc=new GridBagConstraints();
+  gbc.gridx=0;
+  gbc.gridwidth=2;
+  gbc.gridy=4;
+  gbc.anchor=GridBagConstraints.EAST;
+  mainPanel.add(ok,gbc);
+  gbc=new GridBagConstraints();
+  gbc.insets=new Insets(4,16,4,4);
+  gbc.gridx=2;
+  gbc.gridwidth=2;
+  gbc.gridy=4;
+  gbc.anchor=GridBagConstraints.WEST;
+  mainPanel.add(cancel,gbc);
+  if (icon != null) {
+    gbc=new GridBagConstraints();
+    gbc.gridwidth=4;
+    mainPanel.add(icon,gbc);
+  }
+  this.getContentPane().add(mainPanel);
+  pack();
+  mainPanel.getRootPane().setDefaultButton(ok);
+  SwingUtilities.invokeLater(new Runnable(){
+    public void run(){
+      updateResolutionChoices();
+      if (source.getWidth() != 0 && source.getHeight() != 0) {
+        displayResCombo.setSelectedItem(source.getWidth() + " x " + source.getHeight());
+      }
+ else {
+        displayResCombo.setSelectedIndex(displayResCombo.getItemCount() - 1);
+      }
+      updateAntialiasChoices();
+      colorDepthCombo.setSelectedItem(source.getBitsPerPixel() + " bpp");
+    }
+  }
+);
+}

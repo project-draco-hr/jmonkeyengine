@@ -1,0 +1,61 @@
+{
+  final float[] tabs=block.getTabPosition();
+  final float tabWidth=block.getTabWidth();
+  final Rectangle bound=getBound(block);
+  sizeScale=block.getSize() / font.getCharSet().getRenderedSize();
+  lineY=computeLineY(block);
+  if (isHead()) {
+    x0=getBound(block).x;
+    y0=lineY;
+    width=0;
+    height=0;
+    xAdvance=0;
+  }
+ else   if (isTab()) {
+    x0=previous.getNextX();
+    width=tabWidth;
+    y0=lineY;
+    height=0;
+    if (tabs != null && x0 < tabs[tabs.length - 1]) {
+      for (int i=0; i < tabs.length - 1; i++) {
+        if (x0 > tabs[i] && x0 < tabs[i + 1]) {
+          width=tabs[i + 1] - x0;
+        }
+      }
+    }
+    xAdvance=width;
+  }
+ else   if (bitmapChar == null) {
+    x0=getPrevious().getX1();
+    y0=lineY;
+    width=0;
+    height=0;
+    xAdvance=0;
+  }
+ else {
+    float xOffset=bitmapChar.getXOffset() * sizeScale;
+    float yOffset=bitmapChar.getYOffset() * sizeScale;
+    xAdvance=bitmapChar.getXAdvance() * sizeScale;
+    width=bitmapChar.getWidth() * sizeScale;
+    height=bitmapChar.getHeight() * sizeScale;
+    float incrScale=rightToLeft ? -1f : 1f;
+    float kernAmount=0f;
+    if (previous.isHead() || previous.eol) {
+      x0=bound.x;
+      xAdvance-=xOffset * incrScale;
+    }
+ else {
+      x0=previous.getNextX() + xOffset * incrScale;
+      xAdvance-=xOffset * incrScale;
+    }
+    y0=lineY + LINE_DIR * yOffset;
+    BitmapCharacter lastChar=previous.getBitmapChar();
+    if (lastChar != null && block.isKerning()) {
+      kernAmount=lastChar.getKerning(c) * sizeScale;
+      x0+=kernAmount * incrScale;
+    }
+  }
+  if (isEndOfLine()) {
+    xAdvance=bound.x - x0;
+  }
+}

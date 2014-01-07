@@ -1,0 +1,37 @@
+{
+  JPanel search=new JPanel();
+  search.setLayout(new BorderLayout());
+  search.add(new JLabel("Choose a Demo to start:      Find: "),BorderLayout.WEST);
+  final javax.swing.JTextField jtf=new javax.swing.JTextField();
+  jtf.getDocument().addDocumentListener(new DocumentListener(){
+    public void removeUpdate(    DocumentEvent e){
+      classes.setFilter(jtf.getText());
+    }
+    public void insertUpdate(    DocumentEvent e){
+      classes.setFilter(jtf.getText());
+    }
+    public void changedUpdate(    DocumentEvent e){
+      classes.setFilter(jtf.getText());
+    }
+  }
+);
+  jtf.addActionListener(new ActionListener(){
+    public void actionPerformed(    ActionEvent e){
+      selectedClass=classes.getSelectedValues();
+      startApp(selectedClass);
+    }
+  }
+);
+  final JCheckBox showSettingCheck=new JCheckBox("Show Setting");
+  showSettingCheck.setSelected(true);
+  showSettingCheck.addActionListener(new ActionListener(){
+    public void actionPerformed(    ActionEvent e){
+      showSetting=showSettingCheck.isSelected();
+    }
+  }
+);
+  jtf.setPreferredSize(new Dimension(100,25));
+  search.add(jtf,BorderLayout.CENTER);
+  search.add(showSettingCheck,BorderLayout.EAST);
+  return search;
+}

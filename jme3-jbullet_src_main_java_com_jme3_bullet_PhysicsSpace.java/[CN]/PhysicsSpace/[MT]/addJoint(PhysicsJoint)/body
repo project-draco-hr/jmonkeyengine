@@ -1,0 +1,9 @@
+{
+  if (physicsJoints.containsKey(joint.getObjectId())) {
+    logger.log(Level.WARNING,"Joint {0} already exists in PhysicsSpace, cannot add.",joint);
+    return;
+  }
+  logger.log(Level.FINE,"Adding Joint {0} to physics space.",joint.getObjectId());
+  physicsJoints.put(joint.getObjectId(),joint);
+  dynamicsWorld.addConstraint(joint.getObjectId(),!joint.isCollisionBetweenLinkedBodys());
+}

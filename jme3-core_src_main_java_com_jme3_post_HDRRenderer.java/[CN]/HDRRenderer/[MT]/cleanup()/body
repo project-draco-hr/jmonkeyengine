@@ -1,0 +1,11 @@
+{
+  if (!enabled)   return;
+  if (msFB != null)   renderer.deleteFrameBuffer(msFB);
+  if (mainSceneFB != null)   renderer.deleteFrameBuffer(mainSceneFB);
+  if (scene64FB != null) {
+    renderer.deleteFrameBuffer(scene64FB);
+    renderer.deleteFrameBuffer(scene8FB);
+    renderer.deleteFrameBuffer(scene1FB[0]);
+    renderer.deleteFrameBuffer(scene1FB[1]);
+  }
+}

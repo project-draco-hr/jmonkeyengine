@@ -1,0 +1,8 @@
+{
+  AudioBuffer audioBuf=new AudioBuffer();
+  audioBuf.setupFormat(1,8,44100);
+  ByteBuffer bb=BufferUtils.createByteBuffer(1);
+  bb.put((byte)0).flip();
+  audioBuf.updateData(bb);
+  return audioBuf;
+}

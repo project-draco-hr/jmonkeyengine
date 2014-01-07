@@ -1,0 +1,8 @@
+{
+  TempVars vars=TempVars.get();
+  Vector2f tempVec2=vars.vect2d;
+  populateFromBuffer(tempVec2,buf,index);
+  boolean eq=tempVec2.equals(check);
+  vars.release();
+  return eq;
+}

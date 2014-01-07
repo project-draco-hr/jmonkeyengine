@@ -1,0 +1,13 @@
+{
+  if (value == null)   return;
+  if (Arrays.deepEquals(value,defVal))   return;
+  Element el=appendElement(name);
+  el.setAttribute("size_outer",String.valueOf(value.length));
+  el.setAttribute("size_inner",String.valueOf(value[0].length));
+  for (  Savable[] bs : value) {
+    for (    Savable b : bs) {
+      write(b,b.getClass().getSimpleName(),null);
+    }
+  }
+  currentElement=(Element)currentElement.getParentNode();
+}

@@ -1,0 +1,11 @@
+{
+  if (cameras.containsKey(cameraName)) {
+    throw new IllegalArgumentException("Camera " + cameraName + " is already binded to this cinematic");
+  }
+  CameraNode node=new CameraNode(cameraName,cam);
+  node.setControlDir(ControlDirection.SpatialToCamera);
+  node.getControl(CameraControl.class).setEnabled(false);
+  cameras.put(cameraName,node);
+  scene.attachChild(node);
+  return node;
+}

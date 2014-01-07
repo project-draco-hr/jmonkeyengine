@@ -1,0 +1,19 @@
+{
+  if (audioDisabled) {
+    return;
+  }
+switch (param) {
+case Position:
+    listenerPosition.set(listener.getLocation());
+  break;
+case Rotation:
+Vector3f dir=listener.getDirection();
+Vector3f up=listener.getUp();
+break;
+case Velocity:
+Vector3f vel=listener.getVelocity();
+break;
+case Volume:
+break;
+}
+}

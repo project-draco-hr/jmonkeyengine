@@ -1,0 +1,8 @@
+{
+  TempVars vars=TempVars.get();
+  Quaternion q=vars.quat1;
+  q.fromAngles(xAngle,yAngle,zAngle);
+  rotate(q);
+  vars.release();
+  return this;
+}

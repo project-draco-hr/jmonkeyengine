@@ -1,0 +1,31 @@
+{
+  List<SimulationNode> simulationRootNodes=new ArrayList<SimulationNode>();
+  for (  Constraint constraint : blenderContext.getAllConstraints()) {
+    boolean constraintUsed=false;
+    for (    SimulationNode node : simulationRootNodes) {
+      if (node.contains(constraint)) {
+        constraintUsed=true;
+        break;
+      }
+    }
+    if (!constraintUsed) {
+      if (constraint instanceof BoneConstraint) {
+        BoneContext boneContext=blenderContext.getBoneContext(constraint.ownerOMA);
+        simulationRootNodes.add(new SimulationNode(boneContext.getArmatureObjectOMA(),blenderContext));
+      }
+ else       if (constraint instanceof SpatialConstraint) {
+        Spatial spatial=(Spatial)blenderContext.getLoadedFeature(constraint.ownerOMA,LoadedFeatureDataType.LOADED_FEATURE);
+        while (spatial.getParent() != null) {
+          spatial=spatial.getParent();
+        }
+        simulationRootNodes.add(new SimulationNode((Long)blenderContext.getMarkerValue(ObjectHelper.OMA_MARKER,spatial),blenderContext));
+      }
+ else {
+        throw new IllegalStateException("Unsupported constraint type: " + constraint);
+      }
+    }
+  }
+  for (  SimulationNode node : simulationRootNodes) {
+    node.simulate();
+  }
+}

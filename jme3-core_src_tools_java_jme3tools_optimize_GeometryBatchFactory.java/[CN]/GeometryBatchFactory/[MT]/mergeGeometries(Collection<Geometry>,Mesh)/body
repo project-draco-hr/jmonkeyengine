@@ -1,0 +1,121 @@
+{
+  int[] compsForBuf=new int[VertexBuffer.Type.values().length];
+  Format[] formatForBuf=new Format[compsForBuf.length];
+  int totalVerts=0;
+  int totalTris=0;
+  int totalLodLevels=0;
+  int maxWeights=-1;
+  Mode mode=null;
+  for (  Geometry geom : geometries) {
+    totalVerts+=geom.getVertexCount();
+    totalTris+=geom.getTriangleCount();
+    totalLodLevels=Math.min(totalLodLevels,geom.getMesh().getNumLodLevels());
+    Mode listMode;
+    int components;
+switch (geom.getMesh().getMode()) {
+case Points:
+      listMode=Mode.Points;
+    components=0;
+  break;
+case LineLoop:
+case LineStrip:
+case Lines:
+listMode=Mode.Lines;
+components=2;
+break;
+case TriangleFan:
+case TriangleStrip:
+case Triangles:
+listMode=Mode.Triangles;
+components=3;
+break;
+default :
+throw new UnsupportedOperationException();
+}
+for (VertexBuffer vb : geom.getMesh().getBufferList().getArray()) {
+int currentCompsForBuf=compsForBuf[vb.getBufferType().ordinal()];
+if (vb.getBufferType() != Type.Index && currentCompsForBuf != 0 && currentCompsForBuf != vb.getNumComponents()) {
+throw new UnsupportedOperationException("The geometry " + geom + " buffer "+ vb.getBufferType()+ " has different number of components than the rest of the meshes "+ "(this: "+ vb.getNumComponents()+ ", expected: "+ currentCompsForBuf+ ")");
+}
+compsForBuf[vb.getBufferType().ordinal()]=vb.getNumComponents();
+formatForBuf[vb.getBufferType().ordinal()]=vb.getFormat();
+}
+maxWeights=Math.max(maxWeights,geom.getMesh().getMaxNumWeights());
+if (mode != null && mode != listMode) {
+throw new UnsupportedOperationException("Cannot combine different" + " primitive types: " + mode + " != "+ listMode);
+}
+mode=listMode;
+compsForBuf[Type.Index.ordinal()]=components;
+}
+outMesh.setMaxNumWeights(maxWeights);
+outMesh.setMode(mode);
+if (totalVerts >= 65536) {
+formatForBuf[Type.Index.ordinal()]=Format.UnsignedInt;
+}
+ else {
+formatForBuf[Type.Index.ordinal()]=Format.UnsignedShort;
+}
+for (int i=0; i < compsForBuf.length; i++) {
+if (compsForBuf[i] == 0) {
+continue;
+}
+Buffer data;
+if (i == Type.Index.ordinal()) {
+data=VertexBuffer.createBuffer(formatForBuf[i],compsForBuf[i],totalTris);
+}
+ else {
+data=VertexBuffer.createBuffer(formatForBuf[i],compsForBuf[i],totalVerts);
+}
+VertexBuffer vb=new VertexBuffer(Type.values()[i]);
+vb.setupData(Usage.Static,compsForBuf[i],formatForBuf[i],data);
+outMesh.setBuffer(vb);
+}
+int globalVertIndex=0;
+int globalTriIndex=0;
+for (Geometry geom : geometries) {
+Mesh inMesh=geom.getMesh();
+geom.computeWorldMatrix();
+Matrix4f worldMatrix=geom.getWorldMatrix();
+int geomVertCount=inMesh.getVertexCount();
+int geomTriCount=inMesh.getTriangleCount();
+for (int bufType=0; bufType < compsForBuf.length; bufType++) {
+VertexBuffer inBuf=inMesh.getBuffer(Type.values()[bufType]);
+VertexBuffer outBuf=outMesh.getBuffer(Type.values()[bufType]);
+if (inBuf == null || outBuf == null) {
+continue;
+}
+if (Type.Index.ordinal() == bufType) {
+int components=compsForBuf[bufType];
+IndexBuffer inIdx=inMesh.getIndicesAsList();
+IndexBuffer outIdx=outMesh.getIndexBuffer();
+for (int tri=0; tri < geomTriCount; tri++) {
+for (int comp=0; comp < components; comp++) {
+int idx=inIdx.get(tri * components + comp) + globalVertIndex;
+outIdx.put((globalTriIndex + tri) * components + comp,idx);
+}
+}
+}
+ else if (Type.Position.ordinal() == bufType) {
+FloatBuffer inPos=(FloatBuffer)inBuf.getDataReadOnly();
+FloatBuffer outPos=(FloatBuffer)outBuf.getData();
+doTransformVerts(inPos,globalVertIndex,outPos,worldMatrix);
+}
+ else if (Type.Normal.ordinal() == bufType) {
+FloatBuffer inPos=(FloatBuffer)inBuf.getDataReadOnly();
+FloatBuffer outPos=(FloatBuffer)outBuf.getData();
+doTransformNorms(inPos,globalVertIndex,outPos,worldMatrix);
+}
+ else if (Type.Tangent.ordinal() == bufType) {
+FloatBuffer inPos=(FloatBuffer)inBuf.getDataReadOnly();
+FloatBuffer outPos=(FloatBuffer)outBuf.getData();
+int components=inBuf.getNumComponents();
+doTransformTangents(inPos,globalVertIndex,components,outPos,worldMatrix);
+}
+ else {
+inBuf.copyElements(0,outBuf,globalVertIndex,geomVertCount);
+}
+}
+globalVertIndex+=geomVertCount;
+globalTriIndex+=geomTriCount;
+}
+}

@@ -1,0 +1,19 @@
+{
+  float dx=(float)Math.sin(angle) * xDist;
+  float dz=(float)(-Math.cos(angle) * zDist);
+  x+=dx * tpf * 0.05f;
+  z+=dz * tpf * 0.05f;
+  angle+=tpf * rate;
+  if (angle > FastMath.TWO_PI) {
+    angle=FastMath.TWO_PI;
+    rate=-rate;
+  }
+ else   if (angle < -0) {
+    angle=-0;
+    rate=-rate;
+  }
+  ufo.setVelocity(new Vector3f(dx,0,dz));
+  ufo.setLocalTranslation(x,0,z);
+  ufo.updateGeometricState();
+  System.out.println("LOC: " + (int)x + ", "+ (int)z+ ", VEL: "+ (int)dx+ ", "+ (int)dz);
+}

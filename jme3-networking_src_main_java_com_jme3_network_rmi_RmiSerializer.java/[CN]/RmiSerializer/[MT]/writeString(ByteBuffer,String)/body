@@ -1,0 +1,12 @@
+{
+  int length=string.length();
+  if (length > 255) {
+    logger.log(Level.WARNING,"The string length exceeds the limit! {0} > 255",length);
+    buffer.put((byte)0);
+    return;
+  }
+  buffer.put((byte)length);
+  for (int i=0; i < length; i++) {
+    buffer.put((byte)string.charAt(i));
+  }
+}

@@ -1,0 +1,28 @@
+{
+  if (qName.equals("externals")) {
+    checkTopNode("scene");
+    materialList=new MaterialList();
+  }
+ else   if (qName.equals("item")) {
+    checkTopNode("externals");
+    if (!attribs.getValue("type").equals("material")) {
+      ignoreItem=true;
+    }
+  }
+ else   if (qName.equals("file")) {
+    checkTopNode("item");
+    if (!ignoreItem) {
+      String materialPath=attribs.getValue("name");
+      String materialName=new File(materialPath).getName();
+      String matFile=folderName + materialName;
+      try {
+        MaterialList loadedMaterialList=(MaterialList)assetManager.loadAsset(new OgreMaterialKey(matFile));
+        materialList.putAll(loadedMaterialList);
+      }
+ catch (      AssetNotFoundException ex) {
+        logger.log(Level.WARNING,"Cannot locate material file: {0}",matFile);
+      }
+    }
+  }
+  elementStack.push(qName);
+}

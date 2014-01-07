@@ -1,0 +1,9 @@
+{
+  DynamicArray<Number> locArray=(DynamicArray<Number>)curveStructure.getFieldValue("loc");
+  if (fixUpAxis) {
+    return new Vector3f(locArray.get(0).floatValue(),locArray.get(1).floatValue(),-locArray.get(2).floatValue());
+  }
+ else {
+    return new Vector3f(locArray.get(0).floatValue(),locArray.get(2).floatValue(),locArray.get(1).floatValue());
+  }
+}

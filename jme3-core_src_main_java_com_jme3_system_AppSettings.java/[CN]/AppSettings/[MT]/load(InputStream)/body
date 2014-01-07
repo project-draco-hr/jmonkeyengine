@@ -1,0 +1,30 @@
+{
+  Properties props=new Properties();
+  props.load(in);
+  for (  Map.Entry<Object,Object> entry : props.entrySet()) {
+    String key=(String)entry.getKey();
+    String val=(String)entry.getValue();
+    if (val != null) {
+      val=val.trim();
+    }
+    if (key.endsWith("(int)")) {
+      key=key.substring(0,key.length() - 5);
+      int iVal=Integer.parseInt(val);
+      putInteger(key,iVal);
+    }
+ else     if (key.endsWith("(string)")) {
+      putString(key.substring(0,key.length() - 8),val);
+    }
+ else     if (key.endsWith("(bool)")) {
+      boolean bVal=Boolean.parseBoolean(val);
+      putBoolean(key.substring(0,key.length() - 6),bVal);
+    }
+ else     if (key.endsWith("(float)")) {
+      float fVal=Float.parseFloat(val);
+      putFloat(key.substring(0,key.length() - 7),fVal);
+    }
+ else {
+      throw new IOException("Cannot parse key: " + key);
+    }
+  }
+}

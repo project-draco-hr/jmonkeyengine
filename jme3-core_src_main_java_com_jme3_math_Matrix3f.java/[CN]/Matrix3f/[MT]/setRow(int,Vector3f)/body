@@ -1,0 +1,27 @@
+{
+  if (row == null) {
+    logger.warning("Row is null. Ignoring.");
+    return this;
+  }
+switch (i) {
+case 0:
+    m00=row.x;
+  m01=row.y;
+m02=row.z;
+break;
+case 1:
+m10=row.x;
+m11=row.y;
+m12=row.z;
+break;
+case 2:
+m20=row.x;
+m21=row.y;
+m22=row.z;
+break;
+default :
+logger.warning("Invalid row index.");
+throw new IllegalArgumentException("Invalid row index. " + i);
+}
+return this;
+}

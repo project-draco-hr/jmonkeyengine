@@ -1,0 +1,8 @@
+{
+  if (message.isReliable() || channels.get(CH_UNRELIABLE) == null) {
+    send(CH_RELIABLE,message,true);
+  }
+ else {
+    send(CH_UNRELIABLE,message,true);
+  }
+}

@@ -1,0 +1,13 @@
+{
+  audio_gun=new AudioNode(assetManager,"Sound/Effects/Gun.wav",false);
+  audio_gun.setPositional(false);
+  audio_gun.setLooping(false);
+  audio_gun.setVolume(2);
+  rootNode.attachChild(audio_gun);
+  audio_nature=new AudioNode(assetManager,"Sound/Environment/Ocean Waves.ogg",true);
+  audio_nature.setLooping(true);
+  audio_nature.setPositional(true);
+  audio_nature.setVolume(3);
+  rootNode.attachChild(audio_nature);
+  audio_nature.play();
+}

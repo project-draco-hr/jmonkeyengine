@@ -1,0 +1,50 @@
+{
+switch (i) {
+case 0:
+switch (j) {
+case 0:
+      return m00;
+case 1:
+    return m01;
+case 2:
+  return m02;
+case 3:
+return m03;
+}
+case 1:
+switch (j) {
+case 0:
+return m10;
+case 1:
+return m11;
+case 2:
+return m12;
+case 3:
+return m13;
+}
+case 2:
+switch (j) {
+case 0:
+return m20;
+case 1:
+return m21;
+case 2:
+return m22;
+case 3:
+return m23;
+}
+case 3:
+switch (j) {
+case 0:
+return m30;
+case 1:
+return m31;
+case 2:
+return m32;
+case 3:
+return m33;
+}
+}
+logger.warning("Invalid matrix index.");
+throw new IllegalArgumentException("Invalid indices into matrix.");
+}

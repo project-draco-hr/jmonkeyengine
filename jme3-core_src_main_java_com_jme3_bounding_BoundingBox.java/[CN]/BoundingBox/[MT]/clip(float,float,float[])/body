@@ -1,0 +1,25 @@
+{
+  if (denom > 0.0f) {
+    float newT=numer / denom;
+    if (newT > t[1]) {
+      return false;
+    }
+    if (newT > t[0]) {
+      t[0]=newT;
+    }
+    return true;
+  }
+ else   if (denom < 0.0f) {
+    float newT=numer / denom;
+    if (newT < t[0]) {
+      return false;
+    }
+    if (newT < t[1]) {
+      t[1]=newT;
+    }
+    return true;
+  }
+ else {
+    return numer <= 0.0;
+  }
+}

@@ -1,0 +1,13 @@
+{
+  if (value == null) {
+    write(NULL_OBJECT);
+    return;
+  }
+  value.rewind();
+  int length=value.limit();
+  write(length);
+  for (int x=0; x < length; x++) {
+    writeForBuffer(value.get());
+  }
+  value.rewind();
+}

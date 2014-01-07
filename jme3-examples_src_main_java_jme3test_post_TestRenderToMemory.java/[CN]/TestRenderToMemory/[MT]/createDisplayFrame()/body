@@ -1,0 +1,22 @@
+{
+  SwingUtilities.invokeLater(new Runnable(){
+    public void run(){
+      JFrame frame=new JFrame("Render Display");
+      display=new ImageDisplay();
+      display.setPreferredSize(new Dimension(width,height));
+      frame.getContentPane().add(display);
+      frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      frame.addWindowListener(new WindowAdapter(){
+        public void windowClosed(        WindowEvent e){
+          stop();
+        }
+      }
+);
+      frame.pack();
+      frame.setLocationRelativeTo(null);
+      frame.setResizable(false);
+      frame.setVisible(true);
+    }
+  }
+);
+}

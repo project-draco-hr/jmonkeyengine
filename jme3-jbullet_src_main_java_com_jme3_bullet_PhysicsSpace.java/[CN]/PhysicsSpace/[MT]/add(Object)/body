@@ -1,0 +1,19 @@
+{
+  if (obj instanceof PhysicsControl) {
+    ((PhysicsControl)obj).setPhysicsSpace(this);
+  }
+ else   if (obj instanceof Spatial) {
+    Spatial node=(Spatial)obj;
+    PhysicsControl control=node.getControl(PhysicsControl.class);
+    control.setPhysicsSpace(this);
+  }
+ else   if (obj instanceof PhysicsCollisionObject) {
+    addCollisionObject((PhysicsCollisionObject)obj);
+  }
+ else   if (obj instanceof PhysicsJoint) {
+    addJoint((PhysicsJoint)obj);
+  }
+ else {
+    throw (new UnsupportedOperationException("Cannot add this kind of object to the physics space."));
+  }
+}

@@ -1,0 +1,9 @@
+{
+  if (closed)   return;
+  closed=true;
+  for (  Endpoint p : channels) {
+    if (p == null)     continue;
+    p.close();
+  }
+  fireConnectionRemoved(this);
+}

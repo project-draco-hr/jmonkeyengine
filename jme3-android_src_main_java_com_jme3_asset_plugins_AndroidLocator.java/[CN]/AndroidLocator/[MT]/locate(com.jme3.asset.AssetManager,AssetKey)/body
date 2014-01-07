@@ -1,0 +1,13 @@
+{
+  String assetPath=rootPath + key.getName();
+  if (assetPath.startsWith("/")) {
+    assetPath=assetPath.substring(1);
+  }
+  assetPath=assetPath.replace("//","/");
+  try {
+    return create(manager,key,assetPath);
+  }
+ catch (  IOException ex) {
+    throw new AssetLoadException("Failed to open asset " + assetPath,ex);
+  }
+}

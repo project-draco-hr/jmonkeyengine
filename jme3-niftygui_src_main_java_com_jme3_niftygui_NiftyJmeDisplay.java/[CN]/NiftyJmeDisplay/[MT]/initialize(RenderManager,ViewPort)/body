@@ -1,0 +1,17 @@
+{
+  this.renderManager=rm;
+  if (renderDev != null) {
+    renderDev.setRenderManager(rm);
+  }
+ else {
+    batchRendererBackend.setRenderManager(rm);
+  }
+  if (inputManager != null) {
+    inputManager.addRawInputListener(inputSys);
+  }
+  inited=true;
+  this.vp=vp;
+  this.renderer=rm.getRenderer();
+  inputSys.reset();
+  inputSys.setHeight(vp.getCamera().getHeight());
+}

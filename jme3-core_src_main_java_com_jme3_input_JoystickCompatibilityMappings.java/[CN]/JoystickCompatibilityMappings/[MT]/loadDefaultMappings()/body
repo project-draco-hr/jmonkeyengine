@@ -1,0 +1,10 @@
+{
+  for (  String s : searchPaths) {
+    try {
+      loadMappings(JoystickCompatibilityMappings.class.getClassLoader(),s);
+    }
+ catch (    IOException e) {
+      logger.log(Level.SEVERE,"Error searching resource path:{0}",s);
+    }
+  }
+}

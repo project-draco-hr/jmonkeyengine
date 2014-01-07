@@ -1,0 +1,17 @@
+{
+  for (  AudioSource src : musicPlaying.keySet()) {
+    if (src.getAudioData() == ad) {
+      MediaPlayer mp=musicPlaying.remove(src);
+      mp.stop();
+      mp.release();
+      src.setStatus(Status.Stopped);
+      src.setChannel(-1);
+      ad.setId(-1);
+      break;
+    }
+  }
+  if (ad.getId() > 0) {
+    soundPool.unload(ad.getId());
+    ad.setId(-1);
+  }
+}

@@ -1,0 +1,28 @@
+{
+  if (freeItems == null) {
+    return;
+  }
+  try {
+    final WorkItem item=freeItems.take();
+    usedItems.add(item);
+    item.buffer.clear();
+    renderer.readFrameBuffer(out,item.buffer);
+    executor.submit(new Callable<Void>(){
+      public Void call() throws Exception {
+        Screenshots.convertScreenShot(item.buffer,item.image);
+        item.data=writer.writeImageToBytes(item.image,quality);
+        while (usedItems.peek() != item) {
+          Thread.sleep(1);
+        }
+        writer.addImage(item.data);
+        usedItems.poll();
+        freeItems.add(item);
+        return null;
+      }
+    }
+);
+  }
+ catch (  InterruptedException ex) {
+    Logger.getLogger(VideoRecorderAppState.class.getName()).log(Level.SEVERE,null,ex);
+  }
+}

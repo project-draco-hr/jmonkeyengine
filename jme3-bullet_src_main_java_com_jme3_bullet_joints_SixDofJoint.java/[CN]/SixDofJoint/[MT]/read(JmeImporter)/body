@@ -1,0 +1,30 @@
+{
+  super.read(im);
+  InputCapsule capsule=im.getCapsule(this);
+  objectId=createJoint(nodeA.getObjectId(),nodeB.getObjectId(),pivotA,rotA,pivotB,rotB,useLinearReferenceFrameA);
+  Logger.getLogger(this.getClass().getName()).log(Level.FINE,"Created Joint {0}",Long.toHexString(objectId));
+  gatherMotors();
+  setAngularUpperLimit((Vector3f)capsule.readSavable("angularUpperLimit",new Vector3f(Vector3f.POSITIVE_INFINITY)));
+  setAngularLowerLimit((Vector3f)capsule.readSavable("angularLowerLimit",new Vector3f(Vector3f.NEGATIVE_INFINITY)));
+  setLinearUpperLimit((Vector3f)capsule.readSavable("linearUpperLimit",new Vector3f(Vector3f.POSITIVE_INFINITY)));
+  setLinearLowerLimit((Vector3f)capsule.readSavable("linearLowerLimit",new Vector3f(Vector3f.NEGATIVE_INFINITY)));
+  for (int i=0; i < 3; i++) {
+    RotationalLimitMotor rotationalLimitMotor=getRotationalLimitMotor(i);
+    rotationalLimitMotor.setBounce(capsule.readFloat("rotMotor" + i + "_Bounce",0.0f));
+    rotationalLimitMotor.setDamping(capsule.readFloat("rotMotor" + i + "_Damping",1.0f));
+    rotationalLimitMotor.setERP(capsule.readFloat("rotMotor" + i + "_ERP",0.5f));
+    rotationalLimitMotor.setHiLimit(capsule.readFloat("rotMotor" + i + "_HiLimit",Float.POSITIVE_INFINITY));
+    rotationalLimitMotor.setLimitSoftness(capsule.readFloat("rotMotor" + i + "_LimitSoftness",0.5f));
+    rotationalLimitMotor.setLoLimit(capsule.readFloat("rotMotor" + i + "_LoLimit",Float.NEGATIVE_INFINITY));
+    rotationalLimitMotor.setMaxLimitForce(capsule.readFloat("rotMotor" + i + "_MaxLimitForce",300.0f));
+    rotationalLimitMotor.setMaxMotorForce(capsule.readFloat("rotMotor" + i + "_MaxMotorForce",0.1f));
+    rotationalLimitMotor.setTargetVelocity(capsule.readFloat("rotMotor" + i + "_TargetVelocity",0));
+    rotationalLimitMotor.setEnableMotor(capsule.readBoolean("rotMotor" + i + "_EnableMotor",false));
+  }
+  getTranslationalLimitMotor().setAccumulatedImpulse((Vector3f)capsule.readSavable("transMotor_AccumulatedImpulse",Vector3f.ZERO));
+  getTranslationalLimitMotor().setDamping(capsule.readFloat("transMotor_Damping",1.0f));
+  getTranslationalLimitMotor().setLimitSoftness(capsule.readFloat("transMotor_LimitSoftness",0.7f));
+  getTranslationalLimitMotor().setLowerLimit((Vector3f)capsule.readSavable("transMotor_LowerLimit",Vector3f.ZERO));
+  getTranslationalLimitMotor().setRestitution(capsule.readFloat("transMotor_Restitution",0.5f));
+  getTranslationalLimitMotor().setUpperLimit((Vector3f)capsule.readSavable("transMotor_UpperLimit",Vector3f.ZERO));
+}

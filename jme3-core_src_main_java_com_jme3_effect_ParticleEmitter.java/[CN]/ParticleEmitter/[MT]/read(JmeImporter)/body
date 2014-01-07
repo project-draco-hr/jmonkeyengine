@@ -1,0 +1,63 @@
+{
+  super.read(im);
+  InputCapsule ic=im.getCapsule(this);
+  shape=(EmitterShape)ic.readSavable("shape",DEFAULT_SHAPE);
+  if (shape == DEFAULT_SHAPE) {
+    shape=shape.deepClone();
+  }
+  meshType=ic.readEnum("meshType",ParticleMesh.Type.class,ParticleMesh.Type.Triangle);
+  int numParticles=ic.readInt("numParticles",0);
+  enabled=ic.readBoolean("enabled",true);
+  particlesPerSec=ic.readFloat("particlesPerSec",0);
+  lowLife=ic.readFloat("lowLife",0);
+  highLife=ic.readFloat("highLife",0);
+  gravity=(Vector3f)ic.readSavable("gravity",null);
+  imagesX=ic.readInt("imagesX",1);
+  imagesY=ic.readInt("imagesY",1);
+  startColor=(ColorRGBA)ic.readSavable("startColor",null);
+  endColor=(ColorRGBA)ic.readSavable("endColor",null);
+  startSize=ic.readFloat("startSize",0);
+  endSize=ic.readFloat("endSize",0);
+  worldSpace=ic.readBoolean("worldSpace",false);
+  this.setIgnoreTransform(worldSpace);
+  facingVelocity=ic.readBoolean("facingVelocity",false);
+  faceNormal=(Vector3f)ic.readSavable("faceNormal",new Vector3f(Vector3f.NAN));
+  selectRandomImage=ic.readBoolean("selectRandomImage",false);
+  randomAngle=ic.readBoolean("randomAngle",false);
+  rotateSpeed=ic.readFloat("rotateSpeed",0);
+switch (meshType) {
+case Point:
+    particleMesh=new ParticlePointMesh();
+  this.setMesh(particleMesh);
+break;
+case Triangle:
+particleMesh=new ParticleTriMesh();
+this.setMesh(particleMesh);
+break;
+default :
+throw new IllegalStateException("Unrecognized particle type: " + meshType);
+}
+this.setNumParticles(numParticles);
+particleInfluencer=(ParticleInfluencer)ic.readSavable("influencer",DEFAULT_INFLUENCER);
+if (particleInfluencer == DEFAULT_INFLUENCER) {
+particleInfluencer=particleInfluencer.clone();
+}
+if (im.getFormatVersion() == 0) {
+for (int i=0; i < controls.size(); i++) {
+Object obj=controls.get(i);
+if (obj instanceof ParticleEmitter) {
+controls.remove(i);
+controls.add(new ParticleEmitterControl(this));
+break;
+}
+}
+if (gravity == null) {
+gravity=new Vector3f();
+gravity.y=ic.readFloat("gravity",0);
+}
+}
+ else {
+control=getControl(ParticleEmitterControl.class);
+control.parentEmitter=this;
+}
+}

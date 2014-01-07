@@ -1,0 +1,24 @@
+{
+  viewPort.addProcessor(this);
+  renderManager.setForcedTechnique("GBuf");
+  cam.setLocation(new Vector3f(4.8037705f,4.851632f,10.789033f));
+  cam.setRotation(new Quaternion(-0.05143692f,0.9483723f,-0.21131563f,-0.230846f));
+  Node tank=(Node)assetManager.loadModel("Models/HoverTank/Tank2.mesh.xml");
+  rootNode.attachChild(tank);
+  display1=new Picture("Picture");
+  display1.move(0,0,-1);
+  display2=(Picture)display1.clone();
+  display3=(Picture)display1.clone();
+  display4=(Picture)display1.clone();
+  display=(Picture)display1.clone();
+  ColorRGBA[] colors=new ColorRGBA[]{ColorRGBA.White,ColorRGBA.Blue,ColorRGBA.Cyan,ColorRGBA.DarkGray,ColorRGBA.Green,ColorRGBA.Magenta,ColorRGBA.Orange,ColorRGBA.Pink,ColorRGBA.Red,ColorRGBA.Yellow};
+  for (int i=0; i < 3; i++) {
+    PointLight pl=new PointLight();
+    float angle=0.314159265f * i;
+    pl.setPosition(new Vector3f(FastMath.cos(angle) * 2f,0,FastMath.sin(angle) * 2f));
+    pl.setColor(colors[i]);
+    pl.setRadius(5);
+    rootNode.addLight(pl);
+    display.addLight(pl);
+  }
+}

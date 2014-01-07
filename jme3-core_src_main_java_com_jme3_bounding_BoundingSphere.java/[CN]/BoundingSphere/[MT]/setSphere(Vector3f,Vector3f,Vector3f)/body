@@ -1,0 +1,15 @@
+{
+  Vector3f a=A.subtract(O);
+  Vector3f b=B.subtract(O);
+  Vector3f acrossB=a.cross(b);
+  float Denominator=2.0f * acrossB.dot(acrossB);
+  if (Denominator == 0) {
+    center.set(0,0,0);
+    radius=0;
+  }
+ else {
+    Vector3f o=acrossB.cross(a).multLocal(b.lengthSquared()).addLocal(b.cross(acrossB).multLocal(a.lengthSquared())).divideLocal(Denominator);
+    radius=o.length() * RADIUS_EPSILON;
+    O.add(o,center);
+  }
+}

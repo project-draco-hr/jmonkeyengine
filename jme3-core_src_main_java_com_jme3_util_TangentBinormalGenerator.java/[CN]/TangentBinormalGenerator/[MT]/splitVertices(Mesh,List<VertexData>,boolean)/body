@@ -1,0 +1,84 @@
+{
+  int nbVertices=mesh.getBuffer(Type.Position).getNumElements();
+  List<VertexData> newVertices=new ArrayList<VertexData>();
+  Map<Integer,Integer> indiceMap=new HashMap<Integer,Integer>();
+  FloatBuffer normalBuffer=mesh.getFloatBuffer(Type.Normal);
+  for (int i=0; i < vertexData.size(); i++) {
+    ArrayList<TriangleData> triangles=vertexData.get(i).triangles;
+    Vector3f givenNormal=new Vector3f();
+    populateFromBuffer(givenNormal,normalBuffer,i);
+    ArrayList<TriangleData> trianglesUp=new ArrayList<TriangleData>();
+    ArrayList<TriangleData> trianglesDown=new ArrayList<TriangleData>();
+    for (int j=0; j < triangles.size(); j++) {
+      TriangleData triangleData=triangles.get(j);
+      if (parity(givenNormal,triangleData.normal) > 0) {
+        trianglesUp.add(triangleData);
+      }
+ else {
+        trianglesDown.add(triangleData);
+      }
+    }
+    if (!trianglesUp.isEmpty() && !trianglesDown.isEmpty()) {
+      log.log(Level.FINE,"Splitting vertex {0}",i);
+      vertexData.get(i).triangles.clear();
+      vertexData.get(i).triangles.addAll(trianglesUp);
+      VertexData newVert=new VertexData();
+      newVert.triangles.addAll(trianglesDown);
+      newVertices.add(newVert);
+      indiceMap.put(nbVertices,i);
+      for (      TriangleData tri : newVert.triangles) {
+        for (int j=0; j < tri.index.length; j++) {
+          if (tri.index[j] == i) {
+            tri.index[j]=nbVertices;
+          }
+        }
+      }
+      nbVertices++;
+    }
+  }
+  if (!newVertices.isEmpty()) {
+    for (    Type type : VertexBuffer.Type.values()) {
+      if (type == Type.Tangent || type == Type.BindPoseTangent)       continue;
+      VertexBuffer vb=mesh.getBuffer(type);
+      if (vb == null || vb.getNumComponents() == 0)       continue;
+      Buffer buffer=vb.getData();
+      if (type == Type.Index) {
+        boolean isShortBuffer=vb.getFormat() == VertexBuffer.Format.UnsignedShort;
+        for (        VertexData vertex : newVertices) {
+          for (          TriangleData tri : vertex.triangles) {
+            for (int i=0; i < tri.index.length; i++) {
+              if (isShortBuffer) {
+                ((ShortBuffer)buffer).put(tri.triangleOffset + i,(short)tri.index[i]);
+              }
+ else {
+                ((IntBuffer)buffer).put(tri.triangleOffset + i,tri.index[i]);
+              }
+            }
+          }
+        }
+        vb.setUpdateNeeded();
+      }
+ else {
+        Buffer newVerts=VertexBuffer.createBuffer(vb.getFormat(),vb.getNumComponents(),nbVertices);
+        if (buffer != null) {
+          buffer.rewind();
+          bulkPut(vb.getFormat(),newVerts,buffer);
+          int index=vertexData.size();
+          newVerts.position(vertexData.size() * vb.getNumComponents());
+          for (int j=0; j < newVertices.size(); j++) {
+            int oldInd=indiceMap.get(index);
+            for (int i=0; i < vb.getNumComponents(); i++) {
+              putValue(vb.getFormat(),newVerts,buffer,oldInd * vb.getNumComponents() + i);
+            }
+            index++;
+          }
+          vb.updateData(newVerts);
+          destroyDirectBuffer(buffer);
+        }
+      }
+    }
+    vertexData.addAll(newVertices);
+    mesh.updateCounts();
+  }
+  return vertexData;
+}

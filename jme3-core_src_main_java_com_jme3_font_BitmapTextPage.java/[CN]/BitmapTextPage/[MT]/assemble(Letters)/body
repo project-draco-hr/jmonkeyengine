@@ -1,0 +1,63 @@
+{
+  pageQuads.clear();
+  quads.rewind();
+  while (quads.nextCharacter()) {
+    if (quads.isPrintable()) {
+      if (quads.getCharacterSetPage() == page) {
+        pageQuads.add(quads.getQuad());
+      }
+    }
+  }
+  Mesh m=getMesh();
+  int vertCount=pageQuads.size() * 4;
+  int triCount=pageQuads.size() * 2;
+  VertexBuffer pb=m.getBuffer(Type.Position);
+  VertexBuffer tb=m.getBuffer(Type.TexCoord);
+  VertexBuffer ib=m.getBuffer(Type.Index);
+  VertexBuffer cb=m.getBuffer(Type.Color);
+  FloatBuffer fpb=(FloatBuffer)pb.getData();
+  FloatBuffer ftb=(FloatBuffer)tb.getData();
+  ShortBuffer sib=(ShortBuffer)ib.getData();
+  ByteBuffer bcb=(ByteBuffer)cb.getData();
+  fpb.rewind();
+  fpb=BufferUtils.ensureLargeEnough(fpb,vertCount * 3);
+  fpb.limit(vertCount * 3);
+  pb.updateData(fpb);
+  ftb.rewind();
+  ftb=BufferUtils.ensureLargeEnough(ftb,vertCount * 2);
+  ftb.limit(vertCount * 2);
+  tb.updateData(ftb);
+  bcb.rewind();
+  bcb=BufferUtils.ensureLargeEnough(bcb,vertCount * 4);
+  bcb.limit(vertCount * 4);
+  cb.updateData(bcb);
+  sib.rewind();
+  sib=BufferUtils.ensureLargeEnough(sib,triCount * 3);
+  sib.limit(triCount * 3);
+  ib.updateData(sib);
+  m.updateCounts();
+  if (pos != null) {
+    for (int i=0; i < pageQuads.size(); i++) {
+      LetterQuad fq=pageQuads.get(i);
+      fq.storeToArrays(pos,tc,idx,color,i);
+      fpb.put(pos);
+      ftb.put(tc);
+      sib.put(idx);
+      bcb.put(color);
+    }
+  }
+ else {
+    for (int i=0; i < pageQuads.size(); i++) {
+      LetterQuad fq=pageQuads.get(i);
+      fq.appendPositions(fpb);
+      fq.appendTexCoords(ftb);
+      fq.appendIndices(sib,i);
+      fq.appendColors(bcb);
+    }
+  }
+  fpb.rewind();
+  ftb.rewind();
+  sib.rewind();
+  bcb.rewind();
+  updateModelBound();
+}

@@ -1,0 +1,7 @@
+{
+  int hash=7;
+  hash=67 * hash + (super.hashCode());
+  hash=67 * hash + (this.stream ? 1 : 0);
+  hash=67 * hash + (this.streamCache ? 1 : 0);
+  return hash;
+}

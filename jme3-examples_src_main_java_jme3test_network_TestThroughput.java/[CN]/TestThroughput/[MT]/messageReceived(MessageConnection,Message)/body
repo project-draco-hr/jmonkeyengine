@@ -1,0 +1,27 @@
+{
+  if (!isOnServer) {
+    counter++;
+    total++;
+    long time=System.currentTimeMillis();
+    if (lastTime < 0) {
+      lastTime=time;
+    }
+ else     if (time - lastTime > 1000) {
+      long delta=time - lastTime;
+      double scale=delta / 1000.0;
+      double pps=counter / scale;
+      System.out.println("messages per second:" + pps + "  total messages:"+ total);
+      counter=0;
+      lastTime=time;
+    }
+  }
+ else {
+    if (source == null) {
+      System.out.println("Received a message from a not fully connected source, msg:" + msg);
+    }
+ else {
+      ((com.jme3.network.Message)msg).setReliable(testReliable);
+      source.send(msg);
+    }
+  }
+}

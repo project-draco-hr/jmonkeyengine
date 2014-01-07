@@ -1,0 +1,33 @@
+{
+  this.flyCam.setMoveSpeed(10);
+  Node mainScene=new Node();
+  cam.setLocation(new Vector3f(-27.0f,1.0f,75.0f));
+  cam.setRotation(new Quaternion(0.03f,0.9f,0f,0.4f));
+  mainScene.attachChild(SkyFactory.createSky(assetManager,"Textures/Sky/Bright/BrightSky.dds",false));
+  if (useHttp) {
+    assetManager.registerLocator("http://jmonkeyengine.googlecode.com/files/wildhouse.zip",HttpZipLocator.class);
+  }
+ else {
+    assetManager.registerLocator("wildhouse.zip",ZipLocator.class);
+  }
+  Spatial scene=assetManager.loadModel("main.scene");
+  DirectionalLight sun=new DirectionalLight();
+  Vector3f lightDir=new Vector3f(-0.37352666f,-0.50444174f,-0.7784704f);
+  sun.setDirection(lightDir);
+  sun.setColor(ColorRGBA.White.clone().multLocal(2));
+  scene.addLight(sun);
+  mainScene.attachChild(scene);
+  rootNode.attachChild(mainScene);
+  fpp=new FilterPostProcessor(assetManager);
+  int numSamples=getContext().getSettings().getSamples();
+  if (numSamples > 0) {
+    fpp.setNumSamples(numSamples);
+  }
+  fog=new FogFilter();
+  fog.setFogColor(new ColorRGBA(0.9f,0.9f,0.9f,1.0f));
+  fog.setFogDistance(155);
+  fog.setFogDensity(2.0f);
+  fpp.addFilter(fog);
+  viewPort.addProcessor(fpp);
+  initInputs();
+}

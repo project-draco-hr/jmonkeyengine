@@ -1,0 +1,12 @@
+{
+  float distance=plane.pseudoDistance(center);
+  if (distance <= -radius) {
+    return Plane.Side.Negative;
+  }
+ else   if (distance >= radius) {
+    return Plane.Side.Positive;
+  }
+ else {
+    return Plane.Side.None;
+  }
+}

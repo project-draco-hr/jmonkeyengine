@@ -1,0 +1,25 @@
+{
+  if (objects == null) {
+    return;
+  }
+  if (Arrays.equals(objects,defVal)) {
+    return;
+  }
+  Element old=currentElement;
+  Element el=appendElement(name);
+  el.setAttribute(XMLExporter.ATTRIBUTE_SIZE,String.valueOf(objects.length));
+  for (int i=0; i < objects.length; i++) {
+    ArrayList o=objects[i];
+    if (o == null) {
+      Element before=currentElement;
+      appendElement("null");
+      currentElement=before;
+    }
+ else {
+      StringBuilder buf=new StringBuilder("SavableArrayList_");
+      buf.append(i);
+      writeSavableArrayList(o,buf.toString(),null);
+    }
+  }
+  currentElement=old;
+}

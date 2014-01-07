@@ -1,0 +1,23 @@
+{
+  triangleIndexBase=BufferUtils.createByteBuffer(mesh.getTriangleCount() * 3 * 4);
+  vertexBase=BufferUtils.createByteBuffer(mesh.getVertexCount() * 3 * 4);
+  numVertices=mesh.getVertexCount();
+  vertexStride=12;
+  numTriangles=mesh.getTriangleCount();
+  triangleIndexStride=12;
+  IndexBuffer indices=mesh.getIndicesAsList();
+  FloatBuffer vertices=mesh.getFloatBuffer(Type.Position);
+  vertices.rewind();
+  int verticesLength=mesh.getVertexCount() * 3;
+  for (int i=0; i < verticesLength; i++) {
+    float tempFloat=vertices.get();
+    vertexBase.putFloat(tempFloat);
+  }
+  int indicesLength=mesh.getTriangleCount() * 3;
+  for (int i=0; i < indicesLength; i++) {
+    triangleIndexBase.putInt(indices.get(i));
+  }
+  vertices.rewind();
+  vertices.clear();
+  createShape();
+}

@@ -1,0 +1,31 @@
+{
+  if (Float.isNaN(flt)) {
+    throw new UnsupportedOperationException("NaN to half conversion not supported!");
+  }
+ else   if (flt == Float.POSITIVE_INFINITY) {
+    return (short)0x7c00;
+  }
+ else   if (flt == Float.NEGATIVE_INFINITY) {
+    return (short)0xfc00;
+  }
+ else   if (flt == 0f) {
+    return (short)0x0000;
+  }
+ else   if (flt == -0f) {
+    return (short)0x8000;
+  }
+ else   if (flt > 65504f) {
+    return 0x7bff;
+  }
+ else   if (flt < -65504f) {
+    return (short)(0x7bff | 0x8000);
+  }
+ else   if (flt > 0f && flt < 5.96046E-8f) {
+    return 0x0001;
+  }
+ else   if (flt < 0f && flt > -5.96046E-8f) {
+    return (short)0x8001;
+  }
+  int f=Float.floatToIntBits(flt);
+  return (short)(((f >> 16) & 0x8000) | ((((f & 0x7f800000) - 0x38000000) >> 13) & 0x7c00) | ((f >> 13) & 0x03ff));
+}

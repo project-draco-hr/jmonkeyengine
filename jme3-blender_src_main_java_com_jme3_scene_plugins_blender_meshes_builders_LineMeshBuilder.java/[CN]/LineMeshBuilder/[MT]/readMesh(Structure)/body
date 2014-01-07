@@ -1,0 +1,21 @@
+{
+  LOGGER.fine("Reading line mesh.");
+  Pointer pMEdge=(Pointer)meshStructure.getFieldValue("medge");
+  if (pMEdge.isNotNull()) {
+    List<Structure> edges=pMEdge.fetchData();
+    int vertexIndex=0;
+    for (    Structure edge : edges) {
+      int flag=((Number)edge.getFieldValue("flag")).intValue();
+      if ((flag & EDGE_NOT_IN_FACE_FLAG) != 0) {
+        int v1=((Number)edge.getFieldValue("v1")).intValue();
+        int v2=((Number)edge.getFieldValue("v2")).intValue();
+        vertices.add(verticesAndNormals[v1][0]);
+        normals.add(verticesAndNormals[v1][1]);
+        this.appendVertexReference(v1,vertexIndex++,globalVertexReferenceMap);
+        vertices.add(verticesAndNormals[v2][0]);
+        normals.add(verticesAndNormals[v2][1]);
+        this.appendVertexReference(v2,vertexIndex++,globalVertexReferenceMap);
+      }
+    }
+  }
+}

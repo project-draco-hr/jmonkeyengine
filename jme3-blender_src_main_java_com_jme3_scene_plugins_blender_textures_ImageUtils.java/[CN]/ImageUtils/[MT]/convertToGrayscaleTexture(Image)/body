@@ -1,0 +1,6 @@
+{
+  BufferedImage sourceImage=ImageToAwt.convert(source,false,false,0);
+  ColorConvertOp op=new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY),null);
+  op.filter(sourceImage,sourceImage);
+  return ImageUtils.toJmeImage(sourceImage,source.getFormat());
+}

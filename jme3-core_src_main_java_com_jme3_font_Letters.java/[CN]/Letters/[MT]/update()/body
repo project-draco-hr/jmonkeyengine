@@ -1,0 +1,73 @@
+{
+  LetterQuad l=head;
+  int lineCount=1;
+  BitmapCharacter ellipsis=font.getCharSet().getCharacter(block.getEllipsisChar());
+  float ellipsisWidth=ellipsis != null ? ellipsis.getWidth() * getScale() : 0;
+  while (!l.isTail()) {
+    if (l.isInvalid()) {
+      l.update(block);
+      if (l.isInvalid(block)) {
+switch (block.getLineWrapMode()) {
+case Character:
+          lineWrap(l);
+        lineCount++;
+      break;
+case Word:
+    if (!l.isBlank()) {
+      LetterQuad blank=l;
+      while (!blank.isBlank()) {
+        if (blank.isLineStart() || blank.isHead()) {
+          lineWrap(l);
+          lineCount++;
+          blank=null;
+          break;
+        }
+        blank=blank.getPrevious();
+      }
+      if (blank != null) {
+        blank.setEndOfLine();
+        lineCount++;
+        while (blank != l) {
+          blank=blank.getNext();
+          blank.invalidate();
+          blank.update(block);
+        }
+      }
+    }
+  break;
+case NoWrap:
+LetterQuad cursor=l.getPrevious();
+while (cursor.isInvalid(block,ellipsisWidth) && !cursor.isLineStart()) {
+cursor=cursor.getPrevious();
+}
+cursor.setBitmapChar(ellipsis);
+cursor.update(block);
+cursor=cursor.getNext();
+while (!cursor.isTail() && !cursor.isLineFeed()) {
+cursor.setBitmapChar(null);
+cursor.update(block);
+cursor=cursor.getNext();
+}
+break;
+case Clip:
+l.clip(block);
+for (LetterQuad q=l.getNext(); !q.isTail() && !q.isLineFeed(); q=q.getNext()) {
+q.setBitmapChar(null);
+q.update(block);
+}
+break;
+}
+}
+}
+ else if (current.isInvalid(block)) {
+invalidate(current);
+}
+if (l.isEndOfLine()) {
+lineCount++;
+}
+l=l.getNext();
+}
+align();
+block.setLineCount(lineCount);
+rewind();
+}

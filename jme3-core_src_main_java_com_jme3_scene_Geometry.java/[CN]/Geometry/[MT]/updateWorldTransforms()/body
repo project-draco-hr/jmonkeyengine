@@ -1,0 +1,8 @@
+{
+  super.updateWorldTransforms();
+  computeWorldMatrix();
+  if (isBatched()) {
+    batchNode.updateSubBatch(this);
+  }
+  worldLights.sort(true);
+}

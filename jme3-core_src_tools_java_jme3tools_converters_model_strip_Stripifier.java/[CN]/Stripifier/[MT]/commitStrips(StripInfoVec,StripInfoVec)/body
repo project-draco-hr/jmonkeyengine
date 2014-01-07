@@ -1,0 +1,13 @@
+{
+  int numStrips=strips.size();
+  for (int i=0; i < numStrips; i++) {
+    StripInfo strip=strips.at(i);
+    strip.m_experimentId=-1;
+    allStrips.add(strip);
+    FaceInfoVec faces=strips.at(i).m_faces;
+    int numFaces=faces.size();
+    for (int j=0; j < numFaces; j++) {
+      strip.markTriangle(faces.at(j));
+    }
+  }
+}

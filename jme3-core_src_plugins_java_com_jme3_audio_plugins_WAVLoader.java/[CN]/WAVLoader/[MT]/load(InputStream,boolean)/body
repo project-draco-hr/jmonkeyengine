@@ -1,0 +1,40 @@
+{
+  this.in=new LittleEndien(inputStream);
+  int sig=in.readInt();
+  if (sig != i_RIFF)   throw new IOException("File is not a WAVE file");
+  in.readInt();
+  if (in.readInt() != i_WAVE)   throw new IOException("WAVE File does not contain audio");
+  readStream=stream;
+  if (readStream) {
+    audioStream=new AudioStream();
+    audioData=audioStream;
+  }
+ else {
+    audioBuffer=new AudioBuffer();
+    audioData=audioBuffer;
+  }
+  while (true) {
+    int type=in.readInt();
+    int len=in.readInt();
+switch (type) {
+case i_fmt:
+      readFormatChunk(len);
+    break;
+case i_data:
+  duration=len / bytesPerSec;
+if (readStream) {
+  readDataChunkForStream(len);
+}
+ else {
+  readDataChunkForBuffer(len);
+}
+return audioData;
+default :
+int skipped=in.skipBytes(len);
+if (skipped <= 0) {
+return null;
+}
+break;
+}
+}
+}

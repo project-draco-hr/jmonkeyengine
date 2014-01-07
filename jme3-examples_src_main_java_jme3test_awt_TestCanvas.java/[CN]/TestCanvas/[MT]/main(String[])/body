@@ -1,0 +1,25 @@
+{
+  JmeFormatter formatter=new JmeFormatter();
+  Handler consoleHandler=new ConsoleHandler();
+  consoleHandler.setFormatter(formatter);
+  Logger.getLogger("").removeHandler(Logger.getLogger("").getHandlers()[0]);
+  Logger.getLogger("").addHandler(consoleHandler);
+  createCanvas(appClass);
+  try {
+    Thread.sleep(500);
+  }
+ catch (  InterruptedException ex) {
+  }
+  SwingUtilities.invokeLater(new Runnable(){
+    public void run(){
+      JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+      createFrame();
+      currentPanel.add(canvas,BorderLayout.CENTER);
+      frame.pack();
+      startApp();
+      frame.setLocationRelativeTo(null);
+      frame.setVisible(true);
+    }
+  }
+);
+}

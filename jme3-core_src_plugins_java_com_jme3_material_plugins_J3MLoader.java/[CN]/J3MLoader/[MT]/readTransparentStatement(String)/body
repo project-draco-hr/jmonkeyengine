@@ -1,0 +1,7 @@
+{
+  String[] split=statement.split(whitespacePattern);
+  if (split.length != 2) {
+    throw new IOException("Transparent statement syntax incorrect");
+  }
+  material.setTransparent(parseBoolean(split[1]));
+}

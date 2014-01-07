@@ -1,0 +1,12 @@
+{
+  boolean theSame=true;
+  for (  Vector3f l : locations) {
+    for (    Vector3f v : lastCameraLocations) {
+      if (!v.equals(l)) {
+        theSame=false;
+        return false;
+      }
+    }
+  }
+  return theSame;
+}

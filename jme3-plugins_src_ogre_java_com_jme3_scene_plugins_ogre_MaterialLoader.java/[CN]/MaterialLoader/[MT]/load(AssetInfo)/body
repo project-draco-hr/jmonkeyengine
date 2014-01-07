@@ -1,0 +1,12 @@
+{
+  InputStream in=null;
+  try {
+    in=info.openStream();
+    return load(info.getManager(),info.getKey(),in);
+  }
+  finally {
+    if (in != null) {
+      in.close();
+    }
+  }
+}

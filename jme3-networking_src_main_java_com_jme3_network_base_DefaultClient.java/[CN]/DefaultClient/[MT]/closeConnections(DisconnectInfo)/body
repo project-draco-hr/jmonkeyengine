@@ -1,0 +1,10 @@
+{
+  if (!isRunning)   return;
+  for (  ConnectorAdapter ca : channels) {
+    if (ca == null)     continue;
+    ca.close();
+  }
+  connecting.countDown();
+  fireDisconnected(info);
+  isRunning=false;
+}

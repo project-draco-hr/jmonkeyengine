@@ -1,0 +1,8 @@
+{
+  if (listeners != null) {
+    for (Iterator<MotionPathListener> it=listeners.iterator(); it.hasNext(); ) {
+      MotionPathListener listener=it.next();
+      listener.onWayPointReach(control,wayPointIndex);
+    }
+  }
+}

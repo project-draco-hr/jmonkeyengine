@@ -1,0 +1,9 @@
+{
+  float pixelWidth=1 / (float)size;
+  pos*=size;
+  int result=(int)pos;
+  if (Math.abs(result - pos) > pixelWidth) {
+    ++result;
+  }
+  return result;
+}

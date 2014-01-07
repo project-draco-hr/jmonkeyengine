@@ -1,0 +1,11 @@
+{
+  FileInputStream fis=null;
+  try {
+    fis=new FileInputStream(f);
+    Savable sav=load(fis);
+    return sav;
+  }
+  finally {
+    if (fis != null)     fis.close();
+  }
+}

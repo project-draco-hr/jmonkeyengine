@@ -1,0 +1,12 @@
+{
+  if (reliable)   throw new UnsupportedOperationException("Reliable send not supported by this kernel.");
+  if (copy) {
+    byte[] temp=new byte[data.remaining()];
+    System.arraycopy(data.array(),data.position(),temp,0,data.remaining());
+    data=ByteBuffer.wrap(temp);
+  }
+  for (  UdpEndpoint p : socketEndpoints.values()) {
+    if (filter != null && !filter.apply(p))     continue;
+    p.send(data);
+  }
+}

@@ -1,0 +1,13 @@
+{
+  float zFar=zFarOverride;
+  if (zFar == 0) {
+    zFar=viewCam.getFrustumFar();
+  }
+  float frustumNear=Math.max(viewCam.getFrustumNear(),0.001f);
+  ShadowUtil.updateFrustumPoints(viewCam,frustumNear,zFar,1.0f,points);
+  shadowCam.setFrustumPerspective(light.getSpotOuterAngle() * FastMath.RAD_TO_DEG * 2.0f,1,1f,light.getSpotRange());
+  shadowCam.getRotation().lookAt(light.getDirection(),shadowCam.getUp());
+  shadowCam.setLocation(light.getPosition());
+  shadowCam.update();
+  shadowCam.updateViewProjection();
+}

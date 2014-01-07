@@ -1,0 +1,10 @@
+{
+  PhysicsBoneLink link=boneLinks.get(boneName);
+  if (link != null) {
+    return link.joint;
+  }
+ else {
+    logger.log(Level.WARNING,"Not joint was found for bone {0}. make sure you call spatial.addControl(ragdoll) before setting joints limit",boneName);
+    return null;
+  }
+}

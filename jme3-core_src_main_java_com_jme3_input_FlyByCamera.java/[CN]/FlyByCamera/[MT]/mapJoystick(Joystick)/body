@@ -1,0 +1,18 @@
+{
+  if (joystick.getAxis(JoystickAxis.Z_ROTATION) != null && joystick.getAxis(JoystickAxis.Z_AXIS) != null) {
+    joystick.getXAxis().assignAxis("FLYCAM_StrafeRight","FLYCAM_StrafeLeft");
+    joystick.getYAxis().assignAxis("FLYCAM_Backward","FLYCAM_Forward");
+    joystick.getAxis(JoystickAxis.Z_ROTATION).assignAxis("FLYCAM_Down","FLYCAM_Up");
+    joystick.getAxis(JoystickAxis.Z_AXIS).assignAxis("FLYCAM_Right","FLYCAM_Left");
+    joystick.getPovYAxis().assignAxis("FLYCAM_Rise","FLYCAM_Lower");
+    if (joystick.getButton("Button 8") != null) {
+      joystick.getButton("Button 8").assignButton("FLYCAM_InvertY");
+    }
+  }
+ else {
+    joystick.getPovXAxis().assignAxis("FLYCAM_StrafeRight","FLYCAM_StrafeLeft");
+    joystick.getPovYAxis().assignAxis("FLYCAM_Forward","FLYCAM_Backward");
+    joystick.getXAxis().assignAxis("FLYCAM_Right","FLYCAM_Left");
+    joystick.getYAxis().assignAxis("FLYCAM_Down","FLYCAM_Up");
+  }
+}

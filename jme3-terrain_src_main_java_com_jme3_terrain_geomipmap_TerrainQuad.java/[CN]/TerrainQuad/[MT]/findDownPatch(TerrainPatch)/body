@@ -1,0 +1,13 @@
+{
+  if (tp.getQuadrant() == 1)   return getPatch(2);
+ else   if (tp.getQuadrant() == 3)   return getPatch(4);
+ else   if (tp.getQuadrant() == 2) {
+    TerrainQuad quad=findDownQuad();
+    if (quad != null)     return quad.getPatch(1);
+  }
+ else   if (tp.getQuadrant() == 4) {
+    TerrainQuad quad=findDownQuad();
+    if (quad != null)     return quad.getPatch(3);
+  }
+  return null;
+}

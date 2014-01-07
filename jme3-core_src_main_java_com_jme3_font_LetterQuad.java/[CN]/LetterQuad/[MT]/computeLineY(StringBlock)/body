@@ -1,0 +1,11 @@
+{
+  if (isHead()) {
+    return getBound(block).y;
+  }
+ else   if (previous.eol) {
+    return previous.getNextLine();
+  }
+ else {
+    return previous.lineY;
+  }
+}

@@ -1,0 +1,40 @@
+{
+  if (bitmap.hasAlpha()) {
+    logger.log(Level.FINEST," - Uploading bitmap directly. Cannot compress as alpha present.");
+    if (subTexture) {
+      GLUtils.texSubImage2D(target,level,x,y,bitmap);
+      RendererUtil.checkGLError();
+    }
+ else {
+      GLUtils.texImage2D(target,level,bitmap,0);
+      RendererUtil.checkGLError();
+    }
+  }
+ else {
+    int bytesPerPixel=2;
+    Bitmap rgb565=bitmap.copy(Bitmap.Config.RGB_565,true);
+    ByteBuffer inputImage=BufferUtils.createByteBuffer(bitmap.getRowBytes() * bitmap.getHeight());
+    rgb565.copyPixelsToBuffer(inputImage);
+    inputImage.position(0);
+    rgb565.recycle();
+    int encodedImageSize=ETC1.getEncodedDataSize(bitmap.getWidth(),bitmap.getHeight());
+    ByteBuffer compressedImage=BufferUtils.createByteBuffer(encodedImageSize);
+    ETC1.encodeImage(inputImage,bitmap.getWidth(),bitmap.getHeight(),bytesPerPixel,bytesPerPixel * bitmap.getWidth(),compressedImage);
+    BufferUtils.destroyDirectBuffer(inputImage);
+    ETC1Texture etc1tex=new ETC1Texture(bitmap.getWidth(),bitmap.getHeight(),compressedImage);
+    if (bytesPerPixel == 2) {
+      int oldSize=(bitmap.getRowBytes() * bitmap.getHeight());
+      int newSize=compressedImage.capacity();
+      logger.log(Level.FINEST," - Uploading compressed image to GL, oldSize = {0}, newSize = {1}, ratio = {2}",new Object[]{oldSize,newSize,(float)oldSize / newSize});
+      if (subTexture) {
+        GLES20.glCompressedTexSubImage2D(target,level,x,y,bitmap.getWidth(),bitmap.getHeight(),ETC1.ETC1_RGB8_OES,etc1tex.getData().capacity(),etc1tex.getData());
+        RendererUtil.checkGLError();
+      }
+ else {
+        GLES20.glCompressedTexImage2D(target,level,ETC1.ETC1_RGB8_OES,bitmap.getWidth(),bitmap.getHeight(),0,etc1tex.getData().capacity(),etc1tex.getData());
+        RendererUtil.checkGLError();
+      }
+    }
+    BufferUtils.destroyDirectBuffer(compressedImage);
+  }
+}

@@ -1,0 +1,30 @@
+{
+  try {
+    SAXParserFactory factory=SAXParserFactory.newInstance();
+    factory.setNamespaceAware(true);
+    XMLReader xr=factory.newSAXParser().getXMLReader();
+    xr.setContentHandler(this);
+    xr.setErrorHandler(this);
+    InputStreamReader r=new InputStreamReader(in);
+    xr.parse(new InputSource(r));
+    if (animations == null) {
+      animations=new ArrayList<Animation>();
+    }
+    AnimData data=new AnimData(skeleton,animations);
+    skeleton=null;
+    animations=null;
+    return data;
+  }
+ catch (  SAXException ex) {
+    IOException ioEx=new IOException("Error while parsing Ogre3D dotScene");
+    ioEx.initCause(ex);
+    fullReset();
+    throw ioEx;
+  }
+catch (  ParserConfigurationException ex) {
+    IOException ioEx=new IOException("Error while parsing Ogre3D dotScene");
+    ioEx.initCause(ex);
+    fullReset();
+    throw ioEx;
+  }
+}

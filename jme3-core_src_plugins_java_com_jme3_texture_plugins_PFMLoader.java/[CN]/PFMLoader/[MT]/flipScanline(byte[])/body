@@ -1,0 +1,10 @@
+{
+  for (int i=0; i < scanline.length; i+=4) {
+    byte tmp=scanline[i + 3];
+    scanline[i + 3]=scanline[i + 0];
+    scanline[i + 0]=tmp;
+    tmp=scanline[i + 2];
+    scanline[i + 2]=scanline[i + 1];
+    scanline[i + 1]=tmp;
+  }
+}

@@ -1,0 +1,9 @@
+{
+  ByteBuffer buffer=MessageProtocol.messageToBuffer(message,null);
+  if (message.isReliable() || channels[CH_UNRELIABLE] == null) {
+    channels[CH_RELIABLE].send(buffer);
+  }
+ else {
+    channels[CH_UNRELIABLE].send(buffer);
+  }
+}

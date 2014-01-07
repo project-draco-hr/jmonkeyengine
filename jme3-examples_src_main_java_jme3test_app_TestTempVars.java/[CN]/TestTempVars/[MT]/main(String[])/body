@@ -1,0 +1,28 @@
+{
+  long milliseconds, nanos;
+  for (int i=0; i < 4; i++) {
+    System.gc();
+  }
+  sumCompute.set(0,0,0);
+  nanos=System.nanoTime();
+  for (int i=0; i < ITERATIONS; i++) {
+    methodThatUsesTempVars();
+  }
+  milliseconds=(System.nanoTime() - nanos) / NANOS_TO_MS;
+  System.out.println("100 million TempVars calls: " + milliseconds + " ms");
+  System.out.println(sumCompute);
+  sumCompute.set(0,0,0);
+  nanos=System.nanoTime();
+  for (int i=0; i < ITERATIONS; i++) {
+    methodThatUsesAllocation();
+  }
+  milliseconds=(System.nanoTime() - nanos) / NANOS_TO_MS;
+  System.out.println("100 million allocation calls: " + milliseconds + " ms");
+  System.out.println(sumCompute);
+  nanos=System.nanoTime();
+  for (int i=0; i < 10; i++) {
+    System.gc();
+  }
+  milliseconds=(System.nanoTime() - nanos) / NANOS_TO_MS;
+  System.out.println("cleanup time after allocation calls: " + milliseconds + " ms");
+}

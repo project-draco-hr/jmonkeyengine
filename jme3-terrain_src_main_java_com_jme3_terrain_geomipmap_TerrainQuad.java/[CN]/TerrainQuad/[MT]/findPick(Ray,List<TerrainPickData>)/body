@@ -1,0 +1,23 @@
+{
+  if (getWorldBound() != null) {
+    if (getWorldBound().intersects(toTest)) {
+      for (int i=0; i < getQuantity(); i++) {
+        if (children.get(i) instanceof TerrainPatch) {
+          TerrainPatch tp=(TerrainPatch)children.get(i);
+          tp.ensurePositiveVolumeBBox();
+          if (tp.getWorldBound().intersects(toTest)) {
+            CollisionResults cr=new CollisionResults();
+            toTest.collideWith(tp.getWorldBound(),cr);
+            if (cr != null && cr.getClosestCollision() != null) {
+              cr.getClosestCollision().getDistance();
+              results.add(new TerrainPickData(tp,cr.getClosestCollision()));
+            }
+          }
+        }
+ else         if (children.get(i) instanceof TerrainQuad) {
+          ((TerrainQuad)children.get(i)).findPick(toTest,results);
+        }
+      }
+    }
+  }
+}

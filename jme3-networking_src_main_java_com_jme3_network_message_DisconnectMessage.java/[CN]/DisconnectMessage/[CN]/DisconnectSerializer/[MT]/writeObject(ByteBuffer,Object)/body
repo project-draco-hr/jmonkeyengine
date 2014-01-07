@@ -1,0 +1,9 @@
+{
+  buffer.put((byte)(object != null ? 0x1 : 0x0));
+  if (object == null) {
+    return;
+  }
+  DisconnectMessage msg=(DisconnectMessage)object;
+  StringSerializer.writeString(msg.reason,buffer);
+  StringSerializer.writeString(msg.type,buffer);
+}

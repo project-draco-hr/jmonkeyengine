@@ -1,0 +1,42 @@
+{
+  final Align alignment=block.getAlignment();
+  final VAlign valignment=block.getVerticalAlignment();
+  if (block.getTextBox() == null || (alignment == Align.Left && valignment == VAlign.Top))   return;
+  LetterQuad cursor=tail.getPrevious();
+  cursor.setEndOfLine();
+  final float width=block.getTextBox().width;
+  final float height=block.getTextBox().height;
+  float lineWidth=0;
+  float gapX=0;
+  float gapY=0;
+  validateSize();
+  if (totalHeight < height) {
+switch (valignment) {
+case Top:
+      gapY=0;
+    break;
+case Center:
+  gapY=(height - totalHeight) * 0.5f;
+break;
+case Bottom:
+gapY=height - totalHeight;
+break;
+}
+}
+while (!cursor.isHead()) {
+if (cursor.isEndOfLine()) {
+lineWidth=cursor.getX1() - block.getTextBox().x;
+if (alignment == Align.Center) {
+gapX=(width - lineWidth) / 2;
+}
+ else if (alignment == Align.Right) {
+gapX=width - lineWidth;
+}
+ else {
+gapX=0;
+}
+}
+cursor.setAlignment(gapX,gapY);
+cursor=cursor.getPrevious();
+}
+}

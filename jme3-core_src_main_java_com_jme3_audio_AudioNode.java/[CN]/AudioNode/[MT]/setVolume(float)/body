@@ -1,0 +1,7 @@
+{
+  if (volume < 0f) {
+    throw new IllegalArgumentException("Volume cannot be negative");
+  }
+  this.volume=volume;
+  if (channel >= 0)   getRenderer().updateSourceParam(this,AudioParam.Volume);
+}

@@ -1,0 +1,7 @@
+{
+  byte[] bytes=inflateFrom(content,index);
+  index+=1 + bytes.length;
+  bytes=ByteUtils.rightAlignBytes(bytes,8);
+  long value=ByteUtils.convertLongFromBytes(bytes);
+  return value;
+}

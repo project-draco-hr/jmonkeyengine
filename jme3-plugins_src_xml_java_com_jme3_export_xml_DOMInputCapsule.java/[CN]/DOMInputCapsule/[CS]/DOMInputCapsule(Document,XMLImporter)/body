@@ -1,0 +1,7 @@
+{
+  this.doc=doc;
+  this.importer=importer;
+  currentElem=doc.getDocumentElement();
+  String version=currentElem.getAttribute("format_version");
+  importer.formatVersion=version.equals("") ? 0 : Integer.parseInt(version);
+}

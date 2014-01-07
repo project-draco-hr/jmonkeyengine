@@ -1,0 +1,29 @@
+{
+  Collection collection=(Collection)object;
+  int length=collection.size();
+  buffer.putInt(length);
+  if (length == 0)   return;
+  Iterator it=collection.iterator();
+  Class elementClass=it.next().getClass();
+  while (it.hasNext()) {
+    Object obj=it.next();
+    if (obj.getClass() != elementClass) {
+      elementClass=null;
+      break;
+    }
+  }
+  if (elementClass != null) {
+    buffer.put((byte)1);
+    Serializer.writeClass(buffer,elementClass);
+    Serializer serializer=Serializer.getSerializer(elementClass);
+    for (    Object elem : collection) {
+      serializer.writeObject(buffer,elem);
+    }
+  }
+ else {
+    buffer.put((byte)0);
+    for (    Object elem : collection) {
+      Serializer.writeClassAndObject(buffer,elem);
+    }
+  }
+}

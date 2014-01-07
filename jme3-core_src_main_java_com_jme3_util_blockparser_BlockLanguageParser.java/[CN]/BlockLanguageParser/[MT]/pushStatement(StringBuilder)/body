@@ -1,0 +1,9 @@
+{
+  String content=buffer.toString().trim();
+  if (content.length() > 0) {
+    lastStatement=new Statement(lineNumber,content);
+    Statement parent=statementStack.get(statementStack.size() - 1);
+    parent.addStatement(lastStatement);
+    buffer.setLength(0);
+  }
+}

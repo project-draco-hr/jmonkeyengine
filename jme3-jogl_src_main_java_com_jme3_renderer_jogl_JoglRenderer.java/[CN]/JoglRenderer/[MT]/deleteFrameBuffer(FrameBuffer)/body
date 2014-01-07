@@ -1,0 +1,19 @@
+{
+  if (fb.getId() != -1) {
+    GL gl=GLContext.getCurrentGL();
+    if (context.boundFBO == fb.getId()) {
+      gl.glBindFramebuffer(GL.GL_FRAMEBUFFER,0);
+      context.boundFBO=0;
+    }
+    if (fb.getDepthBuffer() != null) {
+      deleteRenderBuffer(fb,fb.getDepthBuffer());
+    }
+    if (fb.getColorBuffer() != null) {
+      deleteRenderBuffer(fb,fb.getColorBuffer());
+    }
+    intBuf1.put(0,fb.getId());
+    gl.glDeleteFramebuffers(1,intBuf1);
+    fb.resetObject();
+    statistics.onDeleteFrameBuffer();
+  }
+}

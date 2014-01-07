@@ -1,0 +1,24 @@
+{
+  if (time >= length) {
+    return;
+  }
+  if (!initialized) {
+    control.addListener(new OnEndListener());
+    initialized=true;
+  }
+  if (!emitted && time >= startOffset) {
+    emitted=true;
+    emitter.setCullHint(CullHint.Dynamic);
+    emitter.setEnabled(true);
+    if (particlesPerSeconds == 0) {
+      emitter.emitAllParticles();
+      if (!killParticles.stopRequested) {
+        emitter.addControl(killParticles);
+        killParticles.stopRequested=true;
+      }
+    }
+ else {
+      emitter.setParticlesPerSec(particlesPerSeconds);
+    }
+  }
+}

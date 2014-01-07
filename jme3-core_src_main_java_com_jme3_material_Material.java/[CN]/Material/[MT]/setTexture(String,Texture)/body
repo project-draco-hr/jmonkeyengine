@@ -1,0 +1,24 @@
+{
+  if (value == null) {
+    clearParam(name);
+    return;
+  }
+  VarType paramType=null;
+switch (value.getType()) {
+case TwoDimensional:
+    paramType=VarType.Texture2D;
+  break;
+case TwoDimensionalArray:
+paramType=VarType.TextureArray;
+break;
+case ThreeDimensional:
+paramType=VarType.Texture3D;
+break;
+case CubeMap:
+paramType=VarType.TextureCubeMap;
+break;
+default :
+throw new UnsupportedOperationException("Unknown texture type: " + value.getType());
+}
+setTextureParam(name,paramType,value);
+}

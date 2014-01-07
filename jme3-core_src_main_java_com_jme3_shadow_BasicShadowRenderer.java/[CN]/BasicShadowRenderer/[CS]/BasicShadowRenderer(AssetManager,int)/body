@@ -1,0 +1,16 @@
+{
+  shadowFB=new FrameBuffer(size,size,1);
+  shadowMap=new Texture2D(size,size,Format.Depth);
+  shadowFB.setDepthTexture(shadowMap);
+  shadowCam=new Camera(size,size);
+  dummyTex=new Texture2D(size,size,Format.RGBA8);
+  shadowFB.setColorTexture(dummyTex);
+  shadowMapSize=(float)size;
+  preshadowMat=new Material(manager,"Common/MatDefs/Shadow/PreShadow.j3md");
+  postshadowMat=new Material(manager,"Common/MatDefs/Shadow/BasicPostShadow.j3md");
+  postshadowMat.setTexture("ShadowMap",shadowMap);
+  dispPic.setTexture(manager,shadowMap,false);
+  for (int i=0; i < points.length; i++) {
+    points[i]=new Vector3f();
+  }
+}

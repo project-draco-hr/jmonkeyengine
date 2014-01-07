@@ -1,0 +1,8 @@
+{
+  Set<Entry<ModelKey,Spatial>> set=assetChildren.entrySet();
+  for (Iterator<Entry<ModelKey,Spatial>> it=set.iterator(); it.hasNext(); ) {
+    Entry<ModelKey,Spatial> entry=it.next();
+    entry.getValue().removeFromParent();
+    it.remove();
+  }
+}

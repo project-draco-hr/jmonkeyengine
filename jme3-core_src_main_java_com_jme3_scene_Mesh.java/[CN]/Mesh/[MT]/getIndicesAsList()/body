@@ -1,0 +1,15 @@
+{
+  if (mode == Mode.Hybrid)   throw new UnsupportedOperationException("Hybrid mode not supported");
+  IndexBuffer ib=getIndexBuffer();
+  if (ib != null) {
+    if (mode.isListMode()) {
+      return ib;
+    }
+ else {
+      return new WrappedIndexBuffer(this);
+    }
+  }
+ else {
+    return new VirtualIndexBuffer(vertCount,mode);
+  }
+}

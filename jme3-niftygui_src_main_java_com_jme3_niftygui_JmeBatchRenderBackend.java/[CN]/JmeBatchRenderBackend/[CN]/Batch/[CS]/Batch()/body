@@ -1,0 +1,18 @@
+{
+  vertexPos.setupData(Usage.Stream,2,VertexBuffer.Format.Float,BufferUtils.createFloatBuffer(BATCH_MAX_VERTICES * 2));
+  vertexPosBuffer=(FloatBuffer)vertexPos.getData();
+  mesh.setBuffer(vertexPos);
+  vertexTexCoord.setupData(Usage.Stream,2,VertexBuffer.Format.Float,BufferUtils.createFloatBuffer(BATCH_MAX_VERTICES * 2));
+  vertexTexCoordBuffer=(FloatBuffer)vertexTexCoord.getData();
+  mesh.setBuffer(vertexTexCoord);
+  vertexColor.setupData(Usage.Stream,4,VertexBuffer.Format.Float,BufferUtils.createFloatBuffer(BATCH_MAX_VERTICES * 4));
+  vertexColorBuffer=(FloatBuffer)vertexColor.getData();
+  mesh.setBuffer(vertexColor);
+  indexBuffer.setupData(Usage.Stream,3,VertexBuffer.Format.UnsignedShort,BufferUtils.createShortBuffer(BATCH_MAX_QUADS * 2 * 3));
+  indexBufferBuffer=(ShortBuffer)indexBuffer.getData();
+  mesh.setBuffer(indexBuffer);
+  material=new Material(display.getAssetManager(),"Common/MatDefs/Misc/Unshaded.j3md");
+  material.setBoolean("VertexColor",true);
+  renderState.setDepthTest(false);
+  renderState.setDepthWrite(false);
+}

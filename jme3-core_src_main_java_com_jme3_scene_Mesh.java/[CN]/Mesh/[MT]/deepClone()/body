@@ -1,0 +1,24 @@
+{
+  try {
+    Mesh clone=(Mesh)super.clone();
+    clone.meshBound=meshBound != null ? meshBound.clone() : null;
+    clone.collisionTree=null;
+    clone.buffers=new IntMap<VertexBuffer>();
+    clone.buffersList=new SafeArrayList<VertexBuffer>(VertexBuffer.class);
+    for (    VertexBuffer vb : buffersList.getArray()) {
+      VertexBuffer bufClone=vb.clone();
+      clone.buffers.put(vb.getBufferType().ordinal(),bufClone);
+      clone.buffersList.add(bufClone);
+    }
+    clone.vertexArrayID=-1;
+    clone.vertCount=-1;
+    clone.elementCount=-1;
+    clone.maxNumWeights=maxNumWeights;
+    clone.elementLengths=elementLengths != null ? elementLengths.clone() : null;
+    clone.modeStart=modeStart != null ? modeStart.clone() : null;
+    return clone;
+  }
+ catch (  CloneNotSupportedException ex) {
+    throw new AssertionError();
+  }
+}

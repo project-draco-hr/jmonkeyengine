@@ -1,0 +1,13 @@
+{
+  float sum=0;
+  distance=distance % spline.getTotalLength();
+  int i=0;
+  for (  Float len : spline.getSegmentsLength()) {
+    if (sum + len >= distance) {
+      return new Vector2f((float)i,(distance - sum) / len);
+    }
+    sum+=len;
+    i++;
+  }
+  return new Vector2f((float)spline.getControlPoints().size() - 1,1.0f);
+}

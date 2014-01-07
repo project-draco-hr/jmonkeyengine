@@ -1,0 +1,9 @@
+{
+  if (color != null) {
+    fb16.put(color.r).put(color.g).put(color.b).put(color.a).flip();
+  }
+ else {
+    fb16.put(defaultColor.r).put(defaultColor.g).put(defaultColor.b).put(defaultColor.a).flip();
+  }
+  glMaterial(GL_FRONT_AND_BACK,type,fb16);
+}

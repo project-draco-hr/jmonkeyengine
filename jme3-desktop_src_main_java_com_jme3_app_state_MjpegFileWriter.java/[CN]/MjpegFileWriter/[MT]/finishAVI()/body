@@ -1,0 +1,16 @@
+{
+  byte[] indexlistBytes=indexlist.toBytes();
+  aviOutput.write(indexlistBytes);
+  aviOutput.close();
+  int fileSize=(int)aviFile.length();
+  int listSize=(int)(fileSize - 8 - aviMovieOffset- indexlistBytes.length);
+  RandomAccessFile raf=new RandomAccessFile(aviFile,"rw");
+  raf.write(new RIFFHeader(fileSize).toBytes());
+  raf.write(new AVIMainHeader().toBytes());
+  raf.write(new AVIStreamList().toBytes());
+  raf.write(new AVIStreamHeader().toBytes());
+  raf.write(new AVIStreamFormat().toBytes());
+  raf.write(new AVIJunk().toBytes());
+  raf.write(new AVIMovieList(listSize).toBytes());
+  raf.close();
+}

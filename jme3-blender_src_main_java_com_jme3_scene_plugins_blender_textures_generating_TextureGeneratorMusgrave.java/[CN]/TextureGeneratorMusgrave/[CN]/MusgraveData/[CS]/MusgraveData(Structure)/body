@@ -1,0 +1,17 @@
+{
+  stype=((Number)tex.getFieldValue("stype")).intValue();
+  outscale=((Number)tex.getFieldValue("ns_outscale")).floatValue();
+  h=((Number)tex.getFieldValue("mg_H")).floatValue();
+  lacunarity=((Number)tex.getFieldValue("mg_lacunarity")).floatValue();
+  octaves=((Number)tex.getFieldValue("mg_octaves")).floatValue();
+  offset=((Number)tex.getFieldValue("mg_offset")).floatValue();
+  gain=((Number)tex.getFieldValue("mg_gain")).floatValue();
+  int noisebasis=((Number)tex.getFieldValue("noisebasis")).intValue();
+  NoiseFunction noiseFunction=NoiseGenerator.noiseFunctions.get(noisebasis);
+  if (noiseFunction == null) {
+    noiseFunction=NoiseGenerator.noiseFunctions.get(0);
+    noisebasis=0;
+  }
+  this.noisebasis=noisebasis;
+  this.noiseFunction=noiseFunction;
+}

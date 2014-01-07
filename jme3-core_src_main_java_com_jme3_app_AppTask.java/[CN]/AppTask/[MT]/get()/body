@@ -1,0 +1,15 @@
+{
+  stateLock.lock();
+  try {
+    while (!isDone()) {
+      finishedCondition.await();
+    }
+    if (exception != null) {
+      throw exception;
+    }
+    return result;
+  }
+  finally {
+    stateLock.unlock();
+  }
+}

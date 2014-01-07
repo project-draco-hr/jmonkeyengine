@@ -1,0 +1,12 @@
+{
+  checkClosed();
+  try {
+    Socket temp=sock;
+    sock=null;
+    connected.set(false);
+    temp.close();
+  }
+ catch (  IOException e) {
+    throw new ConnectorException("Error closing socket for:" + remoteAddress,e);
+  }
+}

@@ -1,0 +1,48 @@
+{
+  name=structure.getName();
+  int mode=((Number)structure.getFieldValue("mode")).intValue();
+  shadeless=(mode & 0x4) != 0;
+  vertexColor=(mode & 0x80) != 0;
+  vTangent=(mode & 0x4000000) != 0;
+  int diff_shader=((Number)structure.getFieldValue("diff_shader")).intValue();
+  diffuseShader=DiffuseShader.values()[diff_shader];
+  if (shadeless) {
+    float r=((Number)structure.getFieldValue("r")).floatValue();
+    float g=((Number)structure.getFieldValue("g")).floatValue();
+    float b=((Number)structure.getFieldValue("b")).floatValue();
+    float alpha=((Number)structure.getFieldValue("alpha")).floatValue();
+    diffuseColor=new ColorRGBA(r,g,b,alpha);
+    specularShader=null;
+    specularColor=ambientColor=null;
+    shininess=0.0f;
+  }
+ else {
+    diffuseColor=this.readDiffuseColor(structure,diffuseShader);
+    int spec_shader=((Number)structure.getFieldValue("spec_shader")).intValue();
+    specularShader=SpecularShader.values()[spec_shader];
+    specularColor=this.readSpecularColor(structure);
+    float shininess=((Number)structure.getFieldValue("har")).floatValue();
+    this.shininess=shininess > 0.0f ? shininess : MaterialHelper.DEFAULT_SHININESS;
+    float r=((Number)structure.getFieldValue("ambr")).floatValue();
+    float g=((Number)structure.getFieldValue("ambg")).floatValue();
+    float b=((Number)structure.getFieldValue("ambb")).floatValue();
+    float alpha=((Number)structure.getFieldValue("alpha")).floatValue();
+    ambientColor=new ColorRGBA(r,g,b,alpha);
+  }
+  TextureHelper textureHelper=blenderContext.getHelper(TextureHelper.class);
+  loadedTextures=textureHelper.readTextureData(structure,new float[]{diffuseColor.r,diffuseColor.g,diffuseColor.b,diffuseColor.a},false);
+  boolean transparent=false;
+  if (diffuseColor != null) {
+    transparent=diffuseColor.a < 1.0f;
+    if (loadedTextures.size() > 0) {
+      diffuseColor.set(1,1,1,1);
+    }
+  }
+  if (specularColor != null) {
+    transparent=transparent || specularColor.a < 1.0f;
+  }
+  if (ambientColor != null) {
+    transparent=transparent || ambientColor.a < 1.0f;
+  }
+  this.transparent=transparent;
+}

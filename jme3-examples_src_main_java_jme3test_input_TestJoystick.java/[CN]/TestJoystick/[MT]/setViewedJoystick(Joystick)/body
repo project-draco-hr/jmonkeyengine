@@ -1,0 +1,22 @@
+{
+  if (this.viewedJoystick == stick)   return;
+  if (this.viewedJoystick != null) {
+    joystickInfo.detachAllChildren();
+  }
+  this.viewedJoystick=stick;
+  if (this.viewedJoystick != null) {
+    yInfo=0;
+    addInfo("Joystick:\"" + stick.getName() + "\"  id:"+ stick.getJoyId(),0);
+    yInfo-=5;
+    float ySave=yInfo;
+    addInfo("Buttons:",0);
+    for (    JoystickButton b : stick.getButtons()) {
+      addInfo(" '" + b.getName() + "' id:'"+ b.getLogicalId()+ "'",0);
+    }
+    yInfo=ySave;
+    addInfo("Axes:",1);
+    for (    JoystickAxis a : stick.getAxes()) {
+      addInfo(" '" + a.getName() + "' id:'"+ a.getLogicalId()+ "' analog:"+ a.isAnalog(),1);
+    }
+  }
+}

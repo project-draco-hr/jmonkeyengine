@@ -1,0 +1,12 @@
+{
+  if (wheelInfo.raycastInfo.groundObject == null) {
+    return null;
+  }
+ else   if (wheelInfo.raycastInfo.groundObject instanceof RigidBody) {
+    System.out.println("RigidBody");
+    return (PhysicsRigidBody)((RigidBody)wheelInfo.raycastInfo.groundObject).getUserPointer();
+  }
+ else {
+    return null;
+  }
+}

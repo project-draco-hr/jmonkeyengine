@@ -1,0 +1,15 @@
+{
+  int idx=name.lastIndexOf('.');
+  if (name.toLowerCase().endsWith(".xml")) {
+    idx=name.substring(0,idx).lastIndexOf('.');
+    if (idx == -1) {
+      idx=name.lastIndexOf('.');
+    }
+  }
+  if (idx <= 0 || idx == name.length() - 1) {
+    return "";
+  }
+ else {
+    return name.substring(idx + 1).toLowerCase();
+  }
+}

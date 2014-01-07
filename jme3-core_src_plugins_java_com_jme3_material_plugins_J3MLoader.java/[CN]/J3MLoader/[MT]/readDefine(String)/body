@@ -1,0 +1,12 @@
+{
+  String[] split=statement.split(":");
+  if (split.length == 1) {
+    technique.addShaderPresetDefine(split[0].trim(),VarType.Boolean,true);
+  }
+ else   if (split.length == 2) {
+    technique.addShaderParamDefine(split[1].trim(),split[0].trim());
+  }
+ else {
+    throw new IOException("Define syntax incorrect");
+  }
+}

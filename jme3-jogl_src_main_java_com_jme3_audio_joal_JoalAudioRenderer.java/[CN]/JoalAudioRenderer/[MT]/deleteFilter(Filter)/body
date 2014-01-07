@@ -1,0 +1,8 @@
+{
+  int id=filter.getId();
+  if (id != -1) {
+    ib.put(0,id);
+    ib.position(0).limit(1);
+    alExt.alDeleteFilters(1,ib);
+  }
+}

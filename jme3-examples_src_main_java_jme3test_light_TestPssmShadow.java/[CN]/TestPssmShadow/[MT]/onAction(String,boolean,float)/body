@@ -1,0 +1,87 @@
+{
+  if (name.equals("toggle") && keyPressed) {
+    renderModeIndex+=1;
+    renderModeIndex%=3;
+switch (renderModeIndex) {
+case 0:
+      viewPort.addProcessor(pssmRenderer);
+    break;
+case 1:
+  viewPort.removeProcessor(pssmRenderer);
+pssmFilter.setEnabled(true);
+break;
+case 2:
+pssmFilter.setEnabled(false);
+break;
+}
+}
+ else if (name.equals("toggleHW") && keyPressed) {
+hardwareShadows=!hardwareShadows;
+pssmRenderer.setCompareMode(hardwareShadows ? CompareMode.Hardware : CompareMode.Software);
+pssmFilter.setCompareMode(hardwareShadows ? CompareMode.Hardware : CompareMode.Software);
+System.out.println("HW Shadows: " + hardwareShadows);
+}
+if (name.equals("changeFiltering") && keyPressed) {
+filteringIndex=(filteringIndex + 1) % FilterMode.values().length;
+FilterMode m=FilterMode.values()[filteringIndex];
+pssmRenderer.setFilterMode(m);
+pssmFilter.setFilterMode(m);
+print("Filter mode : " + m.toString());
+}
+if (name.equals("lambdaUp") && keyPressed) {
+pssmRenderer.setLambda(pssmRenderer.getLambda() + 0.01f);
+pssmFilter.setLambda(pssmRenderer.getLambda() + 0.01f);
+System.out.println("Lambda : " + pssmRenderer.getLambda());
+}
+ else if (name.equals("lambdaDown") && keyPressed) {
+pssmRenderer.setLambda(pssmRenderer.getLambda() - 0.01f);
+pssmFilter.setLambda(pssmRenderer.getLambda() - 0.01f);
+System.out.println("Lambda : " + pssmRenderer.getLambda());
+}
+if (name.equals("ShadowUp") && keyPressed) {
+pssmRenderer.setShadowIntensity(pssmRenderer.getShadowIntensity() + 0.1f);
+pssmFilter.setShadowIntensity(pssmRenderer.getShadowIntensity() + 0.1f);
+System.out.println("Shadow intensity : " + pssmRenderer.getShadowIntensity());
+}
+if (name.equals("ShadowDown") && keyPressed) {
+pssmRenderer.setShadowIntensity(pssmRenderer.getShadowIntensity() - 0.1f);
+pssmFilter.setShadowIntensity(pssmRenderer.getShadowIntensity() - 0.1f);
+System.out.println("Shadow intensity : " + pssmRenderer.getShadowIntensity());
+}
+if (name.equals("ThicknessUp") && keyPressed) {
+pssmRenderer.setEdgesThickness(pssmRenderer.getEdgesThickness() + 1);
+pssmFilter.setEdgesThickness(pssmRenderer.getEdgesThickness() + 1);
+System.out.println("Shadow thickness : " + pssmRenderer.getEdgesThickness());
+}
+if (name.equals("ThicknessDown") && keyPressed) {
+pssmRenderer.setEdgesThickness(pssmRenderer.getEdgesThickness() - 1);
+pssmFilter.setEdgesThickness(pssmRenderer.getEdgesThickness() - 1);
+System.out.println("Shadow thickness : " + pssmRenderer.getEdgesThickness());
+}
+if (name.equals("switchGroundMat") && keyPressed) {
+if (ground.getMaterial() == matGroundL) {
+ground.setMaterial(matGroundU);
+}
+ else {
+ground.setMaterial(matGroundL);
+}
+}
+if (name.equals("up")) {
+up=keyPressed;
+}
+if (name.equals("down")) {
+down=keyPressed;
+}
+if (name.equals("right")) {
+right=keyPressed;
+}
+if (name.equals("left")) {
+left=keyPressed;
+}
+if (name.equals("fwd")) {
+fwd=keyPressed;
+}
+if (name.equals("back")) {
+back=keyPressed;
+}
+}

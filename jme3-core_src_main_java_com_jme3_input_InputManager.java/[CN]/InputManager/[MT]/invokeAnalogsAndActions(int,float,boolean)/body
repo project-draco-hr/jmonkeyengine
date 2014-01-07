@@ -1,0 +1,29 @@
+{
+  if (value < axisDeadZone) {
+    invokeAnalogs(hash,value,!applyTpf);
+    return;
+  }
+  ArrayList<Mapping> maps=bindings.get(hash);
+  if (maps == null) {
+    return;
+  }
+  boolean valueChanged=!axisValues.containsKey(hash);
+  if (applyTpf) {
+    value*=frameTPF;
+  }
+  int size=maps.size();
+  for (int i=size - 1; i >= 0; i--) {
+    Mapping mapping=maps.get(i);
+    ArrayList<InputListener> listeners=mapping.listeners;
+    int listenerSize=listeners.size();
+    for (int j=listenerSize - 1; j >= 0; j--) {
+      InputListener listener=listeners.get(j);
+      if (listener instanceof ActionListener && valueChanged) {
+        ((ActionListener)listener).onAction(mapping.name,true,frameTPF);
+      }
+      if (listener instanceof AnalogListener) {
+        ((AnalogListener)listener).onAnalog(mapping.name,value,frameTPF);
+      }
+    }
+  }
+}

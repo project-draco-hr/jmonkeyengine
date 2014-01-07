@@ -1,0 +1,11 @@
+{
+  if (res == null) {
+    res=new Quaternion();
+  }
+  float qw=q.w, qx=q.x, qy=q.y, qz=q.z;
+  res.x=x * qw + y * qz - z * qy + w * qx;
+  res.y=-x * qz + y * qw + z * qx + w * qy;
+  res.z=x * qy - y * qx + z * qw + w * qz;
+  res.w=-x * qx - y * qy - z * qz + w * qw;
+  return res;
+}

@@ -1,0 +1,14 @@
+{
+  if (!(o instanceof Vector4f)) {
+    return false;
+  }
+  if (this == o) {
+    return true;
+  }
+  Vector4f comp=(Vector4f)o;
+  if (Float.compare(x,comp.x) != 0)   return false;
+  if (Float.compare(y,comp.y) != 0)   return false;
+  if (Float.compare(z,comp.z) != 0)   return false;
+  if (Float.compare(w,comp.w) != 0)   return false;
+  return true;
+}

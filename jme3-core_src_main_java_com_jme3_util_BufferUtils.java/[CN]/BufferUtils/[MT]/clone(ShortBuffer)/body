@@ -1,0 +1,15 @@
+{
+  if (buf == null) {
+    return null;
+  }
+  buf.rewind();
+  ShortBuffer copy;
+  if (isDirect(buf)) {
+    copy=createShortBuffer(buf.limit());
+  }
+ else {
+    copy=ShortBuffer.allocate(buf.limit());
+  }
+  copy.put(buf);
+  return copy;
+}

@@ -1,0 +1,12 @@
+{
+  InputCapsule ic=im.getCapsule(this);
+  List<Light> lights=ic.readSavableArrayList("lights",null);
+  listSize=lights.size();
+  int arraySize=Math.max(DEFAULT_SIZE,listSize);
+  list=new Light[arraySize];
+  distToOwner=new float[arraySize];
+  for (int i=0; i < listSize; i++) {
+    list[i]=lights.get(i);
+  }
+  Arrays.fill(distToOwner,Float.NEGATIVE_INFINITY);
+}

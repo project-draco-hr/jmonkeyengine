@@ -1,0 +1,22 @@
+{
+  Joystick[] joysticks=inputManager.getJoysticks();
+  if (joysticks == null)   throw new IllegalStateException("Cannot find any joysticks!");
+  try {
+    PrintWriter out=new PrintWriter(new FileWriter("joysticks-" + System.currentTimeMillis() + ".txt"));
+    dumpJoysticks(joysticks,out);
+    out.close();
+  }
+ catch (  IOException e) {
+    throw new RuntimeException("Error writing joystick dump",e);
+  }
+  int gamepadSize=cam.getHeight() / 2;
+  float scale=gamepadSize / 512.0f;
+  gamepad=new GamepadView();
+  gamepad.setLocalTranslation(cam.getWidth() - gamepadSize - (scale * 20),0,0);
+  gamepad.setLocalScale(scale,scale,scale);
+  guiNode.attachChild(gamepad);
+  joystickInfo=new Node("joystickInfo");
+  joystickInfo.setLocalTranslation(0,cam.getHeight(),0);
+  guiNode.attachChild(joystickInfo);
+  inputManager.addRawInputListener(new JoystickEventListener());
+}

@@ -1,0 +1,14 @@
+{
+  if (children != null) {
+    for (int x=children.size(); --x >= 0; ) {
+      Spatial child=children.get(x);
+      if (child instanceof TerrainQuad) {
+        ((TerrainQuad)child).resetCachedNeighbours();
+      }
+ else       if (child instanceof TerrainPatch) {
+        TerrainPatch patch=(TerrainPatch)child;
+        patch.searchedForNeighboursAlready=false;
+      }
+    }
+  }
+}

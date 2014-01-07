@@ -1,0 +1,9 @@
+{
+  if (isPressed && name.equals("toggleHWS")) {
+    hwSkinningEnable=!hwSkinningEnable;
+    for (    SkeletonControl skControl : skControls) {
+      skControl.setHardwareSkinningPreferred(hwSkinningEnable);
+      hwsText.setText("HWS : " + hwSkinningEnable);
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  Vector3f left=rootNode.getLocalRotation().mult(Vector3f.UNIT_X.negate());
+  Vector3f forward=rootNode.getLocalRotation().mult(Vector3f.UNIT_Z.negate());
+  Vector3f up=rootNode.getLocalRotation().mult(Vector3f.UNIT_Y);
+  tpf=tpf * (10 - (9.0f * currentLevel.getCurrentScaleAmount()));
+  if (name.equals("StrafeLeft") && value > 0) {
+    walkDirection.addLocal(left.mult(tpf));
+  }
+ else   if (name.equals("StrafeRight") && value > 0) {
+    walkDirection.addLocal(left.negate().multLocal(tpf));
+  }
+ else   if (name.equals("Forward") && value > 0) {
+    walkDirection.addLocal(forward.mult(tpf));
+  }
+ else   if (name.equals("Back") && value > 0) {
+    walkDirection.addLocal(forward.negate().multLocal(tpf));
+  }
+ else   if (name.equals("StrafeUp") && value > 0) {
+    walkDirection.addLocal(up.mult(tpf));
+  }
+ else   if (name.equals("StrafeDown") && value > 0) {
+    walkDirection.addLocal(up.negate().multLocal(tpf));
+  }
+ else   if (name.equals("Up") && value > 0) {
+  }
+ else   if (name.equals("Down") && value > 0) {
+  }
+ else   if (name.equals("Left") && value > 0) {
+  }
+ else   if (name.equals("Right") && value > 0) {
+  }
+ else   if (name.equals("Esc")) {
+    stop();
+  }
+}

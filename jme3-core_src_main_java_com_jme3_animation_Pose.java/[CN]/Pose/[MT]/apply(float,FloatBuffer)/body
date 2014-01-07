@@ -1,0 +1,10 @@
+{
+  for (int i=0; i < indices.length; i++) {
+    Vector3f offset=offsets[i];
+    int vertIndex=indices[i];
+    tempVec.set(offset).multLocal(blend);
+    BufferUtils.populateFromBuffer(tempVec2,vertbuf,vertIndex);
+    tempVec2.addLocal(tempVec);
+    BufferUtils.setInBuffer(tempVec2,vertbuf,vertIndex);
+  }
+}

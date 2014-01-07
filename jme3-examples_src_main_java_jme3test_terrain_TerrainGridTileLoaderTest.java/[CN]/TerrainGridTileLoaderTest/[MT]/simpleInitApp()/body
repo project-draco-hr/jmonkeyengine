@@ -1,0 +1,71 @@
+{
+  File file=new File("TerrainGridTestData.zip");
+  if (!file.exists()) {
+    assetManager.registerLocator("http://jmonkeyengine.googlecode.com/files/TerrainGridTestData.zip",HttpZipLocator.class);
+  }
+ else {
+    assetManager.registerLocator("TerrainGridTestData.zip",ZipLocator.class);
+  }
+  this.flyCam.setMoveSpeed(100f);
+  ScreenshotAppState state=new ScreenshotAppState();
+  this.stateManager.attach(state);
+  this.mat_terrain=new Material(this.assetManager,"Common/MatDefs/Terrain/HeightBasedTerrain.j3md");
+  Texture grass=this.assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
+  grass.setWrap(WrapMode.Repeat);
+  this.mat_terrain.setTexture("region1ColorMap",grass);
+  this.mat_terrain.setVector3("region1",new Vector3f(88,200,this.grassScale));
+  Texture dirt=this.assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
+  dirt.setWrap(WrapMode.Repeat);
+  this.mat_terrain.setTexture("region2ColorMap",dirt);
+  this.mat_terrain.setVector3("region2",new Vector3f(0,90,this.dirtScale));
+  Texture rock=this.assetManager.loadTexture("Textures/Terrain/Rock2/rock.jpg");
+  rock.setWrap(WrapMode.Repeat);
+  this.mat_terrain.setTexture("region3ColorMap",rock);
+  this.mat_terrain.setVector3("region3",new Vector3f(198,260,this.rockScale));
+  this.mat_terrain.setTexture("region4ColorMap",rock);
+  this.mat_terrain.setVector3("region4",new Vector3f(198,260,this.rockScale));
+  this.mat_terrain.setTexture("slopeColorMap",rock);
+  this.mat_terrain.setFloat("slopeTileFactor",32);
+  this.mat_terrain.setFloat("terrainSize",129);
+  AssetTileLoader grid=new AssetTileLoader(assetManager,"testgrid","TerrainGrid");
+  this.terrain=new TerrainGrid("terrain",65,257,grid);
+  this.terrain.setMaterial(this.mat_terrain);
+  this.terrain.setLocalTranslation(0,0,0);
+  this.terrain.setLocalScale(2f,1f,2f);
+  this.rootNode.attachChild(this.terrain);
+  TerrainLodControl control=new TerrainGridLodControl(this.terrain,getCamera());
+  control.setLodCalculator(new DistanceLodCalculator(65,2.7f));
+  this.terrain.addControl(control);
+  final BulletAppState bulletAppState=new BulletAppState();
+  stateManager.attach(bulletAppState);
+  this.getCamera().setLocation(new Vector3f(0,256,0));
+  this.viewPort.setBackgroundColor(new ColorRGBA(0.7f,0.8f,1f,1f));
+  if (usePhysics) {
+    CapsuleCollisionShape capsuleShape=new CapsuleCollisionShape(0.5f,1.8f,1);
+    player3=new CharacterControl(capsuleShape,0.5f);
+    player3.setJumpSpeed(20);
+    player3.setFallSpeed(10);
+    player3.setGravity(10);
+    player3.setPhysicsLocation(new Vector3f(cam.getLocation().x,256,cam.getLocation().z));
+    bulletAppState.getPhysicsSpace().add(player3);
+    terrain.addListener(new TerrainGridListener(){
+      public void gridMoved(      Vector3f newCenter){
+      }
+      public void tileAttached(      Vector3f cell,      TerrainQuad quad){
+        while (quad.getControl(RigidBodyControl.class) != null) {
+          quad.removeControl(RigidBodyControl.class);
+        }
+        quad.addControl(new RigidBodyControl(new HeightfieldCollisionShape(quad.getHeightMap(),terrain.getLocalScale()),0));
+        bulletAppState.getPhysicsSpace().add(quad);
+      }
+      public void tileDetached(      Vector3f cell,      TerrainQuad quad){
+        if (quad.getControl(RigidBodyControl.class) != null) {
+          bulletAppState.getPhysicsSpace().remove(quad);
+          quad.removeControl(RigidBodyControl.class);
+        }
+      }
+    }
+);
+  }
+  this.initKeys();
+}

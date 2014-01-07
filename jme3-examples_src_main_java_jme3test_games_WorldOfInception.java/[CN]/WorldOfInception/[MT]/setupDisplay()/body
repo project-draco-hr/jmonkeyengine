@@ -1,0 +1,10 @@
+{
+  if (fpsText == null) {
+    fpsText=new BitmapText(guiFont,false);
+  }
+  fpsText.setLocalScale(0.7f,0.7f,0.7f);
+  fpsText.setLocalTranslation(0,fpsText.getLineHeight(),0);
+  fpsText.setText("");
+  fpsText.setCullHint(Spatial.CullHint.Never);
+  guiNode.attachChild(fpsText);
+}

@@ -1,0 +1,8 @@
+{
+  Random rnd=new Random(seed);
+  Vector3f[] vectors=new Vector3f[count];
+  for (int i=0; i < count; i++) {
+    vectors[i]=new Vector3f((rnd.nextFloat() - 0.5f) * poiRadius,(rnd.nextFloat() - 0.5f) * poiRadius,(rnd.nextFloat() - 0.5f) * poiRadius);
+  }
+  return vectors;
+}

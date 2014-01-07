@@ -1,0 +1,23 @@
+{
+  if (inputManager.getSimulateMouse()) {
+    return;
+  }
+  x=(int)evt.getX();
+  y=(int)(height - evt.getY());
+switch (evt.getType()) {
+case DOWN:
+    if (inputPointerId != -1) {
+      break;
+    }
+  inputPointerId=evt.getPointerId();
+handleMouseEvent(0,true,nic,evt);
+break;
+case UP:
+if (inputPointerId != evt.getPointerId()) {
+break;
+}
+inputPointerId=-1;
+handleMouseEvent(0,false,nic,evt);
+break;
+}
+}

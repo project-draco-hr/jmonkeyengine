@@ -1,0 +1,13 @@
+{
+  if (timeOffset < 0f) {
+    throw new IllegalArgumentException("Time offset cannot be negative");
+  }
+  this.timeOffset=timeOffset;
+  if (data instanceof AudioStream) {
+    ((AudioStream)data).setTime(timeOffset);
+  }
+ else   if (status == AudioSource.Status.Playing) {
+    stop();
+    play();
+  }
+}

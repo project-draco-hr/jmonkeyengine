@@ -1,0 +1,13 @@
+{
+  if (!(info.getKey() instanceof TextureKey))   throw new IllegalArgumentException("Texture assets must be loaded using a TextureKey");
+  InputStream in=null;
+  try {
+    in=info.openStream();
+    return load(in,((TextureKey)info.getKey()).isFlipY());
+  }
+  finally {
+    if (in != null) {
+      in.close();
+    }
+  }
+}

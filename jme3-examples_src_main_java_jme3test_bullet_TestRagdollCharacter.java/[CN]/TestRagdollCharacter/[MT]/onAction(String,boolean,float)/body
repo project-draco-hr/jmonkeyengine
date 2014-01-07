@@ -1,0 +1,40 @@
+{
+  if (binding.equals("Rotate Left")) {
+    if (value) {
+      leftRotate=true;
+    }
+ else {
+      leftRotate=false;
+    }
+  }
+ else   if (binding.equals("Rotate Right")) {
+    if (value) {
+      rightRotate=true;
+    }
+ else {
+      rightRotate=false;
+    }
+  }
+ else   if (binding.equals("Walk Forward")) {
+    if (value) {
+      forward=true;
+    }
+ else {
+      forward=false;
+    }
+  }
+ else   if (binding.equals("Walk Backward")) {
+    if (value) {
+      backward=true;
+    }
+ else {
+      backward=false;
+    }
+  }
+ else   if (binding.equals("Slice")) {
+    if (value) {
+      animChannel.setAnim("SliceHorizontal");
+      animChannel.setSpeed(0.3f);
+    }
+  }
+}

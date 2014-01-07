@@ -1,0 +1,15 @@
+{
+switch (axis) {
+case 0:
+    cShape=new CylinderShapeX(Converter.convert(halfExtents));
+  break;
+case 1:
+cShape=new CylinderShape(Converter.convert(halfExtents));
+break;
+case 2:
+cShape=new CylinderShapeZ(Converter.convert(halfExtents));
+break;
+}
+cShape.setLocalScaling(Converter.convert(getScale()));
+cShape.setMargin(margin);
+}

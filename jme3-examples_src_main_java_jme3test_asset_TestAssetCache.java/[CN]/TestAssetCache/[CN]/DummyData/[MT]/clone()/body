@@ -1,0 +1,10 @@
+{
+  try {
+    DummyData clone=(DummyData)super.clone();
+    clone.data=data.clone();
+    return clone;
+  }
+ catch (  CloneNotSupportedException ex) {
+    throw new AssertionError();
+  }
+}

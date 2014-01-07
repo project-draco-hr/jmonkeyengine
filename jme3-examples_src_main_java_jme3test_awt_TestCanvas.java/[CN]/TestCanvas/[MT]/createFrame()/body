@@ -1,0 +1,12 @@
+{
+  frame=new JFrame("Test");
+  frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+  frame.addWindowListener(new WindowAdapter(){
+    @Override public void windowClosed(    WindowEvent e){
+      app.stop();
+    }
+  }
+);
+  createTabs();
+  createMenu();
+}

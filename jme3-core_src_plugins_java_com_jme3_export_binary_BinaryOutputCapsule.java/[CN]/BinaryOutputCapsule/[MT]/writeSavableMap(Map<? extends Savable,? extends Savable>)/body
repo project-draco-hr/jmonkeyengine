@@ -1,0 +1,10 @@
+{
+  if (array == null) {
+    write(NULL_OBJECT);
+    return;
+  }
+  write(array.size());
+  for (  Savable key : array.keySet()) {
+    write(new Savable[]{key,array.get(key)});
+  }
+}

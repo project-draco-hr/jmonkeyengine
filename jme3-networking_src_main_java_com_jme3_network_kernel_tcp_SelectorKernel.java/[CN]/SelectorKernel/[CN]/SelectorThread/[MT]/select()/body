@@ -1,0 +1,21 @@
+{
+  selector.select();
+  for (Iterator<SelectionKey> i=selector.selectedKeys().iterator(); i.hasNext(); ) {
+    SelectionKey key=i.next();
+    i.remove();
+    if (!key.isValid()) {
+      log.log(Level.FINE,"Key is not valid:{0}.",key);
+      continue;
+    }
+    try {
+      if (key.isAcceptable())       accept(key);
+ else       if (key.isWritable())       write(key);
+ else       if (key.isReadable())       read(key);
+    }
+ catch (    IOException e) {
+      if (!go.get())       return;
+      reportError(e);
+      cancel(key,(SocketChannel)key.channel());
+    }
+  }
+}

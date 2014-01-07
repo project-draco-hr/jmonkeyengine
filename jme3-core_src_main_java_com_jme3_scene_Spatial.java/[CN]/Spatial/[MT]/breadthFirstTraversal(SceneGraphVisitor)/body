@@ -1,0 +1,9 @@
+{
+  Queue<Spatial> queue=new LinkedList<Spatial>();
+  queue.add(this);
+  while (!queue.isEmpty()) {
+    Spatial s=queue.poll();
+    visitor.visit(s);
+    s.breadthFirstTraversal(visitor,queue);
+  }
+}

@@ -1,0 +1,9 @@
+{
+  double det01=m20 * m31 - m21 * m30;
+  double det02=m20 * m32 - m22 * m30;
+  double det03=m20 * m33 - m23 * m30;
+  double det12=m21 * m32 - m22 * m31;
+  double det13=m21 * m33 - m23 * m31;
+  double det23=m22 * m33 - m23 * m32;
+  return (float)(m00 * (m11 * det23 - m12 * det13 + m13 * det12) - m01 * (m10 * det23 - m12 * det03 + m13 * det02) + m02 * (m10 * det13 - m11 * det03 + m13 * det01) - m03 * (m10 * det12 - m11 * det02 + m12 * det01));
+}

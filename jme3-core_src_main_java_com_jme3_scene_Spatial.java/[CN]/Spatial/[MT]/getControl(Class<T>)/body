@@ -1,0 +1,8 @@
+{
+  for (  Control c : controls.getArray()) {
+    if (controlType.isAssignableFrom(c.getClass())) {
+      return (T)c;
+    }
+  }
+  return null;
+}

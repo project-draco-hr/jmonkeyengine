@@ -1,0 +1,21 @@
+{
+  int val1=counterClockwise(t0,t1,p);
+  if (val1 == 0) {
+    return 1;
+  }
+  int val2=counterClockwise(t1,t2,p);
+  if (val2 == 0) {
+    return 1;
+  }
+  if (val2 != val1) {
+    return 0;
+  }
+  int val3=counterClockwise(t2,t0,p);
+  if (val3 == 0) {
+    return 1;
+  }
+  if (val3 != val1) {
+    return 0;
+  }
+  return val3;
+}

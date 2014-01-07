@@ -1,0 +1,8 @@
+{
+  if (null == vec) {
+    logger.warning("Provided vector is null, null returned.");
+    return null;
+  }
+  if (store == null)   store=new Vector3f();
+  return store.set(x * vec.x,y * vec.y,z * vec.z);
+}

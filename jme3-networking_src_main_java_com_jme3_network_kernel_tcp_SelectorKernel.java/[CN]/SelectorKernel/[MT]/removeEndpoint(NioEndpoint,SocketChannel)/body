@@ -1,0 +1,8 @@
+{
+  endpoints.remove(p.getId());
+  log.log(Level.FINE,"Endpoints size:{0}",endpoints.size());
+  addEvent(EndpointEvent.createRemove(this,p));
+  if (!hasEnvelopes()) {
+    addEnvelope(EVENTS_PENDING);
+  }
+}

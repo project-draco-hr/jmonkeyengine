@@ -1,0 +1,11 @@
+{
+  super.read(im);
+  InputCapsule capsule=im.getCapsule(this);
+  this.rotA=(Matrix3f)capsule.readSavable("rotA",new Matrix3f());
+  this.rotB=(Matrix3f)capsule.readSavable("rotB",new Matrix3f());
+  this.angularOnly=capsule.readBoolean("angularOnly",false);
+  this.swingSpan1=capsule.readFloat("swingSpan1",1e30f);
+  this.swingSpan2=capsule.readFloat("swingSpan2",1e30f);
+  this.twistSpan=capsule.readFloat("twistSpan",1e30f);
+  createJoint();
+}

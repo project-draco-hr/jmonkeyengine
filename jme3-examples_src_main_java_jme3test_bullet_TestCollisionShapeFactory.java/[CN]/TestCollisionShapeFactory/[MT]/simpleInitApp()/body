@@ -1,0 +1,24 @@
+{
+  bulletAppState=new BulletAppState();
+  stateManager.attach(bulletAppState);
+  bulletAppState.getPhysicsSpace().enableDebug(assetManager);
+  createMaterial();
+  Node node=new Node("node1");
+  attachRandomGeometry(node,mat1);
+  randomizeTransform(node);
+  Node node2=new Node("node2");
+  attachRandomGeometry(node2,mat2);
+  randomizeTransform(node2);
+  node.attachChild(node2);
+  rootNode.attachChild(node);
+  RigidBodyControl control=new RigidBodyControl(0);
+  node.addControl(control);
+  getPhysicsSpace().add(control);
+  Geometry myGeom=new Geometry("cylinder",new Cylinder(16,16,0.5f,1));
+  myGeom.setMaterial(mat3);
+  randomizeTransform(myGeom);
+  rootNode.attachChild(myGeom);
+  RigidBodyControl control3=new RigidBodyControl(0);
+  myGeom.addControl(control3);
+  getPhysicsSpace().add(control3);
+}

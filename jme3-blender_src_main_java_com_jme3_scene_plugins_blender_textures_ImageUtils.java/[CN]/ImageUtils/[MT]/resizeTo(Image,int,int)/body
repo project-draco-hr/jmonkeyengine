@@ -1,0 +1,9 @@
+{
+  BufferedImage sourceImage=ImageToAwt.convert(source,false,false,0);
+  double scaleX=width / (double)sourceImage.getWidth();
+  double scaleY=height / (double)sourceImage.getHeight();
+  AffineTransform scaleTransform=AffineTransform.getScaleInstance(scaleX,scaleY);
+  AffineTransformOp bilinearScaleOp=new AffineTransformOp(scaleTransform,AffineTransformOp.TYPE_BILINEAR);
+  BufferedImage scaledImage=bilinearScaleOp.filter(sourceImage,new BufferedImage(width,height,sourceImage.getType()));
+  return ImageUtils.toJmeImage(scaledImage,source.getFormat());
+}

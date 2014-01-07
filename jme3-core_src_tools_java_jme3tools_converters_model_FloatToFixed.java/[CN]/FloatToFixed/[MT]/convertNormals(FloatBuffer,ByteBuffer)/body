@@ -1,0 +1,15 @@
+{
+  if (output.capacity() < input.capacity())   throw new RuntimeException("Output must be at least as large as input!");
+  input.clear();
+  output.clear();
+  Vector3f temp=new Vector3f();
+  int vertexCount=input.capacity() / 3;
+  for (int i=0; i < vertexCount; i++) {
+    BufferUtils.populateFromBuffer(temp,input,i);
+    temp.multLocal(127).addLocal(0.5f,0.5f,0.5f);
+    byte v1=(byte)temp.getX();
+    byte v2=(byte)temp.getY();
+    byte v3=(byte)temp.getZ();
+    output.put(v1).put(v2).put(v3);
+  }
+}

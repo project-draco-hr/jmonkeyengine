@@ -1,0 +1,9 @@
+{
+  super.write(ex);
+  OutputCapsule oc=ex.getCapsule(this);
+  oc.write(lookAt,"lookAt",Vector3f.ZERO);
+  oc.write(upVector,"upVector",Vector3f.UNIT_Y);
+  oc.write(rotation,"rotation",Quaternion.IDENTITY);
+  oc.write(directionType,"directionType",Direction.None);
+  oc.write(path,"path",null);
+}

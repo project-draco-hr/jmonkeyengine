@@ -1,0 +1,71 @@
+{
+  ControllerEnvironment ce=ControllerEnvironment.getDefaultEnvironment();
+  Controller[] cs=ce.getControllers();
+  Event e=new Event();
+  for (int i=0; i < cs.length; i++) {
+    Controller c=cs[i];
+    JInputJoystick stick=joystickIndex.get(c);
+    if (stick == null)     continue;
+    if (!c.poll())     continue;
+    int joyId=stick.getJoyId();
+    EventQueue q=c.getEventQueue();
+    while (q.getNextEvent(e)) {
+      Identifier id=e.getComponent().getIdentifier();
+      if (id == Identifier.Axis.POV) {
+        float x=0, y=0;
+        float v=e.getValue();
+        if (v == POV.CENTER) {
+          x=0;
+          y=0;
+        }
+ else         if (v == POV.DOWN) {
+          x=0;
+          y=-1f;
+        }
+ else         if (v == POV.DOWN_LEFT) {
+          x=-1f;
+          y=-1f;
+        }
+ else         if (v == POV.DOWN_RIGHT) {
+          x=1f;
+          y=-1f;
+        }
+ else         if (v == POV.LEFT) {
+          x=-1f;
+          y=0;
+        }
+ else         if (v == POV.RIGHT) {
+          x=1f;
+          y=0;
+        }
+ else         if (v == POV.UP) {
+          x=0;
+          y=1f;
+        }
+ else         if (v == POV.UP_LEFT) {
+          x=-1f;
+          y=1f;
+        }
+ else         if (v == POV.UP_RIGHT) {
+          x=1f;
+          y=1f;
+        }
+        JoyAxisEvent evt1=new JoyAxisEvent(stick.povX,x);
+        JoyAxisEvent evt2=new JoyAxisEvent(stick.povY,y);
+        listener.onJoyAxisEvent(evt1);
+        listener.onJoyAxisEvent(evt2);
+      }
+ else       if (id instanceof Axis) {
+        float value=e.getValue();
+        JoystickAxis axis=stick.axisIndex.get(e.getComponent());
+        JoyAxisEvent evt=new JoyAxisEvent(axis,value);
+        listener.onJoyAxisEvent(evt);
+      }
+ else       if (id instanceof Button) {
+        JoystickButton button=stick.buttonIndex.get(e.getComponent());
+        JoyButtonEvent evt=new JoyButtonEvent(button,e.getValue() == 1f);
+        listener.onJoyButtonEvent(evt);
+      }
+    }
+  }
+}

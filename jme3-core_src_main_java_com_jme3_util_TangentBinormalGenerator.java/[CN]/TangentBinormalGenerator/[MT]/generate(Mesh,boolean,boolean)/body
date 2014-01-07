@@ -1,0 +1,42 @@
+{
+  int[] index=new int[3];
+  Vector3f[] v=new Vector3f[3];
+  Vector2f[] t=new Vector2f[3];
+  for (int i=0; i < 3; i++) {
+    v[i]=new Vector3f();
+    t[i]=new Vector2f();
+  }
+  if (mesh.getBuffer(Type.Normal) == null) {
+    throw new IllegalArgumentException("The given mesh has no normal data!");
+  }
+  List<VertexData> vertices;
+switch (mesh.getMode()) {
+case Triangles:
+    vertices=processTriangles(mesh,index,v,t,splitMirrored);
+  if (splitMirrored) {
+    splitVertices(mesh,vertices,splitMirrored);
+  }
+break;
+case TriangleStrip:
+vertices=processTriangleStrip(mesh,index,v,t);
+break;
+case TriangleFan:
+vertices=processTriangleFan(mesh,index,v,t);
+break;
+default :
+throw new UnsupportedOperationException(mesh.getMode() + " is not supported.");
+}
+processTriangleData(mesh,vertices,approxTangents,splitMirrored);
+if (mesh.getBuffer(Type.BindPosePosition) != null) {
+VertexBuffer tangents=mesh.getBuffer(Type.Tangent);
+if (tangents != null) {
+VertexBuffer bindTangents=new VertexBuffer(Type.BindPoseTangent);
+bindTangents.setupData(Usage.CpuOnly,4,Format.Float,BufferUtils.clone(tangents.getData()));
+if (mesh.getBuffer(Type.BindPoseTangent) != null) {
+mesh.clearBuffer(Type.BindPoseTangent);
+}
+mesh.setBuffer(bindTangents);
+tangents.setUsage(Usage.Stream);
+}
+}
+}

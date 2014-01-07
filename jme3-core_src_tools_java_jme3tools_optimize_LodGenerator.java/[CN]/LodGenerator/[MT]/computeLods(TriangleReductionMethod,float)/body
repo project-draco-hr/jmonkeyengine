@@ -1,0 +1,50 @@
+{
+  int tricount=triangleList.size();
+  int lastBakeVertexCount=tricount;
+  int lodCount=reductionValues.length;
+  VertexBuffer[] lods=new VertexBuffer[lodCount + 1];
+  int numBakedLods=1;
+  lods[0]=mesh.getBuffer(VertexBuffer.Type.Index);
+  for (int curLod=0; curLod < lodCount; curLod++) {
+    int neededTriCount=calcLodTriCount(reductionMethod,reductionValues[curLod]);
+    while (neededTriCount < tricount) {
+      Collections.sort(collapseCostSet,collapseComparator);
+      Iterator<Vertex> it=collapseCostSet.iterator();
+      if (it.hasNext()) {
+        Vertex v=it.next();
+        if (v.collapseCost < collapseCostLimit) {
+          if (!collapse(v)) {
+            logger.log(Level.FINE,"Couldn''t collapse vertex{0}",v.index);
+          }
+          Iterator<Vertex> it2=collapseCostSet.iterator();
+          if (it2.hasNext()) {
+            it2.next();
+            it2.remove();
+          }
+        }
+ else {
+          break;
+        }
+      }
+ else {
+        break;
+      }
+      tricount=triangleList.size() - nbCollapsedTri;
+    }
+    logger.log(Level.FINE,"collapsed {0} tris",nbCollapsedTri);
+    boolean outSkipped=(lastBakeVertexCount == tricount);
+    if (!outSkipped) {
+      lastBakeVertexCount=tricount;
+      lods[curLod + 1]=makeLod(mesh);
+      numBakedLods++;
+    }
+  }
+  if (numBakedLods <= lodCount) {
+    VertexBuffer[] bakedLods=new VertexBuffer[numBakedLods];
+    System.arraycopy(lods,0,bakedLods,0,numBakedLods);
+    return bakedLods;
+  }
+ else {
+    return lods;
+  }
+}

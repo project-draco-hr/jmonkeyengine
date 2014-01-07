@@ -1,0 +1,16 @@
+{
+  if (vector4 != null) {
+    cShape=new BU_Simplex1to4(Converter.convert(vector1),Converter.convert(vector2),Converter.convert(vector3),Converter.convert(vector4));
+  }
+ else   if (vector3 != null) {
+    cShape=new BU_Simplex1to4(Converter.convert(vector1),Converter.convert(vector2),Converter.convert(vector3));
+  }
+ else   if (vector2 != null) {
+    cShape=new BU_Simplex1to4(Converter.convert(vector1),Converter.convert(vector2));
+  }
+ else {
+    cShape=new BU_Simplex1to4(Converter.convert(vector1));
+  }
+  cShape.setLocalScaling(Converter.convert(getScale()));
+  cShape.setMargin(margin);
+}

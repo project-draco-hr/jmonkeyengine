@@ -1,0 +1,25 @@
+{
+  try {
+    if (!USE_SHARED_CONTEXT) {
+      renderer.cleanup();
+    }
+    if (Display.isCreated()) {
+      if (Keyboard.isCreated()) {
+        Keyboard.destroy();
+      }
+      if (JmeSystem.getPlatform() == Platform.Windows32 || JmeSystem.getPlatform() == Platform.Windows64) {
+      }
+      Display.destroy();
+    }
+    if (!needClose.get()) {
+      makePbufferAvailable();
+      renderer.invalidateState();
+    }
+ else {
+      destroyPbuffer();
+    }
+  }
+ catch (  LWJGLException ex) {
+    listener.handleError("Failed make pbuffer available",ex);
+  }
+}

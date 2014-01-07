@@ -1,0 +1,19 @@
+{
+  float xBase=155;
+  float yBase=212;
+  Vector2f dir=new Vector2f(xAxis,yAxis);
+  float length=Math.min(1,dir.length());
+  dir.normalizeLocal();
+  float angle=dir.getAngle();
+  float x=FastMath.cos(angle) * length * 10;
+  float y=FastMath.sin(angle) * length * 10;
+  leftStick.setLocalTranslation(xBase + x,yBase + y,0);
+  xBase=291;
+  dir=new Vector2f(zAxis,zRotation);
+  length=Math.min(1,dir.length());
+  dir.normalizeLocal();
+  angle=dir.getAngle();
+  x=FastMath.cos(angle) * length * 10;
+  y=FastMath.sin(angle) * length * 10;
+  rightStick.setLocalTranslation(xBase + x,yBase + y,0);
+}

@@ -1,0 +1,6 @@
+{
+  DoubleBuffer buf=ByteBuffer.allocateDirect(8 * size).order(ByteOrder.nativeOrder()).asDoubleBuffer();
+  buf.clear();
+  onBufferAllocated(buf);
+  return buf;
+}

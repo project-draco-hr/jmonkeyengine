@@ -1,0 +1,22 @@
+{
+switch (format) {
+case Byte:
+    return GL.GL_BYTE;
+case UnsignedByte:
+  return GL.GL_UNSIGNED_BYTE;
+case Short:
+return GL.GL_SHORT;
+case UnsignedShort:
+return GL.GL_UNSIGNED_SHORT;
+case Int:
+return GL2ES2.GL_INT;
+case UnsignedInt:
+return GL.GL_UNSIGNED_INT;
+case Float:
+return GL.GL_FLOAT;
+case Double:
+return GL2GL3.GL_DOUBLE;
+default :
+throw new UnsupportedOperationException("Unknown buffer format.");
+}
+}

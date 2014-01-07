@@ -1,0 +1,17 @@
+{
+  float dot=dot(q2);
+  float blendI=1.0f - blend;
+  if (dot < 0.0f) {
+    x=blendI * x - blend * q2.x;
+    y=blendI * y - blend * q2.y;
+    z=blendI * z - blend * q2.z;
+    w=blendI * w - blend * q2.w;
+  }
+ else {
+    x=blendI * x + blend * q2.x;
+    y=blendI * y + blend * q2.y;
+    z=blendI * z + blend * q2.z;
+    w=blendI * w + blend * q2.w;
+  }
+  normalizeLocal();
+}

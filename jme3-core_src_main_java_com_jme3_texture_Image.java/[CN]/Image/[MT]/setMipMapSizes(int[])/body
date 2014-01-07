@@ -1,0 +1,13 @@
+{
+  if (mipMapSizes != null && mipMapSizes.length <= 1)   mipMapSizes=null;
+  this.mipMapSizes=mipMapSizes;
+  if (mipMapSizes != null) {
+    needGeneratedMips=false;
+    mipsWereGenerated=false;
+  }
+ else {
+    needGeneratedMips=false;
+    mipsWereGenerated=true;
+  }
+  setUpdateNeeded();
+}

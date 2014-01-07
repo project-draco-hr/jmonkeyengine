@@ -1,0 +1,10 @@
+{
+  try {
+    Long value=(Long)mbeans.getAttribute(directPool,"MemoryUsed");
+    return value == null ? -1 : value;
+  }
+ catch (  JMException ex) {
+    Logger.getLogger(MemoryUtils.class.getName()).log(Level.SEVERE,"Error retrieving ???MemoryUsed???",ex);
+    return -1;
+  }
+}

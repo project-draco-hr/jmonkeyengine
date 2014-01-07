@@ -1,0 +1,43 @@
+{
+  if (!(otherObj instanceof Material)) {
+    return false;
+  }
+  Material other=(Material)otherObj;
+  if (this == other) {
+    return true;
+  }
+  if (this.getMaterialDef() != other.getMaterialDef()) {
+    return false;
+  }
+  if (this.paramValues.size() != other.paramValues.size()) {
+    return false;
+  }
+  if (this.technique != null || other.technique != null) {
+    String thisDefName=this.technique != null ? this.technique.getDef().getName() : "Default";
+    String otherDefName=other.technique != null ? other.technique.getDef().getName() : "Default";
+    if (!thisDefName.equals(otherDefName)) {
+      return false;
+    }
+  }
+  for (  String paramKey : paramValues.keySet()) {
+    MatParam thisParam=this.getParam(paramKey);
+    MatParam otherParam=other.getParam(paramKey);
+    if (otherParam == null) {
+      return false;
+    }
+    if (!otherParam.equals(thisParam)) {
+      return false;
+    }
+  }
+  if (additionalState == null) {
+    if (other.additionalState != null) {
+      return false;
+    }
+  }
+ else {
+    if (!additionalState.equals(other.additionalState)) {
+      return false;
+    }
+  }
+  return true;
+}

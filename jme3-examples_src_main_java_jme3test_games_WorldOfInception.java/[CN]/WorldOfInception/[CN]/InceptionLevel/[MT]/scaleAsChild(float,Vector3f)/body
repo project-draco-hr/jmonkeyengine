@@ -1,0 +1,11 @@
+{
+  float childScale=mapValue(percent,1.0f / poiRadius,1);
+  Vector3f distToHorizon=dist.normalize();
+  Vector3f scaledDistToHorizon=distToHorizon.mult(childScale * poiRadius);
+  Vector3f rootOff=dist.add(scaledDistToHorizon);
+  debugTools.setBlueArrow(Vector3f.ZERO,rootOff);
+  getRootNode().setLocalScale(childScale);
+  getRootNode().setLocalTranslation(rootOff);
+  Vector3f playerPosition=dist.normalize().mult(-poiRadius);
+  setPlayerPosition(playerPosition);
+}

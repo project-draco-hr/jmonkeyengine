@@ -1,0 +1,42 @@
+{
+  Vector3f camDir=cam.getDirection().clone().multLocal(0.1f);
+  Vector3f camLeft=cam.getLeft().clone().multLocal(0.1f);
+  camDir.y=0;
+  camLeft.y=0;
+  walkDirection.set(0,0,0);
+  if (left) {
+    walkDirection.addLocal(camLeft);
+  }
+  if (right) {
+    walkDirection.addLocal(camLeft.negate());
+  }
+  if (up) {
+    walkDirection.addLocal(camDir);
+  }
+  if (down) {
+    walkDirection.addLocal(camDir.negate());
+  }
+  if (!character.onGround()) {
+    airTime=airTime + tpf;
+  }
+ else {
+    airTime=0;
+  }
+  if (walkDirection.length() == 0) {
+    if (!"stand".equals(animationChannel.getAnimationName())) {
+      animationChannel.setAnim("stand",1f);
+    }
+  }
+ else {
+    character.setViewDirection(walkDirection);
+    if (airTime > .3f) {
+      if (!"stand".equals(animationChannel.getAnimationName())) {
+        animationChannel.setAnim("stand");
+      }
+    }
+ else     if (!"Walk".equals(animationChannel.getAnimationName())) {
+      animationChannel.setAnim("Walk",0.7f);
+    }
+  }
+  character.setWalkDirection(walkDirection);
+}

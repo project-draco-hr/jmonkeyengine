@@ -1,0 +1,9 @@
+{
+  if (output.capacity() < input.capacity())   throw new RuntimeException("Output must be at least as large as input!");
+  input.clear();
+  output.clear();
+  for (int i=0; i < input.capacity(); i++) {
+    output.put((byte)(input.get() * 255f));
+  }
+  output.flip();
+}

@@ -1,0 +1,8 @@
+{
+  try {
+    return zipfile.getInputStream(entry);
+  }
+ catch (  IOException ex) {
+    throw new AssetLoadException("Failed to load zip entry: " + entry,ex);
+  }
+}

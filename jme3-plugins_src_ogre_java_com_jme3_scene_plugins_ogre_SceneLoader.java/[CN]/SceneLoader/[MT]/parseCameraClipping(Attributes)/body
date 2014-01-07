@@ -1,0 +1,10 @@
+{
+  if (attribs.getValue("near") != null) {
+    camera.setFrustumNear(SAXUtil.parseFloat(attribs.getValue("near")));
+    camera.setFrustumFar(SAXUtil.parseFloat(attribs.getValue("far")));
+  }
+ else {
+    camera.setFrustumNear(SAXUtil.parseFloat(attribs.getValue("nearPlaneDist")));
+    camera.setFrustumFar(SAXUtil.parseFloat(attribs.getValue("farPlaneDist")));
+  }
+}

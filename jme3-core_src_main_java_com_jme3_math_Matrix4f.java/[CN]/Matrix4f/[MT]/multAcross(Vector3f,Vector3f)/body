@@ -1,0 +1,14 @@
+{
+  if (null == vec) {
+    logger.warning("Source vector is null, null result returned.");
+    return null;
+  }
+  if (store == null) {
+    store=new Vector3f();
+  }
+  float vx=vec.x, vy=vec.y, vz=vec.z;
+  store.x=m00 * vx + m10 * vy + m20 * vz + m30 * 1;
+  store.y=m01 * vx + m11 * vy + m21 * vz + m31 * 1;
+  store.z=m02 * vx + m12 * vy + m22 * vz + m32 * 1;
+  return store;
+}

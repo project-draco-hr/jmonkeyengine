@@ -1,0 +1,10 @@
+{
+  particles=new Particle[numParticles];
+  for (int i=0; i < numParticles; i++) {
+    particles[i]=new Particle();
+  }
+  particleMesh.initParticleData(this,particles.length);
+  particleMesh.setImagesXY(this.imagesX,this.imagesY);
+  firstUnUsed=0;
+  lastUsed=-1;
+}

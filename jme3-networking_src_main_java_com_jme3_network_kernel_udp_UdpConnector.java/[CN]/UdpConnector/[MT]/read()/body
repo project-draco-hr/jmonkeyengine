@@ -1,0 +1,14 @@
+{
+  checkClosed();
+  try {
+    DatagramPacket packet=new DatagramPacket(buffer,buffer.length);
+    sock.receive(packet);
+    return ByteBuffer.wrap(buffer,0,packet.getLength());
+  }
+ catch (  IOException e) {
+    if (!connected.get()) {
+      return null;
+    }
+    throw new ConnectorException("Error reading from connection to:" + remoteAddress,e);
+  }
+}

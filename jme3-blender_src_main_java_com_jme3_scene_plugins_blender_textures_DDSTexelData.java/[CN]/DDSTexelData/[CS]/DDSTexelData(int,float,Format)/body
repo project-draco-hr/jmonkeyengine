@@ -1,0 +1,13 @@
+{
+  int texelsCount=compressedSize * 8 / format.getBitsPerPixel() / 16;
+  this.colors=new TexturePixel[texelsCount][];
+  this.indexes=new long[texelsCount];
+  this.widthInPixels=(int)(0.5f * (float)Math.sqrt(this.getSizeInBytes() / widthToHeightRatio));
+  this.heightInPixels=(int)(this.widthInPixels / widthToHeightRatio);
+  this.xTexelCount=widthInPixels >> 2;
+  this.yCounter=(heightInPixels >> 2) - 1;
+  if (format == Format.DXT3 || format == Format.DXT5) {
+    this.alphas=new float[texelsCount][];
+    this.alphaIndexes=new long[texelsCount];
+  }
+}

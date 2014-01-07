@@ -1,0 +1,18 @@
+{
+  int[] indexCache=new int[numVerts];
+  Arrays.fill(indexCache,-1);
+  int numIndices=indices.length;
+  int[] remappedIndices=new int[numIndices];
+  int indexCtr=0;
+  for (int j=0; j < numIndices; j++) {
+    int cachedIndex=indexCache[indices[j]];
+    if (cachedIndex == -1) {
+      remappedIndices[j]=indexCtr;
+      indexCache[indices[j]]=indexCtr++;
+    }
+ else {
+      remappedIndices[j]=cachedIndex;
+    }
+  }
+  return remappedIndices;
+}

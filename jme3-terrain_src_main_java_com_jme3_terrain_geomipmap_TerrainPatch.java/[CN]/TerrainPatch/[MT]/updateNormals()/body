@@ -1,0 +1,11 @@
+{
+  FloatBuffer newNormalBuffer=geomap.writeNormalArray(null,getWorldScale());
+  getMesh().getBuffer(Type.Normal).updateData(newNormalBuffer);
+  FloatBuffer newTangentBuffer=null;
+  FloatBuffer newBinormalBuffer=null;
+  FloatBuffer[] tb=geomap.writeTangentArray(newNormalBuffer,newTangentBuffer,newBinormalBuffer,(FloatBuffer)getMesh().getBuffer(Type.TexCoord).getData(),getWorldScale());
+  newTangentBuffer=tb[0];
+  newBinormalBuffer=tb[1];
+  getMesh().getBuffer(Type.Tangent).updateData(newTangentBuffer);
+  getMesh().getBuffer(Type.Binormal).updateData(newBinormalBuffer);
+}

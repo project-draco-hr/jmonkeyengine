@@ -1,0 +1,10 @@
+{
+  ByteBuffer initialData=BufferUtils.createByteBuffer(width * height * 4);
+  for (int i=0; i < width * height * 4; i++) {
+    initialData.put((byte)0x80);
+  }
+  initialData.rewind();
+  textureAtlas=new Texture2D(new com.jme3.texture.Image(Format.RGBA8,width,height,initialData));
+  textureAtlas.setMinFilter(MinFilter.NearestNoMipMaps);
+  textureAtlas.setMagFilter(MagFilter.Nearest);
+}

@@ -1,0 +1,7 @@
+{
+  if (offset < 0 || offset > 20000000) {
+    throw new IllegalArgumentException();
+  }
+  this.offset&=0xE0000000;
+  this.offset|=offset;
+}

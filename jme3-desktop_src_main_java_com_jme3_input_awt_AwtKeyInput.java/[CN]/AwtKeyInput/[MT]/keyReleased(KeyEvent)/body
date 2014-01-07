@@ -1,0 +1,11 @@
+{
+  int code=convertAwtKey(evt.getKeyCode());
+  if (keyStateSet.get(code)) {
+    keyStateSet.clear(code);
+    KeyInputEvent keyEvent=new KeyInputEvent(code,evt.getKeyChar(),false,false);
+    keyEvent.setTime(evt.getWhen());
+synchronized (eventQueue) {
+      eventQueue.add(keyEvent);
+    }
+  }
+}

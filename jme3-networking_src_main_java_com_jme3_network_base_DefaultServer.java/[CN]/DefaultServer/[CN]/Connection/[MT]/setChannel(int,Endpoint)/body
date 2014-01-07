@@ -1,0 +1,7 @@
+{
+  if (channels[channel] != null && channels[channel] != p) {
+    throw new RuntimeException("Channel has already been set:" + channel + " = "+ channels[channel]+ ", cannot be set to:"+ p);
+  }
+  channels[channel]=p;
+  if (p != null)   setChannelCount++;
+}

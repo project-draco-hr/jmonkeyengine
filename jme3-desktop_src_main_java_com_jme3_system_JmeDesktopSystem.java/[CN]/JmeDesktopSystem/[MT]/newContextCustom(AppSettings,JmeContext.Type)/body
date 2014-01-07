@@ -1,0 +1,18 @@
+{
+  try {
+    String className=settings.getRenderer().substring("CUSTOM".length());
+    Class<? extends JmeContext> ctxClazz=null;
+    ctxClazz=(Class<? extends JmeContext>)Class.forName(className);
+    return ctxClazz.newInstance();
+  }
+ catch (  InstantiationException ex) {
+    logger.log(Level.SEVERE,"Failed to create context",ex);
+  }
+catch (  IllegalAccessException ex) {
+    logger.log(Level.SEVERE,"Failed to create context",ex);
+  }
+catch (  ClassNotFoundException ex) {
+    logger.log(Level.SEVERE,"CRITICAL ERROR: Context class is missing!",ex);
+  }
+  return null;
+}

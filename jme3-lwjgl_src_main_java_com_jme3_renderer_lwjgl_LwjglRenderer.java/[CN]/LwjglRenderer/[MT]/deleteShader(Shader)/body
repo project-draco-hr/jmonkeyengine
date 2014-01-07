@@ -1,0 +1,15 @@
+{
+  if (shader.getId() == -1) {
+    logger.warning("Shader is not uploaded to GPU, cannot delete.");
+    return;
+  }
+  for (  ShaderSource source : shader.getSources()) {
+    if (source.getId() != -1) {
+      glDetachShader(shader.getId(),source.getId());
+      deleteShaderSource(source);
+    }
+  }
+  glDeleteProgram(shader.getId());
+  statistics.onDeleteShader();
+  shader.resetObject();
+}

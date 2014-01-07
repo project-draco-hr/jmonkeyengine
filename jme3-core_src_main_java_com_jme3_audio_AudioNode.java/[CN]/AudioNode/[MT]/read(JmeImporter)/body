@@ -1,0 +1,34 @@
+{
+  super.read(im);
+  InputCapsule ic=im.getCapsule(this);
+  if (ic.getSavableVersion(AudioNode.class) == 0) {
+    audioKey=(AudioKey)ic.readSavable("key",null);
+  }
+ else {
+    audioKey=(AudioKey)ic.readSavable("audio_key",null);
+  }
+  loop=ic.readBoolean("looping",false);
+  volume=ic.readFloat("volume",1);
+  pitch=ic.readFloat("pitch",1);
+  timeOffset=ic.readFloat("time_offset",0);
+  dryFilter=(Filter)ic.readSavable("dry_filter",null);
+  velocity=(Vector3f)ic.readSavable("velocity",null);
+  reverbEnabled=ic.readBoolean("reverb_enabled",false);
+  reverbFilter=(Filter)ic.readSavable("reverb_filter",null);
+  maxDistance=ic.readFloat("max_distance",20);
+  refDistance=ic.readFloat("ref_distance",10);
+  directional=ic.readBoolean("directional",false);
+  direction=(Vector3f)ic.readSavable("direction",null);
+  innerAngle=ic.readFloat("inner_angle",360);
+  outerAngle=ic.readFloat("outer_angle",360);
+  positional=ic.readBoolean("positional",false);
+  if (audioKey != null) {
+    try {
+      data=im.getAssetManager().loadAsset(audioKey);
+    }
+ catch (    AssetNotFoundException ex) {
+      Logger.getLogger(AudioNode.class.getName()).log(Level.FINE,"Cannot locate {0} for audio node {1}",new Object[]{audioKey,key});
+      data=PlaceholderAssets.getPlaceholderAudio();
+    }
+  }
+}

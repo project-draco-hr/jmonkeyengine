@@ -1,0 +1,26 @@
+{
+  if (!attachAsMain && out != fb) {
+    throw new IllegalStateException("Why did you change the output framebuffer?");
+  }
+  if (reshapeNeeded.getAndSet(false)) {
+    reshapeInThread(newWidth,newHeight);
+  }
+ else {
+    if (!checkVisibilityState()) {
+      return;
+    }
+switch (paintMode) {
+case Accelerated:
+      drawFrameInThread();
+    break;
+case Repaint:
+  repaintInThread();
+break;
+case OnRequest:
+if (repaintRequest.getAndSet(false)) {
+repaintInThread();
+}
+break;
+}
+}
+}

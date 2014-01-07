@@ -1,0 +1,12 @@
+{
+synchronized (states) {
+    if (!states.contains(state) && !initializing.contains(state)) {
+      state.stateAttached(this);
+      initializing.add(state);
+      return true;
+    }
+ else {
+      return false;
+    }
+  }
+}

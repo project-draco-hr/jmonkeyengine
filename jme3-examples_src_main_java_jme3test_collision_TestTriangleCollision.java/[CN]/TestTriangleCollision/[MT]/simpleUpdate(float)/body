@@ -1,0 +1,11 @@
+{
+  CollisionResults results=new CollisionResults();
+  BoundingVolume bv=geom1.getWorldBound();
+  golem.collideWith(bv,results);
+  if (results.size() > 0) {
+    geom1.getMaterial().setColor("Color",ColorRGBA.Red);
+  }
+ else {
+    geom1.getMaterial().setColor("Color",ColorRGBA.Blue);
+  }
+}

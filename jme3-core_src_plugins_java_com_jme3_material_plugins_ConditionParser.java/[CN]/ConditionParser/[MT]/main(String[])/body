@@ -1,0 +1,13 @@
+{
+  ConditionParser parser=new ConditionParser();
+  List<String> defines=parser.extractDefines("(LightMap && SeparateTexCoord) || !ColorMap");
+  for (  String string : defines) {
+    System.err.println(string);
+  }
+  System.err.println(parser.formattedExpression);
+  defines=parser.extractDefines("#if (defined(LightMap) && defined(SeparateTexCoord)) || !defined(ColorMap)");
+  for (  String string : defines) {
+    System.err.println(string);
+  }
+  System.err.println(parser.formattedExpression);
+}

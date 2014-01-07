@@ -1,0 +1,41 @@
+{
+  this.walkRay.set(walkRay);
+  Vector3f direction=this.walkRay.getDirection();
+  Vector3f start=this.walkRay.getOrigin().subtract(gridOrigin);
+  gridLocation.x=(int)(start.x / gridSpacing.x);
+  gridLocation.y=(int)(start.z / gridSpacing.z);
+  Vector3f ooDirection=new Vector3f(1.0f / direction.x,1,1.0f / direction.z);
+  if (direction.x > TOLERANCE) {
+    distToNextXIntersection=((gridLocation.x + 1) * gridSpacing.x - start.x) * ooDirection.x;
+    distBetweenXIntersections=gridSpacing.x * ooDirection.x;
+    stepXDirection=1;
+  }
+ else   if (direction.x < -TOLERANCE) {
+    distToNextXIntersection=(start.x - (gridLocation.x * gridSpacing.x)) * -direction.x;
+    distBetweenXIntersections=-gridSpacing.x * ooDirection.x;
+    stepXDirection=-1;
+  }
+ else {
+    distToNextXIntersection=Float.MAX_VALUE;
+    distBetweenXIntersections=Float.MAX_VALUE;
+    stepXDirection=0;
+  }
+  if (direction.z > TOLERANCE) {
+    distToNextZIntersection=((gridLocation.y + 1) * gridSpacing.z - start.z) * ooDirection.z;
+    distBetweenZIntersections=gridSpacing.z * ooDirection.z;
+    stepZDirection=1;
+  }
+ else   if (direction.z < -TOLERANCE) {
+    distToNextZIntersection=(start.z - (gridLocation.y * gridSpacing.z)) * -direction.z;
+    distBetweenZIntersections=-gridSpacing.z * ooDirection.z;
+    stepZDirection=-1;
+  }
+ else {
+    distToNextZIntersection=Float.MAX_VALUE;
+    distBetweenZIntersections=Float.MAX_VALUE;
+    stepZDirection=0;
+  }
+  rayLocation.set(start);
+  rayLength=0.0f;
+  stepDirection=Direction.None;
+}

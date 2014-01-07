@@ -1,0 +1,11 @@
+{
+  ArrayList<ImplThreadLocal<AssetLocator>> locatorsToRemove=new ArrayList<ImplThreadLocal<AssetLocator>>();
+  Iterator<ImplThreadLocal<AssetLocator>> it=locatorsList.iterator();
+  while (it.hasNext()) {
+    ImplThreadLocal locator=it.next();
+    if (locator.getPath().equals(rootPath) && locator.getTypeClass().equals(locatorType)) {
+      locatorsToRemove.add(locator);
+    }
+  }
+  locatorsList.removeAll(locatorsToRemove);
+}

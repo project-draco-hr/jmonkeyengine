@@ -1,0 +1,34 @@
+{
+  AmbientLight al=new AmbientLight();
+  rootNode.addLight(al);
+  DirectionalLight dl=new DirectionalLight();
+  dl.setDirection(Vector3f.UNIT_XYZ.negate());
+  rootNode.addLight(dl);
+  Box box=new Box(1,1,1);
+  Geometry geom=new Geometry("box",box);
+  geom.setMaterial(assetManager.loadMaterial("Textures/Terrain/BrickWall/BrickWall.j3m"));
+  Node model=new Node("model");
+  model.attachChild(geom);
+  Box child=new Box(0.5f,0.5f,0.5f);
+  Geometry childGeom=new Geometry("box",child);
+  childGeom.setMaterial(assetManager.loadMaterial("Textures/Terrain/BrickWall/BrickWall.j3m"));
+  Node childModel=new Node("childmodel");
+  childModel.setLocalTranslation(2,2,2);
+  childModel.attachChild(childGeom);
+  model.attachChild(childModel);
+  TangentBinormalGenerator.generate(model);
+  AnimationFactory animationFactory=new AnimationFactory(6,"anim",25);
+  animationFactory.addTimeTranslation(3,new Vector3f(5,0,0));
+  animationFactory.addTimeTranslation(6,new Vector3f(0,0,0));
+  animationFactory.addTimeScale(2,new Vector3f(1,1,1));
+  animationFactory.addTimeScale(4,new Vector3f(1.5f,1.5f,1.5f));
+  animationFactory.addTimeScale(5,new Vector3f(1,1,1));
+  animationFactory.addTimeRotation(0.5f,new Quaternion().fromAngleAxis(FastMath.QUARTER_PI,Vector3f.UNIT_Z));
+  animationFactory.addTimeRotation(1,Quaternion.IDENTITY);
+  animationFactory.addTimeRotationAngles(2,FastMath.TWO_PI,0,0);
+  AnimControl control=new AnimControl();
+  control.addAnim(animationFactory.buildAnimation());
+  model.addControl(control);
+  rootNode.attachChild(model);
+  control.createChannel().setAnim("anim");
+}

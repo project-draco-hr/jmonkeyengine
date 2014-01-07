@@ -1,0 +1,9 @@
+{
+  temp1.set(line2).subtractLocal(line1);
+  temp3.set(temp1);
+  temp2.set(p1).subtractLocal(line1);
+  temp1.crossLocal(temp2);
+  temp2.set(p2).subtractLocal(line1);
+  temp3.crossLocal(temp2);
+  return temp1.dot(temp3) >= 0;
+}

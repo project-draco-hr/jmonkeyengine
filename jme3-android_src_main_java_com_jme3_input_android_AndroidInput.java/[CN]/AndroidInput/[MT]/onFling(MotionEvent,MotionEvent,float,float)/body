@@ -1,0 +1,8 @@
+{
+  TouchEvent touch=getNextFreeTouchEvent();
+  touch.set(Type.FLING,event.getX(),view.getHeight() - event.getY(),vx,vy);
+  touch.setPointerId(0);
+  touch.setTime(event.getEventTime());
+  processEvent(touch);
+  return true;
+}

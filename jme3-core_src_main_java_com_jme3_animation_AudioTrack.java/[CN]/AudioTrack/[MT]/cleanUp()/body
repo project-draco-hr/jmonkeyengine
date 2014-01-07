@@ -1,0 +1,7 @@
+{
+  TrackInfo t=(TrackInfo)audio.getUserData("TrackInfo");
+  t.getTracks().remove(this);
+  if (!t.getTracks().isEmpty()) {
+    audio.setUserData("TrackInfo",null);
+  }
+}

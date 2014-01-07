@@ -1,0 +1,46 @@
+{
+  int width=DEFAULT_CAM_WIDTH;
+  int height=DEFAULT_CAM_HEIGHT;
+  if (sceneStructure != null) {
+    Structure renderData=(Structure)sceneStructure.getFieldValue("r");
+    width=((Number)renderData.getFieldValue("xsch")).shortValue();
+    height=((Number)renderData.getFieldValue("ysch")).shortValue();
+  }
+  Camera camera=new Camera(width,height);
+  int type=((Number)structure.getFieldValue("type")).intValue();
+  if (type != 0 && type != 1) {
+    LOGGER.log(Level.WARNING,"Unknown camera type: {0}. Perspective camera is being used!",type);
+    type=0;
+  }
+  camera.setParallelProjection(type == 1);
+  float aspect=width / (float)height;
+  float fovY;
+  float clipsta=((Number)structure.getFieldValue("clipsta")).floatValue();
+  float clipend=((Number)structure.getFieldValue("clipend")).floatValue();
+  if (type == 0) {
+    float sensor=32.0f;
+    boolean sensorVertical=false;
+    Number sensorFit=(Number)structure.getFieldValue("sensor_fit");
+    if (sensorFit != null) {
+      sensorVertical=sensorFit.byteValue() == 2;
+      String sensorName="sensor_x";
+      if (sensorVertical) {
+        sensorName="sensor_y";
+      }
+      sensor=((Number)structure.getFieldValue(sensorName)).floatValue();
+    }
+    float focalLength=((Number)structure.getFieldValue("lens")).floatValue();
+    float fov=2.0f * FastMath.atan((sensor / 2.0f) / focalLength);
+    if (sensorVertical) {
+      fovY=fov * FastMath.RAD_TO_DEG;
+    }
+ else {
+      fovY=2.0f * FastMath.atan(FastMath.tan(fov / 2.0f) / aspect) * FastMath.RAD_TO_DEG;
+    }
+  }
+ else {
+    fovY=((Number)structure.getFieldValue("ortho_scale")).floatValue();
+  }
+  camera.setFrustumPerspective(fovY,aspect,clipsta,clipend);
+  return new CameraNode(null,camera);
+}

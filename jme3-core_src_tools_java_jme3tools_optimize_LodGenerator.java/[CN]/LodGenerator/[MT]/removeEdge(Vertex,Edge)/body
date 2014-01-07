@@ -1,0 +1,15 @@
+{
+  Edge ed=null;
+  for (  Edge edge1 : v.edges) {
+    if (edge1.equals(edge)) {
+      ed=edge1;
+      break;
+    }
+  }
+  if (ed.refCount == 1) {
+    v.edges.remove(ed);
+  }
+ else {
+    ed.refCount--;
+  }
+}

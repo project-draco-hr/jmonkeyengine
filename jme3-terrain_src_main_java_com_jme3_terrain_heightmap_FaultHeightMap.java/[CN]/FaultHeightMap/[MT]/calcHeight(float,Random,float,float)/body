@@ -1,0 +1,34 @@
+{
+switch (faultType) {
+case FAULTTYPE_STEP:
+{
+      return FastMath.sign(dist) * faultHeight;
+    }
+case FAULTTYPE_LINEAR:
+{
+    if (FastMath.abs(dist) > range) {
+      return FastMath.sign(dist) * faultHeight;
+    }
+    float f=FastMath.abs(dist) / range;
+    return FastMath.sign(dist) * faultHeight * f;
+  }
+case FAULTTYPE_SINE:
+{
+  if (FastMath.abs(dist) > range) {
+    return -faultHeight;
+  }
+  float f=dist / range;
+  return FastMath.sin((1 + 2 * f) * FastMath.PI / 2) * faultHeight;
+}
+case FAULTTYPE_COSINE:
+{
+if (FastMath.abs(dist) > range) {
+  return -FastMath.sign(dist) * faultHeight;
+}
+float f=dist / range;
+float val=FastMath.cos((1 + f) * FastMath.PI / 2) * faultHeight;
+return val;
+}
+}
+throw new RuntimeException("Code needs update to switch allcases");
+}

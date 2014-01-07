@@ -1,0 +1,24 @@
+{
+  if (s == null) {
+    return;
+  }
+  for (int i=0, len=s.length(); i < len; i++) {
+    char c=s.charAt(i);
+switch (c) {
+case '<':
+      writer.write("&lt;");
+    break;
+case '>':
+  writer.write("&gt;");
+break;
+case '&':
+writer.write("&amp;");
+break;
+case '\r':
+writer.write("&#xD;");
+break;
+default :
+writer.write(c);
+}
+}
+}

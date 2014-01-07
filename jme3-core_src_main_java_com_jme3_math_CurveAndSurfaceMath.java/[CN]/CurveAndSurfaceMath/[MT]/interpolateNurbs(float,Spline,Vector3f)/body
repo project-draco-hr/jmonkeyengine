@@ -1,0 +1,17 @@
+{
+  if (nurbSpline.getType() != SplineType.Nurb) {
+    throw new IllegalArgumentException("Given spline is not of a NURB type!");
+  }
+  List<Vector3f> controlPoints=nurbSpline.getControlPoints();
+  float[] weights=nurbSpline.getWeights();
+  List<Float> knots=nurbSpline.getKnots();
+  int controlPointAmount=controlPoints.size();
+  store.set(Vector3f.ZERO);
+  float delimeter=0;
+  for (int i=0; i < controlPointAmount; ++i) {
+    float val=weights[i] * CurveAndSurfaceMath.computeBaseFunctionValue(i,nurbSpline.getBasisFunctionDegree(),u,knots);
+    store.addLocal(nurbSpline.getControlPoints().get(i).mult(val));
+    delimeter+=val;
+  }
+  store.divideLocal(delimeter);
+}

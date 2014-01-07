@@ -1,0 +1,31 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  if (forLighting) {
+    gl.getGL2().glMaterialf(GL.GL_FRONT_AND_BACK,GLLightingFunc.GL_SHININESS,context.shininess);
+    setMaterialColor(GLLightingFunc.GL_AMBIENT,context.ambient,ColorRGBA.DarkGray);
+    setMaterialColor(GLLightingFunc.GL_DIFFUSE,context.diffuse,ColorRGBA.White);
+    setMaterialColor(GLLightingFunc.GL_SPECULAR,context.specular,ColorRGBA.Black);
+    if (context.useVertexColor) {
+      gl.glEnable(GLLightingFunc.GL_COLOR_MATERIAL);
+    }
+ else {
+      gl.glDisable(GLLightingFunc.GL_COLOR_MATERIAL);
+    }
+  }
+ else {
+    ColorRGBA color=context.color;
+    if (color != null) {
+      gl.getGL2().glColor4f(color.r,color.g,color.b,color.a);
+    }
+ else {
+      gl.getGL2().glColor4f(1,1,1,1);
+    }
+  }
+  if (context.alphaTestFallOff > 0f) {
+    gl.glEnable(GL2ES1.GL_ALPHA_TEST);
+    gl.getGL2ES1().glAlphaFunc(GL.GL_GREATER,context.alphaTestFallOff);
+  }
+ else {
+    gl.glDisable(GL2ES1.GL_ALPHA_TEST);
+  }
+}

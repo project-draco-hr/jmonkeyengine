@@ -1,0 +1,69 @@
+{
+  int width=img.getWidth();
+  int height=img.getHeight();
+switch (img.getType()) {
+case BufferedImage.TYPE_4BYTE_ABGR:
+    byte[] dataBuf1=(byte[])extractImageData(img);
+  if (flipY)   flipImage(dataBuf1,width,height,32);
+ByteBuffer data1=BufferUtils.createByteBuffer(img.getWidth() * img.getHeight() * 4);
+data1.put(dataBuf1);
+return new Image(Format.ABGR8,width,height,data1);
+case BufferedImage.TYPE_3BYTE_BGR:
+byte[] dataBuf2=(byte[])extractImageData(img);
+if (flipY) flipImage(dataBuf2,width,height,24);
+ByteBuffer data2=BufferUtils.createByteBuffer(img.getWidth() * img.getHeight() * 3);
+data2.put(dataBuf2);
+return new Image(Format.BGR8,width,height,data2);
+case BufferedImage.TYPE_BYTE_GRAY:
+byte[] dataBuf3=(byte[])extractImageData(img);
+if (flipY) flipImage(dataBuf3,width,height,8);
+ByteBuffer data3=BufferUtils.createByteBuffer(img.getWidth() * img.getHeight());
+data3.put(dataBuf3);
+return new Image(Format.Luminance8,width,height,data3);
+case BufferedImage.TYPE_USHORT_GRAY:
+short[] dataBuf4=(short[])extractImageData(img);
+if (flipY) flipImage(dataBuf4,width,height,16);
+ByteBuffer data4=BufferUtils.createByteBuffer(img.getWidth() * img.getHeight() * 2);
+data4.asShortBuffer().put(dataBuf4);
+return new Image(Format.Luminance16,width,height,data4);
+default :
+break;
+}
+if (img.getTransparency() == Transparency.OPAQUE) {
+ByteBuffer data=BufferUtils.createByteBuffer(img.getWidth() * img.getHeight() * 3);
+for (int y=0; y < height; y++) {
+for (int x=0; x < width; x++) {
+int ny=y;
+if (flipY) {
+ny=height - y - 1;
+}
+int rgb=img.getRGB(x,ny);
+byte r=(byte)((rgb & 0x00FF0000) >> 16);
+byte g=(byte)((rgb & 0x0000FF00) >> 8);
+byte b=(byte)((rgb & 0x000000FF));
+data.put(r).put(g).put(b);
+}
+}
+data.flip();
+return new Image(Format.RGB8,width,height,data);
+}
+ else {
+ByteBuffer data=BufferUtils.createByteBuffer(img.getWidth() * img.getHeight() * 4);
+for (int y=0; y < height; y++) {
+for (int x=0; x < width; x++) {
+int ny=y;
+if (flipY) {
+ny=height - y - 1;
+}
+int rgb=img.getRGB(x,ny);
+byte a=(byte)((rgb & 0xFF000000) >> 24);
+byte r=(byte)((rgb & 0x00FF0000) >> 16);
+byte g=(byte)((rgb & 0x0000FF00) >> 8);
+byte b=(byte)((rgb & 0x000000FF));
+data.put(r).put(g).put(b).put(a);
+}
+}
+data.flip();
+return new Image(Format.RGBA8,width,height,data);
+}
+}

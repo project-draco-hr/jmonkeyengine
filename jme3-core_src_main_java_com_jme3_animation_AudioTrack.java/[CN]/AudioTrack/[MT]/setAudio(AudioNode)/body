@@ -1,0 +1,8 @@
+{
+  if (this.audio != null) {
+    TrackInfo data=(TrackInfo)audio.getUserData("TrackInfo");
+    data.getTracks().remove(this);
+  }
+  this.audio=audio;
+  setUserData(this);
+}

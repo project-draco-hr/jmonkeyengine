@@ -1,0 +1,21 @@
+{
+  if (isRecentering) {
+    if ((centerLocation.x == awtEvt.getX() && centerLocation.y == awtEvt.getY()) || eventsSinceRecenter++ == 5) {
+      lastKnownLocation.x=awtEvt.getX();
+      lastKnownLocation.y=awtEvt.getY();
+      isRecentering=false;
+    }
+  }
+ else {
+    int dx=awtEvt.getX() - lastKnownLocation.x;
+    int dy=awtEvt.getY() - lastKnownLocation.y;
+    location.x+=dx;
+    location.y+=dy;
+    if (!visible) {
+      recenterMouse(awtEvt.getComponent());
+    }
+    lastKnownLocation.x=awtEvt.getX();
+    lastKnownLocation.y=awtEvt.getY();
+    cursorMoved=true;
+  }
+}

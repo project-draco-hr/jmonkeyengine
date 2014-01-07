@@ -1,0 +1,10 @@
+{
+  super();
+  if (initialStates != null) {
+    for (    AppState a : initialStates) {
+      if (a != null) {
+        stateManager.attach(a);
+      }
+    }
+  }
+}

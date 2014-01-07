@@ -1,0 +1,8 @@
+{
+  if (vertexCount > 65535) {
+    return new IndexIntBuffer(BufferUtils.createIntBuffer(indexCount));
+  }
+ else {
+    return new IndexShortBuffer(BufferUtils.createShortBuffer(indexCount));
+  }
+}

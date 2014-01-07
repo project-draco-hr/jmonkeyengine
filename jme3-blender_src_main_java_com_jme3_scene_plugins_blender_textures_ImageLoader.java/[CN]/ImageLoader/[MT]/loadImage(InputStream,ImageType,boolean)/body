@@ -1,0 +1,32 @@
+{
+  Image result=null;
+switch (imageType) {
+case AWT:
+    try {
+      result=this.load(inputStream,flipY);
+    }
+ catch (    Exception e) {
+      LOGGER.warning("Unable to load image using AWT loader!");
+    }
+  break;
+case DDS:
+try {
+  result=ddsLoader.load(inputStream);
+}
+ catch (Exception e) {
+  LOGGER.warning("Unable to load image using DDS loader!");
+}
+break;
+case TGA:
+try {
+result=TGALoader.load(inputStream,flipY);
+}
+ catch (Exception e) {
+LOGGER.warning("Unable to load image using TGA loader!");
+}
+break;
+default :
+throw new IllegalStateException("Unknown image type: " + imageType);
+}
+return result;
+}

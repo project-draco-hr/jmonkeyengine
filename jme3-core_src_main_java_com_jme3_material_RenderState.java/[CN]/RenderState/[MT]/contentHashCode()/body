@@ -1,0 +1,30 @@
+{
+  if (cachedHashCode == -1) {
+    int hash=7;
+    hash=79 * hash + (this.pointSprite ? 1 : 0);
+    hash=79 * hash + (this.wireframe ? 1 : 0);
+    hash=79 * hash + (this.cullMode != null ? this.cullMode.hashCode() : 0);
+    hash=79 * hash + (this.depthWrite ? 1 : 0);
+    hash=79 * hash + (this.depthTest ? 1 : 0);
+    hash=79 * hash + (this.depthFunc != null ? this.depthFunc.hashCode() : 0);
+    hash=79 * hash + (this.colorWrite ? 1 : 0);
+    hash=79 * hash + (this.blendMode != null ? this.blendMode.hashCode() : 0);
+    hash=79 * hash + (this.alphaTest ? 1 : 0);
+    hash=79 * hash + (this.alphaFunc != null ? this.alphaFunc.hashCode() : 0);
+    hash=79 * hash + Float.floatToIntBits(this.alphaFallOff);
+    hash=79 * hash + Float.floatToIntBits(this.offsetFactor);
+    hash=79 * hash + Float.floatToIntBits(this.offsetUnits);
+    hash=79 * hash + (this.offsetEnabled ? 1 : 0);
+    hash=79 * hash + (this.stencilTest ? 1 : 0);
+    hash=79 * hash + (this.frontStencilStencilFailOperation != null ? this.frontStencilStencilFailOperation.hashCode() : 0);
+    hash=79 * hash + (this.frontStencilDepthFailOperation != null ? this.frontStencilDepthFailOperation.hashCode() : 0);
+    hash=79 * hash + (this.frontStencilDepthPassOperation != null ? this.frontStencilDepthPassOperation.hashCode() : 0);
+    hash=79 * hash + (this.backStencilStencilFailOperation != null ? this.backStencilStencilFailOperation.hashCode() : 0);
+    hash=79 * hash + (this.backStencilDepthFailOperation != null ? this.backStencilDepthFailOperation.hashCode() : 0);
+    hash=79 * hash + (this.backStencilDepthPassOperation != null ? this.backStencilDepthPassOperation.hashCode() : 0);
+    hash=79 * hash + (this.frontStencilFunction != null ? this.frontStencilFunction.hashCode() : 0);
+    hash=79 * hash + (this.backStencilFunction != null ? this.backStencilFunction.hashCode() : 0);
+    cachedHashCode=hash;
+  }
+  return cachedHashCode;
+}

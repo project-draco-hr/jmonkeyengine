@@ -1,0 +1,14 @@
+{
+  if (o == this)   return true;
+  if (!(o instanceof List))   return false;
+  List other=(List)o;
+  Iterator i1=iterator();
+  Iterator i2=other.iterator();
+  while (i1.hasNext() && i2.hasNext()) {
+    Object o1=i1.next();
+    Object o2=i2.next();
+    if (o1 == o2)     continue;
+    if (o1 == null || !o1.equals(o2))     return false;
+  }
+  return !(i1.hasNext() || !i2.hasNext());
+}

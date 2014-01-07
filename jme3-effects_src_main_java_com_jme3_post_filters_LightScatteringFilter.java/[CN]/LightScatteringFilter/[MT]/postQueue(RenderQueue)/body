@@ -1,0 +1,11 @@
+{
+  getClipCoordinates(lightPosition,screenLightPos,viewPort.getCamera());
+  viewPort.getCamera().getViewMatrix().mult(lightPosition,viewLightPos);
+  if (adaptative) {
+    innerLightDensity=Math.max(lightDensity - Math.max(screenLightPos.x,screenLightPos.y),0.0f);
+  }
+ else {
+    innerLightDensity=lightDensity;
+  }
+  display=innerLightDensity != 0.0 && viewLightPos.z < 0;
+}

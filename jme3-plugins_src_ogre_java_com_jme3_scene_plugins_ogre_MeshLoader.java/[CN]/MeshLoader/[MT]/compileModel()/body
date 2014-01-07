@@ -1,0 +1,30 @@
+{
+  Node model=new Node(meshName + "-ogremesh");
+  for (int i=0; i < geoms.size(); i++) {
+    Geometry g=geoms.get(i);
+    Mesh m=g.getMesh();
+    if (sharedMesh != null && usesSharedMesh.get(i)) {
+      m.extractVertexData(sharedMesh);
+    }
+    model.attachChild(geoms.get(i));
+  }
+  if (animData != null) {
+    for (int i=0; i < geoms.size(); i++) {
+      Geometry g=geoms.get(i);
+      Mesh m=geoms.get(i).getMesh();
+      m.generateBindPose(true);
+    }
+    HashMap<String,Animation> anims=new HashMap<String,Animation>();
+    ArrayList<Animation> animList=animData.anims;
+    for (int i=0; i < animList.size(); i++) {
+      Animation anim=animList.get(i);
+      anims.put(anim.getName(),anim);
+    }
+    AnimControl ctrl=new AnimControl(animData.skeleton);
+    ctrl.setAnimations(anims);
+    model.addControl(ctrl);
+    SkeletonControl skeletonControl=new SkeletonControl(animData.skeleton);
+    model.addControl(skeletonControl);
+  }
+  return model;
+}

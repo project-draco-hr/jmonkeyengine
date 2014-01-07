@@ -1,0 +1,22 @@
+{
+  autoSelectTechnique(rm);
+  Renderer r=rm.getRenderer();
+  TechniqueDef techDef=technique.getDef();
+  Collection<MatParam> params=paramValues.values();
+  for (  MatParam param : params) {
+    if (param instanceof MatParamTexture) {
+      MatParamTexture texParam=(MatParamTexture)param;
+      r.setTexture(0,texParam.getTextureValue());
+    }
+ else {
+      if (!techDef.isUsingShaders()) {
+        continue;
+      }
+      technique.updateUniformParam(param.getName(),param.getVarType(),param.getValue());
+    }
+  }
+  Shader shader=technique.getShader();
+  if (techDef.isUsingShaders()) {
+    r.setShader(shader);
+  }
+}

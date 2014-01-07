@@ -1,0 +1,10 @@
+{
+  if (this.emitter != null) {
+    TrackInfo data=(TrackInfo)emitter.getUserData("TrackInfo");
+    data.getTracks().remove(this);
+  }
+  this.emitter=emitter;
+  this.particlesPerSeconds=emitter.getParticlesPerSec();
+  this.emitter.setParticlesPerSec(0);
+  setUserData(this);
+}

@@ -1,0 +1,47 @@
+{
+  if (points == null) {
+    return;
+  }
+  points.rewind();
+  if (points.remaining() <= 2) {
+    return;
+  }
+  TempVars vars=TempVars.get();
+  float[] tmpArray=vars.skinPositions;
+  float minX=Float.POSITIVE_INFINITY, minY=Float.POSITIVE_INFINITY, minZ=Float.POSITIVE_INFINITY;
+  float maxX=Float.NEGATIVE_INFINITY, maxY=Float.NEGATIVE_INFINITY, maxZ=Float.NEGATIVE_INFINITY;
+  int iterations=(int)FastMath.ceil(points.limit() / ((float)tmpArray.length));
+  for (int i=iterations - 1; i >= 0; i--) {
+    int bufLength=Math.min(tmpArray.length,points.remaining());
+    points.get(tmpArray,0,bufLength);
+    for (int j=0; j < bufLength; j+=3) {
+      vars.vect1.x=tmpArray[j];
+      vars.vect1.y=tmpArray[j + 1];
+      vars.vect1.z=tmpArray[j + 2];
+      if (vars.vect1.x < minX) {
+        minX=vars.vect1.x;
+      }
+      if (vars.vect1.x > maxX) {
+        maxX=vars.vect1.x;
+      }
+      if (vars.vect1.y < minY) {
+        minY=vars.vect1.y;
+      }
+      if (vars.vect1.y > maxY) {
+        maxY=vars.vect1.y;
+      }
+      if (vars.vect1.z < minZ) {
+        minZ=vars.vect1.z;
+      }
+      if (vars.vect1.z > maxZ) {
+        maxZ=vars.vect1.z;
+      }
+    }
+  }
+  vars.release();
+  center.set(minX + maxX,minY + maxY,minZ + maxZ);
+  center.multLocal(0.5f);
+  xExtent=maxX - center.x;
+  yExtent=maxY - center.y;
+  zExtent=maxZ - center.z;
+}

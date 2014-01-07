@@ -1,0 +1,20 @@
+{
+  Preferences prefs=Preferences.userRoot().node(preferencesKey);
+  prefs.clear();
+  for (  String key : keySet()) {
+    Object val=get(key);
+    if (val instanceof Integer) {
+      prefs.putInt("I_" + key,(Integer)val);
+    }
+ else     if (val instanceof Float) {
+      prefs.putFloat("F_" + key,(Float)val);
+    }
+ else     if (val instanceof String) {
+      prefs.put("S_" + key,(String)val);
+    }
+ else     if (val instanceof Boolean) {
+      prefs.putBoolean("B_" + key,(Boolean)val);
+    }
+  }
+  prefs.sync();
+}

@@ -1,0 +1,8 @@
+{
+  if (k == 1) {
+    return knots.get(i) <= t && t < knots.get(i + 1) ? 1.0f : 0.0f;
+  }
+ else {
+    return (t - knots.get(i)) / (knots.get(i + k - 1) - knots.get(i)) * CurveAndSurfaceMath.computeBaseFunctionValue(i,k - 1,t,knots) + (knots.get(i + k) - t) / (knots.get(i + k) - knots.get(i + 1)) * CurveAndSurfaceMath.computeBaseFunctionValue(i + 1,k - 1,t,knots);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  try {
+    EmitterSphereShape clone=(EmitterSphereShape)super.clone();
+    clone.center=center.clone();
+    return clone;
+  }
+ catch (  CloneNotSupportedException ex) {
+    throw new AssertionError();
+  }
+}

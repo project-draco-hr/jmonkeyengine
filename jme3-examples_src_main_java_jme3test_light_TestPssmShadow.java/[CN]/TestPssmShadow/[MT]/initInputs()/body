@@ -1,0 +1,23 @@
+{
+  guiFont=assetManager.loadFont("Interface/Fonts/Default.fnt");
+  infoText=new BitmapText(guiFont,false);
+  infoText.setSize(guiFont.getCharSet().getRenderedSize());
+  inputManager.addMapping("toggle",new KeyTrigger(KeyInput.KEY_SPACE));
+  inputManager.addMapping("changeFiltering",new KeyTrigger(KeyInput.KEY_F));
+  inputManager.addMapping("ShadowUp",new KeyTrigger(KeyInput.KEY_T));
+  inputManager.addMapping("ShadowDown",new KeyTrigger(KeyInput.KEY_G));
+  inputManager.addMapping("ThicknessUp",new KeyTrigger(KeyInput.KEY_Y));
+  inputManager.addMapping("ThicknessDown",new KeyTrigger(KeyInput.KEY_H));
+  inputManager.addMapping("lambdaUp",new KeyTrigger(KeyInput.KEY_U));
+  inputManager.addMapping("lambdaDown",new KeyTrigger(KeyInput.KEY_J));
+  inputManager.addMapping("toggleHW",new KeyTrigger(KeyInput.KEY_RETURN));
+  inputManager.addMapping("switchGroundMat",new KeyTrigger(KeyInput.KEY_M));
+  inputManager.addMapping("splits",new KeyTrigger(KeyInput.KEY_X));
+  inputManager.addMapping("up",new KeyTrigger(KeyInput.KEY_NUMPAD8));
+  inputManager.addMapping("down",new KeyTrigger(KeyInput.KEY_NUMPAD2));
+  inputManager.addMapping("right",new KeyTrigger(KeyInput.KEY_NUMPAD6));
+  inputManager.addMapping("left",new KeyTrigger(KeyInput.KEY_NUMPAD4));
+  inputManager.addMapping("fwd",new KeyTrigger(KeyInput.KEY_PGUP));
+  inputManager.addMapping("back",new KeyTrigger(KeyInput.KEY_PGDN));
+  inputManager.addListener(this,"lambdaUp","lambdaDown","toggleHW","toggle","ShadowUp","ShadowDown","ThicknessUp","ThicknessDown","changeFiltering","switchGroundMat","splits","up","down","right","left","fwd","back");
+}

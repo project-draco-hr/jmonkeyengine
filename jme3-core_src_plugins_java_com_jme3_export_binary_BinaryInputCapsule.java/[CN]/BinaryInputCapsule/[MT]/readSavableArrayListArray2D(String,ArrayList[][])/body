@@ -1,0 +1,21 @@
+{
+  BinaryClassField field=cObj.nameFields.get(name);
+  if (field == null || !fieldData.containsKey(field.alias))   return defVal;
+  Object value=fieldData.get(field.alias);
+  if (value instanceof ID[][][]) {
+    Savable[][][] savables=readSavableArray3D(name,null);
+    if (savables != null && savables.length > 0) {
+      ArrayList[][] arrayLists=new ArrayList[savables.length][];
+      for (int i=0; i < savables.length; i++) {
+        arrayLists[i]=new ArrayList[savables[i].length];
+        for (int j=0; j < savables[i].length; j++) {
+          arrayLists[i][j]=savableArrayListFromArray(savables[i][j]);
+        }
+      }
+      value=arrayLists;
+    }
+ else     value=defVal;
+    fieldData.put(field.alias,value);
+  }
+  return (ArrayList[][])value;
+}

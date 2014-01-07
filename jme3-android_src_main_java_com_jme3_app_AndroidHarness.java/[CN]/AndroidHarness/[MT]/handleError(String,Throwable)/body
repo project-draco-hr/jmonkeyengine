@@ -1,0 +1,20 @@
+{
+  String stackTrace="";
+  String title="Error";
+  if (t != null) {
+    StringWriter sw=new StringWriter(100);
+    t.printStackTrace(new PrintWriter(sw));
+    stackTrace=sw.toString();
+    title=t.toString();
+  }
+  final String finalTitle=title;
+  final String finalMsg=(errorMsg != null ? errorMsg : "Uncaught Exception") + "\n" + stackTrace;
+  logger.log(Level.SEVERE,finalMsg);
+  runOnUiThread(new Runnable(){
+    @Override public void run(){
+      AlertDialog dialog=new AlertDialog.Builder(AndroidHarness.this).setTitle(finalTitle).setPositiveButton("Kill",AndroidHarness.this).setMessage(finalMsg).create();
+      dialog.show();
+    }
+  }
+);
+}

@@ -1,0 +1,9 @@
+{
+  if (eos) {
+    return null;
+  }
+  if (pageCache.size() == 0) {
+    readNextOggPage();
+  }
+  return pageCache.removeFirst();
+}

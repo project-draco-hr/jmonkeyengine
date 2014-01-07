@@ -1,0 +1,22 @@
+{
+  checkTopNode("light");
+  if (light instanceof PointLight || light instanceof SpotLight) {
+    float range=parseFloat(attribs.getValue("range"));
+    float constant=parseFloat(attribs.getValue("constant"));
+    float linear=parseFloat(attribs.getValue("linear"));
+    String quadraticStr=attribs.getValue("quadratic");
+    if (quadraticStr == null) {
+      quadraticStr=attribs.getValue("quadric");
+    }
+    float quadratic=parseFloat(quadraticStr);
+    if (constant == 1 && quadratic == 0 && linear > 0) {
+      range=1f / linear;
+    }
+    if (light instanceof PointLight) {
+      ((PointLight)light).setRadius(range);
+    }
+ else {
+      ((SpotLight)light).setSpotRange(range);
+    }
+  }
+}

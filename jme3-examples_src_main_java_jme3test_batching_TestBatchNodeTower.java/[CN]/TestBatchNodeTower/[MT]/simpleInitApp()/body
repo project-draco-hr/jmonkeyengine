@@ -1,0 +1,35 @@
+{
+  timer=new NanoTimer();
+  bulletAppState=new BulletAppState();
+  bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
+  stateManager.attach(bulletAppState);
+  bullet=new Sphere(32,32,0.4f,true,false);
+  bullet.setTextureMode(TextureMode.Projected);
+  bulletCollisionShape=new SphereCollisionShape(0.4f);
+  brick=new Box(brickWidth,brickHeight,brickDepth);
+  brick.scaleTextureCoordinates(new Vector2f(1f,.5f));
+  initMaterial();
+  initTower();
+  initFloor();
+  initCrossHairs();
+  this.cam.setLocation(new Vector3f(0,25f,8f));
+  cam.lookAt(Vector3f.ZERO,new Vector3f(0,1,0));
+  cam.setFrustumFar(80);
+  inputManager.addMapping("shoot",new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+  inputManager.addListener(actionListener,"shoot");
+  rootNode.setShadowMode(ShadowMode.Off);
+  batchNode.batch();
+  batchNode.setShadowMode(ShadowMode.CastAndReceive);
+  rootNode.attachChild(batchNode);
+  shadowRenderer=new DirectionalLightShadowFilter(assetManager,1024,2);
+  DirectionalLight dl=new DirectionalLight();
+  dl.setDirection(new Vector3f(-1,-1,-1).normalizeLocal());
+  shadowRenderer.setLight(dl);
+  shadowRenderer.setLambda(0.55f);
+  shadowRenderer.setShadowIntensity(0.6f);
+  shadowRenderer.setShadowCompareMode(CompareMode.Hardware);
+  shadowRenderer.setEdgeFilteringMode(EdgeFilteringMode.PCF4);
+  FilterPostProcessor fpp=new FilterPostProcessor(assetManager);
+  fpp.addFilter(shadowRenderer);
+  viewPort.addProcessor(fpp);
+}

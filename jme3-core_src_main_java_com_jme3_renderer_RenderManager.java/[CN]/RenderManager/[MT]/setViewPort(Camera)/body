@@ -1,0 +1,16 @@
+{
+  if (cam != prevCam || cam.isViewportChanged()) {
+    viewX=(int)(cam.getViewPortLeft() * cam.getWidth());
+    viewY=(int)(cam.getViewPortBottom() * cam.getHeight());
+    viewWidth=(int)((cam.getViewPortRight() - cam.getViewPortLeft()) * cam.getWidth());
+    viewHeight=(int)((cam.getViewPortTop() - cam.getViewPortBottom()) * cam.getHeight());
+    uniformBindingManager.setViewPort(viewX,viewY,viewWidth,viewHeight);
+    renderer.setViewPort(viewX,viewY,viewWidth,viewHeight);
+    renderer.setClipRect(viewX,viewY,viewWidth,viewHeight);
+    cam.clearViewportChanged();
+    prevCam=cam;
+    orthoMatrix.loadIdentity();
+    orthoMatrix.setTranslation(-1f,-1f,0f);
+    orthoMatrix.setScale(2f / cam.getWidth(),2f / cam.getHeight(),0f);
+  }
+}

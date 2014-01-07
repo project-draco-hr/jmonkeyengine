@@ -1,0 +1,19 @@
+{
+  emitterShape.getRandomPointAndNormal(particle.position,particle.velocity);
+  if (surfaceTangentFactor == 0.0f) {
+    particle.velocity.multLocal(normalVelocity);
+  }
+ else {
+    temp.set(particle.velocity.z * surfaceTangentFactor,particle.velocity.y * surfaceTangentFactor,-particle.velocity.x * surfaceTangentFactor);
+    if (surfaceTangentRotation != 0.0f) {
+      Matrix3f m=new Matrix3f();
+      m.fromAngleNormalAxis(FastMath.PI * surfaceTangentRotation,particle.velocity);
+      temp=m.multLocal(temp);
+    }
+    particle.velocity.multLocal(normalVelocity);
+    particle.velocity.addLocal(temp);
+  }
+  if (velocityVariation != 0.0f) {
+    this.applyVelocityVariation(particle);
+  }
+}

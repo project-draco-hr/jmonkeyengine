@@ -1,0 +1,24 @@
+{
+  if (cacheClass == null) {
+    return null;
+  }
+  T cache=(T)classToCacheMap.get(cacheClass);
+  if (cache == null) {
+synchronized (classToCacheMap) {
+      cache=(T)classToCacheMap.get(cacheClass);
+      if (cache == null) {
+        try {
+          cache=cacheClass.newInstance();
+          classToCacheMap.put(cacheClass,cache);
+        }
+ catch (        InstantiationException ex) {
+          throw new IllegalArgumentException("The cache class cannot" + " be created, ensure it has empty constructor",ex);
+        }
+catch (        IllegalAccessException ex) {
+          throw new IllegalArgumentException("The cache class cannot " + "be accessed",ex);
+        }
+      }
+    }
+  }
+  return cache;
+}

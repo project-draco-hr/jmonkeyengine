@@ -1,0 +1,10 @@
+{
+  cinematicEvent.dispose();
+  cinematicEvents.remove(cinematicEvent);
+  for (  KeyFrame keyFrame : timeLine.values()) {
+    if (keyFrame.cinematicEvents.remove(cinematicEvent)) {
+      return true;
+    }
+  }
+  return false;
+}

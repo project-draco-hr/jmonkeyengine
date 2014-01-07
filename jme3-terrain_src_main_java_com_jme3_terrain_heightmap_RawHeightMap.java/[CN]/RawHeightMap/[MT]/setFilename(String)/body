@@ -1,0 +1,11 @@
+{
+  if (null == filename) {
+    throw new Exception("Must supply valid filename.");
+  }
+  try {
+    this.stream=new FileInputStream(filename);
+  }
+ catch (  FileNotFoundException e) {
+    throw new Exception("height file not found: " + filename);
+  }
+}

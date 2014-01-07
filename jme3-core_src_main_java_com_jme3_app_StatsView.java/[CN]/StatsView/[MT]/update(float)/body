@@ -1,0 +1,9 @@
+{
+  if (!isEnabled())   return;
+  statistics.getData(statData);
+  for (int i=0; i < labels.length; i++) {
+    stringBuilder.setLength(0);
+    stringBuilder.append(statLabels[i]).append(" = ").append(statData[i]);
+    labels[i].setText(stringBuilder);
+  }
+}

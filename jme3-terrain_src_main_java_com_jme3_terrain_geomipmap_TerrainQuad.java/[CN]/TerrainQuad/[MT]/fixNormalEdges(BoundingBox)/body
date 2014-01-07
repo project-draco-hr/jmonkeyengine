@@ -1,0 +1,26 @@
+{
+  if (children == null)   return;
+  for (int x=children.size(); --x >= 0; ) {
+    Spatial child=children.get(x);
+    if (child instanceof TerrainQuad) {
+      if (affectedArea != null && affectedArea.intersects(((TerrainQuad)child).getWorldBound()))       ((TerrainQuad)child).fixNormalEdges(affectedArea);
+    }
+ else     if (child instanceof TerrainPatch) {
+      if (affectedArea != null && !affectedArea.intersects(((TerrainPatch)child).getWorldBound()))       continue;
+      TerrainPatch tp=(TerrainPatch)child;
+      TerrainPatch right=findRightPatch(tp);
+      TerrainPatch bottom=findDownPatch(tp);
+      TerrainPatch top=findTopPatch(tp);
+      TerrainPatch left=findLeftPatch(tp);
+      TerrainPatch topLeft=null;
+      if (top != null)       topLeft=findLeftPatch(top);
+      TerrainPatch bottomRight=null;
+      if (right != null)       bottomRight=findDownPatch(right);
+      TerrainPatch topRight=null;
+      if (top != null)       topRight=findRightPatch(top);
+      TerrainPatch bottomLeft=null;
+      if (left != null)       bottomLeft=findDownPatch(left);
+      tp.fixNormalEdges(right,bottom,top,left,bottomRight,bottomLeft,topRight,topLeft);
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  int joyId=evt.getJoyIndex();
+  int axis=evt.getAxisIndex();
+  float value=evt.getValue();
+  if (value < axisDeadZone && value > -axisDeadZone) {
+    int hash1=JoyAxisTrigger.joyAxisHash(joyId,axis,true);
+    int hash2=JoyAxisTrigger.joyAxisHash(joyId,axis,false);
+    Float val1=axisValues.get(hash1);
+    Float val2=axisValues.get(hash2);
+    if (val1 != null && val1.floatValue() > axisDeadZone) {
+      invokeActions(hash1,false);
+    }
+    if (val2 != null && val2.floatValue() > axisDeadZone) {
+      invokeActions(hash2,false);
+    }
+    axisValues.remove(hash1);
+    axisValues.remove(hash2);
+  }
+ else   if (value < 0) {
+    int hash=JoyAxisTrigger.joyAxisHash(joyId,axis,true);
+    int otherHash=JoyAxisTrigger.joyAxisHash(joyId,axis,false);
+    Float otherVal=axisValues.get(otherHash);
+    if (otherVal != null && otherVal.floatValue() > axisDeadZone) {
+      invokeActions(otherHash,false);
+    }
+    invokeAnalogsAndActions(hash,-value,true);
+    axisValues.put(hash,-value);
+    axisValues.remove(otherHash);
+  }
+ else {
+    int hash=JoyAxisTrigger.joyAxisHash(joyId,axis,false);
+    int otherHash=JoyAxisTrigger.joyAxisHash(joyId,axis,true);
+    Float otherVal=axisValues.get(otherHash);
+    if (otherVal != null && otherVal.floatValue() > axisDeadZone) {
+      invokeActions(otherHash,false);
+    }
+    invokeAnalogsAndActions(hash,value,true);
+    axisValues.put(hash,value);
+    axisValues.remove(otherHash);
+  }
+}

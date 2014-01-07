@@ -1,0 +1,12 @@
+{
+  System.out.println("applet:destroyStart");
+  SwingUtilities.invokeLater(new Runnable(){
+    public void run(){
+      removeAll();
+      System.out.println("applet:destroyRemoved");
+    }
+  }
+);
+  app.stop(true);
+  System.out.println("applet:destroyDone");
+}

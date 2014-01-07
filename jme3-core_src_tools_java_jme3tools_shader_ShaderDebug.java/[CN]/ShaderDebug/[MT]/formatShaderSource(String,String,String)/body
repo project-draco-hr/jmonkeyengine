@@ -1,0 +1,24 @@
+{
+  String[] versionLines=version.split("\n");
+  String[] definesLines=defines.split("\n");
+  String[] sourceLines=source.split("\n");
+  int nblines=0;
+  StringBuilder out=new StringBuilder();
+  if (!version.equals("")) {
+    for (    String string : versionLines) {
+      nblines++;
+      out.append(nblines).append("\t").append(string).append("\n");
+    }
+  }
+  if (!defines.equals("")) {
+    for (    String string : definesLines) {
+      nblines++;
+      out.append(nblines).append("\t").append(string).append("\n");
+    }
+  }
+  for (  String string : sourceLines) {
+    nblines++;
+    out.append(nblines).append("\t").append(string).append("\n");
+  }
+  return out.toString();
+}

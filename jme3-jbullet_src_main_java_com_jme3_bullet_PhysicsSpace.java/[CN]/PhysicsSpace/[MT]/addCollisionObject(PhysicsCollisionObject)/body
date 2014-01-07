@@ -1,0 +1,14 @@
+{
+  if (obj instanceof PhysicsGhostObject) {
+    addGhostObject((PhysicsGhostObject)obj);
+  }
+ else   if (obj instanceof PhysicsRigidBody) {
+    addRigidBody((PhysicsRigidBody)obj);
+  }
+ else   if (obj instanceof PhysicsVehicle) {
+    addRigidBody((PhysicsVehicle)obj);
+  }
+ else   if (obj instanceof PhysicsCharacter) {
+    addCharacter((PhysicsCharacter)obj);
+  }
+}

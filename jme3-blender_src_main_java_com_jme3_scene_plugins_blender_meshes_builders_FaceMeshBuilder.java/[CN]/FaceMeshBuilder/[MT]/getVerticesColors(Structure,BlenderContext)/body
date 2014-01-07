@@ -1,0 +1,18 @@
+{
+  MeshHelper meshHelper=blenderContext.getHelper(MeshHelper.class);
+  Pointer pMCol=(Pointer)meshStructure.getFieldValue(meshHelper.isBMeshCompatible(meshStructure) ? "mloopcol" : "mcol");
+  List<byte[]> verticesColors=null;
+  boolean useBGRA=blenderContext.getBlenderVersion() < 263;
+  if (pMCol.isNotNull()) {
+    List<Structure> mCol=pMCol.fetchData();
+    verticesColors=new ArrayList<byte[]>(mCol.size());
+    for (    Structure color : mCol) {
+      byte r=((Number)color.getFieldValue("r")).byteValue();
+      byte g=((Number)color.getFieldValue("g")).byteValue();
+      byte b=((Number)color.getFieldValue("b")).byteValue();
+      byte a=((Number)color.getFieldValue("a")).byteValue();
+      verticesColors.add(useBGRA ? new byte[]{b,g,r,a} : new byte[]{r,g,b,a});
+    }
+  }
+  return verticesColors;
+}

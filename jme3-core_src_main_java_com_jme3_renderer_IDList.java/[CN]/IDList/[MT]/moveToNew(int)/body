@@ -1,0 +1,13 @@
+{
+  if (newLen == 0 || newList[newLen - 1] != idx)   newList[newLen++]=idx;
+  for (int i=0; i < oldLen; i++) {
+    if (oldList[i] == idx) {
+      oldLen--;
+      for (int j=i; j < oldLen; j++) {
+        oldList[j]=oldList[j + 1];
+      }
+      return true;
+    }
+  }
+  return false;
+}

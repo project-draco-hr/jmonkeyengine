@@ -1,0 +1,23 @@
+{
+switch (texco) {
+case TEXCO_ORCO:
+case TEXCO_UV:
+case TEXCO_NORM:
+    return true;
+case TEXCO_REFL:
+case TEXCO_GLOB:
+case TEXCO_TANGENT:
+case TEXCO_STRESS:
+case TEXCO_LAVECTOR:
+case TEXCO_OBJECT:
+case TEXCO_OSA:
+case TEXCO_PARTICLE_OR_STRAND:
+case TEXCO_SPEED:
+case TEXCO_STICKY:
+case TEXCO_VIEW:
+case TEXCO_WINDOW:
+  return false;
+default :
+throw new IllegalStateException("Unknown texture coordinates value: " + texco);
+}
+}

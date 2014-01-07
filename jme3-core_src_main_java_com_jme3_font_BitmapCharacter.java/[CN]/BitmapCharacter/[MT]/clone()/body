@@ -1,0 +1,10 @@
+{
+  try {
+    BitmapCharacter result=(BitmapCharacter)super.clone();
+    result.kerning=kerning.clone();
+    return result;
+  }
+ catch (  CloneNotSupportedException ex) {
+    throw new AssertionError();
+  }
+}

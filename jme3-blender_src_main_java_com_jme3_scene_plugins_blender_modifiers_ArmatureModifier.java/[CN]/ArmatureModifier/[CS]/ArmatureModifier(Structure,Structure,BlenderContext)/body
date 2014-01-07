@@ -1,0 +1,75 @@
+{
+  Structure meshStructure=((Pointer)objectStructure.getFieldValue("data")).fetchData().get(0);
+  if (this.validate(modifierStructure,blenderContext)) {
+    Pointer pArmatureObject=(Pointer)modifierStructure.getFieldValue("object");
+    if (pArmatureObject.isNotNull()) {
+      ArmatureHelper armatureHelper=blenderContext.getHelper(ArmatureHelper.class);
+      armatureObject=pArmatureObject.fetchData().get(0);
+      Structure armatureStructure=((Pointer)armatureObject.getFieldValue("data")).fetchData().get(0);
+      List<Structure> bonebase=((Structure)armatureStructure.getFieldValue("bonebase")).evaluateListBase();
+      List<Bone> bonesList=new ArrayList<Bone>();
+      for (int i=0; i < bonebase.size(); ++i) {
+        armatureHelper.buildBones(armatureObject.getOldMemoryAddress(),bonebase.get(i),null,bonesList,objectStructure.getOldMemoryAddress(),blenderContext);
+      }
+      bonesList.add(0,new Bone(""));
+      Bone[] bones=bonesList.toArray(new Bone[bonesList.size()]);
+      skeleton=new Skeleton(bones);
+      blenderContext.setSkeleton(armatureObject.getOldMemoryAddress(),skeleton);
+      this.objectStructure=objectStructure;
+      this.meshStructure=meshStructure;
+      meshOMA=meshStructure.getOldMemoryAddress();
+      ArrayList<Animation> animations=new ArrayList<Animation>();
+      List<FileBlockHeader> actionHeaders=blenderContext.getFileBlocks(Integer.valueOf(FileBlockHeader.BLOCK_AC00));
+      if (actionHeaders != null) {
+        for (        FileBlockHeader header : actionHeaders) {
+          Structure actionStructure=header.getStructure(blenderContext);
+          String actionName=actionStructure.getName();
+          BoneTrack[] tracks=armatureHelper.getTracks(actionStructure,skeleton,blenderContext);
+          if (tracks != null && tracks.length > 0) {
+            float maximumTrackLength=0;
+            for (            BoneTrack track : tracks) {
+              float length=track.getLength();
+              if (length > maximumTrackLength) {
+                maximumTrackLength=length;
+              }
+            }
+            Animation boneAnimation=new Animation(actionName,maximumTrackLength);
+            boneAnimation.setTracks(tracks);
+            animations.add(boneAnimation);
+          }
+        }
+      }
+      Pointer pAction=(Pointer)objectStructure.getFieldValue("action");
+      if (pAction.isNotNull()) {
+        Structure actionStructure=pAction.fetchData().get(0);
+        String actionName=actionStructure.getName();
+        BoneTrack[] tracks=armatureHelper.getTracks(actionStructure,skeleton,blenderContext);
+        if (tracks != null && tracks.length > 0) {
+          float maximumTrackLength=0;
+          for (          BoneTrack track : tracks) {
+            float length=track.getLength();
+            if (length > maximumTrackLength) {
+              maximumTrackLength=length;
+            }
+          }
+          Animation boneAnimation=new Animation(actionName,maximumTrackLength);
+          boneAnimation.setTracks(tracks);
+          animations.add(boneAnimation);
+        }
+      }
+      animationData=new AnimationData(skeleton,animations);
+      for (      Bone bone : bones) {
+        if (bone.getName().length() > 0) {
+          BoneContext boneContext=blenderContext.getBoneContext(bone);
+          Long boneOma=boneContext.getBoneOma();
+          if (boneOma != null) {
+            blenderContext.setAnimData(boneOma,animationData);
+          }
+        }
+      }
+    }
+ else {
+      modifying=false;
+    }
+  }
+}

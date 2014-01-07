@@ -1,0 +1,41 @@
+{
+  try {
+    Spatial clone=(Spatial)super.clone();
+    if (worldBound != null) {
+      clone.worldBound=worldBound.clone();
+    }
+    clone.worldLights=worldLights.clone();
+    clone.localLights=localLights.clone();
+    clone.localLights.setOwner(clone);
+    clone.worldLights.setOwner(clone);
+    clone.worldTransform=worldTransform.clone();
+    clone.localTransform=localTransform.clone();
+    if (clone instanceof Node) {
+      Node node=(Node)this;
+      Node nodeClone=(Node)clone;
+      nodeClone.children=new SafeArrayList<Spatial>(Spatial.class);
+      for (      Spatial child : node.children) {
+        Spatial childClone=child.clone(cloneMaterial);
+        childClone.parent=nodeClone;
+        nodeClone.children.add(childClone);
+      }
+    }
+    clone.parent=null;
+    clone.setBoundRefresh();
+    clone.setTransformRefresh();
+    clone.setLightListRefresh();
+    clone.controls=new SafeArrayList<Control>(Control.class);
+    for (int i=0; i < controls.size(); i++) {
+      Control newControl=controls.get(i).cloneForSpatial(clone);
+      newControl.setSpatial(clone);
+      clone.controls.add(newControl);
+    }
+    if (userData != null) {
+      clone.userData=(HashMap<String,Savable>)userData.clone();
+    }
+    return clone;
+  }
+ catch (  CloneNotSupportedException ex) {
+    throw new AssertionError();
+  }
+}

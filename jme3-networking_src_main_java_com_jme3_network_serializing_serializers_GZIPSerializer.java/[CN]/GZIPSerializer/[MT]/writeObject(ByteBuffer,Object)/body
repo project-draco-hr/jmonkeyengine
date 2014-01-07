@@ -1,0 +1,13 @@
+{
+  if (!(object instanceof GZIPCompressedMessage))   return;
+  Message message=((GZIPCompressedMessage)object).getMessage();
+  ByteBuffer tempBuffer=ByteBuffer.allocate(512000);
+  Serializer.writeClassAndObject(tempBuffer,message);
+  ByteArrayOutputStream byteArrayOutput=new ByteArrayOutputStream();
+  GZIPOutputStream gzipOutput=new GZIPOutputStream(byteArrayOutput);
+  gzipOutput.write(tempBuffer.array());
+  gzipOutput.flush();
+  gzipOutput.finish();
+  gzipOutput.close();
+  buffer.put(byteArrayOutput.toByteArray());
+}

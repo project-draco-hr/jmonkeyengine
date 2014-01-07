@@ -1,0 +1,9 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  if (context.matrixMode != GLMatrixFunc.GL_MODELVIEW) {
+    gl.getGL2ES1().glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
+    context.matrixMode=GLMatrixFunc.GL_MODELVIEW;
+  }
+  gl.getGL2ES1().glLoadMatrixf(storeMatrix(viewMatrix,fb16));
+  gl.getGL2ES1().glMultMatrixf(storeMatrix(modelMatrix,fb16));
+}

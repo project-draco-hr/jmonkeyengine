@@ -1,0 +1,13 @@
+{
+  OutputCapsule oc=ex.getCapsule(this);
+  String[] keys=new String[defines.size()];
+  String[] vals=new String[defines.size()];
+  int i=0;
+  for (  Map.Entry<String,String> define : defines.entrySet()) {
+    keys[i]=define.getKey();
+    vals[i]=define.getValue();
+    i++;
+  }
+  oc.write(keys,"keys",null);
+  oc.write(vals,"vals",null);
+}

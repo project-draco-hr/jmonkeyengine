@@ -1,0 +1,17 @@
+{
+  if (operator.equals("||") && (condition1 == null || condition2 == null)) {
+    return null;
+  }
+  if (condition1 != null) {
+    if (condition2 == null) {
+      return condition1;
+    }
+ else {
+      String mergedCondition="(" + condition1 + ") "+ operator+ " ("+ condition2+ ")";
+      return mergedCondition;
+    }
+  }
+ else {
+    return condition2;
+  }
+}

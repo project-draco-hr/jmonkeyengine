@@ -1,0 +1,9 @@
+{
+  if (scene == null) {
+    throw new IllegalArgumentException("Scene cannot be null.");
+  }
+  sceneList.remove(scene);
+  if (scene instanceof Geometry) {
+    scene.forceRefresh(true,false,true);
+  }
+}

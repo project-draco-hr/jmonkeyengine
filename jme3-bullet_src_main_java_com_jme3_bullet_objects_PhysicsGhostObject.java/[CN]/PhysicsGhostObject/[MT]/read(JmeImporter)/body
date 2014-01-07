@@ -1,0 +1,9 @@
+{
+  super.read(e);
+  InputCapsule capsule=e.getCapsule(this);
+  buildObject();
+  setPhysicsLocation((Vector3f)capsule.readSavable("physicsLocation",new Vector3f()));
+  setPhysicsRotation(((Matrix3f)capsule.readSavable("physicsRotation",new Matrix3f())));
+  setCcdMotionThreshold(capsule.readFloat("ccdMotionThreshold",0));
+  setCcdSweptSphereRadius(capsule.readFloat("ccdSweptSphereRadius",0));
+}

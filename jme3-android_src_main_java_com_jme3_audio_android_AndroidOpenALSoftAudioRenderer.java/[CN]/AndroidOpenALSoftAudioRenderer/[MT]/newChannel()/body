@@ -1,0 +1,11 @@
+{
+  if (freeChans.size() > 0) {
+    return freeChans.remove(0);
+  }
+ else   if (nextChan < channels.length) {
+    return nextChan++;
+  }
+ else {
+    return -1;
+  }
+}

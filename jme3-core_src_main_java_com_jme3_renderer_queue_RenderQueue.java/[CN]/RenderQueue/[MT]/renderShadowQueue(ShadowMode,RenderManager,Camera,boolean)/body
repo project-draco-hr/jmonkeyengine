@@ -1,0 +1,12 @@
+{
+switch (shadBucket) {
+case Cast:
+    renderGeometryList(shadowCast,rm,cam,clear);
+  break;
+case Receive:
+renderGeometryList(shadowRecv,rm,cam,clear);
+break;
+default :
+throw new IllegalArgumentException("Unexpected shadow bucket: " + shadBucket);
+}
+}

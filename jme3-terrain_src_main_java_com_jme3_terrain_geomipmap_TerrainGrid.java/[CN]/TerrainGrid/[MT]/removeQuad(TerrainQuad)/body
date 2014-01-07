@@ -1,0 +1,10 @@
+{
+  if (q != null && ((q.getQuadrant() > 0 && q.getQuadrant() < 5) || q.getParent() != null)) {
+    for (    TerrainGridListener l : listeners) {
+      l.tileDetached(getTileCell(q.getWorldTranslation()),q);
+    }
+    q.setQuadrant((short)0);
+    this.detachChild(q);
+    cellsLoaded++;
+  }
+}

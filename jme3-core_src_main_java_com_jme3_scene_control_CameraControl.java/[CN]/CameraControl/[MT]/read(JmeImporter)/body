@@ -1,0 +1,6 @@
+{
+  super.read(im);
+  InputCapsule ic=im.getCapsule(this);
+  controlDir=ic.readEnum(CONTROL_DIR_NAME,ControlDirection.class,ControlDirection.SpatialToCamera);
+  camera=(Camera)ic.readSavable(CAMERA_NAME,null);
+}

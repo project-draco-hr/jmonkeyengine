@@ -1,0 +1,33 @@
+{
+  processor=proc;
+  System.out.println("----------------- SSAO UI Debugger --------------------");
+  System.out.println("-- Water transparency : press Y to increase, H to decrease");
+  System.out.println("-- Water depth : press U to increase, J to decrease");
+  System.out.println("-------------------------------------------------------");
+  inputManager.addMapping("transparencyUp",new KeyTrigger(KeyInput.KEY_Y));
+  inputManager.addMapping("transparencyDown",new KeyTrigger(KeyInput.KEY_H));
+  inputManager.addMapping("depthUp",new KeyTrigger(KeyInput.KEY_U));
+  inputManager.addMapping("depthDown",new KeyTrigger(KeyInput.KEY_J));
+  AnalogListener anl=new AnalogListener(){
+    public void onAnalog(    String name,    float value,    float tpf){
+      if (name.equals("transparencyUp")) {
+        processor.setWaterTransparency(processor.getWaterTransparency() + 0.001f);
+        System.out.println("Water transparency : " + processor.getWaterTransparency());
+      }
+      if (name.equals("transparencyDown")) {
+        processor.setWaterTransparency(processor.getWaterTransparency() - 0.001f);
+        System.out.println("Water transparency : " + processor.getWaterTransparency());
+      }
+      if (name.equals("depthUp")) {
+        processor.setWaterDepth(processor.getWaterDepth() + 0.001f);
+        System.out.println("Water depth : " + processor.getWaterDepth());
+      }
+      if (name.equals("depthDown")) {
+        processor.setWaterDepth(processor.getWaterDepth() - 0.001f);
+        System.out.println("Water depth : " + processor.getWaterDepth());
+      }
+    }
+  }
+;
+  inputManager.addListener(anl,"transparencyUp","transparencyDown","depthUp","depthDown");
+}

@@ -1,0 +1,18 @@
+{
+  if (spatial != null && camera != null) {
+switch (controlDir) {
+case SpatialToCamera:
+      camera.setLocation(spatial.getWorldTranslation());
+    camera.setRotation(spatial.getWorldRotation());
+  break;
+case CameraToSpatial:
+TempVars vars=TempVars.get();
+Vector3f vecDiff=vars.vect1.set(camera.getLocation()).subtractLocal(spatial.getWorldTranslation());
+spatial.setLocalTranslation(vecDiff.addLocal(spatial.getLocalTranslation()));
+Quaternion worldDiff=vars.quat1.set(camera.getRotation()).subtractLocal(spatial.getWorldRotation());
+spatial.setLocalRotation(worldDiff.addLocal(spatial.getLocalRotation()));
+vars.release();
+break;
+}
+}
+}

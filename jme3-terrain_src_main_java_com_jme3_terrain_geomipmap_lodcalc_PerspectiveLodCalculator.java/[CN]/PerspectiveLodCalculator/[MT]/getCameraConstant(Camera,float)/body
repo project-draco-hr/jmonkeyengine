@@ -1,0 +1,8 @@
+{
+  float n=cam.getFrustumNear();
+  float t=FastMath.abs(cam.getFrustumTop());
+  float A=n / t;
+  float v_res=cam.getHeight();
+  float T=(2f * pixelLimit) / v_res;
+  return A / T;
+}

@@ -1,0 +1,11 @@
+{
+  if (!isUsed) {
+    throw new IllegalStateException("This instance of TempVars was already released!");
+  }
+  isUsed=false;
+  TempVarsStack stack=varsLocal.get();
+  stack.index--;
+  if (stack.tempVars[stack.index] != this) {
+    throw new IllegalStateException("An instance of TempVars has not been released in a called method!");
+  }
+}

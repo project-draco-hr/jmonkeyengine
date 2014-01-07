@@ -1,0 +1,17 @@
+{
+  super.readData(tex,blenderContext);
+  noisesize=((Number)tex.getFieldValue("noisesize")).floatValue();
+  noisebasis=((Number)tex.getFieldValue("noisebasis")).intValue();
+  noiseFunction=NoiseGenerator.noiseFunctions.get(noisebasis);
+  if (noiseFunction == null) {
+    noiseFunction=NoiseGenerator.noiseFunctions.get(0);
+    noisebasis=0;
+  }
+  noisetype=((Number)tex.getFieldValue("noisetype")).intValue();
+  turbul=((Number)tex.getFieldValue("turbul")).floatValue();
+  isHard=noisetype != TEX_NOISESOFT;
+  stype=((Number)tex.getFieldValue("stype")).intValue();
+  if (noisesize <= 0.001f) {
+    noisesize=0.001f;
+  }
+}

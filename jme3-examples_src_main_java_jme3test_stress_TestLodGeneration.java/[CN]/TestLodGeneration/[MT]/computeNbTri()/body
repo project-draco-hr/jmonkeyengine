@@ -1,0 +1,12 @@
+{
+  int nbTri=0;
+  for (  Geometry geometry : listGeoms) {
+    if (geometry.getMesh().getNumLodLevels() > 0) {
+      nbTri+=geometry.getMesh().getLodLevel(lodLevel).getNumElements();
+    }
+ else {
+      nbTri+=geometry.getMesh().getTriangleCount();
+    }
+  }
+  return nbTri;
+}

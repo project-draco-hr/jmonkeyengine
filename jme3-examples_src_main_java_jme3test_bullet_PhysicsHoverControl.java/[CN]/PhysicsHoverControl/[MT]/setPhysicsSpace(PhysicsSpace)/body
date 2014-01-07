@@ -1,0 +1,14 @@
+{
+  if (space == null) {
+    if (this.space != null) {
+      this.space.removeCollisionObject(this);
+      this.space.removeTickListener(this);
+    }
+    this.space=space;
+  }
+ else {
+    space.addCollisionObject(this);
+    space.addTickListener(this);
+  }
+  this.space=space;
+}

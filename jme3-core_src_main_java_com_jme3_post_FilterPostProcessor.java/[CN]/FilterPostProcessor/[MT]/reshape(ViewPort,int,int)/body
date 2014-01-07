@@ -1,0 +1,50 @@
+{
+  Camera cam=vp.getCamera();
+  cam.setViewPort(left,right,bottom,top);
+  cam.resize(w,h,false);
+  left=cam.getViewPortLeft();
+  right=cam.getViewPortRight();
+  top=cam.getViewPortTop();
+  bottom=cam.getViewPortBottom();
+  originalWidth=w;
+  originalHeight=h;
+  width=(int)(w * (Math.abs(right - left)));
+  height=(int)(h * (Math.abs(bottom - top)));
+  width=Math.max(1,width);
+  height=Math.max(1,height);
+  if (originalWidth != width || originalHeight != height) {
+    multiView=true;
+  }
+  cameraInit=true;
+  computeDepth=false;
+  if (renderFrameBuffer == null) {
+    outputBuffer=viewPort.getOutputFrameBuffer();
+  }
+  Collection<Caps> caps=renderer.getCaps();
+  if (numSamples > 1 && caps.contains(Caps.FrameBufferMultisample)) {
+    renderFrameBufferMS=new FrameBuffer(width,height,numSamples);
+    if (caps.contains(Caps.OpenGL31)) {
+      Texture2D msColor=new Texture2D(width,height,numSamples,Format.RGBA8);
+      Texture2D msDepth=new Texture2D(width,height,numSamples,Format.Depth);
+      renderFrameBufferMS.setDepthTexture(msDepth);
+      renderFrameBufferMS.setColorTexture(msColor);
+      filterTexture=msColor;
+      depthTexture=msDepth;
+    }
+ else {
+      renderFrameBufferMS.setDepthBuffer(Format.Depth);
+      renderFrameBufferMS.setColorBuffer(Format.RGBA8);
+    }
+  }
+  if (numSamples <= 1 || !caps.contains(Caps.OpenGL31)) {
+    renderFrameBuffer=new FrameBuffer(width,height,1);
+    renderFrameBuffer.setDepthBuffer(Format.Depth);
+    filterTexture=new Texture2D(width,height,Format.RGBA8);
+    renderFrameBuffer.setColorTexture(filterTexture);
+  }
+  for (Iterator<Filter> it=filters.iterator(); it.hasNext(); ) {
+    Filter filter=it.next();
+    initFilter(filter,vp);
+  }
+  setupViewPortFrameBuffer();
+}

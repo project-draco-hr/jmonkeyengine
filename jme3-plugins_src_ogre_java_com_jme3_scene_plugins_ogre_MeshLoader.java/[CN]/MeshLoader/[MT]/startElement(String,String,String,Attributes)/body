@@ -1,0 +1,91 @@
+{
+  if (ignoreUntilEnd != null) {
+    return;
+  }
+  if (qName.equals("texcoord")) {
+    pushTexCoord(attribs);
+  }
+ else   if (qName.equals("vertexboneassignment")) {
+    pushBoneAssign(attribs.getValue("vertexindex"),attribs.getValue("boneindex"),attribs.getValue("weight"));
+  }
+ else   if (qName.equals("face")) {
+    pushFace(attribs.getValue("v1"),attribs.getValue("v2"),attribs.getValue("v3"));
+  }
+ else   if (qName.equals("position")) {
+    pushAttrib(Type.Position,attribs);
+  }
+ else   if (qName.equals("normal")) {
+    pushAttrib(Type.Normal,attribs);
+  }
+ else   if (qName.equals("tangent")) {
+    pushTangent(attribs);
+  }
+ else   if (qName.equals("binormal")) {
+    pushAttrib(Type.Binormal,attribs);
+  }
+ else   if (qName.equals("colour_diffuse")) {
+    pushColor(attribs);
+  }
+ else   if (qName.equals("vertex")) {
+    startVertex();
+  }
+ else   if (qName.equals("faces")) {
+    startFaces(attribs.getValue("count"));
+  }
+ else   if (qName.equals("geometry")) {
+    String count=attribs.getValue("vertexcount");
+    if (count == null) {
+      count=attribs.getValue("count");
+    }
+    startGeometry(count);
+  }
+ else   if (qName.equals("vertexbuffer")) {
+    startVertexBuffer(attribs);
+  }
+ else   if (qName.equals("lodfacelist")) {
+    startLodFaceList(attribs.getValue("submeshindex"),attribs.getValue("numfaces"));
+  }
+ else   if (qName.equals("lodgenerated")) {
+    startLodGenerated(attribs.getValue("fromdepthsquared"));
+  }
+ else   if (qName.equals("levelofdetail")) {
+    startLevelOfDetail(attribs.getValue("numlevels"));
+  }
+ else   if (qName.equals("boneassignments")) {
+    startBoneAssigns();
+  }
+ else   if (qName.equals("submesh")) {
+    if (submeshNamesHack) {
+      startSubmeshName(attribs.getValue("index"),attribs.getValue("name"));
+    }
+ else {
+      startSubMesh(attribs.getValue("material"),attribs.getValue("usesharedvertices"),attribs.getValue("use32bitindexes"),attribs.getValue("operationtype"));
+    }
+  }
+ else   if (qName.equals("sharedgeometry")) {
+    String count=attribs.getValue("vertexcount");
+    if (count == null) {
+      count=attribs.getValue("count");
+    }
+    if (count != null && !count.equals("0")) {
+      startSharedGeom(count);
+    }
+  }
+ else   if (qName.equals("submeshes")) {
+  }
+ else   if (qName.equals("skeletonlink")) {
+    startSkeleton(attribs.getValue("name"));
+  }
+ else   if (qName.equals("submeshnames")) {
+    submeshNamesHack=true;
+  }
+ else   if (qName.equals("submeshname")) {
+    startSubmeshName(attribs.getValue("index"),attribs.getValue("name"));
+  }
+ else   if (qName.equals("mesh")) {
+  }
+ else {
+    logger.log(Level.WARNING,"Unknown tag: {0}. Ignoring.",qName);
+    ignoreUntilEnd=qName;
+  }
+}

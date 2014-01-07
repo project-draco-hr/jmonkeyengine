@@ -1,0 +1,30 @@
+{
+  if (forLighting) {
+    glMaterialf(GL_FRONT_AND_BACK,GL_SHININESS,context.shininess);
+    setMaterialColor(GL_AMBIENT,context.ambient,ColorRGBA.DarkGray);
+    setMaterialColor(GL_DIFFUSE,context.diffuse,ColorRGBA.White);
+    setMaterialColor(GL_SPECULAR,context.specular,ColorRGBA.Black);
+    if (context.useVertexColor) {
+      glEnable(GL_COLOR_MATERIAL);
+    }
+ else {
+      glDisable(GL_COLOR_MATERIAL);
+    }
+  }
+ else {
+    ColorRGBA color=context.color;
+    if (color != null) {
+      glColor4f(color.r,color.g,color.b,color.a);
+    }
+ else {
+      glColor4f(1,1,1,1);
+    }
+  }
+  if (context.alphaTestFallOff > 0f) {
+    glEnable(GL_ALPHA_TEST);
+    glAlphaFunc(GL_GREATER,context.alphaTestFallOff);
+  }
+ else {
+    glDisable(GL_ALPHA_TEST);
+  }
+}

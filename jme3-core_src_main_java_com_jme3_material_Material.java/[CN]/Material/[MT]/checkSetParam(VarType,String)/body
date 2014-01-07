@@ -1,0 +1,9 @@
+{
+  MatParam paramDef=def.getMaterialParam(name);
+  if (paramDef == null) {
+    throw new IllegalArgumentException("Material parameter is not defined: " + name);
+  }
+  if (type != null && paramDef.getVarType() != type) {
+    logger.log(Level.WARNING,"Material parameter being set: {0} with " + "type {1} doesn''t match definition types {2}",new Object[]{name,type.name(),paramDef.getVarType()});
+  }
+}

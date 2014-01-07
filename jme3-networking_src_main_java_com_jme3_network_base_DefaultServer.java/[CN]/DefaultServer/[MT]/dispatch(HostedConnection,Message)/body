@@ -1,0 +1,10 @@
+{
+  if (source == null) {
+    messageListeners.messageReceived(source,m);
+  }
+ else {
+synchronized (source) {
+      messageListeners.messageReceived(source,m);
+    }
+  }
+}

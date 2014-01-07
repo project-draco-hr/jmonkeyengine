@@ -1,0 +1,10 @@
+{
+  if (null == writer) {
+    try {
+      writer=new MjpegFileWriter(file,width,height,framerate);
+    }
+ catch (    Exception ex) {
+      Logger.getLogger(VideoRecorderAppState.class.getName()).log(Level.SEVERE,"Error creating file writer: {0}",ex);
+    }
+  }
+}

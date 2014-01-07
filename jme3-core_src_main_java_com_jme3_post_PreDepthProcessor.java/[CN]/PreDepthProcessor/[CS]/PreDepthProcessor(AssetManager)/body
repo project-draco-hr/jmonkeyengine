@@ -1,0 +1,9 @@
+{
+  this.assetManager=assetManager;
+  preDepth=new Material(assetManager,"Common/MatDefs/Shadow/PreShadow.j3md");
+  preDepth.getAdditionalRenderState().setPolyOffset(0,0);
+  preDepth.getAdditionalRenderState().setFaceCullMode(FaceCullMode.Back);
+  forcedRS=new RenderState();
+  forcedRS.setDepthTest(true);
+  forcedRS.setDepthWrite(false);
+}

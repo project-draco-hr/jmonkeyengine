@@ -1,0 +1,56 @@
+{
+  matTerrain=new Material(assetManager,"Common/MatDefs/Terrain/TerrainLighting.j3md");
+  matTerrain.setBoolean("useTriPlanarMapping",false);
+  matTerrain.setBoolean("WardIso",true);
+  matTerrain.setTexture("AlphaMap",assetManager.loadTexture("Textures/Terrain/splat/alphamap.png"));
+  Texture heightMapImage=assetManager.loadTexture("Textures/Terrain/splat/mountains512.png");
+  Texture grass=assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
+  grass.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("DiffuseMap",grass);
+  matTerrain.setFloat("DiffuseMap_0_scale",grassScale);
+  Texture dirt=assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
+  dirt.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("DiffuseMap_1",dirt);
+  matTerrain.setFloat("DiffuseMap_1_scale",dirtScale);
+  Texture rock=assetManager.loadTexture("Textures/Terrain/splat/road.jpg");
+  rock.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("DiffuseMap_2",rock);
+  matTerrain.setFloat("DiffuseMap_2_scale",rockScale);
+  Texture normalMap0=assetManager.loadTexture("Textures/Terrain/splat/grass_normal.jpg");
+  normalMap0.setWrap(WrapMode.Repeat);
+  Texture normalMap1=assetManager.loadTexture("Textures/Terrain/splat/dirt_normal.png");
+  normalMap1.setWrap(WrapMode.Repeat);
+  Texture normalMap2=assetManager.loadTexture("Textures/Terrain/splat/road_normal.png");
+  normalMap2.setWrap(WrapMode.Repeat);
+  matTerrain.setTexture("NormalMap",normalMap0);
+  matTerrain.setTexture("NormalMap_1",normalMap2);
+  matTerrain.setTexture("NormalMap_2",normalMap2);
+  matWire=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  matWire.getAdditionalRenderState().setWireframe(true);
+  matWire.setColor("Color",ColorRGBA.Green);
+  AbstractHeightMap heightmap=null;
+  try {
+    heightmap=new ImageBasedHeightMap(heightMapImage.getImage(),1f);
+    heightmap.load();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  if (new File("terrainsave.jme").exists()) {
+    loadTerrain();
+  }
+ else {
+    TerrainQuad terrainQuad=new TerrainQuad("terrain",65,129,heightmap.getHeightMap());
+    TerrainLodControl control=new TerrainLodControl(terrainQuad,getCamera());
+    control.setLodCalculator(new DistanceLodCalculator(65,2.7f));
+    terrainQuad.addControl(control);
+    terrainQuad.setMaterial(matTerrain);
+    terrainQuad.setLocalTranslation(0,-100,0);
+    terrainQuad.setLocalScale(4f,0.25f,4f);
+    rootNode.attachChild(terrainQuad);
+    this.terrain=terrainQuad;
+  }
+  DirectionalLight light=new DirectionalLight();
+  light.setDirection((new Vector3f(-0.5f,-1f,-0.5f)).normalize());
+  rootNode.addLight(light);
+}

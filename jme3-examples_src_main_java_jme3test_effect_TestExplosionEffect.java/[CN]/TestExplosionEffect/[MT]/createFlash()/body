@@ -1,0 +1,22 @@
+{
+  flash=new ParticleEmitter("Flash",EMITTER_TYPE,24 * COUNT_FACTOR);
+  flash.setSelectRandomImage(true);
+  flash.setStartColor(new ColorRGBA(1f,0.8f,0.36f,(float)(1f / COUNT_FACTOR_F)));
+  flash.setEndColor(new ColorRGBA(1f,0.8f,0.36f,0f));
+  flash.setStartSize(.1f);
+  flash.setEndSize(3.0f);
+  flash.setShape(new EmitterSphereShape(Vector3f.ZERO,.05f));
+  flash.setParticlesPerSec(0);
+  flash.setGravity(0,0,0);
+  flash.setLowLife(.2f);
+  flash.setHighLife(.2f);
+  flash.setInitialVelocity(new Vector3f(0,5f,0));
+  flash.setVelocityVariation(1);
+  flash.setImagesX(2);
+  flash.setImagesY(2);
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Particle.j3md");
+  mat.setTexture("Texture",assetManager.loadTexture("Effects/Explosion/flash.png"));
+  mat.setBoolean("PointSprite",POINT_SPRITE);
+  flash.setMaterial(mat);
+  explosionEffect.attachChild(flash);
+}

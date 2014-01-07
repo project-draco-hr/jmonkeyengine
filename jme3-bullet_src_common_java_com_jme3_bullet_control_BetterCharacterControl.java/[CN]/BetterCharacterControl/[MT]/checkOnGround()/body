@@ -1,0 +1,17 @@
+{
+  TempVars vars=TempVars.get();
+  Vector3f location=vars.vect1;
+  Vector3f rayVector=vars.vect2;
+  float height=getFinalHeight();
+  location.set(localUp).multLocal(height).addLocal(this.location);
+  rayVector.set(localUp).multLocal(-height - 0.1f).addLocal(location);
+  List<PhysicsRayTestResult> results=space.rayTest(location,rayVector);
+  vars.release();
+  for (  PhysicsRayTestResult physicsRayTestResult : results) {
+    if (!physicsRayTestResult.getCollisionObject().equals(rigidBody)) {
+      onGround=true;
+      return;
+    }
+  }
+  onGround=false;
+}

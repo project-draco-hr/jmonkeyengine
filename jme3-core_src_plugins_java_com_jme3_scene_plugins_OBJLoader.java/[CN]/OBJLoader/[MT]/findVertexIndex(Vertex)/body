@@ -1,0 +1,11 @@
+{
+  Integer index=vertIndexMap.get(vert);
+  if (index != null) {
+    vert.index=index.intValue();
+  }
+ else {
+    vert.index=curIndex++;
+    vertIndexMap.put(vert,vert.index);
+    indexVertMap.put(vert.index,vert);
+  }
+}

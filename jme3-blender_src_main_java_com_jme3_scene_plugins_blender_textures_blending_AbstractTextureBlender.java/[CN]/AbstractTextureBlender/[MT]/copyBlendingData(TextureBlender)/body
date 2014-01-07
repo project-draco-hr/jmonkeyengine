@@ -1,0 +1,13 @@
+{
+  if (textureBlender instanceof AbstractTextureBlender) {
+    this.flag=((AbstractTextureBlender)textureBlender).flag;
+    this.negateTexture=((AbstractTextureBlender)textureBlender).negateTexture;
+    this.blendType=((AbstractTextureBlender)textureBlender).blendType;
+    this.materialColor=((AbstractTextureBlender)textureBlender).materialColor.clone();
+    this.color=((AbstractTextureBlender)textureBlender).color.clone();
+    this.blendFactor=((AbstractTextureBlender)textureBlender).blendFactor;
+  }
+ else {
+    LOGGER.warning("Cannot copy blending data from other types than " + this.getClass());
+  }
+}

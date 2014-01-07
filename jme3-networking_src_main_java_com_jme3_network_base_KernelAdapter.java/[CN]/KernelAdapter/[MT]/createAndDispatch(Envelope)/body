@@ -1,0 +1,22 @@
+{
+  MessageProtocol protocol=getMessageBuffer(env.getSource());
+  byte[] data=env.getData();
+  ByteBuffer buffer=ByteBuffer.wrap(data);
+  int count=protocol.addBuffer(buffer);
+  if (count == 0) {
+    if (!reliable) {
+      int len=Math.min(10,data.length);
+      StringBuilder sb=new StringBuilder();
+      for (int i=0; i < len; i++) {
+        sb.append("[" + Integer.toHexString(data[i]) + "]");
+      }
+      log.log(Level.FINE,"First 10 bytes of incomplete nessage:" + sb);
+      throw new RuntimeException("Envelope contained incomplete data:" + env);
+    }
+  }
+  Message m=null;
+  while ((m=protocol.getMessage()) != null) {
+    m.setReliable(reliable);
+    dispatch(env.getSource(),m);
+  }
+}

@@ -1,0 +1,9 @@
+{
+  logger.log(Level.FINE,"GL Surface changed, width: {0} height: {1}",new Object[]{width,height});
+  settings.setResolution(width,height);
+  androidInput.loadSettings(settings);
+  if (renderable.get()) {
+    logger.log(Level.FINE,"App already initialized, calling reshape");
+    listener.reshape(width,height);
+  }
+}

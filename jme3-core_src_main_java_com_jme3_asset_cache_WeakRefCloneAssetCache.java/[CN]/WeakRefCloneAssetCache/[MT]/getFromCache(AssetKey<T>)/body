@@ -1,0 +1,18 @@
+{
+  AssetRef smartInfo;
+synchronized (smartCache) {
+    smartInfo=smartCache.get(key);
+  }
+  if (smartInfo == null) {
+    return null;
+  }
+ else {
+    AssetKey keyForTheClone=smartInfo.get();
+    if (keyForTheClone == null) {
+      return null;
+    }
+    ArrayList<AssetKey> loadStack=assetLoadStack.get();
+    loadStack.add(keyForTheClone);
+    return (T)smartInfo.asset;
+  }
+}

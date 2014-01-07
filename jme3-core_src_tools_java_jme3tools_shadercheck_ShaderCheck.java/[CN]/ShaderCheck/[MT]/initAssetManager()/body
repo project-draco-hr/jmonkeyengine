@@ -1,0 +1,8 @@
+{
+  assetManager=JmeSystem.newAssetManager();
+  assetManager.registerLocator(".",FileLocator.class);
+  assetManager.registerLocator("/",ClasspathLocator.class);
+  assetManager.registerLoader(J3MLoader.class,"j3m");
+  assetManager.registerLoader(J3MLoader.class,"j3md");
+  assetManager.registerLoader(GLSLLoader.class,"vert","frag","glsllib");
+}

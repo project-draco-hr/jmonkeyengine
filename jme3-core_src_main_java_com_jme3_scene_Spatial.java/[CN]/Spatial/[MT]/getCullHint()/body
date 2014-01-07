@@ -1,0 +1,11 @@
+{
+  if (cullHint != CullHint.Inherit) {
+    return cullHint;
+  }
+ else   if (parent != null) {
+    return parent.getCullHint();
+  }
+ else {
+    return CullHint.Dynamic;
+  }
+}

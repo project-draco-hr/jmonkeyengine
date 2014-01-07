@@ -1,0 +1,17 @@
+{
+  super.update();
+  if (speed == 0 || paused) {
+    return;
+  }
+  float tpf=timer.getTimePerFrame() * speed;
+  stateManager.update(tpf);
+  simpleUpdate(tpf);
+  rootNode.updateLogicalState(tpf);
+  guiNode.updateLogicalState(tpf);
+  rootNode.updateGeometricState();
+  guiNode.updateGeometricState();
+  stateManager.render(renderManager);
+  renderManager.render(tpf,context.isRenderable());
+  simpleRender(renderManager);
+  stateManager.postRender();
+}

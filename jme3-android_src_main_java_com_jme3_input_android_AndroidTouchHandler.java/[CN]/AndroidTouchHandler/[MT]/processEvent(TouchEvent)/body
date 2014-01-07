@@ -1,0 +1,9 @@
+{
+  androidInput.addEvent(event);
+  if (androidInput.isSimulateMouse() && numPointers == 1) {
+    InputEvent mouseEvent=generateMouseEvent(event);
+    if (mouseEvent != null) {
+      androidInput.addEvent(mouseEvent);
+    }
+  }
+}

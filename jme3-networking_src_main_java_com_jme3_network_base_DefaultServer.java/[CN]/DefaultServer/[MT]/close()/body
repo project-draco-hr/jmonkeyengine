@@ -1,0 +1,12 @@
+{
+  if (!isRunning)   throw new IllegalStateException("Server is not started.");
+  try {
+    for (    KernelAdapter ka : channels) {
+      ka.close();
+    }
+    isRunning=false;
+  }
+ catch (  InterruptedException e) {
+    throw new RuntimeException("Interrupted while closing",e);
+  }
+}

@@ -1,0 +1,17 @@
+{
+  AudioData data;
+  InputStream inputStream=null;
+  try {
+    inputStream=info.openStream();
+    data=load(inputStream,((AudioKey)info.getKey()).isStream());
+    if (data instanceof AudioStream) {
+      inputStream=null;
+    }
+    return data;
+  }
+  finally {
+    if (inputStream != null) {
+      inputStream.close();
+    }
+  }
+}

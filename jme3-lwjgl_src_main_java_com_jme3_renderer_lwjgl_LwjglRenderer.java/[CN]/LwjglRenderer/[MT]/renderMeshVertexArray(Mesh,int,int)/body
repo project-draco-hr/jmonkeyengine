@@ -1,0 +1,26 @@
+{
+  if (mesh.getId() == -1) {
+    updateVertexArray(mesh);
+  }
+ else {
+  }
+  if (context.boundVertexArray != mesh.getId()) {
+    ARBVertexArrayObject.glBindVertexArray(mesh.getId());
+    context.boundVertexArray=mesh.getId();
+  }
+  VertexBuffer indices;
+  if (mesh.getNumLodLevels() > 0) {
+    indices=mesh.getLodLevel(lod);
+  }
+ else {
+    indices=mesh.getBuffer(Type.Index);
+  }
+  if (indices != null) {
+    drawTriangleList(indices,mesh,count);
+  }
+ else {
+    drawTriangleArray(mesh.getMode(),count,mesh.getVertexCount());
+  }
+  clearVertexAttribs();
+  clearTextureUnits();
+}

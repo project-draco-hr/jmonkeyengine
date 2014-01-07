@@ -1,0 +1,30 @@
+{
+  BulletGlobals.setContactAddedCallback(new ContactAddedCallback(){
+    public boolean contactAdded(    ManifoldPoint cp,    com.bulletphysics.collision.dispatch.CollisionObject colObj0,    int partId0,    int index0,    com.bulletphysics.collision.dispatch.CollisionObject colObj1,    int partId1,    int index1){
+      System.out.println("contact added");
+      return true;
+    }
+  }
+);
+  BulletGlobals.setContactProcessedCallback(new ContactProcessedCallback(){
+    public boolean contactProcessed(    ManifoldPoint cp,    Object body0,    Object body1){
+      if (body0 instanceof CollisionObject && body1 instanceof CollisionObject) {
+        PhysicsCollisionObject node=null, node1=null;
+        CollisionObject rBody0=(CollisionObject)body0;
+        CollisionObject rBody1=(CollisionObject)body1;
+        node=(PhysicsCollisionObject)rBody0.getUserPointer();
+        node1=(PhysicsCollisionObject)rBody1.getUserPointer();
+        collisionEvents.add(eventFactory.getEvent(PhysicsCollisionEvent.TYPE_PROCESSED,node,node1,cp));
+      }
+      return true;
+    }
+  }
+);
+  BulletGlobals.setContactDestroyedCallback(new ContactDestroyedCallback(){
+    public boolean contactDestroyed(    Object userPersistentData){
+      System.out.println("contact destroyed");
+      return true;
+    }
+  }
+);
+}

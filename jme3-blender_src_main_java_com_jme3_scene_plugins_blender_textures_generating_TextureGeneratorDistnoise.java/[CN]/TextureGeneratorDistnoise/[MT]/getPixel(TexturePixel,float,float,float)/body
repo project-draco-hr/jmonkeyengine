@@ -1,0 +1,14 @@
+{
+  pixel.intensity=this.musgraveVariableLunacrityNoise(x * 4,y * 4,z * 4,distAmount,noisebasis,noisebasis2);
+  pixel.intensity=FastMath.clamp(pixel.intensity,0.0f,1.0f);
+  if (colorBand != null) {
+    int colorbandIndex=(int)(pixel.intensity * 1000.0f);
+    pixel.red=colorBand[colorbandIndex][0];
+    pixel.green=colorBand[colorbandIndex][1];
+    pixel.blue=colorBand[colorbandIndex][2];
+    this.applyBrightnessAndContrast(bacd,pixel);
+  }
+ else {
+    this.applyBrightnessAndContrast(pixel,bacd.contrast,bacd.brightness);
+  }
+}

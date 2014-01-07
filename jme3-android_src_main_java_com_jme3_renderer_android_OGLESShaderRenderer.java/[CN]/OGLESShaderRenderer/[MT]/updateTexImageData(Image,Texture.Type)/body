@@ -1,0 +1,66 @@
+{
+  int texId=img.getId();
+  if (texId == -1) {
+    GLES20.glGenTextures(1,intBuf1);
+    RendererUtil.checkGLError();
+    texId=intBuf1.get(0);
+    img.setId(texId);
+    objManager.registerObject(img);
+    statistics.onNewTexture();
+  }
+  int target=convertTextureType(type);
+  if (context.boundTextures[0] != img) {
+    if (context.boundTextureUnit != 0) {
+      GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+      RendererUtil.checkGLError();
+      context.boundTextureUnit=0;
+    }
+    GLES20.glBindTexture(target,texId);
+    RendererUtil.checkGLError();
+    context.boundTextures[0]=img;
+  }
+  boolean needMips=false;
+  if (img.isGeneratedMipmapsRequired()) {
+    needMips=true;
+    img.setMipmapsGenerated(true);
+  }
+  if (target == GLES20.GL_TEXTURE_CUBE_MAP) {
+    if (img.getWidth() > maxCubeTexSize || img.getHeight() > maxCubeTexSize) {
+      throw new RendererException("Cannot upload cubemap " + img + ". The maximum supported cubemap resolution is "+ maxCubeTexSize);
+    }
+  }
+ else {
+    if (img.getWidth() > maxTexSize || img.getHeight() > maxTexSize) {
+      throw new RendererException("Cannot upload texture " + img + ". The maximum supported texture resolution is "+ maxTexSize);
+    }
+  }
+  if (target == GLES20.GL_TEXTURE_CUBE_MAP) {
+    @SuppressWarnings("unchecked") List<AndroidImageInfo> bmps=(List<AndroidImageInfo>)img.getEfficentData();
+    if (bmps != null) {
+      if (bmps.size() != 6) {
+        throw new UnsupportedOperationException("Invalid texture: " + img + "Cubemap textures must contain 6 data units.");
+      }
+      for (int i=0; i < 6; i++) {
+        TextureUtil.uploadTextureBitmap(GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,bmps.get(i).getBitmap(),needMips);
+        bmps.get(i).notifyBitmapUploaded();
+      }
+    }
+ else {
+      List<ByteBuffer> data=img.getData();
+      if (data.size() != 6) {
+        throw new UnsupportedOperationException("Invalid texture: " + img + "Cubemap textures must contain 6 data units.");
+      }
+      for (int i=0; i < 6; i++) {
+        TextureUtil.uploadTextureAny(img,GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,i,needMips);
+      }
+    }
+  }
+ else {
+    TextureUtil.uploadTextureAny(img,target,0,needMips);
+    if (img.getEfficentData() instanceof AndroidImageInfo) {
+      AndroidImageInfo info=(AndroidImageInfo)img.getEfficentData();
+      info.notifyBitmapUploaded();
+    }
+  }
+  img.clearUpdateNeeded();
+}

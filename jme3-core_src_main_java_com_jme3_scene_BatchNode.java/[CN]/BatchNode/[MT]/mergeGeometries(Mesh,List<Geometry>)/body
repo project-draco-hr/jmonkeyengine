@@ -1,0 +1,118 @@
+{
+  int[] compsForBuf=new int[VertexBuffer.Type.values().length];
+  VertexBuffer.Format[] formatForBuf=new VertexBuffer.Format[compsForBuf.length];
+  int totalVerts=0;
+  int totalTris=0;
+  int totalLodLevels=0;
+  int maxWeights=-1;
+  Mesh.Mode mode=null;
+  for (  Geometry geom : geometries) {
+    totalVerts+=geom.getVertexCount();
+    totalTris+=geom.getTriangleCount();
+    totalLodLevels=Math.min(totalLodLevels,geom.getMesh().getNumLodLevels());
+    if (maxVertCount < geom.getVertexCount()) {
+      maxVertCount=geom.getVertexCount();
+    }
+    Mesh.Mode listMode;
+    int components;
+switch (geom.getMesh().getMode()) {
+case Points:
+      listMode=Mesh.Mode.Points;
+    components=1;
+  break;
+case LineLoop:
+case LineStrip:
+case Lines:
+listMode=Mesh.Mode.Lines;
+components=2;
+break;
+case TriangleFan:
+case TriangleStrip:
+case Triangles:
+listMode=Mesh.Mode.Triangles;
+components=3;
+break;
+default :
+throw new UnsupportedOperationException();
+}
+for (VertexBuffer vb : geom.getMesh().getBufferList().getArray()) {
+compsForBuf[vb.getBufferType().ordinal()]=vb.getNumComponents();
+formatForBuf[vb.getBufferType().ordinal()]=vb.getFormat();
+}
+maxWeights=Math.max(maxWeights,geom.getMesh().getMaxNumWeights());
+if (mode != null && mode != listMode) {
+throw new UnsupportedOperationException("Cannot combine different" + " primitive types: " + mode + " != "+ listMode);
+}
+mode=listMode;
+compsForBuf[VertexBuffer.Type.Index.ordinal()]=components;
+}
+outMesh.setMaxNumWeights(maxWeights);
+outMesh.setMode(mode);
+if (totalVerts >= 65536) {
+formatForBuf[VertexBuffer.Type.Index.ordinal()]=VertexBuffer.Format.UnsignedInt;
+}
+ else {
+formatForBuf[VertexBuffer.Type.Index.ordinal()]=VertexBuffer.Format.UnsignedShort;
+}
+for (int i=0; i < compsForBuf.length; i++) {
+if (compsForBuf[i] == 0) {
+continue;
+}
+Buffer data;
+if (i == VertexBuffer.Type.Index.ordinal()) {
+data=VertexBuffer.createBuffer(formatForBuf[i],compsForBuf[i],totalTris);
+}
+ else {
+data=VertexBuffer.createBuffer(formatForBuf[i],compsForBuf[i],totalVerts);
+}
+VertexBuffer vb=new VertexBuffer(VertexBuffer.Type.values()[i]);
+vb.setupData(VertexBuffer.Usage.Dynamic,compsForBuf[i],formatForBuf[i],data);
+outMesh.setBuffer(vb);
+}
+int globalVertIndex=0;
+int globalTriIndex=0;
+for (Geometry geom : geometries) {
+Mesh inMesh=geom.getMesh();
+if (!isBatch(geom)) {
+geom.batch(this,globalVertIndex);
+}
+int geomVertCount=inMesh.getVertexCount();
+int geomTriCount=inMesh.getTriangleCount();
+for (int bufType=0; bufType < compsForBuf.length; bufType++) {
+VertexBuffer inBuf=inMesh.getBuffer(VertexBuffer.Type.values()[bufType]);
+VertexBuffer outBuf=outMesh.getBuffer(VertexBuffer.Type.values()[bufType]);
+if (outBuf == null) {
+continue;
+}
+if (VertexBuffer.Type.Index.ordinal() == bufType) {
+int components=compsForBuf[bufType];
+IndexBuffer inIdx=inMesh.getIndicesAsList();
+IndexBuffer outIdx=outMesh.getIndexBuffer();
+for (int tri=0; tri < geomTriCount; tri++) {
+for (int comp=0; comp < components; comp++) {
+int idx=inIdx.get(tri * components + comp) + globalVertIndex;
+outIdx.put((globalTriIndex + tri) * components + comp,idx);
+}
+}
+}
+ else if (VertexBuffer.Type.Position.ordinal() == bufType) {
+FloatBuffer inPos=(FloatBuffer)inBuf.getData();
+FloatBuffer outPos=(FloatBuffer)outBuf.getData();
+doCopyBuffer(inPos,globalVertIndex,outPos,3);
+}
+ else if (VertexBuffer.Type.Normal.ordinal() == bufType || VertexBuffer.Type.Tangent.ordinal() == bufType) {
+FloatBuffer inPos=(FloatBuffer)inBuf.getData();
+FloatBuffer outPos=(FloatBuffer)outBuf.getData();
+doCopyBuffer(inPos,globalVertIndex,outPos,compsForBuf[bufType]);
+if (VertexBuffer.Type.Tangent.ordinal() == bufType) {
+useTangents=true;
+}
+}
+ else {
+inBuf.copyElements(0,outBuf,globalVertIndex,geomVertCount);
+}
+}
+globalVertIndex+=geomVertCount;
+globalTriIndex+=geomTriCount;
+}
+}

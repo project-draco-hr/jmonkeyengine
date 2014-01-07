@@ -1,0 +1,26 @@
+{
+  Box brick=new Box(Vector3f.ZERO,bLength,bHeight,bWidth);
+  brick.scaleTextureCoordinates(new Vector2f(1f,.5f));
+  Material mat2=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  TextureKey key=new TextureKey("Textures/Terrain/BrickWall/BrickWall.jpg");
+  key.setGenerateMips(true);
+  Texture tex=assetManager.loadTexture(key);
+  mat2.setTexture("ColorMap",tex);
+  float startpt=bLength / 4;
+  float height=-5;
+  for (int j=0; j < 15; j++) {
+    for (int i=0; i < 4; i++) {
+      Vector3f ori=new Vector3f(i * bLength * 2 + startpt,bHeight + height,-10);
+      Geometry reBoxg=new Geometry("brick",brick);
+      reBoxg.setMaterial(mat2);
+      reBoxg.setLocalTranslation(ori);
+      reBoxg.addControl(new RigidBodyControl(1.5f));
+      reBoxg.setShadowMode(ShadowMode.CastAndReceive);
+      reBoxg.getControl(RigidBodyControl.class).setFriction(0.6f);
+      this.rootNode.attachChild(reBoxg);
+      this.getPhysicsSpace().add(reBoxg);
+    }
+    startpt=-startpt;
+    height+=2 * bHeight;
+  }
+}

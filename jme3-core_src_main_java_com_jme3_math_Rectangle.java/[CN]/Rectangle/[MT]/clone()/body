@@ -1,0 +1,12 @@
+{
+  try {
+    Rectangle r=(Rectangle)super.clone();
+    r.a=a.clone();
+    r.b=b.clone();
+    r.c=c.clone();
+    return r;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
+}

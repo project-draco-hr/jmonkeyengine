@@ -1,0 +1,107 @@
+{
+  final boolean isDisplayModeModified;
+  final GraphicsDevice gd=GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+  final DisplayMode previousDisplayMode=gd.getDisplayMode();
+  if (settings.isFullscreen()) {
+    frame.setUndecorated(true);
+    boolean isFullScreenSupported=gd.isFullScreenSupported();
+    if (isFullScreenSupported) {
+      gd.setFullScreenWindow(frame);
+      if (gd.isDisplayChangeSupported()) {
+        final DisplayMode[] displayModes=gd.getDisplayModes();
+        DisplayMode multiBitsDepthSupportedDisplayMode=null;
+        DisplayMode refreshRateUnknownDisplayMode=null;
+        DisplayMode multiBitsDepthSupportedAndRefreshRateUnknownDisplayMode=null;
+        DisplayMode matchingDisplayMode=null;
+        DisplayMode currentDisplayMode;
+        for (int i=0; i < displayModes.length && matchingDisplayMode == null; i++) {
+          currentDisplayMode=displayModes[i];
+          if (currentDisplayMode.getWidth() == settings.getWidth() && currentDisplayMode.getHeight() == settings.getHeight()) {
+            if (currentDisplayMode.getBitDepth() == settings.getBitsPerPixel()) {
+              if (currentDisplayMode.getRefreshRate() == settings.getFrequency()) {
+                matchingDisplayMode=currentDisplayMode;
+              }
+ else               if (currentDisplayMode.getRefreshRate() == DisplayMode.REFRESH_RATE_UNKNOWN) {
+                refreshRateUnknownDisplayMode=currentDisplayMode;
+              }
+            }
+ else             if (currentDisplayMode.getBitDepth() == DisplayMode.BIT_DEPTH_MULTI) {
+              if (currentDisplayMode.getRefreshRate() == settings.getFrequency()) {
+                multiBitsDepthSupportedDisplayMode=currentDisplayMode;
+              }
+ else               if (currentDisplayMode.getRefreshRate() == DisplayMode.REFRESH_RATE_UNKNOWN) {
+                multiBitsDepthSupportedAndRefreshRateUnknownDisplayMode=currentDisplayMode;
+              }
+            }
+          }
+        }
+        DisplayMode nextDisplayMode=null;
+        if (matchingDisplayMode != null) {
+          nextDisplayMode=matchingDisplayMode;
+        }
+ else         if (multiBitsDepthSupportedDisplayMode != null) {
+          nextDisplayMode=multiBitsDepthSupportedDisplayMode;
+        }
+ else         if (refreshRateUnknownDisplayMode != null) {
+          nextDisplayMode=refreshRateUnknownDisplayMode;
+        }
+ else         if (multiBitsDepthSupportedAndRefreshRateUnknownDisplayMode != null) {
+          nextDisplayMode=multiBitsDepthSupportedAndRefreshRateUnknownDisplayMode;
+        }
+ else {
+          isFullScreenSupported=false;
+        }
+        if (nextDisplayMode != null) {
+          gd.setDisplayMode(nextDisplayMode);
+          isDisplayModeModified=true;
+        }
+ else {
+          isDisplayModeModified=false;
+        }
+      }
+ else {
+        isDisplayModeModified=false;
+        final Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
+        if (screenSize.width != settings.getWidth() || screenSize.height != settings.getHeight()) {
+          canvas.setSize(screenSize);
+        }
+      }
+    }
+ else {
+      isDisplayModeModified=false;
+    }
+    if (!isFullScreenSupported) {
+      final Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
+      canvas.setSize(screenSize);
+      frame.setSize(screenSize);
+      frame.setLocation(0,0);
+    }
+  }
+ else {
+    isDisplayModeModified=false;
+    frame.pack();
+    int x, y;
+    x=(Toolkit.getDefaultToolkit().getScreenSize().width - settings.getWidth()) / 2;
+    y=(Toolkit.getDefaultToolkit().getScreenSize().height - settings.getHeight()) / 2;
+    frame.setLocation(x,y);
+  }
+  frame.addWindowListener(new WindowAdapter(){
+    @Override public void windowClosing(    WindowEvent evt){
+      if (isDisplayModeModified) {
+        gd.setDisplayMode(previousDisplayMode);
+      }
+      if (gd.getFullScreenWindow() == frame) {
+        gd.setFullScreenWindow(null);
+      }
+      windowCloseRequest.set(true);
+    }
+    @Override public void windowActivated(    WindowEvent evt){
+      active.set(true);
+    }
+    @Override public void windowDeactivated(    WindowEvent evt){
+      active.set(false);
+    }
+  }
+);
+  logger.log(Level.FINE,"Selected display mode: {0}x{1}x{2} @{3}",new Object[]{gd.getDisplayMode().getWidth(),gd.getDisplayMode().getHeight(),gd.getDisplayMode().getBitDepth(),gd.getDisplayMode().getRefreshRate()});
+}

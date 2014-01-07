@@ -1,0 +1,25 @@
+{
+  zero();
+  m33=1;
+  float fCos=FastMath.cos(angle);
+  float fSin=FastMath.sin(angle);
+  float fOneMinusCos=((float)1.0) - fCos;
+  float fX2=axis.x * axis.x;
+  float fY2=axis.y * axis.y;
+  float fZ2=axis.z * axis.z;
+  float fXYM=axis.x * axis.y * fOneMinusCos;
+  float fXZM=axis.x * axis.z * fOneMinusCos;
+  float fYZM=axis.y * axis.z * fOneMinusCos;
+  float fXSin=axis.x * fSin;
+  float fYSin=axis.y * fSin;
+  float fZSin=axis.z * fSin;
+  m00=fX2 * fOneMinusCos + fCos;
+  m01=fXYM - fZSin;
+  m02=fXZM + fYSin;
+  m10=fXYM + fZSin;
+  m11=fY2 * fOneMinusCos + fCos;
+  m12=fYZM - fXSin;
+  m20=fXZM - fYSin;
+  m21=fYZM + fXSin;
+  m22=fZ2 * fOneMinusCos + fCos;
+}

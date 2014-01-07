@@ -1,0 +1,10 @@
+{
+  IDList attribList=context.attribIndexList;
+  for (int i=0; i < attribList.oldLen; i++) {
+    int idx=attribList.oldList[i];
+    GL gl=GLContext.getCurrentGL();
+    gl.getGL2ES2().glDisableVertexAttribArray(idx);
+    context.boundAttribs[idx]=null;
+  }
+  context.attribIndexList.copyNewToOld();
+}

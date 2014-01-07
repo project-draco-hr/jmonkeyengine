@@ -1,0 +1,13 @@
+{
+  if (flushData) {
+    closing=true;
+    send(CLOSE_MARKER,false,true);
+    return;
+  }
+  try {
+    kernel.closeEndpoint(this);
+  }
+ catch (  IOException e) {
+    throw new KernelException("Error closing endpoint for socket:" + socket,e);
+  }
+}

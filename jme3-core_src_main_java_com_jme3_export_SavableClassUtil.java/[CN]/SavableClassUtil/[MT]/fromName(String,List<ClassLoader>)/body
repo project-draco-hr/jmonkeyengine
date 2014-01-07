@@ -1,0 +1,18 @@
+{
+  if (loaders == null) {
+    return fromName(className);
+  }
+  String newClassName=remapClass(className);
+synchronized (loaders) {
+    for (    ClassLoader classLoader : loaders) {
+      try {
+        return (Savable)classLoader.loadClass(newClassName).newInstance();
+      }
+ catch (      InstantiationException e) {
+      }
+catch (      IllegalAccessException e) {
+      }
+    }
+  }
+  return fromName(className);
+}

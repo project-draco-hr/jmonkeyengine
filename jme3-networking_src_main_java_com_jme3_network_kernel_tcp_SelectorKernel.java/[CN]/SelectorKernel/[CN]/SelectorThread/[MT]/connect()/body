@@ -1,0 +1,8 @@
+{
+  this.selector=SelectorProvider.provider().openSelector();
+  this.serverChannel=ServerSocketChannel.open();
+  serverChannel.configureBlocking(false);
+  serverChannel.socket().bind(address);
+  serverChannel.register(selector,SelectionKey.OP_ACCEPT);
+  log.log(Level.FINE,"Hosting TCP connection:{0}.",address);
+}

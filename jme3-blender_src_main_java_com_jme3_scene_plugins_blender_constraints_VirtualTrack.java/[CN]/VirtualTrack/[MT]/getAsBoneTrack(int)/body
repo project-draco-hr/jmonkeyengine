@@ -1,0 +1,6 @@
+{
+  if (translations == null && rotations == null && scales == null) {
+    return null;
+  }
+  return new BoneTrack(targetBoneIndex,this.createTimes(),translations.toArray(new Vector3f[maxFrame]),rotations.toArray(new Quaternion[maxFrame]),scales.toArray(new Vector3f[maxFrame]));
+}

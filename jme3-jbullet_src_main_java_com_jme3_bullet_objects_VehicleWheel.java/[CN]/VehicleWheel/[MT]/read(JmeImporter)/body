@@ -1,0 +1,17 @@
+{
+  InputCapsule capsule=im.getCapsule(this);
+  wheelSpatial=(Spatial)capsule.readSavable("wheelSpatial",null);
+  frontWheel=capsule.readBoolean("frontWheel",false);
+  location=(Vector3f)capsule.readSavable("wheelLocation",new Vector3f());
+  direction=(Vector3f)capsule.readSavable("wheelDirection",new Vector3f());
+  axle=(Vector3f)capsule.readSavable("wheelAxle",new Vector3f());
+  suspensionStiffness=capsule.readFloat("suspensionStiffness",20.0f);
+  wheelsDampingRelaxation=capsule.readFloat("wheelsDampingRelaxation",2.3f);
+  wheelsDampingCompression=capsule.readFloat("wheelsDampingCompression",4.4f);
+  frictionSlip=capsule.readFloat("frictionSlip",10.5f);
+  rollInfluence=capsule.readFloat("rollInfluence",1.0f);
+  maxSuspensionTravelCm=capsule.readFloat("maxSuspensionTravelCm",500f);
+  maxSuspensionForce=capsule.readFloat("maxSuspensionForce",6000f);
+  radius=capsule.readFloat("wheelRadius",0.5f);
+  restLength=capsule.readFloat("restLength",1f);
+}

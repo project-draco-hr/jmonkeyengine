@@ -1,0 +1,11 @@
+{
+  textPages=new BitmapTextPage[font.getPageSize()];
+  for (int page=0; page < textPages.length; page++) {
+    textPages[page]=new BitmapTextPage(font,arrayBased,page);
+    attachChild(textPages[page]);
+  }
+  this.font=font;
+  this.block=new StringBlock();
+  block.setSize(font.getPreferredSize());
+  letters=new Letters(font,block,rightToLeft);
+}

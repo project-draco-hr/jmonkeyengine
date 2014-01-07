@@ -1,0 +1,7 @@
+{
+  Vector3f worldTrans=getWorldTranslation();
+  Vector3f worldCenter=getWorldBound().getCenter();
+  Vector3f absTrans=worldTrans.subtract(worldCenter);
+  setLocalTranslation(absTrans);
+  return this;
+}

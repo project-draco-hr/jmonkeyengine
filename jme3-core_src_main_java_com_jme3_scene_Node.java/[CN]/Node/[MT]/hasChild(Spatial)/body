@@ -1,0 +1,7 @@
+{
+  if (children.contains(spat))   return true;
+  for (  Spatial child : children.getArray()) {
+    if (child instanceof Node && ((Node)child).hasChild(spat))     return true;
+  }
+  return false;
+}

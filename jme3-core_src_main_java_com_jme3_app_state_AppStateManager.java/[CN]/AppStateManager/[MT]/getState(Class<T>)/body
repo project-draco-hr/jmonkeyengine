@@ -1,0 +1,17 @@
+{
+synchronized (states) {
+    AppState[] array=getStates();
+    for (    AppState state : array) {
+      if (stateClass.isAssignableFrom(state.getClass())) {
+        return (T)state;
+      }
+    }
+    array=getInitializing();
+    for (    AppState state : array) {
+      if (stateClass.isAssignableFrom(state.getClass())) {
+        return (T)state;
+      }
+    }
+  }
+  return null;
+}

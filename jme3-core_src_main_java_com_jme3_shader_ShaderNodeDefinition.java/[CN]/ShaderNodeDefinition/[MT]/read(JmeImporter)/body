@@ -1,0 +1,21 @@
+{
+  InputCapsule ic=(InputCapsule)im.getCapsule(this);
+  name=ic.readString("name","");
+  String[] str=ic.readStringArray("shadersLanguage",null);
+  if (str != null) {
+    shadersLanguage=Arrays.asList(str);
+  }
+ else {
+    shadersLanguage=new ArrayList<String>();
+  }
+  str=ic.readStringArray("shadersPath",null);
+  if (str != null) {
+    shadersPath=Arrays.asList(str);
+  }
+ else {
+    shadersPath=new ArrayList<String>();
+  }
+  type=ic.readEnum("type",Shader.ShaderType.class,null);
+  inputs=(List<ShaderNodeVariable>)ic.readSavableArrayList("inputs",new ArrayList<ShaderNodeVariable>());
+  outputs=(List<ShaderNodeVariable>)ic.readSavableArrayList("outputs",new ArrayList<ShaderNodeVariable>());
+}

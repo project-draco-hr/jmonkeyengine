@@ -1,0 +1,14 @@
+{
+  AudioSource src=soundpoolStillLoading.remove(sampleId);
+  if (src == null) {
+    logger.warning("Something went terribly wrong! onLoadComplete" + " had sampleId which was not in the HashMap of loading items");
+    return;
+  }
+  AudioData audioData=src.getAudioData();
+  if (status == 0) {
+    int channelIndex;
+    channelIndex=soundPool.play(audioData.getId(),1f,1f,1,0,1f);
+    src.setChannel(channelIndex);
+    setSourceParams(src);
+  }
+}

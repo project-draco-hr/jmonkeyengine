@@ -1,0 +1,25 @@
+{
+  MessageProtocol protocol=new MessageProtocol();
+  try {
+    while (go.get()) {
+      ByteBuffer buffer=connector.read();
+      if (buffer == null) {
+        if (go.get()) {
+          throw new ConnectorException("Connector closed.");
+        }
+ else {
+          break;
+        }
+      }
+      protocol.addBuffer(buffer);
+      Message m=null;
+      while ((m=protocol.getMessage()) != null) {
+        m.setReliable(reliable);
+        dispatch(m);
+      }
+    }
+  }
+ catch (  Exception e) {
+    handleError(e);
+  }
+}

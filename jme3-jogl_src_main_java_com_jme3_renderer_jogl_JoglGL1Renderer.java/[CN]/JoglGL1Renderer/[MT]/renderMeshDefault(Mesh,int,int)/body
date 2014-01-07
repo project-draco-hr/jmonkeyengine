@@ -1,0 +1,34 @@
+{
+  VertexBuffer indices=null;
+  VertexBuffer interleavedData=mesh.getBuffer(Type.InterleavedData);
+  if (interleavedData != null && interleavedData.isUpdateNeeded()) {
+    updateBufferData(interleavedData);
+  }
+  if (mesh.getNumLodLevels() > 0) {
+    indices=mesh.getLodLevel(lod);
+  }
+ else {
+    indices=mesh.getBuffer(Type.Index);
+  }
+  for (  VertexBuffer vb : mesh.getBufferList().getArray()) {
+    if (vb.getBufferType() == Type.InterleavedData || vb.getUsage() == Usage.CpuOnly || vb.getBufferType() == Type.Index) {
+      continue;
+    }
+    if (vb.getStride() == 0) {
+      setVertexAttrib(vb);
+    }
+ else {
+      setVertexAttrib(vb,interleavedData);
+    }
+  }
+  if (indices != null) {
+    drawTriangleList(indices,mesh,count);
+  }
+ else {
+    GL gl=GLContext.getCurrentGL();
+    gl.glDrawArrays(convertElementMode(mesh.getMode()),0,mesh.getVertexCount());
+  }
+  clearVertexAttribs();
+  clearTextureUnits();
+  resetFixedFuncBindings();
+}

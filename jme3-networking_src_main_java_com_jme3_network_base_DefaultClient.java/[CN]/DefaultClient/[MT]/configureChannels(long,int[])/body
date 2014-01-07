@@ -1,0 +1,19 @@
+{
+  try {
+    for (int i=0; i < ports.length; i++) {
+      Connector c=connectorFactory.createConnector(i,ports[i]);
+      ConnectorAdapter ca=new ConnectorAdapter(c,dispatcher,dispatcher,true);
+      int ch=channels.size();
+      channels.add(ca);
+      ca.start();
+      ClientRegistrationMessage reg;
+      reg=new ClientRegistrationMessage();
+      reg.setId(tempId);
+      reg.setReliable(true);
+      send(ch,reg,false);
+    }
+  }
+ catch (  IOException e) {
+    throw new RuntimeException("Error configuring channels",e);
+  }
+}

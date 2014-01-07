@@ -1,0 +1,9 @@
+{
+  try {
+    Class clazz=Class.forName("com.jme3.bullet.util.NativeMeshUtil");
+    return clazz != null;
+  }
+ catch (  ClassNotFoundException ex) {
+    return false;
+  }
+}

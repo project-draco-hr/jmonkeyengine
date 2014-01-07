@@ -1,0 +1,16 @@
+{
+  logger.log(Level.FINE,"Adding button: \"{0}\" id:" + comp.getIdentifier(),comp);
+  Identifier id=comp.getIdentifier();
+  if (!(id instanceof Button)) {
+    throw new IllegalArgumentException("Component is not an axis:" + comp);
+  }
+  String name=comp.getName();
+  String original=id.getName();
+  String logicalId=JoystickCompatibilityMappings.remapComponent(controller.getName(),original);
+  if (name != original) {
+    logger.log(Level.FINE,"Remapped:" + original + " to:"+ logicalId);
+  }
+  JoystickButton button=new DefaultJoystickButton(getInputManager(),this,getButtonCount(),name,logicalId);
+  addButton(button);
+  buttonIndex.put(comp,button);
+}

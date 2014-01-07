@@ -1,0 +1,17 @@
+{
+  for (  Material m : materials) {
+    if (m.getMaterialDef().getMaterialParam("NumberOfBones") == null) {
+      Logger.getLogger(SkeletonControl.class.getName()).log(Level.WARNING,"Not using hardware skinning for {0}, " + "because material {1} doesn''t support it.",new Object[]{spatial,m.getMaterialDef().getName()});
+      return false;
+    }
+  }
+  switchToHardware();
+  try {
+    rm.preloadScene(spatial);
+    return true;
+  }
+ catch (  RendererException e) {
+    Logger.getLogger(SkeletonControl.class.getName()).log(Level.WARNING,"Could not enable HW skinning due to shader compile error:",e);
+    return false;
+  }
+}

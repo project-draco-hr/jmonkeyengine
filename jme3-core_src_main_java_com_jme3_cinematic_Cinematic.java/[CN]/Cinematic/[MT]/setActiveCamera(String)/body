@@ -1,0 +1,8 @@
+{
+  setEnableCurrentCam(false);
+  currentCam=cameras.get(cameraName);
+  if (currentCam == null) {
+    logger.log(Level.WARNING,"{0} is not a camera bond to the cinematic, cannot activate",cameraName);
+  }
+  setEnableCurrentCam(true);
+}

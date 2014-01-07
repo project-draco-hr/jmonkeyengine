@@ -1,0 +1,40 @@
+{
+  try {
+    size=inputStream.available();
+  }
+ catch (  IOException e) {
+    size=0;
+  }
+  if (size <= 0) {
+    size=BlenderInputStream.DEFAULT_BUFFER_SIZE;
+  }
+  BufferedInputStream bufferedInputStream;
+  if (inputStream instanceof BufferedInputStream) {
+    bufferedInputStream=(BufferedInputStream)inputStream;
+  }
+ else {
+    bufferedInputStream=new BufferedInputStream(inputStream);
+  }
+  try {
+    this.readStreamToCache(bufferedInputStream);
+  }
+ catch (  IOException e) {
+    throw new BlenderFileException("Problems occured while caching the file!",e);
+  }
+ finally {
+    try {
+      inputStream.close();
+    }
+ catch (    IOException e) {
+      LOGGER.warning("Unable to close stream with blender file.");
+    }
+  }
+  try {
+    this.readFileHeader();
+  }
+ catch (  BlenderFileException e) {
+    this.decompressFile();
+    position=0;
+    this.readFileHeader();
+  }
+}

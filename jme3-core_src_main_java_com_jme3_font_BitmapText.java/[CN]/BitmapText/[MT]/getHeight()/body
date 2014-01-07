@@ -1,0 +1,11 @@
+{
+  if (needRefresh) {
+    assemble();
+  }
+  float height=getLineHeight() * block.getLineCount();
+  Rectangle textBox=block.getTextBox();
+  if (textBox != null) {
+    return Math.max(height,textBox.height);
+  }
+  return height;
+}

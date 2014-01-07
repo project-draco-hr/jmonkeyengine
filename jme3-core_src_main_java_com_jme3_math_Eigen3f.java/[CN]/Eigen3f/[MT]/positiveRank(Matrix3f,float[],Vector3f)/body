@@ -1,0 +1,15 @@
+{
+  maxMagnitudeStore[0]=-1f;
+  int iRow, iCol, iMaxRow=-1;
+  for (iRow=0; iRow < 3; iRow++) {
+    for (iCol=iRow; iCol < 3; iCol++) {
+      float fAbs=FastMath.abs(matrix.get(iRow,iCol));
+      if (fAbs > maxMagnitudeStore[0]) {
+        maxMagnitudeStore[0]=fAbs;
+        iMaxRow=iRow;
+      }
+    }
+  }
+  maxRowStore.set(matrix.getRow(iMaxRow));
+  return maxMagnitudeStore[0] >= FastMath.ZERO_TOLERANCE;
+}

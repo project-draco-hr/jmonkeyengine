@@ -1,0 +1,12 @@
+{
+  cachedLocalMat.loadIdentity();
+  cachedLocalMat.setRotationQuaternion(g.localTransform.getRotation());
+  cachedLocalMat.setTranslation(g.localTransform.getTranslation());
+  TempVars vars=TempVars.get();
+  Matrix4f scaleMat=vars.tempMat4;
+  scaleMat.loadIdentity();
+  scaleMat.scale(g.localTransform.getScale());
+  cachedLocalMat.multLocal(scaleMat);
+  vars.release();
+  return cachedLocalMat;
+}

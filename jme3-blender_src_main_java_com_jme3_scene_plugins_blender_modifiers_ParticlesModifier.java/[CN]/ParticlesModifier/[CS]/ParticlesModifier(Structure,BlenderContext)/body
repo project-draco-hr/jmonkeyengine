@@ -1,0 +1,10 @@
+{
+  if (this.validate(modifierStructure,blenderContext)) {
+    Pointer pParticleSystem=(Pointer)modifierStructure.getFieldValue("psys");
+    if (pParticleSystem.isNotNull()) {
+      ParticlesHelper particlesHelper=blenderContext.getHelper(ParticlesHelper.class);
+      Structure particleSystem=pParticleSystem.fetchData().get(0);
+      particleEmitter=particlesHelper.toParticleEmitter(particleSystem);
+    }
+  }
+}

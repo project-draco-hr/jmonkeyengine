@@ -1,0 +1,6 @@
+{
+  String namePrefix=getAppendableNameSpace(var);
+  String newName=namePrefix + var.getName();
+  nodeSource=replace(nodeSource,var,newName);
+  return nodeSource;
+}

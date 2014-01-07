@@ -1,0 +1,19 @@
+{
+  super();
+  this.spline=spline;
+switch (spline.getType()) {
+case CatmullRom:
+    this.createCatmullRomMesh(nbSubSegments);
+  break;
+case Bezier:
+this.createBezierMesh(nbSubSegments);
+break;
+case Nurb:
+this.createNurbMesh(nbSubSegments);
+break;
+case Linear:
+default :
+this.createLinearMesh();
+break;
+}
+}

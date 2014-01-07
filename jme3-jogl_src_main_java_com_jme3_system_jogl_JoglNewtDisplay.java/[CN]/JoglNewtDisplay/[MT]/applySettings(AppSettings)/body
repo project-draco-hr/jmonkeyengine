@@ -1,0 +1,35 @@
+{
+  active.set(true);
+  canvas.addWindowListener(new WindowAdapter(){
+    @Override public void windowDestroyNotify(    WindowEvent e){
+      windowCloseRequest.set(true);
+    }
+    @Override public void windowGainedFocus(    WindowEvent e){
+      active.set(true);
+    }
+    @Override public void windowLostFocus(    WindowEvent e){
+      active.set(false);
+    }
+  }
+);
+  canvas.setSize(settings.getWidth(),settings.getHeight());
+  canvas.setUndecorated(settings.isFullscreen());
+  canvas.setFullscreen(settings.isFullscreen());
+  Screen screen=canvas.getScreen();
+  screen.addReference();
+  if (settings.isFullscreen()) {
+    List<MonitorMode> screenModes=canvas.getMainMonitor().getSupportedModes();
+    Dimension dimension=new Dimension(settings.getWidth(),settings.getHeight());
+    screenModes=MonitorModeUtil.filterByResolution(screenModes,dimension);
+    screenModes=MonitorModeUtil.getHighestAvailableBpp(screenModes);
+    if (settings.getFrequency() > 0) {
+      screenModes=MonitorModeUtil.filterByRate(screenModes,settings.getFrequency());
+    }
+ else {
+      screenModes=MonitorModeUtil.getHighestAvailableRate(screenModes);
+    }
+    canvas.getMainMonitor().setCurrentMode(screenModes.get(0));
+  }
+  MonitorMode currentScreenMode=canvas.getMainMonitor().getCurrentMode();
+  logger.log(Level.FINE,"Selected display mode: {0}x{1}x{2} @{3}",new Object[]{currentScreenMode.getRotatedWidth(),currentScreenMode.getRotatedHeight(),currentScreenMode.getSurfaceSize().getBitsPerPixel(),currentScreenMode.getRefreshRate()});
+}

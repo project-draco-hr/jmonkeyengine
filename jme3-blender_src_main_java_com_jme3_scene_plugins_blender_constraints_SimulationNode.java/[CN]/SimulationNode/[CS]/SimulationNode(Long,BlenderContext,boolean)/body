@@ -1,0 +1,57 @@
+{
+  this.blenderContext=blenderContext;
+  Node spatial=(Node)blenderContext.getLoadedFeature(featureOMA,LoadedFeatureDataType.LOADED_FEATURE);
+  if (blenderContext.getMarkerValue(ArmatureHelper.ARMATURE_NODE_MARKER,spatial) != null) {
+    skeleton=blenderContext.getSkeleton(featureOMA);
+    Node nodeWithAnimationControl=blenderContext.getControlledNode(skeleton);
+    animControl=nodeWithAnimationControl.getControl(AnimControl.class);
+    boneStartTransforms=new HashMap<Bone,Transform>();
+    for (int i=0; i < skeleton.getBoneCount(); ++i) {
+      Bone bone=skeleton.getBone(i);
+      boneStartTransforms.put(bone,new Transform(bone.getWorldBindPosition(),bone.getWorldBindRotation(),bone.getWorldBindScale()));
+    }
+  }
+ else {
+    if (rootNode && spatial.getParent() != null) {
+      throw new IllegalStateException("Given spatial must be a root node!");
+    }
+    this.spatial=spatial;
+    spatialStartTransform=spatial.getLocalTransform().clone();
+  }
+  name='>' + spatial.getName() + '<';
+  constraints=this.findConstraints(featureOMA,blenderContext);
+  if (constraints == null) {
+    constraints=new ArrayList<Constraint>();
+  }
+  if (skeleton != null) {
+    for (int i=1; i < skeleton.getBoneCount(); ++i) {
+      BoneContext boneContext=blenderContext.getBoneContext(skeleton.getBone(i));
+      List<Constraint> boneConstraints=this.findConstraints(boneContext.getBoneOma(),blenderContext);
+      if (boneConstraints != null) {
+        constraints.addAll(boneConstraints);
+      }
+    }
+    BoneContext boneContext=blenderContext.getBoneContext(skeleton.getBone(1));
+    Long boneOma=boneContext.getBoneOma();
+    animations=blenderContext.getAnimData(boneOma) == null ? null : blenderContext.getAnimData(boneOma).anims;
+  }
+ else {
+    animations=blenderContext.getAnimData(featureOMA) == null ? null : blenderContext.getAnimData(featureOMA).anims;
+    for (    Spatial child : spatial.getChildren()) {
+      if (child instanceof Node) {
+        children.add(new SimulationNode((Long)blenderContext.getMarkerValue(ObjectHelper.OMA_MARKER,child),blenderContext,false));
+      }
+    }
+  }
+  LOGGER.info("Removing invalid constraints.");
+  List<Constraint> validConstraints=new ArrayList<Constraint>(constraints.size());
+  for (  Constraint constraint : constraints) {
+    if (constraint.validate()) {
+      validConstraints.add(constraint);
+    }
+ else {
+      LOGGER.log(Level.WARNING,"Constraint {0} is invalid and will not be applied.",constraint.name);
+    }
+  }
+  constraints=validConstraints;
+}

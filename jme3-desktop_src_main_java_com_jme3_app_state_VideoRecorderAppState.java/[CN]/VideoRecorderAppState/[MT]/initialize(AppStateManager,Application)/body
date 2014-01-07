@@ -1,0 +1,19 @@
+{
+  super.initialize(stateManager,app);
+  this.app=app;
+  this.oldTimer=app.getTimer();
+  app.setTimer(new IsoTimer(framerate));
+  if (file == null) {
+    String filename=System.getProperty("user.home") + File.separator + "jMonkey-"+ System.currentTimeMillis() / 1000 + ".avi";
+    file=new File(filename);
+  }
+  processor=new VideoProcessor();
+  List<ViewPort> vps=app.getRenderManager().getPostViews();
+  for (int i=vps.size() - 1; i >= 0; i--) {
+    lastViewPort=vps.get(i);
+    if (lastViewPort.isEnabled()) {
+      break;
+    }
+  }
+  lastViewPort.addProcessor(processor);
+}

@@ -1,0 +1,11 @@
+{
+  if (obj instanceof PhysicsGhostObject) {
+    removeGhostObject((PhysicsGhostObject)obj);
+  }
+ else   if (obj instanceof PhysicsRigidBody) {
+    removeRigidBody((PhysicsRigidBody)obj);
+  }
+ else   if (obj instanceof PhysicsCharacter) {
+    removeCharacter((PhysicsCharacter)obj);
+  }
+}

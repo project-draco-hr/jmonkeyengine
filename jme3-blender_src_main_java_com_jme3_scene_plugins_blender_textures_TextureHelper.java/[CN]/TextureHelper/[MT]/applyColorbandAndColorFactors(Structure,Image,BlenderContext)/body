@@ -1,0 +1,39 @@
+{
+  float rfac=((Number)tex.getFieldValue("rfac")).floatValue();
+  float gfac=((Number)tex.getFieldValue("gfac")).floatValue();
+  float bfac=((Number)tex.getFieldValue("bfac")).floatValue();
+  float[][] colorBand=new ColorBand(tex,blenderContext).computeValues();
+  int depth=image.getDepth() == 0 ? 1 : image.getDepth();
+  if (colorBand != null) {
+    TexturePixel pixel=new TexturePixel();
+    PixelInputOutput imageIO=PixelIOFactory.getPixelIO(image.getFormat());
+    for (int layerIndex=0; layerIndex < depth; ++layerIndex) {
+      for (int x=0; x < image.getWidth(); ++x) {
+        for (int y=0; y < image.getHeight(); ++y) {
+          imageIO.read(image,layerIndex,pixel,x,y);
+          int colorbandIndex=(int)(pixel.alpha * 1000.0f);
+          pixel.red=colorBand[colorbandIndex][0] * rfac;
+          pixel.green=colorBand[colorbandIndex][1] * gfac;
+          pixel.blue=colorBand[colorbandIndex][2] * bfac;
+          pixel.alpha=colorBand[colorbandIndex][3];
+          imageIO.write(image,layerIndex,pixel,x,y);
+        }
+      }
+    }
+  }
+ else   if (rfac != 1.0f || gfac != 1.0f || bfac != 1.0f) {
+    TexturePixel pixel=new TexturePixel();
+    PixelInputOutput imageIO=PixelIOFactory.getPixelIO(image.getFormat());
+    for (int layerIndex=0; layerIndex < depth; ++layerIndex) {
+      for (int x=0; x < image.getWidth(); ++x) {
+        for (int y=0; y < image.getHeight(); ++y) {
+          imageIO.read(image,layerIndex,pixel,x,y);
+          pixel.red*=rfac;
+          pixel.green*=gfac;
+          pixel.blue*=bfac;
+          imageIO.write(image,layerIndex,pixel,x,y);
+        }
+      }
+    }
+  }
+}

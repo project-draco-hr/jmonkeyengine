@@ -1,0 +1,6 @@
+{
+  if (multiSamples <= 0)   throw new IllegalArgumentException("multiSamples must be > 0");
+  if (getData(0) != null)   throw new IllegalArgumentException("Cannot upload data as multisample texture");
+  if (hasMipmaps())   throw new IllegalArgumentException("Multisample textures do not support mipmaps");
+  this.multiSamples=multiSamples;
+}

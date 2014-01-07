@@ -1,0 +1,7 @@
+{
+  CapsuleCollisionShape capsuleCollisionShape=new CapsuleCollisionShape(getFinalRadius(),(getFinalHeight() - (2 * getFinalRadius())));
+  CompoundCollisionShape compoundCollisionShape=new CompoundCollisionShape();
+  Vector3f addLocation=new Vector3f(0,(getFinalHeight() / 2.0f),0);
+  compoundCollisionShape.addChildShape(capsuleCollisionShape,addLocation);
+  return compoundCollisionShape;
+}

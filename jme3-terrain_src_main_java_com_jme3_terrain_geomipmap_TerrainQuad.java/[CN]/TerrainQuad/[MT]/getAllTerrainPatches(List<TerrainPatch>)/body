@@ -1,0 +1,13 @@
+{
+  if (children != null) {
+    for (int i=children.size(); --i >= 0; ) {
+      Spatial child=children.get(i);
+      if (child instanceof TerrainQuad) {
+        ((TerrainQuad)child).getAllTerrainPatches(holder);
+      }
+ else       if (child instanceof TerrainPatch) {
+        holder.add((TerrainPatch)child);
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  super(debugAppState);
+  this.body=body;
+  this.geomA=new Geometry(body.toString());
+  arrowA=new Arrow(Vector3f.ZERO);
+  geomA.setMesh(arrowA);
+  geomA.setMaterial(debugAppState.DEBUG_GREEN);
+  this.geomB=new Geometry(body.toString());
+  arrowB=new Arrow(Vector3f.ZERO);
+  geomB.setMesh(arrowB);
+  geomB.setMaterial(debugAppState.DEBUG_GREEN);
+}

@@ -1,0 +1,12 @@
+{
+  AudioContext.setAudioRenderer(audioRenderer);
+  runQueuedTasks();
+  if (speed == 0 || paused)   return;
+  timer.update();
+  if (inputEnabled) {
+    inputManager.update(timer.getTimePerFrame());
+  }
+  if (audioRenderer != null) {
+    audioRenderer.update(timer.getTimePerFrame());
+  }
+}

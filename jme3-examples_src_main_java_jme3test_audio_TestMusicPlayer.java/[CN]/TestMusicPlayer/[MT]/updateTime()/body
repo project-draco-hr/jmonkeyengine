@@ -1,0 +1,12 @@
+{
+  int max=(int)(musicLength * 100);
+  int pos=(int)(curTime * 100);
+  sldBar.setMaximum(max);
+  sldBar.setValue(pos);
+  int minutesTotal=(int)(musicLength / 60);
+  int secondsTotal=(int)(musicLength % 60);
+  int minutesNow=(int)(curTime / 60);
+  int secondsNow=(int)(curTime % 60);
+  String txt=String.format("%01d:%02d-%01d:%02d",minutesNow,secondsNow,minutesTotal,secondsTotal);
+  lblTime.setText(txt);
+}

@@ -1,0 +1,37 @@
+{
+  loadHintText();
+  setupKeys();
+  matWire=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  matWire.getAdditionalRenderState().setWireframe(true);
+  matWire.setColor("Color",ColorRGBA.Green);
+  terrain=new TiledTerrain();
+  rootNode.attachChild(terrain);
+  DirectionalLight light=new DirectionalLight();
+  light.setDirection((new Vector3f(-0.5f,-1f,-0.5f)).normalize());
+  rootNode.addLight(light);
+  AmbientLight ambLight=new AmbientLight();
+  ambLight.setColor(new ColorRGBA(1f,1f,0.8f,0.2f));
+  rootNode.addLight(ambLight);
+  cam.setLocation(new Vector3f(0,256,0));
+  cam.lookAtDirection(new Vector3f(0,-1,-1).normalizeLocal(),Vector3f.UNIT_Y);
+  Sphere s=new Sphere(12,12,3);
+  Geometry g=new Geometry("marker");
+  g.setMesh(s);
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  mat.setColor("Color",ColorRGBA.Red);
+  g.setMaterial(mat);
+  g.setLocalTranslation(0,-100,0);
+  rootNode.attachChild(g);
+  Geometry g2=new Geometry("marker");
+  g2.setMesh(s);
+  mat.setColor("Color",ColorRGBA.Red);
+  g2.setMaterial(mat);
+  g2.setLocalTranslation(10,-100,0);
+  rootNode.attachChild(g2);
+  Geometry g3=new Geometry("marker");
+  g3.setMesh(s);
+  mat.setColor("Color",ColorRGBA.Red);
+  g3.setMaterial(mat);
+  g3.setLocalTranslation(0,-100,10);
+  rootNode.attachChild(g3);
+}

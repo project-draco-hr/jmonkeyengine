@@ -1,0 +1,8 @@
+{
+  Map<String,String> result=joystickMappings.get(joystickName);
+  if (result == null && create) {
+    result=new HashMap<String,String>();
+    joystickMappings.put(joystickName,result);
+  }
+  return result;
+}

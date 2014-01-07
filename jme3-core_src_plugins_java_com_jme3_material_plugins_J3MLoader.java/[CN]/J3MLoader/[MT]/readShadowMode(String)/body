@@ -1,0 +1,8 @@
+{
+  String[] split=statement.split(whitespacePattern);
+  if (split.length != 2) {
+    throw new IOException("ShadowMode statement syntax incorrect");
+  }
+  ShadowMode sm=ShadowMode.valueOf(split[1]);
+  technique.setShadowMode(sm);
+}

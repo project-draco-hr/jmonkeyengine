@@ -1,0 +1,25 @@
+{
+  reset();
+  this.key=info.getKey();
+  this.assetManager=info.getManager();
+  folderName=info.getKey().getFolder();
+  matList=new MaterialList();
+  InputStream in=null;
+  try {
+    in=info.openStream();
+    scan=new Scanner(in);
+    scan.useLocale(Locale.US);
+    while (readLine())     ;
+  }
+  finally {
+    if (in != null) {
+      in.close();
+    }
+  }
+  if (matName != null) {
+    createMaterial();
+    resetMaterial();
+  }
+  MaterialList list=matList;
+  return list;
+}

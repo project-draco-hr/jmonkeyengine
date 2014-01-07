@@ -1,0 +1,22 @@
+{
+  look.set(camera.getLocation()).subtractLocal(spatial.getWorldTranslation());
+  Vector3f xzp=left;
+  xzp.set(look.x,0,look.z);
+  if (xzp.equals(Vector3f.ZERO)) {
+    return;
+  }
+  look.normalizeLocal();
+  xzp.normalizeLocal();
+  float cosp=look.dot(xzp);
+  orient.set(0,0,xzp.z);
+  orient.set(0,1,xzp.x * -look.y);
+  orient.set(0,2,xzp.x * cosp);
+  orient.set(1,0,0);
+  orient.set(1,1,cosp);
+  orient.set(1,2,look.y);
+  orient.set(2,0,-xzp.x);
+  orient.set(2,1,xzp.z * -look.y);
+  orient.set(2,2,xzp.z * cosp);
+  spatial.setLocalRotation(orient);
+  fixRefreshFlags();
+}

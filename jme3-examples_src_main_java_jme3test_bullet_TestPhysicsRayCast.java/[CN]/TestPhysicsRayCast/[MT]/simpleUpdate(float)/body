@@ -1,0 +1,8 @@
+{
+  List<PhysicsRayTestResult> rayTest=bulletAppState.getPhysicsSpace().rayTest(cam.getLocation(),cam.getLocation().add(cam.getDirection()));
+  if (rayTest.size() > 0) {
+    PhysicsRayTestResult get=rayTest.get(0);
+    PhysicsCollisionObject collisionObject=get.getCollisionObject();
+    fpsText.setText(collisionObject.getUserObject().toString());
+  }
+}

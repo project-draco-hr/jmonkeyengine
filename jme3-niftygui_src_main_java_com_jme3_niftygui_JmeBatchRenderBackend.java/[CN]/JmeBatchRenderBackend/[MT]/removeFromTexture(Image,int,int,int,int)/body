@@ -1,0 +1,14 @@
+{
+  if (!fillRemovedTexture) {
+    return;
+  }
+  ByteBuffer initialData=BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * 4);
+  for (int i=0; i < image.getWidth() * image.getHeight(); i++) {
+    initialData.put((byte)0xff);
+    initialData.put((byte)0x00);
+    initialData.put((byte)0x00);
+    initialData.put((byte)0xff);
+  }
+  initialData.rewind();
+  modifyTexture(textureAtlas,new com.jme3.texture.Image(Format.RGBA8,image.getWidth(),image.getHeight(),initialData),x,y);
+}

@@ -1,0 +1,15 @@
+{
+  logger.log(Level.FINE,"Doing Destroy.");
+  pauseSensors();
+  if (sensorManager != null) {
+    sensorManager.unregisterListener(this);
+  }
+  sensors.clear();
+  eventQueue.clear();
+  initialized=false;
+  loaded=false;
+  joysticks=null;
+  sensorManager=null;
+  vibrator=null;
+  activity=null;
+}

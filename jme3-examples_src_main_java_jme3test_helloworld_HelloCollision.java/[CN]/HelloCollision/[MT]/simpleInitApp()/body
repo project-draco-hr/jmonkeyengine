@@ -1,0 +1,23 @@
+{
+  bulletAppState=new BulletAppState();
+  stateManager.attach(bulletAppState);
+  viewPort.setBackgroundColor(new ColorRGBA(0.7f,0.8f,1f,1f));
+  flyCam.setMoveSpeed(100);
+  setUpKeys();
+  setUpLight();
+  assetManager.registerLocator("town.zip",ZipLocator.class);
+  sceneModel=assetManager.loadModel("main.scene");
+  sceneModel.setLocalScale(2f);
+  CollisionShape sceneShape=CollisionShapeFactory.createMeshShape((Node)sceneModel);
+  landscape=new RigidBodyControl(sceneShape,0);
+  sceneModel.addControl(landscape);
+  CapsuleCollisionShape capsuleShape=new CapsuleCollisionShape(1.5f,6f,1);
+  player=new CharacterControl(capsuleShape,0.05f);
+  player.setJumpSpeed(20);
+  player.setFallSpeed(30);
+  player.setGravity(30);
+  player.setPhysicsLocation(new Vector3f(0,10,0));
+  rootNode.attachChild(sceneModel);
+  bulletAppState.getPhysicsSpace().add(landscape);
+  bulletAppState.getPhysicsSpace().add(player);
+}

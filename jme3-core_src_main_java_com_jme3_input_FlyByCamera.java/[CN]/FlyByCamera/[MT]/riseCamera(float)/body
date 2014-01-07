@@ -1,0 +1,7 @@
+{
+  Vector3f vel=new Vector3f(0,value * moveSpeed,0);
+  Vector3f pos=cam.getLocation().clone();
+  if (motionAllowed != null)   motionAllowed.checkMotionAllowed(pos,vel);
+ else   pos.addLocal(vel);
+  cam.setLocation(pos);
+}

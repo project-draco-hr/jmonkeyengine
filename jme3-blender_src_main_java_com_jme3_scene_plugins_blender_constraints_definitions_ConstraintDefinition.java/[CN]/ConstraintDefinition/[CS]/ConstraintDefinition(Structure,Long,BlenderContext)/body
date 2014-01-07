@@ -1,0 +1,11 @@
+{
+  if (constraintData != null) {
+    Number flag=(Number)constraintData.getFieldValue("flag");
+    if (flag != null) {
+      this.flag=flag.intValue();
+    }
+  }
+  this.blenderContext=blenderContext;
+  constraintHelper=(ConstraintHelper)(blenderContext == null ? null : blenderContext.getHelper(ConstraintHelper.class));
+  this.ownerOMA=ownerOMA;
+}

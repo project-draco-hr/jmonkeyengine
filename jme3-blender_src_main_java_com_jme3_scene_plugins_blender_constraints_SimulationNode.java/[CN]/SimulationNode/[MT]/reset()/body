@@ -1,0 +1,15 @@
+{
+  if (spatial != null) {
+    spatial.setLocalTransform(spatialStartTransform);
+    for (    SimulationNode child : children) {
+      child.reset();
+    }
+  }
+ else   if (skeleton != null) {
+    for (    Entry<Bone,Transform> entry : boneStartTransforms.entrySet()) {
+      Transform t=entry.getValue();
+      entry.getKey().setBindTransforms(t.getTranslation(),t.getRotation(),t.getScale());
+    }
+    skeleton.reset();
+  }
+}

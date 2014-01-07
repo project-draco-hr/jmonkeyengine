@@ -1,0 +1,11 @@
+{
+  if (null == resource || size <= 0) {
+    throw new Exception("Must supply valid resource and " + "size (> 0)");
+  }
+  try {
+    setup(resource.openStream(),size,format,swapxy);
+  }
+ catch (  IOException e) {
+    throw new Exception("Unable to open height url: " + resource);
+  }
+}

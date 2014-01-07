@@ -1,0 +1,13 @@
+{
+  Quad q=new Quad(20,20);
+  q.scaleTextureCoordinates(Vector2f.UNIT_XY.mult(10));
+  Geometry geom=new Geometry("floor",q);
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  mat.setColor("Color",ColorRGBA.White);
+  geom.setMaterial(mat);
+  geom.rotate(-FastMath.HALF_PI,0,0);
+  geom.center();
+  geom.move(0,-0.3f,0);
+  geom.setShadowMode(RenderQueue.ShadowMode.Receive);
+  rootNode.attachChild(geom);
+}

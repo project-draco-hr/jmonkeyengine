@@ -1,0 +1,6 @@
+{
+  if (angle < 0 || angle > 179) {
+    throw new IllegalArgumentException("The angle must be between 0 and 179 degrees.");
+  }
+  toleranceDot=FastMath.cos(angle * FastMath.DEG_TO_RAD);
+}

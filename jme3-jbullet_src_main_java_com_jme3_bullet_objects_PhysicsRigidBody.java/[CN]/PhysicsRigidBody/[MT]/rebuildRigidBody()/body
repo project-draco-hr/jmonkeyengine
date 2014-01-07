@@ -1,0 +1,19 @@
+{
+  boolean removed=false;
+  if (collisionShape instanceof MeshCollisionShape && mass != 0) {
+    throw new IllegalStateException("Dynamic rigidbody can not have mesh collision shape!");
+  }
+  if (rBody != null) {
+    if (rBody.isInWorld()) {
+      PhysicsSpace.getPhysicsSpace().remove(this);
+      removed=true;
+    }
+    rBody.destroy();
+  }
+  preRebuild();
+  rBody=new RigidBody(constructionInfo);
+  postRebuild();
+  if (removed) {
+    PhysicsSpace.getPhysicsSpace().add(this);
+  }
+}

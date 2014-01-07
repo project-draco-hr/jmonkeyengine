@@ -1,0 +1,11 @@
+{
+  try {
+    Ray r=(Ray)super.clone();
+    r.direction=direction.clone();
+    r.origin=origin.clone();
+    return r;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
+}

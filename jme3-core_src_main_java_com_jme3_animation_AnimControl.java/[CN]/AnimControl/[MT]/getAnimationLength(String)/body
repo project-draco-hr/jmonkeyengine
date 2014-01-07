@@ -1,0 +1,7 @@
+{
+  Animation a=animationMap.get(name);
+  if (a == null) {
+    throw new IllegalArgumentException("The animation " + name + " does not exist in this AnimControl");
+  }
+  return a.getLength();
+}

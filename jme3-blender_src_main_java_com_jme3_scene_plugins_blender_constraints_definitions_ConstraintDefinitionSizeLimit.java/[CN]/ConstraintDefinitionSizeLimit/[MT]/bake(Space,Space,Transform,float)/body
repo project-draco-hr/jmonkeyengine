@@ -1,0 +1,23 @@
+{
+  Transform ownerTransform=this.getOwnerTransform(ownerSpace);
+  Vector3f scale=ownerTransform.getScale();
+  if ((flag & LIMIT_XMIN) != 0 && scale.x < limits[0][0]) {
+    scale.x-=(scale.x - limits[0][0]) * influence;
+  }
+  if ((flag & LIMIT_XMAX) != 0 && scale.x > limits[0][1]) {
+    scale.x-=(scale.x - limits[0][1]) * influence;
+  }
+  if ((flag & LIMIT_YMIN) != 0 && scale.y < limits[1][0]) {
+    scale.y-=(scale.y - limits[1][0]) * influence;
+  }
+  if ((flag & LIMIT_YMAX) != 0 && scale.y > limits[1][1]) {
+    scale.y-=(scale.y - limits[1][1]) * influence;
+  }
+  if ((flag & LIMIT_ZMIN) != 0 && scale.z < limits[2][0]) {
+    scale.z-=(scale.z - limits[2][0]) * influence;
+  }
+  if ((flag & LIMIT_ZMAX) != 0 && scale.z > limits[2][1]) {
+    scale.z-=(scale.z - limits[2][1]) * influence;
+  }
+  this.applyOwnerTransform(ownerTransform,ownerSpace);
+}

@@ -1,0 +1,7 @@
+{
+  if (location == null) {
+    location=new Vector3f();
+  }
+  rBody.getCenterOfMassTransform(tempTrans);
+  return Converter.convert(tempTrans.origin,location);
+}

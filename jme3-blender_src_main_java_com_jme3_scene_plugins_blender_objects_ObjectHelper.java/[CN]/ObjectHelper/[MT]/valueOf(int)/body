@@ -1,0 +1,8 @@
+{
+  for (  ObjectType type : ObjectType.values()) {
+    if (type.blenderTypeValue == blenderTypeValue) {
+      return type;
+    }
+  }
+  throw new BlenderFileException("Unknown type value: " + blenderTypeValue);
+}

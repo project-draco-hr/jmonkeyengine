@@ -1,0 +1,15 @@
+{
+  Element el=appendElement(name);
+  if (value == null) {
+    value=defVal;
+  }
+  el.setAttribute("size",String.valueOf(value.length));
+  for (int i=0; i < value.length; i++) {
+    String b=value[i];
+    appendElement("String_" + i);
+    String val=encodeString(b);
+    currentElement.setAttribute("value",val);
+    currentElement=el;
+  }
+  currentElement=(Element)currentElement.getParentNode();
+}

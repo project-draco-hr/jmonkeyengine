@@ -1,0 +1,13 @@
+{
+  if (time >= length) {
+    return;
+  }
+  if (!initialized) {
+    control.addListener(new OnEndListener());
+    initialized=true;
+  }
+  if (!started && time >= startOffset) {
+    started=true;
+    audio.playInstance();
+  }
+}

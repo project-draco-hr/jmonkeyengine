@@ -1,0 +1,53 @@
+{
+  if (img.getEfficentData() instanceof AndroidImageInfo) {
+    AndroidImageInfo imageInfo=(AndroidImageInfo)img.getEfficentData();
+    uploadTextureBitmap(target,imageInfo.getBitmap(),true,true,x,y);
+    return;
+  }
+  Image.Format fmt=img.getFormat();
+  ByteBuffer data;
+  if (index >= 0 || img.getData() != null && img.getData().size() > 0) {
+    data=img.getData(index);
+  }
+ else {
+    data=null;
+  }
+  int width=img.getWidth();
+  int height=img.getHeight();
+  if (!NPOT) {
+    if (!FastMath.isPowerOfTwo(width) || !FastMath.isPowerOfTwo(height)) {
+      throw new RendererException("Non-power-of-2 textures " + "are not supported by the video hardware " + "and no scaling path available for image: "+ img);
+    }
+  }
+  AndroidGLImageFormat imageFormat=getImageFormat(fmt);
+  if (data != null) {
+    GLES20.glPixelStorei(GLES20.GL_UNPACK_ALIGNMENT,1);
+  }
+  int[] mipSizes=img.getMipMapSizes();
+  int pos=0;
+  if (mipSizes == null) {
+    if (data != null) {
+      mipSizes=new int[]{data.capacity()};
+    }
+ else {
+      mipSizes=new int[]{width * height * fmt.getBitsPerPixel() / 8};
+    }
+  }
+  for (int i=0; i < mipSizes.length; i++) {
+    int mipWidth=Math.max(1,width >> i);
+    int mipHeight=Math.max(1,height >> i);
+    if (data != null) {
+      data.position(pos);
+      data.limit(pos + mipSizes[i]);
+    }
+    if (imageFormat.compress && data != null) {
+      GLES20.glCompressedTexSubImage2D(target,i,x,y,mipWidth,mipHeight,imageFormat.format,data.remaining(),data);
+      RendererUtil.checkGLError();
+    }
+ else {
+      GLES20.glTexSubImage2D(target,i,x,y,mipWidth,mipHeight,imageFormat.format,imageFormat.dataType,data);
+      RendererUtil.checkGLError();
+    }
+    pos+=mipSizes[i];
+  }
+}

@@ -1,0 +1,28 @@
+{
+  Vector3f camDir=cam.getDirection().mult(0.2f);
+  Vector3f camLeft=cam.getLeft().mult(0.2f);
+  camDir.y=0;
+  camLeft.y=0;
+  viewDirection.set(camDir);
+  walkDirection.set(0,0,0);
+  if (leftStrafe) {
+    walkDirection.addLocal(camLeft);
+  }
+ else   if (rightStrafe) {
+    walkDirection.addLocal(camLeft.negate());
+  }
+  if (leftRotate) {
+    viewDirection.addLocal(camLeft.mult(0.02f));
+  }
+ else   if (rightRotate) {
+    viewDirection.addLocal(camLeft.mult(0.02f).negate());
+  }
+  if (forward) {
+    walkDirection.addLocal(camDir);
+  }
+ else   if (backward) {
+    walkDirection.addLocal(camDir.negate());
+  }
+  physicsCharacter.setWalkDirection(walkDirection);
+  physicsCharacter.setViewDirection(viewDirection);
+}

@@ -1,0 +1,17 @@
+{
+  if (name.equals(ESCAPE_EVENT)) {
+switch (evt.getType()) {
+case KEY_UP:
+      runOnUiThread(new Runnable(){
+        @Override public void run(){
+          AlertDialog dialog=new AlertDialog.Builder(AndroidHarness.this).setTitle(exitDialogTitle).setPositiveButton("Yes",AndroidHarness.this).setNegativeButton("No",AndroidHarness.this).setMessage(exitDialogMessage).create();
+          dialog.show();
+        }
+      }
+);
+    break;
+default :
+  break;
+}
+}
+}

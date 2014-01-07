@@ -1,0 +1,29 @@
+{
+  float zFar=zFarOverride;
+  if (zFar == 0) {
+    zFar=viewCam.getFrustumFar();
+  }
+  float frustumNear=Math.max(viewCam.getFrustumNear(),0.001f);
+  ShadowUtil.updateFrustumPoints(viewCam,frustumNear,zFar,1.0f,points);
+  shadowCam.getRotation().lookAt(light.getDirection(),shadowCam.getUp());
+  shadowCam.update();
+  shadowCam.updateViewProjection();
+  PssmShadowUtil.updateFrustumSplits(splitsArray,frustumNear,zFar,lambda);
+  if (viewCam.isParallelProjection()) {
+    for (int i=0; i < nbShadowMaps; i++) {
+      splitsArray[i]=splitsArray[i] / (zFar - frustumNear);
+    }
+  }
+switch (splitsArray.length) {
+case 5:
+    splits.a=splitsArray[4];
+case 4:
+  splits.b=splitsArray[3];
+case 3:
+splits.g=splitsArray[2];
+case 2:
+case 1:
+splits.r=splitsArray[1];
+break;
+}
+}

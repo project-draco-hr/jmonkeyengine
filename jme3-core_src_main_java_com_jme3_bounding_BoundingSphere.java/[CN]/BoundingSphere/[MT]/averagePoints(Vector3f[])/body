@@ -1,0 +1,18 @@
+{
+  logger.fine("Bounding Sphere calculated using average points.");
+  center=points[0];
+  for (int i=1; i < points.length; i++) {
+    center.addLocal(points[i]);
+  }
+  float quantity=1.0f / points.length;
+  center.multLocal(quantity);
+  float maxRadiusSqr=0;
+  for (int i=0; i < points.length; i++) {
+    Vector3f diff=points[i].subtract(center);
+    float radiusSqr=diff.lengthSquared();
+    if (radiusSqr > maxRadiusSqr) {
+      maxRadiusSqr=radiusSqr;
+    }
+  }
+  radius=(float)Math.sqrt(maxRadiusSqr) + RADIUS_EPSILON - 1f;
+}

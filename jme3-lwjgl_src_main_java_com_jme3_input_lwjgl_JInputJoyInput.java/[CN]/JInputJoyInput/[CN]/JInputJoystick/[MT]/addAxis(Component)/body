@@ -1,0 +1,30 @@
+{
+  logger.log(Level.FINE,"Adding axis: \"{0}\" id:" + comp.getIdentifier(),comp);
+  Identifier id=comp.getIdentifier();
+  if (!(id instanceof Axis)) {
+    throw new IllegalArgumentException("Component is not an axis:" + comp);
+  }
+  String name=comp.getName();
+  String original=id.getName();
+  String logicalId=JoystickCompatibilityMappings.remapComponent(controller.getName(),original);
+  if (name != original) {
+    logger.log(Level.FINE,"Remapped:" + original + " to:"+ logicalId);
+  }
+  JoystickAxis axis=new DefaultJoystickAxis(getInputManager(),this,getAxisCount(),name,logicalId,comp.isAnalog(),comp.isRelative(),comp.getDeadZone());
+  addAxis(axis);
+  axisIndex.put(comp,axis);
+  if (id == Axis.X) {
+    xAxis=axis;
+  }
+ else   if (id == Axis.Y) {
+    yAxis=axis;
+  }
+ else   if (id == Axis.POV) {
+    povX=new DefaultJoystickAxis(getInputManager(),this,getAxisCount(),JoystickAxis.POV_X,id.getName() + "_x",comp.isAnalog(),comp.isRelative(),comp.getDeadZone());
+    logger.log(Level.FINE,"Adding axis: \"{0}\" id:" + id.getName() + "_x",povX.getName());
+    addAxis(povX);
+    povY=new DefaultJoystickAxis(getInputManager(),this,getAxisCount(),JoystickAxis.POV_Y,id.getName() + "_y",comp.isAnalog(),comp.isRelative(),comp.getDeadZone());
+    logger.log(Level.FINE,"Adding axis: \"{0}\" id:" + id.getName() + "_y",povY.getName());
+    addAxis(povY);
+  }
+}

@@ -1,0 +1,11 @@
+{
+  IntMap<BitmapCharacter> charset=new IntMap<BitmapCharacter>();
+  short[] indexes=ic.readShortArray("indexes" + style,null);
+  Savable[] chars=ic.readSavableArray("chars" + style,null);
+  for (int i=0; i < indexes.length; i++) {
+    int index=indexes[i] & 0xFFFF;
+    BitmapCharacter chr=(BitmapCharacter)chars[i];
+    charset.put(index,chr);
+  }
+  return charset;
+}

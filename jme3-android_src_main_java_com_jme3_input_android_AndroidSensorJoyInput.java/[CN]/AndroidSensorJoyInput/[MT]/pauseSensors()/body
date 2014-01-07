@@ -1,0 +1,10 @@
+{
+  for (  Entry entry : sensors) {
+    if (entry.getKey() != Sensor.TYPE_ORIENTATION) {
+      unRegisterListener(entry.getKey());
+    }
+  }
+  if (vibrator != null && vibratorActive) {
+    vibrator.cancel();
+  }
+}

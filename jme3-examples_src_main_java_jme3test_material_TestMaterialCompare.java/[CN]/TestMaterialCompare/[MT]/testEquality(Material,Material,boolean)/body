@@ -1,0 +1,38 @@
+{
+  if (mat2.contentEquals(mat1)) {
+    System.out.print(mat1.getName() + " == " + mat2.getName());
+    if (expected) {
+      System.out.println(" EQUAL OK");
+    }
+ else {
+      System.out.println(" EQUAL FAIL!");
+    }
+  }
+ else {
+    System.out.print(mat1.getName() + " != " + mat2.getName());
+    if (!expected) {
+      System.out.println(" EQUAL OK");
+    }
+ else {
+      System.out.println(" EQUAL FAIL!");
+    }
+  }
+  if (mat2.hashCode() == mat1.hashCode()) {
+    System.out.print(mat1.getName() + " == " + mat2.getName());
+    if (expected) {
+      System.out.println(" HASH OK");
+    }
+ else {
+      System.out.println(" HASH FAIL!");
+    }
+  }
+ else {
+    System.out.print(mat1.getName() + " != " + mat2.getName());
+    if (!expected) {
+      System.out.println(" HASH OK");
+    }
+ else {
+      System.out.println(" HASH FAIL!");
+    }
+  }
+}

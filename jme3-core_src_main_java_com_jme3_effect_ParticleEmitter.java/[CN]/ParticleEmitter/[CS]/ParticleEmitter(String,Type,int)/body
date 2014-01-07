@@ -1,0 +1,25 @@
+{
+  super(name);
+  setBatchHint(BatchHint.Never);
+  this.setIgnoreTransform(true);
+  this.setShadowMode(ShadowMode.Off);
+  this.setQueueBucket(Bucket.Transparent);
+  meshType=type;
+  shape=shape.deepClone();
+  particleInfluencer=particleInfluencer.clone();
+  control=new ParticleEmitterControl(this);
+  controls.add(control);
+switch (meshType) {
+case Point:
+    particleMesh=new ParticlePointMesh();
+  this.setMesh(particleMesh);
+break;
+case Triangle:
+particleMesh=new ParticleTriMesh();
+this.setMesh(particleMesh);
+break;
+default :
+throw new IllegalStateException("Unrecognized particle type: " + meshType);
+}
+this.setNumParticles(numParticles);
+}

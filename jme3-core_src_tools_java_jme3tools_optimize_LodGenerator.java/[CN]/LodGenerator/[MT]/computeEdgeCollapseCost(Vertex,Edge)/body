@@ -1,0 +1,63 @@
+{
+  Vertex dest=dstEdge.destination;
+  if (src.triangles.size() == 1 && dest.triangles.size() == 1) {
+    return NEVER_COLLAPSE_COST;
+  }
+  for (  Triangle triangle : src.triangles) {
+    if (!triangle.hasVertex(dest)) {
+      Vertex pv0, pv1, pv2;
+      pv0=(triangle.vertex[0] == src) ? dest : triangle.vertex[0];
+      pv1=(triangle.vertex[1] == src) ? dest : triangle.vertex[1];
+      pv2=(triangle.vertex[2] == src) ? dest : triangle.vertex[2];
+      tmpV1.set(pv1.position).subtractLocal(pv0.position);
+      tmpV2.set(pv2.position).subtractLocal(pv1.position);
+      Vector3f newNormal=tmpV1.crossLocal(tmpV2);
+      newNormal.normalizeLocal();
+      if (newNormal.dot(triangle.normal) < 0.0f) {
+        return NEVER_COLLAPSE_COST;
+      }
+    }
+  }
+  float cost;
+  if (isBorderVertex(src)) {
+    if (dstEdge.refCount > 1) {
+      cost=1.0f;
+    }
+ else {
+      cost=0.0f;
+      Vector3f collapseEdge=tmpV1.set(src.position).subtractLocal(dest.position);
+      collapseEdge.normalizeLocal();
+      for (      Edge edge : src.edges) {
+        Vertex neighbor=edge.destination;
+        if (neighbor != dest && edge.refCount == 1) {
+          Vector3f otherBorderEdge=tmpV2.set(src.position).subtractLocal(neighbor.position);
+          otherBorderEdge.normalizeLocal();
+          float kinkiness=(otherBorderEdge.dot(collapseEdge) + 1.002f) * 0.5f;
+          cost=Math.max(cost,kinkiness);
+        }
+      }
+    }
+  }
+ else {
+    cost=0.001f;
+    for (    Triangle triangle : src.triangles) {
+      float mincurv=1.0f;
+      for (      Triangle triangle2 : src.triangles) {
+        if (triangle2.hasVertex(dest)) {
+          float dotprod=triangle.normal.dot(triangle2.normal);
+          mincurv=Math.min(mincurv,(1.002f - dotprod) * 0.5f);
+        }
+      }
+      cost=Math.max(cost,mincurv);
+    }
+  }
+  if (src.isSeam) {
+    if (!dest.isSeam) {
+      cost+=meshBoundingSphereRadius;
+    }
+ else {
+      cost+=meshBoundingSphereRadius * 0.5;
+    }
+  }
+  return cost * src.position.distanceSquared(dest.position);
+}

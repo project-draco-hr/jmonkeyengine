@@ -1,0 +1,13 @@
+{
+  BoundingTube result=null;
+  for (  Geometry geometry : geometries) {
+    BoundingTube bt=UVCoordinatesGenerator.getBoundingTube(geometry.getMesh());
+    if (result == null) {
+      result=bt;
+    }
+ else {
+      result.merge(bt);
+    }
+  }
+  return result;
+}

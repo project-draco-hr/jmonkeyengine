@@ -1,0 +1,8 @@
+{
+  if (buf != null && buf.limit() == size) {
+    buf.rewind();
+    return buf;
+  }
+  buf=createByteBuffer(size);
+  return buf;
+}

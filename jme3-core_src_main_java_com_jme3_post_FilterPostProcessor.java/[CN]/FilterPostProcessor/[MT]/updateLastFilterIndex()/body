@@ -1,0 +1,15 @@
+{
+  lastFilterIndex=-1;
+  for (int i=filters.size() - 1; i >= 0 && lastFilterIndex == -1; i--) {
+    if (filters.get(i).isEnabled()) {
+      lastFilterIndex=i;
+      if (isInitialized() && viewPort.getOutputFrameBuffer() == outputBuffer) {
+        setupViewPortFrameBuffer();
+      }
+      return;
+    }
+  }
+  if (isInitialized() && lastFilterIndex == -1) {
+    viewPort.setOutputFrameBuffer(outputBuffer);
+  }
+}

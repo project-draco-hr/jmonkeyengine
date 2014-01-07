@@ -1,0 +1,9 @@
+{
+  float retval=this.value(x,y,z);
+  for (  Modulator m : this.modulators) {
+    if (m instanceof NoiseModulator) {
+      retval=m.value(retval);
+    }
+  }
+  return retval;
+}

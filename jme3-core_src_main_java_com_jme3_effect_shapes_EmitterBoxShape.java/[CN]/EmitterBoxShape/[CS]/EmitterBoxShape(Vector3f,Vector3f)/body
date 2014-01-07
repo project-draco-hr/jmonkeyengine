@@ -1,0 +1,8 @@
+{
+  if (min == null || max == null) {
+    throw new IllegalArgumentException("min or max cannot be null");
+  }
+  this.min=min;
+  this.len=new Vector3f();
+  this.len.set(max).subtractLocal(min);
+}

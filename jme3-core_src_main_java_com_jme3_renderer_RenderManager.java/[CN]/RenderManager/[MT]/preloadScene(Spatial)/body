@@ -1,0 +1,24 @@
+{
+  if (scene instanceof Node) {
+    Node n=(Node)scene;
+    List<Spatial> children=n.getChildren();
+    for (int i=0; i < children.size(); i++) {
+      preloadScene(children.get(i));
+    }
+  }
+ else   if (scene instanceof Geometry) {
+    Geometry gm=(Geometry)scene;
+    if (gm.getMaterial() == null) {
+      throw new IllegalStateException("No material is set for Geometry: " + gm.getName());
+    }
+    gm.getMaterial().preload(this);
+    Mesh mesh=gm.getMesh();
+    if (mesh != null) {
+      for (      VertexBuffer vb : mesh.getBufferList().getArray()) {
+        if (vb.getData() != null && vb.getUsage() != VertexBuffer.Usage.CpuOnly) {
+          renderer.updateBufferData(vb);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  if (data.get() == 0x0)   return null;
+  SavedField[] fields=savedFields.get(c);
+  T object;
+  try {
+    object=c.newInstance();
+  }
+ catch (  Exception e) {
+    throw new SerializerException("Error creating object of type:" + c,e);
+  }
+  for (  SavedField savedField : fields) {
+    Field field=savedField.field;
+    Serializer serializer=savedField.serializer;
+    Object value;
+    if (serializer != null) {
+      value=serializer.readObject(data,field.getType());
+    }
+ else {
+      value=Serializer.readClassAndObject(data);
+    }
+    try {
+      field.set(object,value);
+    }
+ catch (    IllegalAccessException e) {
+      throw new SerializerException("Error reading object",e);
+    }
+  }
+  return object;
+}

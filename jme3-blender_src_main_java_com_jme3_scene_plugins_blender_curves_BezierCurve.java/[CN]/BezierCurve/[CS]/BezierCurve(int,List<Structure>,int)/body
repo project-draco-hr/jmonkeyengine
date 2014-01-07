@@ -1,0 +1,19 @@
+{
+  if (dimension != 2 && dimension != 3) {
+    throw new IllegalArgumentException("The dimension of the curve should be 2 or 3!");
+  }
+  this.type=type;
+  this.dimension=dimension;
+  bezierPoints=new float[bezTriples.size()][3][dimension];
+  radiuses=new float[bezTriples.size()];
+  int i=0, j, k;
+  for (  Structure bezTriple : bezTriples) {
+    DynamicArray<Number> vec=(DynamicArray<Number>)bezTriple.getFieldValue("vec");
+    for (j=0; j < 3; ++j) {
+      for (k=0; k < dimension; ++k) {
+        bezierPoints[i][j][k]=vec.get(j,k).floatValue();
+      }
+    }
+    radiuses[i++]=((Number)bezTriple.getFieldValue("radius")).floatValue();
+  }
+}

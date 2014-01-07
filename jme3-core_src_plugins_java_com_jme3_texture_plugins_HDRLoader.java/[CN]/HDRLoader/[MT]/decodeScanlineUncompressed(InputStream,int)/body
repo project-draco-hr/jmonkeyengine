@@ -1,0 +1,8 @@
+{
+  byte[] rgbe=new byte[4];
+  for (int i=0; i < width; i+=3) {
+    if (in.read(rgbe) < 1)     return false;
+    writeRGBE(rgbe);
+  }
+  return true;
+}

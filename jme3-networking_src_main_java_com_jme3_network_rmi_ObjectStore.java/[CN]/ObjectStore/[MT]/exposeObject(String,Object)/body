@@ -1,0 +1,24 @@
+{
+  LocalObject localObj=new LocalObject();
+  localObj.objectName=name;
+  localObj.objectId=objectIdCounter++;
+  localObj.theObject=obj;
+  ArrayList<Method> methodList=new ArrayList<Method>();
+  for (  Method method : obj.getClass().getMethods()) {
+    if (method.getDeclaringClass() == obj.getClass()) {
+      methodList.add(method);
+    }
+  }
+  localObj.methods=methodList.toArray(new Method[methodList.size()]);
+  localObjects.put(localObj.objectId,localObj);
+  RemoteObjectDefMessage defMsg=new RemoteObjectDefMessage();
+  defMsg.objects=new ObjectDef[]{makeObjectDef(localObj)};
+  if (client != null) {
+    client.send(defMsg);
+    logger.log(Level.FINE,"Client: Sending {0}",defMsg);
+  }
+ else {
+    server.broadcast(defMsg);
+    logger.log(Level.FINE,"Server: Sending {0}",defMsg);
+  }
+}

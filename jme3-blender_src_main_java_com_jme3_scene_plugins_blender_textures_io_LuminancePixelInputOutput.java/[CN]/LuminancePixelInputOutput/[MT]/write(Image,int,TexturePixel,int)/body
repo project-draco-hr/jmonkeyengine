@@ -1,0 +1,32 @@
+{
+  ByteBuffer data=image.getData(layer);
+  data.put(index,pixel.getInt());
+switch (image.getFormat()) {
+case Luminance8:
+    data.put(index,pixel.getInt());
+  break;
+case Luminance8Alpha8:
+data.put(index,pixel.getInt());
+data.put(index + 1,pixel.getA8());
+break;
+case Luminance16:
+data.putShort(index,(short)(pixel.intensity * 65535.0f));
+break;
+case Luminance16Alpha16:
+data.putShort(index,(short)(pixel.intensity * 65535.0f));
+data.putShort(index + 2,(short)(pixel.alpha * 65535.0f));
+break;
+case Luminance16F:
+data.putShort(index,FastMath.convertFloatToHalf(pixel.intensity));
+break;
+case Luminance16FAlpha16F:
+data.putShort(index,FastMath.convertFloatToHalf(pixel.intensity));
+data.putShort(index + 2,FastMath.convertFloatToHalf(pixel.alpha));
+break;
+case Luminance32F:
+data.putInt(index,Float.floatToIntBits(pixel.intensity));
+break;
+default :
+throw new IllegalStateException("Unknown luminance format type.");
+}
+}

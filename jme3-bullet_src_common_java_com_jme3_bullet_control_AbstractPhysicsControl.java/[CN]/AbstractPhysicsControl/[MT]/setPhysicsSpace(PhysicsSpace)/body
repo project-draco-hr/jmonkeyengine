@@ -1,0 +1,19 @@
+{
+  if (space == null) {
+    if (this.space != null) {
+      removePhysics(this.space);
+      added=false;
+    }
+  }
+ else {
+    if (this.space == space) {
+      return;
+    }
+ else     if (this.space != null) {
+      removePhysics(this.space);
+    }
+    addPhysics(space);
+    added=true;
+  }
+  this.space=space;
+}

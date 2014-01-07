@@ -1,0 +1,5 @@
+{
+  HeightMap heightMapAt=getHeightMapAt(location);
+  TerrainQuad q=new TerrainQuad("Quad" + location,patchSize,quadSize,heightMapAt == null ? null : heightMapAt.getHeightMap());
+  return q;
+}

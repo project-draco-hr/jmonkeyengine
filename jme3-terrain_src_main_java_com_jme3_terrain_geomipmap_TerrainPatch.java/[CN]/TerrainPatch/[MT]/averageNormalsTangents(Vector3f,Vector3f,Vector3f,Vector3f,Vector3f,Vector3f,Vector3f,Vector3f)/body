@@ -1,0 +1,22 @@
+{
+  Vector3f scale=getWorldScale();
+  Vector3f n1=new Vector3f(0,0,0);
+  if (topPoint != null && leftPoint != null) {
+    n1.set(calculateNormal(topPoint.mult(scale),rootPoint.mult(scale),leftPoint.mult(scale)));
+  }
+  Vector3f n2=new Vector3f(0,0,0);
+  if (leftPoint != null && bottomPoint != null) {
+    n2.set(calculateNormal(leftPoint.mult(scale),rootPoint.mult(scale),bottomPoint.mult(scale)));
+  }
+  Vector3f n3=new Vector3f(0,0,0);
+  if (rightPoint != null && bottomPoint != null) {
+    n3.set(calculateNormal(bottomPoint.mult(scale),rootPoint.mult(scale),rightPoint.mult(scale)));
+  }
+  Vector3f n4=new Vector3f(0,0,0);
+  if (rightPoint != null && topPoint != null) {
+    n4.set(calculateNormal(rightPoint.mult(scale),rootPoint.mult(scale),topPoint.mult(scale)));
+  }
+  normal.set(n1.add(n2).add(n3).add(n4).normalize());
+  tangent.set(normal.cross(new Vector3f(0,0,1)).normalize());
+  binormal.set(new Vector3f(1,0,0).cross(normal).normalize());
+}

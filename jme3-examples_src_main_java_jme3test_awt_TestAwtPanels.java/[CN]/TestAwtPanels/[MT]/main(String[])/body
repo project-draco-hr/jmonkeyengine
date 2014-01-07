@@ -1,0 +1,23 @@
+{
+  Logger.getLogger("com.jme3").setLevel(Level.WARNING);
+  app=new TestAwtPanels();
+  app.setShowSettings(false);
+  AppSettings settings=new AppSettings(true);
+  settings.setCustomRenderer(AwtPanelsContext.class);
+  settings.setFrameRate(60);
+  app.setSettings(settings);
+  app.start();
+  SwingUtilities.invokeLater(new Runnable(){
+    public void run(){
+      final AwtPanelsContext ctx=(AwtPanelsContext)app.getContext();
+      panel=ctx.createPanel(PaintMode.Accelerated);
+      panel.setPreferredSize(new Dimension(400,300));
+      ctx.setInputSource(panel);
+      panel2=ctx.createPanel(PaintMode.Accelerated);
+      panel2.setPreferredSize(new Dimension(400,300));
+      createWindowForPanel(panel,300);
+      createWindowForPanel(panel2,700);
+    }
+  }
+);
+}

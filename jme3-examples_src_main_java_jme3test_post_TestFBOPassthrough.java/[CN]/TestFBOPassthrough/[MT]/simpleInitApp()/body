@@ -1,0 +1,19 @@
+{
+  int w=settings.getWidth();
+  int h=settings.getHeight();
+  fb=new FrameBuffer(w,h,1);
+  Texture2D fbTex=new Texture2D(w,h,Format.RGBA8);
+  fb.setDepthBuffer(Format.Depth);
+  fb.setColorTexture(fbTex);
+  Sphere sphMesh=new Sphere(20,20,1);
+  Material solidColor=assetManager.loadMaterial("Common/Materials/RedColor.j3m");
+  Geometry sphere=new Geometry("sphere",sphMesh);
+  sphere.setMaterial(solidColor);
+  fbNode.attachChild(sphere);
+  Picture p=new Picture("Picture");
+  p.setPosition(0,0);
+  p.setWidth(w);
+  p.setHeight(h);
+  p.setTexture(assetManager,fbTex,false);
+  rootNode.attachChild(p);
+}

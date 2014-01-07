@@ -1,0 +1,11 @@
+{
+  for (  int index : indexes) {
+    Vector3f n=normalMap.get(index);
+    if (!smooth || n == null) {
+      normalMap.put(index,normalToAdd.clone());
+    }
+ else {
+      n.addLocal(normalToAdd).normalizeLocal();
+    }
+  }
+}

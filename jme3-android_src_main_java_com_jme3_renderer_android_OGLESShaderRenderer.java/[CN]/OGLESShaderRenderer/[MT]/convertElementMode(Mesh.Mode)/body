@@ -1,0 +1,20 @@
+{
+switch (mode) {
+case Points:
+    return GLES20.GL_POINTS;
+case Lines:
+  return GLES20.GL_LINES;
+case LineLoop:
+return GLES20.GL_LINE_LOOP;
+case LineStrip:
+return GLES20.GL_LINE_STRIP;
+case Triangles:
+return GLES20.GL_TRIANGLES;
+case TriangleFan:
+return GLES20.GL_TRIANGLE_FAN;
+case TriangleStrip:
+return GLES20.GL_TRIANGLE_STRIP;
+default :
+throw new UnsupportedOperationException("Unrecognized mesh mode: " + mode);
+}
+}

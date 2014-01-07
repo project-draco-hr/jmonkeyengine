@@ -1,0 +1,21 @@
+{
+  StringBuilder result=new StringBuilder();
+  result.append(this.getFullName());
+  int nameLength=result.length();
+  result.append(' ');
+  for (int i=1; i < NAME_LENGTH - nameLength; ++i) {
+    result.append(' ');
+  }
+  result.append(type);
+  nameLength=result.length();
+  for (int i=0; i < NAME_LENGTH + TYPE_LENGTH - nameLength; ++i) {
+    result.append(' ');
+  }
+  if (value instanceof Character) {
+    result.append(" = ").append((int)((Character)value).charValue());
+  }
+ else {
+    result.append(" = ").append(value != null ? value.toString() : "null");
+  }
+  return result.toString();
+}

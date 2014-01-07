@@ -1,0 +1,27 @@
+{
+  BufferedImage sourceImage=ImageToAwt.convert(source,false,false,0);
+  BufferedImage heightMap=new BufferedImage(sourceImage.getWidth(),sourceImage.getHeight(),BufferedImage.TYPE_INT_ARGB);
+  BufferedImage bumpMap=new BufferedImage(sourceImage.getWidth(),sourceImage.getHeight(),BufferedImage.TYPE_INT_ARGB);
+  ColorConvertOp gscale=new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY),null);
+  gscale.filter(sourceImage,heightMap);
+  Vector3f S=new Vector3f();
+  Vector3f T=new Vector3f();
+  Vector3f N=new Vector3f();
+  for (int x=0; x < bumpMap.getWidth(); ++x) {
+    for (int y=0; y < bumpMap.getHeight(); ++y) {
+      S.x=1;
+      S.y=0;
+      S.z=strengthFactor * ImageUtils.getHeight(heightMap,x + 1,y) - strengthFactor * ImageUtils.getHeight(heightMap,x - 1,y);
+      T.x=0;
+      T.y=1;
+      T.z=strengthFactor * ImageUtils.getHeight(heightMap,x,y + 1) - strengthFactor * ImageUtils.getHeight(heightMap,x,y - 1);
+      float den=(float)Math.sqrt(S.z * S.z + T.z * T.z + 1);
+      N.x=-S.z;
+      N.y=-T.z;
+      N.z=1;
+      N.divideLocal(den);
+      bumpMap.setRGB(x,y,ImageUtils.vectorToColor(N.x,N.y,N.z));
+    }
+  }
+  return ImageUtils.toJmeImage(bumpMap,source.getFormat());
+}

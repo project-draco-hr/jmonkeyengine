@@ -1,0 +1,23 @@
+{
+  int card=0;
+  if (isSwizzlable(type)) {
+    if (type.equals("float")) {
+      card=1;
+      if (swizzling.length() != 0) {
+        card=0;
+      }
+    }
+ else {
+      card=Integer.parseInt(type.replaceAll("vec",""));
+      if (swizzling.length() > 0) {
+        if (card >= swizzling.length()) {
+          card=swizzling.length();
+        }
+ else {
+          card=0;
+        }
+      }
+    }
+  }
+  return card;
+}

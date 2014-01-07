@@ -1,0 +1,44 @@
+{
+  double a=mat.m00, b=mat.m01, c=mat.m02, d=mat.m11, e=mat.m12, f=mat.m22;
+  double char0=a * d * f + 2.0 * b * c* e - a * e * e - d * c * c - f * b * b;
+  double char1=a * d - b * b + a * f - c * c + d * f - e * e;
+  double char2=a + d + f;
+  double char2Div3=char2 * ONE_THIRD_DOUBLE;
+  double abcDiv3=(char1 - char2 * char2Div3) * ONE_THIRD_DOUBLE;
+  if (abcDiv3 > 0.0) {
+    abcDiv3=0.0;
+  }
+  double mbDiv2=0.5 * (char0 + char2Div3 * (2.0 * char2Div3 * char2Div3 - char1));
+  double q=mbDiv2 * mbDiv2 + abcDiv3 * abcDiv3 * abcDiv3;
+  if (q > 0.0) {
+    q=0.0;
+  }
+  double magnitude=Math.sqrt(-abcDiv3);
+  double angle=Math.atan2(Math.sqrt(-q),mbDiv2) * ONE_THIRD_DOUBLE;
+  double cos=Math.cos(angle);
+  double sin=Math.sin(angle);
+  double root0=char2Div3 + 2.0 * magnitude * cos;
+  double root1=char2Div3 - magnitude * (cos + ROOT_THREE_DOUBLE * sin);
+  double root2=char2Div3 - magnitude * (cos - ROOT_THREE_DOUBLE * sin);
+  if (root1 >= root0) {
+    rootsStore[0]=root0;
+    rootsStore[1]=root1;
+  }
+ else {
+    rootsStore[0]=root1;
+    rootsStore[1]=root0;
+  }
+  if (root2 >= rootsStore[1]) {
+    rootsStore[2]=root2;
+  }
+ else {
+    rootsStore[2]=rootsStore[1];
+    if (root2 >= rootsStore[0]) {
+      rootsStore[1]=root2;
+    }
+ else {
+      rootsStore[1]=rootsStore[0];
+      rootsStore[0]=root2;
+    }
+  }
+}

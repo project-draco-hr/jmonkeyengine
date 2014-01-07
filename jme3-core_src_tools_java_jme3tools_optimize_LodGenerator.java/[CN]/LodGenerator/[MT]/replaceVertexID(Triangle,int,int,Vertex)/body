@@ -1,0 +1,17 @@
+{
+  dst.triangles.add(triangle);
+  for (int i=0; i < 3; i++) {
+    if (triangle.vertexId[i] == oldID) {
+      for (int n=0; n < 3; n++) {
+        if (i != n) {
+          removeEdge(triangle.vertex[n],new Edge(triangle.vertex[i]));
+          addEdge(triangle.vertex[n],new Edge(dst));
+          addEdge(dst,new Edge(triangle.vertex[n]));
+        }
+      }
+      triangle.vertex[i]=dst;
+      triangle.vertexId[i]=newID;
+      return;
+    }
+  }
+}

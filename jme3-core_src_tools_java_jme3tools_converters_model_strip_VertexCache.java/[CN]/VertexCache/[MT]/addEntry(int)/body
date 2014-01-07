@@ -1,0 +1,9 @@
+{
+  int removed;
+  removed=entries[numEntries - 1];
+  for (int i=numEntries - 2; i >= 0; i--) {
+    entries[i + 1]=entries[i];
+  }
+  entries[0]=entry;
+  return removed;
+}

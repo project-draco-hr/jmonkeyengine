@@ -1,0 +1,13 @@
+{
+  if (!(spatial instanceof Geometry)) {
+    throw new IllegalArgumentException("LodControl can only be attached to Geometry!");
+  }
+  super.setSpatial(spatial);
+  Geometry geom=(Geometry)spatial;
+  Mesh mesh=geom.getMesh();
+  numLevels=mesh.getNumLodLevels();
+  numTris=new int[numLevels];
+  for (int i=numLevels - 1; i >= 0; i--) {
+    numTris[i]=mesh.getTriangleCount(i);
+  }
+}

@@ -1,0 +1,9 @@
+{
+  if (vb.getFormat() == Format.Int)   return vb;
+  FloatBuffer fb=(FloatBuffer)vb.getData();
+  IntBuffer ib=BufferUtils.createIntBuffer(fb.capacity());
+  convertToFixed(fb,ib);
+  VertexBuffer newVb=new VertexBuffer(vb.getBufferType());
+  newVb.setupData(vb.getUsage(),vb.getNumComponents(),Format.Int,ib);
+  return newVb;
+}

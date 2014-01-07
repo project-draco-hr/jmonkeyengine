@@ -1,0 +1,10 @@
+{
+  if (soundPool != null) {
+    soundPool.autoPause();
+    for (    MediaPlayer mp : musicPlaying.values()) {
+      if (mp.isPlaying()) {
+        mp.pause();
+      }
+    }
+  }
+}

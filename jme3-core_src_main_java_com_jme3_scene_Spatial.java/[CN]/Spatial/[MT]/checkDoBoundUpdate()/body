@@ -1,0 +1,15 @@
+{
+  if ((refreshFlags & RF_BOUND) == 0) {
+    return;
+  }
+  checkDoTransformUpdate();
+  if (this instanceof Node) {
+    Node node=(Node)this;
+    int len=node.getQuantity();
+    for (int i=0; i < len; i++) {
+      Spatial child=node.getChild(i);
+      child.checkDoBoundUpdate();
+    }
+  }
+  updateWorldBound();
+}

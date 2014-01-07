@@ -1,0 +1,12 @@
+{
+  try {
+    DefineList clone=(DefineList)super.clone();
+    clone.cachedHashCode=0;
+    clone.compiled=null;
+    clone.defines=(TreeMap<String,String>)defines.clone();
+    return clone;
+  }
+ catch (  CloneNotSupportedException ex) {
+    throw new AssertionError();
+  }
+}

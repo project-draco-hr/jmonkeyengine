@@ -1,0 +1,7 @@
+{
+  int length=buffer.get() & 0xff;
+  for (int i=0; i < length; i++) {
+    chrBuf[i]=(char)(buffer.get() & 0xff);
+  }
+  return String.valueOf(chrBuf,0,length);
+}

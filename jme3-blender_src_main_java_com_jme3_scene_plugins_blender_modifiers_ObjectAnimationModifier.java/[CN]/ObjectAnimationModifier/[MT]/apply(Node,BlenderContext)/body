@@ -1,0 +1,18 @@
+{
+  if (invalid) {
+    LOGGER.log(Level.WARNING,"Armature modifier is invalid! Cannot be applied to: {0}",node.getName());
+  }
+  if (animationData != null) {
+    List<Animation> animList=animationData.anims;
+    if (animList != null && animList.size() > 0) {
+      HashMap<String,Animation> anims=new HashMap<String,Animation>();
+      for (int i=0; i < animList.size(); ++i) {
+        Animation animation=animList.get(i);
+        anims.put(animation.getName(),animation);
+      }
+      AnimControl control=new AnimControl(null);
+      control.setAnimations(anims);
+      node.addControl(control);
+    }
+  }
+}

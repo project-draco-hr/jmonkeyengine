@@ -1,0 +1,9 @@
+{
+  checkClosed();
+  try {
+    out.write(data.array(),data.position(),data.remaining());
+  }
+ catch (  IOException e) {
+    throw new ConnectorException("Error writing to connection:" + remoteAddress,e);
+  }
+}

@@ -1,0 +1,20 @@
+{
+  super.update(tpf);
+  if (enabled) {
+    timer+=tpf;
+    if (timer > maxTime) {
+      if (spatial.getParent() != null) {
+        space.removeCollisionListener(this);
+        space.remove(this);
+        spatial.removeFromParent();
+      }
+    }
+  }
+  if (enabled && curTime >= 0) {
+    curTime+=tpf;
+    if (curTime > fxTime) {
+      curTime=-1;
+      effect.removeFromParent();
+    }
+  }
+}

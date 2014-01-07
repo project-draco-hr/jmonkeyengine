@@ -1,0 +1,8 @@
+{
+  if (created.get()) {
+    logger.warning("create() called when pbuffer is already created!");
+    return;
+  }
+  new Thread(this,"LWJGL Renderer Thread").start();
+  if (waitFor)   waitFor(true);
+}

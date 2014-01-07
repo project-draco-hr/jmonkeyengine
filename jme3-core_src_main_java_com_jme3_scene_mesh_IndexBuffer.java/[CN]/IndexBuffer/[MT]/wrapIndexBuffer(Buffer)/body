@@ -1,0 +1,14 @@
+{
+  if (buf instanceof ByteBuffer) {
+    return new IndexByteBuffer((ByteBuffer)buf);
+  }
+ else   if (buf instanceof ShortBuffer) {
+    return new IndexShortBuffer((ShortBuffer)buf);
+  }
+ else   if (buf instanceof IntBuffer) {
+    return new IndexIntBuffer((IntBuffer)buf);
+  }
+ else {
+    throw new UnsupportedOperationException("Index buffer type unsupported: " + buf.getClass());
+  }
+}

@@ -1,0 +1,12 @@
+{
+  if (value == null)   return;
+  if (Arrays.deepEquals(value,defVal))   return;
+  Element el=appendElement(name);
+  int size=value.length;
+  el.setAttribute(XMLExporter.ATTRIBUTE_SIZE,String.valueOf(size));
+  for (int i=0; i < size; i++) {
+    ArrayList[] vi=value[i];
+    writeSavableArrayListArray(vi,"SavableArrayListArray_" + i,null);
+  }
+  currentElement=(Element)el.getParentNode();
+}

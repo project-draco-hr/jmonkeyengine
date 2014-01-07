@@ -1,0 +1,90 @@
+{
+  if (listener != null) {
+    TouchEvent event;
+    MouseButtonEvent btn;
+    MouseMotionEvent mot;
+    int newX;
+    int newY;
+    while (!eventQueue.isEmpty()) {
+synchronized (eventQueue) {
+        event=eventQueue.pop();
+      }
+      if (event != null) {
+        listener.onTouchEvent(event);
+        if (mouseEventsEnabled) {
+          if (mouseEventsInvertX) {
+            newX=view.getWidth() - (int)event.getX();
+          }
+ else {
+            newX=(int)event.getX();
+          }
+          if (mouseEventsInvertY) {
+            newY=view.getHeight() - (int)event.getY();
+          }
+ else {
+            newY=(int)event.getY();
+          }
+switch (event.getType()) {
+case DOWN:
+            btn=new MouseButtonEvent(0,true,newX,newY);
+          btn.setTime(event.getTime());
+        listener.onMouseButtonEvent(btn);
+      lastX=-1;
+    lastY=-1;
+  break;
+case UP:
+btn=new MouseButtonEvent(0,false,newX,newY);
+btn.setTime(event.getTime());
+listener.onMouseButtonEvent(btn);
+lastX=-1;
+lastY=-1;
+break;
+case SCALE_MOVE:
+if (lastX != -1 && lastY != -1) {
+newX=lastX;
+newY=lastY;
+}
+int wheel=(int)(event.getScaleSpan() / 4f);
+int dwheel=(int)(event.getDeltaScaleSpan() / 4f);
+mot=new MouseMotionEvent(newX,newX,0,0,wheel,dwheel);
+mot.setTime(event.getTime());
+listener.onMouseMotionEvent(mot);
+lastX=newX;
+lastY=newY;
+break;
+case MOVE:
+if (event.isScaleSpanInProgress()) {
+break;
+}
+int dx;
+int dy;
+if (lastX != -1) {
+dx=newX - lastX;
+dy=newY - lastY;
+}
+ else {
+dx=0;
+dy=0;
+}
+mot=new MouseMotionEvent(newX,newY,dx,dy,(int)event.getScaleSpan(),(int)event.getDeltaScaleSpan());
+mot.setTime(event.getTime());
+listener.onMouseMotionEvent(mot);
+lastX=newX;
+lastY=newY;
+break;
+}
+}
+}
+if (event.isConsumed() == false) {
+synchronized (eventPoolUnConsumed) {
+eventPoolUnConsumed.push(event);
+}
+}
+ else {
+synchronized (eventPool) {
+eventPool.push(event);
+}
+}
+}
+}
+}

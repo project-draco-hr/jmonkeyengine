@@ -1,0 +1,14 @@
+{
+  if (images == null) {
+    return null;
+  }
+  byte[] image=images.get(mapName);
+  if (image != null) {
+    Texture2D tex=new Texture2D(new Image(format,atlasWidth,atlasHeight,BufferUtils.createByteBuffer(image)));
+    tex.setMagFilter(Texture.MagFilter.Bilinear);
+    tex.setMinFilter(Texture.MinFilter.BilinearNearestMipMap);
+    tex.setWrap(Texture.WrapMode.Clamp);
+    return tex;
+  }
+  return null;
+}

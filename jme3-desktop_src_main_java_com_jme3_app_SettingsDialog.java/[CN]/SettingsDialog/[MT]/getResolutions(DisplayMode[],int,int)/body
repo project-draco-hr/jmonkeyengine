@@ -1,0 +1,25 @@
+{
+  Insets insets=getInsets();
+  heightLimit-=insets.top + insets.bottom;
+  widthLimit-=insets.left + insets.right;
+  ArrayList<String> resolutions=new ArrayList<String>(modes.length);
+  for (int i=0; i < modes.length; i++) {
+    int height=modes[i].getHeight();
+    int width=modes[i].getWidth();
+    if (width >= minWidth && height >= minHeight) {
+      if (height >= heightLimit) {
+        height=heightLimit;
+      }
+      if (width >= widthLimit) {
+        width=widthLimit;
+      }
+      String res=width + " x " + height;
+      if (!resolutions.contains(res)) {
+        resolutions.add(res);
+      }
+    }
+  }
+  String[] res=new String[resolutions.size()];
+  resolutions.toArray(res);
+  return res;
+}

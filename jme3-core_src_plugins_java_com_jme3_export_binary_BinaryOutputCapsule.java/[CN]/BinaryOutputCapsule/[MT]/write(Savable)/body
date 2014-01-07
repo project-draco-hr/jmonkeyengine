@@ -1,0 +1,8 @@
+{
+  if (object == null) {
+    write(NULL_OBJECT);
+    return;
+  }
+  int id=exporter.processBinarySavable(object);
+  write(id);
+}

@@ -1,0 +1,18 @@
+{
+  if (component != null) {
+    component.removeMouseListener(this);
+    eventQueue.clear();
+    wheelPos=0;
+    isRecentering=false;
+    eventsSinceRecenter=0;
+    lastEventX=0;
+    lastEventY=0;
+    lastEventWheel=0;
+    location=new Point();
+    centerLocation=new Point();
+    centerLocationOnScreen=new Point();
+    lastKnownLocation=new Point();
+  }
+  component=comp;
+  component.addMouseListener(this);
+}

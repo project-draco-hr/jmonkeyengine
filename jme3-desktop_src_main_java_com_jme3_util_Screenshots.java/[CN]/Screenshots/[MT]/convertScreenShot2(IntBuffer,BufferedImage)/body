@@ -1,0 +1,7 @@
+{
+  WritableRaster wr=out.getRaster();
+  DataBufferInt db=(DataBufferInt)wr.getDataBuffer();
+  int[] cpuArray=db.getData();
+  bgraBuf.clear();
+  bgraBuf.get(cpuArray);
+}

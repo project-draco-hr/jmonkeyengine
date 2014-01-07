@@ -1,0 +1,20 @@
+{
+  int pivot=l;
+  int j=r;
+  TempVars vars=TempVars.get();
+  Vector3f v1=vars.vect1, v2=vars.vect2, v3=vars.vect3;
+  while (pivot <= j) {
+    getTriangle(pivot,v1,v2,v3);
+    v1.addLocal(v2).addLocal(v3).multLocal(FastMath.ONE_THIRD);
+    if (v1.get(axis) > split) {
+      swapTriangles(pivot,j);
+      --j;
+    }
+ else {
+      ++pivot;
+    }
+  }
+  vars.release();
+  pivot=(pivot == l && j < pivot) ? j : pivot;
+  return pivot;
+}

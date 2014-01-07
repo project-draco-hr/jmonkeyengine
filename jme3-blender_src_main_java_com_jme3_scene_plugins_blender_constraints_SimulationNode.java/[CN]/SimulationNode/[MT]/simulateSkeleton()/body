@@ -1,0 +1,75 @@
+{
+  if (constraints != null && constraints.size() > 0) {
+    Set<Long> alteredOmas=new HashSet<Long>();
+    if (animations != null) {
+      TempVars vars=TempVars.get();
+      AnimChannel animChannel=animControl.createChannel();
+      for (      Animation animation : animations) {
+        float[] animationTimeBoundaries=this.computeAnimationTimeBoundaries(animation);
+        int maxFrame=(int)animationTimeBoundaries[0];
+        float maxTime=animationTimeBoundaries[1];
+        Map<Integer,VirtualTrack> tracks=new HashMap<Integer,VirtualTrack>();
+        Map<Integer,Transform> previousTransforms=this.getInitialTransforms();
+        for (int frame=0; frame < maxFrame; ++frame) {
+          this.reset();
+          for (          Track track : animation.getTracks()) {
+            float time=((BoneTrack)track).getTimes()[frame];
+            track.setTime(time,1,animControl,animChannel,vars);
+            skeleton.updateWorldVectors();
+          }
+          for (          Bone rootBone : skeleton.getRoots()) {
+            if (skeleton.getBoneIndex(rootBone) > 0) {
+              this.applyConstraints(rootBone,alteredOmas,frame);
+            }
+          }
+          for (          Long boneOMA : alteredOmas) {
+            BoneContext boneContext=blenderContext.getBoneContext(boneOMA);
+            int boneIndex=skeleton.getBoneIndex(boneContext.getBone());
+            if (!tracks.containsKey(boneIndex)) {
+              tracks.put(boneIndex,new VirtualTrack(maxFrame,maxTime));
+            }
+          }
+          alteredOmas.clear();
+          for (          Entry<Integer,VirtualTrack> trackEntry : tracks.entrySet()) {
+            Integer boneIndex=trackEntry.getKey();
+            Bone bone=skeleton.getBone(boneIndex);
+            Transform previousTransform=previousTransforms.get(boneIndex);
+            VirtualTrack vTrack=trackEntry.getValue();
+            Vector3f bonePositionDifference=bone.getLocalPosition().subtract(previousTransform.getTranslation());
+            Quaternion boneRotationDifference=bone.getLocalRotation().mult(previousTransform.getRotation().inverse()).normalizeLocal();
+            Vector3f boneScaleDifference=bone.getLocalScale().divide(previousTransform.getScale());
+            if (frame > 0) {
+              bonePositionDifference=vTrack.translations.get(frame - 1).add(bonePositionDifference);
+              boneRotationDifference=vTrack.rotations.get(frame - 1).mult(boneRotationDifference);
+              boneScaleDifference=vTrack.scales.get(frame - 1).mult(boneScaleDifference);
+            }
+            vTrack.setTransform(frame,new Transform(bonePositionDifference,boneRotationDifference,boneScaleDifference));
+            previousTransform.setTranslation(bone.getLocalPosition());
+            previousTransform.setRotation(bone.getLocalRotation());
+            previousTransform.setScale(bone.getLocalScale());
+          }
+        }
+        for (        Entry<Integer,VirtualTrack> trackEntry : tracks.entrySet()) {
+          Track newTrack=trackEntry.getValue().getAsBoneTrack(trackEntry.getKey());
+          if (newTrack != null) {
+            boolean trackReplaced=false;
+            for (            Track track : animation.getTracks()) {
+              if (((BoneTrack)track).getTargetBoneIndex() == trackEntry.getKey().intValue()) {
+                animation.removeTrack(track);
+                animation.addTrack(newTrack);
+                trackReplaced=true;
+                break;
+              }
+            }
+            if (!trackReplaced) {
+              animation.addTrack(newTrack);
+            }
+          }
+        }
+      }
+      vars.release();
+      animControl.clearChannels();
+      this.reset();
+    }
+  }
+}

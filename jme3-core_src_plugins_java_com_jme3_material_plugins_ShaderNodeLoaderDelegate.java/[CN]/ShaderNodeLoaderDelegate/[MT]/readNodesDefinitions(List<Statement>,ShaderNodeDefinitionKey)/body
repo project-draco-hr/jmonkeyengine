@@ -1,0 +1,18 @@
+{
+  for (  Statement statement : statements) {
+    String[] split=statement.getLine().split("[ \\{]");
+    if (statement.getLine().startsWith("ShaderNodeDefinition")) {
+      String name=statement.getLine().substring("ShaderNodeDefinition".length()).trim();
+      if (!getNodeDefinitions().containsKey(name)) {
+        shaderNodeDefinition=new ShaderNodeDefinition();
+        getNodeDefinitions().put(name,shaderNodeDefinition);
+        shaderNodeDefinition.setName(name);
+        readShaderNodeDefinition(statement.getContents(),key);
+      }
+    }
+ else {
+      throw new MatParseException("ShaderNodeDefinition",split[0],statement);
+    }
+  }
+  return new ArrayList<ShaderNodeDefinition>(getNodeDefinitions().values());
+}

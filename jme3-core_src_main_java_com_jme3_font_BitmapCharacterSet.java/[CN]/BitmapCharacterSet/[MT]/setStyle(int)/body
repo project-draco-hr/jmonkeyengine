@@ -1,0 +1,9 @@
+{
+  if (characters.size() > 1) {
+    throw new RuntimeException("Applicable only for single style font");
+  }
+  Entry<IntMap<BitmapCharacter>> entry=characters.iterator().next();
+  IntMap<BitmapCharacter> charset=entry.getValue();
+  characters.remove(entry.getKey());
+  characters.put(style,charset);
+}

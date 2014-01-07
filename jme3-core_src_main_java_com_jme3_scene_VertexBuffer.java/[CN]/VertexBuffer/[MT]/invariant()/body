@@ -1,0 +1,42 @@
+{
+  if (data == null) {
+    throw new AssertionError();
+  }
+  if (data.position() != 0) {
+    throw new AssertionError();
+  }
+  if (data.limit() == 0) {
+    throw new AssertionError();
+  }
+  if (offset > data.limit() || offset < 0) {
+    throw new AssertionError();
+  }
+  if (components < 1 || components > 4) {
+    throw new AssertionError();
+  }
+  if (usage != Usage.CpuOnly && !data.isDirect()) {
+    throw new AssertionError();
+  }
+  if (data instanceof DoubleBuffer) {
+    throw new AssertionError();
+  }
+ else   if (data instanceof CharBuffer) {
+    throw new AssertionError();
+  }
+ else   if (data instanceof LongBuffer) {
+    throw new AssertionError();
+  }
+ else   if (data instanceof FloatBuffer && format != Format.Float) {
+    throw new AssertionError();
+  }
+ else   if (data instanceof IntBuffer && format != Format.Int && format != Format.UnsignedInt) {
+    throw new AssertionError();
+  }
+ else   if (data instanceof ShortBuffer && format != Format.Short && format != Format.UnsignedShort) {
+    throw new AssertionError();
+  }
+ else   if (data instanceof ByteBuffer && format != Format.Byte && format != Format.UnsignedByte) {
+    throw new AssertionError();
+  }
+  return true;
+}

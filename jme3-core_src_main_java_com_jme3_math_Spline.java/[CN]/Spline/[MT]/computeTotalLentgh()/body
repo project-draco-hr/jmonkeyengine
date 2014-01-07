@@ -1,0 +1,29 @@
+{
+  totalLength=0;
+  float l=0;
+  if (segmentsLength == null) {
+    segmentsLength=new ArrayList<Float>();
+  }
+ else {
+    segmentsLength.clear();
+  }
+  if (type == SplineType.Linear) {
+    if (controlPoints.size() > 1) {
+      for (int i=0; i < controlPoints.size() - 1; i++) {
+        l=controlPoints.get(i + 1).subtract(controlPoints.get(i)).length();
+        segmentsLength.add(l);
+        totalLength+=l;
+      }
+    }
+  }
+ else   if (type == SplineType.Bezier) {
+    this.computeBezierLength();
+  }
+ else   if (type == SplineType.Nurb) {
+    this.computeNurbLength();
+  }
+ else {
+    this.initCatmullRomWayPoints(controlPoints);
+    this.computeCatmulLength();
+  }
+}

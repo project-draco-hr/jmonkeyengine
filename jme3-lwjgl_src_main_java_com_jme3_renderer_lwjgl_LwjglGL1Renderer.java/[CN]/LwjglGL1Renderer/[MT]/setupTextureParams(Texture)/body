@@ -1,0 +1,15 @@
+{
+  int target=convertTextureType(tex.getType());
+  int minFilter=convertMinFilter(tex.getMinFilter());
+  int magFilter=convertMagFilter(tex.getMagFilter());
+  glTexParameteri(target,GL_TEXTURE_MIN_FILTER,minFilter);
+  glTexParameteri(target,GL_TEXTURE_MAG_FILTER,magFilter);
+switch (tex.getType()) {
+case TwoDimensional:
+    glTexParameteri(target,GL_TEXTURE_WRAP_T,convertWrapMode(tex.getWrap(WrapAxis.T)));
+  glTexParameteri(target,GL_TEXTURE_WRAP_S,convertWrapMode(tex.getWrap(WrapAxis.S)));
+break;
+default :
+throw new UnsupportedOperationException("Unknown texture type: " + tex.getType());
+}
+}

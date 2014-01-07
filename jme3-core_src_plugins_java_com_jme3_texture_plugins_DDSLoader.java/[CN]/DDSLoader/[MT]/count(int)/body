@@ -1,0 +1,14 @@
+{
+  if (n == 0) {
+    return 0;
+  }
+  int i=0;
+  while ((n & 0x1) == 0) {
+    n=n >> 1;
+    i++;
+    if (i > 32) {
+      throw new RuntimeException(Integer.toHexString(n));
+    }
+  }
+  return i;
+}

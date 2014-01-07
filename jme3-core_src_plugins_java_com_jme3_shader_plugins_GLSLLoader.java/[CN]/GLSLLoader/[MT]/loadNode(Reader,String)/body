@@ -1,0 +1,41 @@
+{
+  ShaderDependencyNode node=new ShaderDependencyNode(nodeName);
+  StringBuilder sb=new StringBuilder();
+  BufferedReader bufReader=new BufferedReader(reader);
+  try {
+    String ln;
+    while ((ln=bufReader.readLine()) != null) {
+      if (ln.trim().startsWith("#import ")) {
+        ln=ln.trim().substring(8).trim();
+        if (ln.startsWith("\"") && ln.endsWith("\"") && ln.length() > 3) {
+          ln=ln.substring(1,ln.length() - 1);
+          if (ln.equals(nodeName)) {
+            throw new IOException("Node depends on itself.");
+          }
+          ShaderDependencyNode dependNode=dependCache.get(ln);
+          if (dependNode == null) {
+            Reader dependNodeReader=assetManager.loadAsset(new ShaderDependencyKey(ln));
+            dependNode=loadNode(dependNodeReader,ln);
+          }
+          node.addDependency(sb.length(),dependNode);
+        }
+      }
+ else {
+        sb.append(ln).append('\n');
+      }
+    }
+  }
+ catch (  IOException ex) {
+    if (bufReader != null) {
+      try {
+        bufReader.close();
+      }
+ catch (      IOException ex1) {
+      }
+    }
+    throw new AssetLoadException("Failed to load shader node: " + nodeName,ex);
+  }
+  node.setSource(sb.toString());
+  dependCache.put(nodeName,node);
+  return node;
+}

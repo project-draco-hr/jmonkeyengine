@@ -1,0 +1,23 @@
+{
+  int triCount=2 * circleSamples * radialSamples;
+  ShortBuffer sib=BufferUtils.createShortBuffer(3 * triCount);
+  setBuffer(Type.Index,3,sib);
+  int i;
+  int connectionStart=0;
+  int index=0;
+  for (int circleCount=0; circleCount < circleSamples; circleCount++) {
+    int i0=connectionStart;
+    int i1=i0 + 1;
+    connectionStart+=radialSamples + 1;
+    int i2=connectionStart;
+    int i3=i2 + 1;
+    for (i=0; i < radialSamples; i++, index+=6) {
+      sib.put((short)i0++);
+      sib.put((short)i2);
+      sib.put((short)i1);
+      sib.put((short)i1++);
+      sib.put((short)i2++);
+      sib.put((short)i3++);
+    }
+  }
+}

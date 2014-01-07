@@ -1,0 +1,13 @@
+{
+  stringBuf.setLength(0);
+  stringBuf.append(uniform.getName()).append('\0');
+  updateNameBuffer();
+  int loc=GLES20.glGetUniformLocation(shader.getId(),uniform.getName());
+  RendererUtil.checkGLError();
+  if (loc < 0) {
+    uniform.setLocation(-1);
+  }
+ else {
+    uniform.setLocation(loc);
+  }
+}

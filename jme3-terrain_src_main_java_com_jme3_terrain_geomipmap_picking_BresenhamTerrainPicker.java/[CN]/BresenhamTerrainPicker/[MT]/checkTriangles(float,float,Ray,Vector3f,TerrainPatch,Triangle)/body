@@ -1,0 +1,14 @@
+{
+  if (!getTriangles(gridX,gridY,patch))   return false;
+  if (pick.intersectWhere(gridTriA,intersection)) {
+    store.set(gridTriA.get1(),gridTriA.get2(),gridTriA.get3());
+    return true;
+  }
+ else {
+    if (pick.intersectWhere(gridTriB,intersection)) {
+      store.set(gridTriB.get1(),gridTriB.get2(),gridTriB.get3());
+      return true;
+    }
+  }
+  return false;
+}

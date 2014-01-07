@@ -1,0 +1,15 @@
+{
+  this.name=name;
+  this.patchSize=patchSize;
+  this.size=maxVisibleSize;
+  this.stepScale=scale;
+  this.offset=offset;
+  this.offsetAmount=offsetAmount;
+  initData();
+  this.gridTileLoader=terrainQuadGrid;
+  terrainQuadGrid.setPatchSize(this.patchSize);
+  terrainQuadGrid.setQuadSize(this.quadSize);
+  addControl(new UpdateControl());
+  fixNormalEdges(new BoundingBox(new Vector3f(0,0,0),size * 2,Float.MAX_VALUE,size * 2));
+  addControl(new NormalRecalcControl(this));
+}

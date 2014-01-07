@@ -1,0 +1,13 @@
+{
+  if (!reliable) {
+    return new MessageProtocol();
+  }
+ else {
+    MessageProtocol result=messageBuffers.get(p);
+    if (result == null) {
+      result=new MessageProtocol();
+      messageBuffers.put(p,result);
+    }
+    return result;
+  }
+}

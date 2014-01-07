@@ -1,0 +1,32 @@
+{
+  if (up) {
+    Vector3f v=l.getDirection();
+    v.y+=tpf / s;
+    setDir(v);
+  }
+  if (down) {
+    Vector3f v=l.getDirection();
+    v.y-=tpf / s;
+    setDir(v);
+  }
+  if (right) {
+    Vector3f v=l.getDirection();
+    v.x+=tpf / s;
+    setDir(v);
+  }
+  if (left) {
+    Vector3f v=l.getDirection();
+    v.x-=tpf / s;
+    setDir(v);
+  }
+  if (fwd) {
+    Vector3f v=l.getDirection();
+    v.z+=tpf / s;
+    setDir(v);
+  }
+  if (back) {
+    Vector3f v=l.getDirection();
+    v.z-=tpf / s;
+    setDir(v);
+  }
+}

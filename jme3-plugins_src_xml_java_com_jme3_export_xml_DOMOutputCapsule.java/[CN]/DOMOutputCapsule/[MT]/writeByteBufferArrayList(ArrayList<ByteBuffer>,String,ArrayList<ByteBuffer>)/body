@@ -1,0 +1,14 @@
+{
+  if (array == null) {
+    return;
+  }
+  if (array.equals(defVal)) {
+    return;
+  }
+  Element el=appendElement(name);
+  el.setAttribute("size",String.valueOf(array.size()));
+  for (  ByteBuffer o : array) {
+    write(o,"ByteBuffer",null);
+  }
+  currentElement=(Element)el.getParentNode();
+}

@@ -1,0 +1,8 @@
+{
+  addBone(bone);
+  if (bone.getChildren() == null)   return;
+  for (  Bone childBone : bone.getChildren()) {
+    addBone(childBone);
+    addFromRootBone(childBone);
+  }
+}

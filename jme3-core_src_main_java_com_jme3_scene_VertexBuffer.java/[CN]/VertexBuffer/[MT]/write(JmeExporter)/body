@@ -1,0 +1,32 @@
+{
+  OutputCapsule oc=ex.getCapsule(this);
+  oc.write(components,"components",0);
+  oc.write(usage,"usage",Usage.Dynamic);
+  oc.write(bufType,"buffer_type",null);
+  oc.write(format,"format",Format.Float);
+  oc.write(normalized,"normalized",false);
+  oc.write(offset,"offset",0);
+  oc.write(stride,"stride",0);
+  String dataName="data" + format.name();
+  Buffer roData=getDataReadOnly();
+switch (format) {
+case Float:
+    oc.write((FloatBuffer)roData,dataName,null);
+  break;
+case Short:
+case UnsignedShort:
+oc.write((ShortBuffer)roData,dataName,null);
+break;
+case UnsignedByte:
+case Byte:
+case Half:
+oc.write((ByteBuffer)roData,dataName,null);
+break;
+case Int:
+case UnsignedInt:
+oc.write((IntBuffer)roData,dataName,null);
+break;
+default :
+throw new IOException("Unsupported export buffer format: " + format);
+}
+}

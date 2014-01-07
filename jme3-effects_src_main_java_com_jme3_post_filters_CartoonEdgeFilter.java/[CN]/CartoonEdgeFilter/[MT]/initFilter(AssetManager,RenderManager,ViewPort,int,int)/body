@@ -1,0 +1,14 @@
+{
+  this.renderManager=renderManager;
+  this.viewPort=vp;
+  normalPass=new Pass();
+  normalPass.init(renderManager.getRenderer(),w,h,Format.RGBA8,Format.Depth);
+  material=new Material(manager,"Common/MatDefs/Post/CartoonEdge.j3md");
+  material.setFloat("EdgeWidth",edgeWidth);
+  material.setFloat("EdgeIntensity",edgeIntensity);
+  material.setFloat("NormalThreshold",normalThreshold);
+  material.setFloat("DepthThreshold",depthThreshold);
+  material.setFloat("NormalSensitivity",normalSensitivity);
+  material.setFloat("DepthSensitivity",depthSensitivity);
+  material.setColor("EdgeColor",edgeColor);
+}

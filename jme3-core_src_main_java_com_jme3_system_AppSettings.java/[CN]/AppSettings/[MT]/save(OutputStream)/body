@@ -1,0 +1,24 @@
+{
+  Properties props=new Properties();
+  for (  Map.Entry<String,Object> entry : entrySet()) {
+    Object val=entry.getValue();
+    String type;
+    if (val instanceof Integer) {
+      type="(int)";
+    }
+ else     if (val instanceof String) {
+      type="(string)";
+    }
+ else     if (val instanceof Boolean) {
+      type="(bool)";
+    }
+ else     if (val instanceof Float) {
+      type="(float)";
+    }
+ else {
+      continue;
+    }
+    props.setProperty(entry.getKey() + type,val.toString());
+  }
+  props.store(out,"jME3 AppSettings");
+}

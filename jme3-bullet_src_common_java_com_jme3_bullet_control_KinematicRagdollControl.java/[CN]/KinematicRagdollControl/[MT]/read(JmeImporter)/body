@@ -1,0 +1,23 @@
+{
+  super.read(im);
+  InputCapsule ic=im.getCapsule(this);
+  String[] loadedBoneList=ic.readStringArray("boneList",new String[0]);
+  boneList.addAll(Arrays.asList(loadedBoneList));
+  PhysicsBoneLink[] loadedBoneLinks=(PhysicsBoneLink[])ic.readSavableArray("boneList",new PhysicsBoneLink[0]);
+  for (  PhysicsBoneLink physicsBoneLink : loadedBoneLinks) {
+    boneLinks.put(physicsBoneLink.bone.getName(),physicsBoneLink);
+  }
+  modelPosition.set((Vector3f)ic.readSavable("modelPosition",new Vector3f()));
+  modelRotation.set((Quaternion)ic.readSavable("modelRotation",new Quaternion()));
+  targetModel=(Spatial)ic.readSavable("targetModel",null);
+  skeleton=(Skeleton)ic.readSavable("skeleton",null);
+  initScale=(Vector3f)ic.readSavable("initScale",null);
+  mode=ic.readEnum("mode",Mode.class,Mode.Kinematic);
+  blendedControl=ic.readBoolean("blendedControl",false);
+  weightThreshold=ic.readFloat("weightThreshold",-1.0f);
+  blendStart=ic.readFloat("blendStart",0.0f);
+  blendTime=ic.readFloat("blendTime",1.0f);
+  eventDispatchImpulseThreshold=ic.readFloat("eventDispatchImpulseThreshold",10);
+  rootMass=ic.readFloat("rootMass",15);
+  totalMass=ic.readFloat("totalMass",0);
+}

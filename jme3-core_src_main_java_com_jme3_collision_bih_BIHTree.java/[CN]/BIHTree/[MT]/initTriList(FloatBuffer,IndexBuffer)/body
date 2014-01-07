@@ -1,0 +1,22 @@
+{
+  pointData=new float[numTris * 3 * 3];
+  int p=0;
+  for (int i=0; i < numTris * 3; i+=3) {
+    int vert=ib.get(i) * 3;
+    pointData[p++]=vb.get(vert++);
+    pointData[p++]=vb.get(vert++);
+    pointData[p++]=vb.get(vert);
+    vert=ib.get(i + 1) * 3;
+    pointData[p++]=vb.get(vert++);
+    pointData[p++]=vb.get(vert++);
+    pointData[p++]=vb.get(vert);
+    vert=ib.get(i + 2) * 3;
+    pointData[p++]=vb.get(vert++);
+    pointData[p++]=vb.get(vert++);
+    pointData[p++]=vb.get(vert);
+  }
+  triIndices=new int[numTris];
+  for (int i=0; i < numTris; i++) {
+    triIndices[i]=i;
+  }
+}

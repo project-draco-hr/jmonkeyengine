@@ -1,0 +1,11 @@
+{
+  if (!enabled) {
+    return;
+  }
+  if (mode == mode.Ragdoll && targetModel.getLocalTranslation().equals(modelPosition)) {
+    ragDollUpdate(tpf);
+  }
+ else {
+    kinematicUpdate(tpf);
+  }
+}

@@ -1,0 +1,49 @@
+{
+  File file=new File("TerrainGridTestData.zip");
+  if (!file.exists()) {
+    assetManager.registerLocator("http://jmonkeyengine.googlecode.com/files/TerrainGridTestData.zip",HttpZipLocator.class);
+  }
+ else {
+    assetManager.registerLocator("TerrainGridTestData.zip",ZipLocator.class);
+  }
+  this.flyCam.setMoveSpeed(100f);
+  ScreenshotAppState state=new ScreenshotAppState();
+  this.stateManager.attach(state);
+  this.terrain=(TerrainGrid)assetManager.loadModel("TerrainGrid/TerrainGrid.j3o");
+  this.rootNode.attachChild(this.terrain);
+  TerrainLodControl control=new TerrainGridLodControl(this.terrain,getCamera());
+  control.setLodCalculator(new DistanceLodCalculator(65,2.7f));
+  this.terrain.addControl(control);
+  final BulletAppState bulletAppState=new BulletAppState();
+  stateManager.attach(bulletAppState);
+  this.getCamera().setLocation(new Vector3f(0,256,0));
+  this.viewPort.setBackgroundColor(new ColorRGBA(0.7f,0.8f,1f,1f));
+  if (usePhysics) {
+    CapsuleCollisionShape capsuleShape=new CapsuleCollisionShape(0.5f,1.8f,1);
+    player3=new CharacterControl(capsuleShape,0.5f);
+    player3.setJumpSpeed(20);
+    player3.setFallSpeed(10);
+    player3.setGravity(10);
+    player3.setPhysicsLocation(new Vector3f(cam.getLocation().x,256,cam.getLocation().z));
+    bulletAppState.getPhysicsSpace().add(player3);
+    terrain.addListener(new TerrainGridListener(){
+      public void gridMoved(      Vector3f newCenter){
+      }
+      public void tileAttached(      Vector3f cell,      TerrainQuad quad){
+        while (quad.getControl(RigidBodyControl.class) != null) {
+          quad.removeControl(RigidBodyControl.class);
+        }
+        quad.addControl(new RigidBodyControl(new HeightfieldCollisionShape(quad.getHeightMap(),terrain.getLocalScale()),0));
+        bulletAppState.getPhysicsSpace().add(quad);
+      }
+      public void tileDetached(      Vector3f cell,      TerrainQuad quad){
+        if (quad.getControl(RigidBodyControl.class) != null) {
+          bulletAppState.getPhysicsSpace().remove(quad);
+          quad.removeControl(RigidBodyControl.class);
+        }
+      }
+    }
+);
+  }
+  this.initKeys();
+}

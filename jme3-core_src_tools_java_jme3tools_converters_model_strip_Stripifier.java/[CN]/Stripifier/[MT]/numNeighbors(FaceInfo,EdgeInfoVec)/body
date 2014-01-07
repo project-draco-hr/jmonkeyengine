@@ -1,0 +1,13 @@
+{
+  int numNeighbors=0;
+  if (findOtherFace(edgeInfoVec,face.m_v0,face.m_v1,face) != null) {
+    numNeighbors++;
+  }
+  if (findOtherFace(edgeInfoVec,face.m_v1,face.m_v2,face) != null) {
+    numNeighbors++;
+  }
+  if (findOtherFace(edgeInfoVec,face.m_v2,face.m_v0,face) != null) {
+    numNeighbors++;
+  }
+  return numNeighbors;
+}

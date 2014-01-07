@@ -1,0 +1,9 @@
+{
+  int hash=5;
+  hash=67 * hash + (this.image != null ? System.identityHashCode(this.image) : 0);
+  hash=67 * hash + (this.minificationFilter != null ? this.minificationFilter.hashCode() : 0);
+  hash=67 * hash + (this.magnificationFilter != null ? this.magnificationFilter.hashCode() : 0);
+  hash=67 * hash + (this.shadowCompareMode != null ? this.shadowCompareMode.hashCode() : 0);
+  hash=67 * hash + this.anisotropicFilter;
+  return hash;
+}

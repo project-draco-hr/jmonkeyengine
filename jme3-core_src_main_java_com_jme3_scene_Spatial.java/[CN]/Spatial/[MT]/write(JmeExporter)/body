@@ -1,0 +1,13 @@
+{
+  OutputCapsule capsule=ex.getCapsule(this);
+  capsule.write(name,"name",null);
+  capsule.write(worldBound,"world_bound",null);
+  capsule.write(cullHint,"cull_mode",CullHint.Inherit);
+  capsule.write(batchHint,"batch_hint",BatchHint.Inherit);
+  capsule.write(queueBucket,"queue",RenderQueue.Bucket.Inherit);
+  capsule.write(shadowMode,"shadow_mode",ShadowMode.Inherit);
+  capsule.write(localTransform,"transform",Transform.IDENTITY);
+  capsule.write(localLights,"lights",null);
+  capsule.writeSavableArrayList(new ArrayList(controls),"controlsList",null);
+  capsule.writeStringSavableMap(userData,"user_data",null);
+}

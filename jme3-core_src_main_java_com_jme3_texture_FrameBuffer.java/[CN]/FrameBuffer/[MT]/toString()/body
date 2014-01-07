@@ -1,0 +1,10 @@
+{
+  StringBuilder sb=new StringBuilder();
+  String mrtStr=colorBufIndex >= 0 ? "" + colorBufIndex : "mrt";
+  sb.append("FrameBuffer[format=").append(width).append("x").append(height).append("x").append(samples).append(", drawBuf=").append(mrtStr).append("]\n");
+  if (depthBuf != null)   sb.append("Depth => ").append(depthBuf).append("\n");
+  for (  RenderBuffer colorBuf : colorBufs) {
+    sb.append("Color(").append(colorBuf.slot).append(") => ").append(colorBuf).append("\n");
+  }
+  return sb.toString();
+}

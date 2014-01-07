@@ -1,0 +1,143 @@
+{
+  this.axisSamples=axisSamples + (closed ? 2 : 0);
+  this.radialSamples=radialSamples;
+  this.radius=radius;
+  this.radius2=radius2;
+  this.height=height;
+  this.closed=closed;
+  this.inverted=inverted;
+  int vertCount=axisSamples * (radialSamples + 1) + (closed ? 2 : 0);
+  setBuffer(Type.Position,3,createVector3Buffer(getFloatBuffer(Type.Position),vertCount));
+  setBuffer(Type.Normal,3,createVector3Buffer(getFloatBuffer(Type.Normal),vertCount));
+  setBuffer(Type.TexCoord,2,createVector2Buffer(vertCount));
+  int triCount=((closed ? 2 : 0) + 2 * (axisSamples - 1)) * radialSamples;
+  setBuffer(Type.Index,3,createShortBuffer(getShortBuffer(Type.Index),3 * triCount));
+  float inverseRadial=1.0f / radialSamples;
+  float inverseAxisLess=1.0f / (closed ? axisSamples - 3 : axisSamples - 1);
+  float inverseAxisLessTexture=1.0f / (axisSamples - 1);
+  float halfHeight=0.5f * height;
+  float[] sin=new float[radialSamples + 1];
+  float[] cos=new float[radialSamples + 1];
+  for (int radialCount=0; radialCount < radialSamples; radialCount++) {
+    float angle=FastMath.TWO_PI * inverseRadial * radialCount;
+    cos[radialCount]=FastMath.cos(angle);
+    sin[radialCount]=FastMath.sin(angle);
+  }
+  sin[radialSamples]=sin[0];
+  cos[radialSamples]=cos[0];
+  Vector3f[] vNormals=null;
+  Vector3f vNormal=Vector3f.UNIT_Z;
+  if ((height != 0.0f) && (radius != radius2)) {
+    vNormals=new Vector3f[radialSamples];
+    Vector3f vHeight=Vector3f.UNIT_Z.mult(height);
+    Vector3f vRadial=new Vector3f();
+    for (int radialCount=0; radialCount < radialSamples; radialCount++) {
+      vRadial.set(cos[radialCount],sin[radialCount],0.0f);
+      Vector3f vRadius=vRadial.mult(radius);
+      Vector3f vRadius2=vRadial.mult(radius2);
+      Vector3f vMantle=vHeight.subtract(vRadius2.subtract(vRadius));
+      Vector3f vTangent=vRadial.cross(Vector3f.UNIT_Z);
+      vNormals[radialCount]=vMantle.cross(vTangent).normalize();
+    }
+  }
+  FloatBuffer nb=getFloatBuffer(Type.Normal);
+  FloatBuffer pb=getFloatBuffer(Type.Position);
+  FloatBuffer tb=getFloatBuffer(Type.TexCoord);
+  Vector3f tempNormal=new Vector3f();
+  for (int axisCount=0, i=0; axisCount < axisSamples; axisCount++, i++) {
+    float axisFraction;
+    float axisFractionTexture;
+    int topBottom=0;
+    if (!closed) {
+      axisFraction=axisCount * inverseAxisLess;
+      axisFractionTexture=axisFraction;
+    }
+ else {
+      if (axisCount == 0) {
+        topBottom=-1;
+        axisFraction=0;
+        axisFractionTexture=inverseAxisLessTexture;
+      }
+ else       if (axisCount == axisSamples - 1) {
+        topBottom=1;
+        axisFraction=1;
+        axisFractionTexture=1 - inverseAxisLessTexture;
+      }
+ else {
+        axisFraction=(axisCount - 1) * inverseAxisLess;
+        axisFractionTexture=axisCount * inverseAxisLessTexture;
+      }
+    }
+    float z=-halfHeight + height * axisFraction;
+    Vector3f sliceCenter=new Vector3f(0,0,z);
+    int save=i;
+    for (int radialCount=0; radialCount < radialSamples; radialCount++, i++) {
+      float radialFraction=radialCount * inverseRadial;
+      tempNormal.set(cos[radialCount],sin[radialCount],0.0f);
+      if (vNormals != null) {
+        vNormal=vNormals[radialCount];
+      }
+ else       if (radius == radius2) {
+        vNormal=tempNormal;
+      }
+      if (topBottom == 0) {
+        if (!inverted)         nb.put(vNormal.x).put(vNormal.y).put(vNormal.z);
+ else         nb.put(-vNormal.x).put(-vNormal.y).put(-vNormal.z);
+      }
+ else {
+        nb.put(0).put(0).put(topBottom * (inverted ? -1 : 1));
+      }
+      tempNormal.multLocal((radius - radius2) * axisFraction + radius2).addLocal(sliceCenter);
+      pb.put(tempNormal.x).put(tempNormal.y).put(tempNormal.z);
+      tb.put((inverted ? 1 - radialFraction : radialFraction)).put(axisFractionTexture);
+    }
+    BufferUtils.copyInternalVector3(pb,save,i);
+    BufferUtils.copyInternalVector3(nb,save,i);
+    tb.put((inverted ? 0.0f : 1.0f)).put(axisFractionTexture);
+  }
+  if (closed) {
+    pb.put(0).put(0).put(-halfHeight);
+    nb.put(0).put(0).put(-1 * (inverted ? -1 : 1));
+    tb.put(0.5f).put(0);
+    pb.put(0).put(0).put(halfHeight);
+    nb.put(0).put(0).put(1 * (inverted ? -1 : 1));
+    tb.put(0.5f).put(1);
+  }
+  IndexBuffer ib=getIndexBuffer();
+  int index=0;
+  for (int axisCount=0, axisStart=0; axisCount < axisSamples - 1; axisCount++) {
+    int i0=axisStart;
+    int i1=i0 + 1;
+    axisStart+=radialSamples + 1;
+    int i2=axisStart;
+    int i3=i2 + 1;
+    for (int i=0; i < radialSamples; i++) {
+      if (closed && axisCount == 0) {
+        if (!inverted) {
+          ib.put(index++,i0++);
+          ib.put(index++,vertCount - 2);
+          ib.put(index++,i1++);
+        }
+ else {
+          ib.put(index++,i0++);
+          ib.put(index++,i1++);
+          ib.put(index++,vertCount - 2);
+        }
+      }
+ else       if (closed && axisCount == axisSamples - 2) {
+        ib.put(index++,i2++);
+        ib.put(index++,inverted ? vertCount - 1 : i3++);
+        ib.put(index++,inverted ? i3++ : vertCount - 1);
+      }
+ else {
+        ib.put(index++,i0++);
+        ib.put(index++,inverted ? i2 : i1);
+        ib.put(index++,inverted ? i1 : i2);
+        ib.put(index++,i1++);
+        ib.put(index++,inverted ? i2++ : i3++);
+        ib.put(index++,inverted ? i3++ : i2++);
+      }
+    }
+  }
+  updateBound();
+}

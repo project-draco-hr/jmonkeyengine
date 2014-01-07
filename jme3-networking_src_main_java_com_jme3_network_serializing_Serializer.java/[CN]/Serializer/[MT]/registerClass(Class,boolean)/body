@@ -1,0 +1,18 @@
+{
+  if (cls.isAnnotationPresent(Serializable.class)) {
+    Serializable serializable=(Serializable)cls.getAnnotation(Serializable.class);
+    Class serializerClass=serializable.serializer();
+    short classId=serializable.id();
+    if (classId == 0)     classId=nextId();
+    Serializer serializer=getSerializer(serializerClass,false);
+    if (serializer == null)     serializer=fieldSerializer;
+    SerializerRegistration existingReg=getExactSerializerRegistration(cls);
+    if (existingReg != null)     classId=existingReg.getId();
+    SerializerRegistration reg=new SerializerRegistration(serializer,cls,classId);
+    return registerClassForId(classId,cls,serializer);
+  }
+  if (failOnMiss) {
+    throw new IllegalArgumentException("Class is not marked @Serializable:" + cls);
+  }
+  return null;
+}

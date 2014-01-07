@@ -1,0 +1,32 @@
+{
+  timer=new NanoTimer();
+  batch=new BatchNode("theBatchNode");
+  Box boxshape4=new Box(Vector3f.ZERO,1f,1f,1f);
+  cube=new Geometry("cube1",boxshape4);
+  Material mat=assetManager.loadMaterial("Textures/Terrain/Pond/Pond.j3m");
+  cube.setMaterial(mat);
+  Box box=new Box(Vector3f.ZERO,1f,1f,1f);
+  cube2=new Geometry("cube2",box);
+  cube2.setMaterial(mat);
+  TangentBinormalGenerator.generate(cube);
+  TangentBinormalGenerator.generate(cube2);
+  n=new Node("aNode");
+  batch.attachChild(cube);
+  batch.batch();
+  rootNode.attachChild(batch);
+  cube.setLocalTranslation(3,0,0);
+  cube2.setLocalTranslation(0,20,0);
+  updateBoindPoints(points);
+  frustum=new WireFrustum(points);
+  frustumMdl=new Geometry("f",frustum);
+  frustumMdl.setCullHint(Spatial.CullHint.Never);
+  frustumMdl.setMaterial(new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md"));
+  frustumMdl.getMaterial().getAdditionalRenderState().setWireframe(true);
+  frustumMdl.getMaterial().setColor("Color",ColorRGBA.Red);
+  rootNode.attachChild(frustumMdl);
+  dl=new DirectionalLight();
+  dl.setColor(ColorRGBA.White.mult(2));
+  dl.setDirection(new Vector3f(1,-1,-1));
+  rootNode.addLight(dl);
+  flyCam.setMoveSpeed(10);
+}

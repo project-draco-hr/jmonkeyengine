@@ -1,0 +1,36 @@
+{
+  if (!scan.hasNext()) {
+    return false;
+  }
+  String cmd=scan.next();
+  if (cmd.startsWith("#")) {
+    return nextStatement();
+  }
+ else   if (cmd.equals("v")) {
+    verts.add(readVector3());
+  }
+ else   if (cmd.equals("vn")) {
+    norms.add(readVector3());
+  }
+ else   if (cmd.equals("vt")) {
+    texCoords.add(readVector2());
+  }
+ else   if (cmd.equals("f")) {
+    readFace();
+  }
+ else   if (cmd.equals("usemtl")) {
+    currentMatName=scan.next();
+  }
+ else   if (cmd.equals("mtllib")) {
+    String mtllib=scan.nextLine().trim();
+    loadMtlLib(mtllib);
+  }
+ else   if (cmd.equals("s") || cmd.equals("g")) {
+    return nextStatement();
+  }
+ else {
+    logger.log(Level.WARNING,"Unknown statement in OBJ! {0}",cmd);
+    return nextStatement();
+  }
+  return true;
+}

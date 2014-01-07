@@ -1,0 +1,8 @@
+{
+  if (renderer.getCaps().contains(Caps.GLSL100)) {
+    fpp=new FilterPostProcessor(assetManager);
+    fpp.addFilter(new ColorOverlayFilter(ColorRGBA.LightGray));
+    fpp.addFilter(new RadialBlurFilter());
+    viewPort.addProcessor(fpp);
+  }
+}

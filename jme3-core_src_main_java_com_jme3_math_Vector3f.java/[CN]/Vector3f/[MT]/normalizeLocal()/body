@@ -1,0 +1,10 @@
+{
+  float length=x * x + y * y + z * z;
+  if (length != 1f && length != 0f) {
+    length=1.0f / FastMath.sqrt(length);
+    x*=length;
+    y*=length;
+    z*=length;
+  }
+  return this;
+}

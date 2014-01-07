@@ -1,0 +1,28 @@
+{
+  super.initialize();
+  guiFont=loadGuiFont();
+  guiNode.setQueueBucket(Bucket.Gui);
+  guiNode.setCullHint(CullHint.Never);
+  viewPort.attachScene(rootNode);
+  guiViewPort.attachScene(guiNode);
+  if (inputManager != null) {
+    if (stateManager.getState(FlyCamAppState.class) != null) {
+      flyCam=new FlyByCamera(cam);
+      flyCam.setMoveSpeed(1f);
+      stateManager.getState(FlyCamAppState.class).setCamera(flyCam);
+    }
+    if (context.getType() == Type.Display) {
+      inputManager.addMapping(INPUT_MAPPING_EXIT,new KeyTrigger(KeyInput.KEY_ESCAPE));
+    }
+    if (stateManager.getState(StatsAppState.class) != null) {
+      inputManager.addMapping(INPUT_MAPPING_HIDE_STATS,new KeyTrigger(KeyInput.KEY_F5));
+      inputManager.addListener(actionListener,INPUT_MAPPING_HIDE_STATS);
+    }
+    inputManager.addListener(actionListener,INPUT_MAPPING_EXIT);
+  }
+  if (stateManager.getState(StatsAppState.class) != null) {
+    stateManager.getState(StatsAppState.class).setFont(guiFont);
+    fpsText=stateManager.getState(StatsAppState.class).getFpsText();
+  }
+  simpleInitApp();
+}

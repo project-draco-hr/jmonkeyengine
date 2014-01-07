@@ -1,0 +1,15 @@
+{
+  super.read(e);
+  InputCapsule c=e.getCapsule(this);
+  size=c.readInt("size",0);
+  stepScale=(Vector3f)c.readSavable("stepScale",null);
+  offset=(Vector2f)c.readSavable("offset",new Vector2f(0,0));
+  offsetAmount=c.readFloat("offsetAmount",0);
+  quadrant=c.readInt("quadrant",0);
+  totalSize=c.readInt("totalSize",0);
+  if (!(getParent() instanceof TerrainQuad)) {
+    BoundingBox all=new BoundingBox(getWorldTranslation(),totalSize,totalSize,totalSize);
+    affectedAreaBBox=all;
+    updateNormals();
+  }
+}

@@ -1,0 +1,11 @@
+{
+  waves=new AudioNode(assetManager,"Sound/Environment/Ocean Waves.ogg",true);
+  waves.setPositional(true);
+  nature=new AudioNode(assetManager,"Sound/Environment/Nature.ogg",true);
+  waves.setLocalTranslation(new Vector3f(4,-1,30));
+  waves.setMaxDistance(5);
+  waves.setRefDistance(1);
+  nature.setVolume(3);
+  audioRenderer.playSourceInstance(waves);
+  audioRenderer.playSource(nature);
+}

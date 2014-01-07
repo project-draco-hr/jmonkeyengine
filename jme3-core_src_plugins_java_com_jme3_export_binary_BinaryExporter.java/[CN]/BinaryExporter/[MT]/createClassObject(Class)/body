@@ -1,0 +1,8 @@
+{
+  BinaryClassObject bco=new BinaryClassObject();
+  bco.alias=generateTag();
+  bco.nameFields=new HashMap<String,BinaryClassField>();
+  bco.classHierarchyVersions=SavableClassUtil.getSavableVersions(clazz);
+  classes.put(clazz.getName(),bco);
+  return bco;
+}

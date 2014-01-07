@@ -1,0 +1,82 @@
+{
+  device=GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+  GLCapabilities caps=new GLCapabilities(GLProfile.getMaxFixedFunc(true));
+  caps.setHardwareAccelerated(true);
+  caps.setDoubleBuffered(true);
+  caps.setStencilBits(settings.getStencilBits());
+  caps.setDepthBits(settings.getDepthBits());
+  if (settings.getSamples() > 1) {
+    caps.setSampleBuffers(true);
+    caps.setNumSamples(settings.getSamples());
+  }
+  canvas=new GLCanvas(caps){
+    @Override public void addNotify(){
+      super.addNotify();
+      onCanvasAdded();
+    }
+    @Override public void removeNotify(){
+      onCanvasRemoved();
+      super.removeNotify();
+    }
+  }
+;
+  canvas.invoke(false,new GLRunnable(){
+    public boolean run(    GLAutoDrawable glad){
+      canvas.getGL().setSwapInterval(settings.isVSync() ? 1 : 0);
+      return true;
+    }
+  }
+);
+  canvas.setFocusable(true);
+  canvas.requestFocus();
+  canvas.setSize(settings.getWidth(),settings.getHeight());
+  canvas.setIgnoreRepaint(true);
+  canvas.addGLEventListener(this);
+  if (settings.getBoolean("GraphicsDebug")) {
+    canvas.invoke(false,new GLRunnable(){
+      public boolean run(      GLAutoDrawable glad){
+        GL gl=glad.getGL();
+        if (gl.isGLES()) {
+          if (gl.isGLES1()) {
+            glad.setGL(new DebugGLES1(gl.getGLES1()));
+          }
+ else {
+            if (gl.isGLES2()) {
+              glad.setGL(new DebugGLES2(gl.getGLES2()));
+            }
+ else {
+            }
+          }
+        }
+ else {
+          if (gl.isGL4bc()) {
+            glad.setGL(new DebugGL4bc(gl.getGL4bc()));
+          }
+ else {
+            if (gl.isGL4()) {
+              glad.setGL(new DebugGL4(gl.getGL4()));
+            }
+ else {
+              if (gl.isGL3bc()) {
+                glad.setGL(new DebugGL3bc(gl.getGL3bc()));
+              }
+ else {
+                if (gl.isGL3()) {
+                  glad.setGL(new DebugGL3(gl.getGL3()));
+                }
+ else {
+                  if (gl.isGL2()) {
+                    glad.setGL(new DebugGL2(gl.getGL2()));
+                  }
+                }
+              }
+            }
+          }
+        }
+        return true;
+      }
+    }
+);
+  }
+  renderer=new JoglRenderer();
+}

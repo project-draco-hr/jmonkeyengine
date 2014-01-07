@@ -1,0 +1,15 @@
+{
+  filter.setProcessor(this);
+  if (filter.isRequiresDepthTexture()) {
+    if (!computeDepth && renderFrameBuffer != null) {
+      depthTexture=new Texture2D(width,height,Format.Depth24);
+      renderFrameBuffer.setDepthTexture(depthTexture);
+    }
+    computeDepth=true;
+    filter.init(assetManager,renderManager,vp,width,height);
+    filter.setDepthTexture(depthTexture);
+  }
+ else {
+    filter.init(assetManager,renderManager,vp,width,height);
+  }
+}

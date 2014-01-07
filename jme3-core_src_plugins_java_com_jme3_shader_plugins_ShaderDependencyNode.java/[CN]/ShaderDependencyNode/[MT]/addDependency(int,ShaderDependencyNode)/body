@@ -1,0 +1,8 @@
+{
+  if (this.dependencies.contains(node)) {
+    return;
+  }
+  this.dependencies.add(node);
+  this.dependencyInjectIndices.add(index);
+  node.dependOnMe.add(this);
+}

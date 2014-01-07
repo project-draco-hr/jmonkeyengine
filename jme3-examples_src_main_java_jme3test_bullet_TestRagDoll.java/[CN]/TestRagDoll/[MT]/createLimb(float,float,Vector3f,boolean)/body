@@ -1,0 +1,9 @@
+{
+  int axis=rotate ? PhysicsSpace.AXIS_X : PhysicsSpace.AXIS_Y;
+  CapsuleCollisionShape shape=new CapsuleCollisionShape(width,height,axis);
+  Node node=new Node("Limb");
+  RigidBodyControl rigidBodyControl=new RigidBodyControl(shape,1);
+  node.setLocalTranslation(location);
+  node.addControl(rigidBodyControl);
+  return node;
+}

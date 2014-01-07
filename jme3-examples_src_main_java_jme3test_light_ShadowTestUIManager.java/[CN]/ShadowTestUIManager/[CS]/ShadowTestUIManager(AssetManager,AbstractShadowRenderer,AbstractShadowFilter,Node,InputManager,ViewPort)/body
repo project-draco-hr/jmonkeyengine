@@ -1,0 +1,30 @@
+{
+  this.plsr=plsr;
+  this.plsf=plsf;
+  this.viewPort=viewPort;
+  BitmapFont guiFont=assetManager.loadFont("Interface/Fonts/Default.fnt");
+  shadowTypeText=createText(guiFont);
+  shadowCompareText=createText(guiFont);
+  shadowFilterText=createText(guiFont);
+  shadowIntensityText=createText(guiFont);
+  shadowTypeText.setText(TYPE_TEXT + "Processor");
+  shadowCompareText.setText(COMPARE_TEXT + (hardwareShadows ? "Hardware" : "Software"));
+  shadowFilterText.setText(FILTERING_TEXT + plsr.getEdgeFilteringMode().toString());
+  shadowIntensityText.setText(INTENSITY_TEXT + plsr.getShadowIntensity());
+  shadowTypeText.setLocalTranslation(10,viewPort.getCamera().getHeight() - 20,0);
+  shadowCompareText.setLocalTranslation(10,viewPort.getCamera().getHeight() - 40,0);
+  shadowFilterText.setLocalTranslation(10,viewPort.getCamera().getHeight() - 60,0);
+  shadowIntensityText.setLocalTranslation(10,viewPort.getCamera().getHeight() - 80,0);
+  guiNode.attachChild(shadowTypeText);
+  guiNode.attachChild(shadowCompareText);
+  guiNode.attachChild(shadowFilterText);
+  guiNode.attachChild(shadowIntensityText);
+  inputManager.addMapping("toggle",new KeyTrigger(KeyInput.KEY_SPACE));
+  inputManager.addMapping("changeFiltering",new KeyTrigger(KeyInput.KEY_F));
+  inputManager.addMapping("ShadowUp",new KeyTrigger(KeyInput.KEY_T));
+  inputManager.addMapping("ShadowDown",new KeyTrigger(KeyInput.KEY_G));
+  inputManager.addMapping("ThicknessUp",new KeyTrigger(KeyInput.KEY_Y));
+  inputManager.addMapping("ThicknessDown",new KeyTrigger(KeyInput.KEY_H));
+  inputManager.addMapping("toggleHW",new KeyTrigger(KeyInput.KEY_RETURN));
+  inputManager.addListener(this,"toggleHW","toggle","ShadowUp","ShadowDown","ThicknessUp","ThicknessDown","changeFiltering");
+}

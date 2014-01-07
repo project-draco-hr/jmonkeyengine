@@ -1,0 +1,9 @@
+{
+  buff.clear();
+  Vector2f[] verts=new Vector2f[buff.limit() / 2];
+  for (int x=0; x < verts.length; x++) {
+    Vector2f v=new Vector2f(buff.get(),buff.get());
+    verts[x]=v;
+  }
+  return verts;
+}

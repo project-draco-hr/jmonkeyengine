@@ -1,0 +1,14 @@
+{
+  if (musicSource == null) {
+    btnOpenActionPerformed(evt);
+    return;
+  }
+  if (musicSource.getStatus() == Status.Playing) {
+    musicSource.setPitch(1);
+    ar.pauseSource(musicSource);
+  }
+ else {
+    musicSource.setPitch(1);
+    musicSource.play();
+  }
+}

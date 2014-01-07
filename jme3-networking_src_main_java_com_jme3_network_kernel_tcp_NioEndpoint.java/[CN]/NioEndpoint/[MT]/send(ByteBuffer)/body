@@ -1,0 +1,9 @@
+{
+  if (data == null) {
+    throw new IllegalArgumentException("Data cannot be null.");
+  }
+  if (closing) {
+    throw new KernelException("Endpoint has been closed:" + socket);
+  }
+  send(data,true,true);
+}

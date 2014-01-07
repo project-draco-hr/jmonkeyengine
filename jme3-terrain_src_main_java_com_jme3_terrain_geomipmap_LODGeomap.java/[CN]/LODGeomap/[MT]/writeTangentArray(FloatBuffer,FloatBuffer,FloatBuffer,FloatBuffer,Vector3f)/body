@@ -1,0 +1,37 @@
+{
+  if (!isLoaded()) {
+    throw new NullPointerException();
+  }
+  if (tangentStore != null) {
+    if (tangentStore.remaining() < getWidth() * getHeight() * 3) {
+      throw new BufferUnderflowException();
+    }
+  }
+ else {
+    tangentStore=BufferUtils.createFloatBuffer(getWidth() * getHeight() * 3);
+  }
+  tangentStore.rewind();
+  if (binormalStore != null) {
+    if (binormalStore.remaining() < getWidth() * getHeight() * 3) {
+      throw new BufferUnderflowException();
+    }
+  }
+ else {
+    binormalStore=BufferUtils.createFloatBuffer(getWidth() * getHeight() * 3);
+  }
+  binormalStore.rewind();
+  Vector3f normal=new Vector3f();
+  Vector3f tangent=new Vector3f();
+  Vector3f binormal=new Vector3f();
+  for (int r=0; r < getHeight(); r++) {
+    for (int c=0; c < getWidth(); c++) {
+      int idx=(r * getWidth() + c) * 3;
+      normal.set(normalBuffer.get(idx),normalBuffer.get(idx + 1),normalBuffer.get(idx + 2));
+      tangent.set(normal.cross(new Vector3f(0,0,1)));
+      binormal.set(new Vector3f(1,0,0).cross(normal));
+      BufferUtils.setInBuffer(tangent.normalizeLocal(),tangentStore,(r * getWidth() + c));
+      BufferUtils.setInBuffer(binormal.normalizeLocal(),binormalStore,(r * getWidth() + c));
+    }
+  }
+  return new FloatBuffer[]{tangentStore,binormalStore};
+}

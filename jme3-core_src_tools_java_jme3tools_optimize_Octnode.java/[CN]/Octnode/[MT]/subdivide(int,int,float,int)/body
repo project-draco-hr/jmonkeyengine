@@ -1,0 +1,41 @@
+{
+  if (tris == null || depth > maxDepth || bbox.getVolume() < maxVolume || tris.size() < minTrisPerNode) {
+    leaf=true;
+    return;
+  }
+  ArrayList<OCTTriangle> keepTris=new ArrayList<OCTTriangle>();
+  ArrayList[] trisForChild=new ArrayList[8];
+  BoundingBox[] boxForChild=new BoundingBox[8];
+  for (int i=0; i < 8; i++) {
+    boxForChild[i]=getChildBound(i);
+    trisForChild[i]=new ArrayList<Triangle>();
+  }
+  for (  OCTTriangle t : tris) {
+    float lowestCost=Float.POSITIVE_INFINITY;
+    int lowestIndex=-1;
+    int numIntersecting=0;
+    for (int i=0; i < 8; i++) {
+      BoundingBox childBox=boxForChild[i];
+      float cost=getAdditionCost(childBox,t);
+      if (cost < lowestCost) {
+        lowestCost=cost;
+        lowestIndex=i;
+        numIntersecting++;
+      }
+    }
+    if (numIntersecting < 8 && lowestIndex > -1) {
+      trisForChild[lowestIndex].add(t);
+      expandBoxToContainTri(boxForChild[lowestIndex],t);
+    }
+ else {
+      keepTris.add(t);
+    }
+  }
+  tris.retainAll(keepTris);
+  for (int i=0; i < 8; i++) {
+    if (trisForChild[i].size() > 0) {
+      children[i]=new Octnode(boxForChild[i],trisForChild[i]);
+      children[i].subdivide(depth + 1,maxDepth,maxVolume,minTrisPerNode);
+    }
+  }
+}

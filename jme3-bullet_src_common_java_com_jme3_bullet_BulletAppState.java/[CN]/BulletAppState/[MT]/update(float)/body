@@ -1,0 +1,25 @@
+{
+  if (debugEnabled && debugAppState == null && pSpace != null) {
+    debugAppState=new BulletDebugAppState(pSpace);
+    stateManager.attach(debugAppState);
+    pSpace.enableDebug(app.getAssetManager());
+  }
+ else   if (!debugEnabled && debugAppState != null) {
+    stateManager.detach(debugAppState);
+    debugAppState=null;
+    if (pSpace != null) {
+      pSpace.enableDebug(null);
+    }
+  }
+  if (pSpace.getDebugManager() != null && !debugEnabled) {
+    debugEnabled=true;
+  }
+ else   if (pSpace.getDebugManager() == null && debugEnabled) {
+    debugEnabled=false;
+  }
+  if (!active) {
+    return;
+  }
+  pSpace.distributeEvents();
+  this.tpf=tpf;
+}

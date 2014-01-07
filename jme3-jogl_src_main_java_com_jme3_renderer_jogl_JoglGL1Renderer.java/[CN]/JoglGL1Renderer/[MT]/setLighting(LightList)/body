@@ -1,0 +1,114 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  if (list == null || list.size() == 0) {
+    gl.glDisable(GLLightingFunc.GL_LIGHTING);
+    applyFixedFuncBindings(false);
+    setModelView(worldMatrix,viewMatrix);
+    return;
+  }
+  int numLightsSetPrev=lightList.size();
+  lightList.clear();
+  materialAmbientColor.set(0,0,0,0);
+  for (int i=0; i < list.size(); i++) {
+    Light l=list.get(i);
+    if (l.getType() == Light.Type.Ambient) {
+      materialAmbientColor.addLocal(l.getColor());
+    }
+ else {
+      lightList.add(l);
+      if (lightList.size() >= maxLights) {
+        break;
+      }
+    }
+  }
+  applyFixedFuncBindings(true);
+  gl.glEnable(GLLightingFunc.GL_LIGHTING);
+  fb16.clear();
+  fb16.put(materialAmbientColor.r).put(materialAmbientColor.g).put(materialAmbientColor.b).put(1).flip();
+  gl.getGL2ES1().glLightModelfv(GL2ES1.GL_LIGHT_MODEL_AMBIENT,fb16);
+  if (context.matrixMode != GLMatrixFunc.GL_MODELVIEW) {
+    gl.getGL2ES1().glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
+    context.matrixMode=GLMatrixFunc.GL_MODELVIEW;
+  }
+  gl.getGL2ES1().glLoadMatrixf(storeMatrix(viewMatrix,fb16));
+  for (int i=0; i < lightList.size(); i++) {
+    int glLightIndex=GLLightingFunc.GL_LIGHT0 + i;
+    Light light=lightList.get(i);
+    Light.Type lightType=light.getType();
+    ColorRGBA col=light.getColor();
+    Vector3f pos;
+    gl.glEnable(glLightIndex);
+switch (lightType) {
+case Directional:
+      DirectionalLight dLight=(DirectionalLight)light;
+    fb16.clear();
+  fb16.put(col.r).put(col.g).put(col.b).put(col.a).flip();
+gl.getGL2ES1().glLightfv(glLightIndex,GLLightingFunc.GL_DIFFUSE,fb16);
+gl.getGL2ES1().glLightfv(glLightIndex,GLLightingFunc.GL_SPECULAR,fb16);
+pos=tempVec.set(dLight.getDirection()).negateLocal().normalizeLocal();
+fb16.clear();
+fb16.put(pos.x).put(pos.y).put(pos.z).put(0.0f).flip();
+gl.getGL2ES1().glLightfv(glLightIndex,GLLightingFunc.GL_POSITION,fb16);
+gl.getGL2ES1().glLightf(glLightIndex,GLLightingFunc.GL_SPOT_CUTOFF,180);
+break;
+case Point:
+PointLight pLight=(PointLight)light;
+fb16.clear();
+fb16.put(col.r).put(col.g).put(col.b).put(col.a).flip();
+gl.getGL2ES1().glLightfv(glLightIndex,GLLightingFunc.GL_DIFFUSE,fb16);
+gl.getGL2ES1().glLightfv(glLightIndex,GLLightingFunc.GL_SPECULAR,fb16);
+pos=pLight.getPosition();
+fb16.clear();
+fb16.put(pos.x).put(pos.y).put(pos.z).put(1.0f).flip();
+gl.getGL2ES1().glLightfv(glLightIndex,GLLightingFunc.GL_POSITION,fb16);
+gl.getGL2ES1().glLightf(glLightIndex,GLLightingFunc.GL_SPOT_CUTOFF,180);
+if (pLight.getRadius() > 0) {
+gl.getGL2ES1().glLightf(glLightIndex,GLLightingFunc.GL_CONSTANT_ATTENUATION,1);
+gl.getGL2ES1().glLightf(glLightIndex,GLLightingFunc.GL_LINEAR_ATTENUATION,pLight.getInvRadius() * 2);
+gl.getGL2ES1().glLightf(glLightIndex,GLLightingFunc.GL_QUADRATIC_ATTENUATION,pLight.getInvRadius() * pLight.getInvRadius());
+}
+ else {
+gl.getGL2ES1().glLightf(glLightIndex,GLLightingFunc.GL_CONSTANT_ATTENUATION,1);
+gl.getGL2ES1().glLightf(glLightIndex,GLLightingFunc.GL_LINEAR_ATTENUATION,0);
+gl.getGL2ES1().glLightf(glLightIndex,GLLightingFunc.GL_QUADRATIC_ATTENUATION,0);
+}
+break;
+case Spot:
+SpotLight sLight=(SpotLight)light;
+fb16.clear();
+fb16.put(col.r).put(col.g).put(col.b).put(col.a).flip();
+gl.getGL2ES1().glLightfv(glLightIndex,GLLightingFunc.GL_DIFFUSE,fb16);
+gl.getGL2ES1().glLightfv(glLightIndex,GLLightingFunc.GL_SPECULAR,fb16);
+pos=sLight.getPosition();
+fb16.clear();
+fb16.put(pos.x).put(pos.y).put(pos.z).put(1.0f).flip();
+gl.getGL2().glLightfv(glLightIndex,GLLightingFunc.GL_POSITION,fb16);
+Vector3f dir=sLight.getDirection();
+fb16.clear();
+fb16.put(dir.x).put(dir.y).put(dir.z).put(1.0f).flip();
+gl.getGL2ES1().glLightfv(glLightIndex,GLLightingFunc.GL_SPOT_DIRECTION,fb16);
+float outerAngleRad=sLight.getSpotOuterAngle();
+float innerAngleRad=sLight.getSpotInnerAngle();
+float spotCut=outerAngleRad * FastMath.RAD_TO_DEG;
+float spotExpo=0.0f;
+if (outerAngleRad > 0) {
+spotExpo=(1.0f - (innerAngleRad / outerAngleRad)) * 128.0f;
+}
+gl.getGL2ES1().glLightf(glLightIndex,GLLightingFunc.GL_SPOT_CUTOFF,spotCut);
+gl.getGL2ES1().glLightf(glLightIndex,GLLightingFunc.GL_SPOT_EXPONENT,spotExpo);
+if (sLight.getSpotRange() > 0) {
+gl.getGL2ES1().glLightf(glLightIndex,GLLightingFunc.GL_LINEAR_ATTENUATION,sLight.getInvSpotRange());
+}
+ else {
+gl.getGL2ES1().glLightf(glLightIndex,GLLightingFunc.GL_LINEAR_ATTENUATION,0);
+}
+break;
+default :
+throw new UnsupportedOperationException("Unrecognized light type: " + lightType);
+}
+}
+for (int i=lightList.size(); i < numLightsSetPrev; i++) {
+gl.glDisable(GLLightingFunc.GL_LIGHT0 + i);
+}
+setModelView(worldMatrix,viewMatrix);
+}

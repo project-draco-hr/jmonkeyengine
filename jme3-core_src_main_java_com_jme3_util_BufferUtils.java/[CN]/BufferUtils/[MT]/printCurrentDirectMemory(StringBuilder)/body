@@ -1,0 +1,51 @@
+{
+  long totalHeld=0;
+  long heapMem=Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+  boolean printStout=store == null;
+  if (store == null) {
+    store=new StringBuilder();
+  }
+  if (trackDirectMemory) {
+    int fBufs=0, bBufs=0, iBufs=0, sBufs=0, dBufs=0;
+    int fBufsM=0, bBufsM=0, iBufsM=0, sBufsM=0, dBufsM=0;
+    for (    BufferInfo b : BufferUtils.trackedBuffers.values()) {
+      if (b.type == ByteBuffer.class) {
+        totalHeld+=b.size;
+        bBufsM+=b.size;
+        bBufs++;
+      }
+ else       if (b.type == FloatBuffer.class) {
+        totalHeld+=b.size;
+        fBufsM+=b.size;
+        fBufs++;
+      }
+ else       if (b.type == IntBuffer.class) {
+        totalHeld+=b.size;
+        iBufsM+=b.size;
+        iBufs++;
+      }
+ else       if (b.type == ShortBuffer.class) {
+        totalHeld+=b.size;
+        sBufsM+=b.size;
+        sBufs++;
+      }
+ else       if (b.type == DoubleBuffer.class) {
+        totalHeld+=b.size;
+        dBufsM+=b.size;
+        dBufs++;
+      }
+    }
+    store.append("Existing buffers: ").append(BufferUtils.trackedBuffers.size()).append("\n");
+    store.append("(b: ").append(bBufs).append("  f: ").append(fBufs).append("  i: ").append(iBufs).append("  s: ").append(sBufs).append("  d: ").append(dBufs).append(")").append("\n");
+    store.append("Total   heap memory held: ").append(heapMem / 1024).append("kb\n");
+    store.append("Total direct memory held: ").append(totalHeld / 1024).append("kb\n");
+    store.append("(b: ").append(bBufsM / 1024).append("kb  f: ").append(fBufsM / 1024).append("kb  i: ").append(iBufsM / 1024).append("kb  s: ").append(sBufsM / 1024).append("kb  d: ").append(dBufsM / 1024).append("kb)").append("\n");
+  }
+ else {
+    store.append("Total   heap memory held: ").append(heapMem / 1024).append("kb\n");
+    store.append("Only heap memory available, if you want to monitor direct memory use BufferUtils.setTrackDirectMemoryEnabled(true) during initialization.").append("\n");
+  }
+  if (printStout) {
+    System.out.println(store.toString());
+  }
+}

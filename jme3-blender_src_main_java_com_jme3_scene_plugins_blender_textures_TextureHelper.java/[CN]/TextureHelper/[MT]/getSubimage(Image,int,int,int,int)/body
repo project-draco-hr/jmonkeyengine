@@ -1,0 +1,27 @@
+{
+  if (minY > maxY) {
+    throw new IllegalArgumentException("Minimum Y value is higher than maximum Y value!");
+  }
+  if (minX > maxX) {
+    throw new IllegalArgumentException("Minimum Y value is higher than maximum Y value!");
+  }
+  if (image.getData().size() > 1) {
+    throw new IllegalArgumentException("Only flat images are allowed for subimage operation!");
+  }
+  if (image.getMipMapSizes() != null) {
+    LOGGER.warning("Subimaging image with mipmaps is not yet supported!");
+  }
+  int width=maxX - minX;
+  int height=maxY - minY;
+  ByteBuffer data=BufferUtils.createByteBuffer(width * height * (image.getFormat().getBitsPerPixel() >> 3));
+  Image result=new Image(image.getFormat(),width,height,data);
+  PixelInputOutput pixelIO=PixelIOFactory.getPixelIO(image.getFormat());
+  TexturePixel pixel=new TexturePixel();
+  for (int x=minX; x < maxX; ++x) {
+    for (int y=minY; y < maxY; ++y) {
+      pixelIO.read(image,0,pixel,x,y);
+      pixelIO.write(result,0,pixel,x - minX,y - minY);
+    }
+  }
+  return result;
+}

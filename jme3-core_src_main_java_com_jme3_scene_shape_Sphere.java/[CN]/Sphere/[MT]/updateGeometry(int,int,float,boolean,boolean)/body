@@ -1,0 +1,12 @@
+{
+  if (zSamples < 3) {
+    throw new IllegalArgumentException("zSamples cannot be smaller than 3");
+  }
+  this.zSamples=zSamples;
+  this.radialSamples=radialSamples;
+  this.radius=radius;
+  this.useEvenSlices=useEvenSlices;
+  this.interior=interior;
+  setGeometryData();
+  setIndexData();
+}

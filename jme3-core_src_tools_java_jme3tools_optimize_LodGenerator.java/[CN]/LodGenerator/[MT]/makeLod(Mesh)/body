@@ -1,0 +1,44 @@
+{
+  VertexBuffer indexBuffer=mesh.getBuffer(VertexBuffer.Type.Index);
+  boolean isShortBuffer=indexBuffer.getFormat() == VertexBuffer.Format.UnsignedShort;
+  VertexBuffer lodBuffer=new VertexBuffer(VertexBuffer.Type.Index);
+  int bufsize=indexCount == 0 ? 3 : indexCount;
+  if (isShortBuffer) {
+    lodBuffer.setupData(VertexBuffer.Usage.Static,3,VertexBuffer.Format.UnsignedShort,BufferUtils.createShortBuffer(bufsize));
+  }
+ else {
+    lodBuffer.setupData(VertexBuffer.Usage.Static,3,VertexBuffer.Format.UnsignedInt,BufferUtils.createIntBuffer(bufsize));
+  }
+  lodBuffer.getData().rewind();
+  if (indexCount == 0) {
+    if (isShortBuffer) {
+      for (int m=0; m < 3; m++) {
+        ((ShortBuffer)lodBuffer.getData()).put((short)0);
+      }
+    }
+ else {
+      for (int m=0; m < 3; m++) {
+        ((IntBuffer)lodBuffer.getData()).put(0);
+      }
+    }
+  }
+  Buffer buf=lodBuffer.getData();
+  buf.rewind();
+  for (  Triangle triangle : triangleList) {
+    if (!triangle.isRemoved) {
+      if (isShortBuffer) {
+        for (int m=0; m < 3; m++) {
+          ((ShortBuffer)buf).put((short)triangle.vertexId[m]);
+        }
+      }
+ else {
+        for (int m=0; m < 3; m++) {
+          ((IntBuffer)buf).put(triangle.vertexId[m]);
+        }
+      }
+    }
+  }
+  buf.clear();
+  lodBuffer.updateData(buf);
+  return lodBuffer;
+}

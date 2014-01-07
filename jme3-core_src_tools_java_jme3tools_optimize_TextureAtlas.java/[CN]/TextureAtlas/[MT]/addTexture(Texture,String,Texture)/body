@@ -1,0 +1,9 @@
+{
+  String sourceTextureName=textureName(masterTexture);
+  if (sourceTextureName == null) {
+    throw new IllegalStateException("Supplied master map texture has no asset key name!");
+  }
+ else {
+    addTexture(texture,mapName,sourceTextureName);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  buffer.put((byte)(object != null ? 0x1 : 0x0));
+  if (object == null) {
+    return;
+  }
+  ClientRegistrationMessage msg=(ClientRegistrationMessage)object;
+  StringSerializer.writeString(msg.gameName,buffer);
+  buffer.putLong(msg.id);
+  buffer.putInt(msg.version);
+}

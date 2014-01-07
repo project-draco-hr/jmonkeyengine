@@ -1,0 +1,7 @@
+{
+  super(debugAppState);
+  this.body=body;
+  myShape=body.getCollisionShape();
+  this.geom=DebugShapeFactory.getDebugShape(body.getCollisionShape());
+  geom.setMaterial(debugAppState.DEBUG_PINK);
+}

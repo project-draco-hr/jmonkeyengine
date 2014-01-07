@@ -1,0 +1,22 @@
+{
+  if (BufferUtils.loadedMethods.getAndSet(true)) {
+    return;
+  }
+synchronized (BufferUtils.loadedMethods) {
+    cleanerMethod=loadMethod("sun.nio.ch.DirectBuffer","cleaner");
+    cleanMethod=loadMethod("sun.misc.Cleaner","clean");
+    viewedBufferMethod=loadMethod("sun.nio.ch.DirectBuffer","viewedBuffer");
+    if (viewedBufferMethod == null) {
+      viewedBufferMethod=loadMethod("sun.nio.ch.DirectBuffer","attachment");
+    }
+    ByteBuffer bb=BufferUtils.createByteBuffer(1);
+    Class<?> clazz=bb.getClass();
+    try {
+      freeMethod=clazz.getMethod("free");
+    }
+ catch (    NoSuchMethodException ex) {
+    }
+catch (    SecurityException ex) {
+    }
+  }
+}

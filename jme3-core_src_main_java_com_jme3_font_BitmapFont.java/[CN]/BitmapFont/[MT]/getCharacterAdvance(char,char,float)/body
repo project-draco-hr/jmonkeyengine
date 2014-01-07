@@ -1,0 +1,7 @@
+{
+  BitmapCharacter c=charSet.getCharacter(curChar);
+  if (c == null)   return 0f;
+  float advance=size * c.getXAdvance();
+  advance+=c.getKerning(nextChar) * size;
+  return advance;
+}

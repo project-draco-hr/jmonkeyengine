@@ -1,0 +1,23 @@
+{
+  if (m instanceof ClientRegistrationMessage) {
+    this.id=(int)((ClientRegistrationMessage)m).getId();
+    log.log(Level.FINE,"Connection established, id:{0}.",this.id);
+    connecting.countDown();
+    fireConnected();
+    return;
+  }
+ else   if (m instanceof ChannelInfoMessage) {
+    configureChannels(((ChannelInfoMessage)m).getId(),((ChannelInfoMessage)m).getPorts());
+    return;
+  }
+ else   if (m instanceof DisconnectMessage) {
+    String reason=((DisconnectMessage)m).getReason();
+    log.log(Level.SEVERE,"Connection terminated, reason:{0}.",reason);
+    DisconnectInfo info=new DisconnectInfo();
+    info.reason=reason;
+    closeConnections(info);
+  }
+synchronized (this) {
+    messageListeners.messageReceived(this,m);
+  }
+}

@@ -1,0 +1,16 @@
+{
+  Logger.getLogger("com.jme3").setLevel(Level.WARNING);
+  flyCam.setEnabled(false);
+  setDisplayStatView(false);
+  Keys();
+  defaultFont=assetManager.loadFont("Interface/Fonts/Default.fnt");
+  pressStart=new BitmapText(defaultFont,false);
+  fpsScoreText=new BitmapText(defaultFont,false);
+  loadText(fpsScoreText,"Current Score: 0",defaultFont,0,2,0);
+  loadText(pressStart,"PRESS ENTER",defaultFont,0,5,0);
+  player=createPlayer();
+  rootNode.attachChild(player);
+  cubeField=new ArrayList<Geometry>();
+  obstacleColors=new ArrayList<ColorRGBA>();
+  gameReset();
+}

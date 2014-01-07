@@ -1,0 +1,19 @@
+{
+  int nbTris=mesh.getTriangleCount();
+switch (reductionMethod) {
+case PROPORTIONAL:
+    collapseCostLimit=NEVER_COLLAPSE_COST;
+  return (int)(nbTris - (nbTris * (reductionValue)));
+case CONSTANT:
+collapseCostLimit=NEVER_COLLAPSE_COST;
+if (reductionValue < nbTris) {
+return nbTris - (int)reductionValue;
+}
+return 0;
+case COLLAPSE_COST:
+collapseCostLimit=reductionValue;
+return 0;
+default :
+return nbTris;
+}
+}

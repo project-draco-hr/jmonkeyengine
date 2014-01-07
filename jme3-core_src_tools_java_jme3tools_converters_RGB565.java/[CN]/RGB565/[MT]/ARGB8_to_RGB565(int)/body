@@ -1,0 +1,10 @@
+{
+  int a=(argb & 0xFF000000) >> 24;
+  int r=(argb & 0x00FF0000) >> 16;
+  int g=(argb & 0x0000FF00) >> 8;
+  int b=(argb & 0x000000FF);
+  r=r >> 3;
+  g=g >> 2;
+  b=b >> 3;
+  return (short)(b | (g << 5) | (r << (5 + 6)));
+}

@@ -1,0 +1,10 @@
+{
+  if (shape instanceof CompoundCollisionShape) {
+    throw new IllegalStateException("CompoundCollisionShapes cannot have CompoundCollisionShapes as children!");
+  }
+  Transform transA=new Transform(Converter.convert(rotation));
+  Converter.convert(location,transA.origin);
+  Converter.convert(rotation,transA.basis);
+  children.add(new ChildCollisionShape(location.clone(),rotation.clone(),shape));
+  ((CompoundShape)cShape).addChildShape(transA,shape.getCShape());
+}

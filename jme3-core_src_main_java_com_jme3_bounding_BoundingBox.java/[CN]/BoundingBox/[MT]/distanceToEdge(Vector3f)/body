@@ -1,0 +1,39 @@
+{
+  TempVars vars=TempVars.get();
+  Vector3f closest=vars.vect1;
+  point.subtract(center,closest);
+  float sqrDistance=0.0f;
+  float delta;
+  if (closest.x < -xExtent) {
+    delta=closest.x + xExtent;
+    sqrDistance+=delta * delta;
+    closest.x=-xExtent;
+  }
+ else   if (closest.x > xExtent) {
+    delta=closest.x - xExtent;
+    sqrDistance+=delta * delta;
+    closest.x=xExtent;
+  }
+  if (closest.y < -yExtent) {
+    delta=closest.y + yExtent;
+    sqrDistance+=delta * delta;
+    closest.y=-yExtent;
+  }
+ else   if (closest.y > yExtent) {
+    delta=closest.y - yExtent;
+    sqrDistance+=delta * delta;
+    closest.y=yExtent;
+  }
+  if (closest.z < -zExtent) {
+    delta=closest.z + zExtent;
+    sqrDistance+=delta * delta;
+    closest.z=-zExtent;
+  }
+ else   if (closest.z > zExtent) {
+    delta=closest.z - zExtent;
+    sqrDistance+=delta * delta;
+    closest.z=zExtent;
+  }
+  vars.release();
+  return FastMath.sqrt(sqrDistance);
+}

@@ -1,0 +1,14 @@
+{
+  calcVec1.set(gridX,0,gridY);
+  int index=findClosestHeightIndex(calcVec1,patch);
+  if (index == -1)   return false;
+  Triangle[] t=patch.getGridTriangles(gridX,gridY);
+  if (t == null || t.length == 0)   return false;
+  gridTriA.set1(t[0].get1());
+  gridTriA.set2(t[0].get2());
+  gridTriA.set3(t[0].get3());
+  gridTriB.set1(t[1].get1());
+  gridTriB.set2(t[1].get2());
+  gridTriB.set3(t[1].get3());
+  return true;
+}

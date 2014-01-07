@@ -1,0 +1,9 @@
+{
+  if (settings.getAudioRenderer() != null && context.getType() != Type.Headless) {
+    audioRenderer=JmeSystem.newAudioRenderer(settings);
+    audioRenderer.initialize();
+    AudioContext.setAudioRenderer(audioRenderer);
+    listener=new Listener();
+    audioRenderer.setListener(listener);
+  }
+}

@@ -1,0 +1,11 @@
+{
+  try {
+    LineSegment segment=(LineSegment)super.clone();
+    segment.direction=direction.clone();
+    segment.origin=origin.clone();
+    return segment;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
+}

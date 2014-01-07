@@ -1,0 +1,9 @@
+{
+  FloatBuffer retval=FloatBuffer.allocate(size * size);
+  for (int y=0; y < size; y++) {
+    for (int x=0; x < size; x++) {
+      retval.put(this.modulate((sx + x) / size,(sy + y) / size,base));
+    }
+  }
+  return retval;
+}

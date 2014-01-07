@@ -1,0 +1,79 @@
+{
+  Renderer r=rm.getRenderer();
+  LightList lightList=g.getWorldLightList();
+  Uniform lightDir=shader.getUniform("g_LightDirection");
+  Uniform lightColor=shader.getUniform("g_LightColor");
+  Uniform lightPos=shader.getUniform("g_LightPosition");
+  Uniform ambientColor=shader.getUniform("g_AmbientLightColor");
+  boolean isFirstLight=true;
+  boolean isSecondLight=false;
+  for (int i=0; i < lightList.size(); i++) {
+    Light l=lightList.get(i);
+    if (l instanceof AmbientLight) {
+      continue;
+    }
+    if (isFirstLight) {
+      ambientColor.setValue(VarType.Vector4,getAmbientColor(lightList));
+      isFirstLight=false;
+      isSecondLight=true;
+    }
+ else     if (isSecondLight) {
+      ambientColor.setValue(VarType.Vector4,ColorRGBA.Black);
+      r.applyRenderState(additiveLight);
+      isSecondLight=false;
+    }
+    TempVars vars=TempVars.get();
+    Quaternion tmpLightDirection=vars.quat1;
+    Quaternion tmpLightPosition=vars.quat2;
+    ColorRGBA tmpLightColor=vars.color;
+    Vector4f tmpVec=vars.vect4f;
+    ColorRGBA color=l.getColor();
+    tmpLightColor.set(color);
+    tmpLightColor.a=l.getType().getId();
+    lightColor.setValue(VarType.Vector4,tmpLightColor);
+switch (l.getType()) {
+case Directional:
+      DirectionalLight dl=(DirectionalLight)l;
+    Vector3f dir=dl.getDirection();
+  tmpLightPosition.set(dir.getX(),dir.getY(),dir.getZ(),-1);
+lightPos.setValue(VarType.Vector4,tmpLightPosition);
+tmpLightDirection.set(0,0,0,0);
+lightDir.setValue(VarType.Vector4,tmpLightDirection);
+break;
+case Point:
+PointLight pl=(PointLight)l;
+Vector3f pos=pl.getPosition();
+float invRadius=pl.getInvRadius();
+tmpLightPosition.set(pos.getX(),pos.getY(),pos.getZ(),invRadius);
+lightPos.setValue(VarType.Vector4,tmpLightPosition);
+tmpLightDirection.set(0,0,0,0);
+lightDir.setValue(VarType.Vector4,tmpLightDirection);
+break;
+case Spot:
+SpotLight sl=(SpotLight)l;
+Vector3f pos2=sl.getPosition();
+Vector3f dir2=sl.getDirection();
+float invRange=sl.getInvSpotRange();
+float spotAngleCos=sl.getPackedAngleCos();
+tmpLightPosition.set(pos2.getX(),pos2.getY(),pos2.getZ(),invRange);
+lightPos.setValue(VarType.Vector4,tmpLightPosition);
+tmpVec.set(dir2.getX(),dir2.getY(),dir2.getZ(),0);
+rm.getCurrentCamera().getViewMatrix().mult(tmpVec,tmpVec);
+tmpLightDirection.set(tmpVec.getX(),tmpVec.getY(),tmpVec.getZ(),spotAngleCos);
+lightDir.setValue(VarType.Vector4,tmpLightDirection);
+break;
+default :
+throw new UnsupportedOperationException("Unknown type of light: " + l.getType());
+}
+vars.release();
+r.setShader(shader);
+r.renderMesh(g.getMesh(),g.getLodLevel(),1);
+}
+if (isFirstLight && lightList.size() > 0) {
+ambientColor.setValue(VarType.Vector4,getAmbientColor(lightList));
+lightColor.setValue(VarType.Vector4,ColorRGBA.BlackNoAlpha);
+lightPos.setValue(VarType.Vector4,nullDirLight);
+r.setShader(shader);
+r.renderMesh(g.getMesh(),g.getLodLevel(),1);
+}
+}

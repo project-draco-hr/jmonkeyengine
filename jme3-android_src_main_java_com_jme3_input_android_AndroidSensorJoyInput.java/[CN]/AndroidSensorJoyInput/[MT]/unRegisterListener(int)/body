@@ -1,0 +1,11 @@
+{
+  SensorData sensorData=sensors.get(sensorType);
+  if (sensorData != null) {
+    if (sensorData.sensor != null) {
+      sensorManager.unregisterListener(this,sensorData.sensor);
+    }
+    sensorData.enabled=false;
+    sensorData.haveData=false;
+    logger.log(Level.FINE,"SensorType: {0} deactivated, active: {1}",new Object[]{sensorType,sensorData.enabled});
+  }
+}

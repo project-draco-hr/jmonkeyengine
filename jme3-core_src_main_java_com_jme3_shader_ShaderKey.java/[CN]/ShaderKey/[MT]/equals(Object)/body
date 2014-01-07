@@ -1,0 +1,15 @@
+{
+  final ShaderKey other=(ShaderKey)obj;
+  if (name.equals(other.name) && fragName.equals(other.fragName)) {
+    if (defines != null && other.defines != null) {
+      return defines.equals(other.defines);
+    }
+ else     if (defines != null || other.defines != null) {
+      return false;
+    }
+ else {
+      return true;
+    }
+  }
+  return false;
+}

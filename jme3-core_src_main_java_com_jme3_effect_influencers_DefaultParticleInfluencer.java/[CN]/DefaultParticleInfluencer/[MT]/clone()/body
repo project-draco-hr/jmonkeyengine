@@ -1,0 +1,10 @@
+{
+  try {
+    DefaultParticleInfluencer clone=(DefaultParticleInfluencer)super.clone();
+    clone.initialVelocity=initialVelocity.clone();
+    return clone;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
+}

@@ -1,0 +1,19 @@
+{
+  if (spat instanceof ParticleEmitter) {
+    ParticleEmitter em=(ParticleEmitter)spat;
+    TrackInfo t=(TrackInfo)em.getUserData("TrackInfo");
+    if (t != null && t.getTracks().contains(this)) {
+      return em;
+    }
+    return null;
+  }
+ else   if (spat instanceof Node) {
+    for (    Spatial child : ((Node)spat).getChildren()) {
+      ParticleEmitter em=findEmitter(child);
+      if (em != null) {
+        return em;
+      }
+    }
+  }
+  return null;
+}

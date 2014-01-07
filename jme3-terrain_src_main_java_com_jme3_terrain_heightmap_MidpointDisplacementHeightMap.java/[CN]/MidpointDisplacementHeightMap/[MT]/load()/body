@@ -1,0 +1,34 @@
+{
+  if (null != heightData) {
+    unloadHeightMap();
+  }
+  heightData=new float[size * size];
+  float[][] tempBuffer=new float[size][size];
+  Random random=new Random(seed);
+  tempBuffer[0][0]=random.nextFloat();
+  tempBuffer[0][size - 1]=random.nextFloat();
+  tempBuffer[size - 1][0]=random.nextFloat();
+  tempBuffer[size - 1][size - 1]=random.nextFloat();
+  float offsetRange=range;
+  int stepSize=size - 1;
+  while (stepSize > 1) {
+    int[] nextCoords={0,0};
+    while (nextCoords != null) {
+      nextCoords=doSquareStep(tempBuffer,nextCoords,stepSize,offsetRange,random);
+    }
+    nextCoords=new int[]{0,0};
+    while (nextCoords != null) {
+      nextCoords=doDiamondStep(tempBuffer,nextCoords,stepSize,offsetRange,random);
+    }
+    stepSize/=2;
+    offsetRange*=persistence;
+  }
+  for (int i=0; i < size; i++) {
+    for (int j=0; j < size; j++) {
+      setHeightAtPoint((float)tempBuffer[i][j],j,i);
+    }
+  }
+  normalizeTerrain(NORMALIZE_RANGE);
+  logger.log(Level.FINE,"Midpoint displacement heightmap generated");
+  return true;
+}

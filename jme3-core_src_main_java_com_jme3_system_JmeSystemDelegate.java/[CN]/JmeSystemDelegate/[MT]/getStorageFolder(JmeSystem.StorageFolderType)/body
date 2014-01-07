@@ -1,0 +1,28 @@
+{
+  File storageFolder=null;
+switch (type) {
+case Internal:
+case External:
+    if (lowPermissions) {
+      throw new UnsupportedOperationException("File system access restricted");
+    }
+  storageFolder=storageFolders.get(type);
+if (storageFolder == null) {
+  storageFolder=new File(System.getProperty("user.home"),".jme3");
+  if (!storageFolder.exists()) {
+    storageFolder.mkdir();
+  }
+  storageFolders.put(type,storageFolder);
+}
+break;
+default :
+break;
+}
+if (storageFolder != null) {
+logger.log(Level.FINE,"Storage Folder Path: {0}",storageFolder.getAbsolutePath());
+}
+ else {
+logger.log(Level.FINE,"Storage Folder not found!");
+}
+return storageFolder;
+}

@@ -1,0 +1,6 @@
+{
+  ShortBuffer buf=ByteBuffer.allocateDirect(2 * size).order(ByteOrder.nativeOrder()).asShortBuffer();
+  buf.clear();
+  onBufferAllocated(buf);
+  return buf;
+}

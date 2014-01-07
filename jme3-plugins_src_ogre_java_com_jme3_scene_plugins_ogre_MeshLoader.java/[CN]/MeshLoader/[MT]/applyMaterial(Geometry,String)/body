@@ -1,0 +1,26 @@
+{
+  Material mat=null;
+  if (matName.endsWith(".j3m")) {
+    try {
+      mat=assetManager.loadMaterial(matName);
+    }
+ catch (    AssetNotFoundException ex) {
+      if (!ex.getMessage().equals(matName)) {
+        throw ex;
+      }
+    }
+  }
+ else {
+    if (materialList != null) {
+      mat=materialList.get(matName);
+    }
+  }
+  if (mat == null) {
+    logger.log(Level.WARNING,"Cannot locate {0} for model {1}",new Object[]{matName,key});
+    mat=PlaceholderAssets.getPlaceholderMaterial(assetManager);
+  }
+  if (mat.isTransparent()) {
+    geom.setQueueBucket(Bucket.Transparent);
+  }
+  geom.setMaterial(mat);
+}

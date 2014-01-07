@@ -1,0 +1,45 @@
+{
+  System.out.println("Axis:" + axis.getName() + "="+ value);
+  if (axis == axis.getJoystick().getXAxis()) {
+    setXAxis(value);
+  }
+ else   if (axis == axis.getJoystick().getYAxis()) {
+    setYAxis(-value);
+  }
+ else   if (axis == axis.getJoystick().getAxis(JoystickAxis.Z_AXIS)) {
+    setZAxis(value);
+  }
+ else   if (axis == axis.getJoystick().getAxis(JoystickAxis.Z_ROTATION)) {
+    setZRotation(-value);
+  }
+ else   if (axis == axis.getJoystick().getPovXAxis()) {
+    if (lastPovX < 0) {
+      setButtonValue("POV -X",false);
+    }
+ else     if (lastPovX > 0) {
+      setButtonValue("POV +X",false);
+    }
+    if (value < 0) {
+      setButtonValue("POV -X",true);
+    }
+ else     if (value > 0) {
+      setButtonValue("POV +X",true);
+    }
+    lastPovX=value;
+  }
+ else   if (axis == axis.getJoystick().getPovYAxis()) {
+    if (lastPovY < 0) {
+      setButtonValue("POV -Y",false);
+    }
+ else     if (lastPovY > 0) {
+      setButtonValue("POV +Y",false);
+    }
+    if (value < 0) {
+      setButtonValue("POV -Y",true);
+    }
+ else     if (value > 0) {
+      setButtonValue("POV +Y",true);
+    }
+    lastPovY=value;
+  }
+}

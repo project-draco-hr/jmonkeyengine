@@ -1,0 +1,6 @@
+{
+  if (positional && data.getChannels() > 1) {
+    throw new IllegalStateException("Only mono audio is supported for positional audio nodes");
+  }
+  getRenderer().playSourceInstance(this);
+}

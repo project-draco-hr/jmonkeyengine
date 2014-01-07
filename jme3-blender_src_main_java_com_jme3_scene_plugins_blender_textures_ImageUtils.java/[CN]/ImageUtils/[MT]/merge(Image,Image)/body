@@ -1,0 +1,26 @@
+{
+  if (sourceImage.getDepth() != targetImage.getDepth()) {
+    throw new IllegalArgumentException("The given images should have the same depth to merge them!");
+  }
+  if (sourceImage.getWidth() != targetImage.getWidth()) {
+    throw new IllegalArgumentException("The given images should have the same width to merge them!");
+  }
+  if (sourceImage.getHeight() != targetImage.getHeight()) {
+    throw new IllegalArgumentException("The given images should have the same height to merge them!");
+  }
+  PixelInputOutput sourceIO=PixelIOFactory.getPixelIO(sourceImage.getFormat());
+  PixelInputOutput targetIO=PixelIOFactory.getPixelIO(targetImage.getFormat());
+  TexturePixel sourcePixel=new TexturePixel();
+  TexturePixel targetPixel=new TexturePixel();
+  int depth=targetImage.getDepth() == 0 ? 1 : targetImage.getDepth();
+  for (int layerIndex=0; layerIndex < depth; ++layerIndex) {
+    for (int x=0; x < sourceImage.getWidth(); ++x) {
+      for (int y=0; y < sourceImage.getHeight(); ++y) {
+        sourceIO.read(sourceImage,layerIndex,sourcePixel,x,y);
+        targetIO.read(targetImage,layerIndex,targetPixel,x,y);
+        targetPixel.merge(sourcePixel);
+        targetIO.write(targetImage,layerIndex,targetPixel,x,y);
+      }
+    }
+  }
+}

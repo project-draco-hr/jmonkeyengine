@@ -1,0 +1,23 @@
+{
+  if (name == null)   throw new IllegalArgumentException("name cannot be null");
+  if (blendTime < 0f)   throw new IllegalArgumentException("blendTime cannot be less than zero");
+  Animation anim=control.animationMap.get(name);
+  if (anim == null)   throw new IllegalArgumentException("Cannot find animation named: '" + name + "'");
+  control.notifyAnimChange(this,name);
+  if (animation != null && blendTime > 0f) {
+    blendFrom=animation;
+    timeBlendFrom=time;
+    speedBlendFrom=speed;
+    loopModeBlendFrom=loopMode;
+    blendAmount=0f;
+    blendRate=1f / blendTime;
+  }
+ else {
+    blendFrom=null;
+  }
+  animation=anim;
+  time=0;
+  speed=1f;
+  loopMode=LoopMode.Loop;
+  notified=false;
+}

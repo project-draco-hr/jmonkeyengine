@@ -1,0 +1,35 @@
+{
+  initInThread();
+synchronized (threadLock) {
+    threadLock.set(true);
+    threadLock.notifyAll();
+  }
+  initialized=true;
+  long updateRateNanos=(long)(UPDATE_RATE * 1000000000);
+  mainloop:   while (true) {
+    long startTime=System.nanoTime();
+    if (Thread.interrupted()) {
+      break;
+    }
+synchronized (threadLock) {
+      updateInThread(UPDATE_RATE);
+    }
+    long endTime=System.nanoTime();
+    long diffTime=endTime - startTime;
+    if (diffTime < updateRateNanos) {
+      long desiredEndTime=startTime + updateRateNanos;
+      while (System.nanoTime() < desiredEndTime) {
+        try {
+          Thread.sleep(1);
+        }
+ catch (        InterruptedException ex) {
+          break mainloop;
+        }
+      }
+    }
+  }
+  initialized=false;
+synchronized (threadLock) {
+    cleanupInThread();
+  }
+}

@@ -1,0 +1,35 @@
+{
+  if (userControl) {
+    return;
+  }
+  if (weight == 0) {
+    return;
+  }
+  if (currentWeightSum == 1) {
+    return;
+  }
+ else   if (currentWeightSum == -1 || currentWeightSum == 0) {
+    localPos.set(initialPos).addLocal(translation);
+    localRot.set(initialRot).multLocal(rotation);
+    if (scale != null) {
+      localScale.set(initialScale).multLocal(scale);
+    }
+    currentWeightSum=weight;
+  }
+ else {
+    TempVars vars=TempVars.get();
+    Vector3f tmpV=vars.vect1;
+    Vector3f tmpV2=vars.vect2;
+    Quaternion tmpQ=vars.quat1;
+    tmpV.set(initialPos).addLocal(translation);
+    localPos.interpolateLocal(tmpV,weight);
+    tmpQ.set(initialRot).multLocal(rotation);
+    localRot.nlerp(tmpQ,weight);
+    if (scale != null) {
+      tmpV2.set(initialScale).multLocal(scale);
+      localScale.interpolateLocal(tmpV2,weight);
+    }
+    currentWeightSum=1;
+    vars.release();
+  }
+}

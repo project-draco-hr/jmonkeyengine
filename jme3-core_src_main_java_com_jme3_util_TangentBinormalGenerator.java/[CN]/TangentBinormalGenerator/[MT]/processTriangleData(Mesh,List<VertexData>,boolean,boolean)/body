@@ -1,0 +1,134 @@
+{
+  ArrayList<VertexInfo> vertexMap=linkVertices(mesh,splitMirrored);
+  FloatBuffer tangents=BufferUtils.createFloatBuffer(vertices.size() * 4);
+  ColorRGBA[] cols=null;
+  if (debug) {
+    cols=new ColorRGBA[vertices.size()];
+  }
+  Vector3f tangent=new Vector3f();
+  Vector3f binormal=new Vector3f();
+  Vector3f givenNormal=new Vector3f();
+  Vector3f tangentUnit=new Vector3f();
+  Vector3f binormalUnit=new Vector3f();
+  for (int k=0; k < vertexMap.size(); k++) {
+    float wCoord=-1;
+    VertexInfo vertexInfo=vertexMap.get(k);
+    givenNormal.set(vertexInfo.normal);
+    givenNormal.normalizeLocal();
+    TriangleData firstTriangle=vertices.get(vertexInfo.indices.get(0)).triangles.get(0);
+    tangent.set(firstTriangle.tangent);
+    tangent.normalizeLocal();
+    binormal.set(firstTriangle.binormal);
+    binormal.normalizeLocal();
+    for (    int i : vertexInfo.indices) {
+      ArrayList<TriangleData> triangles=vertices.get(i).triangles;
+      for (int j=0; j < triangles.size(); j++) {
+        TriangleData triangleData=triangles.get(j);
+        tangentUnit.set(triangleData.tangent);
+        tangentUnit.normalizeLocal();
+        if (tangent.dot(tangentUnit) < toleranceDot) {
+          log.log(Level.WARNING,"Angle between tangents exceeds tolerance " + "for vertex {0}.",i);
+          break;
+        }
+        if (!approxTangent) {
+          binormalUnit.set(triangleData.binormal);
+          binormalUnit.normalizeLocal();
+          if (binormal.dot(binormalUnit) < toleranceDot) {
+            log.log(Level.WARNING,"Angle between binormals exceeds tolerance " + "for vertex {0}.",i);
+            break;
+          }
+        }
+      }
+    }
+    tangent.set(0,0,0);
+    binormal.set(0,0,0);
+    int triangleCount=0;
+    for (    int i : vertexInfo.indices) {
+      ArrayList<TriangleData> triangles=vertices.get(i).triangles;
+      triangleCount+=triangles.size();
+      if (debug) {
+        cols[i]=ColorRGBA.White;
+      }
+      for (int j=0; j < triangles.size(); j++) {
+        TriangleData triangleData=triangles.get(j);
+        tangent.addLocal(triangleData.tangent);
+        binormal.addLocal(triangleData.binormal);
+      }
+    }
+    int blameVertex=vertexInfo.indices.get(0);
+    if (tangent.length() < ZERO_TOLERANCE) {
+      log.log(Level.WARNING,"Shared tangent is zero for vertex {0}.",blameVertex);
+      if (binormal.length() >= ZERO_TOLERANCE) {
+        binormal.cross(givenNormal,tangent);
+        tangent.normalizeLocal();
+      }
+ else {
+        tangent.set(firstTriangle.tangent);
+      }
+    }
+ else {
+      tangent.divideLocal(triangleCount);
+    }
+    tangentUnit.set(tangent);
+    tangentUnit.normalizeLocal();
+    if (Math.abs(Math.abs(tangentUnit.dot(givenNormal)) - 1) < ZERO_TOLERANCE) {
+      log.log(Level.WARNING,"Normal and tangent are parallel for vertex {0}.",blameVertex);
+    }
+    if (!approxTangent) {
+      if (binormal.length() < ZERO_TOLERANCE) {
+        log.log(Level.WARNING,"Shared binormal is zero for vertex {0}.",blameVertex);
+        if (tangent.length() >= ZERO_TOLERANCE) {
+          givenNormal.cross(tangent,binormal);
+          binormal.normalizeLocal();
+        }
+ else {
+          binormal.set(firstTriangle.binormal);
+        }
+      }
+ else {
+        binormal.divideLocal(triangleCount);
+      }
+      binormalUnit.set(binormal);
+      binormalUnit.normalizeLocal();
+      if (Math.abs(Math.abs(binormalUnit.dot(givenNormal)) - 1) < ZERO_TOLERANCE) {
+        log.log(Level.WARNING,"Normal and binormal are parallel for vertex {0}.",blameVertex);
+      }
+      if (Math.abs(Math.abs(binormalUnit.dot(tangentUnit)) - 1) < ZERO_TOLERANCE) {
+        log.log(Level.WARNING,"Tangent and binormal are parallel for vertex {0}.",blameVertex);
+      }
+    }
+    Vector3f finalTangent=new Vector3f();
+    Vector3f tmp=new Vector3f();
+    for (    int i : vertexInfo.indices) {
+      if (approxTangent) {
+        finalTangent.set(tangent).subtractLocal(tmp.set(givenNormal).multLocal(givenNormal.dot(tangent)));
+        finalTangent.normalizeLocal();
+        wCoord=tmp.set(givenNormal).crossLocal(tangent).dot(binormal) < 0f ? -1f : 1f;
+        tangents.put((i * 4),finalTangent.x);
+        tangents.put((i * 4) + 1,finalTangent.y);
+        tangents.put((i * 4) + 2,finalTangent.z);
+        tangents.put((i * 4) + 3,wCoord);
+      }
+ else {
+        tangents.put((i * 4),tangent.x);
+        tangents.put((i * 4) + 1,tangent.y);
+        tangents.put((i * 4) + 2,tangent.z);
+        tangents.put((i * 4) + 3,wCoord);
+      }
+    }
+  }
+  tangents.limit(tangents.capacity());
+  mesh.clearBuffer(Type.Tangent);
+  mesh.setBuffer(Type.Tangent,4,tangents);
+  if (mesh.isAnimated()) {
+    mesh.clearBuffer(Type.BindPoseNormal);
+    mesh.clearBuffer(Type.BindPosePosition);
+    mesh.clearBuffer(Type.BindPoseTangent);
+    mesh.generateBindPose(true);
+  }
+  if (debug) {
+    writeColorBuffer(vertices,cols,mesh);
+  }
+  mesh.updateBound();
+  mesh.updateCounts();
+}

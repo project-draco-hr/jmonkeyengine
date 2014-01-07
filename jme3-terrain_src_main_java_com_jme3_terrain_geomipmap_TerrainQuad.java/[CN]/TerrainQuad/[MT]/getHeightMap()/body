@@ -1,0 +1,45 @@
+{
+  float[] hm=null;
+  int length=((size - 1) / 2) + 1;
+  int area=size * size;
+  hm=new float[area];
+  if (getChildren() != null && !getChildren().isEmpty()) {
+    float[] ul=null, ur=null, bl=null, br=null;
+    if (getChild(0) instanceof TerrainPatch) {
+      for (      Spatial s : getChildren()) {
+        if (((TerrainPatch)s).getQuadrant() == 1)         ul=((TerrainPatch)s).getHeightMap();
+ else         if (((TerrainPatch)s).getQuadrant() == 2)         bl=((TerrainPatch)s).getHeightMap();
+ else         if (((TerrainPatch)s).getQuadrant() == 3)         ur=((TerrainPatch)s).getHeightMap();
+ else         if (((TerrainPatch)s).getQuadrant() == 4)         br=((TerrainPatch)s).getHeightMap();
+      }
+    }
+ else {
+      ul=getQuad(1).getHeightMap();
+      bl=getQuad(2).getHeightMap();
+      ur=getQuad(3).getHeightMap();
+      br=getQuad(4).getHeightMap();
+    }
+    for (int y=0; y < length; y++) {
+      for (int x1=0; x1 < length; x1++) {
+        int row=y * size;
+        hm[row + x1]=ul[y * length + x1];
+      }
+      for (int x2=1; x2 < length; x2++) {
+        int row=y * size + length;
+        hm[row + x2 - 1]=ur[y * length + x2];
+      }
+    }
+    int rowOffset=size * length;
+    for (int y=1; y < length; y++) {
+      for (int x1=0; x1 < length; x1++) {
+        int row=(y - 1) * size;
+        hm[rowOffset + row + x1]=bl[y * length + x1];
+      }
+      for (int x2=1; x2 < length; x2++) {
+        int row=(y - 1) * size + length;
+        hm[rowOffset + row + x2 - 1]=br[y * length + x2];
+      }
+    }
+  }
+  return hm;
+}

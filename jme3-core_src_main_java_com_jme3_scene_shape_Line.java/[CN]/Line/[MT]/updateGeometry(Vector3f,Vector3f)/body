@@ -1,0 +1,9 @@
+{
+  this.start=start;
+  this.end=end;
+  setBuffer(Type.Position,3,new float[]{start.x,start.y,start.z,end.x,end.y,end.z});
+  setBuffer(Type.TexCoord,2,new float[]{0,0,1,1});
+  setBuffer(Type.Normal,3,new float[]{0,0,1,0,0,1});
+  setBuffer(Type.Index,2,new short[]{0,1});
+  updateBound();
+}

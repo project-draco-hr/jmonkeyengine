@@ -1,0 +1,53 @@
+{
+  ByteBuffer data=image.getData(layer);
+switch (image.getFormat()) {
+case RGBA8:
+    pixel.fromARGB8(data.get(index + 3),data.get(index),data.get(index + 1),data.get(index + 2));
+  break;
+case ABGR8:
+pixel.fromARGB8(data.get(index),data.get(index + 3),data.get(index + 2),data.get(index + 1));
+break;
+case BGR8:
+pixel.fromARGB8((byte)0xFF,data.get(index + 2),data.get(index + 1),data.get(index));
+break;
+case RGB8:
+pixel.fromARGB8((byte)0xFF,data.get(index),data.get(index + 1),data.get(index + 2));
+break;
+case RGB565:
+pixel.fromARGB8(RGB565.RGB565_to_ARGB8(data.getShort(index)));
+break;
+case RGB5A1:
+short rgb5a1=data.getShort(index);
+byte a=(byte)(rgb5a1 & 0x01);
+int r=(rgb5a1 & 0xf800) >> 11 << 3;
+int g=(rgb5a1 & 0x07c0) >> 6 << 3;
+int b=(rgb5a1 & 0x001f) >> 1 << 3;
+pixel.fromARGB8(a == 1 ? (byte)255 : 0,(byte)r,(byte)g,(byte)b);
+break;
+case RGB16:
+pixel.fromARGB16((short)0xFFFF,data.getShort(index),data.getShort(index + 2),data.getShort(index + 4));
+break;
+case RGBA16:
+pixel.fromARGB16(data.getShort(index + 6),data.getShort(index),data.getShort(index + 2),data.getShort(index + 4));
+break;
+case RGB16F:
+case RGB16F_to_RGB111110F:
+case RGB16F_to_RGB9E5:
+pixel.fromARGB(1,FastMath.convertHalfToFloat(data.getShort(index)),FastMath.convertHalfToFloat(data.getShort(index + 2)),FastMath.convertHalfToFloat(data.getShort(index + 4)));
+break;
+case RGBA16F:
+pixel.fromARGB(FastMath.convertHalfToFloat(data.getShort(index + 6)),FastMath.convertHalfToFloat(data.getShort(index)),FastMath.convertHalfToFloat(data.getShort(index + 2)),FastMath.convertHalfToFloat(data.getShort(index + 4)));
+break;
+case RGBA32F:
+pixel.fromARGB(Float.intBitsToFloat(data.getInt(index + 12)),Float.intBitsToFloat(data.getInt(index)),Float.intBitsToFloat(data.getInt(index + 4)),Float.intBitsToFloat(data.getInt(index + 8)));
+break;
+case RGB111110F:
+pixel.fromARGB(1,(float)Double.longBitsToDouble((long)data.getInt(index) & 0x00000000FFFFFFFF),(float)Double.longBitsToDouble((long)data.getInt(index + 4) & 0x00000000FFFFFFFF),(float)Double.longBitsToDouble((long)data.getInt(index + 8) & 0x00000000FFFFFFFF));
+break;
+case RGB10:
+case RGB9E5:
+throw new IllegalStateException("Not supported image type for IO operations: " + image.getFormat());
+default :
+throw new IllegalStateException("Unknown image format: " + image.getFormat());
+}
+}

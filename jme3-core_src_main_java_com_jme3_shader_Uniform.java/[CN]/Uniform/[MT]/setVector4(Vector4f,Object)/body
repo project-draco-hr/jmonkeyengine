@@ -1,0 +1,17 @@
+{
+  if (value instanceof ColorRGBA) {
+    ColorRGBA color=(ColorRGBA)value;
+    vec.set(color.r,color.g,color.b,color.a);
+  }
+ else   if (value instanceof Quaternion) {
+    Quaternion quat=(Quaternion)value;
+    vec.set(quat.getX(),quat.getY(),quat.getZ(),quat.getW());
+  }
+ else   if (value instanceof Vector4f) {
+    Vector4f vec4=(Vector4f)value;
+    vec.set(vec4);
+  }
+ else {
+    throw new IllegalArgumentException();
+  }
+}

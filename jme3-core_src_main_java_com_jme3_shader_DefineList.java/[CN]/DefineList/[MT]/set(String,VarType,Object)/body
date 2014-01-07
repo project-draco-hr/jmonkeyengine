@@ -1,0 +1,43 @@
+{
+  if (val == null) {
+    defines.remove(key);
+    compiled=null;
+    cachedHashCode=0;
+    return true;
+  }
+switch (type) {
+case Boolean:
+    if (((Boolean)val).booleanValue()) {
+      if (defines.put(key,ONE) != ONE) {
+        compiled=null;
+        cachedHashCode=0;
+        return true;
+      }
+    }
+ else     if (defines.containsKey(key)) {
+      defines.remove(key);
+      compiled=null;
+      cachedHashCode=0;
+      return true;
+    }
+  break;
+case Float:
+case Int:
+String newValue=val.toString();
+String original=defines.put(key,newValue);
+if (!val.equals(original)) {
+compiled=null;
+cachedHashCode=0;
+return true;
+}
+break;
+default :
+if (defines.put(key,ONE) != ONE) {
+compiled=null;
+cachedHashCode=0;
+return true;
+}
+break;
+}
+return false;
+}

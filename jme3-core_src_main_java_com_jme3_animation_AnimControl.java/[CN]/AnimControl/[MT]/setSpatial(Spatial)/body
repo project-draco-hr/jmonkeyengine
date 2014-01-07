@@ -1,0 +1,9 @@
+{
+  if (spatial == null && skeletonControl != null) {
+    this.spatial.removeControl(skeletonControl);
+  }
+  super.setSpatial(spatial);
+  if (spatial != null && skeletonControl != null) {
+    spatial.addControl(skeletonControl);
+  }
+}

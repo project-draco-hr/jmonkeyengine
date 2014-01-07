@@ -1,0 +1,8 @@
+{
+  Object fieldValue=this.getFieldValue("ID");
+  if (fieldValue instanceof Structure) {
+    Structure id=(Structure)fieldValue;
+    return id == null ? null : id.getFieldValue("name").toString().substring(2);
+  }
+  return null;
+}

@@ -1,0 +1,45 @@
+{
+  TempVars vars=TempVars.get();
+  Vector3f left=getLeft(vars.vect1);
+  Vector3f direction=getDirection(vars.vect2);
+  Vector3f up=getUp(vars.vect3);
+  float dirDotLocation=direction.dot(location);
+  Vector3f leftPlaneNormal=worldPlane[LEFT_PLANE].getNormal();
+  leftPlaneNormal.x=left.x * coeffLeft[0];
+  leftPlaneNormal.y=left.y * coeffLeft[0];
+  leftPlaneNormal.z=left.z * coeffLeft[0];
+  leftPlaneNormal.addLocal(direction.x * coeffLeft[1],direction.y * coeffLeft[1],direction.z * coeffLeft[1]);
+  worldPlane[LEFT_PLANE].setConstant(location.dot(leftPlaneNormal));
+  Vector3f rightPlaneNormal=worldPlane[RIGHT_PLANE].getNormal();
+  rightPlaneNormal.x=left.x * coeffRight[0];
+  rightPlaneNormal.y=left.y * coeffRight[0];
+  rightPlaneNormal.z=left.z * coeffRight[0];
+  rightPlaneNormal.addLocal(direction.x * coeffRight[1],direction.y * coeffRight[1],direction.z * coeffRight[1]);
+  worldPlane[RIGHT_PLANE].setConstant(location.dot(rightPlaneNormal));
+  Vector3f bottomPlaneNormal=worldPlane[BOTTOM_PLANE].getNormal();
+  bottomPlaneNormal.x=up.x * coeffBottom[0];
+  bottomPlaneNormal.y=up.y * coeffBottom[0];
+  bottomPlaneNormal.z=up.z * coeffBottom[0];
+  bottomPlaneNormal.addLocal(direction.x * coeffBottom[1],direction.y * coeffBottom[1],direction.z * coeffBottom[1]);
+  worldPlane[BOTTOM_PLANE].setConstant(location.dot(bottomPlaneNormal));
+  Vector3f topPlaneNormal=worldPlane[TOP_PLANE].getNormal();
+  topPlaneNormal.x=up.x * coeffTop[0];
+  topPlaneNormal.y=up.y * coeffTop[0];
+  topPlaneNormal.z=up.z * coeffTop[0];
+  topPlaneNormal.addLocal(direction.x * coeffTop[1],direction.y * coeffTop[1],direction.z * coeffTop[1]);
+  worldPlane[TOP_PLANE].setConstant(location.dot(topPlaneNormal));
+  if (isParallelProjection()) {
+    worldPlane[LEFT_PLANE].setConstant(worldPlane[LEFT_PLANE].getConstant() + frustumLeft);
+    worldPlane[RIGHT_PLANE].setConstant(worldPlane[RIGHT_PLANE].getConstant() - frustumRight);
+    worldPlane[TOP_PLANE].setConstant(worldPlane[TOP_PLANE].getConstant() - frustumTop);
+    worldPlane[BOTTOM_PLANE].setConstant(worldPlane[BOTTOM_PLANE].getConstant() + frustumBottom);
+  }
+  worldPlane[FAR_PLANE].setNormal(left);
+  worldPlane[FAR_PLANE].setNormal(-direction.x,-direction.y,-direction.z);
+  worldPlane[FAR_PLANE].setConstant(-(dirDotLocation + frustumFar));
+  worldPlane[NEAR_PLANE].setNormal(direction.x,direction.y,direction.z);
+  worldPlane[NEAR_PLANE].setConstant(dirDotLocation + frustumNear);
+  viewMatrix.fromFrame(location,direction,up,left);
+  vars.release();
+  updateViewProjection();
+}

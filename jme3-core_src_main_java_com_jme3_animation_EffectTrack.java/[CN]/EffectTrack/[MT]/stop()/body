@@ -1,0 +1,8 @@
+{
+  emitter.setParticlesPerSec(0);
+  emitted=false;
+  if (!killParticles.stopRequested) {
+    emitter.addControl(killParticles);
+    killParticles.stopRequested=true;
+  }
+}

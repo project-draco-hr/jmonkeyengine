@@ -1,0 +1,11 @@
+{
+  collisionShape.calculateLocalInertia(mass,localInertia);
+  if (constructionInfo == null) {
+    constructionInfo=new RigidBodyConstructionInfo(mass,motionState,collisionShape.getCShape(),localInertia);
+  }
+ else {
+    constructionInfo.mass=mass;
+    constructionInfo.collisionShape=collisionShape.getCShape();
+    constructionInfo.motionState=motionState;
+  }
+}

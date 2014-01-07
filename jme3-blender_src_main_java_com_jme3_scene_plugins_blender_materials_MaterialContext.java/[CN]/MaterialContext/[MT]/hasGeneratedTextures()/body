@@ -1,0 +1,10 @@
+{
+  if (loadedTextures != null) {
+    for (    CombinedTexture generatedTextures : loadedTextures) {
+      if (generatedTextures.hasGeneratedTextures()) {
+        return true;
+      }
+    }
+  }
+  return false;
+}

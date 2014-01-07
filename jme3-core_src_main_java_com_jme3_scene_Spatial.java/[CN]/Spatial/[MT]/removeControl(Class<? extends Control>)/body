@@ -1,0 +1,8 @@
+{
+  for (int i=0; i < controls.size(); i++) {
+    if (controlType.isAssignableFrom(controls.get(i).getClass())) {
+      Control control=controls.remove(i);
+      control.setSpatial(null);
+    }
+  }
+}

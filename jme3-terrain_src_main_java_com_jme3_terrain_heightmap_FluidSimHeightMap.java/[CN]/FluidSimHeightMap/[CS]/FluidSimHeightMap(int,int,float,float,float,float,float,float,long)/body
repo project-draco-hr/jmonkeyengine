@@ -1,0 +1,15 @@
+{
+  if (size <= 0 || iterations <= 0 || minInitialHeight >= maxInitialHeight) {
+    throw new Exception("Either size of the terrain is not greater that zero, " + "or number of iterations is not greater that zero, " + "or minimum height greater or equal as the maximum, "+ "or maximum height smaller or equal as the minimum.");
+  }
+  this.size=size;
+  this.seed=seed;
+  this.iterations=iterations;
+  this.minInitialHeight=minInitialHeight;
+  this.maxInitialHeight=maxInitialHeight;
+  this.viscosity=viscosity;
+  this.waveSpeed=waveSpeed;
+  this.timeStep=timestep;
+  this.nodeDistance=nodeDistance;
+  load();
+}

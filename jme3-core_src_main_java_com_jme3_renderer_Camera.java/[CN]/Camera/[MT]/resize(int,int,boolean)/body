@@ -1,0 +1,10 @@
+{
+  this.width=width;
+  this.height=height;
+  onViewPortChange();
+  if (fixAspect) {
+    frustumRight=frustumTop * ((float)width / height);
+    frustumLeft=-frustumRight;
+    onFrustumChange();
+  }
+}

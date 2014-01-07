@@ -1,0 +1,19 @@
+{
+  float[][] retval=new float[3][3];
+  float cax=(float)Math.cos(ax);
+  float sax=(float)Math.sin(ax);
+  float cay=(float)Math.cos(ay);
+  float say=(float)Math.sin(ay);
+  float caz=(float)Math.cos(az);
+  float saz=(float)Math.sin(az);
+  retval[0][0]=cay * caz;
+  retval[0][1]=-cay * saz;
+  retval[0][2]=say;
+  retval[1][0]=sax * say * caz + cax * saz;
+  retval[1][1]=-sax * say * saz + cax * caz;
+  retval[1][2]=-sax * cay;
+  retval[2][0]=-cax * say * caz + sax * saz;
+  retval[2][1]=cax * say * saz + sax * caz;
+  retval[2][2]=cax * cay;
+  return retval;
+}

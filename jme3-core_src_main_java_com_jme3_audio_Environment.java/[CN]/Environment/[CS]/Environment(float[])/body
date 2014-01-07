@@ -1,0 +1,14 @@
+{
+  if (e.length != 28)   throw new IllegalArgumentException("Not an EAX preset");
+  diffusion=e[2];
+  gain=eaxDbToAmp(e[3]);
+  gainHf=eaxDbToAmp(e[4]) / eaxDbToAmp(e[5]);
+  decayTime=e[6];
+  decayHFRatio=e[7] / e[8];
+  reflectGain=eaxDbToAmp(e[9]);
+  reflectDelay=e[10];
+  lateReverbGain=eaxDbToAmp(e[14]);
+  lateReverbDelay=e[15];
+  airAbsorbGainHf=eaxDbToAmp(e[23]);
+  roomRolloffFactor=e[26];
+}

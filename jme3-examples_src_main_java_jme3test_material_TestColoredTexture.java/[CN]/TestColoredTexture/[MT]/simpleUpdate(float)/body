@@ -1,0 +1,11 @@
+{
+  time+=tpf;
+  if (time > 1f) {
+    time-=1f;
+    prevColor=nextColor;
+    nextColor=ColorRGBA.randomColor();
+  }
+  ColorRGBA currentColor=new ColorRGBA();
+  currentColor.interpolate(prevColor,nextColor,time);
+  mat.setColor("Color",currentColor);
+}

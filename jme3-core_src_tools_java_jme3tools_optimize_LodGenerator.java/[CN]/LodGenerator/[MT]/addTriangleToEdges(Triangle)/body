@@ -1,0 +1,22 @@
+{
+  if (bestQuality) {
+    Triangle duplicate=getDuplicate(tri);
+    if (duplicate != null) {
+      if (!tri.isRemoved) {
+        tri.isRemoved=true;
+        indexCount-=3;
+        logger.log(Level.FINE,"duplicate triangle found{0}{1} It will be excluded from Lod level calculations.",new Object[]{tri,duplicate});
+      }
+    }
+  }
+  for (int i=0; i < 3; i++) {
+    tri.vertex[i].triangles.add(tri);
+  }
+  for (int i=0; i < 3; i++) {
+    for (int n=0; n < 3; n++) {
+      if (i != n) {
+        addEdge(tri.vertex[i],new Edge(tri.vertex[n]));
+      }
+    }
+  }
+}

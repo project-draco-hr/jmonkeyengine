@@ -1,0 +1,112 @@
+{
+  Vector3f kDiff=r.getOrigin().subtract(origin);
+  float fA01=-r.getDirection().dot(direction);
+  float fB0=kDiff.dot(r.getDirection());
+  float fB1=-kDiff.dot(direction);
+  float fC=kDiff.lengthSquared();
+  float fDet=FastMath.abs(1.0f - fA01 * fA01);
+  float fS0, fS1, fSqrDist, fExtDet;
+  if (fDet >= FastMath.FLT_EPSILON) {
+    fS0=fA01 * fB1 - fB0;
+    fS1=fA01 * fB0 - fB1;
+    fExtDet=extent * fDet;
+    if (fS0 >= (float)0.0) {
+      if (fS1 >= -fExtDet) {
+        if (fS1 <= fExtDet) {
+          float fInvDet=((float)1.0) / fDet;
+          fS0*=fInvDet;
+          fS1*=fInvDet;
+          fSqrDist=fS0 * (fS0 + fA01 * fS1 + ((float)2.0) * fB0) + fS1 * (fA01 * fS0 + fS1 + ((float)2.0) * fB1) + fC;
+        }
+ else {
+          fS1=extent;
+          fS0=-(fA01 * fS1 + fB0);
+          if (fS0 > (float)0.0) {
+            fSqrDist=-fS0 * fS0 + fS1 * (fS1 + ((float)2.0) * fB1) + fC;
+          }
+ else {
+            fS0=(float)0.0;
+            fSqrDist=fS1 * (fS1 + ((float)2.0) * fB1) + fC;
+          }
+        }
+      }
+ else {
+        fS1=-extent;
+        fS0=-(fA01 * fS1 + fB0);
+        if (fS0 > (float)0.0) {
+          fSqrDist=-fS0 * fS0 + fS1 * (fS1 + ((float)2.0) * fB1) + fC;
+        }
+ else {
+          fS0=(float)0.0;
+          fSqrDist=fS1 * (fS1 + ((float)2.0) * fB1) + fC;
+        }
+      }
+    }
+ else {
+      if (fS1 <= -fExtDet) {
+        fS0=-(-fA01 * extent + fB0);
+        if (fS0 > (float)0.0) {
+          fS1=-extent;
+          fSqrDist=-fS0 * fS0 + fS1 * (fS1 + ((float)2.0) * fB1) + fC;
+        }
+ else {
+          fS0=(float)0.0;
+          fS1=-fB1;
+          if (fS1 < -extent) {
+            fS1=-extent;
+          }
+ else           if (fS1 > extent) {
+            fS1=extent;
+          }
+          fSqrDist=fS1 * (fS1 + ((float)2.0) * fB1) + fC;
+        }
+      }
+ else       if (fS1 <= fExtDet) {
+        fS0=(float)0.0;
+        fS1=-fB1;
+        if (fS1 < -extent) {
+          fS1=-extent;
+        }
+ else         if (fS1 > extent) {
+          fS1=extent;
+        }
+        fSqrDist=fS1 * (fS1 + ((float)2.0) * fB1) + fC;
+      }
+ else {
+        fS0=-(fA01 * extent + fB0);
+        if (fS0 > (float)0.0) {
+          fS1=extent;
+          fSqrDist=-fS0 * fS0 + fS1 * (fS1 + ((float)2.0) * fB1) + fC;
+        }
+ else {
+          fS0=(float)0.0;
+          fS1=-fB1;
+          if (fS1 < -extent) {
+            fS1=-extent;
+          }
+ else           if (fS1 > extent) {
+            fS1=extent;
+          }
+          fSqrDist=fS1 * (fS1 + ((float)2.0) * fB1) + fC;
+        }
+      }
+    }
+  }
+ else {
+    if (fA01 > (float)0.0) {
+      fS1=-extent;
+    }
+ else {
+      fS1=extent;
+    }
+    fS0=-(fA01 * fS1 + fB0);
+    if (fS0 > (float)0.0) {
+      fSqrDist=-fS0 * fS0 + fS1 * (fS1 + ((float)2.0) * fB1) + fC;
+    }
+ else {
+      fS0=(float)0.0;
+      fSqrDist=fS1 * (fS1 + ((float)2.0) * fB1) + fC;
+    }
+  }
+  return FastMath.abs(fSqrDist);
+}

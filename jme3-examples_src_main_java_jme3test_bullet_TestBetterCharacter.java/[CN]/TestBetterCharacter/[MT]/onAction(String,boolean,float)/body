@@ -1,0 +1,71 @@
+{
+  if (binding.equals("Strafe Left")) {
+    if (value) {
+      leftStrafe=true;
+    }
+ else {
+      leftStrafe=false;
+    }
+  }
+ else   if (binding.equals("Strafe Right")) {
+    if (value) {
+      rightStrafe=true;
+    }
+ else {
+      rightStrafe=false;
+    }
+  }
+ else   if (binding.equals("Rotate Left")) {
+    if (value) {
+      leftRotate=true;
+    }
+ else {
+      leftRotate=false;
+    }
+  }
+ else   if (binding.equals("Rotate Right")) {
+    if (value) {
+      rightRotate=true;
+    }
+ else {
+      rightRotate=false;
+    }
+  }
+ else   if (binding.equals("Walk Forward")) {
+    if (value) {
+      forward=true;
+    }
+ else {
+      forward=false;
+    }
+  }
+ else   if (binding.equals("Walk Backward")) {
+    if (value) {
+      backward=true;
+    }
+ else {
+      backward=false;
+    }
+  }
+ else   if (binding.equals("Jump")) {
+    physicsCharacter.jump();
+  }
+ else   if (binding.equals("Duck")) {
+    if (value) {
+      physicsCharacter.setDucked(true);
+    }
+ else {
+      physicsCharacter.setDucked(false);
+    }
+  }
+ else   if (binding.equals("Lock View")) {
+    if (value && lockView) {
+      lockView=false;
+    }
+ else     if (value && !lockView) {
+      lockView=true;
+    }
+    flyCam.setEnabled(!lockView);
+    camNode.setEnabled(lockView);
+  }
+}

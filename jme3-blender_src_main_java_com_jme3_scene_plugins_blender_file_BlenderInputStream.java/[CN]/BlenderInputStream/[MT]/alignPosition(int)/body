@@ -1,0 +1,9 @@
+{
+  if (bytesAmount <= 0) {
+    throw new IllegalArgumentException("Alignment byte number shoulf be positivbe!");
+  }
+  long move=position % bytesAmount;
+  if (move > 0) {
+    position+=bytesAmount - move;
+  }
+}

@@ -1,0 +1,10 @@
+{
+  Node ret=current.getNextSibling();
+  while (ret != null) {
+    if (ret instanceof Element) {
+      return (Element)ret;
+    }
+    ret=ret.getNextSibling();
+  }
+  return null;
+}

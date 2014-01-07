@@ -1,0 +1,11 @@
+{
+  if (store == null) {
+    store=new Vector3f();
+  }
+  float w=viewProjectionMatrix.multProj(worldPosition,store);
+  store.divideLocal(w);
+  store.x=((store.x + 1f) * (viewPortRight - viewPortLeft) / 2f + viewPortLeft) * getWidth();
+  store.y=((store.y + 1f) * (viewPortTop - viewPortBottom) / 2f + viewPortBottom) * getHeight();
+  store.z=(store.z + 1f) / 2f;
+  return store;
+}

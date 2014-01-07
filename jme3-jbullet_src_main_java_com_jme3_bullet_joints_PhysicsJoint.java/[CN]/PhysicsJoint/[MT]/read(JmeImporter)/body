@@ -1,0 +1,7 @@
+{
+  InputCapsule capsule=im.getCapsule(this);
+  this.nodeA=((PhysicsRigidBody)capsule.readSavable("nodeA",new PhysicsRigidBody()));
+  this.nodeB=(PhysicsRigidBody)capsule.readSavable("nodeB",new PhysicsRigidBody());
+  this.pivotA=(Vector3f)capsule.readSavable("pivotA",new Vector3f());
+  this.pivotB=(Vector3f)capsule.readSavable("pivotB",new Vector3f());
+}

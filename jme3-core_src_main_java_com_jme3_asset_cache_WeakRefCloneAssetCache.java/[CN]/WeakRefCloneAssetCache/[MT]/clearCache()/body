@@ -1,0 +1,7 @@
+{
+  ArrayList<AssetKey> loadStack=assetLoadStack.get();
+  if (!loadStack.isEmpty()) {
+    throw new UnsupportedOperationException("Cache cannot be modified" + "while assets are being loaded");
+  }
+  smartCache.clear();
+}

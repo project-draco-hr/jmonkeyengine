@@ -1,0 +1,9 @@
+{
+  if (id != -1)   throw new UnsupportedOperationException("FrameBuffer already initialized.");
+  if (format.isDepthFormat())   throw new IllegalArgumentException("Color buffer format must be color/luminance.");
+  RenderBuffer colorBuf=new RenderBuffer();
+  colorBuf.slot=0;
+  colorBuf.format=format;
+  colorBufs.clear();
+  colorBufs.add(colorBuf);
+}

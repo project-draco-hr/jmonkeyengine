@@ -1,0 +1,11 @@
+{
+  if (buff == null) {
+    return null;
+  }
+  buff.clear();
+  float[] inds=new float[buff.limit()];
+  for (int x=0; x < inds.length; x++) {
+    inds[x]=buff.get();
+  }
+  return inds;
+}

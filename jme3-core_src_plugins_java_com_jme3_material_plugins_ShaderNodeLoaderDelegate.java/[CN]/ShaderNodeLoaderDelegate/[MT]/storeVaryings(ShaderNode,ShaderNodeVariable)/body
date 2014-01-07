@@ -1,0 +1,17 @@
+{
+  variable.setShaderOutput(true);
+  if (node.getDefinition().getType() == Shader.ShaderType.Vertex && shaderNode.getDefinition().getType() == Shader.ShaderType.Fragment) {
+    DeclaredVariable dv=varyings.get(variable.getName());
+    if (dv == null) {
+      techniqueDef.getShaderGenerationInfo().getVaryings().add(variable);
+      dv=new DeclaredVariable(variable);
+      varyings.put(variable.getName(),dv);
+    }
+    dv.addNode(shaderNode);
+    for (    VariableMapping variableMapping : node.getInputMapping()) {
+      if (variableMapping.getLeftVariable().getName().equals(variable.getName())) {
+        variableMapping.getLeftVariable().setShaderOutput(true);
+      }
+    }
+  }
+}

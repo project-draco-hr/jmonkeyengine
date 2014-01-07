@@ -1,0 +1,19 @@
+{
+  String publicId=docType.getPublicId();
+  String internalSubset=docType.getInternalSubset();
+  for (int i=0; i < depth; ++i) {
+    writer.append(' ');
+  }
+  writer.append("<!DOCTYPE ").append(docType.getName());
+  if (publicId != null) {
+    writer.append(" PUBLIC '").append(publicId).append("' ");
+  }
+ else {
+    writer.write(" SYSTEM ");
+  }
+  writer.append("'").append(docType.getSystemId()).append("'");
+  if (internalSubset != null) {
+    writer.append(" [").append(internalSubset).append("]");
+  }
+  writer.append('>').append(lineSeparator);
+}

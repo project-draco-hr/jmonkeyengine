@@ -1,0 +1,8 @@
+{
+  super.read(e);
+  InputCapsule capsule=e.getCapsule(this);
+  orient=(Matrix3f)capsule.readSavable("orient",null);
+  look=(Vector3f)capsule.readSavable("look",null);
+  left=(Vector3f)capsule.readSavable("left",null);
+  alignment=capsule.readEnum("alignment",Alignment.class,Alignment.Screen);
+}

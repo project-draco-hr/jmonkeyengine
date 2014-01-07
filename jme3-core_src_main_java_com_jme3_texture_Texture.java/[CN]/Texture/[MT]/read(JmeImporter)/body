@@ -1,0 +1,24 @@
+{
+  InputCapsule capsule=e.getCapsule(this);
+  name=capsule.readString("name",null);
+  key=(TextureKey)capsule.readSavable("key",null);
+  if (key != null) {
+    try {
+      Texture loadedTex=e.getAssetManager().loadTexture(key);
+      image=loadedTex.getImage();
+    }
+ catch (    AssetNotFoundException ex) {
+      Logger.getLogger(Texture.class.getName()).log(Level.SEVERE,"Cannot locate texture {0}",key);
+      image=PlaceholderAssets.getPlaceholderImage();
+    }
+  }
+ else {
+    image=(Image)capsule.readSavable("image",null);
+    if (image == null) {
+      Logger.getLogger(Texture.class.getName()).log(Level.SEVERE,"Cannot load embedded image {0}",toString());
+    }
+  }
+  anisotropicFilter=capsule.readInt("anisotropicFilter",1);
+  minificationFilter=capsule.readEnum("minificationFilter",MinFilter.class,MinFilter.BilinearNoMipMaps);
+  magnificationFilter=capsule.readEnum("magnificationFilter",MagFilter.class,MagFilter.Bilinear);
+}

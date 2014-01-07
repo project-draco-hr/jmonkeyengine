@@ -1,0 +1,16 @@
+{
+  if (data == null) {
+    return null;
+  }
+  FloatBuffer buff=createFloatBuffer(4 * data.length);
+  for (  Quaternion element : data) {
+    if (element != null) {
+      buff.put(element.getX()).put(element.getY()).put(element.getZ()).put(element.getW());
+    }
+ else {
+      buff.put(0).put(0).put(0).put(0);
+    }
+  }
+  buff.flip();
+  return buff;
+}

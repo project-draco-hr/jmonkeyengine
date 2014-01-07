@@ -1,0 +1,27 @@
+{
+  HashMap<PhysicsRigidBody,Spatial> oldObjects=bodies;
+  bodies=new HashMap<PhysicsRigidBody,Spatial>();
+  Collection<PhysicsRigidBody> current=space.getRigidBodyList();
+  for (Iterator<PhysicsRigidBody> it=current.iterator(); it.hasNext(); ) {
+    PhysicsRigidBody physicsObject=it.next();
+    if (oldObjects.containsKey(physicsObject)) {
+      Spatial spat=oldObjects.get(physicsObject);
+      bodies.put(physicsObject,spat);
+      oldObjects.remove(physicsObject);
+    }
+ else {
+      if (filter == null || filter.displayObject(physicsObject)) {
+        logger.log(Level.FINE,"Create new debug RigidBody");
+        Node node=new Node(physicsObject.toString());
+        node.addControl(new BulletRigidBodyDebugControl(this,physicsObject));
+        bodies.put(physicsObject,node);
+        physicsDebugRootNode.attachChild(node);
+      }
+    }
+  }
+  for (  Map.Entry<PhysicsRigidBody,Spatial> entry : oldObjects.entrySet()) {
+    PhysicsRigidBody object=entry.getKey();
+    Spatial spatial=entry.getValue();
+    spatial.removeFromParent();
+  }
+}

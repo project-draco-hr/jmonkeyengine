@@ -1,0 +1,28 @@
+{
+  original=charSeq;
+  colors.clear();
+  if (charSeq == null) {
+    return;
+  }
+  Matcher m=colorPattern.matcher(charSeq);
+  if (m.find()) {
+    StringBuilder builder=new StringBuilder(charSeq.length() - 7);
+    int startIndex=0;
+    do {
+      String colorStr=null;
+      for (int i=1; i <= 4 && colorStr == null; i++) {
+        colorStr=m.group(i);
+      }
+      builder.append(charSeq.subSequence(startIndex,m.start()));
+      Range range=new Range(builder.length(),colorStr);
+      startIndex=m.end();
+      colors.add(range);
+    }
+ while (m.find());
+    builder.append(charSeq.subSequence(startIndex,charSeq.length()));
+    text=builder.toString();
+  }
+ else {
+    text=charSeq;
+  }
+}

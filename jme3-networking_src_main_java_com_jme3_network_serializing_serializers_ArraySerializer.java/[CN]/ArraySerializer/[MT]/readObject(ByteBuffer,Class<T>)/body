@@ -1,0 +1,13 @@
+{
+  byte dimensionCount=data.get();
+  if (dimensionCount == 0)   return null;
+  int[] dimensions=new int[dimensionCount];
+  for (int i=0; i < dimensionCount; i++)   dimensions[i]=data.getInt();
+  Serializer elementSerializer=null;
+  Class elementClass=c;
+  while (elementClass.getComponentType() != null)   elementClass=elementClass.getComponentType();
+  if (Modifier.isFinal(elementClass.getModifiers()))   elementSerializer=Serializer.getSerializer(elementClass);
+  T array=(T)Array.newInstance(elementClass,dimensions);
+  readArray(elementSerializer,elementClass,data,array,0,dimensions);
+  return array;
+}

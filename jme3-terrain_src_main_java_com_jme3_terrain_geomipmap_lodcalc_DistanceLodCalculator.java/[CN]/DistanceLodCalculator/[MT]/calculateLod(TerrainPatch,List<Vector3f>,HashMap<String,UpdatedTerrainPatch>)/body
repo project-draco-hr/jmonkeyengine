@@ -1,0 +1,33 @@
+{
+  if (locations == null || locations.isEmpty())   return false;
+  float distance=getCenterLocation(terrainPatch).distance(locations.get(0));
+  if (turnOffLod) {
+    int prevLOD=terrainPatch.getLod();
+    UpdatedTerrainPatch utp=updates.get(terrainPatch.getName());
+    if (utp == null) {
+      utp=new UpdatedTerrainPatch(terrainPatch);
+      updates.put(utp.getName(),utp);
+    }
+    utp.setNewLod(0);
+    utp.setPreviousLod(prevLOD);
+    return true;
+  }
+  for (int i=0; i <= terrainPatch.getMaxLod(); i++) {
+    if (distance < getLodDistanceThreshold() * (i + 1) * terrainPatch.getWorldScaleCached().x || i == terrainPatch.getMaxLod()) {
+      boolean reIndexNeeded=false;
+      if (i != terrainPatch.getLod()) {
+        reIndexNeeded=true;
+      }
+      int prevLOD=terrainPatch.getLod();
+      UpdatedTerrainPatch utp=updates.get(terrainPatch.getName());
+      if (utp == null) {
+        utp=new UpdatedTerrainPatch(terrainPatch);
+        updates.put(utp.getName(),utp);
+      }
+      utp.setNewLod(i);
+      utp.setPreviousLod(prevLOD);
+      return reIndexNeeded;
+    }
+  }
+  return false;
+}

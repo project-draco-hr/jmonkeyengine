@@ -1,0 +1,10 @@
+{
+  if (audioSource.getStatus() != AudioSource.Status.Playing) {
+    audioRenderer.deleteAudioData(audioSource.getAudioData());
+    System.out.println("Playing with low pass filter");
+    audioSource=new AudioNode(assetManager,"Sound/Effects/Foot steps.ogg",true);
+    audioSource.setDryFilter(new LowPassFilter(1f,.1f));
+    audioSource.setVolume(3);
+    audioSource.play();
+  }
+}

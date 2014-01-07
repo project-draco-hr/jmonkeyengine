@@ -1,0 +1,25 @@
+{
+  targetModel=model;
+  Node parent=model.getParent();
+  Vector3f initPosition=model.getLocalTranslation().clone();
+  Quaternion initRotation=model.getLocalRotation().clone();
+  initScale=model.getLocalScale().clone();
+  model.removeFromParent();
+  model.setLocalTranslation(Vector3f.ZERO);
+  model.setLocalRotation(Quaternion.IDENTITY);
+  model.setLocalScale(1);
+  SkeletonControl sc=model.getControl(SkeletonControl.class);
+  model.removeControl(sc);
+  model.addControl(sc);
+  scanSpatial(model);
+  if (parent != null) {
+    parent.attachChild(model);
+  }
+  model.setLocalTranslation(initPosition);
+  model.setLocalRotation(initRotation);
+  model.setLocalScale(initScale);
+  if (added) {
+    addPhysics(space);
+  }
+  logger.log(Level.FINE,"Created physics ragdoll for skeleton {0}",skeleton);
+}

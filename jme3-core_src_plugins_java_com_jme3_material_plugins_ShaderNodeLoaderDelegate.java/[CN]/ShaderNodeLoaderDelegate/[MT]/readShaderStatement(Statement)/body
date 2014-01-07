@@ -1,0 +1,12 @@
+{
+  String[] split=statement.getLine().split(":");
+  if (split.length != 2) {
+    throw new MatParseException("Shader statement syntax incorrect",statement);
+  }
+  String[] typeAndLang=split[0].split("\\p{javaWhitespace}+");
+  if (typeAndLang.length != 2) {
+    throw new MatParseException("Shader statement syntax incorrect",statement);
+  }
+  shaderName=split[1].trim();
+  shaderLanguage=typeAndLang[1];
+}

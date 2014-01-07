@@ -1,0 +1,8 @@
+{
+  Map<Integer,Transform> result=new HashMap<Integer,Transform>();
+  for (int i=0; i < skeleton.getBoneCount(); ++i) {
+    Bone bone=skeleton.getBone(i);
+    result.put(i,new Transform(bone.getLocalPosition(),bone.getLocalRotation(),bone.getLocalScale()));
+  }
+  return result;
+}

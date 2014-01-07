@@ -1,0 +1,11 @@
+{
+  if (buffer != null)   return buffer;
+  if (backingArray == null) {
+    buffer=new ArrayList();
+  }
+ else {
+    buffer=new ArrayList(Arrays.asList(backingArray));
+    backingArray=null;
+  }
+  return buffer;
+}

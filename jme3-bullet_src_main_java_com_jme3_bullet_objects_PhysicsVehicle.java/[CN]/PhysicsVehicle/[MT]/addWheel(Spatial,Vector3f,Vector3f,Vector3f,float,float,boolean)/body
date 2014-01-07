@@ -1,0 +1,20 @@
+{
+  VehicleWheel wheel=null;
+  if (spat == null) {
+    wheel=new VehicleWheel(connectionPoint,direction,axle,suspensionRestLength,wheelRadius,isFrontWheel);
+  }
+ else {
+    wheel=new VehicleWheel(spat,connectionPoint,direction,axle,suspensionRestLength,wheelRadius,isFrontWheel);
+  }
+  wheel.setFrictionSlip(tuning.frictionSlip);
+  wheel.setMaxSuspensionTravelCm(tuning.maxSuspensionTravelCm);
+  wheel.setSuspensionStiffness(tuning.suspensionStiffness);
+  wheel.setWheelsDampingCompression(tuning.suspensionCompression);
+  wheel.setWheelsDampingRelaxation(tuning.suspensionDamping);
+  wheel.setMaxSuspensionForce(tuning.maxSuspensionForce);
+  wheels.add(wheel);
+  if (vehicleId != 0) {
+    wheel.setVehicleId(vehicleId,addWheel(vehicleId,wheel.getLocation(),wheel.getDirection(),wheel.getAxle(),wheel.getRestLength(),wheel.getRadius(),tuning,wheel.isFrontWheel()));
+  }
+  return wheel;
+}

@@ -1,0 +1,11 @@
+{
+  FileInputStream fis=new FileInputStream(f);
+  try {
+    return load(fis,listener);
+  }
+  finally {
+    if (fis != null) {
+      fis.close();
+    }
+  }
+}

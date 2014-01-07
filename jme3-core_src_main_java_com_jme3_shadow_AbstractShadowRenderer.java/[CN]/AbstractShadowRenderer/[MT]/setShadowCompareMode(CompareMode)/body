@@ -1,0 +1,25 @@
+{
+  if (compareMode == null) {
+    throw new IllegalArgumentException("Shadow compare mode cannot be null");
+  }
+  this.shadowCompareMode=compareMode;
+  for (  Texture2D shadowMap : shadowMaps) {
+    if (compareMode == CompareMode.Hardware) {
+      shadowMap.setShadowCompareMode(ShadowCompareMode.LessOrEqual);
+      if (edgeFilteringMode == EdgeFilteringMode.Bilinear) {
+        shadowMap.setMagFilter(MagFilter.Bilinear);
+        shadowMap.setMinFilter(MinFilter.BilinearNoMipMaps);
+      }
+ else {
+        shadowMap.setMagFilter(MagFilter.Nearest);
+        shadowMap.setMinFilter(MinFilter.NearestNoMipMaps);
+      }
+    }
+ else {
+      shadowMap.setShadowCompareMode(ShadowCompareMode.Off);
+      shadowMap.setMagFilter(MagFilter.Nearest);
+      shadowMap.setMinFilter(MinFilter.NearestNoMipMaps);
+    }
+  }
+  postshadowMat.setBoolean("HardwareShadows",compareMode == CompareMode.Hardware);
+}

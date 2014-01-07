@@ -1,0 +1,32 @@
+{
+  byteBuf.clear();
+  rm.getRenderer().readFrameBuffer(fb,byteBuf);
+  Screenshots.convertScreenShot2(intBuf,img);
+synchronized (lock) {
+    if (strategy == null) {
+      try {
+        createBufferStrategy(1,new BufferCapabilities(new ImageCapabilities(true),new ImageCapabilities(true),BufferCapabilities.FlipContents.UNDEFINED));
+      }
+ catch (      AWTException ex) {
+        ex.printStackTrace();
+      }
+      strategy=getBufferStrategy();
+      System.out.println("OGL: Visible. Create strategy.");
+    }
+    do {
+      do {
+        Graphics2D g2d=(Graphics2D)strategy.getDrawGraphics();
+        if (g2d == null) {
+          System.out.println("OGL: DrawGraphics was null.");
+          return;
+        }
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_SPEED);
+        g2d.drawImage(img,transformOp,0,0);
+        g2d.dispose();
+        strategy.show();
+      }
+ while (strategy.contentsRestored());
+    }
+ while (strategy.contentsLost());
+  }
+}

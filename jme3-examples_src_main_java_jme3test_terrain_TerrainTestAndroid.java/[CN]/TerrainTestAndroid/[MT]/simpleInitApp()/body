@@ -1,0 +1,43 @@
+{
+  setupKeys();
+  matRock=new Material(assetManager,"Common/MatDefs/Terrain/Terrain.j3md");
+  matRock.setBoolean("useTriPlanarMapping",false);
+  matRock.setTexture("Alpha",assetManager.loadTexture("Textures/Terrain/splat/alphamap.png"));
+  Texture heightMapImage=assetManager.loadTexture("Textures/Terrain/splat/mountains128.png");
+  Texture grass=assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
+  grass.setWrap(WrapMode.Repeat);
+  matRock.setTexture("Tex1",grass);
+  matRock.setFloat("Tex1Scale",grassScale);
+  Texture dirt=assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
+  dirt.setWrap(WrapMode.Repeat);
+  matRock.setTexture("Tex2",dirt);
+  matRock.setFloat("Tex2Scale",dirtScale);
+  Texture rock=assetManager.loadTexture("Textures/Terrain/splat/road.jpg");
+  rock.setWrap(WrapMode.Repeat);
+  matRock.setTexture("Tex3",rock);
+  matRock.setFloat("Tex3Scale",rockScale);
+  matWire=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  matWire.getAdditionalRenderState().setWireframe(true);
+  matWire.setColor("Color",ColorRGBA.Green);
+  AbstractHeightMap heightmap=null;
+  try {
+    heightmap=new ImageBasedHeightMap(heightMapImage.getImage(),1f);
+    heightmap.load();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  terrain=new TerrainQuad("terrain",33,129,heightmap.getHeightMap());
+  TerrainLodControl control=new TerrainLodControl(terrain,getCamera());
+  control.setLodCalculator(new DistanceLodCalculator(33,2.7f));
+  terrain.addControl(control);
+  terrain.setMaterial(matRock);
+  terrain.setLocalTranslation(0,-100,0);
+  terrain.setLocalScale(8f,0.5f,8f);
+  rootNode.attachChild(terrain);
+  DirectionalLight light=new DirectionalLight();
+  light.setDirection((new Vector3f(-0.5f,-1f,-0.5f)).normalize());
+  rootNode.addLight(light);
+  cam.setLocation(new Vector3f(0,10,-10));
+  cam.lookAtDirection(new Vector3f(0,-1.5f,-1).normalizeLocal(),Vector3f.UNIT_Y);
+}

@@ -1,0 +1,9 @@
+{
+  this.display=display;
+  this.batchPool=new ObjectPool<Batch>(2,new Factory<Batch>(){
+    @Override public Batch createNew(){
+      return new Batch();
+    }
+  }
+);
+}

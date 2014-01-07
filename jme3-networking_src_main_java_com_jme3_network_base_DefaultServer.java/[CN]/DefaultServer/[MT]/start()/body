@@ -1,0 +1,10 @@
+{
+  if (isRunning)   throw new IllegalStateException("Server is already started.");
+  for (  KernelAdapter ka : channels) {
+    ka.initialize();
+  }
+  for (  KernelAdapter ka : channels) {
+    ka.start();
+  }
+  isRunning=true;
+}

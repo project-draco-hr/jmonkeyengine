@@ -1,0 +1,32 @@
+{
+  InputCapsule ic=im.getCapsule(this);
+  components=ic.readInt("components",0);
+  usage=ic.readEnum("usage",Usage.class,Usage.Dynamic);
+  bufType=ic.readEnum("buffer_type",Type.class,null);
+  format=ic.readEnum("format",Format.class,Format.Float);
+  normalized=ic.readBoolean("normalized",false);
+  offset=ic.readInt("offset",0);
+  stride=ic.readInt("stride",0);
+  componentsLength=components * format.getComponentSize();
+  String dataName="data" + format.name();
+switch (format) {
+case Float:
+    data=ic.readFloatBuffer(dataName,null);
+  break;
+case Short:
+case UnsignedShort:
+data=ic.readShortBuffer(dataName,null);
+break;
+case UnsignedByte:
+case Byte:
+case Half:
+data=ic.readByteBuffer(dataName,null);
+break;
+case Int:
+case UnsignedInt:
+data=ic.readIntBuffer(dataName,null);
+break;
+default :
+throw new IOException("Unsupported import buffer format: " + format);
+}
+}

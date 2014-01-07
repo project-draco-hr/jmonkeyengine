@@ -1,0 +1,8 @@
+{
+  Spatial spatial=assetChildren.get(key);
+  if (spatial != null) {
+    detachChild(spatial);
+  }
+  removeLinkedChild(key);
+  assetChildren.remove(key);
+}

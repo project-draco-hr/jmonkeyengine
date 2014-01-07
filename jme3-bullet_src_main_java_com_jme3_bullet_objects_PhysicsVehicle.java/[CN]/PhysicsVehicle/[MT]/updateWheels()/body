@@ -1,0 +1,8 @@
+{
+  if (vehicleId != 0) {
+    for (int i=0; i < wheels.size(); i++) {
+      updateWheelTransform(vehicleId,i,true);
+      wheels.get(i).updatePhysicsState();
+    }
+  }
+}

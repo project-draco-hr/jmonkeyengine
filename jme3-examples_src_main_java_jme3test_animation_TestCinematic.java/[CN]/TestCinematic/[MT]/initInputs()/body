@@ -1,0 +1,32 @@
+{
+  inputManager.addMapping("togglePause",new KeyTrigger(keyInput.KEY_RETURN));
+  inputManager.addMapping("navFwd",new KeyTrigger(keyInput.KEY_RIGHT));
+  inputManager.addMapping("navBack",new KeyTrigger(keyInput.KEY_LEFT));
+  ActionListener acl=new ActionListener(){
+    public void onAction(    String name,    boolean keyPressed,    float tpf){
+      if (name.equals("togglePause") && keyPressed) {
+        if (cinematic.getPlayState() == PlayState.Playing) {
+          cinematic.pause();
+          time=cinematic.getTime();
+        }
+ else {
+          cinematic.play();
+        }
+      }
+      if (cinematic.getPlayState() != PlayState.Playing) {
+        if (name.equals("navFwd") && keyPressed) {
+          time+=0.25;
+          FastMath.clamp(time,0,cinematic.getInitialDuration());
+          cinematic.setTime(time);
+        }
+        if (name.equals("navBack") && keyPressed) {
+          time-=0.25;
+          FastMath.clamp(time,0,cinematic.getInitialDuration());
+          cinematic.setTime(time);
+        }
+      }
+    }
+  }
+;
+  inputManager.addListener(acl,"togglePause","navFwd","navBack");
+}

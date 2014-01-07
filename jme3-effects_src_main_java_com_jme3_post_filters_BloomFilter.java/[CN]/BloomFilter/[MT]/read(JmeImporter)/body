@@ -1,0 +1,10 @@
+{
+  super.read(im);
+  InputCapsule ic=im.getCapsule(this);
+  glowMode=ic.readEnum("glowMode",GlowMode.class,GlowMode.Scene);
+  blurScale=ic.readFloat("blurScale",1.5f);
+  exposurePower=ic.readFloat("exposurePower",5.0f);
+  exposureCutOff=ic.readFloat("exposureCutOff",0.0f);
+  bloomIntensity=ic.readFloat("bloomIntensity",2.0f);
+  downSamplingFactor=ic.readFloat("downSamplingFactor",1);
+}

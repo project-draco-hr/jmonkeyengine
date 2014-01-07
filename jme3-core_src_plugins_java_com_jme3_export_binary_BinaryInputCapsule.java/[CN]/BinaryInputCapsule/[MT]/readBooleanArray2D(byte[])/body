@@ -1,0 +1,7 @@
+{
+  int length=readInt(content);
+  if (length == BinaryOutputCapsule.NULL_OBJECT)   return null;
+  boolean[][] value=new boolean[length][];
+  for (int x=0; x < length; x++)   value[x]=readBooleanArray(content);
+  return value;
+}

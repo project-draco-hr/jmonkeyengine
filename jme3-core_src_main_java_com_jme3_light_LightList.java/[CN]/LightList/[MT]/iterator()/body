@@ -1,0 +1,16 @@
+{
+  return new Iterator<Light>(){
+    int index=0;
+    public boolean hasNext(){
+      return index < size();
+    }
+    public Light next(){
+      if (!hasNext())       throw new NoSuchElementException();
+      return list[index++];
+    }
+    public void remove(){
+      LightList.this.remove(--index);
+    }
+  }
+;
+}

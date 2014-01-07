@@ -1,0 +1,31 @@
+{
+  if (needClose.get()) {
+    deinitInThread();
+    return;
+  }
+  if (!renderable.get()) {
+    if (created.get()) {
+      logger.fine("GL Surface is setup, initializing application");
+      listener.initialize();
+      renderable.set(true);
+    }
+  }
+ else {
+    if (!created.get()) {
+      throw new IllegalStateException("onDrawFrame without create");
+    }
+    long milliStart=System.currentTimeMillis();
+    listener.update();
+    if (autoFlush) {
+      renderer.onFrame();
+    }
+    long milliDelta=System.currentTimeMillis() - milliStart;
+    if (milliDelta < minFrameDuration) {
+      try {
+        Thread.sleep(minFrameDuration - milliDelta);
+      }
+ catch (      InterruptedException e) {
+      }
+    }
+  }
+}

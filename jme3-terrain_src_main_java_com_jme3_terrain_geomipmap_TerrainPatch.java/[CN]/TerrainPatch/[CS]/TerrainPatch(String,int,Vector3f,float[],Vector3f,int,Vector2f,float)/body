@@ -1,0 +1,13 @@
+{
+  super(name);
+  setBatchHint(BatchHint.Never);
+  this.size=size;
+  this.stepScale=stepScale;
+  this.totalSize=totalSize;
+  this.offsetAmount=offsetAmount;
+  this.offset=offset;
+  setLocalTranslation(origin);
+  geomap=new LODGeomap(size,heightMap);
+  Mesh m=geomap.createMesh(stepScale,new Vector2f(1,1),offset,offsetAmount,totalSize,false);
+  setMesh(m);
+}

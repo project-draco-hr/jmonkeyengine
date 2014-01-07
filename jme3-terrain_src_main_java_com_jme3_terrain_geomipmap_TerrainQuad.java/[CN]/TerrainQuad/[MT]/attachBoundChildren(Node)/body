@@ -1,0 +1,17 @@
+{
+  for (int i=0; i < this.getQuantity(); i++) {
+    if (this.getChild(i) instanceof TerrainQuad) {
+      ((TerrainQuad)getChild(i)).attachBoundChildren(parent);
+    }
+ else     if (this.getChild(i) instanceof TerrainPatch) {
+      BoundingVolume bv=getChild(i).getWorldBound();
+      if (bv instanceof BoundingBox) {
+        attachBoundingBox((BoundingBox)bv,parent);
+      }
+    }
+  }
+  BoundingVolume bv=getWorldBound();
+  if (bv instanceof BoundingBox) {
+    attachBoundingBox((BoundingBox)bv,parent);
+  }
+}

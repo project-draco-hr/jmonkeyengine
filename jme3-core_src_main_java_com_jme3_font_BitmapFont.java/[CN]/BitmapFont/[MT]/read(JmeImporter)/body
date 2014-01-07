@@ -1,0 +1,7 @@
+{
+  InputCapsule ic=im.getCapsule(this);
+  charSet=(BitmapCharacterSet)ic.readSavable("charSet",null);
+  Savable[] pagesSavable=ic.readSavableArray("pages",null);
+  pages=new Material[pagesSavable.length];
+  System.arraycopy(pagesSavable,0,pages,0,pages.length);
+}

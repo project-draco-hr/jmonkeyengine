@@ -1,0 +1,22 @@
+{
+  ComboMoveState currentState=moveDef.getState(state);
+  if (isStateSatisfied(pressedMappings,time,currentState)) {
+    state++;
+    moveTime=time;
+    if (state >= moveDef.getNumStates()) {
+      finalState=false;
+      state=0;
+      moveTime=time + 0.5f;
+      debugString+=", -CASTING " + moveDef.getMoveName().toUpperCase() + "-";
+      return true;
+    }
+    if (currentState.getPressedMappings().length > 0) {
+      if (!debugString.equals(""))       debugString+=", ";
+      debugString+=Arrays.toString(currentState.getPressedMappings()).replace(", ","+");
+    }
+    if (moveDef.useFinalState() && state == moveDef.getNumStates() - 1) {
+      finalState=true;
+    }
+  }
+  return false;
+}

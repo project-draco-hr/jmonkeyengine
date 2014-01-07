@@ -1,0 +1,14 @@
+{
+  boolean needAttach;
+  if (rb.getTexture() == null) {
+    needAttach=rb.getId() == -1;
+    updateRenderBuffer(fb,rb);
+  }
+ else {
+    needAttach=false;
+    updateRenderTexture(fb,rb);
+  }
+  if (needAttach) {
+    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,convertAttachmentSlot(rb.getSlot()),GL_RENDERBUFFER_EXT,rb.getId());
+  }
+}

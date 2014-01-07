@@ -1,0 +1,17 @@
+{
+  if (shader.getId() == -1) {
+    logger.warning("Shader is not uploaded to GPU, cannot delete.");
+    return;
+  }
+  for (  ShaderSource source : shader.getSources()) {
+    if (source.getId() != -1) {
+      GLES20.glDetachShader(shader.getId(),source.getId());
+      RendererUtil.checkGLError();
+      deleteShaderSource(source);
+    }
+  }
+  GLES20.glDeleteProgram(shader.getId());
+  RendererUtil.checkGLError();
+  statistics.onDeleteShader();
+  shader.resetObject();
+}

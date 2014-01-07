@@ -1,0 +1,24 @@
+{
+  if (cursorMoved) {
+    int newX=location.x;
+    int newY=location.y;
+    int newWheel=wheelPos;
+    int actualX=lastKnownLocation.x;
+    int actualY=component.getHeight() - lastKnownLocation.y;
+    MouseMotionEvent evt=new MouseMotionEvent(actualX,actualY,newX - lastEventX,lastEventY - newY,wheelPos,lastEventWheel - wheelPos);
+    listener.onMouseMotionEvent(evt);
+    lastEventX=newX;
+    lastEventY=newY;
+    lastEventWheel=newWheel;
+    cursorMoved=false;
+  }
+synchronized (eventQueue) {
+    eventQueueCopy.clear();
+    eventQueueCopy.addAll(eventQueue);
+    eventQueue.clear();
+  }
+  int size=eventQueueCopy.size();
+  for (int i=0; i < size; i++) {
+    listener.onMouseButtonEvent(eventQueueCopy.get(i));
+  }
+}

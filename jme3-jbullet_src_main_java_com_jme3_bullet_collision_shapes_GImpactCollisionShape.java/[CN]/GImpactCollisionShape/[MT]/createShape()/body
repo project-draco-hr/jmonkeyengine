@@ -1,0 +1,16 @@
+{
+  bulletMesh=new IndexedMesh();
+  bulletMesh.numVertices=numVertices;
+  bulletMesh.numTriangles=numTriangles;
+  bulletMesh.vertexStride=vertexStride;
+  bulletMesh.triangleIndexStride=triangleIndexStride;
+  bulletMesh.triangleIndexBase=triangleIndexBase;
+  bulletMesh.vertexBase=vertexBase;
+  bulletMesh.triangleIndexBase=triangleIndexBase;
+  TriangleIndexVertexArray tiv=new TriangleIndexVertexArray(numTriangles,triangleIndexBase,triangleIndexStride,numVertices,vertexBase,vertexStride);
+  cShape=new GImpactMeshShape(tiv);
+  cShape.setLocalScaling(Converter.convert(worldScale));
+  ((GImpactMeshShape)cShape).updateBound();
+  cShape.setLocalScaling(Converter.convert(getScale()));
+  cShape.setMargin(margin);
+}

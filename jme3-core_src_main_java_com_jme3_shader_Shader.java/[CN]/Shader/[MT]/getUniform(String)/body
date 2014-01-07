@@ -1,0 +1,9 @@
+{
+  Uniform uniform=uniforms.get(name);
+  if (uniform == null) {
+    uniform=new Uniform();
+    uniform.name=name;
+    uniforms.put(name,uniform);
+  }
+  return uniform;
+}

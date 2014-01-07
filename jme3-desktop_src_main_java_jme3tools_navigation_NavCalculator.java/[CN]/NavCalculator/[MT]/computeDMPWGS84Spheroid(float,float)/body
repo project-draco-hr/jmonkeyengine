@@ -1,0 +1,12 @@
+{
+  float absLat1=Math.abs(lat1);
+  float absLat2=Math.abs(lat2);
+  float m1=(float)(7915.7045 * Math.log10(Math.tan(Math.toRadians(45 + (absLat1 / 2)))) - 23.01358 * Math.sin(absLat1 - 0.05135) * Math.pow(Math.sin(absLat1),3));
+  float m2=(float)(7915.7045 * Math.log10(Math.tan(Math.toRadians(45 + (absLat2 / 2)))) - 23.01358 * Math.sin(absLat2 - 0.05135) * Math.pow(Math.sin(absLat2),3));
+  if (lat1 <= 0 & lat2 <= 0 || lat1 > 0 & lat2 > 0) {
+    return Math.abs(m1 - m2);
+  }
+ else {
+    return m1 + m2;
+  }
+}

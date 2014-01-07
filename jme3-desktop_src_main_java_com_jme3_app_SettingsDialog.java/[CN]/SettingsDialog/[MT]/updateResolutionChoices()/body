@@ -1,0 +1,19 @@
+{
+  if (!fullscreenBox.isSelected()) {
+    displayResCombo.setModel(new DefaultComboBoxModel(getWindowedResolutions(windowModes)));
+    if (displayResCombo.getItemCount() > 0) {
+      displayResCombo.setSelectedIndex(displayResCombo.getItemCount() - 1);
+    }
+    colorDepthCombo.setModel(new DefaultComboBoxModel(new String[]{"24 bpp","16 bpp"}));
+    displayFreqCombo.setModel(new DefaultComboBoxModel(new String[]{resourceBundle.getString("refresh.na")}));
+    displayFreqCombo.setEnabled(false);
+  }
+ else {
+    displayResCombo.setModel(new DefaultComboBoxModel(getResolutions(modes,Integer.MAX_VALUE,Integer.MAX_VALUE)));
+    if (displayResCombo.getItemCount() > 0) {
+      displayResCombo.setSelectedIndex(displayResCombo.getItemCount() - 1);
+    }
+    displayFreqCombo.setEnabled(true);
+    updateDisplayChoices();
+  }
+}

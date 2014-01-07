@@ -1,0 +1,11 @@
+{
+  int length=readInt(content);
+  if (length == BinaryOutputCapsule.NULL_OBJECT) {
+    return null;
+  }
+  ArrayList<ByteBuffer> rVal=new ArrayList<ByteBuffer>(length);
+  for (int x=0; x < length; x++) {
+    rVal.add(readByteBuffer(content));
+  }
+  return rVal;
+}

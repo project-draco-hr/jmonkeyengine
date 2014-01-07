@@ -1,0 +1,6 @@
+{
+  if (!(arg0 instanceof BinaryOutputCapsule))   return false;
+  byte[] other=((BinaryOutputCapsule)arg0).bytes;
+  if (bytes.length != other.length)   return false;
+  return Arrays.equals(bytes,other);
+}

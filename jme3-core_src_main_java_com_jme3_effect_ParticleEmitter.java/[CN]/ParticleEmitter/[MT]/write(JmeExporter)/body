@@ -1,0 +1,25 @@
+{
+  super.write(ex);
+  OutputCapsule oc=ex.getCapsule(this);
+  oc.write(shape,"shape",DEFAULT_SHAPE);
+  oc.write(meshType,"meshType",ParticleMesh.Type.Triangle);
+  oc.write(enabled,"enabled",true);
+  oc.write(particles.length,"numParticles",0);
+  oc.write(particlesPerSec,"particlesPerSec",0);
+  oc.write(lowLife,"lowLife",0);
+  oc.write(highLife,"highLife",0);
+  oc.write(gravity,"gravity",null);
+  oc.write(imagesX,"imagesX",1);
+  oc.write(imagesY,"imagesY",1);
+  oc.write(startColor,"startColor",null);
+  oc.write(endColor,"endColor",null);
+  oc.write(startSize,"startSize",0);
+  oc.write(endSize,"endSize",0);
+  oc.write(worldSpace,"worldSpace",false);
+  oc.write(facingVelocity,"facingVelocity",false);
+  oc.write(faceNormal,"faceNormal",new Vector3f(Vector3f.NAN));
+  oc.write(selectRandomImage,"selectRandomImage",false);
+  oc.write(randomAngle,"randomAngle",false);
+  oc.write(rotateSpeed,"rotateSpeed",0);
+  oc.write(particleInfluencer,"influencer",DEFAULT_INFLUENCER);
+}

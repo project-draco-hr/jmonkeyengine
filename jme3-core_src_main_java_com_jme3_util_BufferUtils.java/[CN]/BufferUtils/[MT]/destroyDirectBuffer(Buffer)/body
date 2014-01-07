@@ -1,0 +1,38 @@
+{
+  if (!isDirect(toBeDestroyed)) {
+    return;
+  }
+  BufferUtils.loadCleanerMethods();
+  try {
+    if (freeMethod != null) {
+      freeMethod.invoke(toBeDestroyed);
+    }
+ else {
+      Object cleaner=cleanerMethod.invoke(toBeDestroyed);
+      if (cleaner != null) {
+        cleanMethod.invoke(cleaner);
+      }
+ else {
+        Object viewedBuffer=viewedBufferMethod.invoke(toBeDestroyed);
+        if (viewedBuffer != null) {
+          destroyDirectBuffer((Buffer)viewedBuffer);
+        }
+ else {
+          Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"Buffer cannot be destroyed: {0}",toBeDestroyed);
+        }
+      }
+    }
+  }
+ catch (  IllegalAccessException ex) {
+    Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"{0}",ex);
+  }
+catch (  IllegalArgumentException ex) {
+    Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"{0}",ex);
+  }
+catch (  InvocationTargetException ex) {
+    Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"{0}",ex);
+  }
+catch (  SecurityException ex) {
+    Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"{0}",ex);
+  }
+}

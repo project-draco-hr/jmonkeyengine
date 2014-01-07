@@ -1,0 +1,10 @@
+{
+  float l=0;
+  if (controlPoints.size() > 1) {
+    for (int i=0; i < controlPoints.size() - 1; i++) {
+      l=FastMath.getCatmullRomP1toP2Length(CRcontrolPoints.get(i),CRcontrolPoints.get(i + 1),CRcontrolPoints.get(i + 2),CRcontrolPoints.get(i + 3),0,1,curveTension);
+      segmentsLength.add(l);
+      totalLength+=l;
+    }
+  }
+}

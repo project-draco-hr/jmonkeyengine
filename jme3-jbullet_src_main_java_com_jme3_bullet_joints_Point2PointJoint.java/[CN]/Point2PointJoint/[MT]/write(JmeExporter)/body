@@ -1,0 +1,7 @@
+{
+  super.write(ex);
+  OutputCapsule cap=ex.getCapsule(this);
+  cap.write(getDamping(),"damping",1.0f);
+  cap.write(getTau(),"tau",0.3f);
+  cap.write(getImpulseClamp(),"impulseClamp",0f);
+}

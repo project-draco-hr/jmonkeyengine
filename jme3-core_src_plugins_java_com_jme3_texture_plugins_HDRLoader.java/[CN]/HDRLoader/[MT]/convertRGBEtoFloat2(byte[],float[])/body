@@ -1,0 +1,7 @@
+{
+  int R=rgbe[0] & 0xFF, G=rgbe[1] & 0xFF, B=rgbe[2] & 0xFF, E=rgbe[3] & 0xFF;
+  float e=(float)Math.pow(2f,E - 128);
+  rgbf[0]=(R / 256.0f) * e;
+  rgbf[1]=(G / 256.0f) * e;
+  rgbf[2]=(B / 256.0f) * e;
+}

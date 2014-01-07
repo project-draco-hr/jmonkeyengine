@@ -1,0 +1,10 @@
+{
+  try {
+    Long value=(Long)mbeans.getAttribute(directPool,"TotalCapacity");
+    return value == null ? -1 : value;
+  }
+ catch (  JMException ex) {
+    Logger.getLogger(MemoryUtils.class.getName()).log(Level.SEVERE,"Error retrieving ???TotalCapacity???",ex);
+    return -1;
+  }
+}

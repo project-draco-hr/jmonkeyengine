@@ -1,0 +1,11 @@
+{
+  LOGGER.fine("Loading ambient light.");
+  AmbientLight ambientLight=new AmbientLight();
+  float ambr=((Number)worldStructure.getFieldValue("ambr")).floatValue();
+  float ambg=((Number)worldStructure.getFieldValue("ambg")).floatValue();
+  float ambb=((Number)worldStructure.getFieldValue("ambb")).floatValue();
+  ColorRGBA ambientLightColor=new ColorRGBA(ambr,ambg,ambb,0.0f);
+  ambientLight.setColor(ambientLightColor);
+  LOGGER.log(Level.FINE,"Loaded ambient light: {0}.",ambientLightColor);
+  return ambientLight;
+}

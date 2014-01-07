@@ -1,0 +1,7 @@
+{
+  AndroidImageInfo imageInfo=new AndroidImageInfo(info);
+  Bitmap bitmap=imageInfo.getBitmap();
+  Image image=new Image(imageInfo.getFormat(),bitmap.getWidth(),bitmap.getHeight(),null);
+  image.setEfficentData(imageInfo);
+  return image;
+}

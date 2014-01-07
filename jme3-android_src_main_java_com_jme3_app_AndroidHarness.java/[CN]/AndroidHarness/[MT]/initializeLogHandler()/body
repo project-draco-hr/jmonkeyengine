@@ -1,0 +1,12 @@
+{
+  Logger log=LogManager.getLogManager().getLogger("");
+  for (  Handler handler : log.getHandlers()) {
+    if (log.getLevel() != null && log.getLevel().intValue() <= Level.FINE.intValue()) {
+      Log.v("AndroidHarness","Removing Handler class: " + handler.getClass().getName());
+    }
+    log.removeHandler(handler);
+  }
+  Handler handler=new AndroidLogHandler();
+  log.addHandler(handler);
+  handler.setLevel(Level.ALL);
+}

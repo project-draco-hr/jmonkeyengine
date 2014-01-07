@@ -1,0 +1,101 @@
+{
+  VertexBuffer pvb=getBuffer(VertexBuffer.Type.Position);
+  FloatBuffer positions=(FloatBuffer)pvb.getData();
+  VertexBuffer cvb=getBuffer(VertexBuffer.Type.Color);
+  ByteBuffer colors=(ByteBuffer)cvb.getData();
+  VertexBuffer tvb=getBuffer(VertexBuffer.Type.TexCoord);
+  FloatBuffer texcoords=(FloatBuffer)tvb.getData();
+  Vector3f camUp=cam.getUp();
+  Vector3f camLeft=cam.getLeft();
+  Vector3f camDir=cam.getDirection();
+  inverseRotation.multLocal(camUp);
+  inverseRotation.multLocal(camLeft);
+  inverseRotation.multLocal(camDir);
+  boolean facingVelocity=emitter.isFacingVelocity();
+  Vector3f up=new Vector3f(), left=new Vector3f();
+  if (!facingVelocity) {
+    up.set(camUp);
+    left.set(camLeft);
+  }
+  positions.clear();
+  colors.clear();
+  texcoords.clear();
+  Vector3f faceNormal=emitter.getFaceNormal();
+  for (int i=0; i < particles.length; i++) {
+    Particle p=particles[i];
+    boolean dead=p.life == 0;
+    if (dead) {
+      positions.put(0).put(0).put(0);
+      positions.put(0).put(0).put(0);
+      positions.put(0).put(0).put(0);
+      positions.put(0).put(0).put(0);
+      continue;
+    }
+    if (facingVelocity) {
+      left.set(p.velocity).normalizeLocal();
+      camDir.cross(left,up);
+      up.multLocal(p.size);
+      left.multLocal(p.size);
+    }
+ else     if (faceNormal != null) {
+      up.set(faceNormal).crossLocal(Vector3f.UNIT_X);
+      faceNormal.cross(up,left);
+      up.multLocal(p.size);
+      left.multLocal(p.size);
+      if (p.angle != 0) {
+        TempVars vars=TempVars.get();
+        vars.vect1.set(faceNormal).normalizeLocal();
+        vars.quat1.fromAngleNormalAxis(p.angle,vars.vect1);
+        vars.quat1.multLocal(left);
+        vars.quat1.multLocal(up);
+        vars.release();
+      }
+    }
+ else     if (p.angle != 0) {
+      float cos=FastMath.cos(p.angle) * p.size;
+      float sin=FastMath.sin(p.angle) * p.size;
+      left.x=camLeft.x * cos + camUp.x * sin;
+      left.y=camLeft.y * cos + camUp.y * sin;
+      left.z=camLeft.z * cos + camUp.z * sin;
+      up.x=camLeft.x * -sin + camUp.x * cos;
+      up.y=camLeft.y * -sin + camUp.y * cos;
+      up.z=camLeft.z * -sin + camUp.z * cos;
+    }
+ else {
+      up.set(camUp);
+      left.set(camLeft);
+      up.multLocal(p.size);
+      left.multLocal(p.size);
+    }
+    positions.put(p.position.x + left.x + up.x).put(p.position.y + left.y + up.y).put(p.position.z + left.z + up.z);
+    positions.put(p.position.x - left.x + up.x).put(p.position.y - left.y + up.y).put(p.position.z - left.z + up.z);
+    positions.put(p.position.x + left.x - up.x).put(p.position.y + left.y - up.y).put(p.position.z + left.z - up.z);
+    positions.put(p.position.x - left.x - up.x).put(p.position.y - left.y - up.y).put(p.position.z - left.z - up.z);
+    if (uniqueTexCoords) {
+      int imgX=p.imageIndex % imagesX;
+      int imgY=(p.imageIndex - imgX) / imagesY;
+      float startX=((float)imgX) / imagesX;
+      float startY=((float)imgY) / imagesY;
+      float endX=startX + (1f / imagesX);
+      float endY=startY + (1f / imagesY);
+      texcoords.put(startX).put(endY);
+      texcoords.put(endX).put(endY);
+      texcoords.put(startX).put(startY);
+      texcoords.put(endX).put(startY);
+    }
+    int abgr=p.color.asIntABGR();
+    colors.putInt(abgr);
+    colors.putInt(abgr);
+    colors.putInt(abgr);
+    colors.putInt(abgr);
+  }
+  positions.clear();
+  colors.clear();
+  if (!uniqueTexCoords)   texcoords.clear();
+ else {
+    texcoords.clear();
+    tvb.updateData(texcoords);
+  }
+  pvb.updateData(positions);
+  cvb.updateData(colors);
+}

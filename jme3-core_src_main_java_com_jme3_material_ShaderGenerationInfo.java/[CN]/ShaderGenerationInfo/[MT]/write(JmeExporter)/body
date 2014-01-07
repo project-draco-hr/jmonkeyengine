@@ -1,0 +1,9 @@
+{
+  OutputCapsule oc=ex.getCapsule(this);
+  oc.writeSavableArrayList((ArrayList)attributes,"attributes",new ArrayList<ShaderNodeVariable>());
+  oc.writeSavableArrayList((ArrayList)vertexUniforms,"vertexUniforms",new ArrayList<ShaderNodeVariable>());
+  oc.writeSavableArrayList((ArrayList)varyings,"varyings",new ArrayList<ShaderNodeVariable>());
+  oc.writeSavableArrayList((ArrayList)fragmentUniforms,"fragmentUniforms",new ArrayList<ShaderNodeVariable>());
+  oc.writeSavableArrayList((ArrayList)fragmentGlobals,"fragmentGlobals",new ArrayList<ShaderNodeVariable>());
+  oc.write(vertexGlobal,"vertexGlobal",null);
+}

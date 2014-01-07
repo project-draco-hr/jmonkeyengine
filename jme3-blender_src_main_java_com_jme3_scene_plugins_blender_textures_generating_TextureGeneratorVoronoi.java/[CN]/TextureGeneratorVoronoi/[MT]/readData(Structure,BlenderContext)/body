@@ -1,0 +1,22 @@
+{
+  super.readData(tex,blenderContext);
+  voronoiWeights=new float[4];
+  voronoiWeights[0]=((Number)tex.getFieldValue("vn_w1")).floatValue();
+  voronoiWeights[1]=((Number)tex.getFieldValue("vn_w2")).floatValue();
+  voronoiWeights[2]=((Number)tex.getFieldValue("vn_w3")).floatValue();
+  voronoiWeights[3]=((Number)tex.getFieldValue("vn_w4")).floatValue();
+  noisesize=((Number)tex.getFieldValue("noisesize")).floatValue();
+  outscale=((Number)tex.getFieldValue("ns_outscale")).floatValue();
+  mexp=((Number)tex.getFieldValue("vn_mexp")).floatValue();
+  int distanceType=((Number)tex.getFieldValue("vn_distm")).intValue();
+  distanceFunction=NoiseGenerator.distanceFunctions.get(distanceType);
+  voronoiColorType=((Number)tex.getFieldValue("vn_coltype")).intValue();
+  hashPoint=voronoiColorType != 0 ? new float[3] : null;
+  weightSum=voronoiWeights[0] + voronoiWeights[1] + voronoiWeights[2]+ voronoiWeights[3];
+  if (weightSum != 0.0f) {
+    weightSum=outscale / weightSum;
+  }
+  if (voronoiColorType != 0 || colorBand != null) {
+    imageFormat=Format.RGBA8;
+  }
+}

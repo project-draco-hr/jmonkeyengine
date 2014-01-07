@@ -1,0 +1,9 @@
+{
+  int elements=readInt(content);
+  if (elements == BinaryOutputCapsule.NULL_OBJECT)   return null;
+  ID[] rVal=new ID[elements];
+  for (int x=0; x < elements; x++) {
+    rVal[x]=readSavable(content);
+  }
+  return rVal;
+}

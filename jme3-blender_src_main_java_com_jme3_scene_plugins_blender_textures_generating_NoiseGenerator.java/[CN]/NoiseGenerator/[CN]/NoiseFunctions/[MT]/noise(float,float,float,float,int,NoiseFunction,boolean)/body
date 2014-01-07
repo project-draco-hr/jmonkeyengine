@@ -1,0 +1,10 @@
+{
+  if (noiseSize != 0.0) {
+    noiseSize=1.0f / noiseSize;
+    x*=noiseSize;
+    y*=noiseSize;
+    z*=noiseSize;
+  }
+  float result=noiseFunction.execute(x,y,z);
+  return isHard ? FastMath.abs(2.0f * result - 1.0f) : result;
+}

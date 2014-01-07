@@ -1,0 +1,13 @@
+{
+  if (in != null && open) {
+    try {
+      in.close();
+    }
+ catch (    IOException ex) {
+    }
+    open=false;
+  }
+ else {
+    throw new RuntimeException("AudioStream is already closed!");
+  }
+}

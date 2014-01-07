@@ -1,0 +1,8 @@
+{
+  InputCapsule ic=(InputCapsule)im.getCapsule(this);
+  name=ic.readString("name","");
+  definition=(ShaderNodeDefinition)ic.readSavable("definition",null);
+  condition=ic.readString("condition",null);
+  inputMapping=(List<VariableMapping>)ic.readSavableArrayList("inputMapping",new ArrayList<VariableMapping>());
+  outputMapping=(List<VariableMapping>)ic.readSavableArrayList("outputMapping",new ArrayList<VariableMapping>());
+}

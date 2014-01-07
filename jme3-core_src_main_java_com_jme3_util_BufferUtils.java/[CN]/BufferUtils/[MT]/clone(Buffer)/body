@@ -1,0 +1,20 @@
+{
+  if (buf instanceof FloatBuffer) {
+    return clone((FloatBuffer)buf);
+  }
+ else   if (buf instanceof ShortBuffer) {
+    return clone((ShortBuffer)buf);
+  }
+ else   if (buf instanceof ByteBuffer) {
+    return clone((ByteBuffer)buf);
+  }
+ else   if (buf instanceof IntBuffer) {
+    return clone((IntBuffer)buf);
+  }
+ else   if (buf instanceof DoubleBuffer) {
+    return clone((DoubleBuffer)buf);
+  }
+ else {
+    throw new UnsupportedOperationException();
+  }
+}

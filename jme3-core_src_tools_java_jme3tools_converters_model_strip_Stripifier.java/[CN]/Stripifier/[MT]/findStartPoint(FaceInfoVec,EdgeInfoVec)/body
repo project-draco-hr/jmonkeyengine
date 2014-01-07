@@ -1,0 +1,16 @@
+{
+  int bestCtr=-1;
+  int bestIndex=-1;
+  for (int i=0; i < faceInfos.size(); i++) {
+    int ctr=0;
+    if (findOtherFace(edgeInfos,faceInfos.at(i).m_v0,faceInfos.at(i).m_v1,faceInfos.at(i)) == null)     ctr++;
+    if (findOtherFace(edgeInfos,faceInfos.at(i).m_v1,faceInfos.at(i).m_v2,faceInfos.at(i)) == null)     ctr++;
+    if (findOtherFace(edgeInfos,faceInfos.at(i).m_v2,faceInfos.at(i).m_v0,faceInfos.at(i)) == null)     ctr++;
+    if (ctr > bestCtr) {
+      bestCtr=ctr;
+      bestIndex=i;
+    }
+  }
+  if (bestCtr == 0)   return -1;
+  return bestIndex;
+}

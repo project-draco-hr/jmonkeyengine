@@ -1,0 +1,13 @@
+{
+  int code=evt.getKeyCode();
+  if (code == KeyInput.KEY_LSHIFT || code == KeyInput.KEY_RSHIFT) {
+    shiftDown=evt.isPressed();
+  }
+ else   if (code == KeyInput.KEY_LCONTROL || code == KeyInput.KEY_RCONTROL) {
+    ctrlDown=evt.isPressed();
+  }
+  KeyboardInputEvent keyEvt=new KeyboardInputEvent(code,evt.getKeyChar(),evt.isPressed(),shiftDown,ctrlDown);
+  if (nic.processKeyboardEvent(keyEvt)) {
+    evt.setConsumed();
+  }
+}

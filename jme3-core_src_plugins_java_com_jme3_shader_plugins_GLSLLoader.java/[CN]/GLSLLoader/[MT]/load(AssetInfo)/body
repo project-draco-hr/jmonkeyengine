@@ -1,0 +1,13 @@
+{
+  this.assetManager=info.getManager();
+  Reader reader=new InputStreamReader(info.openStream());
+  if (info.getKey().getExtension().equals("glsllib")) {
+    return reader;
+  }
+ else {
+    ShaderDependencyNode rootNode=loadNode(reader,"[main]");
+    String code=resolveDependencies(rootNode,new HashSet<ShaderDependencyNode>());
+    dependCache.clear();
+    return code;
+  }
+}

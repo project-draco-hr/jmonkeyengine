@@ -1,0 +1,25 @@
+{
+  Material mat=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  mat.setFloat("Shininess",1f);
+  mat.setBoolean("UseMaterialColors",true);
+  mat.setColor("Ambient",ColorRGBA.Black);
+  mat.setColor("Diffuse",ColorRGBA.DarkGray);
+  mat.setColor("Specular",ColorRGBA.White.mult(0.6f));
+  Material matSoil=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  matSoil.setBoolean("UseMaterialColors",true);
+  matSoil.setColor("Ambient",ColorRGBA.Black);
+  matSoil.setColor("Diffuse",ColorRGBA.Black);
+  matSoil.setColor("Specular",ColorRGBA.Black);
+  teapot=assetManager.loadModel("Models/Teapot/Teapot.obj");
+  teapot.setName("Teapot");
+  teapot.setLocalScale(3);
+  teapot.setMaterial(mat);
+  rootNode.attachChild(teapot);
+  Geometry soil=new Geometry("soil",new Box(new Vector3f(0,-1.0f,0),50,1,50));
+  soil.setMaterial(matSoil);
+  rootNode.attachChild(soil);
+  DirectionalLight light=new DirectionalLight();
+  light.setDirection(new Vector3f(0,-1,0).normalizeLocal());
+  light.setColor(ColorRGBA.White.mult(1.5f));
+  rootNode.addLight(light);
+}

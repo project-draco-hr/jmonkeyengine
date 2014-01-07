@@ -1,0 +1,27 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  int id=rb.getId();
+  if (id == -1) {
+    gl.glGenRenderbuffers(1,intBuf1);
+    id=intBuf1.get(0);
+    rb.setId(id);
+  }
+  if (context.boundRB != id) {
+    gl.glBindRenderbuffer(GL.GL_RENDERBUFFER,id);
+    context.boundRB=id;
+  }
+  if (fb.getWidth() > maxRBSize || fb.getHeight() > maxRBSize) {
+    throw new RendererException("Resolution " + fb.getWidth() + ":"+ fb.getHeight()+ " is not supported.");
+  }
+  TextureUtil.GLImageFormat glFmt=TextureUtil.getImageFormatWithError(rb.getFormat());
+  if (fb.getSamples() > 1 && gl.isExtensionAvailable("GL_EXT_framebuffer_multisample") && gl.isGL2GL3()) {
+    int samples=fb.getSamples();
+    if (maxFBOSamples < samples) {
+      samples=maxFBOSamples;
+    }
+    gl.getGL2GL3().glRenderbufferStorageMultisample(GL.GL_RENDERBUFFER,samples,glFmt.internalFormat,fb.getWidth(),fb.getHeight());
+  }
+ else {
+    gl.glRenderbufferStorage(GL.GL_RENDERBUFFER,glFmt.internalFormat,fb.getWidth(),fb.getHeight());
+  }
+}

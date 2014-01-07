@@ -1,0 +1,16 @@
+{
+  updatePositions(radius);
+  ShortBuffer ib=BufferUtils.createShortBuffer(samples * 2 * 2 + zSamples * samples * 2);
+  setBuffer(Type.Index,2,ib);
+  int curNum=0;
+  for (int j=0; j < 2 + zSamples; j++) {
+    for (int i=curNum; i < curNum + samples - 1; i++) {
+      ib.put((short)i).put((short)(i + 1));
+    }
+    ib.put((short)(curNum + samples - 1)).put((short)curNum);
+    curNum+=samples;
+  }
+  setMode(Mode.Lines);
+  updateBound();
+  updateCounts();
+}

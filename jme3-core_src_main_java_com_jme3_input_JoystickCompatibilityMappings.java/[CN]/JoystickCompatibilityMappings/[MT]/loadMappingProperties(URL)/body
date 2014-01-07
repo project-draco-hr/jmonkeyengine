@@ -1,0 +1,12 @@
+{
+  logger.log(Level.FINE,"Loading mapping properties:{0}",u);
+  InputStream in=u.openStream();
+  try {
+    Properties p=new Properties();
+    p.load(in);
+    addMappings(p);
+  }
+  finally {
+    in.close();
+  }
+}

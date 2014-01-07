@@ -1,0 +1,11 @@
+{
+  if (f == null)   return def;
+ else {
+    try {
+      return Float.parseFloat(f);
+    }
+ catch (    NumberFormatException ex) {
+      throw new SAXException("Expected a decimal, got '" + f + "'");
+    }
+  }
+}

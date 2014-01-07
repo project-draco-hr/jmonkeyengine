@@ -1,0 +1,29 @@
+{
+  if (arch.equals("x86")) {
+    return false;
+  }
+ else   if (arch.equals("amd64")) {
+    return true;
+  }
+ else   if (arch.equals("x86_64")) {
+    return true;
+  }
+ else   if (arch.equals("ppc") || arch.equals("PowerPC")) {
+    return false;
+  }
+ else   if (arch.equals("ppc64")) {
+    return true;
+  }
+ else   if (arch.equals("i386") || arch.equals("i686")) {
+    return false;
+  }
+ else   if (arch.equals("universal")) {
+    return false;
+  }
+ else   if (arch.equals("arm")) {
+    return false;
+  }
+ else {
+    throw new UnsupportedOperationException("Unsupported architecture: " + arch);
+  }
+}

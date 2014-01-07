@@ -1,0 +1,23 @@
+{
+  loadIdentity();
+  TempVars vars=TempVars.get();
+  Vector3f f=vars.vect1.set(direction);
+  Vector3f s=vars.vect2.set(f).crossLocal(up);
+  Vector3f u=vars.vect3.set(s).crossLocal(f);
+  m00=s.x;
+  m01=s.y;
+  m02=s.z;
+  m10=u.x;
+  m11=u.y;
+  m12=u.z;
+  m20=-f.x;
+  m21=-f.y;
+  m22=-f.z;
+  Matrix4f transMatrix=vars.tempMat4;
+  transMatrix.loadIdentity();
+  transMatrix.m03=-location.x;
+  transMatrix.m13=-location.y;
+  transMatrix.m23=-location.z;
+  this.multLocal(transMatrix);
+  vars.release();
+}

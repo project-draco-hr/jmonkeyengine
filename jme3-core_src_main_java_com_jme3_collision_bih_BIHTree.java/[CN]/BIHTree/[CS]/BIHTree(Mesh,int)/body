@@ -1,0 +1,18 @@
+{
+  this.mesh=mesh;
+  this.maxTrisPerNode=maxTrisPerNode;
+  if (maxTrisPerNode < 1 || mesh == null) {
+    throw new IllegalArgumentException();
+  }
+  bihSwapTmp=new float[9];
+  FloatBuffer vb=(FloatBuffer)mesh.getBuffer(Type.Position).getData();
+  IndexBuffer ib=mesh.getIndexBuffer();
+  if (ib == null) {
+    ib=new VirtualIndexBuffer(mesh.getVertexCount(),mesh.getMode());
+  }
+ else   if (mesh.getMode() != Mode.Triangles) {
+    ib=new WrappedIndexBuffer(mesh);
+  }
+  numTris=ib.size() / 3;
+  initTriList(vb,ib);
+}

@@ -1,0 +1,12 @@
+{
+  double absLat1=Math.abs(lat1);
+  double absLat2=Math.abs(lat2);
+  double m1=(7915.704468 * (Math.log(Math.tan(Math.toRadians(45 + (absLat1 / 2)))) / Math.log(10)) - 23.268932 * Math.sin(Math.toRadians(absLat1)) - 0.052500 * Math.pow(Math.sin(Math.toRadians(absLat1)),3) - 0.000213 * Math.pow(Math.sin(Math.toRadians(absLat1)),5));
+  double m2=(7915.704468 * (Math.log(Math.tan(Math.toRadians(45 + (absLat2 / 2)))) / Math.log(10)) - 23.268932 * Math.sin(Math.toRadians(absLat2)) - 0.052500 * Math.pow(Math.sin(Math.toRadians(absLat2)),3) - 0.000213 * Math.pow(Math.sin(Math.toRadians(absLat2)),5));
+  if ((lat1 <= 0 && lat2 <= 0) || (lat1 > 0 && lat2 > 0)) {
+    return Math.abs(m1 - m2);
+  }
+ else {
+    return m1 + m2;
+  }
+}

@@ -1,0 +1,42 @@
+{
+  try {
+    Element tmpEl;
+    if (name != null) {
+      tmpEl=findChildElement(currentElem,name);
+    }
+ else {
+      tmpEl=currentElem;
+    }
+    if (tmpEl == null) {
+      return defVal;
+    }
+    String sizeString=tmpEl.getAttribute("size");
+    NodeList nodes=currentElem.getChildNodes();
+    List<short[]> shortArrays=new ArrayList<short[]>();
+    for (int i=0; i < nodes.getLength(); i++) {
+      Node n=nodes.item(i);
+      if (n instanceof Element && n.getNodeName().contains("array")) {
+        shortArrays.add(readShortArray(n.getNodeName(),null));
+      }
+    }
+    if (sizeString.length() > 0) {
+      int requiredSize=Integer.parseInt(sizeString);
+      if (shortArrays.size() != requiredSize)       throw new IOException("String array contains wrong element count.  " + "Specified size " + requiredSize + ", data contains "+ shortArrays.size());
+    }
+    currentElem=(Element)currentElem.getParentNode();
+    return shortArrays.toArray(new short[0][]);
+  }
+ catch (  IOException ioe) {
+    throw ioe;
+  }
+catch (  NumberFormatException nfe) {
+    IOException io=new IOException(nfe.toString());
+    io.initCause(nfe);
+    throw io;
+  }
+catch (  DOMException de) {
+    IOException io=new IOException(de.toString());
+    io.initCause(de);
+    throw io;
+  }
+}

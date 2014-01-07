@@ -1,0 +1,11 @@
+{
+  Transform transA=new Transform(Converter.convert(rotA));
+  Converter.convert(pivotA,transA.origin);
+  Converter.convert(rotA,transA.basis);
+  Transform transB=new Transform(Converter.convert(rotB));
+  Converter.convert(pivotB,transB.origin);
+  Converter.convert(rotB,transB.basis);
+  constraint=new ConeTwistConstraint(nodeA.getObjectId(),nodeB.getObjectId(),transA,transB);
+  ((ConeTwistConstraint)constraint).setLimit(swingSpan1,swingSpan2,twistSpan);
+  ((ConeTwistConstraint)constraint).setAngularOnly(angularOnly);
+}

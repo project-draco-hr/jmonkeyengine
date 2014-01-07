@@ -1,0 +1,37 @@
+{
+  String name=attribs.getValue("name");
+  if (name == null) {
+    name="OgreEntity-" + (++nodeIdx);
+  }
+ else {
+    name+="-entity";
+  }
+  String meshFile=attribs.getValue("meshFile");
+  if (meshFile == null) {
+    throw new SAXException("Required attribute 'meshFile' missing for 'entity' node");
+  }
+  String materialName=attribs.getValue("materialName");
+  if (folderName != null) {
+    meshFile=folderName + meshFile;
+  }
+  meshFile+=".xml";
+  entityNode=new com.jme3.scene.Node(name);
+  OgreMeshKey meshKey=new OgreMeshKey(meshFile,materialList);
+  try {
+    Spatial ogreMesh=assetManager.loadModel(meshKey);
+    entityNode.attachChild(ogreMesh);
+  }
+ catch (  AssetNotFoundException ex) {
+    if (ex.getMessage().equals(meshFile)) {
+      logger.log(Level.WARNING,"Cannot locate {0} for scene {1}",new Object[]{meshKey,key});
+      Spatial model=PlaceholderAssets.getPlaceholderModel(assetManager);
+      model.setKey(key);
+      entityNode.attachChild(model);
+    }
+ else {
+      throw ex;
+    }
+  }
+  node.attachChild(entityNode);
+  node=null;
+}

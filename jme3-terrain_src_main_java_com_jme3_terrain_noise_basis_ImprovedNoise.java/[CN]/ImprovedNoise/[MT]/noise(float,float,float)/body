@@ -1,0 +1,17 @@
+{
+  int X=ShaderUtils.floor(x), Y=ShaderUtils.floor(y), Z=ShaderUtils.floor(z);
+  x-=X;
+  y-=Y;
+  z-=Z;
+  X=X & 255;
+  Y=Y & 255;
+  Z=Z & 255;
+  float u=ImprovedNoise.fade(x), v=ImprovedNoise.fade(y), w=ImprovedNoise.fade(z);
+  int A=ImprovedNoise.p[X] + Y;
+  int AA=ImprovedNoise.p[A] + Z;
+  int AB=ImprovedNoise.p[A + 1] + Z;
+  int B=ImprovedNoise.p[X + 1] + Y;
+  int BA=ImprovedNoise.p[B] + Z;
+  int BB=ImprovedNoise.p[B + 1] + Z;
+  return ImprovedNoise.lerp(w,ImprovedNoise.lerp(v,ImprovedNoise.lerp(u,ImprovedNoise.grad3(ImprovedNoise.p[AA],x,y,z),ImprovedNoise.grad3(ImprovedNoise.p[BA],x - 1,y,z)),ImprovedNoise.lerp(u,ImprovedNoise.grad3(ImprovedNoise.p[AB],x,y - 1,z),ImprovedNoise.grad3(ImprovedNoise.p[BB],x - 1,y - 1,z))),ImprovedNoise.lerp(v,ImprovedNoise.lerp(u,ImprovedNoise.grad3(ImprovedNoise.p[AA + 1],x,y,z - 1),ImprovedNoise.grad3(ImprovedNoise.p[BA + 1],x - 1,y,z - 1)),ImprovedNoise.lerp(u,ImprovedNoise.grad3(ImprovedNoise.p[AB + 1],x,y - 1,z - 1),ImprovedNoise.grad3(ImprovedNoise.p[BB + 1],x - 1,y - 1,z - 1))));
+}

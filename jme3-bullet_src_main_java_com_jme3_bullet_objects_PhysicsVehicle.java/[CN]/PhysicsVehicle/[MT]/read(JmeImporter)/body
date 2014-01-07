@@ -1,0 +1,13 @@
+{
+  InputCapsule capsule=im.getCapsule(this);
+  tuning=new VehicleTuning();
+  tuning.frictionSlip=capsule.readFloat("frictionSlip",10.5f);
+  tuning.maxSuspensionTravelCm=capsule.readFloat("maxSuspensionTravelCm",500f);
+  tuning.maxSuspensionForce=capsule.readFloat("maxSuspensionForce",6000f);
+  tuning.suspensionCompression=capsule.readFloat("suspensionCompression",0.83f);
+  tuning.suspensionDamping=capsule.readFloat("suspensionDamping",0.88f);
+  tuning.suspensionStiffness=capsule.readFloat("suspensionStiffness",5.88f);
+  wheels=capsule.readSavableArrayList("wheelsList",new ArrayList<VehicleWheel>());
+  motionState.setVehicle(this);
+  super.read(im);
+}

@@ -1,0 +1,37 @@
+{
+  float t=oldMatrix.m00 + oldMatrix.m11 + oldMatrix.m22;
+  float w, x, y, z;
+  if (t >= 0) {
+    float s=FastMath.sqrt(t + 1);
+    w=0.5f * s;
+    s=0.5f / s;
+    x=(oldMatrix.m21 - oldMatrix.m12) * s;
+    y=(oldMatrix.m02 - oldMatrix.m20) * s;
+    z=(oldMatrix.m10 - oldMatrix.m01) * s;
+  }
+ else   if ((oldMatrix.m00 > oldMatrix.m11) && (oldMatrix.m00 > oldMatrix.m22)) {
+    float s=FastMath.sqrt(1.0f + oldMatrix.m00 - oldMatrix.m11 - oldMatrix.m22);
+    x=s * 0.5f;
+    s=0.5f / s;
+    y=(oldMatrix.m10 + oldMatrix.m01) * s;
+    z=(oldMatrix.m02 + oldMatrix.m20) * s;
+    w=(oldMatrix.m21 - oldMatrix.m12) * s;
+  }
+ else   if (oldMatrix.m11 > oldMatrix.m22) {
+    float s=FastMath.sqrt(1.0f + oldMatrix.m11 - oldMatrix.m00 - oldMatrix.m22);
+    y=s * 0.5f;
+    s=0.5f / s;
+    x=(oldMatrix.m10 + oldMatrix.m01) * s;
+    z=(oldMatrix.m21 + oldMatrix.m12) * s;
+    w=(oldMatrix.m02 - oldMatrix.m20) * s;
+  }
+ else {
+    float s=FastMath.sqrt(1.0f + oldMatrix.m22 - oldMatrix.m00 - oldMatrix.m11);
+    z=s * 0.5f;
+    s=0.5f / s;
+    x=(oldMatrix.m02 + oldMatrix.m20) * s;
+    y=(oldMatrix.m21 + oldMatrix.m12) * s;
+    w=(oldMatrix.m10 - oldMatrix.m01) * s;
+  }
+  return newQuaternion.set(x,y,z,w);
+}

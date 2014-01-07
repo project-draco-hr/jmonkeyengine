@@ -1,0 +1,15 @@
+{
+  super.write(ex);
+  OutputCapsule capsule=ex.getCapsule(this);
+  capsule.write(axisA,"axisA",new Vector3f());
+  capsule.write(axisB,"axisB",new Vector3f());
+  capsule.write(angularOnly,"angularOnly",false);
+  capsule.write(((HingeConstraint)constraint).getLowerLimit(),"lowerLimit",1e30f);
+  capsule.write(((HingeConstraint)constraint).getUpperLimit(),"upperLimit",-1e30f);
+  capsule.write(biasFactor,"biasFactor",0.3f);
+  capsule.write(relaxationFactor,"relaxationFactor",1f);
+  capsule.write(limitSoftness,"limitSoftness",0.9f);
+  capsule.write(((HingeConstraint)constraint).getEnableAngularMotor(),"enableAngularMotor",false);
+  capsule.write(((HingeConstraint)constraint).getMotorTargetVelosity(),"targetVelocity",0.0f);
+  capsule.write(((HingeConstraint)constraint).getMaxMotorImpulse(),"maxMotorImpulse",0.0f);
+}

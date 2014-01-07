@@ -1,0 +1,7 @@
+{
+  if (store == null)   store=new Vector3f();
+  float d=pseudoDistance(point);
+  store.set(normal).negateLocal().multLocal(d * 2f);
+  store.addLocal(point);
+  return store;
+}

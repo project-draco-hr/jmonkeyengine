@@ -1,0 +1,19 @@
+{
+  boolean doubleBuffer=false;
+  int fbId=fb.getId();
+  intBuf16.clear();
+  System.out.println("=== OpenGL FBO State ===");
+  System.out.println("Context doublebuffered? " + doubleBuffer);
+  System.out.println("FBO ID: " + fbId);
+  System.out.println("Is proper? " + GLES20.glIsFramebuffer(fbId));
+  if (context.boundFBO != fbId) {
+    GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER,fbId);
+    context.boundFBO=fbId;
+  }
+  if (fb.getDepthBuffer() != null) {
+    printRealRenderBufferInfo(fb,fb.getDepthBuffer(),"Depth");
+  }
+  for (int i=0; i < fb.getNumColorBuffers(); i++) {
+    printRealRenderBufferInfo(fb,fb.getColorBuffer(i),"Color" + i);
+  }
+}

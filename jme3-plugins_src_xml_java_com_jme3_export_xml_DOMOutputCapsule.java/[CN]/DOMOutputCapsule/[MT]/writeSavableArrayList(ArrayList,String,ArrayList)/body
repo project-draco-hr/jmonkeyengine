@@ -1,0 +1,25 @@
+{
+  if (array == null) {
+    return;
+  }
+  if (array.equals(defVal)) {
+    return;
+  }
+  Element old=currentElement;
+  Element el=appendElement(name);
+  currentElement=el;
+  el.setAttribute(XMLExporter.ATTRIBUTE_SIZE,String.valueOf(array.size()));
+  for (  Object o : array) {
+    if (o == null) {
+      continue;
+    }
+ else     if (o instanceof Savable) {
+      Savable s=(Savable)o;
+      write(s,s.getClass().getName(),null);
+    }
+ else {
+      throw new ClassCastException("Not a Savable instance: " + o);
+    }
+  }
+  currentElement=old;
+}

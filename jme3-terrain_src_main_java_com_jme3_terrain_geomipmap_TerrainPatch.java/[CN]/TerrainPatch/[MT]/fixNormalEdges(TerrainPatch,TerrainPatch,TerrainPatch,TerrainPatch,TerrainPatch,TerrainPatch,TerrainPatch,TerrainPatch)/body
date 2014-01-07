@@ -1,0 +1,143 @@
+{
+  Vector3f rootPoint=new Vector3f();
+  Vector3f rightPoint=new Vector3f();
+  Vector3f leftPoint=new Vector3f();
+  Vector3f topPoint=new Vector3f();
+  Vector3f bottomPoint=new Vector3f();
+  Vector3f tangent=new Vector3f();
+  Vector3f binormal=new Vector3f();
+  Vector3f normal=new Vector3f();
+  int s=this.getSize() - 1;
+  if (right != null) {
+    for (int i=0; i < s + 1; i++) {
+      rootPoint.set(0,this.getHeightmapHeight(s,i),0);
+      leftPoint.set(-1,this.getHeightmapHeight(s - 1,i),0);
+      rightPoint.set(1,right.getHeightmapHeight(1,i),0);
+      if (i == 0) {
+        bottomPoint.set(0,this.getHeightmapHeight(s,i + 1),1);
+        if (top == null) {
+          averageNormalsTangents(null,rootPoint,leftPoint,bottomPoint,rightPoint,normal,tangent,binormal);
+          setInBuffer(this.getMesh(),s,normal,tangent,binormal);
+          setInBuffer(right.getMesh(),0,normal,tangent,binormal);
+        }
+ else {
+          topPoint.set(0,top.getHeightmapHeight(s,s - 1),-1);
+          averageNormalsTangents(topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,normal,tangent,binormal);
+          setInBuffer(this.getMesh(),s,normal,tangent,binormal);
+          setInBuffer(right.getMesh(),0,normal,tangent,binormal);
+          setInBuffer(top.getMesh(),(s + 1) * (s + 1) - 1,normal,tangent,binormal);
+          if (topRight != null) {
+          }
+        }
+      }
+ else       if (i == s) {
+        topPoint.set(0,this.getHeightmapHeight(s,s - 1),-1);
+        if (bottom == null) {
+          averageNormalsTangents(topPoint,rootPoint,leftPoint,null,rightPoint,normal,tangent,binormal);
+          setInBuffer(this.getMesh(),(s + 1) * (s + 1) - 1,normal,tangent,binormal);
+          setInBuffer(right.getMesh(),(s + 1) * (s),normal,tangent,binormal);
+        }
+ else {
+          bottomPoint.set(0,bottom.getHeightmapHeight(s,1),1);
+          averageNormalsTangents(topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,normal,tangent,binormal);
+          setInBuffer(this.getMesh(),(s + 1) * (s + 1) - 1,normal,tangent,binormal);
+          setInBuffer(right.getMesh(),(s + 1) * s,normal,tangent,binormal);
+          setInBuffer(bottom.getMesh(),s,normal,tangent,binormal);
+          if (bottomRight != null) {
+          }
+        }
+      }
+ else {
+        topPoint.set(0,this.getHeightmapHeight(s,i - 1),-1);
+        bottomPoint.set(0,this.getHeightmapHeight(s,i + 1),1);
+        averageNormalsTangents(topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,normal,tangent,binormal);
+        setInBuffer(this.getMesh(),(s + 1) * (i + 1) - 1,normal,tangent,binormal);
+        setInBuffer(right.getMesh(),(s + 1) * (i),normal,tangent,binormal);
+      }
+    }
+  }
+  if (left != null) {
+    for (int i=0; i < s + 1; i++) {
+      rootPoint.set(0,this.getHeightmapHeight(0,i),0);
+      leftPoint.set(-1,left.getHeightmapHeight(s - 1,i),0);
+      rightPoint.set(1,this.getHeightmapHeight(1,i),0);
+      if (i == 0) {
+        bottomPoint.set(0,this.getHeightmapHeight(0,i + 1),1);
+        if (top == null) {
+          averageNormalsTangents(null,rootPoint,leftPoint,bottomPoint,rightPoint,normal,tangent,binormal);
+          setInBuffer(this.getMesh(),0,normal,tangent,binormal);
+          setInBuffer(left.getMesh(),s,normal,tangent,binormal);
+        }
+ else {
+          topPoint.set(0,top.getHeightmapHeight(0,s - 1),-1);
+          averageNormalsTangents(topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,normal,tangent,binormal);
+          setInBuffer(this.getMesh(),0,normal,tangent,binormal);
+          setInBuffer(left.getMesh(),s,normal,tangent,binormal);
+          setInBuffer(top.getMesh(),(s + 1) * s,normal,tangent,binormal);
+          if (topLeft != null) {
+          }
+        }
+      }
+ else       if (i == s) {
+        topPoint.set(0,this.getHeightmapHeight(0,i - 1),-1);
+        if (bottom == null) {
+          averageNormalsTangents(topPoint,rootPoint,leftPoint,null,rightPoint,normal,tangent,binormal);
+          setInBuffer(this.getMesh(),(s + 1) * (s),normal,tangent,binormal);
+          setInBuffer(left.getMesh(),(s + 1) * (s + 1) - 1,normal,tangent,binormal);
+        }
+ else {
+          bottomPoint.set(0,bottom.getHeightmapHeight(0,1),1);
+          averageNormalsTangents(topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,normal,tangent,binormal);
+          setInBuffer(this.getMesh(),(s + 1) * (s),normal,tangent,binormal);
+          setInBuffer(left.getMesh(),(s + 1) * (s + 1) - 1,normal,tangent,binormal);
+          setInBuffer(bottom.getMesh(),0,normal,tangent,binormal);
+          if (bottomLeft != null) {
+          }
+        }
+      }
+ else {
+        topPoint.set(0,this.getHeightmapHeight(0,i - 1),-1);
+        bottomPoint.set(0,this.getHeightmapHeight(0,i + 1),1);
+        averageNormalsTangents(topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,normal,tangent,binormal);
+        setInBuffer(this.getMesh(),(s + 1) * (i),normal,tangent,binormal);
+        setInBuffer(left.getMesh(),(s + 1) * (i + 1) - 1,normal,tangent,binormal);
+      }
+    }
+  }
+  if (top != null) {
+    for (int i=0; i < s + 1; i++) {
+      rootPoint.set(0,this.getHeightmapHeight(i,0),0);
+      topPoint.set(0,top.getHeightmapHeight(i,s - 1),-1);
+      bottomPoint.set(0,this.getHeightmapHeight(i,1),1);
+      if (i == 0) {
+      }
+ else       if (i == s) {
+      }
+ else {
+        leftPoint.set(-1,this.getHeightmapHeight(i - 1,0),0);
+        rightPoint.set(1,this.getHeightmapHeight(i + 1,0),0);
+        averageNormalsTangents(topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,normal,tangent,binormal);
+        setInBuffer(this.getMesh(),i,normal,tangent,binormal);
+        setInBuffer(top.getMesh(),(s + 1) * (s) + i,normal,tangent,binormal);
+      }
+    }
+  }
+  if (bottom != null) {
+    for (int i=0; i < s + 1; i++) {
+      rootPoint.set(0,this.getHeightmapHeight(i,s),0);
+      topPoint.set(0,this.getHeightmapHeight(i,s - 1),-1);
+      bottomPoint.set(0,bottom.getHeightmapHeight(i,1),1);
+      if (i == 0) {
+      }
+ else       if (i == s) {
+      }
+ else {
+        leftPoint.set(-1,this.getHeightmapHeight(i - 1,s),0);
+        rightPoint.set(1,this.getHeightmapHeight(i + 1,s),0);
+        averageNormalsTangents(topPoint,rootPoint,leftPoint,bottomPoint,rightPoint,normal,tangent,binormal);
+        setInBuffer(this.getMesh(),(s + 1) * (s) + i,normal,tangent,binormal);
+        setInBuffer(bottom.getMesh(),i,normal,tangent,binormal);
+      }
+    }
+  }
+}

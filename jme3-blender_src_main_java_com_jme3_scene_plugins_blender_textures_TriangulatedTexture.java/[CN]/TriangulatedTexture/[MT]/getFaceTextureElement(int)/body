@@ -1,0 +1,8 @@
+{
+  for (  TriangleTextureElement textureElement : faceTextures) {
+    if (textureElement.faceIndex == faceIndex) {
+      return textureElement;
+    }
+  }
+  throw new IllegalStateException("No face texture element found for index: " + faceIndex);
+}

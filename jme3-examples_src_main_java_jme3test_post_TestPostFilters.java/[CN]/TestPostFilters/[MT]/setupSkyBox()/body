@@ -1,0 +1,10 @@
+{
+  Texture envMap;
+  if (renderer.getCaps().contains(Caps.FloatTexture)) {
+    envMap=assetManager.loadTexture("Textures/Sky/St Peters/StPeters.hdr");
+  }
+ else {
+    envMap=assetManager.loadTexture("Textures/Sky/St Peters/StPeters.jpg");
+  }
+  rootNode.attachChild(SkyFactory.createSky(assetManager,envMap,new Vector3f(-1,-1,-1),true));
+}

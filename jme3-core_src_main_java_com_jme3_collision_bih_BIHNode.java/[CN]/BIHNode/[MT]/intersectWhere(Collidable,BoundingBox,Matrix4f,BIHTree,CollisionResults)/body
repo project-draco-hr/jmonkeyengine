@@ -1,0 +1,53 @@
+{
+  TempVars vars=TempVars.get();
+  ArrayList<BIHStackData> stack=vars.bihStack;
+  stack.clear();
+  float[] minExts={box.getCenter().x - box.getXExtent(),box.getCenter().y - box.getYExtent(),box.getCenter().z - box.getZExtent()};
+  float[] maxExts={box.getCenter().x + box.getXExtent(),box.getCenter().y + box.getYExtent(),box.getCenter().z + box.getZExtent()};
+  stack.add(new BIHStackData(this,0,0));
+  Triangle t=new Triangle();
+  int cols=0;
+  stackloop:   while (stack.size() > 0) {
+    BIHNode node=stack.remove(stack.size() - 1).node;
+    while (node.axis != 3) {
+      int a=node.axis;
+      float maxExt=maxExts[a];
+      float minExt=minExts[a];
+      if (node.leftPlane < node.rightPlane) {
+        if (minExt > node.leftPlane && maxExt < node.rightPlane) {
+          continue stackloop;
+        }
+      }
+      if (maxExt < node.rightPlane) {
+        node=node.left;
+      }
+ else       if (minExt > node.leftPlane) {
+        node=node.right;
+      }
+ else {
+        stack.add(new BIHStackData(node.right,0,0));
+        node=node.left;
+      }
+    }
+    for (int i=node.leftIndex; i <= node.rightIndex; i++) {
+      tree.getTriangle(i,t.get1(),t.get2(),t.get3());
+      if (worldMatrix != null) {
+        worldMatrix.mult(t.get1(),t.get1());
+        worldMatrix.mult(t.get2(),t.get2());
+        worldMatrix.mult(t.get3(),t.get3());
+      }
+      int added=col.collideWith(t,results);
+      if (added > 0) {
+        int index=tree.getTriangleIndex(i);
+        int start=results.size() - added;
+        for (int j=start; j < results.size(); j++) {
+          CollisionResult cr=results.getCollisionDirect(j);
+          cr.setTriangleIndex(index);
+        }
+        cols+=added;
+      }
+    }
+  }
+  vars.release();
+  return cols;
+}

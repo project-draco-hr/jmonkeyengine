@@ -1,0 +1,20 @@
+{
+  if (!fullscreenBox.isSelected()) {
+    return;
+  }
+  String resolution=(String)displayResCombo.getSelectedItem();
+  String colorDepth=(String)colorDepthCombo.getSelectedItem();
+  if (colorDepth == null) {
+    colorDepth=source.getBitsPerPixel() + " bpp";
+  }
+  String displayFreq=(String)displayFreqCombo.getSelectedItem();
+  if (displayFreq == null) {
+    displayFreq=source.getFrequency() + " Hz";
+  }
+  String[] depths=getDepths(resolution,modes);
+  colorDepthCombo.setModel(new DefaultComboBoxModel(depths));
+  colorDepthCombo.setSelectedItem(colorDepth);
+  String[] freqs=getFrequencies(resolution,modes);
+  displayFreqCombo.setModel(new DefaultComboBoxModel(freqs));
+  displayFreqCombo.setSelectedItem(displayFreq);
+}

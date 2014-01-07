@@ -1,0 +1,11 @@
+{
+  String defineName=def.getShaderParamDefine(paramName);
+  if (defineName != null) {
+    if (value == null) {
+      needReload=defines.remove(defineName) || needReload;
+    }
+ else {
+      needReload=defines.set(defineName,type,value) || needReload;
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  if (resultTexture == null || rebuild) {
+    List<TriangleTextureElement> list=new ArrayList<TriangleTextureElement>(faceTextures);
+    Collections.sort(list,new Comparator<TriangleTextureElement>(){
+      public int compare(      TriangleTextureElement o1,      TriangleTextureElement o2){
+        return o2.image.getHeight() - o1.image.getHeight();
+      }
+    }
+);
+    Set<Integer> duplicatedFaceIndexes=new HashSet<Integer>();
+    int resultImageHeight=list.get(0).image.getHeight();
+    int resultImageWidth=0;
+    int currentXPos=0, currentYPos=0;
+    Map<TriangleTextureElement,Integer[]> imageLayoutData=new HashMap<TriangleTextureElement,Integer[]>(list.size());
+    while (list.size() > 0) {
+      TriangleTextureElement currentElement=list.remove(0);
+      if (currentXPos + currentElement.image.getWidth() > maxTextureSize) {
+        currentXPos=0;
+        currentYPos=resultImageHeight;
+        resultImageHeight+=currentElement.image.getHeight();
+      }
+      Integer[] currentPositions=new Integer[]{currentXPos,currentYPos};
+      imageLayoutData.put(currentElement,currentPositions);
+      if (keepIdenticalTextures) {
+        for (int i=0; i < list.size(); ++i) {
+          if (currentElement.image.equals(list.get(i).image)) {
+            duplicatedFaceIndexes.add(list.get(i).faceIndex);
+            imageLayoutData.put(list.remove(i--),currentPositions);
+          }
+        }
+      }
+      currentXPos+=currentElement.image.getWidth();
+      resultImageWidth=Math.max(resultImageWidth,currentXPos);
+    }
+    resultUVS=new ArrayList<Vector2f>(imageLayoutData.size() * 3);
+    for (int i=0; i < imageLayoutData.size() * 3; ++i) {
+      resultUVS.add(null);
+    }
+    Vector2f[] uvs=new Vector2f[3];
+    for (    Entry<TriangleTextureElement,Integer[]> entry : imageLayoutData.entrySet()) {
+      Integer[] position=entry.getValue();
+      entry.getKey().computeFinalUVCoordinates(resultImageWidth,resultImageHeight,position[0],position[1],uvs);
+      resultUVS.set(entry.getKey().faceIndex * 3,uvs[0]);
+      resultUVS.set(entry.getKey().faceIndex * 3 + 1,uvs[1]);
+      resultUVS.set(entry.getKey().faceIndex * 3 + 2,uvs[2]);
+    }
+    Image resultImage=new Image(format,resultImageWidth,resultImageHeight,BufferUtils.createByteBuffer(resultImageWidth * resultImageHeight * (format.getBitsPerPixel() >> 3)));
+    resultTexture=new Texture2D(resultImage);
+    for (    Entry<TriangleTextureElement,Integer[]> entry : imageLayoutData.entrySet()) {
+      if (!duplicatedFaceIndexes.contains(entry.getKey().faceIndex)) {
+        this.draw(resultImage,entry.getKey().image,entry.getValue()[0],entry.getValue()[1]);
+      }
+    }
+    resultTexture.setWrap(WrapAxis.S,this.getWrap(WrapAxis.S));
+    resultTexture.setWrap(WrapAxis.T,this.getWrap(WrapAxis.T));
+    resultTexture.setMagFilter(this.getMagFilter());
+    resultTexture.setMinFilter(this.getMinFilter());
+  }
+  return resultTexture;
+}

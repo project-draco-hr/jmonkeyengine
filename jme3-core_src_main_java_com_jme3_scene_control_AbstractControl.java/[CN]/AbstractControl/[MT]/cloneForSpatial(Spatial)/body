@@ -1,0 +1,11 @@
+{
+  try {
+    AbstractControl c=(AbstractControl)clone();
+    c.spatial=null;
+    c.setSpatial(spatial);
+    return c;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new RuntimeException("Can't clone control for spatial",e);
+  }
+}

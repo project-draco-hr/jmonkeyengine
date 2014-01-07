@@ -1,0 +1,65 @@
+{
+  try {
+    key=info.getKey();
+    meshName=key.getName();
+    folderName=key.getFolder();
+    String ext=key.getExtension();
+    meshName=meshName.substring(0,meshName.length() - ext.length() - 1);
+    if (folderName != null && folderName.length() > 0) {
+      meshName=meshName.substring(folderName.length());
+    }
+    assetManager=info.getManager();
+    if (key instanceof OgreMeshKey) {
+      OgreMeshKey meshKey=(OgreMeshKey)key;
+      materialList=meshKey.getMaterialList();
+      String materialName=meshKey.getMaterialName();
+      if (materialList == null && materialName != null) {
+        OgreMaterialKey materialKey=new OgreMaterialKey(folderName + materialName + ".material");
+        try {
+          materialList=(MaterialList)assetManager.loadAsset(materialKey);
+        }
+ catch (        AssetNotFoundException e) {
+          logger.log(Level.WARNING,"Cannot locate {0} for model {1}",new Object[]{materialKey,key});
+        }
+      }
+    }
+ else {
+      materialList=null;
+    }
+    if (materialList == null) {
+      OgreMaterialKey materialKey=new OgreMaterialKey(folderName + meshName + ".material");
+      try {
+        materialList=(MaterialList)assetManager.loadAsset(materialKey);
+      }
+ catch (      AssetNotFoundException e) {
+        logger.log(Level.WARNING,"Cannot locate {0} for model {1}",new Object[]{materialKey,key});
+      }
+    }
+    SAXParserFactory factory=SAXParserFactory.newInstance();
+    factory.setNamespaceAware(true);
+    XMLReader xr=factory.newSAXParser().getXMLReader();
+    xr.setContentHandler(this);
+    xr.setErrorHandler(this);
+    InputStreamReader r=null;
+    try {
+      r=new InputStreamReader(info.openStream());
+      xr.parse(new InputSource(r));
+    }
+  finally {
+      if (r != null) {
+        r.close();
+      }
+    }
+    return compileModel();
+  }
+ catch (  SAXException ex) {
+    IOException ioEx=new IOException("Error while parsing Ogre3D mesh.xml");
+    ioEx.initCause(ex);
+    throw ioEx;
+  }
+catch (  ParserConfigurationException ex) {
+    IOException ioEx=new IOException("Error while parsing Ogre3D mesh.xml");
+    ioEx.initCause(ex);
+    throw ioEx;
+  }
+}

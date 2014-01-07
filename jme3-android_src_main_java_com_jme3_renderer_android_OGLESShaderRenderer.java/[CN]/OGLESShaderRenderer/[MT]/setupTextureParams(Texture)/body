@@ -1,0 +1,20 @@
+{
+  int target=convertTextureType(tex.getType());
+  int minFilter=convertMinFilter(tex.getMinFilter());
+  int magFilter=convertMagFilter(tex.getMagFilter());
+  GLES20.glTexParameteri(target,GLES20.GL_TEXTURE_MIN_FILTER,minFilter);
+  GLES20.glTexParameteri(target,GLES20.GL_TEXTURE_MAG_FILTER,magFilter);
+  RendererUtil.checkGLError();
+switch (tex.getType()) {
+case ThreeDimensional:
+case CubeMap:
+case TwoDimensional:
+case TwoDimensionalArray:
+    GLES20.glTexParameteri(target,GLES20.GL_TEXTURE_WRAP_T,convertWrapMode(tex.getWrap(WrapAxis.T)));
+  GLES20.glTexParameteri(target,GLES20.GL_TEXTURE_WRAP_S,convertWrapMode(tex.getWrap(WrapAxis.S)));
+RendererUtil.checkGLError();
+break;
+default :
+throw new UnsupportedOperationException("Unknown texture type: " + tex.getType());
+}
+}

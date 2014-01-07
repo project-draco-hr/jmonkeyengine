@@ -1,0 +1,11 @@
+{
+  if (position.length != tableSizes.length) {
+    throw new ArrayIndexOutOfBoundsException("The table accepts " + tableSizes.length + " indexing number(s)!");
+  }
+  int index=0;
+  for (int i=0; i < position.length - 1; ++i) {
+    index+=position[i] * tableSizes[i + 1];
+  }
+  index+=position[position.length - 1];
+  return array[index];
+}

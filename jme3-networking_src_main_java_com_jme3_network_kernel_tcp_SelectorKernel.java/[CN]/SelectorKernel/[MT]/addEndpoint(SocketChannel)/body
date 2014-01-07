@@ -1,0 +1,6 @@
+{
+  NioEndpoint p=new NioEndpoint(this,nextEndpointId(),c);
+  endpoints.put(p.getId(),p);
+  addEvent(EndpointEvent.createAdd(this,p));
+  return p;
+}

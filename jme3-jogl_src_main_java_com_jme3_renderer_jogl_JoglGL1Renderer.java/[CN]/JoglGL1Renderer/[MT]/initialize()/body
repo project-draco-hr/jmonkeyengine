@@ -1,0 +1,25 @@
+{
+  GL gl=GLContext.getCurrentGL();
+  if (gl.isExtensionAvailable("GL_VERSION_1_2")) {
+    gl12=true;
+  }
+  gl.getGL2ES1().glShadeModel(GLLightingFunc.GL_SMOOTH);
+  gl.getGL2().glColorMaterial(GL.GL_FRONT_AND_BACK,GLLightingFunc.GL_DIFFUSE);
+  gl.glHint(GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT,GL.GL_NICEST);
+  if (gl12) {
+    gl.glEnable(GL2ES1.GL_RESCALE_NORMAL);
+  }
+ else {
+    gl.glEnable(GLLightingFunc.GL_NORMALIZE);
+  }
+  if (gl.isExtensionAvailable("GL_ARB_texture_non_power_of_two")) {
+    caps.add(Caps.NonPowerOfTwoTextures);
+  }
+ else {
+    logger.log(Level.WARNING,"Your graphics card does not " + "support non-power-of-2 textures. " + "Some features might not work.");
+  }
+  gl.glGetIntegerv(GL2ES1.GL_MAX_LIGHTS,ib1);
+  maxLights=ib1.get(0);
+  gl.glGetIntegerv(GL.GL_MAX_TEXTURE_SIZE,ib1);
+  maxTexSize=ib1.get(0);
+}

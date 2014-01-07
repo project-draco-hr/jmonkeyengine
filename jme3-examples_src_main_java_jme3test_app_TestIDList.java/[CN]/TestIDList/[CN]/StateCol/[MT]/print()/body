@@ -1,0 +1,9 @@
+{
+  System.out.println("-----------------");
+  Set<Integer> keys=objs.keySet();
+  Integer[] keysArr=keys.toArray(new Integer[0]);
+  Arrays.sort(keysArr);
+  for (int i=0; i < keysArr.length; i++) {
+    System.out.println(keysArr[i] + " => " + objs.get(keysArr[i]).hashCode());
+  }
+}

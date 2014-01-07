@@ -1,0 +1,42 @@
+{
+  look.set(camera.getLocation()).subtractLocal(spatial.getWorldTranslation());
+  spatial.getParent().getWorldRotation().mult(look,left);
+  left.x*=1.0f / spatial.getWorldScale().x;
+  left.y*=1.0f / spatial.getWorldScale().y;
+  left.z*=1.0f / spatial.getWorldScale().z;
+  float lengthSquared=left.x * left.x + left.z * left.z;
+  if (lengthSquared < FastMath.FLT_EPSILON) {
+    return;
+  }
+  float invLength=FastMath.invSqrt(lengthSquared);
+  if (axis.y == 1) {
+    left.x*=invLength;
+    left.y=0.0f;
+    left.z*=invLength;
+    orient.set(0,0,left.z);
+    orient.set(0,1,0);
+    orient.set(0,2,left.x);
+    orient.set(1,0,0);
+    orient.set(1,1,1);
+    orient.set(1,2,0);
+    orient.set(2,0,-left.x);
+    orient.set(2,1,0);
+    orient.set(2,2,left.z);
+  }
+ else   if (axis.z == 1) {
+    left.x*=invLength;
+    left.y*=invLength;
+    left.z=0.0f;
+    orient.set(0,0,left.y);
+    orient.set(0,1,left.x);
+    orient.set(0,2,0);
+    orient.set(1,0,-left.y);
+    orient.set(1,1,left.x);
+    orient.set(1,2,0);
+    orient.set(2,0,0);
+    orient.set(2,1,0);
+    orient.set(2,2,1);
+  }
+  spatial.setLocalRotation(orient);
+  fixRefreshFlags();
+}

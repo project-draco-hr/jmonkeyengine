@@ -1,0 +1,29 @@
+{
+  AmbientLight al=new AmbientLight();
+  al.setColor(new ColorRGBA(0.1f,0.1f,0.1f,1));
+  rootNode.addLight(al);
+  SpotLight sl=new SpotLight();
+  sl.setColor(ColorRGBA.White.mult(1.0f));
+  sl.setPosition(new Vector3f(1.2074411f,10.6868908f,4.1489987f));
+  sl.setDirection(sl.getPosition().mult(-1));
+  sl.setSpotOuterAngle(0.1f);
+  sl.setSpotInnerAngle(0.004f);
+  rootNode.addLight(sl);
+  PointLight pl=new PointLight();
+  pl.setColor(ColorRGBA.White.mult(1.5f));
+  pl.setPosition(new Vector3f(0,0,1));
+  pl.setRadius(2);
+  rootNode.addLight(pl);
+  SpotLightShadowRenderer shadows=new SpotLightShadowRenderer(assetManager,1024);
+  shadows.setLight(sl);
+  shadows.setShadowIntensity(0.3f);
+  shadows.setEdgeFilteringMode(EdgeFilteringMode.PCF8);
+  viewPort.addProcessor(shadows);
+  FilterPostProcessor fpp=new FilterPostProcessor(assetManager);
+  SSAOFilter filter=new SSAOFilter(0.10997847f,0.440001f,0.39999998f,-0.008000026f);
+  ;
+  fpp.addFilter(filter);
+  fpp.addFilter(new FXAAFilter());
+  fpp.addFilter(new FXAAFilter());
+  viewPort.addProcessor(fpp);
+}

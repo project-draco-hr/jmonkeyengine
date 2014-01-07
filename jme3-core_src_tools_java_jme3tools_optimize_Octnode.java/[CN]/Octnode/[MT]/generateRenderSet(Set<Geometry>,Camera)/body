@@ -1,0 +1,20 @@
+{
+  bbox.setCheckPlane(0);
+  cam.setPlaneState(0);
+  Camera.FrustumIntersect result=cam.contains(bbox);
+  if (result != Camera.FrustumIntersect.Outside) {
+    if (geoms != null) {
+      renderSet.addAll(Arrays.asList(geoms));
+    }
+    for (int i=0; i < 8; i++) {
+      if (children[i] != null) {
+        if (result == Camera.FrustumIntersect.Inside) {
+          children[i].generateRenderSetNoCheck(renderSet,cam);
+        }
+ else {
+          children[i].generateRenderSet(renderSet,cam);
+        }
+      }
+    }
+  }
+}

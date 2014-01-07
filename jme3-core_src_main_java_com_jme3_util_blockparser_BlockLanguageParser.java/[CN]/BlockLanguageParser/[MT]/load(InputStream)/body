@@ -1,0 +1,48 @@
+{
+  reset();
+  reader=new InputStreamReader(in);
+  StringBuilder buffer=new StringBuilder();
+  boolean insideComment=false;
+  char lastChar='\0';
+  while (true) {
+    int ci=reader.read();
+    char c=(char)ci;
+    if (c == '\r') {
+      continue;
+    }
+    if (insideComment && c == '\n') {
+      insideComment=false;
+    }
+ else     if (c == '/' && lastChar == '/') {
+      buffer.deleteCharAt(buffer.length() - 1);
+      insideComment=true;
+      pushStatement(buffer);
+      lastChar='\0';
+      lineNumber++;
+    }
+ else     if (!insideComment) {
+      if (ci == -1 || c == '{' || c == '}' || c == '\n' || c == ';') {
+        pushStatement(buffer);
+        lastChar='\0';
+        if (c == '{') {
+          statementStack.add(lastStatement);
+          continue;
+        }
+ else         if (c == '}') {
+          statementStack.remove(statementStack.size() - 1);
+          continue;
+        }
+ else         if (c == '\n') {
+          lineNumber++;
+        }
+ else         if (ci == -1) {
+          break;
+        }
+      }
+ else {
+        buffer.append(c);
+        lastChar=c;
+      }
+    }
+  }
+}

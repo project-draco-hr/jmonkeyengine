@@ -1,0 +1,8 @@
+{
+  buf.position(idx);
+  int original=buf.get() & 0xff;
+  while ((--bpp) > 0) {
+    original=(original << 8) | (buf.get() & 0xff);
+  }
+  return original;
+}

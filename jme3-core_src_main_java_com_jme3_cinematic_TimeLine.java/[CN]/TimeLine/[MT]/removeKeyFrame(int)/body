@@ -1,0 +1,10 @@
+{
+  remove(keyFrameIndex);
+  if (lastKeyFrameIndex == keyFrameIndex) {
+    KeyFrame kf=null;
+    for (int i=keyFrameIndex; kf == null && i >= 0; i--) {
+      kf=getKeyFrameAtIndex(i);
+      lastKeyFrameIndex=i;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  if (!endpoint.isConnected()) {
+    return;
+  }
+  try {
+    thread.getSocket().send(packet);
+  }
+ catch (  Exception e) {
+    KernelException exc=new KernelException("Error sending datagram to:" + address,e);
+    exc.fillInStackTrace();
+    reportError(exc);
+  }
+}

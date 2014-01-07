@@ -1,0 +1,14 @@
+{
+  InputCapsule input=im.getCapsule(this);
+  Savable[] boneRootsAsSav=input.readSavableArray("rootBones",null);
+  rootBones=new Bone[boneRootsAsSav.length];
+  System.arraycopy(boneRootsAsSav,0,rootBones,0,boneRootsAsSav.length);
+  Savable[] boneListAsSavable=input.readSavableArray("boneList",null);
+  boneList=new Bone[boneListAsSavable.length];
+  System.arraycopy(boneListAsSavable,0,boneList,0,boneListAsSavable.length);
+  createSkinningMatrices();
+  for (  Bone rootBone : rootBones) {
+    rootBone.update();
+    rootBone.setBindingPose();
+  }
+}

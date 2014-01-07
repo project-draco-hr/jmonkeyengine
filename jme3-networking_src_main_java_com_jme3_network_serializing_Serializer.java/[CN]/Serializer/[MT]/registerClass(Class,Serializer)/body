@@ -1,0 +1,11 @@
+{
+  SerializerRegistration existingReg=getExactSerializerRegistration(cls);
+  short id;
+  if (existingReg != null) {
+    id=existingReg.getId();
+  }
+ else {
+    id=nextId();
+  }
+  return registerClassForId(id,cls,serializer);
+}

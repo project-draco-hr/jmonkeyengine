@@ -1,0 +1,24 @@
+{
+  if (output.capacity() < input.capacity())   throw new RuntimeException("Output must be at least as large as input!");
+  input.clear();
+  output.clear();
+  Vector2f temp=new Vector2f();
+  int vertexCount=input.capacity() / 2;
+  ShortBuffer sb=null;
+  IntBuffer ib=null;
+  if (output instanceof ShortBuffer)   sb=(ShortBuffer)output;
+ else   if (output instanceof IntBuffer)   ib=(IntBuffer)output;
+ else   throw new UnsupportedOperationException();
+  for (int i=0; i < vertexCount; i++) {
+    BufferUtils.populateFromBuffer(temp,input,i);
+    if (sb != null) {
+      sb.put((short)(temp.getX() * Short.MAX_VALUE));
+      sb.put((short)(temp.getY() * Short.MAX_VALUE));
+    }
+ else {
+      int v1=(int)(temp.getX() * ((float)(1 << 16)));
+      int v2=(int)(temp.getY() * ((float)(1 << 16)));
+      ib.put(v1).put(v2);
+    }
+  }
+}

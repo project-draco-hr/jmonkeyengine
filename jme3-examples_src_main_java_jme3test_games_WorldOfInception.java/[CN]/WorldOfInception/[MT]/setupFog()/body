@@ -1,0 +1,11 @@
+{
+  FilterPostProcessor fpp;
+  FogFilter fog;
+  fpp=new FilterPostProcessor(assetManager);
+  fog=new FogFilter();
+  fog.setFogColor(new ColorRGBA(0.0f,0.0f,0.0f,1.0f));
+  fog.setFogDistance(poiRadius);
+  fog.setFogDensity(2.0f);
+  fpp.addFilter(fog);
+  viewPort.addProcessor(fpp);
+}

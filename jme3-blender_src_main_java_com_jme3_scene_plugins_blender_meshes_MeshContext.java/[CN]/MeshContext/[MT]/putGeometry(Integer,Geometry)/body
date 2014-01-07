@@ -1,0 +1,8 @@
+{
+  List<Geometry> geomList=geometries.get(materialIndex);
+  if (geomList == null) {
+    geomList=new ArrayList<Geometry>();
+    geometries.put(materialIndex,geomList);
+  }
+  geomList.add(geometry);
+}

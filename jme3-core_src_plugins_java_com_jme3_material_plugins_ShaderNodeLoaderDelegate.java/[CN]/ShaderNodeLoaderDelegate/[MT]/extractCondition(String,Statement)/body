@@ -1,0 +1,12 @@
+{
+  List<String> defines=conditionParser.extractDefines(cond);
+  for (  String string : defines) {
+    MatParam param=findMatParam(string);
+    if (param != null) {
+      addDefine(param.getName());
+    }
+ else {
+      throw new MatParseException("Invalid condition, condition must match a Material Parameter named " + cond,statement);
+    }
+  }
+}

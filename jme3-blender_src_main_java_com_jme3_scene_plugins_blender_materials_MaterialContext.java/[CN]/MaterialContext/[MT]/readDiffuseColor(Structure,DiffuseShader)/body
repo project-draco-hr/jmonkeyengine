@@ -1,0 +1,28 @@
+{
+  int commonMapto=((Number)materialStructure.getFieldValue("mapto")).intValue();
+  float r=((Number)materialStructure.getFieldValue("r")).floatValue();
+  float g=((Number)materialStructure.getFieldValue("g")).floatValue();
+  float b=((Number)materialStructure.getFieldValue("b")).floatValue();
+  float alpha=((Number)materialStructure.getFieldValue("alpha")).floatValue();
+  if ((commonMapto & 0x01) == 0x01) {
+    return new ColorRGBA(r,g,b,alpha);
+  }
+ else {
+switch (diffuseShader) {
+case FRESNEL:
+case ORENNAYAR:
+case TOON:
+      break;
+case MINNAERT:
+case LAMBERT:
+    float ref=((Number)materialStructure.getFieldValue("ref")).floatValue();
+  r*=ref;
+g*=ref;
+b*=ref;
+break;
+default :
+throw new IllegalStateException("Unknown diffuse shader type: " + diffuseShader.toString());
+}
+return new ColorRGBA(r,g,b,alpha);
+}
+}

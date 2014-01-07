@@ -1,0 +1,14 @@
+{
+  log.log(Level.FINE,"Kernel started for connection:{0}.",address);
+  while (go.get()) {
+    try {
+      DatagramPacket packet=new DatagramPacket(buffer,buffer.length);
+      socket.receive(packet);
+      newData(packet);
+    }
+ catch (    IOException e) {
+      if (!go.get())       return;
+      reportError(e);
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  NiftyJmeDisplay niftyDisplay=new NiftyJmeDisplay(getAssetManager(),getInputManager(),getAudioRenderer(),getGuiViewPort());
+  Nifty nifty;
+  nifty=niftyDisplay.getNifty();
+  nifty.fromXmlWithoutStartScreen("Interface/Nifty/CinematicTest.xml");
+  getGuiViewPort().addProcessor(niftyDisplay);
+  guiFont=assetManager.loadFont("Interface/Fonts/Default.fnt");
+  final BitmapText text=new BitmapText(guiFont,false);
+  text.setSize(guiFont.getCharSet().getRenderedSize());
+  text.setText("Press enter to play/pause cinematic");
+  text.setLocalTranslation((cam.getWidth() - text.getLineWidth()) / 2,cam.getHeight(),0);
+  guiNode.attachChild(text);
+  createScene();
+  cinematic=new Cinematic(rootNode,20);
+  stateManager.attach(cinematic);
+  createCameraMotion();
+  AnimationFactory factory=new AnimationFactory(20,"teapotAnim");
+  factory.addTimeTranslation(0,new Vector3f(10,0,10));
+  factory.addTimeTranslation(20,new Vector3f(10,0,-10));
+  factory.addTimeScale(10,new Vector3f(4,4,4));
+  factory.addTimeScale(20,new Vector3f(1,1,1));
+  factory.addTimeRotationAngles(20,0,4 * FastMath.TWO_PI,0);
+  AnimControl control=new AnimControl();
+  control.addAnim(factory.buildAnimation());
+  teapot.addControl(control);
+  cinematic.addCinematicEvent(0,new FadeEvent(true));
+  cinematic.addCinematicEvent(0,new AnimationEvent(teapot,"teapotAnim",LoopMode.DontLoop));
+  cinematic.addCinematicEvent(0,cameraMotionEvent);
+  cinematic.addCinematicEvent(0,new SoundEvent("Sound/Environment/Nature.ogg",LoopMode.Loop));
+  cinematic.addCinematicEvent(3f,new SoundEvent("Sound/Effects/kick.wav"));
+  cinematic.addCinematicEvent(3,new SubtitleTrack(nifty,"start",3,"jMonkey engine really kicks A..."));
+  cinematic.addCinematicEvent(5.1f,new SoundEvent("Sound/Effects/Beep.ogg",1));
+  cinematic.addCinematicEvent(2,new AnimationEvent(model,"Walk",LoopMode.Loop));
+  cinematic.activateCamera(0,"topView");
+  cinematic.addCinematicEvent(19,new FadeEvent(false));
+  cinematic.addListener(new CinematicEventListener(){
+    public void onPlay(    CinematicEvent cinematic){
+      chaseCam.setEnabled(false);
+      System.out.println("play");
+    }
+    public void onPause(    CinematicEvent cinematic){
+      System.out.println("pause");
+    }
+    public void onStop(    CinematicEvent cinematic){
+      chaseCam.setEnabled(true);
+      fade.setValue(1);
+      System.out.println("stop");
+    }
+  }
+);
+  flyCam.setEnabled(false);
+  chaseCam=new ChaseCamera(cam,model,inputManager);
+  initInputs();
+}

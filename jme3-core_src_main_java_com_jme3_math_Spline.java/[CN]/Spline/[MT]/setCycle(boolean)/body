@@ -1,0 +1,17 @@
+{
+  if (type != SplineType.Nurb) {
+    if (controlPoints.size() >= 2) {
+      if (this.cycle && !cycle) {
+        controlPoints.remove(controlPoints.size() - 1);
+      }
+      if (!this.cycle && cycle) {
+        controlPoints.add(controlPoints.get(0));
+      }
+      this.cycle=cycle;
+      this.computeTotalLentgh();
+    }
+ else {
+      this.cycle=cycle;
+    }
+  }
+}

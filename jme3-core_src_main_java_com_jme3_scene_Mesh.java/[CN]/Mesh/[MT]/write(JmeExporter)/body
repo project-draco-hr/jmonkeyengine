@@ -1,0 +1,30 @@
+{
+  OutputCapsule out=ex.getCapsule(this);
+  out.write(meshBound,"modelBound",null);
+  out.write(vertCount,"vertCount",-1);
+  out.write(elementCount,"elementCount",-1);
+  out.write(maxNumWeights,"max_num_weights",-1);
+  out.write(mode,"mode",Mode.Triangles);
+  out.write(collisionTree,"collisionTree",null);
+  out.write(elementLengths,"elementLengths",null);
+  out.write(modeStart,"modeStart",null);
+  out.write(pointSize,"pointSize",1f);
+  VertexBuffer hwBoneIndex=null;
+  VertexBuffer hwBoneWeight=null;
+  hwBoneIndex=getBuffer(Type.HWBoneIndex);
+  if (hwBoneIndex != null) {
+    buffers.remove(Type.HWBoneIndex.ordinal());
+  }
+  hwBoneWeight=getBuffer(Type.HWBoneWeight);
+  if (hwBoneWeight != null) {
+    buffers.remove(Type.HWBoneWeight.ordinal());
+  }
+  out.writeIntSavableMap(buffers,"buffers",null);
+  if (hwBoneIndex != null) {
+    buffers.put(hwBoneIndex.getBufferType().ordinal(),hwBoneIndex);
+  }
+  if (hwBoneWeight != null) {
+    buffers.put(hwBoneWeight.getBufferType().ordinal(),hwBoneWeight);
+  }
+  out.write(lodLevels,"lodLevels",null);
+}

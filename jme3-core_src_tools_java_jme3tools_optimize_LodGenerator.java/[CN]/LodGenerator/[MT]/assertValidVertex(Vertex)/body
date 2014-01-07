@@ -1,0 +1,18 @@
+{
+  for (  Triangle t : v.triangles) {
+    for (int i=0; i < 3; i++) {
+      assert(find(collapseCostSet,t.vertex[i]));
+      assert(t.vertex[i].edges.contains(new Edge(t.vertex[i].collapseTo)));
+      for (int n=0; n < 3; n++) {
+        if (i != n) {
+          int id=t.vertex[i].edges.indexOf(new Edge(t.vertex[n]));
+          Edge ed=t.vertex[i].edges.get(id);
+        }
+ else {
+          assert(!t.vertex[i].edges.contains(new Edge(t.vertex[n])));
+        }
+      }
+    }
+  }
+  return true;
+}

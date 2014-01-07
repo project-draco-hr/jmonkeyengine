@@ -1,0 +1,15 @@
+{
+  indent=0;
+  StringBuilder sourceDeclaration=new StringBuilder();
+  StringBuilder source=new StringBuilder();
+  generateUniforms(sourceDeclaration,info,type);
+  if (type == ShaderType.Vertex) {
+    generateAttributes(sourceDeclaration,info);
+  }
+  generateVaryings(sourceDeclaration,info,type);
+  generateStartOfMainSection(source,info,type);
+  generateDeclarationAndMainBody(shaderNodes,sourceDeclaration,source,info,type);
+  generateEndOfMainSection(source,info,type);
+  sourceDeclaration.append(source);
+  return sourceDeclaration.toString();
+}

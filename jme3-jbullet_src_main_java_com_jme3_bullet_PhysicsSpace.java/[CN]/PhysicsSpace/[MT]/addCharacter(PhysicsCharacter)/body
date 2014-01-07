@@ -1,0 +1,10 @@
+{
+  if (physicsCharacters.containsKey(node.getObjectId())) {
+    logger.log(Level.WARNING,"Character {0} already exists in PhysicsSpace, cannot add.",node);
+    return;
+  }
+  physicsCharacters.put(node.getObjectId(),node);
+  logger.log(Level.FINE,"Adding character {0} to physics space.",node.getObjectId());
+  dynamicsWorld.addCollisionObject(node.getObjectId(),CollisionFilterGroups.CHARACTER_FILTER,(short)(CollisionFilterGroups.STATIC_FILTER | CollisionFilterGroups.DEFAULT_FILTER));
+  dynamicsWorld.addAction(node.getControllerId());
+}

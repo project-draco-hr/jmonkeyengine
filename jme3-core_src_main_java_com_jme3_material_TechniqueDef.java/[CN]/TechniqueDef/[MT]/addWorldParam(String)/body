@@ -1,0 +1,12 @@
+{
+  if (worldBinds == null) {
+    worldBinds=new ArrayList<UniformBinding>();
+  }
+  try {
+    worldBinds.add(UniformBinding.valueOf(name));
+    return true;
+  }
+ catch (  IllegalArgumentException ex) {
+    return false;
+  }
+}

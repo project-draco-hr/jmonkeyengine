@@ -1,0 +1,20 @@
+{
+  Camera camera=new Camera(DEFAULT_CAM_WIDTH,DEFAULT_CAM_HEIGHT);
+  int type=((Number)structure.getFieldValue("type")).intValue();
+  if (type != 0 && type != 1) {
+    LOGGER.log(Level.WARNING,"Unknown camera type: {0}. Perspective camera is being used!",type);
+    type=0;
+  }
+  camera.setParallelProjection(type == 1);
+  float aspect=0;
+  float clipsta=((Number)structure.getFieldValue("clipsta")).floatValue();
+  float clipend=((Number)structure.getFieldValue("clipend")).floatValue();
+  if (type == 0) {
+    aspect=((Number)structure.getFieldValue("lens")).floatValue();
+  }
+ else {
+    aspect=((Number)structure.getFieldValue("ortho_scale")).floatValue();
+  }
+  camera.setFrustumPerspective(aspect,camera.getWidth() / camera.getHeight(),clipsta,clipend);
+  return new CameraNode(null,camera);
+}

@@ -1,0 +1,9 @@
+{
+  if (!physicsGhostObjects.containsKey(node.getObjectId())) {
+    logger.log(Level.WARNING,"GhostObject {0} does not exist in PhysicsSpace, cannot remove.",node);
+    return;
+  }
+  physicsGhostObjects.remove(node.getObjectId());
+  logger.log(Level.FINE,"Removing ghost object {0} from physics space.",Long.toHexString(node.getObjectId()));
+  removeCollisionObject(physicsSpaceId,node.getObjectId());
+}

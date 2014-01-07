@@ -1,0 +1,13 @@
+{
+  if (model == null)   throw new RuntimeException("Cannot be null. .. etc");
+  final String finalModel=model;
+  serverApp.enqueue(new Callable<Void>(){
+    public Void call() throws Exception {
+      Spatial spatial=serverApp.getAssetManager().loadModel(finalModel);
+      serverApp.getRootNode().attachChild(spatial);
+      return null;
+    }
+  }
+);
+  return true;
+}

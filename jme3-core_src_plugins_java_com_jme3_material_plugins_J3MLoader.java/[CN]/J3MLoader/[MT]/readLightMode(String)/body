@@ -1,0 +1,8 @@
+{
+  String[] split=statement.split(whitespacePattern);
+  if (split.length != 2) {
+    throw new IOException("LightMode statement syntax incorrect");
+  }
+  LightMode lm=LightMode.valueOf(split[1]);
+  technique.setLightMode(lm);
+}

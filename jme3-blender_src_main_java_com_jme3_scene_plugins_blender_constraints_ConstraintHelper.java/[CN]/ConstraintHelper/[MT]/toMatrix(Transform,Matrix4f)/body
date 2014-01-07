@@ -1,0 +1,7 @@
+{
+  if (transform != null) {
+    return this.toMatrix(transform.getTranslation(),transform.getRotation(),transform.getScale(),store);
+  }
+  store.loadIdentity();
+  return store;
+}

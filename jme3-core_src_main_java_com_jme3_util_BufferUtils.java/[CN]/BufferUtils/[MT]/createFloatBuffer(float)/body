@@ -1,0 +1,10 @@
+{
+  if (data == null) {
+    return null;
+  }
+  FloatBuffer buff=createFloatBuffer(data.length);
+  buff.clear();
+  buff.put(data);
+  buff.flip();
+  return buff;
+}

@@ -1,0 +1,32 @@
+{
+  int idx=lastUsed + 1;
+  if (idx >= particles.length) {
+    return null;
+  }
+  Particle p=particles[idx];
+  if (selectRandomImage) {
+    p.imageIndex=FastMath.nextRandomInt(0,imagesY - 1) * imagesX + FastMath.nextRandomInt(0,imagesX - 1);
+  }
+  p.startlife=lowLife + FastMath.nextRandomFloat() * (highLife - lowLife);
+  p.life=p.startlife;
+  p.color.set(startColor);
+  p.size=startSize;
+  particleInfluencer.influenceParticle(p,shape);
+  if (worldSpace) {
+    worldTransform.transformVector(p.position,p.position);
+    worldTransform.getRotation().mult(p.velocity,p.velocity);
+  }
+  if (randomAngle) {
+    p.angle=FastMath.nextRandomFloat() * FastMath.TWO_PI;
+  }
+  if (rotateSpeed != 0) {
+    p.rotateSpeed=rotateSpeed * (0.2f + (FastMath.nextRandomFloat() * 2f - 1f) * .8f);
+  }
+  temp.set(p.position).addLocal(p.size,p.size,p.size);
+  max.maxLocal(temp);
+  temp.set(p.position).subtractLocal(p.size,p.size,p.size);
+  min.minLocal(temp);
+  ++lastUsed;
+  firstUnUsed=idx + 1;
+  return p;
+}

@@ -1,0 +1,14 @@
+{
+  if (fb != null) {
+    RenderBuffer rb=fb.getColorBuffer();
+    if (rb == null) {
+      throw new IllegalArgumentException("Specified framebuffer" + " does not have a colorbuffer");
+    }
+    setFrameBuffer(fb);
+  }
+ else {
+    setFrameBuffer(null);
+  }
+  GLES20.glReadPixels(vpX,vpY,vpW,vpH,GLES20.GL_RGBA,GLES20.GL_UNSIGNED_BYTE,byteBuf);
+  RendererUtil.checkGLError();
+}

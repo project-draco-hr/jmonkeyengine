@@ -1,0 +1,11 @@
+{
+  if (markerValue == null) {
+    throw new IllegalArgumentException("The marker's value cannot be null.");
+  }
+  Map<Object,Object> markersMap=markers.get(marker);
+  if (markersMap == null) {
+    markersMap=new HashMap<Object,Object>();
+    markers.put(marker,markersMap);
+  }
+  markersMap.put(feature,markerValue);
+}

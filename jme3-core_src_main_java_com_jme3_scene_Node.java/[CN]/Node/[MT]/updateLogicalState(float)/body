@@ -1,0 +1,9 @@
+{
+  super.updateLogicalState(tpf);
+  if (children.isEmpty()) {
+    return;
+  }
+  for (  Spatial child : children.getArray()) {
+    child.updateLogicalState(tpf);
+  }
+}

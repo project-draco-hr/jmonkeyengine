@@ -1,0 +1,11 @@
+{
+  ambientLightColor.set(0,0,0,1);
+  for (int j=0; j < lightList.size(); j++) {
+    Light l=lightList.get(j);
+    if (l instanceof AmbientLight) {
+      ambientLightColor.addLocal(l.getColor());
+    }
+  }
+  ambientLightColor.a=1.0f;
+  return ambientLightColor;
+}

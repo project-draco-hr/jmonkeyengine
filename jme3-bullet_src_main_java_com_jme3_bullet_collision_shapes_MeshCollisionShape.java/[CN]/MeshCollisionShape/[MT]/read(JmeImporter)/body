@@ -1,0 +1,20 @@
+{
+  super.read(im);
+  InputCapsule capsule=im.getCapsule(this);
+  this.numVertices=capsule.readInt(MeshCollisionShape.NUM_VERTICES,0);
+  this.numTriangles=capsule.readInt(MeshCollisionShape.NUM_TRIANGLES,0);
+  this.vertexStride=capsule.readInt(MeshCollisionShape.VERTEX_STRIDE,0);
+  this.triangleIndexStride=capsule.readInt(MeshCollisionShape.TRIANGLE_INDEX_STRIDE,0);
+  this.triangleIndexBase=BufferUtils.createByteBuffer(capsule.readByteArray(MeshCollisionShape.TRIANGLE_INDEX_BASE,null));
+  this.vertexBase=BufferUtils.createByteBuffer(capsule.readByteArray(MeshCollisionShape.VERTEX_BASE,null));
+  byte[] nativeBvh=capsule.readByteArray(MeshCollisionShape.NATIVE_BVH,null);
+  if (nativeBvh == null) {
+    memoryOptimized=false;
+    createShape(true);
+  }
+ else {
+    memoryOptimized=true;
+    createShape(false);
+    nativeBVHBuffer=setBVH(nativeBvh,this.objectId);
+  }
+}

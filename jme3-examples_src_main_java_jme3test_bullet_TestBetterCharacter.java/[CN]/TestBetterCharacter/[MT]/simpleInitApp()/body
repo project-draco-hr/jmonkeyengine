@@ -1,0 +1,26 @@
+{
+  setupKeys();
+  bulletAppState=new BulletAppState();
+  stateManager.attach(bulletAppState);
+  bulletAppState.setDebugEnabled(true);
+  PhysicsTestHelper.createPhysicsTestWorldSoccer(rootNode,assetManager,bulletAppState.getPhysicsSpace());
+  PhysicsTestHelper.createBallShooter(this,rootNode,bulletAppState.getPhysicsSpace());
+  setupPlanet();
+  characterNode=new Node("character node");
+  characterNode.setLocalTranslation(new Vector3f(4,5,2));
+  physicsCharacter=new BetterCharacterControl(0.3f,2.5f,8f);
+  characterNode.addControl(physicsCharacter);
+  getPhysicsSpace().add(physicsCharacter);
+  Node model=(Node)assetManager.loadModel("Models/Jaime/Jaime.j3o");
+  model.setLocalScale(1.50f);
+  characterNode.attachChild(model);
+  rootNode.attachChild(characterNode);
+  camNode=new CameraNode("CamNode",cam);
+  camNode.setControlDir(ControlDirection.SpatialToCamera);
+  camNode.setLocalTranslation(new Vector3f(0,2,-6));
+  Quaternion quat=new Quaternion();
+  quat.lookAt(Vector3f.UNIT_Z,Vector3f.UNIT_Y);
+  camNode.setLocalRotation(quat);
+  characterNode.attachChild(camNode);
+  camNode.setEnabled(false);
+}

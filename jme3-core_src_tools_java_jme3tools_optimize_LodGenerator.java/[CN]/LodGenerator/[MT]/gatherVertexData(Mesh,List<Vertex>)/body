@@ -1,0 +1,25 @@
+{
+  VertexBuffer position=mesh.getBuffer(VertexBuffer.Type.BindPosePosition);
+  if (position == null) {
+    position=mesh.getBuffer(VertexBuffer.Type.Position);
+  }
+  FloatBuffer pos=(FloatBuffer)position.getDataReadOnly();
+  pos.rewind();
+  while (pos.remaining() != 0) {
+    Vertex v=new Vertex();
+    v.position.setX(pos.get());
+    v.position.setY(pos.get());
+    v.position.setZ(pos.get());
+    v.isSeam=false;
+    Vertex existingV=findSimilar(v);
+    if (existingV != null) {
+      existingV.isSeam=true;
+      v.isSeam=true;
+    }
+ else {
+      vertexList.add(v);
+    }
+    vertexLookup.add(v);
+  }
+  pos.rewind();
+}

@@ -1,0 +1,30 @@
+{
+  mesh=new Mesh();
+  if (opType == null || opType.equals("triangle_list")) {
+    mesh.setMode(Mesh.Mode.Triangles);
+  }
+ else   if (opType.equals("line_list")) {
+    mesh.setMode(Mesh.Mode.Lines);
+  }
+ else {
+    throw new SAXException("Unsupported operation type: " + opType);
+  }
+  usesBigIndices=parseBool(use32bitIndices,false);
+  usesSharedVerts=parseBool(usesharedvertices,false);
+  if (usesSharedVerts) {
+    usesSharedMesh.add(true);
+  }
+ else {
+    usesSharedMesh.add(false);
+  }
+  if (meshName == null) {
+    geom=new Geometry("OgreSubmesh-" + (++meshIndex),mesh);
+  }
+ else {
+    geom=new Geometry(meshName + "-geom-" + (++meshIndex),mesh);
+  }
+  if (usesSharedVerts) {
+  }
+  applyMaterial(geom,matName);
+  geoms.add(geom);
+}

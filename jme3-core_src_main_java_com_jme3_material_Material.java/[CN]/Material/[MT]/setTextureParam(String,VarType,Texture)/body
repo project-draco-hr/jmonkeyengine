@@ -1,0 +1,17 @@
+{
+  if (value == null) {
+    throw new IllegalArgumentException();
+  }
+  checkSetParam(type,name);
+  MatParamTexture val=getTextureParam(name);
+  if (val == null) {
+    paramValues.put(name,new MatParamTexture(type,name,value,nextTexUnit++));
+  }
+ else {
+    val.setTextureValue(value);
+  }
+  if (technique != null) {
+    technique.notifyParamChanged(name,type,nextTexUnit - 1);
+  }
+  sortingId=-1;
+}

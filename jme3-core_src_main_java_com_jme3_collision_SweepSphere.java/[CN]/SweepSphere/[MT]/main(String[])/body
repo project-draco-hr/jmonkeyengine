@@ -1,0 +1,18 @@
+{
+  SweepSphere ss=new SweepSphere();
+  ss.setCenter(Vector3f.ZERO);
+  ss.setDimension(1);
+  ss.setVelocity(new Vector3f(10,10,10));
+  SweepSphere ss2=new SweepSphere();
+  ss2.setCenter(new Vector3f(5,5,5));
+  ss2.setDimension(1);
+  ss2.setVelocity(new Vector3f(-10,-10,-10));
+  CollisionResults cr=new CollisionResults();
+  ss.collideWith(ss2,cr);
+  if (cr.size() > 0) {
+    CollisionResult c=cr.getClosestCollision();
+    System.out.println("D = " + c.getDistance());
+    System.out.println("P = " + c.getContactPoint());
+    System.out.println("N = " + c.getContactNormal());
+  }
+}

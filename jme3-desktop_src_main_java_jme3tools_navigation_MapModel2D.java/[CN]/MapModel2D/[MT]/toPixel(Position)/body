@@ -1,0 +1,50 @@
+{
+  double distance=NavCalculator.computeLongDiff(centre.getLongitude(),position.getLongitude());
+  double distanceInPixels=(distance / minutesPerPixel);
+  double dmp=NavCalculator.computeDMPClarkeSpheroid(centre.getLatitude(),position.getLatitude());
+  int x=0;
+  int y=0;
+  if (centre.getLatitude() == position.getLatitude()) {
+    y=yCentre;
+  }
+  if (centre.getLongitude() == position.getLongitude()) {
+    x=xCentre;
+  }
+  if (centre.getLatitude() > 0 && position.getLatitude() > centre.getLatitude()) {
+    y=yCentre + (int)((dmp) / minutesPerPixel);
+  }
+ else   if (centre.getLatitude() > 0 && position.getLatitude() < centre.getLatitude()) {
+    y=yCentre - (int)((dmp) / minutesPerPixel);
+  }
+ else   if (centre.getLatitude() < 0 && position.getLatitude() > centre.getLatitude()) {
+    y=yCentre + (int)((dmp) / minutesPerPixel);
+  }
+ else   if (centre.getLatitude() < 0 && position.getLatitude() < centre.getLatitude()) {
+    y=yCentre - (int)((dmp) / minutesPerPixel);
+  }
+ else   if (centre.getLatitude() == 0 && position.getLatitude() > centre.getLatitude()) {
+    y=yCentre + (int)((dmp) / minutesPerPixel);
+  }
+ else   if (centre.getLatitude() == 0 && position.getLatitude() < centre.getLatitude()) {
+    y=yCentre - (int)((dmp) / minutesPerPixel);
+  }
+  if (centre.getLongitude() < 0 && position.getLongitude() < centre.getLongitude()) {
+    x=xCentre - (int)distanceInPixels;
+  }
+ else   if (centre.getLongitude() < 0 && position.getLongitude() > centre.getLongitude()) {
+    x=xCentre + (int)distanceInPixels;
+  }
+ else   if (centre.getLongitude() > 0 && position.getLongitude() < centre.getLongitude()) {
+    x=xCentre - (int)distanceInPixels;
+  }
+ else   if (centre.getLongitude() > 0 && position.getLongitude() > centre.getLongitude()) {
+    x=xCentre + (int)distanceInPixels;
+  }
+ else   if (centre.getLongitude() == 0 && position.getLongitude() > centre.getLongitude()) {
+    x=xCentre + (int)distanceInPixels;
+  }
+ else   if (centre.getLongitude() == 0 && position.getLongitude() < centre.getLongitude()) {
+    x=xCentre - (int)distanceInPixels;
+  }
+  return new Point(x,y);
+}

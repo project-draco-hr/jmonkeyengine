@@ -1,0 +1,18 @@
+{
+  Camera cam=vp.getCamera();
+  if (meshType == ParticleMesh.Type.Point) {
+    float C=cam.getProjectionMatrix().m00;
+    C*=cam.getWidth() * 0.5f;
+    this.getMaterial().setFloat("Quadratic",C);
+  }
+  Matrix3f inverseRotation=Matrix3f.IDENTITY;
+  TempVars vars=null;
+  if (!worldSpace) {
+    vars=TempVars.get();
+    inverseRotation=this.getWorldRotation().toRotationMatrix(vars.tempMat3).invertLocal();
+  }
+  particleMesh.updateParticleData(particles,cam,inverseRotation);
+  if (!worldSpace) {
+    vars.release();
+  }
+}

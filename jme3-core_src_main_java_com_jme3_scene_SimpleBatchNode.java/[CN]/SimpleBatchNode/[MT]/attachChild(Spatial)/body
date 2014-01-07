@@ -1,0 +1,6 @@
+{
+  if (!(child instanceof Geometry)) {
+    throw new UnsupportedOperationException("BatchNode is BatchMode.Simple only support child of type Geometry, use BatchMode.Complex to use a complex structure");
+  }
+  return super.attachChild(child);
+}

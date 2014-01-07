@@ -1,0 +1,20 @@
+{
+  Vector3f edge=temp1.set(l2).subtractLocal(l1);
+  Vector3f base=temp2.set(l1).subtractLocal(sCenter);
+  float edgeSquared=edge.lengthSquared();
+  float baseSquared=base.lengthSquared();
+  float EdotV=edge.dot(sVelocity);
+  float EdotB=edge.dot(base);
+  float a=(edgeSquared * -velocitySquared) + EdotV * EdotV;
+  float b=(edgeSquared * 2f * sVelocity.dot(base)) - (2f * EdotV * EdotB);
+  float c=(edgeSquared * (1f - baseSquared)) + EdotB * EdotB;
+  float newT=getLowestRoot(a,b,c,t);
+  if (!Float.isNaN(newT)) {
+    float f=(EdotV * newT - EdotB) / edgeSquared;
+    if (f >= 0f && f < 1f) {
+      store.scaleAdd(f,edge,l1);
+      return newT;
+    }
+  }
+  return Float.NaN;
+}

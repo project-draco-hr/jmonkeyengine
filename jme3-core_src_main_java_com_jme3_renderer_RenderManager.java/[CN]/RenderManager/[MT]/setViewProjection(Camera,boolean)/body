@@ -1,0 +1,18 @@
+{
+  if (shader) {
+    if (ortho) {
+      uniformBindingManager.setCamera(cam,Matrix4f.IDENTITY,orthoMatrix,orthoMatrix);
+    }
+ else {
+      uniformBindingManager.setCamera(cam,cam.getViewMatrix(),cam.getProjectionMatrix(),cam.getViewProjectionMatrix());
+    }
+  }
+ else {
+    if (ortho) {
+      renderer.setViewProjectionMatrices(Matrix4f.IDENTITY,orthoMatrix);
+    }
+ else {
+      renderer.setViewProjectionMatrices(cam.getViewMatrix(),cam.getProjectionMatrix());
+    }
+  }
+}

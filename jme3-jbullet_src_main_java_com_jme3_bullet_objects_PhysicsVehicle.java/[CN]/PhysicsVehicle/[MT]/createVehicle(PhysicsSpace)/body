@@ -1,0 +1,12 @@
+{
+  physicsSpace=space;
+  if (space == null) {
+    return;
+  }
+  rayCaster=new DefaultVehicleRaycaster(space.getDynamicsWorld());
+  vehicle=new RaycastVehicle(tuning,rBody,rayCaster);
+  vehicle.setCoordinateSystem(0,1,2);
+  for (  VehicleWheel wheel : wheels) {
+    wheel.setWheelInfo(vehicle.addWheel(Converter.convert(wheel.getLocation()),Converter.convert(wheel.getDirection()),Converter.convert(wheel.getAxle()),wheel.getRestLength(),wheel.getRadius(),tuning,wheel.isFrontWheel()));
+  }
+}

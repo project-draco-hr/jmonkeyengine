@@ -1,0 +1,51 @@
+{
+  if (xExtent == Float.POSITIVE_INFINITY || x == Float.POSITIVE_INFINITY) {
+    center.x=0;
+    xExtent=Float.POSITIVE_INFINITY;
+  }
+ else {
+    float low=center.x - xExtent;
+    if (low > c.x - x) {
+      low=c.x - x;
+    }
+    float high=center.x + xExtent;
+    if (high < c.x + x) {
+      high=c.x + x;
+    }
+    center.x=(low + high) / 2;
+    xExtent=high - center.x;
+  }
+  if (yExtent == Float.POSITIVE_INFINITY || y == Float.POSITIVE_INFINITY) {
+    center.y=0;
+    yExtent=Float.POSITIVE_INFINITY;
+  }
+ else {
+    float low=center.y - yExtent;
+    if (low > c.y - y) {
+      low=c.y - y;
+    }
+    float high=center.y + yExtent;
+    if (high < c.y + y) {
+      high=c.y + y;
+    }
+    center.y=(low + high) / 2;
+    yExtent=high - center.y;
+  }
+  if (zExtent == Float.POSITIVE_INFINITY || z == Float.POSITIVE_INFINITY) {
+    center.z=0;
+    zExtent=Float.POSITIVE_INFINITY;
+  }
+ else {
+    float low=center.z - zExtent;
+    if (low > c.z - z) {
+      low=c.z - z;
+    }
+    float high=center.z + zExtent;
+    if (high < c.z + z) {
+      high=c.z + z;
+    }
+    center.z=(low + high) / 2;
+    zExtent=high - center.z;
+  }
+  return this;
+}

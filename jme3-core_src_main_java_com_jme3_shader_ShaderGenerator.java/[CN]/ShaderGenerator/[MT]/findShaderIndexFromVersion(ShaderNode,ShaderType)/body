@@ -1,0 +1,14 @@
+{
+  int index=0;
+  List<String> lang=shaderNode.getDefinition().getShadersLanguage();
+  int genVersion=Integer.parseInt(getLanguageAndVersion(type).substring(4));
+  int curVersion=0;
+  for (int i=0; i < lang.size(); i++) {
+    int version=Integer.parseInt(lang.get(i).substring(4));
+    if (version > curVersion && version <= genVersion) {
+      curVersion=version;
+      index=i;
+    }
+  }
+  return index;
+}

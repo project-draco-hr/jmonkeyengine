@@ -1,0 +1,35 @@
+{
+  int cornerNbr=0;
+  float cornerAverage=0;
+  int x=coords[0];
+  int y=coords[1];
+  int[] dxs=new int[]{0,stepSize / 2,stepSize,stepSize / 2};
+  int[] dys=new int[]{0,-stepSize / 2,0,stepSize / 2};
+  for (int d=0; d < 4; d++) {
+    int i=x + dxs[d];
+    if (i < 0 || i > size - 1) {
+      continue;
+    }
+    int j=y + dys[d];
+    if (j < 0 || j > size - 1) {
+      continue;
+    }
+    cornerAverage+=tempBuffer[i][j];
+    cornerNbr++;
+  }
+  cornerAverage/=cornerNbr;
+  float offset=getOffset(random,offsetRange,coords,cornerAverage);
+  tempBuffer[x + stepSize / 2][y]=cornerAverage + offset;
+  if (x + stepSize * 3 / 2 < size) {
+    return new int[]{x + stepSize,y};
+  }
+  if (y + stepSize / 2 < size) {
+    if (x + stepSize == size - 1) {
+      return new int[]{-stepSize / 2,y + stepSize / 2};
+    }
+ else {
+      return new int[]{0,y + stepSize / 2};
+    }
+  }
+  return null;
+}

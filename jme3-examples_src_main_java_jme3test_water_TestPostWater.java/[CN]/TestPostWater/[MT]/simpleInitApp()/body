@@ -1,0 +1,83 @@
+{
+  setDisplayFps(false);
+  setDisplayStatView(false);
+  Node mainScene=new Node("Main Scene");
+  rootNode.attachChild(mainScene);
+  createTerrain(mainScene);
+  DirectionalLight sun=new DirectionalLight();
+  sun.setDirection(lightDir);
+  sun.setColor(ColorRGBA.White.clone().multLocal(1.7f));
+  mainScene.addLight(sun);
+  DirectionalLight l=new DirectionalLight();
+  l.setDirection(Vector3f.UNIT_Y.mult(-1));
+  l.setColor(ColorRGBA.White.clone().multLocal(0.3f));
+  flyCam.setMoveSpeed(50);
+  cam.setLocation(new Vector3f(-327.21957f,61.6459f,126.884346f));
+  cam.setRotation(new Quaternion(0.052168474f,0.9443102f,-0.18395276f,0.2678024f));
+  cam.setRotation(new Quaternion().fromAngles(new float[]{FastMath.PI * 0.06f,FastMath.PI * 0.65f,0}));
+  Spatial sky=SkyFactory.createSky(assetManager,"Scenes/Beach/FullskiesSunset0068.dds",false);
+  sky.setLocalScale(350);
+  mainScene.attachChild(sky);
+  cam.setFrustumFar(4000);
+  water=new WaterFilter(rootNode,lightDir);
+  FilterPostProcessor fpp=new FilterPostProcessor(assetManager);
+  fpp.addFilter(water);
+  BloomFilter bloom=new BloomFilter();
+  bloom.setExposurePower(55);
+  bloom.setBloomIntensity(1.0f);
+  fpp.addFilter(bloom);
+  LightScatteringFilter lsf=new LightScatteringFilter(lightDir.mult(-300));
+  lsf.setLightDensity(1.0f);
+  fpp.addFilter(lsf);
+  DepthOfFieldFilter dof=new DepthOfFieldFilter();
+  dof.setFocusDistance(0);
+  dof.setFocusRange(100);
+  fpp.addFilter(dof);
+  water.setWaveScale(0.003f);
+  water.setMaxAmplitude(2f);
+  water.setFoamExistence(new Vector3f(1f,4,0.5f));
+  water.setFoamTexture((Texture2D)assetManager.loadTexture("Common/MatDefs/Water/Textures/foam2.jpg"));
+  water.setRefractionStrength(0.2f);
+  water.setWaterHeight(initialWaterHeight);
+  uw=cam.getLocation().y < waterHeight;
+  waves=new AudioNode(assetManager,"Sound/Environment/Ocean Waves.ogg",false);
+  waves.setLooping(true);
+  waves.setReverbEnabled(true);
+  if (uw) {
+    waves.setDryFilter(new LowPassFilter(0.5f,0.1f));
+  }
+ else {
+    waves.setDryFilter(aboveWaterAudioFilter);
+  }
+  audioRenderer.playSource(waves);
+  viewPort.addProcessor(fpp);
+  inputManager.addListener(new ActionListener(){
+    public void onAction(    String name,    boolean isPressed,    float tpf){
+      if (isPressed) {
+        if (name.equals("foam1")) {
+          water.setFoamTexture((Texture2D)assetManager.loadTexture("Common/MatDefs/Water/Textures/foam.jpg"));
+        }
+        if (name.equals("foam2")) {
+          water.setFoamTexture((Texture2D)assetManager.loadTexture("Common/MatDefs/Water/Textures/foam2.jpg"));
+        }
+        if (name.equals("foam3")) {
+          water.setFoamTexture((Texture2D)assetManager.loadTexture("Common/MatDefs/Water/Textures/foam3.jpg"));
+        }
+        if (name.equals("upRM")) {
+          water.setReflectionMapSize(Math.min(water.getReflectionMapSize() * 2,4096));
+          System.out.println("Reflection map size : " + water.getReflectionMapSize());
+        }
+        if (name.equals("downRM")) {
+          water.setReflectionMapSize(Math.max(water.getReflectionMapSize() / 2,32));
+          System.out.println("Reflection map size : " + water.getReflectionMapSize());
+        }
+      }
+    }
+  }
+,"foam1","foam2","foam3","upRM","downRM");
+  inputManager.addMapping("foam1",new KeyTrigger(KeyInput.KEY_1));
+  inputManager.addMapping("foam2",new KeyTrigger(KeyInput.KEY_2));
+  inputManager.addMapping("foam3",new KeyTrigger(KeyInput.KEY_3));
+  inputManager.addMapping("upRM",new KeyTrigger(KeyInput.KEY_PGUP));
+  inputManager.addMapping("downRM",new KeyTrigger(KeyInput.KEY_PGDN));
+}

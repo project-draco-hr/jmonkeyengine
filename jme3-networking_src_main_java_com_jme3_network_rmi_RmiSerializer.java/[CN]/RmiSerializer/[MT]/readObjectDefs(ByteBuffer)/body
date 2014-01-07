@@ -1,0 +1,10 @@
+{
+  RemoteObjectDefMessage defMsg=new RemoteObjectDefMessage();
+  int numObjs=buffer.get() & 0xff;
+  ObjectDef[] defs=new ObjectDef[numObjs];
+  for (int i=0; i < numObjs; i++) {
+    defs[i]=readObjectDef(buffer);
+  }
+  defMsg.objects=defs;
+  return defMsg;
+}

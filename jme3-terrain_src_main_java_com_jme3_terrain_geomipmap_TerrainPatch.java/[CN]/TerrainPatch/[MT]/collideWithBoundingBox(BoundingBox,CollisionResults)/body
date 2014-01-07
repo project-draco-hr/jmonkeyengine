@@ -1,0 +1,22 @@
+{
+  Vector3f topLeft=worldCoordinateToLocal(new Vector3f(bbox.getCenter().x - bbox.getXExtent(),0,bbox.getCenter().z - bbox.getZExtent()));
+  Vector3f topRight=worldCoordinateToLocal(new Vector3f(bbox.getCenter().x + bbox.getXExtent(),0,bbox.getCenter().z - bbox.getZExtent()));
+  Vector3f bottomLeft=worldCoordinateToLocal(new Vector3f(bbox.getCenter().x - bbox.getXExtent(),0,bbox.getCenter().z + bbox.getZExtent()));
+  Vector3f bottomRight=worldCoordinateToLocal(new Vector3f(bbox.getCenter().x + bbox.getXExtent(),0,bbox.getCenter().z + bbox.getZExtent()));
+  Triangle t=getTriangle(topLeft.x,topLeft.z);
+  if (t != null && bbox.collideWith(t,results) > 0)   return 1;
+  t=getTriangle(topRight.x,topRight.z);
+  if (t != null && bbox.collideWith(t,results) > 0)   return 1;
+  t=getTriangle(bottomLeft.x,bottomLeft.z);
+  if (t != null && bbox.collideWith(t,results) > 0)   return 1;
+  t=getTriangle(bottomRight.x,bottomRight.z);
+  if (t != null && bbox.collideWith(t,results) > 0)   return 1;
+  for (float z=topLeft.z; z < bottomLeft.z; z+=1) {
+    for (float x=topLeft.x; x < topRight.x; x+=1) {
+      if (x < 0 || z < 0 || x >= size || z >= size)       continue;
+      t=getTriangle(x,z);
+      if (t != null && bbox.collideWith(t,results) > 0)       return 1;
+    }
+  }
+  return 0;
+}

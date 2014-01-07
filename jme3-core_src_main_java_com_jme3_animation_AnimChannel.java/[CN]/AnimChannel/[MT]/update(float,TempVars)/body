@@ -1,0 +1,32 @@
+{
+  if (animation == null)   return;
+  if (blendFrom != null && blendAmount != 1.0f) {
+    blendFrom.setTime(timeBlendFrom,1f - blendAmount,control,this,vars);
+    timeBlendFrom+=tpf * speedBlendFrom;
+    timeBlendFrom=clampWrapTime(timeBlendFrom,blendFrom.getLength(),loopModeBlendFrom);
+    if (timeBlendFrom < 0) {
+      timeBlendFrom=-timeBlendFrom;
+      speedBlendFrom=-speedBlendFrom;
+    }
+    blendAmount+=tpf * blendRate;
+    if (blendAmount > 1f) {
+      blendAmount=1f;
+      blendFrom=null;
+    }
+  }
+  animation.setTime(time,blendAmount,control,this,vars);
+  time+=tpf * speed;
+  if (animation.getLength() > 0) {
+    if (!notified && (time >= animation.getLength() || time < 0)) {
+      if (loopMode == LoopMode.DontLoop) {
+        notified=true;
+      }
+      control.notifyAnimCycleDone(this,animation.getName());
+    }
+  }
+  time=clampWrapTime(time,animation.getLength(),loopMode);
+  if (time < 0) {
+    time=-time;
+    speed=-speed;
+  }
+}

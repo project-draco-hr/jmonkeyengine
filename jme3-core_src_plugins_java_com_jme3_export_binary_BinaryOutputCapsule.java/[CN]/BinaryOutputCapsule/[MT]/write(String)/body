@@ -1,0 +1,9 @@
+{
+  if (value == null) {
+    write(NULL_OBJECT);
+    return;
+  }
+  byte[] bytes=value.getBytes("UTF8");
+  write(bytes.length);
+  baos.write(bytes);
+}

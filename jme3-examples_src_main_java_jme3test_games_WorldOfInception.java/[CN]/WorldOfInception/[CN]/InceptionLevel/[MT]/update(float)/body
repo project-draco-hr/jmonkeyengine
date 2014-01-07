@@ -1,0 +1,61 @@
+{
+  super.update(tpf);
+  if (currentReturnLevel != this) {
+    return;
+  }
+  debugTools.setYellowArrow(new Vector3f(0,0,-2),playerPos.divide(poiRadius));
+  float curLocalDist=getPlayerPosition().length();
+  if (curLocalDist > poiRadius + FastMath.ZERO_TOLERANCE) {
+    if (parent == null) {
+      logger.log(Level.INFO,"Hit event horizon");
+      currentReturnLevel=this;
+      return;
+    }
+    logger.log(Level.INFO,"give to parent");
+    ;
+    parent.takeOverChild(inParentPosition.add(playerPos.normalize()));
+    application.getStateManager().attach(parent);
+    currentReturnLevel=parent;
+    return;
+  }
+  AppStateManager stateManager=application.getStateManager();
+  Vector3f[] vectors=getPositions(poiCount,inParentPosition.hashCode());
+  for (int i=0; i < vectors.length; i++) {
+    Vector3f vector3f=vectors[i];
+    Vector3f distVect=vector3f.subtract(playerPos);
+    float distance=distVect.length();
+    if (distance <= 1) {
+      checkActiveChild(vector3f);
+      float percent=0;
+      curScaleAmount=0;
+      this.scaleAsParent(percent,playerPos,distVect);
+      currentActiveChild.scaleAsChild(percent,distVect);
+      logger.log(Level.INFO,"Give over to child {0}",currentActiveChild);
+      currentActiveChild.takeOverParent();
+      stateManager.detach(this);
+      currentReturnLevel=currentActiveChild;
+      return;
+    }
+ else     if (distance <= 1 + scaleDist) {
+      debugTools.setRedArrow(Vector3f.ZERO,distVect);
+      checkActiveChild(vector3f);
+      float percent=1 - mapValue(distance - 1,0,scaleDist,0,1);
+      curScaleAmount=percent;
+      rootNode.getChild(i).setCullHint(Spatial.CullHint.Always);
+      this.scaleAsParent(percent,playerPos,distVect);
+      currentActiveChild.scaleAsChild(percent,distVect);
+      currentReturnLevel=this;
+      return;
+    }
+ else     if (currentActiveChild != null && currentActiveChild.getPositionInParent().equals(vector3f)) {
+      rootNode.getChild(i).setCullHint(Spatial.CullHint.Inherit);
+    }
+  }
+  checkActiveChild(null);
+  curScaleAmount=0;
+  rootNode.setLocalScale(1);
+  rootNode.setLocalTranslation(playerPos.negate());
+  debugTools.setRedArrow(Vector3f.ZERO,Vector3f.ZERO);
+  debugTools.setBlueArrow(Vector3f.ZERO,Vector3f.ZERO);
+  debugTools.setGreenArrow(Vector3f.ZERO,Vector3f.ZERO);
+}

@@ -1,0 +1,9 @@
+{
+  if (isConnected())   return;
+  try {
+    connecting.await();
+  }
+ catch (  InterruptedException e) {
+    throw new RuntimeException("Interrupted waiting for connect",e);
+  }
+}

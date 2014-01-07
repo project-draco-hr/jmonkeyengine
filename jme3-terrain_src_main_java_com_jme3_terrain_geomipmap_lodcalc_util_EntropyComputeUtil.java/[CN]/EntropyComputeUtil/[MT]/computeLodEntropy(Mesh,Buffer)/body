@@ -1,0 +1,32 @@
+{
+  BoundingBox bbox=(BoundingBox)terrainBlock.getBound();
+  FloatBuffer positions=terrainBlock.getFloatBuffer(Type.Position);
+  Vector3f pos=new Vector3f();
+  Vector3f dir=new Vector3f(0,-1,0);
+  Ray ray=new Ray(pos,dir);
+  CollisionResults results=new CollisionResults();
+  VertexBuffer originalIndices=terrainBlock.getBuffer(Type.Index);
+  terrainBlock.clearBuffer(Type.Index);
+  if (lodIndices instanceof IntBuffer)   terrainBlock.setBuffer(Type.Index,3,(IntBuffer)lodIndices);
+ else   if (lodIndices instanceof ShortBuffer) {
+    terrainBlock.setBuffer(Type.Index,3,(ShortBuffer)lodIndices);
+  }
+  terrainBlock.createCollisionData();
+  float entropy=0;
+  for (int i=0; i < positions.limit() / 3; i++) {
+    BufferUtils.populateFromBuffer(pos,positions,i);
+    float realHeight=pos.y;
+    pos.addLocal(0,bbox.getYExtent(),0);
+    ray.setOrigin(pos);
+    results.clear();
+    terrainBlock.collideWith(ray,Matrix4f.IDENTITY,bbox,results);
+    if (results.size() > 0) {
+      Vector3f contactPoint=results.getClosestCollision().getContactPoint();
+      float delta=Math.abs(realHeight - contactPoint.y);
+      entropy=Math.max(delta,entropy);
+    }
+  }
+  terrainBlock.clearBuffer(Type.Index);
+  terrainBlock.setBuffer(originalIndices);
+  return entropy;
+}

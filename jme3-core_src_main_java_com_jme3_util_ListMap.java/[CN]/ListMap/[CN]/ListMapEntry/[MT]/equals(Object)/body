@@ -1,0 +1,16 @@
+{
+  if (obj == null) {
+    return false;
+  }
+  if (getClass() != obj.getClass()) {
+    return false;
+  }
+  final ListMapEntry<K,V> other=(ListMapEntry<K,V>)obj;
+  if (this.key != other.key && (this.key == null || !this.key.equals(other.key))) {
+    return false;
+  }
+  if (this.value != other.value && (this.value == null || !this.value.equals(other.value))) {
+    return false;
+  }
+  return true;
+}

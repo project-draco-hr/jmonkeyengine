@@ -1,0 +1,11 @@
+{
+  if (i == null)   throw new SAXException("Expected an integer");
+ else {
+    try {
+      return Integer.parseInt(i);
+    }
+ catch (    NumberFormatException ex) {
+      throw new SAXException("Expected an integer, got '" + i + "'");
+    }
+  }
+}

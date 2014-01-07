@@ -1,0 +1,31 @@
+{
+  if (obj == null) {
+    return false;
+  }
+  if (getClass() != obj.getClass()) {
+    return false;
+  }
+  final TextureKey other=(TextureKey)obj;
+  if (!super.equals(obj)) {
+    return false;
+  }
+  if (this.generateMips != other.generateMips) {
+    return false;
+  }
+  if (this.flipY != other.flipY) {
+    return false;
+  }
+  if (this.asCube != other.asCube) {
+    return false;
+  }
+  if (this.asTexture3D != other.asTexture3D) {
+    return false;
+  }
+  if (this.anisotropy != other.anisotropy) {
+    return false;
+  }
+  if (this.textureTypeHint != other.textureTypeHint) {
+    return false;
+  }
+  return true;
+}

@@ -1,0 +1,6 @@
+{
+  IntBuffer buf=ByteBuffer.allocateDirect(4 * size).order(ByteOrder.nativeOrder()).asIntBuffer();
+  buf.clear();
+  onBufferAllocated(buf);
+  return buf;
+}

@@ -1,0 +1,16 @@
+{
+  if (store == null) {
+    store=new Vector3f();
+  }
+  float x=cartCoords.x;
+  if (x == 0) {
+    x=FastMath.FLT_EPSILON;
+  }
+  store.x=FastMath.sqrt((x * x) + (cartCoords.y * cartCoords.y) + (cartCoords.z * cartCoords.z));
+  store.y=FastMath.atan(cartCoords.z / x);
+  if (x < 0) {
+    store.y+=FastMath.PI;
+  }
+  store.z=FastMath.asin(cartCoords.y / store.x);
+  return store;
+}

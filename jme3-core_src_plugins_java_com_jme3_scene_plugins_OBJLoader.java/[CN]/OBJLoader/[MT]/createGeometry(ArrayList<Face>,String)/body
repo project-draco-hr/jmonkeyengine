@@ -1,0 +1,20 @@
+{
+  if (faceList.isEmpty())   throw new IOException("No geometry data to generate mesh");
+  Mesh mesh=constructMesh(faceList);
+  Geometry geom=new Geometry(objName + "-geom-" + (geomIndex++),mesh);
+  Material material=null;
+  if (matName != null && matList != null) {
+    material=matList.get(matName);
+  }
+  if (material == null) {
+    material=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+    material.setFloat("Shininess",64);
+  }
+  geom.setMaterial(material);
+  if (material.isTransparent())   geom.setQueueBucket(Bucket.Transparent);
+ else   geom.setQueueBucket(Bucket.Opaque);
+  if (material.getMaterialDef().getName().contains("Lighting") && mesh.getFloatBuffer(Type.Normal) == null) {
+    logger.log(Level.WARNING,"OBJ mesh {0} doesn't contain normals! " + "It might not display correctly",geom.getName());
+  }
+  return geom;
+}

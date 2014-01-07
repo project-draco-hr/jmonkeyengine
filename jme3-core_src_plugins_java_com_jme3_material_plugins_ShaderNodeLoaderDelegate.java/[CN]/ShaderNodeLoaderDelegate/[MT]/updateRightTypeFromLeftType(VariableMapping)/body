@@ -1,0 +1,13 @@
+{
+  String type=mapping.getLeftVariable().getType();
+  int card=ShaderUtils.getCardinality(type,mapping.getRightSwizzling());
+  if (card > 0) {
+    if (card == 1) {
+      type="float";
+    }
+ else {
+      type="vec" + card;
+    }
+  }
+  mapping.getRightVariable().setType(type);
+}

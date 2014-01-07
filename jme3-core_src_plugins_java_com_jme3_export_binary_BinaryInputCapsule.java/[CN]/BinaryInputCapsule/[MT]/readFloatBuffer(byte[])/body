@@ -1,0 +1,18 @@
+{
+  int length=readInt(content);
+  if (length == BinaryOutputCapsule.NULL_OBJECT)   return null;
+  if (BinaryImporter.canUseFastBuffers()) {
+    ByteBuffer value=BufferUtils.createByteBuffer(length * 4);
+    value.put(content,index,length * 4).rewind();
+    index+=length * 4;
+    return value.asFloatBuffer();
+  }
+ else {
+    FloatBuffer value=BufferUtils.createFloatBuffer(length);
+    for (int x=0; x < length; x++) {
+      value.put(readFloatForBuffer(content));
+    }
+    value.rewind();
+    return value;
+  }
+}

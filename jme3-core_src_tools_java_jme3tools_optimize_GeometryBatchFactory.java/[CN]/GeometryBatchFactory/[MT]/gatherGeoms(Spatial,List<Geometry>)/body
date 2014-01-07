@@ -1,0 +1,11 @@
+{
+  if (scene instanceof Node) {
+    Node node=(Node)scene;
+    for (    Spatial child : node.getChildren()) {
+      gatherGeoms(child,geoms);
+    }
+  }
+ else   if (scene instanceof Geometry) {
+    geoms.add((Geometry)scene);
+  }
+}

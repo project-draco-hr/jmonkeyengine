@@ -1,0 +1,9 @@
+{
+  Triangle tri=getTriangleAtPoint(x,z);
+  if (tri != null) {
+    tri.get1().multLocal(scale).addLocal(translation);
+    tri.get2().multLocal(scale).addLocal(translation);
+    tri.get3().multLocal(scale).addLocal(translation);
+  }
+  return tri;
+}

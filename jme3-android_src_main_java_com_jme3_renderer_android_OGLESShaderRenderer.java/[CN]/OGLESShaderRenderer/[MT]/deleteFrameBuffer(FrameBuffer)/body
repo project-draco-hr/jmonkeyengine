@@ -1,0 +1,20 @@
+{
+  if (fb.getId() != -1) {
+    if (context.boundFBO == fb.getId()) {
+      GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER,0);
+      RendererUtil.checkGLError();
+      context.boundFBO=0;
+    }
+    if (fb.getDepthBuffer() != null) {
+      deleteRenderBuffer(fb,fb.getDepthBuffer());
+    }
+    if (fb.getColorBuffer() != null) {
+      deleteRenderBuffer(fb,fb.getColorBuffer());
+    }
+    intBuf1.put(0,fb.getId());
+    GLES20.glDeleteFramebuffers(1,intBuf1);
+    RendererUtil.checkGLError();
+    fb.resetObject();
+    statistics.onDeleteFrameBuffer();
+  }
+}

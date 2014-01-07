@@ -1,0 +1,9 @@
+{
+  float epsilon=tpf * 4f;
+  if (control.getCurrentWayPoint() != prevWayPoint) {
+    if (control.getCurrentValue() >= 0f && control.getCurrentValue() < epsilon) {
+      triggerWayPointReach(control.getCurrentWayPoint(),control);
+      prevWayPoint=control.getCurrentWayPoint();
+    }
+  }
+}

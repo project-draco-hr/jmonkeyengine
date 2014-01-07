@@ -1,0 +1,27 @@
+{
+  HashMap<PhysicsJoint,Spatial> oldObjects=joints;
+  joints=new HashMap<PhysicsJoint,Spatial>();
+  Collection<PhysicsJoint> current=space.getJointList();
+  for (Iterator<PhysicsJoint> it=current.iterator(); it.hasNext(); ) {
+    PhysicsJoint physicsObject=it.next();
+    if (oldObjects.containsKey(physicsObject)) {
+      Spatial spat=oldObjects.get(physicsObject);
+      joints.put(physicsObject,spat);
+      oldObjects.remove(physicsObject);
+    }
+ else {
+      if (filter == null || filter.displayObject(physicsObject)) {
+        logger.log(Level.FINE,"Create new debug Joint");
+        Node node=new Node(physicsObject.toString());
+        node.addControl(new BulletJointDebugControl(this,physicsObject));
+        joints.put(physicsObject,node);
+        physicsDebugRootNode.attachChild(node);
+      }
+    }
+  }
+  for (  Map.Entry<PhysicsJoint,Spatial> entry : oldObjects.entrySet()) {
+    PhysicsJoint object=entry.getKey();
+    Spatial spatial=entry.getValue();
+    spatial.removeFromParent();
+  }
+}

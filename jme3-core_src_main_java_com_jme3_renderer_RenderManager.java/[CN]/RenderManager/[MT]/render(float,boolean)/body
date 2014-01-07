@@ -1,0 +1,24 @@
+{
+  if (renderer instanceof NullRenderer) {
+    return;
+  }
+  this.shader=renderer.getCaps().contains(Caps.GLSL100);
+  for (int i=0; i < preViewPorts.size(); i++) {
+    ViewPort vp=preViewPorts.get(i);
+    if (vp.getOutputFrameBuffer() != null || mainFrameBufferActive) {
+      renderViewPort(vp,tpf);
+    }
+  }
+  for (int i=0; i < viewPorts.size(); i++) {
+    ViewPort vp=viewPorts.get(i);
+    if (vp.getOutputFrameBuffer() != null || mainFrameBufferActive) {
+      renderViewPort(vp,tpf);
+    }
+  }
+  for (int i=0; i < postViewPorts.size(); i++) {
+    ViewPort vp=postViewPorts.get(i);
+    if (vp.getOutputFrameBuffer() != null || mainFrameBufferActive) {
+      renderViewPort(vp,tpf);
+    }
+  }
+}

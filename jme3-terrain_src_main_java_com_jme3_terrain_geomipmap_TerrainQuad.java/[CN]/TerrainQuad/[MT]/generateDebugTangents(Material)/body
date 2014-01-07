@@ -1,0 +1,15 @@
+{
+  for (int x=children.size(); --x >= 0; ) {
+    Spatial child=children.get(x);
+    if (child instanceof TerrainQuad) {
+      ((TerrainQuad)child).generateDebugTangents(mat);
+    }
+ else     if (child instanceof TerrainPatch) {
+      Geometry debug=new Geometry("Debug " + name,TangentBinormalGenerator.genTbnLines(((TerrainPatch)child).getMesh(),0.8f));
+      attachChild(debug);
+      debug.setLocalTranslation(child.getLocalTranslation());
+      debug.setCullHint(CullHint.Never);
+      debug.setMaterial(mat);
+    }
+  }
+}

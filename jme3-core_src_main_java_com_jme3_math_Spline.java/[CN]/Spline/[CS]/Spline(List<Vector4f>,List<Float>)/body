@@ -1,0 +1,18 @@
+{
+  for (int i=0; i < nurbKnots.size() - 1; ++i) {
+    if (nurbKnots.get(i) > nurbKnots.get(i + 1)) {
+      throw new IllegalArgumentException("The knots values cannot decrease!");
+    }
+  }
+  type=SplineType.Nurb;
+  this.weights=new float[controlPoints.size()];
+  this.knots=nurbKnots;
+  this.basisFunctionDegree=nurbKnots.size() - weights.length;
+  for (int i=0; i < controlPoints.size(); ++i) {
+    Vector4f controlPoint=controlPoints.get(i);
+    this.controlPoints.add(new Vector3f(controlPoint.x,controlPoint.y,controlPoint.z));
+    this.weights[i]=controlPoint.w;
+  }
+  CurveAndSurfaceMath.prepareNurbsKnots(knots,basisFunctionDegree);
+  this.computeTotalLentgh();
+}

@@ -1,0 +1,14 @@
+{
+  source.append("\n");
+  boolean inPosition=false;
+  for (  ShaderNodeVariable var : info.getAttributes()) {
+    if (var.getName().equals("inPosition")) {
+      inPosition=true;
+      var.setCondition(null);
+    }
+    declareAttribute(source,var);
+  }
+  if (!inPosition) {
+    declareAttribute(source,new ShaderNodeVariable("vec4","inPosition"));
+  }
+}

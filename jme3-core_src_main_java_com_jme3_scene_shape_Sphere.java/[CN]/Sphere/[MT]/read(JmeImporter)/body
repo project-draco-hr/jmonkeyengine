@@ -1,0 +1,10 @@
+{
+  super.read(e);
+  InputCapsule capsule=e.getCapsule(this);
+  zSamples=capsule.readInt("zSamples",0);
+  radialSamples=capsule.readInt("radialSamples",0);
+  radius=capsule.readFloat("radius",0);
+  useEvenSlices=capsule.readBoolean("useEvenSlices",false);
+  textureMode=capsule.readEnum("textureMode",TextureMode.class,TextureMode.Original);
+  interior=capsule.readBoolean("interior",false);
+}

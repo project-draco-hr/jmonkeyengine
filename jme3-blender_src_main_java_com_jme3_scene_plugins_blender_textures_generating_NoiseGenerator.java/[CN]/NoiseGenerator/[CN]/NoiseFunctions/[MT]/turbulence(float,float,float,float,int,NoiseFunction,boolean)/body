@@ -1,0 +1,18 @@
+{
+  if (noiseSize != 0.0) {
+    noiseSize=1.0f / noiseSize;
+    x*=noiseSize;
+    y*=noiseSize;
+    z*=noiseSize;
+  }
+  float sum=0, t, amp=1, fscale=1;
+  for (int i=0; i <= noiseDepth; ++i, amp*=0.5f, fscale*=2f) {
+    t=noiseFunction.execute(fscale * x,fscale * y,fscale * z);
+    if (isHard) {
+      t=FastMath.abs(2.0f * t - 1.0f);
+    }
+    sum+=t * amp;
+  }
+  sum*=(float)(1 << noiseDepth) / (float)((1 << noiseDepth + 1) - 1);
+  return sum;
+}

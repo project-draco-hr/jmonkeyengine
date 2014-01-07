@@ -1,0 +1,18 @@
+{
+  try {
+    AnimControl clone=(AnimControl)super.clone();
+    clone.spatial=spatial;
+    clone.channels=new ArrayList<AnimChannel>();
+    clone.listeners=new ArrayList<AnimEventListener>();
+    if (skeleton != null) {
+      clone.skeleton=new Skeleton(skeleton);
+    }
+    for (    Entry<String,Animation> animEntry : animationMap.entrySet()) {
+      clone.animationMap.put(animEntry.getKey(),animEntry.getValue().cloneForSpatial(spatial));
+    }
+    return clone;
+  }
+ catch (  CloneNotSupportedException ex) {
+    throw new AssertionError();
+  }
+}

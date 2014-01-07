@@ -1,0 +1,32 @@
+{
+  Material result=new Material(blenderContext.getAssetManager(),"Common/MatDefs/Misc/Particle.j3md");
+  MatParam diffuseMap=material.getParam("DiffuseMap");
+  if (diffuseMap != null) {
+    Texture texture=((Texture)diffuseMap.getValue()).clone();
+    Image image=texture.getImage();
+    ByteBuffer sourceBB=image.getData(0);
+    sourceBB.rewind();
+    int w=image.getWidth();
+    int h=image.getHeight();
+    ByteBuffer bb=BufferUtils.createByteBuffer(w * h * 4);
+    IAlphaMask iAlphaMask=alphaMasks.get(alphaMaskIndex);
+    iAlphaMask.setImageSize(w,h);
+    for (int x=0; x < w; ++x) {
+      for (int y=0; y < h; ++y) {
+        bb.put(sourceBB.get());
+        bb.put(sourceBB.get());
+        bb.put(sourceBB.get());
+        bb.put(iAlphaMask.getAlpha(x,y));
+      }
+    }
+    image=new Image(Format.RGBA8,w,h,bb);
+    texture.setImage(image);
+    result.setTextureParam("Texture",VarType.Texture2D,texture);
+  }
+  MatParam glowColor=material.getParam("GlowColor");
+  if (glowColor != null) {
+    ColorRGBA color=(ColorRGBA)glowColor.getValue();
+    result.setParam("GlowColor",VarType.Vector3,color);
+  }
+  return result;
+}

@@ -1,0 +1,5 @@
+{
+  if (x < 0 || z < 0 || x >= size || z >= size)   return 0;
+  int idx=(int)(z * size + x);
+  return getMesh().getFloatBuffer(Type.Position).get(idx * 3 + 1);
+}

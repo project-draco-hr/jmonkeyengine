@@ -1,0 +1,41 @@
+{
+  reset();
+  key=(ModelKey)info.getKey();
+  assetManager=info.getManager();
+  objName=key.getName();
+  String folderName=key.getFolder();
+  String ext=key.getExtension();
+  objName=objName.substring(0,objName.length() - ext.length() - 1);
+  if (folderName != null && folderName.length() > 0) {
+    objName=objName.substring(folderName.length());
+  }
+  objNode=new Node(objName + "-objnode");
+  if (!(info.getKey() instanceof ModelKey))   throw new IllegalArgumentException("Model assets must be loaded using a ModelKey");
+  InputStream in=null;
+  try {
+    in=info.openStream();
+    scan=new Scanner(in);
+    scan.useLocale(Locale.US);
+    while (readLine())     ;
+  }
+  finally {
+    if (in != null) {
+      in.close();
+    }
+  }
+  if (matFaces.size() > 0) {
+    for (    Entry<String,ArrayList<Face>> entry : matFaces.entrySet()) {
+      ArrayList<Face> materialFaces=entry.getValue();
+      if (materialFaces.size() > 0) {
+        Geometry geom=createGeometry(materialFaces,entry.getKey());
+        objNode.attachChild(geom);
+      }
+    }
+  }
+ else   if (faces.size() > 0) {
+    Geometry geom=createGeometry(faces,null);
+    objNode.attachChild(geom);
+  }
+  if (objNode.getQuantity() == 1)   return objNode.getChild(0);
+ else   return objNode;
+}

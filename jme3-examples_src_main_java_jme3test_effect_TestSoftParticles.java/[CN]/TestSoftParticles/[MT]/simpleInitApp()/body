@@ -1,0 +1,51 @@
+{
+  cam.setLocation(new Vector3f(-7.2221026f,4.1183004f,7.759811f));
+  cam.setRotation(new Quaternion(0.06152846f,0.91236454f,-0.1492115f,0.37621948f));
+  flyCam.setMoveSpeed(10);
+  Box b=new Box(Vector3f.ZERO,10,0.1f,10);
+  Geometry geom=new Geometry("Box",b);
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  mat.setColor("Color",ColorRGBA.Gray);
+  mat.setTexture("ColorMap",assetManager.loadTexture("Interface/Logo/Monkey.jpg"));
+  geom.setMaterial(mat);
+  rootNode.attachChild(geom);
+  Box b2=new Box(Vector3f.ZERO,1,1,1);
+  Geometry geom2=new Geometry("Box",b2);
+  Material mat2=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  mat2.setColor("Color",ColorRGBA.DarkGray);
+  geom2.setMaterial(mat2);
+  rootNode.attachChild(geom2);
+  geom2.setLocalScale(0.1f,0.2f,1);
+  fpp=new FilterPostProcessor(assetManager);
+  tbf=new TranslucentBucketFilter(true);
+  fpp.addFilter(tbf);
+  viewPort.addProcessor(fpp);
+  particleNode=new Node("particleNode");
+  rootNode.attachChild(particleNode);
+  createParticles();
+  inputManager.addListener(new ActionListener(){
+    public void onAction(    String name,    boolean isPressed,    float tpf){
+      if (isPressed && name.equals("toggle")) {
+        softParticles=!softParticles;
+        if (softParticles) {
+          viewPort.addProcessor(fpp);
+        }
+ else {
+          viewPort.removeProcessor(fpp);
+        }
+      }
+    }
+  }
+,"toggle");
+  inputManager.addMapping("toggle",new KeyTrigger(KeyInput.KEY_SPACE));
+  inputManager.addListener(new ActionListener(){
+    public void onAction(    String name,    boolean isPressed,    float tpf){
+      if (isPressed && name.equals("refire")) {
+        particleNode.detachAllChildren();
+        createParticles();
+      }
+    }
+  }
+,"refire");
+  inputManager.addMapping("refire",new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+}

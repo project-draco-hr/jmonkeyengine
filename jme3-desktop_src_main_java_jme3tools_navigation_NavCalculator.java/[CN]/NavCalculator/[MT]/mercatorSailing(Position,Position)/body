@@ -1,0 +1,18 @@
+{
+  double dLat=computeDLat(p1.getLatitude(),p2.getLatitude());
+  if (dLat == 0) {
+    RLSailing rl=planeSailing(p1,p2);
+    return rl;
+  }
+  double dLong=computeDLong(p1.getLongitude(),p2.getLongitude());
+  double dmp=(float)computeDMPClarkeSpheroid(p1.getLatitude(),p2.getLatitude());
+  trueCourse=(float)Math.toDegrees(Math.atan(dLong / dmp));
+  double degCrs=convertCourse((float)trueCourse,p1,p2);
+  distance=(float)Math.abs(dLat / Math.cos(Math.toRadians(trueCourse)));
+  RLSailing rl=new RLSailing(degCrs,(float)distance);
+  trueCourse=rl.getCourse();
+  strCourse=(dLat < 0 ? "S" : "N");
+  strCourse+=" " + trueCourse;
+  strCourse+=" " + (dLong < 0 ? "W" : "E");
+  return rl;
+}

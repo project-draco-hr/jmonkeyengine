@@ -1,0 +1,9 @@
+{
+  AppSettings settings=new AppSettings(true);
+  settings.setRenderer(null);
+  settings.setAudioRenderer("LWJGL");
+  ar=JmeSystem.newAudioRenderer(settings);
+  ar.initialize();
+  ar.setListener(listener);
+  AudioContext.setAudioRenderer(ar);
+}

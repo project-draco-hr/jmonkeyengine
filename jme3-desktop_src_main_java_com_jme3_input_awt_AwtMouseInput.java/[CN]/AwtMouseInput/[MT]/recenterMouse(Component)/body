@@ -1,0 +1,10 @@
+{
+  if (robot != null) {
+    eventsSinceRecenter=0;
+    isRecentering=true;
+    centerLocation.setLocation(component.getWidth() / 2,component.getHeight() / 2);
+    centerLocationOnScreen.setLocation(centerLocation);
+    SwingUtilities.convertPointToScreen(centerLocationOnScreen,component);
+    robot.mouseMove(centerLocationOnScreen.x,centerLocationOnScreen.y);
+  }
+}

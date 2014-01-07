@@ -1,0 +1,61 @@
+{
+  if (ignoreUntilEnd != null) {
+    if (ignoreUntilEnd.equals(qName)) {
+      ignoreUntilEnd=null;
+    }
+    return;
+  }
+  if (qName.equals("submesh") && !submeshNamesHack) {
+    usesBigIndices=false;
+    geom=null;
+    mesh=null;
+  }
+ else   if (qName.equals("submeshes") && !submeshNamesHack) {
+    geom=null;
+    mesh=sharedMesh;
+    usesSharedVerts=false;
+  }
+ else   if (qName.equals("faces")) {
+    if (ib != null) {
+      ib.flip();
+    }
+ else {
+      sb.flip();
+    }
+    vb=null;
+    ib=null;
+    sb=null;
+  }
+ else   if (qName.equals("vertexbuffer")) {
+    fb=null;
+    vb=null;
+  }
+ else   if (qName.equals("geometry") || qName.equals("sharedgeometry")) {
+    for (    VertexBuffer buf : mesh.getBufferList().getArray()) {
+      Buffer data=buf.getData();
+      if (data.position() != 0) {
+        data.flip();
+      }
+    }
+    mesh.updateBound();
+    mesh.setStatic();
+    if (qName.equals("sharedgeometry")) {
+      geom=null;
+      mesh=null;
+    }
+  }
+ else   if (qName.equals("lodfacelist")) {
+    sb.flip();
+    vb=null;
+    sb=null;
+  }
+ else   if (qName.equals("levelofdetail")) {
+    endLevelOfDetail();
+  }
+ else   if (qName.equals("boneassignments")) {
+    endBoneAssigns();
+  }
+ else   if (qName.equals("submeshnames")) {
+    submeshNamesHack=false;
+  }
+}

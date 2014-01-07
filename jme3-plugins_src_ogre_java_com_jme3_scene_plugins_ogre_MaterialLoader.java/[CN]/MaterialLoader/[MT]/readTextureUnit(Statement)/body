@@ -1,0 +1,19 @@
+{
+  String[] split=statement.getLine().split(" ",2);
+  if (split.length == 2) {
+    texName=split[1];
+  }
+ else {
+    texName=null;
+  }
+  textures[texUnit]=new Texture2D();
+  for (  Statement texUnitStat : statement.getContents()) {
+    readTextureUnitStatement(texUnitStat);
+  }
+  if (textures[texUnit].getImage() != null) {
+    texUnit++;
+  }
+ else {
+    textures[texUnit]=null;
+  }
+}

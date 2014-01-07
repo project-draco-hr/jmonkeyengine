@@ -1,0 +1,13 @@
+{
+  super.read(im);
+  InputCapsule capsule=im.getCapsule(this);
+  heightStickWidth=capsule.readInt("heightStickWidth",0);
+  heightStickLength=capsule.readInt("heightStickLength",0);
+  heightScale=capsule.readFloat("heightScale",0);
+  minHeight=capsule.readFloat("minHeight",0);
+  maxHeight=capsule.readFloat("maxHeight",0);
+  upAxis=capsule.readInt("upAxis",1);
+  heightfieldData=capsule.readFloatArray("heightfieldData",new float[0]);
+  flipQuadEdges=capsule.readBoolean("flipQuadEdges",false);
+  createShape();
+}

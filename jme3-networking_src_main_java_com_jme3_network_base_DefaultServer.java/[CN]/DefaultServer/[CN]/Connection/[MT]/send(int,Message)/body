@@ -1,0 +1,5 @@
+{
+  checkChannel(channel);
+  ByteBuffer buffer=MessageProtocol.messageToBuffer(message,null);
+  channels[channel + CH_FIRST].send(buffer);
+}

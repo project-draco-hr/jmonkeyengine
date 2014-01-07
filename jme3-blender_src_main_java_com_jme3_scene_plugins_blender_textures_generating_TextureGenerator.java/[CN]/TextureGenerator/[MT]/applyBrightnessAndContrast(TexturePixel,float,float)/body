@@ -1,0 +1,9 @@
+{
+  texres.intensity=(texres.intensity - 0.5f) * contrast + brightness;
+  if (texres.intensity < 0.0f) {
+    texres.intensity=0.0f;
+  }
+ else   if (texres.intensity > 1.0f) {
+    texres.intensity=1.0f;
+  }
+}

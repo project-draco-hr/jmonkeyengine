@@ -1,0 +1,17 @@
+{
+  if (value) {
+    boolean consumed=nic.processMouseEvent(x,y,0,button,true) | nifty.getCurrentScreen().isMouseOverElement();
+    niftyOwnsDragging[button]=consumed;
+    if (consumed) {
+      evt.setConsumed();
+    }
+  }
+ else {
+    boolean consumed=nic.processMouseEvent(x,y,0,button,false);
+    if (niftyOwnsDragging[button] && consumed) {
+      evt.setConsumed();
+      processSoftKeyboard();
+    }
+    niftyOwnsDragging[button]=false;
+  }
+}

@@ -1,0 +1,16 @@
+{
+  double max=red;
+  if (green > max)   max=green;
+  if (blue > max)   max=blue;
+  if (max < 1.0e-32) {
+    rgbe[0]=rgbe[1]=rgbe[2]=rgbe[3]=0;
+  }
+ else {
+    double exp=Math.ceil(Math.log10(max) / Math.log10(2));
+    double divider=Math.pow(2.0,exp);
+    rgbe[0]=(byte)((red / divider) * 255.0);
+    rgbe[1]=(byte)((green / divider) * 255.0);
+    rgbe[2]=(byte)((blue / divider) * 255.0);
+    rgbe[3]=(byte)(exp + 128.0);
+  }
+}

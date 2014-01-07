@@ -1,0 +1,49 @@
+{
+  AppSettings settings=new AppSettings(true);
+  if (appCfg != null) {
+    InputStream in=null;
+    try {
+      in=appCfg.openStream();
+      settings.load(in);
+      in.close();
+    }
+ catch (    IOException ex) {
+      JOptionPane.showMessageDialog(this,"An error has occured while " + "loading applet configuration" + ex.getMessage(),"jME3 Applet",JOptionPane.ERROR_MESSAGE);
+      ex.printStackTrace();
+    }
+ finally {
+      if (in != null)       try {
+        in.close();
+      }
+ catch (      IOException ex) {
+      }
+    }
+  }
+  if (assetCfg != null) {
+    settings.putString("AssetConfigURL",assetCfg.toString());
+  }
+  settings.setWidth(getWidth());
+  settings.setHeight(getHeight());
+  JmeSystem.setLowPermissions(true);
+  try {
+    Class<? extends Application> clazz=(Class<? extends Application>)Class.forName(appClass);
+    app=clazz.newInstance();
+  }
+ catch (  ClassNotFoundException ex) {
+    ex.printStackTrace();
+  }
+catch (  InstantiationException ex) {
+    ex.printStackTrace();
+  }
+catch (  IllegalAccessException ex) {
+    ex.printStackTrace();
+  }
+  appToApplet.put(app,this);
+  app.setSettings(settings);
+  app.createCanvas();
+  context=(JmeCanvasContext)app.getContext();
+  canvas=context.getCanvas();
+  canvas.setSize(getWidth(),getHeight());
+  add(canvas);
+  app.startCanvas();
+}

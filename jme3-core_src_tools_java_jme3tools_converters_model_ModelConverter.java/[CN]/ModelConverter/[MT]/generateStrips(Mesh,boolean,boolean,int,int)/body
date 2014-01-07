@@ -1,0 +1,43 @@
+{
+  TriStrip ts=new TriStrip();
+  ts.setStitchStrips(stitch);
+  ts.setCacheSize(cacheSize);
+  ts.setListsOnly(listOnly);
+  ts.setMinStripSize(minStripSize);
+  IndexBuffer ib=mesh.getIndicesAsList();
+  int[] indices=new int[ib.size()];
+  for (int i=0; i < indices.length; i++)   indices[i]=ib.get(i);
+  PrimitiveGroup[] groups=ts.generateStrips(indices);
+  Arrays.sort(groups,primComp);
+  int numElements=0;
+  for (  PrimitiveGroup group : groups)   numElements+=group.numIndices;
+  VertexBuffer original=mesh.getBuffer(Type.Index);
+  Buffer buf=VertexBuffer.createBuffer(original.getFormat(),original.getNumComponents(),numElements);
+  original.updateData(buf);
+  ib=mesh.getIndexBuffer();
+  int curIndex=0;
+  int[] modeStart=new int[]{-1,-1,-1};
+  int[] elementLengths=new int[groups.length];
+  for (int i=0; i < groups.length; i++) {
+    PrimitiveGroup group=groups[i];
+    elementLengths[i]=group.numIndices;
+    if (modeStart[group.type] == -1) {
+      modeStart[group.type]=i;
+    }
+    int[] trimmedIndices=group.getTrimmedIndices();
+    for (int j=0; j < trimmedIndices.length; j++) {
+      ib.put(curIndex + j,trimmedIndices[j]);
+    }
+    curIndex+=group.numIndices;
+  }
+  if (modeStart[0] == -1 && modeStart[1] == 0 && modeStart[2] == -1 && elementLengths.length == 1) {
+    original.compact(elementLengths[0]);
+    mesh.setMode(Mode.TriangleStrip);
+  }
+ else {
+    mesh.setElementLengths(elementLengths);
+    mesh.setModeStart(modeStart);
+    mesh.setMode(Mode.Hybrid);
+  }
+  mesh.updateCounts();
+}

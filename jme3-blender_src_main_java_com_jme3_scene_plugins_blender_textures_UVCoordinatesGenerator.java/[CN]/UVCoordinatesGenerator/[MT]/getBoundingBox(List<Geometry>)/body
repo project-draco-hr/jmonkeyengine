@@ -1,0 +1,13 @@
+{
+  BoundingBox result=null;
+  for (  Geometry geometry : geometries) {
+    BoundingBox bb=UVCoordinatesGenerator.getBoundingBox(geometry.getMesh());
+    if (result == null) {
+      result=bb;
+    }
+ else {
+      result.merge(bb);
+    }
+  }
+  return result;
+}

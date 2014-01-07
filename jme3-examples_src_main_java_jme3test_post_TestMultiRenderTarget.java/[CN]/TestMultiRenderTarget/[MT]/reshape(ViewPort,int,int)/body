@@ -1,0 +1,38 @@
+{
+  diffuseData=new Texture2D(w,h,Format.RGBA8);
+  normalData=new Texture2D(w,h,Format.RGBA8);
+  specularData=new Texture2D(w,h,Format.RGBA8);
+  depthData=new Texture2D(w,h,Format.Depth);
+  mat=new Material(assetManager,"Common/MatDefs/Light/Deferred.j3md");
+  mat.setTexture("DiffuseData",diffuseData);
+  mat.setTexture("SpecularData",specularData);
+  mat.setTexture("NormalData",normalData);
+  mat.setTexture("DepthData",depthData);
+  display.setMaterial(mat);
+  display.setPosition(0,0);
+  display.setWidth(w);
+  display.setHeight(h);
+  display1.setTexture(assetManager,diffuseData,false);
+  display2.setTexture(assetManager,normalData,false);
+  display3.setTexture(assetManager,specularData,false);
+  display4.setTexture(assetManager,depthData,false);
+  display1.setPosition(0,0);
+  display2.setPosition(w / 2,0);
+  display3.setPosition(0,h / 2);
+  display4.setPosition(w / 2,h / 2);
+  display1.setWidth(w / 2);
+  display1.setHeight(h / 2);
+  display2.setWidth(w / 2);
+  display2.setHeight(h / 2);
+  display3.setWidth(w / 2);
+  display3.setHeight(h / 2);
+  display4.setWidth(w / 2);
+  display4.setHeight(h / 2);
+  guiNode.updateGeometricState();
+  fb=new FrameBuffer(w,h,1);
+  fb.setDepthTexture(depthData);
+  fb.addColorTexture(diffuseData);
+  fb.addColorTexture(normalData);
+  fb.addColorTexture(specularData);
+  fb.setMultiTarget(true);
+}

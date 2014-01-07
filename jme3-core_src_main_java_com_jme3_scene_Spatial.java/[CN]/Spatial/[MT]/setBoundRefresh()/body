@@ -1,0 +1,11 @@
+{
+  refreshFlags|=RF_BOUND;
+  Spatial p=parent;
+  while (p != null) {
+    if ((p.refreshFlags & RF_BOUND) != 0) {
+      return;
+    }
+    p.refreshFlags|=RF_BOUND;
+    p=p.parent;
+  }
+}

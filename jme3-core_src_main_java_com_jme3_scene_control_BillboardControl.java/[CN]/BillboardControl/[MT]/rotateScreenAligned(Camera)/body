@@ -1,0 +1,13 @@
+{
+  look.set(camera.getDirection()).negateLocal();
+  left.set(camera.getLeft()).negateLocal();
+  orient.fromAxes(left,camera.getUp(),look);
+  Node parent=spatial.getParent();
+  Quaternion rot=new Quaternion().fromRotationMatrix(orient);
+  if (parent != null) {
+    rot=parent.getWorldRotation().inverse().multLocal(rot);
+    rot.normalizeLocal();
+  }
+  spatial.setLocalRotation(rot);
+  fixRefreshFlags();
+}

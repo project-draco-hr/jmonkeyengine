@@ -1,0 +1,19 @@
+{
+  List<Geometry> geometries=(List<Geometry>)blenderContext.getLoadedFeature(geometriesOMA,LoadedFeatureDataType.LOADED_FEATURE);
+  int[] coordinatesSwappingIndexes=new int[]{((Number)mTex.getFieldValue("projx")).intValue(),((Number)mTex.getFieldValue("projy")).intValue(),((Number)mTex.getFieldValue("projz")).intValue()};
+  List<Vector3f> uvs=UVCoordinatesGenerator.generateUVCoordinatesFor3DTexture(mesh,coordinatesType,coordinatesSwappingIndexes,geometries);
+  Vector3f[] uvsArray=uvs.toArray(new Vector3f[uvs.size()]);
+  BoundingBox boundingBox=UVCoordinatesGenerator.getBoundingBox(geometries);
+  Set<TriangleTextureElement> triangleTextureElements=new TreeSet<TriangleTextureElement>(new Comparator<TriangleTextureElement>(){
+    public int compare(    TriangleTextureElement o1,    TriangleTextureElement o2){
+      return o1.faceIndex - o2.faceIndex;
+    }
+  }
+);
+  int[] indices=new int[3];
+  for (int i=0; i < mesh.getTriangleCount(); ++i) {
+    mesh.getTriangle(i,indices);
+    triangleTextureElements.add(new TriangleTextureElement(i,boundingBox,this,uvsArray,indices,blenderContext));
+  }
+  return new TriangulatedTexture(triangleTextureElements,blenderContext);
+}

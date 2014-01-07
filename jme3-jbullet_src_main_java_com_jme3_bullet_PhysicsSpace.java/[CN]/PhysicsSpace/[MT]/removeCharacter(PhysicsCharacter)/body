@@ -1,0 +1,10 @@
+{
+  if (!physicsCharacters.containsKey(node.getObjectId())) {
+    logger.log(Level.WARNING,"Character {0} does not exist in PhysicsSpace, cannot remove.",node);
+    return;
+  }
+  physicsCharacters.remove(node.getObjectId());
+  logger.log(Level.FINE,"Removing character {0} from physics space.",node.getObjectId());
+  dynamicsWorld.removeAction(node.getControllerId());
+  dynamicsWorld.removeCollisionObject(node.getObjectId());
+}

@@ -1,0 +1,34 @@
+{
+  if (rleTempBuffer == null) {
+    rleTempBuffer=BufferUtils.createByteBuffer(width * 4);
+  }
+ else {
+    rleTempBuffer.clear();
+    if (rleTempBuffer.remaining() < width * 4)     rleTempBuffer=BufferUtils.createByteBuffer(width * 4);
+  }
+  for (int i=0; i < 4; i++) {
+    for (int j=0; j < width; ) {
+      int code=in.read();
+      if (code > 128) {
+        code-=128;
+        int val=in.read();
+        while ((code--) != 0) {
+          rleTempBuffer.put((j++) * 4 + i,(byte)val);
+        }
+      }
+ else {
+        while ((code--) != 0) {
+          int val=in.read();
+          rleTempBuffer.put((j++) * 4 + i,(byte)val);
+        }
+      }
+    }
+  }
+  rleTempBuffer.rewind();
+  byte[] rgbe=new byte[4];
+  for (int i=0; i < width; i++) {
+    rleTempBuffer.get(rgbe);
+    writeRGBE(rgbe);
+  }
+  return true;
+}

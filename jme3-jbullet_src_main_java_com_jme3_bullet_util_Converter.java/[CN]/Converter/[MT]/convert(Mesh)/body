@@ -1,0 +1,24 @@
+{
+  IndexedMesh jBulletIndexedMesh=new IndexedMesh();
+  jBulletIndexedMesh.triangleIndexBase=ByteBuffer.allocate(mesh.getTriangleCount() * 3 * 4);
+  jBulletIndexedMesh.vertexBase=ByteBuffer.allocate(mesh.getVertexCount() * 3 * 4);
+  IndexBuffer indices=mesh.getIndicesAsList();
+  FloatBuffer vertices=mesh.getFloatBuffer(Type.Position);
+  vertices.rewind();
+  int verticesLength=mesh.getVertexCount() * 3;
+  jBulletIndexedMesh.numVertices=mesh.getVertexCount();
+  jBulletIndexedMesh.vertexStride=12;
+  for (int i=0; i < verticesLength; i++) {
+    float tempFloat=vertices.get();
+    jBulletIndexedMesh.vertexBase.putFloat(tempFloat);
+  }
+  int indicesLength=mesh.getTriangleCount() * 3;
+  jBulletIndexedMesh.numTriangles=mesh.getTriangleCount();
+  jBulletIndexedMesh.triangleIndexStride=12;
+  for (int i=0; i < indicesLength; i++) {
+    jBulletIndexedMesh.triangleIndexBase.putInt(indices.get(i));
+  }
+  vertices.rewind();
+  vertices.clear();
+  return jBulletIndexedMesh;
+}

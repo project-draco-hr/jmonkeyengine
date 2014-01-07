@@ -1,0 +1,27 @@
+{
+  if (end - start <= 0) {
+    return;
+  }
+  TempVars vars=TempVars.get();
+  Vector3f vect1=vars.vect1;
+  Vector3f vect2=vars.vect2;
+  Triangle triangle=vars.triangle;
+  Vector3f min=vect1.set(Float.POSITIVE_INFINITY,Float.POSITIVE_INFINITY,Float.POSITIVE_INFINITY);
+  Vector3f max=vect2.set(Float.NEGATIVE_INFINITY,Float.NEGATIVE_INFINITY,Float.NEGATIVE_INFINITY);
+  Vector3f point;
+  for (int i=start; i < end; i++) {
+    mesh.getTriangle(indices[i],triangle);
+    point=triangle.get(0);
+    checkMinMax(min,max,point);
+    point=triangle.get(1);
+    checkMinMax(min,max,point);
+    point=triangle.get(2);
+    checkMinMax(min,max,point);
+  }
+  center.set(min.addLocal(max));
+  center.multLocal(0.5f);
+  xExtent=max.x - center.x;
+  yExtent=max.y - center.y;
+  zExtent=max.z - center.z;
+  vars.release();
+}

@@ -1,0 +1,12 @@
+{
+  List<Geometry> geometries=new ArrayList<Geometry>();
+  GeometryBatchFactory.gatherGeoms(root,geometries);
+  TextureAtlas atlas=new TextureAtlas(atlasSize,atlasSize);
+  for (  Geometry geometry : geometries) {
+    if (!atlas.addGeometry(geometry)) {
+      logger.log(Level.WARNING,"Texture atlas size too small, cannot add all textures");
+      return null;
+    }
+  }
+  return atlas;
+}

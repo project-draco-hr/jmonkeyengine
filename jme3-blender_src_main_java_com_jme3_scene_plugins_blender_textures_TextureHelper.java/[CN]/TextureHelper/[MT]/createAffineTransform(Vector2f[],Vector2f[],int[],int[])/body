@@ -1,0 +1,21 @@
+{
+  float x11=source[0].getX() * sourceSize[0];
+  float x12=source[0].getY() * sourceSize[1];
+  float x21=source[1].getX() * sourceSize[0];
+  float x22=source[1].getY() * sourceSize[1];
+  float x31=source[2].getX() * sourceSize[0];
+  float x32=source[2].getY() * sourceSize[1];
+  float y11=dest[0].getX() * targetSize[0];
+  float y12=dest[0].getY() * targetSize[1];
+  float y21=dest[1].getX() * targetSize[0];
+  float y22=dest[1].getY() * targetSize[1];
+  float y31=dest[2].getX() * targetSize[0];
+  float y32=dest[2].getY() * targetSize[1];
+  float a1=((y11 - y21) * (x12 - x32) - (y11 - y31) * (x12 - x22)) / ((x11 - x21) * (x12 - x32) - (x11 - x31) * (x12 - x22));
+  float a2=((y11 - y21) * (x11 - x31) - (y11 - y31) * (x11 - x21)) / ((x12 - x22) * (x11 - x31) - (x12 - x32) * (x11 - x21));
+  float a3=y11 - a1 * x11 - a2 * x12;
+  float a4=((y12 - y22) * (x12 - x32) - (y12 - y32) * (x12 - x22)) / ((x11 - x21) * (x12 - x32) - (x11 - x31) * (x12 - x22));
+  float a5=((y12 - y22) * (x11 - x31) - (y12 - y32) * (x11 - x21)) / ((x12 - x22) * (x11 - x31) - (x12 - x32) * (x11 - x21));
+  float a6=y12 - a4 * x11 - a5 * x12;
+  return new AffineTransform(a1,a4,a2,a5,a3,a6);
+}

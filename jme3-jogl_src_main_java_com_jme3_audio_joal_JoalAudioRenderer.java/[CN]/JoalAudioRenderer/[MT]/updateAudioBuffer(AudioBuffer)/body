@@ -1,0 +1,13 @@
+{
+  int id=ab.getId();
+  if (ab.getId() == -1) {
+    ib.position(0).limit(1);
+    al.alGenBuffers(ib.limit(),ib);
+    id=ib.get(0);
+    ab.setId(id);
+    objManager.registerObject(ab);
+  }
+  ab.getData().clear();
+  al.alBufferData(id,convertFormat(ab),ab.getData(),ab.getData().remaining(),ab.getSampleRate());
+  ab.clearUpdateNeeded();
+}

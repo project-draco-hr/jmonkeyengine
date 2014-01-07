@@ -1,0 +1,12 @@
+{
+  AppState[] array=getInitializing();
+  if (array.length == 0)   return;
+synchronized (states) {
+    List<AppState> transfer=Arrays.asList(array);
+    states.addAll(transfer);
+    initializing.removeAll(transfer);
+  }
+  for (  AppState state : array) {
+    state.initialize(this,app);
+  }
+}

@@ -1,0 +1,40 @@
+{
+  DecodeParams p=params.get(format);
+  if (p == null)   throw new UnsupportedOperationException("Image format " + format + " is not supported");
+  int width=image.getWidth();
+  int height=image.getHeight();
+  boolean alpha=true;
+  boolean luminance=false;
+  int reductionA=8 - Integer.bitCount(p.am);
+  int reductionR=8 - Integer.bitCount(p.rm);
+  int reductionG=8 - Integer.bitCount(p.gm);
+  int reductionB=8 - Integer.bitCount(p.bm);
+  int initialPos=buf.position();
+  for (int y=0; y < height; y++) {
+    for (int x=0; x < width; x++) {
+      int argb=image.getRGB(x,y);
+      int a=(argb & 0xff000000) >> 24;
+      int r=(argb & 0x00ff0000) >> 16;
+      int g=(argb & 0x0000ff00) >> 8;
+      int b=(argb & 0x000000ff);
+      a=a & 0xff;
+      r=r & 0xff;
+      g=g & 0xff;
+      b=b & 0xff;
+      if (!alpha)       a=0xff;
+      if (luminance) {
+      }
+      a=a >> reductionA;
+      r=r >> reductionR;
+      g=g >> reductionG;
+      b=b >> reductionB;
+      a=(a << p.as) & p.am;
+      r=(r << p.rs) & p.rm;
+      g=(g << p.gs) & p.gm;
+      b=(b << p.bs) & p.bm;
+      int outputPixel=((a | r | g| b) << p.is) & p.im;
+      int i=initialPos + (Ix(x,y,width) * p.bpp);
+      writePixel(buf,i,outputPixel,p.bpp);
+    }
+  }
+}

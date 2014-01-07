@@ -1,0 +1,11 @@
+{
+  super.postRebuild();
+  if (tuning == null) {
+    tuning=new VehicleTuning();
+  }
+  rBody.setActivationState(CollisionObject.DISABLE_DEACTIVATION);
+  motionState.setVehicle(this);
+  if (physicsSpace != null) {
+    createVehicle(physicsSpace);
+  }
+}

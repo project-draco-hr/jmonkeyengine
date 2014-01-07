@@ -1,0 +1,19 @@
+{
+  int removed=0;
+  while (removed < MAX_REMOVES_PER_FRAME && !userDeletionQueue.isEmpty()) {
+    NativeObject obj=userDeletionQueue.pop();
+    deleteNativeObject(rendererObject,obj,null,true,true);
+    removed++;
+  }
+  while (removed < MAX_REMOVES_PER_FRAME) {
+    NativeObjectRef ref=(NativeObjectRef)refQueue.poll();
+    if (ref == null) {
+      break;
+    }
+    deleteNativeObject(rendererObject,ref.objClone,ref,true,false);
+    removed++;
+  }
+  if (removed >= 1) {
+    logger.log(Level.FINE,"NativeObjectManager: {0} native objects were removed from native",removed);
+  }
+}

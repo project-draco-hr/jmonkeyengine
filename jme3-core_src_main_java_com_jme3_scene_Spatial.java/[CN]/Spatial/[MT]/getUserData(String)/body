@@ -1,0 +1,12 @@
+{
+  if (userData == null) {
+    return null;
+  }
+  Savable s=userData.get(key);
+  if (s instanceof UserData) {
+    return (T)((UserData)s).getValue();
+  }
+ else {
+    return (T)s;
+  }
+}

@@ -1,0 +1,8 @@
+{
+  float x=(float)(((xz.x - getWorldTranslation().x) / getWorldScale().x) + (float)(totalSize - 1) / 2f);
+  float z=(float)(((xz.y - getWorldTranslation().z) / getWorldScale().z) + (float)(totalSize - 1) / 2f);
+  if (!isInside((int)x,(int)z))   return Float.NaN;
+  float height=getHeight((int)x,(int)z,(x % 1f),(z % 1f));
+  height*=getWorldScale().y;
+  return height;
+}

@@ -1,0 +1,20 @@
+{
+  super.write(ex);
+  OutputCapsule capsule=ex.getCapsule(this);
+  capsule.write(numVertices,MeshCollisionShape.NUM_VERTICES,0);
+  capsule.write(numTriangles,MeshCollisionShape.NUM_TRIANGLES,0);
+  capsule.write(vertexStride,MeshCollisionShape.VERTEX_STRIDE,0);
+  capsule.write(triangleIndexStride,MeshCollisionShape.TRIANGLE_INDEX_STRIDE,0);
+  triangleIndexBase.position(0);
+  byte[] triangleIndexBasearray=new byte[triangleIndexBase.limit()];
+  triangleIndexBase.get(triangleIndexBasearray);
+  capsule.write(triangleIndexBasearray,MeshCollisionShape.TRIANGLE_INDEX_BASE,null);
+  vertexBase.position(0);
+  byte[] vertexBaseArray=new byte[vertexBase.limit()];
+  vertexBase.get(vertexBaseArray);
+  capsule.write(vertexBaseArray,MeshCollisionShape.VERTEX_BASE,null);
+  if (memoryOptimized) {
+    byte[] data=saveBVH(objectId);
+    capsule.write(data,MeshCollisionShape.NATIVE_BVH,null);
+  }
+}

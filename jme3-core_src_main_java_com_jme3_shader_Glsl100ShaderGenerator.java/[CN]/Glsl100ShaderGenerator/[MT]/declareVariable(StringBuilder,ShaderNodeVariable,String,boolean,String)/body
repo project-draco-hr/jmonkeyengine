@@ -1,0 +1,26 @@
+{
+  startCondition(var.getCondition(),source);
+  appendIndent(source);
+  if (modifier != null) {
+    source.append(modifier);
+    source.append(" ");
+  }
+  source.append(var.getType());
+  source.append(" ");
+  if (appendNameSpace) {
+    source.append(var.getNameSpace());
+    source.append("_");
+  }
+  source.append(var.getName());
+  if (var.getMultiplicity() != null) {
+    source.append("[");
+    source.append(var.getMultiplicity().toUpperCase());
+    source.append("]");
+  }
+  if (value != null) {
+    source.append(" = ");
+    source.append(value);
+  }
+  source.append(";\n");
+  endCondition(var.getCondition(),source);
+}

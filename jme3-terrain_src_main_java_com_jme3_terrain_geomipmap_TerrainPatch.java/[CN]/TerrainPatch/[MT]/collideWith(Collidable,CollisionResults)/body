@@ -1,0 +1,9 @@
+{
+  if (refreshFlags != 0)   throw new IllegalStateException("Scene graph must be updated" + " before checking collision");
+  if (other instanceof BoundingVolume)   if (!getWorldBound().intersects((BoundingVolume)other))   return 0;
+  if (other instanceof Ray)   return collideWithRay((Ray)other,results);
+ else   if (other instanceof BoundingVolume)   return collideWithBoundingVolume((BoundingVolume)other,results);
+ else {
+    throw new UnsupportedCollisionException("TerrainPatch cannnot collide with " + other.getClass().getName());
+  }
+}

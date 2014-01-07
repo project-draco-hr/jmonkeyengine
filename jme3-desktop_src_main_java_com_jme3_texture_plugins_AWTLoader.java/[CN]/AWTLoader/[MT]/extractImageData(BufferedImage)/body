@@ -1,0 +1,12 @@
+{
+  DataBuffer buf=img.getRaster().getDataBuffer();
+switch (buf.getDataType()) {
+case DataBuffer.TYPE_BYTE:
+    DataBufferByte byteBuf=(DataBufferByte)buf;
+  return byteBuf.getData();
+case DataBuffer.TYPE_USHORT:
+DataBufferUShort shortBuf=(DataBufferUShort)buf;
+return shortBuf.getData();
+}
+return null;
+}

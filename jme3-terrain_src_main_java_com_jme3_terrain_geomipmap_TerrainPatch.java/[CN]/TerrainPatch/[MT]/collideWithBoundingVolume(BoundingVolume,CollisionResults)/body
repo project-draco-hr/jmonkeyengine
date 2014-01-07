@@ -1,0 +1,9 @@
+{
+  if (boundingVolume instanceof BoundingBox)   return collideWithBoundingBox((BoundingBox)boundingVolume,results);
+ else   if (boundingVolume instanceof BoundingSphere) {
+    BoundingSphere sphere=(BoundingSphere)boundingVolume;
+    BoundingBox bbox=new BoundingBox(boundingVolume.getCenter().clone(),sphere.getRadius(),sphere.getRadius(),sphere.getRadius());
+    return collideWithBoundingBox(bbox,results);
+  }
+  return 0;
+}

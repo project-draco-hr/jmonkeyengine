@@ -1,0 +1,9 @@
+{
+  VertexBuffer tb=mesh.getBuffer(Type.Tangent);
+  if (tb == null) {
+    applySkinning(mesh,offsetMatrices);
+  }
+ else {
+    applySkinningTangents(mesh,offsetMatrices,tb);
+  }
+}

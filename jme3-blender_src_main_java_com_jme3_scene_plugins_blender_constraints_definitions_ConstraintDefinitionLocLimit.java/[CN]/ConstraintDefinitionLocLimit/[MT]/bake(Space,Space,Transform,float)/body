@@ -1,0 +1,26 @@
+{
+  if (this.getOwner() instanceof Bone && ((Bone)this.getOwner()).getParent() != null && blenderContext.getBoneContext(ownerOMA).is(BoneContext.CONNECTED_TO_PARENT)) {
+    return;
+  }
+  Transform ownerTransform=this.getOwnerTransform(ownerSpace);
+  Vector3f translation=ownerTransform.getTranslation();
+  if ((flag & LIMIT_XMIN) != 0 && translation.x < limits[0][0]) {
+    translation.x-=(translation.x - limits[0][0]) * influence;
+  }
+  if ((flag & LIMIT_XMAX) != 0 && translation.x > limits[0][1]) {
+    translation.x-=(translation.x - limits[0][1]) * influence;
+  }
+  if ((flag & LIMIT_YMIN) != 0 && translation.y < limits[1][0]) {
+    translation.y-=(translation.y - limits[1][0]) * influence;
+  }
+  if ((flag & LIMIT_YMAX) != 0 && translation.y > limits[1][1]) {
+    translation.y-=(translation.y - limits[1][1]) * influence;
+  }
+  if ((flag & LIMIT_ZMIN) != 0 && translation.z < limits[2][0]) {
+    translation.z-=(translation.z - limits[2][0]) * influence;
+  }
+  if ((flag & LIMIT_ZMAX) != 0 && translation.z > limits[2][1]) {
+    translation.z-=(translation.z - limits[2][1]) * influence;
+  }
+  this.applyOwnerTransform(ownerTransform,ownerSpace);
+}

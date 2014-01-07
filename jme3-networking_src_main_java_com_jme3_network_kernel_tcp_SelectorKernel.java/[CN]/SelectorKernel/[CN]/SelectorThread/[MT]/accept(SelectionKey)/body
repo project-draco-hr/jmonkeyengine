@@ -1,0 +1,11 @@
+{
+  ServerSocketChannel serverChan=(ServerSocketChannel)key.channel();
+  SocketChannel remoteChan=serverChan.accept();
+  remoteChan.configureBlocking(false);
+  Socket sock=remoteChan.socket();
+  sock.setTcpNoDelay(true);
+  SelectionKey endKey=remoteChan.register(selector,SelectionKey.OP_READ);
+  NioEndpoint p=addEndpoint(remoteChan);
+  endKey.attach(p);
+  endpointKeys.put(p,endKey);
+}

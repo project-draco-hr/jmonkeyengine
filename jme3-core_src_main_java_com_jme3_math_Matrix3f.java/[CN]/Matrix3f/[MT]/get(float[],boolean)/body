@@ -1,0 +1,53 @@
+{
+  if (data.length == 9) {
+    if (rowMajor) {
+      data[0]=m00;
+      data[1]=m01;
+      data[2]=m02;
+      data[3]=m10;
+      data[4]=m11;
+      data[5]=m12;
+      data[6]=m20;
+      data[7]=m21;
+      data[8]=m22;
+    }
+ else {
+      data[0]=m00;
+      data[1]=m10;
+      data[2]=m20;
+      data[3]=m01;
+      data[4]=m11;
+      data[5]=m21;
+      data[6]=m02;
+      data[7]=m12;
+      data[8]=m22;
+    }
+  }
+ else   if (data.length == 16) {
+    if (rowMajor) {
+      data[0]=m00;
+      data[1]=m01;
+      data[2]=m02;
+      data[4]=m10;
+      data[5]=m11;
+      data[6]=m12;
+      data[8]=m20;
+      data[9]=m21;
+      data[10]=m22;
+    }
+ else {
+      data[0]=m00;
+      data[1]=m10;
+      data[2]=m20;
+      data[4]=m01;
+      data[5]=m11;
+      data[6]=m21;
+      data[8]=m02;
+      data[9]=m12;
+      data[10]=m22;
+    }
+  }
+ else {
+    throw new IndexOutOfBoundsException("Array size must be 9 or 16 in Matrix3f.get().");
+  }
+}

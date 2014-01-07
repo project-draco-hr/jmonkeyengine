@@ -1,0 +1,11 @@
+{
+  byte firstByte=contents[index];
+  if (firstByte == BinaryOutputCapsule.NULL_OBJECT)   return ByteUtils.convertToBytes(BinaryOutputCapsule.NULL_OBJECT);
+ else   if (firstByte == BinaryOutputCapsule.DEFAULT_OBJECT)   return ByteUtils.convertToBytes(BinaryOutputCapsule.DEFAULT_OBJECT);
+ else   if (firstByte == 0)   return new byte[0];
+ else {
+    byte[] rVal=new byte[firstByte];
+    for (int x=0; x < rVal.length; x++)     rVal[x]=contents[x + 1 + index];
+    return rVal;
+  }
+}

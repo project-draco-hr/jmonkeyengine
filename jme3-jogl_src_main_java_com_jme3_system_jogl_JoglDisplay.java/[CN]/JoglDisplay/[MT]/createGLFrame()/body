@@ -1,0 +1,13 @@
+{
+  if (useAwt) {
+    frame=new Frame(settings.getTitle());
+  }
+ else {
+    frame=new JFrame(settings.getTitle());
+  }
+  frame.setResizable(false);
+  frame.add(canvas);
+  applySettings(settings);
+  frame.setVisible(true);
+  canvas.setVisible(true);
+}

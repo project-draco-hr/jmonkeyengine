@@ -1,0 +1,7 @@
+{
+  postshadowMat.setColor("Splits",splits);
+  for (int j=0; j < nbSplits; j++) {
+    postshadowMat.setMatrix4("LightViewProjectionMatrix" + j,lightViewProjectionsMatrices[j]);
+    postshadowMat.setTexture("ShadowMap" + j,shadowMaps[j]);
+  }
+}

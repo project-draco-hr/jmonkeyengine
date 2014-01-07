@@ -1,0 +1,11 @@
+{
+  if (null == map1 || null == map2) {
+    throw new Exception("Height map may not be null");
+  }
+  if (map1.getSize() != map2.getSize()) {
+    throw new Exception("The two maps must be of the same size");
+  }
+  this.size=map1.getSize();
+  this.map1=map1;
+  this.map2=map2;
+}

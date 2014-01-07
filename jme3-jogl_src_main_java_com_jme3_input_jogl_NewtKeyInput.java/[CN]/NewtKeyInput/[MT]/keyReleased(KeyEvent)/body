@@ -1,0 +1,8 @@
+{
+  int code=convertNewtKey(evt.getKeySymbol());
+  KeyInputEvent keyEvent=new KeyInputEvent(code,evt.getKeyChar(),false,evt.isAutoRepeat());
+  keyEvent.setTime(evt.getWhen());
+synchronized (eventQueue) {
+    eventQueue.add(keyEvent);
+  }
+}

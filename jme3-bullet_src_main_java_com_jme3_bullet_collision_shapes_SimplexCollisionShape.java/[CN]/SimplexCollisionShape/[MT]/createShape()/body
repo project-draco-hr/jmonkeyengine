@@ -1,0 +1,17 @@
+{
+  if (vector4 != null) {
+    objectId=createShape(vector1,vector2,vector3,vector4);
+  }
+ else   if (vector3 != null) {
+    objectId=createShape(vector1,vector2,vector3);
+  }
+ else   if (vector2 != null) {
+    objectId=createShape(vector1,vector2);
+  }
+ else {
+    objectId=createShape(vector1);
+  }
+  Logger.getLogger(this.getClass().getName()).log(Level.FINE,"Created Shape {0}",Long.toHexString(objectId));
+  setScale(scale);
+  setMargin(margin);
+}

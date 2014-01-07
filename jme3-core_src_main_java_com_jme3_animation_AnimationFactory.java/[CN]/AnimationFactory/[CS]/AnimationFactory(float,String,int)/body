@@ -1,0 +1,17 @@
+{
+  this.name=name;
+  this.duration=duration;
+  this.fps=fps;
+  totalFrames=(int)(fps * duration) + 1;
+  tpf=1 / (float)fps;
+  times=new float[totalFrames];
+  translations=new Vector3f[totalFrames];
+  rotations=new Quaternion[totalFrames];
+  scales=new Vector3f[totalFrames];
+  keyFramesTranslation=new Vector3f[totalFrames];
+  keyFramesTranslation[0]=new Vector3f();
+  keyFramesScale=new Vector3f[totalFrames];
+  keyFramesScale[0]=new Vector3f(1,1,1);
+  keyFramesRotation=new Rotation[totalFrames];
+  keyFramesRotation[0]=new Rotation();
+}

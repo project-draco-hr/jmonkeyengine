@@ -1,0 +1,22 @@
+{
+  x0=Integer.MIN_VALUE;
+  y0=Integer.MIN_VALUE;
+  width=Integer.MIN_VALUE;
+  height=Integer.MIN_VALUE;
+  alignX=0;
+  alignY=0;
+  BitmapCharacterSet charSet=font.getCharSet();
+  this.bitmapChar=bitmapChar;
+  if (bitmapChar != null) {
+    u0=(float)bitmapChar.getX() / charSet.getWidth();
+    v0=(float)bitmapChar.getY() / charSet.getHeight();
+    u1=u0 + (float)bitmapChar.getWidth() / charSet.getWidth();
+    v1=v0 + (float)bitmapChar.getHeight() / charSet.getHeight();
+  }
+ else {
+    u0=0;
+    v0=0;
+    u1=0;
+    v1=0;
+  }
+}

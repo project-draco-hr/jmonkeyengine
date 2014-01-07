@@ -1,0 +1,16 @@
+{
+  float delta=KNOTS_MINIMUM_DELTA;
+  float prevValue=knots.get(0).floatValue();
+  for (int i=1; i < knots.size(); ++i) {
+    float value=knots.get(i).floatValue();
+    if (value <= prevValue) {
+      value+=delta;
+      knots.set(i,Float.valueOf(value));
+      delta+=KNOTS_MINIMUM_DELTA;
+    }
+ else {
+      delta=KNOTS_MINIMUM_DELTA;
+    }
+    prevValue=value;
+  }
+}

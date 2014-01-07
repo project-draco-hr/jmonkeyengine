@@ -1,0 +1,10 @@
+{
+  if (angles.length != 3) {
+    throw new IllegalArgumentException("Angles must be of size 3.");
+  }
+  float vec[]=new float[3];
+  vec[0]=(angles[0] * FastMath.RAD_TO_DEG);
+  vec[1]=(angles[1] * FastMath.RAD_TO_DEG);
+  vec[2]=(angles[2] * FastMath.RAD_TO_DEG);
+  setInverseRotationRadians(vec);
+}

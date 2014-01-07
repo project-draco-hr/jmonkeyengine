@@ -1,0 +1,8 @@
+{
+  int hash=7;
+  hash=29 * hash + (this.def != null ? this.def.hashCode() : 0);
+  hash=29 * hash + (this.paramValues != null ? this.paramValues.hashCode() : 0);
+  hash=29 * hash + (this.technique != null ? this.technique.getDef().getName().hashCode() : 0);
+  hash=29 * hash + (this.additionalState != null ? this.additionalState.contentHashCode() : 0);
+  return hash;
+}

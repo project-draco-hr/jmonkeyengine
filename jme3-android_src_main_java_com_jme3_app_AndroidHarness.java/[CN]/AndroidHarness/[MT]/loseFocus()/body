@@ -1,0 +1,29 @@
+{
+  logger.fine("loseFocus");
+  if (app != null) {
+    app.loseFocus();
+  }
+  if (view != null) {
+    view.onPause();
+  }
+  if (app != null) {
+    AudioRenderer result=app.getAudioRenderer();
+    if (result != null) {
+      logger.log(Level.FINE,"pause: {0}",result.getClass().getSimpleName());
+      if (result instanceof AndroidAudioRenderer) {
+        AndroidAudioRenderer renderer=(AndroidAudioRenderer)result;
+        renderer.pauseAll();
+      }
+    }
+    if (app.getContext() != null) {
+      JoyInput joyInput=app.getContext().getJoyInput();
+      if (joyInput != null) {
+        if (joyInput instanceof AndroidSensorJoyInput) {
+          AndroidSensorJoyInput androidJoyInput=(AndroidSensorJoyInput)joyInput;
+          androidJoyInput.pauseSensors();
+        }
+      }
+    }
+  }
+  isGLThreadPaused=true;
+}

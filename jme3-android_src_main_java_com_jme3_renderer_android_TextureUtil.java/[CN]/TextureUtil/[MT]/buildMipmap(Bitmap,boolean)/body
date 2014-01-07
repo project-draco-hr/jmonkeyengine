@@ -1,0 +1,28 @@
+{
+  int level=0;
+  int height=bitmap.getHeight();
+  int width=bitmap.getWidth();
+  logger.log(Level.FINEST," - Generating mipmaps for bitmap using SOFTWARE");
+  GLES20.glPixelStorei(GLES20.GL_UNPACK_ALIGNMENT,1);
+  while (height >= 1 || width >= 1) {
+    if (compress) {
+      logger.log(Level.FINEST," - Uploading LOD level {0} ({1}x{2}) with compression.",new Object[]{level,width,height});
+      uploadBitmapAsCompressed(GLES20.GL_TEXTURE_2D,level,bitmap,false,0,0);
+    }
+ else {
+      logger.log(Level.FINEST," - Uploading LOD level {0} ({1}x{2}) directly.",new Object[]{level,width,height});
+      GLUtils.texImage2D(GLES20.GL_TEXTURE_2D,level,bitmap,0);
+    }
+    if (height == 1 || width == 1) {
+      break;
+    }
+    height/=2;
+    width/=2;
+    Bitmap bitmap2=Bitmap.createScaledBitmap(bitmap,width,height,true);
+    if (level != 0) {
+      bitmap.recycle();
+    }
+    bitmap=bitmap2;
+    level++;
+  }
+}

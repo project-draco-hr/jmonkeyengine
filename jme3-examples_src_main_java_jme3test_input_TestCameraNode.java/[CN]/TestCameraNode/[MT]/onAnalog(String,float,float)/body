@@ -1,0 +1,25 @@
+{
+  direction.set(cam.getDirection()).normalizeLocal();
+  if (name.equals("moveForward")) {
+    direction.multLocal(5 * tpf);
+    teaNode.move(direction);
+  }
+  if (name.equals("moveBackward")) {
+    direction.multLocal(-5 * tpf);
+    teaNode.move(direction);
+  }
+  if (name.equals("moveRight")) {
+    direction.crossLocal(Vector3f.UNIT_Y).multLocal(5 * tpf);
+    teaNode.move(direction);
+  }
+  if (name.equals("moveLeft")) {
+    direction.crossLocal(Vector3f.UNIT_Y).multLocal(-5 * tpf);
+    teaNode.move(direction);
+  }
+  if (name.equals("rotateRight") && rotate) {
+    teaNode.rotate(0,5 * tpf,0);
+  }
+  if (name.equals("rotateLeft") && rotate) {
+    teaNode.rotate(0,-5 * tpf,0);
+  }
+}

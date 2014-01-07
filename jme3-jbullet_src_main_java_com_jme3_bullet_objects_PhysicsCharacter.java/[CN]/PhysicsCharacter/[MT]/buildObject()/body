@@ -1,0 +1,10 @@
+{
+  if (gObject == null) {
+    gObject=new PairCachingGhostObject();
+  }
+  gObject.setCollisionFlags(CollisionFlags.CHARACTER_OBJECT);
+  gObject.setCollisionFlags(gObject.getCollisionFlags() & ~CollisionFlags.NO_CONTACT_RESPONSE);
+  gObject.setCollisionShape(collisionShape.getCShape());
+  gObject.setUserPointer(this);
+  character=new KinematicCharacterController(gObject,(ConvexShape)collisionShape.getCShape(),stepHeight);
+}

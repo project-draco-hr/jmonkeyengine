@@ -1,0 +1,9 @@
+{
+  InputCapsule in=i.getCapsule(this);
+  weights=in.readFloatArray("weights",null);
+  Savable[] readSavableArray=in.readSavableArray("poses",null);
+  if (readSavableArray != null) {
+    poses=new Pose[readSavableArray.length];
+    System.arraycopy(readSavableArray,0,poses,0,readSavableArray.length);
+  }
+}

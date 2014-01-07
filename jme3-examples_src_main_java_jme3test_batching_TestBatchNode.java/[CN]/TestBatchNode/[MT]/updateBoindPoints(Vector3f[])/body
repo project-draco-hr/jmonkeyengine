@@ -1,0 +1,17 @@
+{
+  BoundingBox bb=(BoundingBox)batch.getWorldBound();
+  float xe=bb.getXExtent();
+  float ye=bb.getYExtent();
+  float ze=bb.getZExtent();
+  float x=bb.getCenter().x;
+  float y=bb.getCenter().y;
+  float z=bb.getCenter().z;
+  points[0].set(new Vector3f(x - xe,y - ye,z - ze));
+  points[1].set(new Vector3f(x - xe,y + ye,z - ze));
+  points[2].set(new Vector3f(x + xe,y + ye,z - ze));
+  points[3].set(new Vector3f(x + xe,y - ye,z - ze));
+  points[4].set(new Vector3f(x + xe,y - ye,z + ze));
+  points[5].set(new Vector3f(x - xe,y - ye,z + ze));
+  points[6].set(new Vector3f(x - xe,y + ye,z + ze));
+  points[7].set(new Vector3f(x + xe,y + ye,z + ze));
+}

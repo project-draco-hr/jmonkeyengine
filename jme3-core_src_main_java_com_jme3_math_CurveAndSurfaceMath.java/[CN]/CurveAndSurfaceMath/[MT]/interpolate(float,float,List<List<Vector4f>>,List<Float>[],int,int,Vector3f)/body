@@ -1,0 +1,15 @@
+{
+  store.set(Vector3f.ZERO);
+  float delimeter=0;
+  int vControlPointsAmount=controlPoints.size();
+  int uControlPointsAmount=controlPoints.get(0).size();
+  for (int i=0; i < vControlPointsAmount; ++i) {
+    for (int j=0; j < uControlPointsAmount; ++j) {
+      Vector4f controlPoint=controlPoints.get(i).get(j);
+      float val=controlPoint.w * CurveAndSurfaceMath.computeBaseFunctionValue(i,basisVFunctionDegree,v,knots[1]) * CurveAndSurfaceMath.computeBaseFunctionValue(j,basisUFunctionDegree,u,knots[0]);
+      store.addLocal(controlPoint.x * val,controlPoint.y * val,controlPoint.z * val);
+      delimeter+=val;
+    }
+  }
+  store.divideLocal(delimeter);
+}

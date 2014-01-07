@@ -1,0 +1,12 @@
+{
+  int part1=this.readByte();
+  int part2=this.readByte();
+  int part3=this.readByte();
+  int part4=this.readByte();
+  if (endianess == 'v') {
+    return (part4 << 24) + (part3 << 16) + (part2 << 8)+ part1;
+  }
+ else {
+    return (part1 << 24) + (part2 << 16) + (part3 << 8)+ part4;
+  }
+}

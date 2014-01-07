@@ -1,0 +1,47 @@
+{
+  if (capture) {
+    capture=false;
+    Camera curCamera=rm.getCurrentCamera();
+    int viewX=(int)(curCamera.getViewPortLeft() * curCamera.getWidth());
+    int viewY=(int)(curCamera.getViewPortBottom() * curCamera.getHeight());
+    int viewWidth=(int)((curCamera.getViewPortRight() - curCamera.getViewPortLeft()) * curCamera.getWidth());
+    int viewHeight=(int)((curCamera.getViewPortTop() - curCamera.getViewPortBottom()) * curCamera.getHeight());
+    renderer.setViewPort(0,0,width,height);
+    renderer.readFrameBuffer(out,outBuf);
+    renderer.setViewPort(viewX,viewY,viewWidth,viewHeight);
+    File file;
+    String filename;
+    if (numbered) {
+      shotIndex++;
+      filename=shotName + shotIndex;
+    }
+ else {
+      filename=shotName;
+    }
+    if (filePath == null) {
+      file=new File(JmeSystem.getStorageFolder() + File.separator + filename+ ".png").getAbsoluteFile();
+    }
+ else {
+      file=new File(filePath + filename + ".png").getAbsoluteFile();
+    }
+    logger.log(Level.FINE,"Saving ScreenShot to: {0}",file.getAbsolutePath());
+    OutputStream outStream=null;
+    try {
+      outStream=new FileOutputStream(file);
+      JmeSystem.writeImageFile(outStream,"png",outBuf,width,height);
+    }
+ catch (    IOException ex) {
+      logger.log(Level.SEVERE,"Error while saving screenshot",ex);
+    }
+ finally {
+      if (outStream != null) {
+        try {
+          outStream.close();
+        }
+ catch (        IOException ex) {
+          logger.log(Level.SEVERE,"Error while saving screenshot",ex);
+        }
+      }
+    }
+  }
+}

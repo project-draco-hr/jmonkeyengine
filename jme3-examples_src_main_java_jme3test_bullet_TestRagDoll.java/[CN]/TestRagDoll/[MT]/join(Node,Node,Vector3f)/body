@@ -1,0 +1,7 @@
+{
+  Vector3f pivotA=A.worldToLocal(connectionPoint,new Vector3f());
+  Vector3f pivotB=B.worldToLocal(connectionPoint,new Vector3f());
+  ConeJoint joint=new ConeJoint(A.getControl(RigidBodyControl.class),B.getControl(RigidBodyControl.class),pivotA,pivotB);
+  joint.setLimit(1f,1f,0);
+  return joint;
+}

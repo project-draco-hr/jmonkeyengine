@@ -1,0 +1,12 @@
+{
+  DemoLaunchEntry entry=listDemos.get(position);
+  if (convertView == null) {
+    LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    convertView=inflater.inflate(R.layout.demo_row,null);
+  }
+  TextView tvDemoName=(TextView)convertView.findViewById(R.id.tvDemoName);
+  tvDemoName.setText(entry.getName());
+  TextView tvDescription=(TextView)convertView.findViewById(R.id.tvDescription);
+  tvDescription.setText(entry.getDescription());
+  return convertView;
+}

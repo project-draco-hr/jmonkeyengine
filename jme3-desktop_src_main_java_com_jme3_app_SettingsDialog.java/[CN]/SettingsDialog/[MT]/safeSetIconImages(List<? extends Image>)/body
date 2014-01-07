@@ -1,0 +1,15 @@
+{
+  try {
+    Window owner=getOwner();
+    if (owner != null) {
+      Method setIconImages=owner.getClass().getMethod("setIconImages",List.class);
+      setIconImages.invoke(owner,icons);
+      return;
+    }
+    Method setIconImages=getClass().getMethod("setIconImages",List.class);
+    setIconImages.invoke(this,icons);
+  }
+ catch (  Exception e) {
+    logger.log(Level.WARNING,"Error setting icon images",e);
+  }
+}

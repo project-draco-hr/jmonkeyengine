@@ -1,0 +1,21 @@
+{
+  float fInvLength;
+  if (FastMath.abs(w.x) >= FastMath.abs(w.y)) {
+    fInvLength=FastMath.invSqrt(w.x * w.x + w.z * w.z);
+    u.x=-w.z * fInvLength;
+    u.y=0.0f;
+    u.z=+w.x * fInvLength;
+    v.x=w.y * u.z;
+    v.y=w.z * u.x - w.x * u.z;
+    v.z=-w.y * u.x;
+  }
+ else {
+    fInvLength=FastMath.invSqrt(w.y * w.y + w.z * w.z);
+    u.x=0.0f;
+    u.y=+w.z * fInvLength;
+    u.z=-w.y * fInvLength;
+    v.x=w.y * u.z - w.z * u.y;
+    v.y=-w.x * u.z;
+    v.z=w.x * u.y;
+  }
+}

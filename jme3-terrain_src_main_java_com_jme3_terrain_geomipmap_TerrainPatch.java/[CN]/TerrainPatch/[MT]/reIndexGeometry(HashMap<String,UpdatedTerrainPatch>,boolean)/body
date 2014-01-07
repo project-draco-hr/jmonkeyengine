@@ -1,0 +1,17 @@
+{
+  UpdatedTerrainPatch utp=updated.get(getName());
+  if (utp != null && utp.isReIndexNeeded()) {
+    int pow=(int)Math.pow(2,utp.getNewLod());
+    boolean left=utp.getLeftLod() > utp.getNewLod();
+    boolean top=utp.getTopLod() > utp.getNewLod();
+    boolean right=utp.getRightLod() > utp.getNewLod();
+    boolean bottom=utp.getBottomLod() > utp.getNewLod();
+    IndexBuffer idxB;
+    if (useVariableLod)     idxB=geomap.writeIndexArrayLodVariable(pow,(int)Math.pow(2,utp.getRightLod()),(int)Math.pow(2,utp.getTopLod()),(int)Math.pow(2,utp.getLeftLod()),(int)Math.pow(2,utp.getBottomLod()),totalSize);
+ else     idxB=geomap.writeIndexArrayLodDiff(pow,right,top,left,bottom,totalSize);
+    Buffer b;
+    if (idxB.getBuffer() instanceof IntBuffer)     b=(IntBuffer)idxB.getBuffer();
+ else     b=(ShortBuffer)idxB.getBuffer();
+    utp.setNewIndexBuffer(b);
+  }
+}

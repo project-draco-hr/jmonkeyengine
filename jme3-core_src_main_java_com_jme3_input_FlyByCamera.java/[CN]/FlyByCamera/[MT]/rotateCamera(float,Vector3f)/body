@@ -1,0 +1,21 @@
+{
+  if (dragToRotate) {
+    if (canRotate) {
+    }
+ else {
+      return;
+    }
+  }
+  Matrix3f mat=new Matrix3f();
+  mat.fromAngleNormalAxis(rotationSpeed * value,axis);
+  Vector3f up=cam.getUp();
+  Vector3f left=cam.getLeft();
+  Vector3f dir=cam.getDirection();
+  mat.mult(up,up);
+  mat.mult(left,left);
+  mat.mult(dir,dir);
+  Quaternion q=new Quaternion();
+  q.fromAxes(left,up,dir);
+  q.normalizeLocal();
+  cam.setAxes(q);
+}

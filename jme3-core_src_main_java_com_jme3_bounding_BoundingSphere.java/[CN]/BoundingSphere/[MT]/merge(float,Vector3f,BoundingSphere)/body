@@ -1,0 +1,36 @@
+{
+  TempVars vars=TempVars.get();
+  Vector3f diff=temp_center.subtract(center,vars.vect1);
+  float lengthSquared=diff.lengthSquared();
+  float radiusDiff=temp_radius - radius;
+  float fRDiffSqr=radiusDiff * radiusDiff;
+  if (fRDiffSqr >= lengthSquared) {
+    if (radiusDiff <= 0.0f) {
+      vars.release();
+      return this;
+    }
+    Vector3f rCenter=rVal.center;
+    if (rCenter == null) {
+      rVal.setCenter(rCenter=new Vector3f());
+    }
+    rCenter.set(temp_center);
+    rVal.setRadius(temp_radius);
+    vars.release();
+    return rVal;
+  }
+  float length=(float)Math.sqrt(lengthSquared);
+  Vector3f rCenter=rVal.center;
+  if (rCenter == null) {
+    rVal.setCenter(rCenter=new Vector3f());
+  }
+  if (length > RADIUS_EPSILON) {
+    float coeff=(length + radiusDiff) / (2.0f * length);
+    rCenter.set(center.addLocal(diff.multLocal(coeff)));
+  }
+ else {
+    rCenter.set(center);
+  }
+  rVal.setRadius(0.5f * (length + radius + temp_radius));
+  vars.release();
+  return rVal;
+}

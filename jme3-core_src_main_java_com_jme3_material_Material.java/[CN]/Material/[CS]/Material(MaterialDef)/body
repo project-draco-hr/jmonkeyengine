@@ -1,0 +1,11 @@
+{
+  if (def == null) {
+    throw new NullPointerException("Material definition cannot be null");
+  }
+  this.def=def;
+  for (  MatParam param : def.getMaterialParams()) {
+    if (param.getValue() != null) {
+      setParam(param.getName(),param.getVarType(),param.getValue());
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  updateConditions(vertexDeclaredUniforms);
+  updateConditions(fragmentDeclaredUniforms);
+  updateConditions(varyings);
+  for (  DeclaredVariable v : varyings.values()) {
+    for (    ShaderNode sn : techniqueDef.getShaderNodes()) {
+      if (sn.getDefinition().getType() == Shader.ShaderType.Vertex) {
+        for (        VariableMapping mapping : sn.getInputMapping()) {
+          if (mapping.getLeftVariable().equals(v.var)) {
+            if (mapping.getCondition() == null || v.var.getCondition() == null) {
+              mapping.setCondition(v.var.getCondition());
+            }
+ else {
+              mapping.setCondition("(" + mapping.getCondition() + ") || ("+ v.var.getCondition()+ ")");
+            }
+          }
+        }
+      }
+    }
+  }
+  updateConditions(attributes);
+}

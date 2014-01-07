@@ -1,0 +1,14 @@
+{
+  String name;
+  String[] split=statement.getLine().split(" ",2);
+  if (split.length == 1) {
+    name=null;
+  }
+ else {
+    name=split[1];
+  }
+  for (  Statement passStat : statement.getContents()) {
+    readPassStatement(passStat);
+  }
+  texUnit=0;
+}

@@ -1,0 +1,7 @@
+{
+  int halfSize=totalSize / 2;
+  int x=Math.round((xz.x / getWorldScale().x) + halfSize);
+  int z=Math.round((xz.y / getWorldScale().z) + halfSize);
+  if (!isInside(x,z))   return Float.NaN;
+  return getHeightmapHeight(x,z);
+}

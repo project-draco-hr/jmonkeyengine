@@ -1,0 +1,22 @@
+{
+  BufferedImage bi;
+  if (image instanceof BufferedImage && ((BufferedImage)image).getType() == BufferedImage.TYPE_INT_RGB) {
+    bi=(BufferedImage)image;
+  }
+ else {
+    bi=new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+    Graphics2D g=bi.createGraphics();
+    g.drawImage(image,0,0,width,height,null);
+  }
+  ByteArrayOutputStream baos=new ByteArrayOutputStream();
+  ImageWriter imgWrtr=ImageIO.getImageWritersByFormatName("jpg").next();
+  ImageOutputStream imgOutStrm=ImageIO.createImageOutputStream(baos);
+  imgWrtr.setOutput(imgOutStrm);
+  ImageWriteParam jpgWrtPrm=imgWrtr.getDefaultWriteParam();
+  jpgWrtPrm.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+  jpgWrtPrm.setCompressionQuality(quality);
+  imgWrtr.write(null,new IIOImage(bi,null,null),jpgWrtPrm);
+  imgOutStrm.close();
+  baos.close();
+  return baos.toByteArray();
+}

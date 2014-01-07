@@ -1,0 +1,13 @@
+{
+  float radius=FastMath.abs(xExtent * plane.getNormal().getX()) + FastMath.abs(yExtent * plane.getNormal().getY()) + FastMath.abs(zExtent * plane.getNormal().getZ());
+  float distance=plane.pseudoDistance(center);
+  if (distance < -radius) {
+    return Plane.Side.Negative;
+  }
+ else   if (distance > radius) {
+    return Plane.Side.Positive;
+  }
+ else {
+    return Plane.Side.None;
+  }
+}

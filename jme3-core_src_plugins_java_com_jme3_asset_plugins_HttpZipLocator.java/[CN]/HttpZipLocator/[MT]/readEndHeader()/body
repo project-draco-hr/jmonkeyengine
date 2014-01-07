@@ -1,0 +1,17 @@
+{
+  InputStream in=readData(Integer.MAX_VALUE,200);
+  byte[] header=new byte[200];
+  fillByteArray(header,in);
+  in.close();
+  int offset=-1;
+  for (int i=200 - 22; i >= 0; i--) {
+    if (header[i] == (byte)(ZipEntry.ENDSIG & 0xff) && get32(header,i) == ZipEntry.ENDSIG) {
+      offset=i;
+      break;
+    }
+  }
+  if (offset == -1)   throw new IOException("Cannot find Zip End Header in file!");
+  numEntries=get16(header,offset + ZipEntry.ENDTOT);
+  tableLength=get32(header,offset + ZipEntry.ENDSIZ);
+  tableOffset=get32(header,offset + ZipEntry.ENDOFF);
+}

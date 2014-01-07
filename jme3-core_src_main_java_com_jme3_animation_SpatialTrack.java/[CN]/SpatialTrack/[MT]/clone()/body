@@ -1,0 +1,8 @@
+{
+  int tablesLength=times.length;
+  float[] timesCopy=this.times.clone();
+  Vector3f[] translationsCopy=this.getTranslations() == null ? null : Arrays.copyOf(this.getTranslations(),tablesLength);
+  Quaternion[] rotationsCopy=this.getRotations() == null ? null : Arrays.copyOf(this.getRotations(),tablesLength);
+  Vector3f[] scalesCopy=this.getScales() == null ? null : Arrays.copyOf(this.getScales(),tablesLength);
+  return new SpatialTrack(timesCopy,translationsCopy,rotationsCopy,scalesCopy);
+}

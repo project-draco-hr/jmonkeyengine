@@ -1,0 +1,34 @@
+{
+  checkOnGround();
+  if (wantToUnDuck && checkCanUnDuck()) {
+    setHeightPercent(1);
+    wantToUnDuck=false;
+    ducked=false;
+  }
+  TempVars vars=TempVars.get();
+  float existingLeftVelocity=velocity.dot(localLeft);
+  float existingForwardVelocity=velocity.dot(localForward);
+  Vector3f counter=vars.vect1;
+  existingLeftVelocity=existingLeftVelocity * physicsDamping;
+  existingForwardVelocity=existingForwardVelocity * physicsDamping;
+  counter.set(-existingLeftVelocity,0,-existingForwardVelocity);
+  localForwardRotation.multLocal(counter);
+  velocity.addLocal(counter);
+  float designatedVelocity=walkDirection.length();
+  if (designatedVelocity > 0) {
+    Vector3f localWalkDirection=vars.vect1;
+    localWalkDirection.set(walkDirection).normalizeLocal();
+    float existingVelocity=velocity.dot(localWalkDirection);
+    float finalVelocity=designatedVelocity - existingVelocity;
+    localWalkDirection.multLocal(finalVelocity);
+    velocity.addLocal(localWalkDirection);
+  }
+  rigidBody.setLinearVelocity(velocity);
+  if (jump) {
+    Vector3f rotatedJumpForce=vars.vect1;
+    rotatedJumpForce.set(jumpForce);
+    rigidBody.applyImpulse(localForwardRotation.multLocal(rotatedJumpForce),Vector3f.ZERO);
+    jump=false;
+  }
+  vars.release();
+}

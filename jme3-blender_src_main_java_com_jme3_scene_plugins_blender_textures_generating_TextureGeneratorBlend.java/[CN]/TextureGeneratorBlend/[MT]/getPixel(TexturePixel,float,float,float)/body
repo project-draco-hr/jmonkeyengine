@@ -1,0 +1,13 @@
+{
+  pixel.intensity=INTENSITY_FUNCTION[stype].getIntensity(x,y,z);
+  if (colorBand != null) {
+    int colorbandIndex=(int)(pixel.intensity * 1000.0f);
+    pixel.red=colorBand[colorbandIndex][0];
+    pixel.green=colorBand[colorbandIndex][1];
+    pixel.blue=colorBand[colorbandIndex][2];
+    this.applyBrightnessAndContrast(bacd,pixel);
+  }
+ else {
+    this.applyBrightnessAndContrast(pixel,bacd.contrast,bacd.brightness);
+  }
+}

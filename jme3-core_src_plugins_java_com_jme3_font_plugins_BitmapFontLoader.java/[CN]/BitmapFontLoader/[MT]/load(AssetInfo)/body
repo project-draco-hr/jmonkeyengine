@@ -1,0 +1,13 @@
+{
+  InputStream in=null;
+  try {
+    in=info.openStream();
+    BitmapFont font=load(info.getManager(),info.getKey().getFolder(),in);
+    return font;
+  }
+  finally {
+    if (in != null) {
+      in.close();
+    }
+  }
+}
