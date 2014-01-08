@@ -5,6 +5,8 @@
   if (name.equals("Name")) {
     setName((String)after);
   }
-  fireSave(true);
   firePropertyChange(name,before,after);
+  if (!SceneExplorerProperty.PROP_INIT_CHANGE.equals(type)) {
+    fireSave(true);
+  }
 }
