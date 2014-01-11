@@ -4,8 +4,8 @@
     defaultPass.cleanup(r);
   }
   if (postRenderPasses != null) {
-    for (Iterator<Pass> it=postRenderPasses.iterator(); it.hasNext(); ) {
-      Pass pass=it.next();
+    for (Iterator<Filter.Pass> it=postRenderPasses.iterator(); it.hasNext(); ) {
+      Filter.Pass pass=it.next();
       pass.cleanup(r);
     }
   }
