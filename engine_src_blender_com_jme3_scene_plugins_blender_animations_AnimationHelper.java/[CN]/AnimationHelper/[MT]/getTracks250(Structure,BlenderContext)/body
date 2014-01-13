@@ -1,0 +1,24 @@
+{
+  LOGGER.log(Level.FINE,"Getting tracks!");
+  Structure groups=(Structure)actionStructure.getFieldValue("groups");
+  List<Structure> actionGroups=groups.evaluateListBase();
+  BlenderAction blenderAction=new BlenderAction(blenderContext.getBlenderKey().getFps());
+  int lastFrame=1;
+  for (  Structure actionGroup : actionGroups) {
+    String name=actionGroup.getFieldValue("name").toString();
+    List<Structure> channels=((Structure)actionGroup.getFieldValue("channels")).evaluateListBase();
+    BezierCurve[] bezierCurves=new BezierCurve[channels.size()];
+    int channelCounter=0;
+    for (    Structure c : channels) {
+      int type=this.getCurveType(c,blenderContext);
+      Pointer pBezTriple=(Pointer)c.getFieldValue("bezt");
+      List<Structure> bezTriples=pBezTriple.fetchData();
+      bezierCurves[channelCounter++]=new BezierCurve(type,bezTriples,2);
+    }
+    Ipo ipo=new Ipo(bezierCurves,fixUpAxis,blenderContext.getBlenderVersion());
+    lastFrame=Math.max(lastFrame,ipo.getLastFrame());
+    blenderAction.featuresTracks.put(name,ipo);
+  }
+  blenderAction.stopFrame=lastFrame;
+  return blenderAction;
+}

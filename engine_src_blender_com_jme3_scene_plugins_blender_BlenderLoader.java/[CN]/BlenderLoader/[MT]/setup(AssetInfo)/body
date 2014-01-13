@@ -16,7 +16,7 @@
   blenderContext.setAssetManager(assetInfo.getManager());
   blenderContext.setInputStream(inputStream);
   blenderContext.setBlenderKey(blenderKey);
-  blenderContext.putHelper(ArmatureHelper.class,new ArmatureHelper(inputStream.getVersionNumber(),blenderContext));
+  blenderContext.putHelper(AnimationHelper.class,new AnimationHelper(inputStream.getVersionNumber(),blenderContext));
   blenderContext.putHelper(TextureHelper.class,new TextureHelper(inputStream.getVersionNumber(),blenderContext));
   blenderContext.putHelper(MeshHelper.class,new MeshHelper(inputStream.getVersionNumber(),blenderContext));
   blenderContext.putHelper(ObjectHelper.class,new ObjectHelper(inputStream.getVersionNumber(),blenderContext));
@@ -26,7 +26,6 @@
   blenderContext.putHelper(ModifierHelper.class,new ModifierHelper(inputStream.getVersionNumber(),blenderContext));
   blenderContext.putHelper(MaterialHelper.class,new MaterialHelper(inputStream.getVersionNumber(),blenderContext));
   blenderContext.putHelper(ConstraintHelper.class,new ConstraintHelper(inputStream.getVersionNumber(),blenderContext));
-  blenderContext.putHelper(IpoHelper.class,new IpoHelper(inputStream.getVersionNumber(),blenderContext));
   blenderContext.putHelper(ParticlesHelper.class,new ParticlesHelper(inputStream.getVersionNumber(),blenderContext));
   blenderContext.putHelper(LandscapeHelper.class,new LandscapeHelper(inputStream.getVersionNumber(),blenderContext));
   FileBlockHeader sceneFileBlock=null;

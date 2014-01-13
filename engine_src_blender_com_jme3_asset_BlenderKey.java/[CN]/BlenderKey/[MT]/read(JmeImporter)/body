@@ -16,4 +16,22 @@
   skyGeneratedTextureRadius=ic.readFloat("sky-generated-texture-radius",1f);
   skyGeneratedTextureShape=ic.readEnum("sky-generated-texture-shape",SkyGeneratedTextureShape.class,SkyGeneratedTextureShape.SPHERE);
   optimiseTextures=ic.readBoolean("optimise-textures",false);
+  int animsSize=ic.readInt("node-anims-map-size",0);
+  nodeAnimationMap=new HashMap<String,List<String>>(animsSize);
+  if (animsSize > 0) {
+    for (int i=0; i < animsSize; ++i) {
+      String nodeName=ic.readString("node-anim-" + i,null);
+      String[] anims=ic.readStringArray("node-anims-" + i,null);
+      nodeAnimationMap.put(nodeName,new ArrayList<String>(Arrays.asList(anims)));
+    }
+  }
+  animsSize=ic.readInt("skeleton-anims-map-size",0);
+  skeletonAnimationMap=new HashMap<String,List<String>>(animsSize);
+  if (animsSize > 0) {
+    for (int i=0; i < animsSize; ++i) {
+      String nodeName=ic.readString("skeleton-anim-" + i,null);
+      String[] anims=ic.readStringArray("skeleton-anims-" + i,null);
+      skeletonAnimationMap.put(nodeName,new ArrayList<String>(Arrays.asList(anims)));
+    }
+  }
 }

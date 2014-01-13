@@ -5,7 +5,7 @@
       LOGGER.log(Level.WARNING,"Cannot find target for constraint: {0}.",name);
       return false;
     }
-    if (blenderContext.getMarkerValue(ArmatureHelper.ARMATURE_NODE_MARKER,nodeTarget) != null) {
+    if (blenderContext.getMarkerValue(ObjectHelper.ARMATURE_NODE_MARKER,nodeTarget) != null) {
       if (subtargetName.trim().isEmpty()) {
         LOGGER.log(Level.WARNING,"No bone target specified for constraint: {0}.",name);
         return false;

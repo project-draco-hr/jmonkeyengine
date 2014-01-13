@@ -4,6 +4,8 @@
     List<FileBlockHeader> sceneBlocks=new ArrayList<FileBlockHeader>();
     BlenderKey blenderKey=blenderContext.getBlenderKey();
     LoadingResults loadingResults=blenderKey.prepareLoadingResults();
+    AnimationHelper animationHelper=blenderContext.getHelper(AnimationHelper.class);
+    animationHelper.loadAnimations();
     for (    FileBlockHeader block : blocks) {
 switch (block.getCode()) {
 case FileBlockHeader.BLOCK_OB00:

@@ -2,10 +2,7 @@
   if (this == obj) {
     return true;
   }
-  if (!super.equals(obj)) {
-    return false;
-  }
-  if (this.getClass() != obj.getClass()) {
+  if (!(obj instanceof BlenderKey)) {
     return false;
   }
   BlenderKey other=(BlenderKey)obj;
@@ -58,7 +55,23 @@
   if (mipmapGenerationMethod != other.mipmapGenerationMethod) {
     return false;
   }
+  if (nodeAnimationMap == null) {
+    if (other.nodeAnimationMap != null) {
+      return false;
+    }
+  }
+ else   if (!nodeAnimationMap.equals(other.nodeAnimationMap)) {
+    return false;
+  }
   if (optimiseTextures != other.optimiseTextures) {
+    return false;
+  }
+  if (skeletonAnimationMap == null) {
+    if (other.skeletonAnimationMap != null) {
+      return false;
+    }
+  }
+ else   if (!skeletonAnimationMap.equals(other.skeletonAnimationMap)) {
     return false;
   }
   if (Float.floatToIntBits(skyGeneratedTextureRadius) != Float.floatToIntBits(other.skyGeneratedTextureRadius)) {

@@ -1,6 +1,6 @@
 {
   LOGGER.fine("Loading constraints.");
-  IpoHelper ipoHelper=blenderContext.getHelper(IpoHelper.class);
+  AnimationHelper animationHelper=blenderContext.getHelper(AnimationHelper.class);
   Map<String,Map<String,Ipo>> constraintsIpos=new HashMap<String,Map<String,Ipo>>();
   Pointer pActions=(Pointer)objectStructure.getFieldValue("action");
   if (pActions.isNotNull()) {
@@ -16,7 +16,7 @@
           Pointer pIpo=(Pointer)constraintChannel.getFieldValue("ipo");
           if (pIpo.isNotNull()) {
             String constraintName=constraintChannel.getFieldValue("name").toString();
-            Ipo ipo=ipoHelper.fromIpoStructure(pIpo.fetchData().get(0),blenderContext);
+            Ipo ipo=animationHelper.fromIpoStructure(pIpo.fetchData().get(0),blenderContext);
             ipos.put(constraintName,ipo);
           }
         }
@@ -39,7 +39,7 @@
         Ipo ipo=ipoMap == null ? null : ipoMap.get(constraintName);
         if (ipo == null) {
           float enforce=((Number)constraint.getFieldValue("enforce")).floatValue();
-          ipo=ipoHelper.fromValue(enforce);
+          ipo=animationHelper.fromValue(enforce);
         }
         constraintsList.add(new BoneConstraint(constraint,boneOMA,ipo,blenderContext));
       }
@@ -58,7 +58,7 @@
       Ipo ipo=objectConstraintsIpos != null ? objectConstraintsIpos.get(constraintName) : null;
       if (ipo == null) {
         float enforce=((Number)constraint.getFieldValue("enforce")).floatValue();
-        ipo=ipoHelper.fromValue(enforce);
+        ipo=animationHelper.fromValue(enforce);
       }
       constraintsList.add(this.createConstraint(dataType,constraint,objectStructure.getOldMemoryAddress(),ipo,blenderContext));
     }

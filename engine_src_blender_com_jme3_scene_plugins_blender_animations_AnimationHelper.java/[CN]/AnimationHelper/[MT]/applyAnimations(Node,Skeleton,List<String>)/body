@@ -1,0 +1,36 @@
+{
+  node.addControl(new SkeletonControl(skeleton));
+  blenderContext.setNodeForSkeleton(skeleton,node);
+  if (animationNames != null && animationNames.size() > 0) {
+    List<Animation> animations=new ArrayList<Animation>();
+    for (    String animationName : animationNames) {
+      BlenderAction action=actions.get(animationName);
+      if (action != null) {
+        BoneTrack[] tracks=action.toTracks(skeleton);
+        if (tracks != null && tracks.length > 0) {
+          Animation boneAnimation=new Animation(animationName,action.getAnimationTime());
+          boneAnimation.setTracks(tracks);
+          animations.add(boneAnimation);
+          for (          BoneTrack track : tracks) {
+            Bone bone=skeleton.getBone(track.getTargetBoneIndex());
+            BoneContext boneContext=blenderContext.getBoneContext(bone);
+            blenderContext.addAnimation(boneContext.getBoneOma(),boneAnimation);
+          }
+        }
+      }
+ else {
+        LOGGER.log(Level.WARNING,"Cannot find animation named: {0}.",animationName);
+      }
+    }
+    if (animations.size() > 0) {
+      AnimControl control=new AnimControl(skeleton);
+      HashMap<String,Animation> anims=new HashMap<String,Animation>(animations.size());
+      for (int i=0; i < animations.size(); ++i) {
+        Animation animation=animations.get(i);
+        anims.put(animation.getName(),animation);
+      }
+      control.setAnimations(anims);
+      node.addControl(control);
+    }
+  }
+}
