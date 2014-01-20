@@ -5,6 +5,8 @@
   if (anim == null)   throw new IllegalArgumentException("Cannot find animation named: '" + name + "'");
   control.notifyAnimChange(this,name);
   if (animation != null && blendTime > 0f) {
+    this.blendTime=blendTime;
+    blendTime=Math.min(blendTime,anim.getLength() / speed);
     blendFrom=animation;
     timeBlendFrom=time;
     speedBlendFrom=speed;

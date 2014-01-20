@@ -15,7 +15,6 @@
     }
   }
   animation.setTime(time,blendAmount,control,this,vars);
-  time+=tpf * speed;
   if (animation.getLength() > 0) {
     if (!notified && (time >= animation.getLength() || time < 0)) {
       if (loopMode == LoopMode.DontLoop) {
@@ -24,6 +23,7 @@
       control.notifyAnimCycleDone(this,animation.getName());
     }
   }
+  time+=tpf * speed;
   time=clampWrapTime(time,animation.getLength(),loopMode);
   if (time < 0) {
     time=-time;
