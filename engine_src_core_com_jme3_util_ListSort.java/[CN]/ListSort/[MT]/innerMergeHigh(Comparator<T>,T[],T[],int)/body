@@ -1,0 +1,80 @@
+{
+  lengthA--;
+  if (lengthA == 0 || lengthB == 1) {
+    return;
+  }
+  if (lengthB == 1) {
+    return;
+  }
+  while (true) {
+    int aWins=0;
+    int bWins=0;
+    do {
+      if (comp.compare(tempArray[iterB],arr[iterA]) < 0) {
+        arr[dest]=arr[iterA];
+        dest--;
+        iterA--;
+        aWins++;
+        bWins=0;
+        lengthA--;
+        if (lengthA == 0) {
+          return;
+        }
+      }
+ else {
+        arr[dest]=tempArray[iterB];
+        dest--;
+        iterB--;
+        bWins++;
+        aWins=0;
+        lengthB--;
+        if (lengthB == 1) {
+          return;
+        }
+      }
+    }
+ while ((aWins | bWins) < minGallop);
+    do {
+      aWins=lengthA - gallopRight(tempArray[iterB],arr,idxA,lengthA,lengthA - 1,comp);
+      if (aWins != 0) {
+        dest-=aWins;
+        iterA-=aWins;
+        lengthA-=aWins;
+        System.arraycopy(arr,iterA + 1,arr,dest + 1,aWins);
+        if (lengthA == 0) {
+          return;
+        }
+      }
+      arr[dest]=tempArray[iterB];
+      dest--;
+      iterB--;
+      lengthB--;
+      if (lengthB == 1) {
+        return;
+      }
+      bWins=lengthB - gallopLeft(arr[iterA],tempArray,0,lengthB,lengthB - 1,comp);
+      if (bWins != 0) {
+        dest-=bWins;
+        iterB-=bWins;
+        lengthB-=bWins;
+        System.arraycopy(tempArray,iterB + 1,arr,dest + 1,bWins);
+        if (lengthB <= 1) {
+          return;
+        }
+      }
+      arr[dest]=arr[iterA];
+      dest--;
+      iterA--;
+      lengthA--;
+      if (lengthA == 0) {
+        return;
+      }
+      minGallop--;
+    }
+ while (aWins >= MIN_GALLOP || bWins >= MIN_GALLOP);
+    if (minGallop < 0) {
+      minGallop=0;
+    }
+    minGallop+=2;
+  }
+}

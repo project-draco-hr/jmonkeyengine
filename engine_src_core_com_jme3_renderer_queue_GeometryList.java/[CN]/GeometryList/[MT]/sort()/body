@@ -1,6 +1,8 @@
 {
   if (size > 1) {
-    System.arraycopy(geometries,0,geometries2,0,size);
-    SortUtil.msort(geometries2,geometries,0,size - 1,comparator);
+    if (listSort.getLength() != size) {
+      listSort.allocateStack(size);
+    }
+    listSort.sort(geometries,comparator);
   }
 }

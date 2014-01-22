@@ -1,0 +1,17 @@
+{
+  while (nbRuns > 1) {
+    int n=nbRuns - 2;
+    if (n > 0 && runsLength[n - 1] <= runsLength[n] + runsLength[n + 1]) {
+      if (runsLength[n - 1] < runsLength[n + 1]) {
+        n--;
+      }
+      mergeRuns(n);
+    }
+ else     if (runsLength[n] <= runsLength[n + 1]) {
+      mergeRuns(n);
+    }
+ else {
+      break;
+    }
+  }
+}

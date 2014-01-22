@@ -1,0 +1,29 @@
+{
+  this.array=array;
+  this.comparator=comparator;
+  clean();
+  int low=0;
+  int high=length;
+  int remaining=high - low;
+  if (remaining < MIN_SIZE) {
+    int runLength=getRunLength(array,low,high,comparator);
+    binaryInsertionSort(array,low,high,low + runLength,comparator);
+    return;
+  }
+  int minLength=mergeComputeMinRun(remaining);
+  while (remaining != 0) {
+    int runLength=getRunLength(array,low,high,comparator);
+    if (runLength < minLength) {
+      int newLength=remaining <= minLength ? remaining : minLength;
+      binaryInsertionSort(array,low,low + newLength,low + runLength,comparator);
+      runLength=newLength;
+    }
+    runsIndices[nbRuns]=low;
+    runsLength[nbRuns]=runLength;
+    nbRuns++;
+    mergeCollapse();
+    low+=runLength;
+    remaining-=runLength;
+  }
+  mergeForceCollapse();
+}

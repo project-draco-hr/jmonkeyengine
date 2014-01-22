@@ -1,0 +1,12 @@
+{
+  length=len;
+  int tmpLen=len >>> 1;
+  if (tmpArray == null || tmpLen > tmpArray.length) {
+    tmpArray=(T[])new Object[tmpLen];
+  }
+  int stackLen=(len < 1400 ? 5 : len < 15730 ? 10 : len < 1196194 ? 19 : 40);
+  if (runsIndices == null || stackLen > runsIndices.length) {
+    runsIndices=new int[stackLen];
+    runsLength=new int[stackLen];
+  }
+}
