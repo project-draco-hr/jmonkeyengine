@@ -1,0 +1,18 @@
+{
+  int runEnd=firstId + 1;
+  if (runEnd < lastId) {
+    if (comparator.compare(array[runEnd++],array[firstId]) >= 0) {
+      while (runEnd < lastId && comparator.compare(array[runEnd],array[runEnd - 1]) >= 0) {
+        runEnd++;
+      }
+    }
+ else {
+      while (runEnd < lastId && comparator.compare(array[runEnd],array[runEnd - 1]) < 0) {
+        runEnd++;
+      }
+      reverseArray(array,firstId,runEnd);
+    }
+    return runEnd - firstId;
+  }
+  return 1;
+}

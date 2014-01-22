@@ -1,0 +1,46 @@
+{
+  int lastOffset=0;
+  int offset=1;
+  if (comparator.compare(key,array[idx + hint]) > 0) {
+    int maxOffset=length - hint;
+    while (offset < maxOffset && comparator.compare(key,array[idx + hint + offset]) > 0) {
+      lastOffset=offset;
+      offset=(offset << 1) + 1;
+      if (offset <= 0) {
+        offset=maxOffset;
+      }
+    }
+    if (offset > maxOffset) {
+      offset=maxOffset;
+    }
+    lastOffset+=hint;
+    offset+=hint;
+  }
+ else {
+    int maxOffset=hint + 1;
+    while (offset < maxOffset && comparator.compare(key,array[idx + hint - offset]) <= 0) {
+      lastOffset=offset;
+      offset=(offset << 1) + 1;
+      if (offset <= 0) {
+        offset=maxOffset;
+      }
+    }
+    if (offset > maxOffset) {
+      offset=maxOffset;
+    }
+    int k=lastOffset;
+    lastOffset=hint - offset;
+    offset=hint - k;
+  }
+  lastOffset++;
+  while (lastOffset < offset) {
+    int m=lastOffset + ((offset - lastOffset) >>> 1);
+    if (comparator.compare(key,array[idx + m]) > 0) {
+      lastOffset=m + 1;
+    }
+ else {
+      offset=m;
+    }
+  }
+  return offset;
+}

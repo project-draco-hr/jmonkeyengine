@@ -1,0 +1,28 @@
+{
+  lengthA=lenA;
+  lengthB=lenB;
+  iterA=idxA + lengthA - 1;
+  iterB=lengthB - 1;
+  dest=idxB + lengthB - 1;
+  Comparator<T> comp=this.comparator;
+  T[] arr=this.array;
+  T[] tempArray=tmpArray;
+  System.arraycopy(arr,idxB,tempArray,0,lengthB);
+  arr[dest]=arr[iterA];
+  dest--;
+  iterA--;
+  innerMergeHigh(comp,tempArray,arr,idxA);
+  minGallop=minGallop < 1 ? 1 : minGallop;
+  if (lengthB == 1) {
+    dest-=lengthA;
+    iterA-=lengthA;
+    System.arraycopy(arr,iterA + 1,arr,dest + 1,lengthA);
+    arr[dest]=tempArray[iterB];
+  }
+ else   if (lengthB == 0) {
+    throw new UnsupportedOperationException("Inconsistant comparison function");
+  }
+ else {
+    System.arraycopy(tempArray,0,arr,dest - (lengthB - 1),lengthB);
+  }
+}

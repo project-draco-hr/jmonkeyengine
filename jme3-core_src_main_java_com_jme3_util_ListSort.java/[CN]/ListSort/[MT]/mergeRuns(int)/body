@@ -1,0 +1,28 @@
+{
+  int indexA=runsIndices[idx];
+  int lenA=runsLength[idx];
+  int indexB=runsIndices[idx + 1];
+  int lenB=runsLength[idx + 1];
+  runsLength[idx]=lenA + lenB;
+  if (idx == nbRuns - 3) {
+    runsIndices[idx + 1]=runsIndices[idx + 2];
+    runsLength[idx + 1]=runsLength[idx + 2];
+  }
+  nbRuns--;
+  int k=gallopRight(array[indexB],array,indexA,lenA,0,comparator);
+  indexA+=k;
+  lenA-=k;
+  if (lenA == 0) {
+    return;
+  }
+  lenB=gallopLeft(array[indexA + lenA - 1],array,indexB,lenB,lenB - 1,comparator);
+  if (lenB == 0) {
+    return;
+  }
+  if (lenA <= lenB) {
+    mergeLow(indexA,lenA,indexB,lenB);
+  }
+ else {
+    mergeHigh(indexA,lenA,indexB,lenB);
+  }
+}
