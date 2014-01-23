@@ -10,8 +10,10 @@
     if (!p.isNull()) {
       Structure ipoStructure=p.fetchData().get(0);
       Ipo ipo=this.fromIpoStructure(ipoStructure,blenderContext);
-      lastFrame=Math.max(lastFrame,ipo.getLastFrame());
-      blenderAction.featuresTracks.put(animatedFeatureName,ipo);
+      if (ipo != null) {
+        lastFrame=Math.max(lastFrame,ipo.getLastFrame());
+        blenderAction.featuresTracks.put(animatedFeatureName,ipo);
+      }
     }
   }
   blenderAction.stopFrame=lastFrame;
