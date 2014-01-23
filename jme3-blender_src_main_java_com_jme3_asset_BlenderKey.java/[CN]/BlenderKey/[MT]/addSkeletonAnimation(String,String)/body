@@ -1,0 +1,8 @@
+{
+  List<String> animations=skeletonAnimationMap.get(nodeName);
+  if (animations == null) {
+    animations=new ArrayList<String>();
+    skeletonAnimationMap.put(nodeName,animations);
+  }
+  animations.add(animationName);
+}

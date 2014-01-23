@@ -36,15 +36,5 @@
       }
     }
   }
-  Modifier modifier;
-  if (blenderVersion <= 249) {
-    modifier=this.readAnimationModifier249(objectStructure,blenderContext);
-  }
- else {
-    modifier=this.readAnimationModifier250(objectStructure,blenderContext);
-  }
-  if (modifier != null) {
-    result.add(modifier);
-  }
   return result;
 }

@@ -1,7 +1,7 @@
 {
   this.blenderContext=blenderContext;
   Node spatial=(Node)blenderContext.getLoadedFeature(featureOMA,LoadedFeatureDataType.LOADED_FEATURE);
-  if (blenderContext.getMarkerValue(ArmatureHelper.ARMATURE_NODE_MARKER,spatial) != null) {
+  if (blenderContext.getMarkerValue(ObjectHelper.ARMATURE_NODE_MARKER,spatial) != null) {
     skeleton=blenderContext.getSkeleton(featureOMA);
     Node nodeWithAnimationControl=blenderContext.getControlledNode(skeleton);
     animControl=nodeWithAnimationControl.getControl(AnimControl.class);
@@ -33,10 +33,10 @@
     }
     BoneContext boneContext=blenderContext.getBoneContext(skeleton.getBone(1));
     Long boneOma=boneContext.getBoneOma();
-    animations=blenderContext.getAnimData(boneOma) == null ? null : blenderContext.getAnimData(boneOma).anims;
+    animations=blenderContext.getAnimations(boneOma);
   }
  else {
-    animations=blenderContext.getAnimData(featureOMA) == null ? null : blenderContext.getAnimData(featureOMA).anims;
+    animations=blenderContext.getAnimations(featureOMA);
     for (    Spatial child : spatial.getChildren()) {
       if (child instanceof Node) {
         children.add(new SimulationNode((Long)blenderContext.getMarkerValue(ObjectHelper.OMA_MARKER,child),blenderContext,false));

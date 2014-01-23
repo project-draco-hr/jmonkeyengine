@@ -15,7 +15,8 @@
       degreeToRadiansFactor*=FastMath.DEG_TO_RAD * 10;
     }
     int yIndex=1, zIndex=2;
-    if (spatialTrack && fixUpAxis) {
+    boolean swapAxes=spatialTrack && fixUpAxis;
+    if (swapAxes) {
       yIndex=2;
       zIndex=1;
     }
@@ -29,7 +30,7 @@ case AC_LOC_X:
           translation[0]=(float)value;
         break;
 case AC_LOC_Y:
-      if (fixUpAxis && value != 0) {
+      if (swapAxes && value != 0) {
         value=-value;
       }
     translation[yIndex]=(float)value;
@@ -41,7 +42,7 @@ case OB_ROT_X:
 objectRotation[0]=(float)value * degreeToRadiansFactor;
 break;
 case OB_ROT_Y:
-if (fixUpAxis && value != 0) {
+if (swapAxes && value != 0) {
 value=-value;
 }
 objectRotation[yIndex]=(float)value * degreeToRadiansFactor;
@@ -53,10 +54,10 @@ case AC_SIZE_X:
 scale[0]=(float)value;
 break;
 case AC_SIZE_Y:
-scale[fixUpAxis ? 2 : 1]=(float)value;
+scale[yIndex]=(float)value;
 break;
 case AC_SIZE_Z:
-scale[fixUpAxis ? 1 : 2]=(float)value;
+scale[zIndex]=(float)value;
 break;
 case AC_QUAT_W:
 quaternionRotation[3]=(float)value;
@@ -65,7 +66,7 @@ case AC_QUAT_X:
 quaternionRotation[0]=(float)value;
 break;
 case AC_QUAT_Y:
-if (fixUpAxis && value != 0) {
+if (swapAxes && value != 0) {
 value=-value;
 }
 quaternionRotation[yIndex]=(float)value;
