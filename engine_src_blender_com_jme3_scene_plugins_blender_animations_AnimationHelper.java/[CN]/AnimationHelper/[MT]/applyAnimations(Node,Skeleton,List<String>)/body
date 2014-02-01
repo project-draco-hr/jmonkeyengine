@@ -11,11 +11,8 @@
           Animation boneAnimation=new Animation(animationName,action.getAnimationTime());
           boneAnimation.setTracks(tracks);
           animations.add(boneAnimation);
-          for (          BoneTrack track : tracks) {
-            Bone bone=skeleton.getBone(track.getTargetBoneIndex());
-            BoneContext boneContext=blenderContext.getBoneContext(bone);
-            blenderContext.addAnimation(boneContext.getBoneOma(),boneAnimation);
-          }
+          Long animatedNodeOMA=((Number)blenderContext.getMarkerValue(ObjectHelper.OMA_MARKER,node)).longValue();
+          blenderContext.addAnimation(animatedNodeOMA,boneAnimation);
         }
       }
  else {

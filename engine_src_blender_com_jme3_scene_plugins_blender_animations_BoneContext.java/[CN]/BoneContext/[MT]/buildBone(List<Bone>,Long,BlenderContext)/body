@@ -6,7 +6,7 @@
   blenderContext.addLoadedFeatures(boneOMA,boneName,boneStructure,bone);
   ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
   Structure skeletonOwnerObjectStructure=(Structure)blenderContext.getLoadedFeature(skeletonOwnerOma,LoadedFeatureDataType.LOADED_STRUCTURE);
-  Matrix4f invertedObjectOwnerGlobalMatrix=objectHelper.getMatrix(skeletonOwnerObjectStructure,"imat",blenderContext.getBlenderKey().isFixUpAxis());
+  Matrix4f invertedObjectOwnerGlobalMatrix=objectHelper.getMatrix(skeletonOwnerObjectStructure,"obmat",blenderContext.getBlenderKey().isFixUpAxis()).invertLocal();
   if (objectHelper.isParent(skeletonOwnerOma,armatureObjectOMA)) {
     boneMatrixInModelSpace=globalBoneMatrix.mult(invertedObjectOwnerGlobalMatrix);
   }
