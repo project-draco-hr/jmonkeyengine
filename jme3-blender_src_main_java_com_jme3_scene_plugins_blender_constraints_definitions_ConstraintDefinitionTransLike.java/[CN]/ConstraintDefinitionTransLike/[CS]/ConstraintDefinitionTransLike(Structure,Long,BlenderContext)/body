@@ -1,0 +1,9 @@
+{
+  super(constraintData,ownerOMA,blenderContext);
+  Pointer pTarget=(Pointer)constraintData.getFieldValue("tar");
+  targetOMA=pTarget.getOldMemoryAddress();
+  Object subtarget=constraintData.getFieldValue("subtarget");
+  if (subtarget != null) {
+    subtargetName=subtarget.toString();
+  }
+}

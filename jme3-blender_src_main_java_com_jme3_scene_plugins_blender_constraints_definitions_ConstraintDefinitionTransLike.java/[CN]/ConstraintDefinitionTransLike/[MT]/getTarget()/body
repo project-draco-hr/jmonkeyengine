@@ -1,0 +1,8 @@
+{
+  Object target=blenderContext.getLoadedFeature(targetOMA,LoadedFeatureDataType.LOADED_FEATURE);
+  if (subtargetName != null && blenderContext.getMarkerValue(ObjectHelper.ARMATURE_NODE_MARKER,target) != null) {
+    Skeleton skeleton=blenderContext.getSkeleton(targetOMA);
+    target=skeleton.getBone(subtargetName);
+  }
+  return target;
+}

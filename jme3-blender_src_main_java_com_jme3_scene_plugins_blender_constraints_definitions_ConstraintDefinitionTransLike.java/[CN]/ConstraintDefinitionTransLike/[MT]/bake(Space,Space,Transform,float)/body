@@ -1,0 +1,17 @@
+{
+  Object target=this.getTarget();
+  Object owner=this.getOwner();
+  if (!target.getClass().equals(owner.getClass())) {
+    ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
+    TempVars tempVars=TempVars.get();
+    Matrix4f m=constraintHelper.toMatrix(targetTransform,tempVars.tempMat4);
+    tempVars.tempMat42.set(BoneContext.BONE_ARMATURE_TRANSFORMATION_MATRIX);
+    if (target instanceof Bone) {
+      tempVars.tempMat42.invertLocal();
+    }
+    m=m.multLocal(tempVars.tempMat42);
+    tempVars.release();
+    targetTransform=new Transform(m.toTranslationVector(),m.toRotationQuat(),m.toScaleVector());
+  }
+  this.applyOwnerTransform(targetTransform,ownerSpace);
+}
