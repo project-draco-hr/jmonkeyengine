@@ -18,7 +18,7 @@
     material.setBoolean("WardIso",specularShader == SpecularShader.WARDISO);
     material.setColor("Specular",specularColor);
     material.setFloat("Shininess",shininess);
-    material.setColor("Ambient",ambientColor);
+    material.setColor("Ambient",new ColorRGBA(ambientFactor,ambientFactor,ambientFactor,1f));
   }
   if (loadedTextures != null && loadedTextures.size() > 0) {
     int textureIndex=0;
