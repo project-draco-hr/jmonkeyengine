@@ -1,5 +1,7 @@
 {
-  Vector3f originalScale=result.toScaleVector();
+  TempVars tempv=TempVars.get();
+  Vector3f originalScale=tempv.vect1;
+  result.toScaleVector(originalScale);
   result.setScale(1,1,1);
   float norm=norm();
   float s=(norm == 1f) ? 2f : (norm > 0f) ? 2f / norm : 0;
@@ -25,5 +27,6 @@
   result.m21=(yz + xw);
   result.m22=1 - (xx + yy);
   result.setScale(originalScale);
+  tempv.release();
   return result;
 }
