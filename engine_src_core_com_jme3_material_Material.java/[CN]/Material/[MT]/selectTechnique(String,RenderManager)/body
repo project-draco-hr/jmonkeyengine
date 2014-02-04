@@ -1,6 +1,7 @@
 {
   Technique tech=techniques.get(name);
   EnumSet<Caps> rendererCaps=renderManager.getRenderer().getCaps();
+  if (rendererCaps.contains(Caps.GLSL100) == false)   rendererCaps.add(Caps.GLSL100);
   if (tech == null) {
     if (name.equals("Default")) {
       List<TechniqueDef> techDefs=def.getDefaultTechniques();
