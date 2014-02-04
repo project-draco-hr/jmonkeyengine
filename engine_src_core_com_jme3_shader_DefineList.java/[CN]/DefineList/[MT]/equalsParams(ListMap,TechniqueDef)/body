@@ -1,6 +1,7 @@
 {
   int size=0;
-  for (  MatParam param : params) {
+  for (int i=0; i < params.size(); i++) {
+    MatParam param=(MatParam)params.getValue(i);
     String key=def.getShaderParamDefine(param.getName());
     if (key != null) {
       Object val=param.getValue();
