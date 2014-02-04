@@ -18,19 +18,19 @@
         float down=terrain.getHeightmapHeight(new Vector2f(terrainLoc.x,terrainLoc.y - 1));
         int count=1;
         float amount=center;
-        if (left != Float.NaN) {
+        if (!isNaN(left)) {
           amount+=left;
           count++;
         }
-        if (right != Float.NaN) {
+        if (!isNaN(right)) {
           amount+=right;
           count++;
         }
-        if (up != Float.NaN) {
+        if (!isNaN(up)) {
           amount+=up;
           count++;
         }
-        if (down != Float.NaN) {
+        if (!isNaN(down)) {
           amount+=down;
           count++;
         }
