@@ -17,10 +17,9 @@ switch (tex.getType()) {
 case ThreeDimensional:
 case CubeMap:
     glTexParameteri(target,GL_TEXTURE_WRAP_R,convertWrapMode(tex.getWrap(WrapAxis.R)));
-  break;
 case TwoDimensional:
 case TwoDimensionalArray:
-glTexParameteri(target,GL_TEXTURE_WRAP_T,convertWrapMode(tex.getWrap(WrapAxis.T)));
+  glTexParameteri(target,GL_TEXTURE_WRAP_T,convertWrapMode(tex.getWrap(WrapAxis.T)));
 glTexParameteri(target,GL_TEXTURE_WRAP_S,convertWrapMode(tex.getWrap(WrapAxis.S)));
 break;
 default :
