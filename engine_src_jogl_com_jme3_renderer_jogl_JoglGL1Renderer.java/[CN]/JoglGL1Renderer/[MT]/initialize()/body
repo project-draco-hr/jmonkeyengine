@@ -3,6 +3,7 @@
   if (gl.isExtensionAvailable("GL_VERSION_1_2")) {
     gl12=true;
   }
+  caps.add(Caps.GLSL100);
   gl.getGL2ES1().glShadeModel(GLLightingFunc.GL_SMOOTH);
   gl.getGL2().glColorMaterial(GL.GL_FRONT_AND_BACK,GLLightingFunc.GL_DIFFUSE);
   gl.glHint(GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT,GL.GL_NICEST);
