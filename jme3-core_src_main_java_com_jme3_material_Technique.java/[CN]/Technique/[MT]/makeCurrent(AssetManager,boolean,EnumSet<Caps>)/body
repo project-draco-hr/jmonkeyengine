@@ -3,10 +3,11 @@
     return;
   }
   if (techniqueSwitched) {
-    Collection<MatParam> params=owner.getParams();
+    ListMap params=owner.getParamsMap();
     if (!defines.equalsParams(params,def)) {
       defines.clear();
-      for (      MatParam param : params) {
+      for (int i=0; i < params.size(); i++) {
+        MatParam param=(MatParam)params.getValue(i);
         String defineName=def.getShaderParamDefine(param.getName());
         if (defineName != null) {
           defines.set(defineName,param.getVarType(),param.getValue());
