@@ -1,12 +1,13 @@
 {
   BoundingBox bbox=new BoundingBox();
-  BoundingVolume store=null;
+  TempVars tempv=TempVars.get();
   for (int i=0; i < list.size(); i++) {
     BoundingVolume vol=list.get(i).getWorldBound();
-    store=vol.clone().transform(mat,null);
+    BoundingVolume store=vol.clone().transform(mat,tempv.bbox);
     if (!Float.isNaN(store.getCenter().x) && !Float.isInfinite(store.getCenter().x)) {
       bbox.mergeLocal(store);
     }
   }
+  tempv.release();
   return bbox;
 }
