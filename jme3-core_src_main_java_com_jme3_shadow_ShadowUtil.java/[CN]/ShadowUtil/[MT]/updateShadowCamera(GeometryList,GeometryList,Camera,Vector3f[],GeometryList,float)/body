@@ -6,49 +6,55 @@
   }
   Matrix4f viewProjMatrix=shadowCam.getViewProjectionMatrix();
   BoundingBox splitBB=computeBoundForPoints(points,viewProjMatrix);
-  ArrayList<BoundingVolume> visRecvList=new ArrayList<BoundingVolume>();
+  TempVars vars=TempVars.get();
+  BoundingBox casterBB=new BoundingBox();
+  BoundingBox receiverBB=new BoundingBox();
+  int casterCount=0, receiverCount=0;
   for (int i=0; i < receivers.size(); i++) {
     Geometry receiver=receivers.get(i);
     BoundingVolume bv=receiver.getWorldBound();
-    BoundingVolume recvBox=bv.transform(viewProjMatrix,null);
+    BoundingVolume recvBox=bv.transform(viewProjMatrix,vars.bbox);
     if (splitBB.intersects(recvBox)) {
-      visRecvList.add(recvBox);
+      if (!Float.isNaN(recvBox.getCenter().x) && !Float.isInfinite(recvBox.getCenter().x)) {
+        receiverBB.mergeLocal(recvBox);
+        receiverCount++;
+      }
     }
   }
-  ArrayList<BoundingVolume> visOccList=new ArrayList<BoundingVolume>();
   for (int i=0; i < occluders.size(); i++) {
     Geometry occluder=occluders.get(i);
     BoundingVolume bv=occluder.getWorldBound();
-    BoundingVolume occBox=bv.transform(viewProjMatrix,null);
+    BoundingVolume occBox=bv.transform(viewProjMatrix,vars.bbox);
     boolean intersects=splitBB.intersects(occBox);
     if (!intersects && occBox instanceof BoundingBox) {
       BoundingBox occBB=(BoundingBox)occBox;
       occBB.setZExtent(occBB.getZExtent() + 50);
       occBB.setCenter(occBB.getCenter().addLocal(0,0,25));
       if (splitBB.intersects(occBB)) {
-        occBB.setZExtent(occBB.getZExtent() - 50);
-        occBB.setCenter(occBB.getCenter().subtractLocal(0,0,25));
-        visOccList.add(occBox);
+        if (!Float.isNaN(occBox.getCenter().x) && !Float.isInfinite(occBox.getCenter().x)) {
+          occBB.setZExtent(occBB.getZExtent() - 50);
+          occBB.setCenter(occBB.getCenter().subtractLocal(0,0,25));
+          casterBB.mergeLocal(occBox);
+          casterCount++;
+        }
         if (splitOccluders != null) {
           splitOccluders.add(occluder);
         }
       }
     }
  else     if (intersects) {
-      visOccList.add(occBox);
+      casterBB.mergeLocal(occBox);
+      casterCount++;
       if (splitOccluders != null) {
         splitOccluders.add(occluder);
       }
     }
   }
-  BoundingBox casterBB=computeUnionBound(visOccList);
-  BoundingBox receiverBB=computeUnionBound(visRecvList);
-  if (visOccList.size() != visRecvList.size()) {
+  if (casterCount != receiverCount) {
     casterBB.setXExtent(casterBB.getXExtent() + 2.0f);
     casterBB.setYExtent(casterBB.getYExtent() + 2.0f);
     casterBB.setZExtent(casterBB.getZExtent() + 2.0f);
   }
-  TempVars vars=TempVars.get();
   Vector3f casterMin=casterBB.getMin(vars.vect1);
   Vector3f casterMax=casterBB.getMax(vars.vect2);
   Vector3f receiverMin=receiverBB.getMin(vars.vect3);
