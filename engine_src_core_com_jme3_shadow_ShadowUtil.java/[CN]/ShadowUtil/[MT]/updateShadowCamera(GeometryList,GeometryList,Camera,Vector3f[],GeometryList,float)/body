@@ -15,8 +15,10 @@
     BoundingVolume bv=receiver.getWorldBound();
     BoundingVolume recvBox=bv.transform(viewProjMatrix,vars.bbox);
     if (splitBB.intersects(recvBox)) {
-      receiverBB.mergeLocal(recvBox);
-      receiverCount++;
+      if (!Float.isNaN(recvBox.getCenter().x) && !Float.isInfinite(recvBox.getCenter().x)) {
+        receiverBB.mergeLocal(recvBox);
+        receiverCount++;
+      }
     }
   }
   for (int i=0; i < occluders.size(); i++) {
@@ -29,10 +31,12 @@
       occBB.setZExtent(occBB.getZExtent() + 50);
       occBB.setCenter(occBB.getCenter().addLocal(0,0,25));
       if (splitBB.intersects(occBB)) {
-        occBB.setZExtent(occBB.getZExtent() - 50);
-        occBB.setCenter(occBB.getCenter().subtractLocal(0,0,25));
-        casterBB.mergeLocal(occBox);
-        casterCount++;
+        if (!Float.isNaN(occBox.getCenter().x) && !Float.isInfinite(occBox.getCenter().x)) {
+          occBB.setZExtent(occBB.getZExtent() - 50);
+          occBB.setCenter(occBB.getCenter().subtractLocal(0,0,25));
+          casterBB.mergeLocal(occBox);
+          casterCount++;
+        }
         if (splitOccluders != null) {
           splitOccluders.add(occluder);
         }
