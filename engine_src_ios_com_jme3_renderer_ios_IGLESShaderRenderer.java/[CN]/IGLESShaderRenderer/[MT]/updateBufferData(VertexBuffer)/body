@@ -1,0 +1,85 @@
+{
+  logger.log(Level.FINE,"IGLESShaderRenderer updateBufferData");
+  int bufId=vb.getId();
+  boolean created=false;
+  if (bufId == -1) {
+    JmeIosGLES.glGenBuffers(1,intBuf1,0);
+    JmeIosGLES.checkGLError();
+    bufId=intBuf1[0];
+    vb.setId(bufId);
+    objManager.registerObject(vb);
+    created=true;
+  }
+  int target;
+  if (vb.getBufferType() == VertexBuffer.Type.Index) {
+    target=JmeIosGLES.GL_ELEMENT_ARRAY_BUFFER;
+    if (context.boundElementArrayVBO != bufId) {
+      JmeIosGLES.glBindBuffer(target,bufId);
+      JmeIosGLES.checkGLError();
+      context.boundElementArrayVBO=bufId;
+    }
+  }
+ else {
+    target=JmeIosGLES.GL_ARRAY_BUFFER;
+    if (context.boundArrayVBO != bufId) {
+      JmeIosGLES.glBindBuffer(target,bufId);
+      JmeIosGLES.checkGLError();
+      context.boundArrayVBO=bufId;
+    }
+  }
+  int usage=convertUsage(vb.getUsage());
+  vb.getData().rewind();
+  if (created || vb.hasDataSizeChanged()) {
+    int size=vb.getData().limit() * vb.getFormat().getComponentSize();
+switch (vb.getFormat()) {
+case Byte:
+case UnsignedByte:
+      JmeIosGLES.glBufferData(target,size,(ByteBuffer)vb.getData(),usage);
+    JmeIosGLES.checkGLError();
+  break;
+case Short:
+case UnsignedShort:
+JmeIosGLES.glBufferData(target,size,(ShortBuffer)vb.getData(),usage);
+JmeIosGLES.checkGLError();
+break;
+case Int:
+case UnsignedInt:
+JmeIosGLES.glBufferData(target,size,(IntBuffer)vb.getData(),usage);
+JmeIosGLES.checkGLError();
+break;
+case Float:
+JmeIosGLES.glBufferData(target,size,(FloatBuffer)vb.getData(),usage);
+JmeIosGLES.checkGLError();
+break;
+default :
+throw new RuntimeException("Unknown buffer format.");
+}
+}
+ else {
+int size=vb.getData().limit() * vb.getFormat().getComponentSize();
+switch (vb.getFormat()) {
+case Byte:
+case UnsignedByte:
+JmeIosGLES.glBufferSubData(target,0,size,(ByteBuffer)vb.getData());
+JmeIosGLES.checkGLError();
+break;
+case Short:
+case UnsignedShort:
+JmeIosGLES.glBufferSubData(target,0,size,(ShortBuffer)vb.getData());
+JmeIosGLES.checkGLError();
+break;
+case Int:
+case UnsignedInt:
+JmeIosGLES.glBufferSubData(target,0,size,(IntBuffer)vb.getData());
+JmeIosGLES.checkGLError();
+break;
+case Float:
+JmeIosGLES.glBufferSubData(target,0,size,(FloatBuffer)vb.getData());
+JmeIosGLES.checkGLError();
+break;
+default :
+throw new RuntimeException("Unknown buffer format.");
+}
+}
+vb.clearUpdateNeeded();
+}

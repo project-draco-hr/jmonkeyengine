@@ -1,0 +1,59 @@
+{
+  int id=source.getId();
+  if (id == -1) {
+    id=JmeIosGLES.glCreateShader(convertShaderType(source.getType()));
+    JmeIosGLES.checkGLError();
+    if (id <= 0) {
+      throw new RendererException("Invalid ID received when trying to create shader.");
+    }
+    source.setId(id);
+  }
+  if (!source.getLanguage().equals("GLSL100")) {
+    throw new RendererException("This shader cannot run in OpenGL ES. " + "Only GLSL 1.0 shaders are supported.");
+  }
+  byte[] definesCodeData=source.getDefines().getBytes();
+  byte[] sourceCodeData=source.getSource().getBytes();
+  ByteBuffer codeBuf=BufferUtils.createByteBuffer(definesCodeData.length + sourceCodeData.length);
+  codeBuf.put(definesCodeData);
+  codeBuf.put(sourceCodeData);
+  codeBuf.flip();
+  if (powerVr && source.getType() == ShaderType.Vertex) {
+    JmeIosGLES.glShaderSource(id,source.getDefines() + source.getSource());
+  }
+ else {
+    String precision="";
+    if (source.getType() == ShaderType.Fragment) {
+      precision="precision mediump float;\n";
+    }
+    JmeIosGLES.glShaderSource(id,precision + source.getDefines() + source.getSource());
+  }
+  JmeIosGLES.glCompileShader(id);
+  JmeIosGLES.checkGLError();
+  JmeIosGLES.glGetShaderiv(id,JmeIosGLES.GL_COMPILE_STATUS,intBuf1,0);
+  JmeIosGLES.checkGLError();
+  boolean compiledOK=intBuf1[0] == JmeIosGLES.GL_TRUE;
+  String infoLog=null;
+  if (VALIDATE_SHADER || !compiledOK) {
+    JmeIosGLES.glGetShaderiv(id,JmeIosGLES.GL_INFO_LOG_LENGTH,intBuf1,0);
+    JmeIosGLES.checkGLError();
+    infoLog=JmeIosGLES.glGetShaderInfoLog(id);
+  }
+  if (compiledOK) {
+    if (infoLog != null) {
+      logger.log(Level.FINE,"compile success: {0}, {1}",new Object[]{source.getName(),infoLog});
+    }
+ else {
+      logger.log(Level.FINE,"compile success: {0}",source.getName());
+    }
+    source.clearUpdateNeeded();
+  }
+ else {
+    logger.log(Level.WARNING,"Bad compile of:\n{0}",new Object[]{ShaderDebug.formatShaderSource(source.getDefines(),source.getSource(),stringBuf.toString())});
+    if (infoLog != null) {
+      throw new RendererException("compile error in:" + source + " error:"+ infoLog);
+    }
+ else {
+      throw new RendererException("compile error in:" + source + " error: <not provided>");
+    }
+  }
+}

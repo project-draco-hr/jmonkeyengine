@@ -1,0 +1,16 @@
+{
+  if (versionStr != null) {
+    int spaceIdx=versionStr.indexOf(" ",prefixStr.length());
+    if (spaceIdx >= 1) {
+      versionStr=versionStr.substring(prefixStr.length(),spaceIdx).trim();
+    }
+ else {
+      versionStr=versionStr.substring(prefixStr.length()).trim();
+    }
+    float version=Float.parseFloat(versionStr);
+    return (int)(version * 100);
+  }
+ else {
+    return -1;
+  }
+}

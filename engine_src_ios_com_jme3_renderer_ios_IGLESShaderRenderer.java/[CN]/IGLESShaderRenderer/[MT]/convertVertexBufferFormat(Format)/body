@@ -1,0 +1,20 @@
+{
+switch (format) {
+case Byte:
+    return JmeIosGLES.GL_BYTE;
+case UnsignedByte:
+  return JmeIosGLES.GL_UNSIGNED_BYTE;
+case Short:
+return JmeIosGLES.GL_SHORT;
+case UnsignedShort:
+return JmeIosGLES.GL_UNSIGNED_SHORT;
+case Int:
+return JmeIosGLES.GL_INT;
+case UnsignedInt:
+return JmeIosGLES.GL_UNSIGNED_INT;
+case Float:
+return JmeIosGLES.GL_FLOAT;
+default :
+throw new RuntimeException("Unknown buffer format.");
+}
+}

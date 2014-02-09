@@ -1,0 +1,11 @@
+{
+  logger.log(Level.FINE,"IGLESShaderRenderer deleteShaderSource");
+  if (source.getId() < 0) {
+    logger.warning("Shader source is not uploaded to GPU, cannot delete.");
+    return;
+  }
+  source.clearUpdateNeeded();
+  JmeIosGLES.glDeleteShader(source.getId());
+  JmeIosGLES.checkGLError();
+  source.resetObject();
+}

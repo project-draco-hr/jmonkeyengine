@@ -1,0 +1,10 @@
+{
+  try {
+    checkFrameBufferError();
+  }
+ catch (  IllegalStateException ex) {
+    logger.log(Level.SEVERE,"=== jMonkeyEngine FBO State ===\n{0}",fb);
+    printRealFrameBufferInfo(fb);
+    throw ex;
+  }
+}

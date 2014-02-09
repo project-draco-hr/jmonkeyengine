@@ -1,0 +1,10 @@
+{
+switch (type) {
+case TwoDimensional:
+    return JmeIosGLES.GL_TEXTURE_2D;
+case CubeMap:
+  return JmeIosGLES.GL_TEXTURE_CUBE_MAP;
+default :
+throw new UnsupportedOperationException("Unknown texture type: " + type);
+}
+}

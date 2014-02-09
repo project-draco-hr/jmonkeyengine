@@ -1,0 +1,133 @@
+{
+  IosGLImageFormat imageFormat=new IosGLImageFormat();
+switch (fmt) {
+case RGBA16:
+case RGB16:
+case RGB10:
+case Luminance16:
+case Luminance16Alpha16:
+case Alpha16:
+case Depth32:
+case Depth32F:
+    throw new UnsupportedOperationException("The image format '" + fmt + "' is not supported by OpenGL ES 2.0 specification.");
+case Alpha8:
+  imageFormat.format=JmeIosGLES.GL_ALPHA;
+imageFormat.dataType=JmeIosGLES.GL_UNSIGNED_BYTE;
+if (RGBA8) {
+imageFormat.renderBufferStorageFormat=GL_RGBA8;
+}
+ else {
+imageFormat.renderBufferStorageFormat=JmeIosGLES.GL_RGBA4;
+}
+break;
+case Luminance8:
+imageFormat.format=JmeIosGLES.GL_LUMINANCE;
+imageFormat.dataType=JmeIosGLES.GL_UNSIGNED_BYTE;
+if (RGBA8) {
+imageFormat.renderBufferStorageFormat=GL_RGBA8;
+}
+ else {
+imageFormat.renderBufferStorageFormat=JmeIosGLES.GL_RGB565;
+}
+break;
+case Luminance8Alpha8:
+imageFormat.format=JmeIosGLES.GL_LUMINANCE_ALPHA;
+imageFormat.dataType=JmeIosGLES.GL_UNSIGNED_BYTE;
+if (RGBA8) {
+imageFormat.renderBufferStorageFormat=GL_RGBA8;
+}
+ else {
+imageFormat.renderBufferStorageFormat=JmeIosGLES.GL_RGBA4;
+}
+break;
+case RGB565:
+imageFormat.format=JmeIosGLES.GL_RGB;
+imageFormat.dataType=JmeIosGLES.GL_UNSIGNED_SHORT_5_6_5;
+imageFormat.renderBufferStorageFormat=JmeIosGLES.GL_RGB565;
+break;
+case ARGB4444:
+imageFormat.format=JmeIosGLES.GL_RGBA4;
+imageFormat.dataType=JmeIosGLES.GL_UNSIGNED_SHORT_4_4_4_4;
+imageFormat.renderBufferStorageFormat=JmeIosGLES.GL_RGBA4;
+break;
+case RGB5A1:
+imageFormat.format=JmeIosGLES.GL_RGBA;
+imageFormat.dataType=JmeIosGLES.GL_UNSIGNED_SHORT_5_5_5_1;
+imageFormat.renderBufferStorageFormat=JmeIosGLES.GL_RGB5_A1;
+break;
+case RGB8:
+imageFormat.format=JmeIosGLES.GL_RGB;
+imageFormat.dataType=JmeIosGLES.GL_UNSIGNED_BYTE;
+if (RGBA8) {
+imageFormat.renderBufferStorageFormat=GL_RGBA8;
+}
+ else {
+imageFormat.renderBufferStorageFormat=JmeIosGLES.GL_RGB565;
+}
+break;
+case BGR8:
+imageFormat.format=JmeIosGLES.GL_RGB;
+imageFormat.dataType=JmeIosGLES.GL_UNSIGNED_BYTE;
+if (RGBA8) {
+imageFormat.renderBufferStorageFormat=GL_RGBA8;
+}
+ else {
+imageFormat.renderBufferStorageFormat=JmeIosGLES.GL_RGB565;
+}
+break;
+case RGBA8:
+imageFormat.format=JmeIosGLES.GL_RGBA;
+imageFormat.dataType=JmeIosGLES.GL_UNSIGNED_BYTE;
+if (RGBA8) {
+imageFormat.renderBufferStorageFormat=GL_RGBA8;
+}
+ else {
+imageFormat.renderBufferStorageFormat=JmeIosGLES.GL_RGBA4;
+}
+break;
+case Depth:
+case Depth16:
+if (!DEPTH_TEXTURE) {
+unsupportedFormat(fmt);
+}
+imageFormat.format=JmeIosGLES.GL_DEPTH_COMPONENT;
+imageFormat.dataType=JmeIosGLES.GL_UNSIGNED_SHORT;
+imageFormat.renderBufferStorageFormat=JmeIosGLES.GL_DEPTH_COMPONENT16;
+break;
+case Depth24:
+case Depth24Stencil8:
+if (!DEPTH_TEXTURE) {
+unsupportedFormat(fmt);
+}
+if (DEPTH24_STENCIL8) {
+imageFormat.format=GL_DEPTH_STENCIL_OES;
+imageFormat.dataType=GL_UNSIGNED_INT_24_8_OES;
+imageFormat.renderBufferStorageFormat=GL_DEPTH24_STENCIL8_OES;
+}
+ else {
+imageFormat.format=JmeIosGLES.GL_DEPTH_COMPONENT;
+imageFormat.dataType=JmeIosGLES.GL_UNSIGNED_SHORT;
+imageFormat.renderBufferStorageFormat=JmeIosGLES.GL_DEPTH_COMPONENT16;
+}
+break;
+case DXT1:
+if (!DXT1) {
+unsupportedFormat(fmt);
+}
+imageFormat.format=GL_DXT1;
+imageFormat.dataType=JmeIosGLES.GL_UNSIGNED_BYTE;
+imageFormat.compress=true;
+break;
+case DXT1A:
+if (!DXT1) {
+unsupportedFormat(fmt);
+}
+imageFormat.format=GL_DXT1A;
+imageFormat.dataType=JmeIosGLES.GL_UNSIGNED_BYTE;
+imageFormat.compress=true;
+break;
+default :
+throw new UnsupportedOperationException("Unrecognized format: " + fmt);
+}
+return imageFormat;
+}

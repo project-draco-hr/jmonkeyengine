@@ -1,0 +1,10 @@
+{
+  logger.log(Level.FINE,"IGLESShaderRenderer deleteBuffer");
+  int bufId=vb.getId();
+  if (bufId != -1) {
+    intBuf1[0]=bufId;
+    JmeIosGLES.glDeleteBuffers(1,intBuf1,0);
+    JmeIosGLES.checkGLError();
+    vb.resetObject();
+  }
+}

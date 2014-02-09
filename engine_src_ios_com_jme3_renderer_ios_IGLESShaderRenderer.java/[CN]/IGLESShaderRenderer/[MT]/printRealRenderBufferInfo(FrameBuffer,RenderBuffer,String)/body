@@ -1,0 +1,22 @@
+{
+  System.out.println("== Renderbuffer " + name + " ==");
+  System.out.println("RB ID: " + rb.getId());
+  System.out.println("Is proper? " + JmeIosGLES.glIsRenderbuffer(rb.getId()));
+  int attachment=convertAttachmentSlot(rb.getSlot());
+  JmeIosGLES.glGetFramebufferAttachmentParameteriv(JmeIosGLES.GL_FRAMEBUFFER,attachment,JmeIosGLES.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,intBuf16,0);
+  int type=intBuf16[0];
+  JmeIosGLES.glGetFramebufferAttachmentParameteriv(JmeIosGLES.GL_FRAMEBUFFER,attachment,JmeIosGLES.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME,intBuf16,0);
+  int rbName=intBuf16[0];
+switch (type) {
+case JmeIosGLES.GL_NONE:
+    System.out.println("Type: None");
+  break;
+case JmeIosGLES.GL_TEXTURE:
+System.out.println("Type: Texture");
+break;
+case JmeIosGLES.GL_RENDERBUFFER:
+System.out.println("Type: Buffer");
+System.out.println("RB ID: " + rbName);
+break;
+}
+}
