@@ -42,6 +42,7 @@ if (ambientLight != null) {
   loadingResults.addLight(new LightNode(null,ambientLight));
 }
 loadingResults.setSky(landscapeHelper.toSky(worldStructure));
+loadingResults.addFilter(landscapeHelper.toFog(worldStructure));
 loadingResults.setBackgroundColor(landscapeHelper.toBackgroundColor(worldStructure));
 }
 }

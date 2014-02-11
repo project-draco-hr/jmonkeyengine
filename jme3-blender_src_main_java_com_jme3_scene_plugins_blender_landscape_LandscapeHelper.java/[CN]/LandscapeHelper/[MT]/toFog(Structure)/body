@@ -1,0 +1,10 @@
+{
+  FogFilter result=null;
+  int mode=((Number)worldStructure.getFieldValue("mode")).intValue();
+  if ((mode & MODE_MIST) != 0) {
+    LOGGER.fine("Loading fog.");
+    result=new FogFilter();
+    result.setFogColor(this.toBackgroundColor(worldStructure));
+  }
+  return result;
+}
