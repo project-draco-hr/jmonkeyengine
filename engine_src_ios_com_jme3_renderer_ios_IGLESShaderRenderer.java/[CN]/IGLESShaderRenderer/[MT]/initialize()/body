@@ -65,4 +65,6 @@ JmeIosGLES.glDisable(JmeIosGLES.GL_DITHER);
 JmeIosGLES.checkGLError();
 logger.log(Level.FINE,"Caps: {0}",caps);
 logger.setLevel(store);
+uintIndexSupport=extensions.contains("GL_OES_element_index_uint");
+logger.log(Level.FINE,"Support for UInt index: {0}",uintIndexSupport);
 }
