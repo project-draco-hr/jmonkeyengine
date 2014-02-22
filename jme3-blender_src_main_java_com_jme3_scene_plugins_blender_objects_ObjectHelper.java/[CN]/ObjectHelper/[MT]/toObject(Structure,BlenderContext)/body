@@ -76,6 +76,9 @@ if (pLamp.isNotNull()) {
 LightHelper lightHelper=blenderContext.getHelper(LightHelper.class);
 List<Structure> lampsArray=pLamp.fetchData();
 result=lightHelper.toLight(lampsArray.get(0),blenderContext);
+if (result == null) {
+result=new Node(name);
+}
 }
 break;
 case CAMERA:
