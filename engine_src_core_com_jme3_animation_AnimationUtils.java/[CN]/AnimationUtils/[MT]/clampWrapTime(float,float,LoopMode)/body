@@ -1,0 +1,15 @@
+{
+  if (time == 0) {
+    return 0;
+  }
+switch (loopMode) {
+case Cycle:
+    boolean sign=((int)(time / duration) % 2) != 0;
+  return sign ? -(duration - (time % duration)) : time % duration;
+case DontLoop:
+return time > duration ? duration : (time < 0 ? 0 : time);
+case Loop:
+return time % duration;
+}
+return time;
+}
