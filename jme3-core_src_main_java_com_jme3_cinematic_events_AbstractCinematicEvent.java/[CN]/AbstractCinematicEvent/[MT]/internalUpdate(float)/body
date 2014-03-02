@@ -8,5 +8,12 @@
  else     if (time >= initialDuration && loopMode == LoopMode.Loop) {
       setTime(0);
     }
+ else {
+      time=AnimationUtils.clampWrapTime(time,initialDuration,loopMode);
+      if (time < 0) {
+        speed=-speed;
+        time=-time;
+      }
+    }
   }
 }

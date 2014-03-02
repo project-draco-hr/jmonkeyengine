@@ -3,7 +3,7 @@
   if (blendFrom != null && blendAmount != 1.0f) {
     blendFrom.setTime(timeBlendFrom,1f - blendAmount,control,this,vars);
     timeBlendFrom+=tpf * speedBlendFrom;
-    timeBlendFrom=clampWrapTime(timeBlendFrom,blendFrom.getLength(),loopModeBlendFrom);
+    timeBlendFrom=AnimationUtils.clampWrapTime(timeBlendFrom,blendFrom.getLength(),loopModeBlendFrom);
     if (timeBlendFrom < 0) {
       timeBlendFrom=-timeBlendFrom;
       speedBlendFrom=-speedBlendFrom;
@@ -24,7 +24,7 @@
     }
   }
   time+=tpf * speed;
-  time=clampWrapTime(time,animation.getLength(),loopMode);
+  time=AnimationUtils.clampWrapTime(time,animation.getLength(),loopMode);
   if (time < 0) {
     time=-time;
     speed=-speed;
