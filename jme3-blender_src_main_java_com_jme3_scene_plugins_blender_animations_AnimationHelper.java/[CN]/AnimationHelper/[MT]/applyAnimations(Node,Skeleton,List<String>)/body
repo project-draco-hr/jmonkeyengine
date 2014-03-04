@@ -28,6 +28,11 @@
       }
       control.setAnimations(anims);
       node.addControl(control);
+      SkeletonControl skeletonControl=node.getControl(SkeletonControl.class);
+      if (skeletonControl != null) {
+        node.removeControl(SkeletonControl.class);
+        node.addControl(skeletonControl);
+      }
     }
   }
 }
