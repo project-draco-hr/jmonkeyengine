@@ -9,6 +9,9 @@
   model.setLocalRotation(Quaternion.IDENTITY);
   model.setLocalScale(1);
   SkeletonControl sc=model.getControl(SkeletonControl.class);
+  if (sc == null) {
+    throw new IllegalArgumentException("The root node of the model should have a SkeletonControl. Make sure the control is there and that it's not on a sub node.");
+  }
   model.removeControl(sc);
   model.addControl(sc);
   scanSpatial(model);
