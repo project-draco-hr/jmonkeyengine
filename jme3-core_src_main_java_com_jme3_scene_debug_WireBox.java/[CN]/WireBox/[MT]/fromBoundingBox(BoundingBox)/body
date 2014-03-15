@@ -1,3 +1,10 @@
 {
-  updatePositions(bbox.getXExtent(),bbox.getYExtent(),bbox.getZExtent());
+  float xExtent=bbox.getXExtent();
+  float yExtent=bbox.getYExtent();
+  float zExtent=bbox.getZExtent();
+  WireBox mesh=new WireBox(xExtent,yExtent,zExtent);
+  Geometry result=new Geometry("bounding box",mesh);
+  Vector3f center=bbox.getCenter();
+  result.setLocalTranslation(center);
+  return result;
 }
