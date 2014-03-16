@@ -1,0 +1,28 @@
+{
+  if (isEnabled()) {
+    if (canRotate) {
+      if (name.equals(CameraInput.CHASECAM_MOVELEFT)) {
+        horizontalRotation-=value * rotationSpeed;
+        rotateCamera();
+      }
+ else       if (name.equals(CameraInput.CHASECAM_MOVERIGHT)) {
+        horizontalRotation+=value * rotationSpeed;
+        rotateCamera();
+      }
+ else       if (name.equals(CameraInput.CHASECAM_UP)) {
+        verticalRotation+=value * rotationSpeed;
+        rotateCamera();
+      }
+ else       if (name.equals(CameraInput.CHASECAM_DOWN)) {
+        verticalRotation-=value * rotationSpeed;
+        rotateCamera();
+      }
+    }
+    if (name.equals(CameraInput.CHASECAM_ZOOMIN)) {
+      zoomCamera(-value * zoomSpeed);
+    }
+ else     if (name.equals(CameraInput.CHASECAM_ZOOMOUT)) {
+      zoomCamera(+value * zoomSpeed);
+    }
+  }
+}

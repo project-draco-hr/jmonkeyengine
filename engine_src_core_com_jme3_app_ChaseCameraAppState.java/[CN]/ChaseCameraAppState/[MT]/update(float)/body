@@ -1,0 +1,9 @@
+{
+  if (spatial == null) {
+    throw new IllegalArgumentException("The spatial to follow is null, please use the setTarget method");
+  }
+  target.setLocalTranslation(spatial.getWorldTranslation());
+  camNode.lookAt(target.getWorldTranslation(),upVector);
+  target.updateLogicalState(tpf);
+  target.updateGeometricState();
+}

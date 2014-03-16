@@ -1,0 +1,8 @@
+{
+  toggleRotateTrigger=triggers;
+  if (inputManager != null) {
+    inputManager.deleteMapping(CameraInput.CHASECAM_TOGGLEROTATE);
+    initTogleRotateInput();
+    inputManager.addListener(this,CameraInput.CHASECAM_TOGGLEROTATE);
+  }
+}

@@ -1,0 +1,9 @@
+{
+  this.invertYaxis=invertYaxis;
+  if (inputManager != null) {
+    inputManager.deleteMapping(CameraInput.CHASECAM_DOWN);
+    inputManager.deleteMapping(CameraInput.CHASECAM_UP);
+    initVerticalAxisInputs();
+    inputManager.addListener(this,CameraInput.CHASECAM_DOWN,CameraInput.CHASECAM_UP);
+  }
+}

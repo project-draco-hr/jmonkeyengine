@@ -1,0 +1,20 @@
+{
+  if (isEnabled()) {
+    if (dragToRotate) {
+      if (name.equals(CameraInput.CHASECAM_TOGGLEROTATE) && isEnabled()) {
+        if (keyPressed) {
+          canRotate=true;
+          if (hideCursorOnRotate) {
+            inputManager.setCursorVisible(false);
+          }
+        }
+ else {
+          canRotate=false;
+          if (hideCursorOnRotate) {
+            inputManager.setCursorVisible(true);
+          }
+        }
+      }
+    }
+  }
+}
