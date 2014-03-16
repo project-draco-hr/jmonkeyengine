@@ -1,0 +1,9 @@
+{
+  this.invertXaxis=invertXaxis;
+  if (inputManager != null) {
+    inputManager.deleteMapping(CameraInput.CHASECAM_MOVELEFT);
+    inputManager.deleteMapping(CameraInput.CHASECAM_MOVERIGHT);
+    initHorizontalAxisInput();
+    inputManager.addListener(this,CameraInput.CHASECAM_MOVELEFT,CameraInput.CHASECAM_MOVERIGHT);
+  }
+}

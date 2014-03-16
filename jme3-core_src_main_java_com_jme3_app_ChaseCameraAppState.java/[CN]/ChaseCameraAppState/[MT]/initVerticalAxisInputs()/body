@@ -1,0 +1,10 @@
+{
+  if (!invertYaxis) {
+    inputManager.addMapping(CameraInput.CHASECAM_DOWN,new MouseAxisTrigger(MouseInput.AXIS_Y,true));
+    inputManager.addMapping(CameraInput.CHASECAM_UP,new MouseAxisTrigger(MouseInput.AXIS_Y,false));
+  }
+ else {
+    inputManager.addMapping(CameraInput.CHASECAM_DOWN,new MouseAxisTrigger(MouseInput.AXIS_Y,false));
+    inputManager.addMapping(CameraInput.CHASECAM_UP,new MouseAxisTrigger(MouseInput.AXIS_Y,true));
+  }
+}

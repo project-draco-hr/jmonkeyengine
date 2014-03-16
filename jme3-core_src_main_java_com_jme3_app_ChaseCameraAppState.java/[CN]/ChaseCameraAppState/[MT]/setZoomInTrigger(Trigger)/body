@@ -1,0 +1,8 @@
+{
+  zoomInTrigger=triggers;
+  if (inputManager != null) {
+    inputManager.deleteMapping(CameraInput.CHASECAM_ZOOMIN);
+    inputManager.addMapping(CameraInput.CHASECAM_ZOOMIN,zoomInTrigger);
+    inputManager.addListener(this,CameraInput.CHASECAM_ZOOMIN);
+  }
+}

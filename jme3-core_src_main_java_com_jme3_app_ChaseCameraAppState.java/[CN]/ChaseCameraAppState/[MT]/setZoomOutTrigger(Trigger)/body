@@ -1,0 +1,8 @@
+{
+  zoomOutTrigger=triggers;
+  if (inputManager != null) {
+    inputManager.deleteMapping(CameraInput.CHASECAM_ZOOMOUT);
+    inputManager.addMapping(CameraInput.CHASECAM_ZOOMOUT,zoomOutTrigger);
+    inputManager.addListener(this,CameraInput.CHASECAM_ZOOMOUT);
+  }
+}
