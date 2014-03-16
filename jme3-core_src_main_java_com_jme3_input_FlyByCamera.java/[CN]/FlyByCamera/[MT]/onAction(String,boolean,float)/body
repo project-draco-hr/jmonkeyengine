@@ -1,10 +1,10 @@
 {
   if (!enabled)   return;
-  if (name.equals("FLYCAM_RotateDrag") && dragToRotate) {
+  if (name.equals(CameraInput.FLYCAM_ROTATEDRAG) && dragToRotate) {
     canRotate=value;
     inputManager.setCursorVisible(!value);
   }
- else   if (name.equals("FLYCAM_InvertY")) {
+ else   if (name.equals(CameraInput.FLYCAM_INVERTY)) {
     if (!value) {
       invertY=!invertY;
     }

@@ -1,14 +1,14 @@
 {
   this.invertYaxis=invertYaxis;
-  inputManager.deleteMapping(ChaseCamDown);
-  inputManager.deleteMapping(ChaseCamUp);
+  inputManager.deleteMapping(CameraInput.CHASECAM_DOWN);
+  inputManager.deleteMapping(CameraInput.CHASECAM_UP);
   if (!invertYaxis) {
-    inputManager.addMapping(ChaseCamDown,new MouseAxisTrigger(MouseInput.AXIS_Y,true));
-    inputManager.addMapping(ChaseCamUp,new MouseAxisTrigger(MouseInput.AXIS_Y,false));
+    inputManager.addMapping(CameraInput.CHASECAM_DOWN,new MouseAxisTrigger(MouseInput.AXIS_Y,true));
+    inputManager.addMapping(CameraInput.CHASECAM_UP,new MouseAxisTrigger(MouseInput.AXIS_Y,false));
   }
  else {
-    inputManager.addMapping(ChaseCamDown,new MouseAxisTrigger(MouseInput.AXIS_Y,false));
-    inputManager.addMapping(ChaseCamUp,new MouseAxisTrigger(MouseInput.AXIS_Y,true));
+    inputManager.addMapping(CameraInput.CHASECAM_DOWN,new MouseAxisTrigger(MouseInput.AXIS_Y,false));
+    inputManager.addMapping(CameraInput.CHASECAM_UP,new MouseAxisTrigger(MouseInput.AXIS_Y,true));
   }
-  inputManager.addListener(this,ChaseCamDown,ChaseCamUp);
+  inputManager.addListener(this,CameraInput.CHASECAM_DOWN,CameraInput.CHASECAM_UP);
 }

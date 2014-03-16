@@ -1,24 +1,24 @@
 {
-  if (name.equals(ChaseCamMoveLeft)) {
+  if (name.equals(CameraInput.CHASECAM_MOVELEFT)) {
     rotateCamera(-value);
   }
- else   if (name.equals(ChaseCamMoveRight)) {
+ else   if (name.equals(CameraInput.CHASECAM_MOVERIGHT)) {
     rotateCamera(value);
   }
- else   if (name.equals(ChaseCamUp)) {
+ else   if (name.equals(CameraInput.CHASECAM_UP)) {
     vRotateCamera(value);
   }
- else   if (name.equals(ChaseCamDown)) {
+ else   if (name.equals(CameraInput.CHASECAM_DOWN)) {
     vRotateCamera(-value);
   }
- else   if (name.equals(ChaseCamZoomIn)) {
+ else   if (name.equals(CameraInput.CHASECAM_ZOOMIN)) {
     zoomCamera(-value);
     if (zoomin == false) {
       distanceLerpFactor=0;
     }
     zoomin=true;
   }
- else   if (name.equals(ChaseCamZoomOut)) {
+ else   if (name.equals(CameraInput.CHASECAM_ZOOMOUT)) {
     zoomCamera(+value);
     if (zoomin == true) {
       distanceLerpFactor=0;
