@@ -1,39 +1,39 @@
 {
   if (!enabled)   return;
-  if (name.equals("FLYCAM_Left")) {
+  if (name.equals(CameraInput.FLYCAM_LEFT)) {
     rotateCamera(value,initialUpVec);
   }
- else   if (name.equals("FLYCAM_Right")) {
+ else   if (name.equals(CameraInput.FLYCAM_RIGHT)) {
     rotateCamera(-value,initialUpVec);
   }
- else   if (name.equals("FLYCAM_Up")) {
+ else   if (name.equals(CameraInput.FLYCAM_UP)) {
     rotateCamera(-value * (invertY ? -1 : 1),cam.getLeft());
   }
- else   if (name.equals("FLYCAM_Down")) {
+ else   if (name.equals(CameraInput.FLYCAM_DOWN)) {
     rotateCamera(value * (invertY ? -1 : 1),cam.getLeft());
   }
- else   if (name.equals("FLYCAM_Forward")) {
+ else   if (name.equals(CameraInput.FLYCAM_FORWARD)) {
     moveCamera(value,false);
   }
- else   if (name.equals("FLYCAM_Backward")) {
+ else   if (name.equals(CameraInput.FLYCAM_BACKWARD)) {
     moveCamera(-value,false);
   }
- else   if (name.equals("FLYCAM_StrafeLeft")) {
+ else   if (name.equals(CameraInput.FLYCAM_STRAFELEFT)) {
     moveCamera(value,true);
   }
- else   if (name.equals("FLYCAM_StrafeRight")) {
+ else   if (name.equals(CameraInput.FLYCAM_STRAFERIGHT)) {
     moveCamera(-value,true);
   }
- else   if (name.equals("FLYCAM_Rise")) {
+ else   if (name.equals(CameraInput.FLYCAM_RISE)) {
     riseCamera(value);
   }
- else   if (name.equals("FLYCAM_Lower")) {
+ else   if (name.equals(CameraInput.FLYCAM_LOWER)) {
     riseCamera(-value);
   }
- else   if (name.equals("FLYCAM_ZoomIn")) {
+ else   if (name.equals(CameraInput.FLYCAM_ZOOMIN)) {
     zoomCamera(value);
   }
- else   if (name.equals("FLYCAM_ZoomOut")) {
+ else   if (name.equals(CameraInput.FLYCAM_ZOOMOUT)) {
     zoomCamera(-value);
   }
 }
