@@ -1,13 +1,14 @@
 {
   if (volume != 1 && influence > 0) {
-    Transform ownerTransform=this.getOwnerTransform(ownerSpace);
+    if (this.getOwner() instanceof Bone) {
+      Transform ownerTransform=this.getOwnerTransform(ownerSpace);
 switch (flag) {
 case FLAG_MASK_X:
-      ownerTransform.getScale().multLocal(1,volume,volume);
-    break;
+        ownerTransform.getScale().multLocal(1,volume,volume);
+      break;
 case FLAG_MASK_Y:
-  ownerTransform.getScale().multLocal(volume,1,volume);
-break;
+    ownerTransform.getScale().multLocal(volume,1,volume);
+  break;
 case FLAG_MASK_Z:
 ownerTransform.getScale().multLocal(volume,volume,1);
 break;
@@ -15,5 +16,6 @@ default :
 throw new IllegalStateException("Unknown flag value: " + flag);
 }
 this.applyOwnerTransform(ownerTransform,ownerSpace);
+}
 }
 }
