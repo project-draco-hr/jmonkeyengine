@@ -1,0 +1,9 @@
+{
+  Document doc=e.getDocument();
+  if (doc == projectNameTextField.getDocument() || doc == projectLocationTextField.getDocument()) {
+    String projectName=projectNameTextField.getText();
+    String projectFolder=projectLocationTextField.getText();
+    createdFolderTextField.setText(projectFolder + File.separatorChar + projectName);
+  }
+  panel.fireChangeEvent();
+}

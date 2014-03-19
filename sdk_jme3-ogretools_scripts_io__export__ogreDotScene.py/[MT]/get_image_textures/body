@@ -1,0 +1,6 @@
+def get_image_textures(mat):
+    r = []
+    for s in mat.texture_slots:
+        if (s and (s.texture.type == 'IMAGE')):
+            r.append(s)
+    return r

@@ -1,0 +1,13 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("Bloom");
+  set.setName(Node.class.getName());
+  BloomFilter obj=(BloomFilter)filter;
+  if (obj == null) {
+    return sheet;
+  }
+  createFields(BloomFilter.class,set,obj);
+  sheet.put(set);
+  return sheet;
+}

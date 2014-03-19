@@ -1,0 +1,9 @@
+{
+  try {
+    Float f=new Float(shininessField.getText());
+    editorController.setShininess(Math.max(0,f));
+  }
+ catch (  Exception e) {
+    Logger.getLogger(TerrainEditorTopComponent.class.getName()).log(Level.WARNING,"Error accessing shininess field in terrain material.",e);
+  }
+}

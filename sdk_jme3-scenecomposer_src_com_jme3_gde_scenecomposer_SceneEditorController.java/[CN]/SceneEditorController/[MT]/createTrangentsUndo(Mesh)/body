@@ -1,0 +1,13 @@
+{
+  if (mesh != null) {
+    Lookup.getDefault().lookup(SceneUndoRedoManager.class).addEdit(this,new AbstractUndoableSceneEdit(){
+      @Override public void sceneUndo() throws CannotUndoException {
+        mesh.clearBuffer(Type.Tangent);
+      }
+      @Override public void sceneRedo() throws CannotRedoException {
+        TangentBinormalGenerator.generate(mesh);
+      }
+    }
+);
+  }
+}

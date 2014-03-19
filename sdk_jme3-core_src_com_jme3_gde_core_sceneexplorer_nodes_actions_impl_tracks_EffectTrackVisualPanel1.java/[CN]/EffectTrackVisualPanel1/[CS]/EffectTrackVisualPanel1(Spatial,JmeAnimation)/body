@@ -1,0 +1,21 @@
+{
+  this.rootNode=rootNode;
+  this.animation=animation;
+  initComponents();
+  lengthLabel.setText(animation.getLookup().lookup(Animation.class).getLength() + "");
+  DefaultComboBoxModel model=new DefaultComboBoxModel();
+  populateModel(rootNode,model);
+  jComboBox1.setModel(model);
+  jComboBox1.setRenderer(new ListCellRenderer(){
+    public Component getListCellRendererComponent(    JList list,    Object value,    int index,    boolean isSelected,    boolean cellHasFocus){
+      if (value instanceof Spatial) {
+        return new JLabel(((Spatial)value).getName());
+      }
+ else {
+        return new JLabel("?");
+      }
+    }
+  }
+);
+  jSlider1.setMaximum((int)(animation.getLookup().lookup(Animation.class).getLength() * 100));
+}

@@ -1,0 +1,31 @@
+{
+  SuspensionSettings settings=new SuspensionSettings();
+  settings.setFriction((Float)frictionSpinner.getValue());
+  settings.setMaxForce((Float)forceSpinner.getValue());
+  settings.setRestLength((Float)restSpinner.getValue());
+  if (boundingRadioButton.isSelected()) {
+    settings.setBoundingScale((Float)boundingSpinner.getValue());
+  }
+ else {
+    settings.setBoundingScale(0);
+    settings.setRadius((Float)fixedSpinner.getValue());
+  }
+  float stiffness=stiffnessSlider.getValue();
+  float compValue=(float)compressionSlider.getValue() / 100.0f;
+  float dampValue=(float)releaseSlider.getValue() / 100.0f;
+  settings.setCompression(compValue * 2.0f * FastMath.sqrt(stiffness));
+  settings.setRelease(dampValue * 2.0f * FastMath.sqrt(stiffness));
+  settings.setStiffness(stiffness);
+  settings.setFrontWheel(frontCheckBox.isSelected());
+  if ("-Z".equals(axisSpinner.getValue())) {
+    settings.setAxle(new Vector3f(1,0,0));
+  }
+ else   if ("X".equals(axisSpinner.getValue())) {
+    settings.setAxle(new Vector3f(0,0,1));
+  }
+ else   if ("-X".equals(axisSpinner.getValue())) {
+    settings.setAxle(new Vector3f(0,0,-1));
+  }
+  settings.setCreateNode(createNodeCheckBox.isSelected());
+  return settings;
+}

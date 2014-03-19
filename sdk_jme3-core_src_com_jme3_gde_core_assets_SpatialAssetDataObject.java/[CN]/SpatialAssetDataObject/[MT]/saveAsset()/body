@@ -1,0 +1,36 @@
+{
+  super.saveAsset();
+  ProjectAssetManager mgr=getLookup().lookup(ProjectAssetManager.class);
+  if (mgr == null) {
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("File is not part of a project!\nCannot load without ProjectAssetManager."));
+    return;
+  }
+  FileObject outFile=null;
+  if (saveExtension == null) {
+    outFile=getPrimaryFile();
+  }
+ else {
+    outFile=getPrimaryFile().getParent().getFileObject(getPrimaryFile().getName(),saveExtension);
+    if (outFile == null) {
+      Logger.getLogger(SpatialAssetDataObject.class.getName()).log(Level.SEVERE,"Could not locate saved file.");
+      return;
+    }
+  }
+  try {
+    DataObject targetModel=DataObject.find(outFile);
+    AssetData properties=targetModel.getLookup().lookup(AssetData.class);
+    if (properties != null) {
+      if (properties.getProperty("ORIGINAL_PATH") == null) {
+        String path=mgr.getRelativeAssetPath(getPrimaryFile().getPath());
+        properties.setProperty("ORIGINAL_PATH",path);
+        logger.log(Level.INFO,"Set original path for {0} to {1}",new Object[]{getName(),path});
+      }
+    }
+ else {
+      logger.log(Level.WARNING,"New object {0} has no AssetData?",getName());
+    }
+  }
+ catch (  Exception ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

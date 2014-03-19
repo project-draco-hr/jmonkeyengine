@@ -1,0 +1,5 @@
+def draw(self, context):
+    layout = self.layout
+    txt = Report.report()
+    for line in txt.splitlines():
+        layout.label(text=line)

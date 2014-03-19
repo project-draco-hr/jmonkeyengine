@@ -1,0 +1,32 @@
+{
+  if (SceneApplication.getApplication().isOgl()) {
+    Terrain terrain=(Terrain)getTerrain(null);
+    if (terrain == null)     return;
+    if (texture == null) {
+      if (layer == 0)       terrain.getMaterial().clearParam("NormalMap");
+ else       terrain.getMaterial().clearParam("NormalMap_" + layer);
+      return;
+    }
+    texture.setWrap(WrapMode.Repeat);
+    if (layer == 0)     terrain.getMaterial().setTexture("NormalMap",texture);
+ else     terrain.getMaterial().setTexture("NormalMap_" + layer,texture);
+    setNeedsSave(true);
+  }
+ else {
+    try {
+      SceneApplication.getApplication().enqueue(new Callable(){
+        public Object call() throws Exception {
+          setNormalMap(layer,texture);
+          return null;
+        }
+      }
+).get();
+    }
+ catch (    InterruptedException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    ExecutionException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+}

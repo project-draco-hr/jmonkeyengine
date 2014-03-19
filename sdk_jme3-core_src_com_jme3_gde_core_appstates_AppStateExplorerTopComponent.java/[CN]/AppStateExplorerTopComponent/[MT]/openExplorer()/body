@@ -1,0 +1,10 @@
+{
+  for (Iterator<TopComponent> it=TopComponent.getRegistry().getOpened().iterator(); it.hasNext(); ) {
+    TopComponent topComponent=it.next();
+    if (topComponent instanceof AppStateExplorerTopComponent) {
+      AppStateExplorerTopComponent explorer=(AppStateExplorerTopComponent)topComponent;
+      explorer.requestVisible();
+      return;
+    }
+  }
+}

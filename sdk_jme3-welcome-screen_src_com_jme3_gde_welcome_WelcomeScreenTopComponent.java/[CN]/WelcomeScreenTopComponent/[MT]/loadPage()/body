@@ -1,0 +1,17 @@
+{
+  try {
+    URL startUrl=new URL(org.openide.util.NbBundle.getMessage(WelcomeScreenTopComponent.class,"WelcomeScreenTopComponent.http.link"));
+    long lastMod=getModified(startUrl);
+    NbPreferences.forModule(getClass()).putLong("LAST_PAGE_UPDATE",lastMod);
+    jEditorPane1.setPage(startUrl);
+  }
+ catch (  IOException ex) {
+    logger.log(Level.INFO,"Loading welcome page from web failed",ex);
+    try {
+      jEditorPane1.setPage(new URL(org.openide.util.NbBundle.getMessage(WelcomeScreenTopComponent.class,"WelcomeScreenTopComponent.local.link")));
+    }
+ catch (    IOException ex1) {
+      logger.log(Level.SEVERE,"Could not open local help page!",ex1);
+    }
+  }
+}

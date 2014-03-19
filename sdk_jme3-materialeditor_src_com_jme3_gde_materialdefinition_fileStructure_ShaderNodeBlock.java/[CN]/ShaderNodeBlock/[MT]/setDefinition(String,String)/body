@@ -1,0 +1,12 @@
+{
+  DefinitionBlock b=getDefinition();
+  if (b == null) {
+    b=new DefinitionBlock(name,path);
+    addStatement(0,b);
+  }
+ else {
+    b.setName(name);
+    b.setPath(path);
+  }
+  fire("definition",null,b);
+}

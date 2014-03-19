@@ -1,0 +1,13 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("TerrainLodControl");
+  set.setName(TerrainLodControl.class.getName());
+  TerrainLodControl obj=terrainLodControl;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,boolean.class,"isEnabled","setEnabled","Enabled"));
+  sheet.put(set);
+  return sheet;
+}

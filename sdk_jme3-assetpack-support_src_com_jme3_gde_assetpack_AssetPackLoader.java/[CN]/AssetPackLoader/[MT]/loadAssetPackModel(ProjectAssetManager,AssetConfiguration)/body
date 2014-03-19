@@ -1,0 +1,64 @@
+{
+  Element assetElement=config.getAssetElement();
+  NodeList fileNodeList=assetElement.getElementsByTagName("file");
+  Element fileElement=XmlHelper.findChildElementWithAttribute(assetElement,"file","main","true");
+  if (fileElement == null) {
+    fileElement=XmlHelper.findChildElement(assetElement,"file");
+  }
+  List<Element> files=new ArrayList<Element>();
+  while (fileElement != null) {
+    files.add(fileElement);
+    fileElement=XmlHelper.findNextElementWithAttribute(fileElement,"file","main","true");
+  }
+  List<SelectionEntry> selList=new ArrayList<SelectionEntry>();
+  Element matset=XmlHelper.findChildElement(assetElement,"materialvariations");
+  if (matset != null) {
+    Element part=XmlHelper.findChildElement(matset,"mesh");
+    String partName=null;
+    while (part != null) {
+      partName=part.getAttribute("name");
+      ArrayList<Element> variations=new ArrayList<Element>();
+      selList.add(new SelectionEntry(partName,variations));
+      Element variation=XmlHelper.findChildElement(part,"variation");
+      while (variation != null) {
+        variations.add(variation);
+        variation=XmlHelper.findNextSiblingElement(variation);
+      }
+      part=XmlHelper.findNextSiblingElement(part);
+    }
+  }
+  boolean selectable=false;
+  for (Iterator<SelectionEntry> it=selList.iterator(); it.hasNext(); ) {
+    SelectionEntry selectionEntry=it.next();
+    if (selectionEntry.names.size() > 1) {
+      selectable=true;
+    }
+  }
+  if (selectable) {
+    new VariationSelection(selList).setVisible(true);
+  }
+  for (Iterator<SelectionEntry> it=selList.iterator(); it.hasNext(); ) {
+    SelectionEntry selectionEntry=it.next();
+    config.addVariationAssets(selectionEntry.getSelected());
+  }
+  Spatial model=null;
+  Node node=null;
+  for (  Element element : files) {
+    Logger.getLogger(AssetPackLoader.class.getName()).log(Level.INFO,"Load main file {0}",element.getAttribute("path"));
+    if (model != null && node == null) {
+      node=new Node(assetElement.getAttribute("name"));
+      node.attachChild(model);
+    }
+    model=AssetPackLoader.loadSingleMesh(element,fileNodeList,config.getVariationAssets(),pm);
+    if (model != null && node != null) {
+      node.attachChild(model);
+    }
+ else {
+      Logger.getLogger(AssetPackLoader.class.getName()).log(Level.WARNING,"Error loading model");
+    }
+  }
+  if (node != null) {
+    return node;
+  }
+  return model;
+}

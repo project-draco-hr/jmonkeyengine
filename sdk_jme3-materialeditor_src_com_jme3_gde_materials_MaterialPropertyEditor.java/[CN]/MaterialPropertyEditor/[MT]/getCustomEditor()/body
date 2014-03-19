@@ -1,0 +1,8 @@
+{
+  ProjectAssetManager currentProjectAssetManager=null;
+  if (currentProjectAssetManager == null) {
+    currentProjectAssetManager=(ProjectAssetManager)SceneApplication.getApplication().getAssetManager();
+  }
+  MaterialBrowser materialBrowser=new MaterialBrowser(null,true,currentProjectAssetManager,this);
+  return materialBrowser;
+}

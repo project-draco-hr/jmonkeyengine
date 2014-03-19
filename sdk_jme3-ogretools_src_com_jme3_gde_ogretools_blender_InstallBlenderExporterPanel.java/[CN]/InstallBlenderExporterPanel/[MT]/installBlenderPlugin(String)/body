@@ -1,0 +1,41 @@
+{
+  try {
+    File scriptsFolderFile=new File(scriptsFolder);
+    if (!scriptsFolderFile.exists()) {
+      Confirmation msg=new NotifyDescriptor.Confirmation("Folder does not exist!",NotifyDescriptor.DEFAULT_OPTION,NotifyDescriptor.ERROR_MESSAGE);
+      DialogDisplayer.getDefault().notify(msg);
+      return;
+    }
+    BufferedOutputStream dest=null;
+    ZipInputStream zis=new ZipInputStream(new BufferedInputStream(getClass().getResourceAsStream("/com/jme3/gde/ogretools/blender/scripts.zip")));
+    ZipEntry entry;
+    while ((entry=zis.getNextEntry()) != null) {
+      int count;
+      byte data[]=new byte[BUFFER];
+      if (entry.getName().contains(".svn") || entry.getName().contains(".DS_Store")) {
+        continue;
+      }
+      if (entry.isDirectory()) {
+        File dir=new File(scriptsFolder + File.separator + entry.getName());
+        dir.mkdirs();
+        continue;
+      }
+      FileOutputStream fos=new FileOutputStream(scriptsFolder + File.separator + entry.getName());
+      dest=new BufferedOutputStream(fos,BUFFER);
+      while ((count=zis.read(data,0,BUFFER)) != -1) {
+        dest.write(data,0,count);
+      }
+      dest.flush();
+      dest.close();
+    }
+    zis.close();
+    Confirmation msg=new NotifyDescriptor.Confirmation("Sucessuflly Installed Blender Exporter!",NotifyDescriptor.DEFAULT_OPTION,NotifyDescriptor.INFORMATION_MESSAGE);
+    DialogDisplayer.getDefault().notify(msg);
+    dispose();
+  }
+ catch (  IOException ex) {
+    Confirmation msg=new NotifyDescriptor.Confirmation("Error:\n" + ex.toString(),NotifyDescriptor.DEFAULT_OPTION,NotifyDescriptor.ERROR_MESSAGE);
+    DialogDisplayer.getDefault().notify(msg);
+    Exceptions.printStackTrace(ex);
+  }
+}

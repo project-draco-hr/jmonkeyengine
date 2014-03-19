@@ -1,0 +1,13 @@
+{
+  initComponents();
+  setName(Bundle.CTL_AppStateExplorerTopComponent());
+  setToolTipText(Bundle.HINT_AppStateExplorerTopComponent());
+  ActionMap map=getActionMap();
+  map.put("delete",ExplorerUtils.actionDelete(explorerManager,true));
+  associateLookup(ExplorerUtils.createLookup(explorerManager,map));
+  SceneRequest request=SceneApplication.getApplication().getCurrentSceneRequest();
+  if (request != null) {
+    listener.sceneOpened(request);
+  }
+  SceneApplication.getApplication().addSceneListener(listener);
+}

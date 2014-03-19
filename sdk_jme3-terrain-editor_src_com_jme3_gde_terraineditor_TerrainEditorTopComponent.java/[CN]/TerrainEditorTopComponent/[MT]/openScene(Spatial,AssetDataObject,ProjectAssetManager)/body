@@ -1,0 +1,27 @@
+{
+  cleanupControllers();
+  SceneApplication.getApplication().addSceneListener(this);
+  result.addLookupListener(this);
+  Node node;
+  if (spat instanceof Node) {
+    node=(Node)spat;
+  }
+ else {
+    node=new Node();
+    node.attachChild(spat);
+  }
+  JmeNode jmeNode=NodeUtility.createNode(node,file,false);
+  SceneRequest request=new SceneRequest(this,jmeNode,manager);
+  request.setDataObject(file);
+  request.setHelpCtx(ctx);
+  addSaveNode(jmeNode);
+  Logger.getLogger(TerrainEditorTopComponent.class.getName()).log(Level.FINER,"Terrain openScene {0}",file.getName());
+  if (editorController != null) {
+    editorController.cleanup();
+  }
+  editorController=new TerrainEditorController(jmeNode,file,this);
+  this.sentRequest=request;
+  request.setWindowTitle("TerrainEditor - " + manager.getRelativeAssetPath(file.getPrimaryFile().getPath()));
+  request.setToolNode(new Node("TerrainEditorToolNode"));
+  SceneApplication.getApplication().openScene(request);
+}

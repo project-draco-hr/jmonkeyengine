@@ -1,0 +1,10 @@
+{
+  SettingsRecognizer recognizer=new SettingsRecognizer(false,settingsFo);
+  recognizer.parse();
+  Set instances=recognizer.getInstanceOf();
+  String iName=recognizer.instanceName();
+  if (!instances.contains(EXPECTED_INSTANCE)) {
+    throw new IOException(iName);
+  }
+  return recognizer;
+}

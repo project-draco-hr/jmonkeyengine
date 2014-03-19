@@ -1,0 +1,6 @@
+{
+  diagram.fixSize();
+  MouseEvent me=SwingUtilities.convertMouseEvent(this,e,panel);
+  panel.mouseReleased(me);
+  getDiagram().getEditorParent().savePositionToMetaData(getKey(),0,getLocation().y);
+}

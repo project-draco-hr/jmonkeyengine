@@ -1,0 +1,15 @@
+{
+  boolean close=super.close();
+  if (close && app != null) {
+    app.stop();
+    java.awt.EventQueue.invokeLater(new Runnable(){
+      public void run(){
+        tc.getScenePanel().removeAll();
+      }
+    }
+);
+    dataObject.getLookupContents().remove(app);
+    app=null;
+  }
+  return close;
+}

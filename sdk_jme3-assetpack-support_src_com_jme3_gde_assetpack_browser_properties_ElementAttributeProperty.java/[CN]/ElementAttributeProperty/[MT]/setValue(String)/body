@@ -1,0 +1,10 @@
+{
+  element.setAttribute(attribute,val);
+  if (this.project == null) {
+    return;
+  }
+  AssetPackProject project=this.project.getLookup().lookup(AssetPackProject.class);
+  if (project != null) {
+    project.saveSettings();
+  }
+}

@@ -1,0 +1,23 @@
+{
+  VertexShaderNodesBlock vblock=getBlock(VertexShaderNodesBlock.class);
+  FragmentShaderNodesBlock fblock=getBlock(FragmentShaderNodesBlock.class);
+  boolean removed=false;
+  String eventToFire=null;
+  if (vblock != null) {
+    removed=vblock.removeShaderNode(block);
+    eventToFire=REMOVE_SHADER_NODE;
+  }
+  if (fblock != null) {
+    if (!removed) {
+      removed=fblock.removeShaderNode(block);
+      eventToFire=REMOVE_SHADER_NODE;
+    }
+  }
+  if (removed) {
+    cleanMappings(vblock,block);
+    cleanMappings(fblock,block);
+  }
+  if (eventToFire != null) {
+    fire(eventToFire,block,null);
+  }
+}

@@ -1,0 +1,43 @@
+{
+  final FileObject projPropsFO=project.getProjectDirectory().getFileObject(propertyFileName);
+  if (projPropsFO == null) {
+    return;
+  }
+  final EditableProperties ep=new EditableProperties(true);
+  try {
+    final InputStream is=projPropsFO.getInputStream();
+    ProjectManager.mutex().writeAccess(new Mutex.ExceptionAction<Void>(){
+      @Override public Void run() throws Exception {
+        try {
+          ep.load(is);
+        }
+  finally {
+          if (is != null) {
+            is.close();
+          }
+        }
+        putProperties(properties,ep);
+        OutputStream os=null;
+        FileLock lock=null;
+        try {
+          lock=projPropsFO.lock();
+          os=projPropsFO.getOutputStream(lock);
+          ep.store(os);
+        }
+  finally {
+          if (lock != null) {
+            lock.releaseLock();
+          }
+          if (os != null) {
+            os.close();
+          }
+        }
+        return null;
+      }
+    }
+);
+  }
+ catch (  MutexException mux) {
+    throw (IOException)mux.getException();
+  }
+}

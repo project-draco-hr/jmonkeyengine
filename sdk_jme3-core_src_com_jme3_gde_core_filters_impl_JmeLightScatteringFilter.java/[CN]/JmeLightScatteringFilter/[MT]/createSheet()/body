@@ -1,0 +1,13 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("Blur");
+  set.setName(Node.class.getName());
+  LightScatteringFilter obj=(LightScatteringFilter)filter;
+  if (obj == null) {
+    return sheet;
+  }
+  createFields(LightScatteringFilter.class,set,obj);
+  sheet.put(set);
+  return sheet;
+}

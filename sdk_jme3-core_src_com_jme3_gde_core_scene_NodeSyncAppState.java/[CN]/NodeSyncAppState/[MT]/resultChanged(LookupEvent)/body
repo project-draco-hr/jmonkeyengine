@@ -1,0 +1,21 @@
+{
+  Collection collection=nodeSelectionResult.allInstances();
+  SceneSyncListener newNode=null;
+  for (Iterator it=collection.iterator(); it.hasNext(); ) {
+    Object object=it.next();
+    if (object instanceof SceneSyncListener) {
+      if (object != null) {
+synchronized (newNodes) {
+          newNodes.add((SceneSyncListener)object);
+        }
+      }
+      newNode=(SceneSyncListener)object;
+    }
+  }
+  if (node != null) {
+synchronized (oldNodes) {
+      oldNodes.add(node);
+    }
+  }
+  node=newNode;
+}

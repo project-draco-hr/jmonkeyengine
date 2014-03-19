@@ -1,0 +1,11 @@
+{
+  if (!pressed) {
+    setDefaultAxisMarkerColors();
+    pickedPlane=null;
+    lastScreenCoord=null;
+    if (wasDragging) {
+      actionPerformed(new ScaleUndo(toolController.getSelectedSpatial(),startScale,lastScale));
+      wasDragging=false;
+    }
+  }
+}

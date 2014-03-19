@@ -1,0 +1,10 @@
+{
+  boolean ret=super.attach(state);
+  if (ret) {
+    states.add(state);
+  }
+  if (node != null) {
+    node.refresh();
+  }
+  return ret;
+}

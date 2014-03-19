@@ -1,0 +1,20 @@
+{
+  String pathName=jTextField1.getText();
+  File path=new File(pathName);
+  if (path.isDirectory()) {
+    FileChooserBuilder builder=new FileChooserBuilder(getClass());
+    builder.setDefaultWorkingDirectory(path);
+    builder.setDirectoriesOnly(true);
+    builder.setTitle("Select Assets Folder");
+    File file=builder.showOpenDialog();
+    if (file != null) {
+      file=FileUtil.normalizeFile(file);
+      try {
+        jTextField2.setText(file.getAbsolutePath().substring(pathName.length(),file.getAbsolutePath().length()));
+        panel.fireChangeEvent();
+      }
+ catch (      Exception e) {
+      }
+    }
+  }
+}

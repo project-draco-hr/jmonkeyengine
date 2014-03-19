@@ -1,0 +1,25 @@
+{
+  if (SceneApplication.getApplication().isOgl()) {
+    Terrain terrain=(Terrain)getTerrain(null);
+    if (terrain == null)     return;
+    terrain.getMaterial().setFloat("DiffuseMap_" + layer + "_scale",scale);
+    setNeedsSave(true);
+  }
+ else {
+    try {
+      SceneApplication.getApplication().enqueue(new Callable(){
+        public Object call() throws Exception {
+          setTextureScale(layer,scale);
+          return null;
+        }
+      }
+).get();
+    }
+ catch (    InterruptedException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    ExecutionException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  if (draggedFrom != null && draggedFrom.getNode() instanceof OutBusPanel) {
+    MouseEvent me=SwingUtilities.convertMouseEvent(this,e,draggedFrom.getNode());
+    draggedFrom.getNode().dispatchEvent(me);
+    if (me.isConsumed()) {
+      return;
+    }
+  }
+  if (e.getButton() != MouseEvent.BUTTON3) {
+    dispatchToOutBuses(e);
+  }
+ else {
+    contextMenu.show(this,e.getX(),e.getY());
+    clickLoc.setLocation(e.getX(),e.getY());
+  }
+}

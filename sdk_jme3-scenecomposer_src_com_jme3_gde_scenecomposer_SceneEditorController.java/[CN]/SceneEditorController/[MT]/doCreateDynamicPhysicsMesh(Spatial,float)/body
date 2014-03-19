@@ -1,0 +1,15 @@
+{
+  RigidBodyControl control=selected.getControl(RigidBodyControl.class);
+  if (control != null) {
+    selected.removeControl(control);
+  }
+  Node parent=selected.getParent();
+  selected.removeFromParent();
+  control=new RigidBodyControl(weight);
+  selected.addControl(control);
+  if (parent != null) {
+    parent.attachChild(selected);
+  }
+  refreshSelected();
+  addControlUndo(parent,control,jmeRootNode);
+}

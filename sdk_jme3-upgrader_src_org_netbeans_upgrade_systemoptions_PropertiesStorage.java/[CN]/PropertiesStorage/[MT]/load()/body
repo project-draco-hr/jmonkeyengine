@@ -1,0 +1,17 @@
+{
+  try {
+    Properties retval=new Properties();
+    InputStream is=inputStream();
+    if (is != null) {
+      try {
+        retval.load(is);
+      }
+  finally {
+        if (is != null)         is.close();
+      }
+    }
+    return retval;
+  }
+  finally {
+  }
+}

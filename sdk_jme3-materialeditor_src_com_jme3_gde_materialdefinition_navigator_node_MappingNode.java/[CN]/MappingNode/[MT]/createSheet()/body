@@ -1,0 +1,21 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=new Sheet.Set();
+  set.setName(mapping.getLeftVar() + " <- " + mapping.getRightVar());
+  set.setDisplayName(mapping.getLeftVar() + " <- " + mapping.getRightVar());
+  try {
+    set.put(new DefaultProperty<String>(mapping,String.class,"Condition","getCondition","setCondition"));
+    set.put(new DefaultProperty<String>(mapping,String.class,"Left name space","getLeftNameSpace","setLeftNameSpace",true));
+    set.put(new DefaultProperty<String>(mapping,String.class,"Left variable","getLeftVar","setLeftVar",true));
+    set.put(new DefaultProperty<String>(mapping,String.class,"Left swizzle","getLeftVarSwizzle","setLeftVarSwizzle"));
+    set.put(new DefaultProperty<String>(mapping,String.class,"Right name space","getRightNameSpace","setRightNameSpace",true));
+    set.put(new DefaultProperty<String>(mapping,String.class,"Right variable","getRightVar","setRightVar",true));
+    set.put(new DefaultProperty<String>(mapping,String.class,"Right swizzle","getRightVarSwizzle","setRightVarSwizzle"));
+  }
+ catch (  NoSuchMethodException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  mapping.addPropertyChangeListener(WeakListeners.propertyChange(this,mapping));
+  sheet.put(set);
+  return sheet;
+}

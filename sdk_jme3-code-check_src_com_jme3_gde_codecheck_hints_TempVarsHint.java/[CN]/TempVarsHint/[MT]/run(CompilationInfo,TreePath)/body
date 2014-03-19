@@ -1,0 +1,46 @@
+{
+  MethodTree mt=(MethodTree)treePath.getLeaf();
+  vars.clear();
+  if (mt.getBody() != null) {
+    for (    StatementTree t : mt.getBody().getStatements()) {
+      if (t.getKind().equals(Tree.Kind.VARIABLE)) {
+        Element el=info.getTrees().getElement(info.getTrees().getPath(info.getCompilationUnit(),t));
+        String name=t.toString();
+        if (name.indexOf("TempVars.get()") >= 0) {
+          SourcePositions sp=info.getTrees().getSourcePositions();
+          int start=(int)sp.getStartPosition(info.getCompilationUnit(),t);
+          int end=(int)sp.getEndPosition(info.getCompilationUnit(),t);
+          vars.add(new varsPosition(el.getSimpleName().toString(),start,end));
+        }
+      }
+      if (t.getKind().equals(Tree.Kind.EXPRESSION_STATEMENT) && !vars.isEmpty()) {
+        Element el=info.getTrees().getElement(treePath);
+        String name=t.toString();
+        if (name.indexOf(".release()") >= 0) {
+          for (Iterator<varsPosition> it=vars.iterator(); it.hasNext(); ) {
+            varsPosition curVar=it.next();
+            if (name.indexOf(curVar.varName + ".release()") >= 0) {
+              it.remove();
+            }
+          }
+        }
+      }
+    }
+  }
+  if (!vars.isEmpty()) {
+    List<ErrorDescription> list=new ArrayList<ErrorDescription>();
+    JTextComponent editor=EditorRegistry.lastFocusedComponent();
+    Document doc=editor.getDocument();
+    List<Fix> fixes=new ArrayList<Fix>();
+    SourcePositions sp=info.getTrees().getSourcePositions();
+    int methodEnd=(int)(sp.getEndPosition(info.getCompilationUnit(),mt) - 1);
+    for (    varsPosition curVar : vars) {
+      String bodyText="    " + curVar.varName + ".release();\n    ";
+      fixes.clear();
+      fixes.add(new MessagesFix(doc,methodEnd,bodyText));
+      list.add(ErrorDescriptionFactory.createErrorDescription(getSeverity().toEditorSeverity(),getDisplayName(),fixes,info.getFileObject(),curVar.start,curVar.end));
+    }
+    return list;
+  }
+  return null;
+}

@@ -1,0 +1,9 @@
+def save_config():
+    if os.path.isdir(CONFIG_PATH):
+        try:
+            with open(CONFIG_FILEPATH, 'wb') as f:
+                pickle.dump(CONFIG, f, (-1))
+        except:
+            print ('[ERROR]: Can not write to %s' % CONFIG_FILEPATH)
+    else:
+        print ('[ERROR:] Config directory does not exist %s' % CONFIG_PATH)

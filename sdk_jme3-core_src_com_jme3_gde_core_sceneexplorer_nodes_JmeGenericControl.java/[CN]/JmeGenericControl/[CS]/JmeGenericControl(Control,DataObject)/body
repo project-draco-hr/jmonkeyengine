@@ -1,0 +1,9 @@
+{
+  super(Children.LEAF,new ProxyLookup(dataObject.getLookup(),new DynamicLookup(new InstanceContent())));
+  lookupContents=getLookup().lookup(DynamicLookup.class).getInstanceContent();
+  this.control=control;
+  this.dobject=dataObject;
+  lookupContents.add(this);
+  lookupContents.add(control);
+  setName(control.getClass().getName());
+}

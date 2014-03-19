@@ -1,0 +1,14 @@
+{
+  MaterialParametersBlock mpBlock=getMaterialParameters();
+  if (mpBlock == null) {
+    return;
+  }
+  mpBlock.removeMatParam(matParam);
+  for (  TechniqueBlock techniqueBlock : getTechniques()) {
+    VertexShaderNodesBlock vblock=techniqueBlock.getBlock(VertexShaderNodesBlock.class);
+    FragmentShaderNodesBlock fblock=techniqueBlock.getBlock(FragmentShaderNodesBlock.class);
+    techniqueBlock.cleanMappings(vblock,"MatParam",matParam.getName());
+    techniqueBlock.cleanMappings(fblock,"MatParam",matParam.getName());
+  }
+  fire(REMOVE_MAT_PARAM,matParam,null);
+}

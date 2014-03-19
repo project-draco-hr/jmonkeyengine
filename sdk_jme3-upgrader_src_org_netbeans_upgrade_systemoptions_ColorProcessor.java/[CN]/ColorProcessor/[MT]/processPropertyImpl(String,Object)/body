@@ -1,0 +1,14 @@
+{
+  StringBuffer sb=new StringBuffer();
+  if ("connectionBorderColor".equals(propertyName) || "dragBorderColor".equals(propertyName) || "formDesignerBackgroundColor".equals(propertyName)|| "formDesignerBorderColor".equals(propertyName)|| "guidingLineColor".equals(propertyName)|| "selectionBorderColor".equals(propertyName)) {
+    for (Iterator it=((SerParser.ObjectWrapper)value).data.iterator(); it.hasNext(); ) {
+      Object o=it.next();
+      if (o instanceof SerParser.NameValue && "value".equals(((SerParser.NameValue)o).name.name)) {
+        addProperty(propertyName,((SerParser.NameValue)o).value.toString());
+      }
+    }
+  }
+ else {
+    throw new IllegalStateException();
+  }
+}

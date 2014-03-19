@@ -1,0 +1,14 @@
+{
+  if (currentState == State.translate) {
+    MoveManager moveManager=Lookup.getDefault().lookup(MoveManager.class);
+    Quaternion rot=camera.getRotation().mult(new Quaternion().fromAngleAxis(FastMath.PI,Vector3f.UNIT_Y));
+    Quaternion planRot=null;
+    if (rot.dot(rot1) < rot.dot(rot2)) {
+      planRot=rot1;
+    }
+ else {
+      planRot=rot2;
+    }
+    moveManager.updatePlaneRotation(planRot);
+  }
+}

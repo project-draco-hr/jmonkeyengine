@@ -1,0 +1,14 @@
+{
+  if (leftCtrl) {
+    point2=point;
+    if (markerThird.getParent() == null)     parent.attachChild(markerThird);
+    markerThird.setLocalTranslation(point);
+  }
+ else {
+    point1=point;
+    if (markerSecondary.getParent() == null)     parent.attachChild(markerSecondary);
+    markerSecondary.setLocalTranslation(point);
+  }
+  if (point1 != null && point2 != null)   updateAngle();
+ else   if (line != null)   line.removeFromParent();
+}

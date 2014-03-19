@@ -1,0 +1,18 @@
+{
+  logger.log(Level.INFO,"Start offview panel");
+  offPanel.startPreview();
+  jList1.setListData(new Object[0]);
+  jList2.setListData(new Object[0]);
+  manager=(ProjectAssetManager)wiz.getProperty("manager");
+  mainKey=(AssetKey)wiz.getProperty("mainkey");
+  data=(AssetData)wiz.getProperty("assetdata");
+  loadModel();
+  offPanel.detachAll();
+  if (currentModel != null) {
+    logger.log(Level.INFO,"Attaching model {0}",currentModel);
+    offPanel.attach(currentModel);
+  }
+ else {
+    jList2.setListData(new Object[]{mainKey});
+  }
+}

@@ -1,0 +1,11 @@
+{
+  super.addPropertyChangeListener(pcl);
+  VertexShaderNodesBlock vblock=getBlock(VertexShaderNodesBlock.class);
+  if (vblock != null) {
+    vblock.addPropertyChangeListener(WeakListeners.propertyChange(pcl,vblock));
+  }
+  FragmentShaderNodesBlock fblock=getBlock(FragmentShaderNodesBlock.class);
+  if (fblock != null) {
+    fblock.addPropertyChangeListener(WeakListeners.propertyChange(pcl,fblock));
+  }
+}

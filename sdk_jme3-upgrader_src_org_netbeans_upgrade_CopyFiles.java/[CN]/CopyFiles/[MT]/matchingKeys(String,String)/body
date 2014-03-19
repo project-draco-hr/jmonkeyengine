@@ -1,0 +1,17 @@
+{
+  Set<String> matchingKeys=new HashSet<String>();
+  String[] patterns=propertiesPattern.split("#",2);
+  String filePattern=patterns[0];
+  String keyPattern=patterns[1];
+  if (relativePath.matches(filePattern)) {
+    if (currentProperties == null) {
+      currentProperties=getProperties(relativePath);
+    }
+    for (    String key : currentProperties.keySet()) {
+      if (key.matches(keyPattern)) {
+        matchingKeys.add(key);
+      }
+    }
+  }
+  return matchingKeys;
+}

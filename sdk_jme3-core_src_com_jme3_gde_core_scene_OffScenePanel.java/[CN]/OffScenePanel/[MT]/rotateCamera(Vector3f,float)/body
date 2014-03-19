@@ -1,0 +1,19 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      float amount=amount_;
+      if (axis.equals(camera.getLeft())) {
+        float elevation=-FastMath.asin(camera.getDirection().y);
+        amount=Math.min(Math.max(elevation + amount,-FastMath.HALF_PI),FastMath.HALF_PI) - elevation;
+      }
+      rot.fromAngleAxis(amount,axis);
+      camera.getLocation().subtract(focus,vector);
+      rot.mult(vector,vector);
+      focus.add(vector,camera.getLocation());
+      Quaternion curRot=camera.getRotation().clone();
+      camera.setRotation(rot.mult(curRot));
+      return null;
+    }
+  }
+);
+}

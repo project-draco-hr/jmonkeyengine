@@ -1,0 +1,20 @@
+{
+  String rootPath=this.rootPath != null ? this.rootPath.replace("\\","/") : null;
+  if (rootPath != null) {
+    File file=new File(rootPath + key.getName());
+    file=FileUtil.normalizeFile(file);
+    FileObject fileObject=FileUtil.toFileObject(file);
+    if (fileObject != null) {
+      logger.log(Level.INFO,"Found file {0}" + fileObject);
+      return fileObject;
+    }
+  }
+  File file=new File(key.getName());
+  file=FileUtil.normalizeFile(file);
+  FileObject fileObject=FileUtil.toFileObject(file);
+  if (fileObject != null) {
+    logger.log(Level.INFO,"Found file {0}" + fileObject);
+    return fileObject;
+  }
+  return getUserPath(key);
+}

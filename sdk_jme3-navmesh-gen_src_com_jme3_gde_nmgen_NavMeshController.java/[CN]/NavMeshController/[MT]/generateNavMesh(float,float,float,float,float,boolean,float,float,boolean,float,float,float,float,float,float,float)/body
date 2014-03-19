@@ -1,0 +1,39 @@
+{
+  NavMeshGenerator generator=new NavMeshGenerator();
+  generator.setCellSize(cellSize);
+  generator.setCellHeight(cellHeight);
+  generator.setMinTraversableHeight(minTraversableHeight);
+  generator.setMaxTraversableStep(maxTraversableStep);
+  generator.setMaxTraversableSlope(maxTraversableSlope);
+  generator.setClipLedges(clipLedges);
+  generator.setTraversableAreaBorderSize(traversableAreaBorderSize);
+  generator.setSmoothingThreshold((int)smoothingThreshold);
+  generator.setUseConservativeExpansion(useConservativeExpansion);
+  generator.setMergeRegionSize((int)mergeRegionSize);
+  generator.setMaxEdgeLength(maxEdgeLength);
+  generator.setEdgeMaxDeviation(edgeMaxDeviation);
+  generator.setMaxVertsPerPoly((int)maxVertsPerPoly);
+  generator.setContourSampleDistance(contourSampleDistance);
+  generator.setContourMaxDeviation(contourMaxDeviation);
+  IntermediateData id=new IntermediateData();
+  generator.setIntermediateData(null);
+  Mesh mesh=new Mesh();
+  GeometryBatchFactory.mergeGeometries(findGeometries(rootNode,new LinkedList<Geometry>(),generator),mesh);
+  Mesh optiMesh=generator.optimize(mesh);
+  final Geometry navMesh=new Geometry("NavMesh");
+  navMesh.setMesh(optiMesh);
+  navMesh.setCullHint(CullHint.Always);
+  navMesh.setModelBound(new BoundingBox());
+  Spatial previous=rootNode.getChild("NavMesh");
+  if (previous != null)   previous.removeFromParent();
+  SceneApplication.getApplication().enqueue(new Callable<Void>(){
+    public Void call() throws Exception {
+      rootNode.attachChild(navMesh);
+      return null;
+    }
+  }
+);
+  jmeRootNode.refresh(true);
+  setNeedsSave(true);
+  return optiMesh;
+}

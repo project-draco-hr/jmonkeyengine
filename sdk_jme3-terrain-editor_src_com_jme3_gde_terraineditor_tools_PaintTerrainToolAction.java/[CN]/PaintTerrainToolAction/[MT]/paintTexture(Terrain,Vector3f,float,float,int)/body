@@ -1,0 +1,13 @@
+{
+  if (selectedTextureIndex < 0 || markerLocation == null)   return;
+  int alphaIdx=selectedTextureIndex / 4;
+  Texture tex=getAlphaTexture(terrain,alphaIdx);
+  Image image=tex.getImage();
+  Vector2f UV=getPointPercentagePosition(terrain,markerLocation);
+  float brushSize=toolRadius / (terrain.getTerrainSize() * ((Node)terrain).getLocalScale().x);
+  int texIndex=selectedTextureIndex - ((selectedTextureIndex / 4) * 4);
+  boolean erase=toolWeight < 0;
+  if (erase)   toolWeight*=-1;
+  doPaintAction(texIndex,image,UV,true,brushSize,erase,toolWeight);
+  tex.getImage().setUpdateNeeded();
+}

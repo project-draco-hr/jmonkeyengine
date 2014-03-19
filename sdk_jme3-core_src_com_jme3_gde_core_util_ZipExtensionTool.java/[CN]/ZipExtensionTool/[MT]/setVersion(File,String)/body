@@ -1,0 +1,22 @@
+{
+  Properties props=new Properties();
+  props.setProperty("version",version);
+  OutputStream out=null;
+  try {
+    out=new BufferedOutputStream(new FileOutputStream(path));
+    props.store(out,"extension properties");
+  }
+ catch (  Exception ex) {
+    Exceptions.printStackTrace(ex);
+  }
+ finally {
+    if (out != null) {
+      try {
+        out.close();
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  Point p=SwingUtilities.convertPoint(this,e.getX(),e.getY(),panel);
+  if (panel.contains(p)) {
+    MouseEvent me=SwingUtilities.convertMouseEvent(this,e,panel);
+    panel.dispatchEvent(me);
+    if (me.isConsumed()) {
+      return true;
+    }
+  }
+  return false;
+}

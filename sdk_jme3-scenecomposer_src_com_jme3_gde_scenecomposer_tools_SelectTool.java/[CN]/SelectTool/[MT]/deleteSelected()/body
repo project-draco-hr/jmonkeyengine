@@ -1,0 +1,13 @@
+{
+  Spatial selected=toolController.getSelectedSpatial();
+  if (selected == null) {
+    return;
+  }
+  Node parent=selected.getParent();
+  selected.removeFromParent();
+  actionPerformed(new DeleteUndo(selected,parent));
+  selected=null;
+  toolController.updateSelection(selected);
+  final JmeNode rootNode=toolController.getRootNode();
+  refreshSelected(rootNode,parent);
+}

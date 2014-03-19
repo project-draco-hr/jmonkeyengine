@@ -1,0 +1,33 @@
+{
+  Process p=null;
+  try {
+    ProcessBuilder builder=new ProcessBuilder(args);
+    updateWork(statusStr,0);
+    p=builder.start();
+    BufferedReader r=new BufferedReader(new InputStreamReader(p.getInputStream()));
+    String ln;
+    while ((ln=r.readLine()) != null) {
+      if (Thread.interrupted())       throw new InterruptedException();
+      if (ln.endsWith("%")) {
+        int percent=Integer.parseInt(ln.substring(0,ln.length() - 1));
+        updateWork(statusStr,percent);
+      }
+ else       if (ln.startsWith("time taken")) {
+        ln=ln.substring(12,ln.length() - 7).trim();
+        System.out.println("Time Taken: " + ln + " seconds");
+      }
+    }
+    r.close();
+    int error=p.waitFor();
+    if (error != 0) {
+      System.out.println("Error Code: " + error);
+    }
+  }
+ catch (  IOException ex) {
+    ex.printStackTrace();
+  }
+catch (  InterruptedException ex) {
+    if (p != null)     p.destroy();
+    throw ex;
+  }
+}

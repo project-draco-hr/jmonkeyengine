@@ -1,0 +1,18 @@
+{
+  return new PropertySupport.ReadWrite<Object>("emit",Object.class,"Emit all particles","Click here to emit all particles of this emitter "){
+    JmeParticleEmitterButtonProperty pe;
+    @Override public Object getValue() throws IllegalAccessException, InvocationTargetException {
+      return "";
+    }
+    @Override public PropertyEditor getPropertyEditor(){
+      if (pe == null) {
+        pe=new JmeParticleEmitterButtonProperty(JmeParticleEmitter.this);
+        pe.attachEnv(pe.env);
+      }
+      return pe;
+    }
+    @Override public void setValue(    Object t) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    }
+  }
+;
+}

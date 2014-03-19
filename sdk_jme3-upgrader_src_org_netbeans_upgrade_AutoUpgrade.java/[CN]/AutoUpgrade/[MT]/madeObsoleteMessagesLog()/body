@@ -1,0 +1,22 @@
+{
+  String ud=System.getProperty("netbeans.user","");
+  if ((Utilities.isMac() || Utilities.isWindows()) && ud.endsWith(File.separator + "dev")) {
+    String defaultUserdirRoot=System.getProperty("netbeans.default_userdir_root",null);
+    if (defaultUserdirRoot != null) {
+      if (new File(ud).getParentFile().equals(new File(defaultUserdirRoot))) {
+        String userHome=System.getProperty("user.home");
+        if (userHome != null) {
+          File oldUserdir=new File(new File(userHome).getAbsolutePath(),".netbeans/dev");
+          if (oldUserdir.exists() && !oldUserdir.equals(new File(ud))) {
+            File log=new File(oldUserdir,"/var/log/messages.log");
+            File obsolete=new File(oldUserdir,"/var/log/messages.log.obsolete");
+            if (!obsolete.exists() && log.exists()) {
+              return log.renameTo(obsolete);
+            }
+          }
+        }
+      }
+    }
+  }
+  return false;
+}

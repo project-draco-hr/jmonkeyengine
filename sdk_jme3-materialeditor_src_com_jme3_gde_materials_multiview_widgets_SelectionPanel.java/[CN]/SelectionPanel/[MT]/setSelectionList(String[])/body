@@ -1,0 +1,16 @@
+{
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      MaterialProperty prop=property;
+      property=null;
+      jComboBox1.removeAllItems();
+      jComboBox1.addItem("");
+      for (int i=0; i < strings.length; i++) {
+        String string=strings[i];
+        jComboBox1.addItem(string);
+      }
+      property=prop;
+    }
+  }
+);
+}

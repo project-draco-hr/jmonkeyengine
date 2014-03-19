@@ -1,0 +1,26 @@
+{
+  if (selectedSpat == null || selectedSpat == jmeRootNode) {
+    return;
+  }
+  try {
+    final Spatial node=selectedSpat.getLookup().lookup(Spatial.class);
+    final Node rootNode=jmeRootNode.getLookup().lookup(Node.class);
+    if (node != null) {
+      SceneApplication.getApplication().enqueue(new Callable(){
+        public Object call() throws Exception {
+          doAddWheel(node,rootNode,settings);
+          return null;
+        }
+      }
+).get();
+      currentFileObject.setModified(true);
+      refreshSelectedParent();
+    }
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

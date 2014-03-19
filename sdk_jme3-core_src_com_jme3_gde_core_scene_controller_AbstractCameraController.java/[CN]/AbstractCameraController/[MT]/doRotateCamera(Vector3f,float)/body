@@ -1,0 +1,21 @@
+{
+  if (axis.equals(cam.getLeft())) {
+    float elevation=-FastMath.asin(cam.getDirection().y);
+    amount=Math.min(Math.max(elevation + amount,-FastMath.HALF_PI),FastMath.HALF_PI) - elevation;
+  }
+  rot.fromAngleAxis(amount,axis);
+  cam.getLocation().subtract(focus,vector);
+  rot.mult(vector,vector);
+  focus.add(vector,cam.getLocation());
+  Quaternion curRot=cam.getRotation().clone();
+  cam.setRotation(rot.mult(curRot));
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      SceneViewerTopComponent svtc=SceneViewerTopComponent.findInstance();
+      if (svtc != null) {
+        CameraToolbar.getInstance().switchToView(View.User);
+      }
+    }
+  }
+);
+}

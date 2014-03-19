@@ -1,0 +1,9 @@
+{
+  try {
+    String[] split=sta.getLine().split(":");
+    condition=split[1].trim();
+  }
+ catch (  ArrayIndexOutOfBoundsException e) {
+    Logger.getLogger(ConditionBlock.class.getName()).log(Level.WARNING,"Parsing error line " + sta.getLineNumber() + " : "+ sta.getLine());
+  }
+}

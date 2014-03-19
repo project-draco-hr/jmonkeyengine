@@ -1,0 +1,38 @@
+{
+  InputStream stream=null;
+  try {
+    stream=file.getInputStream();
+    Document doc=XMLUtil.parse(new InputSource(stream),false,false,null,null);
+    stream.close();
+    Element elem=doc.getDocumentElement();
+    if (elem == null) {
+      throw new IllegalStateException("Cannot find root mesh element");
+    }
+    Element submeshes=XmlHelper.findChildElement(elem,"submeshes");
+    if (submeshes == null) {
+      throw new IllegalStateException("Cannot find submeshes element");
+    }
+    Element submesh=XmlHelper.findChildElement(submeshes,"submesh");
+    boolean changed=false;
+    while (submesh != null) {
+      String matName=submesh.getAttribute("material");
+      String newName=removePastUnderScore(matName);
+      if (!matName.equals(newName)) {
+        Logger.getLogger(ImportWorldForgeAction.class.getName()).log(Level.INFO,"Change material name for {0}",file);
+        submesh.setAttribute("material",newName);
+        submesh=XmlHelper.findNextSiblingElement(submesh);
+        changed=true;
+      }
+    }
+    if (changed) {
+      OutputStream out=file.getOutputStream();
+      XMLUtil.write(doc,out,"UTF-8");
+      out.close();
+    }
+  }
+ catch (  Exception ex) {
+    Exceptions.printStackTrace(ex);
+  }
+ finally {
+  }
+}

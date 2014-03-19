@@ -1,0 +1,19 @@
+{
+  try {
+    Terrain terrain=SceneApplication.getApplication().enqueue(new Callable<Terrain>(){
+      public Terrain call() throws Exception {
+        AddTerrainAction a=new AddTerrainAction();
+        return (Terrain)a.doCreateTerrain(parent,totalSize,patchSize,alphaTextureSize,heightmapData,sceneName,jmeRootNode);
+      }
+    }
+).get();
+    return terrain;
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return null;
+}

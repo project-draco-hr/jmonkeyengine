@@ -1,0 +1,19 @@
+{
+  text=text.replace('[',' ');
+  text=text.replace(']',' ').trim();
+  String[] a=text.split("\\s*(,|\\s)\\s*");
+  if (a.length == 1) {
+    if (text.trim().toLowerCase().equals("nan")) {
+      res.set(Vector3f.NAN);
+      return;
+    }
+    float f=Float.parseFloat(text);
+    res.set(f,f,f);
+    return;
+  }
+  if (a.length == 3) {
+    res.set(Float.parseFloat(a[0]),Float.parseFloat(a[1]),Float.parseFloat(a[2]));
+    return;
+  }
+  throw new IllegalArgumentException("String not correct");
+}

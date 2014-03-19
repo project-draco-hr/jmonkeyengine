@@ -1,0 +1,31 @@
+{
+  FileObject file=folder.getFileObject(name);
+  if (file == null) {
+    try {
+      InputStream in=null;
+      OutputStream out=null;
+      try {
+        URL url=new URL("nbres:" + root + name);
+        file=FileUtil.createData(folder,name);
+        in=url.openStream();
+        out=file.getOutputStream();
+        FileUtil.copy(in,out);
+      }
+ catch (      IOException e) {
+        Exceptions.printStackTrace(e);
+      }
+ finally {
+        if (in != null) {
+          in.close();
+        }
+        if (out != null) {
+          out.close();
+        }
+      }
+      logger.log(Level.INFO,"Extracted script {0}",file.getPath());
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+}

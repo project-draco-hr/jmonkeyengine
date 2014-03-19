@@ -1,0 +1,22 @@
+{
+  Vector3f temp, higher, lower;
+  if (point2.y > point1.y) {
+    temp=point2;
+    higher=point2;
+    lower=point1;
+  }
+ else {
+    temp=point1;
+    higher=point1;
+    lower=point2;
+  }
+  temp=temp.clone().setY(lower.y);
+  float angle=((FastMath.asin(temp.distance(higher) / lower.distance(higher))) * FastMath.RAD_TO_DEG);
+  angleText.setText(angle + " degrees");
+  angleText.setLocalTranslation(new Vector3f().interpolateLocal(point1,point2,0.5f));
+  if (line.getParent() == null) {
+    parent.attachChild(line);
+    parent.attachChild(angleText);
+  }
+  ((Line)line.getMesh()).updatePoints(point1,point2);
+}

@@ -1,0 +1,9 @@
+{
+  FragmentShaderNodesBlock fblock=getBlock(FragmentShaderNodesBlock.class);
+  if (fblock == null) {
+    fblock=new FragmentShaderNodesBlock(0,"FragmentShaderNodes ");
+    addStatement(0,fblock);
+  }
+  fblock.addShaderNode(block);
+  fire(ADD_SHADER_NODE,null,block);
+}

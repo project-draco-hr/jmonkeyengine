@@ -1,0 +1,14 @@
+{
+  List<String> list=new ArrayList<String>();
+  if (geometry.getMesh().getNumLodLevels() > 0) {
+    for (int i=0; i < geometry.getMesh().getNumLodLevels(); i++) {
+      int triNum=geometry.getMesh().getLodLevel(i).getNumElements();
+      list.add(i + " - " + triNum+ " triangles");
+    }
+  }
+ else {
+    list.add("0 - " + geometry.getMesh().getTriangleCount() + " triangles");
+  }
+  hash=computeHash();
+  return list;
+}

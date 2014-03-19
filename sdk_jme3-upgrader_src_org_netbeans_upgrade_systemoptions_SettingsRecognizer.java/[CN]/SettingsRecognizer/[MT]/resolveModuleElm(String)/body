@@ -1,0 +1,26 @@
+{
+  if (codeName != null) {
+    int slash=codeName.indexOf("/");
+    if (slash == -1) {
+      codeNameBase=codeName;
+      codeNameRelease=-1;
+    }
+ else {
+      codeNameBase=codeName.substring(0,slash);
+      try {
+        codeNameRelease=Integer.parseInt(codeName.substring(slash + 1));
+      }
+ catch (      NumberFormatException ex) {
+        ErrorManager emgr=ErrorManager.getDefault();
+        emgr.annotate(ex,"Content: \n" + getFileContent(source));
+        emgr.annotate(ex,"Source: " + source);
+        emgr.notify(ErrorManager.INFORMATIONAL,ex);
+        codeNameRelease=-1;
+      }
+    }
+  }
+ else {
+    codeNameBase=null;
+    codeNameRelease=-1;
+  }
+}

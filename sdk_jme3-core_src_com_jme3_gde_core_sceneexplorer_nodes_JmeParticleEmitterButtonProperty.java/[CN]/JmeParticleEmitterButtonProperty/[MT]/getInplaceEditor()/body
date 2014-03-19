@@ -1,0 +1,19 @@
+{
+  if (ed == null) {
+    ed=new ButtonInplaceEditor("Emit!");
+    ed.addActionListener(new ActionListener(){
+      public void actionPerformed(      ActionEvent e){
+        SceneApplication.getApplication().enqueue(new Callable<Object>(){
+          public Object call() throws Exception {
+            pe.getEmitter().killAllParticles();
+            pe.getEmitter().emitAllParticles();
+            return null;
+          }
+        }
+);
+      }
+    }
+);
+  }
+  return ed;
+}

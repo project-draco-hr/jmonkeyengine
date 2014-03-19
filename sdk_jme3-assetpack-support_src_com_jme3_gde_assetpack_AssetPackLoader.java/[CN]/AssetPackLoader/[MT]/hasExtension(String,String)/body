@@ -1,0 +1,11 @@
+{
+  int idx=name.lastIndexOf(".");
+  if (idx < 0) {
+    return false;
+  }
+  String ext=name.substring(idx + 1,name.length());
+  if (ext.equalsIgnoreCase(extension)) {
+    return true;
+  }
+  return false;
+}

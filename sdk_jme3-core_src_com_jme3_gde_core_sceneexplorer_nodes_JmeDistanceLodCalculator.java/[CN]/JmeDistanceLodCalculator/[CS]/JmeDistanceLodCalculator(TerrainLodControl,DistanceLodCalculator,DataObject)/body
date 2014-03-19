@@ -1,0 +1,9 @@
+{
+  super(Children.LEAF);
+  this.lodControl=lodControl;
+  this.lodCalculator=lodCalculator;
+  this.dataObject=dataObject;
+  getLookupContents().add(lodCalculator);
+  getLookupContents().add(this);
+  setName("DistanceLodCalculator");
+}

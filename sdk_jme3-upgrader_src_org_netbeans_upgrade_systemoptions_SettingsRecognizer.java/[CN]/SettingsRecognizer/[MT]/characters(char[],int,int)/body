@@ -1,0 +1,8 @@
+{
+  if (header)   return;
+  String element=stack.peek();
+  if (ELM_SERIALDATA.equals(element)) {
+    if (chaos == null)     chaos=new CharArrayWriter(length);
+    chaos.write(values,start,length);
+  }
+}

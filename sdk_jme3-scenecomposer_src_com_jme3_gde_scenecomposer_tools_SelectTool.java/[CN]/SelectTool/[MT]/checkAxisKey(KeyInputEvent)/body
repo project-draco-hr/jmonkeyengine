@@ -1,0 +1,18 @@
+{
+  if (kie.getKeyCode() == KeyInput.KEY_X) {
+    currentAxis=Vector3f.UNIT_X;
+    checkMovePlane(MoveManager.XY,MoveManager.XZ);
+    return true;
+  }
+ else   if (kie.getKeyCode() == KeyInput.KEY_Y) {
+    currentAxis=Vector3f.UNIT_Y;
+    checkMovePlane(MoveManager.XY,MoveManager.YZ);
+    return true;
+  }
+ else   if (kie.getKeyCode() == KeyInput.KEY_Z) {
+    currentAxis=Vector3f.UNIT_Z;
+    checkMovePlane(MoveManager.XZ,MoveManager.YZ);
+    return true;
+  }
+  return false;
+}

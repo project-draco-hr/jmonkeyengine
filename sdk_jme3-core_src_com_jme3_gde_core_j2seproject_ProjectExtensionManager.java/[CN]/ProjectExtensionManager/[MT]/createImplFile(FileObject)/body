@@ -1,0 +1,26 @@
+{
+  FileLock lock=null;
+  FileObject file=null;
+  try {
+    file=projDir.getFileObject("nbproject").createData(extensionName + "-impl.xml");
+    lock=file.lock();
+    OutputStreamWriter out=new OutputStreamWriter(file.getOutputStream(lock));
+    out.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    out.write("<!--" + extensionName + "-impl.xml "+ extensionVersion+ "-->\n");
+    out.write("<project name=\"" + extensionName + "-impl\" basedir=\"..\">\n");
+    if (extensionTargets != null) {
+      out.write(extensionTargets);
+    }
+    out.write("</project>\n");
+    out.close();
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+ finally {
+    if (lock != null) {
+      lock.releaseLock();
+    }
+  }
+  return file;
+}

@@ -1,0 +1,62 @@
+{
+  if (savable != null) {
+    return (Spatial)savable;
+  }
+  if (SUFFIX == null) {
+    throw new IllegalStateException("Suffix for blender filetype is null! Set SUFFIX = \"sfx\" in constructor!");
+  }
+  ProjectAssetManager mgr=getLookup().lookup(ProjectAssetManager.class);
+  if (mgr == null) {
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("File is not part of a project!\nCannot load without ProjectAssetManager."));
+    return null;
+  }
+  closeAsset();
+  FileObject mainFile=getPrimaryFile();
+  if (!BlenderTool.runConversionScript(SUFFIX,mainFile)) {
+    logger.log(Level.SEVERE,"Failed to create model, running blender caused an error");
+    return null;
+  }
+  mainFile.getParent().refresh();
+  FileObject outFile=FileUtil.findBrother(mainFile,BlenderTool.TEMP_SUFFIX);
+  if (outFile == null) {
+    logger.log(Level.SEVERE,"Failed to create model, blend file cannot be found");
+    return null;
+  }
+  int i=1;
+  FileObject blend1File=FileUtil.findBrother(mainFile,BlenderTool.TEMP_SUFFIX + i);
+  while (blend1File != null) {
+    try {
+      blend1File.delete();
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+    i++;
+    blend1File=FileUtil.findBrother(mainFile,BlenderTool.TEMP_SUFFIX + i);
+  }
+  String assetKeyName=mgr.getRelativeAssetPath(outFile.getPath());
+  BlenderKey key=new BlenderKey(assetKeyName);
+  Beans.copyProperties(key,getAssetKey());
+  try {
+    listListener.start();
+    Spatial spatial=mgr.loadModel(key);
+    replaceFiles();
+    listListener.stop();
+    SpatialUtil.storeOriginalPathUserData(spatial);
+    savable=spatial;
+    logger.log(Level.INFO,"Loaded asset {0}",getName());
+    return spatial;
+  }
+ catch (  Exception ex) {
+    Exceptions.printStackTrace(ex);
+  }
+ finally {
+    try {
+      outFile.delete();
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+  return null;
+}

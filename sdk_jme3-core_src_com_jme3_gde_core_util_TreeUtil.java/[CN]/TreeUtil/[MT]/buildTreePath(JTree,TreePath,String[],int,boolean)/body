@@ -1,0 +1,23 @@
+{
+  TreeNode node=(TreeNode)parent.getLastPathComponent();
+  String o=node.toString();
+  if (o.equals(nodes[startdepth])) {
+    if (startdepth == nodes.length - 1) {
+      return parent;
+    }
+    if (node.getChildCount() >= 0) {
+      for (Enumeration e=node.children(); e.hasMoreElements(); ) {
+        TreeNode n=(TreeNode)e.nextElement();
+        TreePath path=parent.pathByAddingChild(n);
+        if (n.isLeaf() && expandable) {
+          return parent;
+        }
+        TreePath result=buildTreePath(tree,path,nodes,startdepth + 1,expandable);
+        if (result != null) {
+          return result;
+        }
+      }
+    }
+  }
+  return null;
+}

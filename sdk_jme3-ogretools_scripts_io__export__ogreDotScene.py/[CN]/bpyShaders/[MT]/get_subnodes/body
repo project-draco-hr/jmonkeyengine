@@ -1,0 +1,12 @@
+@staticmethod
+def get_subnodes(mat, type='TEXTURE'):
+    d = {}
+    for node in mat.nodes:
+        if (node.type == type):
+            d[node.name] = node
+    keys = list(d.keys())
+    keys.sort()
+    r = []
+    for key in keys:
+        r.append(d[key])
+    return r

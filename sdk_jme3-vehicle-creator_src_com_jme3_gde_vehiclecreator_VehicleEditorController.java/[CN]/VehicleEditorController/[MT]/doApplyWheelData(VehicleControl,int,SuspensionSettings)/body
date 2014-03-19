@@ -1,0 +1,26 @@
+{
+  for (int i=0; i < control.getNumWheels(); i++) {
+    VehicleWheel wheel=control.getWheel(i);
+switch (wheels) {
+case 0:
+      break;
+case 1:
+    if (!wheel.isFrontWheel()) {
+      continue;
+    }
+  break;
+case 2:
+if (wheel.isFrontWheel()) {
+  continue;
+}
+break;
+}
+wheel.setRestLength(settings.getRestLength());
+wheel.setMaxSuspensionForce(settings.getMaxForce());
+wheel.setSuspensionStiffness(settings.getStiffness());
+wheel.setRollInfluence(settings.getRollInfluence());
+wheel.setWheelsDampingCompression(settings.getCompression());
+wheel.setWheelsDampingRelaxation(settings.getRelease());
+wheel.setFrictionSlip(settings.getFriction());
+}
+}

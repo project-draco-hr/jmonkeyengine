@@ -1,0 +1,11 @@
+{
+  try {
+    LevelExtraToolParams params=new LevelExtraToolParams();
+    params.absolute=levelAbsoluteCheckbox.isSelected();
+    params.precision=levelPrecisionCheckbox.isSelected();
+    params.height=new Float(levelAbsoluteHeightField.getText());
+    toolController.setExtraToolParams(params);
+  }
+ catch (  NumberFormatException e) {
+  }
+}

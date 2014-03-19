@@ -1,0 +1,4 @@
+{
+  String body="    /** Translucent/transparent cube. Uses Texture from jme3-test-data library! */\n    Box boxMesh = new Box(1f,1f,1f);\n    Geometry boxGeo = new Geometry(\"translucent cube\", boxMesh);\n    Material boxMat = new Material(assetManager, \"Common/MatDefs/Misc/Unshaded.j3md\");\n    boxMat.setTexture(\"ColorMap\", assetManager.loadTexture(\"Textures/ColoredTex/Monkey.png\"));\n    boxMat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);\n    boxGeo.setMaterial(boxMat); \n    rootNode.attachChild(boxGeo); ";
+  return body;
+}

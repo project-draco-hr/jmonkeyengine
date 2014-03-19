@@ -1,0 +1,35 @@
+{
+  Project prj=lookup.lookup(Project.class);
+  project=prj;
+  FileObject assetsProperties=prj.getProjectDirectory().getFileObject("nbproject/assets.properties");
+  if (assetsProperties == null) {
+    assetsProperties=prj.getProjectDirectory().getFileObject("nbproject/project.properties");
+  }
+ else {
+    Logger.getLogger(AssetsLookupProvider.class.getName()).log(Level.WARNING,"Project is using old assets.properties file");
+  }
+  if (assetsProperties != null && assetsProperties.isValid()) {
+    FileLock lock=null;
+    try {
+      lock=assetsProperties.lock();
+      InputStream in=assetsProperties.getInputStream();
+      Properties properties=new Properties();
+      properties.load(in);
+      in.close();
+      String assetsFolderName=properties.getProperty("assets.folder.name","assets");
+      if (prj.getProjectDirectory().getFileObject(assetsFolderName) != null) {
+        logger.log(Level.FINE,"Valid jMP project, extending with ProjectAssetManager");
+        return Lookups.fixed(new ProjectAssetManager(prj,assetsFolderName),openedHook);
+      }
+    }
+ catch (    Exception ex) {
+      Exceptions.printStackTrace(ex);
+    }
+ finally {
+      if (lock != null) {
+        lock.releaseLock();
+      }
+    }
+  }
+  return Lookups.fixed();
+}

@@ -1,0 +1,13 @@
+{
+  String clsName=null;
+  if (value instanceof ObjectWrapper) {
+    clsName=prettify(((ObjectWrapper)value).classdesc.name);
+  }
+ else   if (value instanceof ArrayWrapper) {
+    clsName=prettify(((ArrayWrapper)value).classdesc.name);
+  }
+ else {
+    clsName=prettify(value.getClass().getName());
+  }
+  return clsName;
+}

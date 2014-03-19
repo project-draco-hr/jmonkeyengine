@@ -1,0 +1,57 @@
+{
+  Vector2f texuv=new Vector2f();
+  ColorRGBA color=ColorRGBA.Black;
+  float width=image.getWidth();
+  float height=image.getHeight();
+  int minx=(int)Math.max(0,(uv.x * width - radius * width));
+  int maxx=(int)Math.min(width,(uv.x * width + radius * width));
+  int miny=(int)Math.max(0,(uv.y * height - radius * height));
+  int maxy=(int)Math.min(height,(uv.y * height + radius * height));
+  float radiusSquared=radius * radius;
+  float radiusFalloff=radiusSquared * fadeFalloff;
+  for (int y=miny; y < maxy; y++) {
+    for (int x=minx; x < maxx; x++) {
+      texuv.set((float)x / width,(float)y / height);
+      float dist=texuv.distanceSquared(uv);
+      if (dist < radiusSquared) {
+        manipulatePixel(image,x,y,color,false);
+        float intensity=(1.0f - (dist / radiusSquared)) * fadeFalloff;
+        if (erase) {
+switch (texIndex) {
+case 0:
+            color.r-=intensity;
+          break;
+case 1:
+        color.g-=intensity;
+      break;
+case 2:
+    color.b-=intensity;
+  break;
+case 3:
+color.a-=intensity;
+break;
+}
+}
+ else {
+switch (texIndex) {
+case 0:
+color.r+=intensity;
+break;
+case 1:
+color.g+=intensity;
+break;
+case 2:
+color.b+=intensity;
+break;
+case 3:
+color.a+=intensity;
+break;
+}
+}
+color.clamp();
+manipulatePixel(image,x,y,color,true);
+}
+}
+}
+image.getData(0).rewind();
+}

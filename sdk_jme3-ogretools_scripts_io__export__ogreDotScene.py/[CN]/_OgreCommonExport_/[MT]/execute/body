@@ -1,0 +1,5 @@
+def execute(self, context):
+    global last_export_filepath
+    last_export_filepath = self.filepath
+    self.ogre_export(self.filepath, context)
+    return {'FINISHED'}

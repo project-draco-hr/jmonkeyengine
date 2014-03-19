@@ -1,0 +1,79 @@
+{
+  final Product product=getProduct();
+  final File installLocation=product.getInstallationLocation();
+  if (Boolean.parseBoolean(getProperty(HelloWorldPanel.CREATE_START_MENU_SHORTCUT_PROPERTY))) {
+    try {
+      progress.setDetail(getString("CL.uninstall.start.menu"));
+      final String shortcutLocation=getProduct().getProperty(START_MENU_SHORTCUT_LOCATION_PROPERTY);
+      if ((shortcutLocation == null) || shortcutLocation.equals(CURRENT_USER_PROPERTY_VALUE)) {
+        SystemUtils.removeShortcut(getStartMenuShortcut(installLocation),LocationType.CURRENT_USER_START_MENU,true);
+      }
+ else {
+        SystemUtils.removeShortcut(getStartMenuShortcut(installLocation),LocationType.ALL_USERS_START_MENU,true);
+      }
+    }
+ catch (    NativeException e) {
+      LogManager.log(getString("CL.uninstall.error.start.menu"),e);
+    }
+  }
+  if (Boolean.parseBoolean(getProperty(HelloWorldPanel.CREATE_DESKTOP_SHORTCUT_PROPERTY))) {
+    if (!SystemUtils.isMacOS()) {
+      try {
+        progress.setDetail(getString("CL.uninstall.desktop"));
+        final String shortcutLocation=getProduct().getProperty(DESKTOP_SHORTCUT_LOCATION_PROPERTY);
+        if ((shortcutLocation == null) || shortcutLocation.equals(CURRENT_USER_PROPERTY_VALUE)) {
+          SystemUtils.removeShortcut(getDesktopShortcut(installLocation),LocationType.CURRENT_USER_DESKTOP,false);
+        }
+ else {
+          SystemUtils.removeShortcut(getDesktopShortcut(installLocation),LocationType.ALL_USERS_DESKTOP,false);
+        }
+      }
+ catch (      NativeException e) {
+        LogManager.log(getString("CL.uninstall.error.desktop"),e);
+      }
+    }
+  }
+  if (Boolean.getBoolean("remove.app.userdir")) {
+    try {
+      progress.setDetail(getString("CL.uninstall.remove.userdir"));
+      LogManager.logIndent("Removing application`s userdir... ");
+      File userDir=NetBeansRCPUtils.getApplicationUserDirFile(installLocation);
+      LogManager.log("... application userdir location : " + userDir);
+      if (FileUtils.exists(userDir) && FileUtils.canWrite(userDir)) {
+        FileUtils.deleteFile(userDir,true);
+        FileUtils.deleteEmptyParents(userDir);
+      }
+      LogManager.log("... application userdir totally removed");
+    }
+ catch (    IOException e) {
+      LogManager.log("Can`t remove application userdir",e);
+    }
+ finally {
+      LogManager.unindent();
+    }
+  }
+  if (!SystemUtils.isMacOS()) {
+    File jre=new File(installLocation,"jdk");
+    if (jre.exists()) {
+      try {
+        for (        File file : FileUtils.listFiles(jre).toList()) {
+          FileUtils.deleteOnExit(file);
+        }
+        FileUtils.deleteOnExit(installLocation);
+      }
+ catch (      IOException e) {
+      }
+    }
+  }
+ else {
+    String appName=ResourceUtils.getString(ConfigurationLogic.class,"CL.app.name");
+    File exeLink=new File(installLocation.getParentFile().getParent() + "/MacOS/" + appName);
+    try {
+      FileUtils.deleteWithEmptyParents(exeLink);
+    }
+ catch (    IOException ex) {
+      LogManager.log("Error removing app Link: " + ex);
+    }
+  }
+  progress.setPercentage(Progress.COMPLETE);
+}

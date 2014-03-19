@@ -1,0 +1,6 @@
+{
+  if (pushback != -1)   throw new IllegalStateException("can only peek once");
+  pushback=is.read();
+  if (DEBUG)   System.err.println("read: " + Integer.toHexString(pushback));
+  return pushback;
+}

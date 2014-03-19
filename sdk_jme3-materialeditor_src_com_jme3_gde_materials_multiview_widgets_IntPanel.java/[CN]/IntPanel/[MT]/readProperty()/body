@@ -1,0 +1,18 @@
+{
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      jLabel1.setText(property.getName());
+      jLabel1.setToolTipText(property.getName());
+      MaterialProperty prop=property;
+      property=null;
+      try {
+        jSpinner1.setValue(Integer.parseInt(prop.getValue()));
+      }
+ catch (      Exception e) {
+        jSpinner1.setValue(0);
+      }
+      property=prop;
+    }
+  }
+);
+}

@@ -1,0 +1,12 @@
+{
+  if (s == null) {
+    return false;
+  }
+  if (s instanceof Terrain) {
+    return true;
+  }
+  if (s.getParent() != null) {
+    return isTerrain(s.getParent());
+  }
+  return false;
+}

@@ -1,0 +1,14 @@
+{
+  InputStream in=null;
+  try {
+    FileObject file=getConfigFile();
+    in=file.getInputStream();
+    configuration=XMLUtil.parse(new InputSource(in),false,false,null,null);
+    in.close();
+  }
+ catch (  Exception ex) {
+    Exceptions.printStackTrace(ex);
+  }
+ finally {
+  }
+}

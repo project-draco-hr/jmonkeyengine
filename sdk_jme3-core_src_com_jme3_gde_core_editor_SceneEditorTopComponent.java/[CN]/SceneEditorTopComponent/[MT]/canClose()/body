@@ -1,0 +1,22 @@
+{
+  if (obj != null && obj.isModified()) {
+    NotifyDescriptor.Confirmation mesg=new NotifyDescriptor.Confirmation("Scene has not been saved,\ndo you want to save it?","Not Saved",NotifyDescriptor.YES_NO_CANCEL_OPTION);
+    DialogDisplayer.getDefault().notify(mesg);
+    if (mesg.getValue() == NotifyDescriptor.Confirmation.YES_OPTION) {
+      try {
+        obj.getCookie(SaveCookie.class).save();
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+ else     if (mesg.getValue() == NotifyDescriptor.Confirmation.CANCEL_OPTION) {
+      return false;
+    }
+ else     if (mesg.getValue() == NotifyDescriptor.Confirmation.NO_OPTION) {
+      obj.setModified(false);
+      return true;
+    }
+  }
+  return true;
+}

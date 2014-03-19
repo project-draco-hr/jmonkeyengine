@@ -1,0 +1,8 @@
+{
+  if (project.getLookup().lookup(AssetPackLibrary.class) != null) {
+    return new Action[]{addProjectAction,addAction,previewAction};
+  }
+ else {
+    return new Action[]{previewAction};
+  }
+}

@@ -1,0 +1,12 @@
+{
+  if (roughTerrainButton.isSelected()) {
+    RoughTerrainTool tool=new RoughTerrainTool();
+    toolController.setTerrainEditButtonState(tool);
+    updateRoughenFractalToolParams();
+    setHintText(tool);
+  }
+ else {
+    toolController.setTerrainEditButtonState(null);
+    setHintText((TerrainTool)null);
+  }
+}

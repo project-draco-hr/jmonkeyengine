@@ -1,0 +1,12 @@
+{
+  VehicleControl control=rootNode.getControl(VehicleControl.class);
+  if (control == null) {
+    vehicleControl=new VehicleControl(new BoxCollisionShape(Vector3f.UNIT_XYZ),200);
+    rootNode.addControl(vehicleControl);
+    return true;
+  }
+ else {
+    vehicleControl=control;
+    return false;
+  }
+}

@@ -1,0 +1,21 @@
+{
+  ArrayList<String> strings=new ArrayList<String>();
+  if (Utilities.isWindows()) {
+    strings.add(windows_path + "OgreXMLConverter.exe");
+    strings.add("-log");
+    strings.add(windows_path + "OgreXMLConverter.log");
+  }
+ else   if (Utilities.isMac()) {
+    strings.add(osx_path + "bin/OgreXMLConverter");
+    strings.add("-log");
+    strings.add(osx_path + "OgreXMLConverter.log");
+  }
+ else {
+    strings.add(linux_path + "OgreXMLConverter");
+    strings.add("-log");
+    strings.add(linux_path + "OgreXMLConverter.log");
+  }
+  strings.add(options.getBinaryFileName());
+  strings.add(options.getDestFile());
+  return strings.toArray(new String[strings.size()]);
+}

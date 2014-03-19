@@ -1,0 +1,53 @@
+{
+  matDefEntries.clear();
+  boolean params=false;
+  int level=0;
+  if (matDef != null && matDef.isValid()) {
+    try {
+      for (      String defLine : matDef.asLines()) {
+        defLine=MaterialUtils.trimLine(defLine.trim());
+        if (defLine.startsWith("MaterialParameters ") || defLine.startsWith("MaterialParameters\t") || defLine.startsWith("MaterialParameters{") && level == 1) {
+          params=true;
+        }
+        if (defLine.indexOf("{") != -1) {
+          level++;
+        }
+        if (defLine.indexOf("}") != -1) {
+          level--;
+          if (params) {
+            params=false;
+          }
+        }
+        if (level == 2 && params) {
+          for (int i=0; i < variableTypes.length; i++) {
+            String string=variableTypes[i];
+            if (defLine.startsWith(string)) {
+              String name=MaterialUtils.trimName(defLine.replaceFirst(string,""));
+              matDefEntries.add(name);
+              MaterialProperty prop=materialParameters.get(name);
+              if (prop == null) {
+                prop=new MaterialProperty();
+                prop.setName(name);
+                prop.setValue("");
+                materialParameters.put(prop.getName(),prop);
+              }
+              prop.setType(string);
+            }
+          }
+        }
+      }
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+ else {
+    Logger.getLogger(EditableMaterialFile.class.getName()).log(Level.WARNING,"Could not read MaterialDef!");
+  }
+  for (Iterator<Map.Entry<String,MaterialProperty>> it=materialParameters.entrySet().iterator(); it.hasNext(); ) {
+    Map.Entry<String,MaterialProperty> entry=it.next();
+    if (!matDefEntries.contains(entry.getKey())) {
+      it.remove();
+    }
+  }
+}

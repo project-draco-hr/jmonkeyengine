@@ -1,0 +1,42 @@
+{
+  if (config == null) {
+    logger.log(Level.SEVERE,"Performing unconfigured RunAppState action");
+    return;
+  }
+  SceneRequest req=SceneApplication.getApplication().getCurrentSceneRequest();
+  if (req != null) {
+    FakeApplication app=req.getFakeApp();
+    assert(app != null);
+    attachState(app);
+  }
+ else {
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("No Scene opened to attach to,\nopen a j3o scene."));
+    if (5 == 5)     return;
+    if (config.manager != null) {
+      logger.log(Level.INFO,"Try request scene..");
+      final SceneRequest sceneRequest=new SceneRequest(this,config.manager);
+      sceneRequest.setWindowTitle("New Scene");
+      sceneRequest.setDataNode(new NewSceneSaveNode(sceneRequest));
+      SceneApplication.getApplication().addSceneListener(new SceneListener(){
+        public void sceneOpened(        SceneRequest request){
+          if (request == sceneRequest) {
+            FakeApplication app=request.getFakeApp();
+            attachState(app);
+          }
+        }
+        public void sceneClosed(        SceneRequest request){
+          if (request == sceneRequest) {
+            SceneApplication.getApplication().removeSceneListener(this);
+          }
+        }
+        public void previewCreated(        PreviewRequest request){
+        }
+      }
+);
+      SceneApplication.getApplication().openScene(sceneRequest);
+    }
+ else {
+      DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Not a jME project!"));
+    }
+  }
+}

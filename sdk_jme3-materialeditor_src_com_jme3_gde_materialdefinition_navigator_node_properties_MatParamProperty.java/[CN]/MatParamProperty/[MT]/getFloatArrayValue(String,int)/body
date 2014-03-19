@@ -1,0 +1,13 @@
+{
+  float[] ret=new float[capacity];
+  String[] vals=extractValues(value);
+  try {
+    for (int i=0; i < vals.length; i++) {
+      ret[i]=Float.parseFloat(vals[i]);
+    }
+  }
+ catch (  NumberFormatException e) {
+    Logger.getLogger(VectorTextField.class.getName()).log(Level.WARNING,"Invalid format");
+  }
+  return ret;
+}

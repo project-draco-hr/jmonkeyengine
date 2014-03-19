@@ -1,0 +1,17 @@
+{
+  this.proj=project;
+  DataObject assetsFolder;
+  try {
+    ProjectAssetManager item=project.getLookup().lookup(ProjectAssetManager.class);
+    if (item != null) {
+      assetsFolder=DataObject.find(item.getAssetFolder());
+      Node node=assetsFolder.getNodeDelegate();
+      ProjectAssetsNode nd=new ProjectAssetsNode(item,proj,node);
+      return NodeFactorySupport.fixedNodeList(nd);
+    }
+  }
+ catch (  Exception ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return NodeFactorySupport.fixedNodeList();
+}

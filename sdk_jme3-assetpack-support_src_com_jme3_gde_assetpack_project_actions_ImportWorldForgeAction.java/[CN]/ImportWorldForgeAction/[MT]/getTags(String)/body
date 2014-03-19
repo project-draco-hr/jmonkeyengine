@@ -1,0 +1,15 @@
+{
+  String[] strings=modelName.split("/");
+  String ret=null;
+  for (  String string : strings) {
+    if (!"models".equals(string) && !"3d_objects".equals(string) && !string.contains(".mesh.xml")) {
+      if (ret == null) {
+        ret=string;
+      }
+ else {
+        ret=ret + ", " + string;
+      }
+    }
+  }
+  return ret;
+}

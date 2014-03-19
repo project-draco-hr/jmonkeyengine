@@ -1,0 +1,13 @@
+{
+  FileChooserBuilder builder=new FileChooserBuilder(this.getClass());
+  builder.setDirectoriesOnly(true);
+  builder.setTitle("Select Project Folder");
+  File file=builder.showOpenDialog();
+  if (file != null) {
+    try {
+      jTextField1.setText(file.getAbsolutePath() + File.separator + jTextField2.getText());
+    }
+ catch (    Exception e) {
+    }
+  }
+}

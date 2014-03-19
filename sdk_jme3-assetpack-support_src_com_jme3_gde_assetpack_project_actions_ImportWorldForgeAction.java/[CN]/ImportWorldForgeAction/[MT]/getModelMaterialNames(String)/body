@@ -1,0 +1,39 @@
+{
+  List<String> materialNames=new ArrayList<String>();
+  FileObject file=FileUtil.toFileObject(new File(getAbsoluteAssetPath(assetName).replaceAll("/",File.separator)));
+  InputStream stream=null;
+  try {
+    stream=file.getInputStream();
+    Document doc=XMLUtil.parse(new InputSource(stream),false,false,null,null);
+    Element elem=doc.getDocumentElement();
+    if (elem == null) {
+      throw new IllegalStateException("Cannot find root mesh element");
+    }
+    Element submeshes=XmlHelper.findChildElement(elem,"submeshes");
+    if (submeshes == null) {
+      throw new IllegalStateException("Cannot find submeshes element");
+    }
+    Element submesh=XmlHelper.findChildElement(submeshes,"submesh");
+    while (submesh != null) {
+      String matName=submesh.getAttribute("material");
+      if (!materialNames.contains(matName)) {
+        materialNames.add(matName);
+      }
+      submesh=XmlHelper.findNextSiblingElement(submesh);
+    }
+  }
+ catch (  Exception ex) {
+    Exceptions.printStackTrace(ex);
+  }
+ finally {
+    if (stream != null) {
+      try {
+        stream.close();
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+  }
+  return materialNames;
+}

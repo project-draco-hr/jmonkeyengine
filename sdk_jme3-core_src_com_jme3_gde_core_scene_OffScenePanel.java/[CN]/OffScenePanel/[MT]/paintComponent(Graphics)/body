@@ -1,0 +1,13 @@
+{
+  super.paintComponent(gfx);
+  Graphics2D g2d=(Graphics2D)gfx;
+synchronized (imageLock) {
+    if (image != null) {
+      tx.translate(0,-image.getHeight());
+      if (op == null) {
+        op=new AffineTransformOp(tx,AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+      }
+      g2d.drawImage(image,null,0,0);
+    }
+  }
+}

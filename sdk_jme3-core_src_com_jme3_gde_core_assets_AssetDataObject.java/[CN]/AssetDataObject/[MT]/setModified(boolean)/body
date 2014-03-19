@@ -1,0 +1,9 @@
+{
+  super.setModified(modif);
+  if (modif && saveCookie != null) {
+    getCookieSet().assign(SaveCookie.class,saveCookie);
+  }
+ else {
+    getCookieSet().assign(SaveCookie.class);
+  }
+}

@@ -1,0 +1,42 @@
+{
+  checkModificatorKeys(kie);
+  Spatial selected=toolController.getSelectedSpatial();
+  if (selected == null) {
+    return;
+  }
+  if (kie.isReleased()) {
+    boolean commandUsed=checkCommandKey(kie);
+    boolean stateChange=checkStateKey(kie);
+    boolean axisChange=checkAxisKey(kie);
+    boolean numberChange=checkNumberKey(kie);
+    boolean enterHit=checkEnterHit(kie);
+    boolean escHit=checkEscHit(kie);
+    if (commandUsed) {
+      return;
+    }
+    if (stateChange) {
+      currentAxis=Vector3f.UNIT_XYZ;
+      numberBuilder=new StringBuilder();
+      recordInitialState(selected);
+    }
+ else     if (axisChange) {
+    }
+ else     if (numberChange) {
+    }
+ else     if (enterHit) {
+      if (currentState != null && numberBuilder.length() > 0) {
+        applyKeyedChangeState(selected);
+        clearState(false);
+      }
+    }
+    if (escHit) {
+      if (moving != null) {
+        moving.sceneUndo();
+      }
+      moving=null;
+      clearState();
+    }
+    if (!stateChange && !axisChange && !numberChange&& !enterHit&& !escHit) {
+    }
+  }
+}

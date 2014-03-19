@@ -1,0 +1,11 @@
+{
+  super.initComponents();
+  setLayout(new javax.swing.BoxLayout(this,javax.swing.BoxLayout.PAGE_AXIS));
+  createToolbar();
+  scrollPanel=new JScrollPane();
+  offPanel=new OffScenePanel(640,480);
+  scrollPanel.getViewport().add(offPanel);
+  add(scrollPanel);
+  offPanel.startPreview();
+  prepareInputHandler();
+}

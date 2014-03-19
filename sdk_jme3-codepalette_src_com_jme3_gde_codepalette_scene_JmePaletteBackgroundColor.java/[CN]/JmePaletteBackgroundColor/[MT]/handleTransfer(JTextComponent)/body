@@ -1,0 +1,10 @@
+{
+  String body=createBody();
+  try {
+    JmePaletteUtilities.insert(body,targetComponent);
+  }
+ catch (  BadLocationException ble) {
+    return false;
+  }
+  return true;
+}

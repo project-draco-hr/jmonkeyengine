@@ -1,0 +1,69 @@
+{
+  if (!checkBlenderFolders()) {
+    logger.log(Level.SEVERE,"Could not create blender settings folders!");
+    return false;
+  }
+  logger.log(Level.INFO,"Running blender with options {0}",file);
+  if (blenderOpened.getAndSet(true)) {
+    logger.log(Level.WARNING,"Blender seems to be running already.");
+    return false;
+  }
+  final AtomicBoolean successful=new AtomicBoolean(true);
+  final File exe=getBlenderExecutable();
+  if (exe == null) {
+    logger.log(Level.SEVERE,"Could not find blender executable!");
+    blenderOpened.set(false);
+    return false;
+  }
+  final Frame mainWin=WindowManager.getDefault().getMainWindow();
+  assert(mainWin != null);
+  mainWin.setExtendedState(Frame.ICONIFIED);
+  Runnable r=new Runnable(){
+    public void run(){
+      try {
+        String command=exe.getAbsolutePath();
+        ProcessBuilder buildr=new ProcessBuilder(command,file);
+        buildr.directory(getBlenderRootFolder());
+        buildr.environment().put("BLENDER_USER_CONFIG",getConfigEnv());
+        buildr.environment().put("BLENDER_SYSTEM_SCRIPTS",getScriptsEnv());
+        buildr.environment().put("BLENDER_USER_SCRIPTS",getUserScriptsEnv());
+        Process proc=buildr.start();
+        OutputReader outReader=new OutputReader(proc.getInputStream());
+        OutputReader errReader=new OutputReader(proc.getErrorStream());
+        outReader.start();
+        errReader.start();
+        try {
+          proc.waitFor();
+        }
+ catch (        InterruptedException ex) {
+          Exceptions.printStackTrace(ex);
+        }
+        if (proc.exitValue() == 0) {
+          successful.set(true);
+        }
+      }
+ catch (      Exception ex) {
+        Exceptions.printStackTrace(ex);
+        successful.set(false);
+      }
+ finally {
+        blenderOpened.set(false);
+        java.awt.EventQueue.invokeLater(new Runnable(){
+          public void run(){
+            mainWin.setExtendedState(Frame.NORMAL);
+            mainWin.requestFocus();
+          }
+        }
+);
+      }
+    }
+  }
+;
+  if (async) {
+    new Thread(r).start();
+  }
+ else {
+    r.run();
+  }
+  return successful.get();
+}

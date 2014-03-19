@@ -1,0 +1,17 @@
+{
+  Mesh mesh=geom.getMesh();
+  if (mesh == null) {
+    return;
+  }
+  final Geometry selectionGeometry=new Geometry("selection_geometry_sceneviewer",mesh);
+  selectionGeometry.setMaterial(blueMat);
+  selectionGeometry.setLocalTransform(geom.getWorldTransform());
+  selectionShape=selectionGeometry;
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      toolsNode.attachChild(selectionGeometry);
+      return null;
+    }
+  }
+);
+}

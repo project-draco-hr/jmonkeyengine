@@ -1,0 +1,17 @@
+{
+  WizardDescriptor wizardDescriptor=new WizardDescriptor(getPanels());
+  wizardDescriptor.setTitleFormat(new MessageFormat("{0}"));
+  wizardDescriptor.setTitle("Create a new AudioTrack");
+  Dialog dialog=DialogDisplayer.getDefault().createDialog(wizardDescriptor);
+  dialog.setVisible(true);
+  dialog.toFront();
+  boolean cancelled=wizardDescriptor.getValue() != WizardDescriptor.FINISH_OPTION;
+  if (!cancelled) {
+    AudioNode audio=(AudioNode)wizardDescriptor.getProperty("Audio");
+    float startOffset=(Float)wizardDescriptor.getProperty("startOffset");
+    Animation anim=animation.getLookup().lookup(Animation.class);
+    anim.addTrack(new AudioTrack(audio,anim.getLength(),startOffset));
+    animation.refresh(false);
+    animation.setChanged();
+  }
+}

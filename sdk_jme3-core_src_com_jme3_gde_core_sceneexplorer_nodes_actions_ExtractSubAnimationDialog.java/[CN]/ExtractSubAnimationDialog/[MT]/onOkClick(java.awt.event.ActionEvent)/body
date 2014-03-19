@@ -1,0 +1,45 @@
+{
+  this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+  this.setEnabled(false);
+  new SwingWorker<Boolean,Boolean>(){
+    @Override protected void done(){
+      super.done();
+      try {
+        if (get() == true) {
+          ExtractSubAnimationDialog.this.setCursor(Cursor.getDefaultCursor());
+          setVisible(false);
+        }
+        ExtractSubAnimationDialog.this.setEnabled(true);
+      }
+ catch (      InterruptedException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+catch (      ExecutionException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+    @Override protected Boolean doInBackground() throws Exception {
+      try {
+        if (_radManual.isSelected()) {
+          splitAnimation(_txtName.getText(),(Integer)_txtStartFrame.getValue(),(Integer)_txtEndFrame.getValue());
+        }
+ else {
+          processCsv(_txtCsvFilename.getText());
+        }
+        return true;
+      }
+ catch (      IllegalStateException ex) {
+        final Exception l_ex=ex;
+        SwingUtilities.invokeLater(new Runnable(){
+          public void run(){
+            ExtractSubAnimationDialog.this.setCursor(Cursor.getDefaultCursor());
+            JOptionPane.showMessageDialog(ExtractSubAnimationDialog.this,l_ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+          }
+        }
+);
+        return false;
+      }
+    }
+  }
+.execute();
+}

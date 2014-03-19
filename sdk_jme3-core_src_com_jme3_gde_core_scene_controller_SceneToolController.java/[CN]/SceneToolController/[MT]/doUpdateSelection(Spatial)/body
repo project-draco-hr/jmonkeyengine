@@ -1,0 +1,21 @@
+{
+  if (showSelection && spat != null) {
+    if (selected != spat) {
+      if (selectionShape != null) {
+        detachSelectionShape();
+      }
+      attachSelectionShape(spat);
+    }
+ else {
+      if (selectionShape == null) {
+        attachSelectionShape(spat);
+      }
+    }
+  }
+ else {
+    if (selectionShape != null) {
+      detachSelectionShape();
+    }
+  }
+  selected=spat;
+}

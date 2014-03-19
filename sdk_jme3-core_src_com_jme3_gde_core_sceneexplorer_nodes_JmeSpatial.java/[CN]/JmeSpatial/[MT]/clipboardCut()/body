@@ -1,0 +1,46 @@
+{
+  fireSave(true);
+  Transferable trans=new Transferable(){
+    public DataFlavor[] getTransferDataFlavors(){
+      return new DataFlavor[]{SPATIAL_FLAVOR};
+    }
+    public boolean isDataFlavorSupported(    DataFlavor flavor){
+      if (SPATIAL_FLAVOR.equals(flavor)) {
+        return true;
+      }
+      return false;
+    }
+    public Object getTransferData(    DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+      if (SPATIAL_FLAVOR.equals(flavor)) {
+        try {
+          SceneApplication.getApplication().enqueue(new Callable<Void>(){
+            public Void call() throws Exception {
+              spatial.removeFromParent();
+              return null;
+            }
+          }
+).get();
+          JmeNode node=((JmeNode)getParentNode());
+          if (node != null) {
+            node.refresh(false);
+          }
+          ByteArrayOutputStream out=new ByteArrayOutputStream();
+          BinaryExporter.getInstance().save(spatial,out);
+          return new ClipboardSpatial(out.toByteArray());
+        }
+ catch (        InterruptedException ex) {
+          Exceptions.printStackTrace(ex);
+        }
+catch (        ExecutionException ex) {
+          Exceptions.printStackTrace(ex);
+        }
+        return null;
+      }
+ else {
+        throw new UnsupportedFlavorException(flavor);
+      }
+    }
+  }
+;
+  return trans;
+}

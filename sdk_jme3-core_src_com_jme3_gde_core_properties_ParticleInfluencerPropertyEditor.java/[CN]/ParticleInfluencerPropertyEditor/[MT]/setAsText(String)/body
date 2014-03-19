@@ -1,0 +1,48 @@
+{
+  if (pi.getClass().getName().equals(text)) {
+    return;
+  }
+  ParticleInfluencer old=pi;
+  ProjectAssetManager manager=(ProjectAssetManager)proj.getLookup().lookup(ProjectAssetManager.class);
+  List<ClassLoader> loaders=manager.getClassLoaders();
+  Class clazz=null;
+  try {
+    clazz=getClass().getClassLoader().loadClass(text);
+  }
+ catch (  ClassNotFoundException ex) {
+  }
+  for (  ClassLoader classLoader : loaders) {
+    if (clazz == null) {
+      try {
+        clazz=classLoader.loadClass(text);
+      }
+ catch (      ClassNotFoundException ex) {
+      }
+    }
+  }
+  if (clazz != null) {
+    try {
+      Object obj=clazz.newInstance();
+      if (obj instanceof ParticleInfluencer) {
+        pi=(ParticleInfluencer)obj;
+      }
+ else {
+        DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("This is no ParticleInfluencer class!"));
+      }
+    }
+ catch (    InstantiationException ex) {
+      Exceptions.printStackTrace(ex);
+      DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Error instatiating class!"));
+    }
+catch (    IllegalAccessException ex) {
+      Exceptions.printStackTrace(ex);
+      DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Error instatiating class!"));
+    }
+  }
+ else {
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Cannot find class: " + text + "\nMake sure the name is correct and the project is compiled,\nbest enable 'Save on Compile' in the project preferences."));
+  }
+  if (pi != old) {
+    notifyListeners(old,pi);
+  }
+}

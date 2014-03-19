@@ -1,0 +1,26 @@
+{
+  if (!userNotified.getAndSet(true)) {
+    java.awt.EventQueue.invokeLater(new Runnable(){
+      public void run(){
+        NotifyDescriptor.Confirmation mesg=new NotifyDescriptor.Confirmation("Original file for " + assetDataObject.getName() + " changed\nTry and reapply mesh data to j3o file?","Original file changed",NotifyDescriptor.YES_NO_OPTION,NotifyDescriptor.QUESTION_MESSAGE);
+        DialogDisplayer.getDefault().notify(mesg);
+        if (mesg.getValue() != NotifyDescriptor.Confirmation.YES_OPTION) {
+          userNotified.set(false);
+          return;
+        }
+        SceneApplication.getApplication().enqueue(new Callable<Void>(){
+          public Void call() throws Exception {
+            applyExternalData();
+            return null;
+          }
+        }
+);
+        userNotified.set(false);
+      }
+    }
+);
+  }
+ else {
+    logger.log(Level.INFO,"User already notified about change in {0}",assetDataObject.getName());
+  }
+}

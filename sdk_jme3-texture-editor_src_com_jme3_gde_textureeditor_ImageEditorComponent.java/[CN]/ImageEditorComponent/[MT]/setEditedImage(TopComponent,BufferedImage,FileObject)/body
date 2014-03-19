@@ -1,0 +1,15 @@
+{
+  this.owner=component;
+  component.setActivatedNodes(new Node[]{saveNode});
+  if (file == null) {
+    newFile=true;
+    enableSaving();
+  }
+ else {
+    newFile=false;
+    disableSaving();
+  }
+  editedFile=file;
+  editedImage=image;
+  resizeDisplay();
+}

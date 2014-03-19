@@ -1,0 +1,29 @@
+{
+  File userdir=new File(System.getProperty("netbeans.user",""));
+  java.util.Set<?> includeExclude;
+  try {
+    Reader r=new InputStreamReader(AutoUpgrade.class.getResourceAsStream("copy" + oldVersion),"utf-8");
+    includeExclude=IncludeExclude.create(r);
+    r.close();
+  }
+ catch (  IOException ex) {
+    throw new IOException("Cannot import from version: " + oldVersion,ex);
+  }
+  ErrorManager.getDefault().log(ErrorManager.USER,"Import: Old version: " + oldVersion + ". Importing from "+ source+ " to "+ userdir);
+  File oldConfig=new File(source,"config");
+  org.openide.filesystems.FileSystem old;
+{
+    LocalFileSystem lfs=new LocalFileSystem();
+    lfs.setRootDirectory(oldConfig);
+    XMLFileSystem xmlfs=null;
+    try {
+      URL url=AutoUpgrade.class.getResource("layer" + oldVersion + ".xml");
+      xmlfs=(url != null) ? new XMLFileSystem(url) : null;
+    }
+ catch (    SAXException ex) {
+      throw new IOException("Cannot import from version: " + oldVersion,ex);
+    }
+    old=(xmlfs != null) ? createLayeredSystem(lfs,xmlfs) : lfs;
+  }
+  Copy.copyDeep(old.getRoot(),FileUtil.getConfigRoot(),includeExclude,PathTransformation.getInstance(oldVersion));
+}

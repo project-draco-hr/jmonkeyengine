@@ -1,0 +1,20 @@
+{
+  JTextField field=valuesFields.get(index);
+  JLabel est=estimationFields.get(index);
+  float value=0;
+  try {
+    value=Float.parseFloat(field.getText());
+    int trinum=0;
+    if (reductionMethod.getSelectedItem() == LodGenerator.TriangleReductionMethod.PROPORTIONAL) {
+      trinum=(int)(triSize - (triSize * value));
+    }
+ else {
+      trinum=(int)(triSize - value);
+    }
+    est.setText("~ " + trinum + " triangles");
+  }
+ catch (  NumberFormatException e) {
+    est.setText("-");
+    return;
+  }
+}

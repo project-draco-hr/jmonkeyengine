@@ -1,0 +1,27 @@
+{
+  if (record.getLevel().equals(Level.SEVERE)) {
+    Throwable thrown=record.getThrown();
+    if (thrown != null) {
+      NotifyUtil.error(thrown);
+      thrown.printStackTrace(io.getErr());
+    }
+ else {
+      NotifyUtil.show("Error",formatter.format(record),MessageType.ERROR,listener,0);
+      io.getErr().println(formatter.formatMessage(record));
+    }
+  }
+ else   if (record.getLevel().equals(Level.WARNING)) {
+    NotifyUtil.show("Warning",formatter.formatMessage(record),MessageType.WARNING,listener,10000);
+    io.getErr().println(formatter.formatMessage(record));
+  }
+ else   if (record.getLevel().intValue() > 800) {
+    NotifyUtil.show("Info",formatter.formatMessage(record),MessageType.INFO,listener,6000);
+    io.getOut().println(formatter.formatMessage(record));
+  }
+ else   if (record.getLevel().equals(Level.INFO)) {
+    io.getOut().println(formatter.formatMessage(record));
+  }
+ else {
+    io.getOut().println(formatter.formatMessage(record));
+  }
+}

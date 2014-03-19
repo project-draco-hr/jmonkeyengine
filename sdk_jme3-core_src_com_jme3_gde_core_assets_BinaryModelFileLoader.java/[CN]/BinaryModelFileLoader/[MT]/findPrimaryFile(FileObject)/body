@@ -1,0 +1,19 @@
+{
+  if (fo.isFolder()) {
+    return null;
+  }
+  String ext=fo.getExt();
+  if (ext.equalsIgnoreCase(INFO_EXTENSION)) {
+    FileObject info=FileUtil.findBrother(fo,FILE_EXTENSION);
+    if (info != null) {
+      return info;
+    }
+ else {
+      return null;
+    }
+  }
+  if (getExtensions().isRegistered(fo)) {
+    return fo;
+  }
+  return null;
+}

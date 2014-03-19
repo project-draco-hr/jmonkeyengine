@@ -1,0 +1,38 @@
+{
+  if (!pressed) {
+    Spatial selected=toolController.getSelectedSpatial();
+    if (!wasDraggingL) {
+      if (currentState != null) {
+        if (moving != null) {
+          moving.setAfter(selected.getLocalTranslation());
+          actionPerformed(moving);
+          moving=null;
+          clearState(false);
+        }
+ else         if (scaling != null) {
+          scaling.after=selected.getLocalScale().clone();
+          actionPerformed(scaling);
+          scaling=null;
+          clearState(false);
+          toolController.rebuildSelectionBox();
+        }
+ else         if (rotating != null) {
+          rotating.after=selected.getLocalRotation().clone();
+          actionPerformed(rotating);
+          rotating=null;
+          clearState(false);
+        }
+      }
+ else {
+        final Vector3f result=pickWorldLocation(getCamera(),screenCoord,rootNode);
+        if (result != null) {
+          if (toolController.isSnapToGrid()) {
+            result.set(Math.round(result.x),result.y,Math.round(result.z));
+          }
+          toolController.setCursorLocation(result);
+        }
+      }
+    }
+    wasDraggingL=false;
+  }
+}

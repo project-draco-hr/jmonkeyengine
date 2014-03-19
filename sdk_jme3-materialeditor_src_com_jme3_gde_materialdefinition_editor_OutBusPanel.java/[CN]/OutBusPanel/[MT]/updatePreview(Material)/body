@@ -1,0 +1,10 @@
+{
+  if (type == Shader.ShaderType.Fragment) {
+    preview.showMaterial(mat);
+  }
+ else {
+    Material vmat=mat.clone();
+    vmat.getAdditionalRenderState().setWireframe(true);
+    preview.showMaterial(vmat);
+  }
+}

@@ -1,0 +1,13 @@
+{
+  if (spatial != null && before != null) {
+    Lookup.getDefault().lookup(SceneUndoRedoManager.class).addEdit(this,new AbstractUndoableSceneEdit(){
+      @Override public void sceneUndo() throws CannotUndoException {
+        spatial.setLocalRotation(before);
+      }
+      @Override public void sceneRedo() throws CannotRedoException {
+        spatial.setLocalRotation(after);
+      }
+    }
+);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  super(parent,modal);
+  prefs=Preferences.userNodeForPackage(this.getClass());
+  this.assetManager=assetManager;
+  this.editor=editor;
+  initComponents();
+  loadAvailableTextures();
+  setSelectedTexture((Texture)editor.getValue());
+  setLocationRelativeTo(null);
+}

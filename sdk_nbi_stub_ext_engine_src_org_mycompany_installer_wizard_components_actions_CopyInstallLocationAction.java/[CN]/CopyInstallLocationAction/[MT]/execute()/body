@@ -1,0 +1,14 @@
+{
+  File fromFile=from.getInstallationLocation();
+  File toFile;
+  String name=to.getUid();
+  if (SystemUtils.isMacOS()) {
+    toFile=new File(fromFile.getPath() + "/Contents/Resources/" + fromFile.getName().replace(".app","")+ "/"+ name);
+  }
+ else {
+    toFile=new File(fromFile.getPath() + File.separator + name);
+  }
+  if (toFile != null) {
+    to.setInstallationLocation(toFile);
+  }
+}

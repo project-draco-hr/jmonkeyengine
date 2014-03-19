@@ -1,0 +1,7 @@
+{
+  Intent intent=getIntent();
+  appClass=intent.getStringExtra(MainActivity.SELECTED_APP_CLASS);
+  mouseEventsEnabled=intent.getBooleanExtra(MainActivity.ENABLE_MOUSE_EVENTS,mouseEventsEnabled);
+  joystickEventsEnabled=intent.getBooleanExtra(MainActivity.ENABLE_JOYSTICK_EVENTS,joystickEventsEnabled);
+  super.onCreate(savedInstanceState);
+}

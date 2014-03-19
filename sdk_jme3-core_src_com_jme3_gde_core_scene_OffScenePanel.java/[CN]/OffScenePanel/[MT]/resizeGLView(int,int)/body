@@ -1,0 +1,23 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      width=x;
+      height=y;
+      if (viewPort != null) {
+synchronized (imageLock) {
+          setupOffBuffer();
+        }
+      }
+      return null;
+    }
+  }
+);
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      Dimension dim=new Dimension(x,y);
+      setPreferredSize(dim);
+      validate();
+    }
+  }
+);
+}

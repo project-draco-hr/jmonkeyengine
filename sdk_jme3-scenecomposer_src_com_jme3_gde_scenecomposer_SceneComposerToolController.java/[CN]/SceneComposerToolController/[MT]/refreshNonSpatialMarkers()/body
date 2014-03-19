@@ -1,0 +1,10 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable<Void>(){
+    public Void call() throws Exception {
+      nonSpatialMarkersNode.detachAllChildren();
+      addMarkers(rootNode.getLookup().lookup(Node.class));
+      return null;
+    }
+  }
+);
+}

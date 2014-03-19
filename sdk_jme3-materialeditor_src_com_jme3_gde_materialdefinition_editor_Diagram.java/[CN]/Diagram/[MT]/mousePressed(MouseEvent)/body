@@ -1,0 +1,21 @@
+{
+  for (  OutBusPanel outBusPanel : outBuses) {
+    Point p=SwingUtilities.convertPoint(this,e.getX(),e.getY(),outBusPanel);
+    if (outBusPanel.contains(p)) {
+      MouseEvent me=SwingUtilities.convertMouseEvent(this,e,outBusPanel);
+      outBusPanel.dispatchEvent(me);
+      if (me.isConsumed()) {
+        return;
+      }
+    }
+  }
+  for (  Connection connection : connections) {
+    MouseEvent me=SwingUtilities.convertMouseEvent(this,e,connection);
+    connection.select(me);
+    if (me.isConsumed()) {
+      return;
+    }
+  }
+  selectedItem=null;
+  repaint();
+}

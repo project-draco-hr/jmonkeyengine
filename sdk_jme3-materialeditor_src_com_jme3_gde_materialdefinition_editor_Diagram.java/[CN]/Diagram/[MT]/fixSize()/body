@@ -1,0 +1,22 @@
+{
+  int maxWidth=minWidth;
+  int maxHeight=minHeight;
+  for (  NodePanel nodePanel : nodes) {
+    int w=nodePanel.getLocation().x + nodePanel.getWidth() + 150;
+    if (w > maxWidth) {
+      maxWidth=w;
+    }
+    int h=nodePanel.getLocation().y + nodePanel.getHeight();
+    if (h > maxHeight) {
+      maxHeight=h;
+    }
+  }
+  for (  OutBusPanel outBusPanel : outBuses) {
+    int h=outBusPanel.getLocation().y + outBusPanel.getHeight();
+    if (h > maxHeight) {
+      maxHeight=h;
+    }
+  }
+  setPreferredSize(new Dimension(maxWidth,maxHeight));
+  revalidate();
+}

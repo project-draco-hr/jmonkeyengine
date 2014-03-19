@@ -1,0 +1,11 @@
+{
+  TextureCellRendererEditor rendererTexturer=new TextureCellRendererEditor();
+  textureTable.getColumnModel().getColumn(1).setCellRenderer(rendererTexturer);
+  textureTable.getColumnModel().getColumn(1).setCellEditor(rendererTexturer);
+  NormalCellRendererEditor rendererNormal=new NormalCellRendererEditor();
+  textureTable.getColumnModel().getColumn(2).setCellRenderer(rendererNormal);
+  textureTable.getColumnModel().getColumn(2).setCellEditor(rendererNormal);
+  while (textureTable.getModel().getRowCount() > 0) {
+    ((TextureTableModel)textureTable.getModel()).removeRow(0);
+  }
+}

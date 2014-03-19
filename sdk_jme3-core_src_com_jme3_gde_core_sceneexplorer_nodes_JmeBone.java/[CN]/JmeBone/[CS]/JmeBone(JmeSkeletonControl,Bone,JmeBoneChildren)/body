@@ -1,0 +1,9 @@
+{
+  super(children);
+  this.jmeChildren=children;
+  this.jmeSkeletonControl=jmeSkeletonControl;
+  getLookupContents().add(bone);
+  getLookupContents().add(this);
+  super.setName(bone.getName());
+  this.bone=bone;
+}

@@ -1,0 +1,20 @@
+{
+  final JmeNode node=request.getJmeNode();
+  for (Iterator it=materialChangeProviders.values().iterator(); it.hasNext(); ) {
+    MaterialChangeProvider provider=(MaterialChangeProvider)it.next();
+    provider.clearMaterialChangeListeners();
+  }
+  if (node != null) {
+    explorerManager.setRootContext(node);
+    explorerManager.getRootContext().setDisplayName(node.getName());
+    setActivatedNodes(new Node[]{node});
+    requestVisible();
+    try {
+      explorerManager.setSelectedNodes(new Node[]{node});
+    }
+ catch (    PropertyVetoException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+  setTerrainLodCamera(node);
+}

@@ -1,0 +1,8 @@
+{
+  String path=jTextField1.getText().trim();
+  if (path != null && !path.endsWith("/")) {
+    path=path + "/";
+  }
+  wiz.putProperty("destpath",path);
+  wiz.putProperty("keepfiles",jCheckBox1.isSelected());
+}

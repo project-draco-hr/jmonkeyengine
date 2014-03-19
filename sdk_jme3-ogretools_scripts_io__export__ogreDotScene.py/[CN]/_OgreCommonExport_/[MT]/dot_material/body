@@ -1,0 +1,35 @@
+def dot_material(self, meshes, path='/tmp', mat_file_name='SceneMaterial'):
+    material_files = []
+    mats = []
+    for ob in meshes:
+        if len(ob.data.materials):
+            for mat in ob.data.materials:
+                if (mat not in mats):
+                    mats.append(mat)
+    if (not mats):
+        print 'WARNING: no materials, not writting .material script'
+        return []
+    M = (MISSING_MATERIAL + '\n')
+    for mat in mats:
+        if (mat is None):
+            continue
+        Report.materials.append(material_name(mat))
+        if CONFIG['COPY_SHADER_PROGRAMS']:
+            data = generate_material(mat, path=path, copy_programs=True, touch_textures=CONFIG['TOUCH_TEXTURES'])
+        else:
+            data = generate_material(mat, path=path, touch_textures=CONFIG['TOUCH_TEXTURES'])
+        M += data
+        if self.EX_SEP_MATS:
+            url = self.dot_material_write_separate(mat, data, path)
+            material_files.append(url)
+    if (not self.EX_SEP_MATS):
+        try:
+            url = os.path.join(path, ('%s.material' % mat_file_name))
+            f = open(url, 'wb')
+            f.write(bytes(M, 'utf-8'))
+            f.close()
+            print ('    - Created material:', url)
+            material_files.append(url)
+        except Exception as e:
+            show_dialog(('Invalid material object name: ' + mat_file_name))
+    return material_files

@@ -1,0 +1,13 @@
+{
+  this.toolNode=toolNode;
+  this.onTopToolNode=onTopToolNode;
+  if (axisMarker == null) {
+    axisMarker=createAxisMarker();
+  }
+  axisMarker.removeFromParent();
+  this.onTopToolNode.attachChild(axisMarker);
+  setDefaultAxisMarkerColors();
+  if (toolController.getSelectionShape() != null) {
+    axisMarker.setLocalTranslation(toolController.getSelectedSpatial().getWorldTranslation());
+  }
+}

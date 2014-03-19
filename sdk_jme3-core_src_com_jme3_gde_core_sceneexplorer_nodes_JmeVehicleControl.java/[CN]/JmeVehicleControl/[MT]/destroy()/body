@@ -1,0 +1,20 @@
+{
+  super.destroy();
+  final Spatial spat=getParentNode().getLookup().lookup(Spatial.class);
+  try {
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        spat.removeControl(vehicle);
+        return null;
+      }
+    }
+).get();
+    ((AbstractSceneExplorerNode)getParentNode()).refresh(true);
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

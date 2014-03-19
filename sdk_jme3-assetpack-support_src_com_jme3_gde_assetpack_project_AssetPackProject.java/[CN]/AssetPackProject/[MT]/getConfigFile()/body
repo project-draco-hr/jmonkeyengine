@@ -1,0 +1,13 @@
+{
+  FileObject folder=projectDir;
+  FileObject file=folder.getFileObject(AssetPackProjectFactory.CONFIG_NAME);
+  if (file == null) {
+    try {
+      return folder.createData(AssetPackProjectFactory.CONFIG_NAME);
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+  return file;
+}

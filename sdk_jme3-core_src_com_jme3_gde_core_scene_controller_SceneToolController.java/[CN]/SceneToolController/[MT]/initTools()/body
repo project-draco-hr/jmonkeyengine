@@ -1,0 +1,29 @@
+{
+  blueMat=createBlueMat();
+  Material greenMat=new Material(manager,"Common/MatDefs/Misc/Unshaded.j3md");
+  greenMat.getAdditionalRenderState().setWireframe(true);
+  greenMat.setColor("Color",ColorRGBA.Green);
+  Material grayMat=new Material(manager,"Common/MatDefs/Misc/Unshaded.j3md");
+  grayMat.getAdditionalRenderState().setWireframe(true);
+  grayMat.setColor("Color",ColorRGBA.Gray);
+  if (cursor == null) {
+    cursor=new Node();
+  }
+  cursor.detachAllChildren();
+  Geometry cursorArrowY=new Geometry("cursorArrowY",new Arrow(new Vector3f(0,-1,0)));
+  cursorArrowY.setLocalTranslation(0,1,0);
+  cursorArrowY.setMaterial(greenMat);
+  cursor.attachChild(cursorArrowY);
+  grid=new Geometry("grid",new Grid(20,20,1.0f));
+  grid.setMaterial(grayMat);
+  grid.setLocalTranslation(-10,0,-10);
+  final Spatial cursor=this.cursor;
+  final Node toolsNode=this.toolsNode;
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      toolsNode.attachChild(cursor);
+      return null;
+    }
+  }
+);
+}

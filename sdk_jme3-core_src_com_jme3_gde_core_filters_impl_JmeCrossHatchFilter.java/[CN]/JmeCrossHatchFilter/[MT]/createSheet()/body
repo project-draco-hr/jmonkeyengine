@@ -1,0 +1,13 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("CrossHatch");
+  set.setName(Node.class.getName());
+  CrossHatchFilter obj=(CrossHatchFilter)filter;
+  if (obj == null) {
+    return sheet;
+  }
+  createFields(CrossHatchFilter.class,set,obj);
+  sheet.put(set);
+  return sheet;
+}

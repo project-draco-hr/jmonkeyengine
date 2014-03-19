@@ -1,0 +1,13 @@
+{
+  String fixedType=type;
+  if (type.equals("Color")) {
+    fixedType="Vector4";
+  }
+  ShaderNodeVariable param=new ShaderNodeVariable(VarType.valueOf(fixedType).getGlslType(),name);
+  NodePanel np=new NodePanel(param,NodePanel.NodeType.MatParam);
+  addNode(np);
+  np.setLocation(point.x,point.y);
+  np.revalidate();
+  repaint();
+  getEditorParent().notifyAddMapParam(type,name);
+}

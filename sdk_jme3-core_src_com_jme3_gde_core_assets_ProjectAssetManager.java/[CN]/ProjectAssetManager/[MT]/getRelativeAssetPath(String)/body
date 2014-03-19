@@ -1,0 +1,8 @@
+{
+  String prefix=getAssetFolderName();
+  int idx=absolutePath.indexOf(prefix);
+  if (idx == 0) {
+    return stripFirstSlash(absolutePath.substring(prefix.length()));
+  }
+  return absolutePath;
+}

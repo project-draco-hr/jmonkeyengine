@@ -1,0 +1,34 @@
+{
+  Element paragraph=((BaseDocument)doc).getParagraphElement(pos);
+  String prefix;
+  try {
+    prefix=doc.getText(paragraph.getStartOffset(),pos - paragraph.getStartOffset());
+    prefix=prefix.replaceAll(".*?([\\w-\"]*)$","$1");
+  }
+ catch (  BadLocationException e) {
+    LOGGER.notify(e);
+    prefix="";
+  }
+synchronized (Glsl.declaredFunctions) {
+    Set<Entry<String,GLSLElementDescriptor>> entrySet=Glsl.declaredFunctions.entrySet();
+    for (    Entry<String,GLSLElementDescriptor> entry : entrySet) {
+      String name=entry.getKey();
+      GLSLElementDescriptor desc=entry.getValue();
+      if (name.regionMatches(true,0,prefix,0,prefix.length())) {
+        completionResultSet.addItem(new GlslCompletionItem(name.substring(0,name.indexOf('(')),desc,prefix,pos));
+      }
+    }
+  }
+  Iterator it=vocabulary.getKeys().iterator();
+  while (it.hasNext()) {
+    String name=(String)it.next();
+    if (name.regionMatches(true,0,prefix,0,prefix.length())) {
+      GLSLElementDescriptor[] elements=vocabulary.getDesc(name);
+      if (elements != null) {
+        for (        GLSLElementDescriptor element : elements) {
+          completionResultSet.addItem(new GlslCompletionItem(name,element,prefix,pos));
+        }
+      }
+    }
+  }
+}

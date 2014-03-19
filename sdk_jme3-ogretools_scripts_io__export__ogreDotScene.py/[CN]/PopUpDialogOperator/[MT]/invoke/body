@@ -1,0 +1,5 @@
+def invoke(self, context, event):
+    wm = context.window_manager
+    wm.invoke_popup(self)
+    wm.modal_handler_add(self)
+    return {'RUNNING_MODAL'}

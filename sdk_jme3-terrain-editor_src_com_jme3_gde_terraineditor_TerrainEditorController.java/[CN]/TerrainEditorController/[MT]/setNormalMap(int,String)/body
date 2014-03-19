@@ -1,0 +1,9 @@
+{
+  if (texturePath != null) {
+    Texture tex=SceneApplication.getApplication().getAssetManager().loadTexture(texturePath);
+    setNormalMap(layer,tex);
+  }
+ else {
+    setNormalMap(layer,(Texture)null);
+  }
+}

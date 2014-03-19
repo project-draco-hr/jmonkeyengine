@@ -1,0 +1,14 @@
+{
+  ProjectAssetManager mgr=getLookup().lookup(ProjectAssetManager.class);
+  if (mgr != null && savable != null) {
+    for (Iterator<AssetKey> it=assetKeyList.iterator(); it.hasNext(); ) {
+      AssetKey assetKey1=it.next();
+      logger.log(Level.INFO,"Removing asset {0}, from cache via main asset {1}.",new Object[]{assetKey1.getName(),getName()});
+      mgr.deleteFromCache(assetKey1);
+    }
+    savable=null;
+  }
+ else   if (mgr == null) {
+    logger.log(Level.WARNING,"Closing asset {0} with no ProjectAssetManager assigned..?",getName());
+  }
+}

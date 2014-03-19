@@ -1,0 +1,11 @@
+{
+  controller.alphaLayersChanged();
+  if (dataObject.isModified())   return;
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      dataObject.setModified(true);
+      rootNode.refresh(true);
+    }
+  }
+);
+}

@@ -1,0 +1,8 @@
+{
+  super(pf,loader);
+  CookieSet cookies=getCookieSet();
+  observer=new GlslShaderFileObserver(this);
+  final CloneableEditorSupport support=DataEditorSupport.create(this,getPrimaryEntry(),cookies);
+  support.addPropertyChangeListener(new PropertyChangeListenerImpl(support));
+  cookies.add((Node.Cookie)support);
+}

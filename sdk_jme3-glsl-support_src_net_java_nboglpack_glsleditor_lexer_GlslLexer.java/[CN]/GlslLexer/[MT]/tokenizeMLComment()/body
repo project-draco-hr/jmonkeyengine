@@ -1,0 +1,10 @@
+{
+  int character=input.read();
+  while (character != LexerInput.EOF) {
+    if (character == '*' && input.read() == '/') {
+      return factory.createToken(GlslTokenId.ML_COMMENT);
+    }
+    character=input.read();
+  }
+  return factory.createToken(GlslTokenId.ML_COMMENT);
+}

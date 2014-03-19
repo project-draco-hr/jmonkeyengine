@@ -1,0 +1,23 @@
+{
+  assert(name != null);
+  FileObject file=getAssetFolder().getFileObject(name);
+  if (file != null) {
+    return file;
+  }
+synchronized (classPathItems) {
+    Iterator<ClassPathItem> classPathItemsIter=classPathItems.iterator();
+    while (classPathItemsIter.hasNext()) {
+      ClassPathItem classPathItem=classPathItemsIter.next();
+      FileObject jarFile=classPathItem.object;
+      Enumeration<FileObject> jarEntry=(Enumeration<FileObject>)jarFile.getChildren(true);
+      while (jarEntry.hasMoreElements()) {
+        FileObject jarEntryAsset=jarEntry.nextElement();
+        String path=jarEntryAsset.getPath();
+        if (!path.startsWith("/") && path.equals(name)) {
+          return jarEntryAsset;
+        }
+      }
+    }
+  }
+  return null;
+}

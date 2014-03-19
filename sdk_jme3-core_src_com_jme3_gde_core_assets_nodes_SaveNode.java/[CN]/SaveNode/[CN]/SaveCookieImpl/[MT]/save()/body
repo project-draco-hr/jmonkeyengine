@@ -1,0 +1,7 @@
+{
+  Confirmation msg=new NotifyDescriptor.Confirmation("This plugin can not save!",NotifyDescriptor.OK_CANCEL_OPTION,NotifyDescriptor.QUESTION_MESSAGE);
+  Object result=DialogDisplayer.getDefault().notify(msg);
+  if (NotifyDescriptor.YES_OPTION.equals(result)) {
+    fire(false);
+  }
+}

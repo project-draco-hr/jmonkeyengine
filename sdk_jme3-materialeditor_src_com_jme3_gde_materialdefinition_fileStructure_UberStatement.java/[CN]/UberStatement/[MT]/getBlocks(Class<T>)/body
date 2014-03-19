@@ -1,0 +1,9 @@
+{
+  List<T> blocks=new ArrayList<T>();
+  for (  Statement statement : contents) {
+    if (statement.getClass().isAssignableFrom(blockType)) {
+      blocks.add((T)statement);
+    }
+  }
+  return blocks;
+}

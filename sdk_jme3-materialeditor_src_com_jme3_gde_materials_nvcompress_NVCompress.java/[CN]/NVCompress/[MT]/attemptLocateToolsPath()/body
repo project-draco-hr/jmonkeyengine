@@ -1,0 +1,7 @@
+{
+  String path=NbPreferences.forModule(this.getClass()).get("NVTextureToolsPath",null);
+  if (path == null) {
+    path=System.getenv("TEXTURE_TOOLS_DIR");
+  }
+  return path;
+}

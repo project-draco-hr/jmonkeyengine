@@ -1,0 +1,5 @@
+{
+  super(children,new ProxyLookup(dataObject.getLookup(),new DynamicLookup(new InstanceContent())));
+  this.dataObject=dataObject;
+  lookupContents=getLookup().lookup(DynamicLookup.class).getInstanceContent();
+}

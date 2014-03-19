@@ -1,0 +1,23 @@
+{
+  try {
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        for (int i=0; i < vehicle.getNumWheels(); i++) {
+          if (vehicle.getWheel(i) == wheel) {
+            vehicle.removeWheel(i);
+            return null;
+          }
+        }
+        return null;
+      }
+    }
+).get();
+    ((AbstractSceneExplorerNode)getParentNode()).refresh(true);
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

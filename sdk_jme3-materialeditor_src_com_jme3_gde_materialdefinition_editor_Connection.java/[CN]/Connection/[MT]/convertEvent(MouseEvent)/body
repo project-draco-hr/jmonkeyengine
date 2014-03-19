@@ -1,0 +1,11 @@
+{
+  MouseEvent me=null;
+  if (e instanceof MouseWheelEvent || e instanceof MenuDragMouseEvent) {
+    SwingUtilities.convertMouseEvent(this,e,getDiagram());
+  }
+ else {
+    Point p=SwingUtilities.convertPoint(this,new Point(e.getX(),e.getY()),getDiagram());
+    me=new MouseEvent(getDiagram(),e.getID(),e.getWhen(),e.getModifiers() | e.getModifiersEx(),p.x,p.y,e.getXOnScreen(),e.getYOnScreen(),e.getClickCount(),e.isPopupTrigger(),e.getButton());
+  }
+  return me;
+}

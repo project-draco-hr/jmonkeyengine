@@ -1,0 +1,52 @@
+{
+  String jmpDir=System.getProperty("netbeans.user");
+  FileObject fileObject=FileUtil.toFileObject(new File(jmpDir));
+  if (fileObject != null) {
+    FileObject configFileObject=fileObject.getFileObject(configFolderName);
+    FileObject scriptsFileObject=fileObject.getFileObject(scriptsFolderName);
+    FileObject jmeScriptsFileObject=fileObject.getFileObject(jmeScriptsFolderName);
+    FileObject userScriptsFileObject=fileObject.getFileObject(userScriptsFolderName);
+    if (configFileObject == null) {
+      try {
+        configFileObject=FileUtil.createFolder(fileObject,configFolderName);
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+        return false;
+      }
+    }
+    if (scriptsFileObject == null) {
+      try {
+        scriptsFileObject=FileUtil.createFolder(fileObject,scriptsFolderName);
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+        return false;
+      }
+    }
+    if (jmeScriptsFileObject == null) {
+      try {
+        jmeScriptsFileObject=FileUtil.createFolder(fileObject,jmeScriptsFolderName);
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+        return false;
+      }
+    }
+    if (userScriptsFileObject == null) {
+      try {
+        userScriptsFileObject=FileUtil.createFolder(fileObject,userScriptsFolderName);
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+        return false;
+      }
+    }
+    Scripts.copyToFolder(jmeScriptsFileObject);
+  }
+ else {
+    logger.log(Level.SEVERE,"No global settings folder found!");
+    return false;
+  }
+  return true;
+}

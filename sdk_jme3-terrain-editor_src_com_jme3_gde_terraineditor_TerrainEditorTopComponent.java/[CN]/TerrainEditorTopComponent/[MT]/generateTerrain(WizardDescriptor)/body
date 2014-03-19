@@ -1,0 +1,26 @@
+{
+  final Spatial node=selectedSpat.getLookup().lookup(Spatial.class);
+  int totalSize=(Integer)wizardDescriptor.getProperty("totalSize");
+  int patchSize=(Integer)wizardDescriptor.getProperty("patchSize");
+  int alphaTextureSize=(Integer)wizardDescriptor.getProperty("alphaTextureSize");
+  float[] heightmapData=null;
+  AbstractHeightMap heightmap=(AbstractHeightMap)wizardDescriptor.getProperty("abstractHeightMap");
+  if (heightmap != null) {
+    heightmap.load();
+    heightmapData=heightmap.getHeightMap();
+  }
+  String[] split1=currentRequest.getWindowTitle().split("/");
+  String[] split2=split1[split1.length - 1].split("\\.");
+  Terrain terrain=null;
+  try {
+    terrain=editorController.createTerrain((Node)node,totalSize,patchSize,alphaTextureSize,heightmapData,split2[0],selectedSpat);
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  addSaveNode(selectedSpat);
+  editorController.setNeedsSave(true);
+  editorController.enableTextureButtons();
+  reinitTextureTable();
+  refreshSelected();
+}

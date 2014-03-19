@@ -1,0 +1,8 @@
+{
+  for (  Method method : c.getDeclaredMethods()) {
+    PropertyDescriptor prop=PropertyUtils.getPropertyDescriptor(c,method);
+    if (prop != null) {
+      set.put(makeProperty(obj,prop.getPropertyType(),prop.getReadMethod().getName(),prop.getWriteMethod().getName(),prop.getDisplayName()));
+    }
+  }
+}

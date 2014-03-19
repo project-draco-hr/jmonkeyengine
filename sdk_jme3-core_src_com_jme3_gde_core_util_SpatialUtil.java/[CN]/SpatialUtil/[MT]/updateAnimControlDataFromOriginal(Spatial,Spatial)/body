@@ -1,0 +1,39 @@
+{
+  original.depthFirstTraversal(new SceneGraphVisitor(){
+    @Override public void visit(    Spatial spat){
+      AnimControl animControl=spat.getControl(AnimControl.class);
+      if (animControl != null) {
+        Spatial mySpatial=findTaggedSpatial(root,spat);
+        if (mySpatial != null) {
+          AnimControl myAnimControl=mySpatial.getControl(AnimControl.class);
+          SkeletonControl mySkeletonControl=spat.getControl(SkeletonControl.class);
+          if (mySkeletonControl != null) {
+            mySpatial.removeControl(mySkeletonControl);
+          }
+          if (myAnimControl != null) {
+            mySpatial.removeControl(myAnimControl);
+          }
+          AnimControl newControl=(AnimControl)animControl.cloneForSpatial(mySpatial);
+          if (mySpatial.getControl(SkeletonControl.class) == null) {
+            logger.log(Level.INFO,"Adding control for {0}",mySpatial.getName());
+            mySpatial.addControl(newControl);
+          }
+ else {
+            logger.log(Level.INFO,"Control for {0} was added automatically",mySpatial.getName());
+          }
+          if (mySpatial.getControl(SkeletonControl.class) == null) {
+            mySpatial.addControl(new SkeletonControl(animControl.getSkeleton()));
+          }
+ else {
+            logger.log(Level.INFO,"SkeletonControl for {0} was added by AnimControl already",mySpatial.getName());
+          }
+          logger.log(LogLevel.USERINFO,"Updated animation for {0}",mySpatial.getName());
+        }
+ else {
+          logger.log(Level.WARNING,"Could not find sibling for {0} in root {1} when trying to apply AnimControl data",new Object[]{spat,root});
+        }
+      }
+    }
+  }
+);
+}

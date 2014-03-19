@@ -1,0 +1,7 @@
+{
+  editorController.setTriPlanarEnabled(triPlanarCheckBox.isSelected());
+  ((TextureTableModel)textureTable.getModel()).updateScales();
+  if (triPlanarCheckBox.isSelected()) {
+    setHintText("Make sure your scale is a power of 2, (1/2^n), when in tri-planar mode");
+  }
+}

@@ -1,0 +1,11 @@
+{
+  if (toolController.getSelectedSpatial() != null) {
+    axisMarker.setLocalTranslation(toolController.getSelectedSpatial().getWorldTranslation());
+    axisMarker.setLocalRotation(toolController.getSelectedSpatial().getLocalRotation());
+    setAxisMarkerScale(toolController.getSelectedSpatial());
+  }
+ else {
+    axisMarker.setLocalTranslation(Vector3f.ZERO);
+    axisMarker.setLocalRotation(Quaternion.IDENTITY);
+  }
+}

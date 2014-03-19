@@ -1,0 +1,10 @@
+{
+  Point current=e.getPoint();
+  int x=Math.min(last.x,current.x);
+  int y=Math.min(last.y,current.y);
+  int w=Math.abs(current.x - last.x);
+  int h=Math.abs(current.y - last.y);
+  track.setRect(x,y,w,h);
+  track=track.intersection(new Rectangle(0,0,target.getImageCanvas().getWidth() - 1,target.getImageCanvas().getHeight() - 1));
+  target.getImageCanvas().repaint();
+}

@@ -1,0 +1,19 @@
+{
+  if (selectedSpat == null) {
+    return;
+  }
+  final Node selected=selectedSpat.getLookup().lookup(Node.class);
+  if (selected != null) {
+    setNeedsSave(true);
+    SceneApplication.getApplication().enqueue(new Callable<Object>(){
+      public Object call() throws Exception {
+        doAddModel(file,selected,location);
+        return null;
+      }
+    }
+);
+  }
+ else {
+    displayInfo("Please select a Node to attach to\nin the SceneExplorer.");
+  }
+}

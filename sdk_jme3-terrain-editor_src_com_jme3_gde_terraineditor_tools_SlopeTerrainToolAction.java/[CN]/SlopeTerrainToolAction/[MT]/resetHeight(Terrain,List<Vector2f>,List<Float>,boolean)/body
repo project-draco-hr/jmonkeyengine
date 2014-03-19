@@ -1,0 +1,11 @@
+{
+  if (precise)   terrain.setHeight(undoLocs,undoHeights);
+ else {
+    List<Float> neg=new ArrayList<Float>();
+    for (    Float f : undoHeights) {
+      neg.add(f * -1f);
+    }
+    terrain.adjustHeight(undoLocs,neg);
+  }
+  ((Node)terrain).updateModelBound();
+}

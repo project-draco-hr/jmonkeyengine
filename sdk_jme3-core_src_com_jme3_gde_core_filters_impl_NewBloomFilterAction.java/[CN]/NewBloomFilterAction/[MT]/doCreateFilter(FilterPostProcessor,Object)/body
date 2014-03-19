@@ -1,0 +1,12 @@
+{
+  if (configuration != null) {
+    WizardDescriptor wiz=(WizardDescriptor)configuration;
+    if (wiz.getProperty("mode").equals("Scene")) {
+      return new BloomFilter(BloomFilter.GlowMode.Scene);
+    }
+ else {
+      return new BloomFilter(BloomFilter.GlowMode.Objects);
+    }
+  }
+  return null;
+}

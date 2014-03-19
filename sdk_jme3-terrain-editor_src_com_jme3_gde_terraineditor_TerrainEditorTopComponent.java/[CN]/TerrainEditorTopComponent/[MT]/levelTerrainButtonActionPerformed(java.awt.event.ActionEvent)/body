@@ -1,0 +1,12 @@
+{
+  if (levelTerrainButton.isSelected()) {
+    LevelTerrainTool tool=new LevelTerrainTool();
+    toolController.setTerrainEditButtonState(tool);
+    updateLevelToolParams();
+    setHintText(tool);
+  }
+ else {
+    toolController.setTerrainEditButtonState(null);
+    setHintText((TerrainTool)null);
+  }
+}

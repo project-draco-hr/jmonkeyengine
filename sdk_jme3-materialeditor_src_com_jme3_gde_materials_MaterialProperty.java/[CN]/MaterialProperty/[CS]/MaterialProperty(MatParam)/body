@@ -1,0 +1,11 @@
+{
+  this.type=param.getVarType().name();
+  this.name=param.getName();
+  if (param.getValue() != null) {
+    try {
+      this.value=param.getValueAsString();
+    }
+ catch (    UnsupportedOperationException e) {
+    }
+  }
+}

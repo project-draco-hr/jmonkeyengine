@@ -1,0 +1,14 @@
+{
+  if (toolController == null)   return;
+  clearTextureTable();
+  getTableModel().initModel();
+  if (textureTable.getRowCount() > 0) {
+    toolController.setSelectedTextureIndex(0);
+  }
+ else {
+    toolController.setSelectedTextureIndex(-1);
+  }
+  editorController.enableTextureButtons();
+  triPlanarCheckBox.setSelected(editorController.isTriPlanarEnabled());
+  shininessField.setText("" + editorController.getShininess());
+}

@@ -1,0 +1,7 @@
+{
+  Point startLocation=start.getStartLocation();
+  Point endLocation=end.getEndLocation();
+  int right=end.getNode().getLocation().x + end.getNode().getWidth() + MARGIN;
+  int loc=startLocation.x + Math.max(MARGIN,(endLocation.x - startLocation.x) / 2);
+  return Math.max(loc,right) + getOffset();
+}

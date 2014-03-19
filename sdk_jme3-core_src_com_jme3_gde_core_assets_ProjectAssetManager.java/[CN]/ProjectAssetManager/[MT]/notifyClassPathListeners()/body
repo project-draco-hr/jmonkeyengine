@@ -1,0 +1,13 @@
+{
+  final ProjectAssetManager pm=this;
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+synchronized (classPathListeners) {
+        for (        ClassPathChangeListener classPathChangeListener : classPathListeners) {
+          classPathChangeListener.classPathChanged(pm);
+        }
+      }
+    }
+  }
+);
+}

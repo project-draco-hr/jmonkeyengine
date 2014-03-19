@@ -1,0 +1,17 @@
+{
+  if (material != null) {
+    Logger.getLogger(MaterialBrowser.class.getName()).finer("Looking for Texture: " + material.getAssetName());
+    String[] path=("/" + material.getAssetName()).split("/");
+    TreePath parent=new TreePath((TreeNode)jTree1.getModel().getRoot());
+    jTree1.expandPath(TreeUtil.buildTreePath(jTree1,parent,path,0,true));
+    jTree1.getSelectionModel().setSelectionPath(TreeUtil.buildTreePath(jTree1,parent,path,0,false));
+  }
+ else {
+    String lastSelected=prefs.get(PREF_LAST_SELECTED,null);
+    if (lastSelected != null) {
+      TreePath parent=new TreePath((TreeNode)jTree1.getModel().getRoot());
+      TreePath selectedTreePath=TreeUtil.buildTreePath(jTree1,parent,("/" + lastSelected).split("/"),0,true);
+      jTree1.expandPath(selectedTreePath);
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  String path=getSdkPath();
+  if (path == null) {
+    return null;
+  }
+  FileObject fileObj=FileUtil.toFileObject(new File(path));
+  if (fileObj == null) {
+    return null;
+  }
+  return fileObj;
+}

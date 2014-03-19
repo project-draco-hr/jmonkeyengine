@@ -1,0 +1,26 @@
+{
+  if (markerPrimary != null) {
+    if (!useStraightLine() || (!doStraightline && useStraightLine()))     markerPrimary.setLocalTranslation(newLoc);
+ else {
+      if (startPress == null)       startPress=newLoc.clone();
+ else {
+        Vector3f sub=newLoc.subtract(startPress);
+        if (axis == null && newLoc.distance(startPress) > 3f) {
+          for (          Vector3f v : cachedMap.keySet()) {
+            cachedMap.put(v,sub.distance(v));
+          }
+          Vector3f closest=null;
+          float dist=Float.MAX_VALUE;
+          for (          Map.Entry<Vector3f,Float> entry : cachedMap.entrySet()) {
+            if (entry.getValue() < dist) {
+              dist=entry.getValue();
+              closest=entry.getKey();
+            }
+          }
+          axis=closest.clone();
+        }
+        if (axis != null)         markerPrimary.setLocalTranslation(startPress.add(sub.project(axis)));
+      }
+    }
+  }
+}

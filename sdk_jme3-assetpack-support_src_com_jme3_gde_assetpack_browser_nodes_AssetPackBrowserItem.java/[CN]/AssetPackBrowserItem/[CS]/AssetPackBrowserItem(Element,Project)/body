@@ -1,0 +1,10 @@
+{
+  super(Children.LEAF,proj != null ? Lookups.fixed(item,proj,proj.getLookup().lookup(ProjectAssetManager.class)) : Lookups.fixed(item));
+  addAction=new AddAssetAction(this);
+  previewAction=new PreviewAssetAction(this);
+  addProjectAction=new AddToProjectAction(this);
+  this.item=item;
+  this.project=proj;
+  setName(item.getAttribute("name"));
+  setImage();
+}

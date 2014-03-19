@@ -1,0 +1,32 @@
+{
+  File[] confFiles=new File(appLocation,"etc").listFiles(new FilenameFilter(){
+    public boolean accept(    File dir,    String name){
+      return name.endsWith(".conf");
+    }
+  }
+);
+  File conf=null;
+  if (confFiles.length == 1) {
+    conf=confFiles[0];
+  }
+ else   if (confFiles.length > 2) {
+    for (    File f : confFiles) {
+      String prefix=f.getName().substring(0,f.getName().indexOf(".conf"));
+      if ((SystemUtils.isUnix() && new File(appLocation,"bin/" + prefix).exists()) || (SystemUtils.isWindows() && new File(appLocation,"bin/" + prefix + ".exe").exists())) {
+        conf=f;
+        break;
+      }
+    }
+  }
+  if (conf == null) {
+    return null;
+  }
+  String contents=FileUtils.readFile(conf);
+  Matcher matcher=Pattern.compile(NEW_LINE_PATTERN + SPACES_PATTERN + (SystemUtils.isMacOS() ? DEFAULT_USERDIR_MAC : DEFAULT_USERDIR)+ "\"(.*?)\"").matcher(contents);
+  if (matcher.find() && matcher.groupCount() == 1) {
+    return matcher.group(1);
+  }
+ else {
+    throw new IOException(StringUtils.format(ERROR_CANNOT_GET_USERDIR_STRING,conf));
+  }
+}

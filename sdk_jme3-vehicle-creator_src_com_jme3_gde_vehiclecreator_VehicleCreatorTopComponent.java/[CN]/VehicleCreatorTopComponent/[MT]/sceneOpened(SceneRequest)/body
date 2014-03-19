@@ -1,0 +1,20 @@
+{
+  if (request == sentRequest) {
+    currentRequest=request;
+    editorController=newEditorController;
+    cameraController=new VehicleCreatorCameraController(SceneApplication.getApplication().getCamera(),SceneApplication.getApplication().getInputManager());
+    cameraController.setMaster(this);
+    cameraController.enable();
+    cameraController.setVehicle(request.getRootNode());
+    setLoadedScene(currentRequest.getDataObject().getNodeDelegate(),true);
+    final VehicleEditorController controller=editorController;
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        controller.prepareApplication();
+        request.getRootNode().getParent().addLight(dirLight);
+        return null;
+      }
+    }
+);
+  }
+}

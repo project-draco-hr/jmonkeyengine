@@ -1,0 +1,40 @@
+{
+  if (savable != null) {
+    return (Spatial)savable;
+  }
+  ProjectAssetManager mgr=getLookup().lookup(ProjectAssetManager.class);
+  if (mgr == null) {
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("File is not part of a project!\nCannot load without ProjectAssetManager."));
+    return null;
+  }
+  closeAsset();
+  OgreXMLConvertOptions options=new OgreXMLConvertOptions(getPrimaryFile().getPath());
+  options.setBinaryFile(true);
+  OgreXMLConvert conv=new OgreXMLConvert();
+  conv.doConvert(options,null);
+  if (getPrimaryFile().existsExt("skeleton")) {
+    OgreXMLConvertOptions options2=new OgreXMLConvertOptions(getPrimaryFile().getParent().getFileObject(getPrimaryFile().getName(),"skeleton").getPath());
+    options2.setBinaryFile(true);
+    OgreXMLConvert conv2=new OgreXMLConvert();
+    conv2.doConvert(options2,null);
+  }
+  String assetKey=mgr.getRelativeAssetPath(options.getDestFile());
+  try {
+    listListener.start();
+    Spatial spatial=mgr.loadModel(assetKey);
+    replaceXmlFiles(mgr);
+    listListener.stop();
+    SpatialUtil.storeOriginalPathUserData(spatial);
+    File deleteFile=new File(options.getDestFile());
+    deleteFile.delete();
+    savable=spatial;
+    logger.log(Level.INFO,"Loaded asset {0}",getName());
+    return spatial;
+  }
+ catch (  Exception ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  File deleteFile=new File(options.getDestFile());
+  deleteFile.delete();
+  return null;
+}

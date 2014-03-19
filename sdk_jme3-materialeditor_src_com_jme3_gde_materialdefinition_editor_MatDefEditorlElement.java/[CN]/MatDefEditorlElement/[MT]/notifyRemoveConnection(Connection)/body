@@ -1,0 +1,10 @@
+{
+  InOut startNode=(InOut)conn.start.getNode();
+  InOut endNode=(InOut)conn.end.getNode();
+  if (endNode instanceof OutBusPanel) {
+    startNode.removeOutputMapping((OutputMappingBlock)conn.mapping);
+  }
+ else {
+    endNode.removeInputMapping((InputMappingBlock)conn.mapping);
+  }
+}

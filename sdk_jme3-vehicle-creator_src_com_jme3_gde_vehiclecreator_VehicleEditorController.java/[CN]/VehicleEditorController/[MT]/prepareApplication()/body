@@ -1,0 +1,10 @@
+{
+  SceneApplication.getApplication().getStateManager().attach(getBulletState());
+  SceneApplication.getApplication().getInputManager().addMapping("VehicleEditor_Left",new KeyTrigger(KeyInput.KEY_A));
+  SceneApplication.getApplication().getInputManager().addMapping("VehicleEditor_Right",new KeyTrigger(KeyInput.KEY_D));
+  SceneApplication.getApplication().getInputManager().addMapping("VehicleEditor_Up",new KeyTrigger(KeyInput.KEY_W));
+  SceneApplication.getApplication().getInputManager().addMapping("VehicleEditor_Down",new KeyTrigger(KeyInput.KEY_S));
+  SceneApplication.getApplication().getInputManager().addMapping("VehicleEditor_Space",new KeyTrigger(KeyInput.KEY_SPACE));
+  SceneApplication.getApplication().getInputManager().addMapping("VehicleEditor_Reset",new KeyTrigger(KeyInput.KEY_RETURN));
+  SceneApplication.getApplication().getInputManager().addListener(this,"VehicleEditor_Left","VehicleEditor_Right","VehicleEditor_Up","VehicleEditor_Down","VehicleEditor_Space","VehicleEditor_Reset");
+}

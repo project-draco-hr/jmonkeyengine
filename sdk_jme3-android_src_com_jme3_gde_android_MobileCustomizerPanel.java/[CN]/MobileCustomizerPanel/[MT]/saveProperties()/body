@@ -1,0 +1,16 @@
+{
+  if (jCheckBox1.isSelected()) {
+    properties.setProperty("mobile.android.enabled","true");
+  }
+ else {
+    properties.setProperty("mobile.android.enabled","");
+  }
+  AndroidTarget target=((AndroidTarget)jComboBox1.getSelectedItem());
+  if (target != null) {
+    properties.setProperty("mobile.android.target",target.getName());
+  }
+ else {
+    properties.setProperty("mobile.android.target","");
+  }
+  properties.setProperty("mobile.android.package",jTextField1.getText());
+}

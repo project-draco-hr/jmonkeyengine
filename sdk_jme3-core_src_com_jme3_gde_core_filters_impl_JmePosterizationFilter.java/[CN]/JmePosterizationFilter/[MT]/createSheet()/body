@@ -1,0 +1,13 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("Posterization");
+  set.setName(Node.class.getName());
+  PosterizationFilter obj=(PosterizationFilter)filter;
+  if (obj == null) {
+    return sheet;
+  }
+  createFields(PosterizationFilter.class,set,obj);
+  sheet.put(set);
+  return sheet;
+}

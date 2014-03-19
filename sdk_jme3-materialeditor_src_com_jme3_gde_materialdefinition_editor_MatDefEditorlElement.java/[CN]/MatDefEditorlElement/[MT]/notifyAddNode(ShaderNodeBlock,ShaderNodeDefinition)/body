@@ -1,0 +1,10 @@
+{
+  MatDefBlock matDef=obj.getLookup().lookup(MatDefBlock.class);
+  TechniqueBlock technique=getTechnique(matDef);
+  if (def.getType() == Shader.ShaderType.Vertex) {
+    technique.addVertexShaderNode(node);
+  }
+ else   if (def.getType() == Shader.ShaderType.Fragment) {
+    technique.addFragmentShaderNode(node);
+  }
+}

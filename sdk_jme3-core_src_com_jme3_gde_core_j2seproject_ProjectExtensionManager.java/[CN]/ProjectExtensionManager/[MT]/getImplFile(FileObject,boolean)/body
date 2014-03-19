@@ -1,0 +1,26 @@
+{
+  FileObject assetsImpl=projDir.getFileObject("nbproject/" + extensionName + "-impl.xml");
+  if (assetsImpl == null) {
+    logger.log(Level.FINE,"No extension file {0}-impl.xml found",extensionName);
+    if (create) {
+      logger.log(Level.FINE,"Creating extension file {0}-impl.xml",extensionName);
+      assetsImpl=createImplFile(projDir);
+    }
+  }
+ else {
+    logger.log(Level.FINE,"Found extension file {0}-impl.xml",extensionName);
+    try {
+      if (create && !assetsImpl.asLines().get(1).startsWith("<!--" + extensionName + "-impl.xml "+ extensionVersion+ "-->")) {
+        logger.log(Level.FINE,"Updating extension file {0}-impl.xml",extensionName);
+        assetsImpl.delete();
+        logger.log(Level.FINE,"Deleted extension file {0}-impl.xml",extensionName);
+        assetsImpl=createImplFile(projDir);
+        logger.log(Level.FINE,"Recreated extension file {0}-impl.xml",extensionName);
+      }
+    }
+ catch (    Exception ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+  return assetsImpl;
+}

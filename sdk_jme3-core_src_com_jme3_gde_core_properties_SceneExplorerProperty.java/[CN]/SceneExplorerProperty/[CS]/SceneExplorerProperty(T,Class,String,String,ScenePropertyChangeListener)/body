@@ -1,0 +1,39 @@
+{
+  super(instance,valueType,getter,setter);
+  primitive=isPrimitive(instance,getter);
+  if (!primitive) {
+    cloneable=canClone(instance,getter);
+    instantiable=canRecreate(instance,getter);
+  }
+ else {
+    cloneable=false;
+    instantiable=false;
+  }
+  if (valueType == Vector3f.class) {
+    setPropertyEditorClass(Vector3fPropertyEditor.class);
+  }
+ else   if (valueType == Quaternion.class) {
+    setPropertyEditorClass(QuaternionPropertyEditor.class);
+  }
+ else   if (valueType == Matrix3f.class) {
+    setPropertyEditorClass(Matrix3fPropertyEditor.class);
+  }
+ else   if (valueType == ColorRGBA.class) {
+    setPropertyEditorClass(ColorRGBAPropertyEditor.class);
+  }
+ else   if (valueType == EmitterShape.class) {
+    setPropertyEditorClass(EmitterShapePropertyEditor.class);
+  }
+ else   if (valueType == Vector2f.class) {
+    setPropertyEditorClass(Vector2fPropertyEditor.class);
+  }
+ else   if (valueType == ParticleInfluencer.class) {
+    setPropertyEditorClass(ParticleInfluencerPropertyEditor.class);
+  }
+  for (  SceneExplorerPropertyEditor di : Lookup.getDefault().lookupAll(SceneExplorerPropertyEditor.class)) {
+    di.setEditor(valueType,this);
+  }
+  editable=this.canWrite();
+  logger.log(Level.FINE,"Created SceneExplorerProperty for {0},\n cloneable = {1},\n instantiatable = {2},\n primitive = {3},\n editable = {4}",new Object[]{valueType,cloneable,instantiable,primitive,editable});
+  addPropertyChangeListener(listener);
+}

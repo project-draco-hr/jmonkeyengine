@@ -1,0 +1,16 @@
+{
+  String projectPath=component.getProjectPath();
+  String assetsPath=component.getAssetsPath();
+  File projectFile=new File(projectPath);
+  if (projectFile.isDirectory()) {
+    component.enableAssetsPath(true);
+    File assetsFile=new File(projectPath + assetsPath);
+    if (assetsFile.isDirectory()) {
+      return true;
+    }
+  }
+ else {
+    component.enableAssetsPath(false);
+  }
+  return false;
+}

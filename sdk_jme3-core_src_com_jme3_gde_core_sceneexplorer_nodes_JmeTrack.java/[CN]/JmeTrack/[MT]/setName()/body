@@ -1,0 +1,17 @@
+{
+  if (track instanceof BoneTrack) {
+    BoneTrack boneTrack=(BoneTrack)track;
+    super.setName("BoneTrack : " + control.getSkeleton().getBone(boneTrack.getTargetBoneIndex()).getName());
+  }
+ else   if (track instanceof EffectTrack) {
+    EffectTrack effectTrack=(EffectTrack)track;
+    super.setName("EffectTrack : " + effectTrack.getEmitter().getName());
+  }
+ else   if (track instanceof AudioTrack) {
+    AudioTrack audioTrack=(AudioTrack)track;
+    super.setName("AudioTrack : " + audioTrack.getAudio().getName());
+  }
+ else {
+    super.setName(track.getClass().getSimpleName());
+  }
+}

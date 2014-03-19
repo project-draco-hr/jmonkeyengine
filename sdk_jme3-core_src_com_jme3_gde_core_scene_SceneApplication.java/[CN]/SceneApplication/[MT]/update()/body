@@ -1,0 +1,59 @@
+{
+  if (!started) {
+    try {
+      runQueuedTasks();
+      getStateManager().update(0);
+    }
+ catch (    Exception e) {
+      logger.log(Level.INFO,"Exception calling Tasks:",e);
+    }
+  }
+ else {
+    try {
+      super.update();
+      FakeApplication fakap=fakeApp;
+      if (fakap != null) {
+        fakap.runQueuedFake();
+      }
+      float tpf=timer.getTimePerFrame();
+      camLight.setPosition(cam.getLocation());
+      secondCounter+=tpf;
+      int fps=(int)timer.getFrameRate();
+      if (secondCounter >= 1.0f) {
+        fpsText.setText("Frames per second: " + fps);
+        secondCounter=0.0f;
+      }
+      getStateManager().update(tpf);
+      toolsNode.updateLogicalState(tpf);
+      if (fakap != null) {
+        fakap.updateFake(tpf);
+        fakap.updateExternalLogicalState(rootNode,tpf);
+        fakap.updateExternalLogicalState(guiNode,tpf);
+        fakap.updateExternalGeometricState(rootNode);
+        fakap.updateExternalGeometricState(guiNode);
+      }
+ else {
+        rootNode.updateLogicalState(tpf);
+        guiNode.updateLogicalState(tpf);
+        rootNode.updateGeometricState();
+        guiNode.updateGeometricState();
+      }
+      toolsNode.updateGeometricState();
+      if (fakap != null) {
+        fakap.renderFake();
+      }
+      getStateManager().render(renderManager);
+      renderManager.render(tpf,context.isRenderable());
+      getStateManager().postRender();
+    }
+ catch (    NullPointerException e) {
+      handleError("NullPointerException: " + e.getMessage(),e);
+    }
+catch (    Exception e) {
+      handleError(e.getMessage(),e);
+    }
+catch (    Error e) {
+      handleError(e.getMessage(),e);
+    }
+  }
+}

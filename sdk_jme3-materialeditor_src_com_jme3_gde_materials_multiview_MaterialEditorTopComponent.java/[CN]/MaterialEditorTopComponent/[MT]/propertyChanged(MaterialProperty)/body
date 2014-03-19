@@ -1,0 +1,16 @@
+{
+  String string=materialFile.getUpdatedContent();
+  jTextArea1.setText(string);
+  try {
+    MaterialKey key=new MaterialKey(manager.getRelativeAssetPath(materialFileName));
+    manager.deleteFromCache(key);
+    Material material=(Material)manager.loadAsset(key);
+    if (material != null) {
+      for (      MaterialChangeListener listener : materialListeners) {
+        listener.setMaterial(material);
+      }
+    }
+  }
+ catch (  Exception e) {
+  }
+}

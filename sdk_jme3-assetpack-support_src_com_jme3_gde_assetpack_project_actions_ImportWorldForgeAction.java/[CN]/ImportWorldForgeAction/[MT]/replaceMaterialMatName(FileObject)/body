@@ -1,0 +1,29 @@
+{
+  try {
+    List<String> lines=file.asLines();
+    boolean changed=false;
+    for (int i=0; i < lines.size(); i++) {
+      String line=lines.get(i);
+      if (line.startsWith("material") && line.contains(":")) {
+        int idx=line.indexOf(":");
+        String matName=line.substring(9,idx).trim();
+        String newName=removePastUnderScore(matName);
+        if (!matName.equals(newName)) {
+          Logger.getLogger(ImportWorldForgeAction.class.getName()).log(Level.INFO,"Change material name for {0}",file);
+          lines.set(i,line.replace(matName,newName));
+          changed=true;
+        }
+      }
+    }
+    if (changed) {
+      OutputStreamWriter out=new OutputStreamWriter(file.getOutputStream());
+      for (      String string : lines) {
+        out.write(string + "\n");
+      }
+      out.close();
+    }
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

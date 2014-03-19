@@ -1,0 +1,17 @@
+{
+  final Vector3f location=new Vector3f(selected.getLocalTranslation());
+  selected.center();
+  Lookup.getDefault().lookup(SceneUndoRedoManager.class).addEdit(this,new AbstractUndoableSceneEdit(){
+    @Override public void sceneUndo(){
+      selected.setLocalTranslation(location);
+    }
+    @Override public void sceneRedo(){
+      selected.center();
+    }
+    @Override public void awtRedo(){
+    }
+    @Override public void awtUndo(){
+    }
+  }
+);
+}

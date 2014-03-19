@@ -1,0 +1,22 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=sheet.createPropertiesSet();
+  set.setName("NavMeshGenerator");
+  set.setDisplayName("Settings");
+  for (  Field field : key.getClass().getDeclaredFields()) {
+    PropertyDescriptor prop=PropertyUtils.getPropertyDescriptor(key.getClass(),field);
+    if (prop != null) {
+      try {
+        Property sup=new PropertySupport.Reflection(key,prop.getPropertyType(),prop.getReadMethod(),prop.getWriteMethod());
+        sup.setDisplayName(prop.getDisplayName());
+        sup.setShortDescription(org.openide.util.NbBundle.getMessage(NavMeshAction.class,"properties." + prop.getName()));
+        set.put(sup);
+      }
+ catch (      Exception e) {
+        Exceptions.printStackTrace(e);
+      }
+    }
+  }
+  sheet.put(set);
+  return sheet;
+}

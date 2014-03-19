@@ -1,0 +1,63 @@
+{
+  JMenuBar menuBar=new JMenuBar();
+  JMenu filters=new JMenu("Filters");
+  menuBar.add(filters);
+  topContainer.add(menuBar,BorderLayout.NORTH);
+  final JMenu bumpMenu=new JMenu("Bump Map");
+  final JMenuItem bumpSoft=bumpMenu.add("Soft");
+  final JMenuItem bumpMedium=bumpMenu.add("Medium");
+  final JMenuItem bumpStrong=bumpMenu.add("Strong");
+  filters.add(bumpMenu);
+  final JMenuItem gray=filters.add("Grayscale");
+  final JMenuItem bright=filters.add("Brightness");
+  final JMenuItem spheremap=filters.add("SphereMapped");
+  final JMenu invertMenu=new JMenu("Invert");
+  final JMenuItem invertAll=invertMenu.add("All");
+  final JMenuItem invertAlpha=invertMenu.add("Alpha");
+  final JMenuItem invertRed=invertMenu.add("Red");
+  final JMenuItem invertGreen=invertMenu.add("Green");
+  final JMenuItem invertBlue=invertMenu.add("Blue");
+  filters.add(invertMenu);
+  ActionListener al=new ActionListener(){
+    public void actionPerformed(    ActionEvent e){
+      Object source=e.getSource();
+      if (source == bumpSoft) {
+        spawnEditor(BumpMapFilter.create().filter(editedImage,0.01f));
+      }
+ else       if (source == bumpMedium) {
+        spawnEditor(BumpMapFilter.create().filter(editedImage,0.025f));
+      }
+ else       if (source == bumpStrong) {
+        spawnEditor(BumpMapFilter.create().filter(editedImage,0.5f));
+      }
+ else       if (source == gray) {
+        spawnEditor(GrayscaleFilter.create().filter(editedImage));
+      }
+ else       if (source == bright) {
+        spawnEditor(BrightFilter.create().filter(editedImage,ImageEditorComponent.this));
+      }
+ else       if (source == spheremap) {
+        spawnEditor(SphereMappedFilter.create().filter(editedImage));
+      }
+ else       if (source == invertAll) {
+        spawnEditor(new InvertFilter().filter(editedImage,InvertFilter.Channel.All));
+      }
+ else       if (source == invertAlpha) {
+        spawnEditor(new InvertFilter().filter(editedImage,InvertFilter.Channel.Alpha));
+      }
+ else       if (source == invertRed) {
+        spawnEditor(new InvertFilter().filter(editedImage,InvertFilter.Channel.Red));
+      }
+ else       if (source == invertGreen) {
+        spawnEditor(new InvertFilter().filter(editedImage,InvertFilter.Channel.Green));
+      }
+ else       if (source == invertBlue) {
+        spawnEditor(new InvertFilter().filter(editedImage,InvertFilter.Channel.Blue));
+      }
+    }
+  }
+;
+  for (  AbstractButton b : Arrays.asList(bumpSoft,bumpMedium,bumpStrong,gray,bright,spheremap,invertAll,invertAlpha,invertRed,invertGreen,invertBlue)) {
+    b.addActionListener(al);
+  }
+}

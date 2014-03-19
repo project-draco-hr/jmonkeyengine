@@ -1,0 +1,9 @@
+{
+  this.showSelection=showSelection;
+  if (showSelection && selected != null && selectionShape == null) {
+    attachSelectionShape(selected);
+  }
+ else   if (!showSelection && selectionShape != null) {
+    detachSelectionShape();
+  }
+}

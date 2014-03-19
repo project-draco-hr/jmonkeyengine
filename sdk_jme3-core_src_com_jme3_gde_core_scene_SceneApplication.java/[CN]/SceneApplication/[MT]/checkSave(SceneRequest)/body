@@ -1,0 +1,25 @@
+{
+  if ((request != null) && request.getDataObject() != null && request.getDataObject().isModified()) {
+    final DataObject req=request.getDataObject();
+    Confirmation mesg=new NotifyDescriptor.Confirmation("Scene has not been saved,\ndo you want to save it?","Not Saved",NotifyDescriptor.YES_NO_OPTION);
+    DialogDisplayer.getDefault().notify(mesg);
+    if (mesg.getValue() == Confirmation.YES_OPTION) {
+      try {
+        req.getLookup().lookup(AssetData.class).saveAsset();
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+ else     if (mesg.getValue() == Confirmation.CANCEL_OPTION) {
+      return;
+    }
+ else     if (mesg.getValue() == Confirmation.NO_OPTION) {
+      req.setModified(false);
+    }
+  }
+  if ((request != null) && (request.getDataObject() instanceof AssetDataObject)) {
+    AssetDataObject obj=(AssetDataObject)request.getDataObject();
+    obj.closeAsset();
+  }
+}

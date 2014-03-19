@@ -1,0 +1,9 @@
+{
+  List<Object> l=new ArrayList<Object>(10);
+  while (peek() != TC_ENDBLOCKDATA) {
+    l.add(readContent());
+  }
+  if (readByte() != TC_ENDBLOCKDATA)   throw new IllegalStateException();
+  if (DEBUG)   System.err.println("readContents: " + l);
+  return l;
+}

@@ -1,0 +1,10 @@
+{
+  if (evt.getPropertyName().equals("name")) {
+    setName((String)evt.getNewValue());
+    setDisplayName((String)evt.getNewValue());
+    key=makeKey();
+  }
+ else   if (evt.getPropertyName().equals(ShaderNodeBlock.ADD_MAPPING) || evt.getPropertyName().equals(ShaderNodeBlock.REMOVE_MAPPING)) {
+    ((MappingNodeChildren)getChildren()).reload();
+  }
+}

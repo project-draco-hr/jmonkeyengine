@@ -1,0 +1,23 @@
+{
+  try {
+    ZipInputStream str=new ZipInputStream(source);
+    ZipEntry entry;
+    while ((entry=str.getNextEntry()) != null) {
+      if (entry.isDirectory()) {
+        FileUtil.createFolder(projectRoot,entry.getName());
+      }
+ else {
+        FileObject fo=FileUtil.createData(projectRoot,entry.getName());
+        if ("nbproject/project.xml".equals(entry.getName())) {
+          filterProjectXML(fo,str,projectRoot.getName());
+        }
+ else {
+          writeFile(str,fo);
+        }
+      }
+    }
+  }
+  finally {
+    source.close();
+  }
+}

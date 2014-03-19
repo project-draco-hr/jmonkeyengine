@@ -1,0 +1,11 @@
+{
+  super(String.class);
+  this.project=project;
+  this.readOnly=readOnly;
+  this.element=element;
+  this.attribute=attribute;
+  setName(attribute);
+  if (tags != null) {
+    editor=new SelectionPropertyEditor(tags,element.getAttribute(attribute));
+  }
+}

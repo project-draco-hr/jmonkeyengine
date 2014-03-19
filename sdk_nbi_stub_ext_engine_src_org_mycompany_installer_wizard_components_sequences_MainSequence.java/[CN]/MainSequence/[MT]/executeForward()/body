@@ -1,0 +1,43 @@
+{
+  final Registry registry=Registry.getInstance();
+  final List<Product> toInstall=registry.getProductsToInstall();
+  final List<Product> toUninstall=registry.getProductsToUninstall();
+  if (toUninstall.size() > 0) {
+    Version ver;
+    ver=toUninstall.get(0).getVersion();
+    List<Product> products=registry.getProducts();
+    for (    Product product : products) {
+      if (product.getVersion().equals(ver)) {
+        product.setStatus(Status.TO_BE_UNINSTALLED);
+      }
+    }
+  }
+  getChildren().clear();
+  if (toInstall.size() > 0) {
+    addChild(downloadConfigurationLogicAction);
+    addChild(licensesPanel);
+    Product initProduct=null;
+    for (    Product product : toInstall) {
+      if (!productSequences.containsKey(product)) {
+        productSequences.put(product,new ProductWizardSequence(product));
+      }
+      if (initProduct == null) {
+        initProduct=product;
+      }
+ else {
+        addChild(new CopyInstallLocationAction(initProduct,product));
+      }
+      addChild(productSequences.get(product));
+    }
+  }
+  addChild(preInstallSummaryPanel);
+  if (toUninstall.size() > 0) {
+    addChild(uninstallAction);
+  }
+  if (toInstall.size() > 0) {
+    addChild(downloadInstallationDataAction);
+    addChild(installAction);
+  }
+  addChild(postInstallSummaryPanel);
+  super.executeForward();
+}

@@ -1,0 +1,26 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=new Sheet.Set();
+  set.setName(shaderNode.getName() + "ShaderNode");
+  set.setDisplayName(shaderNode.getName() + " ShaderNode");
+  set.setShortDescription(def.getDocumentation());
+  try {
+    set.put(new DefaultProperty<String>(shaderNode,String.class,"Name","getName","setName"){
+      @Override public void setValue(      String val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        val=fixNodeName(val);
+        if (val.matches("^\\d.*")) {
+          return;
+        }
+        super.setValue(val);
+      }
+    }
+);
+    set.put(new DefaultProperty<String>(shaderNode,String.class,"Condition","getCondition","setCondition"));
+  }
+ catch (  NoSuchMethodException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  shaderNode.addPropertyChangeListener(WeakListeners.propertyChange(this,shaderNode));
+  sheet.put(set);
+  return sheet;
+}

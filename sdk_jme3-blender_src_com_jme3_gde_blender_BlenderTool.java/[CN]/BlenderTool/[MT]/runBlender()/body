@@ -1,0 +1,6 @@
+{
+  if (!runBlender(null,true)) {
+    logger.log(Level.INFO,"Could not run blender, already running? Trying to focus window.");
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("Blender is already running!"));
+  }
+}

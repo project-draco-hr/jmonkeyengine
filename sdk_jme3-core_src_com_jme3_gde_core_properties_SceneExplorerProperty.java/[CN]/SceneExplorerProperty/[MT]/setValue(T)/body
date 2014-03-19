@@ -1,0 +1,26 @@
+{
+  mutex.postWriteRequest(new Runnable(){
+    public void run(){
+      logger.log(Level.FINE,"Set local value to {0}",val);
+      final T oldObject=objectLocal;
+      changing=true;
+      objectLocal=val;
+      final T sceneObject=duplicateObject(val);
+      SceneApplication.getApplication().enqueue(new Callable<Void>(){
+        public Void call() throws Exception {
+          mutex.postWriteRequest(new Runnable(){
+            public void run(){
+              setSuperValue(sceneObject);
+              changing=false;
+            }
+          }
+);
+          return null;
+        }
+      }
+);
+      notifyListeners(PROP_USER_CHANGE,oldObject,objectLocal);
+    }
+  }
+);
+}

@@ -1,0 +1,33 @@
+{
+  this(sta.getLineNumber(),sta.getLine());
+  for (  Statement statement : sta.getContents()) {
+    if (statement.getLine().trim().startsWith("WorldParameters")) {
+      addStatement(new WorldParametersBlock(statement));
+    }
+ else     if (statement.getLine().trim().startsWith("LightMode")) {
+      addStatement(new LightModeBlock(statement));
+    }
+ else     if (statement.getLine().trim().startsWith("VertexShader ")) {
+      addStatement(new VertexShaderFileBlock(statement));
+    }
+ else     if (statement.getLine().trim().startsWith("FragmentShader ")) {
+      addStatement(new FragmentShaderFileBlock(statement));
+    }
+ else     if (statement.getLine().trim().startsWith("VertexShaderNodes")) {
+      addStatement(new VertexShaderNodesBlock(statement));
+    }
+ else     if (statement.getLine().trim().startsWith("FragmentShaderNodes")) {
+      addStatement(new FragmentShaderNodesBlock(statement));
+    }
+ else {
+      addStatement(new UnsupportedStatement(statement));
+    }
+  }
+  String[] s=line.split("\\s");
+  if (s.length == 1) {
+    name="Default";
+  }
+ else {
+    name=s[1];
+  }
+}

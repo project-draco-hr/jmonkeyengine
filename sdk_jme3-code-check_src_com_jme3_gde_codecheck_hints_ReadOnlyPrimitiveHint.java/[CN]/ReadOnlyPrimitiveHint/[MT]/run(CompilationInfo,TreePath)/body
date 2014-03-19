@@ -1,0 +1,20 @@
+{
+  if (info.getTrees().getElement(treePath).getAnnotation(ReadOnly.class) != null) {
+    Tree t=treePath.getLeaf();
+    JTextComponent editor=EditorRegistry.lastFocusedComponent();
+    SourcePositions sp=info.getTrees().getSourcePositions();
+    int end=(int)sp.getEndPosition(info.getCompilationUnit(),t);
+    boolean fail=false;
+    if (info.getText().length() >= end + 4) {
+      String dotText=info.getText().substring(end,end + 4);
+      if (".set".equals(dotText)) {
+        fail=true;
+      }
+    }
+    if (fail) {
+      return Collections.<ErrorDescription>singletonList(ErrorDescriptionFactory.createErrorDescription(getSeverity().toEditorSeverity(),getDisplayName(),NO_FIXES,info.getFileObject(),(int)info.getTrees().getSourcePositions().getStartPosition(info.getCompilationUnit(),t),(int)info.getTrees().getSourcePositions().getEndPosition(info.getCompilationUnit(),t)));
+    }
+    return null;
+  }
+  return null;
+}

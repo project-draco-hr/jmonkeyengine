@@ -1,0 +1,11 @@
+{
+  if (request.getRequester() == this) {
+    final ImageIcon icon=new ImageIcon(request.getImage());
+    if (picPreview instanceof JLabel) {
+      ((JLabel)picPreview).setIcon(icon);
+    }
+    if (picPreview instanceof JButton) {
+      ((JButton)picPreview).setIcon(icon);
+    }
+  }
+}

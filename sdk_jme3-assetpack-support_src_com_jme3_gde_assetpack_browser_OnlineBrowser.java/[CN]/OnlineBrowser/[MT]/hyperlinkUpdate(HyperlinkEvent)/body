@@ -1,0 +1,26 @@
+{
+  if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+    new Thread(new Runnable(){
+      public void run(){
+        ProgressHandle handle=ProgressHandleFactory.createHandle("Downloading AssetPack..");
+        handle.start();
+        String name=event.getURL().toString();
+        name=name.substring(name.lastIndexOf("/") + 1,name.length());
+        name=name.substring(0,name.lastIndexOf("."));
+        name=lib.getProjectDirectory().getPath() + "/" + name;
+        File folder=new File(name);
+        folder.mkdirs();
+        try {
+          unZipFile(event.getURL().openStream(),FileUtil.toFileObject(folder));
+        }
+ catch (        IOException ex) {
+          Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,"Error creating URL: {0}",ex.toString());
+        }
+        handle.finish();
+        Confirmation msg=new NotifyDescriptor.Confirmation("Successfully downloaded asset pack!\n" + name,NotifyDescriptor.OK_CANCEL_OPTION,NotifyDescriptor.INFORMATION_MESSAGE);
+        DialogDisplayer.getDefault().notifyLater(msg);
+      }
+    }
+).start();
+  }
+}

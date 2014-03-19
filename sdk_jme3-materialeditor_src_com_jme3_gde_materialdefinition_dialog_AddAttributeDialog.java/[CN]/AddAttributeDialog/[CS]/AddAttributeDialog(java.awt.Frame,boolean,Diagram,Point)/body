@@ -1,0 +1,12 @@
+{
+  super(parent,modal);
+  initComponents();
+  DefaultComboBoxModel model=new DefaultComboBoxModel();
+  for (  VertexBuffer.Type attr : VertexBuffer.Type.values()) {
+    model.addElement("in" + attr.name());
+  }
+  this.diagram=diagram;
+  this.clickPosition=clickPosition;
+  nameField.setModel(model);
+  updateType();
+}

@@ -1,0 +1,11 @@
+{
+  if (raiseTerrainButton.isSelected()) {
+    RaiseTerrainTool tool=new RaiseTerrainTool();
+    toolController.setTerrainEditButtonState(tool);
+    setHintText(tool);
+  }
+ else {
+    toolController.setTerrainEditButtonState(null);
+    setHintText((TerrainTool)null);
+  }
+}

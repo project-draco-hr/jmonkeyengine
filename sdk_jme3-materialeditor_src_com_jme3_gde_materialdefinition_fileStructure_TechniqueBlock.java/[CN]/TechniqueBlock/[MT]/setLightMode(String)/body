@@ -1,0 +1,13 @@
+{
+  String oldLightMode=null;
+  LightModeBlock l=getBlock(LightModeBlock.class);
+  if (l == null) {
+    l=new LightModeBlock(lightMode);
+    addStatement(0,l);
+  }
+ else {
+    oldLightMode=l.getLightMode();
+    l.setLightMode(lightMode);
+  }
+  fire("lightMode",oldLightMode,lightMode);
+}

@@ -1,0 +1,11 @@
+{
+  if (material.getAssetName().equals(getKey())) {
+    SceneApplication.getApplication().enqueue(new Callable<Object>(){
+      public Object call() throws Exception {
+        geom.setMaterial(material);
+        return null;
+      }
+    }
+);
+  }
+}

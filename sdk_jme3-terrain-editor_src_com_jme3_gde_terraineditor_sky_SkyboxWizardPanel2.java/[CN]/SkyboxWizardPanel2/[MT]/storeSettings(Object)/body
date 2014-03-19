@@ -1,0 +1,25 @@
+{
+  WizardDescriptor wiz=(WizardDescriptor)settings;
+  SkyboxVisualPanel2 comp=(SkyboxVisualPanel2)getComponent();
+  if (multipleTextures) {
+    wiz.putProperty("textureSouth",(Texture)comp.getEditorSouth().getValue());
+    wiz.putProperty("textureNorth",(Texture)comp.getEditorNorth().getValue());
+    wiz.putProperty("textureEast",(Texture)comp.getEditorEast().getValue());
+    wiz.putProperty("textureWest",(Texture)comp.getEditorWest().getValue());
+    wiz.putProperty("textureTop",(Texture)comp.getEditorTop().getValue());
+    wiz.putProperty("textureBottom",(Texture)comp.getEditorBottom().getValue());
+    float x=new Float(comp.getNormal1X().getText());
+    float y=new Float(comp.getNormal1Y().getText());
+    float z=new Float(comp.getNormal1Z().getText());
+    wiz.putProperty("normalScale",new Vector3f(x,y,z));
+  }
+ else {
+    wiz.putProperty("textureSingle",(Texture)comp.getEditorSingle().getValue());
+    float x=new Float(comp.getNormal2X().getText());
+    float y=new Float(comp.getNormal2Y().getText());
+    float z=new Float(comp.getNormal2Z().getText());
+    wiz.putProperty("normalScale",new Vector3f(x,y,z));
+    wiz.putProperty("useSpheremap",comp.getSpheremapCheckBox().isSelected());
+    wiz.putProperty("flipY",comp.getFlipYCheckBox().isSelected());
+  }
+}

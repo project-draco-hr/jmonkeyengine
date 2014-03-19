@@ -1,0 +1,19 @@
+{
+  fireSave(true);
+  try {
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        jmeSkeletonControl.getSkeletonControl().getAttachmentsNode(bone.getName());
+        return null;
+      }
+    }
+).get();
+    ((AbstractSceneExplorerNode)jmeSkeletonControl.getParentNode()).refresh(false);
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

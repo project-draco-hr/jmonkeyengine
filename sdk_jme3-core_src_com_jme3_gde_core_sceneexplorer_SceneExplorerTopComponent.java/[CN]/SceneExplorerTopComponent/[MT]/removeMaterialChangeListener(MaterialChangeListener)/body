@@ -1,0 +1,12 @@
+{
+  logger.log(Level.FINE,"Removing material listener for: {0}",listener.getKey());
+  List<MaterialChangeListener> listeners=materialChangeListeners.get(listener.getKey());
+  if (listeners == null) {
+    return;
+  }
+  listeners.remove(listener);
+  MaterialChangeProvider provider=materialChangeProviders.get(listener.getKey());
+  if (provider != null) {
+    provider.removeMaterialChangeListener(listener);
+  }
+}

@@ -1,0 +1,23 @@
+{
+  EditableProperties props=new EditableProperties(true);
+  if (!(project instanceof J2SEProject)) {
+    return props;
+  }
+  FileObject projDir=project.getProjectDirectory();
+  FileObject oldProperties=projDir.getFileObject("nbproject/assets.properties");
+  if (oldProperties != null) {
+    logger.log(Level.FINE,"Deleting old project assets.properties");
+    try {
+      props.load(oldProperties.getInputStream());
+      store(props,project);
+      oldProperties.delete();
+    }
+ catch (    Exception ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+ else {
+    load(props,project);
+  }
+  return props;
+}

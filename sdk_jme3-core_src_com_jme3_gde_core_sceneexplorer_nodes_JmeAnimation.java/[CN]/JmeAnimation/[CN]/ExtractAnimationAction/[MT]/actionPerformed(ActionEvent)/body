@@ -1,0 +1,14 @@
+{
+  try {
+    dialog.setAnimControl(JmeAnimation.this.jmeControl);
+    dialog.setAnimation(JmeAnimation.this.animation);
+    dialog.setLocationRelativeTo(null);
+    dialog.setVisible(true);
+    JmeAnimation.this.jmeControl.fireSave(true);
+    JmeAnimation.this.jmeControl.refresh(true);
+    JmeAnimation.this.jmeControl.refreshChildren();
+  }
+ catch (  Exception ex) {
+    JOptionPane.showMessageDialog(null,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+  }
+}

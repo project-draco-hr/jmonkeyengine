@@ -1,0 +1,38 @@
+{
+  if ("create j3m file".equals(text)) {
+    try {
+      Node geom=SceneExplorerTopComponent.findInstance().getLastSelected();
+      assert(geom != null);
+      ProjectAssetManager pm=geom.getLookup().lookup(ProjectAssetManager.class);
+      assert(pm != null);
+      DataObject obj=geom.getLookup().lookup(DataObject.class);
+      assert(obj != null);
+      FileObject currentFile=obj.getPrimaryFile();
+      FileObject currentFolder=pm.getAssetFolder().getFileObject("Materials/Generated");
+      if (currentFolder == null) {
+        currentFolder=FileUtil.createFolder(pm.getAssetFolder(),"Materials/Generated");
+      }
+      int i=0;
+      String newFileName=currentFile.getName() + "-" + sanitizeFileName(geom.getName());
+      FileObject newFile=currentFolder.getFileObject(newFileName,"j3m");
+      while (newFile != null) {
+        i++;
+        newFileName=currentFile.getName() + "-" + sanitizeFileName(geom.getName())+ "-"+ i;
+        newFile=currentFolder.getFileObject(newFileName,"j3m");
+      }
+      newFile=currentFolder.createData(newFileName,"j3m");
+      EditableMaterialFile properties=new EditableMaterialFile(newFile,pm);
+      material.setKey(new MaterialKey(pm.getRelativeAssetPath(newFile.getPath())));
+      properties.setAsMaterial(material);
+      currentFolder.refresh();
+      applyMaterial(material.getAssetName());
+    }
+ catch (    Exception ex) {
+      Exceptions.printStackTrace(ex);
+      return;
+    }
+  }
+ else {
+    applyMaterial(text);
+  }
+}

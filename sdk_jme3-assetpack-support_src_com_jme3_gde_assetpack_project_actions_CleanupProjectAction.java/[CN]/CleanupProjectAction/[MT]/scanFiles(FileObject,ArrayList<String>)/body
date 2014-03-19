@@ -1,0 +1,28 @@
+{
+  FileObject[] children=folder.getChildren();
+  for (  FileObject fileObject : children) {
+    boolean stay=false;
+    if (fileObject.isFolder() && !fileObject.isVirtual()) {
+      scanFiles(fileObject,paths);
+      stay=true;
+    }
+ else     if (fileObject.isData()) {
+      if ("png".equalsIgnoreCase(fileObject.getExt()) || "jpg".equalsIgnoreCase(fileObject.getExt()) || "dds".equalsIgnoreCase(fileObject.getExt())|| "dae".equalsIgnoreCase(fileObject.getExt())|| "bmp".equalsIgnoreCase(fileObject.getExt())) {
+        for (        String path : paths) {
+          if (fileObject.getPath().endsWith(path)) {
+            stay=true;
+          }
+        }
+        if (!stay) {
+          try {
+            Logger.getLogger(CleanupProjectAction.class.getName()).log(Level.INFO,"Delete unused file {0}",fileObject);
+            fileObject.delete();
+          }
+ catch (          IOException ex) {
+            Exceptions.printStackTrace(ex);
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+@staticmethod
+def get_texture_subnodes(parent, submaterial=None):
+    if (not submaterial):
+        submaterial = parent.active_node_material
+    d = {}
+    for link in parent.node_tree.links:
+        if (link.from_node and (link.from_node.type == 'TEXTURE')):
+            if (link.to_node and (link.to_node.type == 'MATERIAL_EXT')):
+                if link.to_node.material:
+                    if (link.to_node.material.name == submaterial.name):
+                        node = link.from_node
+                        d[node.name] = node
+    keys = list(d.keys())
+    keys.sort()
+    r = []
+    for key in keys:
+        r.append(d[key])
+    return r

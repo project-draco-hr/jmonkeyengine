@@ -1,0 +1,13 @@
+{
+  progressHandle.finish();
+  if (msg == null) {
+    msg=t.getMessage();
+  }
+  if (!started) {
+    showStartupErrorMessage(t);
+  }
+ else   if (lastError != null && !lastError.equals(msg)) {
+    logger.log(Level.SEVERE,msg,t);
+    lastError=msg;
+  }
+}

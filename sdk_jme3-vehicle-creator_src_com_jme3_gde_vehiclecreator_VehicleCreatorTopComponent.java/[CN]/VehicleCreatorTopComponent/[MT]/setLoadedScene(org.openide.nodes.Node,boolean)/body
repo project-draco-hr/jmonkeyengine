@@ -1,0 +1,18 @@
+{
+  if (!active) {
+    close();
+    setActivatedNodes(new org.openide.nodes.Node[]{});
+    if (editorController != null) {
+      editorController.cleanup();
+      editorController=null;
+    }
+  }
+ else {
+    if (!isOpened()) {
+      open();
+    }
+    requestActive();
+    setActivatedNodes(new org.openide.nodes.Node[]{jmeNode});
+    editorController.checkVehicle();
+  }
+}

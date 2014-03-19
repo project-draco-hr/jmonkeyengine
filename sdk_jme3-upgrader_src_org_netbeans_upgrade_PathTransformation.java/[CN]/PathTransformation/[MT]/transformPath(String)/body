@@ -1,0 +1,13 @@
+{
+  boolean isCreator=version.startsWith("2_");
+  if (isCreator) {
+    return transformCreatorPath(path);
+  }
+  boolean i118364=path.startsWith("Templates/Classes/");
+  if (i118364) {
+    if (!version.startsWith("6")) {
+      return transformTemplatePath118364(path);
+    }
+  }
+  return path;
+}

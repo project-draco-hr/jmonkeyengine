@@ -1,0 +1,9 @@
+{
+  WizardDescriptor wiz=(WizardDescriptor)settings;
+  if (wiz == null || wiz.getProperties() == null || wiz.getProperties().get("newName") == null)   return null;
+  newName=cleanFileName(wiz.getProperties().get("newName").toString());
+  if (newName == null)   return null;
+  TerrainQuad quad=rootNode.getLookup().lookup(TerrainQuad.class);
+  rename(quad,oldName,newName);
+  return quad;
+}

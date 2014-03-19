@@ -1,0 +1,11 @@
+{
+  String str=properties.getProperty("obfuscate");
+  if ("true".equals(str)) {
+    jCheckBox1.setSelected(true);
+  }
+ else {
+    jCheckBox1.setSelected(false);
+  }
+  String props=properties.getProperty("obfuscate.options");
+  jTextArea1.setText(props);
+}

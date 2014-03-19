@@ -1,0 +1,9 @@
+{
+  WorldParametersBlock wpBlock=getBlock(WorldParametersBlock.class);
+  if (wpBlock == null) {
+    wpBlock=new WorldParametersBlock(0,"WorldParameters");
+    addStatement(0,wpBlock);
+  }
+  wpBlock.addWorldParam(block);
+  fire(ADD_WORLD_PARAM,null,block);
+}

@@ -1,0 +1,7 @@
+{
+  cam.getLeft().mult(left,vector);
+  vector.scaleAdd(up,cam.getUp(),vector);
+  vector.multLocal(cam.getLocation().distance(focus));
+  cam.setLocation(cam.getLocation().add(vector));
+  focus.addLocal(vector);
+}

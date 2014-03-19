@@ -1,0 +1,16 @@
+{
+  text=text.replace('[',' ');
+  text=text.replace(']',' ');
+  String[] values=text.split(",");
+  ColorRGBA old=color;
+  if (values.length != 4) {
+    throw (new IllegalArgumentException("String not correct"));
+  }
+  float[] floats=new float[4];
+  for (int i=0; i < values.length; i++) {
+    String string=values[i];
+    floats[i]=Float.parseFloat(string);
+  }
+  color.set(floats[0],floats[1],floats[2],floats[3]);
+  notifyListeners(old,color);
+}

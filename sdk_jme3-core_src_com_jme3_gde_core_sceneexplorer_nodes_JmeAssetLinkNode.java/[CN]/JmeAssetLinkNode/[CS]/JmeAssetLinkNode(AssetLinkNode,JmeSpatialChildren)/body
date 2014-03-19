@@ -1,0 +1,7 @@
+{
+  super(spatial,new AssetLinkChildren(spatial));
+  getLookupContents().add(spatial);
+  linkChildren=(AssetLinkChildren)getChildren();
+  linkChildren.setReadOnly(children.readOnly);
+  this.geom=spatial;
+}

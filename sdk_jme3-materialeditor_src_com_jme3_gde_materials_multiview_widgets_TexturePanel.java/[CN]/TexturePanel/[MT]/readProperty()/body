@@ -1,0 +1,32 @@
+{
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      if (property.getValue().startsWith("Flip Repeat ")) {
+        flip=true;
+        repeat=true;
+        textureName=property.getValue().replaceFirst("Flip Repeat ","").trim();
+      }
+ else       if (property.getValue().startsWith("Flip ")) {
+        flip=true;
+        textureName=property.getValue().replaceFirst("Flip ","").trim();
+      }
+ else       if (property.getValue().startsWith("Repeat ")) {
+        repeat=true;
+        textureName=property.getValue().replaceFirst("Repeat ","").trim();
+      }
+ else {
+        textureName=property.getValue();
+      }
+      jLabel1.setText(property.getName());
+      jLabel1.setToolTipText(property.getName());
+      displayPreview();
+      texturePreview.setToolTipText(property.getValue());
+      MaterialProperty prop=property;
+      property=null;
+      jCheckBox1.setSelected(flip);
+      jCheckBox2.setSelected(repeat);
+      property=prop;
+    }
+  }
+);
+}

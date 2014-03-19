@@ -1,0 +1,7 @@
+{
+  Terrain terrain=(Terrain)getTerrain(null);
+  if (terrain == null)   return;
+  if (layer == 0)   terrain.getMaterial().clearParam("NormalMap");
+ else   terrain.getMaterial().clearParam("NormalMap_" + layer);
+  setNeedsSave(true);
+}

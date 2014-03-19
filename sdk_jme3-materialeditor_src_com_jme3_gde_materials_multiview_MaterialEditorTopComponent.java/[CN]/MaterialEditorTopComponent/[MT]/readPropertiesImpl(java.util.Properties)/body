@@ -1,0 +1,11 @@
+{
+  try {
+    String version=p.getProperty("version");
+    materialFileName=p.getProperty("MaterialFileName");
+    dataObject=DataObject.find(FileUtil.toFileObject(new File(materialFileName)));
+    initWindow();
+  }
+ catch (  DataObjectNotFoundException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

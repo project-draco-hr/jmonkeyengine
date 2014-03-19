@@ -1,0 +1,32 @@
+{
+  if (SceneApplication.getApplication().isOgl()) {
+    Terrain terrain=(Terrain)getTerrain(null);
+    if (terrain == null)     return null;
+    MatParam matParam=null;
+    if (layer == 0)     matParam=terrain.getMaterial().getParam("DiffuseMap");
+ else     matParam=terrain.getMaterial().getParam("DiffuseMap_" + layer);
+    if (matParam == null || matParam.getValue() == null) {
+      return null;
+    }
+    Texture tex=(Texture)matParam.getValue();
+    return tex;
+  }
+ else {
+    try {
+      Texture tex=SceneApplication.getApplication().enqueue(new Callable<Texture>(){
+        public Texture call() throws Exception {
+          return getDiffuseTexture(layer);
+        }
+      }
+).get();
+      return tex;
+    }
+ catch (    InterruptedException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    ExecutionException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+    return null;
+  }
+}

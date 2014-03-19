@@ -1,0 +1,12 @@
+{
+  readProperties();
+  String ret=propsMutex.writeAccess(new Action<String>(){
+    public String run(){
+      String ret=(String)props.setProperty(key,value);
+      return ret;
+    }
+  }
+);
+  notifyListeners(key,ret,value);
+  return ret;
+}

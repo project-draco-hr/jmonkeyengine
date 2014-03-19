@@ -1,0 +1,6 @@
+def draw(self, context):
+    layout = self.layout
+    for group in bpy.data.groups:
+        op = layout.operator(INFO_MT_group.bl_idname, text=group.name)
+        op.mystring = group.name
+    layout.separator()

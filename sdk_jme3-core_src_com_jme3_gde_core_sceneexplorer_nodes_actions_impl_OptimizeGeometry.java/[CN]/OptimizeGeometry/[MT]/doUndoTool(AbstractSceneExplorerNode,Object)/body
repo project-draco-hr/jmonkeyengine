@@ -1,0 +1,15 @@
+{
+  Node parent=rootNode.getLookup().lookup(Node.class);
+  OldNew undo=(OldNew)undoObject;
+  if (parent == null || undo == null) {
+    return;
+  }
+  for (Iterator<Spatial> it=undo.newChildren.iterator(); it.hasNext(); ) {
+    Spatial spatial=it.next();
+    spatial.removeFromParent();
+  }
+  for (Iterator<Spatial> it=undo.oldChildren.iterator(); it.hasNext(); ) {
+    Spatial spatial=it.next();
+    parent.attachChild(spatial);
+  }
+}

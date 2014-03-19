@@ -1,0 +1,22 @@
+{
+  super.destroy();
+  try {
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        linkNode.detachLinkedChild(key);
+        return null;
+      }
+    }
+).get();
+    JmeSpatial node=((JmeSpatial)getParentNode());
+    if (node != null) {
+      node.refresh(false);
+    }
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  BufferedImage bufImage;
+  try {
+    bufImage=ImageIO.read(image.getInputStream());
+  }
+ catch (  IOException ex) {
+    return false;
+  }
+  return addImage(bufImage,name);
+}

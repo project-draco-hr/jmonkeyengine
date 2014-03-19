@@ -1,0 +1,72 @@
+{
+  jToolBar1=new javax.swing.JToolBar();
+  enableCamLight=new javax.swing.JToggleButton();
+  jToggleButton1=new javax.swing.JToggleButton();
+  jSeparator1=new javax.swing.JToolBar.Separator();
+  enableWireframe=new javax.swing.JToggleButton();
+  jPanel1=new javax.swing.JPanel();
+  enableStats=new javax.swing.JToggleButton();
+  oGLPanel=new javax.swing.JPanel();
+  setLayout(new java.awt.BorderLayout());
+  jToolBar1.setRollover(true);
+  enableCamLight.setIcon(IconList.lightOff);
+  org.openide.awt.Mnemonics.setLocalizedText(enableCamLight,org.openide.util.NbBundle.getMessage(SceneViewerTopComponent.class,"SceneViewerTopComponent.enableCamLight.text"));
+  enableCamLight.setToolTipText(org.openide.util.NbBundle.getMessage(SceneViewerTopComponent.class,"SceneViewerTopComponent.enableCamLight.toolTipText"));
+  enableCamLight.setFocusable(false);
+  enableCamLight.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+  enableCamLight.setSelectedIcon(IconList.lightOn);
+  enableCamLight.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+  enableCamLight.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      enableCamLightActionPerformed(evt);
+    }
+  }
+);
+  jToolBar1.add(enableCamLight);
+  jToggleButton1.setIcon(IconList.eyeOpen);
+  org.openide.awt.Mnemonics.setLocalizedText(jToggleButton1,org.openide.util.NbBundle.getMessage(SceneViewerTopComponent.class,"SceneViewerTopComponent.jToggleButton1.text"));
+  jToggleButton1.setToolTipText(org.openide.util.NbBundle.getMessage(SceneViewerTopComponent.class,"SceneViewerTopComponent.jToggleButton1.toolTipText"));
+  jToggleButton1.setFocusable(false);
+  jToggleButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+  jToggleButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+  jToggleButton1.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      jToggleButton1ActionPerformed(evt);
+    }
+  }
+);
+  jToolBar1.add(jToggleButton1);
+  jToolBar1.add(jSeparator1);
+  enableWireframe.setIcon(IconList.colorBox);
+  org.openide.awt.Mnemonics.setLocalizedText(enableWireframe,org.openide.util.NbBundle.getMessage(SceneViewerTopComponent.class,"SceneViewerTopComponent.enableWireframe.text"));
+  enableWireframe.setToolTipText(org.openide.util.NbBundle.getMessage(SceneViewerTopComponent.class,"SceneViewerTopComponent.enableWireframe.toolTipText"));
+  enableWireframe.setFocusable(false);
+  enableWireframe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+  enableWireframe.setSelectedIcon(IconList.wireBox);
+  enableWireframe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+  enableWireframe.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      enableWireframeActionPerformed(evt);
+    }
+  }
+);
+  jToolBar1.add(enableWireframe);
+  jToolBar1.add(jPanel1);
+  enableStats.setIcon(IconList.info);
+  org.openide.awt.Mnemonics.setLocalizedText(enableStats,org.openide.util.NbBundle.getMessage(SceneViewerTopComponent.class,"SceneViewerTopComponent.enableStats.text"));
+  enableStats.setToolTipText(org.openide.util.NbBundle.getMessage(SceneViewerTopComponent.class,"SceneViewerTopComponent.enableStats.toolTipText"));
+  enableStats.setFocusable(false);
+  enableStats.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+  enableStats.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+  enableStats.addActionListener(new java.awt.event.ActionListener(){
+    public void actionPerformed(    java.awt.event.ActionEvent evt){
+      enableStatsActionPerformed(evt);
+    }
+  }
+);
+  jToolBar1.add(enableStats);
+  add(jToolBar1,java.awt.BorderLayout.NORTH);
+  oGLPanel.setPreferredSize(new java.awt.Dimension(100,100));
+  oGLPanel.setLayout(new java.awt.GridLayout(1,0));
+  add(oGLPanel,java.awt.BorderLayout.CENTER);
+}

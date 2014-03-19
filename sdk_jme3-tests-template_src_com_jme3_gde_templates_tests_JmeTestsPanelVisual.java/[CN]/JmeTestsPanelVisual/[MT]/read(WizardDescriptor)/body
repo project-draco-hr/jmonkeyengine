@@ -1,0 +1,16 @@
+{
+  File projectLocation=(File)settings.getProperty("projdir");
+  if (projectLocation == null || projectLocation.getParentFile() == null || !projectLocation.getParentFile().isDirectory()) {
+    projectLocation=ProjectChooser.getProjectsFolder();
+  }
+ else {
+    projectLocation=projectLocation.getParentFile();
+  }
+  this.projectLocationTextField.setText(projectLocation.getAbsolutePath());
+  String projectName=(String)settings.getProperty("name");
+  if (projectName == null) {
+    projectName="JmeTests";
+  }
+  this.projectNameTextField.setText(projectName);
+  this.projectNameTextField.selectAll();
+}

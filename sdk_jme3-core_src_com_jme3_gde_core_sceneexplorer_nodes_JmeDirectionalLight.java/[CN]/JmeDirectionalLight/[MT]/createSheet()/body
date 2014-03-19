@@ -1,0 +1,13 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("DirectionalLight");
+  set.setName(DirectionalLight.class.getName());
+  DirectionalLight obj=directionalLight;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,Vector3f.class,"getDirection","setDirection","Direction"));
+  sheet.put(set);
+  return sheet;
+}

@@ -1,0 +1,14 @@
+{
+  super(children,lookup);
+  this.lookup=lookup;
+  MatDefBlock block=lookup.lookup(MatDefBlock.class);
+  block.addPropertyChangeListener(new PropertyChangeListener(){
+    public void propertyChange(    PropertyChangeEvent evt){
+      if (evt.getPropertyName().equals(MatDefBlock.ADD_MAT_PARAM) || evt.getPropertyName().equals(MatDefBlock.REMOVE_MAT_PARAM)) {
+        setSheet(createSheet());
+        firePropertySetsChange(null,null);
+      }
+    }
+  }
+);
+}

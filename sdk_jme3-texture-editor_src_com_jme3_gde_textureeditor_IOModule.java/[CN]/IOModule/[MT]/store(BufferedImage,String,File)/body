@@ -1,0 +1,11 @@
+{
+  if (type.equals("tga")) {
+    TGAImageWriterSpi spi=new TGAImageWriterSpi();
+    TGAImageWriter wri=new TGAImageWriter(spi);
+    wri.setOutput(new FileImageOutputStream(file));
+    wri.write(editedImage);
+  }
+ else {
+    ImageIO.write(editedImage,type,file);
+  }
+}

@@ -1,0 +1,15 @@
+{
+  enqueue(new Callable(){
+    public Object call() throws Exception {
+      if (enabled) {
+        rootNode.removeLight(camLight);
+        rootNode.addLight(camLight);
+      }
+ else {
+        rootNode.removeLight(camLight);
+      }
+      return null;
+    }
+  }
+);
+}

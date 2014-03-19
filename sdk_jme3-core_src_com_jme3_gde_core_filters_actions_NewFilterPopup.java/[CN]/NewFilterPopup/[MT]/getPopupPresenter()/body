@@ -1,0 +1,7 @@
+{
+  JMenu result=new JMenu("Add Filter..");
+  for (  NewFilterAction di : Lookup.getDefault().lookupAll(NewFilterAction.class)) {
+    result.add(new JMenuItem(di.getAction(filterNode)));
+  }
+  return result;
+}

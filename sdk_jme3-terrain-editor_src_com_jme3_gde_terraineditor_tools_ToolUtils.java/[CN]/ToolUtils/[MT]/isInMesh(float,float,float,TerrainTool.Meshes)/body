@@ -1,0 +1,10 @@
+{
+switch (mesh) {
+case Box:
+    return isInBox(x,y,radius);
+case Sphere:
+  return isInRadius(x,y,radius);
+default :
+throw new IllegalArgumentException("Unkown mesh type " + mesh);
+}
+}

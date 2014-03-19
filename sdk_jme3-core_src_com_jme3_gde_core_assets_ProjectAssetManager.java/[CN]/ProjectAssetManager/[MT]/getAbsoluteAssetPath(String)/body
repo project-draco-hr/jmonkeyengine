@@ -1,0 +1,13 @@
+{
+  if (folderNames.isEmpty()) {
+  }
+ else {
+    for (Iterator<String> it=folderNames.iterator(); it.hasNext(); ) {
+      FileObject string=project.getProjectDirectory().getFileObject(it.next() + "/" + path);
+      if (string != null) {
+        return string.getPath();
+      }
+    }
+  }
+  return null;
+}

@@ -1,0 +1,9 @@
+{
+  ArrayList<ImportantFiles> list=new ArrayList<ImportantFiles>();
+  for (  ImportantFiles di : Lookup.getDefault().lookupAll(ImportantFiles.class)) {
+    if (di.hasFiles(project)) {
+      list.add(di);
+    }
+  }
+  return list;
+}

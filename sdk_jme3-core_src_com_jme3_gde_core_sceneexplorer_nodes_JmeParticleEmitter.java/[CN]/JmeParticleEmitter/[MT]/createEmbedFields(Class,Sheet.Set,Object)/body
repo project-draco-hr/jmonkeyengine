@@ -1,0 +1,8 @@
+{
+  for (  Field field : c.getDeclaredFields()) {
+    PropertyDescriptor prop=PropertyUtils.getPropertyDescriptor(c,field);
+    if (prop != null) {
+      set.put(makeEmbedProperty(obj,obj.getClass(),prop.getPropertyType(),prop.getReadMethod().getName(),prop.getWriteMethod().getName(),prop.getDisplayName()));
+    }
+  }
+}

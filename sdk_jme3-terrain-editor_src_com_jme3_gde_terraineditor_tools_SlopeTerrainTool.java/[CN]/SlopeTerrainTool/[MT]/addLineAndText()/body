@@ -1,0 +1,11 @@
+{
+  line=new Geometry("line",new Line(Vector3f.ZERO,Vector3f.ZERO));
+  Material m=new Material(manager,"Common/MatDefs/Misc/Unshaded.j3md");
+  m.setColor("Color",ColorRGBA.White);
+  line.setMaterial(m);
+  angleText=new BitmapText(manager.loadFont("Interface/Fonts/Default.fnt"));
+  BillboardControl control=new BillboardControl();
+  angleText.addControl(control);
+  angleText.setSize(0.5f);
+  angleText.setCullHint(Spatial.CullHint.Never);
+}

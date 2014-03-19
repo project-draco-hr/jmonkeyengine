@@ -1,0 +1,8 @@
+{
+  StringBuffer sb=new StringBuffer();
+  sb.append("Editors");
+  int i, k=mimeTypes.length;
+  for (i=0; i < k; i++)   sb.append('/').append(mimeTypes[i]);
+  if (profile != null)   sb.append('/').append(profile);
+  return sb.append('/').toString();
+}

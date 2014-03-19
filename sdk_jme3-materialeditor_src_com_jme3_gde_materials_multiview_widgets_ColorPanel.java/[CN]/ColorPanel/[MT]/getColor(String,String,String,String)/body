@@ -1,0 +1,12 @@
+{
+  try {
+    float fr=FastMath.clamp(Float.parseFloat(r),0,1);
+    float fg=FastMath.clamp(Float.parseFloat(g),0,1);
+    float fb=FastMath.clamp(Float.parseFloat(b),0,1);
+    float fa=FastMath.clamp(Float.parseFloat(a),0,1);
+    return new Color(fr,fg,fb,fa);
+  }
+ catch (  NumberFormatException e) {
+    return null;
+  }
+}

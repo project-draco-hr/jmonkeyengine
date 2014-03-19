@@ -1,0 +1,18 @@
+{
+  if (flip && repeat) {
+    property.setValue("Flip Repeat " + textureName);
+    texturePreview.setToolTipText("Flip Repeat " + textureName);
+  }
+ else   if (flip) {
+    property.setValue("Flip " + textureName);
+    texturePreview.setToolTipText("Flip " + textureName);
+  }
+ else   if (repeat) {
+    property.setValue("Repeat " + textureName);
+    texturePreview.setToolTipText("Repeat " + textureName);
+  }
+ else {
+    property.setValue(textureName);
+    texturePreview.setToolTipText(textureName);
+  }
+}

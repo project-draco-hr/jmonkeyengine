@@ -1,0 +1,26 @@
+{
+  if (control == null) {
+    return;
+  }
+  try {
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        if ("null".equals(val)) {
+          control.clearChannels();
+          return null;
+        }
+        anim=val;
+        control.clearChannels();
+        control.createChannel().setAnim(val);
+        return null;
+      }
+    }
+).get();
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

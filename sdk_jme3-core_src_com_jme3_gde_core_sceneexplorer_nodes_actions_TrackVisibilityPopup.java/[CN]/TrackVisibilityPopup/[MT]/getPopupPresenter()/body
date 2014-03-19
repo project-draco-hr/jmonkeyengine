@@ -1,0 +1,28 @@
+{
+  JMenu result=new JMenu("Display...");
+  JCheckBoxMenuItem boneTrackItem=new JCheckBoxMenuItem(new AbstractAction("Bone tracks"){
+    public void actionPerformed(    ActionEvent e){
+      jmeControl.setDisplayBoneTracks(((JCheckBoxMenuItem)e.getSource()).isSelected());
+    }
+  }
+);
+  boneTrackItem.setSelected(jmeControl.isDisplayBoneTracks());
+  result.add(boneTrackItem);
+  JCheckBoxMenuItem effectTrackItem=new JCheckBoxMenuItem(new AbstractAction("Effect tracks"){
+    public void actionPerformed(    ActionEvent e){
+      jmeControl.setDisplayEffectTracks(((JCheckBoxMenuItem)e.getSource()).isSelected());
+    }
+  }
+);
+  effectTrackItem.setSelected(jmeControl.isDisplayEffectTracks());
+  result.add(effectTrackItem);
+  JCheckBoxMenuItem audioTrackItem=new JCheckBoxMenuItem(new AbstractAction("Audio tracks"){
+    public void actionPerformed(    ActionEvent e){
+      jmeControl.setDisplayAudioTracks(((JCheckBoxMenuItem)e.getSource()).isSelected());
+    }
+  }
+);
+  audioTrackItem.setSelected(jmeControl.isDisplayAudioTracks());
+  result.add(audioTrackItem);
+  return result;
+}

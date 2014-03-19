@@ -1,0 +1,10 @@
+{
+  super.onMouseMotionEvent(mme);
+  if (!isTerrainEditButtonEnabled()) {
+    return;
+  }
+  Vector3f pos=getTerrainCollisionPoint();
+  if (pos != null) {
+    toolController.doMoveEditTool(pos);
+  }
+}

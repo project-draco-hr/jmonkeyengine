@@ -1,0 +1,13 @@
+{
+  if (elem.getTagName().equals("file")) {
+    elements.add(elem.getAttribute("path"));
+  }
+  NodeList list=elem.getChildNodes();
+  for (int i=0; i < list.getLength(); i++) {
+    if (list.item(i) instanceof Element) {
+      Element asset=(Element)list.item(i);
+      scanProjectFiles(asset,elements);
+    }
+  }
+  return elements;
+}

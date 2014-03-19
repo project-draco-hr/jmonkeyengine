@@ -1,0 +1,33 @@
+{
+  ImageEditorComponent parent=(ImageEditorComponent)args[0];
+  final BufferedImage sourceIcon=parent.createIcon(256,256);
+  final JLabel label=new JLabel(new ImageIcon(sourceIcon));
+  final JSlider slider=new JSlider(0,200,100);
+  slider.addChangeListener(new ChangeListener(){
+    public void stateChanged(    ChangeEvent e){
+      if (!slider.getValueIsAdjusting()) {
+        label.setIcon(new ImageIcon(doFilter(sourceIcon,slider.getValue() / 100f)));
+      }
+    }
+  }
+);
+  slider.setOrientation(JSlider.HORIZONTAL);
+  JPanel sliderContainer=new JPanel(new GridLayout(1,1));
+  sliderContainer.setBorder(BorderFactory.createTitledBorder("Brightness value"));
+  sliderContainer.add(slider);
+  JPanel labelContainer=new JPanel(new GridBagLayout());
+  GridBagConstraints lim=new GridBagConstraints();
+  lim.gridx=lim.gridy=0;
+  labelContainer.add(label,lim);
+  labelContainer.setBorder(BorderFactory.createTitledBorder("Preview"));
+  JPanel container=new JPanel(new BorderLayout());
+  container.add(labelContainer,BorderLayout.CENTER);
+  container.add(sliderContainer,BorderLayout.SOUTH);
+  int choice=JOptionPane.showConfirmDialog(parent.getComponent(),container,"Brightness Filter",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE,null);
+  if (choice == JOptionPane.OK_OPTION) {
+    return doFilter(source,slider.getValue() / 100f);
+  }
+ else {
+    return null;
+  }
+}

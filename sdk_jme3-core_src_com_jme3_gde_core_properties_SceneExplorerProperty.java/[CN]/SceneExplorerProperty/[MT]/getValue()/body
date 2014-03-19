@@ -1,0 +1,9 @@
+{
+  return mutex.readAccess(new Mutex.Action<T>(){
+    public T run(){
+      logger.log(Level.FINE,"Return local value of {0}",objectLocal);
+      return objectLocal;
+    }
+  }
+);
+}

@@ -1,0 +1,19 @@
+{
+synchronized (classPathItems) {
+    Iterator<ClassPathItem> classPathItemsIter=classPathItems.iterator();
+    while (classPathItemsIter.hasNext()) {
+      ClassPathItem classPathItem=classPathItemsIter.next();
+      FileObject jarFile=classPathItem.object;
+      Enumeration<FileObject> jarEntry=(Enumeration<FileObject>)jarFile.getChildren(true);
+      while (jarEntry.hasMoreElements()) {
+        FileObject jarEntryAsset=jarEntry.nextElement();
+        if (jarEntryAsset.getExt().equalsIgnoreCase(suffix)) {
+          if (!jarEntryAsset.getPath().startsWith("/")) {
+            list.add(jarEntryAsset.getPath());
+          }
+        }
+      }
+    }
+    return list;
+  }
+}

@@ -1,0 +1,13 @@
+{
+  if (testing) {
+    editorController.stopVehicle();
+    jButton5.setText("test vehicle");
+    testing=false;
+  }
+ else {
+    SceneViewerTopComponent.findInstance().requestActive();
+    editorController.testVehicle();
+    jButton5.setText("stop testing");
+    testing=true;
+  }
+}

@@ -1,0 +1,19 @@
+{
+  FileObject[] files=folder.getChildren();
+  for (  FileObject fileObject : files) {
+    if (fileObject.isFolder() && !fileObject.isVirtual()) {
+      scanFiles(fileObject);
+    }
+ else     if (fileObject.getPath().endsWith(".mesh.xml")) {
+      if (!fileObject.getName().equals("campfire.mesh")) {
+        modelNames.add(getRelativeAssetPath(fileObject.getPath()));
+      }
+    }
+ else     if ("material".equals(fileObject.getExt())) {
+      String name=getMaterialName(fileObject);
+      if (name != null) {
+        addMaterialRef(name,getRelativeAssetPath(fileObject.getPath()));
+      }
+    }
+  }
+}

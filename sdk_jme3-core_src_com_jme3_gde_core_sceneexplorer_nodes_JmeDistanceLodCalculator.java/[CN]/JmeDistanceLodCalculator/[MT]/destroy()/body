@@ -1,0 +1,17 @@
+{
+  try {
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        return null;
+      }
+    }
+).get();
+    ((AbstractSceneExplorerNode)getParentNode()).refresh(true);
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

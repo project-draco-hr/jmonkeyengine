@@ -1,0 +1,51 @@
+{
+  final String path=getAndroidToolPath();
+  if (path == null) {
+    return;
+  }
+  FileObject folder=project.getProjectDirectory().getFileObject("mobile");
+  if (folder == null) {
+    try {
+      folder=project.getProjectDirectory().createFolder("mobile");
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+      return;
+    }
+  }
+  String[] command=new String[]{path,"create","project","--target",target,"--name",name,"--path",FileUtil.toFile(folder).getPath(),"--activity",activity,"--package",packag};
+  ProcessBuilder builder=new ProcessBuilder(command);
+  FileLock lock=null;
+  try {
+    Process proc=builder.start();
+    OutputReader outReader=new OutputReader(proc.getInputStream());
+    OutputReader errReader=new OutputReader(proc.getErrorStream());
+    outReader.start();
+    errReader.start();
+    proc.waitFor();
+    folder.refresh();
+    String mainActName="mobile/src/" + packag.replaceAll("\\.","/") + "/MainActivity.java";
+    FileObject mainAct=project.getProjectDirectory().getFileObject(mainActName);
+    if (mainAct != null) {
+      lock=mainAct.lock();
+      OutputStreamWriter out=new OutputStreamWriter(new BufferedOutputStream(mainAct.getOutputStream(lock)));
+      out.write(mainActivityString(mainJmeClass,packag));
+      out.close();
+      lock.releaseLock();
+    }
+ else {
+      Logger.getLogger(AndroidSdkTool.class.getName()).log(Level.WARNING,"Cannot find {0}",mainActName);
+    }
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  IOException ex) {
+    if (lock != null) {
+      lock.releaseLock();
+    }
+    Exceptions.printStackTrace(ex);
+  }
+  updateAndroidManifest(project);
+  updateAndroidApplicationName(project,name);
+}

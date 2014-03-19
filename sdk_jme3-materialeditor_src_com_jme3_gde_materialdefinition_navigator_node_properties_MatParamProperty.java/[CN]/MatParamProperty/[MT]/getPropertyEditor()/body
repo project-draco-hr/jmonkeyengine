@@ -1,0 +1,21 @@
+{
+  if (valueType == Vector3f.class) {
+    return new Vector3fPropertyEditor();
+  }
+ else   if (valueType == Quaternion.class) {
+    return new QuaternionPropertyEditor();
+  }
+ else   if (valueType == Matrix3f.class) {
+    return new Matrix3fPropertyEditor();
+  }
+ else   if (valueType == ColorRGBA.class) {
+    return new ColorRGBAPropertyEditor();
+  }
+ else   if (valueType == Vector2f.class) {
+    return new Vector2fPropertyEditor();
+  }
+ else   if (valueType == Texture.class) {
+    return new TexturePropertyEditor(lookup.lookup(ProjectAssetManager.class));
+  }
+  return super.getPropertyEditor();
+}

@@ -1,0 +1,12 @@
+{
+  Point p=getLocation();
+  Component parent=getParent();
+  while (parent != getNode()) {
+    p.x+=parent.getLocation().x;
+    p.y+=parent.getLocation().y;
+    parent=parent.getParent();
+  }
+  p.x+=10 + getNode().getLocation().x;
+  p.y+=5 + getNode().getLocation().y;
+  return p;
+}

@@ -1,0 +1,18 @@
+{
+  FileObject file=context.getPrimaryFile();
+  ImageEditorTopComponent display=new ImageEditorTopComponent();
+  try {
+    display.setEditedImage(file);
+    display.open();
+    display.requestActive();
+  }
+ catch (  URISyntaxException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  FileNotFoundException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

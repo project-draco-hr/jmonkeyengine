@@ -1,0 +1,15 @@
+{
+  super(new JFrame(),true);
+  initComponents();
+  setLocationRelativeTo(null);
+  this.projects=projects;
+  jComboBox1.removeAllItems();
+  for (int i=0; i < projects.length; i++) {
+    Project project=projects[i];
+    ProjectAssetManager manager=project.getLookup().lookup(ProjectAssetManager.class);
+    if (assetOnly == false || manager != null) {
+      ProjectInformation info=project.getLookup().lookup(ProjectInformation.class);
+      jComboBox1.addItem(info.getName());
+    }
+  }
+}

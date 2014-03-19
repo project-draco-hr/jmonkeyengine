@@ -1,0 +1,24 @@
+{
+  try {
+    fireSave(true);
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        spatial.removeLight(light);
+        return null;
+      }
+    }
+).get();
+    if (getParentNode() instanceof JmeNode) {
+      JmeNode node=((JmeNode)getParentNode());
+      if (node != null) {
+        node.refresh(false);
+      }
+    }
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

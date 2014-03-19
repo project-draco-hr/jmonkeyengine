@@ -1,0 +1,10 @@
+{
+  if (value instanceof Texture) {
+    texture=(Texture)value;
+    triggerListeners(null,texture);
+  }
+ else {
+    triggerListeners(texture,null);
+    texture=null;
+  }
+}

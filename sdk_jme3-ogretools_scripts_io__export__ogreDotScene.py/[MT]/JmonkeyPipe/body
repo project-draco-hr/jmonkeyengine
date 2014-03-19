@@ -1,0 +1,11 @@
+def JmonkeyPipe(path):
+    root = CONFIG['JMONKEY_ROOT']
+    if sys.platform.startswith('win'):
+        cmd = [os.path.join(os.path.join(root, 'bin'), 'jmonkeyplatform.exe')]
+    else:
+        cmd = [os.path.join(os.path.join(root, 'bin'), 'jmonkeyplatform')]
+    cmd.append('--nosplash')
+    cmd.append('--open')
+    cmd.append(path)
+    proc = subprocess.Popen(cmd)
+    return proc

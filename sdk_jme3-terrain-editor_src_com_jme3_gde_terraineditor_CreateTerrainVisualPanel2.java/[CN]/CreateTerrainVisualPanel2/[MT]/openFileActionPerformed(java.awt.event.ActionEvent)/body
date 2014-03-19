@@ -1,0 +1,10 @@
+{
+  TexturePropertyEditor editor=new TexturePropertyEditor();
+  Component view=editor.getCustomEditor();
+  view.setVisible(true);
+  Texture tex=(Texture)editor.getValue();
+  browsedTexture=tex;
+  if (tex != null)   _imageBrowseTextField.setText(tex.getName());
+ else   _imageBrowseTextField.setText("...");
+  wizardPanel.fireChangeEvent();
+}

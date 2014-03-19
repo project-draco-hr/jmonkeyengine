@@ -1,0 +1,22 @@
+{
+  if (selectedItem instanceof NodePanel) {
+    int result=JOptionPane.showConfirmDialog(null,"Delete this node and all its mappings?","Delete Shader Node",JOptionPane.OK_CANCEL_OPTION);
+    if (result == JOptionPane.OK_OPTION) {
+      NodePanel selectedNode=(NodePanel)selectedItem;
+      nodes.remove(selectedNode);
+      for (Iterator<Connection> it=connections.iterator(); it.hasNext(); ) {
+        Connection conn=it.next();
+        if (conn.start.getNode() == selectedNode || conn.end.getNode() == selectedNode) {
+          it.remove();
+          conn.end.disconnect();
+          conn.start.disconnect();
+          remove(conn);
+        }
+      }
+      remove(selectedNode);
+      selectedItem=null;
+      repaint();
+      parent.notifyRemoveNode(selectedNode);
+    }
+  }
+}

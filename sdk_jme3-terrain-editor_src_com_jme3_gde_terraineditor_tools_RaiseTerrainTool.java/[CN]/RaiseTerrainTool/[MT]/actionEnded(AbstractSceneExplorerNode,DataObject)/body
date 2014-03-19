@@ -1,0 +1,10 @@
+{
+  if (modifying) {
+    modifying=false;
+    if (actions.isEmpty())     return;
+    List<RaiseTerrainToolAction> cloned=new ArrayList<RaiseTerrainToolAction>();
+    cloned.addAll(actions);
+    recordUndo(cloned,rootNode,dataObject);
+    actions.clear();
+  }
+}

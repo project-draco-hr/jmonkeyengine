@@ -1,0 +1,24 @@
+{
+  ArrayList<AndroidTarget> list=new ArrayList<AndroidTarget>();
+  final String path=getAndroidToolPath();
+  if (path == null) {
+    return list;
+  }
+  String[] command=new String[]{path,"list","targets"};
+  ProcessBuilder builder=new ProcessBuilder(command);
+  try {
+    Process proc=builder.start();
+    ListReader outReader=new ListReader(proc.getInputStream(),list);
+    OutputReader errReader=new OutputReader(proc.getErrorStream());
+    outReader.start();
+    errReader.start();
+    proc.waitFor();
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return list;
+}

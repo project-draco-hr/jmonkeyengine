@@ -1,0 +1,20 @@
+{
+  try {
+    String name=meth.getName();
+    if (name.startsWith("get") || name.startsWith("set")) {
+      name=name.substring(3);
+      if (name.length() > 0) {
+        name=Character.toLowerCase(name.charAt(0)) + name.substring(1);
+      }
+    }
+ else {
+      return null;
+    }
+    PropertyDescriptor prop=new PropertyDescriptor(name,c);
+    prop.setDisplayName(splitCamelCase(meth.getName()));
+    return prop;
+  }
+ catch (  IntrospectionException ex) {
+    return null;
+  }
+}

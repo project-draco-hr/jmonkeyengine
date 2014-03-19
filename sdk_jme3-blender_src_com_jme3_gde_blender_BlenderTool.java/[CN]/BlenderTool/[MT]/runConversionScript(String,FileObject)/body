@@ -1,0 +1,43 @@
+{
+  if (!checkBlenderFolders()) {
+    logger.log(Level.SEVERE,"Could not create blender settings folders!");
+    return false;
+  }
+  final File exe=getBlenderExecutable();
+  if (exe == null) {
+    logger.log(Level.SEVERE,"Could not find blender executable!");
+    return false;
+  }
+  logger.log(Level.INFO,"Running blender as converter for file {0}",input.getPath());
+  String scriptPath=getScriptPath(type,"import");
+  String inputPath=input.getPath().replace("/",File.separator);
+  String inputFolder=input.getParent().getPath().replace("/",File.separator) + File.separator;
+  String outputPath=inputFolder + input.getName() + "."+ TEMP_SUFFIX;
+  try {
+    String command=exe.getAbsolutePath();
+    ProcessBuilder buildr=new ProcessBuilder(command,"-b","--factory-startup","-P",scriptPath,"--","-i",inputPath,"-o",outputPath);
+    buildr.directory(getBlenderRootFolder());
+    buildr.environment().put("BLENDER_USER_CONFIG",getConfigEnv());
+    buildr.environment().put("BLENDER_SYSTEM_SCRIPTS",getScriptsEnv());
+    buildr.environment().put("BLENDER_USER_SCRIPTS",getUserScriptsEnv());
+    Process proc=buildr.start();
+    OutputReader outReader=new OutputReader(proc.getInputStream());
+    OutputReader errReader=new OutputReader(proc.getErrorStream());
+    outReader.start();
+    errReader.start();
+    try {
+      proc.waitFor();
+    }
+ catch (    InterruptedException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+    if (proc.exitValue() != 0) {
+      logger.log(Level.SEVERE,"Error running blender!");
+      return false;
+    }
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return true;
+}

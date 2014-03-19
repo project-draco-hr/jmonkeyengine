@@ -1,0 +1,9 @@
+{
+  if (s.equals(exclude)) {
+    return true;
+  }
+  if (s.getParent() != null) {
+    return isExcluded(s.getParent(),exclude);
+  }
+  return false;
+}

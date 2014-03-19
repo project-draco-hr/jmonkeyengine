@@ -1,0 +1,27 @@
+{
+  final WizardDescriptor wizardDescriptor=new WizardDescriptor(getPanels());
+  wizardDescriptor.setTitleFormat(new MessageFormat("{0}"));
+  wizardDescriptor.setTitle("Publish AssetPack");
+  wizardDescriptor.putProperty("project",context);
+  String projectName=((AssetPackProject)context).getProjectName().replaceAll(" ","_") + ".zip";
+  wizardDescriptor.putProperty("filename",projectName);
+  Dialog dialog=DialogDisplayer.getDefault().createDialog(wizardDescriptor);
+  dialog.setVisible(true);
+  dialog.toFront();
+  boolean cancelled=wizardDescriptor.getValue() != WizardDescriptor.FINISH_OPTION;
+  if (!cancelled) {
+    new Thread(new Runnable(){
+      public void run(){
+        ProgressHandle handle=ProgressHandleFactory.createHandle("Publishing AssetPack..");
+        handle.start();
+        packZip(wizardDescriptor);
+        copyData(wizardDescriptor);
+        handle.progress("Uploading AssetPack..");
+        uploadData(wizardDescriptor);
+        cleanup(wizardDescriptor);
+        handle.finish();
+      }
+    }
+).start();
+  }
+}

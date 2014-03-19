@@ -1,0 +1,38 @@
+{
+  if (paintDebug) {
+    for (int i=0; i < pointsSize - 1; i++) {
+      translate(points[i],p1);
+      p1.x-=MARGIN;
+      p1.y-=MARGIN;
+      translate(points[i + 1],p2);
+      p2.x+=MARGIN;
+      p2.y+=MARGIN;
+      g.setColor(Color.GRAY);
+      g.drawLine(p1.x,p1.y,p2.x,p1.y);
+      g.drawLine(p2.x,p1.y,p2.x,p2.y);
+      g.drawLine(p2.x,p2.y,p1.x,p2.y);
+      g.drawLine(p1.x,p2.y,p1.x,p1.y);
+    }
+    paintDebug=false;
+  }
+  for (int i=0; i < pointsSize - 1; i++) {
+    g.setColor(Color.YELLOW);
+    translate(points[i],p1);
+    translate(points[i + 1],p2);
+    g.drawLine(p1.x,p1.y,p2.x,p2.y);
+    if (getDiagram().selectedItem == this) {
+      g.setColor(Color.CYAN);
+    }
+ else {
+      g.setColor(Color.GRAY);
+    }
+    tp1.setLocation(p1);
+    bp1.setLocation(p1);
+    tp2.setLocation(p2);
+    bp2.setLocation(p2);
+    adjustCorners(corners[i],tp1,bp1);
+    adjustCorners(corners[i + 1],tp2,bp2);
+    g.drawLine(tp1.x,tp1.y,tp2.x,tp2.y);
+    g.drawLine(bp1.x,bp1.y,bp2.x,bp2.y);
+  }
+}

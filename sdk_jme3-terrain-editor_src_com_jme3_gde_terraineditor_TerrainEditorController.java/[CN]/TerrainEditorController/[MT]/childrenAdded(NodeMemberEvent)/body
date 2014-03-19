@@ -1,0 +1,11 @@
+{
+  boolean isTerrain=false;
+  for (  org.openide.nodes.Node n : ev.getSnapshot()) {
+    Node node=n.getLookup().lookup(Node.class);
+    if (node instanceof Terrain) {
+      isTerrain=true;
+      break;
+    }
+  }
+  if (isTerrain)   topComponent.reinitTextureTable();
+}

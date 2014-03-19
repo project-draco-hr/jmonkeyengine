@@ -1,0 +1,10 @@
+{
+  initComponents();
+  setName(NbBundle.getMessage(FilterExplorerTopComponent.class,"CTL_FilterExplorerTopComponent"));
+  setToolTipText(NbBundle.getMessage(FilterExplorerTopComponent.class,"HINT_FilterExplorerTopComponent"));
+  ActionMap map=getActionMap();
+  map.put("delete",ExplorerUtils.actionDelete(explorerManager,true));
+  map.put("moveup",new MoveUpAction());
+  map.put("movedown",new MoveDownAction());
+  associateLookup(ExplorerUtils.createLookup(explorerManager,map));
+}

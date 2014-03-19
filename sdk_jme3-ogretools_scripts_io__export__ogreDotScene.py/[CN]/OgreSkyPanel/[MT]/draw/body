@@ -1,0 +1,11 @@
+def draw(self, context):
+    layout = self.layout
+    box = layout.box()
+    box.prop(context.world, 'ogre_skyX')
+    if context.world.ogre_skyX:
+        box.prop(context.world, 'ogre_skyX_time')
+        box.prop(context.world, 'ogre_skyX_wind')
+        box.prop(context.world, 'ogre_skyX_volumetric_clouds')
+        if context.world.ogre_skyX_volumetric_clouds:
+            box.prop(context.world, 'ogre_skyX_cloud_density_x')
+            box.prop(context.world, 'ogre_skyX_cloud_density_y')

@@ -1,0 +1,25 @@
+{
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      jLabel1.setText(property.getName());
+      jLabel1.setToolTipText(property.getName());
+      String[] s=property.getValue().split(" ");
+      if (s.length == 4) {
+        try {
+          colorPreview.setBackground(getColor(s[0],s[1],s[2],s[3]));
+          rLabel.setText(s[0]);
+          gLabel.setText(s[1]);
+          bLabel.setText(s[2]);
+          aLabel.setText(s[3]);
+        }
+ catch (        NumberFormatException e) {
+          clear();
+        }
+      }
+ else {
+        clear();
+      }
+    }
+  }
+);
+}

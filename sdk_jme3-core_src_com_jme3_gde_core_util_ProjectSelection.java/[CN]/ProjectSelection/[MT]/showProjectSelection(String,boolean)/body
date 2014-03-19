@@ -1,0 +1,7 @@
+{
+  Project[] projects=OpenProjects.getDefault().getOpenProjects();
+  ProjectSelection sel=new ProjectSelection(projects,assetOnly);
+  sel.setTitle(title);
+  sel.setVisible(true);
+  return sel.getSelected();
+}

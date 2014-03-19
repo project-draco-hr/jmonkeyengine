@@ -1,0 +1,16 @@
+{
+  if (node == null) {
+    try {
+      ProjectAssetManager manager=project.getProjectAssetManager();
+      FileObject assets=project.getAssetsFolder();
+      node=DataFolder.find(assets).getNodeDelegate();
+      node.setDisplayName("Project Assets");
+    }
+ catch (    DataObjectNotFoundException ex) {
+      Exceptions.printStackTrace(ex);
+      node=new AbstractNode(Children.LEAF);
+      node.setDisplayName("error");
+    }
+  }
+  return new Node[]{node};
+}

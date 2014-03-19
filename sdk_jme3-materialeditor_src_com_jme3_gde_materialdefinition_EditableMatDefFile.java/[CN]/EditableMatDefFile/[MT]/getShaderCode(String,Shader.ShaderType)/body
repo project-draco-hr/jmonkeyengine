@@ -1,0 +1,25 @@
+{
+  try {
+    material.selectTechnique("Default",SceneApplication.getApplication().getRenderManager());
+    Shader s;
+    if (version.equals(GLSL100)) {
+      glsl100.initialize(material.getActiveTechnique());
+      s=glsl100.generateShader();
+    }
+ else {
+      glsl150.initialize(material.getActiveTechnique());
+      s=glsl150.generateShader();
+    }
+    for (Iterator<Shader.ShaderSource> it=s.getSources().iterator(); it.hasNext(); ) {
+      Shader.ShaderSource source=it.next();
+      if (source.getType() == type) {
+        return source.getSource();
+      }
+    }
+    return "";
+  }
+ catch (  Exception e) {
+    Exceptions.printStackTrace(e);
+    return "error generating shader " + e.getMessage();
+  }
+}

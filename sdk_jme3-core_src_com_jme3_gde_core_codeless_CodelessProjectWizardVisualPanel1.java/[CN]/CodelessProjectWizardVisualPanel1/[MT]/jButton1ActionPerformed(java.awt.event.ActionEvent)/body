@@ -1,0 +1,12 @@
+{
+  FileChooserBuilder builder=new FileChooserBuilder(getClass());
+  builder.setDefaultWorkingDirectory(new File(System.getProperty("user.dir")));
+  builder.setDirectoriesOnly(true);
+  builder.setTitle("Select Project Folder");
+  File file=builder.showOpenDialog();
+  if (file != null) {
+    file=FileUtil.normalizeFile(file);
+    jTextField1.setText(file.getAbsolutePath() + File.separator);
+    panel.fireChangeEvent();
+  }
+}

@@ -1,0 +1,65 @@
+{
+  errors.clear();
+  final ProjectAssetManager pm=niftyObject.getLookup().lookup(ProjectAssetManager.class);
+  if (pm == null) {
+    Logger.getLogger(NiftyPreviewPanel.class.getName()).log(Level.WARNING,"No Project AssetManager found!");
+  }
+  InputStream stream=null;
+  try {
+    stream=niftyObject.getPrimaryFile().getInputStream();
+    doc=XMLUtil.parse(new InputSource(stream),false,false,this,null);
+    NiftyFileNode rootContext=new NiftyFileNode(doc.getDocumentElement());
+    setRoot(rootContext);
+    comp.setRootContext(rootContext);
+  }
+ catch (  Exception ex) {
+    Exceptions.printStackTrace(ex);
+  }
+ finally {
+    try {
+      if (stream != null) {
+        stream.close();
+      }
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+  try {
+    if (nifty != null) {
+      nifty.validateXml(niftyObject.getPrimaryFile().getPath());
+    }
+  }
+ catch (  Exception e) {
+    if (e instanceof SAXParseException) {
+      SAXParseException spe=(SAXParseException)e;
+      errors.addError("Line " + spe.getLineNumber() + " col :"+ spe.getColumnNumber()+ " : "+ spe.getMessage());
+    }
+ else {
+      errors.addError(e.getMessage());
+    }
+    Exceptions.printStackTrace(e);
+  }
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      try {
+        nifty.fromXml(pm.getRelativeAssetPath(niftyObject.getPrimaryFile().getPath()),screen);
+        if (screen == null || screen.length() == 0) {
+          Collection<String> screens=nifty.getAllScreensName();
+          for (Iterator<String> it=screens.iterator(); it.hasNext(); ) {
+            String string=it.next();
+            nifty.gotoScreen(string);
+            return null;
+          }
+        }
+      }
+ catch (      Exception ex) {
+        Message msg=new NotifyDescriptor.Message("Error opening File:" + ex,NotifyDescriptor.ERROR_MESSAGE);
+        Exceptions.printStackTrace(ex);
+        errors.addError(ex.getMessage());
+      }
+      return null;
+    }
+  }
+);
+}

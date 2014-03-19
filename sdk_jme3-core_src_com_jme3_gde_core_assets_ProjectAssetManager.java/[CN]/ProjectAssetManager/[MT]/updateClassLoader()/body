@@ -1,0 +1,12 @@
+{
+  ProjectManager.mutex().postWriteRequest(new Runnable(){
+    public void run(){
+synchronized (classPathItems) {
+        clearClassLoader();
+        loadClassLoader();
+      }
+    }
+  }
+);
+  notifyClassPathListeners();
+}

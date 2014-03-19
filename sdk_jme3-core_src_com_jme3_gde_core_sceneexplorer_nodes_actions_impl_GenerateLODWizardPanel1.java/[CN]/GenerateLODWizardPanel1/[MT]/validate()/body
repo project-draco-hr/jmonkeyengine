@@ -1,0 +1,29 @@
+{
+  float[] vals=new float[component.getValuesFields().size()];
+  for (int i=0; i < component.getValuesFields().size(); i++) {
+    try {
+      String text=component.getValuesFields().get(i).getText();
+      if (!text.trim().equals("")) {
+        vals[i]=Float.parseFloat(text);
+      }
+ else {
+        if (i == 0) {
+          if (JOptionPane.showConfirmDialog(getComponent(),"Warning there is no level value set.\nThis will remove all existing Level of detail from this model.\nDo you wish to continue?","Deleting LOD",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            values=null;
+          }
+ else {
+            throw new WizardValidationException(null,"No reduction value set",null);
+          }
+        }
+ else {
+          values=new float[i];
+          System.arraycopy(vals,0,values,0,i);
+        }
+        return;
+      }
+    }
+ catch (    NumberFormatException e) {
+      throw new WizardValidationException(component.getValuesFields().get(i),"Invalid value for level " + (i + 1),null);
+    }
+  }
+}

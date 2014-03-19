@@ -1,0 +1,12 @@
+{
+  if (assetManager == null) {
+    return;
+  }
+  String[] leaves=assetManager.getTextures();
+  List<String> leavesList=Arrays.asList(leaves);
+  Collections.sort(leavesList);
+  TreeUtil.createTree(jTree1,leavesList.toArray(new String[0]));
+  TreeUtil.expandTree(jTree1,(TreeNode)jTree1.getModel().getRoot(),1);
+  jTree1.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+  jTree1.addTreeSelectionListener(this);
+}

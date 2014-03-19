@@ -1,0 +1,22 @@
+{
+  BoundingVolume bound=geom.getWorldBound();
+  if (bound instanceof BoundingBox) {
+    BoundingBox bbox=(BoundingBox)bound;
+    Vector3f extent=new Vector3f();
+    bbox.getExtent(extent);
+    WireBox wireBox=new WireBox();
+    wireBox.fromBoundingBox(bbox);
+    final Geometry selectionGeometry=new Geometry("selection_geometry_sceneviewer",wireBox);
+    selectionGeometry.setMaterial(blueMat);
+    selectionGeometry.setLocalTranslation(bbox.getCenter().subtract(geom.getWorldTranslation()));
+    selectionShape=new Node("SelectionParent");
+    ((Node)selectionShape).attachChild(selectionGeometry);
+    SceneApplication.getApplication().enqueue(new Callable<Object>(){
+      public Object call() throws Exception {
+        toolsNode.attachChild(selectionShape);
+        return null;
+      }
+    }
+);
+  }
+}

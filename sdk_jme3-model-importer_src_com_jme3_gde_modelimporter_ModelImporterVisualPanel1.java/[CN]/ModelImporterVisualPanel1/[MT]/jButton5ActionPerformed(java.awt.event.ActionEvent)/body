@@ -1,0 +1,10 @@
+{
+  FileChooserBuilder builder=new FileChooserBuilder(this.getClass());
+  builder.setTitle("Select Model File");
+  final File file=builder.showOpenDialog();
+  if (file != null) {
+    currentPath=file.getParent();
+    jTextField1.setText(file.getAbsolutePath());
+    loadKey(file);
+  }
+}

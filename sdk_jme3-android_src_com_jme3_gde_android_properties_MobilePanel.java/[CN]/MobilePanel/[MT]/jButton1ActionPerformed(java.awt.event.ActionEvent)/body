@@ -1,0 +1,17 @@
+{
+  FileChooserBuilder builder=new FileChooserBuilder(AndroidSdkTool.class);
+  builder.setTitle("Please select Android SDK Folder");
+  builder.setDirectoriesOnly(true);
+  File file=builder.showOpenDialog();
+  if (file != null) {
+    FileObject folder=FileUtil.toFileObject(file);
+    if (folder.getFileObject("tools") == null) {
+      Message msg=new NotifyDescriptor.Message("Not a valid SDK folder!",NotifyDescriptor.ERROR_MESSAGE);
+      DialogDisplayer.getDefault().notifyLater(msg);
+    }
+ else {
+      String name=file.getPath();
+      jTextField1.setText(name);
+    }
+  }
+}

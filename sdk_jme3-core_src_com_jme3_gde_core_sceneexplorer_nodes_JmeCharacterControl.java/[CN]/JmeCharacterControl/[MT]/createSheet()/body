@@ -1,0 +1,21 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("CharacterControl");
+  set.setName(CharacterControl.class.getName());
+  CharacterControl obj=geom;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,Vector3f.class,"getPhysicsLocation","setPhysicsLocation","Physics Location"));
+  set.put(makeProperty(obj,CollisionShape.class,"getCollisionShape","setCollisionShape","Collision Shape"));
+  set.put(makeProperty(obj,int.class,"getCollisionGroup","setCollisionGroup","Collision Group"));
+  set.put(makeProperty(obj,int.class,"getCollideWithGroups","setCollideWithGroups","Collide With Groups"));
+  set.put(makeProperty(obj,int.class,"getUpAxis","setUpAxis","Up Axis"));
+  set.put(makeProperty(obj,float.class,"getFallSpeed","setFallSpeed","Fall Speed"));
+  set.put(makeProperty(obj,float.class,"getJumpSpeed","setJumpSpeed","Jump Speed"));
+  set.put(makeProperty(obj,float.class,"getGravity","setGravity","Gravity"));
+  set.put(makeProperty(obj,float.class,"getMaxSlope","setMaxSlope","Max Slope"));
+  sheet.put(set);
+  return sheet;
+}

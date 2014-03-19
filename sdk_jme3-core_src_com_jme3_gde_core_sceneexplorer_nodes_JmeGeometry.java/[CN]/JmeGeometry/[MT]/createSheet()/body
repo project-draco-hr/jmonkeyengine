@@ -1,0 +1,20 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("Geometry");
+  set.setName(Geometry.class.getName());
+  Geometry obj=geom;
+  if (obj == null) {
+    return sheet;
+  }
+  try {
+    set.put(new LodLevelProperty(obj,int.class,"getLodLevel","setLodLevel",this));
+  }
+ catch (  NoSuchMethodException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  set.put(makeProperty(obj,Material.class,"getMaterial","setMaterial","Material"));
+  set.put(makeProperty(obj,Mesh.class,"getMesh","Mesh"));
+  sheet.put(set);
+  return sheet;
+}

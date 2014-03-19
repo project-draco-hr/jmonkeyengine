@@ -1,0 +1,12 @@
+{
+  this.cameraController=cameraController;
+  onTopToolsNode=new Node("OverlayNode");
+  overlayView=SceneApplication.getApplication().getOverlayView();
+  SceneApplication.getApplication().enqueue(new Callable<Void>(){
+    public Void call() throws Exception {
+      overlayView.attachScene(onTopToolsNode);
+      return null;
+    }
+  }
+);
+}

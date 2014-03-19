@@ -1,0 +1,60 @@
+{
+  if (!started) {
+    NotifyUtil.show("OpenGL context not started!","Click here to go to troubleshooting web page.",MessageType.WARNING,lst,0);
+    return;
+  }
+  closeScene(currentSceneRequest,request);
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      if (request == null) {
+        return;
+      }
+      currentSceneRequest=request;
+      if (request.getDataNode() != null) {
+        setCurrentFileNode(request.getDataNode());
+      }
+ else {
+        setCurrentFileNode(null);
+      }
+      if (request.getRootNode() == null && request.getJmeNode() == null) {
+        DataObject dobj=request.getDataObject();
+        if (dobj != null) {
+          request.setJmeNode(NodeUtility.createNode(rootNode,dobj));
+        }
+ else {
+          request.setJmeNode(NodeUtility.createNode(rootNode,false));
+        }
+      }
+      setHelpContext(request.getHelpCtx());
+      setWindowTitle(request.getWindowTitle());
+      if (request.getRequester() instanceof SceneApplication) {
+        camController.enable();
+      }
+ else {
+        camController.disable();
+      }
+      final AssetManager manager=request.getManager();
+      request.setFakeApp(fakeApp);
+      fakeApp.newAssetManager(manager);
+      enqueue(new Callable(){
+        public Object call() throws Exception {
+          if (manager != null) {
+            assetManager=manager;
+          }
+          Spatial model=request.getRootNode();
+          if (model != null && model != rootNode) {
+            rootNode.attachChild(model);
+          }
+          if (request.getToolNode() != null) {
+            toolsNode.attachChild(request.getToolNode());
+          }
+          request.setDisplayed(true);
+          return null;
+        }
+      }
+);
+      notifyOpen(request);
+    }
+  }
+);
+}

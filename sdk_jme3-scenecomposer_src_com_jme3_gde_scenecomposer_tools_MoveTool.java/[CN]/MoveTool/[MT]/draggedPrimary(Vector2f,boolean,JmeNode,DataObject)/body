@@ -1,0 +1,35 @@
+{
+  if (!pressed) {
+    setDefaultAxisMarkerColors();
+    pickedPlane=null;
+    if (wasDragging) {
+      actionPerformed(moveManager.makeUndo());
+      wasDragging=false;
+    }
+    moveManager.reset();
+    return;
+  }
+  if (toolController.getSelectedSpatial() == null) {
+    return;
+  }
+  if (pickedPlane == null) {
+    pickedPlane=pickAxisMarker(camera,screenCoord,axisPickType);
+    if (pickedPlane == null) {
+      return;
+    }
+    if (pickedPlane.equals(new Vector3f(1,1,0))) {
+      moveManager.initiateMove(toolController.getSelectedSpatial(),MoveManager.XY,true);
+    }
+ else     if (pickedPlane.equals(new Vector3f(1,0,1))) {
+      moveManager.initiateMove(toolController.getSelectedSpatial(),MoveManager.XZ,true);
+    }
+ else     if (pickedPlane.equals(new Vector3f(0,1,1))) {
+      moveManager.initiateMove(toolController.getSelectedSpatial(),MoveManager.YZ,true);
+    }
+  }
+  if (!moveManager.move(camera,screenCoord)) {
+    return;
+  }
+  updateToolsTransformation();
+  wasDragging=true;
+}

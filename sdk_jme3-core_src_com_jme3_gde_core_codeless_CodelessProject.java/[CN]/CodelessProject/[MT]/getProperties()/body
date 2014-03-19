@@ -1,0 +1,10 @@
+{
+  Properties properties=new Properties();
+  try {
+    properties.load(getConfigFile(true).getInputStream());
+  }
+ catch (  Exception ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return properties;
+}

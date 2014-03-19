@@ -1,0 +1,6 @@
+{
+  for (Iterator<PropertyChangeListener> it=listeners.iterator(); it.hasNext(); ) {
+    PropertyChangeListener propertyChangeListener=it.next();
+    propertyChangeListener.propertyChange(new PropertyChangeEvent(this,"Material",before,after));
+  }
+}

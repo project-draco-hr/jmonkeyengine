@@ -1,0 +1,29 @@
+{
+  BufferedReader l_reader=null;
+  try {
+    String l_line;
+    l_reader=new BufferedReader(new FileReader(filename));
+    while ((l_line=l_reader.readLine()) != null) {
+      String[] l_parts=l_line.split(";");
+      if (l_parts.length != 3) {
+        throw new IllegalStateException("Wrong structure of Csv. Need to be 'name;start frame;end frame'");
+      }
+      splitAnimation(l_parts[0],Integer.parseInt(l_parts[1]),Integer.parseInt(l_parts[2]));
+    }
+  }
+ catch (  FileNotFoundException ex) {
+    throw new IllegalStateException("Could not find csv");
+  }
+catch (  IOException ex) {
+    throw new IllegalStateException("Error reading csv");
+  }
+ finally {
+    if (l_reader != null) {
+      try {
+        l_reader.close();
+      }
+ catch (      Exception ex) {
+      }
+    }
+  }
+}

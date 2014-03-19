@@ -1,0 +1,15 @@
+{
+  File[] srcChildren=sourceFolder.listFiles();
+  if (srcChildren == null) {
+    LOGGER.info(sourceFolder + " is not a directory or is invalid.");
+    return;
+  }
+  for (  File child : srcChildren) {
+    if (child.isDirectory()) {
+      copyFolder(child);
+    }
+ else {
+      copyFile(child);
+    }
+  }
+}

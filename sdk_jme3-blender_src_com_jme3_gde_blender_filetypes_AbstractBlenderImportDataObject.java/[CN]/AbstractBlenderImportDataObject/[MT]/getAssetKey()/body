@@ -1,0 +1,7 @@
+{
+  if (super.getAssetKey() instanceof BlenderKey) {
+    return (BlenderKey)assetKey;
+  }
+  assetKey=new BlenderKey(super.getAssetKey().getName());
+  return (BlenderKey)assetKey;
+}

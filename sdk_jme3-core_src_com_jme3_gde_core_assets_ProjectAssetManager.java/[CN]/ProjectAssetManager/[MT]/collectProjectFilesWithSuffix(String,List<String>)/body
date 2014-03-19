@@ -1,0 +1,13 @@
+{
+  FileObject assetsFolder=getAssetFolder();
+  if (assetsFolder != null) {
+    Enumeration<FileObject> assets=(Enumeration<FileObject>)assetsFolder.getChildren(true);
+    while (assets.hasMoreElements()) {
+      FileObject asset=assets.nextElement();
+      if (asset.getExt().equalsIgnoreCase(suffix)) {
+        list.add(getRelativeAssetPath(asset.getPath()));
+      }
+    }
+  }
+  return list;
+}

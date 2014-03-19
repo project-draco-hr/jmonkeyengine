@@ -1,0 +1,10 @@
+{
+  Map<String,String> allProps=new HashMap<String,String>();
+  for (Iterator<Map.Entry<String,Object>> it=properties.entrySet().iterator(); it.hasNext(); ) {
+    Map.Entry<String,Object> entry=it.next();
+    String name=entry.getKey();
+    Object value=entry.getValue();
+    allProps.putAll(PropertyProcessor.processProperty(name,value,types));
+  }
+  return allProps;
+}

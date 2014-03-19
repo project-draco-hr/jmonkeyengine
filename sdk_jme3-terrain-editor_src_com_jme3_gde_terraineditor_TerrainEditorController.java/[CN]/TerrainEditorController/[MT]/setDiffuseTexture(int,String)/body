@@ -1,0 +1,6 @@
+{
+  String path=texturePath;
+  if (texturePath == null || texturePath.equals(""))   path=DEFAULT_TERRAIN_TEXTURE;
+  Texture tex=SceneApplication.getApplication().getAssetManager().loadTexture(path);
+  setDiffuseTexture(layer,tex);
+}

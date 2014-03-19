@@ -1,0 +1,14 @@
+{
+  container.getNextButton().setEnabled(false);
+  final Product product=app;
+  if (app != null) {
+    ProductConfigurationLogic l=null;
+    try {
+      l=app.getLogic();
+    }
+ catch (    InitializationException e) {
+    }
+    final File executable=l != null ? new File(app.getInstallationLocation(),l.getExecutable()) : null;
+  }
+  super.evaluateNextButtonClick();
+}

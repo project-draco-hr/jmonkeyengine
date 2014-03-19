@@ -1,0 +1,17 @@
+{
+  try {
+    LineNumberReader in=new LineNumberReader(new InputStreamReader(new URL(path).openStream()));
+    StringWriter out=new StringWriter();
+    String line=in.readLine();
+    while (line != null) {
+      out.write(line + "\n");
+      line=in.readLine();
+    }
+    in.close();
+    out.close();
+    extensionTargets=out.toString();
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

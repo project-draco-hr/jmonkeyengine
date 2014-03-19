@@ -1,0 +1,15 @@
+{
+  List<Project> validProjects=new ArrayList<Project>();
+  Project[] projects=OpenProjects.getDefault().getOpenProjects();
+  for (  Project project : projects) {
+    if (!(project instanceof AssetPackProject) && project.getLookup().lookup(ProjectAssetManager.class) != null) {
+      validProjects.add(project);
+    }
+  }
+  if (validProjects.size() == 1) {
+    return validProjects.get(0);
+  }
+  ProjectSelection sel=new ProjectSelection(validProjects);
+  sel.setVisible(true);
+  return sel.getSelected();
+}

@@ -1,0 +1,14 @@
+{
+  if (view.equals(btnOK)) {
+    Log.i(TAG,"User selected OK for class: " + currentSelection);
+    Intent intent=new Intent(this,TestsHarness.class);
+    intent.putExtra(SELECTED_APP_CLASS,currentSelection);
+    intent.putExtra(ENABLE_MOUSE_EVENTS,enableMouseEvents);
+    intent.putExtra(ENABLE_JOYSTICK_EVENTS,enableJoystickEvents);
+    startActivity(intent);
+  }
+ else   if (view.equals(btnCancel)) {
+    Log.i(TAG,"User selected Cancel");
+    finish();
+  }
+}

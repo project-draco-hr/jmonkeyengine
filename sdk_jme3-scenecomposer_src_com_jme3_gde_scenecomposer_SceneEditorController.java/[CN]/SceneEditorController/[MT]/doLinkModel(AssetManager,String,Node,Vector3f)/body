@@ -1,0 +1,29 @@
+{
+  ProgressHandle progressHandle=ProgressHandleFactory.createHandle("Adding Model..");
+  progressHandle.start();
+  try {
+    if (selected instanceof AssetLinkNode) {
+      AssetLinkNode linkNode=(AssetLinkNode)selected;
+      linkNode.attachLinkedChild(manager,new ModelKey(assetName));
+    }
+ else {
+      ((DesktopAssetManager)manager).clearCache();
+      ModelKey key=new ModelKey(assetName);
+      AssetLinkNode linkNode=new AssetLinkNode(key);
+      linkNode.attachLinkedChildren(manager);
+      selected.attachChild(linkNode);
+      if (location != null) {
+        Vector3f localVec=new Vector3f();
+        selected.worldToLocal(location,localVec);
+        linkNode.setLocalTranslation(localVec);
+      }
+      addSpatialUndo(selected,linkNode,null,jmeRootNode);
+    }
+    refreshSelected();
+  }
+ catch (  Exception ex) {
+    Confirmation msg=new NotifyDescriptor.Confirmation("Error importing " + assetName + "\n"+ ex.toString(),NotifyDescriptor.OK_CANCEL_OPTION,NotifyDescriptor.ERROR_MESSAGE);
+    DialogDisplayer.getDefault().notifyLater(msg);
+  }
+  progressHandle.finish();
+}

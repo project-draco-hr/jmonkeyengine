@@ -1,0 +1,25 @@
+{
+  super.update(tpf);
+synchronized (newNodes) {
+    for (Iterator<SceneSyncListener> it=newNodes.iterator(); it.hasNext(); ) {
+      SceneSyncListener abstractSceneExplorerNode=it.next();
+      abstractSceneExplorerNode.syncSceneData(0);
+      it.remove();
+    }
+  }
+  timer+=tpf;
+  if (timer > timeStep) {
+    timer=0;
+    SceneSyncListener node=this.node;
+    if (initialized && node != null) {
+      node.syncSceneData(tpf);
+    }
+  }
+synchronized (oldNodes) {
+    for (Iterator<SceneSyncListener> it=oldNodes.iterator(); it.hasNext(); ) {
+      SceneSyncListener abstractSceneExplorerNode=it.next();
+      abstractSceneExplorerNode.syncSceneData(0);
+      it.remove();
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  if (!testing) {
+    return;
+  }
+  if (binding.equals("VehicleEditor_Left")) {
+    if (value) {
+      steeringValue+=.5f;
+    }
+ else {
+      steeringValue+=-.5f;
+    }
+    vehicleControl.steer(steeringValue);
+  }
+ else   if (binding.equals("VehicleEditor_Right")) {
+    if (value) {
+      steeringValue+=-.5f;
+    }
+ else {
+      steeringValue+=.5f;
+    }
+    vehicleControl.steer(steeringValue);
+  }
+ else   if (binding.equals("VehicleEditor_Up")) {
+    if (value) {
+      accelerationValue+=motorForce;
+    }
+ else {
+      accelerationValue-=motorForce;
+    }
+    vehicleControl.accelerate(accelerationValue);
+  }
+ else   if (binding.equals("VehicleEditor_Down")) {
+    if (value) {
+      vehicleControl.brake(brakeForce);
+    }
+ else {
+      vehicleControl.brake(0);
+    }
+  }
+ else   if (binding.equals("VehicleEditor_Reset")) {
+    if (value) {
+      System.out.println("Reset");
+      vehicleControl.setPhysicsLocation(Vector3f.ZERO);
+      vehicleControl.setPhysicsRotation(new Matrix3f());
+      vehicleControl.setLinearVelocity(Vector3f.ZERO);
+      vehicleControl.setAngularVelocity(Vector3f.ZERO);
+      vehicleControl.resetSuspension();
+    }
+ else {
+    }
+  }
+}

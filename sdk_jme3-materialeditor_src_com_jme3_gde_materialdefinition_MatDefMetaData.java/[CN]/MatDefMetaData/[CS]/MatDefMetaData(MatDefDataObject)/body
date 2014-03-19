@@ -1,0 +1,13 @@
+{
+  try {
+    this.file=file;
+    getFolder();
+    FileObject primaryFile=file.getPrimaryFile();
+    if (primaryFile != null) {
+      extension=primaryFile.getExt() + "data";
+    }
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

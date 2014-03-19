@@ -1,0 +1,38 @@
+{
+  ImageIcon icon=Icons.vert;
+  if (type == NodeType.Fragment) {
+    icon=Icons.frag;
+  }
+  header=new JLabel(icon);
+  header.addMouseListener(labelMouseMotionListener);
+  header.addMouseMotionListener(labelMouseMotionListener);
+  header.setHorizontalAlignment(SwingConstants.LEFT);
+  header.setFont(new Font("Tahoma",Font.BOLD,11));
+  content=new JPanel();
+  content.setOpaque(false);
+  GroupLayout contentLayout=new GroupLayout(content);
+  content.setLayout(contentLayout);
+  int txtLength=100;
+  GroupLayout.ParallelGroup grpHoriz=contentLayout.createParallelGroup(GroupLayout.Alignment.LEADING);
+  for (int i=0; i < outputDots.size(); i++) {
+    grpHoriz.addGroup(GroupLayout.Alignment.TRAILING,contentLayout.createSequentialGroup().addGap(0,0,Short.MAX_VALUE).addComponent(outputLabels.get(i),GroupLayout.PREFERRED_SIZE,txtLength,GroupLayout.PREFERRED_SIZE).addGap(2,2,2).addComponent(outputDots.get(i),GroupLayout.PREFERRED_SIZE,10,GroupLayout.PREFERRED_SIZE));
+  }
+  for (int i=0; i < inputDots.size(); i++) {
+    grpHoriz.addGroup(GroupLayout.Alignment.LEADING,contentLayout.createSequentialGroup().addComponent(inputDots.get(i),GroupLayout.PREFERRED_SIZE,10,GroupLayout.PREFERRED_SIZE).addGap(2,2,2).addComponent(inputLabels.get(i),GroupLayout.PREFERRED_SIZE,txtLength,GroupLayout.PREFERRED_SIZE));
+  }
+  contentLayout.setHorizontalGroup(grpHoriz);
+  GroupLayout.ParallelGroup grpVert=contentLayout.createParallelGroup(GroupLayout.Alignment.LEADING);
+  GroupLayout.SequentialGroup grp=contentLayout.createSequentialGroup();
+  for (int i=0; i < inputDots.size(); i++) {
+    grp.addGroup(contentLayout.createParallelGroup(GroupLayout.Alignment.CENTER).addComponent(inputDots.get(i),GroupLayout.PREFERRED_SIZE,GroupLayout.DEFAULT_SIZE,GroupLayout.PREFERRED_SIZE).addComponent(inputLabels.get(i))).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED);
+  }
+  for (int i=0; i < outputDots.size(); i++) {
+    grp.addGroup(contentLayout.createParallelGroup(GroupLayout.Alignment.CENTER).addComponent(outputDots.get(i),GroupLayout.PREFERRED_SIZE,GroupLayout.DEFAULT_SIZE,GroupLayout.PREFERRED_SIZE).addComponent(outputLabels.get(i))).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED);
+  }
+  grpVert.addGroup(GroupLayout.Alignment.TRAILING,grp);
+  contentLayout.setVerticalGroup(grpVert);
+  GroupLayout layout=new GroupLayout(this);
+  this.setLayout(layout);
+  layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(GroupLayout.Alignment.LEADING,layout.createSequentialGroup().addGap(6,6,6).addComponent(header,100,100,100)).addGroup(GroupLayout.Alignment.LEADING,layout.createSequentialGroup().addGap(6,6,6)).addComponent(content,GroupLayout.Alignment.TRAILING,GroupLayout.DEFAULT_SIZE,GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE));
+  layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addComponent(header,GroupLayout.PREFERRED_SIZE,GroupLayout.DEFAULT_SIZE,GroupLayout.PREFERRED_SIZE).addGap(10,10,10).addComponent(content,GroupLayout.PREFERRED_SIZE,GroupLayout.DEFAULT_SIZE,GroupLayout.PREFERRED_SIZE)).addGap(10,10,10));
+}

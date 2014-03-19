@@ -1,0 +1,68 @@
+{
+  final JButton zoomIn=new JButton(Icon("zoom-in-2.png"));
+  final JButton zoomOut=new JButton(Icon("zoom-out-2.png"));
+  final JButton resize=new JButton(Icon("transform-scale-2.png"));
+  final JButton rotateLeft=new JButton(Icon("object-rotate-left-2.png"));
+  final JButton mirrorX=new JButton(Icon("mirror_x.png"));
+  final JButton mirrorY=new JButton(Icon("mirror_y.png"));
+  JToolBar toolbar1=new JToolBar();
+  toolbar1.add(zoomIn);
+  toolbar1.add(zoomOut);
+  toolbar1.addSeparator();
+  toolbar1.add(resize);
+  toolbar1.add(rotateLeft);
+  toolbar1.add(mirrorX);
+  toolbar1.add(mirrorY);
+  toolbar1.setFloatable(false);
+  topContainer.add(toolbar1,BorderLayout.CENTER);
+  final ButtonGroup toolsGroup=new ButtonGroup();
+  final JToggleButton colorPicker=new JToggleButton(Icon("color-picker.png"));
+  final JToggleButton imageCrop=new JToggleButton(Icon("transform-crop.png"));
+  toolsGroup.add(colorPicker);
+  toolsGroup.add(imageCrop);
+  JToolBar toolbar2=new JToolBar();
+  toolbar2.setOrientation(JToolBar.VERTICAL);
+  toolbar2.setFloatable(false);
+  toolbar2.add(colorPicker);
+  toolbar2.add(imageCrop);
+  COMPONENT.add(toolbar2,BorderLayout.WEST);
+  ActionListener al=new ActionListener(){
+    public void actionPerformed(    ActionEvent e){
+      Object source=e.getSource();
+      if (source == zoomIn) {
+        setScaleFactor(getScaleFactor() + 0.1f);
+      }
+ else       if (source == zoomOut) {
+        setScaleFactor(getScaleFactor() - 0.1f);
+      }
+ else       if (source == resize) {
+        querySizeAndResize();
+      }
+ else       if (source == rotateLeft) {
+        editedImage=RotateLeftFilter.create().filter(editedImage);
+        resizeDisplay();
+        enableSaving();
+      }
+ else       if (source == mirrorX) {
+        editedImage=MirrorFilter.create().filter(editedImage,MirrorFilter.X);
+        resizeDisplay();
+        enableSaving();
+      }
+ else       if (source == mirrorY) {
+        editedImage=MirrorFilter.create().filter(editedImage,MirrorFilter.Y);
+        resizeDisplay();
+        enableSaving();
+      }
+ else       if (source == colorPicker) {
+        setCurrentTool(ColorPicker.create());
+      }
+ else       if (source == imageCrop) {
+        setCurrentTool(CropTool.create());
+      }
+    }
+  }
+;
+  for (  AbstractButton b : Arrays.asList(zoomIn,zoomOut,resize,rotateLeft,mirrorX,mirrorY,colorPicker,imageCrop)) {
+    b.addActionListener(al);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  super(pf,loader);
+  contentLookup=new AbstractLookup(lookupContents);
+  assetData=new AssetData(this);
+  lookupContents.add(assetData);
+  lookup=new ProxyLookup(getCookieSet().getLookup(),contentLookup);
+  listListener=new AssetListListener(this,assetList,assetKeyList,failedList);
+  assetManager=findAssetManager();
+  setSaveCookie(saveCookie);
+}

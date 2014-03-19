@@ -1,0 +1,15 @@
+{
+  while (getRowCount() > 0) {
+    removeRow(0);
+  }
+  for (int i=0; i < editorController.MAX_TEXTURES; i++) {
+    if (!editorController.hasTextureAt(i)) {
+      continue;
+    }
+    Float scale=editorController.getTextureScale(i);
+    if (scale == null) {
+      scale=TerrainEditorController.DEFAULT_TEXTURE_SCALE;
+    }
+    addRow(new Object[]{"",i,i,scale});
+  }
+}

@@ -1,0 +1,52 @@
+{
+  if (axisMarker == null) {
+    return null;
+  }
+  CollisionResult cr=pick(cam,mouseLoc,axisMarker);
+  if (cr == null || cr.getGeometry() == null) {
+    return null;
+  }
+  if (pickType == AxisMarkerPickType.planeOnly) {
+    if ("quadXY".equals(cr.getGeometry().getName())) {
+      return QUAD_XY;
+    }
+ else     if ("quadXZ".equals(cr.getGeometry().getName())) {
+      return QUAD_XZ;
+    }
+ else     if ("quadYZ".equals(cr.getGeometry().getName())) {
+      return QUAD_YZ;
+    }
+  }
+ else   if (pickType == AxisMarkerPickType.axisOnly) {
+    if ("arrowX".equals(cr.getGeometry().getName())) {
+      return ARROW_X;
+    }
+ else     if ("arrowY".equals(cr.getGeometry().getName())) {
+      return ARROW_Y;
+    }
+ else     if ("arrowZ".equals(cr.getGeometry().getName())) {
+      return ARROW_Z;
+    }
+  }
+ else   if (pickType == AxisMarkerPickType.axisAndPlane) {
+    if ("arrowX".equals(cr.getGeometry().getName())) {
+      return ARROW_X;
+    }
+ else     if ("arrowY".equals(cr.getGeometry().getName())) {
+      return ARROW_Y;
+    }
+ else     if ("arrowZ".equals(cr.getGeometry().getName())) {
+      return ARROW_Z;
+    }
+ else     if ("quadXY".equals(cr.getGeometry().getName())) {
+      return QUAD_XY;
+    }
+ else     if ("quadXZ".equals(cr.getGeometry().getName())) {
+      return QUAD_XZ;
+    }
+ else     if ("quadYZ".equals(cr.getGeometry().getName())) {
+      return QUAD_YZ;
+    }
+  }
+  return null;
+}

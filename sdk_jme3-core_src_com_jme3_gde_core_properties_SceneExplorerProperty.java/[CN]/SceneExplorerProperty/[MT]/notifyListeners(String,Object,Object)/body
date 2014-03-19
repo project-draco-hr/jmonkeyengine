@@ -1,0 +1,12 @@
+{
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      logger.log(Level.FINE,"Notify SceneExplorer listeners");
+      for (Iterator<ScenePropertyChangeListener> it=listeners.iterator(); it.hasNext(); ) {
+        ScenePropertyChangeListener propertyChangeListener=it.next();
+        propertyChangeListener.propertyChange(type,getName(),before,after);
+      }
+    }
+  }
+);
+}

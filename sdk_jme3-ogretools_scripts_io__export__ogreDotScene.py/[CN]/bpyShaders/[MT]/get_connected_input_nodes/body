@@ -1,0 +1,7 @@
+@staticmethod
+def get_connected_input_nodes(material, node):
+    r = []
+    for link in material.node_tree.links:
+        if (link.to_node and (link.to_node.name == node.name)):
+            r.append(link.from_node)
+    return r

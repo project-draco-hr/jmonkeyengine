@@ -1,0 +1,11 @@
+{
+  sb.append(indentation).append('<').append(name);
+  if (attributes != null) {
+    if (!attributes.oneLine)     sb.append('\n');
+ else     sb.append(' ');
+    generateAttributes(sb,attributes,indentation + "    ");
+    if (!attributes.oneLine)     sb.append(indentation);
+    sb.append(">\n");
+  }
+ else   sb.append(">\n");
+}

@@ -1,0 +1,9 @@
+{
+  readProperties();
+  return propsMutex.readAccess(new Action<String>(){
+    public String run(){
+      return props.getProperty(key);
+    }
+  }
+);
+}

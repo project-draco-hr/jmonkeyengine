@@ -1,0 +1,12 @@
+{
+  if (slopeTerrainButton.isSelected()) {
+    SlopeTerrainTool tool=new SlopeTerrainTool();
+    toolController.setTerrainEditButtonState(tool);
+    updateSlopeToolParams();
+    setHintText(tool);
+  }
+ else {
+    toolController.setTerrainEditButtonState(null);
+    setHintText((TerrainTool)null);
+  }
+}

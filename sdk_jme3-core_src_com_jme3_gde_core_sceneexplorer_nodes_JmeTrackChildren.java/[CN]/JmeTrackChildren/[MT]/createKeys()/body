@@ -1,0 +1,41 @@
+{
+  try {
+    return SceneApplication.getApplication().enqueue(new Callable<List<Object>>(){
+      public List<Object> call() throws Exception {
+        List<Object> keys=new LinkedList<Object>();
+        Animation anim=jmeAnimation.getLookup().lookup(Animation.class);
+        if (anim != null) {
+          for (          Track track : anim.getTracks()) {
+            if (track instanceof BoneTrack) {
+              if (jmeControl.isDisplayBoneTracks()) {
+                keys.add(track);
+              }
+            }
+ else             if (track instanceof EffectTrack) {
+              if (jmeControl.isDisplayEffectTracks()) {
+                keys.add(track);
+              }
+            }
+ else             if (track instanceof AudioTrack) {
+              if (jmeControl.isDisplayAudioTracks()) {
+                keys.add(track);
+              }
+            }
+ else {
+              keys.add(track);
+            }
+          }
+        }
+        return keys;
+      }
+    }
+).get();
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return null;
+}

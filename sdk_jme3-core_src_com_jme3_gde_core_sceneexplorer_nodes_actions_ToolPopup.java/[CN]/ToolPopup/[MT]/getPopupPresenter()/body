@@ -1,0 +1,9 @@
+{
+  JMenu result=new JMenu("Tools..");
+  for (  ToolAction di : Lookup.getDefault().lookupAll(ToolAction.class)) {
+    if (di.getNodeClass().isAssignableFrom(exNode.getClass())) {
+      result.add(new JMenuItem(di.getAction(exNode,dataObject)));
+    }
+  }
+  return result;
+}

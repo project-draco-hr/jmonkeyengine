@@ -1,0 +1,12 @@
+{
+  task.start();
+  try {
+    task.join(timeout);
+  }
+ catch (  InterruptedException e) {
+  }
+  if (task.isAlive()) {
+    task.stop();
+    throw new TimeoutException();
+  }
+}

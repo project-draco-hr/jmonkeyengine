@@ -1,0 +1,13 @@
+{
+  try {
+    if (floatValue) {
+      jSlider1.setValue((int)(Float.parseFloat(s) * 100f));
+    }
+ else {
+      jSlider1.setValue(Integer.parseInt(s));
+    }
+  }
+ catch (  NumberFormatException e) {
+    jSlider1.setValue(0);
+  }
+}

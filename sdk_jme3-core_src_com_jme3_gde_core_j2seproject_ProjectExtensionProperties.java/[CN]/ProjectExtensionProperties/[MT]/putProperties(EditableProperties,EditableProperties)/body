@@ -1,0 +1,12 @@
+{
+  for (int i=0; i < keyList.length; i++) {
+    String string=keyList[i];
+    String value=from.getProperty(string);
+    if (value == null || "".equals(value)) {
+      to.remove(string);
+    }
+ else {
+      to.put(string,value);
+    }
+  }
+}

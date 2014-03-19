@@ -1,0 +1,44 @@
+{
+  VarType vType=MatParamProperty.getVarType(param.getType());
+switch (vType) {
+case Boolean:
+    return new MatParamProperty<Boolean>(param.getName(),param.getType(),Boolean.class,lookup);
+case Float:
+  return new MatParamProperty<Float>(param.getName(),param.getType(),Float.class,lookup);
+case FloatArray:
+return new MatParamProperty<Object>(param.getName(),param.getType(),Object.class,lookup);
+case Int:
+return new MatParamProperty<Integer>(param.getName(),param.getType(),Integer.class,lookup);
+case Matrix3:
+return new MatParamProperty<Matrix3f>(param.getName(),param.getType(),Matrix3f.class,lookup);
+case Matrix3Array:
+return new MatParamProperty<Object>(param.getName(),param.getType(),Object.class,lookup);
+case Matrix4:
+return new MatParamProperty<Matrix4f>(param.getName(),param.getType(),Matrix4f.class,lookup);
+case Matrix4Array:
+return new MatParamProperty<Object>(param.getName(),param.getType(),Object.class,lookup);
+case Texture2D:
+case Texture3D:
+case TextureArray:
+case TextureBuffer:
+case TextureCubeMap:
+return new MatParamProperty<Texture>(param.getName(),param.getType(),Texture.class,lookup);
+case Vector2:
+return new MatParamProperty<Vector2f>(param.getName(),param.getType(),Vector2f.class,lookup);
+case Vector2Array:
+return new MatParamProperty<Object>(param.getName(),param.getType(),Object.class,lookup);
+case Vector3:
+return new MatParamProperty<Vector3f>(param.getName(),param.getType(),Vector3f.class,lookup);
+case Vector3Array:
+return new MatParamProperty<Object>(param.getName(),param.getType(),Object.class,lookup);
+case Vector4:
+if (param.getType().equals("Color")) {
+return new MatParamProperty<ColorRGBA>(param.getName(),param.getType(),ColorRGBA.class,lookup);
+}
+return new MatParamProperty<Vector4f>(param.getName(),param.getType(),Vector4f.class,lookup);
+case Vector4Array:
+return new MatParamProperty<Object>(param.getName(),param.getType(),Object.class,lookup);
+default :
+return null;
+}
+}

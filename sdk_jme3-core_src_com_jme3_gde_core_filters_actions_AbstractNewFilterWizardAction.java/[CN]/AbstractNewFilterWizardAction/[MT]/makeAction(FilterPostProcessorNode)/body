@@ -1,0 +1,33 @@
+{
+  return new AbstractAction(name){
+    public void actionPerformed(    ActionEvent e){
+      final Object obj=showWizard(rootNode);
+      SceneApplication.getApplication().enqueue(new Callable<Void>(){
+        public Void call() throws Exception {
+          final Filter filter=doCreateFilter(rootNode.getFilterPostProcessor(),obj);
+          if (filter != null) {
+            rootNode.addFilter(filter);
+            SceneUndoRedoManager undoRedo=Lookup.getDefault().lookup(SceneUndoRedoManager.class);
+            if (undoRedo == null)             return null;
+            undoRedo.addEdit(this,new AbstractUndoableSceneEdit(){
+              @Override public void sceneUndo() throws CannotUndoException {
+                rootNode.removeFilter(filter);
+              }
+              @Override public void sceneRedo() throws CannotRedoException {
+                rootNode.addFilter(filter);
+              }
+              @Override public void awtRedo(){
+              }
+              @Override public void awtUndo(){
+              }
+            }
+);
+          }
+          return null;
+        }
+      }
+);
+    }
+  }
+;
+}

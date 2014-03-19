@@ -1,0 +1,9 @@
+{
+  if (wiz.getProperty("publish_jmeorg") == null) {
+    return;
+  }
+  String file=context.getProjectDirectory().getPath() + "/" + wiz.getProperty("filename");
+  String user=NbPreferences.forModule(Installer.class).get("assetpack_user",null);
+  String pass=NbPreferences.forModule(Installer.class).get("assetpack_pass",null);
+  OnlinePacksConnector.upload(file,user,pass);
+}

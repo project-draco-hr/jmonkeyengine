@@ -1,0 +1,30 @@
+{
+  CreateTerrainVisualPanel2 comp=(CreateTerrainVisualPanel2)getComponent();
+  WizardDescriptor wiz=(WizardDescriptor)settings;
+  wiz.putProperty("abstractHeightMap",heightmap);
+  wiz.putProperty("heightMapSmooth",0f);
+  if ("Flat".equals(comp.getHeightmapTypeComboBox().getSelectedItem())) {
+    heightmap=new FlatHeightmap(terrainTotalSize);
+  }
+ else   if ("Image Based".equals(comp.getHeightmapTypeComboBox().getSelectedItem())) {
+    Texture tex=comp.getImageBrowseTexture();
+    float heightScale=comp.getHeightScale();
+    if (tex != null) {
+      heightmap=new ImageBasedHeightMap(tex.getImage(),heightScale);
+      Float smooth=comp.getSmoothEffect();
+      wiz.putProperty("heightMapSmooth",smooth);
+    }
+  }
+ else   if ("Hill".equals(comp.getHeightmapTypeComboBox().getSelectedItem())) {
+    int iterations=new Integer(comp.getHillIterationsTextField().getText());
+    byte flattening=new Byte(comp.getHillFlatteningTextField().getText());
+    float min=new Float(comp.getHillMinRadiusTextField().getText());
+    float max=new Float(comp.getHillMaxRadiusTextField().getText());
+    try {
+      heightmap=new HillHeightMap(terrainTotalSize,iterations,min,max,flattening);
+    }
+ catch (    Exception ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      jLabel1.setText(property.getName());
+      jLabel1.setToolTipText(property.getName());
+      MaterialProperty prop=property;
+      property=null;
+      if ("On".equals(prop.getValue())) {
+        jCheckBox1.setSelected(true);
+      }
+ else {
+        jCheckBox1.setSelected(false);
+      }
+      property=prop;
+    }
+  }
+);
+}

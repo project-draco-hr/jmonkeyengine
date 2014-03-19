@@ -1,0 +1,14 @@
+{
+  jLabel1=new javax.swing.JLabel();
+  jScrollPane1=new javax.swing.JScrollPane();
+  jList1=new javax.swing.JList();
+  jLabel2=new javax.swing.JLabel();
+  jLabel1.setText(org.openide.util.NbBundle.getMessage(ErrorPanel.class,"ErrorPanel.jLabel1.text"));
+  setLayout(new java.awt.BorderLayout());
+  jList1.setModel(errors);
+  jScrollPane1.setViewportView(jList1);
+  add(jScrollPane1,java.awt.BorderLayout.CENTER);
+  jLabel2.setBackground(new java.awt.Color(200,200,200));
+  jLabel2.setText(org.openide.util.NbBundle.getMessage(ErrorPanel.class,"ErrorPanel.jLabel2.text"));
+  add(jLabel2,java.awt.BorderLayout.NORTH);
+}

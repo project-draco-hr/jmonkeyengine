@@ -1,0 +1,13 @@
+{
+  if (editorController == null || editorController.getTerrain(null) == null) {
+    return;
+  }
+  if (getTableModel().getRowCount() == 0) {
+    return;
+  }
+  int index=getTableModel().getRowCount() - 1;
+  removeTextureLayer(index);
+  buttons.remove(index + "-" + 1);
+  buttons.remove(index + "-" + 2);
+  editorController.enableTextureButtons();
+}

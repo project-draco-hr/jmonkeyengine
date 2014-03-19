@@ -1,0 +1,13 @@
+{
+  String str=properties.getProperty("lwjgl.applet.enabled");
+  if ("true".equals(str)) {
+    jCheckBox1.setSelected(true);
+  }
+ else {
+    jCheckBox1.setSelected(false);
+  }
+  if (properties.getProperty("lwjgl.applet.width") != null) {
+    jTextField1.setText(properties.getProperty("lwjgl.applet.width"));
+    jTextField2.setText(properties.getProperty("lwjgl.applet.height"));
+  }
+}

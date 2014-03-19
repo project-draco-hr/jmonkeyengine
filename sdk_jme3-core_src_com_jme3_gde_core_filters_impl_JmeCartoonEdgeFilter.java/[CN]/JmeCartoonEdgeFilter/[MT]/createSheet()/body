@@ -1,0 +1,13 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("CartoonEdge");
+  set.setName(Node.class.getName());
+  CartoonEdgeFilter obj=(CartoonEdgeFilter)filter;
+  if (obj == null) {
+    return sheet;
+  }
+  createFields(CartoonEdgeFilter.class,set,obj);
+  sheet.put(set);
+  return sheet;
+}

@@ -1,0 +1,10 @@
+{
+  Component view=editor.getCustomEditor();
+  view.setVisible(true);
+  if (editor.getValue() != null) {
+    textureName=editor.getAsText();
+    displayPreview();
+    updateFlipRepeat();
+    fireChanged();
+  }
+}

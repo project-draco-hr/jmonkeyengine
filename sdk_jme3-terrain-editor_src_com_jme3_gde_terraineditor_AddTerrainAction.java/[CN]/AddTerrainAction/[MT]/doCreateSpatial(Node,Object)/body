@@ -1,0 +1,11 @@
+{
+  if (properties != null) {
+    try {
+      return generateTerrain(parent,(WizardDescriptor)properties);
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+  return null;
+}

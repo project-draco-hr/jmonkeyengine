@@ -1,0 +1,12 @@
+{
+  if (name.equals("Enabled")) {
+    toggleIcon((Boolean)after);
+  }
+  if (name.equals("Name")) {
+    setName((String)after);
+  }
+  firePropertyChange(name,before,after);
+  if (!SceneExplorerProperty.PROP_INIT_CHANGE.equals(type)) {
+    fireSave(true);
+  }
+}

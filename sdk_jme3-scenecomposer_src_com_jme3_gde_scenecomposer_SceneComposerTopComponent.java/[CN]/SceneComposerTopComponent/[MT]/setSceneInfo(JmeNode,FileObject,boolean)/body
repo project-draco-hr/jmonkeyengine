@@ -1,0 +1,33 @@
+{
+  final SceneComposerTopComponent inst=this;
+  if (jmeNode != null) {
+    ((TitledBorder)sceneInfoPanel.getBorder()).setTitle(jmeNode.getName());
+    selectSpatial(jmeNode);
+  }
+ else {
+    ((TitledBorder)sceneInfoPanel.getBorder()).setTitle("");
+  }
+  sceneInfoPanel.repaint();
+  if (!active) {
+    result.removeLookupListener(inst);
+    showSelectionToggleButton.setSelected(true);
+    showGridToggleButton.setSelected(false);
+    sceneInfoLabel1.setText("");
+    sceneInfoLabel2.setText("");
+    sceneInfoLabel1.setToolTipText("");
+    sceneInfoLabel2.setToolTipText("");
+    close();
+  }
+ else {
+    showSelectionToggleButton.setSelected(true);
+    showGridToggleButton.setSelected(false);
+    if (file != null) {
+      sceneInfoLabel1.setText("Name: " + file.getNameExt());
+      sceneInfoLabel2.setText("Size: " + file.getSize() / 1024 + " kB");
+      sceneInfoLabel1.setToolTipText("Name: " + file.getNameExt());
+      sceneInfoLabel2.setToolTipText("Size: " + file.getSize() / 1024 + " kB");
+    }
+    open();
+    requestActive();
+  }
+}

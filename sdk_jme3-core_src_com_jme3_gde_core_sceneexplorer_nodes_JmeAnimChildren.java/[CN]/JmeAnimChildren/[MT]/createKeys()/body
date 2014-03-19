@@ -1,0 +1,24 @@
+{
+  try {
+    return SceneApplication.getApplication().enqueue(new Callable<List<Object>>(){
+      public List<Object> call() throws Exception {
+        List<Object> keys=new LinkedList<Object>();
+        AnimControl control=jmeAnimControl.getLookup().lookup(AnimControl.class);
+        if (control != null) {
+          for (          String animName : control.getAnimationNames()) {
+            keys.add(control.getAnim(animName));
+          }
+        }
+        return keys;
+      }
+    }
+).get();
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return null;
+}

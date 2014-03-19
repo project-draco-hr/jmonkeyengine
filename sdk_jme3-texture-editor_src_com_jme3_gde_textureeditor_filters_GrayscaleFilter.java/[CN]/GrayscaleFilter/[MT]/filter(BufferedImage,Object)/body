@@ -1,0 +1,6 @@
+{
+  BufferedImage filtered=new BufferedImage(sourceImage.getWidth(),sourceImage.getHeight(),BufferedImage.TYPE_INT_ARGB);
+  ColorConvertOp gscale=new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY),null);
+  gscale.filter(sourceImage,filtered);
+  return filtered;
+}

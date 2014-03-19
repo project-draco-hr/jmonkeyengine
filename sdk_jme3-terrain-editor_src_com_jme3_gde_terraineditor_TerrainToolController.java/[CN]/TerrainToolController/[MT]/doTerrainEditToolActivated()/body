@@ -1,0 +1,9 @@
+{
+  if (terrainTool != null && primary && !alternate) {
+    Vector3f point=getMarkerLocation();
+    if (point != null) {
+      topComponent.getExtraToolParams();
+      terrainTool.actionPrimary(point,selectedTextureIndex,jmeRootNode,editorController.getCurrentDataObject());
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  jwsProps=new ProjectExtensionProperties(context.lookup(Project.class),keyList);
+  LwjglAppletCustomizerPanel panel=new LwjglAppletCustomizerPanel(jwsProps);
+  category.setStoreListener(new SavePropsListener(jwsProps,context.lookup(Project.class)));
+  category.setOkButtonListener(panel);
+  return panel;
+}

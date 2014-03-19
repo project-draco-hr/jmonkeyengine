@@ -1,0 +1,22 @@
+{
+  try {
+    return SceneApplication.getApplication().enqueue(new Callable<List<Object>>(){
+      public List<Object> call() throws Exception {
+        List<Object> keys=new LinkedList<Object>();
+        for (Iterator it=node.getFilterPostProcessor().getFilterIterator(); it.hasNext(); ) {
+          Filter filter=(Filter)it.next();
+          keys.add(filter);
+        }
+        return keys;
+      }
+    }
+).get();
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return null;
+}

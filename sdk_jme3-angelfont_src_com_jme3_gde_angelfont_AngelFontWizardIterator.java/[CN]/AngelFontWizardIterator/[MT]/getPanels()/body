@@ -1,0 +1,21 @@
+{
+  if (panels == null) {
+    panels=new WizardDescriptor.Panel[]{new AngelFontWizardPanel1(),new AngelFontWizardPanel2()};
+    String[] steps=createSteps();
+    for (int i=0; i < panels.length; i++) {
+      Component c=panels[i].getComponent();
+      if (steps[i] == null) {
+        steps[i]=c.getName();
+      }
+      if (c instanceof JComponent) {
+        JComponent jc=(JComponent)c;
+        jc.putClientProperty("WizardPanel_contentSelectedIndex",new Integer(i));
+        jc.putClientProperty("WizardPanel_contentData",steps);
+        jc.putClientProperty("WizardPanel_autoWizardStyle",Boolean.TRUE);
+        jc.putClientProperty("WizardPanel_contentDisplayed",Boolean.TRUE);
+        jc.putClientProperty("WizardPanel_contentNumbered",Boolean.TRUE);
+      }
+    }
+  }
+  return panels;
+}

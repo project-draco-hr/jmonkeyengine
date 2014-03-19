@@ -1,0 +1,15 @@
+{
+  this.url=url;
+  initComponents();
+  initAccessibility();
+  try {
+    jEditorPane1.setPage(url);
+  }
+ catch (  IOException exc) {
+    System.err.println("Exception: " + exc.getMessage());
+    exc.printStackTrace();
+  }
+  ActionMap actionMap=jEditorPane1.getActionMap();
+  actionMap.put(DefaultEditorKit.upAction,new ScrollAction(-1));
+  actionMap.put(DefaultEditorKit.downAction,new ScrollAction(1));
+}

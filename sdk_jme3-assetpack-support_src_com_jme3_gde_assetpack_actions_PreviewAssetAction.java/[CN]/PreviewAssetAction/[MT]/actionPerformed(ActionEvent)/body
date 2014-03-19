@@ -1,0 +1,23 @@
+{
+  ProjectAssetManager pm=context.getLookup().lookup(ProjectAssetManager.class);
+  if (pm == null) {
+    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,"AssetManager not found!");
+    return;
+  }
+  Element assetElement=context.getLookup().lookup(Element.class);
+  com.jme3.scene.Node node=new com.jme3.scene.Node("PreviewRootNode");
+  Spatial model=null;
+  model=AssetPackLoader.loadAssetPackModel(pm,new AssetConfiguration(assetElement));
+  node.attachChild(model);
+  JmeNode jmeNode=NodeUtility.createNode(node);
+  SceneApplication app=SceneApplication.getApplication();
+  SceneRequest request=new SceneRequest(app,jmeNode,pm);
+  try {
+    request.setDataObject(DataObject.find(context.getLookup().lookup(Project.class).getProjectDirectory()));
+  }
+ catch (  DataObjectNotFoundException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  request.setWindowTitle("AssetPack - PreView Model");
+  app.openScene(request);
+}

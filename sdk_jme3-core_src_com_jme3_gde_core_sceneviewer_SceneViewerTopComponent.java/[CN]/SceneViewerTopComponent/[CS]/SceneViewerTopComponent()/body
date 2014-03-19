@@ -1,0 +1,71 @@
+{
+  initComponents();
+  oGLPanel.setMinimumSize(new java.awt.Dimension(10,10));
+  setFocusable(true);
+  setName(NbBundle.getMessage(SceneViewerTopComponent.class,"CTL_SceneViewerTopComponent"));
+  setToolTipText(NbBundle.getMessage(SceneViewerTopComponent.class,"HINT_SceneViewerTopComponent"));
+  setIcon(ImageUtilities.loadImage(ICON_PATH,true));
+  try {
+    app=SceneApplication.getApplication();
+    oglCanvas=app.getMainPanel();
+    oglCanvas.setFocusable(false);
+    oGLPanel.add(oglCanvas);
+  }
+ catch (  Exception e) {
+    SceneApplication.showStartupErrorMessage(e);
+  }
+catch (  Error err) {
+    SceneApplication.showStartupErrorMessage(err);
+  }
+  addMouseWheelListener(new MouseWheelListener(){
+    public void mouseWheelMoved(    final MouseWheelEvent e){
+      SceneApplication.getApplication().enqueue(new Callable<Void>(){
+        public Void call() throws Exception {
+          String action="MouseWheel-";
+          if (e.getWheelRotation() < 0) {
+            action="MouseWheel";
+          }
+          if (app.getActiveCameraController() != null) {
+            app.getActiveCameraController().onAnalog(action,e.getWheelRotation(),0);
+          }
+          return null;
+        }
+      }
+);
+    }
+  }
+);
+  addKeyListener(new KeyListener(){
+    public void keyTyped(    KeyEvent evt){
+    }
+    public void keyPressed(    final KeyEvent evt){
+      SceneApplication.getApplication().enqueue(new Callable<Void>(){
+        public Void call() throws Exception {
+          int code=AwtKeyInput.convertAwtKey(evt.getKeyCode());
+          KeyInputEvent keyEvent=new KeyInputEvent(code,evt.getKeyChar(),true,false);
+          keyEvent.setTime(evt.getWhen());
+          if (app.getActiveCameraController() != null) {
+            app.getActiveCameraController().onKeyEvent(keyEvent);
+          }
+          return null;
+        }
+      }
+);
+    }
+    public void keyReleased(    final KeyEvent evt){
+      SceneApplication.getApplication().enqueue(new Callable<Void>(){
+        public Void call() throws Exception {
+          int code=AwtKeyInput.convertAwtKey(evt.getKeyCode());
+          KeyInputEvent keyEvent=new KeyInputEvent(code,evt.getKeyChar(),false,false);
+          keyEvent.setTime(evt.getWhen());
+          if (app.getActiveCameraController() != null) {
+            app.getActiveCameraController().onKeyEvent(keyEvent);
+          }
+          return null;
+        }
+      }
+);
+    }
+  }
+);
+}

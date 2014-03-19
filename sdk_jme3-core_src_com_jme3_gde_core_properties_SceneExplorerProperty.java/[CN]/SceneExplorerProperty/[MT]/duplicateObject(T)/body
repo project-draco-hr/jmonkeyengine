@@ -1,0 +1,60 @@
+{
+  if (a == null) {
+    return null;
+  }
+  if (primitive) {
+    logger.log(Level.FINE,"Returning primitive as duplicate");
+    return a;
+  }
+  T obj=null;
+  if (cloneable) {
+    try {
+      obj=(T)a.getClass().getMethod("clone").invoke(a);
+      logger.log(Level.FINE,"Cloned object {0} to {1}",new Object[]{a,obj});
+    }
+ catch (    IllegalAccessException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    IllegalArgumentException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    InvocationTargetException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    NoSuchMethodException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    SecurityException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+ else   if (instantiable) {
+    try {
+      obj=(T)a.getClass().getConstructor(a.getClass()).newInstance(a);
+      logger.log(Level.FINE,"Instantiated new object from {0} to {1}",new Object[]{a,obj});
+    }
+ catch (    InstantiationException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    IllegalAccessException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    IllegalArgumentException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    InvocationTargetException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    NoSuchMethodException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    SecurityException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+  if (obj == null) {
+    logger.log(Level.FINE,"Simply returning non-primitive {0} as duplicate",new Object[]{a});
+    return a;
+  }
+  return obj;
+}

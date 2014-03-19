@@ -1,0 +1,9 @@
+{
+  Node node=root.insert(image);
+  if (node == null) {
+    return false;
+  }
+  rectangleMap.put(name,node.rect);
+  graphics.drawImage(image,null,node.rect.x,node.rect.y);
+  return true;
+}

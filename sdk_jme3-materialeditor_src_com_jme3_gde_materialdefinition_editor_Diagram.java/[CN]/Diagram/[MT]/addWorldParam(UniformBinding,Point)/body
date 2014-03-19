@@ -1,0 +1,9 @@
+{
+  ShaderNodeVariable param=new ShaderNodeVariable(binding.getGlslType(),binding.name());
+  NodePanel np=new NodePanel(param,NodePanel.NodeType.WorldParam);
+  addNode(np);
+  np.setLocation(point.x,point.y);
+  np.revalidate();
+  repaint();
+  getEditorParent().notifyAddWorldParam(binding.name());
+}

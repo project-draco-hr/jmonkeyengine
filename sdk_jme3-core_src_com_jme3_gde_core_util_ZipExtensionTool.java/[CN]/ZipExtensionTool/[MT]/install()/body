@@ -1,0 +1,27 @@
+{
+  File folder=new File(settingsFolder + File.separator + extensionName);
+  File versionFile=new File(settingsFolder + File.separator + extensionName+ File.separator+ ".zipextversion");
+  if (folder.exists()) {
+    if (versionFile.exists()) {
+      if (version.equals(getVersion(versionFile))) {
+        return;
+      }
+ else {
+        folder.delete();
+      }
+    }
+  }
+  ProgressHandle progressHandle=ProgressHandleFactory.createHandle("Installing " + extensionName + " data");
+  progressHandle.start();
+  if (Utilities.isWindows()) {
+    extractToolsJava(packageFolder + "/" + extensionName+ "-"+ SUFFIX_WIN+ ".zip",settingsFolder + File.separator + extensionName);
+  }
+ else   if (Utilities.isMac()) {
+    extractToolsShell(packageFolder + "/" + extensionName+ "-"+ SUFFIX_OSX+ ".zip",settingsFolder + File.separator + extensionName);
+  }
+ else   if (Utilities.isUnix()) {
+    extractToolsShell(packageFolder + "/" + extensionName+ "-"+ SUFFIX_LINUX+ ".zip",settingsFolder + File.separator + extensionName);
+  }
+  setVersion(versionFile,version);
+  progressHandle.finish();
+}

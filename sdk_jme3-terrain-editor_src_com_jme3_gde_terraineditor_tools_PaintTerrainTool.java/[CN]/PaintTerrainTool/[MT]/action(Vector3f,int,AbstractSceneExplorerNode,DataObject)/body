@@ -1,0 +1,10 @@
+{
+  if (radius == 0 || weight == 0)   return;
+  if (!painting)   painting=true;
+  PaintTerrainToolAction action;
+  if (isPrimary())   action=new PaintTerrainToolAction(point,radius,weight,textureIndex);
+ else   action=new PaintTerrainToolAction(point,radius,-weight,textureIndex);
+  action.doActionPerformed(rootNode,dataObject,false);
+  actions.add(action);
+  setModified(rootNode,dataObject);
+}

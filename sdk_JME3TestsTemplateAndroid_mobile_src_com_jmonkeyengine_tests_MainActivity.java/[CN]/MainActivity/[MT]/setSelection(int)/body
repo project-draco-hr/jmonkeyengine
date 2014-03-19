@@ -1,0 +1,16 @@
+{
+  if (position == -1) {
+    arrayAdapter.setSelectedPosition(-1);
+    currentPosition=-1;
+    currentSelection="";
+    btnOK.setEnabled(false);
+    listClasses.invalidateViews();
+  }
+ else {
+    arrayAdapter.setSelectedPosition(position);
+    currentPosition=position;
+    currentSelection=arrayAdapter.getItem(position);
+    btnOK.setEnabled(true);
+    listClasses.invalidateViews();
+  }
+}

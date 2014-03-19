@@ -1,0 +1,17 @@
+{
+  selectedSpatial=node;
+  if (node != null) {
+    lastSelected=node;
+  }
+  try {
+    if (node != null) {
+      explorerManager.setSelectedNodes(new Node[]{node});
+    }
+ else {
+      explorerManager.setSelectedNodes(new Node[]{});
+    }
+  }
+ catch (  Exception ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

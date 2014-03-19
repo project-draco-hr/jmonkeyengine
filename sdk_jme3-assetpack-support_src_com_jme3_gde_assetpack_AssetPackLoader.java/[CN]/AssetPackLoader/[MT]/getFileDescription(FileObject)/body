@@ -1,0 +1,58 @@
+{
+  if (fileObject == null) {
+    return null;
+  }
+  FileDescription description=new FileDescription();
+  description.setFile(fileObject);
+  if ("material".equals(fileObject.getExt())) {
+    description.setType("material");
+  }
+ else   if ("j3m".equals(fileObject.getExt())) {
+    description.setType("material");
+  }
+ else   if ("mat".equals(fileObject.getExt())) {
+    description.setType("material");
+  }
+ else   if ("scene".equals(fileObject.getExt())) {
+    description.setType("scene");
+    description.setMainFile(true);
+  }
+ else   if ("obj".equals(fileObject.getExt())) {
+    description.setType("mesh");
+    description.setMainFile(true);
+  }
+ else   if ("j3o".equals(fileObject.getExt())) {
+    description.setType("scene");
+    description.setMainFile(true);
+  }
+ else   if ("xml".equals(fileObject.getExt())) {
+    if (fileObject.getName().endsWith(".mesh")) {
+      description.setType("mesh");
+    }
+    if (fileObject.getName().endsWith(".skeleton")) {
+      description.setType("skeleton");
+    }
+  }
+ else   if ("png".equals(fileObject.getExt())) {
+    description.setType("texture");
+  }
+ else   if ("jpg".equals(fileObject.getExt())) {
+    description.setType("texture");
+  }
+ else   if ("jpeg".equals(fileObject.getExt())) {
+    description.setType("texture");
+  }
+ else   if ("gif".equals(fileObject.getExt())) {
+    description.setType("texture");
+  }
+ else   if ("dds".equals(fileObject.getExt())) {
+    description.setType("texture");
+  }
+ else   if (fileObject.getName().endsWith(".mesh")) {
+    description.setType("mesh");
+  }
+ else   if (fileObject.getName().endsWith(".skeleton")) {
+    description.setType("skeleton");
+  }
+  return description;
+}

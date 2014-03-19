@@ -1,0 +1,64 @@
+{
+  if (projectFile == null || platformFolder == null) {
+    throw new BuildException("Please set projectfile and version");
+  }
+  clearVesionMap();
+  gatherVersionMap(platformFolder);
+  try {
+    boolean change=false;
+    Document doc=DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(projectFile);
+    Element project=doc.getDocumentElement();
+    if (project == null) {
+      return;
+    }
+    Element configuration=findChildElement(project,"configuration");
+    if (configuration == null) {
+      return;
+    }
+    Element data=findChildElement(configuration,"data");
+    if (data == null) {
+      return;
+    }
+    Element deps=findChildElement(data,"module-dependencies");
+    if (deps == null) {
+      return;
+    }
+    NodeList list=deps.getElementsByTagName("dependency");
+    for (int i=0; i < list.getLength(); i++) {
+      Element elem=(Element)list.item(i);
+      Element base=findChildElement(elem,"code-name-base");
+      if (base != null) {
+        Element runDep=findChildElement(elem,"run-dependency");
+        if (runDep != null) {
+          Element specVersion=findChildElement(runDep,"specification-version");
+          if (specVersion != null) {
+            String name=base.getTextContent().trim();
+            String version=specVersion.getTextContent().trim();
+            String newVersion=versionMap.get(name);
+            if (newVersion != null && !newVersion.equals(version)) {
+              specVersion.setTextContent(newVersion);
+              change=true;
+              log("Updating dependency in for " + name + " to "+ newVersion);
+            }
+ else {
+              log("Unknown " + name + ", cannot update dependency.",LogLevel.WARN.getLevel());
+            }
+          }
+        }
+      }
+    }
+    if (change) {
+      TransformerFactory transformerFactory=TransformerFactory.newInstance();
+      Transformer transformer=transformerFactory.newTransformer();
+      DOMSource source=new DOMSource(doc);
+      StreamResult result=new StreamResult(projectFile);
+      transformer.transform(source,result);
+      OutputStreamWriter out=new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(projectFile,true)));
+      out.write("\n");
+      out.close();
+    }
+  }
+ catch (  Exception ex) {
+    throw new BuildException("Error changing file: " + ex);
+  }
+}

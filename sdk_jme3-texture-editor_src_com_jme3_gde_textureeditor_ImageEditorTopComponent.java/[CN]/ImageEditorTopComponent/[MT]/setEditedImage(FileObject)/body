@@ -1,0 +1,10 @@
+{
+  if (file != null) {
+    setName("PixelHead - " + file.getName());
+  }
+ else {
+    setName("PixelHead - No name");
+  }
+  BufferedImage image=IOModule.create().load(file);
+  EDITOR.setEditedImage(this,image,file);
+}

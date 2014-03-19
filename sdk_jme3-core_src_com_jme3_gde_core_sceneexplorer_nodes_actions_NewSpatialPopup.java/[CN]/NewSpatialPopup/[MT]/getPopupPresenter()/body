@@ -1,0 +1,10 @@
+{
+  JMenu result=new JMenu("Add Spatial..");
+  result.add(new JMenuItem(new AddNodeAction()));
+  result.add(new JMenuItem(new AddEmitterAction()));
+  result.add(new JMenuItem(new AddAudioNodeAction()));
+  for (  NewSpatialAction di : Lookup.getDefault().lookupAll(NewSpatialAction.class)) {
+    result.add(new JMenuItem(di.getAction(jmeNode,dataObject)));
+  }
+  return result;
+}

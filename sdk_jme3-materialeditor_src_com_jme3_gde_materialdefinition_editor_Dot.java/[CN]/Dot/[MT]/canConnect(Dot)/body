@@ -1,0 +1,15 @@
+{
+  if (pair == null) {
+    img=Icons.imgOrange;
+    repaint();
+    return false;
+  }
+  if (matches(pair.getType(),type) && (pair.getParamType() != paramType || pair.getParamType() == ParamType.Both || paramType == ParamType.Both) || ShaderUtils.isSwizzlable(pair.getType()) && ShaderUtils.isSwizzlable(type)) {
+    img=Icons.imgGreen;
+    repaint();
+    return true;
+  }
+  img=Icons.imgRed;
+  repaint();
+  return false;
+}

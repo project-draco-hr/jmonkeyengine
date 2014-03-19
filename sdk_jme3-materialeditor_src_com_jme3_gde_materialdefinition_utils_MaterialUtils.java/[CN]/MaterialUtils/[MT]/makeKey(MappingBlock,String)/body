@@ -1,0 +1,7 @@
+{
+  String rightName=mapping.getRightVar();
+  String leftName=mapping.getLeftVar();
+  String leftSwizzle=mapping.getLeftVarSwizzle() != null ? "." + mapping.getLeftVarSwizzle() : "";
+  String rightSwizzle=mapping.getRightVarSwizzle() != null ? "." + mapping.getRightVarSwizzle() : "";
+  return techName + "/" + mapping.getLeftNameSpace()+ "."+ leftName+ leftSwizzle+ "="+ mapping.getRightNameSpace()+ "."+ rightName+ rightSwizzle;
+}

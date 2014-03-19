@@ -1,0 +1,6 @@
+{
+  if (key instanceof Track) {
+    return new Node[]{new JmeTrack((Track)key,jmeControl.getLookup().lookup(AnimControl.class),dataObject).setReadOnly(readOnly)};
+  }
+  return new Node[]{Node.EMPTY};
+}

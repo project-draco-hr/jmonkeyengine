@@ -1,0 +1,12 @@
+{
+  Sheet sheet=Sheet.createDefault();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("AnimControl");
+  set.setName(AnimControl.class.getName());
+  if (animControl == null) {
+    return sheet;
+  }
+  set.put(new AnimationProperty(animControl));
+  sheet.put(set);
+  return sheet;
+}

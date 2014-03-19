@@ -1,0 +1,43 @@
+{
+  if (stringBuilder.length() > 0) {
+    stringBuilder.delete(0,stringBuilder.length());
+  }
+  input.backup(input.readLength());
+  char c;
+  while (Character.isUnicodeIdentifierPart(c=((char)input.read()))) {
+    stringBuilder.append(c);
+  }
+  if (stringBuilder.length() > 0) {
+    input.backup(1);
+  }
+  GLSLElementDescriptor[] desc=manager.getDesc(stringBuilder.toString());
+  if (desc != null) {
+    if (desc[0].category != null) {
+      if (desc[0].category == GLSLElementDescriptor.Category.BUILD_IN_FUNC) {
+        return factory.createToken(GlslTokenId.BUILD_IN_FUNC);
+      }
+      if (desc[0].category == GLSLElementDescriptor.Category.BUILD_IN_VAR) {
+        return factory.createToken(GlslTokenId.BUILD_IN_VAR);
+      }
+      return factory.createToken(GlslTokenId.KEYWORD);
+    }
+  }
+  int tokenEnd=input.readLength();
+  int character=input.read();
+  while (true) {
+switch (character) {
+case ' ':
+case '\t':
+case '\r':
+case '\n':
+      character=input.read();
+    break;
+case '(':
+  input.backup(input.readLength() - tokenEnd);
+return factory.createToken(GlslTokenId.FUNCTION);
+default :
+input.backup(input.readLength() - tokenEnd);
+return factory.createToken(GlslTokenId.IDENTIFIER);
+}
+}
+}

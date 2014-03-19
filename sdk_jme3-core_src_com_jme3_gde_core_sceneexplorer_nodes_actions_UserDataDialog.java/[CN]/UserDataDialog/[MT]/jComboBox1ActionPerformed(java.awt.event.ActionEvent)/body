@@ -1,0 +1,16 @@
+{
+  if (jComboBox1.getSelectedItem().equals("Custom")) {
+    if (userData != null) {
+      buildCustomSheet(userData);
+    }
+ else {
+      UserDataPicker picker=new UserDataPicker(null,true,this,spat);
+      picker.setVisible(true);
+    }
+  }
+ else {
+    jPanel1.setVisible(false);
+    jTextField1.setEditable(true);
+    setSize(getWidth(),getHeight() - jPanel1.getHeight());
+  }
+}

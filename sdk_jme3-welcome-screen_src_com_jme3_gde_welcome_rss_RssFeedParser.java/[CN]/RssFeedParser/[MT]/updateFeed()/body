@@ -1,0 +1,36 @@
+{
+  Thread t=new Thread(new Runnable(){
+    public void run(){
+      try {
+        final Feed feed=readFeed();
+        java.awt.EventQueue.invokeLater(new Runnable(){
+          public void run(){
+            List<FeedMessage> msgs=feed.getMessages();
+            try {
+              doc.remove(0,doc.getLength());
+              ekit.insertHTML(doc,doc.getLength(),"<html>" + "<head>" + "</head>"+ "<body>",0,0,null);
+              for (              FeedMessage feedMessage : msgs) {
+                ekit.insertHTML(doc,doc.getLength(),"<h3><a href='" + feedMessage.getLink() + "'>"+ feedMessage.getTitle()+ "</a></h3>",0,0,null);
+                ekit.insertHTML(doc,doc.getLength(),"<br/>",0,0,null);
+              }
+              ekit.insertHTML(doc,doc.getLength(),"</body>" + "</html>",0,0,null);
+              doc.insertString(0,"",null);
+            }
+ catch (            BadLocationException ex) {
+              Exceptions.printStackTrace(ex);
+            }
+catch (            IOException ex) {
+              Exceptions.printStackTrace(ex);
+            }
+          }
+        }
+);
+      }
+ catch (      Exception ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+  }
+);
+  t.start();
+}

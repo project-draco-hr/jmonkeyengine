@@ -1,0 +1,25 @@
+{
+  Sheet sheet=Sheet.createDefault();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("VehicleWheel");
+  set.setName(Light.class.getName());
+  VehicleWheel obj=wheel;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,Vector3f.class,"getLocation","Location"));
+  set.put(makeProperty(obj,Vector3f.class,"getAxle","Axis"));
+  set.put(makeProperty(obj,Vector3f.class,"getDirection","Direction"));
+  set.put(makeProperty(obj,boolean.class,"isFrontWheel","setFrontWheel","Front Wheel"));
+  set.put(makeProperty(obj,float.class,"getFrictionSlip","setFrictionSlip","Friction Slip"));
+  set.put(makeProperty(obj,float.class,"getMaxSuspensionForce","setMaxSuspensionForce","Max Suspension Force"));
+  set.put(makeProperty(obj,float.class,"getMaxSuspensionTravelCm","setMaxSuspensionTravelCm","Max Suspension Travel"));
+  set.put(makeProperty(obj,float.class,"getRadius","setRadius","Radius"));
+  set.put(makeProperty(obj,float.class,"getRestLength","setRestLength","Rest Length"));
+  set.put(makeProperty(obj,float.class,"getRollInfluence","setRollInfluence","Roll Influence"));
+  set.put(makeProperty(obj,float.class,"getSuspensionStiffness","setSuspensionStiffness","Suspension Stiffness"));
+  set.put(makeProperty(obj,float.class,"getWheelsDampingCompression","setWheelsDampingCompression","Damping Compression"));
+  set.put(makeProperty(obj,float.class,"getWheelsDampingRelaxation","setWheelsDampingRelaxation","Damping Relaxation"));
+  sheet.put(set);
+  return sheet;
+}

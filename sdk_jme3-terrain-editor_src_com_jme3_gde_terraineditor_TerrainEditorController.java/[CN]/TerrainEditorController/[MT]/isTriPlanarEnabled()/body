@@ -1,0 +1,27 @@
+{
+  if (SceneApplication.getApplication().isOgl()) {
+    Terrain terrain=(Terrain)getTerrain(null);
+    if (terrain == null)     return false;
+    MatParam param=terrain.getMaterial().getParam("useTriPlanarMapping");
+    if (param != null)     return (Boolean)param.getValue();
+    return false;
+  }
+ else {
+    try {
+      Boolean isEnabled=SceneApplication.getApplication().enqueue(new Callable<Boolean>(){
+        public Boolean call() throws Exception {
+          return isTriPlanarEnabled();
+        }
+      }
+).get();
+      return isEnabled;
+    }
+ catch (    InterruptedException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    ExecutionException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+    return false;
+  }
+}

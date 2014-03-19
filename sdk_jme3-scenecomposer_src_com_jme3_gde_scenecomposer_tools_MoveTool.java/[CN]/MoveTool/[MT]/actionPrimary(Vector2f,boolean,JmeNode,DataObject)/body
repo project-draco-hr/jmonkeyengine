@@ -1,0 +1,11 @@
+{
+  if (!pressed) {
+    setDefaultAxisMarkerColors();
+    pickedPlane=null;
+    if (wasDragging) {
+      actionPerformed(moveManager.makeUndo());
+      wasDragging=false;
+    }
+    moveManager.reset();
+  }
+}

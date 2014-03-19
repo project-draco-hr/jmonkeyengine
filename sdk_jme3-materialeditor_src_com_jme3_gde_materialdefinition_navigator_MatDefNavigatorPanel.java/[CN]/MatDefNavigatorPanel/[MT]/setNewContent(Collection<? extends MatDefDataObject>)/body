@@ -1,0 +1,12 @@
+{
+  if (!newData.isEmpty()) {
+    MatDefDataObject data=(MatDefDataObject)newData.iterator().next();
+    data.getLookupContents().add(this);
+    if (data.isLoaded()) {
+      updateData(data);
+    }
+ else {
+      mgr.setRootContext(Node.EMPTY);
+    }
+  }
+}

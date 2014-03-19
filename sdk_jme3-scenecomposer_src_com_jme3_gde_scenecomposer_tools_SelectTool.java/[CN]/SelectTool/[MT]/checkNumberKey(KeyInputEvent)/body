@@ -1,0 +1,68 @@
+{
+  if (kie.getKeyCode() == KeyInput.KEY_MINUS) {
+    if (numberBuilder.length() > 0) {
+      if (numberBuilder.charAt(0) == '-') {
+        numberBuilder.replace(0,1,"");
+      }
+ else {
+        numberBuilder.insert(0,'-');
+      }
+    }
+ else {
+      numberBuilder.append('-');
+    }
+    return true;
+  }
+ else   if (kie.getKeyCode() == KeyInput.KEY_0 || kie.getKeyCode() == KeyInput.KEY_NUMPAD0) {
+    numberBuilder.append('0');
+    return true;
+  }
+ else   if (kie.getKeyCode() == KeyInput.KEY_1 || kie.getKeyCode() == KeyInput.KEY_NUMPAD1) {
+    numberBuilder.append('1');
+    return true;
+  }
+ else   if (kie.getKeyCode() == KeyInput.KEY_2 || kie.getKeyCode() == KeyInput.KEY_NUMPAD2) {
+    numberBuilder.append('2');
+    return true;
+  }
+ else   if (kie.getKeyCode() == KeyInput.KEY_3 || kie.getKeyCode() == KeyInput.KEY_NUMPAD3) {
+    numberBuilder.append('3');
+    return true;
+  }
+ else   if (kie.getKeyCode() == KeyInput.KEY_4 || kie.getKeyCode() == KeyInput.KEY_NUMPAD4) {
+    numberBuilder.append('4');
+    return true;
+  }
+ else   if (kie.getKeyCode() == KeyInput.KEY_5 || kie.getKeyCode() == KeyInput.KEY_NUMPAD5) {
+    numberBuilder.append('5');
+    return true;
+  }
+ else   if (kie.getKeyCode() == KeyInput.KEY_6 || kie.getKeyCode() == KeyInput.KEY_NUMPAD6) {
+    numberBuilder.append('6');
+    return true;
+  }
+ else   if (kie.getKeyCode() == KeyInput.KEY_7 || kie.getKeyCode() == KeyInput.KEY_NUMPAD7) {
+    numberBuilder.append('7');
+    return true;
+  }
+ else   if (kie.getKeyCode() == KeyInput.KEY_8 || kie.getKeyCode() == KeyInput.KEY_NUMPAD8) {
+    numberBuilder.append('8');
+    return true;
+  }
+ else   if (kie.getKeyCode() == KeyInput.KEY_9 || kie.getKeyCode() == KeyInput.KEY_NUMPAD9) {
+    numberBuilder.append('9');
+    return true;
+  }
+ else   if (kie.getKeyCode() == KeyInput.KEY_PERIOD) {
+    if (numberBuilder.indexOf(".") == -1) {
+      if (numberBuilder.length() == 0 || (numberBuilder.length() == 1 && numberBuilder.charAt(0) == '-')) {
+        numberBuilder.append("0.");
+      }
+ else {
+        numberBuilder.append(".");
+      }
+    }
+    return true;
+  }
+  return false;
+}

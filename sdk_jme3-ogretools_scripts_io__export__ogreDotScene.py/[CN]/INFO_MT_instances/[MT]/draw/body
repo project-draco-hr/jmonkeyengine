@@ -1,0 +1,8 @@
+def draw(self, context):
+    layout = self.layout
+    inst = gather_instances()
+    for data in inst:
+        ob = inst[data][0]
+        op = layout.operator(INFO_MT_instance.bl_idname, text=ob.name)
+        op.mystring = ob.name
+    layout.separator()

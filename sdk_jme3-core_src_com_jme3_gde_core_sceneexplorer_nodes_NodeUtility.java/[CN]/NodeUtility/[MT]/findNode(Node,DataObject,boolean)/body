@@ -1,0 +1,16 @@
+{
+  for (  SceneExplorerNode di : Lookup.getDefault().lookupAll(SceneExplorerNode.class)) {
+    if (di.getExplorerObjectClass().getName().equals(node.getClass().getName())) {
+      org.openide.nodes.Node[] hack=di.createNodes(node,dataObject,readOnly);
+      if (hack.length > 0 && hack[0] instanceof JmeNode) {
+        return (JmeNode)hack[0];
+      }
+    }
+  }
+  JmeSpatialChildren factory=new JmeSpatialChildren(node);
+  if (dataObject != null) {
+    factory.setDataObject(dataObject);
+  }
+  factory.setReadOnly(readOnly);
+  return new JmeNode(node,factory);
+}

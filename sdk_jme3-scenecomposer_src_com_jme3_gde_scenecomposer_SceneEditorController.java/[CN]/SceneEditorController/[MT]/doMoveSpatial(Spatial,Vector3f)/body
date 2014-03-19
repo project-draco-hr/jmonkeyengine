@@ -1,0 +1,16 @@
+{
+  Vector3f localTranslation=selected.getLocalTranslation();
+  Vector3f before=new Vector3f(localTranslation);
+  Node parent=selected.getParent();
+  if (parent != null) {
+    localTranslation.set(translation).subtractLocal(parent.getWorldTranslation());
+    localTranslation.divideLocal(parent.getWorldScale());
+    new Quaternion().set(parent.getWorldRotation()).inverseLocal().multLocal(localTranslation);
+  }
+ else {
+    localTranslation.set(translation);
+  }
+  Vector3f after=new Vector3f(localTranslation);
+  selected.setLocalTranslation(localTranslation);
+  moveUndo(selected,before,after);
+}

@@ -1,0 +1,34 @@
+{
+  FractalSum base=new FractalSum();
+  base.setRoughness(params.roughness);
+  base.setFrequency(params.frequency);
+  base.setAmplitude(weight);
+  base.setLacunarity(params.lacunarity <= 1 ? 1.1f : params.lacunarity);
+  base.setOctaves(params.octaves);
+  float scale=params.scale;
+  if (scale > 1.0f)   scale=1.0f;
+  if (scale < 0)   scale=0;
+  base.setScale(scale);
+  base.addModulator(new NoiseModulator(){
+    @Override public float value(    float... in){
+      return ShaderUtils.clamp(in[0] * 0.5f + 0.5f,0,1);
+    }
+  }
+);
+  FilteredBasis ground=new FilteredBasis(base);
+  PerturbFilter perturb=new PerturbFilter();
+  perturb.setMagnitude(0.2f);
+  OptimizedErode therm=new OptimizedErode();
+  therm.setRadius(5);
+  therm.setTalus(0.011f);
+  SmoothFilter smooth=new SmoothFilter();
+  smooth.setRadius(1);
+  smooth.setEffect(0.1f);
+  IterativeFilter iterate=new IterativeFilter();
+  iterate.addPreFilter(perturb);
+  iterate.addPostFilter(smooth);
+  iterate.setFilter(therm);
+  iterate.setIterations(1);
+  ground.addPreFilter(iterate);
+  return ground;
+}

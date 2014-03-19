@@ -1,0 +1,13 @@
+{
+  super(Children.create(new ChildFactory<TechniqueBlock>(){
+    @Override protected boolean createKeys(    List<TechniqueBlock> list){
+      list.addAll(lookup.lookup(MatDefBlock.class).getTechniques());
+      return true;
+    }
+    @Override protected Node createNodeForKey(    TechniqueBlock key){
+      return new TechniqueNode(lookup,key);
+    }
+  }
+,true),lookup);
+  setName(lookup.lookup(MatDefBlock.class).getName());
+}

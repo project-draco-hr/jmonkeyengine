@@ -1,0 +1,7 @@
+{
+  ProjectAssetManager projectAssetManager=mgr;
+  SceneRequest currentRequest=this.currentRequest;
+  if (currentRequest != null && mgr != null && currentRequest.getFakeApp() != null) {
+    new NewAppStateWizardAction(projectAssetManager,currentRequest.getFakeApp()).showWizard();
+  }
+}

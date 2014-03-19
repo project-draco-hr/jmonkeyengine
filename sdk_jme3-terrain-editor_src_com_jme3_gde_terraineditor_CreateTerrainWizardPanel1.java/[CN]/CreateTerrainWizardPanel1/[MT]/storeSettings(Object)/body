@@ -1,0 +1,8 @@
+{
+  WizardDescriptor wiz=(WizardDescriptor)settings;
+  CreateTerrainVisualPanel1 comp=(CreateTerrainVisualPanel1)getComponent();
+  int totalSize=new Integer(comp.getTotalSizeField().getText()) + 1;
+  int patchSize=new Integer(comp.getPatchSizeField().getText()) + 1;
+  wiz.putProperty("totalSize",totalSize);
+  wiz.putProperty("patchSize",patchSize);
+}

@@ -1,0 +1,26 @@
+{
+  if (editorController != null) {
+    editorController.setSelectedSpat(spatial);
+  }
+  if (spatial == null) {
+    setSelectedObjectText(null);
+    return;
+  }
+ else {
+    if (toolController != null) {
+      toolController.setSelectedSpatial(spatial);
+      toolController.updateSelection(spatial.getLookup().lookup(Spatial.class));
+    }
+  }
+  if (spatial.getLookup().lookup(Node.class) != null) {
+    setSelectedObjectText(spatial.getLookup().lookup(Node.class).getName());
+  }
+ else   if (spatial.getLookup().lookup(Spatial.class) != null) {
+    setSelectedObjectText(spatial.getLookup().lookup(Spatial.class).getName());
+  }
+ else {
+    setSelectedObjectText(null);
+  }
+  SceneViewerTopComponent.findInstance().setActivatedNodes(new org.openide.nodes.Node[]{spatial});
+  SceneExplorerTopComponent.findInstance().setSelectedNode(spatial);
+}

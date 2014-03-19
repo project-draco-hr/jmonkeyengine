@@ -1,0 +1,17 @@
+{
+  int type=originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+  float ratio=(float)originalImage.getWidth() / (float)originalImage.getHeight();
+  int width=80;
+  int height=25;
+  if (ratio <= 1) {
+    height=(int)((float)width * ratio);
+  }
+ else {
+    width=(int)((float)height * (float)ratio);
+  }
+  BufferedImage resizedImage=new BufferedImage(width,height,type);
+  Graphics2D g=resizedImage.createGraphics();
+  g.drawImage(originalImage,0,0,width,height,null);
+  g.dispose();
+  return resizedImage;
+}

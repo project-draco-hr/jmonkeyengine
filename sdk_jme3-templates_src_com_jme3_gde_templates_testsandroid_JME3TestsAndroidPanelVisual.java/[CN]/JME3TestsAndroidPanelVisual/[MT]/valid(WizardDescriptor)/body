@@ -1,0 +1,33 @@
+{
+  if (projectNameTextField.getText().length() == 0) {
+    wizardDescriptor.putProperty("WizardPanel_errorMessage","Project Name is not a valid folder name.");
+    return false;
+  }
+  File f=FileUtil.normalizeFile(new File(projectLocationTextField.getText()).getAbsoluteFile());
+  if (!f.isDirectory()) {
+    String message="Project Folder is not a valid path.";
+    wizardDescriptor.putProperty("WizardPanel_errorMessage",message);
+    return false;
+  }
+  final File destFolder=FileUtil.normalizeFile(new File(createdFolderTextField.getText()).getAbsoluteFile());
+  File projLoc=destFolder;
+  while (projLoc != null && !projLoc.exists()) {
+    projLoc=projLoc.getParentFile();
+  }
+  if (projLoc == null || !projLoc.canWrite()) {
+    wizardDescriptor.putProperty("WizardPanel_errorMessage","Project Folder cannot be created.");
+    return false;
+  }
+  if (FileUtil.toFileObject(projLoc) == null) {
+    String message="Project Folder is not a valid path.";
+    wizardDescriptor.putProperty("WizardPanel_errorMessage",message);
+    return false;
+  }
+  File[] kids=destFolder.listFiles();
+  if (destFolder.exists() && kids != null && kids.length > 0) {
+    wizardDescriptor.putProperty("WizardPanel_errorMessage","Project Folder already exists and is not empty.");
+    return false;
+  }
+  wizardDescriptor.putProperty("WizardPanel_errorMessage","");
+  return true;
+}

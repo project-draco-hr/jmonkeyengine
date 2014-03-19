@@ -1,0 +1,24 @@
+{
+  DefaultMutableTreeNode root=new DefaultMutableTreeNode("",true);
+  jTree1.setModel(new DefaultTreeModel(root));
+  jTree1.setRootVisible(false);
+  DefaultMutableTreeNode currentNode=root;
+  Map<String,DefaultMutableTreeNode> pathList=new HashMap<String,DefaultMutableTreeNode>();
+  for (int i=0; i < leaves.length; i++) {
+    String[] s=leaves[i].split("/");
+    for (int j=0; j < s.length; j++) {
+      DefaultMutableTreeNode node=new DefaultMutableTreeNode(s[j],j != s.length - 1);
+      String path=getPath(currentNode.getUserObjectPath()) + getPath(node.getUserObjectPath());
+      DefaultMutableTreeNode pathNode=pathList.get(path);
+      if (pathNode == null) {
+        pathList.put(path,node);
+        currentNode.add(node);
+      }
+ else {
+        node=pathNode;
+      }
+      currentNode=node;
+    }
+    currentNode=root;
+  }
+}

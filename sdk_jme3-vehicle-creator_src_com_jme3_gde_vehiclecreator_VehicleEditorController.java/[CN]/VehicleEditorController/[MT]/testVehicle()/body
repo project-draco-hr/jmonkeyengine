@@ -1,0 +1,15 @@
+{
+  if (jmeRootNode == null) {
+    return;
+  }
+  final Node node=jmeRootNode.getLookup().lookup(Node.class);
+  if (node != null) {
+    SceneApplication.getApplication().enqueue(new Callable(){
+      public Object call() throws Exception {
+        doTestVehicle(node);
+        return null;
+      }
+    }
+);
+  }
+}

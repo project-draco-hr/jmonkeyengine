@@ -1,0 +1,7 @@
+{
+  String type=param.getType();
+  if (type.equals("Color")) {
+    type="Vector4";
+  }
+  return VarType.valueOf(type).getGlslType();
+}

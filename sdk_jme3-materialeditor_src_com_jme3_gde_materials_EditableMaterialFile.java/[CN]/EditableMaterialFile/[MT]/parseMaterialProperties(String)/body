@@ -1,0 +1,10 @@
+{
+  int colonIdx=line.indexOf(":");
+  if (colonIdx != -1) {
+    line=line.replaceFirst("Material","");
+    line=line.replace("{","");
+    String[] lines=line.split(":");
+    setName(lines[0].trim());
+    setMatDefName(lines[1].trim());
+  }
+}

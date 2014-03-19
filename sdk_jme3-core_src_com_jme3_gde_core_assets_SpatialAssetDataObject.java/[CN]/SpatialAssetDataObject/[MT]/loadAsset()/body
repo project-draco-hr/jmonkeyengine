@@ -1,0 +1,26 @@
+{
+  if (savable != null) {
+    return (Spatial)savable;
+  }
+  ProjectAssetManager mgr=getLookup().lookup(ProjectAssetManager.class);
+  if (mgr == null) {
+    DialogDisplayer.getDefault().notifyLater(new NotifyDescriptor.Message("File is not part of a project!\nCannot load without ProjectAssetManager."));
+    return null;
+  }
+  closeAsset();
+  try {
+    listListener.start();
+    Spatial spatial=mgr.loadModel(getAssetKey());
+    listListener.stop();
+    if (!(this instanceof BinaryModelDataObject)) {
+      SpatialUtil.storeOriginalPathUserData(spatial);
+    }
+    savable=spatial;
+    logger.log(Level.INFO,"Loaded asset {0}",getName());
+    return spatial;
+  }
+ catch (  Exception ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return null;
+}

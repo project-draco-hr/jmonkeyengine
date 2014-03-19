@@ -1,0 +1,18 @@
+{
+  if (terrainNode != null)   return terrainNode;
+  if (root == null)   root=rootNode;
+  if (root instanceof Terrain && root instanceof Node) {
+    terrainNode=(Node)root;
+    return terrainNode;
+  }
+  if (root instanceof Node) {
+    Node n=(Node)root;
+    for (    Spatial c : n.getChildren()) {
+      if (c instanceof Node) {
+        Node res=getTerrain(c);
+        if (res != null)         return res;
+      }
+    }
+  }
+  return terrainNode;
+}

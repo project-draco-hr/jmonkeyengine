@@ -1,0 +1,10 @@
+{
+  String old=this.rightVarSwizzle;
+  this.rightVarSwizzle=rightVarSwizzle;
+  if (rightVarSwizzle.trim().length() == 0) {
+    rightVarSwizzle=null;
+  }
+  this.rightVarSwizzle=rightVarSwizzle;
+  updateLine();
+  fire("rightVarSwizzle",old,rightVarSwizzle);
+}

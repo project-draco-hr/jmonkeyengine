@@ -1,0 +1,29 @@
+{
+  List<String> l=new ArrayList<String>();
+  l.addAll(mgr.getProjectShaderNodeDefs());
+  l.addAll(mgr.getDependenciesShaderNodeDefs());
+  String[] leaves=l.toArray(new String[l.size()]);
+  TreeUtil.createTree(jTree1,leaves);
+  TreeUtil.expandTree(jTree1,(TreeNode)jTree1.getModel().getRoot(),10);
+  jTree1.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+  jTree1.addTreeSelectionListener(new TreeSelectionListener(){
+    public void valueChanged(    TreeSelectionEvent e){
+      DefaultMutableTreeNode node=(DefaultMutableTreeNode)jTree1.getLastSelectedPathComponent();
+      if (node == null) {
+        return;
+      }
+      if (node.isLeaf()) {
+        jTabbedPane1.removeAll();
+        path=TreeUtil.getPath(node.getUserObjectPath());
+        path=path.substring(0,path.lastIndexOf("/"));
+        ShaderNodeDefinitionKey k=new ShaderNodeDefinitionKey(path);
+        k.setLoadDocumentation(true);
+        defList=(List<ShaderNodeDefinition>)mgr.loadAsset(k);
+        for (        ShaderNodeDefinition def : defList) {
+          createDoc(def);
+        }
+      }
+    }
+  }
+);
+}

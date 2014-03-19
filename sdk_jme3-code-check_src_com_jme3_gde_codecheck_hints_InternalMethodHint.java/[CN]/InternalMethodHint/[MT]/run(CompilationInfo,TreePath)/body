@@ -1,0 +1,16 @@
+{
+  Tree t=treePath.getLeaf();
+  Element el=info.getTrees().getElement(treePath);
+  if (el.getAnnotation(Internal.class) != null) {
+    JTextComponent editor=EditorRegistry.lastFocusedComponent();
+    Document doc=editor.getDocument();
+    SourcePositions sp=info.getTrees().getSourcePositions();
+    int start=(int)sp.getStartPosition(info.getCompilationUnit(),t);
+    int end=(int)sp.getEndPosition(info.getCompilationUnit(),t);
+    String bodyText=info.getText().substring(start,end);
+    List<Fix> fixes=new ArrayList<Fix>();
+    fixes.add(new MessagesFix(doc,start,bodyText));
+    return Collections.<ErrorDescription>singletonList(ErrorDescriptionFactory.createErrorDescription(getSeverity().toEditorSeverity(),getDisplayName(),fixes,info.getFileObject(),(int)info.getTrees().getSourcePositions().getStartPosition(info.getCompilationUnit(),t),(int)info.getTrees().getSourcePositions().getEndPosition(info.getCompilationUnit(),t)));
+  }
+  return null;
+}

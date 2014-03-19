@@ -1,0 +1,15 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("BitmapText");
+  set.setName(BitmapText.class.getName());
+  BitmapText obj=geom;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,String.class,"getText","setText","Text"));
+  set.put(makeProperty(obj,ColorRGBA.class,"getColor","setColor","Color"));
+  set.put(makeProperty(obj,BitmapFont.class,"getFont","Font"));
+  sheet.put(set);
+  return sheet;
+}

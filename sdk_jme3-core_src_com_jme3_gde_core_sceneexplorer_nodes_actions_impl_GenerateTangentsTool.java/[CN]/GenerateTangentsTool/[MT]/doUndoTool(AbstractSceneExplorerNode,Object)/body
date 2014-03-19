@@ -1,0 +1,14 @@
+{
+  Geometry geom=rootNode.getLookup().lookup(Geometry.class);
+  if (undoObject instanceof Mesh) {
+    Mesh keptMesh=(Mesh)undoObject;
+    geom.setMesh(keptMesh);
+    geom.updateModelBound();
+  }
+ else {
+    Mesh mesh=geom.getMesh();
+    if (mesh != null) {
+      mesh.clearBuffer(Type.Tangent);
+    }
+  }
+}

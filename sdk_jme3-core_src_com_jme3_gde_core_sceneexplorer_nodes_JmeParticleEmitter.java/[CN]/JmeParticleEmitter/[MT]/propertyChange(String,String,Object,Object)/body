@@ -1,0 +1,11 @@
+{
+  super.propertyChange(type,name,before,after);
+  if (!name.equals("Emit all particles")) {
+    fireSave(true);
+    firePropertyChange(name,before,after);
+  }
+  if (name.equals("ParticleInfluencer")) {
+    geom.setParticleInfluencer((ParticleInfluencer)after);
+    createParticleInfluencerSet(sheet,geom);
+  }
+}

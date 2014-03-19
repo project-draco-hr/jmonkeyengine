@@ -1,0 +1,61 @@
+{
+  if (pressed) {
+    Spatial selected=toolController.getSelectedSpatial();
+    if (moving != null) {
+      moving.sceneUndo();
+      moving=null;
+      clearState();
+    }
+ else     if (scaling != null) {
+      scaling.sceneUndo();
+      scaling=null;
+      clearState();
+    }
+ else     if (rotating != null) {
+      rotating.sceneUndo();
+      rotating=null;
+      clearState();
+    }
+ else     if (!wasDraggingR && !wasDownR) {
+      Spatial s=pickWorldSpatial(camera,screenCoord,rootNode);
+      if (!toolController.selectTerrain() && isTerrain(s)) {
+        selected=null;
+        return;
+      }
+ else {
+        if (!toolController.isSelectGeometries()) {
+          Spatial linkNodeParent=findModelNodeParent(s);
+          if (linkNodeParent != null) {
+            s=linkNodeParent;
+          }
+ else {
+            return;
+          }
+        }
+        final Spatial selec=s;
+        selected=selec;
+        java.awt.EventQueue.invokeLater(new Runnable(){
+          @Override public void run(){
+            if (selec != null) {
+              doSelect();
+            }
+          }
+          private void doSelect(){
+            JmeSpatial n=rootNode.getChild(selec);
+            if (n != null) {
+              SceneViewerTopComponent.findInstance().setActivatedNodes(new org.openide.nodes.Node[]{n});
+              SceneExplorerTopComponent.findInstance().setSelectedNode(n);
+            }
+          }
+        }
+);
+      }
+      toolController.updateSelection(selected);
+    }
+    wasDownR=true;
+  }
+ else {
+    wasDownR=false;
+    wasDraggingR=false;
+  }
+}

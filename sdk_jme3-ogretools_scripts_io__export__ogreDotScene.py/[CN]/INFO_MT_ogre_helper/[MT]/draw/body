@@ -1,0 +1,7 @@
+def draw(self, context):
+    layout = self.layout
+    for line in self.mydoc.splitlines():
+        if line.strip():
+            for ww in wordwrap(line):
+                layout.label(text=ww)
+    layout.separator()

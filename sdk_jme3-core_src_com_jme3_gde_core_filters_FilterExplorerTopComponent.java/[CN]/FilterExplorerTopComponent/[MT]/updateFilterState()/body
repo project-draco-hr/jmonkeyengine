@@ -1,0 +1,14 @@
+{
+  final FilterPostProcessor fpp=this.node != null ? this.node.getFilterPostProcessor() : null;
+  clearFilters();
+  if (filterEnabled && fpp != null) {
+    SceneApplication.getApplication().enqueue(new Callable(){
+      public Object call() throws Exception {
+        SceneApplication.getApplication().getViewPort().addProcessor(fpp);
+        logger.log(Level.FINE,"Enabled post filters");
+        return null;
+      }
+    }
+);
+  }
+}

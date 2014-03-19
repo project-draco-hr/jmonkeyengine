@@ -1,0 +1,33 @@
+{
+  ImageIcon icon=null;
+switch (type) {
+case Model:
+    icon=IconList.model;
+  break;
+case Material:
+icon=IconList.material;
+break;
+case MatDef:
+icon=IconList.matDef;
+break;
+case Texture:
+icon=IconList.texture;
+break;
+case Sound:
+icon=IconList.sound;
+break;
+case Font:
+icon=IconList.font;
+break;
+case Filter:
+icon=IconList.filter;
+break;
+case Asset:
+icon=IconList.asset;
+break;
+case Invalid:
+break;
+default :
+}
+CompletionUtilities.renderHtml(icon,text,null,g,defaultFont,(selected ? Color.white : fieldColor),width,height,selected);
+}

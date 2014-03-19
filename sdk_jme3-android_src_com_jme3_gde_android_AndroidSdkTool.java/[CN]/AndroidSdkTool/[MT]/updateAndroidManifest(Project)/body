@@ -1,0 +1,78 @@
+{
+  FileObject manifest=project.getProjectDirectory().getFileObject("mobile/AndroidManifest.xml");
+  if (manifest == null) {
+    Logger.getLogger(AndroidSdkTool.class.getName()).log(Level.WARNING,"Could not find AndroidManifest.xml");
+    return;
+  }
+  InputStream in=null;
+  FileLock lock=null;
+  OutputStream out=null;
+  try {
+    in=manifest.getInputStream();
+    Document configuration=XMLUtil.parse(new InputSource(in),false,false,null,null);
+    in.close();
+    in=null;
+    boolean changed=false;
+    Element sdkApplication=XmlHelper.findChildElement(configuration.getDocumentElement(),"application");
+    if (sdkApplication != null) {
+      Element sdkActivity=XmlHelper.findChildElement(sdkApplication,"activity");
+      if (sdkActivity != null) {
+        if (!sdkActivity.hasAttribute("android:launchMode")) {
+          sdkActivity.setAttribute("android:launchMode","singleTask");
+          changed=true;
+        }
+      }
+    }
+    Element sdkElement=XmlHelper.findChildElement(configuration.getDocumentElement(),"uses-sdk");
+    if (sdkElement == null) {
+      sdkElement=configuration.createElement("uses-sdk");
+      configuration.getDocumentElement().appendChild(sdkElement);
+      changed=true;
+    }
+    if (!"8".equals(sdkElement.getAttribute("android:minSdkVersion"))) {
+      sdkElement.setAttribute("android:minSdkVersion","8");
+      changed=true;
+    }
+    Element screensElement=XmlHelper.findChildElement(configuration.getDocumentElement(),"supports-screens");
+    if (screensElement == null) {
+      screensElement=configuration.createElement("supports-screens");
+      screensElement.setAttribute("android:anyDensity","true");
+      screensElement.setAttribute("android:largeScreens","true");
+      screensElement.setAttribute("android:smallScreens","true");
+      screensElement.setAttribute("android:normalScreens","true");
+      configuration.getDocumentElement().appendChild(screensElement);
+      changed=true;
+    }
+    if (changed) {
+      lock=manifest.lock();
+      out=manifest.getOutputStream(lock);
+      XMLUtil.write(configuration,out,"UTF-8");
+      out.close();
+      out=null;
+      lock.releaseLock();
+      lock=null;
+    }
+  }
+ catch (  SAXException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+ finally {
+    if (lock != null) {
+      lock.releaseLock();
+    }
+    try {
+      if (in != null) {
+        in.close();
+      }
+      if (out != null) {
+        out.close();
+      }
+    }
+ catch (    IOException ex1) {
+      Exceptions.printStackTrace(ex1);
+    }
+  }
+}

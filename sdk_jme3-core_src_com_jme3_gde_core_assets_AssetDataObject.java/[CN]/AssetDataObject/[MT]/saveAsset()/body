@@ -1,0 +1,33 @@
+{
+  if (savable == null) {
+    logger.log(Level.WARNING,"Trying to write asset failed, asset data null!\nImport failed?");
+    return;
+  }
+  final Savable savable=this.savable;
+  ProgressHandle progressHandle=ProgressHandleFactory.createHandle("Saving File..");
+  progressHandle.start();
+  BinaryExporter exp=BinaryExporter.getInstance();
+  OutputStream out=null;
+  try {
+    if (saveExtension == null) {
+      out=getPrimaryFile().getOutputStream();
+    }
+ else {
+      FileObject outFileObject=getPrimaryFile().getParent().getFileObject(getPrimaryFile().getName(),saveExtension);
+      if (outFileObject == null) {
+        outFileObject=getPrimaryFile().getParent().createData(getPrimaryFile().getName(),saveExtension);
+      }
+      out=outFileObject.getOutputStream();
+      outFileObject.getParent().refresh();
+    }
+    exp.save(savable,out);
+  }
+  finally {
+    if (out != null) {
+      out.close();
+    }
+  }
+  progressHandle.finish();
+  setModified(false);
+  logger.log(Level.INFO,"File {0} saved successfully",getPrimaryFile().getNameExt());
+}

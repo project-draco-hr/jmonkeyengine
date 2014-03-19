@@ -1,0 +1,35 @@
+{
+  try {
+    try {
+      XMLReader reader=XMLUtil.createXMLReader();
+      reader.setEntityResolver(handler);
+      reader.setContentHandler(handler);
+      reader.parse(new InputSource(is));
+      return handler.getResult();
+    }
+  finally {
+      is.close();
+    }
+  }
+ catch (  SAXException ex) {
+    if (System.getProperty("org.netbeans.optionsDialog") != null) {
+      System.out.println("File: " + name);
+      ex.printStackTrace();
+    }
+    return handler.getResult();
+  }
+catch (  IOException ex) {
+    if (System.getProperty("org.netbeans.optionsDialog") != null) {
+      System.out.println("File: " + name);
+      ex.printStackTrace();
+    }
+    return handler.getResult();
+  }
+catch (  Exception ex) {
+    if (System.getProperty("org.netbeans.optionsDialog") != null) {
+      System.out.println("File: " + name);
+      ex.printStackTrace();
+    }
+    return handler.getResult();
+  }
+}

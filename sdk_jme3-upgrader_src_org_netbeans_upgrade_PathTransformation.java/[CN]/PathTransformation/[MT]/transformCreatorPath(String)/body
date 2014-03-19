@@ -1,0 +1,14 @@
+{
+  String keyToReplace=null;
+  String[] keysToReplace=new String[]{"context.xml"};
+  for (  String key : keysToReplace) {
+    if (path.startsWith(key)) {
+      keyToReplace=key;
+      break;
+    }
+  }
+  if (keyToReplace != null) {
+    return path.replace(keyToReplace,"config/" + version + "/"+ keyToReplace);
+  }
+  return path;
+}

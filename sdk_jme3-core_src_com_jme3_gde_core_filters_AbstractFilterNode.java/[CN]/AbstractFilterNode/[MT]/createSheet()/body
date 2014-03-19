@@ -1,0 +1,13 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("Filter");
+  set.setName("Filter");
+  Filter obj=filter;
+  if (obj == null) {
+    return sheet;
+  }
+  createFields(Filter.class,set,obj);
+  sheet.put(set);
+  return sheet;
+}

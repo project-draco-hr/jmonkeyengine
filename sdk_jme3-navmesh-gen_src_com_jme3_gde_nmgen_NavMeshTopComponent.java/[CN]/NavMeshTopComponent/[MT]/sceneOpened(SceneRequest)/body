@@ -1,0 +1,21 @@
+{
+  if (request.equals(currentRequest)) {
+    Logger.getLogger(NavMeshTopComponent.class.getName()).finer("Terrain sceneRequested " + request.getWindowTitle());
+    setSceneInfo(currentRequest.getJmeNode(),true);
+    if (cameraController != null) {
+      cameraController.disable();
+    }
+    if (toolController != null) {
+      toolController.cleanup();
+    }
+    toolController=new NavMeshToolController(currentRequest.getToolNode(),currentRequest.getManager().getManager(),request.getJmeNode());
+    cameraController=new NavMeshCameraController(SceneApplication.getApplication().getCamera());
+    cameraController.setMaster(this);
+    cameraController.enable();
+    cameraController.setToolController(toolController);
+    cameraController.setEditorController(editorController);
+    toolController.setEditorController(editorController);
+    toolController.setCameraController(cameraController);
+    initUIFields();
+  }
+}

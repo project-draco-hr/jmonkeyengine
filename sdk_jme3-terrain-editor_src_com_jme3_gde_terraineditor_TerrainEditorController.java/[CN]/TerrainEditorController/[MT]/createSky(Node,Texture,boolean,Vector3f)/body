@@ -1,0 +1,18 @@
+{
+  try {
+    Spatial sky=SceneApplication.getApplication().enqueue(new Callable<Spatial>(){
+      public Spatial call() throws Exception {
+        return doCreateSky(parent,texture,useSpheremap,normalScale);
+      }
+    }
+).get();
+    return sky;
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return null;
+}

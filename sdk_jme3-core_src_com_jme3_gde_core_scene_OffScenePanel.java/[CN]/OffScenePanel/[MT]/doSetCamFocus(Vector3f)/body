@@ -1,0 +1,10 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      focus.set(focus_);
+      camera.setLocation(focus_.add(vector,camera.getLocation()));
+      return null;
+    }
+  }
+);
+}

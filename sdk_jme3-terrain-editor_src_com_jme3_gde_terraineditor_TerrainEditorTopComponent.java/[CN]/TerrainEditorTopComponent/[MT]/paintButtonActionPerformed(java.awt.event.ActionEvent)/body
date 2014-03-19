@@ -1,0 +1,11 @@
+{
+  if (paintButton.isSelected()) {
+    PaintTerrainTool tool=new PaintTerrainTool(editorController);
+    toolController.setTerrainEditButtonState(tool);
+    setHintText(tool);
+  }
+ else {
+    toolController.setTerrainEditButtonState(null);
+    setHintText((TerrainTool)null);
+  }
+}

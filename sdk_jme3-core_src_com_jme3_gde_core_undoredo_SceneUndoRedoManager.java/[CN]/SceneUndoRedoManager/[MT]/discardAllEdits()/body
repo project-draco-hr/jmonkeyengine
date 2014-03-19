@@ -1,0 +1,13 @@
+{
+  if (!java.awt.EventQueue.isDispatchThread()) {
+    java.awt.EventQueue.invokeLater(new Runnable(){
+      public void run(){
+        superDiscardAllEdits();
+      }
+    }
+);
+  }
+ else {
+    super.discardAllEdits();
+  }
+}

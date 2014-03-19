@@ -1,0 +1,16 @@
+{
+  try {
+    logger.log(Level.FINER,"Get super value thread {0}",Thread.currentThread().getName());
+    return super.getValue();
+  }
+ catch (  IllegalAccessException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  IllegalArgumentException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  InvocationTargetException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  return null;
+}

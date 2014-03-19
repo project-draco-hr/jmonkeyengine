@@ -1,0 +1,12 @@
+{
+  if (ed == null) {
+    getInplaceEditor();
+  }
+  ed.setSize(box.width,box.height);
+  ed.doLayout();
+  Graphics g=gfx.create(box.x,box.y,box.width,box.height);
+  ed.setOpaque(false);
+  ed.paint(g);
+  g.dispose();
+  pe.refresh(false);
+}

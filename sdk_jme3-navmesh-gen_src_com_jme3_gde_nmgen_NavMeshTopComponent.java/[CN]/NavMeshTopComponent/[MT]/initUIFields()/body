@@ -1,0 +1,21 @@
+{
+  NavMeshGenerator generator=editorController.getNavMeshGenerator();
+  if (generator != null) {
+    cellSizeField.setText("" + generator.getCellSize());
+    cellHeightField.setText("" + generator.getCellHeight());
+    minTraversableHeightField.setText("" + generator.getMinTraversableHeight());
+    maxTraversableStepField.setText("" + generator.getMaxTraversableStep());
+    maxTraversableSlopeField.setText("" + generator.getMaxTraversableSlope());
+    clipLedgesBox.setSelected(generator.isClipLedges());
+    traversableAreaBorderSizeField.setText("" + generator.getTraversableAreaBorderSize());
+    smoothingThresholdField.setText("" + generator.getSmoothingThreshold());
+    useConservativeExpansionBox.setSelected(generator.isUseConservativeExpansion());
+    minUnconnectedRegionSizeField.setText("" + generator.getMinUnconnectedRegionSize());
+    mergeRegionSizeField.setText("" + generator.getMergeRegionSize());
+    maxEdgeLengthField.setText("" + generator.getMaxEdgeLength());
+    edgeMaxDeviationField.setText("" + generator.getEdgeMaxDeviation());
+    maxVertsPerPolyField.setText("" + generator.getMaxVertsPerPoly());
+    contourSampleDistanceField.setText("" + generator.getContourSampleDistance());
+    contourMaxDeviationField.setText("" + generator.getContourMaxDeviation());
+  }
+}

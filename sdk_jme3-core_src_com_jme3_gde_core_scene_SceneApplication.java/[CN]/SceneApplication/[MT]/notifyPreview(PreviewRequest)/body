@@ -1,0 +1,11 @@
+{
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      for (Iterator<SceneListener> it=listeners.iterator(); it.hasNext(); ) {
+        SceneListener sceneViewerListener=it.next();
+        sceneViewerListener.previewCreated(request);
+      }
+    }
+  }
+);
+}

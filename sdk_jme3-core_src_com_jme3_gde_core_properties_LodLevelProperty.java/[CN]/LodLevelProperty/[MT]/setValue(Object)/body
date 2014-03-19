@@ -1,0 +1,12 @@
+{
+  final int level=Integer.parseInt(((String)val).split(" - ")[0]);
+  SceneApplication.getApplication().enqueue(new Callable<Void>(){
+    public Void call() throws Exception {
+      if (geometry.getMesh().getNumLodLevels() > level) {
+        geometry.setLodLevel(level);
+      }
+      return null;
+    }
+  }
+);
+}

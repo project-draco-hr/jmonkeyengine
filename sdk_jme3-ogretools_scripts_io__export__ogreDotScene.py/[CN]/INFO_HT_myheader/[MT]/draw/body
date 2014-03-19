@@ -1,0 +1,75 @@
+def draw(self, context):
+    layout = self.layout
+    wm = context.window_manager
+    window = context.window
+    scene = context.scene
+    rd = scene.render
+    ob = context.active_object
+    screen = context.screen
+    if _USE_JMONKEY_:
+        row = layout.row(align=True)
+        op = row.operator('jmonkey.preview', text='', icon='MONKEY')
+    if _USE_TUNDRA_:
+        row = layout.row(align=True)
+        op = row.operator('tundra.preview', text='', icon='WORLD')
+        if TundraSingleton:
+            op = row.operator('tundra.preview', text='', icon='META_CUBE')
+            op.EX_SCENE = False
+            if (not TundraSingleton.physics):
+                op = row.operator('tundra.start_physics', text='', icon='PLAY')
+            else:
+                op = row.operator('tundra.stop_physics', text='', icon='PAUSE')
+            op = row.operator('tundra.toggle_physics_debug', text='', icon='MOD_PHYSICS')
+            op = row.operator('tundra.exit', text='', icon='CANCEL')
+    op = layout.operator('ogremeshy.preview', text='', icon='PLUGIN')
+    op.mesh = True
+    row = layout.row(align=True)
+    sub = row.row(align=True)
+    sub.menu('INFO_MT_file')
+    sub.menu('INFO_MT_add')
+    if rd.use_game_engine:
+        sub.menu('INFO_MT_game')
+    else:
+        sub.menu('INFO_MT_render')
+    row = layout.row(align=False)
+    row.scale_x = 1.25
+    row.menu('INFO_MT_instances', icon='NODETREE', text='')
+    row.menu('INFO_MT_groups', icon='GROUP', text='')
+    layout.template_header()
+    if (not context.area.show_menus):
+        if window.screen.show_fullscreen:
+            layout.operator('screen.back_to_previous', icon='SCREEN_BACK', text='Back to Previous')
+        else:
+            layout.template_ID(context.window, 'screen', new='screen.new', unlink='screen.delete')
+        layout.template_ID(context.screen, 'scene', new='scene.new', unlink='scene.delete')
+        layout.separator()
+        layout.template_running_jobs()
+        layout.template_reports_banner()
+        layout.separator()
+        if rd.has_multiple_engines:
+            layout.prop(rd, 'engine', text='')
+        layout.label(text=scene.statistics())
+        layout.menu('INFO_MT_help')
+    else:
+        layout.template_ID(context.window, 'screen', new='screen.new', unlink='screen.delete')
+        if ob:
+            row = layout.row(align=True)
+            row.prop(ob, 'name', text='')
+            row.prop(ob, 'draw_type', text='')
+            row.prop(ob, 'show_x_ray', text='')
+            row = layout.row()
+            row.scale_y = 0.75
+            row.scale_x = 0.9
+            row.prop(ob, 'layers', text='')
+        layout.separator()
+        row = layout.row(align=True)
+        row.scale_x = 1.1
+        row.prop(scene.game_settings, 'material_mode', text='')
+        row.prop(scene, 'camera', text='')
+        layout.menu('MENU_preview_material_text', icon='TEXT', text='')
+        layout.menu('INFO_MT_ogre_docs')
+        layout.operator('wm.window_fullscreen_toggle', icon='FULLSCREEN_ENTER', text='')
+        if OgreToggleInterfaceOp.TOGGLE:
+            layout.operator('ogre.toggle_interface', text='Ogre', icon='CHECKBOX_DEHLT')
+        else:
+            layout.operator('ogre.toggle_interface', text='Ogre', icon='CHECKBOX_HLT')

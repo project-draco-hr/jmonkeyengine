@@ -1,0 +1,103 @@
+{
+  if (queryType != CompletionProvider.COMPLETION_QUERY_TYPE) {
+    return null;
+  }
+  return new AsyncCompletionTask(new AsyncCompletionQuery(){
+    @Override protected void query(    CompletionResultSet completionResultSet,    Document document,    int caretOffset){
+      ProjectAssetManager manager=getProjectAssetManager(document);
+      if (manager == null) {
+        logger.log(Level.FINE,"No assetManager found");
+        completionResultSet.finish();
+        return;
+      }
+      String filter=null;
+      int startOffset=caretOffset - 1;
+      try {
+        final StyledDocument bDoc=(StyledDocument)document;
+        final int lineStartOffset=getRowFirstNonWhite(bDoc,caretOffset);
+        final char[] line=bDoc.getText(lineStartOffset,caretOffset - lineStartOffset).toCharArray();
+        final int whiteOffset=indexOfInsertion(line);
+        int end=line.length - whiteOffset - 1;
+        if (end < 0) {
+          completionResultSet.finish();
+          return;
+        }
+        filter=new String(line,whiteOffset + 1,end);
+        if (whiteOffset > 0) {
+          startOffset=lineStartOffset + whiteOffset + 1;
+        }
+ else {
+          startOffset=lineStartOffset;
+        }
+      }
+ catch (      BadLocationException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+      logger.log(Level.FINE,"Searching with filter {0}",filter);
+      AssetType type=determineType(document,caretOffset);
+switch (type) {
+case Model:
+        for (        String string : manager.getModels()) {
+          if (string.startsWith(filter)) {
+            completionResultSet.addItem(new AssetCompletionItem(type,string,startOffset,caretOffset));
+          }
+        }
+      break;
+case Material:
+    for (    String string : manager.getMaterials()) {
+      if (string.startsWith(filter)) {
+        completionResultSet.addItem(new AssetCompletionItem(type,string,startOffset,caretOffset));
+      }
+    }
+  break;
+case MatDef:
+for (String string : manager.getMatDefs()) {
+  if (string.startsWith(filter)) {
+    completionResultSet.addItem(new AssetCompletionItem(type,string,startOffset,caretOffset));
+  }
+}
+break;
+case Texture:
+for (String string : manager.getTextures()) {
+if (string.startsWith(filter)) {
+completionResultSet.addItem(new AssetCompletionItem(type,string,startOffset,caretOffset));
+}
+}
+break;
+case Sound:
+for (String string : manager.getSounds()) {
+if (string.startsWith(filter)) {
+completionResultSet.addItem(new AssetCompletionItem(type,string,startOffset,caretOffset));
+}
+}
+break;
+case Font:
+for (String string : manager.getAssetsWithSuffix("fnt")) {
+if (string.startsWith(filter)) {
+completionResultSet.addItem(new AssetCompletionItem(type,string,startOffset,caretOffset));
+}
+}
+break;
+case Filter:
+for (String string : manager.getAssetsWithSuffix("j3f")) {
+if (string.startsWith(filter)) {
+completionResultSet.addItem(new AssetCompletionItem(type,string,startOffset,caretOffset));
+}
+}
+break;
+case Xml:
+for (String string : manager.getAssetsWithSuffix("xml")) {
+if (string.startsWith(filter)) {
+completionResultSet.addItem(new AssetCompletionItem(type,string,startOffset,caretOffset));
+}
+}
+break;
+case Invalid:
+logger.log(Level.FINE,"Not a valid code line for assets");
+break;
+}
+completionResultSet.finish();
+}
+}
+,jtc);
+}

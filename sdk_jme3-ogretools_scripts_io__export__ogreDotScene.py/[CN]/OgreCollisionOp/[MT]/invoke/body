@@ -1,0 +1,70 @@
+def invoke(self, context, event):
+    ob = context.active_object
+    game = ob.game
+    subtype = None
+    if (':' in self.MODE):
+        (mode, subtype) = self.MODE.split(':')
+        if (subtype in 'BOX SPHERE CYLINDER CONE CAPSULE'.split()):
+            ob.draw_bounds_type = subtype
+        else:
+            ob.draw_bounds_type = 'POLYHEDRON'
+        ob.game.collision_bounds_type = subtype
+    else:
+        mode = self.MODE
+    ob.collision_mode = mode
+    if ob.data.show_all_edges:
+        ob.data.show_all_edges = False
+    if ob.show_texture_space:
+        ob.show_texture_space = False
+    if ob.show_bounds:
+        ob.show_bounds = False
+    if ob.show_wire:
+        ob.show_wire = False
+    for child in ob.children:
+        if (child.subcollision and (not child.hide)):
+            child.hide = True
+    if (mode == 'NONE'):
+        game.use_ghost = True
+        game.use_collision_bounds = False
+    elif (mode == 'PRIMITIVE'):
+        game.use_ghost = False
+        game.use_collision_bounds = True
+        ob.show_bounds = True
+    elif (mode == 'MESH'):
+        game.use_ghost = False
+        game.use_collision_bounds = True
+        ob.show_wire = True
+        if (game.collision_bounds_type == 'CONVEX_HULL'):
+            ob.show_texture_space = True
+        else:
+            ob.data.show_all_edges = True
+    elif (mode == 'DECIMATED'):
+        game.use_ghost = True
+        game.use_collision_bounds = False
+        game.use_collision_compound = True
+        proxy = self.get_subcollisions(ob)[0]
+        if proxy.hide:
+            proxy.hide = False
+        ob.game.use_collision_compound = True
+        mod = _get_proxy_decimate_mod(ob)
+        mod.show_viewport = True
+        if (not proxy.select):
+            proxy.hide_select = False
+            proxy.select = True
+            proxy.hide_select = True
+        if (game.collision_bounds_type == 'CONVEX_HULL'):
+            ob.show_texture_space = True
+    elif (mode == 'TERRAIN'):
+        game.use_ghost = True
+        game.use_collision_bounds = False
+        game.use_collision_compound = True
+        proxy = self.get_subcollisions(ob)[0]
+        if proxy.hide:
+            proxy.hide = False
+    elif (mode == 'COMPOUND'):
+        game.use_ghost = True
+        game.use_collision_bounds = False
+        game.use_collision_compound = True
+    else:
+        assert 0
+    return {'FINISHED'}

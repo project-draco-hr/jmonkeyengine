@@ -1,0 +1,13 @@
+{
+  if (markerSecondary == null) {
+    markerSecondary=new Geometry("edit marker secondary");
+    Mesh m2=new Sphere(8,8,0.5f);
+    markerSecondary.setMesh(m2);
+    Material mat2=new Material(manager,"Common/MatDefs/Misc/Unshaded.j3md");
+    mat2.getAdditionalRenderState().setWireframe(false);
+    markerSecondary.setMaterial(mat2);
+    markerSecondary.setLocalTranslation(0,0,0);
+    mat2.setColor("Color",ColorRGBA.Red);
+  }
+  parent.attachChild(markerSecondary);
+}

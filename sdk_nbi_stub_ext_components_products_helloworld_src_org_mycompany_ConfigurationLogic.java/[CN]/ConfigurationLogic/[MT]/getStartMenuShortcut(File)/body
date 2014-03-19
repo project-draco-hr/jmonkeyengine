@@ -1,0 +1,8 @@
+{
+  if (SystemUtils.isMacOS()) {
+    return getShortcut(getStrings("CL.start.menu.shortcut.name.macosx"),getStrings("CL.start.menu.shortcut.description"),getString("CL.start.menu.shortcut.path"),directory);
+  }
+ else {
+    return getShortcut(getStrings("CL.start.menu.shortcut.name"),getStrings("CL.start.menu.shortcut.description"),getString("CL.start.menu.shortcut.path"),directory);
+  }
+}

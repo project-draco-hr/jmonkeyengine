@@ -1,0 +1,22 @@
+{
+  if (isTerrainEditButtonEnabled() && !forceCameraControls) {
+    if (terrainEditToolActivated != pressed)     toolController.doTerrainEditToolActionEnded();
+    terrainEditToolActivated=pressed;
+  }
+  if (button == 0) {
+    if (isTerrainEditButtonEnabled() && !forceCameraControls) {
+      toolController.setPrimary(pressed);
+    }
+ else     if (!isTerrainEditButtonEnabled() && !forceCameraControls) {
+      if (!pressed) {
+        Vector3f pick=getTerrainCollisionPoint();
+        toolController.setCursorLocation(pick);
+      }
+    }
+  }
+  if (button == 1) {
+    if (isTerrainEditButtonEnabled() && !forceCameraControls) {
+      toolController.setAlternate(pressed);
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable<Void>(){
+    public Void call() throws Exception {
+      AudioNode newItem=new AudioNode();
+      newItem.setName("AudioNode");
+      node.attachChild(newItem);
+      addSpatialUndo(node,newItem);
+      setModified();
+      return null;
+    }
+  }
+);
+}

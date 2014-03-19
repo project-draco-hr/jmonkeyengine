@@ -1,0 +1,24 @@
+{
+  if (SceneApplication.getApplication().isOgl()) {
+    Texture tex=getDiffuseTexture(i);
+    return tex != null;
+  }
+ else {
+    try {
+      Boolean result=SceneApplication.getApplication().enqueue(new Callable<Boolean>(){
+        public Boolean call() throws Exception {
+          return hasTextureAt(i);
+        }
+      }
+).get();
+      return result;
+    }
+ catch (    InterruptedException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    ExecutionException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+    return false;
+  }
+}

@@ -1,0 +1,10 @@
+{
+  Completion.get().hideAll();
+  try {
+    component.getDocument().remove(carretPosition - prefix.length(),prefix.length());
+    component.getDocument().insertString(carretPosition - prefix.length(),key,null);
+  }
+ catch (  BadLocationException e) {
+    LOGGER.notify(e);
+  }
+}

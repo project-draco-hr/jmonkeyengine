@@ -1,0 +1,60 @@
+{
+  contextMenu.setFont(new Font("Tahoma",1,10));
+  contextMenu.setOpaque(true);
+  Border titleUnderline=BorderFactory.createMatteBorder(1,0,0,0,Color.BLACK);
+  TitledBorder labelBorder=BorderFactory.createTitledBorder(titleUnderline,contextMenu.getLabel(),TitledBorder.LEADING,TitledBorder.ABOVE_TOP,contextMenu.getFont(),Color.BLACK);
+  contextMenu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+  contextMenu.setBorder(BorderFactory.createCompoundBorder(contextMenu.getBorder(),labelBorder));
+  JMenuItem nodeItem=createMenuItem("Node",Icons.node);
+  nodeItem.addActionListener(new ActionListener(){
+    @Override public void actionPerformed(    ActionEvent e){
+      AddNodeDialog d=new AddNodeDialog(null,true,parent.obj.getLookup().lookup(ProjectAssetManager.class),Diagram.this,clickLoc);
+      d.setLocationRelativeTo(null);
+      d.setVisible(true);
+    }
+  }
+);
+  contextMenu.add(nodeItem);
+  contextMenu.add(createSeparator());
+  JMenuItem matParamItem=createMenuItem("Material Parameter",Icons.mat);
+  matParamItem.addActionListener(new ActionListener(){
+    @Override public void actionPerformed(    ActionEvent e){
+      AddMaterialParameterDialog d=new AddMaterialParameterDialog(null,true,Diagram.this,clickLoc);
+      d.setLocationRelativeTo(null);
+      d.setVisible(true);
+    }
+  }
+);
+  contextMenu.add(matParamItem);
+  JMenuItem worldParamItem=createMenuItem("World Parameter",Icons.world);
+  worldParamItem.addActionListener(new ActionListener(){
+    @Override public void actionPerformed(    ActionEvent e){
+      AddWorldParameterDialog d=new AddWorldParameterDialog(null,true,Diagram.this,clickLoc);
+      d.setLocationRelativeTo(null);
+      d.setVisible(true);
+    }
+  }
+);
+  contextMenu.add(worldParamItem);
+  JMenuItem attributeItem=createMenuItem("Attribute",Icons.attrib);
+  attributeItem.addActionListener(new ActionListener(){
+    @Override public void actionPerformed(    ActionEvent e){
+      AddAttributeDialog d=new AddAttributeDialog(null,true,Diagram.this,clickLoc);
+      d.setLocationRelativeTo(null);
+      d.setVisible(true);
+    }
+  }
+);
+  contextMenu.add(attributeItem);
+  contextMenu.add(createSeparator());
+  JMenuItem outputItem=createMenuItem("Output color",Icons.output);
+  contextMenu.add(outputItem);
+  outputItem.addActionListener(new ActionListener(){
+    @Override public void actionPerformed(    ActionEvent e){
+      OutBusPanel p2=new OutBusPanel("color" + (outBuses.size() - 1),Shader.ShaderType.Fragment);
+      p2.setBounds(0,350 + 50 * (outBuses.size() - 1),p2.getWidth(),p2.getHeight());
+      addOutBus(p2);
+    }
+  }
+);
+}

@@ -1,0 +1,39 @@
+{
+  final AnimControl control=jmeControl.getLookup().lookup(AnimControl.class);
+  if (control == null) {
+    return;
+  }
+  try {
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        if (playing) {
+          control.clearChannels();
+          channel=null;
+          jmeControl.setAnim(null);
+          return null;
+        }
+        control.clearChannels();
+        channel=control.createChannel();
+        channel.setAnim(animation.getName());
+        innerSetLoopMode();
+        channel.setSpeed(animSpeed);
+        java.awt.EventQueue.invokeLater(new Runnable(){
+          public void run(){
+            play();
+          }
+        }
+);
+        return null;
+      }
+    }
+).get();
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+    return;
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+    return;
+  }
+}

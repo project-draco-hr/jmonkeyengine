@@ -1,0 +1,26 @@
+{
+  super.setAssetEventListener(new AssetEventListener(){
+    public void assetLoaded(    AssetKey ak){
+synchronized (assetEventListeners) {
+        for (        AssetEventListener assetEventListener : assetEventListeners) {
+          assetEventListener.assetLoaded(ak);
+        }
+      }
+    }
+    public void assetRequested(    AssetKey ak){
+synchronized (assetEventListeners) {
+        for (        AssetEventListener assetEventListener : assetEventListeners) {
+          assetEventListener.assetRequested(ak);
+        }
+      }
+    }
+    public void assetDependencyNotFound(    AssetKey ak,    AssetKey ak1){
+synchronized (assetEventListeners) {
+        for (        AssetEventListener assetEventListener : assetEventListeners) {
+          assetEventListener.assetDependencyNotFound(ak,ak1);
+        }
+      }
+    }
+  }
+);
+}

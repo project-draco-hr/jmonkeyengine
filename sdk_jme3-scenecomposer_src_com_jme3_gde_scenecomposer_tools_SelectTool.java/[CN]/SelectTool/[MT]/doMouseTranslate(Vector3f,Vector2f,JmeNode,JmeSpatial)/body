@@ -1,0 +1,7 @@
+{
+  MoveManager moveManager=Lookup.getDefault().lookup(MoveManager.class);
+  if (toolController.isSnapToScene()) {
+    moveManager.setAlternativePickTarget(rootNode.getLookup().lookup(Node.class));
+  }
+  moveManager.move(camera,screenCoord,axis,toolController.isSnapToGrid());
+}

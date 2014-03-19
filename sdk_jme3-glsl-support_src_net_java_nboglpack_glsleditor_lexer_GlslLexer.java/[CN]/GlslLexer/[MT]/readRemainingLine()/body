@@ -1,0 +1,13 @@
+{
+  int character=input.read();
+  while (character != LexerInput.EOF) {
+switch (character) {
+case '\r':
+      input.consumeNewline();
+case '\n':
+case LexerInput.EOF:
+    return;
+}
+character=input.read();
+}
+}

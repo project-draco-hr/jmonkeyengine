@@ -1,0 +1,18 @@
+{
+  ColorRGBADialog dialog=new ColorRGBADialog(new JFrame(),true);
+  dialog.setLocationRelativeTo(null);
+  dialog.setColor(getColor(rLabel.getText(),gLabel.getText(),bLabel.getText(),aLabel.getText()));
+  dialog.setVisible(true);
+  if (dialog.getColorAsText() != null) {
+    colorPreview.setBackground(dialog.getColor());
+    float[] f=new float[4];
+    dialog.getColor().getRGBComponents(f);
+    dialog.getColor().getAlpha();
+    rLabel.setText(f[0] + "");
+    gLabel.setText(f[1] + "");
+    bLabel.setText(f[2] + "");
+    aLabel.setText(f[3] + "");
+    property.setValue(rLabel.getText() + " " + gLabel.getText()+ " "+ bLabel.getText()+ " "+ aLabel.getText());
+    fireChanged();
+  }
+}

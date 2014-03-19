@@ -1,0 +1,24 @@
+{
+  try {
+    Material old=material;
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        SceneRequest request=SceneApplication.getApplication().getCurrentSceneRequest();
+        ((DesktopAssetManager)request.getManager()).deleteFromCache(new MaterialKey(text));
+        Material localMaterial=request.getManager().loadMaterial(text);
+        if (localMaterial != null) {
+          material=localMaterial;
+        }
+        return null;
+      }
+    }
+).get();
+    notifyListeners(old,material);
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

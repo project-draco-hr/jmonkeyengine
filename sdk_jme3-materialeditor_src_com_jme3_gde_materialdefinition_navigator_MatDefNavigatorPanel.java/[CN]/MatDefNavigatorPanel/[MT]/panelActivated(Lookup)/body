@@ -1,0 +1,6 @@
+{
+  curContext=context.lookup(MY_DATA);
+  curContext.addLookupListener(getContextListener());
+  Collection<? extends MatDefDataObject> data=curContext.allInstances();
+  setNewContent(data);
+}

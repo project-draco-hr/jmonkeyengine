@@ -1,0 +1,32 @@
+{
+  Node terrain=rootNode.getLookup().lookup(Node.class);
+  final ProgressHandle progressHandle=ProgressHandleFactory.createHandle("Generating Terrain Entropies");
+  progressHandle.start();
+  try {
+    if (terrain instanceof TerrainQuad) {
+      ((TerrainQuad)terrain).generateEntropy(new ProgressMonitor(){
+        private float progress=0;
+        private float max=0;
+        public void incrementProgress(        float f){
+          progress+=f * 100.0f;
+          progressHandle.progress((int)progress);
+        }
+        public void setMonitorMax(        float f){
+          max=f * 100.0f;
+          progressHandle.switchToDeterminate((int)(f));
+        }
+        public float getMonitorMax(){
+          return max;
+        }
+        public void progressComplete(){
+          progressHandle.switchToIndeterminate();
+        }
+      }
+);
+    }
+  }
+  finally {
+    progressHandle.finish();
+  }
+  return null;
+}

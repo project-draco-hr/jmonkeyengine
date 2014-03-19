@@ -1,0 +1,9 @@
+def unregister():
+    print ('Unloading blender2ogre', VERSION)
+    header = _header_
+    bpy.utils.unregister_module(__name__)
+    if header:
+        bpy.utils.register_class(header)
+    bpy.types.INFO_MT_file_export.remove(export_menu_func_ogre)
+    bpy.types.INFO_MT_file_export.remove(export_menu_func_realxtend)
+    bpy.utils.unregister_class(PopUpDialogOperator)

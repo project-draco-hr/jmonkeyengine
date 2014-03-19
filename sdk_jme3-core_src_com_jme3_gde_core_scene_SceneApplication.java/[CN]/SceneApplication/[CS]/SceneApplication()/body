@@ -1,0 +1,37 @@
+{
+  Logger.getLogger("com.jme3").addHandler(logHandler);
+  progressHandle.start(7);
+  useCanvas="true".equals(NbPreferences.forModule(Installer.class).get("use_lwjgl_canvas","false"));
+  try {
+    AppSettings newSetting=new AppSettings(true);
+    newSetting.setFrameRate(30);
+    if ("true".equals(NbPreferences.forModule(Installer.class).get("use_opengl_1","false"))) {
+      newSetting.setRenderer(AppSettings.LWJGL_OPENGL1);
+    }
+    if (!useCanvas) {
+      newSetting.setCustomRenderer(AwtPanelsContext.class);
+    }
+    setSettings(newSetting);
+    setPauseOnLostFocus(false);
+    if (useCanvas) {
+      createCanvas();
+      startCanvas(true);
+    }
+    fakeApp=new FakeApplication(rootNode,guiNode,assetManager,cam);
+    nodeSync=new NodeSyncAppState();
+    stateManager.attach(nodeSync);
+    progressHandle.progress("initialize Base Application",1);
+    if (!useCanvas) {
+      start();
+    }
+  }
+ catch (  Exception e) {
+    showStartupErrorMessage(e);
+  }
+catch (  Error e) {
+    showStartupErrorMessage(e);
+  }
+ finally {
+    getProgressHandle().finish();
+  }
+}

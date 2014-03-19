@@ -1,0 +1,12 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable<Void>(){
+    public Void call() throws Exception {
+      Node newItem=new Node("Node");
+      node.attachChild(newItem);
+      addSpatialUndo(node,newItem);
+      setModified();
+      return null;
+    }
+  }
+);
+}

@@ -1,0 +1,38 @@
+{
+  ProjectAssetManager manager=(ProjectAssetManager)SceneApplication.getApplication().getAssetManager();
+  String texFolder="Textures/terrain-alpha/";
+  String texFolderFilePath=manager.getAssetFolderName() + "/" + texFolder;
+  String prevPath0=texFolderFilePath + prevName + "-alphablend0.png";
+  String prevPath1=texFolderFilePath + prevName + "-alphablend1.png";
+  String prevPath2=texFolderFilePath + prevName + "-alphablend2.png";
+  String newPath0=texFolderFilePath + newName + "-alphablend0.png";
+  String newPath1=texFolderFilePath + newName + "-alphablend1.png";
+  String newPath2=texFolderFilePath + newName + "-alphablend2.png";
+  try {
+    File f0_a=new File(prevPath0);
+    File f0_b=new File(newPath0);
+    copyFile(f0_a,f0_b);
+    File f1_a=new File(prevPath1);
+    File f1_b=new File(newPath1);
+    copyFile(f1_a,f1_b);
+    File f2_a=new File(prevPath2);
+    File f2_b=new File(newPath2);
+    copyFile(f2_a,f2_b);
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  String alphaPath0=texFolder + newName + "-alphablend0.png";
+  String alphaPath1=texFolder + newName + "-alphablend1.png";
+  String alphaPath2=texFolder + newName + "-alphablend2.png";
+  TextureKey tk0=(TextureKey)manager.loadTexture(texFolder + prevName + "-alphablend0.png").getKey();
+  TextureKey tk1=(TextureKey)manager.loadTexture(texFolder + prevName + "-alphablend1.png").getKey();
+  TextureKey tk2=(TextureKey)manager.loadTexture(texFolder + prevName + "-alphablend2.png").getKey();
+  Texture tex0=manager.loadTexture(cloneKeyParams(tk0,alphaPath0));
+  Texture tex1=manager.loadTexture(cloneKeyParams(tk1,alphaPath1));
+  Texture tex2=manager.loadTexture(cloneKeyParams(tk2,alphaPath2));
+  Material material=quad.getMaterial();
+  material.setTexture("AlphaMap",tex0);
+  material.setTexture("AlphaMap_1",tex1);
+  material.setTexture("AlphaMap_2",tex2);
+}

@@ -1,0 +1,17 @@
+{
+  Vec3f S=new Vec3f();
+  Vec3f T=new Vec3f();
+  Vec3f N=new Vec3f();
+  S.x=1;
+  S.y=0;
+  S.z=a * getHeight(image,x + 1,y) - a * getHeight(image,x - 1,y);
+  T.x=0;
+  T.y=1;
+  T.z=a * getHeight(image,x,y + 1) - a * getHeight(image,x,y - 1);
+  float den=(float)Math.sqrt(S.z * S.z + T.z * T.z + 1);
+  N.x=-S.z;
+  N.y=-T.z;
+  N.z=1;
+  N.divideLocal(den);
+  return vectorToColor(N.x,N.y,N.z);
+}

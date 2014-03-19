@@ -1,0 +1,44 @@
+{
+  File path=new File(extractionPath);
+  if (!path.exists()) {
+    path.mkdirs();
+  }
+  try {
+    File scriptsFolderFile=new File(extractionPath);
+    if (!scriptsFolderFile.exists()) {
+      NotifyDescriptor.Confirmation msg=new NotifyDescriptor.Confirmation("Error extracting " + extensionName,NotifyDescriptor.DEFAULT_OPTION,NotifyDescriptor.ERROR_MESSAGE);
+      DialogDisplayer.getDefault().notify(msg);
+      return false;
+    }
+    BufferedOutputStream dest=null;
+    ZipInputStream zis=new ZipInputStream(new BufferedInputStream(getClass().getResourceAsStream(zipPath)));
+    ZipEntry entry;
+    while ((entry=zis.getNextEntry()) != null) {
+      int count;
+      byte data[]=new byte[BUFFER];
+      if (entry.getName().contains(".svn") || entry.getName().contains(".DS_Store")) {
+        continue;
+      }
+      if (entry.isDirectory()) {
+        File dir=new File(extractionPath + File.separator + entry.getName());
+        dir.mkdirs();
+        continue;
+      }
+      FileOutputStream fos=new FileOutputStream(extractionPath + File.separator + entry.getName());
+      dest=new BufferedOutputStream(fos,BUFFER);
+      while ((count=zis.read(data,0,BUFFER)) != -1) {
+        dest.write(data,0,count);
+      }
+      dest.flush();
+      dest.close();
+    }
+    zis.close();
+  }
+ catch (  IOException ex) {
+    NotifyDescriptor.Confirmation msg=new NotifyDescriptor.Confirmation("Error extracting  " + extensionName + ":"+ ex.toString(),NotifyDescriptor.DEFAULT_OPTION,NotifyDescriptor.ERROR_MESSAGE);
+    DialogDisplayer.getDefault().notify(msg);
+    Exceptions.printStackTrace(ex);
+    return false;
+  }
+  return true;
+}

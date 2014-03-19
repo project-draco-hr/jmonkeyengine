@@ -1,0 +1,20 @@
+{
+  String fileName=assetKey.getName().substring(assetKey.getFolder().length());
+  File file=new File(root,fileName);
+  if (file.exists() && file.isFile()) {
+    try {
+      String canonical=file.getCanonicalPath();
+      String absolute=file.getAbsolutePath();
+      if (!canonical.endsWith(absolute)) {
+        throw new AssetNotFoundException("Asset name doesn't match requirements.\n" + "\"" + canonical + "\" doesn't match \""+ absolute+ "\"");
+      }
+    }
+ catch (    IOException ex) {
+      throw new AssetLoadException("Failed to get file canonical path " + file,ex);
+    }
+    return new AssetInfoFile(assetManager,assetKey,file);
+  }
+ else {
+    return null;
+  }
+}

@@ -1,0 +1,11 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      getFilterPostProcessor().removeFilter(filter);
+      return null;
+    }
+  }
+);
+  setModified();
+  refresh();
+}

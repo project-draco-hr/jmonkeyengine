@@ -1,0 +1,27 @@
+{
+  DefaultMutableTreeNode node=(DefaultMutableTreeNode)jTree1.getLastSelectedPathComponent();
+  if (node == null) {
+    return;
+  }
+  if (node.isLeaf()) {
+    String selected=TreeUtil.getPath(node.getUserObjectPath());
+    selected=selected.substring(0,selected.lastIndexOf("/"));
+    materialPreviewWidget1.showMaterial(assetManager,selected);
+    try {
+      FileReader fr=new FileReader(assetManager.getAbsoluteAssetPath(selected));
+      if (fr != null) {
+        char[] b=new char[5000];
+        fr.read(b);
+        materialTextPreview.setText(new String(b).trim());
+      }
+      prefs.put(PREF_LAST_SELECTED,selected);
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+ else {
+    materialPreviewWidget1.clear();
+    materialTextPreview.setText("");
+  }
+}

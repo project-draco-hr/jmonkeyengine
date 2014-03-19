@@ -1,0 +1,38 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable<Object>(){
+    public Object call() throws Exception {
+      float dist=cam.getLocation().distance(focus);
+switch (view) {
+case Front:
+        cam.setLocation(new Vector3f(focus.x,focus.y,focus.z + dist));
+      cam.lookAt(focus,Vector3f.UNIT_Y);
+    break;
+case Left:
+  cam.setLocation(new Vector3f(focus.x + dist,focus.y,focus.z));
+cam.lookAt(focus,Vector3f.UNIT_Y);
+break;
+case Right:
+cam.setLocation(new Vector3f(focus.x - dist,focus.y,focus.z));
+cam.lookAt(focus,Vector3f.UNIT_Y);
+break;
+case Back:
+cam.setLocation(new Vector3f(focus.x,focus.y,focus.z - dist));
+cam.lookAt(focus,Vector3f.UNIT_Y);
+break;
+case Top:
+cam.setLocation(new Vector3f(focus.x,focus.y + dist,focus.z));
+cam.lookAt(focus,Vector3f.UNIT_Z.mult(-1));
+break;
+case Bottom:
+cam.setLocation(new Vector3f(focus.x,focus.y - dist,focus.z));
+cam.lookAt(focus,Vector3f.UNIT_Z);
+break;
+case User:
+default :
+}
+return null;
+}
+}
+);
+CameraToolbar.getInstance().switchToView(view);
+}

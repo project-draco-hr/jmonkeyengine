@@ -1,0 +1,19 @@
+{
+  try {
+    final VehicleControl vehicleControl=this.vehicleControl;
+    SceneApplication.getApplication().enqueue(new Callable(){
+      public Object call() throws Exception {
+        doApplyWheelData(vehicleControl,wheels,settings);
+        return null;
+      }
+    }
+).get();
+    currentFileObject.setModified(true);
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

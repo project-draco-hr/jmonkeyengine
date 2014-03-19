@@ -1,0 +1,5 @@
+{
+  File userdir=new File(System.getProperty("netbeans.user",""));
+  String[] regexForSelection=new String[]{"^nbplatform[.](?!default[.]netbeans[.]dest[.]dir).+[.].+=.+$","^var[.].*"};
+  Copy.appendSelectedLines(new File(sourceFolder,"build.properties"),userdir,regexForSelection);
+}

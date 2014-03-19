@@ -1,0 +1,17 @@
+{
+  if (filePath == null) {
+    String[] all=folderPath().split("/");
+    StringBuilder sb=new StringBuilder();
+    for (int i=0; i < all.length - 1; i++) {
+      sb.append(all[i]).append("/");
+    }
+    if (all.length > 0) {
+      sb.append(all[all.length - 1]).append(".properties");
+    }
+ else {
+      sb.append("root.properties");
+    }
+    filePath=sb.toString();
+  }
+  return filePath;
+}

@@ -1,0 +1,18 @@
+{
+  Component view=editorEast.getCustomEditor();
+  view.setVisible(true);
+  if (editorEast.getValue() != null) {
+    Texture tex=(Texture)editorEast.getValue();
+    String selected=tex.getKey().getName();
+    if (selected.toLowerCase().endsWith(".dds")) {
+      if (ddsPreview == null) {
+        ddsPreview=new DDSPreview((ProjectAssetManager)SceneApplication.getApplication().getAssetManager());
+      }
+      ddsPreview.requestPreview(selected,"",80,80,eastPic,null);
+    }
+ else {
+      Icon newicon=ImageUtilities.image2Icon(ImageToAwt.convert(tex.getImage(),false,true,0));
+      eastPic.setIcon(newicon);
+    }
+  }
+}

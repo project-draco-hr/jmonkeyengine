@@ -1,0 +1,11 @@
+{
+  Properties props=new Properties();
+  InputStream is=Importer.class.getResourceAsStream(DEFINITION_OF_FILES);
+  try {
+    props.load(is);
+  }
+  finally {
+    is.close();
+  }
+  return props;
+}

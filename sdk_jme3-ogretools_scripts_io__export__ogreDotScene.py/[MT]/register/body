@@ -1,0 +1,17 @@
+def register():
+    print ('Starting blender2ogre', VERSION)
+    global MyShaders, _header_, _USE_TUNDRA_, _USE_JMONKEY_
+    restore_minimal_interface()
+    if os.path.isdir(CONFIG['TUNDRA_ROOT']):
+        _USE_TUNDRA_ = True
+    else:
+        _USE_TUNDRA_ = False
+    bpy.types.INFO_MT_file_export.append(export_menu_func_ogre)
+    bpy.types.INFO_MT_file_export.append(export_menu_func_realxtend)
+    bpy.utils.register_class(PopUpDialogOperator)
+    if os.path.isdir(CONFIG['USER_MATERIALS']):
+        (scripts, progs) = update_parent_material_path(CONFIG['USER_MATERIALS'])
+        for prog in progs:
+            print ('Ogre shader program', prog.name)
+    else:
+        print '[WARNING]: Invalid my-shaders path'

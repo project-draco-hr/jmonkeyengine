@@ -1,0 +1,15 @@
+{
+  if (async && installMap.putIfAbsent(extensionName,true) == null) {
+    new Thread(new Runnable(){
+      @Override public void run(){
+        install();
+        installMap.remove(extensionName);
+      }
+    }
+).start();
+  }
+ else   if (!async && installMap.putIfAbsent(extensionName,true) == null) {
+    install();
+    installMap.remove(extensionName);
+  }
+}

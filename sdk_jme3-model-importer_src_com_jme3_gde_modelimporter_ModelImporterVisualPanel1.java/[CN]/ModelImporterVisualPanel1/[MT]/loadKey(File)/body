@@ -1,0 +1,20 @@
+{
+  mainKey=null;
+  manager=null;
+  dataObject=null;
+  data=null;
+  manager=new ProjectAssetManager(FileUtil.toFileObject(path).getParent());
+  try {
+    dataObject=DataObject.find(FileUtil.toFileObject(path));
+    data=dataObject != null ? dataObject.getLookup().lookup(AssetData.class) : null;
+    if (data != null) {
+      ((AssetDataObject)dataObject).getLookupContents().add(manager);
+      mainKey=data.getAssetKey();
+    }
+  }
+ catch (  DataObjectNotFoundException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+  updateProperties(mainKey);
+  panel.fireChangeEvent();
+}

@@ -1,0 +1,40 @@
+{
+  Sheet sheet=super.createSheet();
+  Collection<String> dataKeys=spatial.getUserDataKeys();
+  if (dataKeys.size() > 0) {
+    Sheet.Set set=Sheet.createPropertiesSet();
+    set.setDisplayName("User Data");
+    set.setName(Spatial.class.getName() + "_UserData");
+    for (Iterator<String> it=dataKeys.iterator(); it.hasNext(); ) {
+      String string=it.next();
+      UserDataProperty prop=new UserDataProperty(this,string);
+      prop.addPropertyChangeListener(this);
+      set.put(prop);
+    }
+    sheet.put(set);
+  }
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("Spatial");
+  set.setName(Spatial.class.getName());
+  Spatial obj=spatial;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,int.class,"getVertexCount","Vertexes"));
+  set.put(makeProperty(obj,int.class,"getTriangleCount","Triangles"));
+  set.put(makeProperty(obj,Vector3f.class,"getWorldTranslation","World Translation"));
+  set.put(makeProperty(obj,Quaternion.class,"getWorldRotation","World Rotation"));
+  set.put(makeProperty(obj,Vector3f.class,"getWorldScale","World Scale"));
+  set.put(makeProperty(obj,Vector3f.class,"getLocalTranslation","setLocalTranslation","Local Translation"));
+  set.put(makeProperty(obj,Quaternion.class,"getLocalRotation","setLocalRotation","Local Rotation"));
+  set.put(makeProperty(obj,Vector3f.class,"getLocalScale","setLocalScale","Local Scale"));
+  set.put(makeProperty(obj,BoundingVolume.class,"getWorldBound","World Bound"));
+  set.put(makeProperty(obj,CullHint.class,"getCullHint","setCullHint","Cull Hint"));
+  set.put(makeProperty(obj,CullHint.class,"getLocalCullHint","Local Cull Hint"));
+  set.put(makeProperty(obj,ShadowMode.class,"getShadowMode","setShadowMode","Shadow Mode"));
+  set.put(makeProperty(obj,ShadowMode.class,"getLocalShadowMode","Local Shadow Mode"));
+  set.put(makeProperty(obj,LightList.class,"getWorldLightList","World Light List"));
+  set.put(makeProperty(obj,RenderQueue.Bucket.class,"getQueueBucket","setQueueBucket","Queue Bucket"));
+  sheet.put(set);
+  return sheet;
+}

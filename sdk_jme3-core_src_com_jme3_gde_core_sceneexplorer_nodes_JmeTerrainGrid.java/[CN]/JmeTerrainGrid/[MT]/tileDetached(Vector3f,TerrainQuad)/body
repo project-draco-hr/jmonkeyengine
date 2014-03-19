@@ -1,0 +1,9 @@
+{
+  logger.log(Level.FINE,"Calling TerrainGrid update for node: {0}" + this);
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    public void run(){
+      refresh(false);
+    }
+  }
+);
+}

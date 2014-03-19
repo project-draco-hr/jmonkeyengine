@@ -1,0 +1,24 @@
+{
+  try {
+    ByteArrayOutputStream baos=new ByteArrayOutputStream();
+    FileUtil.copy(str,baos);
+    Document doc=XMLUtil.parse(new InputSource(new ByteArrayInputStream(baos.toByteArray())),false,false,null,null);
+    doc.getDocumentElement().setAttribute("name",(String)wiz.getProperty("name"));
+    doc.getDocumentElement().setAttribute("version",(String)wiz.getProperty("version"));
+    doc.getDocumentElement().setAttribute("distributor",(String)wiz.getProperty("distributor"));
+    doc.getDocumentElement().setAttribute("name",(String)wiz.getProperty("name"));
+    XMLUtil.findElement(doc.getDocumentElement(),"description",null).setTextContent((String)wiz.getProperty("description"));
+    XMLUtil.findElement(doc.getDocumentElement(),"license",null).setTextContent((String)wiz.getProperty("license"));
+    OutputStream out=fo.getOutputStream();
+    try {
+      XMLUtil.write(doc,out,"UTF-8");
+    }
+  finally {
+      out.close();
+    }
+  }
+ catch (  Exception ex) {
+    Exceptions.printStackTrace(ex);
+    writeFile(str,fo);
+  }
+}

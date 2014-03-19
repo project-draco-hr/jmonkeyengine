@@ -1,0 +1,16 @@
+{
+  StringBuffer sb=new StringBuffer();
+  if ("mainProjectURL".equals(propertyName)) {
+    List l=((SerParser.ObjectWrapper)value).data;
+    try {
+      URL url=createURL(l);
+      addProperty(propertyName,url.toExternalForm());
+    }
+ catch (    MalformedURLException ex) {
+      ex.printStackTrace();
+    }
+  }
+ else {
+    throw new IllegalStateException();
+  }
+}

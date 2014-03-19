@@ -1,0 +1,9 @@
+{
+  super.componentClosed();
+  SceneRequest req=SceneApplication.getApplication().getCurrentSceneRequest();
+  if (req != null) {
+    enableCamLight.setSelected(false);
+    enableStats.setSelected(false);
+    SceneApplication.getApplication().closeScene(req);
+  }
+}

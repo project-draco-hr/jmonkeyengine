@@ -1,0 +1,24 @@
+{
+  boolean selected=false;
+  requestFocusInWindow(true);
+  for (int i=0; i < pointsSize - 1; i++) {
+    translate(points[i],p1);
+    translate(points[i + 1],p2);
+    if (p1.x > p2.x || p1.y > p2.y) {
+      tp1.setLocation(p1);
+      p1.setLocation(p2);
+      p2.setLocation(tp1);
+    }
+    p1.x-=MARGIN / 2;
+    p1.y-=MARGIN / 2;
+    p2.x+=MARGIN / 2;
+    p2.y+=MARGIN / 2;
+    if (e.getX() >= p1.x && e.getX() <= p2.x && e.getY() >= p1.y && e.getY() <= p2.y) {
+      selected=true;
+    }
+  }
+  if (selected) {
+    getDiagram().select(this);
+    e.consume();
+  }
+}

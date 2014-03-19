@@ -1,0 +1,9 @@
+{
+  Node node=rootNode.getLookup().lookup(Node.class);
+  List<Spatial> currentChildren=new ArrayList<Spatial>();
+  currentChildren.addAll(node.getChildren());
+  GeometryBatchFactory.optimize(node);
+  List<Spatial> newChildren=new ArrayList<Spatial>();
+  newChildren.addAll(node.getChildren());
+  return new OldNew(newChildren,currentChildren);
+}

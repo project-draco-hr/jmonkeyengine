@@ -1,0 +1,9 @@
+{
+  InputMappingsBlock b=getBlock(InputMappingsBlock.class);
+  if (b == null) {
+    b=new InputMappingsBlock(0,"InputMappings");
+    addStatement(b);
+  }
+  b.addMapping(mapping);
+  fire(ADD_MAPPING,null,mapping);
+}

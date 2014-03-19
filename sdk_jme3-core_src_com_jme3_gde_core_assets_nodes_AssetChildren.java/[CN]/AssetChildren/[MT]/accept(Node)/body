@@ -1,0 +1,10 @@
+{
+  DataObject obj=node.getLookup().lookup(DataObject.class);
+  if (obj != null) {
+    FileObject file=obj.getPrimaryFile();
+    if (FileUtil.toFile(file).isHidden()) {
+      return false;
+    }
+  }
+  return true;
+}

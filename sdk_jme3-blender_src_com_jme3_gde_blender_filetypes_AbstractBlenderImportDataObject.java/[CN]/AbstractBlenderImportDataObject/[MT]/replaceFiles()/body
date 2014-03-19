@@ -1,0 +1,12 @@
+{
+  for (int i=0; i < assetList.size(); i++) {
+    FileObject fileObject=assetList.get(i);
+    if (fileObject.hasExt(BlenderTool.TEMP_SUFFIX)) {
+      assetList.remove(i);
+      assetKeyList.remove(i);
+      assetList.add(i,getPrimaryFile());
+      assetKeyList.add(getAssetKey());
+      return;
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  final ArrayList<String> geomMap=new ArrayList<String>();
+  if (spat != null) {
+    spat.depthFirstTraversal(new SceneGraphVisitor(){
+      @Override public void visit(      Spatial geom){
+        Spatial curSpat=geom;
+        String geomName=curSpat.getName();
+        if (geomName == null) {
+          logger.log(Level.WARNING,"Null Spatial name!");
+          geomName="null";
+        }
+        geom.setUserData("ORIGINAL_NAME",geomName);
+        logger.log(Level.FINE,"Set ORIGINAL_NAME for {0}",geomName);
+        String id=SpatialUtil.getSpatialPath(curSpat);
+        if (geomMap.contains(id)) {
+          logger.log(Level.WARNING,"Cannot create unique name for Spatial {0}: {1}",new Object[]{geom,id});
+        }
+        geomMap.add(id);
+        geom.setUserData("ORIGINAL_PATH",id);
+        logger.log(Level.FINE,"Set ORIGINAL_PATH for {0}",id);
+      }
+    }
+);
+  }
+ else {
+    logger.log(Level.SEVERE,"No Spatial available when trying to add Spatial paths.");
+  }
+}

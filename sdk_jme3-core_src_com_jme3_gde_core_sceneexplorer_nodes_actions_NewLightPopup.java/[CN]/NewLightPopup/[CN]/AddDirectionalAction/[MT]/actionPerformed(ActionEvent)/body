@@ -1,0 +1,14 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable<Void>(){
+    public Void call() throws Exception {
+      DirectionalLight light=new DirectionalLight();
+      light.setDirection(new Vector3f(-1,-1,-1).normalizeLocal());
+      light.setColor(ColorRGBA.White);
+      node.addLight(light);
+      addLightUndo(node,light);
+      setModified();
+      return null;
+    }
+  }
+);
+}

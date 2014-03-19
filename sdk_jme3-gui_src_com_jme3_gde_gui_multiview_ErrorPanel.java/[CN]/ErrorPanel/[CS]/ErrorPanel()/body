@@ -1,0 +1,14 @@
+{
+  initComponents();
+  jList1.setCellRenderer(new DefaultListCellRenderer(){
+    @Override public Component getListCellRendererComponent(    JList list,    Object value,    int index,    boolean isSelected,    boolean cellHasFocus){
+      super.getListCellRendererComponent(list,value,index,isSelected,cellHasFocus);
+      if (value instanceof JLabel) {
+        setIcon(((JLabel)value).getIcon());
+        setText(((JLabel)value).getText());
+      }
+      return this;
+    }
+  }
+);
+}

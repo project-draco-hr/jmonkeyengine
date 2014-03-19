@@ -1,0 +1,16 @@
+{
+  this(sta.getLineNumber(),sta.getLine());
+  for (  Statement statement : sta.getContents()) {
+    if (statement.getLine().trim().startsWith("MaterialParameters")) {
+      addStatement(new MaterialParametersBlock(statement));
+    }
+ else     if (statement.getLine().trim().startsWith("Technique")) {
+      addStatement(new TechniqueBlock(statement));
+    }
+ else {
+      addStatement(new UnsupportedStatement(statement));
+    }
+  }
+  String[] s=line.split("\\s");
+  name=s[1];
+}

@@ -1,0 +1,15 @@
+{
+  if (listener.getKey() != null) {
+    logger.log(Level.FINE,"New material listener for : {0}",listener.getKey());
+    List<MaterialChangeListener> listeners=materialChangeListeners.get(listener.getKey());
+    if (listeners == null) {
+      listeners=new ArrayList<MaterialChangeListener>();
+      materialChangeListeners.put(listener.getKey(),listeners);
+    }
+    listeners.add(listener);
+    MaterialChangeProvider provider=materialChangeProviders.get(listener.getKey());
+    if (provider != null) {
+      provider.addMaterialChangeListener(listener);
+    }
+  }
+}

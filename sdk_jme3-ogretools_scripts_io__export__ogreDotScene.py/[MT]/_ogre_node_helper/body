@@ -1,0 +1,43 @@
+def _ogre_node_helper(doc, ob, objects, prefix='', pos=None, rot=None, scl=None):
+    mat = (get_parent_matrix(ob, objects).inverted() * ob.matrix_world)
+    o = doc.createElement('node')
+    o.setAttribute('name', (prefix + ob.name))
+    p = doc.createElement('position')
+    q = doc.createElement('rotation')
+    s = doc.createElement('scale')
+    for n in (p, q, s):
+        o.appendChild(n)
+    if pos:
+        v = swap(pos)
+    else:
+        v = swap(mat.to_translation())
+    p.setAttribute('x', ('%6f' % v.x))
+    p.setAttribute('y', ('%6f' % v.y))
+    p.setAttribute('z', ('%6f' % v.z))
+    if rot:
+        v = swap(rot)
+    else:
+        v = swap(mat.to_quaternion())
+    q.setAttribute('qx', ('%6f' % v.x))
+    q.setAttribute('qy', ('%6f' % v.y))
+    q.setAttribute('qz', ('%6f' % v.z))
+    q.setAttribute('qw', ('%6f' % v.w))
+    if scl:
+        v = swap(scl)
+        x = abs(v.x)
+        y = abs(v.y)
+        z = abs(v.z)
+        s.setAttribute('x', ('%6f' % x))
+        s.setAttribute('y', ('%6f' % y))
+        s.setAttribute('z', ('%6f' % z))
+    else:
+        ri = mat.to_quaternion().inverted().to_matrix()
+        scale = (ri.to_4x4() * mat)
+        v = swap(scale.to_scale())
+        x = abs(v.x)
+        y = abs(v.y)
+        z = abs(v.z)
+        s.setAttribute('x', ('%6f' % x))
+        s.setAttribute('y', ('%6f' % y))
+        s.setAttribute('z', ('%6f' % z))
+    return o

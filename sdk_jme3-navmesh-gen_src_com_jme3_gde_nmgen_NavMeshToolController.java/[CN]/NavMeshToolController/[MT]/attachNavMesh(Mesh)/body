@@ -1,0 +1,7 @@
+{
+  if (navMesh == null)   return;
+  if (navGeom == null)   navGeom=new Geometry("NavMesh");
+  navGeom.setMesh(navMesh);
+  navGeom.setMaterial(getNavMaterial());
+  toolsNode.attachChild(navGeom);
+}

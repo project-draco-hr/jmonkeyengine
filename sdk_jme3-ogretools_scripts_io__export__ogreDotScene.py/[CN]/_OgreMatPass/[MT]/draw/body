@@ -1,0 +1,26 @@
+def draw(self, context):
+    if (not hasattr(context, 'material')):
+        return
+    if (not context.active_object):
+        return
+    if (not context.active_object.active_material):
+        return
+    mat = context.material
+    ob = context.object
+    slot = context.material_slot
+    layout = self.layout
+    if mat.use_material_passes:
+        db = layout.box()
+        nodes = bpyShaders.get_or_create_material_passes(mat)
+        node = nodes[self.INDEX]
+        split = db.row()
+        if node.material:
+            split.prop(node.material, 'use_in_ogre_material_pass', text='')
+        split.prop(node, 'material')
+        if (not node.material):
+            op = split.operator('ogre.helper_create_attach_material_layer', icon='PLUS', text='')
+            op.INDEX = self.INDEX
+        if (node.material and node.material.use_in_ogre_material_pass):
+            dbb = db.box()
+            ogre_material_panel(dbb, node.material, parent=mat)
+            ogre_material_panel_extra(dbb, node.material)

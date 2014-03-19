@@ -1,0 +1,12 @@
+{
+  Sheet sheet=Sheet.createDefault();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("DistanceLodControl");
+  DistanceLodCalculator obj=lodCalculator;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,float.class,"getLodMultiplier","setLodMultiplier","Multiplier"));
+  sheet.put(set);
+  return sheet;
+}

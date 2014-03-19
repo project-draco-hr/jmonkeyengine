@@ -1,0 +1,25 @@
+{
+  Transferable trans=new Transferable(){
+    public DataFlavor[] getTransferDataFlavors(){
+      return new DataFlavor[]{SPATIAL_FLAVOR};
+    }
+    public boolean isDataFlavorSupported(    DataFlavor flavor){
+      if (SPATIAL_FLAVOR.equals(flavor)) {
+        return true;
+      }
+      return false;
+    }
+    public Object getTransferData(    DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+      if (SPATIAL_FLAVOR.equals(flavor)) {
+        ByteArrayOutputStream out=new ByteArrayOutputStream();
+        BinaryExporter.getInstance().save(spatial,out);
+        return new ClipboardSpatial(out.toByteArray());
+      }
+ else {
+        throw new UnsupportedFlavorException(flavor);
+      }
+    }
+  }
+;
+  return trans;
+}

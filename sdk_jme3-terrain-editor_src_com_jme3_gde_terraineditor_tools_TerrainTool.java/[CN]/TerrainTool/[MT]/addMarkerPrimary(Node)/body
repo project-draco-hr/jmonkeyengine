@@ -1,0 +1,12 @@
+{
+  if (markerPrimary == null) {
+    markerPrimary=new Geometry("edit marker primary");
+    setMesh(Meshes.Sphere);
+    Material mat=new Material(manager,"Common/MatDefs/Misc/Unshaded.j3md");
+    mat.getAdditionalRenderState().setWireframe(true);
+    markerPrimary.setMaterial(mat);
+    markerPrimary.setLocalTranslation(0,0,0);
+    mat.setColor("Color",ColorRGBA.LightGray);
+  }
+  parent.attachChild(markerPrimary);
+}

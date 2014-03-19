@@ -1,0 +1,18 @@
+{
+  if (root == null)   root=(JmeNode)jmeRootNode;
+  Node node=root.getLookup().lookup(Node.class);
+  if (node != null && node instanceof Terrain && node instanceof Node) {
+    return root;
+  }
+  if (node != null) {
+    if (root.getChildren() != null) {
+      for (      org.openide.nodes.Node child : root.getChildren().getNodes()) {
+        if (child instanceof JmeNode) {
+          JmeNode res=findJmeTerrain((JmeNode)child);
+          if (res != null)           return res;
+        }
+      }
+    }
+  }
+  return null;
+}

@@ -1,0 +1,8 @@
+{
+  AppStateManagerNode parentNode=(AppStateManagerNode)getParentNode();
+  super.destroy();
+  parent.detach(appState);
+  if (parentNode != null) {
+    parentNode.refresh();
+  }
+}

@@ -1,0 +1,9 @@
+{
+  MaterialParametersBlock mpBlock=getMaterialParameters();
+  if (mpBlock == null) {
+    mpBlock=new MaterialParametersBlock(0,"MaterialParameters");
+    addStatement(0,mpBlock);
+  }
+  mpBlock.addMatParam(matParam);
+  fire(ADD_MAT_PARAM,null,matParam);
+}

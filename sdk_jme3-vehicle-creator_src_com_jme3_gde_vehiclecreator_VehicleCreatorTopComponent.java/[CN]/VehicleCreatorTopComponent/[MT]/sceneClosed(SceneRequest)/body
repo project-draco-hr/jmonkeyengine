@@ -1,0 +1,19 @@
+{
+  if (request == currentRequest) {
+    SceneApplication.getApplication().removeSceneListener(this);
+    final SceneRequest current=currentRequest;
+    currentRequest=null;
+    final VehicleEditorController controller=editorController;
+    setLoadedScene(null,false);
+    cameraController.disable();
+    cameraController=null;
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        controller.cleanupApplication();
+        current.getRootNode().getParent().removeLight(dirLight);
+        return null;
+      }
+    }
+);
+  }
+}

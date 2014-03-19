@@ -1,0 +1,9 @@
+{
+  newPos.set(startWorldLoc).addLocal(constraintAxis.mult(value));
+  Spatial parent=spatial.getParent();
+  if (parent == null) {
+    return false;
+  }
+  worldToLocalMove(gridSnap);
+  return true;
+}

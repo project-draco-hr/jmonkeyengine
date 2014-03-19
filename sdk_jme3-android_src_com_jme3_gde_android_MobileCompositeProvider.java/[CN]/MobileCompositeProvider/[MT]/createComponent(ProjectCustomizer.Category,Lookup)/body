@@ -1,0 +1,7 @@
+{
+  jwsProps=new ProjectExtensionProperties(context.lookup(Project.class),keyList);
+  MobileCustomizerPanel panel=new MobileCustomizerPanel(jwsProps);
+  category.setStoreListener(new SavePropsListener(jwsProps,context.lookup(Project.class)));
+  category.setOkButtonListener(panel);
+  return panel;
+}

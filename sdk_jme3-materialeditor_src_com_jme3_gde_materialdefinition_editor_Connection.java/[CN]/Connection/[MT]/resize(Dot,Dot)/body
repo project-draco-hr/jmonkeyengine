@@ -1,0 +1,113 @@
+{
+  Point startLocation=start.getStartLocation();
+  Point endLocation=end.getEndLocation();
+  if (start.getParamType() == Dot.ParamType.Both) {
+    startLocation.x=endLocation.x - MARGIN * 2;
+    pointsSize=3;
+    points[0].setLocation(startLocation);
+    points[1].x=startLocation.x;
+    points[1].y=endLocation.y;
+    points[2].setLocation(endLocation);
+    if (startLocation.y <= endLocation.y) {
+      corners[0]=Corner.Bottom;
+      corners[1]=Corner.BottomRight;
+      corners[2]=Corner.None;
+    }
+ else {
+      corners[0]=Corner.Top;
+      corners[1]=Corner.TopRight;
+      corners[2]=Corner.None;
+    }
+  }
+ else   if (end.getParamType() == Dot.ParamType.Both) {
+    endLocation.x=startLocation.x + MARGIN * 2;
+    pointsSize=3;
+    points[0].setLocation(startLocation);
+    points[1].x=endLocation.x;
+    points[1].y=startLocation.y;
+    points[2].setLocation(endLocation);
+    if (startLocation.y <= endLocation.y) {
+      corners[0]=Corner.None;
+      corners[1]=Corner.RightBottom;
+      corners[2]=Corner.Bottom;
+    }
+ else {
+      corners[0]=Corner.None;
+      corners[1]=Corner.RightTop;
+      corners[2]=Corner.Top;
+    }
+  }
+ else   if (startLocation.x + MARGIN <= endLocation.x - MARGIN) {
+    pointsSize=4;
+    points[0].setLocation(startLocation);
+    points[1].x=getVMiddleStart();
+    points[1].y=startLocation.y;
+    points[2].x=getVMiddleStart();
+    points[2].y=endLocation.y;
+    corners[0]=Corner.None;
+    corners[3]=Corner.None;
+    points[3].setLocation(endLocation);
+    if (startLocation.y <= endLocation.y) {
+      corners[1]=Corner.RightBottom;
+      corners[2]=Corner.BottomRight;
+    }
+ else {
+      corners[1]=Corner.RightTop;
+      corners[2]=Corner.TopRight;
+    }
+  }
+ else {
+    pointsSize=6;
+    points[0].setLocation(startLocation);
+    points[5].setLocation(endLocation);
+    points[1].x=getVMiddleStart();
+    points[1].y=startLocation.y;
+    points[4].x=getVMiddleEnd();
+    points[4].y=endLocation.y;
+    corners[0]=Corner.None;
+    corners[5]=Corner.None;
+    if ((start.getNode().getLocation().y + start.getNode().getHeight() + MARGIN > end.getNode().getLocation().y - MARGIN) && (end.getNode().getLocation().y + end.getNode().getHeight() + MARGIN > start.getNode().getLocation().y - MARGIN)) {
+      if (startLocation.y + MARGIN <= endLocation.y - MARGIN) {
+        points[1].x=getVMiddleStartClampedRight();
+        points[2].x=getVMiddleStartClampedRight();
+      }
+ else {
+        points[1].x=getVMiddleStart();
+        points[2].x=getVMiddleStart();
+      }
+      points[2].y=getHBottom();
+      if (startLocation.y + MARGIN > endLocation.y - MARGIN) {
+        points[3].x=getVMiddleEndClampedLeft();
+        points[4].x=getVMiddleEndClampedLeft();
+      }
+ else {
+        points[3].x=getVMiddleEnd();
+        points[4].x=getVMiddleEnd();
+      }
+      points[3].y=getHBottom();
+      corners[1]=Corner.RightBottom;
+      corners[2]=Corner.BottomLeft;
+      corners[3]=Corner.LeftTop;
+      corners[4]=Corner.TopRight;
+    }
+ else {
+      points[2].x=getVMiddleStart();
+      points[2].y=getHMiddle();
+      points[3].x=getVMiddleEnd();
+      points[3].y=getHMiddle();
+      if (startLocation.y <= endLocation.y) {
+        corners[1]=Corner.RightBottom;
+        corners[2]=Corner.BottomLeft;
+        corners[3]=Corner.LeftBottom;
+        corners[4]=Corner.BottomRight;
+      }
+ else {
+        corners[1]=Corner.RightTop;
+        corners[2]=Corner.TopLeft;
+        corners[3]=Corner.LeftTop;
+        corners[4]=Corner.TopRight;
+      }
+    }
+  }
+  updateBounds();
+}

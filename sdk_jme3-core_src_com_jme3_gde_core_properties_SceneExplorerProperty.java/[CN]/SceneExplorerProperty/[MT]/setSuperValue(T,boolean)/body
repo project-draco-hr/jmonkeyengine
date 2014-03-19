@@ -1,0 +1,20 @@
+{
+  try {
+    if (undo) {
+      T dupe=duplicateObject(getSuperValue());
+      logger.log(Level.FINE,"Add undo for {0}",dupe);
+      addUndo(dupe,val);
+    }
+    logger.log(Level.FINER,"Set super value on thread {0}",Thread.currentThread().getName());
+    super.setValue(val);
+  }
+ catch (  IllegalAccessException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  IllegalArgumentException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  InvocationTargetException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

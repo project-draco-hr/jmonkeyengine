@@ -1,0 +1,28 @@
+{
+  if ("Flat".equals(heightmapTypeComboBox.getSelectedItem())) {
+    _flatPanel.setVisible(true);
+    _imagePanel.setVisible(false);
+    _hillPanel.setVisible(false);
+    _faultPanel.setVisible(false);
+  }
+ else   if ("Image Based".equals(heightmapTypeComboBox.getSelectedItem())) {
+    _flatPanel.setVisible(false);
+    _imagePanel.setVisible(true);
+    _hillPanel.setVisible(false);
+    _faultPanel.setVisible(false);
+  }
+ else   if ("Hill".equals(heightmapTypeComboBox.getSelectedItem())) {
+    _flatPanel.setVisible(false);
+    _imagePanel.setVisible(false);
+    _hillPanel.setVisible(true);
+    _faultPanel.setVisible(false);
+  }
+ else   if ("Fault Fractal".equals(heightmapTypeComboBox.getSelectedItem())) {
+    _flatPanel.setVisible(false);
+    _imagePanel.setVisible(false);
+    _hillPanel.setVisible(false);
+    _faultPanel.setVisible(true);
+  }
+  wizardPanel.fireChangeEvent();
+  this.validate();
+}

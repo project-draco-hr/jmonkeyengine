@@ -1,0 +1,13 @@
+{
+  SceneApplication.getApplication().enqueue(new Callable<Void>(){
+    public Void call() throws Exception {
+      SpotLight light=new SpotLight();
+      light.setColor(ColorRGBA.White);
+      node.addLight(light);
+      addLightUndo(node,light);
+      setModified();
+      return null;
+    }
+  }
+);
+}

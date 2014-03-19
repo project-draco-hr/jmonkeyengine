@@ -1,0 +1,8 @@
+{
+  JFileChooser l_chooser=new JFileChooser();
+  FileNameExtensionFilter l_filter=new FileNameExtensionFilter("CSV Animation Split file","csv");
+  l_chooser.setFileFilter(l_filter);
+  if (l_chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+    _txtCsvFilename.setText(l_chooser.getSelectedFile().getPath());
+  }
+}

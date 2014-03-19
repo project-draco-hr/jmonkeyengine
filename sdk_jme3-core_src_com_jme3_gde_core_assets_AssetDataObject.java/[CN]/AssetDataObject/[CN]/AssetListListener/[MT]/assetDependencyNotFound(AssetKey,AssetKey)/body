@@ -1,0 +1,14 @@
+{
+  ProjectAssetManager pm=obj.getLookup().lookup(ProjectAssetManager.class);
+  if (pm == null || loadingThread != Thread.currentThread()) {
+    return;
+  }
+  FileObject fObj=pm.getAssetFileObject(ak1);
+  if (fObj != null && assetList.contains(fObj)) {
+    assetList.remove(fObj);
+    assetKeyList.remove(ak1);
+  }
+  if (!failedList.contains(ak1)) {
+    failedList.add(ak1);
+  }
+}

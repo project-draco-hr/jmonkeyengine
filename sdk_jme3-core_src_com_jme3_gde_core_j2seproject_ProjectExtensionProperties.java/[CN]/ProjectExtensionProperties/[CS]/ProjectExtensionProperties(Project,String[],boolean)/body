@@ -1,0 +1,14 @@
+{
+  this.project=project;
+  this.keyList=keyList;
+  properties=new EditableProperties(true);
+  if (project instanceof J2SEProject) {
+    load();
+  }
+  if (privateProps) {
+    propertyFileName=AntProjectHelper.PRIVATE_PROPERTIES_PATH;
+  }
+ else {
+    propertyFileName=AntProjectHelper.PROJECT_PROPERTIES_PATH;
+  }
+}

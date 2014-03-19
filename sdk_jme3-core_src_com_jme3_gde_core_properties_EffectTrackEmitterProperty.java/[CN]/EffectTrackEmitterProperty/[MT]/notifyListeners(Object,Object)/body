@@ -1,0 +1,6 @@
+{
+  for (Iterator<ScenePropertyChangeListener> it=listeners.iterator(); it.hasNext(); ) {
+    ScenePropertyChangeListener propertyChangeListener=it.next();
+    propertyChangeListener.propertyChange("PROP_USER_CHANGE",getName(),before,after);
+  }
+}

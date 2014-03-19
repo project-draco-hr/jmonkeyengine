@@ -1,0 +1,18 @@
+{
+  if (selectionShape != null) {
+    selectionShape.removeFromParent();
+    selectionShape=null;
+  }
+  if (spat instanceof ParticleEmitter) {
+    attachBoxSelection(spat);
+  }
+ else   if (spat instanceof Geometry) {
+    attachGeometrySelection((Geometry)spat);
+  }
+ else   if (spat.getControl(PhysicsControl.class) != null) {
+    attachPhysicsSelection(spat);
+  }
+ else {
+    attachBoxSelection(spat);
+  }
+}

@@ -1,0 +1,16 @@
+{
+  FileObject fileObject;
+  try {
+    fileObject=FileUtil.toFileObject(file.getCanonicalFile());
+    if (fileObject == null) {
+      Logger.getLogger(AssetPackLoader.class.getName()).log(Level.WARNING,"Cannot find asset {0}",file.getPath());
+      return null;
+    }
+    return getFileDescription(fileObject);
+  }
+ catch (  IOException ex) {
+    Logger.getLogger(AssetPackLoader.class.getName()).log(Level.WARNING,"Cannot find asset {0}",file.getPath());
+    Exceptions.printStackTrace(ex);
+  }
+  return null;
+}

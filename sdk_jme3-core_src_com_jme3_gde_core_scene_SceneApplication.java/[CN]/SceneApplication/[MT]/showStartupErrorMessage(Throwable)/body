@@ -1,0 +1,9 @@
+{
+  if (failMessageShown) {
+    logger.log(Level.INFO,exception.getMessage(),exception);
+    return;
+  }
+  failMessageShown=true;
+  NotifyUtil.show("Error starting OpenGL context!","Click here to go to troubleshooting web page.",MessageType.EXCEPTION,lst,0);
+  logger.log(Level.INFO,exception.getMessage(),exception);
+}

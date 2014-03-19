@@ -1,0 +1,8 @@
+{
+  super(new MappingNodeChildren(lookup,shaderNode),lookup);
+  this.shaderNode=shaderNode;
+  setName(shaderNode.getName());
+  key=makeKey();
+  ProjectAssetManager manager=lookup.lookup(ProjectAssetManager.class);
+  def=MaterialUtils.loadShaderNodeDefinition(shaderNode,manager);
+}

@@ -1,0 +1,11 @@
+{
+  ShaderNodeDefinitionKey k=new ShaderNodeDefinitionKey(path);
+  k.setLoadDocumentation(true);
+  List<ShaderNodeDefinition> defs=(List<ShaderNodeDefinition>)manager.loadAsset(k);
+  for (  ShaderNodeDefinition shaderNodeDefinition : defs) {
+    if (shaderNodeDefinition.getName().equals(name)) {
+      return shaderNodeDefinition;
+    }
+  }
+  return null;
+}

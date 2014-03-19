@@ -1,0 +1,23 @@
+{
+  if ((Boolean)wiz.getProperty("multipleTextures")) {
+    Texture south=(Texture)wiz.getProperty("textureSouth");
+    Texture north=(Texture)wiz.getProperty("textureNorth");
+    Texture east=(Texture)wiz.getProperty("textureEast");
+    Texture west=(Texture)wiz.getProperty("textureWest");
+    Texture top=(Texture)wiz.getProperty("textureTop");
+    Texture bottom=(Texture)wiz.getProperty("textureBottom");
+    Vector3f normalScale=(Vector3f)wiz.getProperty("normalScale");
+    return SkyFactory.createSky(pm,west,east,north,south,top,bottom,normalScale);
+  }
+ else {
+    Texture textureSingle=(Texture)wiz.getProperty("textureSingle");
+    Vector3f normalScale=(Vector3f)wiz.getProperty("normalScale");
+    boolean useSpheremap=(Boolean)wiz.getProperty("useSpheremap");
+    boolean flipY=(Boolean)wiz.getProperty("flipY");
+    TextureKey key=(TextureKey)textureSingle.getKey();
+    TextureKey newKey=new TextureKey(key.getName(),flipY);
+    newKey.setGenerateMips(true);
+    newKey.setAsCube(!useSpheremap);
+    return SkyFactory.createSky(pm,pm.loadTexture(newKey),normalScale,useSpheremap);
+  }
+}

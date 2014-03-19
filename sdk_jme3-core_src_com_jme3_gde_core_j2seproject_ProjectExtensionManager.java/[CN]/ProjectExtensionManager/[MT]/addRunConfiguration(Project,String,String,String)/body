@@ -1,0 +1,14 @@
+{
+  try {
+    EditableProperties properties=new EditableProperties(true);
+    properties.setProperty("$label",label);
+    properties.setProperty("$target.run",runTarget);
+    J2SEProjectConfigurations.createConfigurationFiles(project,name,properties,null);
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  IllegalArgumentException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

@@ -1,0 +1,33 @@
+{
+  final String path=getAndroidToolPath();
+  if (path == null) {
+    return;
+  }
+  Thread thread=new Thread(new Runnable(){
+    @Override public void run(){
+      String[] command=new String[]{path};
+      ProcessBuilder builder=new ProcessBuilder(command);
+      try {
+        Process proc=builder.start();
+        OutputReader outReader=new OutputReader(proc.getInputStream());
+        OutputReader errReader=new OutputReader(proc.getErrorStream());
+        outReader.start();
+        errReader.start();
+        proc.waitFor();
+      }
+ catch (      InterruptedException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+  }
+);
+  if (modal) {
+    thread.run();
+  }
+ else {
+    thread.start();
+  }
+}

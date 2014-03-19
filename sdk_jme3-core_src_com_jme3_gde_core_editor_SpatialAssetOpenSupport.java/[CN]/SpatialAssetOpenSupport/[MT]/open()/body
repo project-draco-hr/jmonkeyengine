@@ -1,0 +1,34 @@
+{
+  super.open();
+  if (app == null) {
+    app=new SceneApplication();
+    tc.setDataObject(dataObject);
+    Thread t=new Thread(new Runnable(){
+      public void run(){
+        app.start();
+        app.enqueue(new Callable<Void>(){
+          public Void call() throws Exception {
+            java.awt.EventQueue.invokeLater(new Runnable(){
+              public void run(){
+                AwtPanel panel=app.getPanel();
+                tc.getScenePanel().add(panel);
+                tc.repaint();
+              }
+            }
+);
+            Spatial spat=(Spatial)dataObject.getLookup().lookup(AssetData.class).loadAsset();
+            if (spat != null) {
+              app.getRootNode().attachChild(spat);
+              app.getRootNode().addLight(new DirectionalLight());
+            }
+            dataObject.getLookupContents().add(app);
+            return null;
+          }
+        }
+);
+      }
+    }
+);
+    t.start();
+  }
+}

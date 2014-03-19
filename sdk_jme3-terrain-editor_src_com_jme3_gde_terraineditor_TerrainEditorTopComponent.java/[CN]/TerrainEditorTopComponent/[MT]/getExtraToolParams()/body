@@ -1,0 +1,7 @@
+{
+  if (toolController.getCurrentTerrainTool() != null) {
+    if (toolController.getCurrentTerrainTool().getClass() == RoughTerrainTool.class)     updateRoughenFractalToolParams();
+ else     if (toolController.getCurrentTerrainTool().getClass() == LevelTerrainTool.class)     updateLevelToolParams();
+ else     if (toolController.getCurrentTerrainTool().getClass() == SlopeTerrainTool.class)     updateSlopeToolParams();
+  }
+}

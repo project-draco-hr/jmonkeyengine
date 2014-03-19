@@ -1,0 +1,8 @@
+{
+  BitmapFont font=assetManager.loadFont("Interface/Fonts/Default.fnt");
+  fpsText=new BitmapText(font,false);
+  fpsText.setSize(font.getCharSet().getRenderedSize());
+  fpsText.setLocalTranslation(0,fpsText.getLineHeight(),0);
+  fpsText.setText("Frames per second");
+  statsGuiNode.attachChild(fpsText);
+}

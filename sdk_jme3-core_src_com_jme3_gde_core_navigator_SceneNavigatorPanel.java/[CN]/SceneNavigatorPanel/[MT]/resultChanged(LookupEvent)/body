@@ -1,0 +1,16 @@
+{
+  Collection collection=applicationResult.allInstances();
+  for (Iterator it=collection.iterator(); it.hasNext(); ) {
+    Object obj=it.next();
+    if (obj instanceof SceneApplication) {
+      SceneApplication app=(SceneApplication)obj;
+      if (app != null) {
+        Node node=NodeUtility.createNode(((SceneApplication)app).getRootNode());
+        explorerManager.setRootContext(node);
+        explorerManager.getRootContext().setDisplayName(node.getName());
+        return;
+      }
+    }
+  }
+  explorerManager.setRootContext(Node.EMPTY);
+}

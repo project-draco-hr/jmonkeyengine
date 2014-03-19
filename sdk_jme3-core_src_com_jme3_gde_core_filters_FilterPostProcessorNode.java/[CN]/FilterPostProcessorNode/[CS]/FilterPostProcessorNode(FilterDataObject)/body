@@ -1,0 +1,7 @@
+{
+  super(new FilterChildren(dataObject),Lookups.singleton(new FilterIndexSupport()));
+  this.dataObject=dataObject;
+  setName(dataObject.getName());
+  getLookup().lookup(FilterIndexSupport.class).setFilterPostProcessorNode(this);
+  ((FilterChildren)getChildren()).setFilterPostProcessorNode(this);
+}

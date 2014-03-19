@@ -1,0 +1,18 @@
+{
+  for (  NodePanel nodePanel : nodes) {
+    if (nodePanel.getKey().equals(key)) {
+      return doSelect(nodePanel);
+    }
+  }
+  for (  Connection connection : connections) {
+    if (connection.getKey().equals(key)) {
+      return doSelect(connection);
+    }
+  }
+  for (  OutBusPanel outBusPanel : outBuses) {
+    if (outBusPanel.getKey().equals(key)) {
+      return doSelect(outBusPanel);
+    }
+  }
+  return doSelect(null);
+}

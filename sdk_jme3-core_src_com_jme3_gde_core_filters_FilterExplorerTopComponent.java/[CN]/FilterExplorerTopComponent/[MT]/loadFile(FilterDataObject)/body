@@ -1,0 +1,9 @@
+{
+  currentFile=object;
+  node=object.getLookup().lookup(FilterPostProcessorNode.class);
+  explorerManager.setRootContext(node);
+  setActivatedNodes(new Node[]{object.getNodeDelegate()});
+  updateFilterState();
+  open();
+  requestVisible();
+}

@@ -1,0 +1,22 @@
+{
+  wiz.putProperty("path",null);
+  wiz.putProperty("manager",null);
+  wiz.putProperty("dataobject",null);
+  wiz.putProperty("assetdata",null);
+  wiz.putProperty("mainkey",null);
+  wiz.putProperty("destpath",null);
+  wiz.putProperty("assetlist",null);
+  wiz.putProperty("failedlist",null);
+  wiz.putProperty("model",null);
+  UberAssetLocator.resetLocatedList();
+  UberAssetLocator.setFindMode(true);
+  manager.clearCache();
+  wiz.putProperty("path",currentPath);
+  wiz.putProperty("manager",manager);
+  wiz.putProperty("dataobject",dataObject);
+  wiz.putProperty("assetdata",data);
+  wiz.putProperty("mainkey",mainKey);
+  if (mainKey != null) {
+    wiz.putProperty("destpath","Models/" + mainKey.getName().replaceAll(mainKey.getExtension(),"").replaceAll("\\.","") + "/");
+  }
+}

@@ -1,0 +1,26 @@
+{
+  Spatial selected=toolController.getSelectedSpatial();
+  if (selected == null) {
+    return;
+  }
+  Spatial clone=selected.clone();
+  clone.move(1,0,1);
+  selected.getParent().attachChild(clone);
+  actionPerformed(new DuplicateUndo(clone,selected.getParent()));
+  selected=clone;
+  final Spatial cloned=clone;
+  final JmeNode rootNode=toolController.getRootNode();
+  refreshSelected(rootNode,selected.getParent());
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    @Override public void run(){
+      if (cloned != null) {
+        SceneViewerTopComponent.findInstance().setActivatedNodes(new org.openide.nodes.Node[]{rootNode.getChild(cloned)});
+        SceneExplorerTopComponent.findInstance().setSelectedNode(rootNode.getChild(cloned));
+      }
+    }
+  }
+);
+  toolController.updateSelection(selected);
+  currentState=State.translate;
+  currentAxis=Vector3f.UNIT_XYZ;
+}

@@ -1,0 +1,52 @@
+{
+  AbstractDocument document=(AbstractDocument)context.getDocument();
+  try {
+    document.readLock();
+synchronized (declaredFunctions) {
+      declaredFunctions.clear();
+    }
+    List<ASTItem> declarations=context.getASTPath().getLeaf().getChildren();
+    for (    ASTItem declaration : declarations) {
+      for (      ASTItem declarationItem : declaration.getChildren()) {
+        if (isNode(declarationItem,"function")) {
+          List<ASTItem> functionItems=declarationItem.getChildren();
+          if (functionItems.size() < 3) {
+            break;
+          }
+          ASTItem nameToken=functionItems.get(0);
+          if (isTokenType(nameToken,GlslTokenId.FUNCTION.name())) {
+            StringBuilder returnType=new StringBuilder();
+            for (            ASTItem typeItem : declaration.getChildren()) {
+              if (isNode(typeItem,"function")) {
+                break;
+              }
+              if (typeItem instanceof ASTNode) {
+                returnType.append(((ASTNode)typeItem).getAsText().trim());
+              }
+ else               if (typeItem instanceof ASTToken) {
+                final ASTToken t=(ASTToken)typeItem;
+                returnType.append(t.getIdentifier().trim());
+              }
+            }
+            StringBuilder name=new StringBuilder();
+            name.append("(");
+            ASTItem parameterList=functionItems.get(2);
+            if (isNode(parameterList,"parameter_declaration_list")) {
+              name.append(((ASTNode)parameterList).getAsText());
+            }
+            name.append(")");
+            GLSLElementDescriptor elementDesc=new GLSLElementDescriptor(GLSLElementDescriptor.Category.USER_FUNC,"","",name.toString(),returnType.toString());
+            name.insert(0,((ASTToken)nameToken).getIdentifier());
+synchronized (declaredFunctions) {
+              declaredFunctions.put(name.toString(),elementDesc);
+            }
+          }
+          break;
+        }
+      }
+    }
+  }
+  finally {
+    document.readUnlock();
+  }
+}

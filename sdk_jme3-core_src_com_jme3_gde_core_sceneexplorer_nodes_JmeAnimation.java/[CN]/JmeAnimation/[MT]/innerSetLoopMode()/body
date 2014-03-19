@@ -1,0 +1,27 @@
+{
+  final AnimControl control=jmeControl.getLookup().lookup(AnimControl.class);
+  channel.setLoopMode(animLoopMode);
+  if (animLoopMode == LoopMode.DontLoop) {
+    control.addListener(new AnimEventListener(){
+      public void onAnimCycleDone(      AnimControl ac,      AnimChannel ac1,      String animName){
+        if (animName.equals(animation.getName())) {
+          if (playing) {
+            control.clearChannels();
+            channel=null;
+            jmeControl.setAnim(null);
+            java.awt.EventQueue.invokeLater(new Runnable(){
+              public void run(){
+                stop();
+              }
+            }
+);
+          }
+          ac.removeListener(this);
+        }
+      }
+      public void onAnimChange(      AnimControl ac,      AnimChannel ac1,      String animName){
+      }
+    }
+);
+  }
+}

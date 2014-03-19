@@ -1,0 +1,12 @@
+{
+  ActionMap map=getActionMap();
+  Action copyAction=ExplorerUtils.actionCopy(explorerManager);
+  map.put(DefaultEditorKit.copyAction,copyAction);
+  map.put(DefaultEditorKit.cutAction,ExplorerUtils.actionCut(explorerManager));
+  map.put(DefaultEditorKit.pasteAction,ExplorerUtils.actionPaste(explorerManager));
+  map.put("delete",ExplorerUtils.actionDelete(explorerManager,true));
+  lookup=ExplorerUtils.createLookup(explorerManager,map);
+  setLayout(new javax.swing.BoxLayout(this,javax.swing.BoxLayout.LINE_AXIS));
+  add(beanTreeView);
+  nodeSelectionResult=Utilities.actionsGlobalContext().lookupResult(AbstractSceneExplorerNode.class);
+}
