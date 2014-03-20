@@ -1,0 +1,11 @@
+{
+  if (attachmentSlot == -100) {
+    return JmeIosGLES.GL_DEPTH_ATTACHMENT;
+  }
+ else   if (attachmentSlot == 0) {
+    return JmeIosGLES.GL_COLOR_ATTACHMENT0;
+  }
+ else {
+    throw new UnsupportedOperationException("Android does not support multiple color attachments to an FBO");
+  }
+}

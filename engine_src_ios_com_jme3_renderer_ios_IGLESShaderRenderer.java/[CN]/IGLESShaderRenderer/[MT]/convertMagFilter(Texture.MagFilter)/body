@@ -1,0 +1,10 @@
+{
+switch (filter) {
+case Bilinear:
+    return JmeIosGLES.GL_LINEAR;
+case Nearest:
+  return JmeIosGLES.GL_NEAREST;
+default :
+throw new UnsupportedOperationException("Unknown mag filter: " + filter);
+}
+}

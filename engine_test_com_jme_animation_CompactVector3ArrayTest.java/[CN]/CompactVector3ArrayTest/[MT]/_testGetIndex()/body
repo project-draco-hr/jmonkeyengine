@@ -1,0 +1,12 @@
+{
+  Vector3f[] reverse=new Vector3f[objArray1.length];
+  int[] reverseIndex=new int[objArray1.length];
+  for (int i=0; i < objArray1.length; i++) {
+    reverse[i]=objArray1[objArray1.length - 1 - i];
+    reverseIndex[i]=index1[objArray1.length - 1 - i];
+  }
+  int[] index=compact.getIndex(reverse);
+  for (int i=0; i < index.length; i++) {
+    assertEquals(reverseIndex[i],index[i]);
+  }
+}

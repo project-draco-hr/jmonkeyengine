@@ -1,0 +1,12 @@
+{
+switch (usage) {
+case Static:
+    return JmeIosGLES.GL_STATIC_DRAW;
+case Dynamic:
+  return JmeIosGLES.GL_DYNAMIC_DRAW;
+case Stream:
+return JmeIosGLES.GL_STREAM_DRAW;
+default :
+throw new RuntimeException("Unknown usage type.");
+}
+}

@@ -1,0 +1,13 @@
+{
+  int shaderId=shader.getId();
+  if (context.boundShaderProgram != shaderId) {
+    JmeIosGLES.glUseProgram(shaderId);
+    JmeIosGLES.checkGLError();
+    statistics.onShaderUse(shader,true);
+    boundShader=shader;
+    context.boundShaderProgram=shaderId;
+  }
+ else {
+    statistics.onShaderUse(shader,false);
+  }
+}

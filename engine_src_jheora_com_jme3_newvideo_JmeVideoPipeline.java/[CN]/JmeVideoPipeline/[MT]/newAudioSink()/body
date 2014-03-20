@@ -1,0 +1,18 @@
+{
+  com.fluendo.plugin.AudioSink s;
+  try {
+    s=(com.fluendo.plugin.AudioSink)ElementFactory.makeByName("audiosinkj2","audiosink");
+    Debug.log(Debug.INFO,"using high quality javax.sound backend");
+  }
+ catch (  Throwable e) {
+    s=null;
+    noSuchElement("audiosink");
+    return null;
+  }
+  if (!s.test()) {
+    return null;
+  }
+ else {
+    return s;
+  }
+}

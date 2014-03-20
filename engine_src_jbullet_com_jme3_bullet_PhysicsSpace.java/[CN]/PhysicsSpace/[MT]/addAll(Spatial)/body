@@ -1,0 +1,33 @@
+{
+  if (spatial.getControl(RigidBodyControl.class) != null) {
+    RigidBodyControl physicsNode=spatial.getControl(RigidBodyControl.class);
+    physicsNode.setPhysicsSpace(this);
+    List<PhysicsJoint> joints=physicsNode.getJoints();
+    for (Iterator<PhysicsJoint> it1=joints.iterator(); it1.hasNext(); ) {
+      PhysicsJoint physicsJoint=it1.next();
+      if (physicsJoint.getBodyA() instanceof PhysicsControl) {
+        add(physicsJoint.getBodyA());
+      }
+ else {
+        addRigidBody(physicsJoint.getBodyA());
+      }
+      if (physicsJoint.getBodyA() instanceof PhysicsControl) {
+        add(physicsJoint.getBodyB());
+      }
+ else {
+        addRigidBody(physicsJoint.getBodyB());
+      }
+      addJoint(physicsJoint);
+    }
+  }
+ else   if (spatial.getControl(PhysicsControl.class) != null) {
+    spatial.getControl(PhysicsControl.class).setPhysicsSpace(this);
+  }
+  if (spatial instanceof Node) {
+    List<Spatial> children=((Node)spatial).getChildren();
+    for (Iterator<Spatial> it=children.iterator(); it.hasNext(); ) {
+      Spatial spat=it.next();
+      addAll(spat);
+    }
+  }
+}

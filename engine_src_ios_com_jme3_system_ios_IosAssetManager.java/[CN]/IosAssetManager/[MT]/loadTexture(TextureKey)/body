@@ -1,0 +1,12 @@
+{
+  Texture tex=(Texture)loadAsset(key);
+  tex.setMagFilter(Texture.MagFilter.Nearest);
+  tex.setAnisotropicFilter(0);
+  if (tex.getMinFilter().usesMipMapLevels()) {
+    tex.setMinFilter(Texture.MinFilter.NearestNearestMipMap);
+  }
+ else {
+    tex.setMinFilter(Texture.MinFilter.NearestNoMipMaps);
+  }
+  return tex;
+}

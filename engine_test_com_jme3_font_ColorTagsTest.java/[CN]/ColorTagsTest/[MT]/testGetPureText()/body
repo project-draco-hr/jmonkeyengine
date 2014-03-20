@@ -1,0 +1,8 @@
+{
+  String str1="abcde test";
+  ColorTags tag1=new ColorTags(str1);
+  assertEquals(tag1.getPlainText(),str1);
+  String str2="abcde\\#1A3d#test\\#1A3#";
+  ColorTags tag2=new ColorTags(str2);
+  assertEquals("abcdetest",tag2.getPlainText());
+}

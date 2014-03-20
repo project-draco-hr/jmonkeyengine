@@ -1,0 +1,20 @@
+{
+  if (buf.duplicate)   return Pad.OK;
+  Debug.log(Debug.DEBUG,this.getName() + " starting buffer " + buf);
+  if (buf.object instanceof Image) {
+synchronized (outTex) {
+      outTex.setImage((Image)buf.object);
+      outTex.notifyAll();
+      System.out.println("PUSH  : " + (frame++));
+    }
+  }
+ else {
+    System.out.println(this + ": unknown buffer received " + buf.object);
+    return Pad.ERROR;
+  }
+  if (outTex == null) {
+    return Pad.NOT_NEGOTIATED;
+  }
+  Debug.log(Debug.DEBUG,this.getName() + " done with buffer " + buf);
+  return Pad.OK;
+}

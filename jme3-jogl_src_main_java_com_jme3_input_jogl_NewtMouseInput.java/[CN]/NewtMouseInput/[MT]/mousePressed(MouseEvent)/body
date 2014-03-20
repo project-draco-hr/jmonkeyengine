@@ -1,7 +1,0 @@
-{
-  MouseButtonEvent evt=new MouseButtonEvent(getJMEButtonIndex(awtEvt),true,awtEvt.getX(),awtEvt.getY());
-  evt.setTime(awtEvt.getWhen());
-synchronized (eventQueue) {
-    eventQueue.add(evt);
-  }
-}

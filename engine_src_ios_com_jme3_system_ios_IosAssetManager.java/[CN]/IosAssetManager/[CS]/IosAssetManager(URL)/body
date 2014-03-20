@@ -1,0 +1,23 @@
+{
+  System.setProperty("org.xml.sax.driver","org.xmlpull.v1.sax2.Driver");
+  registerLocator("",ClasspathLocator.class);
+  registerLoader(IosImageLoader.class,"jpg","bmp","gif","png","jpeg");
+  registerLoader(com.jme3.material.plugins.J3MLoader.class,"j3m");
+  registerLoader(com.jme3.material.plugins.J3MLoader.class,"j3md");
+  registerLoader(com.jme3.shader.plugins.GLSLLoader.class,"vert","frag","glsl","glsllib");
+  registerLoader(com.jme3.export.binary.BinaryImporter.class,"j3o");
+  registerLoader(com.jme3.font.plugins.BitmapFontLoader.class,"fnt");
+  registerLoader(WAVLoader.class,"wav");
+  registerLoaderSafe("com.jme3.audio.plugins.OGGLoader","ogg");
+  registerLoaderSafe("com.jme3.texture.plugins.DDSLoader","dds");
+  registerLoaderSafe("com.jme3.texture.plugins.PFMLoader","pfm");
+  registerLoaderSafe("com.jme3.texture.plugins.HDRLoader","hdr");
+  registerLoaderSafe("com.jme3.texture.plugins.TGALoader","tga");
+  registerLoaderSafe("com.jme3.scene.plugins.OBJLoader","obj");
+  registerLoaderSafe("com.jme3.scene.plugins.MTLLoader","mtl");
+  registerLoaderSafe("com.jme3.scene.plugins.ogre.MeshLoader","mesh.xml");
+  registerLoaderSafe("com.jme3.scene.plugins.ogre.SkeletonLoader","skeleton.xml");
+  registerLoaderSafe("com.jme3.scene.plugins.ogre.MaterialLoader","material");
+  registerLoaderSafe("com.jme3.scene.plugins.ogre.SceneLoader","scene");
+  logger.fine("IosAssetManager created.");
+}

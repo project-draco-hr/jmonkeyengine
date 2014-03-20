@@ -1,0 +1,13 @@
+{
+  initialize(settings);
+  JmeContext ctx=null;
+  if (settings.getRenderer() == null || settings.getRenderer().equals("NULL") || contextType == JmeContext.Type.Headless) {
+    ctx=new NullContext();
+    ctx.setSettings(settings);
+  }
+ else {
+    ctx=new IGLESContext();
+    ctx.setSettings(settings);
+  }
+  return ctx;
+}

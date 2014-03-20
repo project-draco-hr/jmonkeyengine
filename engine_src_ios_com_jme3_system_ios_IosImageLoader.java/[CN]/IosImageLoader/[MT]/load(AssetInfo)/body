@@ -1,0 +1,14 @@
+{
+  InputStream in=info.openStream();
+  Image img=null;
+  try {
+    img=loadImageData(Image.Format.RGBA8,in);
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+ finally {
+    in.close();
+  }
+  return img;
+}

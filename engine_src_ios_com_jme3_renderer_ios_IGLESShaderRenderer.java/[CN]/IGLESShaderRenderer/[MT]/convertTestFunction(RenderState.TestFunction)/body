@@ -1,0 +1,22 @@
+{
+switch (testFunc) {
+case Never:
+    return JmeIosGLES.GL_NEVER;
+case Less:
+  return JmeIosGLES.GL_LESS;
+case LessOrEqual:
+return JmeIosGLES.GL_LEQUAL;
+case Greater:
+return JmeIosGLES.GL_GREATER;
+case GreaterOrEqual:
+return JmeIosGLES.GL_GEQUAL;
+case Equal:
+return JmeIosGLES.GL_EQUAL;
+case NotEqual:
+return JmeIosGLES.GL_NOTEQUAL;
+case Always:
+return JmeIosGLES.GL_ALWAYS;
+default :
+throw new UnsupportedOperationException("Unrecognized test function: " + testFunc);
+}
+}

@@ -1,0 +1,15 @@
+{
+  if (!ENABLE_ERROR_CHECKING) {
+    return;
+  }
+  int error=glGetError();
+  if (error != 0) {
+    String message=null;
+    if (message == null) {
+      throw new RendererException("An unknown [" + error + "] OpenGL error has occurred.");
+    }
+ else {
+      throw new RendererException("An OpenGL error has occurred: " + message);
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  logger.log(Level.FINE,"IGLESShaderRenderer deleteFrameBuffer");
+  if (fb.getId() != -1) {
+    if (context.boundFBO == fb.getId()) {
+      JmeIosGLES.glBindFramebuffer(JmeIosGLES.GL_FRAMEBUFFER,0);
+      JmeIosGLES.checkGLError();
+      context.boundFBO=0;
+    }
+    if (fb.getDepthBuffer() != null) {
+      deleteRenderBuffer(fb,fb.getDepthBuffer());
+    }
+    if (fb.getColorBuffer() != null) {
+      deleteRenderBuffer(fb,fb.getColorBuffer());
+    }
+    intBuf1[0]=fb.getId();
+    JmeIosGLES.glDeleteFramebuffers(1,intBuf1,0);
+    JmeIosGLES.checkGLError();
+    fb.resetObject();
+    statistics.onDeleteFrameBuffer();
+  }
+}

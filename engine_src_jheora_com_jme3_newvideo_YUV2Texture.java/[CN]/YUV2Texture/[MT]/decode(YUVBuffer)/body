@@ -1,0 +1,28 @@
+{
+  if (frameQueue == null) {
+    frameQueue=new ArrayBlockingQueue<VideoTexture>(20);
+    for (int i=0; i < 20; i++) {
+      VideoTexture img=new VideoTexture(yuv.y_width,yuv.y_height,Format.RGBA8,frameQueue);
+      frameQueue.add(img);
+    }
+  }
+  try {
+    final VideoTexture videoTex=frameQueue.take();
+    ByteBuffer outBuf=videoTex.getImage().getData(0);
+    conv.convert(yuv,0,0,yuv.y_width,yuv.y_height);
+    outBuf.clear();
+    outBuf.asIntBuffer().put(conv.getRGBData()).clear();
+    app.enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        videoTex.getImage().setUpdateNeeded();
+        app.getRenderer().setTexture(0,videoTex);
+        return null;
+      }
+    }
+);
+    return videoTex;
+  }
+ catch (  InterruptedException ex) {
+  }
+  return null;
+}

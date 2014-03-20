@@ -1,0 +1,21 @@
+{
+  int res;
+switch (transition) {
+case STOP_PAUSE:
+    if (!openFile()) {
+      return FAILURE;
+    }
+  break;
+default :
+break;
+}
+res=super.changeState(transition);
+switch (transition) {
+case PAUSE_STOP:
+cleanup();
+break;
+default :
+break;
+}
+return res;
+}

@@ -1,0 +1,26 @@
+{
+  int id=fb.getId();
+  if (id == -1) {
+    JmeIosGLES.glGenFramebuffers(1,intBuf1,0);
+    JmeIosGLES.checkGLError();
+    id=intBuf1[0];
+    fb.setId(id);
+    objManager.registerObject(fb);
+    statistics.onNewFrameBuffer();
+  }
+  if (context.boundFBO != id) {
+    JmeIosGLES.glBindFramebuffer(JmeIosGLES.GL_FRAMEBUFFER,id);
+    JmeIosGLES.checkGLError();
+    context.boundDrawBuf=0;
+    context.boundFBO=id;
+  }
+  FrameBuffer.RenderBuffer depthBuf=fb.getDepthBuffer();
+  if (depthBuf != null) {
+    updateFrameBufferAttachment(fb,depthBuf);
+  }
+  for (int i=0; i < fb.getNumColorBuffers(); i++) {
+    FrameBuffer.RenderBuffer colorBuf=fb.getColorBuffer(i);
+    updateFrameBufferAttachment(fb,colorBuf);
+  }
+  fb.clearUpdateNeeded();
+}
