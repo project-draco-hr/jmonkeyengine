@@ -1,9 +1,0 @@
-{
-  Mesh mockedMesh=createMock(Mesh.class);
-  expect(mockedMesh.getBound()).andReturn(null);
-  replay(mockedMesh);
-  Geometry geom=new Geometry();
-  geom.setMesh(mockedMesh);
-  geom.updateWorldBound();
-  verify(mockedMesh);
-}

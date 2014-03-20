@@ -1,0 +1,36 @@
+{
+  final PhysicsSpace space=this;
+  InternalTickCallback callback2=new InternalTickCallback(){
+    @Override public void internalTick(    DynamicsWorld dw,    float f){
+      AppTask task=pQueue.poll();
+      while (task != null) {
+        while (task.isCancelled()) {
+          task=pQueue.poll();
+        }
+        try {
+          task.invoke();
+        }
+ catch (        Exception ex) {
+          logger.log(Level.SEVERE,null,ex);
+        }
+        task=pQueue.poll();
+      }
+      for (Iterator<PhysicsTickListener> it=tickListeners.iterator(); it.hasNext(); ) {
+        PhysicsTickListener physicsTickCallback=it.next();
+        physicsTickCallback.prePhysicsTick(space,f);
+      }
+    }
+  }
+;
+  dynamicsWorld.setPreTickCallback(callback2);
+  InternalTickCallback callback=new InternalTickCallback(){
+    @Override public void internalTick(    DynamicsWorld dw,    float f){
+      for (Iterator<PhysicsTickListener> it=tickListeners.iterator(); it.hasNext(); ) {
+        PhysicsTickListener physicsTickCallback=it.next();
+        physicsTickCallback.physicsTick(space,f);
+      }
+    }
+  }
+;
+  dynamicsWorld.setInternalTickCallback(callback,this);
+}
