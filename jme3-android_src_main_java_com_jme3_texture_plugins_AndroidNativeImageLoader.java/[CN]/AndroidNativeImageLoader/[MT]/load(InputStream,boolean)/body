@@ -1,0 +1,35 @@
+{
+  int result;
+  byte[] bytes=getBytes(in);
+  int origSize=bytes.length;
+  ByteBuffer origDataBuffer=BufferUtils.createByteBuffer(origSize);
+  origDataBuffer.clear();
+  origDataBuffer.put(bytes,0,origSize);
+  origDataBuffer.flip();
+  int headerSize=12;
+  ByteBuffer headerDataBuffer=BufferUtils.createByteBuffer(headerSize);
+  headerDataBuffer.asIntBuffer();
+  headerDataBuffer.clear();
+  result=getImageInfo(origDataBuffer,origSize,headerDataBuffer,headerSize);
+  if (result != 0) {
+    logger.log(Level.SEVERE,"Image header could not be read: {0}",getFailureReason());
+    return null;
+  }
+  headerDataBuffer.rewind();
+  int width=headerDataBuffer.getInt();
+  int height=headerDataBuffer.getInt();
+  int numComponents=headerDataBuffer.getInt();
+  int imageDataSize=width * height * numComponents;
+  ByteBuffer imageDataBuffer=BufferUtils.createByteBuffer(imageDataSize);
+  imageDataBuffer.clear();
+  result=decodeBuffer(origDataBuffer,origSize,flipY,imageDataBuffer,imageDataSize);
+  if (result != 0) {
+    logger.log(Level.SEVERE,"Image could not be decoded: {0}",getFailureReason());
+    return null;
+  }
+  imageDataBuffer.rewind();
+  BufferUtils.destroyDirectBuffer(origDataBuffer);
+  BufferUtils.destroyDirectBuffer(headerDataBuffer);
+  Image img=new Image(getImageFormat(numComponents),width,height,imageDataBuffer);
+  return img;
+}

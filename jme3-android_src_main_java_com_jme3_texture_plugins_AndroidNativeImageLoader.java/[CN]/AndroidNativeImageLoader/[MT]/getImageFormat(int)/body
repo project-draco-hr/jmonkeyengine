@@ -1,0 +1,19 @@
+{
+  Image.Format format=null;
+  if (stbiNumComponents == 1) {
+    format=Image.Format.Luminance8;
+  }
+ else   if (stbiNumComponents == 2) {
+    format=Image.Format.Luminance8Alpha8;
+  }
+ else   if (stbiNumComponents == 3) {
+    format=Image.Format.RGB8;
+  }
+ else   if (stbiNumComponents == 4) {
+    format=Image.Format.RGBA8;
+  }
+ else {
+    throw new IllegalArgumentException("Format returned by stbi is not valid.  Returned value: " + stbiNumComponents);
+  }
+  return format;
+}
