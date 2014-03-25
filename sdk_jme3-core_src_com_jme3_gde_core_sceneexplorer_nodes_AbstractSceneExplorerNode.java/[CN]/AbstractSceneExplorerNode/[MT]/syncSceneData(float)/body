@@ -2,7 +2,7 @@
   for (  PropertySet propertySet : getPropertySets()) {
     for (    Property<?> property : propertySet.getProperties()) {
       if (property instanceof SceneExplorerProperty) {
-        SceneExplorerProperty prop=(SceneExplorerProperty)property;
+        SceneExplorerProperty<?> prop=(SceneExplorerProperty<?>)property;
         prop.syncValue();
       }
     }

@@ -1,5 +1,5 @@
 {
-  Future fut=fakeAppThread.submit(new Callable<Void>(){
+  Future<Void> fut=fakeAppThread.submit(new Callable<Void>(){
     public Void call() throws Exception {
       AudioContext.setAudioRenderer(audioRenderer);
       appStateManager.update(tpf);
