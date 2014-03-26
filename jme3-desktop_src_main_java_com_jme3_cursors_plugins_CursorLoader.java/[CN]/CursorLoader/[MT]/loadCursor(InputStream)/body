@@ -1,7 +1,7 @@
 {
   byte[] icoimages=new byte[0];
   if (isAni) {
-    CursorImageData ciDat=new CursorImageData();
+    CursorLoader.CursorImageData ciDat=new CursorLoader.CursorImageData();
     int numIcons=0;
     int jiffy=0;
     int steps=0;
@@ -89,7 +89,7 @@
       throw new IllegalArgumentException("Unknown format.");
     }
   }
- else   if (isIco) {
+ else   if (isCur || isIco) {
     DataInputStream in=new DataInputStream(inStream);
     ByteArrayOutputStream out=new ByteArrayOutputStream();
     byte[] buffer=new byte[16384];
@@ -100,7 +100,15 @@
     icoimages=out.toByteArray();
   }
   BufferedImage bi[]=parseICOImage(icoimages);
-  CursorImageData cid=new CursorImageData(bi,0,0,0,0);
+  int hotSpotX=0;
+  int hotSpotY=0;
+  CursorLoader.CursorImageData cid=new CursorLoader.CursorImageData(bi,0,hotSpotX,hotSpotY,0);
+  if (isCur) {
+    hotSpotX=icoimages[FDE_OFFSET + 4] + icoimages[FDE_OFFSET + 5] * 255;
+    hotSpotY=icoimages[FDE_OFFSET + 6] + icoimages[FDE_OFFSET + 7] * 255;
+    cid.xHotSpot=hotSpotX;
+    cid.yHotSpot=cid.height - 1 - hotSpotY;
+  }
   cid.completeCursor();
   return setJmeCursor(cid);
 }
