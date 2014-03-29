@@ -1,3 +1,9 @@
 {
   super((JFrame)null,"TestChooser");
+  addWindowListener(new WindowAdapter(){
+    @Override public void windowClosing(    WindowEvent e){
+      dispose();
+    }
+  }
+);
 }
