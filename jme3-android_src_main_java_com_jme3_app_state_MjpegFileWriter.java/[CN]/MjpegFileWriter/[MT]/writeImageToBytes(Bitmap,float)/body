@@ -1,0 +1,16 @@
+{
+  Bitmap bi;
+  if (image.getConfig() == Bitmap.Config.RGB_565) {
+    bi=image;
+  }
+ else {
+    bi=image.copy(Bitmap.Config.RGB_565,false);
+    if (bi == null) {
+      throw new IllegalStateException("Could not convert Bitmap to RGB_565");
+    }
+  }
+  ByteArrayOutputStream baos=new ByteArrayOutputStream();
+  bi.compress(Bitmap.CompressFormat.JPEG,(int)(quality * 100),baos);
+  baos.close();
+  return baos.toByteArray();
+}

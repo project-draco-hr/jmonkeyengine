@@ -1,0 +1,15 @@
+{
+  logger.log(Level.INFO,"cleanup in VideoProcessor");
+  logger.log(Level.INFO,"VideoProcessor numFrames: {0}",numFrames);
+  try {
+    while (freeItems.size() < numCpus) {
+      Thread.sleep(10);
+    }
+    logger.log(Level.INFO,"finishAVI in VideoProcessor");
+    writer.finishAVI();
+  }
+ catch (  Exception ex) {
+    Logger.getLogger(VideoRecorderAppState.class.getName()).log(Level.SEVERE,"Error closing video: {0}",ex);
+  }
+  writer=null;
+}

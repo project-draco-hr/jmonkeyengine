@@ -1,0 +1,22 @@
+{
+  logger.log(Level.INFO,"finishAVI");
+  byte[] indexlistBytes=indexlist.toBytes();
+  aviOutput.write(indexlistBytes);
+  aviOutput.close();
+  int fileSize=(int)aviFile.length();
+  logger.log(Level.INFO,"fileSize: {0}",fileSize);
+  int listSize=(int)(fileSize - 8 - aviMovieOffset- indexlistBytes.length);
+  logger.log(Level.INFO,"listSize: {0}",listSize);
+  logger.log(Level.INFO,"aviFile canWrite: {0}",aviFile.canWrite());
+  logger.log(Level.INFO,"aviFile AbsolutePath: {0}",aviFile.getAbsolutePath());
+  logger.log(Level.INFO,"aviFile numFrames: {0}",numFrames);
+  RandomAccessFile raf=new RandomAccessFile(aviFile,"rw");
+  raf.write(new RIFFHeader(fileSize).toBytes());
+  raf.write(new AVIMainHeader().toBytes());
+  raf.write(new AVIStreamList().toBytes());
+  raf.write(new AVIStreamHeader().toBytes());
+  raf.write(new AVIStreamFormat().toBytes());
+  raf.write(new AVIJunk().toBytes());
+  raf.write(new AVIMovieList(listSize).toBytes());
+  raf.close();
+}

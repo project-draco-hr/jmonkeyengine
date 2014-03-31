@@ -1,0 +1,14 @@
+{
+  logger.log(Level.INFO,"initialize in VideoProcessor");
+  this.camera=viewPort.getCamera();
+  this.width=camera.getWidth();
+  this.height=camera.getHeight();
+  this.renderManager=rm;
+  this.isInitilized=true;
+  if (freeItems == null) {
+    freeItems=new LinkedBlockingQueue<WorkItem>();
+    for (int i=0; i < numCpus; i++) {
+      freeItems.add(new WorkItem(width,height));
+    }
+  }
+}
