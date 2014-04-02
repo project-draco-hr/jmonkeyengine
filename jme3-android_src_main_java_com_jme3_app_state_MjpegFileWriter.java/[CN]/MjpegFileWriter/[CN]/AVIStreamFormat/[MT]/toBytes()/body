@@ -1,0 +1,18 @@
+{
+  ByteArrayOutputStream baos=new ByteArrayOutputStream();
+  baos.write(fcc);
+  baos.write(intBytes(swapInt(cb)));
+  baos.write(intBytes(swapInt(biSize)));
+  baos.write(intBytes(swapInt(biWidth)));
+  baos.write(intBytes(swapInt(biHeight)));
+  baos.write(shortBytes(swapShort(biPlanes)));
+  baos.write(shortBytes(swapShort(biBitCount)));
+  baos.write(biCompression);
+  baos.write(intBytes(swapInt(biSizeImage)));
+  baos.write(intBytes(swapInt(biXPelsPerMeter)));
+  baos.write(intBytes(swapInt(biYPelsPerMeter)));
+  baos.write(intBytes(swapInt(biClrUsed)));
+  baos.write(intBytes(swapInt(biClrImportant)));
+  baos.close();
+  return baos.toByteArray();
+}

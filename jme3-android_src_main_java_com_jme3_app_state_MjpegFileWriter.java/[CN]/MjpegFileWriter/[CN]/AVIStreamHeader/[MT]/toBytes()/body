@@ -1,0 +1,24 @@
+{
+  ByteArrayOutputStream baos=new ByteArrayOutputStream();
+  baos.write(fcc);
+  baos.write(intBytes(swapInt(cb)));
+  baos.write(fccType);
+  baos.write(fccHandler);
+  baos.write(intBytes(swapInt(dwFlags)));
+  baos.write(shortBytes(swapShort(wPriority)));
+  baos.write(shortBytes(swapShort(wLanguage)));
+  baos.write(intBytes(swapInt(dwInitialFrames)));
+  baos.write(intBytes(swapInt(dwScale)));
+  baos.write(intBytes(swapInt(dwRate)));
+  baos.write(intBytes(swapInt(dwStart)));
+  baos.write(intBytes(swapInt(dwLength)));
+  baos.write(intBytes(swapInt(dwSuggestedBufferSize)));
+  baos.write(intBytes(swapInt(dwQuality)));
+  baos.write(intBytes(swapInt(dwSampleSize)));
+  baos.write(intBytes(swapInt(left)));
+  baos.write(intBytes(swapInt(top)));
+  baos.write(intBytes(swapInt(right)));
+  baos.write(intBytes(swapInt(bottom)));
+  baos.close();
+  return baos.toByteArray();
+}
