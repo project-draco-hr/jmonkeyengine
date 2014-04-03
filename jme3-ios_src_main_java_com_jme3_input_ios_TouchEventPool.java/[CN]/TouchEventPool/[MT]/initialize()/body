@@ -1,0 +1,11 @@
+{
+  TouchEvent newEvent;
+  while (!eventPool.isEmpty()) {
+    eventPool.pop();
+  }
+  for (int i=0; i < maxEvents; i++) {
+    newEvent=new TouchEvent();
+    newEvent.setConsumed();
+    eventPool.push(newEvent);
+  }
+}

@@ -1,0 +1,39 @@
+{
+  InputEvent inputEvent=null;
+  int newX;
+  int newY;
+  int newDX;
+  int newDY;
+  if (iosInput.isMouseEventsInvertX()) {
+    newX=(int)(iosInput.invertX(event.getX()));
+    newDX=(int)event.getDeltaX() * -1;
+  }
+ else {
+    newX=(int)event.getX();
+    newDX=(int)event.getDeltaX();
+  }
+  if (iosInput.isMouseEventsInvertY()) {
+    newY=(int)(iosInput.invertY(event.getY()));
+    newDY=(int)event.getDeltaY() * -1;
+  }
+ else {
+    newY=(int)event.getY();
+    newDY=(int)event.getDeltaY();
+  }
+switch (event.getType()) {
+case DOWN:
+    inputEvent=new MouseButtonEvent(0,true,newX,newY);
+  inputEvent.setTime(event.getTime());
+break;
+case UP:
+inputEvent=new MouseButtonEvent(0,false,newX,newY);
+inputEvent.setTime(event.getTime());
+break;
+case HOVER_MOVE:
+case MOVE:
+inputEvent=new MouseMotionEvent(newX,newY,newDX,newDY,(int)event.getScaleSpan(),(int)event.getDeltaScaleSpan());
+inputEvent.setTime(event.getTime());
+break;
+}
+return inputEvent;
+}

@@ -1,0 +1,20 @@
+{
+  float jmeX=iosInput.getJmeX(x);
+  float jmeY=iosInput.invertY(iosInput.getJmeY(y));
+  Vector2f lastPos=lastPositions.get(pointerId);
+  if (lastPos == null) {
+    lastPos=new Vector2f(jmeX,jmeY);
+    lastPositions.put(pointerId,lastPos);
+  }
+  float dX=jmeX - lastPos.x;
+  float dY=jmeY - lastPos.y;
+  if (dX != 0 || dY != 0) {
+    TouchEvent touch=iosInput.getFreeTouchEvent();
+    touch.set(TouchEvent.Type.MOVE,jmeX,jmeY,dX,dY);
+    touch.setPointerId(pointerId);
+    touch.setTime(time);
+    touch.setPressure(1.0f);
+    lastPos.set(jmeX,jmeY);
+    processEvent(touch);
+  }
+}

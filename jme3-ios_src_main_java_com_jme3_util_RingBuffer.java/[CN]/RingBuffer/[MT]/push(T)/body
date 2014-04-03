@@ -1,0 +1,8 @@
+{
+  if (count == buffer.length) {
+    throw new RuntimeException("Ring buffer overflow");
+  }
+  buffer[indexIn]=item;
+  indexIn=(indexIn + 1) % buffer.length;
+  count++;
+}

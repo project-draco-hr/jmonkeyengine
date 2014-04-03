@@ -1,0 +1,20 @@
+{
+  TouchEvent evt=null;
+  int curSize=eventPool.size();
+  while (curSize > 0) {
+    evt=(TouchEvent)eventPool.pop();
+    if (evt.isConsumed()) {
+      break;
+    }
+ else {
+      eventPool.push(evt);
+      evt=null;
+    }
+    curSize--;
+  }
+  if (evt == null) {
+    logger.warning("eventPool full of unconsumed events");
+    evt=new TouchEvent();
+  }
+  return evt;
+}
