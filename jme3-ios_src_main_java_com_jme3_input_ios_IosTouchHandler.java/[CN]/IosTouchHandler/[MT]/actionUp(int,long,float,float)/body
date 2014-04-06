@@ -1,0 +1,11 @@
+{
+  float jmeX=iosInput.getJmeX(x);
+  float jmeY=iosInput.invertY(iosInput.getJmeY(y));
+  TouchEvent touch=iosInput.getFreeTouchEvent();
+  touch.set(TouchEvent.Type.UP,jmeX,jmeY,0,0);
+  touch.setPointerId(pointerId);
+  touch.setTime(time);
+  touch.setPressure(1.0f);
+  lastPositions.remove(pointerId);
+  processEvent(touch);
+}

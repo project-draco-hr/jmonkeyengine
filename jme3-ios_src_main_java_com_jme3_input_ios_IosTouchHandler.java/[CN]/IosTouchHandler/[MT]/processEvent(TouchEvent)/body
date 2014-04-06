@@ -1,0 +1,9 @@
+{
+  iosInput.addEvent(event);
+  if (iosInput.isSimulateMouse() && numPointers == 1) {
+    InputEvent mouseEvent=generateMouseEvent(event);
+    if (mouseEvent != null) {
+      iosInput.addEvent(mouseEvent);
+    }
+  }
+}
