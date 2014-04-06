@@ -3,8 +3,9 @@
   TempVars vars=TempVars.get();
   Vector3f temp=vars.vect1;
   Vector3f tmpVector=vars.vect2;
+  Vector2f v=vars.vect2d;
   traveledDistance=time * (getLength() / control.getInitialDuration());
-  Vector2f v=getWayPointIndexForDistance(traveledDistance);
+  v=getWayPointIndexForDistance(traveledDistance,v);
   control.setCurrentWayPoint((int)v.x);
   control.setCurrentValue(v.y);
   getSpline().interpolate(control.getCurrentValue(),control.getCurrentWayPoint(),temp);

@@ -1,5 +1,9 @@
 {
   float sum=0;
+  if (spline.getTotalLength() == 0) {
+    store.set(0,0);
+    return store;
+  }
   distance=distance % spline.getTotalLength();
   int i=0;
   for (  Float len : spline.getSegmentsLength()) {
@@ -9,5 +13,6 @@
     sum+=len;
     i++;
   }
-  return new Vector2f((float)spline.getControlPoints().size() - 1,1.0f);
+  store.set((float)spline.getControlPoints().size() - 1,1.0f);
+  return store;
 }
