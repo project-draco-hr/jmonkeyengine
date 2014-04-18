@@ -9,6 +9,12 @@
   app.start();
   SwingUtilities.invokeLater(new Runnable(){
     public void run(){
+      try {
+        Thread.sleep(2000);
+      }
+ catch (      InterruptedException exception) {
+        return;
+      }
       final AwtPanelsContext ctx=(AwtPanelsContext)app.getContext();
       panel=ctx.createPanel(PaintMode.Accelerated);
       panel.setPreferredSize(new Dimension(400,300));
@@ -17,6 +23,7 @@
       panel2.setPreferredSize(new Dimension(400,300));
       createWindowForPanel(panel,300);
       createWindowForPanel(panel2,700);
+      panelsAreReady.countDown();
     }
   }
 );
