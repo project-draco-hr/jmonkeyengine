@@ -44,7 +44,7 @@
       }
  else       if (target == EXTTextureArray.GL_TEXTURE_2D_ARRAY_EXT) {
         if (index == -1) {
-          GL12.glTexImage3D(target,0,glFmt.internalFormat,mipWidth,mipHeight,image.getData().size(),border,glFmt.format,glFmt.dataType,data);
+          GL12.glTexImage3D(target,i,glFmt.internalFormat,mipWidth,mipHeight,image.getData().size(),border,glFmt.format,glFmt.dataType,data);
         }
  else {
           GL12.glTexSubImage3D(target,i,0,0,index,width,height,1,glFmt.format,glFmt.dataType,data);
