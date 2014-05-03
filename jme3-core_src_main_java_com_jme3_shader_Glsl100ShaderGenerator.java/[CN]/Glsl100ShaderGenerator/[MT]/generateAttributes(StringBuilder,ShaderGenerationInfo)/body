@@ -5,10 +5,13 @@
     if (var.getName().equals("inPosition")) {
       inPosition=true;
       var.setCondition(null);
+      fixInPositionType(var);
+      inPosTmp=var;
     }
     declareAttribute(source,var);
   }
   if (!inPosition) {
-    declareAttribute(source,new ShaderNodeVariable("vec4","inPosition"));
+    inPosTmp=new ShaderNodeVariable("vec3","inPosition");
+    declareAttribute(source,inPosTmp);
   }
 }

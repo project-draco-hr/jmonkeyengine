@@ -1,0 +1,8 @@
+{
+  if (inPosTmp.getType().equals(info.getVertexGlobal().getType())) {
+    declareVariable(source,info.getVertexGlobal(),"inPosition");
+  }
+ else {
+    declareVariable(source,info.getVertexGlobal(),"vec4(inPosition,1.0)");
+  }
+}

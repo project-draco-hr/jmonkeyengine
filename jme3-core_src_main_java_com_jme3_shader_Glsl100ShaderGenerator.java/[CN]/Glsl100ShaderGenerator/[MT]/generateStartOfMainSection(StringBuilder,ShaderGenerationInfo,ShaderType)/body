@@ -4,7 +4,7 @@
   indent();
   appendIndent(source);
   if (type == ShaderType.Vertex) {
-    declareVariable(source,info.getVertexGlobal(),"inPosition");
+    declareGlobalPosition(info,source);
   }
  else   if (type == ShaderType.Fragment) {
     for (    ShaderNodeVariable global : info.getFragmentGlobals()) {
