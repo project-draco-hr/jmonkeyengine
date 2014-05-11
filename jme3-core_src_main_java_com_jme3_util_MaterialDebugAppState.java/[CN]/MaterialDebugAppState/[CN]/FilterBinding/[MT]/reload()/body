@@ -1,0 +1,58 @@
+{
+  Field[] fields1=filter.getClass().getDeclaredFields();
+  Field[] fields2=filter.getClass().getSuperclass().getDeclaredFields();
+  List<Field> fields=new ArrayList<Field>();
+  fields.addAll(Arrays.asList(fields1));
+  fields.addAll(Arrays.asList(fields2));
+  Material m=new Material();
+  Filter.Pass p=filter.new Pass();
+  try {
+    for (    Field field : fields) {
+      if (field.getType().isInstance(m)) {
+        field.setAccessible(true);
+        Material mat=reloadMaterial((Material)field.get(filter));
+        if (mat == null) {
+          return;
+        }
+ else {
+          field.set(filter,mat);
+        }
+      }
+      if (field.getType().isInstance(p)) {
+        field.setAccessible(true);
+        p=(Filter.Pass)field.get(filter);
+        if (p.getPassMaterial() != null) {
+          Material mat=reloadMaterial(p.getPassMaterial());
+          if (mat == null) {
+            return;
+          }
+ else {
+            p.setPassMaterial(mat);
+          }
+        }
+      }
+      if (field.getName().equals("postRenderPasses")) {
+        field.setAccessible(true);
+        List<Pass> passes=new ArrayList<Pass>();
+        passes=(List<Pass>)field.get(filter);
+        if (passes != null) {
+          for (          Pass pass : passes) {
+            Material mat=reloadMaterial(pass.getPassMaterial());
+            if (mat == null) {
+              return;
+            }
+ else {
+              pass.setPassMaterial(mat);
+            }
+          }
+        }
+      }
+    }
+  }
+ catch (  IllegalArgumentException ex) {
+    Logger.getLogger(MaterialDebugAppState.class.getName()).log(Level.SEVERE,null,ex);
+  }
+catch (  IllegalAccessException ex) {
+    Logger.getLogger(MaterialDebugAppState.class.getName()).log(Level.SEVERE,null,ex);
+  }
+}

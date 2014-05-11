@@ -1,0 +1,24 @@
+{
+  if (binding.getTrigger() instanceof FileChangedTrigger) {
+    FileChangedTrigger t=(FileChangedTrigger)binding.getTrigger();
+    List<Binding> b=fileTriggers.get(t);
+    if (b == null) {
+      t.init();
+      b=new ArrayList<Binding>();
+      fileTriggers.put(t,b);
+    }
+    b.add(binding);
+  }
+ else {
+    final String actionName=binding.getActionName();
+    inputManager.addListener(new ActionListener(){
+      public void onAction(      String name,      boolean isPressed,      float tpf){
+        if (actionName.equals(name) && isPressed) {
+          binding.reload();
+        }
+      }
+    }
+,actionName);
+    inputManager.addMapping(actionName,binding.getTrigger());
+  }
+}

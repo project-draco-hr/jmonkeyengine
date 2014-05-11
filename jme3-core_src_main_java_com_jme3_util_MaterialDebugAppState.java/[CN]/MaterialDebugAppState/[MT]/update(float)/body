@@ -1,0 +1,14 @@
+{
+  super.update(tpf);
+  for (  Trigger trigger : fileTriggers.keySet()) {
+    if (trigger instanceof FileChangedTrigger) {
+      FileChangedTrigger t=(FileChangedTrigger)trigger;
+      if (t.shouldFire()) {
+        List<Binding> b=fileTriggers.get(t);
+        for (        Binding binding : b) {
+          binding.reload();
+        }
+      }
+    }
+  }
+}

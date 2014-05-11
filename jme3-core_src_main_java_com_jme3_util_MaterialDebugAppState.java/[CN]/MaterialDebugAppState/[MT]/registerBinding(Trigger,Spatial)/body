@@ -1,0 +1,14 @@
+{
+  if (spat instanceof Geometry) {
+    GeometryBinding binding=new GeometryBinding(trigger,(Geometry)spat);
+    bindings.add(binding);
+    if (isInitialized()) {
+      bind(binding);
+    }
+  }
+ else   if (spat instanceof Node) {
+    for (    Spatial child : ((Node)spat).getChildren()) {
+      registerBinding(trigger,child);
+    }
+  }
+}
