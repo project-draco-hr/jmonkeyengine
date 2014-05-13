@@ -1,5 +1,4 @@
 {
-  material=new Material(manager,"Common/MatDefs/Post/GammaCorrection.j3md");
-  material.setFloat("gamma",gamma);
-  material.setBoolean("computeLuma",computeLuma);
+  material=new Material(manager,"Materials/Filter/GammaCorrection.j3md");
+  material.setFloat("InvGamma",1.0f / gamma);
 }

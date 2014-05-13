@@ -1,6 +1,9 @@
 {
+  if (gamma <= 0) {
+    throw new IllegalArgumentException("Gamma value can't be below or equal 0.");
+  }
   if (material != null) {
-    material.setFloat("gamma",gamma);
+    material.setFloat("InvGamma",1.0f / gamma);
   }
   this.gamma=gamma;
 }
