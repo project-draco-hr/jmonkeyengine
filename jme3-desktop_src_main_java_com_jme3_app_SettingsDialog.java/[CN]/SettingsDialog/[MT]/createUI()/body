@@ -54,6 +54,8 @@
 );
   vsyncBox=new JCheckBox(resourceBundle.getString("checkbox.vsync"));
   vsyncBox.setSelected(source.isVSync());
+  gammaBox=new JCheckBox(resourceBundle.getString("checkbox.gamma"));
+  gammaBox.setSelected(source.getGammaCorrection());
   gbc=new GridBagConstraints();
   gbc.weightx=0.5;
   gbc.gridx=0;
@@ -63,12 +65,16 @@
   mainPanel.add(fullscreenBox,gbc);
   gbc=new GridBagConstraints();
   gbc.weightx=0.5;
-  gbc.insets=new Insets(4,16,0,4);
   gbc.gridx=2;
-  gbc.gridwidth=2;
+  gbc.gridy=1;
+  gbc.anchor=GridBagConstraints.EAST;
+  mainPanel.add(vsyncBox,gbc);
+  gbc=new GridBagConstraints();
+  gbc.weightx=0.5;
+  gbc.gridx=3;
   gbc.gridy=1;
   gbc.anchor=GridBagConstraints.WEST;
-  mainPanel.add(vsyncBox,gbc);
+  mainPanel.add(gammaBox,gbc);
   gbc=new GridBagConstraints();
   gbc.insets=new Insets(4,4,4,4);
   gbc.gridx=0;

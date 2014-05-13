@@ -2,6 +2,7 @@
   String display=(String)displayResCombo.getSelectedItem();
   boolean fullscreen=fullscreenBox.isSelected();
   boolean vsync=vsyncBox.isSelected();
+  boolean gamma=gammaBox.isSelected();
   int width=Integer.parseInt(display.substring(0,display.indexOf(" x ")));
   display=display.substring(display.indexOf(" x ") + 3);
   int height=Integer.parseInt(display);
@@ -46,6 +47,7 @@
     source.setFrequency(freq);
     source.setFullscreen(fullscreen);
     source.setVSync(vsync);
+    source.setGammaCorrection(gamma);
     source.setSamples(multisample);
     String appTitle=source.getTitle();
     try {
