@@ -4,7 +4,7 @@
     return;
   }
   int samples=getNumSamplesToUse();
-  pixelFormat=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),samples);
+  pixelFormat=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),samples).withSRGB(settings.getGammaCorrection());
   width=settings.getWidth();
   height=settings.getHeight();
   try {
