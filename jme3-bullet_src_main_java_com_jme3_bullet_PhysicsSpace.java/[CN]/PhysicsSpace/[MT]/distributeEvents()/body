@@ -1,6 +1,6 @@
 {
   int clistsize=collisionListeners.size();
-  while (collisionEvents.empty() == false) {
+  while (collisionEvents.isEmpty() == false) {
     PhysicsCollisionEvent physicsCollisionEvent=collisionEvents.pop();
     for (int i=0; i < clistsize; i++) {
       collisionListeners.get(i).collision(physicsCollisionEvent);
