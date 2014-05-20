@@ -1,0 +1,7 @@
+{
+  GLImageFormat glFmt=getImageFormat(fmt,isSrgb);
+  if (glFmt == null) {
+    throw new RendererException("Image format '" + fmt + "' is unsupported by the video hardware.");
+  }
+  return glFmt;
+}

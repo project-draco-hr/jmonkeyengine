@@ -1,0 +1,27 @@
+{
+switch (fmt) {
+case RGB8:
+    return sRGB_RGB8;
+case RGBA8:
+  return sRGB_RGBA8;
+case BGR8:
+return sRGB_BGR8;
+case ABGR8:
+return sRGB_ABGR8;
+case Luminance8:
+return sRGB_Luminance8;
+case Luminance8Alpha8:
+return sRGB_LuminanceAlpha8;
+case DXT1:
+return sRGB_DXT1;
+case DXT1A:
+return sRGB_DXT1A;
+case DXT3:
+return sRGB_DXT3;
+case DXT5:
+return sRGB_DXT5;
+default :
+Logger.getLogger(TextureUtil.class.getName()).log(Level.WARNING,"Format {0} has no sRGB equivalent, using linear format.",fmt.toString());
+return formatToGL[fmt.ordinal()];
+}
+}

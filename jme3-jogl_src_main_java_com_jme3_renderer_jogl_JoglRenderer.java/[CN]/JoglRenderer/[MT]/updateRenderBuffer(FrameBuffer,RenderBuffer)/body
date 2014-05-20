@@ -13,7 +13,7 @@
   if (fb.getWidth() > maxRBSize || fb.getHeight() > maxRBSize) {
     throw new RendererException("Resolution " + fb.getWidth() + ":"+ fb.getHeight()+ " is not supported.");
   }
-  TextureUtil.GLImageFormat glFmt=TextureUtil.getImageFormatWithError(rb.getFormat());
+  TextureUtil.GLImageFormat glFmt=TextureUtil.getImageFormatWithError(rb.getFormat(),fb.isSrgb());
   if (fb.getSamples() > 1 && gl.isExtensionAvailable("GL_EXT_framebuffer_multisample") && gl.isGL2GL3()) {
     int samples=fb.getSamples();
     if (maxFBOSamples < samples) {

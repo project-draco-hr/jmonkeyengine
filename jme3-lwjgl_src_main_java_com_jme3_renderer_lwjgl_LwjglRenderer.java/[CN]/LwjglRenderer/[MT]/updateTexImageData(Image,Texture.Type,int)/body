@@ -71,7 +71,7 @@
       return;
     }
     for (int i=0; i < 6; i++) {
-      TextureUtil.uploadTexture(img,GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,i,0);
+      TextureUtil.uploadTexture(img,GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,i,0,linearizeSrgbImages);
     }
   }
  else   if (target == EXTTextureArray.GL_TEXTURE_2D_ARRAY_EXT) {
@@ -79,13 +79,13 @@
       throw new RendererException("Texture arrays not supported by graphics hardware");
     }
     List<ByteBuffer> data=img.getData();
-    TextureUtil.uploadTexture(img,target,-1,0);
+    TextureUtil.uploadTexture(img,target,-1,0,linearizeSrgbImages);
     for (int i=0; i < data.size(); i++) {
-      TextureUtil.uploadTexture(img,target,i,0);
+      TextureUtil.uploadTexture(img,target,i,0,linearizeSrgbImages);
     }
   }
  else {
-    TextureUtil.uploadTexture(img,target,0,0);
+    TextureUtil.uploadTexture(img,target,0,0,linearizeSrgbImages);
   }
   if (img.getMultiSamples() != imageSamples) {
     img.setMultiSamples(imageSamples);

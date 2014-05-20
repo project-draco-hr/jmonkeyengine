@@ -1,5 +1,5 @@
 {
-  if (srgb && GLContext.getCapabilities().GL_ARB_framebuffer_sRGB) {
+  if (srgb && caps.contains(Caps.Srgb)) {
     glEnable(GL30.GL_FRAMEBUFFER_SRGB);
     logger.log(Level.FINER,"SRGB FrameBuffer enabled (Gamma Correction)");
   }

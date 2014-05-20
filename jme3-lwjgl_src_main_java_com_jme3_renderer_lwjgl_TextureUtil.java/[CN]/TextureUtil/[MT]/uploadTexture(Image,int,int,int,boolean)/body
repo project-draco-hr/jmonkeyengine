@@ -1,0 +1,72 @@
+{
+  Image.Format fmt=image.getFormat();
+  GLImageFormat glFmt=getImageFormatWithError(fmt,image.isSrgb() && linearizeSrgb);
+  ByteBuffer data;
+  if (index >= 0 && image.getData() != null && image.getData().size() > 0) {
+    data=image.getData(index);
+  }
+ else {
+    data=null;
+  }
+  int width=image.getWidth();
+  int height=image.getHeight();
+  int depth=image.getDepth();
+  if (data != null) {
+    GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT,1);
+  }
+  int[] mipSizes=image.getMipMapSizes();
+  int pos=0;
+  if (mipSizes == null) {
+    if (data != null)     mipSizes=new int[]{data.capacity()};
+ else     mipSizes=new int[]{width * height * fmt.getBitsPerPixel() / 8};
+  }
+  boolean subtex=false;
+  int samples=image.getMultiSamples();
+  for (int i=0; i < mipSizes.length; i++) {
+    int mipWidth=Math.max(1,width >> i);
+    int mipHeight=Math.max(1,height >> i);
+    int mipDepth=Math.max(1,depth >> i);
+    if (data != null) {
+      data.position(pos);
+      data.limit(pos + mipSizes[i]);
+    }
+    if (glFmt.compressed && data != null) {
+      if (target == GL12.GL_TEXTURE_3D) {
+        GL13.glCompressedTexImage3D(target,i,glFmt.internalFormat,mipWidth,mipHeight,mipDepth,border,data);
+      }
+ else {
+        GL13.glCompressedTexImage2D(target,i,glFmt.internalFormat,mipWidth,mipHeight,border,data);
+      }
+    }
+ else {
+      if (target == GL12.GL_TEXTURE_3D) {
+        GL12.glTexImage3D(target,i,glFmt.internalFormat,mipWidth,mipHeight,mipDepth,border,glFmt.format,glFmt.dataType,data);
+      }
+ else       if (target == EXTTextureArray.GL_TEXTURE_2D_ARRAY_EXT) {
+        if (index == -1) {
+          GL12.glTexImage3D(target,0,glFmt.internalFormat,mipWidth,mipHeight,image.getData().size(),border,glFmt.format,glFmt.dataType,data);
+        }
+ else {
+          GL12.glTexSubImage3D(target,i,0,0,index,width,height,1,glFmt.format,glFmt.dataType,data);
+        }
+      }
+ else {
+        if (subtex) {
+          if (samples > 1) {
+            throw new IllegalStateException("Cannot update multisample textures");
+          }
+          GL11.glTexSubImage2D(target,i,0,0,mipWidth,mipHeight,glFmt.format,glFmt.dataType,data);
+        }
+ else {
+          if (samples > 1) {
+            ARBTextureMultisample.glTexImage2DMultisample(target,samples,glFmt.internalFormat,mipWidth,mipHeight,true);
+          }
+ else {
+            GL11.glTexImage2D(target,i,glFmt.internalFormat,mipWidth,mipHeight,border,glFmt.format,glFmt.dataType,data);
+          }
+        }
+      }
+    }
+    pos+=mipSizes[i];
+  }
+}

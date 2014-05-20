@@ -4,7 +4,6 @@
   if (settings.getRenderer().startsWith("LWJGL")) {
     BasicShadowRenderer bsr=new BasicShadowRenderer(assetManager,512);
     bsr.setDirection(new Vector3f(-0.5f,-0.3f,-0.3f).normalizeLocal());
-    viewPort.addProcessor(bsr);
   }
   cam.setFrustumFar(150f);
   flyCam.setMoveSpeed(10);
@@ -16,5 +15,4 @@
   rootNode.addLight(dl);
   dl=new DirectionalLight();
   dl.setDirection(new Vector3f(0.5f,-0.1f,0.3f).normalizeLocal());
-  rootNode.addLight(dl);
 }

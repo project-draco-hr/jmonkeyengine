@@ -182,5 +182,8 @@ glEnable(ARBMultisample.GL_MULTISAMPLE_ARB);
 }
 caps.add(Caps.Multisample);
 }
+if (ctxCaps.GL_ARB_framebuffer_sRGB && ctxCaps.GL_EXT_texture_sRGB) {
+caps.add(Caps.Srgb);
+}
 logger.log(Level.FINE,"Caps: {0}",caps);
 }
