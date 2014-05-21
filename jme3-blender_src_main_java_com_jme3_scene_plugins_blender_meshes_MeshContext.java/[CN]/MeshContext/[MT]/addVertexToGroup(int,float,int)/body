@@ -1,0 +1,13 @@
+{
+  if (vertexGroupIndex < 0 || vertexGroupIndex >= vertexGroups.size()) {
+    throw new IllegalArgumentException("Invalid group index: " + vertexGroupIndex);
+  }
+  int counter=0;
+  for (  Entry<String,VertexGroup> vg : vertexGroups.entrySet()) {
+    if (vertexGroupIndex == counter) {
+      vg.getValue().addVertex(vertexIndex,weight);
+      return;
+    }
+    ++counter;
+  }
+}

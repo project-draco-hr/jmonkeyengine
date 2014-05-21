@@ -1,5 +1,5 @@
 {
-  List<Geometry> geometries=(List<Geometry>)blenderContext.getLoadedFeature(structure.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
+  List<Geometry> geometries=(List<Geometry>)blenderContext.getLoadedFeature(meshStructure.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
   if (geometries != null) {
     List<Geometry> copiedGeometries=new ArrayList<Geometry>(geometries.size());
     for (    Geometry geometry : geometries) {
@@ -7,36 +7,27 @@
     }
     return copiedGeometries;
   }
-  String name=structure.getName();
+  String name=meshStructure.getName();
   MeshContext meshContext=new MeshContext();
   LOGGER.log(Level.FINE,"Reading mesh: {0}.",name);
   LOGGER.fine("Loading materials.");
   MaterialHelper materialHelper=blenderContext.getHelper(MaterialHelper.class);
   MaterialContext[] materials=null;
   if ((blenderContext.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.MATERIALS) != 0) {
-    materials=materialHelper.getMaterials(structure,blenderContext);
+    materials=materialHelper.getMaterials(meshStructure,blenderContext);
   }
   LOGGER.fine("Reading vertices.");
-  MeshBuilder meshBuilder=new MeshBuilder(structure,materials,blenderContext);
+  MeshBuilder meshBuilder=new MeshBuilder(meshStructure,materials,blenderContext);
   if (meshBuilder.isEmpty()) {
     LOGGER.fine("The geometry is empty.");
     geometries=new ArrayList<Geometry>(0);
-    blenderContext.addLoadedFeatures(structure.getOldMemoryAddress(),structure.getName(),structure,geometries);
-    blenderContext.setMeshContext(structure.getOldMemoryAddress(),meshContext);
+    blenderContext.addLoadedFeatures(meshStructure.getOldMemoryAddress(),meshStructure.getName(),meshStructure,geometries);
+    blenderContext.setMeshContext(meshStructure.getOldMemoryAddress(),meshContext);
     return geometries;
   }
   meshContext.setVertexReferenceMap(meshBuilder.getVertexReferenceMap());
-  LOGGER.fine("Reading vertices groups (from the Object structure).");
-  Structure parent=blenderContext.peekParent();
-  Structure defbase=(Structure)parent.getFieldValue("defbase");
-  List<Structure> defs=defbase.evaluateListBase();
-  String[] verticesGroups=new String[defs.size()];
-  int defIndex=0;
-  for (  Structure def : defs) {
-    verticesGroups[defIndex++]=def.getFieldValue("name").toString();
-  }
   LOGGER.fine("Reading custom properties.");
-  Properties properties=this.loadProperties(structure,blenderContext);
+  Properties properties=this.loadProperties(meshStructure,blenderContext);
   LOGGER.fine("Generating meshes.");
   Map<Integer,List<Mesh>> meshes=meshBuilder.buildMeshes();
   geometries=new ArrayList<Geometry>(meshes.size());
@@ -52,8 +43,40 @@
       meshContext.putGeometry(materialIndex,geometry);
     }
   }
-  blenderContext.addLoadedFeatures(structure.getOldMemoryAddress(),structure.getName(),structure,geometries);
-  blenderContext.setMeshContext(structure.getOldMemoryAddress(),meshContext);
+  LOGGER.fine("Reading vertices groups.");
+  Structure parent=blenderContext.peekParent();
+  Structure defbase=(Structure)parent.getFieldValue("defbase");
+  List<Structure> defs=defbase.evaluateListBase();
+  for (  Structure def : defs) {
+    meshContext.addVertexGroup(def.getFieldValue("name").toString());
+  }
+  Pointer pDvert=(Pointer)meshStructure.getFieldValue("dvert");
+  if (pDvert.isNotNull()) {
+    List<Structure> dverts=pDvert.fetchData();
+    int blenderVertexIndex=0;
+    for (    Structure dvert : dverts) {
+      Pointer pDW=(Pointer)dvert.getFieldValue("dw");
+      if (pDW.isNotNull()) {
+        List<Structure> dw=pDW.fetchData();
+        for (        Structure deformWeight : dw) {
+          int groupIndex=((Number)deformWeight.getFieldValue("def_nr")).intValue();
+          float weight=((Number)deformWeight.getFieldValue("weight")).floatValue();
+          for (          Entry<Integer,Map<Integer,List<Integer>>> vertexReferenceMap : meshBuilder.getVertexReferenceMap().entrySet()) {
+            for (            Entry<Integer,List<Integer>> vertexEntry : vertexReferenceMap.getValue().entrySet()) {
+              if (vertexEntry.getKey().intValue() == blenderVertexIndex) {
+                for (                Integer jmeVertexIndex : vertexEntry.getValue()) {
+                  meshContext.addVertexToGroup(jmeVertexIndex,weight,groupIndex);
+                }
+              }
+            }
+          }
+        }
+      }
+      ++blenderVertexIndex;
+    }
+  }
+  blenderContext.addLoadedFeatures(meshStructure.getOldMemoryAddress(),meshStructure.getName(),meshStructure,geometries);
+  blenderContext.setMeshContext(meshStructure.getOldMemoryAddress(),meshContext);
   if (materials != null) {
     for (    Geometry geometry : geometries) {
       int materialNumber=meshContext.getMaterialIndex(geometry);
@@ -63,7 +86,7 @@
  else       if (materials[materialNumber] != null) {
         LinkedHashMap<String,List<Vector2f>> uvCoordinates=meshBuilder.getUVCoordinates(materialNumber);
         MaterialContext materialContext=materials[materialNumber];
-        materialContext.applyMaterial(geometry,structure.getOldMemoryAddress(),uvCoordinates,blenderContext);
+        materialContext.applyMaterial(geometry,meshStructure.getOldMemoryAddress(),uvCoordinates,blenderContext);
       }
  else {
         geometry.setMaterial(blenderContext.getDefaultMaterial());

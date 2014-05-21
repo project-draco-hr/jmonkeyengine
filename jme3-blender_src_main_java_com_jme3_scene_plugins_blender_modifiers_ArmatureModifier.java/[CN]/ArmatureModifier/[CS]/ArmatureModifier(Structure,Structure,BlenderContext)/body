@@ -3,20 +3,30 @@
   if (this.validate(modifierStructure,blenderContext)) {
     Pointer pArmatureObject=(Pointer)modifierStructure.getFieldValue("object");
     if (pArmatureObject.isNotNull()) {
-      armatureObject=pArmatureObject.fetchData().get(0);
-      Structure armatureStructure=((Pointer)armatureObject.getFieldValue("data")).fetchData().get(0);
-      List<Structure> bonebase=((Structure)armatureStructure.getFieldValue("bonebase")).evaluateListBase();
-      List<Bone> bonesList=new ArrayList<Bone>();
-      for (int i=0; i < bonebase.size(); ++i) {
-        this.buildBones(armatureObject.getOldMemoryAddress(),bonebase.get(i),null,bonesList,objectStructure.getOldMemoryAddress(),blenderContext);
+      int deformflag=((Number)modifierStructure.getFieldValue("deformflag")).intValue();
+      useVertexGroups=(deformflag & FLAG_VERTEX_GROUPS) != 0;
+      useBoneEnvelopes=(deformflag & FLAG_BONE_ENVELOPES) != 0;
+      modifying=useBoneEnvelopes || useVertexGroups;
+      if (modifying) {
+        armatureObject=pArmatureObject.fetchData().get(0);
+        Structure armatureStructure=((Pointer)armatureObject.getFieldValue("data")).fetchData().get(0);
+        List<Structure> bonebase=((Structure)armatureStructure.getFieldValue("bonebase")).evaluateListBase();
+        List<Bone> bonesList=new ArrayList<Bone>();
+        for (int i=0; i < bonebase.size(); ++i) {
+          this.buildBones(armatureObject.getOldMemoryAddress(),bonebase.get(i),null,bonesList,objectStructure.getOldMemoryAddress(),blenderContext);
+        }
+        bonesList.add(0,new Bone(""));
+        Bone[] bones=bonesList.toArray(new Bone[bonesList.size()]);
+        skeleton=new Skeleton(bones);
+        blenderContext.setSkeleton(armatureObject.getOldMemoryAddress(),skeleton);
+        this.meshStructure=meshStructure;
+        meshOMA=meshStructure.getOldMemoryAddress();
+        if (useBoneEnvelopes) {
+          ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
+          Spatial object=(Spatial)blenderContext.getLoadedFeature(objectStructure.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
+          objectWorldMatrix=constraintHelper.toMatrix(object.getWorldTransform(),new Matrix4f());
+        }
       }
-      bonesList.add(0,new Bone(""));
-      Bone[] bones=bonesList.toArray(new Bone[bonesList.size()]);
-      skeleton=new Skeleton(bones);
-      blenderContext.setSkeleton(armatureObject.getOldMemoryAddress(),skeleton);
-      this.objectStructure=objectStructure;
-      this.meshStructure=meshStructure;
-      meshOMA=meshStructure.getOldMemoryAddress();
     }
  else {
       modifying=false;

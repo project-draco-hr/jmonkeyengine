@@ -5,29 +5,22 @@
   if (skeleton != null) {
     List<Geometry> geomList=(List<Geometry>)blenderContext.getLoadedFeature(meshOMA,LoadedFeatureDataType.LOADED_FEATURE);
     MeshContext meshContext=blenderContext.getMeshContext(meshOMA);
-    int[] bonesGroups=new int[]{0};
     for (    Geometry geom : geomList) {
       int materialIndex=meshContext.getMaterialIndex(geom);
       Mesh mesh=geom.getMesh();
-      try {
-        VertexBuffer[] buffers=this.readVerticesWeightsData(objectStructure,meshStructure,skeleton,materialIndex,bonesGroups,blenderContext);
-        if (buffers != null) {
-          mesh.setMaxNumWeights(bonesGroups[0]);
-          mesh.setBuffer(buffers[0]);
-          mesh.setBuffer(buffers[1]);
-          LOGGER.fine("Generating bind pose and normal buffers.");
-          mesh.generateBindPose(true);
-          mesh.getBuffer(Type.Position).setUsage(Usage.Stream);
-          mesh.getBuffer(Type.Normal).setUsage(Usage.Stream);
-          VertexBuffer verticesWeightsHW=new VertexBuffer(Type.HWBoneWeight);
-          VertexBuffer verticesWeightsIndicesHW=new VertexBuffer(Type.HWBoneIndex);
-          mesh.setBuffer(verticesWeightsHW);
-          mesh.setBuffer(verticesWeightsIndicesHW);
-        }
-      }
- catch (      BlenderFileException e) {
-        LOGGER.log(Level.SEVERE,e.getLocalizedMessage(),e);
-        invalid=true;
+      MeshWeightsData buffers=this.readVerticesWeightsData(meshContext,skeleton,materialIndex,mesh,blenderContext);
+      if (buffers != null) {
+        mesh.setMaxNumWeights(buffers.maximumWeightsPerVertex);
+        mesh.setBuffer(buffers.verticesWeights);
+        mesh.setBuffer(buffers.verticesWeightsIndices);
+        LOGGER.fine("Generating bind pose and normal buffers.");
+        mesh.generateBindPose(true);
+        mesh.getBuffer(Type.Position).setUsage(Usage.Stream);
+        mesh.getBuffer(Type.Normal).setUsage(Usage.Stream);
+        VertexBuffer verticesWeightsHW=new VertexBuffer(Type.HWBoneWeight);
+        VertexBuffer verticesWeightsIndicesHW=new VertexBuffer(Type.HWBoneIndex);
+        mesh.setBuffer(verticesWeightsHW);
+        mesh.setBuffer(verticesWeightsIndicesHW);
       }
     }
     AnimationHelper animationHelper=blenderContext.getHelper(AnimationHelper.class);

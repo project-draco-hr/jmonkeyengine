@@ -1,0 +1,37 @@
+{
+  Vector3f v=tail.subtract(head);
+  float boneLength=v.length();
+  v.normalizeLocal();
+  float D=-v.dot(point);
+  float temp=-(v.dot(head) + D) / v.dot(v);
+  Vector3f p=head.add(v.x * temp,v.y * temp,v.z * temp);
+  Vector3f headToPointOnLineVector=p.subtract(head);
+  float headToPointLength=headToPointOnLineVector.length();
+  float cosinus=headToPointOnLineVector.dot(v) / headToPointLength;
+  if (cosinus < 0 && headToPointLength > boneHeadRadius || headToPointLength > boneLength + boneTailRadius) {
+    return false;
+  }
+  float pointDistanceFromLine=point.subtract(p).length(), maximumDistance=0;
+  if (cosinus < 0) {
+    maximumDistance=boneHeadRadius;
+  }
+ else   if (headToPointLength < boneLength) {
+    if (boneTailRadius > boneHeadRadius) {
+      float headToPDistance=p.subtract(head).length();
+      float x=headToPDistance * ((boneTailRadius - boneHeadRadius) / boneLength);
+      maximumDistance=x + boneHeadRadius;
+    }
+ else     if (boneTailRadius < boneHeadRadius) {
+      float tailToPDistance=p.subtract(tail).length();
+      float x=tailToPDistance * ((boneHeadRadius - boneTailRadius) / boneLength);
+      maximumDistance=x + boneTailRadius;
+    }
+ else {
+      maximumDistance=boneTailRadius;
+    }
+  }
+ else {
+    maximumDistance=boneTailRadius;
+  }
+  return pointDistanceFromLine <= maximumDistance + distance;
+}

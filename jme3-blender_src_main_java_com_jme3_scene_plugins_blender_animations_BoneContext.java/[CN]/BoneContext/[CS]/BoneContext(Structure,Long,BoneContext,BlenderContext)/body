@@ -15,6 +15,9 @@
   ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
   Matrix4f armatureWorldMatrix=constraintHelper.toMatrix(armature.getWorldTransform(),new Matrix4f());
   globalBoneMatrix=armatureWorldMatrix.mult(globalBoneMatrix);
+  if ((flag & DEFORM) == 0) {
+    boneEnvelope=new BoneEnvelope(boneStructure,armatureWorldMatrix,blenderContext.getBlenderKey().isFixUpAxis());
+  }
   List<Structure> childbase=((Structure)boneStructure.getFieldValue("childbase")).evaluateListBase();
   for (  Structure child : childbase) {
     children.add(new BoneContext(child,armatureObjectOMA,this,blenderContext));

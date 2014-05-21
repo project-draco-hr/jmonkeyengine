@@ -1,6 +1,0 @@
-{
-  Structure defBase=(Structure)objectStructure.getFieldValue("defbase");
-  Map<Integer,Integer> groupToBoneIndexMap=this.getGroupToBoneIndexMap(defBase,skeleton);
-  MeshContext meshContext=blenderContext.getMeshContext(meshStructure.getOldMemoryAddress());
-  return this.getBoneWeightAndIndexBuffer(meshStructure,meshContext.getVertexCount(materialIndex),bonesGroups,meshContext.getVertexReferenceMap(materialIndex),groupToBoneIndexMap);
-}

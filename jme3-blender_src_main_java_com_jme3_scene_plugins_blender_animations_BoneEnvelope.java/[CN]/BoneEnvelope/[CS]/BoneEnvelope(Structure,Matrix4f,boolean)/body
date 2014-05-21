@@ -1,0 +1,22 @@
+{
+  distance=((Number)boneStructure.getFieldValue("dist")).floatValue();
+  weight=((Number)boneStructure.getFieldValue("weight")).floatValue();
+  boneHeadRadius=((Number)boneStructure.getFieldValue("rad_head")).floatValue();
+  boneTailRadius=((Number)boneStructure.getFieldValue("rad_tail")).floatValue();
+  DynamicArray<Number> headArray=(DynamicArray<Number>)boneStructure.getFieldValue("arm_head");
+  head=new Vector3f(headArray.get(0).floatValue(),headArray.get(1).floatValue(),headArray.get(2).floatValue());
+  if (fixUpAxis) {
+    float z=head.z;
+    head.z=-head.y;
+    head.y=z;
+  }
+  armatureWorldMatrix.mult(head,head);
+  DynamicArray<Number> tailArray=(DynamicArray<Number>)boneStructure.getFieldValue("arm_tail");
+  tail=new Vector3f(tailArray.get(0).floatValue(),tailArray.get(1).floatValue(),tailArray.get(2).floatValue());
+  if (fixUpAxis) {
+    float z=tail.z;
+    tail.z=-tail.y;
+    tail.y=z;
+  }
+  armatureWorldMatrix.mult(tail,tail);
+}
