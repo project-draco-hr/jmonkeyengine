@@ -1,14 +1,3 @@
 {
   super.simpleUpdate(tpf);
-  time+=tpf;
-  waterHeight=(float)Math.cos(((time * 0.6f) % FastMath.TWO_PI)) * 1.5f;
-  water.setWaterHeight(initialWaterHeight + waterHeight);
-  if (water.isUnderWater() && !uw) {
-    waves.setDryFilter(new LowPassFilter(0.5f,0.1f));
-    uw=true;
-  }
-  if (!water.isUnderWater() && uw) {
-    uw=false;
-    waves.setDryFilter(new LowPassFilter(1,1f));
-  }
 }

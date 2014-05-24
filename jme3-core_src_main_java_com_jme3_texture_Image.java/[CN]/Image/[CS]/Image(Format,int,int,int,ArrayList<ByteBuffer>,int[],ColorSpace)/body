@@ -10,10 +10,8 @@
   setFormat(format);
   this.width=width;
   this.height=height;
-  if (data != null) {
-    this.data=new ArrayList<ByteBuffer>(1);
-    this.data.add(data);
-  }
+  this.data=data;
+  this.depth=depth;
   this.mipMapSizes=mipMapSizes;
-  this.srgb=isSrgb;
+  this.colorSpace=colorSpace;
 }

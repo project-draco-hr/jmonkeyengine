@@ -1,6 +1,6 @@
 {
   Image.Format fmt=image.getFormat();
-  GLImageFormat glFmt=getImageFormatWithError(fmt,image.isSrgb() && linearizeSrgb);
+  GLImageFormat glFmt=getImageFormatWithError(fmt,image.getColorSpace() == ColorSpace.sRGB && linearizeSrgb);
   ByteBuffer data=null;
   if (index >= 0 && image.getData() != null && image.getData().size() > 0) {
     data=image.getData(index);

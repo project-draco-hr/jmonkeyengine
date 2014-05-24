@@ -2,7 +2,7 @@
   int width=image.getWidth();
   int height=image.getHeight();
   ByteBuffer data=BufferUtils.createByteBuffer((int)Math.ceil(newFormat.getBitsPerPixel() / 8.0) * width * height);
-  Image convertedImage=new Image(newFormat,width,height,data,null,image.isSrgb());
+  Image convertedImage=new Image(newFormat,width,height,data,null,image.getColorSpace());
   ImageRaster sourceReader=ImageRaster.create(image);
   ImageRaster targetWriter=ImageRaster.create(convertedImage);
   for (int x=0; x < width; x++) {

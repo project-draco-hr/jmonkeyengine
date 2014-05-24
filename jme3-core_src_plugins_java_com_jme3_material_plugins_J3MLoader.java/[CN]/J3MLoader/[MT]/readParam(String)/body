@@ -2,7 +2,15 @@
   String name;
   String defaultVal=null;
   FixedFuncBinding ffBinding=null;
-  String[] split=statement.split(":");
+  ColorSpace colorSpace=null;
+  String[] split=statement.split("-");
+  if (split.length > 1) {
+    if (split[1].equalsIgnoreCase("LINEAR")) {
+      colorSpace=ColorSpace.Linear;
+    }
+    statement=split[0].trim();
+  }
+  split=statement.split(":");
   if (split.length == 1) {
   }
  else {
@@ -40,5 +48,10 @@
   if (defaultVal != null) {
     defaultValObj=readValue(type,defaultVal);
   }
-  materialDef.addMaterialParam(type,name,defaultValObj,ffBinding);
+  if (type.isTextureType()) {
+    materialDef.addMaterialParamTexture(type,name,colorSpace);
+  }
+ else {
+    materialDef.addMaterialParam(type,name,defaultValObj,ffBinding);
+  }
 }

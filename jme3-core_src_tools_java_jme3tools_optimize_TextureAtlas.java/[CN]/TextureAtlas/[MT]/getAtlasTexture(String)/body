@@ -4,7 +4,7 @@
   }
   byte[] image=images.get(mapName);
   if (image != null) {
-    Texture2D tex=new Texture2D(new Image(format,atlasWidth,atlasHeight,BufferUtils.createByteBuffer(image),null,true));
+    Texture2D tex=new Texture2D(new Image(format,atlasWidth,atlasHeight,BufferUtils.createByteBuffer(image),null,ColorSpace.Linear));
     tex.setMagFilter(Texture.MagFilter.Bilinear);
     tex.setMinFilter(Texture.MinFilter.BilinearNearestMipMap);
     tex.setWrap(Texture.WrapMode.Clamp);

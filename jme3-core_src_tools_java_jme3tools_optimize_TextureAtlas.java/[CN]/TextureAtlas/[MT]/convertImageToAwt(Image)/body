@@ -4,7 +4,7 @@
     if (clazz == null) {
       return null;
     }
-    Image newImage=new Image(format,source.getWidth(),source.getHeight(),BufferUtils.createByteBuffer(source.getWidth() * source.getHeight() * 4),null,false);
+    Image newImage=new Image(format,source.getWidth(),source.getHeight(),BufferUtils.createByteBuffer(source.getWidth() * source.getHeight() * 4),null,ColorSpace.Linear);
     clazz.getMethod("convert",Image.class,Image.class).invoke(clazz.newInstance(),source,newImage);
     return newImage;
   }
