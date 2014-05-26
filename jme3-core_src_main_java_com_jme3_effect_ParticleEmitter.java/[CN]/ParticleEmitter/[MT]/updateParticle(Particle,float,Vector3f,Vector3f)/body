@@ -5,7 +5,7 @@
   temp.set(p.velocity).multLocal(tpf);
   p.position.addLocal(temp);
   float b=(p.startlife - p.life) / p.startlife;
-  p.color.interpolate(startColor,endColor,b);
+  p.color.interpolateLocal(startColor,endColor,b);
   p.size=FastMath.interpolateLinear(b,startSize,endSize);
   p.angle+=p.rotateSpeed * tpf;
   temp.set(p.position).addLocal(p.size,p.size,p.size);
