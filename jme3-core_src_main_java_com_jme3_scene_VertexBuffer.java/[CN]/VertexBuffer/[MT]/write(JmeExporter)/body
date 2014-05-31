@@ -1,4 +1,7 @@
 {
+  if (instanced) {
+    throw new IOException("Serialization of instanced data not allowed");
+  }
   OutputCapsule oc=ex.getCapsule(this);
   oc.write(components,"components",0);
   oc.write(usage,"usage",Usage.Dynamic);

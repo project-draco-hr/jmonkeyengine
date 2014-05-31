@@ -101,7 +101,7 @@ caps.add(Caps.FloatDepthBuffer);
 if (ctxCaps.OpenGL30) {
 caps.add(Caps.PackedDepthStencilBuffer);
 }
-if (ctxCaps.GL_ARB_draw_instanced) {
+if (ctxCaps.GL_ARB_draw_instanced && ctxCaps.GL_ARB_instanced_arrays) {
 caps.add(Caps.MeshInstancing);
 }
 if (ctxCaps.GL_ARB_fragment_program) {
@@ -128,7 +128,7 @@ boolean latc=ctxCaps.GL_EXT_texture_compression_latc;
 if (latc) {
 caps.add(Caps.TextureCompressionLATC);
 }
-if (ctxCaps.GL_EXT_packed_float) {
+if (ctxCaps.GL_EXT_packed_float || ctxCaps.OpenGL30) {
 caps.add(Caps.PackedFloatColorBuffer);
 if (ctxCaps.GL_ARB_half_float_pixel) {
 caps.add(Caps.PackedFloatTexture);
@@ -137,7 +137,7 @@ caps.add(Caps.PackedFloatTexture);
 if (ctxCaps.GL_EXT_texture_array || ctxCaps.OpenGL30) {
 caps.add(Caps.TextureArray);
 }
-if (ctxCaps.GL_EXT_texture_shared_exponent) {
+if (ctxCaps.GL_EXT_texture_shared_exponent || ctxCaps.OpenGL30) {
 caps.add(Caps.SharedExponentTexture);
 }
 if (ctxCaps.GL_EXT_framebuffer_object) {
@@ -182,7 +182,7 @@ glEnable(ARBMultisample.GL_MULTISAMPLE_ARB);
 }
 caps.add(Caps.Multisample);
 }
-if (ctxCaps.GL_ARB_framebuffer_sRGB && ctxCaps.GL_EXT_texture_sRGB) {
+if ((ctxCaps.GL_ARB_framebuffer_sRGB && ctxCaps.GL_EXT_texture_sRGB) || ctxCaps.OpenGL30) {
 caps.add(Caps.Srgb);
 }
 logger.log(Level.FINE,"Caps: {0}",caps);

@@ -3,6 +3,9 @@
   for (int i=0; i < attribList.oldLen; i++) {
     int idx=attribList.oldList[i];
     glDisableVertexAttribArray(idx);
+    if (context.boundAttribs[idx].isInstanced()) {
+      ARBInstancedArrays.glVertexAttribDivisorARB(idx,0);
+    }
     context.boundAttribs[idx]=null;
   }
   context.attribIndexList.copyNewToOld();

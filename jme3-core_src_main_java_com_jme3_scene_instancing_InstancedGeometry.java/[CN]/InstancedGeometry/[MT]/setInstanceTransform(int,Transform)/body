@@ -1,0 +1,12 @@
+{
+  if (worldTransform == null) {
+    throw new IllegalArgumentException("worldTransform cannot be null");
+  }
+  tempMat4.loadIdentity();
+  tempMat4.setRotationQuaternion(worldTransform.getRotation());
+  tempMat4.setTranslation(worldTransform.getTranslation());
+  tempMat4_2.loadIdentity();
+  tempMat4_2.scale(worldTransform.getScale());
+  tempMat4.multLocal(tempMat4_2);
+  setInstanceTransform(instanceIndex,tempMat4.clone());
+}

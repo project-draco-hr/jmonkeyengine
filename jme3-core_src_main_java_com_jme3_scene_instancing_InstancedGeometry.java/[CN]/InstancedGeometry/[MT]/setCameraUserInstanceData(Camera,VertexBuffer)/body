@@ -1,0 +1,9 @@
+{
+  if (mode == Mode.Auto) {
+    throw new IllegalStateException("Not allowed in auto mode");
+  }
+  if (camera == null) {
+    throw new IllegalArgumentException("camera cannot be null");
+  }
+  instanceDataPerCam.put(camera,cameraInstanceData);
+}
