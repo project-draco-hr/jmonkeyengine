@@ -5,7 +5,7 @@
     return null;
   }
   Texture tex;
-  if (texKey.isAsCube()) {
+  if (texKey.getTextureTypeHint() == Texture.Type.CubeMap) {
     if (texKey.isFlipY()) {
       ByteBuffer pos_y=img.getData(2);
       img.setData(2,img.getData(3));
@@ -13,7 +13,7 @@
     }
     tex=new TextureCubeMap();
   }
- else   if (texKey.isAsTexture3D()) {
+ else   if (texKey.getTextureTypeHint() == Texture.Type.ThreeDimensional) {
     tex=new Texture3D();
   }
  else {

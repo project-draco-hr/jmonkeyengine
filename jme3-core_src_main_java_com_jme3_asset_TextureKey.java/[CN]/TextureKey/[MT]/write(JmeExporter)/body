@@ -3,6 +3,7 @@
   OutputCapsule oc=ex.getCapsule(this);
   oc.write(flipY,"flip_y",false);
   oc.write(generateMips,"generate_mips",false);
-  oc.write(asCube,"as_cubemap",false);
   oc.write(anisotropy,"anisotropy",0);
+  oc.write(textureTypeHint,"tex_type",Type.TwoDimensional);
+  oc.write(textureTypeHint == Type.CubeMap,"as_cubemap",false);
 }

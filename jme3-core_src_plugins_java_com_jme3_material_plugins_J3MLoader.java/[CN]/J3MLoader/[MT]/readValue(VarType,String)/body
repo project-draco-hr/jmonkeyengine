@@ -17,42 +17,52 @@
       repeat=true;
     }
     TextureKey texKey=new TextureKey(texturePath,flipY);
-    texKey.setAsCube(type == VarType.TextureCubeMap);
-    texKey.setGenerateMips(true);
-    Texture tex;
-    try {
-      tex=assetManager.loadTexture(texKey);
-    }
- catch (    AssetNotFoundException ex) {
-      logger.log(Level.WARNING,"Cannot locate {0} for material {1}",new Object[]{texKey,key});
-      tex=null;
-    }
-    if (tex != null) {
-      if (repeat) {
-        tex.setWrap(WrapMode.Repeat);
-      }
-    }
+switch (type) {
+case Texture3D:
+      texKey.setTextureTypeHint(Texture.Type.ThreeDimensional);
+    break;
+case TextureArray:
+  texKey.setTextureTypeHint(Texture.Type.TwoDimensionalArray);
+break;
+case TextureCubeMap:
+texKey.setTextureTypeHint(Texture.Type.CubeMap);
+break;
+}
+texKey.setGenerateMips(true);
+Texture tex;
+try {
+tex=assetManager.loadTexture(texKey);
+}
+ catch (AssetNotFoundException ex) {
+logger.log(Level.WARNING,"Cannot locate {0} for material {1}",new Object[]{texKey,key});
+tex=null;
+}
+if (tex != null) {
+if (repeat) {
+tex.setWrap(WrapMode.Repeat);
+}
+}
  else {
-      tex=new Texture2D(PlaceholderAssets.getPlaceholderImage());
-      if (repeat) {
-        tex.setWrap(WrapMode.Repeat);
-      }
-      tex.setKey(texKey);
-    }
-    return tex;
-  }
+tex=new Texture2D(PlaceholderAssets.getPlaceholderImage());
+if (repeat) {
+tex.setWrap(WrapMode.Repeat);
+}
+tex.setKey(texKey);
+}
+return tex;
+}
  else {
-    String[] split=value.trim().split(whitespacePattern);
+String[] split=value.trim().split(whitespacePattern);
 switch (type) {
 case Float:
-      if (split.length != 1) {
-        throw new IOException("Float value parameter must have 1 entry: " + value);
-      }
-    return Float.parseFloat(split[0]);
+if (split.length != 1) {
+throw new IOException("Float value parameter must have 1 entry: " + value);
+}
+return Float.parseFloat(split[0]);
 case Vector2:
-  if (split.length != 2) {
-    throw new IOException("Vector2 value parameter must have 2 entries: " + value);
-  }
+if (split.length != 2) {
+throw new IOException("Vector2 value parameter must have 2 entries: " + value);
+}
 return new Vector2f(Float.parseFloat(split[0]),Float.parseFloat(split[1]));
 case Vector3:
 if (split.length != 3) {

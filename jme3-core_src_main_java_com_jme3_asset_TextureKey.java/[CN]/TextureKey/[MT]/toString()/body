@@ -1,3 +1,21 @@
 {
-  return name + (flipY ? " (Flipped)" : "") + (asCube ? " (Cube)" : "")+ (generateMips ? " (Mipmapped)" : "");
+  String type;
+switch (textureTypeHint) {
+case CubeMap:
+    type=" (Cube)";
+  break;
+case ThreeDimensional:
+type=" (3D)";
+break;
+case TwoDimensionalArray:
+type=" (Array)";
+break;
+case TwoDimensional:
+type="";
+break;
+default :
+type=" (" + textureTypeHint.toString() + ")";
+break;
+}
+return name + (flipY ? " (Flipped)" : "") + type+ (generateMips ? " (Mipmapped)" : "");
 }

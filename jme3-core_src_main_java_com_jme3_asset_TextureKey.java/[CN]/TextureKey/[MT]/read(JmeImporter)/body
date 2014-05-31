@@ -3,6 +3,12 @@
   InputCapsule ic=im.getCapsule(this);
   flipY=ic.readBoolean("flip_y",false);
   generateMips=ic.readBoolean("generate_mips",false);
-  asCube=ic.readBoolean("as_cubemap",false);
   anisotropy=ic.readInt("anisotropy",0);
+  boolean asCube=ic.readBoolean("as_cubemap",false);
+  if (asCube) {
+    textureTypeHint=Type.CubeMap;
+  }
+ else {
+    textureTypeHint=ic.readEnum("tex_type",Texture.Type.class,Type.TwoDimensional);
+  }
 }

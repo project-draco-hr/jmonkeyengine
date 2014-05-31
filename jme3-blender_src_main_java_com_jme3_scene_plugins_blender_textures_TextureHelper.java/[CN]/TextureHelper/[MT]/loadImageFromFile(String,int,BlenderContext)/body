@@ -26,7 +26,6 @@ String blenderAssetFolder=blenderKey.getName().substring(0,idx != -1 ? idx : 0);
 String absoluteName=blenderAssetFolder + '/' + relativePath;
 try {
 TextureKey key=new TextureKey(absoluteName);
-key.setAsCube(false);
 key.setFlipY(true);
 key.setGenerateMips(generateMipmaps);
 result=assetManager.loadTexture(key);
@@ -49,7 +48,6 @@ assetNames.add(0,sb.toString());
 for (String assetName : assetNames) {
 try {
 TextureKey key=new TextureKey(assetName);
-key.setAsCube(false);
 key.setFlipY(true);
 key.setGenerateMips(generateMipmaps);
 AssetInfo info=assetManager.locateAsset(key);
