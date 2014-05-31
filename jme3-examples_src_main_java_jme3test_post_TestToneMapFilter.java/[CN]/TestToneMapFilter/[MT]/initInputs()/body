@@ -8,10 +8,12 @@
         if (enabled) {
           enabled=false;
           viewPort.removeProcessor(fpp);
+          System.out.println("Tone Mapping OFF");
         }
  else {
           enabled=true;
           viewPort.addProcessor(fpp);
+          System.out.println("Tone Mapping ON");
         }
       }
     }
@@ -19,20 +21,21 @@
 ;
   AnalogListener anl=new AnalogListener(){
     public void onAnalog(    String name,    float isPressed,    float tpf){
-      float wp=toneMapFilter.getWhitePoint().x;
       if (name.equals("WhitePointUp")) {
-        wp+=tpf * 1.0;
-        if (wp > 12f) {
-          wp=12f;
+        whitePointLog+=tpf * 1.0;
+        if (whitePointLog > 4f) {
+          whitePointLog=4f;
         }
+        float wp=FastMath.exp(whitePointLog);
         toneMapFilter.setWhitePoint(new Vector3f(wp,wp,wp));
         System.out.println("White point: " + wp);
       }
       if (name.equals("WhitePointDown")) {
-        wp-=tpf * 1.0;
-        if (wp < 0.01f) {
-          wp=0.01f;
+        whitePointLog-=tpf * 1.0;
+        if (whitePointLog < -4f) {
+          whitePointLog=-4f;
         }
+        float wp=FastMath.exp(whitePointLog);
         toneMapFilter.setWhitePoint(new Vector3f(wp,wp,wp));
         System.out.println("White point: " + wp);
       }
