@@ -14,10 +14,8 @@
   }
   int width=img.getWidth();
   int height=img.getHeight();
-  if (!NPOT) {
-    if (!FastMath.isPowerOfTwo(width) || !FastMath.isPowerOfTwo(height)) {
-      throw new RendererException("Non-power-of-2 textures " + "are not supported by the video hardware " + "and no scaling path available for image: "+ img);
-    }
+  if (!NPOT && img.isNPOT()) {
+    throw new RendererException("Non-power-of-2 textures " + "are not supported by the video hardware " + "and no scaling path available for image: "+ img);
   }
   AndroidGLImageFormat imageFormat=getImageFormat(fmt);
   if (data != null) {
