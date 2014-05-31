@@ -6,7 +6,15 @@
     DatagramPacket p=new DatagramPacket(data.array(),data.position(),data.remaining(),address);
     kernel.enqueueWrite(this,p);
   }
- catch (  IOException e) {
-    throw new KernelException("Error sending datagram to:" + address,e);
+ catch (  Exception e) {
+    if (e instanceof SocketException) {
+      throw new KernelException("Error sending datagram to:" + address,e);
+    }
+ else     if (e instanceof RuntimeException) {
+      throw (RuntimeException)e;
+    }
+ else {
+      throw new RuntimeException(e);
+    }
   }
 }
