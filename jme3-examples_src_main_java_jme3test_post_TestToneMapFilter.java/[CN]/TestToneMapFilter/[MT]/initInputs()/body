@@ -1,0 +1,44 @@
+{
+  inputManager.addMapping("toggle",new KeyTrigger(KeyInput.KEY_SPACE));
+  inputManager.addMapping("WhitePointUp",new KeyTrigger(KeyInput.KEY_Y));
+  inputManager.addMapping("WhitePointDown",new KeyTrigger(KeyInput.KEY_H));
+  ActionListener acl=new ActionListener(){
+    public void onAction(    String name,    boolean keyPressed,    float tpf){
+      if (name.equals("toggle") && keyPressed) {
+        if (enabled) {
+          enabled=false;
+          viewPort.removeProcessor(fpp);
+        }
+ else {
+          enabled=true;
+          viewPort.addProcessor(fpp);
+        }
+      }
+    }
+  }
+;
+  AnalogListener anl=new AnalogListener(){
+    public void onAnalog(    String name,    float isPressed,    float tpf){
+      float wp=toneMapFilter.getWhitePoint().x;
+      if (name.equals("WhitePointUp")) {
+        wp+=tpf * 1.0;
+        if (wp > 12f) {
+          wp=12f;
+        }
+        toneMapFilter.setWhitePoint(new Vector3f(wp,wp,wp));
+        System.out.println("White point: " + wp);
+      }
+      if (name.equals("WhitePointDown")) {
+        wp-=tpf * 1.0;
+        if (wp < 0.01f) {
+          wp=0.01f;
+        }
+        toneMapFilter.setWhitePoint(new Vector3f(wp,wp,wp));
+        System.out.println("White point: " + wp);
+      }
+    }
+  }
+;
+  inputManager.addListener(acl,"toggle");
+  inputManager.addListener(anl,"WhitePointUp","WhitePointDown");
+}

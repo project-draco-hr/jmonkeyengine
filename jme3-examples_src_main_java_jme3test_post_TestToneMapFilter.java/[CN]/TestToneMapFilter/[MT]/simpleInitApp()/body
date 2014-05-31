@@ -1,0 +1,9 @@
+{
+  fpp=new FilterPostProcessor(assetManager);
+  toneMapFilter=new ToneMapFilter();
+  fpp.addFilter(toneMapFilter);
+  viewPort.addProcessor(fpp);
+  rootNode.attachChild(createHDRBox());
+  cam.setLocation(new Vector3f(0f,0f,3f));
+  initInputs();
+}
