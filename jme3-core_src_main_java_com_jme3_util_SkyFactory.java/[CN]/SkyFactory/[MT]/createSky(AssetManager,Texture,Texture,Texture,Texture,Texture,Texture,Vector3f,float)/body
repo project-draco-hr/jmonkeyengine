@@ -31,7 +31,7 @@
   TextureCubeMap cubeMap=new TextureCubeMap(cubeImage);
   cubeMap.setAnisotropicFilter(0);
   cubeMap.setMagFilter(Texture.MagFilter.Bilinear);
-  cubeMap.setMinFilter(Texture.MinFilter.NearestNoMipMaps);
+  cubeMap.setMinFilter(Texture.MinFilter.BilinearNoMipMaps);
   cubeMap.setWrap(Texture.WrapMode.EdgeClamp);
   Material skyMat=new Material(assetManager,"Common/MatDefs/Misc/Sky.j3md");
   skyMat.setTexture("Texture",cubeMap);

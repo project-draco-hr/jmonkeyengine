@@ -17,6 +17,8 @@
     texture=new TextureCubeMap();
     texture.setImage(img);
   }
+  texture.setMagFilter(Texture.MagFilter.Bilinear);
+  texture.setMinFilter(Texture.MinFilter.BilinearNoMipMaps);
   skyMat.setTexture("Texture",texture);
   sky.setMaterial(skyMat);
   return sky;
