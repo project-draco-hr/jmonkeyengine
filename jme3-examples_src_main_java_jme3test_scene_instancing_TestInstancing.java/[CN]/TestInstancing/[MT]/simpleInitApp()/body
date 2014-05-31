@@ -1,6 +1,7 @@
 {
+  initInputs();
   Sphere sphere=new Sphere(10,10,0.5f,true,false);
-  Material material=new Material(assetManager,"Common/MatDefs/Misc/ShowNormals.j3md");
+  material=new Material(assetManager,"Common/MatDefs/Misc/ShowNormals.j3md");
   material.setBoolean("UseInstancing",true);
   instancedGeometry=new InstancedGeometry(InstancedGeometry.Mode.Auto,"instanced_geom");
   instancedGeometry.setMaxNumInstances(60 * 60);
@@ -9,7 +10,7 @@
   instancedGeometry.setMesh(sphere);
   instancedGeometry.setMaterial(material);
   rootNode.attachChild(instancedGeometry);
-  Node instancedGeoms=new Node("instances_node");
+  instancedGeoms=new Node("instances_node");
   instancedGeoms.setCullHint(CullHint.Always);
   for (int y=-30; y < 30; y++) {
     for (int x=-30; x < 30; x++) {
