@@ -22,11 +22,14 @@
       glTexParameteri(target,GL_GENERATE_MIPMAP,GL_TRUE);
       img.setMipmapsGenerated(true);
     }
+ else {
+    }
+  }
+ else   if (img.hasMipmaps()) {
+    glTexParameteri(target,GL_TEXTURE_MAX_LEVEL,img.getMipMapSizes().length - 1);
   }
  else {
-    if (img.getMipMapSizes() != null) {
-      glTexParameteri(target,GL_TEXTURE_MAX_LEVEL,img.getMipMapSizes().length - 1);
-    }
+    glTexParameteri(target,GL_TEXTURE_MAX_LEVEL,0);
   }
   int imageSamples=img.getMultiSamples();
   if (imageSamples > 1) {
