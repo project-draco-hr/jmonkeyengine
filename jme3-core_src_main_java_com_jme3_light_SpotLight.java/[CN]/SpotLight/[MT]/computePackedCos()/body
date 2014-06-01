@@ -6,4 +6,7 @@
     outerCos-=0.001f;
   }
   packedAngleCos+=outerCos;
+  if (packedAngleCos == 0.0f) {
+    throw new IllegalArgumentException("Packed angle cosine is invalid");
+  }
 }
