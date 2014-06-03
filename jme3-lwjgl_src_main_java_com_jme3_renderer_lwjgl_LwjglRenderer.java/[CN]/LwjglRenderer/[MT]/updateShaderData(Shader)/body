@@ -38,10 +38,10 @@
   }
   if (linkOK) {
     if (infoLog != null) {
-      logger.log(Level.FINE,"shader link success. \n{0}",infoLog);
+      logger.log(Level.WARNING,"Shader linked successfully. Linker warnings: \n{0}",infoLog);
     }
  else {
-      logger.fine("shader link success");
+      logger.fine("Shader linked successfully.");
     }
     shader.clearUpdateNeeded();
     if (needRegister) {
@@ -54,10 +54,10 @@
   }
  else {
     if (infoLog != null) {
-      throw new RendererException("Shader link failure, shader:" + shader + " info:"+ infoLog);
+      throw new RendererException("Shader failure to link, shader:" + shader + " info:"+ infoLog);
     }
  else {
-      throw new RendererException("Shader link failure, shader:" + shader + " info: <not provided>");
+      throw new RendererException("Shader failure to link, shader:" + shader + " info: <not provided>");
     }
   }
 }

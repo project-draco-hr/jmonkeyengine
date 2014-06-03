@@ -52,10 +52,10 @@
   }
   if (compiledOK) {
     if (infoLog != null) {
-      logger.log(Level.FINE,"{0} compile success\n{1}",new Object[]{source.getName(),infoLog});
+      logger.log(Level.WARNING,"{0} compiled successfully, compiler warnings: \n{1}",new Object[]{source.getName(),infoLog});
     }
  else {
-      logger.log(Level.FINE,"{0} compile success",source.getName());
+      logger.log(Level.FINE,"{0} compiled successfully.",source.getName());
     }
     source.clearUpdateNeeded();
   }

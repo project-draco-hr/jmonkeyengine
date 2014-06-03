@@ -1,5 +1,12 @@
 {
-  if (srgb && caps.contains(Caps.Srgb)) {
+  if (!caps.contains(Caps.Srgb)) {
+    logger.warning("sRGB framebuffer is not supported " + "by video hardware, but was requested.");
+    return;
+  }
+  if (enableSrgb) {
+    if (!glGetBoolean(GL30.GL_FRAMEBUFFER_SRGB_CAPABLE)) {
+      logger.warning("Driver claims that default framebuffer " + "is not sRGB capable. Enabling anyway.");
+    }
     glEnable(GL30.GL_FRAMEBUFFER_SRGB);
     logger.log(Level.FINER,"SRGB FrameBuffer enabled (Gamma Correction)");
   }
