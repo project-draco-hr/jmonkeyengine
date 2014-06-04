@@ -1,0 +1,12 @@
+{
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName(String.format("%s - %s",c.getSimpleName(),c.getPackage().getName()));
+  set.setName(c.getName());
+  set.setHidden(hidden);
+  createFields(c,set,control);
+  Class parent=c.getSuperclass();
+  if (parent != null && !parent.equals(Object.class)) {
+    putSheetSets(sheet,parent,true);
+  }
+  sheet.put(set);
+}

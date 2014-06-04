@@ -1,8 +1,0 @@
-{
-  for (  Field field : c.getDeclaredFields()) {
-    PropertyDescriptor prop=PropertyUtils.getPropertyDescriptor(c,field);
-    if (prop != null) {
-      set.put(makeProperty(obj,prop.getPropertyType(),prop.getReadMethod().getName(),prop.getWriteMethod().getName(),prop.getDisplayName()));
-    }
-  }
-}

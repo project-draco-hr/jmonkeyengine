@@ -1,12 +1,8 @@
 {
   Sheet sheet=Sheet.createDefault();
-  Sheet.Set set=Sheet.createPropertiesSet();
-  set.setDisplayName("Control");
-  set.setName(Control.class.getName());
   if (control == null) {
     return sheet;
   }
-  createFields(control.getClass(),set,control);
-  sheet.put(set);
+  putSheetSets(sheet,control.getClass(),false);
   return sheet;
 }
