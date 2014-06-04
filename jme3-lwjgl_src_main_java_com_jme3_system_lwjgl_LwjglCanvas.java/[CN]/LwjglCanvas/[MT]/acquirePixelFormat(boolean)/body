@@ -8,7 +8,7 @@
  else {
     if (canvasFormat == null) {
       int samples=getNumSamplesToUse();
-      canvasFormat=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),samples,0,0,0,settings.useStereo3D()).withSRGB(settings.getGammaCorrection());
+      canvasFormat=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),samples,0,0,0,settings.useStereo3D());
     }
     return canvasFormat;
   }
