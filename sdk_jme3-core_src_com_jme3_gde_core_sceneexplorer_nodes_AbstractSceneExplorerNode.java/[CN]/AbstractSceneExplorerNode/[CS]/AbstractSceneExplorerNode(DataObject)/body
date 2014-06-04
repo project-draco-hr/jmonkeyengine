@@ -1,5 +1,3 @@
 {
-  super(Children.LEAF,new ProxyLookup(dataObject != null ? dataObject.getLookup() : Lookup.EMPTY,new DynamicLookup(new InstanceContent())));
-  this.dataObject=dataObject;
-  lookupContents=getLookup().lookup(DynamicLookup.class).getInstanceContent();
+  this(Children.LEAF,dataObject);
 }

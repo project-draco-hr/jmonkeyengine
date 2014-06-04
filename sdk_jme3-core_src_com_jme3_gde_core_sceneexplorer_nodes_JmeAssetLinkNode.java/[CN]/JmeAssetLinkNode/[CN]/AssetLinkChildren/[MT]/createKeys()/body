@@ -5,7 +5,10 @@
         List<Object> keys=new LinkedList<Object>();
         if (spatial instanceof AssetLinkNode) {
           keys.addAll(((AssetLinkNode)spatial).getAssetLoaderKeys());
-          return keys;
+        }
+        for (int i=0; i < spatial.getNumControls(); i++) {
+          Control control=spatial.getControl(i);
+          keys.add(control);
         }
         return keys;
       }
