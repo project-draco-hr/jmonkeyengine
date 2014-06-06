@@ -54,10 +54,10 @@
   }
  else {
     if (infoLog != null) {
-      throw new RendererException("Shader failure to link, shader:" + shader + " info:"+ infoLog);
+      throw new RendererException("Shader failed to link, shader:" + shader + "\n"+ infoLog);
     }
  else {
-      throw new RendererException("Shader failure to link, shader:" + shader + " info: <not provided>");
+      throw new RendererException("Shader failed to link, shader:" + shader + "\ninfo: <not provided>");
     }
   }
 }
