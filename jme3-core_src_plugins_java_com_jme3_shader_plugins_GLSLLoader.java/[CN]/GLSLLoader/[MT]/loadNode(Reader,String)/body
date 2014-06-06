@@ -5,6 +5,9 @@
   try {
     bufReader=new BufferedReader(reader);
     String ln;
+    if (!nodeName.equals("[main]")) {
+      sb.append("// -- begin import ").append(nodeName).append(" --\n");
+    }
     while ((ln=bufReader.readLine()) != null) {
       if (ln.trim().startsWith("#import ")) {
         ln=ln.trim().substring(8).trim();
@@ -24,6 +27,9 @@
  else {
         sb.append(ln).append('\n');
       }
+    }
+    if (!nodeName.equals("[main]")) {
+      sb.append("// -- end import ").append(nodeName).append(" --\n");
     }
   }
  catch (  IOException ex) {
