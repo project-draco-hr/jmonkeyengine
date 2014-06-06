@@ -11,8 +11,9 @@
       if (line == null) {
         break;
       }
-      scanMethods(line,methods);
-      scanConstants(line,consts,caps);
+      line=scanMethods(line,methods);
+      line=scanConstants(line,consts,caps);
+      System.out.println(line);
     }
     usedMethods.addAll(methods);
     usedConstants.addAll(consts);

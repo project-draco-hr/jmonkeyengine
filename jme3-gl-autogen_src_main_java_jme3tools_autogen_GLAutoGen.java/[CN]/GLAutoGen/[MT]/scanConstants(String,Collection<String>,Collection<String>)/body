@@ -1,4 +1,5 @@
 {
+  String modifiedLine=line;
   int next_gl=line.indexOf("GL_");
   while (next_gl > 0) {
     char chrBefore=line.charAt(next_gl - 1);
@@ -16,6 +17,7 @@
             caps.add(line.substring(next_gl,scan_idx));
           }
  else {
+            modifiedLine=modifiedLine.substring(0,next_gl) + "GL." + modifiedLine.substring(next_gl);
             consts.add(line.substring(next_gl,scan_idx));
           }
           break;
@@ -24,4 +26,5 @@
     }
     next_gl=line.indexOf("GL_",next_gl + 3);
   }
+  return modifiedLine;
 }
