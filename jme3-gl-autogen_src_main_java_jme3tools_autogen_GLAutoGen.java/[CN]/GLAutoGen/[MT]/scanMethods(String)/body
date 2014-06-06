@@ -1,0 +1,24 @@
+{
+  List<String> methods=new ArrayList<String>();
+  int next_gl=line.indexOf("gl");
+  while (next_gl > 0) {
+    char chrBefore=line.charAt(next_gl - 1);
+    if (!Character.isWhitespace(chrBefore) && chrBefore != '.' && chrBefore != '!' && chrBefore != '(') {
+    }
+ else {
+      for (int scan_idx=next_gl + 2; scan_idx < line.length(); scan_idx++) {
+        char chrCall=line.charAt(scan_idx);
+        if (chrCall == '(') {
+          String methodName=line.substring(next_gl,scan_idx);
+          methods.add(methodName);
+          break;
+        }
+ else         if (!Character.isLetterOrDigit(chrCall)) {
+          break;
+        }
+      }
+    }
+    next_gl=line.indexOf("gl",next_gl + 2);
+  }
+  return methods;
+}

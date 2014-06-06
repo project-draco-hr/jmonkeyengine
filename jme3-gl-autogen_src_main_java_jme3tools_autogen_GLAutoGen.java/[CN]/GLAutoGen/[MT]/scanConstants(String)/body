@@ -1,0 +1,23 @@
+{
+  List<String> constants=new ArrayList<String>();
+  int next_gl=line.indexOf("GL_");
+  while (next_gl > 0) {
+    char chrBefore=line.charAt(next_gl - 1);
+    if (!Character.isWhitespace(chrBefore) && chrBefore != '.' && chrBefore != '!' && chrBefore != '(') {
+    }
+ else {
+      for (int scan_idx=next_gl + 3; scan_idx < line.length(); scan_idx++) {
+        char chrCall=line.charAt(scan_idx);
+        if (Character.isLowerCase(chrCall)) {
+          break;
+        }
+ else         if (!Character.isLetterOrDigit(chrCall) && chrCall != '_') {
+          constants.add(line.substring(next_gl,scan_idx));
+          break;
+        }
+      }
+    }
+    next_gl=line.indexOf("GL_",next_gl + 3);
+  }
+  return constants;
+}

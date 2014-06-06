@@ -1,0 +1,17 @@
+{
+  Method[] methods=clazz.getDeclaredMethods();
+  for (  Method method : methods) {
+    if ((method.getModifiers() & (Modifier.STATIC | Modifier.PUBLIC)) != 0) {
+      String name=method.getName();
+      Class<?> type=method.getReturnType();
+      Class<?>[] paramTypes=method.getParameterTypes();
+      List<MethodInfo> overloads=methodMap.get(name);
+      if (overloads == null) {
+        overloads=new ArrayList<MethodInfo>();
+        methodMap.put(name,overloads);
+      }
+      MethodInfo info=new MethodInfo(clazz,name,type,paramTypes);
+      overloads.add(info);
+    }
+  }
+}
