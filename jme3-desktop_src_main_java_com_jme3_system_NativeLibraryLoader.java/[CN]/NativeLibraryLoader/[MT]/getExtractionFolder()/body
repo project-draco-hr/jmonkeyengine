@@ -1,0 +1,23 @@
+{
+  if (extractionFolderOverride != null) {
+    return extractionFolderOverride;
+  }
+  if (extractionFolder == null) {
+    File workingFolder=new File("").getAbsoluteFile();
+    if (!workingFolder.canWrite()) {
+      setExtractionDirToStorageDir();
+    }
+ else {
+      try {
+        File file=new File(workingFolder + File.separator + ".jmetestwrite");
+        file.createNewFile();
+        file.delete();
+        extractionFolder=workingFolder;
+      }
+ catch (      Exception e) {
+        setExtractionDirToStorageDir();
+      }
+    }
+  }
+  return extractionFolder;
+}

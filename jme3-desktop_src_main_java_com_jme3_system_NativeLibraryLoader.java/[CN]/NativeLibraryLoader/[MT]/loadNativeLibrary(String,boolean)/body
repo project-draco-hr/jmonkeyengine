@@ -1,0 +1,118 @@
+{
+  if (JmeSystem.isLowPermissions()) {
+    throw new UnsupportedOperationException("JVM is running under " + "reduced permissions. Cannot load native libraries.");
+  }
+  Platform platform=JmeSystem.getPlatform();
+  NativeLibrary library=nativeLibraryMap.get(new NativeLibrary.Key(name,platform));
+  if (library == null) {
+    if (isRequired) {
+      throw new UnsatisfiedLinkError("The required native library '" + name + "'"+ " is not available for your OS: "+ platform);
+    }
+ else {
+      logger.log(Level.FINE,"The optional native library ''{0}''" + " is not available for your OS: {1}",new Object[]{name,platform});
+      return;
+    }
+  }
+  String pathInJar=library.getPathInNativesJar();
+  if (pathInJar == null) {
+    return;
+  }
+  String fileNameInJar;
+  if (pathInJar.contains("/")) {
+    fileNameInJar=pathInJar.substring(pathInJar.lastIndexOf("/") + 1);
+  }
+ else {
+    fileNameInJar=pathInJar;
+  }
+  URL url=Thread.currentThread().getContextClassLoader().getResource(pathInJar);
+  if (url == null) {
+    url=Thread.currentThread().getContextClassLoader().getResource(fileNameInJar);
+  }
+  if (url == null) {
+    try {
+      System.loadLibrary(name);
+      logger.log(Level.FINE,"Loaded system installed " + "version of native library: {0}",name);
+    }
+ catch (    UnsatisfiedLinkError e) {
+      if (isRequired) {
+        throw new UnsatisfiedLinkError("The required native library '" + name + "'"+ " was not found in the classpath via '"+ pathInJar+ "'");
+      }
+ else {
+        logger.log(Level.FINE,"The optional native library ''{0}''" + " was not found in the classpath via ''{1}''",new Object[]{name,pathInJar});
+      }
+    }
+    return;
+  }
+  String loadedAsFileName;
+  if (library.isJNI()) {
+    String nameWithArch;
+    if (platform.is64Bit()) {
+      nameWithArch=name + "64";
+    }
+ else {
+      nameWithArch=name;
+    }
+    loadedAsFileName=System.mapLibraryName(nameWithArch);
+  }
+ else {
+    loadedAsFileName=fileNameInJar;
+  }
+  File extactionDirectory=getExtractionFolder();
+  URLConnection conn;
+  InputStream in;
+  try {
+    conn=url.openConnection();
+    in=conn.getInputStream();
+  }
+ catch (  IOException ex) {
+    throw new UnsatisfiedLinkError("Failed to open file: '" + url + "'. Error: "+ ex);
+  }
+  File targetFile=new File(extactionDirectory,loadedAsFileName);
+  OutputStream out=null;
+  try {
+    if (targetFile.exists()) {
+      long targetLastModified=targetFile.lastModified();
+      long sourceLastModified=conn.getLastModified();
+      if (targetLastModified + 1000 > sourceLastModified) {
+        logger.log(Level.FINE,"Not copying library {0}. " + "Latest already extracted.",loadedAsFileName);
+        return;
+      }
+    }
+    out=new FileOutputStream(targetFile);
+    int len;
+    while ((len=in.read(buf)) > 0) {
+      out.write(buf,0,len);
+    }
+    in.close();
+    in=null;
+    out.close();
+    out=null;
+    targetFile.setLastModified(conn.getLastModified());
+  }
+ catch (  IOException ex) {
+    if (ex.getMessage().contains("used by another process")) {
+      return;
+    }
+ else {
+      throw new UnsatisfiedLinkError("Failed to extract native " + "library to: " + targetFile);
+    }
+  }
+ finally {
+    System.load(targetFile.getAbsolutePath());
+    if (in != null) {
+      try {
+        in.close();
+      }
+ catch (      IOException ex) {
+      }
+    }
+    if (out != null) {
+      try {
+        out.close();
+      }
+ catch (      IOException ex) {
+      }
+    }
+  }
+  logger.log(Level.FINE,"Loaded native library from ''{0}'' into ''{1}''",new Object[]{url,targetFile});
+}

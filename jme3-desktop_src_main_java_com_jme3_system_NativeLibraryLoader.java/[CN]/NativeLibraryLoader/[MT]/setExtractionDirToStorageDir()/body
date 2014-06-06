@@ -1,0 +1,7 @@
+{
+  logger.log(Level.WARNING,"Working directory is not writable. Using home directory instead.");
+  extractionFolder=new File(JmeSystem.getStorageFolder(),"natives_" + Integer.toHexString(computeNativesHash()));
+  if (!extractionFolder.exists()) {
+    extractionFolder.mkdir();
+  }
+}
