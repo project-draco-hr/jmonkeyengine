@@ -1,7 +1,6 @@
 {
-  String lwjgl="D:\\engine\\jme3-lwjgl\\src\\main\\java\\com\\jme3\\renderer\\lwjgl\\LwjglRenderer.java";
-  String jogl="D:\\engine\\jme3-jogl\\src\\main\\java\\com\\jme3\\renderer\\jogl\\JoglRenderer.java";
-  String ogles="D:\\engine\\jme3-android\\src\\main\\java\\com\\jme3\\renderer\\android\\OGLESShaderRenderer.java";
+  String path="../jme3-lwjgl/src/main/java/com/jme3/renderer/lwjgl/LwjglRenderer.java";
+  File lwjglRendererSrc=new File(path).getAbsoluteFile();
   scanType(GL11.class);
   scanType(GL14.class);
   scanType(GL12.class);
@@ -21,6 +20,6 @@
   scanType(EXTTextureFilterAnisotropic.class);
   scanType(ARBDrawInstanced.class);
   scanType(ARBInstancedArrays.class);
-  scanFile(lwjgl);
+  scanFile(lwjglRendererSrc.toString());
   exportInterface();
 }
