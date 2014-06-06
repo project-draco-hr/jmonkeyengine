@@ -1,6 +1,18 @@
 {
   System.out.println("package autogen;");
   System.out.println();
+  System.out.println("public final class GLCaps {");
+  System.out.println();
+  System.out.println("\tprivate GLCaps { }");
+  System.out.println();
+  for (  String cap : capsSet) {
+    if (usedCaps.contains(cap)) {
+      System.out.println("\tpublic boolean " + cap + ";");
+    }
+  }
+  System.out.println();
+  System.out.println("}");
+  System.out.println();
   System.out.println("/**");
   System.out.println(" * Auto-generated interface");
   System.out.println(" */");
@@ -31,7 +43,7 @@
       throw new IllegalStateException("Cannot find required method: " + method);
     }
     for (    MethodInfo info : infos) {
-      String retTypeStr=info.returnType.toString();
+      String retTypeStr=info.returnType.getSimpleName();
       System.out.print("\tpublic " + retTypeStr + " "+ method+ "(");
       for (int i=0; i < info.paramTypes.length; i++) {
         System.out.print(info.paramTypes[i].getSimpleName() + " param" + (i + 1));
@@ -43,6 +55,9 @@
     }
   }
   System.out.println("// -- end methods");
+  System.out.println("// -- begin custom methods");
+  System.out.println("\tpublic GLCaps getGLCaps();");
+  System.out.println("// -- end custom methods");
   System.out.println();
   System.out.println("}");
 }

@@ -1,5 +1,8 @@
 {
   FileReader reader=null;
+  List<String> methods=new ArrayList<String>();
+  List<String> consts=new ArrayList<String>();
+  List<String> caps=new ArrayList<String>();
   try {
     reader=new FileReader(path);
     BufferedReader br=new BufferedReader(reader);
@@ -8,9 +11,12 @@
       if (line == null) {
         break;
       }
-      usedMethods.addAll(scanMethods(line));
-      usedConstants.addAll(scanConstants(line));
+      scanMethods(line,methods);
+      scanConstants(line,consts,caps);
     }
+    usedMethods.addAll(methods);
+    usedConstants.addAll(consts);
+    usedCaps.addAll(caps);
   }
  catch (  IOException ex) {
     ex.printStackTrace();
