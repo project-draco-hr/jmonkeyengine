@@ -46,6 +46,9 @@
   String loadedAsFileName;
   if (library.isJNI()) {
     String fileNameInJarWithoutExtension=fileNameInJar.substring(0,fileNameInJar.lastIndexOf("."));
+    if (platform.is64Bit() && !fileNameInJarWithoutExtension.endsWith("64")) {
+      fileNameInJarWithoutExtension+="64";
+    }
     String systemJniExtension;
     String dummyLib=System.mapLibraryName("");
     if (dummyLib.contains(".")) {
