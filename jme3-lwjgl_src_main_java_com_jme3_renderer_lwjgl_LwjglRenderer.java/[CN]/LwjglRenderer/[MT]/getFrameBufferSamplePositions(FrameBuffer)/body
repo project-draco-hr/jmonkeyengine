@@ -2,6 +2,9 @@
   if (fb.getSamples() <= 1) {
     throw new IllegalArgumentException("Framebuffer must be multisampled");
   }
+  if (!ctxCaps.GL_ARB_texture_multisample) {
+    throw new RendererException("Multisampled textures are not supported");
+  }
   setFrameBuffer(fb);
   Vector2f[] samplePositions=new Vector2f[fb.getSamples()];
   FloatBuffer samplePos=BufferUtils.createFloatBuffer(2);

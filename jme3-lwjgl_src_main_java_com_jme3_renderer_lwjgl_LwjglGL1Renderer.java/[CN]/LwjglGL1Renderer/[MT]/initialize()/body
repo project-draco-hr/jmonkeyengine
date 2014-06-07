@@ -1,5 +1,6 @@
 {
-  if (GLContext.getCapabilities().OpenGL12) {
+  ctxCaps=GLContext.getCapabilities();
+  if (ctxCaps.OpenGL12) {
     gl12=true;
   }
   caps.add(Caps.GLSL100);
@@ -12,7 +13,7 @@
  else {
     glEnable(GL_NORMALIZE);
   }
-  if (GLContext.getCapabilities().GL_ARB_texture_non_power_of_two) {
+  if (ctxCaps.GL_ARB_texture_non_power_of_two) {
     caps.add(Caps.NonPowerOfTwoTextures);
   }
  else {

@@ -2,12 +2,12 @@
   int id=mesh.getId();
   if (id == -1) {
     IntBuffer temp=intBuf1;
-    ARBVertexArrayObject.glGenVertexArrays(temp);
+    glGenVertexArrays(temp);
     id=temp.get(0);
     mesh.setId(id);
   }
   if (context.boundVertexArray != id) {
-    ARBVertexArrayObject.glBindVertexArray(id);
+    glBindVertexArray(id);
     context.boundVertexArray=id;
   }
   VertexBuffer interleavedData=mesh.getBuffer(Type.InterleavedData);

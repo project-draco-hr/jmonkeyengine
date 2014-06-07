@@ -1,7 +1,7 @@
 {
   boolean useInstancing=count > 1 && caps.contains(Caps.MeshInstancing);
   if (useInstancing) {
-    ARBDrawInstanced.glDrawArraysInstancedARB(convertElementMode(mode),0,vertCount,count);
+    glDrawArraysInstancedARB(convertElementMode(mode),0,vertCount,count);
   }
  else {
     glDrawArrays(convertElementMode(mode),0,vertCount);

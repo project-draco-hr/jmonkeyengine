@@ -1,18 +1,21 @@
 {
+  if (samples > 1 && !ctxCaps.GL_ARB_texture_multisample) {
+    throw new RendererException("Multisample textures are not supported" + " by the video hardware.");
+  }
 switch (type) {
 case TwoDimensional:
     if (samples > 1) {
-      return ARBTextureMultisample.GL_TEXTURE_2D_MULTISAMPLE;
+      return GL_TEXTURE_2D_MULTISAMPLE;
     }
  else {
       return GL_TEXTURE_2D;
     }
 case TwoDimensionalArray:
   if (samples > 1) {
-    return ARBTextureMultisample.GL_TEXTURE_2D_MULTISAMPLE_ARRAY;
+    return GL_TEXTURE_2D_MULTISAMPLE_ARRAY;
   }
  else {
-    return EXTTextureArray.GL_TEXTURE_2D_ARRAY_EXT;
+    return GL_TEXTURE_2D_ARRAY_EXT;
   }
 case ThreeDimensional:
 return GL_TEXTURE_3D;

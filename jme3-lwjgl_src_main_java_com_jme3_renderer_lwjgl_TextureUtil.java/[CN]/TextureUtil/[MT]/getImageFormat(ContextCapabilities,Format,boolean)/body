@@ -8,17 +8,9 @@ case DXT5:
       return null;
     }
   break;
-case Depth:
-case Depth16:
-case Depth24:
-case Depth32:
-if (!caps.OpenGL14 && !caps.GL_ARB_depth_texture) {
-  return null;
-}
-break;
 case Depth24Stencil8:
 if (!caps.OpenGL30 && !caps.GL_EXT_packed_depth_stencil) {
-return null;
+  return null;
 }
 break;
 case Luminance16F:

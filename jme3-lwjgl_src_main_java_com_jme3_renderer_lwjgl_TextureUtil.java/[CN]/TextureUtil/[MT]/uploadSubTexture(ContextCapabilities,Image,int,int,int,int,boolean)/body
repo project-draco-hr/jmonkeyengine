@@ -1,6 +1,6 @@
 {
   Image.Format fmt=image.getFormat();
-  GLImageFormat glFmt=getImageFormatWithError(fmt,image.getColorSpace() == ColorSpace.sRGB && linearizeSrgb);
+  GLImageFormat glFmt=getImageFormatWithError(caps,fmt,image.getColorSpace() == ColorSpace.sRGB && linearizeSrgb);
   ByteBuffer data=null;
   if (index >= 0 && image.getData() != null && image.getData().size() > 0) {
     data=image.getData(index);
@@ -9,7 +9,7 @@
   int height=image.getHeight();
   int depth=image.getDepth();
   if (data != null) {
-    GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT,1);
+    glPixelStorei(GL_UNPACK_ALIGNMENT,1);
   }
   int[] mipSizes=image.getMipMapSizes();
   int pos=0;
@@ -35,29 +35,28 @@
     int glFmtFormat=glFmt.format;
     int glFmtDataType=glFmt.dataType;
     if (glFmt.compressed && data != null) {
-      if (target == GL12.GL_TEXTURE_3D) {
-        GL13.glCompressedTexSubImage3D(target,i,x,y,index,mipWidth,mipHeight,mipDepth,glFmtInternal,data);
+      if (target == GL_TEXTURE_3D) {
+        glCompressedTexSubImage3D(target,i,x,y,index,mipWidth,mipHeight,mipDepth,glFmtInternal,data);
         continue;
       }
-      GL13.glCompressedTexSubImage2D(target,i,x,y,mipWidth,mipHeight,glFmtInternal,data);
+      glCompressedTexSubImage2D(target,i,x,y,mipWidth,mipHeight,glFmtInternal,data);
       continue;
     }
-    if (target == GL12.GL_TEXTURE_3D) {
-      GL12.glTexSubImage3D(target,i,x,y,index,mipWidth,mipHeight,mipDepth,glFmtFormat,glFmtDataType,data);
+    if (target == GL_TEXTURE_3D) {
+      glTexSubImage3D(target,i,x,y,index,mipWidth,mipHeight,mipDepth,glFmtFormat,glFmtDataType,data);
       continue;
     }
-    if (target == EXTTextureArray.GL_TEXTURE_2D_ARRAY_EXT) {
+    if (target == GL_TEXTURE_2D_ARRAY_EXT) {
       if (index == -1) {
-        GL12.glTexSubImage3D(target,i,x,y,index,mipWidth,mipHeight,mipDepth,glFmtFormat,glFmtDataType,data);
+        glTexSubImage3D(target,i,x,y,index,mipWidth,mipHeight,mipDepth,glFmtFormat,glFmtDataType,data);
         continue;
       }
-      GL12.glTexSubImage3D(target,i,x,y,index,width,height,1,glFmtFormat,glFmtDataType,data);
+      glTexSubImage3D(target,i,x,y,index,width,height,1,glFmtFormat,glFmtDataType,data);
       continue;
     }
     if (samples > 1) {
       throw new IllegalStateException("Cannot update multisample textures");
     }
-    GL11.glTexSubImage2D(target,i,x,y,mipWidth,mipHeight,glFmtFormat,glFmtDataType,data);
-    continue;
+    glTexSubImage2D(target,i,x,y,mipWidth,mipHeight,glFmtFormat,glFmtDataType,data);
   }
 }

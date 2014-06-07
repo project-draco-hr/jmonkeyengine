@@ -4,7 +4,7 @@
     int idx=attribList.oldList[i];
     glDisableVertexAttribArray(idx);
     if (context.boundAttribs[idx].isInstanced()) {
-      ARBInstancedArrays.glVertexAttribDivisorARB(idx,0);
+      glVertexAttribDivisorARB(idx,0);
     }
     context.boundAttribs[idx]=null;
   }

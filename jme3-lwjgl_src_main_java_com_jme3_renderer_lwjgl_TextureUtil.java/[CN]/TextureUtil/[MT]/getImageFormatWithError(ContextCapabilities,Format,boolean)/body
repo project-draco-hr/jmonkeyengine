@@ -1,5 +1,5 @@
 {
-  GLImageFormat glFmt=getImageFormat(GLContext.getCapabilities(),fmt,isSrgb);
+  GLImageFormat glFmt=getImageFormat(caps,fmt,isSrgb);
   if (glFmt == null) {
     throw new RendererException("Image format '" + fmt + "' is unsupported by the video hardware.");
   }

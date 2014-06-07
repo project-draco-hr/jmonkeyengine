@@ -3,8 +3,8 @@
   String drawBuf=getTargetBufferName(glGetInteger(GL_DRAW_BUFFER));
   String readBuf=getTargetBufferName(glGetInteger(GL_READ_BUFFER));
   int fbId=fb.getId();
-  int curDrawBinding=glGetInteger(ARBFramebufferObject.GL_DRAW_FRAMEBUFFER_BINDING);
-  int curReadBinding=glGetInteger(ARBFramebufferObject.GL_READ_FRAMEBUFFER_BINDING);
+  int curDrawBinding=glGetInteger(GL_DRAW_FRAMEBUFFER_BINDING_EXT);
+  int curReadBinding=glGetInteger(GL_READ_FRAMEBUFFER_BINDING_EXT);
   System.out.println("=== OpenGL FBO State ===");
   System.out.println("Context doublebuffered? " + doubleBuffer);
   System.out.println("FBO ID: " + fbId);
