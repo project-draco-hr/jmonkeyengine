@@ -1,0 +1,5 @@
+{
+  timeElapsed+=tpf;
+  lightNode.setLocalTranslation(FastMath.cos(timeElapsed),lightNode.getLocalTranslation().y,FastMath.sin(timeElapsed));
+  spotLight.setDirection(new Vector3f(FastMath.cos(-timeElapsed * .7f),-1.0f,FastMath.sin(-timeElapsed * .7f)));
+}

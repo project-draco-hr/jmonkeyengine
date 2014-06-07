@@ -1,0 +1,11 @@
+{
+  for (  Material mat : matCache) {
+    for (int j=1; j < nbShadowMaps; j++) {
+      mat.clearParam(lightViewStringCache[j]);
+    }
+    for (int j=1; j < nbShadowMaps; j++) {
+      mat.clearParam(shadowMapStringCache[j]);
+    }
+    clearMaterialParameters(mat);
+  }
+}
