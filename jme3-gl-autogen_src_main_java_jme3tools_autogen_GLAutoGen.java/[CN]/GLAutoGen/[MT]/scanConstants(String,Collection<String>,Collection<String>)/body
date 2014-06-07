@@ -1,30 +1,30 @@
 {
   String modifiedLine=line;
-  int next_gl=line.indexOf("GL_");
+  int next_gl=modifiedLine.indexOf("GL_");
   while (next_gl > 0) {
-    char chrBefore=line.charAt(next_gl - 1);
-    if (!Character.isWhitespace(chrBefore) && chrBefore != '.' && chrBefore != '!' && chrBefore != '(') {
+    char chrBefore=modifiedLine.charAt(next_gl - 1);
+    if (!Character.isWhitespace(chrBefore) && chrBefore != '.' && chrBefore != '!' && chrBefore != '(' && chrBefore != ',') {
     }
  else {
       boolean isCap=false;
-      for (int scan_idx=next_gl + 3; scan_idx < line.length(); scan_idx++) {
-        char chrCall=line.charAt(scan_idx);
+      for (int scan_idx=next_gl + 3; scan_idx < modifiedLine.length(); scan_idx++) {
+        char chrCall=modifiedLine.charAt(scan_idx);
         if (Character.isLowerCase(chrCall)) {
           isCap=true;
         }
  else         if (!Character.isLetterOrDigit(chrCall) && chrCall != '_') {
           if (isCap) {
-            caps.add(line.substring(next_gl,scan_idx));
+            caps.add(modifiedLine.substring(next_gl,scan_idx));
           }
  else {
+            consts.add(modifiedLine.substring(next_gl,scan_idx));
             modifiedLine=modifiedLine.substring(0,next_gl) + "GL." + modifiedLine.substring(next_gl);
-            consts.add(line.substring(next_gl,scan_idx));
           }
           break;
         }
       }
     }
-    next_gl=line.indexOf("GL_",next_gl + 3);
+    next_gl=modifiedLine.indexOf("GL_",next_gl + 5);
   }
   return modifiedLine;
 }

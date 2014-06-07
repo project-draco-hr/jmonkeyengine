@@ -1,0 +1,20 @@
+{
+  StringBuilder sb=new StringBuilder();
+  sb.append("package jme3tools.autogen;\n");
+  sb.append("\n");
+  sb.append("public final class GLCaps {\n");
+  sb.append("\n");
+  sb.append("\tprivate GLCaps () { }\n");
+  sb.append("\n");
+  for (  String cap : usedCaps) {
+    if (capsSet.contains(cap)) {
+      sb.append("\tpublic boolean ").append(cap).append(";\n");
+    }
+ else {
+      throw new IllegalStateException("Cannot find required cap: " + cap);
+    }
+  }
+  sb.append("\n");
+  sb.append("}\n");
+  return sb.toString();
+}

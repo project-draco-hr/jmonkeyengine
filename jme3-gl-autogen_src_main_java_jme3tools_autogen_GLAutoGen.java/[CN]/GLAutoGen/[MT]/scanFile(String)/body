@@ -1,4 +1,5 @@
 {
+  StringBuilder sb=new StringBuilder();
   FileReader reader=null;
   List<String> methods=new ArrayList<String>();
   List<String> consts=new ArrayList<String>();
@@ -13,14 +14,15 @@
       }
       line=scanMethods(line,methods);
       line=scanConstants(line,consts,caps);
-      System.out.println(line);
+      sb.append(line).append("\n");
     }
     usedMethods.addAll(methods);
     usedConstants.addAll(consts);
     usedCaps.addAll(caps);
+    return sb.toString();
   }
  catch (  IOException ex) {
-    ex.printStackTrace();
+    throw new RuntimeException(ex);
   }
  finally {
     if (reader != null) {

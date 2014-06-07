@@ -6,7 +6,7 @@
       Class<?> type=field.getType();
       Object value=null;
       if (constantMap.containsKey(name)) {
-        throw new UnsupportedOperationException(name + " constant redeclared");
+        continue;
       }
       if (type == int.class) {
         try {
