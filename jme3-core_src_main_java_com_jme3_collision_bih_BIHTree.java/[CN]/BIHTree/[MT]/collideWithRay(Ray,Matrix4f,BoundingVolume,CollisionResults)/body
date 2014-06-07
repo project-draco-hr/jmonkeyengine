@@ -1,25 +1,32 @@
 {
-  boundResults.clear();
-  worldBound.collideWith(r,boundResults);
-  if (boundResults.size() > 0) {
-    float tMin=boundResults.getClosestCollision().getDistance();
-    float tMax=boundResults.getFarthestCollision().getDistance();
-    if (tMax <= 0) {
-      tMax=Float.POSITIVE_INFINITY;
-    }
- else     if (tMin == tMax) {
-      tMin=0;
-    }
-    if (tMin <= 0) {
-      tMin=0;
-    }
-    if (r.getLimit() < Float.POSITIVE_INFINITY) {
-      tMax=Math.min(tMax,r.getLimit());
-      if (tMin > tMax) {
-        return 0;
+  TempVars vars=TempVars.get();
+  try {
+    CollisionResults boundResults=vars.collisionResults;
+    boundResults.clear();
+    worldBound.collideWith(r,boundResults);
+    if (boundResults.size() > 0) {
+      float tMin=boundResults.getClosestCollision().getDistance();
+      float tMax=boundResults.getFarthestCollision().getDistance();
+      if (tMax <= 0) {
+        tMax=Float.POSITIVE_INFINITY;
       }
+ else       if (tMin == tMax) {
+        tMin=0;
+      }
+      if (tMin <= 0) {
+        tMin=0;
+      }
+      if (r.getLimit() < Float.POSITIVE_INFINITY) {
+        tMax=Math.min(tMax,r.getLimit());
+        if (tMin > tMax) {
+          return 0;
+        }
+      }
+      return root.intersectWhere(r,worldMatrix,this,tMin,tMax,results);
     }
-    return root.intersectWhere(r,worldMatrix,this,tMin,tMax,results);
+    return 0;
   }
-  return 0;
+  finally {
+    vars.release();
+  }
 }
