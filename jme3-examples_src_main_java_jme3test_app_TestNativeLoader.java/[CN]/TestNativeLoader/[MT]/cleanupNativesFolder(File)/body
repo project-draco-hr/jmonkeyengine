@@ -1,0 +1,8 @@
+{
+  for (  File file : folder.listFiles()) {
+    String lowerCaseName=file.getName().toLowerCase();
+    if (lowerCaseName.contains("lwjgl") || lowerCaseName.contains("jinput") || lowerCaseName.contains("openal")|| lowerCaseName.contains("bulletjme")) {
+      file.delete();
+    }
+  }
+}

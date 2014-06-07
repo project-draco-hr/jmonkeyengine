@@ -1,0 +1,19 @@
+{
+  NativeLibraryLoader.loadNativeLibrary("openal",true);
+  try {
+    org.lwjgl.openal.AL.create();
+    String renderer=org.lwjgl.openal.AL10.alGetString(org.lwjgl.openal.AL10.AL_RENDERER);
+    String vendor=org.lwjgl.openal.AL10.alGetString(org.lwjgl.openal.AL10.AL_VENDOR);
+    String version=org.lwjgl.openal.AL10.alGetString(org.lwjgl.openal.AL10.AL_VERSION);
+    System.out.println("Succeeded in loading OpenAL.");
+    System.out.println("\tVersion: " + version);
+  }
+ catch (  org.lwjgl.LWJGLException ex) {
+    throw new RuntimeException(ex);
+  }
+ finally {
+    if (org.lwjgl.openal.AL.isCreated()) {
+      org.lwjgl.openal.AL.destroy();
+    }
+  }
+}

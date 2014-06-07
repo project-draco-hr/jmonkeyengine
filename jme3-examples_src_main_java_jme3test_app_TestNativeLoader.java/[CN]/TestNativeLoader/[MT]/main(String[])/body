@@ -1,8 +1,17 @@
 {
-  Logger.getLogger("").getHandlers()[0].setLevel(Level.ALL);
-  Logger.getLogger("").setLevel(Level.ALL);
-  NativeLibraryLoader.loadNativeLibrary("lwjgl",true);
-  NativeLibraryLoader.loadNativeLibrary("jinput",true);
-  NativeLibraryLoader.loadNativeLibrary("openal",true);
-  NativeLibraryLoader.loadNativeLibrary("bulletjme",false);
+  Logger.getLogger("").getHandlers()[0].setLevel(Level.WARNING);
+  Logger.getLogger(NativeLibraryLoader.class.getName()).setLevel(Level.ALL);
+  File customNativesFolder=new File("CustomNativesFolder");
+  customNativesFolder.mkdirs();
+  if (!customNativesFolder.isDirectory()) {
+    throw new IllegalStateException("Failed to make custom natives folder");
+  }
+  cleanupNativesFolder(WORKING_FOLDER);
+  cleanupNativesFolder(customNativesFolder);
+  NativeLibraryLoader.setCustomExtractionFolder(customNativesFolder.getAbsolutePath());
+  tryLoadLwjgl();
+  tryLoadOpenGL();
+  tryLoadOpenAL();
+  tryLoadJinput();
+  tryLoadBulletJme();
 }

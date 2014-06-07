@@ -103,7 +103,15 @@
     }
   }
  finally {
-    System.load(targetFile.getAbsolutePath());
+    if (name.equals("lwjgl")) {
+      System.setProperty("org.lwjgl.librarypath",extactionDirectory.getAbsolutePath());
+    }
+ else     if (name.equals("jinput")) {
+      System.setProperty("net.java.games.input.librarypath",extactionDirectory.getAbsolutePath());
+    }
+ else {
+      System.load(targetFile.getAbsolutePath());
+    }
     if (in != null) {
       try {
         in.close();

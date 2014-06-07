@@ -1,0 +1,17 @@
+{
+  org.lwjgl.opengl.Pbuffer pb=null;
+  try {
+    pb=new org.lwjgl.opengl.Pbuffer(1,1,new org.lwjgl.opengl.PixelFormat(0,0,0),null);
+    pb.makeCurrent();
+    String version=org.lwjgl.opengl.GL11.glGetString(org.lwjgl.opengl.GL11.GL_VERSION);
+    System.out.println("Succeeded in loading OpenGL.\n\tVersion: " + version);
+  }
+ catch (  org.lwjgl.LWJGLException ex) {
+    throw new RuntimeException(ex);
+  }
+ finally {
+    if (pb != null) {
+      pb.destroy();
+    }
+  }
+}

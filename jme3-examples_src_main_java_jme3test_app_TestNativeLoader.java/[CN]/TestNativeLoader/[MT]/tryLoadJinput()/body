@@ -1,0 +1,8 @@
+{
+  NativeLibraryLoader.loadNativeLibrary("jinput",true);
+  net.java.games.input.ControllerEnvironment ce=net.java.games.input.ControllerEnvironment.getDefaultEnvironment();
+  if (ce.isSupported()) {
+    net.java.games.input.Controller[] c=ce.getControllers();
+    System.out.println("Succeeded in loading JInput.\n\tVersion: " + net.java.games.util.Version.getVersion());
+  }
+}
