@@ -1,0 +1,16 @@
+{
+  if (JmeSystem.isLowPermissions()) {
+    return;
+  }
+  if ("LWJGL".equals(settings.getAudioRenderer())) {
+    NativeLibraryLoader.loadNativeLibrary("openal",true);
+  }
+  if (settings.useJoysticks()) {
+    NativeLibraryLoader.loadNativeLibrary("jinput",true);
+    NativeLibraryLoader.loadNativeLibrary("jinput-dx8",true);
+  }
+  if (NativeLibraryLoader.isUsingNativeBullet()) {
+    NativeLibraryLoader.loadNativeLibrary("bulletjme",true);
+  }
+  NativeLibraryLoader.loadNativeLibrary("lwjgl",true);
+}

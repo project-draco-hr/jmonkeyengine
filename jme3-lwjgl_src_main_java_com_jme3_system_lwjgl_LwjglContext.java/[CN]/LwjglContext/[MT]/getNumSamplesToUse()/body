@@ -4,6 +4,7 @@
     samples=settings.getSamples();
     int supportedSamples=determineMaxSamples(samples);
     if (supportedSamples < samples) {
+      logger.log(Level.WARNING,"Couldn''t satisfy antialiasing samples requirement: x{0}. " + "Video hardware only supports: x{1}",new Object[]{samples,supportedSamples});
       samples=supportedSamples;
     }
   }
