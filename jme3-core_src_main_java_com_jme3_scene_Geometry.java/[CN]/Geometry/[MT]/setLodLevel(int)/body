@@ -6,4 +6,7 @@
     throw new IllegalArgumentException("LOD level is out of range: " + lod);
   }
   lodLevel=lod;
+  if (isGrouped()) {
+    groupNode.onMeshChange(this);
+  }
 }

@@ -2,7 +2,7 @@
   if (n instanceof Geometry) {
     if (!isBatch(n) && n.getBatchHint() != BatchHint.Never) {
       Geometry g=(Geometry)n;
-      if (!g.isBatched() || rebatch) {
+      if (!g.isGrouped() || rebatch) {
         if (g.getMaterial() == null) {
           throw new IllegalStateException("No material is set for Geometry: " + g.getName() + " please set a material before batching");
         }

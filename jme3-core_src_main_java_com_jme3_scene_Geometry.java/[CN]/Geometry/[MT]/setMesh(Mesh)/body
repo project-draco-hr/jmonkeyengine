@@ -2,9 +2,9 @@
   if (mesh == null) {
     throw new IllegalArgumentException();
   }
-  if (isBatched()) {
-    throw new UnsupportedOperationException("Cannot set the mesh of a batched geometry");
-  }
   this.mesh=mesh;
   setBoundRefresh();
+  if (isGrouped()) {
+    groupNode.onMeshChange(this);
+  }
 }

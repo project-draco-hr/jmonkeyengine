@@ -1,0 +1,7 @@
+{
+  if (isGrouped()) {
+    setLastFrustumIntersection(Camera.FrustumIntersect.Outside);
+    return false;
+  }
+  return super.checkCulling(cam);
+}

@@ -6,8 +6,8 @@
   }
  else   if (s instanceof Geometry) {
     Geometry g=(Geometry)s;
-    if (g.isBatched()) {
-      g.unBatch();
+    if (g.isGrouped()) {
+      g.unassociateFromGroupNode();
     }
   }
 }
