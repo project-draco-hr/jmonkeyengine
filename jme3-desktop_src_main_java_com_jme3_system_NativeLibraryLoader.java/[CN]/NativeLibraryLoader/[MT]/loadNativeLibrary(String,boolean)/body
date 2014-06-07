@@ -45,14 +45,16 @@
   }
   String loadedAsFileName;
   if (library.isJNI()) {
-    String nameWithArch;
-    if (platform.is64Bit()) {
-      nameWithArch=name + "64";
+    String fileNameInJarWithoutExtension=fileNameInJar.substring(0,fileNameInJar.lastIndexOf("."));
+    String systemJniExtension;
+    String dummyLib=System.mapLibraryName("");
+    if (dummyLib.contains(".")) {
+      systemJniExtension=dummyLib.substring(dummyLib.lastIndexOf("."));
     }
  else {
-      nameWithArch=name;
+      systemJniExtension="";
     }
-    loadedAsFileName=System.mapLibraryName(nameWithArch);
+    loadedAsFileName=fileNameInJarWithoutExtension + systemJniExtension;
   }
  else {
     loadedAsFileName=fileNameInJar;
