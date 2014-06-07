@@ -1,0 +1,25 @@
+{
+  List<BlenderAction> actions=this.getActions(node,animationMatchMethod);
+  if (actions.size() > 0) {
+    List<Animation> animations=new ArrayList<Animation>();
+    for (    BlenderAction action : actions) {
+      SpatialTrack[] tracks=action.toTracks(node);
+      if (tracks != null && tracks.length > 0) {
+        Animation spatialAnimation=new Animation(action.getName(),action.getAnimationTime());
+        spatialAnimation.setTracks(tracks);
+        animations.add(spatialAnimation);
+        blenderContext.addAnimation((Long)node.getUserData(ObjectHelper.OMA_MARKER),spatialAnimation);
+      }
+    }
+    if (animations.size() > 0) {
+      AnimControl control=new AnimControl();
+      HashMap<String,Animation> anims=new HashMap<String,Animation>(animations.size());
+      for (int i=0; i < animations.size(); ++i) {
+        Animation animation=animations.get(i);
+        anims.put(animation.getName(),animation);
+      }
+      control.setAnimations(anims);
+      node.addControl(control);
+    }
+  }
+}

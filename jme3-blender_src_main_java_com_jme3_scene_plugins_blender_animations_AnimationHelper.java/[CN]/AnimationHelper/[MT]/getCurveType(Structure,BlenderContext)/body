@@ -19,6 +19,6 @@
   if (rnaPath.endsWith("rotation") || rnaPath.endsWith("rotation_euler")) {
     return Ipo.OB_ROT_X + arrayIndex;
   }
-  LOGGER.warning("Unknown curve rna path: " + rnaPath);
+  LOGGER.log(Level.WARNING,"Unknown curve rna path: {0}",rnaPath);
   return -1;
 }

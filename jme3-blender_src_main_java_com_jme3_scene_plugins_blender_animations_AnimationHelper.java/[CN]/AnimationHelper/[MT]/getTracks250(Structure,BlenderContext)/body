@@ -2,7 +2,7 @@
   LOGGER.log(Level.FINE,"Getting tracks!");
   Structure groups=(Structure)actionStructure.getFieldValue("groups");
   List<Structure> actionGroups=groups.evaluateListBase();
-  BlenderAction blenderAction=new BlenderAction(blenderContext.getBlenderKey().getFps());
+  BlenderAction blenderAction=new BlenderAction(actionStructure.getName(),blenderContext.getBlenderKey().getFps());
   int lastFrame=1;
   for (  Structure actionGroup : actionGroups) {
     String name=actionGroup.getFieldValue("name").toString();

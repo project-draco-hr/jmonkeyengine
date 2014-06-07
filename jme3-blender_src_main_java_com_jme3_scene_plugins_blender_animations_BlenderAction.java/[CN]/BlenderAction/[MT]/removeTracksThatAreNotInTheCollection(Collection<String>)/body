@@ -1,0 +1,9 @@
+{
+  Map<String,Ipo> newTracks=new HashMap<String,Ipo>();
+  for (  String trackName : trackNames) {
+    if (featuresTracks.containsKey(trackName)) {
+      newTracks.put(trackName,featuresTracks.get(trackName));
+    }
+  }
+  featuresTracks=newTracks;
+}

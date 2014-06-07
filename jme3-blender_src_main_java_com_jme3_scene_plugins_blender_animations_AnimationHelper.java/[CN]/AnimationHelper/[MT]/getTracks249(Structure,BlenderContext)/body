@@ -2,7 +2,7 @@
   LOGGER.log(Level.FINE,"Getting tracks!");
   Structure chanbase=(Structure)actionStructure.getFieldValue("chanbase");
   List<Structure> actionChannels=chanbase.evaluateListBase();
-  BlenderAction blenderAction=new BlenderAction(blenderContext.getBlenderKey().getFps());
+  BlenderAction blenderAction=new BlenderAction(actionStructure.getName(),blenderContext.getBlenderKey().getFps());
   int lastFrame=1;
   for (  Structure bActionChannel : actionChannels) {
     String animatedFeatureName=bActionChannel.getFieldValue("name").toString();

@@ -1,0 +1,9 @@
+{
+  List<BlenderAction> result=new ArrayList<BlenderAction>();
+  for (  Entry<String,BlenderAction> actionEntry : blenderContext.getActions().entrySet()) {
+    if (actionEntry.getValue().hasTrackName(node.getName())) {
+      result.add(actionEntry.getValue());
+    }
+  }
+  return result;
+}

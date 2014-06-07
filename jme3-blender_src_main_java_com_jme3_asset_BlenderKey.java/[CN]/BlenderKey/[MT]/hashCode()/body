@@ -1,6 +1,7 @@
 {
   final int prime=31;
   int result=super.hashCode();
+  result=prime * result + (animationMatchMethod == null ? 0 : animationMatchMethod.hashCode());
   result=prime * result + (assetRootPath == null ? 0 : assetRootPath.hashCode());
   result=prime * result + (defaultMaterial == null ? 0 : defaultMaterial.hashCode());
   result=prime * result + (faceCullMode == null ? 0 : faceCullMode.hashCode());
@@ -14,9 +15,7 @@
   result=prime * result + (loadUnlinkedAssets ? 1231 : 1237);
   result=prime * result + maxTextureSize;
   result=prime * result + (mipmapGenerationMethod == null ? 0 : mipmapGenerationMethod.hashCode());
-  result=prime * result + (nodeAnimationMap == null ? 0 : nodeAnimationMap.hashCode());
   result=prime * result + (optimiseTextures ? 1231 : 1237);
-  result=prime * result + (skeletonAnimationMap == null ? 0 : skeletonAnimationMap.hashCode());
   result=prime * result + Float.floatToIntBits(skyGeneratedTextureRadius);
   result=prime * result + (skyGeneratedTextureShape == null ? 0 : skyGeneratedTextureShape.hashCode());
   result=prime * result + skyGeneratedTextureSize;

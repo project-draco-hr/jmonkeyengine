@@ -5,7 +5,7 @@
     for (    FileBlockHeader header : actionHeaders) {
       Structure actionStructure=header.getStructure(blenderContext);
       LOGGER.log(Level.INFO,"Found animation: {0}.",actionStructure.getName());
-      actions.put(actionStructure.getName(),this.getTracks(actionStructure,blenderContext));
+      blenderContext.addAction(this.getTracks(actionStructure,blenderContext));
     }
   }
 }

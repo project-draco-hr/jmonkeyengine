@@ -1,11 +1,11 @@
 {
-  if (this == obj) {
-    return true;
-  }
-  if (!(obj instanceof BlenderKey)) {
+  if (obj instanceof BlenderKey) {
     return false;
   }
   BlenderKey other=(BlenderKey)obj;
+  if (animationMatchMethod != other.animationMatchMethod) {
+    return false;
+  }
   if (assetRootPath == null) {
     if (other.assetRootPath != null) {
       return false;
@@ -55,23 +55,7 @@
   if (mipmapGenerationMethod != other.mipmapGenerationMethod) {
     return false;
   }
-  if (nodeAnimationMap == null) {
-    if (other.nodeAnimationMap != null) {
-      return false;
-    }
-  }
- else   if (!nodeAnimationMap.equals(other.nodeAnimationMap)) {
-    return false;
-  }
   if (optimiseTextures != other.optimiseTextures) {
-    return false;
-  }
-  if (skeletonAnimationMap == null) {
-    if (other.skeletonAnimationMap != null) {
-      return false;
-    }
-  }
- else   if (!skeletonAnimationMap.equals(other.skeletonAnimationMap)) {
     return false;
   }
   if (Float.floatToIntBits(skyGeneratedTextureRadius) != Float.floatToIntBits(other.skyGeneratedTextureRadius)) {

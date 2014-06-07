@@ -1,0 +1,34 @@
+{
+  List<BlenderAction> result=new ArrayList<BlenderAction>();
+  Set<String> boneNames=new HashSet<String>();
+  for (int i=0; i < skeleton.getBoneCount(); ++i) {
+    String boneName=skeleton.getBone(i).getName();
+    if (boneName != null && boneName.length() > 0) {
+      boneNames.add(skeleton.getBone(i).getName());
+    }
+  }
+  Set<String> matchingNames=new HashSet<String>();
+  for (  Entry<String,BlenderAction> actionEntry : blenderContext.getActions().entrySet()) {
+    for (    String boneName : boneNames) {
+      if (actionEntry.getValue().hasTrackName(boneName)) {
+        matchingNames.add(boneName);
+      }
+    }
+    BlenderAction action=null;
+    if (animationMatchMethod == AnimationMatchMethod.AT_LEAST_ONE_NAME_MATCH && matchingNames.size() > 0) {
+      action=actionEntry.getValue();
+    }
+ else     if (matchingNames.size() == actionEntry.getValue().getTracksCount()) {
+      action=actionEntry.getValue();
+    }
+    if (action != null) {
+      if (animationMatchMethod != AnimationMatchMethod.ALL_NAMES_MATCH) {
+        action=action.clone();
+        action.removeTracksThatAreNotInTheCollection(matchingNames);
+      }
+      result.add(action);
+    }
+    matchingNames.clear();
+  }
+  return result;
+}

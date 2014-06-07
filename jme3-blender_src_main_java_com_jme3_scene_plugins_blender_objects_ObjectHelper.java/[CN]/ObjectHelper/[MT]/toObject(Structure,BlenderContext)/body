@@ -124,7 +124,7 @@ modifier.apply(result,blenderContext);
 result.updateModelBound();
 LOGGER.fine("Applying animations to the object if such are defined.");
 AnimationHelper animationHelper=blenderContext.getHelper(AnimationHelper.class);
-animationHelper.applyAnimations(result,blenderContext.getBlenderKey().getNodeAnimationNames(name));
+animationHelper.applyAnimations(result,blenderContext.getBlenderKey().getAnimationMatchMethod());
 LOGGER.fine("Loading constraints connected with this object.");
 ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
 constraintHelper.loadConstraints(objectStructure,blenderContext);
