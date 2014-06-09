@@ -1,5 +1,10 @@
 {
   if (audioThread.isAlive()) {
     audioThread.interrupt();
+    try {
+      audioThread.join();
+    }
+ catch (    InterruptedException ex) {
+    }
   }
 }
