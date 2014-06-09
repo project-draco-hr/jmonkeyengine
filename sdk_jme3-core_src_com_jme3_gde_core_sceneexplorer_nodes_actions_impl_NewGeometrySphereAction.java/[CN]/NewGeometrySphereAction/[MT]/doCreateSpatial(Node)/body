@@ -1,10 +1,5 @@
 {
-  NewGeometrySettings cfg=new NewGeometrySettings();
-  Sphere b=new Sphere(cfg.getSphereZSamples(),cfg.getSpherRadialSamples(),cfg.getSphereRadius(),cfg.getSphereUseEvenSlices(),cfg.getSphereInterior());
-  Geometry geom=new Geometry("Sphere",b);
-  Material mat=new Material(pm,"Common/MatDefs/Misc/Unshaded.j3md");
-  mat.setColor("Color",ColorRGBA.randomColor());
-  geom.setMaterial(mat);
+  Geometry geom=NewGeometry.sphere(pm);
   parent.attachChild(geom);
   return geom;
 }
