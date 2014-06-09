@@ -1,0 +1,8 @@
+{
+  NewGeometrySettings cfg=new NewGeometrySettings();
+  Box b=new Box(cfg.getBoxX(),cfg.getBoxY(),cfg.getBoxZ());
+  b.setMode(cfg.getBoxMode());
+  Geometry geom=new Geometry(cfg.getBoxName(),b);
+  geom.setMaterial(material(assetManager,cfg));
+  return geom;
+}
