@@ -1,5 +1,12 @@
 {
-  Geometry geom=box(pm);
+  NewGeometrySettings cfg=new NewGeometrySettings();
+  Box b=new Box(cfg.getBoxX(),cfg.getBoxY(),cfg.getBoxZ());
+  b.setMode(cfg.getBoxMode());
+  Geometry geom=new Geometry(cfg.getBoxName(),b);
+  Material mat=new Material(pm,"Common/MatDefs/Misc/Unshaded.j3md");
+  ColorRGBA c=cfg.getMatRandom() ? ColorRGBA.randomColor() : cfg.getMatColor();
+  mat.setColor("Color",c);
+  geom.setMaterial(mat);
   parent.attachChild(geom);
   return geom;
 }

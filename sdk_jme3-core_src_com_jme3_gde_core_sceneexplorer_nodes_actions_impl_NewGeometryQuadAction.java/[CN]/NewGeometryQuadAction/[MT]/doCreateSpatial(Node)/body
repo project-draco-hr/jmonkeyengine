@@ -1,5 +1,28 @@
 {
-  Geometry geom=quad(pm);
-  parent.attachChild(geom);
-  return geom;
+  NewGeometrySettings cfg=new NewGeometrySettings();
+  Quad b=new Quad(cfg.getQuadWidth(),cfg.getQuadHeight(),cfg.getQuadFlipCoords());
+  b.setMode(cfg.getQuadMode());
+  Geometry geom=new Geometry(cfg.getQuadName(),b);
+switch (cfg.getQuadPlan()) {
+case XZ:
+{
+      Quaternion q=new Quaternion();
+      q.fromAngles((float)Math.PI / -2f,0.0f,0.0f);
+      geom.setLocalRotation(q);
+      break;
+    }
+case YZ:
+{
+    Quaternion q=new Quaternion();
+    q.fromAngles(0.0f,(float)Math.PI / -2f,0.0f);
+    geom.setLocalRotation(q);
+    break;
+  }
+}
+Material mat=new Material(pm,"Common/MatDefs/Misc/Unshaded.j3md");
+ColorRGBA c=cfg.getMatRandom() ? ColorRGBA.randomColor() : cfg.getMatColor();
+mat.setColor("Color",c);
+geom.setMaterial(mat);
+parent.attachChild(geom);
+return geom;
 }

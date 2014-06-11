@@ -1,8 +1,0 @@
-{
-  NewGeometrySettings cfg=new NewGeometrySettings();
-  Sphere b=new Sphere(cfg.getSphereZSamples(),cfg.getSpherRadialSamples(),cfg.getSphereRadius(),cfg.getSphereUseEvenSlices(),cfg.getSphereInterior());
-  b.setMode(cfg.getSphereMode());
-  Geometry geom=new Geometry(cfg.getSphereName(),b);
-  geom.setMaterial(material(assetManager,cfg));
-  return geom;
-}
