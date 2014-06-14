@@ -10,4 +10,12 @@
   children.setAnimation(this);
   children.setAnimControl(jmeControl);
   icon=IconList.animation.getImage();
+  addNodeListener(new NodeAdapter(){
+    @Override public void propertyChange(    PropertyChangeEvent evt){
+      if (evt.getPropertyName().equalsIgnoreCase("name")) {
+        doRenameAnimation((String)evt.getOldValue(),(String)evt.getNewValue());
+      }
+    }
+  }
+);
 }

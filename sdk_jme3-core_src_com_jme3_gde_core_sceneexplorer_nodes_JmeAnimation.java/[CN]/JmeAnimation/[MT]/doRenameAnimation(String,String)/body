@@ -1,0 +1,25 @@
+{
+  final AnimControl control=jmeControl.getLookup().lookup(AnimControl.class);
+  try {
+    lookupContents.remove(JmeAnimation.this.animation);
+    JmeAnimation.this.animation=SceneApplication.getApplication().enqueue(new Callable<Animation>(){
+      public Animation call() throws Exception {
+        Animation anim=control.getAnim(oldName);
+        Animation newAnim=new Animation(newName,anim.getLength());
+        newAnim.setTracks(anim.getTracks());
+        control.removeAnim(anim);
+        control.addAnim(newAnim);
+        return newAnim;
+      }
+    }
+).get();
+    lookupContents.add(JmeAnimation.this.animation);
+    setChanged();
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

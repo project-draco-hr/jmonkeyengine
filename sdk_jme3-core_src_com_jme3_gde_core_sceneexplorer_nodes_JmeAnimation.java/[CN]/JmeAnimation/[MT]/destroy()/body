@@ -1,2 +1,23 @@
 {
+  super.destroy();
+  final AnimControl control=jmeControl.getLookup().lookup(AnimControl.class);
+  try {
+    lookupContents.remove(JmeAnimation.this.animation);
+    lookupContents.remove(this);
+    SceneApplication.getApplication().enqueue(new Callable<Void>(){
+      public Void call() throws Exception {
+        control.removeAnim(JmeAnimation.this.animation);
+        return null;
+      }
+    }
+).get();
+    jmeControl.refreshChildren();
+    setChanged();
+  }
+ catch (  InterruptedException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ExecutionException ex) {
+    Exceptions.printStackTrace(ex);
+  }
 }
