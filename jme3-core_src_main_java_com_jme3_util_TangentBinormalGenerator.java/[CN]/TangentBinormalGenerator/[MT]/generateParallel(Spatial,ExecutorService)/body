@@ -1,0 +1,32 @@
+{
+  final Set<Mesh> meshes=new HashSet<Mesh>();
+  scene.breadthFirstTraversal(new SceneGraphVisitor(){
+    @Override public void visit(    Spatial spatial){
+      if (spatial instanceof Geometry) {
+        Geometry geom=(Geometry)spatial;
+        Mesh mesh=geom.getMesh();
+        if (mesh.getBuffer(Type.TexCoord) != null && mesh.getBuffer(Type.Normal) != null) {
+          meshes.add(mesh);
+        }
+      }
+    }
+  }
+);
+  List<Future<?>> futures=new ArrayList<Future<?>>();
+  for (  final Mesh m : meshes) {
+    futures.add(executor.submit(new Runnable(){
+      @Override public void run(){
+        generate(m,true,false);
+      }
+    }
+));
+  }
+  for (  Future<?> f : futures) {
+    try {
+      f.get();
+    }
+ catch (    Exception exc) {
+      log.log(Level.WARNING,"Error while computing tangents",exc);
+    }
+  }
+}
