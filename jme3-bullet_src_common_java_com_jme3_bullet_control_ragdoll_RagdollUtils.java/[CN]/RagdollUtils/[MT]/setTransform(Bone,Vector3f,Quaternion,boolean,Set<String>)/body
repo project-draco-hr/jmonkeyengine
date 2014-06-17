@@ -2,7 +2,7 @@
   if (restoreBoneControl) {
     bone.setUserControl(true);
   }
-  bone.setUserTransformsWorld(pos,rot);
+  bone.setUserTransformsInModelSpace(pos,rot);
   for (  Bone childBone : bone.getChildren()) {
     if (!boneList.contains(childBone.getName())) {
       Transform t=childBone.getCombinedTransform(pos,rot);

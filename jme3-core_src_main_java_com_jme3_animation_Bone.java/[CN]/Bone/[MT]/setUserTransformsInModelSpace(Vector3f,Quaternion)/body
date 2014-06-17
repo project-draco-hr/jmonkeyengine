@@ -1,0 +1,11 @@
+{
+  if (!userControl) {
+    throw new IllegalStateException("You must call setUserControl(true) in order to setUserTransformsInModelSpace to work");
+  }
+  modelPos.set(translation);
+  modelRot.set(rotation);
+  if (attachNode != null) {
+    attachNode.setLocalTranslation(translation);
+    attachNode.setLocalRotation(rotation);
+  }
+}

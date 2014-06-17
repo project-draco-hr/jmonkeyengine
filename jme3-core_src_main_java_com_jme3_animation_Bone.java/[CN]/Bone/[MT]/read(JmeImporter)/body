@@ -1,12 +1,21 @@
 {
   InputCapsule input=im.getCapsule(this);
   name=input.readString("name",null);
-  initialPos=(Vector3f)input.readSavable("initialPos",null);
-  initialRot=(Quaternion)input.readSavable("initialRot",null);
-  initialScale=(Vector3f)input.readSavable("initialScale",new Vector3f(1.0f,1.0f,1.0f));
+  int ver=input.getSavableVersion(Bone.class);
+  if (ver < 2) {
+    bindPos=(Vector3f)input.readSavable("initialPos",null);
+    bindRot=(Quaternion)input.readSavable("initialRot",null);
+    bindScale=(Vector3f)input.readSavable("initialScale",new Vector3f(1.0f,1.0f,1.0f));
+  }
+ else {
+    bindPos=(Vector3f)input.readSavable("bindPos",null);
+    bindRot=(Quaternion)input.readSavable("bindRot",null);
+    bindScale=(Vector3f)input.readSavable("bindScale",new Vector3f(1.0f,1.0f,1.0f));
+  }
   attachNode=(Node)input.readSavable("attachNode",null);
-  localPos.set(initialPos);
-  localRot.set(initialRot);
+  localPos.set(bindPos);
+  localRot.set(bindRot);
+  localScale.set(bindScale);
   ArrayList<Bone> childList=input.readSavableArrayList("children",null);
   for (int i=childList.size() - 1; i >= 0; i--) {
     this.addChild(childList.get(i));

@@ -2,9 +2,9 @@
   if (userControl) {
     return;
   }
-  localPos.set(initialPos).addLocal(translation);
-  localRot.set(initialRot).multLocal(rotation);
+  localPos.set(bindPos).addLocal(translation);
+  localRot.set(bindRot).multLocal(rotation);
   if (scale != null) {
-    localScale.set(initialScale).multLocal(scale);
+    localScale.set(bindScale).multLocal(scale);
   }
 }

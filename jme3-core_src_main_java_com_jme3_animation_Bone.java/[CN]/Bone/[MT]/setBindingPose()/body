@@ -1,18 +1,18 @@
 {
-  initialPos.set(localPos);
-  initialRot.set(localRot);
-  initialScale.set(localScale);
-  if (worldBindInversePos == null) {
-    worldBindInversePos=new Vector3f();
-    worldBindInverseRot=new Quaternion();
-    worldBindInverseScale=new Vector3f();
+  bindPos.set(localPos);
+  bindRot.set(localRot);
+  bindScale.set(localScale);
+  if (modelBindInversePos == null) {
+    modelBindInversePos=new Vector3f();
+    modelBindInverseRot=new Quaternion();
+    modelBindInverseScale=new Vector3f();
   }
-  worldBindInversePos.set(worldPos);
-  worldBindInversePos.negateLocal();
-  worldBindInverseRot.set(worldRot);
-  worldBindInverseRot.inverseLocal();
-  worldBindInverseScale.set(Vector3f.UNIT_XYZ);
-  worldBindInverseScale.divideLocal(worldScale);
+  modelBindInversePos.set(modelPos);
+  modelBindInversePos.negateLocal();
+  modelBindInverseRot.set(modelRot);
+  modelBindInverseRot.inverseLocal();
+  modelBindInverseScale.set(Vector3f.UNIT_XYZ);
+  modelBindInverseScale.divideLocal(modelScale);
   for (  Bone b : children) {
     b.setBindingPose();
   }

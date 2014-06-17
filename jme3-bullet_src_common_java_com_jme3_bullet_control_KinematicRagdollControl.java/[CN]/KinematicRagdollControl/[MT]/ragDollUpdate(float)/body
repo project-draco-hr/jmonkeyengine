@@ -11,16 +11,16 @@
     tmpRot2.set(targetModel.getWorldRotation()).inverseLocal().mult(tmpRot1,tmpRot1);
     tmpRot1.normalizeLocal();
     if (link.bone.getParent() == null) {
-      modelPosition.set(p).subtractLocal(link.bone.getWorldBindPosition());
+      modelPosition.set(p).subtractLocal(link.bone.getBindPosition());
       targetModel.getParent().getWorldTransform().transformInverseVector(modelPosition,modelPosition);
-      modelRotation.set(q).multLocal(tmpRot2.set(link.bone.getWorldBindRotation()).inverseLocal());
+      modelRotation.set(q).multLocal(tmpRot2.set(link.bone.getBindRotation()).inverseLocal());
       targetModel.setLocalTranslation(modelPosition);
       targetModel.setLocalRotation(modelRotation);
-      link.bone.setUserTransformsWorld(position,tmpRot1);
+      link.bone.setUserTransformsInModelSpace(position,tmpRot1);
     }
  else {
       if (boneList.isEmpty()) {
-        link.bone.setUserTransformsWorld(position,tmpRot1);
+        link.bone.setUserTransformsInModelSpace(position,tmpRot1);
       }
  else {
         RagdollUtils.setTransform(link.bone,position,tmpRot1,false,boneList);

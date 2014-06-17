@@ -1,7 +1,7 @@
 {
-  Vector3f scale=worldScale.mult(worldBindInverseScale,tmp3);
-  Quaternion rotate=worldRot.mult(worldBindInverseRot,tmp1);
-  Vector3f translate=worldPos.add(rotate.mult(scale.mult(worldBindInversePos,tmp2),tmp2),tmp2);
+  Vector3f scale=modelScale.mult(modelBindInverseScale,tmp3);
+  Quaternion rotate=modelRot.mult(modelBindInverseRot,tmp1);
+  Vector3f translate=modelPos.add(rotate.mult(scale.mult(modelBindInversePos,tmp2),tmp2),tmp2);
   outTransform.loadIdentity();
   outTransform.setTransform(translate,scale,rotate.toRotationMatrix(tmp4));
 }

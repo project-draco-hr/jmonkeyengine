@@ -1,11 +1,11 @@
 {
   if (!userControl) {
-    throw new IllegalStateException("User control must be on bone to allow user transforms");
+    throw new IllegalStateException("You must call setUserControl(true) in order to setUserTransform to work");
   }
-  localPos.set(initialPos);
-  localRot.set(initialRot);
-  localScale.set(initialScale);
+  localPos.set(bindPos);
+  localRot.set(bindRot);
+  localScale.set(bindScale);
   localPos.addLocal(translation);
-  localRot=localRot.mult(rotation);
+  localRot.multLocal(rotation);
   localScale.multLocal(scale);
 }

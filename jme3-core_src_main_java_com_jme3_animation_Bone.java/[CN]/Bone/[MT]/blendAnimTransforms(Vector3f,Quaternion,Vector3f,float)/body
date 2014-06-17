@@ -9,10 +9,10 @@
     return;
   }
  else   if (currentWeightSum == -1 || currentWeightSum == 0) {
-    localPos.set(initialPos).addLocal(translation);
-    localRot.set(initialRot).multLocal(rotation);
+    localPos.set(bindPos).addLocal(translation);
+    localRot.set(bindRot).multLocal(rotation);
     if (scale != null) {
-      localScale.set(initialScale).multLocal(scale);
+      localScale.set(bindScale).multLocal(scale);
     }
     currentWeightSum=weight;
   }
@@ -21,12 +21,12 @@
     Vector3f tmpV=vars.vect1;
     Vector3f tmpV2=vars.vect2;
     Quaternion tmpQ=vars.quat1;
-    tmpV.set(initialPos).addLocal(translation);
+    tmpV.set(bindPos).addLocal(translation);
     localPos.interpolateLocal(tmpV,weight);
-    tmpQ.set(initialRot).multLocal(rotation);
+    tmpQ.set(bindRot).multLocal(rotation);
     localRot.nlerp(tmpQ,weight);
     if (scale != null) {
-      tmpV2.set(initialScale).multLocal(scale);
+      tmpV2.set(bindScale).multLocal(scale);
       localScale.interpolateLocal(tmpV2,weight);
     }
     currentWeightSum=1;

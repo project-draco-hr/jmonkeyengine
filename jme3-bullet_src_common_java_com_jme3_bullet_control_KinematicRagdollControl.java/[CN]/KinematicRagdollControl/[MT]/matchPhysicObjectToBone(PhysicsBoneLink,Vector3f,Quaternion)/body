@@ -1,6 +1,6 @@
 {
   targetModel.getWorldTransform().transformVector(link.bone.getModelSpacePosition(),position);
-  tmpRot1.set(link.bone.getModelSpaceRotation()).multLocal(link.bone.getWorldBindInverseRotation());
+  tmpRot1.set(link.bone.getModelSpaceRotation()).multLocal(link.bone.getModelBindInverseRotation());
   targetModel.getWorldRotation().mult(tmpRot1,tmpRot1);
   tmpRot1.normalizeLocal();
   link.rigidBody.setPhysicsLocation(position);
