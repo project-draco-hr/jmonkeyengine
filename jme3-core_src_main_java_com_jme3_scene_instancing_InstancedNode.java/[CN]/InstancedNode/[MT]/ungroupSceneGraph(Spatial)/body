@@ -1,0 +1,16 @@
+{
+  if (s instanceof Node) {
+    for (    Spatial sp : ((Node)s).getChildren()) {
+      ungroupSceneGraph(sp);
+    }
+  }
+ else   if (s instanceof Geometry) {
+    Geometry g=(Geometry)s;
+    if (g.isGrouped()) {
+      g.unassociateFromGroupNode();
+      if (InstancedNode.getGeometryStartIndex(g) != -1) {
+        throw new AssertionError();
+      }
+    }
+  }
+}

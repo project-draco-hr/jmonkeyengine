@@ -1,0 +1,9 @@
+{
+  InstancedGeometry oldIG=igByGeom.get(geom);
+  InstancedGeometry newIG=lookUpByGeometry(geom);
+  if (oldIG != newIG) {
+    oldIG.deleteInstance(geom);
+    newIG.addInstance(geom);
+    igByGeom.put(geom,newIG);
+  }
+}

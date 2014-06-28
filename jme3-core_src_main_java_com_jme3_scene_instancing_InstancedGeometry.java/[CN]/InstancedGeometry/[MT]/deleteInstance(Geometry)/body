@@ -1,0 +1,17 @@
+{
+  int idx=InstancedNode.getGeometryStartIndex2(geom);
+  InstancedNode.setGeometryStartIndex2(geom,-1);
+  geometries[idx]=null;
+  if (idx == firstUnusedIndex - 1) {
+    firstUnusedIndex--;
+    while (geometries[firstUnusedIndex] == null) {
+      firstUnusedIndex--;
+      if (firstUnusedIndex < 0) {
+        break;
+      }
+    }
+    firstUnusedIndex++;
+  }
+ else {
+  }
+}

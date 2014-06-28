@@ -1,0 +1,19 @@
+{
+  if (n instanceof Geometry) {
+    Geometry g=(Geometry)n;
+    if (!g.isGrouped() && g.getBatchHint() != BatchHint.Never) {
+      InstancedGeometry ig=lookUpByGeometry(g);
+      igByGeom.put(g,ig);
+      g.associateWithGroupNode(this,0);
+      ig.addInstance(g);
+    }
+  }
+ else   if (n instanceof Node) {
+    for (    Spatial child : ((Node)n).getChildren()) {
+      if (child instanceof GeometryGroupNode) {
+        continue;
+      }
+      instance(child);
+    }
+  }
+}

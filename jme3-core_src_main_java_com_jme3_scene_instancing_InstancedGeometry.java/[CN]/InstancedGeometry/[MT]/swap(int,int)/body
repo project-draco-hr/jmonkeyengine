@@ -1,0 +1,11 @@
+{
+  Geometry g=geometries[idx1];
+  geometries[idx1]=geometries[idx2];
+  geometries[idx2]=g;
+  if (geometries[idx1] != null) {
+    InstancedNode.setGeometryStartIndex2(geometries[idx1],idx1);
+  }
+  if (geometries[idx2] != null) {
+    InstancedNode.setGeometryStartIndex2(geometries[idx2],idx2);
+  }
+}

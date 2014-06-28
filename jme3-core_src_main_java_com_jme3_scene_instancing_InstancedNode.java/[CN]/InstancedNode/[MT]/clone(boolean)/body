@@ -1,0 +1,14 @@
+{
+  InstancedNode clone=(InstancedNode)super.clone(cloneMaterials);
+  if (instancesMap.size() > 0) {
+    for (int i=0; i < clone.children.size(); i++) {
+      if (clone.children.get(i) instanceof InstancedGeometry) {
+        clone.children.remove(i);
+      }
+    }
+    clone.igByGeom.clear();
+    clone.instancesMap.clear();
+    clone.instance();
+  }
+  return clone;
+}

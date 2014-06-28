@@ -1,20 +1,19 @@
 {
-  if (mode == Mode.Manual) {
-    throw new IllegalStateException("Not allowed in manual mode");
-  }
   if (maxNumInstances < 1) {
     throw new IllegalArgumentException("maxNumInstances must be 1 or higher");
   }
-  this.worldMatrices=new Matrix4f[maxNumInstances];
-  if (currentNumInstances > maxNumInstances) {
-    currentNumInstances=maxNumInstances;
+  Geometry[] originalGeometries=geometries;
+  this.geometries=new Geometry[maxNumInstances];
+  if (originalGeometries != null) {
+    System.arraycopy(originalGeometries,0,geometries,0,originalGeometries.length);
   }
-  for (  VertexBuffer instanceDataVB : instanceDataPerCam.values()) {
-    FloatBuffer instanceData=(FloatBuffer)instanceDataVB.getData();
-    if (instanceData.capacity() / INSTANCE_SIZE != worldMatrices.length) {
-      BufferUtils.destroyDirectBuffer(instanceData);
-      instanceData=BufferUtils.createFloatBuffer(worldMatrices.length * INSTANCE_SIZE);
-      instanceDataVB.updateData(instanceData);
-    }
+  if (transformInstanceData != null) {
+    BufferUtils.destroyDirectBuffer(transformInstanceData.getData());
+    transformInstanceData.updateData(BufferUtils.createFloatBuffer(geometries.length * INSTANCE_SIZE));
+  }
+ else   if (transformInstanceData == null) {
+    transformInstanceData=new VertexBuffer(Type.InstanceData);
+    transformInstanceData.setInstanced(true);
+    transformInstanceData.setupData(Usage.Stream,INSTANCE_SIZE,Format.Float,BufferUtils.createFloatBuffer(geometries.length * INSTANCE_SIZE));
   }
 }

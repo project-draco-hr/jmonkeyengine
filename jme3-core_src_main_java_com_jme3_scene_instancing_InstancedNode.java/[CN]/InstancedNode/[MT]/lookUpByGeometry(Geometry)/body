@@ -1,0 +1,16 @@
+{
+  lookUp.mesh=geom.getMesh();
+  lookUp.material=geom.getMaterial();
+  lookUp.lodLevel=geom.getLodLevel();
+  InstancedGeometry ig=instancesMap.get(lookUp);
+  if (ig == null) {
+    ig=new InstancedGeometry("material-" + lookUp.material.getMaterialDef().getName() + ","+ "lod-"+ lookUp.lodLevel);
+    ig.setMaterial(lookUp.material);
+    ig.setMesh(lookUp.mesh);
+    ig.setUserData(UserData.JME_PHYSICSIGNORE,true);
+    ig.setCullHint(CullHint.Never);
+    instancesMap.put(lookUp.clone(),ig);
+    attachChild(ig);
+  }
+  return ig;
+}
