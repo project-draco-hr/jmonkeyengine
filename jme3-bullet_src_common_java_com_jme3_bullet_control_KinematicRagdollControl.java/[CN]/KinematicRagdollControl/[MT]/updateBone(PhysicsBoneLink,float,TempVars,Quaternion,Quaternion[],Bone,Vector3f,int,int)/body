@@ -1,0 +1,42 @@
+{
+  if (link == null || link.bone.getParent() == null) {
+    return;
+  }
+  Quaternion preQuat=link.bone.getLocalRotation();
+  Vector3f vectorAxis;
+  float[] measureDist=new float[]{Float.POSITIVE_INFINITY,Float.POSITIVE_INFINITY};
+  for (int dirIndex=0; dirIndex < 3; dirIndex++) {
+    if (dirIndex == 0) {
+      vectorAxis=Vector3f.UNIT_Z;
+    }
+ else     if (dirIndex == 1) {
+      vectorAxis=Vector3f.UNIT_X;
+    }
+ else {
+      vectorAxis=Vector3f.UNIT_Y;
+    }
+    for (int posOrNeg=0; posOrNeg < 2; posOrNeg++) {
+      float rot=ikRotSpeed * tpf / (link.rigidBody.getMass() * 2);
+      rot=FastMath.clamp(rot,link.joint.getRotationalLimitMotor(dirIndex).getLoLimit(),link.joint.getRotationalLimitMotor(dirIndex).getHiLimit());
+      tmpRot1.fromAngleAxis(rot,vectorAxis);
+      tmpRot2[posOrNeg]=link.bone.getLocalRotation().mult(tmpRot1);
+      tmpRot2[posOrNeg].normalizeLocal();
+      ikRotSpeed=-ikRotSpeed;
+      link.bone.setLocalRotation(tmpRot2[posOrNeg]);
+      link.bone.update();
+      measureDist[posOrNeg]=tipBone.getModelSpacePosition().distance(target);
+      link.bone.setLocalRotation(preQuat);
+    }
+    if (measureDist[0] < measureDist[1]) {
+      link.bone.setLocalRotation(tmpRot2[0]);
+    }
+ else     if (measureDist[0] > measureDist[1]) {
+      link.bone.setLocalRotation(tmpRot2[1]);
+    }
+  }
+  link.bone.getLocalRotation().normalizeLocal();
+  link.bone.update();
+  if (link.bone.getParent() != null && depth < maxDepth) {
+    updateBone(boneLinks.get(link.bone.getParent().getName()),tpf * limbDampening,vars,tmpRot1,tmpRot2,tipBone,target,depth + 1,maxDepth);
+  }
+}

@@ -1,0 +1,11 @@
+{
+  int depth=ikChainDepth.remove(bone.getName());
+  int i=0;
+  while (i < depth + 2 && bone.getParent() != null) {
+    if (!bone.hasUserControl()) {
+      bone.setUserControl(false);
+    }
+    bone=bone.getParent();
+    i++;
+  }
+}
