@@ -10,8 +10,8 @@
       }
     }
     clone.needsFullRebatch=true;
-    clone.batches.clear();
-    clone.batchesByGeom.clear();
+    clone.batches=new SafeArrayList<Batch>(Batch.class);
+    clone.batchesByGeom=new HashMap<Geometry,Batch>();
     clone.batch();
   }
   return clone;
