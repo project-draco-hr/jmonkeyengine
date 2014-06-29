@@ -5,10 +5,20 @@
       if (clone.children.get(i) instanceof InstancedGeometry) {
         clone.children.remove(i);
       }
+ else       if (clone.children.get(i) instanceof Geometry) {
+        Geometry geom=(Geometry)clone.children.get(i);
+        if (geom.isGrouped()) {
+          throw new AssertionError();
+        }
+      }
     }
-    clone.igByGeom.clear();
-    clone.instancesMap.clear();
-    clone.instance();
   }
+  clone.controls.remove(this.control);
+  clone.control=new InstancedNodeControl(clone);
+  clone.controls.add(clone.control);
+  clone.lookUp=new InstanceTypeKey();
+  clone.igByGeom=new HashMap<Geometry,InstancedGeometry>();
+  clone.instancesMap=new HashMap<InstanceTypeKey,InstancedGeometry>();
+  clone.instance();
   return clone;
 }
