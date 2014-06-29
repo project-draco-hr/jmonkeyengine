@@ -9,7 +9,7 @@
  else   if (s instanceof Geometry) {
     Geometry gm=(Geometry)s;
     RenderQueue.ShadowMode shadowMode=s.getShadowMode();
-    if (shadowMode != RenderQueue.ShadowMode.Off && shadowMode != RenderQueue.ShadowMode.Receive) {
+    if (shadowMode != RenderQueue.ShadowMode.Off && shadowMode != RenderQueue.ShadowMode.Receive && !gm.isGrouped()) {
       rq.addToShadowQueue(gm,RenderQueue.ShadowMode.Cast);
     }
   }
