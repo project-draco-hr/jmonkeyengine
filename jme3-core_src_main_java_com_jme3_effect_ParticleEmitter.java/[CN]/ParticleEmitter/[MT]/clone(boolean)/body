@@ -6,8 +6,9 @@
   clone.startColor=startColor.clone();
   clone.endColor=endColor.clone();
   clone.particleInfluencer=particleInfluencer.clone();
-  clone.controls.remove(control);
-  clone.controls.add(new ParticleEmitterControl(clone));
+  clone.controls.remove(this.control);
+  clone.control=new ParticleEmitterControl(clone);
+  clone.controls.add(clone.control);
 switch (meshType) {
 case Point:
     clone.particleMesh=new ParticlePointMesh();
