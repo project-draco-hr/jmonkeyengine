@@ -30,6 +30,6 @@
   imageDataBuffer.rewind();
   BufferUtils.destroyDirectBuffer(origDataBuffer);
   BufferUtils.destroyDirectBuffer(headerDataBuffer);
-  Image img=new Image(getImageFormat(numComponents),width,height,imageDataBuffer);
+  Image img=new Image(getImageFormat(numComponents),width,height,imageDataBuffer,ColorSpace.sRGB);
   return img;
 }
