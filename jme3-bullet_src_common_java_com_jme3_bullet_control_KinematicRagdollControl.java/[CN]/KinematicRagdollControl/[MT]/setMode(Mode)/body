@@ -15,7 +15,9 @@
     }
     vars.release();
   }
-  for (  Bone bone : skeleton.getRoots()) {
-    RagdollUtils.setUserControl(bone,mode == Mode.Ragdoll);
+  if (mode != Mode.IK) {
+    for (    Bone bone : skeleton.getRoots()) {
+      RagdollUtils.setUserControl(bone,mode == Mode.Ragdoll);
+    }
   }
 }

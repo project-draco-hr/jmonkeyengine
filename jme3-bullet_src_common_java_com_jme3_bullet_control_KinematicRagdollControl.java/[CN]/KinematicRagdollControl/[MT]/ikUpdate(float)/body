@@ -8,15 +8,14 @@
   String boneName;
   while (it.hasNext()) {
     boneName=it.next();
-    Logger.getLogger(KinematicRagdollControl.class.getSimpleName()).log(Level.INFO,"updationg {0}",boneName);
     bone=(Bone)boneLinks.get(boneName).bone;
     if (!bone.hasUserControl()) {
-      Logger.getLogger(KinematicRagdollControl.class.getSimpleName()).log(Level.INFO,"{0} doesn't have user control",boneName);
+      Logger.getLogger(KinematicRagdollControl.class.getSimpleName()).log(Level.FINE,"{0} doesn't have user control",boneName);
       continue;
     }
     distance=bone.getModelSpacePosition().distance(ikTargets.get(boneName));
     if (distance < IKThreshold) {
-      Logger.getLogger(KinematicRagdollControl.class.getSimpleName()).log(Level.INFO,"Distance is close enough");
+      Logger.getLogger(KinematicRagdollControl.class.getSimpleName()).log(Level.FINE,"Distance is close enough");
       continue;
     }
     int depth=0;
