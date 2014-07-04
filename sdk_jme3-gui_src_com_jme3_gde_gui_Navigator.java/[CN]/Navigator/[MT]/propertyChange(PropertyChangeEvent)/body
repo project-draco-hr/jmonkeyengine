@@ -1,0 +1,12 @@
+{
+  if (evt.getPropertyName().equals(ExplorerManager.PROP_SELECTED_NODES)) {
+    Node[] newValue=(Node[])evt.getNewValue();
+    if (newValue.length > 0) {
+      AbstractNode firstSelected=(AbstractNode)newValue[0];
+      if (firstSelected instanceof GElementNode) {
+        GElement element=((GElementNode)firstSelected).getGelement();
+        editor.selectElement(element);
+      }
+    }
+  }
+}

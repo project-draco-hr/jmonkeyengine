@@ -1,0 +1,30 @@
+{
+  jada.ngeditor.listeners.actions.Action act=(jada.ngeditor.listeners.actions.Action)arg;
+  if (act.getType() == jada.ngeditor.listeners.actions.Action.SEL) {
+    ArrayList<String> path=new ArrayList<String>();
+    GElement parent=act.getGUIElement();
+    while (parent != null) {
+      path.add(parent.getID());
+      parent=parent.getParent();
+    }
+    Node result=mgr.getRootContext();
+    for (int i=path.size() - 1; i >= 0; i--) {
+      result=result.getChildren().findChild(path.get(i));
+    }
+    try {
+      mgr.setSelectedNodes(new Node[]{result});
+    }
+ catch (    PropertyVetoException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+ else   if (act.getType() == jada.ngeditor.listeners.actions.Action.NEW) {
+    try {
+      this.intNavigator(context);
+    }
+ catch (    PropertyVetoException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+  beanTreeView.updateUI();
+}

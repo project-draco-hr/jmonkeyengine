@@ -1,0 +1,23 @@
+{
+  jada.ngeditor.listeners.actions.Action act=(jada.ngeditor.listeners.actions.Action)arg;
+  if (act.getType() == jada.ngeditor.listeners.actions.Action.SEL) {
+    ArrayList<String> path=new ArrayList<String>();
+    GElement parent=act.getGUIElement();
+    while (parent != null) {
+      path.add(parent.getID());
+      parent=parent.getParent();
+    }
+    Node result=nodesManager.getRootContext();
+    for (int i=path.size() - 1; i >= 0 && result != null; i--) {
+      result=result.getChildren().findChild(path.get(i));
+    }
+    try {
+      if (result != null) {
+        nodesManager.setSelectedNodes(new Node[]{result});
+      }
+    }
+ catch (    PropertyVetoException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+}
