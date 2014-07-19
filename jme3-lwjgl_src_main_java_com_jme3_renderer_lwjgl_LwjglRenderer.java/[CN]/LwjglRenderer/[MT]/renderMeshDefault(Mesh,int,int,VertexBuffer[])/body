@@ -1,4 +1,5 @@
 {
+  count=Math.max(mesh.getInstanceCount(),count);
   VertexBuffer interleavedData=mesh.getBuffer(Type.InterleavedData);
   if (interleavedData != null && interleavedData.isUpdateNeeded()) {
     updateBufferData(interleavedData);

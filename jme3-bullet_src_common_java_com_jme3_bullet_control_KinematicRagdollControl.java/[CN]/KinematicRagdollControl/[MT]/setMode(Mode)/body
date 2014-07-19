@@ -3,17 +3,21 @@
   AnimControl animControl=targetModel.getControl(AnimControl.class);
   animControl.setEnabled(mode == Mode.Kinematic);
   baseRigidBody.setKinematic(mode == Mode.Kinematic);
-  TempVars vars=TempVars.get();
-  for (  PhysicsBoneLink link : boneLinks.values()) {
-    link.rigidBody.setKinematic(mode == Mode.Kinematic);
-    if (mode == Mode.Ragdoll) {
-      Quaternion tmpRot1=vars.quat1;
-      Vector3f position=vars.vect1;
-      matchPhysicObjectToBone(link,position,tmpRot1);
+  if (mode != Mode.IK) {
+    TempVars vars=TempVars.get();
+    for (    PhysicsBoneLink link : boneLinks.values()) {
+      link.rigidBody.setKinematic(mode == Mode.Kinematic);
+      if (mode == Mode.Ragdoll) {
+        Quaternion tmpRot1=vars.quat1;
+        Vector3f position=vars.vect1;
+        matchPhysicObjectToBone(link,position,tmpRot1);
+      }
     }
+    vars.release();
   }
-  vars.release();
-  for (  Bone bone : skeleton.getRoots()) {
-    RagdollUtils.setUserControl(bone,mode == Mode.Ragdoll);
+  if (mode != Mode.IK) {
+    for (    Bone bone : skeleton.getRoots()) {
+      RagdollUtils.setUserControl(bone,mode == Mode.Ragdoll);
+    }
   }
 }

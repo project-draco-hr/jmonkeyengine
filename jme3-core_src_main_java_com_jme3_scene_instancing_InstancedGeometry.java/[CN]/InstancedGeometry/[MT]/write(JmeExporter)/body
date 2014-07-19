@@ -1,9 +1,5 @@
 {
   super.write(exporter);
   OutputCapsule capsule=exporter.getCapsule(this);
-  capsule.write(currentNumInstances,"cur_num_instances",1);
-  capsule.write(mode,"instancing_mode",InstancedGeometry.Mode.Auto);
-  if (mode == Mode.Auto) {
-    capsule.write(worldMatrices,"world_matrices",null);
-  }
+  capsule.write(geometries,"geometries",null);
 }

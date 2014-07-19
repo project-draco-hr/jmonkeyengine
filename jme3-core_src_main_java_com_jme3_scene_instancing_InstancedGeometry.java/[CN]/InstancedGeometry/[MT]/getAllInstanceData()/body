@@ -1,8 +1,7 @@
 {
-  VertexBuffer instanceDataForCam=instanceDataPerCam.get(lastCamera);
   ArrayList<VertexBuffer> allData=new ArrayList();
-  if (instanceDataForCam != null) {
-    allData.add(instanceDataForCam);
+  if (transformInstanceData != null) {
+    allData.add(transformInstanceData);
   }
   if (globalInstanceData != null) {
     allData.addAll(Arrays.asList(globalInstanceData));

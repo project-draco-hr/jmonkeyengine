@@ -2,7 +2,10 @@
   if (!enabled) {
     return;
   }
-  if (mode == mode.Ragdoll && targetModel.getLocalTranslation().equals(modelPosition)) {
+  if (mode == Mode.IK) {
+    ikUpdate(tpf);
+  }
+ else   if (mode == mode.Ragdoll && targetModel.getLocalTranslation().equals(modelPosition)) {
     ragDollUpdate(tpf);
   }
  else {

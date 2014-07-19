@@ -1,0 +1,24 @@
+{
+  InstancedNode clone=(InstancedNode)super.clone(cloneMaterials);
+  if (instancesMap.size() > 0) {
+    for (int i=0; i < clone.children.size(); i++) {
+      if (clone.children.get(i) instanceof InstancedGeometry) {
+        clone.children.remove(i);
+      }
+ else       if (clone.children.get(i) instanceof Geometry) {
+        Geometry geom=(Geometry)clone.children.get(i);
+        if (geom.isGrouped()) {
+          throw new AssertionError();
+        }
+      }
+    }
+  }
+  clone.controls.remove(this.control);
+  clone.control=new InstancedNodeControl(clone);
+  clone.controls.add(clone.control);
+  clone.lookUp=new InstanceTypeKey();
+  clone.igByGeom=new HashMap<Geometry,InstancedGeometry>();
+  clone.instancesMap=new HashMap<InstanceTypeKey,InstancedGeometry>();
+  clone.instance();
+  return clone;
+}

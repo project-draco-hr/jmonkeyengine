@@ -1,8 +1,8 @@
 {
   Geometry geomClone=(Geometry)super.clone(cloneMaterial);
-  if (isGrouped()) {
-    groupNode=null;
-    startIndex=0;
+  if (geomClone.isGrouped()) {
+    geomClone.groupNode=null;
+    geomClone.startIndex=-1;
   }
   geomClone.cachedWorldMat=cachedWorldMat.clone();
   if (material != null) {

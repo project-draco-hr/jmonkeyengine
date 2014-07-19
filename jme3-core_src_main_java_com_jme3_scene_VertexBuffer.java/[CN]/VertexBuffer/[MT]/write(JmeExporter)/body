@@ -1,7 +1,4 @@
 {
-  if (instanced) {
-    throw new IOException("Serialization of instanced data not allowed");
-  }
   OutputCapsule oc=ex.getCapsule(this);
   oc.write(components,"components",0);
   oc.write(usage,"usage",Usage.Dynamic);
@@ -10,6 +7,7 @@
   oc.write(normalized,"normalized",false);
   oc.write(offset,"offset",0);
   oc.write(stride,"stride",0);
+  oc.write(instanceSpan,"instanceSpan",0);
   String dataName="data" + format.name();
   Buffer roData=getDataReadOnly();
 switch (format) {

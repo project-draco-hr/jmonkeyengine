@@ -1,0 +1,23 @@
+{
+  for (  Bone bone : skeleton.getRoots()) {
+    RagdollUtils.setUserControl(bone,false);
+  }
+  if (ikTargets.isEmpty()) {
+    setKinematicMode();
+  }
+ else {
+    Iterator iterator=ikTargets.keySet().iterator();
+    TempVars vars=TempVars.get();
+    while (iterator.hasNext()) {
+      Bone bone=(Bone)iterator.next();
+      while (bone.getParent() != null) {
+        Quaternion tmpRot1=vars.quat1;
+        Vector3f position=vars.vect1;
+        matchPhysicObjectToBone(boneLinks.get(bone.getName()),position,tmpRot1);
+        bone.setUserControl(true);
+        bone=bone.getParent();
+      }
+    }
+    vars.release();
+  }
+}

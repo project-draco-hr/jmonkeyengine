@@ -1,0 +1,14 @@
+{
+  Vector3f target=worldPos.subtract(targetModel.getWorldTranslation());
+  ikTargets.put(bone.getName(),target);
+  ikChainDepth.put(bone.getName(),chainLength);
+  int i=0;
+  while (i < chainLength + 2 && bone.getParent() != null) {
+    if (!bone.hasUserControl()) {
+      bone.setUserControl(true);
+    }
+    bone=bone.getParent();
+    i++;
+  }
+  return target;
+}

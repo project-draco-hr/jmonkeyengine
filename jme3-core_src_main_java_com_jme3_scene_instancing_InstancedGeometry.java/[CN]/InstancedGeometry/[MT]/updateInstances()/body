@@ -1,0 +1,31 @@
+{
+  FloatBuffer fb=(FloatBuffer)transformInstanceData.getData();
+  fb.limit(fb.capacity());
+  fb.position(0);
+  TempVars vars=TempVars.get();
+{
+    float[] temp=vars.matrixWrite;
+    for (int i=0; i < firstUnusedIndex; i++) {
+      Geometry geom=geometries[i];
+      if (geom == null) {
+        geom=geometries[firstUnusedIndex - 1];
+        if (geom == null) {
+          throw new AssertionError();
+        }
+        swap(i,firstUnusedIndex - 1);
+        while (geometries[firstUnusedIndex - 1] == null) {
+          firstUnusedIndex--;
+        }
+      }
+      Matrix4f worldMatrix=geom.getWorldMatrix();
+      updateInstance(worldMatrix,temp,0,vars.tempMat3,vars.quat1);
+      fb.put(temp);
+    }
+  }
+  vars.release();
+  fb.flip();
+  if (fb.limit() / INSTANCE_SIZE != firstUnusedIndex) {
+    throw new AssertionError();
+  }
+  transformInstanceData.updateData(fb);
+}

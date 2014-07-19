@@ -1,0 +1,28 @@
+{
+  super.simpleInitApp();
+  final KinematicRagdollControl ikControl=model.getControl(KinematicRagdollControl.class);
+  inputManager.addListener(new ActionListener(){
+    public void onAction(    String name,    boolean isPressed,    float tpf){
+      if (name.equals("stop") && isPressed) {
+        ikControl.setEnabled(!ikControl.isEnabled());
+        ikControl.setIKMode();
+      }
+      if (name.equals("one") && isPressed) {
+        targetPoint=model.getWorldTranslation().add(new Vector3f(0,2,4));
+        targetNode.setLocalTranslation(targetPoint);
+        ikControl.setIKTarget(ikControl.getBone("Hand.L"),targetPoint,2);
+        ikControl.setIKMode();
+      }
+      if (name.equals("two") && isPressed) {
+        targetPoint=model.getWorldTranslation().add(new Vector3f(-3,3,0));
+        targetNode.setLocalTranslation(targetPoint);
+        ikControl.setIKTarget(ikControl.getBone("Hand.R"),targetPoint,3);
+        ikControl.setIKMode();
+      }
+    }
+  }
+,"one","two");
+  inputManager.addMapping("one",new KeyTrigger(KeyInput.KEY_1));
+  inputManager.addMapping("two",new KeyTrigger(KeyInput.KEY_2));
+  inputManager.addMapping("stop",new KeyTrigger(KeyInput.KEY_H));
+}

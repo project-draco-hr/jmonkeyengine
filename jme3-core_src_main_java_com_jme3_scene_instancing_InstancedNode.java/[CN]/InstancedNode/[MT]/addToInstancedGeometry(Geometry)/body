@@ -1,0 +1,11 @@
+{
+  Material material=geom.getMaterial();
+  MatParam param=material.getParam("UseInstancing");
+  if (param == null || !((Boolean)param.getValue()).booleanValue()) {
+    throw new IllegalStateException("You must set the 'UseInstancing' " + "parameter to true on the material prior " + "to adding it to InstancedNode");
+  }
+  InstancedGeometry ig=lookUpByGeometry(geom);
+  igByGeom.put(geom,ig);
+  geom.associateWithGroupNode(this,0);
+  ig.addInstance(geom);
+}

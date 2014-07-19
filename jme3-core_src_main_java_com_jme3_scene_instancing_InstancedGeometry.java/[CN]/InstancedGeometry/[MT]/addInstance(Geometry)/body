@@ -1,0 +1,12 @@
+{
+  if (geometry == null) {
+    throw new IllegalArgumentException("geometry cannot be null");
+  }
+  if (firstUnusedIndex + 1 >= geometries.length) {
+    setMaxNumInstances(getMaxNumInstances() * 2);
+  }
+  int freeIndex=firstUnusedIndex;
+  firstUnusedIndex++;
+  geometries[freeIndex]=geometry;
+  InstancedNode.setGeometryStartIndex2(geometry,freeIndex);
+}

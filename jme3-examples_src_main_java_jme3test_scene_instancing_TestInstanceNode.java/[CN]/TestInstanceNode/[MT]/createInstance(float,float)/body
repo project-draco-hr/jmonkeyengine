@@ -1,0 +1,9 @@
+{
+  Mesh mesh;
+  if (FastMath.nextRandomInt(0,1) == 1)   mesh=mesh2;
+ else   mesh=mesh1;
+  Geometry geometry=new Geometry("randomGeom",mesh);
+  geometry.setMaterial(materials[FastMath.nextRandomInt(0,materials.length - 1)]);
+  geometry.setLocalTranslation(x,0,z);
+  return geometry;
+}

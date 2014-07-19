@@ -1,15 +1,9 @@
 {
   super.read(importer);
   InputCapsule capsule=importer.getCapsule(this);
-  currentNumInstances=capsule.readInt("cur_num_instances",1);
-  mode=capsule.readEnum("instancing_mode",InstancedGeometry.Mode.class,InstancedGeometry.Mode.Auto);
-  if (mode == Mode.Auto) {
-    Savable[] matrixSavables=capsule.readSavableArray("world_matrices",null);
-    worldMatrices=new Matrix4f[matrixSavables.length];
-    for (int i=0; i < worldMatrices.length; i++) {
-      worldMatrices[i]=(Matrix4f)matrixSavables[i];
-    }
-    control=getControl(InstancedGeometryControl.class);
-    control.geom=this;
+  Savable[] geometrySavables=capsule.readSavableArray("geometries",null);
+  geometries=new Geometry[geometrySavables.length];
+  for (int i=0; i < geometrySavables.length; i++) {
+    geometries[i]=(Geometry)geometrySavables[i];
   }
 }

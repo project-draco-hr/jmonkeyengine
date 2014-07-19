@@ -1,0 +1,9 @@
+{
+  int max=0;
+  for (  VertexBuffer vb : buffersList) {
+    if (vb.getBaseInstanceCount() > max) {
+      max=vb.getBaseInstanceCount();
+    }
+  }
+  return max;
+}
