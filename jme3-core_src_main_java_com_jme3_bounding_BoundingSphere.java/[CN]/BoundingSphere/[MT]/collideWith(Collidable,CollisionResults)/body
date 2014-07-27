@@ -5,17 +5,7 @@
   }
  else   if (other instanceof Triangle) {
     Triangle t=(Triangle)other;
-    float r2=radius * radius;
-    float d1=center.distanceSquared(t.get1());
-    float d2=center.distanceSquared(t.get2());
-    float d3=center.distanceSquared(t.get3());
-    if (d1 <= r2 || d2 <= r2 || d3 <= r2) {
-      CollisionResult r=new CollisionResult();
-      r.setDistance(FastMath.sqrt(Math.min(Math.min(d1,d2),d3)) - radius);
-      results.addCollision(r);
-      return 1;
-    }
-    return 0;
+    return collideWithTri(t,results);
   }
  else {
     throw new UnsupportedCollisionException();
