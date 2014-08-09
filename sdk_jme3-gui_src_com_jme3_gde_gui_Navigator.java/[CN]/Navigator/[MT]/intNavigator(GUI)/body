@@ -1,8 +1,6 @@
 {
-  NiftyGuiDataObject man=context.lookup(NiftyGuiDataObject.class);
   ExplorerUtils.activateActions(mgr,true);
-  editor=man.getLookup().lookup(GUIEditor.class);
-  AbstractNode guiRoot=new AbstractNode(Children.create(new ScreenChildFactory(editor.getGui()),true));
+  AbstractNode guiRoot=new GUINode(gui);
   guiRoot.setName("Gui");
   this.mgr.setRootContext(guiRoot);
   this.beanTreeView.updateUI();
@@ -10,5 +8,4 @@
   this.mgr.setSelectedNodes(new Node[]{guiRoot});
   Lookup lookup1=ExplorerUtils.createLookup(mgr,getActionMap());
   lookup=new ProxyLookup(lookup1);
-  editor.addObserver(this);
 }

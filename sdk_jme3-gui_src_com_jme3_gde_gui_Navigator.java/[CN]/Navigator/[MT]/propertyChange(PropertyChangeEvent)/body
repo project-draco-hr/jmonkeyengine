@@ -5,7 +5,18 @@
       AbstractNode firstSelected=(AbstractNode)newValue[0];
       if (firstSelected instanceof GElementNode) {
         GElement element=((GElementNode)firstSelected).getGelement();
-        editor.selectElement(element);
+        GUI gui=((GUINode)mgr.getRootContext()).getGui();
+        gui.getSelection().deleteObserver(this);
+        SelectCommand command=CommandProcessor.getInstance().getCommand(SelectCommand.class);
+        command.setElement(element);
+        try {
+          lock=true;
+          CommandProcessor.getInstance().excuteCommand(command);
+        }
+ catch (        Exception ex) {
+          Exceptions.printStackTrace(ex);
+        }
+        gui.getSelection().addObserver(this);
       }
     }
   }

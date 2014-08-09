@@ -1,8 +1,11 @@
 {
-  jada.ngeditor.listeners.actions.Action act=(jada.ngeditor.listeners.actions.Action)arg;
-  if (act.getType() == jada.ngeditor.listeners.actions.Action.SEL) {
+  if (arg instanceof SelectionChanged) {
+    SelectionChanged event=(SelectionChanged)arg;
+    if (event.getNewSelection().isEmpty()) {
+      return;
+    }
     ArrayList<String> path=new ArrayList<String>();
-    GElement parent=act.getGUIElement();
+    GElement parent=event.getElement();
     while (parent != null) {
       path.add(parent.getID());
       parent=parent.getParent();

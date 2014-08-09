@@ -1,8 +1,22 @@
 {
-  jada.ngeditor.listeners.actions.Action act=(jada.ngeditor.listeners.actions.Action)arg;
-  if (act.getType() == jada.ngeditor.listeners.actions.Action.SEL) {
+  if (o instanceof GuiEditorModel) {
+    try {
+      GuiEditorModel model=(GuiEditorModel)o;
+      model.getCurrent().addObserver(this);
+      model.getCurrent().getSelection().addObserver(this);
+      this.intNavigator(model.getCurrent());
+    }
+ catch (    PropertyVetoException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+  if (arg instanceof SelectionChanged) {
+    SelectionChanged event=(SelectionChanged)arg;
+    if (event.getNewSelection().isEmpty()) {
+      return;
+    }
     ArrayList<String> path=new ArrayList<String>();
-    GElement parent=act.getGUIElement();
+    GElement parent=((SelectionChanged)arg).getElement();
     while (parent != null) {
       path.add(parent.getID());
       parent=parent.getParent();
@@ -13,14 +27,6 @@
     }
     try {
       mgr.setSelectedNodes(new Node[]{result});
-    }
- catch (    PropertyVetoException ex) {
-      Exceptions.printStackTrace(ex);
-    }
-  }
- else   if (act.getType() == jada.ngeditor.listeners.actions.Action.NEW) {
-    try {
-      this.intNavigator(context);
     }
  catch (    PropertyVetoException ex) {
       Exceptions.printStackTrace(ex);

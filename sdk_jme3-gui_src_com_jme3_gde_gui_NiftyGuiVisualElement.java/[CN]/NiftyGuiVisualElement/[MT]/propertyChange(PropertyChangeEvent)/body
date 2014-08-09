@@ -1,0 +1,9 @@
+{
+  if (evt.getPropertyName().equals(DataObject.PROP_MODIFIED)) {
+    boolean old=(Boolean)evt.getOldValue();
+    boolean nev=(Boolean)evt.getNewValue();
+    if (old && !nev) {
+      this.loadGui();
+    }
+  }
+}

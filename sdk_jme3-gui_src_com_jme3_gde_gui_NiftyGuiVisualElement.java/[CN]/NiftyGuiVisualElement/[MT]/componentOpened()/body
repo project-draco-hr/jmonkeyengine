@@ -1,37 +1,3 @@
 {
-  try {
-    ProgressHandle handle=ProgressHandleFactory.createHandle("Loading the gui file");
-    String path=this.obj.getPrimaryFile().getPath();
-    ProjectAssetManager mgr=obj.getLookup().lookup(ProjectAssetManager.class);
-    String assetPath=mgr.getAssetFolder().getPath();
-    handle.progress(50);
-    this.editor.createNewGui(nifty,new File(path),new File(assetPath));
-    nodesManager.setRootContext(new GUINode(this.editor.getGui()));
-    Collection<GLayer> layers1=this.editor.getGui().getLayers();
-    DefaultComboBoxModel<GLayer> model=new DefaultComboBoxModel<GLayer>(layers1.toArray(new GLayer[0]));
-    layers.setModel(model);
-    layers.setSelectedItem(this.editor.getCurrentLayer());
-    handle.finish();
-  }
- catch (  ParserConfigurationException ex) {
-    Exceptions.printStackTrace(ex);
-  }
-catch (  JAXBException ex) {
-    Exceptions.printStackTrace(ex);
-  }
-catch (  ClassNotFoundException ex) {
-    Exceptions.printStackTrace(ex);
-  }
-catch (  IOException ex) {
-    Exceptions.printStackTrace(ex);
-  }
-catch (  NoProductException ex) {
-    Exceptions.printStackTrace(ex);
-  }
-catch (  SAXException ex) {
-    Exceptions.printStackTrace(ex);
-  }
-catch (  Exception ex) {
-    Exceptions.printStackTrace(ex);
-  }
+  loadGui();
 }

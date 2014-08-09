@@ -2,6 +2,7 @@
   toolbar.setPreferredSize(new Dimension(10000,24));
   toolbar.setMaximumSize(new Dimension(10000,24));
   toolbar.setFloatable(false);
+  toolbar.add(new JLabel("Change Resolution"));
   JComboBox comboBox=new JComboBox(new String[]{"640x480","480x800","800x480","800x600","1024x768","1280x720"});
   comboBox.addItemListener(new ItemListener(){
     public void itemStateChanged(    ItemEvent e){
@@ -32,6 +33,7 @@
 );
   toolbar.add(comboBox);
   comboBox.setSelectedItem("800x600");
+  toolbar.add(new JLabel("Current Layer"));
   layers.addItemListener(new ItemListener(){
     public void itemStateChanged(    ItemEvent e){
       GLayer item=(GLayer)e.getItem();

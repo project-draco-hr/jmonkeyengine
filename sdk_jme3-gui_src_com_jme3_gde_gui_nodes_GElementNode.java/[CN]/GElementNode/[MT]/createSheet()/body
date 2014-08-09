@@ -8,7 +8,9 @@
   set.setName("Element Properties");
   set.setShortDescription("You can set element properties");
   for (  Entry<String,String> pair : this.element.listAttributes().entrySet()) {
-    set.put(new ElementAttributeProperty(element,pair.getKey()));
+    final ElementAttributeProperty elementAttributeProperty=new ElementAttributeProperty(element,pair.getKey());
+    pickEditor(pair,elementAttributeProperty);
+    set.put(elementAttributeProperty);
   }
   s.put(set);
   return s;
