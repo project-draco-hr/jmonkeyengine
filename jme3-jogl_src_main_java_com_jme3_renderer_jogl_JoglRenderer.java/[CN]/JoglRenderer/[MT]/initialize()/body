@@ -114,7 +114,7 @@ caps.add(Caps.FloatDepthBuffer);
 if (caps.contains(Caps.OpenGL30)) {
 caps.add(Caps.PackedDepthStencilBuffer);
 }
-if (gl.isExtensionAvailable("GL_ARB_draw_instanced")) {
+if (gl.isExtensionAvailable("GL_ARB_draw_instanced") || gl.isExtensionAvailable("GL_ARB_instanced_arrays")) {
 caps.add(Caps.MeshInstancing);
 }
 if (gl.isExtensionAvailable("GL_ARB_fragment_program")) {
@@ -138,20 +138,19 @@ caps.add(Caps.NonPowerOfTwoTextures);
 logger.log(Level.WARNING,"Your graphics card does not " + "support non-power-of-2 textures. " + "Some features might not work.");
 }
 boolean latc=gl.isExtensionAvailable("GL_EXT_texture_compression_latc");
-boolean atdc=gl.isExtensionAvailable("GL_ATI_texture_compression_3dc");
-if (latc || atdc) {
+if (latc) {
 caps.add(Caps.TextureCompressionLATC);
 }
-if (gl.isExtensionAvailable("GL_EXT_packed_float")) {
+if (gl.isExtensionAvailable("GL_EXT_packed_float") || gl.isExtensionAvailable("GL_VERSION_3_0")) {
 caps.add(Caps.PackedFloatColorBuffer);
 if (gl.isExtensionAvailable("GL_ARB_half_float_pixel")) {
 caps.add(Caps.PackedFloatTexture);
 }
 }
-if (gl.isExtensionAvailable("GL_EXT_texture_array")) {
+if (gl.isExtensionAvailable("GL_EXT_texture_array") || gl.isExtensionAvailable("GL_VERSION_3_0")) {
 caps.add(Caps.TextureArray);
 }
-if (gl.isExtensionAvailable("GL_EXT_texture_shared_exponent")) {
+if (gl.isExtensionAvailable("GL_EXT_texture_shared_exponent") || gl.isExtensionAvailable("GL_VERSION_3_0")) {
 caps.add(Caps.SharedExponentTexture);
 }
 if (gl.isExtensionAvailable("GL_EXT_framebuffer_object")) {
@@ -196,7 +195,7 @@ gl.glEnable(GL.GL_MULTISAMPLE);
 }
 caps.add(Caps.Multisample);
 }
-if (gl.isExtensionAvailable("GL_ARB_framebuffer_sRGB") && gl.isExtensionAvailable("GL_EXT_texture_sRGB")) {
+if ((gl.isExtensionAvailable("GL_ARB_framebuffer_sRGB") && gl.isExtensionAvailable("GL_EXT_texture_sRGB")) || gl.isExtensionAvailable("GL_VERSION_3_0")) {
 caps.add(Caps.Srgb);
 }
 logger.log(Level.FINE,"Caps: {0}",caps);

@@ -1,4 +1,8 @@
 {
+  GL gl=GLContext.getCurrentGL();
+  if (samples > 1 && !gl.isExtensionAvailable("GL_ARB_texture_multisample")) {
+    throw new RendererException("Multisample textures are not supported" + " by the video hardware.");
+  }
 switch (type) {
 case TwoDimensional:
     if (samples > 1) {

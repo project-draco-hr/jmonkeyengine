@@ -22,16 +22,19 @@
     if (!gl.isExtensionAvailable("GL_VERSION_3_0")) {
       if (gl.isGL2ES1()) {
         gl.glTexParameteri(target,GL2ES1.GL_GENERATE_MIPMAP,GL.GL_TRUE);
+        img.setMipmapsGenerated(true);
       }
-      img.setMipmapsGenerated(true);
+    }
+ else {
+    }
+  }
+ else   if (img.hasMipmaps()) {
+    if (gl.isGL2GL3()) {
+      gl.glTexParameteri(target,GL2ES3.GL_TEXTURE_MAX_LEVEL,img.getMipMapSizes().length - 1);
     }
   }
  else {
-    if (img.getMipMapSizes() != null) {
-      if (gl.isGL2GL3()) {
-        gl.glTexParameteri(target,GL2GL3.GL_TEXTURE_MAX_LEVEL,img.getMipMapSizes().length - 1);
-      }
-    }
+    gl.glTexParameteri(target,GL2ES3.GL_TEXTURE_MAX_LEVEL,0);
   }
   int imageSamples=img.getMultiSamples();
   if (imageSamples > 1) {
@@ -56,16 +59,6 @@
     }
   }
   if (target == GL.GL_TEXTURE_CUBE_MAP) {
-    if (img.getWidth() > maxCubeTexSize || img.getHeight() > maxCubeTexSize) {
-      throw new RendererException("Cannot upload cubemap " + img + ". The maximum supported cubemap resolution is "+ maxCubeTexSize);
-    }
-  }
- else {
-    if (img.getWidth() > maxTexSize || img.getHeight() > maxTexSize) {
-      throw new RendererException("Cannot upload texture " + img + ". The maximum supported texture resolution is "+ maxTexSize);
-    }
-  }
-  if (target == GL.GL_TEXTURE_CUBE_MAP) {
     List<ByteBuffer> data=img.getData();
     if (data.size() != 6) {
       logger.log(Level.WARNING,"Invalid texture: {0}\n" + "Cubemap textures must contain 6 data units.",img);
@@ -76,6 +69,9 @@
     }
   }
  else   if (target == GL.GL_TEXTURE_2D_ARRAY) {
+    if (!caps.contains(Caps.TextureArray)) {
+      throw new RendererException("Texture arrays not supported by graphics hardware");
+    }
     List<ByteBuffer> data=img.getData();
     TextureUtil.uploadTexture(img,target,-1,0,linearizeSrgbImages);
     for (int i=0; i < data.size(); i++) {

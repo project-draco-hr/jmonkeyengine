@@ -1,23 +1,20 @@
 {
-  int id=mesh.getId();
-  GL gl=GLContext.getCurrentGL();
-  if (id == -1) {
-    IntBuffer temp=intBuf1;
-    if (gl.isGL2GL3()) {
-      gl.getGL2GL3().glGenVertexArrays(1,temp);
-    }
-    id=temp.get(0);
-    mesh.setId(id);
-  }
-  if (context.boundVertexArray != id) {
-    if (gl.isGL2GL3()) {
-      gl.getGL2GL3().glBindVertexArray(id);
-    }
-    context.boundVertexArray=id;
-  }
+  count=Math.max(mesh.getInstanceCount(),count);
   VertexBuffer interleavedData=mesh.getBuffer(Type.InterleavedData);
   if (interleavedData != null && interleavedData.isUpdateNeeded()) {
     updateBufferData(interleavedData);
+  }
+  VertexBuffer indices;
+  if (mesh.getNumLodLevels() > 0) {
+    indices=mesh.getLodLevel(lod);
+  }
+ else {
+    indices=mesh.getBuffer(Type.Index);
+  }
+  if (instanceData != null) {
+    for (    VertexBuffer vb : instanceData) {
+      setVertexAttrib(vb,null);
+    }
   }
   for (  VertexBuffer vb : mesh.getBufferList().getArray()) {
     if (vb.getBufferType() == Type.InterleavedData || vb.getUsage() == Usage.CpuOnly || vb.getBufferType() == Type.Index) {
@@ -30,4 +27,12 @@
       setVertexAttrib(vb,interleavedData);
     }
   }
+  if (indices != null) {
+    drawTriangleList(indices,mesh,count);
+  }
+ else {
+    drawTriangleArray(mesh.getMode(),count,mesh.getVertexCount());
+  }
+  clearVertexAttribs();
+  clearTextureUnits();
 }

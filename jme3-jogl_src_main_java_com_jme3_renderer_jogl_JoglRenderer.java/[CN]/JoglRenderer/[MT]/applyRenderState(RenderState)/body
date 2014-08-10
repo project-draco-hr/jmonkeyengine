@@ -25,22 +25,24 @@
     gl.glDepthFunc(convertTestFunction(state.getDepthFunc()));
     context.depthFunc=state.getDepthFunc();
   }
-  if (state.isAlphaTest() && context.alphaTestFallOff == 0) {
-    gl.glEnable(GL2ES1.GL_ALPHA_TEST);
-    if (gl.isGL2ES1()) {
-      gl.getGL2ES1().glAlphaFunc(convertTestFunction(context.alphaFunc),state.getAlphaFallOff());
+  if (gl.isGL2ES1()) {
+    if (state.isAlphaTest() && !context.alphaTestEnabled) {
+      gl.glEnable(GL2ES1.GL_ALPHA_TEST);
+      gl.getGL2ES1().glAlphaFunc(convertTestFunction(context.alphaFunc),context.alphaTestFallOff);
+      context.alphaTestEnabled=true;
     }
-    context.alphaTestFallOff=state.getAlphaFallOff();
-  }
- else   if (!state.isAlphaTest() && context.alphaTestFallOff != 0) {
-    if (gl.isGL2ES1()) {
+ else     if (!state.isAlphaTest() && context.alphaTestEnabled) {
       gl.glDisable(GL2ES1.GL_ALPHA_TEST);
+      context.alphaTestEnabled=false;
     }
-    context.alphaTestFallOff=0;
-  }
-  if (state.getAlphaFunc() != context.alphaFunc && gl.isGL2ES1()) {
-    gl.getGL2ES1().glAlphaFunc(convertTestFunction(context.alphaFunc),state.getAlphaFallOff());
-    context.alphaFunc=state.getAlphaFunc();
+    if (state.getAlphaFallOff() != context.alphaTestFallOff) {
+      gl.getGL2ES1().glAlphaFunc(convertTestFunction(context.alphaFunc),context.alphaTestFallOff);
+      context.alphaTestFallOff=state.getAlphaFallOff();
+    }
+    if (state.getAlphaFunc() != context.alphaFunc) {
+      gl.getGL2ES1().glAlphaFunc(convertTestFunction(state.getAlphaFunc()),context.alphaTestFallOff);
+      context.alphaFunc=state.getAlphaFunc();
+    }
   }
   if (state.isDepthWrite() && !context.depthWriteEnabled) {
     gl.glDepthMask(true);

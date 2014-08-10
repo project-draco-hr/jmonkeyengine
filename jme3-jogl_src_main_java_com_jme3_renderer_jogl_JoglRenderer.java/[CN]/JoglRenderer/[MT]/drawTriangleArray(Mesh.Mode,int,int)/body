@@ -1,6 +1,7 @@
 {
+  boolean useInstancing=count > 1 && caps.contains(Caps.MeshInstancing);
   GL gl=GLContext.getCurrentGL();
-  if (count > 1) {
+  if (useInstancing) {
     if (gl.isGL2GL3()) {
       gl.getGL2GL3().glDrawArraysInstanced(convertElementMode(mode),0,vertCount,count);
     }
