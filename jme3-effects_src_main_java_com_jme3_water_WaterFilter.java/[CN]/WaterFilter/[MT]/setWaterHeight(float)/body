@@ -1,3 +1,10 @@
 {
   this.waterHeight=waterHeight;
+  this.plane=new Plane(Vector3f.UNIT_Y,waterHeight);
+  if (material != null) {
+    material.setFloat("WaterHeight",waterHeight);
+  }
+  if (reflectionProcessor != null) {
+    reflectionProcessor.setReflectionClipPlane(plane);
+  }
 }

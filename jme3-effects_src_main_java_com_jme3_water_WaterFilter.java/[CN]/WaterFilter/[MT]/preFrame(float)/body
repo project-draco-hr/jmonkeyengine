@@ -5,9 +5,6 @@
   biasMatrix.mult(sceneCam.getViewProjectionMatrix(),textureProjMatrix);
   material.setMatrix4("TextureProjMatrix",textureProjMatrix);
   material.setVector3("CameraPosition",sceneCam.getLocation());
-  material.setFloat("WaterHeight",waterHeight);
-  plane=new Plane(Vector3f.UNIT_Y,new Vector3f(0,waterHeight,0).dot(Vector3f.UNIT_Y));
-  reflectionProcessor.setReflectionClipPlane(plane);
   WaterUtils.updateReflectionCam(reflectionCam,plane,sceneCam);
   if (sceneCam.getLocation().y >= waterHeight) {
     boolean rtb=true;
