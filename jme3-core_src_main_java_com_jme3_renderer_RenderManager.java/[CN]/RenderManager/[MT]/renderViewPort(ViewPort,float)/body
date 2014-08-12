@@ -2,12 +2,12 @@
   if (!vp.isEnabled()) {
     return;
   }
-  List<SceneProcessor> processors=vp.getProcessors();
+  SafeArrayList<SceneProcessor> processors=vp.getProcessors();
   if (processors.isEmpty()) {
     processors=null;
   }
   if (processors != null) {
-    for (    SceneProcessor proc : processors) {
+    for (    SceneProcessor proc : processors.getArray()) {
       if (!proc.isInitialized()) {
         proc.initialize(this,vp);
       }
@@ -27,13 +27,13 @@
     renderScene(scenes.get(i),vp);
   }
   if (processors != null) {
-    for (    SceneProcessor proc : processors) {
+    for (    SceneProcessor proc : processors.getArray()) {
       proc.postQueue(vp.getQueue());
     }
   }
   flushQueue(vp);
   if (processors != null) {
-    for (    SceneProcessor proc : processors) {
+    for (    SceneProcessor proc : processors.getArray()) {
       proc.postFrame(vp.getOutputFrameBuffer());
     }
   }
