@@ -1,4 +1,7 @@
 {
+  if (results == null) {
+    throw new IndexOutOfBoundsException("Index: " + index + ", Size: 0");
+  }
   if (!sorted) {
     Collections.sort(results);
     sorted=true;

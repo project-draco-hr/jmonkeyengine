@@ -1,4 +1,8 @@
 {
+  if (results == null) {
+    List<CollisionResult> dumbCompiler=Collections.emptyList();
+    return dumbCompiler.iterator();
+  }
   if (!sorted) {
     Collections.sort(results);
     sorted=true;
