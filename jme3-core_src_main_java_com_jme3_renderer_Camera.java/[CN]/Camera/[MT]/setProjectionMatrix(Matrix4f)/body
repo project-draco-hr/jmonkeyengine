@@ -1,4 +1,11 @@
 {
-  projectionMatrixOverride=projMatrix;
+  if (projMatrix == null) {
+    overrideProjection=false;
+    projectionMatrixOverride.loadIdentity();
+  }
+ else {
+    overrideProjection=true;
+    projectionMatrixOverride.set(projMatrix);
+  }
   updateViewProjection();
 }

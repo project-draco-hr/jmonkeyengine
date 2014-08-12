@@ -8,7 +8,7 @@
   }
   TempVars vars=TempVars.get();
   try {
-    Matrix4f p=projectionMatrix.clone();
+    Matrix4f p=projectionMatrixOverride.set(projectionMatrix);
     Matrix4f ivm=viewMatrix;
     Vector3f point=clipPlane.getNormal().mult(clipPlane.getConstant(),vars.vect1);
     Vector3f pp=ivm.mult(point,vars.vect2);

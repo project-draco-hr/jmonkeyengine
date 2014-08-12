@@ -28,17 +28,8 @@
     worldPlane[i].setConstant(cam.worldPlane[i].getConstant());
   }
   this.parallelProjection=cam.parallelProjection;
-  if (cam.projectionMatrixOverride != null) {
-    if (this.projectionMatrixOverride == null) {
-      this.projectionMatrixOverride=cam.projectionMatrixOverride.clone();
-    }
- else {
-      this.projectionMatrixOverride.set(cam.projectionMatrixOverride);
-    }
-  }
- else {
-    this.projectionMatrixOverride=null;
-  }
+  this.overrideProjection=cam.overrideProjection;
+  this.projectionMatrixOverride.set(cam.projectionMatrixOverride);
   this.viewMatrix.set(cam.viewMatrix);
   this.projectionMatrix.set(cam.projectionMatrix);
   this.viewProjectionMatrix.set(cam.viewProjectionMatrix);
