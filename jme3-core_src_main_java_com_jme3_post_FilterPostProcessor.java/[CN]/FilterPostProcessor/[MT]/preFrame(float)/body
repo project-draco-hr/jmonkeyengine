@@ -16,8 +16,7 @@
       renderManager.setCamera(viewPort.getCamera(),false);
     }
   }
-  for (Iterator<Filter> it=filters.iterator(); it.hasNext(); ) {
-    Filter filter=it.next();
+  for (  Filter filter : filters.getArray()) {
     if (filter.isEnabled()) {
       filter.preFrame(tpf);
     }

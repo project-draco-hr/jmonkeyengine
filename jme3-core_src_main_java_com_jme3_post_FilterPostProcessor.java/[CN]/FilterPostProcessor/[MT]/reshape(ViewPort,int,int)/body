@@ -42,8 +42,7 @@
     filterTexture=new Texture2D(width,height,Format.RGB111110F);
     renderFrameBuffer.setColorTexture(filterTexture);
   }
-  for (Iterator<Filter> it=filters.iterator(); it.hasNext(); ) {
-    Filter filter=it.next();
+  for (  Filter filter : filters.getArray()) {
     initFilter(filter,vp);
   }
   setupViewPortFrameBuffer();

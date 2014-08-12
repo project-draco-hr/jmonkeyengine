@@ -12,7 +12,7 @@
     if (renderFrameBufferMS != null) {
       renderFrameBufferMS.dispose();
     }
-    for (    Filter filter : filters) {
+    for (    Filter filter : filters.getArray()) {
       filter.cleanup(renderer);
     }
   }
