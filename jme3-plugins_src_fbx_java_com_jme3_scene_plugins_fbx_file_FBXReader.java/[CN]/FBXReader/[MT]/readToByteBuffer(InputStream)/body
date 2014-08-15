@@ -1,0 +1,10 @@
+{
+  ByteArrayOutputStream out=new ByteArrayOutputStream(2048);
+  byte[] tmp=new byte[2048];
+  while (true) {
+    int r=input.read(tmp);
+    if (r == -1)     break;
+    out.write(tmp,0,r);
+  }
+  return ByteBuffer.wrap(out.toByteArray()).order(ByteOrder.LITTLE_ENDIAN);
+}

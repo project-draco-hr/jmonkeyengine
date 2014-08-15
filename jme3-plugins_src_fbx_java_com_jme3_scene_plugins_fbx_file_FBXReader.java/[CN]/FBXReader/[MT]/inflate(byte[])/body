@@ -1,0 +1,10 @@
+{
+  InflaterInputStream gzis=new InflaterInputStream(new ByteArrayInputStream(input));
+  ByteArrayOutputStream out=new ByteArrayOutputStream();
+  byte[] buffer=new byte[1024];
+  while (gzis.available() > 0) {
+    int l=gzis.read(buffer);
+    if (l > 0)     out.write(buffer,0,l);
+  }
+  return out.toByteArray();
+}
