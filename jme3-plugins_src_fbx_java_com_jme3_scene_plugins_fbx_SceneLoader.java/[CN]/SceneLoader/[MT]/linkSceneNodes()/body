@@ -1,0 +1,34 @@
+{
+  Node sceneNode=new Node(sceneName + "-scene");
+  for (  long nodeId : modelDataMap.keySet()) {
+    ModelData data=modelDataMap.get(nodeId);
+    if (data.type.equals("Mesh")) {
+      Node node=createNode(data);
+      modelMap.put(nodeId,node);
+    }
+  }
+  for (  long modelId : modelMap.keySet()) {
+    List<Long> refs=refMap.get(modelId);
+    if (refs == null)     continue;
+    Node model=modelMap.get(modelId);
+    for (    long refId : refs) {
+      Node rootNode=(refId != 0) ? modelMap.get(refId) : sceneNode;
+      if (rootNode != null)       rootNode.attachChild(model);
+    }
+  }
+  for (  long poseId : poseDataMap.keySet()) {
+    BindPoseData data=poseDataMap.get(poseId);
+    BindPose pose=createPose(data);
+    if (pose != null)     bindMap.put(poseId,pose);
+  }
+  for (  BindPose pose : bindMap.values()) {
+    for (    long nodeId : pose.nodeTransforms.keySet()) {
+      Node model=modelMap.get(nodeId);
+      if (model != null) {
+        Transform t=pose.nodeTransforms.get(nodeId);
+        model.setLocalTransform(t);
+      }
+    }
+  }
+  return sceneNode;
+}

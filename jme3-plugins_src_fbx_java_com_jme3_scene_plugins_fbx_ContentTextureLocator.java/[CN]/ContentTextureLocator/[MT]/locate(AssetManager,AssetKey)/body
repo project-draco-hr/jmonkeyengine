@@ -1,0 +1,17 @@
+{
+  if (key instanceof ContentTextureKey) {
+    String name=key.getName();
+    byte[] content=((ContentTextureKey)key).getContent();
+    if (content != null) {
+      return new ContentAssetInfo(manager,key,content);
+    }
+ else {
+      logger.log(Level.WARNING,"No content for " + name);
+      return null;
+    }
+  }
+ else {
+    logger.log(Level.SEVERE,"AssetKey should be TextureContentKey instance");
+    return null;
+  }
+}

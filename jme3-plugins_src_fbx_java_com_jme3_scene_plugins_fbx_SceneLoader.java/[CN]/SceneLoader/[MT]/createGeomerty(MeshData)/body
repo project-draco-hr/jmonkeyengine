@@ -1,0 +1,184 @@
+{
+  Mesh mesh=new Mesh();
+  mesh.setMode(Mode.Triangles);
+  boolean isQuads=false;
+  if (data.indices != null) {
+    data.iCount=data.indices.length;
+    data.srcVertexCount=data.vertices.length / 3;
+    boolean allTriangles=true;
+    boolean allQads=true;
+    for (int i=0; i < data.indices.length; ++i) {
+      if (i % 3 == 2) {
+        if (data.indices[i] >= 0)         allTriangles=false;
+      }
+ else {
+        if (data.indices[i] < 0)         allTriangles=false;
+      }
+      if (i % 4 == 3) {
+        if (data.indices[i] >= 0)         allQads=false;
+      }
+ else {
+        if (data.indices[i] < 0)         allQads=false;
+      }
+    }
+    if (allTriangles) {
+      isQuads=false;
+      data.vCount=data.iCount;
+    }
+ else     if (allQads) {
+      isQuads=true;
+      data.vCount=6 * (data.iCount / 4);
+    }
+ else     throw new AssetLoadException("Unsupported PolygonVertexIndex stride");
+    data.vertexMap=new int[data.vCount];
+    data.indexMap=new int[data.vCount];
+    int n=0;
+    for (int i=0; i < data.iCount; ++i) {
+      int index=data.indices[i];
+      if (index < 0) {
+        int lastIndex=-(index + 1);
+        if (isQuads) {
+          data.vertexMap[n + 0]=data.indices[i - 3];
+          data.vertexMap[n + 1]=data.indices[i - 2];
+          data.vertexMap[n + 2]=data.indices[i - 1];
+          data.vertexMap[n + 3]=data.indices[i - 3];
+          data.vertexMap[n + 4]=data.indices[i - 1];
+          data.vertexMap[n + 5]=lastIndex;
+          data.indexMap[n + 0]=(i - 3);
+          data.indexMap[n + 1]=(i - 2);
+          data.indexMap[n + 2]=(i - 1);
+          data.indexMap[n + 3]=(i - 3);
+          data.indexMap[n + 4]=(i - 1);
+          data.indexMap[n + 5]=(i - 0);
+          n+=6;
+        }
+ else {
+          data.vertexMap[n + 0]=data.indices[i - 2];
+          data.vertexMap[n + 1]=data.indices[i - 1];
+          data.vertexMap[n + 2]=lastIndex;
+          data.indexMap[n + 0]=(i - 2);
+          data.indexMap[n + 1]=(i - 1);
+          data.indexMap[n + 2]=(i - 0);
+          n+=3;
+        }
+      }
+    }
+    data.reverseVertexMap=new ArrayList<List<Integer>>(data.srcVertexCount);
+    for (int i=0; i < data.srcVertexCount; ++i)     data.reverseVertexMap.add(new ArrayList<Integer>());
+    for (int i=0; i < data.vCount; ++i) {
+      int index=data.vertexMap[i];
+      data.reverseVertexMap.get(index).add(i);
+    }
+  }
+ else {
+    data.iCount=data.vCount=data.srcVertexCount;
+    data.vertexMap=new int[data.vCount];
+    data.indexMap=new int[data.vCount];
+    data.reverseVertexMap=new ArrayList<List<Integer>>(data.vCount);
+    for (int i=0; i < data.vCount; ++i) {
+      data.vertexMap[i]=i;
+      data.indexMap[i]=i;
+      List<Integer> reverseIndices=new ArrayList<Integer>(1);
+      reverseIndices.add(i);
+      data.reverseVertexMap.add(reverseIndices);
+    }
+  }
+  if (data.vertices != null) {
+    FloatBuffer posBuf=BufferUtils.createFloatBuffer(data.vCount * 3);
+    mesh.setBuffer(VertexBuffer.Type.Position,3,posBuf);
+    int srcCount=data.vertices.length / 3;
+    for (int i=0; i < data.vCount; ++i) {
+      int index=data.vertexMap[i];
+      if (index > srcCount)       throw new AssetLoadException("Invalid vertex mapping. Unexpected lookup vertex " + index + " from "+ srcCount);
+      float x=(float)data.vertices[3 * index + 0] / unitSize;
+      float y=(float)data.vertices[3 * index + 1] / unitSize;
+      float z=(float)data.vertices[3 * index + 2] / unitSize;
+      posBuf.put(x).put(y).put(z);
+    }
+  }
+  if (data.normals != null) {
+    FloatBuffer normBuf=BufferUtils.createFloatBuffer(data.vCount * 3);
+    mesh.setBuffer(VertexBuffer.Type.Normal,3,normBuf);
+    int[] mapping=null;
+    if (data.normalsMapping.equals("ByVertice"))     mapping=data.vertexMap;
+ else     if (data.normalsMapping.equals("ByPolygonVertex"))     mapping=data.indexMap;
+    int srcCount=data.normals.length / 3;
+    for (int i=0; i < data.vCount; ++i) {
+      int index=mapping[i];
+      if (index > srcCount)       throw new AssetLoadException("Invalid normal mapping. Unexpected lookup normal " + index + " from "+ srcCount);
+      float x=(float)data.normals[3 * index + 0];
+      float y=(float)data.normals[3 * index + 1];
+      float z=(float)data.normals[3 * index + 2];
+      normBuf.put(x).put(y).put(z);
+    }
+  }
+  if (data.tangents != null) {
+    FloatBuffer tanBuf=BufferUtils.createFloatBuffer(data.vCount * 4);
+    mesh.setBuffer(VertexBuffer.Type.Tangent,4,tanBuf);
+    int[] mapping=null;
+    if (data.tangentsMapping.equals("ByVertice"))     mapping=data.vertexMap;
+ else     if (data.tangentsMapping.equals("ByPolygonVertex"))     mapping=data.indexMap;
+    int srcCount=data.tangents.length / 3;
+    for (int i=0; i < data.vCount; ++i) {
+      int index=mapping[i];
+      if (index > srcCount)       throw new AssetLoadException("Invalid tangent mapping. Unexpected lookup tangent " + index + " from "+ srcCount);
+      float x=(float)data.tangents[3 * index + 0];
+      float y=(float)data.tangents[3 * index + 1];
+      float z=(float)data.tangents[3 * index + 2];
+      tanBuf.put(x).put(y).put(z).put(-1.0f);
+    }
+  }
+  if (data.binormals != null) {
+    FloatBuffer binormBuf=BufferUtils.createFloatBuffer(data.vCount * 3);
+    mesh.setBuffer(VertexBuffer.Type.Binormal,3,binormBuf);
+    int[] mapping=null;
+    if (data.binormalsMapping.equals("ByVertice"))     mapping=data.vertexMap;
+ else     if (data.binormalsMapping.equals("ByPolygonVertex"))     mapping=data.indexMap;
+    int srcCount=data.binormals.length / 3;
+    for (int i=0; i < data.vCount; ++i) {
+      int index=mapping[i];
+      if (index > srcCount)       throw new AssetLoadException("Invalid binormal mapping. Unexpected lookup binormal " + index + " from "+ srcCount);
+      float x=(float)data.binormals[3 * index + 0];
+      float y=(float)data.binormals[3 * index + 1];
+      float z=(float)data.binormals[3 * index + 2];
+      binormBuf.put(x).put(y).put(z);
+    }
+  }
+  if (data.uv != null) {
+    int[] unIndexMap=data.vertexMap;
+    if (data.uvIndex != null) {
+      int uvIndexSrcCount=data.uvIndex.length;
+      if (uvIndexSrcCount != data.iCount)       throw new AssetLoadException("Invalid number of texcoord index data " + uvIndexSrcCount + " expected "+ data.iCount);
+      unIndexMap=new int[data.vCount];
+      int n=0;
+      for (int i=0; i < data.iCount; ++i) {
+        int index=data.uvIndex[i];
+        if (isQuads && (i % 4) == 3) {
+          unIndexMap[n + 0]=data.uvIndex[i - 3];
+          unIndexMap[n + 1]=data.uvIndex[i - 1];
+          unIndexMap[n + 2]=index;
+          n+=3;
+        }
+ else {
+          unIndexMap[i]=index;
+        }
+      }
+    }
+    FloatBuffer tcBuf=BufferUtils.createFloatBuffer(data.vCount * 2);
+    mesh.setBuffer(VertexBuffer.Type.TexCoord,2,tcBuf);
+    int srcCount=data.uv.length / 2;
+    for (int i=0; i < data.vCount; ++i) {
+      int index=unIndexMap[i];
+      if (index > srcCount)       throw new AssetLoadException("Invalid texcoord mapping. Unexpected lookup texcoord " + index + " from "+ srcCount);
+      float u=(float)data.uv[2 * index + 0];
+      float v=(float)data.uv[2 * index + 1];
+      tcBuf.put(u).put(v);
+    }
+  }
+  mesh.setStatic();
+  mesh.updateBound();
+  mesh.updateCounts();
+  Geometry geom=new Geometry();
+  geom.setMesh(mesh);
+  return geom;
+}
