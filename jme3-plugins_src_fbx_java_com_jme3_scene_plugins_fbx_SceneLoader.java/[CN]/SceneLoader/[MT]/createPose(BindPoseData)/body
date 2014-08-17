@@ -1,0 +1,10 @@
+{
+  BindPose pose=new BindPose();
+  pose.name=data.name;
+  for (  NodeTransformData item : data.list) {
+    Transform t=buildTransform(item.transform);
+    t.getScale().multLocal(unitSize);
+    pose.nodeTransforms.put(item.nodeId,t);
+  }
+  return pose;
+}

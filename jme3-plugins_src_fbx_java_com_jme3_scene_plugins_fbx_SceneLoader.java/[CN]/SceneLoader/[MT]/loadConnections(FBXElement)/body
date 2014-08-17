@@ -1,0 +1,29 @@
+{
+  for (  FBXElement e : element.children) {
+    if (e.id.equals("C")) {
+      String type=(String)e.properties.get(0);
+      long objId, refId;
+      if (type.equals("OO")) {
+        objId=(Long)e.properties.get(1);
+        refId=(Long)e.properties.get(2);
+        List<Long> links=refMap.get(objId);
+        if (links == null) {
+          links=new ArrayList<Long>();
+          refMap.put(objId,links);
+        }
+        links.add(refId);
+      }
+ else       if (type.equals("OP")) {
+        objId=(Long)e.properties.get(1);
+        refId=(Long)e.properties.get(2);
+        String propName=(String)e.properties.get(3);
+        List<PropertyLink> props=propMap.get(objId);
+        if (props == null) {
+          props=new ArrayList<PropertyLink>();
+          propMap.put(objId,props);
+        }
+        props.add(new PropertyLink(refId,propName));
+      }
+    }
+  }
+}

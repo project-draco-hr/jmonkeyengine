@@ -1,0 +1,10 @@
+{
+  long id=(Long)element.properties.get(0);
+  String path=(String)element.properties.get(1);
+  String type=(String)element.properties.get(2);
+  if (type.equals("")) {
+    AnimLayer layer=new AnimLayer();
+    layer.name=path.substring(0,path.indexOf(0));
+    alayerMap.put(id,layer);
+  }
+}

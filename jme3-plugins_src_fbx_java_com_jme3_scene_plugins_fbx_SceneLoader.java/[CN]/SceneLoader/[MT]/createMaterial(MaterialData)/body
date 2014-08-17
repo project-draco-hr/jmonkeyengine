@@ -1,0 +1,15 @@
+{
+  Material m=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  m.setName(data.name);
+  data.ambientColor.multLocal(data.ambientFactor);
+  data.diffuseColor.multLocal(data.diffuseFactor);
+  data.specularColor.multLocal(data.specularFactor);
+  m.setColor("Ambient",new ColorRGBA(data.ambientColor.x,data.ambientColor.y,data.ambientColor.z,1));
+  m.setColor("Diffuse",new ColorRGBA(data.diffuseColor.x,data.diffuseColor.y,data.diffuseColor.z,1));
+  m.setColor("Specular",new ColorRGBA(data.specularColor.x,data.specularColor.y,data.specularColor.z,1));
+  m.setFloat("Shininess",data.shininessExponent);
+  m.setBoolean("UseMaterialColors",true);
+  m.getAdditionalRenderState().setAlphaTest(true);
+  m.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+  return m;
+}

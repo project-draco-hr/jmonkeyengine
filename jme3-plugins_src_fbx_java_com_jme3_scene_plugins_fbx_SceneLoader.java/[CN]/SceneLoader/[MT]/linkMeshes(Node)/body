@@ -1,0 +1,32 @@
+{
+  for (  long meshId : meshDataMap.keySet()) {
+    MeshData data=meshDataMap.get(meshId);
+    Geometry geom=createGeomerty(data);
+    if (geom != null)     geomMap.put(meshId,geom);
+  }
+  for (  long geomId : geomMap.keySet()) {
+    List<Long> refs=refMap.get(geomId);
+    if (refs == null)     continue;
+    Geometry geom=geomMap.get(geomId);
+    for (    long refId : refs) {
+      Node rootNode=(refId != 0) ? modelMap.get(refId) : sceneNode;
+      if (rootNode != null) {
+        geom.setName(rootNode.getName() + "-mesh");
+        geom.updateModelBound();
+        rootNode.attachChild(geom);
+        break;
+      }
+    }
+  }
+  for (  long matId : matMap.keySet()) {
+    List<Long> refs=refMap.get(matId);
+    if (refs == null)     continue;
+    Material mat=matMap.get(matId);
+    for (    long refId : refs) {
+      Node rootNode=modelMap.get(refId);
+      if (rootNode != null) {
+        for (        Spatial child : rootNode.getChildren())         child.setMaterial(mat);
+      }
+    }
+  }
+}

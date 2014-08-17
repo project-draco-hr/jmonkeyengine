@@ -1,0 +1,12 @@
+{
+  long id=(Long)element.properties.get(0);
+  String type=(String)element.properties.get(2);
+  if (type.equals("")) {
+    AnimCurveData data=new AnimCurveData();
+    for (    FBXElement e : element.children) {
+      if (e.id.equals("KeyTime"))       data.keyTimes=(long[])e.properties.get(0);
+ else       if (e.id.equals("KeyValueFloat"))       data.keyValues=(float[])e.properties.get(0);
+    }
+    acurveMap.put(id,data);
+  }
+}

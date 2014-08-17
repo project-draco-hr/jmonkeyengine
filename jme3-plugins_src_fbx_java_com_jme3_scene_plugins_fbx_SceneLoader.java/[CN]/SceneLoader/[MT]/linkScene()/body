@@ -1,0 +1,12 @@
+{
+  logger.log(Level.FINE,"Linking scene objects");
+  long startTime=System.currentTimeMillis();
+  Node sceneNode=linkSceneNodes();
+  linkMaterials();
+  linkMeshes(sceneNode);
+  linkSkins(sceneNode);
+  linkAnimations();
+  long estimatedTime=System.currentTimeMillis() - startTime;
+  logger.log(Level.FINE,"Linking done in {0} ms",estimatedTime);
+  return sceneNode;
+}

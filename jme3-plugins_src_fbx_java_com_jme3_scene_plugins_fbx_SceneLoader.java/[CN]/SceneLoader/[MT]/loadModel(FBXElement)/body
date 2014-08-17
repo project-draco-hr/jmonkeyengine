@@ -1,0 +1,42 @@
+{
+  long id=(Long)element.properties.get(0);
+  String path=(String)element.properties.get(1);
+  String type=(String)element.properties.get(2);
+  ModelData data=new ModelData();
+  data.name=path.substring(0,path.indexOf(0));
+  data.type=type;
+  for (  FBXElement e : element.children) {
+    if (e.id.equals("Properties70")) {
+      for (      FBXElement e2 : e.children) {
+        if (e2.id.equals("P")) {
+          String propName=(String)e2.properties.get(0);
+          if (propName.equals("Lcl Translation")) {
+            double x=(Double)e2.properties.get(4);
+            double y=(Double)e2.properties.get(5);
+            double z=(Double)e2.properties.get(6);
+            data.localTranslation.set((float)x,(float)y,(float)z).divideLocal(unitSize);
+          }
+ else           if (propName.equals("Lcl Rotation")) {
+            double x=(Double)e2.properties.get(4);
+            double y=(Double)e2.properties.get(5);
+            double z=(Double)e2.properties.get(6);
+            data.localRotation.fromAngles((float)x * FastMath.DEG_TO_RAD,(float)y * FastMath.DEG_TO_RAD,(float)z * FastMath.DEG_TO_RAD);
+          }
+ else           if (propName.equals("Lcl Scaling")) {
+            double x=(Double)e2.properties.get(4);
+            double y=(Double)e2.properties.get(5);
+            double z=(Double)e2.properties.get(6);
+            data.localScale.set((float)x,(float)y,(float)z).multLocal(unitSize);
+          }
+ else           if (propName.equals("PreRotation")) {
+            double x=(Double)e2.properties.get(4);
+            double y=(Double)e2.properties.get(5);
+            double z=(Double)e2.properties.get(6);
+            data.preRotation=quatFromBoneAngles((float)x * FastMath.DEG_TO_RAD,(float)y * FastMath.DEG_TO_RAD,(float)z * FastMath.DEG_TO_RAD);
+          }
+        }
+      }
+    }
+  }
+  modelDataMap.put(id,data);
+}

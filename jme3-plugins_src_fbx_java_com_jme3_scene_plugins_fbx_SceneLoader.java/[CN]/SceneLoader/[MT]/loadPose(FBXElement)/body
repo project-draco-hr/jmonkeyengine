@@ -1,0 +1,20 @@
+{
+  long id=(Long)element.properties.get(0);
+  String path=(String)element.properties.get(1);
+  String type=(String)element.properties.get(2);
+  if (type.equals("BindPose")) {
+    BindPoseData data=new BindPoseData();
+    data.name=path.substring(0,path.indexOf(0));
+    for (    FBXElement e : element.children) {
+      if (e.id.equals("PoseNode")) {
+        NodeTransformData item=new NodeTransformData();
+        for (        FBXElement e2 : e.children) {
+          if (e2.id.equals("Node"))           item.nodeId=(Long)e2.properties.get(0);
+ else           if (e2.id.equals("Matrix"))           item.transform=(double[])e2.properties.get(0);
+        }
+        data.list.add(item);
+      }
+    }
+    poseDataMap.put(id,data);
+  }
+}

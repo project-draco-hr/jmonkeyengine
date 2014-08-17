@@ -1,0 +1,45 @@
+{
+  for (  long matId : matDataMap.keySet()) {
+    MaterialData data=matDataMap.get(matId);
+    Material material=createMaterial(data);
+    if (material != null)     matMap.put(matId,material);
+  }
+  for (  long texId : texDataMap.keySet()) {
+    TextureData data=texDataMap.get(texId);
+    Texture tex=createTexture(data);
+    if (tex != null)     texMap.put(texId,tex);
+  }
+  for (  long imgId : imgDataMap.keySet()) {
+    ImageData data=imgDataMap.get(imgId);
+    Image img=createImage(data);
+    if (img != null)     imgMap.put(imgId,img);
+  }
+  for (  long imgId : imgMap.keySet()) {
+    List<Long> refs=refMap.get(imgId);
+    if (refs == null)     continue;
+    Image img=imgMap.get(imgId);
+    for (    long refId : refs) {
+      Texture tex=texMap.get(refId);
+      if (tex != null)       tex.setImage(img);
+    }
+  }
+  for (  long texId : texMap.keySet()) {
+    List<PropertyLink> props=propMap.get(texId);
+    if (props == null)     continue;
+    Texture tex=texMap.get(texId);
+    for (    PropertyLink prop : props) {
+      Material mat=matMap.get(prop.ref);
+      if (mat != null) {
+        if (prop.propName.equals("DiffuseColor")) {
+          mat.setTexture("DiffuseMap",tex);
+          mat.setColor("Diffuse",ColorRGBA.White);
+        }
+ else         if (prop.propName.equals("SpecularColor")) {
+          mat.setTexture("SpecularMap",tex);
+          mat.setColor("Specular",ColorRGBA.White);
+        }
+ else         if (prop.propName.equals("NormalMap"))         mat.setTexture("NormalMap",tex);
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+switch (dataType) {
+case 'Y':
+    return byteBuffer.getShort();
+case 'C':
+  return byteBuffer.get() == 1;
+case 'I':
+return byteBuffer.getInt();
+case 'F':
+return byteBuffer.getFloat();
+case 'D':
+return byteBuffer.getDouble();
+case 'L':
+return byteBuffer.getLong();
+case 'R':
+return getBytes(byteBuffer,(int)getUInt(byteBuffer));
+case 'S':
+return new String(getBytes(byteBuffer,(int)getUInt(byteBuffer)));
+case 'f':
+return readArray(byteBuffer,'f',4);
+case 'i':
+return readArray(byteBuffer,'i',4);
+case 'd':
+return readArray(byteBuffer,'d',8);
+case 'l':
+return readArray(byteBuffer,'l',8);
+case 'b':
+return readArray(byteBuffer,'b',1);
+case 'c':
+return readArray(byteBuffer,'c',1);
+}
+throw new IOException("Unknown data type: " + dataType);
+}

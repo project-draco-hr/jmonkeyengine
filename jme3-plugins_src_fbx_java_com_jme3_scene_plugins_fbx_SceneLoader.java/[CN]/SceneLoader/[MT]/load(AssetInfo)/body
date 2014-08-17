@@ -1,0 +1,25 @@
+{
+  this.assetManager=assetInfo.getManager();
+  AssetKey<?> assetKey=assetInfo.getKey();
+  if (assetKey instanceof SceneKey)   key=(SceneKey)assetKey;
+ else   throw new AssetLoadException("Invalid asset key");
+  InputStream stream=assetInfo.openStream();
+  Node sceneNode=null;
+  try {
+    sceneFilename=assetKey.getName();
+    sceneFolderName=assetKey.getFolder();
+    String ext=assetKey.getExtension();
+    sceneName=sceneFilename.substring(0,sceneFilename.length() - ext.length() - 1);
+    if (sceneFolderName != null && sceneFolderName.length() > 0)     sceneName=sceneName.substring(sceneFolderName.length());
+    reset();
+    loadScene(stream);
+    sceneNode=linkScene();
+  }
+  finally {
+    releaseObjects();
+    if (stream != null) {
+      stream.close();
+    }
+  }
+  return sceneNode;
+}

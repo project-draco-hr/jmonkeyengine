@@ -1,0 +1,58 @@
+{
+  Image image=null;
+  if (data.filename != null) {
+    File file=new File(data.filename);
+    if (file.exists() && file.isFile()) {
+      File dir=new File(file.getParent());
+      String locatorPath=dir.getAbsolutePath();
+      Texture tex=null;
+      try {
+        assetManager.registerLocator(locatorPath,com.jme3.asset.plugins.FileLocator.class);
+        tex=assetManager.loadTexture(file.getName());
+      }
+ catch (      Exception e) {
+      }
+ finally {
+        assetManager.unregisterLocator(locatorPath,com.jme3.asset.plugins.FileLocator.class);
+      }
+      if (tex != null)       image=tex.getImage();
+    }
+  }
+  if (image == null && data.relativeFilename != null) {
+    File dir=new File(sceneFolderName);
+    String locatorPath=dir.getAbsolutePath();
+    Texture tex=null;
+    try {
+      assetManager.registerLocator(locatorPath,com.jme3.asset.plugins.FileLocator.class);
+      tex=assetManager.loadTexture(data.relativeFilename);
+    }
+ catch (    Exception e) {
+    }
+ finally {
+      assetManager.unregisterLocator(locatorPath,com.jme3.asset.plugins.FileLocator.class);
+    }
+    if (tex != null)     image=tex.getImage();
+  }
+  if (image == null && data.content != null) {
+    String filename=null;
+    if (data.filename != null)     filename=new File(data.filename).getName();
+    if (filename != null && data.relativeFilename != null)     filename=data.relativeFilename;
+    if (filename != null) {
+      String locatorPath=sceneFilename;
+      filename=sceneFilename + File.separatorChar + filename;
+      Texture tex=null;
+      try {
+        assetManager.registerLocator(locatorPath,com.jme3.scene.plugins.fbx.ContentTextureLocator.class);
+        tex=assetManager.loadTexture(new ContentTextureKey(filename,data.content));
+      }
+ catch (      Exception e) {
+      }
+ finally {
+        assetManager.unregisterLocator(locatorPath,com.jme3.scene.plugins.fbx.ContentTextureLocator.class);
+      }
+      if (tex != null)       image=tex.getImage();
+    }
+  }
+  if (image == null)   throw new AssetLoadException("Content not loaded for image " + data.name);
+  return image;
+}

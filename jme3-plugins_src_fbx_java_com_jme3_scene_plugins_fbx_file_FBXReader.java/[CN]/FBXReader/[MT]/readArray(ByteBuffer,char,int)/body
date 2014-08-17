@@ -1,0 +1,36 @@
+{
+  int count=(int)getUInt(byteBuffer);
+  int encoding=(int)getUInt(byteBuffer);
+  int length=(int)getUInt(byteBuffer);
+  byte[] data=getBytes(byteBuffer,length);
+  if (encoding == 1)   data=inflate(data);
+  if (data.length != count * bytes)   throw new IOException("Wrong data lenght. Expected: " + count * bytes + ", got: " + data.length);
+  ByteBuffer dis=ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
+switch (type) {
+case 'f':
+    float[] arr=new float[count];
+  for (int i=0; i < count; ++i)   arr[i]=dis.getFloat();
+return arr;
+case 'i':
+int[] arr2=new int[count];
+for (int i=0; i < count; ++i) arr2[i]=dis.getInt();
+return arr2;
+case 'd':
+double[] arr3=new double[count];
+for (int i=0; i < count; ++i) arr3[i]=dis.getDouble();
+return arr3;
+case 'l':
+long[] arr4=new long[count];
+for (int i=0; i < count; ++i) arr4[i]=dis.getLong();
+return arr4;
+case 'b':
+boolean[] arr5=new boolean[count];
+for (int i=0; i < count; ++i) arr5[i]=dis.get() == 1;
+return arr5;
+case 'c':
+int[] arr6=new int[count];
+for (int i=0; i < count; ++i) arr6[i]=dis.get() & 0xFF;
+return arr6;
+}
+throw new IOException("Unknown array data type: " + type);
+}

@@ -1,0 +1,9 @@
+{
+  float[] m=new float[transform.length];
+  for (int i=0; i < transform.length; ++i)   m[i]=(float)transform[i];
+  Matrix4f matrix=new Matrix4f(m);
+  Vector3f pos=matrix.toTranslationVector();
+  Quaternion rot=matrix.toRotationQuat();
+  Vector3f scale=matrix.toScaleVector();
+  return new Transform(pos,rot,scale);
+}

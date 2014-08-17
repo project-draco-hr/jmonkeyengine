@@ -1,0 +1,134 @@
+{
+  if (skeleton == null)   return;
+  AnimationList animList=key.getAnimations();
+  if (animList == null || animList.list.size() == 0)   return;
+  for (  long curveId : acurveMap.keySet()) {
+    List<PropertyLink> props=propMap.get(curveId);
+    if (props == null)     continue;
+    AnimCurveData acurve=acurveMap.get(curveId);
+    for (    PropertyLink prop : props) {
+      AnimNode anode=anodeMap.get(prop.ref);
+      if (anode != null) {
+        if (prop.propName.equals("d|X"))         anode.xCurve=acurve;
+ else         if (prop.propName.equals("d|Y"))         anode.yCurve=acurve;
+ else         if (prop.propName.equals("d|Z"))         anode.zCurve=acurve;
+      }
+    }
+  }
+  for (  long nodeId : anodeMap.keySet()) {
+    List<Long> refs=refMap.get(nodeId);
+    if (refs == null)     continue;
+    for (    long layerId : refs) {
+      if (alayerMap.containsKey(layerId)) {
+        AnimNode anode=anodeMap.get(nodeId);
+        anode.layerId=layerId;
+        break;
+      }
+    }
+  }
+  HashMap<String,Animation> anims=new HashMap<String,Animation>();
+  for (  AnimInverval animInfo : animList.list) {
+    float length=(animInfo.lastFrame - animInfo.firstFrame) / this.animFrameRate;
+    float animStart=animInfo.firstFrame / this.animFrameRate;
+    float animStop=animInfo.lastFrame / this.animFrameRate;
+    Animation anim=new Animation(animInfo.name,length);
+    long sourceLayerId=0L;
+    for (    long layerId : alayerMap.keySet()) {
+      AnimLayer layer=alayerMap.get(layerId);
+      if (layer.name.equals(animInfo.layerName)) {
+        sourceLayerId=layerId;
+        break;
+      }
+    }
+    for (    Limb limb : limbMap.values()) {
+      limb.animTranslation=null;
+      limb.animRotation=null;
+      limb.animScale=null;
+    }
+    for (    long nodeId : anodeMap.keySet()) {
+      List<PropertyLink> props=propMap.get(nodeId);
+      if (props == null)       continue;
+      AnimNode anode=anodeMap.get(nodeId);
+      if (sourceLayerId != 0L && anode.layerId != sourceLayerId)       continue;
+      for (      PropertyLink prop : props) {
+        Limb limb=limbMap.get(prop.ref);
+        if (limb != null) {
+          if (prop.propName.equals("Lcl Translation"))           limb.animTranslation=anode;
+ else           if (prop.propName.equals("Lcl Rotation"))           limb.animRotation=anode;
+ else           if (prop.propName.equals("Lcl Scaling"))           limb.animScale=anode;
+        }
+      }
+    }
+    for (    Limb limb : limbMap.values()) {
+      long[] keyTimes=null;
+      boolean haveTranslation=(limb.animTranslation != null && limb.animTranslation.xCurve != null && limb.animTranslation.yCurve != null && limb.animTranslation.zCurve != null);
+      boolean haveRotation=(limb.animRotation != null && limb.animRotation.xCurve != null && limb.animRotation.yCurve != null && limb.animRotation.zCurve != null);
+      boolean haveScale=(limb.animScale != null && limb.animScale.xCurve != null && limb.animScale.yCurve != null && limb.animScale.zCurve != null);
+      if (haveTranslation)       keyTimes=limb.animTranslation.xCurve.keyTimes;
+ else       if (haveRotation)       keyTimes=limb.animRotation.xCurve.keyTimes;
+ else       if (haveScale)       keyTimes=limb.animScale.xCurve.keyTimes;
+      if (keyTimes == null)       continue;
+      int firstKey=0;
+      int lastKey=keyTimes.length - 1;
+      for (int i=0; i < keyTimes.length; ++i) {
+        float time=(float)(((double)keyTimes[i]) * secondsPerUnit);
+        if (time <= animStart)         firstKey=i;
+        if (time >= animStop) {
+          lastKey=i;
+          break;
+        }
+      }
+      int keysCount=lastKey - firstKey + 1;
+      if (keysCount <= 0)       continue;
+      float[] times=new float[keysCount];
+      Vector3f[] translations=new Vector3f[keysCount];
+      Quaternion[] rotations=new Quaternion[keysCount];
+      Vector3f[] scales=null;
+      for (int i=0; i < keysCount; ++i) {
+        int keyIndex=firstKey + i;
+        float time=(float)(((double)keyTimes[keyIndex]) * secondsPerUnit);
+        times[i]=time - animStart;
+      }
+      if (haveTranslation) {
+        for (int i=0; i < keysCount; ++i) {
+          int keyIndex=firstKey + i;
+          float x=limb.animTranslation.xCurve.keyValues[keyIndex] - limb.animTranslation.value.x;
+          float y=limb.animTranslation.yCurve.keyValues[keyIndex] - limb.animTranslation.value.y;
+          float z=limb.animTranslation.zCurve.keyValues[keyIndex] - limb.animTranslation.value.z;
+          translations[i]=new Vector3f(x,y,z).divideLocal(unitSize);
+        }
+      }
+ else {
+        for (int i=0; i < keysCount; ++i)         translations[i]=new Vector3f();
+      }
+      if (haveRotation) {
+        for (int i=0; i < keysCount; ++i) {
+          int keyIndex=firstKey + i;
+          float x=limb.animRotation.xCurve.keyValues[keyIndex];
+          float y=limb.animRotation.yCurve.keyValues[keyIndex];
+          float z=limb.animRotation.zCurve.keyValues[keyIndex];
+          rotations[i]=new Quaternion().fromAngles(FastMath.DEG_TO_RAD * x,FastMath.DEG_TO_RAD * y,FastMath.DEG_TO_RAD * z);
+        }
+      }
+ else {
+        for (int i=0; i < keysCount; ++i)         rotations[i]=new Quaternion();
+      }
+      if (haveScale) {
+        scales=new Vector3f[keysCount];
+        for (int i=0; i < keysCount; ++i) {
+          int keyIndex=firstKey + i;
+          float x=limb.animScale.xCurve.keyValues[keyIndex];
+          float y=limb.animScale.yCurve.keyValues[keyIndex];
+          float z=limb.animScale.zCurve.keyValues[keyIndex];
+          scales[i]=new Vector3f(x,y,z);
+        }
+      }
+      BoneTrack track=null;
+      if (haveScale)       track=new BoneTrack(limb.boneIndex,times,translations,rotations,scales);
+ else       track=new BoneTrack(limb.boneIndex,times,translations,rotations);
+      anim.addTrack(track);
+    }
+    anims.put(anim.getName(),anim);
+  }
+  animControl.setAnimations(anims);
+}
