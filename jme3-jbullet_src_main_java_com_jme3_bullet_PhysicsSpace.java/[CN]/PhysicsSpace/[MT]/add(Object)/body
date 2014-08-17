@@ -1,11 +1,10 @@
 {
+  if (obj == null)   return;
   if (obj instanceof PhysicsControl) {
     ((PhysicsControl)obj).setPhysicsSpace(this);
   }
  else   if (obj instanceof Spatial) {
-    Spatial node=(Spatial)obj;
-    PhysicsControl control=node.getControl(PhysicsControl.class);
-    control.setPhysicsSpace(this);
+    add(((Spatial)obj).getControl(PhysicsControl.class));
   }
  else   if (obj instanceof PhysicsCollisionObject) {
     addCollisionObject((PhysicsCollisionObject)obj);
