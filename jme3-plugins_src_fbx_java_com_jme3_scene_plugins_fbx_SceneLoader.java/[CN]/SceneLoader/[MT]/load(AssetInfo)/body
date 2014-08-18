@@ -1,8 +1,8 @@
 {
   this.assetManager=assetInfo.getManager();
   AssetKey<?> assetKey=assetInfo.getKey();
-  if (assetKey instanceof SceneKey)   key=(SceneKey)assetKey;
- else   throw new AssetLoadException("Invalid asset key");
+  if (assetKey instanceof SceneKey)   animList=((SceneKey)assetKey).getAnimations();
+ else   if (!(assetKey instanceof ModelKey))   throw new AssetLoadException("Invalid asset key");
   InputStream stream=assetInfo.openStream();
   Node sceneNode=null;
   try {
