@@ -1,0 +1,6 @@
+{
+  List<String> list=new ArrayList<String>();
+  Matcher m=splitStrings.matcher(src);
+  while (m.find())   list.add(m.group(1).replace("\"",""));
+  return list.toArray(new String[list.size()]);
+}
