@@ -4,23 +4,8 @@
     if (event.getNewSelection().isEmpty()) {
       return;
     }
-    ArrayList<String> path=new ArrayList<String>();
     GElement parent=event.getElement();
-    while (parent != null) {
-      path.add(parent.getID());
-      parent=parent.getParent();
-    }
-    Node result=nodesManager.getRootContext();
-    for (int i=path.size() - 1; i >= 0 && result != null; i--) {
-      result=result.getChildren().findChild(path.get(i));
-    }
-    try {
-      if (result != null) {
-        nodesManager.setSelectedNodes(new Node[]{result});
-      }
-    }
- catch (    PropertyVetoException ex) {
-      Exceptions.printStackTrace(ex);
-    }
+    GElementNode node=new GElementNode(parent);
+    this.content.set(Collections.singleton(node),null);
   }
 }

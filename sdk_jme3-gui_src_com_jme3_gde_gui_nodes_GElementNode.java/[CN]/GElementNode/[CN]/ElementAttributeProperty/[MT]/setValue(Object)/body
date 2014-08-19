@@ -1,4 +1,11 @@
 {
-  element.addAttribute(attributeName,val.toString());
-  element.refresh();
+  try {
+    EditAttributeCommand command=CommandProcessor.getInstance().getCommand(EditAttributeCommand.class);
+    command.setAttribute(attributeName);
+    command.setValue(val.toString());
+    CommandProcessor.getInstance().excuteCommand(command);
+  }
+ catch (  Exception ex) {
+    JOptionPane.showMessageDialog(null,ex);
+  }
 }

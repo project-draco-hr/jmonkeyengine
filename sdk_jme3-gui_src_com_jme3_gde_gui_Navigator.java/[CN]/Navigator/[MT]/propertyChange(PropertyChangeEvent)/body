@@ -10,7 +10,6 @@
         SelectCommand command=CommandProcessor.getInstance().getCommand(SelectCommand.class);
         command.setElement(element);
         try {
-          lock=true;
           CommandProcessor.getInstance().excuteCommand(command);
         }
  catch (        Exception ex) {

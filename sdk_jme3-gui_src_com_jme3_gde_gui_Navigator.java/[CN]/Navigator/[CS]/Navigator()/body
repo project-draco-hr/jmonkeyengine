@@ -3,5 +3,14 @@
   setLayout(new BorderLayout());
   beanTreeView=new BeanTreeView();
   add(beanTreeView,BorderLayout.CENTER);
-  CommandProcessor.getInstance().getObservable().addObserver(this);
+  final GuiEditorModel model=(GuiEditorModel)CommandProcessor.getInstance().getObservable();
+  model.addObserver(this);
+  if (model.getCurrent() != null) {
+    try {
+      this.intNavigator(model.getCurrent());
+    }
+ catch (    PropertyVetoException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
 }
