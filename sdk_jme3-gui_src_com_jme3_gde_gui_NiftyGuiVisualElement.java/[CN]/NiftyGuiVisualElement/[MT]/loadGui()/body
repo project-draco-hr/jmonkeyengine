@@ -2,6 +2,7 @@
   try {
     ProgressHandle handle=ProgressHandleFactory.createHandle("Loading the gui file");
     InputStream is=this.obj.getPrimaryFile().getInputStream();
+    handle.start();
     ProjectAssetManager mgr=this.obj.getLookup().lookup(ProjectAssetManager.class);
     String assetPath=mgr.getAssetFolder().getPath();
     this.editor.createNewGui(nifty,is,new File(assetPath));
@@ -10,6 +11,7 @@
     this.editor.getGui().getSelection().addObserver(this);
     Collection<GLayer> layers1=this.editor.getGui().getLayers();
     guiID=this.editor.getGui().getGUIid();
+    this.editor.getGui().addObserver(this);
     DefaultComboBoxModel<GLayer> model=new DefaultComboBoxModel<GLayer>(layers1.toArray(new GLayer[0]));
     layers.setModel(model);
     layers.setSelectedItem(this.editor.getCurrentLayer());
