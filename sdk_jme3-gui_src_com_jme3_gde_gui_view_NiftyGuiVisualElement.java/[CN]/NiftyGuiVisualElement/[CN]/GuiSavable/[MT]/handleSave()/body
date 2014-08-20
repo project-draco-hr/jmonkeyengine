@@ -1,0 +1,16 @@
+{
+  try {
+    GUIWriter writer=new GUIWriter(this.gui);
+    writer.writeGUI(filename);
+    NiftyGuiVisualElement.this.content.remove(this);
+  }
+ catch (  FileNotFoundException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  JAXBException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ClassNotFoundException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

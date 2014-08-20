@@ -1,0 +1,36 @@
+{
+  if (o instanceof GuiEditorModel) {
+    try {
+      GuiEditorModel model=(GuiEditorModel)o;
+      model.getCurrent().addObserver(this);
+      model.getCurrent().getSelection().addObserver(this);
+      this.intNavigator(model.getCurrent());
+    }
+ catch (    PropertyVetoException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+  if (arg instanceof SelectionChanged) {
+    SelectionChanged event=(SelectionChanged)arg;
+    if (event.getNewSelection().isEmpty()) {
+      return;
+    }
+    ArrayList<String> path=new ArrayList<String>();
+    GElement parent=((SelectionChanged)arg).getElement();
+    while (parent != null) {
+      path.add(parent.getID());
+      parent=parent.getParent();
+    }
+    Node result=mgr.getRootContext();
+    for (int i=path.size() - 1; i >= 0; i--) {
+      result=result.getChildren().findChild(path.get(i));
+    }
+    try {
+      mgr.setSelectedNodes(new Node[]{result});
+    }
+ catch (    PropertyVetoException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+  beanTreeView.updateUI();
+}

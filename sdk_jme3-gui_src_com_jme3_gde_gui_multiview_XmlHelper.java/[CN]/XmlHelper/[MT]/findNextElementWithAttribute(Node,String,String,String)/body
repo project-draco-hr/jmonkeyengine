@@ -1,7 +1,0 @@
-{
-  ret=ret.getNextSibling();
-  while (ret != null && (!(ret instanceof Element) || !ret.getNodeName().equals(name) || ((Element)ret).getAttribute(attribute) == null || !((Element)ret).getAttribute(attribute).equals(value))) {
-    ret=ret.getNextSibling();
-  }
-  return (Element)ret;
-}

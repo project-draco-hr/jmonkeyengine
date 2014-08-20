@@ -1,0 +1,22 @@
+{
+  if (evt.getPropertyName().equals(ExplorerManager.PROP_SELECTED_NODES)) {
+    Node[] newValue=(Node[])evt.getNewValue();
+    if (newValue.length > 0) {
+      AbstractNode firstSelected=(AbstractNode)newValue[0];
+      if (firstSelected instanceof GElementNode) {
+        GElement element=((GElementNode)firstSelected).getGelement();
+        GUI gui=((GUINode)mgr.getRootContext()).getGui();
+        gui.getSelection().deleteObserver(this);
+        SelectCommand command=CommandProcessor.getInstance().getCommand(SelectCommand.class);
+        command.setElement(element);
+        try {
+          CommandProcessor.getInstance().excuteCommand(command);
+        }
+ catch (        Exception ex) {
+          Exceptions.printStackTrace(ex);
+        }
+        gui.getSelection().addObserver(this);
+      }
+    }
+  }
+}
