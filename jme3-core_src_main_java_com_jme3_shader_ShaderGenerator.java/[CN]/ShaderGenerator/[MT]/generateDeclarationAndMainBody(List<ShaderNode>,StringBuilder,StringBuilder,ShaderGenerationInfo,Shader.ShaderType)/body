@@ -5,8 +5,9 @@
     }
     if (shaderNode.getDefinition().getType() == type) {
       int index=findShaderIndexFromVersion(shaderNode,type);
-      String loadedSource=(String)assetManager.loadAsset(new AssetKey(shaderNode.getDefinition().getShadersPath().get(index)));
-      appendNodeDeclarationAndMain(loadedSource,sourceDeclaration,source,shaderNode,info);
+      String shaderPath=shaderNode.getDefinition().getShadersPath().get(index);
+      String loadedSource=(String)assetManager.loadAsset(new AssetKey(shaderPath));
+      appendNodeDeclarationAndMain(loadedSource,sourceDeclaration,source,shaderNode,info,shaderPath);
     }
   }
 }
