@@ -1,0 +1,24 @@
+{
+  File assets=gui.getAssetFolder();
+  String res="";
+  String parentPath=selected.getParent();
+  String absAssets=assets.getAbsolutePath();
+  if (!parentPath.contains(absAssets)) {
+    try {
+      absAssets=assets.getCanonicalPath();
+      if (!parentPath.contains(absAssets)) {
+        JOptionPane.showMessageDialog(null,"Sorry you can't relativize this file. Tip : the file must be inside the assets folder");
+      }
+ else {
+        res=assets.toURI().relativize(selected.toURI()).getPath();
+      }
+    }
+ catch (    IOException ex) {
+      JOptionPane.showMessageDialog(null,"Sorry you can't relativize this file");
+    }
+  }
+ else {
+    res=assets.toURI().relativize(selected.toURI()).getPath();
+  }
+  return res;
+}

@@ -1,0 +1,9 @@
+{
+  JFileChooser chooser=new JFileChooser(gui.getAssetFolder());
+  int result=chooser.showSaveDialog(null);
+  if (result == JFileChooser.APPROVE_OPTION) {
+    GUseStyle style=new GUseStyle();
+    style.setFilename(createReletive(chooser.getSelectedFile()));
+    gui.addLoadUseStyle(style);
+  }
+}
