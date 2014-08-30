@@ -1,0 +1,31 @@
+{
+  LOGGER.fine("Detaching triangle.");
+  if (triangleIndexes.length != 3) {
+    throw new IllegalArgumentException("Cannot detach triangle with that does not have 3 indexes!");
+  }
+  List<Face> detachedFaces=new ArrayList<Face>();
+  boolean[] edgeRemoved=new boolean[]{indexes.removeEdge(triangleIndexes[0],triangleIndexes[1]),indexes.removeEdge(triangleIndexes[0],triangleIndexes[2]),indexes.removeEdge(triangleIndexes[1],triangleIndexes[2])};
+  Integer[][] indexesPairs=new Integer[][]{new Integer[]{triangleIndexes[0],triangleIndexes[1]},new Integer[]{triangleIndexes[0],triangleIndexes[2]},new Integer[]{triangleIndexes[1],triangleIndexes[2]}};
+  for (int i=0; i < 3; ++i) {
+    if (!edgeRemoved[i]) {
+      List<Integer> path=indexes.findPath(indexesPairs[i][0],indexesPairs[i][1]);
+      if (path == null) {
+        path=indexes.findPath(indexesPairs[i][1],indexesPairs[i][0]);
+      }
+      if (path == null) {
+        throw new IllegalStateException("Triangulation failed. Cannot find path between two indexes. Please apply triangulation in Blender as a workaround.");
+      }
+      if (detachedFaces.size() == 0 && path.size() < indexes.size()) {
+        detachedFaces.add(new Face(path.toArray(new Integer[path.size()]),smooth,materialNumber,faceUVCoords,vertexColors,temporalMesh));
+        for (int j=0; j < path.size() - 1; ++j) {
+          indexes.removeEdge(path.get(j),path.get(j + 1));
+        }
+        indexes.removeEdge(path.get(path.size() - 1),path.get(0));
+      }
+ else {
+        indexes.addEdge(path.get(path.size() - 1),path.get(0));
+      }
+    }
+  }
+  return detachedFaces;
+}

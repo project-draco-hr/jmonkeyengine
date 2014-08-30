@@ -1,0 +1,9 @@
+{
+  if (indexPosition >= indexes.size()) {
+    indexPosition=indexPosition % indexes.size();
+  }
+ else   if (indexPosition < 0) {
+    indexPosition=indexes.size() - -indexPosition % indexes.size();
+  }
+  return indexes.get(indexPosition);
+}

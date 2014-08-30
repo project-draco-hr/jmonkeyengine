@@ -1,0 +1,9 @@
+{
+  for (  Integer index : indexes) {
+    nodes.remove(index);
+    edges.remove(index);
+    for (    List<Integer> neighbours : edges.values()) {
+      neighbours.remove(index);
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  Texture result=(Texture)blenderContext.getLoadedFeature(tex.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
+  Texture result=(Texture)blenderContext.getLoadedFeature(tex.getOldMemoryAddress(),LoadedDataType.FEATURE);
   if (result != null) {
     return result;
   }
@@ -64,7 +64,8 @@ result.setKey(new GeneratedTextureKey(tex.getName()));
 if (LOGGER.isLoggable(Level.FINE)) {
 LOGGER.log(Level.FINE,"Adding texture {0} to the loaded features with OMA = {1}",new Object[]{result.getName(),tex.getOldMemoryAddress()});
 }
-blenderContext.addLoadedFeatures(tex.getOldMemoryAddress(),tex.getName(),tex,result);
+blenderContext.addLoadedFeatures(tex.getOldMemoryAddress(),LoadedDataType.STRUCTURE,tex);
+blenderContext.addLoadedFeatures(tex.getOldMemoryAddress(),LoadedDataType.FEATURE,result);
 }
 return result;
 }

@@ -1,0 +1,22 @@
+{
+  LOGGER.log(Level.FINE,"Loading all points that do not belong to any edge from mesh: {0}",meshStructure.getName());
+  List<Point> result=new ArrayList<Point>();
+  Pointer pMEdge=(Pointer)meshStructure.getFieldValue("medge");
+  if (pMEdge.isNotNull()) {
+    int count=((Number)meshStructure.getFieldValue("totvert")).intValue();
+    Set<Integer> unusedVertices=new HashSet<Integer>(count);
+    for (int i=0; i < count; ++i) {
+      unusedVertices.add(i);
+    }
+    List<Structure> edges=pMEdge.fetchData();
+    for (    Structure edge : edges) {
+      unusedVertices.remove(((Number)edge.getFieldValue("v1")).intValue());
+      unusedVertices.remove(((Number)edge.getFieldValue("v2")).intValue());
+    }
+    for (    Integer unusedIndex : unusedVertices) {
+      result.add(new Point(unusedIndex));
+    }
+  }
+  LOGGER.log(Level.FINE,"Loaded {0} points.",result.size());
+  return result;
+}

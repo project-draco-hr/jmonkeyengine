@@ -1,0 +1,8 @@
+{
+  LOGGER.fine("Triangulating temporal mesh.");
+  List<Face> triangulatedFaces=new ArrayList<Face>();
+  for (  Face face : faces) {
+    triangulatedFaces.addAll(face.triangulate(vertices,normals));
+  }
+  faces=triangulatedFaces;
+}

@@ -1,6 +1,6 @@
 {
   if (ownerOMA != null && owner == null) {
-    owner=blenderContext.getLoadedFeature(ownerOMA,LoadedFeatureDataType.LOADED_FEATURE);
+    owner=blenderContext.getLoadedFeature(ownerOMA,LoadedDataType.FEATURE);
     if (owner == null) {
       throw new IllegalStateException("Cannot load constraint's owner for constraint type: " + this.getClass().getName());
     }

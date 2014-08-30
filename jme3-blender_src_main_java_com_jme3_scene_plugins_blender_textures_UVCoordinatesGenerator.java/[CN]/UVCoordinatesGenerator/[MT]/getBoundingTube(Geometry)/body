@@ -1,0 +1,17 @@
+{
+  BoundingTube result=null;
+  for (  Geometry geometry : geometries) {
+    BoundingBox bb=UVCoordinatesGenerator.getBoundingBox(geometry);
+    Vector3f max=bb.getMax(null);
+    Vector3f min=bb.getMin(null);
+    float radius=Math.max(max.x - min.x,max.y - min.y) * 0.5f;
+    BoundingTube bt=new BoundingTube(radius,max.z - min.z,bb.getCenter());
+    if (result == null) {
+      result=bt;
+    }
+ else {
+      result.merge(bt);
+    }
+  }
+  return result;
+}

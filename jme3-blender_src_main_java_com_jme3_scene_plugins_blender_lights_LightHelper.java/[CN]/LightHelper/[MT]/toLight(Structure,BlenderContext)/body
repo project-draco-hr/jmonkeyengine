@@ -1,5 +1,5 @@
 {
-  LightNode result=(LightNode)blenderContext.getLoadedFeature(structure.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
+  LightNode result=(LightNode)blenderContext.getLoadedFeature(structure.getOldMemoryAddress(),LoadedDataType.FEATURE);
   if (result != null) {
     return result;
   }
@@ -38,7 +38,7 @@ float r=((Number)structure.getFieldValue("r")).floatValue();
 float g=((Number)structure.getFieldValue("g")).floatValue();
 float b=((Number)structure.getFieldValue("b")).floatValue();
 light.setColor(new ColorRGBA(r,g,b,1.0f));
-result=new LightNode(null,light);
+result=new LightNode(structure.getName(),light);
 }
 return result;
 }

@@ -1,0 +1,16 @@
+{
+  ByteBuffer result=null;
+  if (vertColors.size() > 0) {
+    result=BufferUtils.createByteBuffer(4 * vertColors.size());
+    for (    byte[] v : vertColors) {
+      if (v != null) {
+        result.put(v[0]).put(v[1]).put(v[2]).put(v[3]);
+      }
+ else {
+        result.put((byte)0).put((byte)0).put((byte)0).put((byte)0);
+      }
+    }
+    result.flip();
+  }
+  return result;
+}

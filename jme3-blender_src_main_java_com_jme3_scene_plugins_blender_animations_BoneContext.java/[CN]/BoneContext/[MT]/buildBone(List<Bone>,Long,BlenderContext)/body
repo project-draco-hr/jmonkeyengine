@@ -3,9 +3,10 @@
   Long boneOMA=boneStructure.getOldMemoryAddress();
   bone=new Bone(boneName);
   bones.add(bone);
-  blenderContext.addLoadedFeatures(boneOMA,boneName,boneStructure,bone);
+  blenderContext.addLoadedFeatures(boneOMA,LoadedDataType.STRUCTURE,boneStructure);
+  blenderContext.addLoadedFeatures(boneOMA,LoadedDataType.FEATURE,bone);
   ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
-  Structure skeletonOwnerObjectStructure=(Structure)blenderContext.getLoadedFeature(skeletonOwnerOma,LoadedFeatureDataType.LOADED_STRUCTURE);
+  Structure skeletonOwnerObjectStructure=(Structure)blenderContext.getLoadedFeature(skeletonOwnerOma,LoadedDataType.STRUCTURE);
   Matrix4f invertedObjectOwnerGlobalMatrix=objectHelper.getMatrix(skeletonOwnerObjectStructure,"obmat",blenderContext.getBlenderKey().isFixUpAxis()).invertLocal();
   if (objectHelper.isParent(skeletonOwnerOma,armatureObjectOMA)) {
     boneMatrixInModelSpace=globalBoneMatrix.mult(invertedObjectOwnerGlobalMatrix);

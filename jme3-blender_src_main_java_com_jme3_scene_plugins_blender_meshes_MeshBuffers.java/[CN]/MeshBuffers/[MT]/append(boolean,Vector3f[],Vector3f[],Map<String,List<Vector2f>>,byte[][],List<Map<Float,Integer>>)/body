@@ -1,0 +1,44 @@
+{
+  if (verts.length != normals.length) {
+    throw new IllegalArgumentException("The amount of verts and normals MUST be equal!");
+  }
+  if (vertColors != null && vertColors.length != verts.length) {
+    throw new IllegalArgumentException("The amount of vertex colors and vertices MUST be equal!");
+  }
+  if (vertexGroups.size() != 0 && vertexGroups.size() != verts.length) {
+    throw new IllegalArgumentException("The amount of (if given) vertex groups and vertices MUST be equal!");
+  }
+  if (!smooth) {
+    normals[0]=normals[1]=normals[2]=FastMath.computeNormal(verts[0],verts[1],verts[2]);
+  }
+  for (int i=0; i < verts.length; ++i) {
+    int index=-1;
+    Map<String,Vector2f> uvCoordsForVertex=this.getUVsForVertex(i,uvCoords);
+    if (smooth && (index=this.indexOf(verts[i],normals[i],uvCoordsForVertex)) >= 0) {
+      indexes.add(index);
+    }
+ else {
+      indexes.add(this.verts.size());
+      this.verts.add(verts[i]);
+      this.normals.add(normals[i]);
+      this.vertColors.add(vertColors[i]);
+      if (uvCoords != null && uvCoords.size() > 0) {
+        for (        Entry<String,List<Vector2f>> entry : uvCoords.entrySet()) {
+          if (this.uvCoords.containsKey(entry.getKey())) {
+            this.uvCoords.get(entry.getKey()).add(entry.getValue().get(i));
+          }
+ else {
+            List<Vector2f> uvs=new ArrayList<Vector2f>();
+            uvs.add(entry.getValue().get(i));
+            this.uvCoords.put(entry.getKey(),uvs);
+          }
+        }
+      }
+      if (vertexGroups != null && vertexGroups.size() > 0) {
+        Map<Float,Integer> group=vertexGroups.get(i);
+        maximumWeightsPerVertex=Math.max(maximumWeightsPerVertex,group.size());
+        boneWeightAndIndexes.add(new TreeMap<Float,Integer>(group));
+      }
+    }
+  }
+}

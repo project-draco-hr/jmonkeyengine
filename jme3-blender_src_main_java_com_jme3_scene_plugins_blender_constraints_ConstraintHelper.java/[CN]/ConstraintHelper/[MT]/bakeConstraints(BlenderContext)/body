@@ -14,7 +14,7 @@
         simulationRootNodes.add(new SimulationNode(boneContext.getArmatureObjectOMA(),blenderContext));
       }
  else       if (constraint instanceof SpatialConstraint) {
-        Spatial spatial=(Spatial)blenderContext.getLoadedFeature(constraint.ownerOMA,LoadedFeatureDataType.LOADED_FEATURE);
+        Spatial spatial=(Spatial)blenderContext.getLoadedFeature(constraint.ownerOMA,LoadedDataType.FEATURE);
         while (spatial.getParent() != null) {
           spatial=spatial.getParent();
         }

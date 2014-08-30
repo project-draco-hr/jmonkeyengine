@@ -1,0 +1,31 @@
+{
+  BoneBuffersData result=null;
+  if (maximumWeightsPerVertex > 0) {
+    this.normalizeBoneBuffers(MAXIMUM_WEIGHTS_PER_VERTEX);
+    maximumWeightsPerVertex=MAXIMUM_WEIGHTS_PER_VERTEX;
+    FloatBuffer weightsFloatData=BufferUtils.createFloatBuffer(boneWeightAndIndexes.size() * MAXIMUM_WEIGHTS_PER_VERTEX);
+    ByteBuffer indicesData=BufferUtils.createByteBuffer(boneWeightAndIndexes.size() * MAXIMUM_WEIGHTS_PER_VERTEX);
+    int index=0;
+    for (    Map<Float,Integer> boneBuffersData : boneWeightAndIndexes) {
+      if (boneBuffersData.size() > 0) {
+        int count=0;
+        for (        Entry<Float,Integer> entry : boneBuffersData.entrySet()) {
+          weightsFloatData.put(index * MAXIMUM_WEIGHTS_PER_VERTEX + count,entry.getKey());
+          indicesData.put(index * MAXIMUM_WEIGHTS_PER_VERTEX + count,entry.getValue().byteValue());
+          ++count;
+        }
+      }
+ else {
+        weightsFloatData.put(index * MAXIMUM_WEIGHTS_PER_VERTEX,1.0f);
+        indicesData.put(index * MAXIMUM_WEIGHTS_PER_VERTEX,(byte)0);
+      }
+      ++index;
+    }
+    VertexBuffer verticesWeights=new VertexBuffer(Type.BoneWeight);
+    verticesWeights.setupData(Usage.CpuOnly,maximumWeightsPerVertex,Format.Float,weightsFloatData);
+    VertexBuffer verticesWeightsIndices=new VertexBuffer(Type.BoneIndex);
+    verticesWeightsIndices.setupData(Usage.CpuOnly,maximumWeightsPerVertex,Format.UnsignedByte,indicesData);
+    result=new BoneBuffersData(maximumWeightsPerVertex,verticesWeights,verticesWeightsIndices);
+  }
+  return result;
+}

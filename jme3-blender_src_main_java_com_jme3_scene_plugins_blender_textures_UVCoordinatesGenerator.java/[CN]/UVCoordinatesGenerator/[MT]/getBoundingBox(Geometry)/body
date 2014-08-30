@@ -1,0 +1,19 @@
+{
+  BoundingBox result=null;
+  for (  Geometry geometry : geometries) {
+    geometry.updateModelBound();
+    BoundingVolume bv=geometry.getModelBound();
+    if (bv instanceof BoundingBox) {
+      return (BoundingBox)bv;
+    }
+ else     if (bv instanceof BoundingSphere) {
+      BoundingSphere bs=(BoundingSphere)bv;
+      float r=bs.getRadius();
+      return new BoundingBox(bs.getCenter(),r,r,r);
+    }
+ else {
+      throw new IllegalStateException("Unknown bounding volume type: " + bv.getClass().getName());
+    }
+  }
+  return result;
+}

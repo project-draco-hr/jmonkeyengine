@@ -1,5 +1,5 @@
 {
-  List<Geometry> geometries=(List<Geometry>)blenderContext.getLoadedFeature(geometriesOMA,LoadedFeatureDataType.LOADED_FEATURE);
+  TemporalMesh geometries=(TemporalMesh)blenderContext.getLoadedFeature(geometriesOMA,LoadedDataType.TEMPORAL_MESH);
   int[] coordinatesSwappingIndexes=new int[]{((Number)mTex.getFieldValue("projx")).intValue(),((Number)mTex.getFieldValue("projy")).intValue(),((Number)mTex.getFieldValue("projz")).intValue()};
   List<Vector3f> uvs=UVCoordinatesGenerator.generateUVCoordinatesFor3DTexture(mesh,coordinatesType,coordinatesSwappingIndexes,geometries);
   Vector3f[] uvsArray=uvs.toArray(new Vector3f[uvs.size()]);

@@ -1,7 +1,7 @@
 {
   LOGGER.log(Level.FINE,"Fetching texture with OMA = {0}",imageStructure.getOldMemoryAddress());
   Texture result=null;
-  Image im=(Image)blenderContext.getLoadedFeature(imageStructure.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
+  Image im=(Image)blenderContext.getLoadedFeature(imageStructure.getOldMemoryAddress(),LoadedDataType.FEATURE);
   if (im == null) {
     String texturePath=imageStructure.getFieldValue("name").toString();
     Pointer pPackedFile=(Pointer)imageStructure.getFieldValue("packedfile");

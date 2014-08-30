@@ -1,0 +1,19 @@
+{
+  List<Integer> result=new ArrayList<Integer>();
+  Integer node=start;
+  while (!node.equals(end)) {
+    result.add(node);
+    List<Integer> nextSteps=edges.get(node);
+    if (nextSteps.size() == 0) {
+      return null;
+    }
+ else     if (nextSteps.size() == 1) {
+      node=nextSteps.get(0);
+    }
+ else {
+      throw new IllegalStateException("Triangulation failed. Face has ambiguous indexes loop. Please triangulate your model in Blender as a workaround.");
+    }
+  }
+  result.add(end);
+  return result;
+}

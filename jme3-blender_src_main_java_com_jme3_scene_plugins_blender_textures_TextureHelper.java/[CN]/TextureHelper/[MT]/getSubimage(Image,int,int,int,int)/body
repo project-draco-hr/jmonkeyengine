@@ -14,7 +14,7 @@
   int width=maxX - minX;
   int height=maxY - minY;
   ByteBuffer data=BufferUtils.createByteBuffer(width * height * (image.getFormat().getBitsPerPixel() >> 3));
-  Image result=new Image(image.getFormat(),width,height,data);
+  Image result=new Image(image.getFormat(),width,height,data,ColorSpace.sRGB);
   PixelInputOutput pixelIO=PixelIOFactory.getPixelIO(image.getFormat());
   TexturePixel pixel=new TexturePixel();
   for (int x=minX; x < maxX; ++x) {

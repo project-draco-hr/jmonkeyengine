@@ -9,8 +9,12 @@
     }
     mirrorU=(flag & FLAG_MIRROR_U) != 0;
     mirrorV=(flag & FLAG_MIRROR_V) != 0;
+    mirrorVGroup=(flag & FLAG_MIRROR_VERTEX_GROUP) != 0;
     merge=(flag & FLAG_MIRROR_MERGE) == 0;
     tolerance=((Number)modifierStructure.getFieldValue("tolerance")).floatValue();
     pMirrorObject=(Pointer)modifierStructure.getFieldValue("mirror_ob");
+    if (mirrorVGroup) {
+      LOGGER.warning("Mirroring vertex groups is currently not supported.");
+    }
   }
 }

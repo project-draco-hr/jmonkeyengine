@@ -2,29 +2,19 @@
   if (invalid) {
     LOGGER.log(Level.WARNING,"Armature modifier is invalid! Cannot be applied to: {0}",node.getName());
   }
-  if (skeleton != null) {
-    List<Geometry> geomList=(List<Geometry>)blenderContext.getLoadedFeature(meshOMA,LoadedFeatureDataType.LOADED_FEATURE);
-    MeshContext meshContext=blenderContext.getMeshContext(meshOMA);
-    for (    Geometry geom : geomList) {
-      int materialIndex=meshContext.getMaterialIndex(geom);
-      Mesh mesh=geom.getMesh();
-      MeshWeightsData buffers=this.readVerticesWeightsData(meshContext,skeleton,materialIndex,mesh,blenderContext);
-      if (buffers != null) {
-        mesh.setMaxNumWeights(buffers.maximumWeightsPerVertex);
-        mesh.setBuffer(buffers.verticesWeights);
-        mesh.setBuffer(buffers.verticesWeightsIndices);
-        LOGGER.fine("Generating bind pose and normal buffers.");
-        mesh.generateBindPose(true);
-        mesh.getBuffer(Type.Position).setUsage(Usage.Stream);
-        mesh.getBuffer(Type.Normal).setUsage(Usage.Stream);
-        VertexBuffer verticesWeightsHW=new VertexBuffer(Type.HWBoneWeight);
-        VertexBuffer verticesWeightsIndicesHW=new VertexBuffer(Type.HWBoneIndex);
-        mesh.setBuffer(verticesWeightsHW);
-        mesh.setBuffer(verticesWeightsIndicesHW);
+  if (modifying) {
+    TemporalMesh temporalMesh=this.getTemporalMesh(node);
+    if (temporalMesh != null) {
+      LOGGER.log(Level.FINE,"Applying armature modifier to: {0}",temporalMesh);
+      LOGGER.fine("Creating map between bone name and its index.");
+      for (int i=0; i < skeleton.getBoneCount(); ++i) {
+        Bone bone=skeleton.getBone(i);
+        temporalMesh.addBoneIndex(bone.getName(),i);
       }
+      temporalMesh.applyAfterMeshCreate(this);
     }
-    AnimationHelper animationHelper=blenderContext.getHelper(AnimationHelper.class);
-    animationHelper.applyAnimations(node,skeleton,blenderContext.getBlenderKey().getAnimationMatchMethod());
-    node.updateModelBound();
+ else {
+      LOGGER.log(Level.WARNING,"Cannot find temporal mesh for node: {0}. The modifier will NOT be applied!",node);
+    }
   }
 }

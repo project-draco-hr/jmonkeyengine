@@ -1,0 +1,12 @@
+{
+  int result=0;
+  if (edges.containsKey(index)) {
+    result=edges.get(index).size();
+    for (    List<Integer> neighbours : edges.values()) {
+      if (neighbours.contains(index)) {
+        ++result;
+      }
+    }
+  }
+  return result;
+}

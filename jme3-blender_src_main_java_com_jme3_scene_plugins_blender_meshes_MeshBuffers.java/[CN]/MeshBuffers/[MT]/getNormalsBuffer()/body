@@ -1,0 +1,6 @@
+{
+  VertexBuffer positionBuffer=new VertexBuffer(Type.Normal);
+  Vector3f[] data=normals.toArray(new Vector3f[normals.size()]);
+  positionBuffer.setupData(Usage.Static,3,Format.Float,BufferUtils.createFloatBuffer(data));
+  return positionBuffer;
+}

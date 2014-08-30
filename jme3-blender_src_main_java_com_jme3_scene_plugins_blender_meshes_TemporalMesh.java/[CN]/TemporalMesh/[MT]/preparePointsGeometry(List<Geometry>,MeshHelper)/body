@@ -1,0 +1,26 @@
+{
+  if (points.size() > 0) {
+    LOGGER.fine("Preparing point geometries.");
+    MeshBuffers pointBuffers=new MeshBuffers(0);
+    for (    Point point : points) {
+      pointBuffers.append(vertices.get(point.getIndex()),normals.get(point.getIndex()));
+    }
+    Mesh pointsMesh=new Mesh();
+    pointsMesh.setMode(Mode.Points);
+    pointsMesh.setPointSize(blenderContext.getBlenderKey().getPointsSize());
+    if (pointBuffers.isShortIndexBuffer()) {
+      pointsMesh.setBuffer(Type.Index,1,(ShortBuffer)pointBuffers.getIndexBuffer());
+    }
+ else {
+      pointsMesh.setBuffer(Type.Index,1,(IntBuffer)pointBuffers.getIndexBuffer());
+    }
+    pointsMesh.setBuffer(pointBuffers.getPositionsBuffer());
+    pointsMesh.setBuffer(pointBuffers.getNormalsBuffer());
+    Geometry pointsGeometry=new Geometry(meshStructure.getName() + (result.size() + 1),pointsMesh);
+    pointsGeometry.setMaterial(meshHelper.getBlackUnshadedMaterial(blenderContext));
+    if (properties != null && properties.getValue() != null) {
+      meshHelper.applyProperties(pointsGeometry,properties);
+    }
+    result.add(pointsGeometry);
+  }
+}

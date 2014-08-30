@@ -1,0 +1,33 @@
+{
+  int index1=edge.getFirstIndex();
+  int index2=edge.getSecondIndex();
+  if (!indexes.areNeighbours(index1,index2)) {
+    List<Vector3f> vertices=temporalMesh.getVertices();
+    Edge e2=new Edge();
+    for (int i=0; i < indexes.size(); ++i) {
+      int i1=this.getIndex(i);
+      int i2=this.getIndex(i + 1);
+      if (i1 != index1 && i1 != index2 && i2 != index1 && i2 != index2) {
+        e2.set(vertices.get(i1),vertices.get(i2));
+        if (edge.cross(e2)) {
+          return false;
+        }
+      }
+    }
+    int indexOfIndex1=this.indexOf(index1);
+    int indexMinus1=this.getIndex(indexOfIndex1 - 1);
+    int indexPlus1=this.getIndex(indexOfIndex1 + 1);
+    Vector3f edge1=vertices.get(indexMinus1).subtract(vertices.get(index1)).normalizeLocal();
+    Vector3f edge2=vertices.get(indexPlus1).subtract(vertices.get(index1)).normalizeLocal();
+    Vector3f newEdge=vertices.get(index2).subtract(vertices.get(index1)).normalizeLocal();
+    Vector3f direction1=edge1.cross(edge2).normalizeLocal();
+    Vector3f direction2=edge1.cross(newEdge).normalizeLocal();
+    Vector3f normal=temporalMesh.getNormals().get(index1);
+    boolean isAngle1Interior=normal.dot(direction1) < 0;
+    boolean isAngle2Interior=normal.dot(direction2) < 0;
+    float angle1=isAngle1Interior ? edge1.angleBetween(edge2) : FastMath.TWO_PI - edge1.angleBetween(edge2);
+    float angle2=isAngle2Interior ? edge1.angleBetween(newEdge) : FastMath.TWO_PI - edge1.angleBetween(newEdge);
+    return angle1 >= angle2;
+  }
+  return true;
+}

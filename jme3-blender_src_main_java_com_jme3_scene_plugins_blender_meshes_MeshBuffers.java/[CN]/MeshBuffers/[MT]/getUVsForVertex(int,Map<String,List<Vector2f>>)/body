@@ -1,0 +1,10 @@
+{
+  if (uvs == null || uvs.size() == 0) {
+    return null;
+  }
+  Map<String,Vector2f> result=new HashMap<String,Vector2f>(uvs.size());
+  for (  Entry<String,List<Vector2f>> entry : uvs.entrySet()) {
+    result.put(entry.getKey(),entry.getValue().get(vertexIndex));
+  }
+  return result;
+}

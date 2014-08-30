@@ -1,0 +1,15 @@
+{
+  this.blenderContext=blenderContext;
+  name=meshStructure.getName();
+  this.meshStructure=meshStructure;
+  if (loadData) {
+    MeshHelper meshHelper=blenderContext.getHelper(MeshHelper.class);
+    meshHelper.loadVerticesAndNormals(meshStructure,vertices,normals);
+    verticesColors=meshHelper.loadVerticesColors(meshStructure,blenderContext);
+    LinkedHashMap<String,List<Vector2f>> userUVGroups=meshHelper.loadUVCoordinates(meshStructure);
+    vertexGroups=meshHelper.loadVerticesGroups(meshStructure);
+    faces=Face.loadAll(meshStructure,userUVGroups,verticesColors,this,blenderContext);
+    edges=Edge.loadAll(meshStructure);
+    points=Point.loadAll(meshStructure);
+  }
+}

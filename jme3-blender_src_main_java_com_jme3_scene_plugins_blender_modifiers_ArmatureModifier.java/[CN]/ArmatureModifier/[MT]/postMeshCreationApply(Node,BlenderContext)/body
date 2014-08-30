@@ -1,0 +1,6 @@
+{
+  LOGGER.fine("Applying armature modifier after mesh has been created.");
+  AnimationHelper animationHelper=blenderContext.getHelper(AnimationHelper.class);
+  animationHelper.applyAnimations(node,skeleton,blenderContext.getBlenderKey().getAnimationMatchMethod());
+  node.updateModelBound();
+}

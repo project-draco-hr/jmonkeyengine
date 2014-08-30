@@ -1,0 +1,93 @@
+{
+  Mesh mesh=geometry.getMesh();
+  Texture previousTexture=null;
+  UVCoordinatesType masterUVCoordinatesType=null;
+  String masterUserUVSetName=null;
+  for (  TextureData textureData : textureDatas) {
+    if (textureDatas.size() > 1 && textureData.texture.getImage().getFormat().isCompressed()) {
+      textureData.texture.setImage(ImageUtils.decompress(textureData.texture.getImage()));
+      textureData.textureBlender=TextureBlenderFactory.alterTextureType(textureData.texture.getImage().getFormat(),textureData.textureBlender);
+    }
+    if (previousTexture == null) {
+      if (textureData.texture instanceof GeneratedTexture) {
+        resultTexture=((GeneratedTexture)textureData.texture).triangulate(mesh,geometriesOMA,textureData.uvCoordinatesType,blenderContext);
+      }
+ else       if (textureData.texture instanceof Texture2D) {
+        resultTexture=textureData.texture;
+        if (textureData.uvCoordinatesType == UVCoordinatesType.TEXCO_UV && userDefinedUVCoordinates != null && userDefinedUVCoordinates.size() > 0) {
+          if (textureData.uvCoordinatesName == null) {
+            resultUVS=userDefinedUVCoordinates.values().iterator().next();
+          }
+ else {
+            resultUVS=userDefinedUVCoordinates.get(textureData.uvCoordinatesName);
+          }
+          masterUserUVSetName=textureData.uvCoordinatesName;
+        }
+ else {
+          TemporalMesh temporalMesh=(TemporalMesh)blenderContext.getLoadedFeature(geometriesOMA,LoadedDataType.TEMPORAL_MESH);
+          resultUVS=UVCoordinatesGenerator.generateUVCoordinatesFor2DTexture(mesh,textureData.uvCoordinatesType,textureData.projectionType,temporalMesh);
+        }
+      }
+      this.blend(resultTexture,textureData.textureBlender,blenderContext);
+      previousTexture=resultTexture;
+      masterUVCoordinatesType=textureData.uvCoordinatesType;
+    }
+ else {
+      if (textureData.texture instanceof GeneratedTexture) {
+        if (!(resultTexture instanceof TriangulatedTexture)) {
+          resultTexture=new TriangulatedTexture((Texture2D)resultTexture,resultUVS,blenderContext);
+          resultUVS=null;
+          previousTexture=resultTexture;
+        }
+        TriangulatedTexture triangulatedTexture=((GeneratedTexture)textureData.texture).triangulate(mesh,geometriesOMA,textureData.uvCoordinatesType,blenderContext);
+        triangulatedTexture.castToUVS((TriangulatedTexture)resultTexture,blenderContext);
+        triangulatedTexture.blend(textureData.textureBlender,(TriangulatedTexture)resultTexture,blenderContext);
+        resultTexture=previousTexture=triangulatedTexture;
+      }
+ else       if (textureData.texture instanceof Texture2D) {
+        if (this.isUVTypesMatch(masterUVCoordinatesType,masterUserUVSetName,textureData.uvCoordinatesType,textureData.uvCoordinatesName) && resultTexture instanceof Texture2D) {
+          this.scale((Texture2D)textureData.texture,resultTexture.getImage().getWidth(),resultTexture.getImage().getHeight());
+          ImageUtils.merge(resultTexture.getImage(),textureData.texture.getImage());
+          previousTexture=resultTexture;
+        }
+ else {
+          if (!(resultTexture instanceof TriangulatedTexture)) {
+            resultTexture=new TriangulatedTexture((Texture2D)resultTexture,resultUVS,blenderContext);
+            resultUVS=null;
+          }
+          List<Vector2f> textureUVS=null;
+          if (textureData.uvCoordinatesType == UVCoordinatesType.TEXCO_UV && userDefinedUVCoordinates != null && userDefinedUVCoordinates.size() > 0) {
+            if (textureData.uvCoordinatesName == null) {
+              textureUVS=userDefinedUVCoordinates.values().iterator().next();
+            }
+ else {
+              textureUVS=userDefinedUVCoordinates.get(textureData.uvCoordinatesName);
+            }
+          }
+ else {
+            TemporalMesh geometries=(TemporalMesh)blenderContext.getLoadedFeature(geometriesOMA,LoadedDataType.TEMPORAL_MESH);
+            textureUVS=UVCoordinatesGenerator.generateUVCoordinatesFor2DTexture(mesh,textureData.uvCoordinatesType,textureData.projectionType,geometries);
+          }
+          TriangulatedTexture triangulatedTexture=new TriangulatedTexture((Texture2D)textureData.texture,textureUVS,blenderContext);
+          triangulatedTexture.castToUVS((TriangulatedTexture)resultTexture,blenderContext);
+          for (int i=0; i < ((TriangulatedTexture)resultTexture).getFaceTextureCount(); ++i) {
+            ImageUtils.merge(((TriangulatedTexture)resultTexture).getFaceTextureElement(i).image,triangulatedTexture.getFaceTextureElement(i).image);
+          }
+        }
+      }
+    }
+  }
+  if (resultTexture instanceof TriangulatedTexture) {
+    if (mappingType == MaterialContext.MTEX_NOR) {
+      for (int i=0; i < ((TriangulatedTexture)resultTexture).getFaceTextureCount(); ++i) {
+        TriangleTextureElement triangleTextureElement=((TriangulatedTexture)resultTexture).getFaceTextureElement(i);
+        triangleTextureElement.image=ImageUtils.convertToNormalMapTexture(triangleTextureElement.image,1);
+      }
+    }
+    resultUVS=((TriangulatedTexture)resultTexture).getResultUVS();
+    resultTexture=((TriangulatedTexture)resultTexture).getResultTexture();
+  }
+  resultTexture.setWrap(WrapMode.Repeat);
+  resultTexture.setMagFilter(MagFilter.Nearest);
+  resultTexture.setMinFilter(MinFilter.NearestNoMipMaps);
+}

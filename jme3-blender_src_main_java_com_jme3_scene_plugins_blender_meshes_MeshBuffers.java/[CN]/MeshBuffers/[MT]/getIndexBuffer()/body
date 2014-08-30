@@ -1,0 +1,16 @@
+{
+  if (indexes.size() <= Short.MAX_VALUE) {
+    short[] indices=new short[indexes.size()];
+    for (int i=0; i < indexes.size(); ++i) {
+      indices[i]=indexes.get(i).shortValue();
+    }
+    return BufferUtils.createShortBuffer(indices);
+  }
+ else {
+    int[] indices=new int[indexes.size()];
+    for (int i=0; i < indexes.size(); ++i) {
+      indices[i]=indexes.get(i).intValue();
+    }
+    return BufferUtils.createIntBuffer(indices);
+  }
+}

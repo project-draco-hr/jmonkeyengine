@@ -1,0 +1,9 @@
+{
+  if (faceUVCoords != null) {
+    for (    Entry<String,List<Vector2f>> entry : faceUVCoords.entrySet()) {
+      for (      Vector2f uv : entry.getValue()) {
+        uv.set(u ? 1 - uv.x : uv.x,v ? 1 - uv.y : uv.y);
+      }
+    }
+  }
+}

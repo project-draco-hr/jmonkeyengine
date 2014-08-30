@@ -1,0 +1,24 @@
+{
+  Face result=new Face();
+  result.indexes=indexes.clone();
+  result.smooth=smooth;
+  result.materialNumber=materialNumber;
+  if (faceUVCoords != null) {
+    result.faceUVCoords=new HashMap<String,List<Vector2f>>(faceUVCoords.size());
+    for (    Entry<String,List<Vector2f>> entry : faceUVCoords.entrySet()) {
+      List<Vector2f> uvs=new ArrayList<Vector2f>(entry.getValue().size());
+      for (      Vector2f v : entry.getValue()) {
+        uvs.add(v.clone());
+      }
+      result.faceUVCoords.put(entry.getKey(),uvs);
+    }
+  }
+  if (vertexColors != null) {
+    result.vertexColors=new ArrayList<byte[]>(vertexColors.size());
+    for (    byte[] colors : vertexColors) {
+      result.vertexColors.add(colors.clone());
+    }
+  }
+  result.temporalMesh=temporalMesh;
+  return result;
+}

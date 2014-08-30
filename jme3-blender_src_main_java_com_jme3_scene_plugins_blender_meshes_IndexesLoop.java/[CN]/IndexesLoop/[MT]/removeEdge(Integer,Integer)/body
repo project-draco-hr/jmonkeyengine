@@ -1,0 +1,20 @@
+{
+  boolean edgeRemoved=false;
+  if (nodes.contains(node1) && nodes.contains(node2)) {
+    if (edges.containsKey(node1)) {
+      edgeRemoved|=edges.get(node1).remove(node2);
+    }
+    if (edges.containsKey(node2)) {
+      edgeRemoved|=edges.get(node2).remove(node1);
+    }
+    if (edgeRemoved) {
+      if (this.getNeighbourCount(node1) == 0) {
+        this.removeIndexes(node1);
+      }
+      if (this.getNeighbourCount(node2) == 0) {
+        this.removeIndexes(node2);
+      }
+    }
+  }
+  return edgeRemoved;
+}

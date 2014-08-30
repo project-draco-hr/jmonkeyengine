@@ -1,0 +1,66 @@
+{
+  if (edges.size() > 0) {
+    LOGGER.fine("Preparing lines geometries.");
+    List<List<Integer>> separateEdges=new ArrayList<List<Integer>>();
+    List<Edge> edges=new ArrayList<Edge>(this.edges);
+    while (edges.size() > 0) {
+      boolean edgeAppended=false;
+      int edgeIndex=0;
+      for (      List<Integer> list : separateEdges) {
+        for (edgeIndex=0; edgeIndex < edges.size() && !edgeAppended; ++edgeIndex) {
+          Edge edge=edges.get(edgeIndex);
+          if (list.get(0).equals(edge.getFirstIndex())) {
+            list.add(0,edge.getSecondIndex());
+            --edgeIndex;
+            edgeAppended=true;
+          }
+ else           if (list.get(0).equals(edge.getSecondIndex())) {
+            list.add(0,edge.getFirstIndex());
+            --edgeIndex;
+            edgeAppended=true;
+          }
+ else           if (list.get(list.size() - 1).equals(edge.getFirstIndex())) {
+            list.add(edge.getSecondIndex());
+            --edgeIndex;
+            edgeAppended=true;
+          }
+ else           if (list.get(list.size() - 1).equals(edge.getSecondIndex())) {
+            list.add(edge.getFirstIndex());
+            --edgeIndex;
+            edgeAppended=true;
+          }
+        }
+        if (edgeAppended) {
+          break;
+        }
+      }
+      Edge edge=edges.remove(edgeAppended ? edgeIndex : 0);
+      if (!edgeAppended) {
+        separateEdges.add(new ArrayList<Integer>(Arrays.asList(edge.getFirstIndex(),edge.getSecondIndex())));
+      }
+    }
+    for (    List<Integer> list : separateEdges) {
+      MeshBuffers meshBuffers=new MeshBuffers(0);
+      for (      int index : list) {
+        meshBuffers.append(vertices.get(index),normals.get(index));
+      }
+      Mesh mesh=new Mesh();
+      mesh.setPointSize(2);
+      mesh.setMode(Mode.LineStrip);
+      if (meshBuffers.isShortIndexBuffer()) {
+        mesh.setBuffer(Type.Index,1,(ShortBuffer)meshBuffers.getIndexBuffer());
+      }
+ else {
+        mesh.setBuffer(Type.Index,1,(IntBuffer)meshBuffers.getIndexBuffer());
+      }
+      mesh.setBuffer(meshBuffers.getPositionsBuffer());
+      mesh.setBuffer(meshBuffers.getNormalsBuffer());
+      Geometry geometry=new Geometry(meshStructure.getName() + (result.size() + 1),mesh);
+      geometry.setMaterial(meshHelper.getBlackUnshadedMaterial(blenderContext));
+      if (properties != null && properties.getValue() != null) {
+        meshHelper.applyProperties(geometry,properties);
+      }
+      result.add(geometry);
+    }
+  }
+}

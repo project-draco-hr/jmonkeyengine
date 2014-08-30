@@ -1,0 +1,11 @@
+{
+  if (oldMemoryAddress == null || featureDataType == null || feature == null) {
+    throw new IllegalArgumentException("One of the given arguments is null!");
+  }
+  Map<LoadedDataType,Object> map=loadedFeatures.get(oldMemoryAddress);
+  if (map == null) {
+    map=new HashMap<BlenderContext.LoadedDataType,Object>();
+    loadedFeatures.put(oldMemoryAddress,map);
+  }
+  map.put(featureDataType,feature);
+}

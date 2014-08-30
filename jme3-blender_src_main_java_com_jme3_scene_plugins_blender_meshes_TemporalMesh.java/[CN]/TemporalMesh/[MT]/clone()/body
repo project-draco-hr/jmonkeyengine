@@ -1,0 +1,35 @@
+{
+  try {
+    TemporalMesh result=new TemporalMesh(meshStructure,blenderContext,false);
+    for (    Vector3f v : vertices) {
+      result.vertices.add(v.clone());
+    }
+    for (    Vector3f n : normals) {
+      result.normals.add(n.clone());
+    }
+    for (    Map<String,Float> group : vertexGroups) {
+      result.vertexGroups.add(new HashMap<String,Float>(group));
+    }
+    for (    byte[] vertColor : verticesColors) {
+      result.verticesColors.add(vertColor.clone());
+    }
+    result.materials=materials;
+    result.properties=properties;
+    result.boneIndexes.putAll(boneIndexes);
+    result.postMeshCreationModifiers.addAll(postMeshCreationModifiers);
+    for (    Face face : faces) {
+      result.faces.add(face.clone());
+    }
+    for (    Edge edge : edges) {
+      result.edges.add(edge.clone());
+    }
+    for (    Point point : points) {
+      result.points.add(point.clone());
+    }
+    return result;
+  }
+ catch (  BlenderFileException e) {
+    LOGGER.log(Level.SEVERE,"Error while cloning the temporal mesh: {0}. Returning null.",e.getLocalizedMessage());
+  }
+  return null;
+}

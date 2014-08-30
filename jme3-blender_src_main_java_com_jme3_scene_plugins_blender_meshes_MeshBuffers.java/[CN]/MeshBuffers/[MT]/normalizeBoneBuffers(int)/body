@@ -1,0 +1,22 @@
+{
+  for (  TreeMap<Float,Integer> group : boneWeightAndIndexes) {
+    if (group.size() > maximumSize) {
+      NavigableMap<Float,Integer> descendingWeights=group.descendingMap();
+      while (descendingWeights.size() > maximumSize) {
+        descendingWeights.pollLastEntry();
+      }
+    }
+    TreeMap<Float,Integer> normalizedGroup=new TreeMap<Float,Integer>();
+    float sum=0;
+    for (    Entry<Float,Integer> entry : group.entrySet()) {
+      sum+=entry.getKey();
+    }
+    if (sum != 0 && sum != 1) {
+      for (      Entry<Float,Integer> entry : group.entrySet()) {
+        normalizedGroup.put(entry.getKey() / sum,entry.getValue());
+      }
+      group.clear();
+      group.putAll(normalizedGroup);
+    }
+  }
+}

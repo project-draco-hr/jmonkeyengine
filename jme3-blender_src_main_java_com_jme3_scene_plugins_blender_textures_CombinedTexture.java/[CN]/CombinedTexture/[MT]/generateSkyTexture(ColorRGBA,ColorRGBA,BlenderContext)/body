@@ -40,7 +40,7 @@
       for (int i=0; i < 6; ++i) {
         data.add(BufferUtils.clone(sourceData));
       }
-      texture=new TextureCubeMap(new Image(image.getFormat(),image.getWidth(),image.getHeight(),6,data));
+      texture=new TextureCubeMap(new Image(image.getFormat(),image.getWidth(),image.getHeight(),6,data,ColorSpace.Linear));
     }
     if (result == null) {
       result=texture;

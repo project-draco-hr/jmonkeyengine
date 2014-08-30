@@ -1,0 +1,23 @@
+{
+  int shift=vertices.size();
+  if (shift > 0) {
+    for (    Face face : mesh.faces) {
+      face.shiftIndexes(shift);
+      face.setTemporalMesh(this);
+    }
+    for (    Edge edge : mesh.edges) {
+      edge.shiftIndexes(shift);
+    }
+    for (    Point point : mesh.points) {
+      point.shiftIndexes(shift);
+    }
+  }
+  faces.addAll(mesh.faces);
+  edges.addAll(mesh.edges);
+  points.addAll(mesh.points);
+  vertices.addAll(mesh.vertices);
+  normals.addAll(mesh.normals);
+  vertexGroups.addAll(mesh.vertexGroups);
+  verticesColors.addAll(mesh.verticesColors);
+  boneIndexes.putAll(mesh.boneIndexes);
+}

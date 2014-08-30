@@ -1,6 +1,6 @@
 {
-  Spatial supposedParent=(Spatial)blenderContext.getLoadedFeature(supposedParentOMA,LoadedFeatureDataType.LOADED_FEATURE);
-  Spatial spatial=(Spatial)blenderContext.getLoadedFeature(spatialOMA,LoadedFeatureDataType.LOADED_FEATURE);
+  Spatial supposedParent=(Spatial)blenderContext.getLoadedFeature(supposedParentOMA,LoadedDataType.FEATURE);
+  Spatial spatial=(Spatial)blenderContext.getLoadedFeature(spatialOMA,LoadedDataType.FEATURE);
   Spatial parent=spatial.getParent();
   while (parent != null) {
     if (parent.equals(supposedParent)) {

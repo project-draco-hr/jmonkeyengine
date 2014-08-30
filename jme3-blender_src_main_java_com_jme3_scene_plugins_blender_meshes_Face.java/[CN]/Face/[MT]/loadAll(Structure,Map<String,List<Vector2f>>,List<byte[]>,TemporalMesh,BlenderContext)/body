@@ -1,0 +1,75 @@
+{
+  LOGGER.log(Level.FINE,"Loading all faces from mesh: {0}",meshStructure.getName());
+  List<Face> result=new ArrayList<Face>();
+  MeshHelper meshHelper=blenderContext.getHelper(MeshHelper.class);
+  if (meshHelper.isBMeshCompatible(meshStructure)) {
+    LOGGER.fine("Reading BMesh.");
+    Pointer pMLoop=(Pointer)meshStructure.getFieldValue("mloop");
+    Pointer pMPoly=(Pointer)meshStructure.getFieldValue("mpoly");
+    if (pMPoly.isNotNull() && pMLoop.isNotNull()) {
+      List<Structure> polys=pMPoly.fetchData();
+      List<Structure> loops=pMLoop.fetchData();
+      for (      Structure poly : polys) {
+        int materialNumber=((Number)poly.getFieldValue("mat_nr")).intValue();
+        int loopStart=((Number)poly.getFieldValue("loopstart")).intValue();
+        int totLoop=((Number)poly.getFieldValue("totloop")).intValue();
+        boolean smooth=(((Number)poly.getFieldValue("flag")).byteValue() & 0x01) != 0x00;
+        Integer[] vertexIndexes=new Integer[totLoop];
+        for (int i=loopStart; i < loopStart + totLoop; ++i) {
+          vertexIndexes[i - loopStart]=((Number)loops.get(i).getFieldValue("v")).intValue();
+        }
+        Map<String,List<Vector2f>> uvCoords=new HashMap<String,List<Vector2f>>();
+        for (        Entry<String,List<Vector2f>> entry : userUVGroups.entrySet()) {
+          List<Vector2f> uvs=entry.getValue().subList(loopStart,loopStart + totLoop);
+          uvCoords.put(entry.getKey(),new ArrayList<Vector2f>(uvs));
+        }
+        List<byte[]> vertexColors=null;
+        if (verticesColors != null && verticesColors.size() > 0) {
+          vertexColors=new ArrayList<byte[]>(totLoop);
+          for (int i=loopStart; i < loopStart + totLoop; ++i) {
+            vertexColors.add(verticesColors.get(i));
+          }
+        }
+        result.add(new Face(vertexIndexes,smooth,materialNumber,uvCoords,vertexColors,temporalMesh));
+      }
+    }
+  }
+ else {
+    LOGGER.fine("Reading traditional faces.");
+    Pointer pMFace=(Pointer)meshStructure.getFieldValue("mface");
+    List<Structure> mFaces=pMFace.isNotNull() ? pMFace.fetchData() : null;
+    if (mFaces != null && mFaces.size() > 0) {
+      for (int i=0; i < mFaces.size(); ++i) {
+        Structure mFace=mFaces.get(i);
+        int materialNumber=((Number)mFace.getFieldValue("mat_nr")).intValue();
+        boolean smooth=(((Number)mFace.getFieldValue("flag")).byteValue() & 0x01) != 0x00;
+        int v1=((Number)mFace.getFieldValue("v1")).intValue();
+        int v2=((Number)mFace.getFieldValue("v2")).intValue();
+        int v3=((Number)mFace.getFieldValue("v3")).intValue();
+        int v4=((Number)mFace.getFieldValue("v4")).intValue();
+        int vertCount=v4 == 0 ? 3 : 4;
+        Map<String,List<Vector2f>> faceUVCoords=new HashMap<String,List<Vector2f>>();
+        for (        Entry<String,List<Vector2f>> entry : userUVGroups.entrySet()) {
+          List<Vector2f> uvCoordsForASingleFace=new ArrayList<Vector2f>(vertCount);
+          for (int j=0; j < vertCount; ++j) {
+            uvCoordsForASingleFace.add(entry.getValue().get(i * 4 + j));
+          }
+          faceUVCoords.put(entry.getKey(),uvCoordsForASingleFace);
+        }
+        List<byte[]> vertexColors=null;
+        if (verticesColors != null && verticesColors.size() > 0) {
+          vertexColors=new ArrayList<byte[]>(vertCount);
+          vertexColors.add(verticesColors.get(v1));
+          vertexColors.add(verticesColors.get(v2));
+          vertexColors.add(verticesColors.get(v3));
+          if (vertCount == 4) {
+            vertexColors.add(verticesColors.get(v4));
+          }
+        }
+        result.add(new Face(vertCount == 4 ? new Integer[]{v1,v2,v3,v4} : new Integer[]{v1,v2,v3},smooth,materialNumber,faceUVCoords,vertexColors,temporalMesh));
+      }
+    }
+  }
+  LOGGER.log(Level.FINE,"Loaded {0} faces.",result.size());
+  return result;
+}

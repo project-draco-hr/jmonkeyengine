@@ -1,0 +1,7 @@
+{
+  List<Spatial> children=node.getChildren();
+  if (children != null && children.size() == 1 && children.get(0) instanceof TemporalMesh) {
+    return (TemporalMesh)children.get(0);
+  }
+  return null;
+}

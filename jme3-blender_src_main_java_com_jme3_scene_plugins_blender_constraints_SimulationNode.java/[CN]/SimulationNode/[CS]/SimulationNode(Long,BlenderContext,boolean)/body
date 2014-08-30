@@ -1,6 +1,6 @@
 {
   this.blenderContext=blenderContext;
-  Node spatial=(Node)blenderContext.getLoadedFeature(featureOMA,LoadedFeatureDataType.LOADED_FEATURE);
+  Node spatial=(Node)blenderContext.getLoadedFeature(featureOMA,LoadedDataType.FEATURE);
   if (blenderContext.getMarkerValue(ObjectHelper.ARMATURE_NODE_MARKER,spatial) != null) {
     skeleton=blenderContext.getSkeleton(featureOMA);
     Node nodeWithAnimationControl=blenderContext.getControlledNode(skeleton);

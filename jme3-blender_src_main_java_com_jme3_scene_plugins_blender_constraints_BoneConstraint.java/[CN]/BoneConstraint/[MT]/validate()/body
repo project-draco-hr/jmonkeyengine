@@ -1,6 +1,6 @@
 {
   if (targetOMA != null) {
-    Spatial nodeTarget=(Spatial)blenderContext.getLoadedFeature(targetOMA,LoadedFeatureDataType.LOADED_FEATURE);
+    Spatial nodeTarget=(Spatial)blenderContext.getLoadedFeature(targetOMA,LoadedDataType.FEATURE);
     if (nodeTarget == null) {
       LOGGER.log(Level.WARNING,"Cannot find target for constraint: {0}.",name);
       return false;

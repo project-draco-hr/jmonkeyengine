@@ -1,14 +1,13 @@
 {
-  Structure meshStructure=((Pointer)objectStructure.getFieldValue("data")).fetchData().get(0);
   if (this.validate(modifierStructure,blenderContext)) {
     Pointer pArmatureObject=(Pointer)modifierStructure.getFieldValue("object");
     if (pArmatureObject.isNotNull()) {
       int deformflag=((Number)modifierStructure.getFieldValue("deformflag")).intValue();
-      useVertexGroups=(deformflag & FLAG_VERTEX_GROUPS) != 0;
-      useBoneEnvelopes=(deformflag & FLAG_BONE_ENVELOPES) != 0;
+      boolean useVertexGroups=(deformflag & FLAG_VERTEX_GROUPS) != 0;
+      boolean useBoneEnvelopes=(deformflag & FLAG_BONE_ENVELOPES) != 0;
       modifying=useBoneEnvelopes || useVertexGroups;
       if (modifying) {
-        armatureObject=pArmatureObject.fetchData().get(0);
+        Structure armatureObject=pArmatureObject.fetchData().get(0);
         Structure armatureStructure=((Pointer)armatureObject.getFieldValue("data")).fetchData().get(0);
         List<Structure> bonebase=((Structure)armatureStructure.getFieldValue("bonebase")).evaluateListBase();
         List<Bone> bonesList=new ArrayList<Bone>();
@@ -19,13 +18,6 @@
         Bone[] bones=bonesList.toArray(new Bone[bonesList.size()]);
         skeleton=new Skeleton(bones);
         blenderContext.setSkeleton(armatureObject.getOldMemoryAddress(),skeleton);
-        this.meshStructure=meshStructure;
-        meshOMA=meshStructure.getOldMemoryAddress();
-        if (useBoneEnvelopes) {
-          ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
-          Spatial object=(Spatial)blenderContext.getLoadedFeature(objectStructure.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_FEATURE);
-          objectWorldMatrix=constraintHelper.toMatrix(object.getWorldTransform(),new Matrix4f());
-        }
       }
     }
  else {

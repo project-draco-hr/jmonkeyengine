@@ -1,0 +1,17 @@
+{
+  LOGGER.log(Level.FINE,"Converting temporal mesh {0} to jme geometries.",name);
+  List<Geometry> result=new ArrayList<Geometry>();
+  MeshHelper meshHelper=blenderContext.getHelper(MeshHelper.class);
+  Node parent=this.getParent();
+  parent.detachChild(this);
+  this.prepareFacesGeometry(result,meshHelper);
+  this.prepareLinesGeometry(result,meshHelper);
+  this.preparePointsGeometry(result,meshHelper);
+  blenderContext.addLoadedFeatures(meshStructure.getOldMemoryAddress(),LoadedDataType.FEATURE,result);
+  for (  Geometry geometry : result) {
+    parent.attachChild(geometry);
+  }
+  for (  Modifier modifier : postMeshCreationModifiers) {
+    modifier.postMeshCreationApply(parent,blenderContext);
+  }
+}

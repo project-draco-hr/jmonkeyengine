@@ -3,7 +3,7 @@
   Matrix4f parentInv=tempVars.tempMat4;
   Pointer pParent=(Pointer)objectStructure.getFieldValue("parent");
   if (pParent.isNotNull()) {
-    Structure parentObjectStructure=(Structure)blenderContext.getLoadedFeature(pParent.getOldMemoryAddress(),LoadedFeatureDataType.LOADED_STRUCTURE);
+    Structure parentObjectStructure=(Structure)blenderContext.getLoadedFeature(pParent.getOldMemoryAddress(),LoadedDataType.STRUCTURE);
     this.getMatrix(parentObjectStructure,"obmat",fixUpAxis,parentInv).invertLocal();
   }
  else {

@@ -1,0 +1,12 @@
+{
+  if (boundingBox == null) {
+    boundingBox=new BoundingBox();
+  }
+  Vector3f min=new Vector3f(Float.MAX_VALUE,Float.MAX_VALUE,Float.MAX_VALUE);
+  Vector3f max=new Vector3f(Float.MIN_VALUE,Float.MIN_VALUE,Float.MIN_VALUE);
+  for (  Vector3f v : vertices) {
+    min.set(Math.min(min.x,v.x),Math.min(min.y,v.y),Math.min(min.z,v.z));
+    max.set(Math.max(max.x,v.x),Math.max(max.y,v.y),Math.max(max.z,v.z));
+  }
+  boundingBox.setMinMax(min,max);
+}

@@ -13,7 +13,9 @@
     }
     curves.clear();
     result=new Ipo(bezierCurves,fixUpAxis,blenderContext.getBlenderVersion());
-    blenderContext.addLoadedFeatures(ipoStructure.getOldMemoryAddress(),ipoStructure.getName(),ipoStructure,result);
+    Long ipoOma=ipoStructure.getOldMemoryAddress();
+    blenderContext.addLoadedFeatures(ipoOma,LoadedDataType.STRUCTURE,ipoStructure);
+    blenderContext.addLoadedFeatures(ipoOma,LoadedDataType.FEATURE,result);
   }
   return result;
 }

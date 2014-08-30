@@ -1,0 +1,12 @@
+{
+  this.updateModelBound();
+  Node parent=this.getParent();
+  if (parent != null) {
+    BoundingVolume bv=boundingBox.clone();
+    bv.setCenter(parent.getWorldTranslation());
+    return bv;
+  }
+ else {
+    return boundingBox;
+  }
+}

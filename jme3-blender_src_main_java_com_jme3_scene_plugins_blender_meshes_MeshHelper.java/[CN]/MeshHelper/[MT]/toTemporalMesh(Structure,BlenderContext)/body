@@ -1,0 +1,24 @@
+{
+  LOGGER.log(Level.FINE,"Loading temporal mesh named: {0}.",meshStructure.getName());
+  TemporalMesh temporalMesh=(TemporalMesh)blenderContext.getLoadedFeature(meshStructure.getOldMemoryAddress(),LoadedDataType.TEMPORAL_MESH);
+  if (temporalMesh != null) {
+    LOGGER.fine("The mesh is already loaded. Returning its clone.");
+    return temporalMesh.clone();
+  }
+  String name=meshStructure.getName();
+  LOGGER.log(Level.FINE,"Reading mesh: {0}.",name);
+  temporalMesh=new TemporalMesh(meshStructure,blenderContext);
+  LOGGER.fine("Loading materials.");
+  MaterialHelper materialHelper=blenderContext.getHelper(MaterialHelper.class);
+  MaterialContext[] materials=null;
+  if ((blenderContext.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.MATERIALS) != 0) {
+    materials=materialHelper.getMaterials(meshStructure,blenderContext);
+  }
+  temporalMesh.setMaterials(materials);
+  LOGGER.fine("Reading custom properties.");
+  Properties properties=this.loadProperties(meshStructure,blenderContext);
+  temporalMesh.setProperties(properties);
+  blenderContext.addLoadedFeatures(meshStructure.getOldMemoryAddress(),LoadedDataType.STRUCTURE,meshStructure);
+  blenderContext.addLoadedFeatures(meshStructure.getOldMemoryAddress(),LoadedDataType.TEMPORAL_MESH,temporalMesh);
+  return temporalMesh.clone();
+}
