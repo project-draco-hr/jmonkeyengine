@@ -2,4 +2,5 @@
   super(pf,loader);
   registerEditor("text/x-niftygui+xml",true);
   findAssetManager();
+  this.getCookieSet().assign(GUIEditor.class,CommandProcessor.getInstance().getGuiEditor());
 }

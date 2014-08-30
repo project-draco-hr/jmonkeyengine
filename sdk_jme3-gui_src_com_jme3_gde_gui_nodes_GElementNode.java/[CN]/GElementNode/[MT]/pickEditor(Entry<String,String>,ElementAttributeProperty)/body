@@ -1,0 +1,8 @@
+{
+  if (pair.getKey().equals("width") || pair.getKey().equals("height") || pair.getKey().equals("x")|| pair.getKey().equals("y")) {
+    elementAttributeProperty.setPropertyEditor(new SizeEditor());
+  }
+ else   if (pair.getKey().equals("filename") || pair.getKey().equals("backgroundImage")) {
+    elementAttributeProperty.setPropertyEditor(new ResourceEditor());
+  }
+}

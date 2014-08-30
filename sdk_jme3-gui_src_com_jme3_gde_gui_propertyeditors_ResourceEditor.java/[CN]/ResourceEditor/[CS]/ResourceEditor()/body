@@ -1,0 +1,7 @@
+{
+  CommandProcessor.getInstance().getObservable().addObserver(this);
+  GuiEditorModel model=(GuiEditorModel)CommandProcessor.getInstance().getObservable();
+  this.assetFolder=model.getCurrent().getAssetFolder();
+  fileChooserEditor=new FileChooserEditor(this.assetFolder);
+  fileChooserEditor.getFileChooser().addActionListener(this);
+}

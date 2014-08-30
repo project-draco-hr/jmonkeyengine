@@ -1,0 +1,11 @@
+{
+  try {
+    GuiEditorModel model=(GuiEditorModel)CommandProcessor.getInstance().getObservable();
+    model.setCurrentGUI(guiID);
+    model.getCurrent().addObserver(this);
+    CommandProcessor.getInstance().setUndoManager(undoSupport);
+  }
+ catch (  java.lang.IllegalArgumentException ex) {
+    logger.log(Level.SEVERE,"Can't load your gui",ex);
+  }
+}
