@@ -8,7 +8,7 @@
         if (project != null) {
           ProjectAssetManager mgr=project.getLookup().lookup(ProjectAssetManager.class);
           if (mgr != null) {
-            getLookupContents().add(mgr);
+            this.getCookieSet().assign(mgr.getClass(),mgr);
             return;
           }
         }

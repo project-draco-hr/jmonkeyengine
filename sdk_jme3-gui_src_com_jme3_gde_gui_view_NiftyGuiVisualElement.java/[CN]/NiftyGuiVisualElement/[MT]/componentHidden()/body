@@ -1,0 +1,15 @@
+{
+  String path=this.obj.getPrimaryFile().getPath();
+  try {
+    this.editor.saveGui(path);
+  }
+ catch (  FileNotFoundException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  JAXBException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  NullPointerException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}

@@ -1,10 +1,8 @@
 {
-  try {
-    if (null == palette)     palette=PaletteFactory.createPalette(PALETTE_FOLDER,new MyActions());
-    return palette;
+  if (null == palette) {
+    AbstractNode paletteRoot=new AbstractNode(Children.create(new CategoryChildFactory(),true));
+    paletteRoot.setName("Palette Root");
+    palette=PaletteFactory.createPalette(paletteRoot,new MyActions(),null,new MyHandler());
   }
- catch (  IOException ex) {
-    Exceptions.printStackTrace(ex);
-  }
-  return null;
+  return palette;
 }

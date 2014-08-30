@@ -1,0 +1,17 @@
+{
+  Sheet s=super.createSheet();
+  Sheet.Set set=s.get(Sheet.PROPERTIES);
+  if (set == null) {
+    set=Sheet.createPropertiesSet();
+    s.put(set);
+  }
+  set.setName("Element Properties");
+  set.setShortDescription("You can set element properties");
+  for (  Entry<String,String> pair : this.element.listAttributes().entrySet()) {
+    final ElementAttributeProperty elementAttributeProperty=new ElementAttributeProperty(element,pair.getKey());
+    pickEditor(pair,elementAttributeProperty);
+    set.put(elementAttributeProperty);
+  }
+  s.put(set);
+  return s;
+}

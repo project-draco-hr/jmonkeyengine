@@ -1,0 +1,17 @@
+{
+  ElementFilter elements=new ElementFilter("Elements"){
+    @Override public boolean apply(    Class t){
+      return t.getGenericSuperclass().equals(GElement.class);
+    }
+  }
+;
+  list.add(elements);
+  ElementFilter controls=new ElementFilter("Controls"){
+    @Override public boolean apply(    Class t){
+      return t.getGenericSuperclass().equals(GControl.class);
+    }
+  }
+;
+  list.add(controls);
+  return true;
+}

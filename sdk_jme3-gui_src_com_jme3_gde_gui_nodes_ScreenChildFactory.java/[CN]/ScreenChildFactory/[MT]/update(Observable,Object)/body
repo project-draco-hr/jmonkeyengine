@@ -1,0 +1,11 @@
+{
+  if (arg == null) {
+    this.refresh(true);
+  }
+ else {
+    ElementEvent e=(ElementEvent)arg;
+    if (e.getElement() instanceof GScreen) {
+      this.refresh(true);
+    }
+  }
+}

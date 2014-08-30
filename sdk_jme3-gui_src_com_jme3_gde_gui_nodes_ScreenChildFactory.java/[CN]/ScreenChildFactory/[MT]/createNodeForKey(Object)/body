@@ -1,0 +1,9 @@
+{
+  if (node instanceof GElement) {
+    return new GElementNode((GElement)node);
+  }
+ else   if (node instanceof GUseStyle) {
+    return new GUseStyleNode(gui,(GUseStyle)node);
+  }
+ else   return new GUseControlsNode(gui,(GUseControls)node);
+}
