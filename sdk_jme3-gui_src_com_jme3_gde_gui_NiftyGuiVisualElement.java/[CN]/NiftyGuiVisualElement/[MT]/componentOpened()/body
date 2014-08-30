@@ -1,0 +1,33 @@
+{
+  try {
+    String path=this.obj.getPrimaryFile().getPath();
+    ProjectAssetManager mgr=this.getLookup().lookup(ProjectAssetManager.class);
+    String assetPath=mgr.getAssetFolder().getPath();
+    this.editor.createNewGui(nifty,new File(path),new File(assetPath));
+    Collection<GLayer> layers1=this.editor.getGui().getLayers();
+    DefaultComboBoxModel<GLayer> model=new DefaultComboBoxModel<GLayer>(layers1.toArray(new GLayer[0]));
+    layers.setModel(model);
+    layers.setSelectedItem(this.editor.getCurrentLayer());
+  }
+ catch (  ParserConfigurationException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  JAXBException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  ClassNotFoundException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  NoProductException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  SAXException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  Exception ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}
