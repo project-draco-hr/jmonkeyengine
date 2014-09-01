@@ -1,3 +1,10 @@
 {
-  return indexes.getAll();
+  if (triangulatedFaces == null) {
+    return Arrays.asList(indexes.getAll());
+  }
+  List<List<Integer>> result=new ArrayList<List<Integer>>(triangulatedFaces.size());
+  for (  IndexesLoop loop : triangulatedFaces) {
+    result.add(loop.getAll());
+  }
+  return result;
 }
