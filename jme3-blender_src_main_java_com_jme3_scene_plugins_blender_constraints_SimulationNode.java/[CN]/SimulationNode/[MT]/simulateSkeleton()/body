@@ -9,7 +9,6 @@
         int maxFrame=(int)animationTimeBoundaries[0];
         float maxTime=animationTimeBoundaries[1];
         Map<Integer,VirtualTrack> tracks=new HashMap<Integer,VirtualTrack>();
-        Map<Integer,Transform> previousTransforms=this.getInitialTransforms();
         for (int frame=0; frame < maxFrame; ++frame) {
           this.reset();
           for (          Track track : animation.getTracks()) {
@@ -31,22 +30,12 @@
           }
           alteredOmas.clear();
           for (          Entry<Integer,VirtualTrack> trackEntry : tracks.entrySet()) {
-            Integer boneIndex=trackEntry.getKey();
-            Bone bone=skeleton.getBone(boneIndex);
-            Transform previousTransform=previousTransforms.get(boneIndex);
-            VirtualTrack vTrack=trackEntry.getValue();
-            Vector3f bonePositionDifference=bone.getLocalPosition().subtract(previousTransform.getTranslation());
-            Quaternion boneRotationDifference=bone.getLocalRotation().mult(previousTransform.getRotation().inverse()).normalizeLocal();
-            Vector3f boneScaleDifference=bone.getLocalScale().divide(previousTransform.getScale());
-            if (frame > 0) {
-              bonePositionDifference=vTrack.translations.get(frame - 1).add(bonePositionDifference);
-              boneRotationDifference=vTrack.rotations.get(frame - 1).mult(boneRotationDifference);
-              boneScaleDifference=vTrack.scales.get(frame - 1).mult(boneScaleDifference);
-            }
-            vTrack.setTransform(frame,new Transform(bonePositionDifference,boneRotationDifference,boneScaleDifference));
-            previousTransform.setTranslation(bone.getLocalPosition());
-            previousTransform.setRotation(bone.getLocalRotation());
-            previousTransform.setScale(bone.getLocalScale());
+            Bone bone=skeleton.getBone(trackEntry.getKey());
+            Transform startTransform=boneStartTransforms.get(bone);
+            Vector3f bonePositionDifference=bone.getLocalPosition().subtract(startTransform.getTranslation());
+            Quaternion boneRotationDifference=bone.getLocalRotation().mult(startTransform.getRotation().inverse()).normalizeLocal();
+            Vector3f boneScaleDifference=bone.getLocalScale().divide(startTransform.getScale());
+            trackEntry.getValue().setTransform(frame,new Transform(bonePositionDifference,boneRotationDifference,boneScaleDifference));
           }
         }
         for (        Entry<Integer,VirtualTrack> trackEntry : tracks.entrySet()) {
