@@ -1,10 +1,10 @@
 {
   for (int i=0; i < bezierPoints.length - 1; ++i) {
     if (frame >= bezierPoints[i][1][0] && frame <= bezierPoints[i + 1][1][0]) {
-      float t=(frame - bezierPoints[i][1][0]) / (bezierPoints[i + 1][1][0] - bezierPoints[i][1][0]);
-      float oneMinusT=1.0f - t;
-      float oneMinusT2=oneMinusT * oneMinusT;
-      float t2=t * t;
+      double t=(frame - bezierPoints[i][1][0]) / (bezierPoints[i + 1][1][0] - bezierPoints[i][1][0]);
+      double oneMinusT=1.0f - t;
+      double oneMinusT2=oneMinusT * oneMinusT;
+      double t2=t * t;
       return bezierPoints[i][1][valuePart] * oneMinusT2 * oneMinusT + 3.0f * bezierPoints[i][2][valuePart] * t* oneMinusT2 + 3.0f * bezierPoints[i + 1][0][valuePart] * t2* oneMinusT + bezierPoints[i + 1][1][valuePart] * t2 * t;
     }
   }
