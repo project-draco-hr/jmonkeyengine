@@ -1,0 +1,51 @@
+{
+  cam.setLocation(new Vector3f(-11.441693f,6.7038045f,28.274843f));
+  cam.setRotation(new Quaternion(0.059138592f,0.9084308f,-0.13765986f,0.3902638f));
+  Material m=new Material(assetManager,"Common/MatDefs/Misc/ColoredTextured.j3md");
+  m.setColor("Color",ColorRGBA.White);
+  t1=assetManager.loadTexture("Textures/Terrain/BrickWall/BrickWall.jpg");
+  t2=assetManager.loadTexture("Textures/Terrain/Pond/Pond.jpg");
+  Box b=new Box(1,1,1);
+  for (int x=0; x < 10; x++) {
+    for (int y=0; y < 10; y++) {
+      Geometry g=new Geometry("g_" + x + "_"+ y,b);
+      Node monkey=new Node("n_" + x + "_"+ y);
+      monkey.attachChild(g);
+      monkey.move(x * 2,0,y * 2);
+      Material newMat=m.clone();
+      g.setMaterial(newMat);
+      if (FastMath.rand.nextBoolean()) {
+        newMat.setTexture("ColorMap",t1);
+      }
+ else {
+        newMat.setTexture("ColorMap",t2);
+      }
+      rootNode.attachChild(monkey);
+    }
+  }
+  Thread evilThread=new Thread(new Runnable(){
+    public void run(){
+      try {
+        Thread.sleep(1000);
+      }
+ catch (      InterruptedException ex) {
+      }
+      while (true) {
+        for (        Spatial child : rootNode.getChildren()) {
+          Geometry g=(Geometry)(((Node)child).getChild(0));
+          Material m=g.getMaterial();
+          Texture curTex=m.getTextureParam("ColorMap").getTextureValue();
+          if (curTex == t1) {
+            m.setTexture("ColorMap",t2);
+          }
+ else {
+            m.setTexture("ColorMap",t1);
+          }
+        }
+      }
+    }
+  }
+);
+  evilThread.setDaemon(true);
+  evilThread.start();
+}
