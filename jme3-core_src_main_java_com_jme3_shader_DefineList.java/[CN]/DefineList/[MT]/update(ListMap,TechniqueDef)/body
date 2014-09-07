@@ -1,0 +1,14 @@
+{
+  if (equalsParams(params,def)) {
+    return false;
+  }
+  clear();
+  for (int i=0; i < params.size(); i++) {
+    MatParam param=(MatParam)params.getValue(i);
+    String defineName=def.getShaderParamDefine(param.getName());
+    if (defineName != null) {
+      set(defineName,param.getVarType(),param.getValue());
+    }
+  }
+  return true;
+}
