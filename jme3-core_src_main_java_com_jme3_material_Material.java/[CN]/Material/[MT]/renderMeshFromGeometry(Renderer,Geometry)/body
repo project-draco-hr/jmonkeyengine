@@ -7,7 +7,12 @@
     if (numInstances == 0) {
       return;
     }
-    renderer.renderMesh(mesh,lodLevel,numInstances,instGeom.getAllInstanceData());
+    if (renderer.getCaps().contains(Caps.MeshInstancing)) {
+      renderer.renderMesh(mesh,lodLevel,numInstances,instGeom.getAllInstanceData());
+    }
+ else {
+      throw new RendererException("Mesh instancing is not supported by the video hardware");
+    }
   }
  else {
     renderer.renderMesh(mesh,lodLevel,1,null);
