@@ -1,0 +1,10 @@
+{
+  log.log(Level.FINEST,"initialize():{0}",this);
+  this.app=app;
+  initialized=true;
+  initialize(app);
+  if (isEnabled()) {
+    log.log(Level.FINEST,"enable():{0}",this);
+    enable();
+  }
+}

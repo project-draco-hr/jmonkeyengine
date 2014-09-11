@@ -1,0 +1,9 @@
+{
+  log.log(Level.FINEST,"cleanup():{0}",this);
+  if (isEnabled()) {
+    log.log(Level.FINEST,"disable():{0}",this);
+    disable();
+  }
+  cleanup(app);
+  initialized=false;
+}
