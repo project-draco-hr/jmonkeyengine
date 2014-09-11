@@ -1,17 +1,23 @@
 {
+  if (prof != null)   prof.appStep(AppStep.BeginFrame);
   super.update();
   if (speed == 0 || paused) {
     return;
   }
   float tpf=timer.getTimePerFrame() * speed;
+  if (prof != null)   prof.appStep(AppStep.StateManagerUpdate);
   stateManager.update(tpf);
   simpleUpdate(tpf);
+  if (prof != null)   prof.appStep(AppStep.SpatialUpdate);
   rootNode.updateLogicalState(tpf);
   guiNode.updateLogicalState(tpf);
   rootNode.updateGeometricState();
   guiNode.updateGeometricState();
+  if (prof != null)   prof.appStep(AppStep.StateManagerRender);
   stateManager.render(renderManager);
+  if (prof != null)   prof.appStep(AppStep.RenderFrame);
   renderManager.render(tpf,context.isRenderable());
   simpleRender(renderManager);
   stateManager.postRender();
+  if (prof != null)   prof.appStep(AppStep.EndFrame);
 }

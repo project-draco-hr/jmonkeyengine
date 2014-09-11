@@ -1,12 +1,15 @@
 {
   AudioContext.setAudioRenderer(audioRenderer);
+  if (prof != null)   prof.appStep(AppStep.QueuedTasks);
   runQueuedTasks();
   if (speed == 0 || paused)   return;
   timer.update();
   if (inputEnabled) {
+    if (prof != null)     prof.appStep(AppStep.ProcessInput);
     inputManager.update(timer.getTimePerFrame());
   }
   if (audioRenderer != null) {
+    if (prof != null)     prof.appStep(AppStep.ProcessAudio);
     audioRenderer.update(timer.getTimePerFrame());
   }
 }

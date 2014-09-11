@@ -2,6 +2,7 @@
   if (!vp.isEnabled()) {
     return;
   }
+  if (prof != null)   prof.vpStep(VpStep.BeginRender,vp,null);
   SafeArrayList<SceneProcessor> processors=vp.getProcessors();
   if (processors.isEmpty()) {
     processors=null;
@@ -22,21 +23,26 @@
     }
     renderer.clearBuffers(vp.isClearColor(),vp.isClearDepth(),vp.isClearStencil());
   }
+  if (prof != null)   prof.vpStep(VpStep.RenderScene,vp,null);
   List<Spatial> scenes=vp.getScenes();
   for (int i=scenes.size() - 1; i >= 0; i--) {
     renderScene(scenes.get(i),vp);
   }
   if (processors != null) {
+    if (prof != null)     prof.vpStep(VpStep.PostQueue,vp,null);
     for (    SceneProcessor proc : processors.getArray()) {
       proc.postQueue(vp.getQueue());
     }
   }
+  if (prof != null)   prof.vpStep(VpStep.FlushQueue,vp,null);
   flushQueue(vp);
   if (processors != null) {
+    if (prof != null)     prof.vpStep(VpStep.PostFrame,vp,null);
     for (    SceneProcessor proc : processors.getArray()) {
       proc.postFrame(vp.getOutputFrameBuffer());
     }
   }
   renderTranslucentQueue(vp);
   clearQueue(vp);
+  if (prof != null)   prof.vpStep(VpStep.EndRender,vp,null);
 }

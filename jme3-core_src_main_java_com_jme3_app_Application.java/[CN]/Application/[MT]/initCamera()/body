@@ -5,6 +5,9 @@
   cam.lookAt(new Vector3f(0f,0f,0f),Vector3f.UNIT_Y);
   renderManager=new RenderManager(renderer);
   renderManager.setTimer(timer);
+  if (prof != null) {
+    renderManager.setAppProfiler(prof);
+  }
   viewPort=renderManager.createMainView("Default",cam);
   viewPort.setClearFlags(true,true,true);
   Camera guiCam=new Camera(settings.getWidth(),settings.getHeight());

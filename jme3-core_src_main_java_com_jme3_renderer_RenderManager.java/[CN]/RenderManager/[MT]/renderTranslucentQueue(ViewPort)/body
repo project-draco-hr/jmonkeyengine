@@ -1,4 +1,5 @@
 {
+  if (prof != null)   prof.vpStep(VpStep.RenderBucket,vp,Bucket.Translucent);
   RenderQueue rq=vp.getQueue();
   if (!rq.isQueueEmpty(Bucket.Translucent) && handleTranlucentBucket) {
     rq.renderQueue(Bucket.Translucent,this,vp.getCamera(),true);
