@@ -1,0 +1,11 @@
+{
+  if (this.size == size) {
+    return;
+  }
+  this.size=size;
+  this.frames=new long[size * 2];
+  createMesh();
+  if (frameIndex >= size) {
+    frameIndex=0;
+  }
+}
