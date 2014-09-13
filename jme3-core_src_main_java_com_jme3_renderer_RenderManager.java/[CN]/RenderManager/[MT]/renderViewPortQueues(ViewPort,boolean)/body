@@ -2,6 +2,9 @@
   RenderQueue rq=vp.getQueue();
   Camera cam=vp.getCamera();
   boolean depthRangeChanged=false;
+  if (lightFilter != null) {
+    lightFilter.setCamera(cam);
+  }
   if (prof != null)   prof.vpStep(VpStep.RenderBucket,vp,Bucket.Opaque);
   rq.renderQueue(Bucket.Opaque,this,cam,flush);
   if (!rq.isQueueEmpty(Bucket.Sky)) {

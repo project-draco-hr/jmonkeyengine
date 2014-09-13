@@ -1,0 +1,32 @@
+{
+  TempVars vars=TempVars.get();
+  try {
+    LightList worldLights=geometry.getWorldLightList();
+    for (int i=0; i < worldLights.size(); i++) {
+      Light light=worldLights.get(i);
+      if (light.frustumCheckNeeded) {
+        processedLights.add(light);
+        light.frustumCheckNeeded=false;
+        light.intersectsFrustum=light.intersectsFrustum(camera,vars);
+      }
+      if (!light.intersectsFrustum) {
+        continue;
+      }
+      BoundingVolume bv=geometry.getWorldBound();
+      if (bv instanceof BoundingBox) {
+        if (!light.intersectsBox((BoundingBox)bv,vars)) {
+          continue;
+        }
+      }
+ else       if (bv instanceof BoundingSphere) {
+        if (!Float.isInfinite(((BoundingSphere)bv).getRadius())) {
+          throw new UnsupportedOperationException("Only AABB supported for now");
+        }
+      }
+      filteredLightList.add(light);
+    }
+  }
+  finally {
+    vars.release();
+  }
+}

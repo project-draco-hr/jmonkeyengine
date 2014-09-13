@@ -5,6 +5,12 @@
  else {
     setWorldMatrix(g.getWorldMatrix());
   }
+  LightList lightList=g.getWorldLightList();
+  if (lightFilter != null) {
+    filteredLightList.clear();
+    lightFilter.filterLights(g,filteredLightList);
+    lightList=filteredLightList;
+  }
   if (forcedTechnique != null) {
     if (g.getMaterial().getMaterialDef().getTechniqueDef(forcedTechnique) != null) {
       tmpTech=g.getMaterial().getActiveTechnique() != null ? g.getMaterial().getActiveTechnique().getDef().getName() : "Default";
@@ -13,18 +19,18 @@
       if (g.getMaterial().getActiveTechnique().getDef().getForcedRenderState() != null) {
         forcedRenderState=g.getMaterial().getActiveTechnique().getDef().getForcedRenderState();
       }
-      g.getMaterial().render(g,this);
+      g.getMaterial().render(g,lightList,this);
       g.getMaterial().selectTechnique(tmpTech,this);
       forcedRenderState=tmpRs;
     }
  else     if (forcedMaterial != null) {
-      forcedMaterial.render(g,this);
+      forcedMaterial.render(g,lightList,this);
     }
   }
  else   if (forcedMaterial != null) {
-    forcedMaterial.render(g,this);
+    forcedMaterial.render(g,lightList,this);
   }
  else {
-    g.getMaterial().render(g,this);
+    g.getMaterial().render(g,lightList,this);
   }
 }
