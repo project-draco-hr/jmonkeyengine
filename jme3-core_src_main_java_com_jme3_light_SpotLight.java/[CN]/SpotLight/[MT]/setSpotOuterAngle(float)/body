@@ -1,4 +1,7 @@
 {
+  if (spotOuterAngle < 0f || spotOuterAngle >= FastMath.HALF_PI) {
+    throw new IllegalArgumentException("spot angle must be between 0 and pi/2");
+  }
   this.spotOuterAngle=spotOuterAngle;
   computeAngleParameters();
 }

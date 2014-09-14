@@ -1,3 +1,13 @@
 {
-  return true;
+  if (this.spotRange == 0) {
+    return true;
+  }
+ else {
+    for (int i=5; i >= 0; i--) {
+      if (camera.getWorldPlane(i).pseudoDistance(position) <= -spotRange) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
