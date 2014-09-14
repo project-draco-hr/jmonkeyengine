@@ -9,8 +9,8 @@
   if (packedAngleCos == 0.0f) {
     throw new IllegalArgumentException("Packed angle cosine is invalid");
   }
-  float outerSin=FastMath.sin(spotOuterAngle);
+  outerAngleSin=FastMath.sin(spotOuterAngle);
   outerAngleCosSqr=outerCos * outerCos;
-  outerAngleSinSqr=outerSin * outerSin;
-  outerAngleSinRcp=1.0f / outerSin;
+  outerAngleSinSqr=outerAngleSin * outerAngleSin;
+  outerAngleSinRcp=1.0f / outerAngleSin;
 }

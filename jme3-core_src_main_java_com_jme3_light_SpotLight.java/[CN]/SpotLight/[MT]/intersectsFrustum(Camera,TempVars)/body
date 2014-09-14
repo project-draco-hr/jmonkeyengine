@@ -3,8 +3,17 @@
     return true;
   }
  else {
+    float sideExtent=spotRange * 0.5f * outerAngleSin;
+    float forwardExtent=spotRange * 0.5f;
+    Vector3f xAxis=Vector3f.UNIT_Y.cross(direction,vars.vect1).normalizeLocal();
+    Vector3f yAxis=direction.cross(xAxis,vars.vect2).normalizeLocal();
+    Vector3f obbCenter=direction.mult(spotRange * 0.5f,vars.vect3).addLocal(position);
     for (int i=5; i >= 0; i--) {
-      if (camera.getWorldPlane(i).pseudoDistance(position) <= -spotRange) {
+      Plane plane=camera.getWorldPlane(i);
+      Vector3f planeNormal=plane.getNormal();
+      float radius=FastMath.abs(sideExtent * (planeNormal.dot(xAxis))) + FastMath.abs(sideExtent * (planeNormal.dot(yAxis))) + FastMath.abs(forwardExtent * (planeNormal.dot(direction)));
+      float distance=plane.pseudoDistance(obbCenter);
+      if (distance <= -radius) {
         return false;
       }
     }
