@@ -2,10 +2,8 @@
   Node sceneNode=new Node(sceneName + "-scene");
   for (  long nodeId : modelDataMap.keySet()) {
     ModelData data=modelDataMap.get(nodeId);
-    if (data.type.equals("Mesh")) {
-      Node node=createNode(data);
-      modelMap.put(nodeId,node);
-    }
+    Node node=createNode(data);
+    modelMap.put(nodeId,node);
   }
   for (  long modelId : modelMap.keySet()) {
     List<Long> refs=refMap.get(modelId);
