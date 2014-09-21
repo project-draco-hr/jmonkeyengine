@@ -2,9 +2,17 @@
   logger.log(Level.FINE,"IGLESShaderRenderer clearBuffers");
   int bits=0;
   if (color) {
+    if (context.colorWriteEnabled == false) {
+      JmeIosGLES.glColorMask(true,true,true,true);
+      context.colorWriteEnabled=true;
+    }
     bits=JmeIosGLES.GL_COLOR_BUFFER_BIT;
   }
   if (depth) {
+    if (context.depthWriteEnabled == false) {
+      JmeIosGLES.glDepthMask(true);
+      context.depthWriteEnabled=true;
+    }
     bits|=JmeIosGLES.GL_DEPTH_BUFFER_BIT;
   }
   if (stencil) {

@@ -1,9 +1,17 @@
 {
   int bits=0;
   if (color) {
+    if (context.colorWriteEnabled == false) {
+      GLES20.glColorMask(true,true,true,true);
+      context.colorWriteEnabled=true;
+    }
     bits=GLES20.GL_COLOR_BUFFER_BIT;
   }
   if (depth) {
+    if (context.depthWriteEnabled == false) {
+      GLES20.glDepthMask(true);
+      context.depthWriteEnabled=true;
+    }
     bits|=GLES20.GL_DEPTH_BUFFER_BIT;
   }
   if (stencil) {
