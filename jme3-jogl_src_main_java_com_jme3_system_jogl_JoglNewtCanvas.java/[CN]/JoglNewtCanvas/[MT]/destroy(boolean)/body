@@ -1,4 +1,4 @@
 {
   if (waitFor)   waitFor(false);
-  animator.stop();
+  if (animator.isAnimating())   animator.stop();
 }
