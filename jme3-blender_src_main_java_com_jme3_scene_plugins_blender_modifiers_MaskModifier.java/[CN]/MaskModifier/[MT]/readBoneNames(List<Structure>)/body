@@ -1,0 +1,12 @@
+{
+  List<String> result=new ArrayList<String>();
+  for (  Structure boneStructure : boneBase) {
+    int flag=((Number)boneStructure.getFieldValue("flag")).intValue();
+    if ((flag & BoneContext.SELECTED) != 0) {
+      result.add(boneStructure.getFieldValue("name").toString());
+    }
+    List<Structure> childbase=((Structure)boneStructure.getFieldValue("childbase")).evaluateListBase();
+    result.addAll(this.readBoneNames(childbase));
+  }
+  return result;
+}

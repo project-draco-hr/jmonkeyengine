@@ -2,14 +2,14 @@
   int shift=vertices.size();
   if (shift > 0) {
     for (    Face face : mesh.faces) {
-      face.shiftIndexes(shift);
+      face.getIndexes().shiftIndexes(shift,null);
       face.setTemporalMesh(this);
     }
     for (    Edge edge : mesh.edges) {
-      edge.shiftIndexes(shift);
+      edge.shiftIndexes(shift,null);
     }
     for (    Point point : mesh.points) {
-      point.shiftIndexes(shift);
+      point.shiftIndexes(shift,null);
     }
   }
   faces.addAll(mesh.faces);

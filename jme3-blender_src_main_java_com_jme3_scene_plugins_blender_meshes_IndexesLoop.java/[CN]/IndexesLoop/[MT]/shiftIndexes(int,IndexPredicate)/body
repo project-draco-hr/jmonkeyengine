@@ -1,13 +1,16 @@
 {
+  if (predicate == null) {
+    predicate=INDEX_PREDICATE_USE_ALL;
+  }
   List<Integer> nodes=new ArrayList<Integer>(this.nodes.size());
   for (  Integer node : this.nodes) {
-    nodes.add(node + shift);
+    nodes.add(node + (predicate.execute(node) ? shift : 0));
   }
   Map<Integer,List<Integer>> edges=new HashMap<Integer,List<Integer>>();
   for (  Entry<Integer,List<Integer>> entry : this.edges.entrySet()) {
     List<Integer> neighbours=new ArrayList<Integer>(entry.getValue().size());
     for (    Integer neighbour : entry.getValue()) {
-      neighbours.add(neighbour + shift);
+      neighbours.add(neighbour + (predicate.execute(neighbour) ? shift : 0));
     }
     edges.put(entry.getKey() + shift,neighbours);
   }

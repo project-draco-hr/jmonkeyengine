@@ -1,0 +1,46 @@
+{
+  if (index < 0 || index >= vertices.size()) {
+    throw new IndexOutOfBoundsException("The given index is out of bounds: " + index);
+  }
+  vertices.remove(index);
+  normals.remove(index);
+  if (vertexGroups.size() > 0) {
+    vertexGroups.remove(index);
+  }
+  if (verticesColors.size() > 0) {
+    verticesColors.remove(index);
+  }
+  IndexPredicate shiftPredicate=new IndexPredicate(){
+    @Override public boolean execute(    Integer i){
+      return i > index;
+    }
+  }
+;
+  for (int i=faces.size() - 1; i >= 0; --i) {
+    Face face=faces.get(i);
+    if (face.getIndexes().indexOf(index) >= 0) {
+      faces.remove(i);
+    }
+ else {
+      face.getIndexes().shiftIndexes(-1,shiftPredicate);
+    }
+  }
+  for (int i=edges.size() - 1; i >= 0; --i) {
+    Edge edge=edges.get(i);
+    if (edge.getFirstIndex() == index || edge.getSecondIndex() == index) {
+      edges.remove(i);
+    }
+ else {
+      edge.shiftIndexes(-1,shiftPredicate);
+    }
+  }
+  for (int i=points.size() - 1; i >= 0; --i) {
+    Point point=points.get(i);
+    if (point.getIndex() == index) {
+      points.remove(i);
+    }
+ else {
+      point.shiftIndexes(-1,shiftPredicate);
+    }
+  }
+}

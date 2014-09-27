@@ -1,0 +1,10 @@
+{
+  if (predicate == null) {
+    index1+=shift;
+    index2+=shift;
+  }
+ else {
+    index1+=predicate.execute(index1) ? shift : 0;
+    index2+=predicate.execute(index2) ? shift : 0;
+  }
+}

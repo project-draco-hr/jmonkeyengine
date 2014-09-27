@@ -1,0 +1,20 @@
+{
+  if (this.validate(modifierStructure,blenderContext)) {
+    int flag=((Number)modifierStructure.getFieldValue("flag")).intValue();
+    invertMask=(flag & FLAG_INVERT_MASK) != 0;
+    int mode=((Number)modifierStructure.getFieldValue("mode")).intValue();
+    if (mode == MODE_VERTEX_GROUP) {
+      vertexGroupName=modifierStructure.getFieldValue("vgroup").toString();
+      if (vertexGroupName != null && vertexGroupName.length() == 0) {
+        vertexGroupName=null;
+      }
+    }
+ else     if (mode == MODE_ARMATURE) {
+      pArmatureObject=(Pointer)modifierStructure.getFieldValue("ob_arm");
+    }
+ else {
+      LOGGER.log(Level.SEVERE,"Unknown mode type: {0}. Cannot apply modifier: {1}.",new Object[]{mode,modifierStructure.getName()});
+      invalid=true;
+    }
+  }
+}
