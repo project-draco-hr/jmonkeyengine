@@ -1,4 +1,6 @@
 {
   Matrix4f inverseViewProj=cam.getViewProjectionMatrix().invert();
   mat.setMatrix4("ViewProjectionMatrixInverse",inverseViewProj);
+  techOrig=renderManager.getForcedTechnique();
+  renderManager.setForcedTechnique("GBuf");
 }
