@@ -1,0 +1,11 @@
+{
+  List<byte[]> result=null;
+  List<byte[]> vertexColors=face.getVertexColors();
+  if (vertexColors != null) {
+    result=new ArrayList<byte[]>(indexesSublist.length);
+    for (    Integer index : indexesSublist) {
+      result.add(vertexColors.get(face.getIndexes().indexOf(index)));
+    }
+  }
+  return result;
+}
