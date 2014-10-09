@@ -3,6 +3,7 @@
   if (triangleIndexes.length != 3) {
     throw new IllegalArgumentException("Cannot detach triangle with that does not have 3 indexes!");
   }
+  MeshHelper meshHelper=temporalMesh.getBlenderContext().getHelper(MeshHelper.class);
   List<Face> detachedFaces=new ArrayList<Face>();
   List<Integer> path=new ArrayList<Integer>(indexes.size());
   boolean[] edgeRemoved=new boolean[]{indexes.removeEdge(triangleIndexes[0],triangleIndexes[1]),indexes.removeEdge(triangleIndexes[0],triangleIndexes[2]),indexes.removeEdge(triangleIndexes[1],triangleIndexes[2])};
@@ -17,7 +18,8 @@
         throw new IllegalStateException("Triangulation failed. Cannot find path between two indexes. Please apply triangulation in Blender as a workaround.");
       }
       if (detachedFaces.size() == 0 && path.size() < indexes.size()) {
-        detachedFaces.add(new Face(path.toArray(new Integer[path.size()]),smooth,materialNumber,faceUVCoords,vertexColors,temporalMesh));
+        Integer[] indexesSublist=path.toArray(new Integer[path.size()]);
+        detachedFaces.add(new Face(indexesSublist,smooth,materialNumber,meshHelper.selectUVSubset(this,indexesSublist),vertexColors,temporalMesh));
         for (int j=0; j < path.size() - 1; ++j) {
           indexes.removeEdge(path.get(j),path.get(j + 1));
         }

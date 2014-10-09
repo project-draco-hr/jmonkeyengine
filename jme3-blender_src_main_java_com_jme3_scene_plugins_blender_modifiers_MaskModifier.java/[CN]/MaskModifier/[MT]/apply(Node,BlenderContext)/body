@@ -22,7 +22,10 @@
         }
       }
  else {
-        Collection<String> vertexGroupNames=temporalMesh.getVertexGroupNames();
+        Set<String> vertexGroupNames=new HashSet<String>();
+        for (        Map<String,Float> groups : temporalMesh.getVertexGroups()) {
+          vertexGroupNames.addAll(groups.keySet());
+        }
         if (vertexGroupNames.size() == 0 && !invertMask || vertexGroupNames.size() > 0 && invertMask) {
           temporalMesh.clear();
         }
@@ -30,7 +33,7 @@
       if (vertexGroupsToRemove.size() > 0) {
         List<Integer> vertsToBeRemoved=new ArrayList<Integer>();
         for (int i=0; i < temporalMesh.getVertexCount(); ++i) {
-          Map<String,Float> vertexGroups=temporalMesh.getVertexGroups(i);
+          Map<String,Float> vertexGroups=temporalMesh.getVertexGroups().get(i);
           boolean hasVertexGroup=false;
           if (vertexGroups != null) {
             for (            String groupName : vertexGroupsToRemove) {
@@ -47,7 +50,7 @@
         }
         Collections.reverse(vertsToBeRemoved);
         for (        Integer vertexIndex : vertsToBeRemoved) {
-          temporalMesh.removeVertexAt(vertexIndex);
+          this.removeVertexAt(vertexIndex,temporalMesh);
         }
       }
     }

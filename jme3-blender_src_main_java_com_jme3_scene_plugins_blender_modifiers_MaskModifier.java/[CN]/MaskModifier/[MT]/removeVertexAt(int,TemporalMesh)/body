@@ -1,0 +1,46 @@
+{
+  if (index < 0 || index >= temporalMesh.getVertexCount()) {
+    throw new IndexOutOfBoundsException("The given index is out of bounds: " + index);
+  }
+  temporalMesh.getVertices().remove(index);
+  temporalMesh.getNormals().remove(index);
+  if (temporalMesh.getVertexGroups().size() > 0) {
+    temporalMesh.getVertexGroups().remove(index);
+  }
+  if (temporalMesh.getVerticesColors().size() > 0) {
+    temporalMesh.getVerticesColors().remove(index);
+  }
+  IndexPredicate shiftPredicate=new IndexPredicate(){
+    @Override public boolean execute(    Integer i){
+      return i > index;
+    }
+  }
+;
+  for (int i=temporalMesh.getFaces().size() - 1; i >= 0; --i) {
+    Face face=temporalMesh.getFaces().get(i);
+    if (face.getIndexes().indexOf(index) >= 0) {
+      temporalMesh.getFaces().remove(i);
+    }
+ else {
+      face.getIndexes().shiftIndexes(-1,shiftPredicate);
+    }
+  }
+  for (int i=temporalMesh.getEdges().size() - 1; i >= 0; --i) {
+    Edge edge=temporalMesh.getEdges().get(i);
+    if (edge.getFirstIndex() == index || edge.getSecondIndex() == index) {
+      temporalMesh.getEdges().remove(i);
+    }
+ else {
+      edge.shiftIndexes(-1,shiftPredicate);
+    }
+  }
+  for (int i=temporalMesh.getPoints().size() - 1; i >= 0; --i) {
+    Point point=temporalMesh.getPoints().get(i);
+    if (point.getIndex() == index) {
+      temporalMesh.getPoints().remove(i);
+    }
+ else {
+      point.shiftIndexes(-1,shiftPredicate);
+    }
+  }
+}

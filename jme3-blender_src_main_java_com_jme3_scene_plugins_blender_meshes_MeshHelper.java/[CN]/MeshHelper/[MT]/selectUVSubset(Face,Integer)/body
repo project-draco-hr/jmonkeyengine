@@ -1,0 +1,14 @@
+{
+  Map<String,List<Vector2f>> result=null;
+  if (face.getUvSets() != null) {
+    result=new HashMap<String,List<Vector2f>>();
+    for (    Entry<String,List<Vector2f>> entry : face.getUvSets().entrySet()) {
+      List<Vector2f> uvs=new ArrayList<Vector2f>(indexesSublist.length);
+      for (      Integer index : indexesSublist) {
+        uvs.add(entry.getValue().get(face.getIndexes().indexOf(index)));
+      }
+      result.put(entry.getKey(),uvs);
+    }
+  }
+  return result;
+}
