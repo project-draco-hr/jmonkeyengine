@@ -45,7 +45,7 @@
         meshBuffers.append(vertices.get(index),normals.get(index));
       }
       Mesh mesh=new Mesh();
-      mesh.setPointSize(2);
+      mesh.setLineWidth(blenderContext.getBlenderKey().getLinesWidth());
       mesh.setMode(Mode.LineStrip);
       if (meshBuffers.isShortIndexBuffer()) {
         mesh.setBuffer(Type.Index,1,(ShortBuffer)meshBuffers.getIndexBuffer());

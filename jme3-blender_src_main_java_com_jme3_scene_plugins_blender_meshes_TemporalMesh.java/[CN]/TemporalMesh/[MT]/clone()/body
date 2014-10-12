@@ -1,6 +1,7 @@
 {
   try {
     TemporalMesh result=new TemporalMesh(meshStructure,blenderContext,false);
+    result.name=name;
     for (    Vector3f v : vertices) {
       result.vertices.add(v.clone());
     }
