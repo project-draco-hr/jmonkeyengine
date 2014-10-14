@@ -6,11 +6,11 @@
     List<Structure> edges=pMEdge.fetchData();
     for (    Structure edge : edges) {
       int flag=((Number)edge.getFieldValue("flag")).intValue();
-      if ((flag & MeshHelper.EDGE_NOT_IN_FACE_FLAG) != 0) {
-        int v1=((Number)edge.getFieldValue("v1")).intValue();
-        int v2=((Number)edge.getFieldValue("v2")).intValue();
-        result.add(new Edge(v1,v2));
-      }
+      int v1=((Number)edge.getFieldValue("v1")).intValue();
+      int v2=((Number)edge.getFieldValue("v2")).intValue();
+      float crease=((Number)edge.getFieldValue("crease")).floatValue();
+      boolean edgeInFace=(flag & Edge.FLAG_EDGE_NOT_IN_FACE) == 0;
+      result.add(new Edge(v1,v2,crease,edgeInFace));
     }
   }
   LOGGER.log(Level.FINE,"Loaded {0} edges.",result.size());

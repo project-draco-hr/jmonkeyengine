@@ -1,7 +1,10 @@
 {
-  String result="Edge [" + index1 + ", "+ index2+ "]";
+  String result="Edge [" + index1 + ", "+ index2+ "] {"+ crease+ "}";
   if (this.getOrigin() != null && this.getDirection() != null) {
     result+=" -> {" + this.getOrigin() + ", "+ this.getOrigin().add(this.getDirection())+ "}";
+  }
+  if (inFace) {
+    result+="[F]";
   }
   return result;
 }
