@@ -1,0 +1,18 @@
+{
+  return new Iterator<Geometry>(){
+    int index=0;
+    public boolean hasNext(){
+      return index < size();
+    }
+    public Geometry next(){
+      if (index >= size()) {
+        throw new NoSuchElementException("Geometry list has only " + size() + " elements");
+      }
+      return get(index++);
+    }
+    public void remove(){
+      throw new UnsupportedOperationException("Geometry list doesn't support iterator removal");
+    }
+  }
+;
+}
