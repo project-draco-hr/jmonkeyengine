@@ -1,14 +1,14 @@
 {
-  for (int i=0; i < cinematicEvents.size(); i++) {
-    CinematicEvent ce=cinematicEvents.get(i);
-    ce.internalUpdate(tpf);
-  }
   int keyFrameIndex=timeLine.getKeyFrameIndexFromTime(time);
   for (int i=lastFetchedKeyFrame + 1; i <= keyFrameIndex; i++) {
     KeyFrame keyFrame=timeLine.get(i);
     if (keyFrame != null) {
       keyFrame.trigger();
     }
+  }
+  for (int i=0; i < cinematicEvents.size(); i++) {
+    CinematicEvent ce=cinematicEvents.get(i);
+    ce.internalUpdate(tpf);
   }
   lastFetchedKeyFrame=keyFrameIndex;
 }
