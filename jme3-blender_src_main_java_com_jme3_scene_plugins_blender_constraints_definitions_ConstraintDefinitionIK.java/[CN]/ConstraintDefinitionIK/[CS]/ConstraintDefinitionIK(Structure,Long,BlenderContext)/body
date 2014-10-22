@@ -1,6 +1,7 @@
 {
   super(constraintData,ownerOMA,blenderContext);
   bonesAffected=((Number)constraintData.getFieldValue("rootbone")).intValue();
+  iterations=((Number)constraintData.getFieldValue("iterations")).intValue();
   if ((flag & FLAG_POSITION) == 0) {
     needToCompute=false;
   }
