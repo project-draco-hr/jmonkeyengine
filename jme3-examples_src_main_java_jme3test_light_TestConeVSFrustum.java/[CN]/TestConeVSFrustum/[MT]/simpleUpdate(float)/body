@@ -1,0 +1,15 @@
+{
+  TempVars vars=TempVars.get();
+  boolean intersect=spotLight.intersectsFrustum(frustumCam,vars);
+  if (intersect) {
+    geom.getMaterial().setColor("Diffuse",ColorRGBA.Green);
+  }
+ else {
+    geom.getMaterial().setColor("Diffuse",ColorRGBA.White);
+  }
+  Vector3f farPoint=vars.vect1.set(spotLight.getPosition()).addLocal(vars.vect2.set(spotLight.getDirection()).multLocal(spotLight.getSpotRange()));
+  float farRadius=(spotLight.getSpotRange() / FastMath.cos(spotLight.getSpotOuterAngle())) * FastMath.sin(spotLight.getSpotOuterAngle());
+  Vector3f perpDirection=vars.vect2.set(spotLight.getDirection()).crossLocal(frustumCam.getWorldPlane(3).getNormal()).normalizeLocal().crossLocal(spotLight.getDirection());
+  Vector3f projectedPoint=vars.vect3.set(farPoint).addLocal(perpDirection.multLocal(farRadius));
+  vars.release();
+}
