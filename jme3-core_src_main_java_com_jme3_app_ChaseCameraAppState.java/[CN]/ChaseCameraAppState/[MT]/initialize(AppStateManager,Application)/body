@@ -2,7 +2,7 @@
   super.initialize(stateManager,app);
   this.inputManager=app.getInputManager();
   target=new Node("ChaseCamTarget");
-  camNode=new CameraNode("ChaseCameraNode",app.getCamera());
+  camNode.setCamera(app.getCamera());
   camNode.setControlDir(CameraControl.ControlDirection.SpatialToCamera);
   target.attachChild(camNode);
   camNode.setLocalTranslation(0,0,distance);
