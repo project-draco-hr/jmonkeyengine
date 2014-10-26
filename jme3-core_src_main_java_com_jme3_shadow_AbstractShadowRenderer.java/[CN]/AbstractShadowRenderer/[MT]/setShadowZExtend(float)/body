@@ -1,0 +1,15 @@
+{
+  this.zFarOverride=zFar;
+  if (zFarOverride == 0) {
+    fadeInfo=null;
+    frustumCam=null;
+  }
+ else {
+    if (fadeInfo != null) {
+      fadeInfo.set(zFarOverride - fadeLength,1f / fadeLength);
+    }
+    if (frustumCam == null && viewPort != null) {
+      initFrustumCam();
+    }
+  }
+}

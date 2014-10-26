@@ -6,6 +6,7 @@
   inputManager.addMapping("switchGroundMat",new KeyTrigger(KeyInput.KEY_M));
   inputManager.addMapping("debug",new KeyTrigger(KeyInput.KEY_X));
   inputManager.addMapping("stabilize",new KeyTrigger(KeyInput.KEY_B));
+  inputManager.addMapping("distance",new KeyTrigger(KeyInput.KEY_N));
   inputManager.addMapping("up",new KeyTrigger(KeyInput.KEY_NUMPAD8));
   inputManager.addMapping("down",new KeyTrigger(KeyInput.KEY_NUMPAD2));
   inputManager.addMapping("right",new KeyTrigger(KeyInput.KEY_NUMPAD6));
@@ -13,7 +14,7 @@
   inputManager.addMapping("fwd",new KeyTrigger(KeyInput.KEY_PGUP));
   inputManager.addMapping("back",new KeyTrigger(KeyInput.KEY_PGDN));
   inputManager.addMapping("pp",new KeyTrigger(KeyInput.KEY_P));
-  inputManager.addListener(this,"lambdaUp","lambdaDown","ThicknessUp","ThicknessDown","switchGroundMat","debug","up","down","right","left","fwd","back","pp","stabilize");
+  inputManager.addListener(this,"lambdaUp","lambdaDown","ThicknessUp","ThicknessDown","switchGroundMat","debug","up","down","right","left","fwd","back","pp","stabilize","distance");
   ShadowTestUIManager uiMan=new ShadowTestUIManager(assetManager,dlsr,dlsf,guiNode,inputManager,viewPort);
   inputManager.addListener(this,"Size+","Size-");
   inputManager.addMapping("Size+",new KeyTrigger(KeyInput.KEY_W));
@@ -23,4 +24,9 @@
   shadowStabilizationText.setText("(b:on/off) Shadow stabilization : " + dlsr.isEnabledStabilization());
   shadowStabilizationText.setLocalTranslation(10,viewPort.getCamera().getHeight() - 100,0);
   guiNode.attachChild(shadowStabilizationText);
+  shadowZfarText=new BitmapText(guiFont,false);
+  shadowZfarText.setSize(guiFont.getCharSet().getRenderedSize() * 0.75f);
+  shadowZfarText.setText("(n:on/off) Shadow extend to 500 and fade to 50 : " + (dlsr.getShadowZExtend() > 0));
+  shadowZfarText.setLocalTranslation(10,viewPort.getCamera().getHeight() - 120,0);
+  guiNode.attachChild(shadowZfarText);
 }

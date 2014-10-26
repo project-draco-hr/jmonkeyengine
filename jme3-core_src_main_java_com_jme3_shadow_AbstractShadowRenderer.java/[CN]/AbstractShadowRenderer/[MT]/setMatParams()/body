@@ -24,6 +24,9 @@
     mat.setInt("FilterMode",edgeFilteringMode.getMaterialParamValue());
     mat.setFloat("PCFEdge",edgesThickness);
     mat.setFloat("ShadowIntensity",shadowIntensity);
+    if (fadeInfo != null) {
+      mat.setVector2("FadeInfo",fadeInfo);
+    }
     setMaterialParameters(mat);
   }
   if (needsfallBackMaterial) {

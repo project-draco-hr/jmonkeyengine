@@ -19,10 +19,14 @@
   plsr=new PointLightShadowRenderer(assetManager,SHADOWMAP_SIZE);
   plsr.setLight((PointLight)scene.getLocalLightList().get(0));
   plsr.setEdgeFilteringMode(EdgeFilteringMode.PCF4);
+  plsr.setShadowZExtend(15);
+  plsr.setShadowZFadeLength(5);
   plsr.displayDebug();
   viewPort.addProcessor(plsr);
   plsf=new PointLightShadowFilter(assetManager,SHADOWMAP_SIZE);
   plsf.setLight((PointLight)scene.getLocalLightList().get(0));
+  plsf.setShadowZExtend(15);
+  plsf.setShadowZFadeLength(5);
   plsf.setEdgeFilteringMode(EdgeFilteringMode.PCF4);
   plsf.setEnabled(false);
   FilterPostProcessor fpp=new FilterPostProcessor(assetManager);

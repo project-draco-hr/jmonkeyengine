@@ -4,4 +4,7 @@
     postshadowMat.setMatrix4(lightViewStringCache[j],lightViewProjectionsMatrices[j]);
     postshadowMat.setTexture(shadowMapStringCache[j],shadowMaps[j]);
   }
+  if (fadeInfo != null) {
+    postshadowMat.setVector2("FadeInfo",fadeInfo);
+  }
 }

@@ -1,0 +1,12 @@
+{
+  Camera cam=viewCam;
+  if (frustumCam != null) {
+    cam=frustumCam;
+    cam.setLocation(viewCam.getLocation());
+    cam.setRotation(viewCam.getRotation());
+  }
+  TempVars vars=TempVars.get();
+  boolean intersects=light.intersectsFrustum(cam,vars);
+  vars.release();
+  return intersects;
+}
