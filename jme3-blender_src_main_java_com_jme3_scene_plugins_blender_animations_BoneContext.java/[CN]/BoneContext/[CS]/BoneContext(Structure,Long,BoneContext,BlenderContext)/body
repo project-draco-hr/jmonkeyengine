@@ -11,12 +11,33 @@
   if (blenderContext.getBlenderKey().isFixUpAxis()) {
     globalBoneMatrix.multLocal(BONE_ARMATURE_TRANSFORMATION_MATRIX);
   }
-  Spatial armature=(Spatial)objectHelper.toObject(blenderContext.getFileBlock(armatureObjectOMA).getStructure(blenderContext),blenderContext);
+  Structure armatureStructure=blenderContext.getFileBlock(armatureObjectOMA).getStructure(blenderContext);
+  Spatial armature=(Spatial)objectHelper.toObject(armatureStructure,blenderContext);
   ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
   Matrix4f armatureWorldMatrix=constraintHelper.toMatrix(armature.getWorldTransform(),new Matrix4f());
   globalBoneMatrix=armatureWorldMatrix.mult(globalBoneMatrix);
   if ((flag & DEFORM) == 0) {
     boneEnvelope=new BoneEnvelope(boneStructure,armatureWorldMatrix,blenderContext.getBlenderKey().isFixUpAxis());
+  }
+  Pointer pPose=(Pointer)armatureStructure.getFieldValue("pose");
+  if (pPose != null && pPose.isNotNull()) {
+    List<Structure> poseChannels=((Structure)pPose.fetchData().get(0).getFieldValue("chanbase")).evaluateListBase();
+    for (    Structure poseChannel : poseChannels) {
+      Long boneOMA=((Pointer)poseChannel.getFieldValue("bone")).getOldMemoryAddress();
+      if (boneOMA.equals(this.boneStructure.getOldMemoryAddress())) {
+        ikStretch=((Number)poseChannel.getFieldValue("ikstretch")).floatValue();
+        DynamicArray<Number> limitMin=(DynamicArray<Number>)poseChannel.getFieldValue("limitmin");
+        this.limitMin=new Vector3f(limitMin.get(0).floatValue(),limitMin.get(1).floatValue(),limitMin.get(2).floatValue());
+        DynamicArray<Number> limitMax=(DynamicArray<Number>)poseChannel.getFieldValue("limitmax");
+        this.limitMax=new Vector3f(limitMax.get(0).floatValue(),limitMax.get(1).floatValue(),limitMax.get(2).floatValue());
+        DynamicArray<Number> stiffness=(DynamicArray<Number>)poseChannel.getFieldValue("stiffness");
+        this.stiffness=new Vector3f(stiffness.get(0).floatValue(),stiffness.get(1).floatValue(),stiffness.get(2).floatValue());
+        int ikFlag=((Number)poseChannel.getFieldValue("ikflag")).intValue();
+        locks=new boolean[]{(ikFlag & IKFLAG_LOCK_X) != 0,(ikFlag & IKFLAG_LOCK_Y) != 0,(ikFlag & IKFLAG_LOCK_Z) != 0};
+        limits=new boolean[]{(ikFlag & IKFLAG_LIMIT_X & ~IKFLAG_LOCK_X) != 0,(ikFlag & IKFLAG_LIMIT_Y & ~IKFLAG_LOCK_Y) != 0,(ikFlag & IKFLAG_LIMIT_Z & ~IKFLAG_LOCK_Z) != 0};
+        break;
+      }
+    }
   }
   List<Structure> childbase=((Structure)boneStructure.getFieldValue("childbase")).evaluateListBase();
   for (  Structure child : childbase) {

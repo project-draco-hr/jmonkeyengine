@@ -1,6 +1,7 @@
 {
   List<BoneContext> bones=new ArrayList<BoneContext>();
   Bone bone=(Bone)this.getOwner();
+  chainLength=0;
   while (bone != null) {
     BoneContext boneContext=blenderContext.getBoneContext(bone);
     chainLength+=boneContext.getLength();
