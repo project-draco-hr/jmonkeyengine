@@ -1,0 +1,16 @@
+{
+  Map<String,Vector2f> result=null;
+  Map<String,List<Vector2f>> uvSets=face.getUvSets();
+  if (uvSets != null && uvSets.size() > 0) {
+    result=new HashMap<String,Vector2f>(uvSets.size());
+    for (    Entry<String,List<Vector2f>> entry : uvSets.entrySet()) {
+      Vector2f faceUV=new Vector2f();
+      for (      Vector2f uv : entry.getValue()) {
+        faceUV.addLocal(uv);
+      }
+      faceUV.divideLocal(entry.getValue().size());
+      result.put(entry.getKey(),faceUV);
+    }
+  }
+  return result;
+}

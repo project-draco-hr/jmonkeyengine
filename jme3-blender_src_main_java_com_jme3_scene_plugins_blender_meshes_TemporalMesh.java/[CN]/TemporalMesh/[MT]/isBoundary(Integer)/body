@@ -1,0 +1,9 @@
+{
+  List<Edge> adjacentEdges=indexToEdgeMapping.get(index);
+  for (  Edge edge : adjacentEdges) {
+    if (this.isBoundary(edge)) {
+      return true;
+    }
+  }
+  return false;
+}

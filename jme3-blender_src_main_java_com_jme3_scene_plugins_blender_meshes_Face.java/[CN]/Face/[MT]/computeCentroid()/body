@@ -1,0 +1,8 @@
+{
+  Vector3f result=new Vector3f();
+  List<Vector3f> vertices=temporalMesh.getVertices();
+  for (  Integer index : indexes) {
+    result.addLocal(vertices.get(index));
+  }
+  return result.divideLocal(indexes.size());
+}

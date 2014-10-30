@@ -1,0 +1,112 @@
+{
+  Map<Edge,Integer> edgePoints=new HashMap<Edge,Integer>();
+  Map<Face,Integer> facePoints=new HashMap<Face,Integer>();
+  List<Face> newFaces=new ArrayList<Face>();
+  int originalFacesCount=temporalMesh.getFaces().size();
+  List<Map<String,Float>> vertexGroups=temporalMesh.getVertexGroups();
+  List<Vector3f> vertices=temporalMesh.getVertices();
+  List<Vector3f> edgeVertices=new ArrayList<Vector3f>();
+  List<Vector3f> faceVertices=new ArrayList<Vector3f>();
+  List<Vector3f> normals=temporalMesh.getNormals();
+  List<Vector3f> edgeNormals=new ArrayList<Vector3f>();
+  List<Vector3f> faceNormals=new ArrayList<Vector3f>();
+  List<Face> faces=temporalMesh.getFaces();
+  for (  Face face : faces) {
+    Map<String,List<Vector2f>> uvSets=face.getUvSets();
+    Vector3f facePoint=face.computeCentroid();
+    Integer facePointIndex=vertices.size() + faceVertices.size();
+    facePoints.put(face,facePointIndex);
+    faceVertices.add(facePoint);
+    faceNormals.add(this.computeFaceNormal(face));
+    Map<String,Vector2f> faceUV=this.computeFaceUVs(face);
+    byte[] faceVertexColor=this.computeFaceVertexColor(face);
+    Map<String,Float> faceVertexGroups=this.computeFaceVertexGroups(face);
+    if (vertexGroups.size() > 0) {
+      vertexGroups.add(faceVertexGroups);
+    }
+    for (int i=0; i < face.getIndexes().size(); ++i) {
+      int vIndex=face.getIndexes().get(i);
+      int vPrevIndex=i == 0 ? face.getIndexes().get(face.getIndexes().size() - 1) : face.getIndexes().get(i - 1);
+      int vNextIndex=i == face.getIndexes().size() - 1 ? face.getIndexes().get(0) : face.getIndexes().get(i + 1);
+      Edge prevEdge=this.findEdge(temporalMesh,vPrevIndex,vIndex);
+      Edge nextEdge=this.findEdge(temporalMesh,vIndex,vNextIndex);
+      int vPrevEdgeVertIndex=edgePoints.containsKey(prevEdge) ? edgePoints.get(prevEdge) : -1;
+      int vNextEdgeVertIndex=edgePoints.containsKey(nextEdge) ? edgePoints.get(nextEdge) : -1;
+      Vector3f v=temporalMesh.getVertices().get(vIndex);
+      if (vPrevEdgeVertIndex < 0) {
+        vPrevEdgeVertIndex=vertices.size() + originalFacesCount + edgeVertices.size();
+        edgeVertices.add(vertices.get(vPrevIndex).add(v).divideLocal(2));
+        edgeNormals.add(normals.get(vPrevIndex).add(normals.get(vIndex)).normalizeLocal());
+        edgePoints.put(prevEdge,vPrevEdgeVertIndex);
+        if (vertexGroups.size() > 0) {
+          vertexGroups.add(this.interpolateVertexGroups(Arrays.asList(vertexGroups.get(vPrevIndex),vertexGroups.get(vIndex))));
+        }
+      }
+      if (vNextEdgeVertIndex < 0) {
+        vNextEdgeVertIndex=vertices.size() + originalFacesCount + edgeVertices.size();
+        edgeVertices.add(vertices.get(vNextIndex).add(v).divideLocal(2));
+        edgeNormals.add(normals.get(vNextIndex).add(normals.get(vIndex)).normalizeLocal());
+        edgePoints.put(nextEdge,vNextEdgeVertIndex);
+        if (vertexGroups.size() > 0) {
+          vertexGroups.add(this.interpolateVertexGroups(Arrays.asList(vertexGroups.get(vNextIndex),vertexGroups.get(vIndex))));
+        }
+      }
+      Integer[] indexes=new Integer[]{vIndex,vNextEdgeVertIndex,facePointIndex,vPrevEdgeVertIndex};
+      Map<String,List<Vector2f>> newUVSets=null;
+      if (uvSets != null) {
+        newUVSets=new HashMap<String,List<Vector2f>>(uvSets.size());
+        for (        Entry<String,List<Vector2f>> uvset : uvSets.entrySet()) {
+          int indexOfvIndex=i;
+          int indexOfvPrevIndex=face.getIndexes().indexOf(vPrevIndex);
+          int indexOfvNextIndex=face.getIndexes().indexOf(vNextIndex);
+          Vector2f uv1=uvset.getValue().get(indexOfvIndex);
+          Vector2f uv2=uvset.getValue().get(indexOfvNextIndex).add(uv1).divideLocal(2);
+          Vector2f uv3=faceUV.get(uvset.getKey());
+          Vector2f uv4=uvset.getValue().get(indexOfvPrevIndex).add(uv1).divideLocal(2);
+          List<Vector2f> uvList=Arrays.asList(uv1,uv2,uv3,uv4);
+          newUVSets.put(uvset.getKey(),new ArrayList<Vector2f>(uvList));
+        }
+      }
+      List<byte[]> vertexColors=null;
+      if (face.getVertexColors() != null) {
+        int indexOfvIndex=i;
+        int indexOfvPrevIndex=face.getIndexes().indexOf(vPrevIndex);
+        int indexOfvNextIndex=face.getIndexes().indexOf(vNextIndex);
+        byte[] vCol1=face.getVertexColors().get(indexOfvIndex);
+        byte[] vCol2=this.interpolateVertexColors(face.getVertexColors().get(indexOfvNextIndex),vCol1);
+        byte[] vCol3=faceVertexColor;
+        byte[] vCol4=this.interpolateVertexColors(face.getVertexColors().get(indexOfvPrevIndex),vCol1);
+        vertexColors=new ArrayList<byte[]>(Arrays.asList(vCol1,vCol2,vCol3,vCol4));
+      }
+      newFaces.add(new Face(indexes,face.isSmooth(),face.getMaterialNumber(),newUVSets,vertexColors,temporalMesh));
+    }
+  }
+  vertices.addAll(faceVertices);
+  vertices.addAll(edgeVertices);
+  normals.addAll(faceNormals);
+  normals.addAll(edgeNormals);
+  List<Edge> newEdges=new ArrayList<Edge>(temporalMesh.getEdges().size() * 2);
+  for (  Edge edge : temporalMesh.getEdges()) {
+    if (!edge.isInFace()) {
+      int newVertexIndex=vertices.size();
+      vertices.add(vertices.get(edge.getFirstIndex()).add(vertices.get(edge.getSecondIndex())).divideLocal(2));
+      normals.add(normals.get(edge.getFirstIndex()).add(normals.get(edge.getSecondIndex())).normalizeLocal());
+      newEdges.add(new Edge(edge.getFirstIndex(),newVertexIndex,0,false,vertices));
+      newEdges.add(new Edge(newVertexIndex,edge.getSecondIndex(),0,false,vertices));
+    }
+ else {
+      Integer edgePoint=edgePoints.get(edge);
+      newEdges.add(new Edge(edge.getFirstIndex(),edgePoint,edge.getCrease(),true,vertices));
+      newEdges.add(new Edge(edgePoint,edge.getSecondIndex(),edge.getCrease(),true,vertices));
+      List<Face> facesContainingTheEdge=temporalMesh.getAdjacentFaces(edge);
+      for (      Face f : facesContainingTheEdge) {
+        newEdges.add(new Edge(facePoints.get(f),edgePoint,0,true,vertices));
+      }
+    }
+  }
+  temporalMesh.getFaces().clear();
+  temporalMesh.getFaces().addAll(newFaces);
+  temporalMesh.getEdges().clear();
+  temporalMesh.getEdges().addAll(newEdges);
+  temporalMesh.rebuildIndexesMappings();
+}

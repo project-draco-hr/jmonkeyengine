@@ -1,0 +1,10 @@
+{
+  if (this == obj) {
+    return true;
+  }
+  if (!(obj instanceof TemporalMesh)) {
+    return false;
+  }
+  TemporalMesh other=(TemporalMesh)obj;
+  return meshStructure.getOldMemoryAddress().equals(other.meshStructure.getOldMemoryAddress());
+}

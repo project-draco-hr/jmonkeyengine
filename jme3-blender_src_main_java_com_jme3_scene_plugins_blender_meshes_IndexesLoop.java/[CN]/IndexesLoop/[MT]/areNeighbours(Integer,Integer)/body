@@ -1,5 +1,5 @@
 {
-  if (index1.equals(index2)) {
+  if (index1.equals(index2) || !edges.containsKey(index1) || !edges.containsKey(index2)) {
     return false;
   }
   return edges.get(index1).contains(index2) || edges.get(index2).contains(index1);

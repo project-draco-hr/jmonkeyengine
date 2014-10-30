@@ -1,0 +1,13 @@
+{
+  if (this == obj) {
+    return true;
+  }
+  if (!(obj instanceof Face)) {
+    return false;
+  }
+  Face other=(Face)obj;
+  if (!indexes.equals(other.indexes)) {
+    return false;
+  }
+  return temporalMesh.equals(other.temporalMesh);
+}

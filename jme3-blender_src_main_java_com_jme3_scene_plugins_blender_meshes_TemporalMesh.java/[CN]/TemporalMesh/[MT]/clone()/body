@@ -27,6 +27,7 @@
     for (    Point point : points) {
       result.points.add(point.clone());
     }
+    result.rebuildIndexesMappings();
     return result;
   }
  catch (  BlenderFileException e) {

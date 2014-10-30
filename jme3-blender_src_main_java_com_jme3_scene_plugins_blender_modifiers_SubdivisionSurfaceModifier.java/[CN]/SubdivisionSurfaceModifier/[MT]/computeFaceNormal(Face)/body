@@ -1,0 +1,8 @@
+{
+  Vector3f result=new Vector3f();
+  for (  Integer index : face.getIndexes()) {
+    result.addLocal(face.getTemporalMesh().getNormals().get(index));
+  }
+  result.divideLocal(face.getIndexes().size());
+  return result;
+}

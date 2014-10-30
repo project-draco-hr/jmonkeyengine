@@ -1,0 +1,50 @@
+{
+  Set<Integer> boundaryVertices=new HashSet<Integer>();
+  for (  Face face : temporalMesh.getFaces()) {
+    for (    Integer index : face.getIndexes()) {
+      if (temporalMesh.isBoundary(index)) {
+        boundaryVertices.add(index);
+      }
+    }
+  }
+  Vector3f[] averageVert=new Vector3f[temporalMesh.getVertices().size()];
+  int[] averageCount=new int[temporalMesh.getVertices().size()];
+  for (  Face face : temporalMesh.getFaces()) {
+    Vector3f centroid=face.computeCentroid();
+    for (    Integer index : face.getIndexes()) {
+      if (boundaryVertices.contains(index)) {
+        Edge edge=this.findEdge(temporalMesh,index,face.getIndexes().getNextIndex(index));
+        if (temporalMesh.isBoundary(edge)) {
+          averageVert[index]=averageVert[index] == null ? edge.computeCentroid() : averageVert[index].addLocal(edge.computeCentroid());
+          averageCount[index]+=1;
+        }
+        edge=this.findEdge(temporalMesh,face.getIndexes().getPreviousIndex(index),index);
+        if (temporalMesh.isBoundary(edge)) {
+          averageVert[index]=averageVert[index] == null ? edge.computeCentroid() : averageVert[index].addLocal(edge.computeCentroid());
+          averageCount[index]+=1;
+        }
+      }
+ else {
+        averageVert[index]=averageVert[index] == null ? centroid.clone() : averageVert[index].addLocal(centroid);
+        averageCount[index]+=1;
+      }
+    }
+  }
+  for (  Edge edge : temporalMesh.getEdges()) {
+    if (!edge.isInFace()) {
+      Vector3f centroid=temporalMesh.getVertices().get(edge.getFirstIndex()).add(temporalMesh.getVertices().get(edge.getSecondIndex())).divideLocal(2);
+      averageVert[edge.getFirstIndex()]=averageVert[edge.getFirstIndex()] == null ? centroid.clone() : averageVert[edge.getFirstIndex()].addLocal(centroid);
+      averageVert[edge.getSecondIndex()]=averageVert[edge.getSecondIndex()] == null ? centroid.clone() : averageVert[edge.getSecondIndex()].addLocal(centroid);
+      averageCount[edge.getSecondIndex()]+=2;
+    }
+  }
+  for (int i=0; i < averageVert.length; ++i) {
+    averageVert[i].divideLocal(averageCount[i]);
+    if (!boundaryVertices.contains(i)) {
+      temporalMesh.getVertices().get(i).addLocal(averageVert[i].subtract(temporalMesh.getVertices().get(i)).multLocal(4 / (float)averageCount[i]));
+    }
+ else {
+      temporalMesh.getVertices().get(i).set(averageVert[i]);
+    }
+  }
+}

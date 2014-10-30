@@ -1,0 +1,12 @@
+{
+  TexturePixel pixel=new TexturePixel();
+  TexturePixel temp=new TexturePixel();
+  for (int i=0; i < colors.length; ++i) {
+    temp.fromARGB8(colors[i][3],colors[i][0],colors[i][1],colors[i][2]);
+    pixel.add(temp);
+  }
+  pixel.divide(colors.length);
+  byte[] result=new byte[4];
+  pixel.toRGBA8(result);
+  return result;
+}

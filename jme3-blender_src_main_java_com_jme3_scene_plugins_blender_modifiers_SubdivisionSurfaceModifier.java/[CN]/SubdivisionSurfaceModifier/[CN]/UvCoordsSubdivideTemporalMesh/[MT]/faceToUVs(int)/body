@@ -1,0 +1,9 @@
+{
+  Face face=faces.get(faceIndex);
+  List<Vector2f> result=new ArrayList<Vector2f>(face.getIndexes().size());
+  for (  Integer index : face.getIndexes()) {
+    Vector3f v=vertices.get(index);
+    result.add(new Vector2f(v.x,v.y));
+  }
+  return result;
+}

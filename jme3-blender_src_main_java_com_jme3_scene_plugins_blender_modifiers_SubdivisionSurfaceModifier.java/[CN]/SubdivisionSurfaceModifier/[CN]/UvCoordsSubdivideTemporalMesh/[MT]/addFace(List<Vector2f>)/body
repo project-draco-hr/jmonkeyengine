@@ -1,0 +1,21 @@
+{
+  Integer[] indexes=new Integer[uvs.size()];
+  int i=0;
+  for (  Vector2f uv : uvs) {
+    Vector3f v=new Vector3f(uv.x,uv.y,0);
+    int index=vertices.indexOf(v);
+    if (index >= 0) {
+      indexes[i++]=index;
+    }
+ else {
+      indexes[i++]=vertices.size();
+      vertices.add(v);
+      normals.add(NORMAL);
+    }
+  }
+  faces.add(new Face(indexes,false,0,null,null,this));
+  for (i=1; i < indexes.length; ++i) {
+    edges.add(new Edge(indexes[i - 1],indexes[i],0,true,vertices));
+  }
+  edges.add(new Edge(indexes[indexes.length - 1],indexes[0],0,true,vertices));
+}

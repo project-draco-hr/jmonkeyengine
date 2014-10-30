@@ -1,0 +1,20 @@
+{
+  Map<String,Float> weightSums=new HashMap<String,Float>();
+  if (vertexGroups.size() > 0) {
+    for (    Map<String,Float> vGroup : vertexGroups) {
+      for (      Entry<String,Float> entry : vGroup.entrySet()) {
+        if (weightSums.containsKey(entry.getKey())) {
+          weightSums.put(entry.getKey(),weightSums.get(entry.getKey()) + entry.getValue());
+        }
+ else {
+          weightSums.put(entry.getKey(),entry.getValue());
+        }
+      }
+    }
+  }
+  Map<String,Float> result=new HashMap<String,Float>(weightSums.size());
+  for (  Entry<String,Float> entry : weightSums.entrySet()) {
+    result.put(entry.getKey(),entry.getValue() / vertexGroups.size());
+  }
+  return result;
+}

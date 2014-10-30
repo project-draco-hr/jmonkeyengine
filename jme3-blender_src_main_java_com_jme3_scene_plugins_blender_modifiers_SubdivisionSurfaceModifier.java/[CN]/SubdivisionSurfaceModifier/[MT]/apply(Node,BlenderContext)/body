@@ -1,0 +1,28 @@
+{
+  if (invalid) {
+    LOGGER.log(Level.WARNING,"Subdivision surface modifier is invalid! Cannot be applied to: {0}",node.getName());
+  }
+ else   if (levels > 0) {
+    TemporalMesh temporalMesh=this.getTemporalMesh(node);
+    if (temporalMesh != null) {
+      LOGGER.log(Level.FINE,"Applying subdivision surface modifier to: {0}",temporalMesh);
+      if (subdivType == TYPE_CATMULLCLARK) {
+        for (int i=0; i < levels; ++i) {
+          this.subdivideSimple(temporalMesh);
+          this.subdivideCatmullClark(temporalMesh);
+          if (subdivideUVS) {
+            this.subdivideUVs(temporalMesh);
+          }
+        }
+      }
+ else {
+        for (int i=0; i < levels; ++i) {
+          this.subdivideSimple(temporalMesh);
+        }
+      }
+    }
+ else {
+      LOGGER.log(Level.WARNING,"Cannot find temporal mesh for node: {0}. The modifier will NOT be applied!",node);
+    }
+  }
+}

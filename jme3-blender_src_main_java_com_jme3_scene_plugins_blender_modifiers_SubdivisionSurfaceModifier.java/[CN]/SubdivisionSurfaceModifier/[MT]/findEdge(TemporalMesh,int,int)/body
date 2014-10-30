@@ -1,0 +1,8 @@
+{
+  for (  Edge edge : temporalMesh.getEdges()) {
+    if (edge.getFirstIndex() == index1 && edge.getSecondIndex() == index2 || edge.getFirstIndex() == index2 && edge.getSecondIndex() == index1) {
+      return edge;
+    }
+  }
+  return null;
+}

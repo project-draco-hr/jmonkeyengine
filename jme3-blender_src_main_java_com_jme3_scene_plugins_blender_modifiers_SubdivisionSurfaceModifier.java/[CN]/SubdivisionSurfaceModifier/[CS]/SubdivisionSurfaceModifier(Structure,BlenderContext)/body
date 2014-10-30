@@ -1,0 +1,16 @@
+{
+  if (this.validate(modifierStructure,blenderContext)) {
+    subdivType=((Number)modifierStructure.getFieldValue("subdivType")).intValue();
+    levels=((Number)modifierStructure.getFieldValue("levels")).intValue();
+    int flag=((Number)modifierStructure.getFieldValue("flags")).intValue();
+    subdivideUVS=(flag & FLAG_SUBDIVIDE_UVS) != 0 && subdivType == TYPE_CATMULLCLARK;
+    if (subdivType != TYPE_CATMULLCLARK && subdivType != TYPE_SIMPLE) {
+      LOGGER.log(Level.SEVERE,"Unknown subdivision type: {0}.",subdivType);
+      invalid=true;
+    }
+    if (levels < 0) {
+      LOGGER.severe("The amount of subdivision levels cannot be negative.");
+      invalid=true;
+    }
+  }
+}

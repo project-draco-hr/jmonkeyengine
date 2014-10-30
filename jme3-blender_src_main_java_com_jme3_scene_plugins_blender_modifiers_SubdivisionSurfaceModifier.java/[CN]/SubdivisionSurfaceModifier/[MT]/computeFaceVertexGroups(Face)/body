@@ -1,0 +1,10 @@
+{
+  if (face.getTemporalMesh().getVertexGroups().size() > 0) {
+    List<Map<String,Float>> vertexGroups=new ArrayList<Map<String,Float>>(face.getIndexes().size());
+    for (    Integer index : face.getIndexes()) {
+      vertexGroups.add(face.getTemporalMesh().getVertexGroups().get(index));
+    }
+    return this.interpolateVertexGroups(vertexGroups);
+  }
+  return new HashMap<String,Float>();
+}
