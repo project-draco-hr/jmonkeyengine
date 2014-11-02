@@ -6,6 +6,10 @@
     TemporalMesh temporalMesh=this.getTemporalMesh(node);
     if (temporalMesh != null) {
       LOGGER.log(Level.FINE,"Applying subdivision surface modifier to: {0}",temporalMesh);
+      for (      Edge edge : temporalMesh.getEdges()) {
+        verticesOnOriginalEdges.add(edge.getFirstIndex());
+        verticesOnOriginalEdges.add(edge.getSecondIndex());
+      }
       if (subdivType == TYPE_CATMULLCLARK) {
         for (int i=0; i < levels; ++i) {
           this.subdivideSimple(temporalMesh);

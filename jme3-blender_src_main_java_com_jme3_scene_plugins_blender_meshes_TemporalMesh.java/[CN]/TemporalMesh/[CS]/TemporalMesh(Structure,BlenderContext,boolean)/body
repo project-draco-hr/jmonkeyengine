@@ -9,7 +9,7 @@
     LinkedHashMap<String,List<Vector2f>> userUVGroups=meshHelper.loadUVCoordinates(meshStructure);
     vertexGroups=meshHelper.loadVerticesGroups(meshStructure);
     faces=Face.loadAll(meshStructure,userUVGroups,verticesColors,this,blenderContext);
-    edges=Edge.loadAll(meshStructure);
+    edges=Edge.loadAll(meshStructure,this);
     points=Point.loadAll(meshStructure);
     this.rebuildIndexesMappings();
   }

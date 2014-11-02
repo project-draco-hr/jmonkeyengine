@@ -1,0 +1,32 @@
+{
+  if (creaseEdges == null || creaseEdges.size() <= 1) {
+    target=null;
+  }
+ else {
+    int creasedEdgesCount=0;
+    for (    Edge edge : creaseEdges) {
+      if (edge.getCrease() > 0) {
+        ++creasedEdgesCount;
+        weight+=edge.getCrease();
+        target.addLocal(temporalMesh.getVertices().get(edge.getOtherIndex(index)));
+      }
+    }
+    if (creasedEdgesCount <= 1) {
+      target=null;
+    }
+ else     if (creasedEdgesCount == 2) {
+      if (borderIndex) {
+        target.set(temporalMesh.getVertices().get(index));
+      }
+ else {
+        target.divideLocal(creasedEdgesCount);
+      }
+    }
+ else {
+      target.set(temporalMesh.getVertices().get(index));
+    }
+    if (creasedEdgesCount > 0) {
+      weight/=creasedEdgesCount;
+    }
+  }
+}

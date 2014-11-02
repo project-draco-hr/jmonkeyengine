@@ -8,9 +8,9 @@
       int flag=((Number)edge.getFieldValue("flag")).intValue();
       int v1=((Number)edge.getFieldValue("v1")).intValue();
       int v2=((Number)edge.getFieldValue("v2")).intValue();
-      float crease=((Number)edge.getFieldValue("crease")).floatValue();
+      float crease=Math.abs(((Number)edge.getFieldValue("crease")).floatValue());
       boolean edgeInFace=(flag & Edge.FLAG_EDGE_NOT_IN_FACE) == 0;
-      result.add(new Edge(v1,v2,crease,edgeInFace));
+      result.add(new Edge(v1,v2,crease,edgeInFace,temporalMesh));
     }
   }
   LOGGER.log(Level.FINE,"Loaded {0} edges.",result.size());

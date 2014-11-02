@@ -1,7 +1,8 @@
 {
-  Vector3f P1=this.getOrigin(), P2=edge.getOrigin();
-  Vector3f u=this.getDirection();
-  Vector3f v=edge.getDirection();
+  Vector3f P1=temporalMesh.getVertices().get(index1);
+  Vector3f P2=edge.temporalMesh.getVertices().get(edge.index1);
+  Vector3f u=temporalMesh.getVertices().get(index2).subtract(P1);
+  Vector3f v=edge.temporalMesh.getVertices().get(edge.index2).subtract(P2);
   float t2=(u.x * (P2.y - P1.y) - u.y * (P2.x - P1.x)) / (u.y * v.x - u.x * v.y);
   float t1=(P2.x - P1.x + v.x * t2) / u.x;
   Vector3f p1=P1.add(u.mult(t1));

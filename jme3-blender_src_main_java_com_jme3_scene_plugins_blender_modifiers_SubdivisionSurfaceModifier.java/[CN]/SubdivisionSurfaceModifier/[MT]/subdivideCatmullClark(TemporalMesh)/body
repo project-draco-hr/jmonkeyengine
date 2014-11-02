@@ -7,8 +7,18 @@
       }
     }
   }
-  Vector3f[] averageVert=new Vector3f[temporalMesh.getVertices().size()];
-  int[] averageCount=new int[temporalMesh.getVertices().size()];
+  List<CreasePoint> creasePoints=new ArrayList<CreasePoint>(temporalMesh.getVertexCount());
+  for (int i=0; i < temporalMesh.getVertexCount(); ++i) {
+    List<Edge> adjacentOriginalEdges=new ArrayList<Edge>();
+    for (    Edge edge : temporalMesh.getAdjacentEdges(i)) {
+      if (verticesOnOriginalEdges.contains(edge.getFirstIndex()) || verticesOnOriginalEdges.contains(edge.getSecondIndex())) {
+        adjacentOriginalEdges.add(edge);
+      }
+    }
+    creasePoints.add(new CreasePoint(i,boundaryVertices.contains(i),adjacentOriginalEdges,temporalMesh));
+  }
+  Vector3f[] averageVert=new Vector3f[temporalMesh.getVertexCount()];
+  int[] averageCount=new int[temporalMesh.getVertexCount()];
   for (  Face face : temporalMesh.getFaces()) {
     Vector3f centroid=face.computeCentroid();
     for (    Integer index : face.getIndexes()) {
@@ -39,12 +49,17 @@
     }
   }
   for (int i=0; i < averageVert.length; ++i) {
+    Vector3f v=temporalMesh.getVertices().get(i);
     averageVert[i].divideLocal(averageCount[i]);
+    Vector3f t=averageVert[i].subtract(v);
     if (!boundaryVertices.contains(i)) {
-      temporalMesh.getVertices().get(i).addLocal(averageVert[i].subtract(temporalMesh.getVertices().get(i)).multLocal(4 / (float)averageCount[i]));
+      t.multLocal(4 / (float)averageCount[i]);
     }
- else {
-      temporalMesh.getVertices().get(i).set(averageVert[i]);
+    v.addLocal(t);
+    CreasePoint creasePoint=creasePoints.get(i);
+    if (creasePoint.getTarget() != null && creasePoint.getWeight() != 0) {
+      t=creasePoint.getTarget().subtractLocal(v).multLocal(creasePoint.getWeight());
+      v.addLocal(t);
     }
   }
 }

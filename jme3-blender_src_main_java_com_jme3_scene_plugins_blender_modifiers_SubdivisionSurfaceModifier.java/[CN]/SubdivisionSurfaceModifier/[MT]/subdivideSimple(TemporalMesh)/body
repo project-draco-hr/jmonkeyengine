@@ -2,6 +2,7 @@
   Map<Edge,Integer> edgePoints=new HashMap<Edge,Integer>();
   Map<Face,Integer> facePoints=new HashMap<Face,Integer>();
   List<Face> newFaces=new ArrayList<Face>();
+  List<Edge> newEdges=new ArrayList<Edge>(temporalMesh.getEdges().size() * 2);
   int originalFacesCount=temporalMesh.getFaces().size();
   List<Map<String,Float>> vertexGroups=temporalMesh.getVertexGroups();
   List<Vector3f> vertices=temporalMesh.getVertices();
@@ -35,6 +36,7 @@
       Vector3f v=temporalMesh.getVertices().get(vIndex);
       if (vPrevEdgeVertIndex < 0) {
         vPrevEdgeVertIndex=vertices.size() + originalFacesCount + edgeVertices.size();
+        verticesOnOriginalEdges.add(vNextEdgeVertIndex);
         edgeVertices.add(vertices.get(vPrevIndex).add(v).divideLocal(2));
         edgeNormals.add(normals.get(vPrevIndex).add(normals.get(vIndex)).normalizeLocal());
         edgePoints.put(prevEdge,vPrevEdgeVertIndex);
@@ -44,6 +46,7 @@
       }
       if (vNextEdgeVertIndex < 0) {
         vNextEdgeVertIndex=vertices.size() + originalFacesCount + edgeVertices.size();
+        verticesOnOriginalEdges.add(vPrevEdgeVertIndex);
         edgeVertices.add(vertices.get(vNextIndex).add(v).divideLocal(2));
         edgeNormals.add(normals.get(vNextIndex).add(normals.get(vIndex)).normalizeLocal());
         edgePoints.put(nextEdge,vNextEdgeVertIndex);
@@ -79,29 +82,23 @@
         vertexColors=new ArrayList<byte[]>(Arrays.asList(vCol1,vCol2,vCol3,vCol4));
       }
       newFaces.add(new Face(indexes,face.isSmooth(),face.getMaterialNumber(),newUVSets,vertexColors,temporalMesh));
+      newEdges.add(new Edge(vIndex,vNextEdgeVertIndex,nextEdge.getCrease(),true,temporalMesh));
+      newEdges.add(new Edge(vNextEdgeVertIndex,facePointIndex,0,true,temporalMesh));
+      newEdges.add(new Edge(facePointIndex,vPrevEdgeVertIndex,0,true,temporalMesh));
+      newEdges.add(new Edge(vPrevEdgeVertIndex,vIndex,prevEdge.getCrease(),true,temporalMesh));
     }
   }
   vertices.addAll(faceVertices);
   vertices.addAll(edgeVertices);
   normals.addAll(faceNormals);
   normals.addAll(edgeNormals);
-  List<Edge> newEdges=new ArrayList<Edge>(temporalMesh.getEdges().size() * 2);
   for (  Edge edge : temporalMesh.getEdges()) {
     if (!edge.isInFace()) {
       int newVertexIndex=vertices.size();
       vertices.add(vertices.get(edge.getFirstIndex()).add(vertices.get(edge.getSecondIndex())).divideLocal(2));
       normals.add(normals.get(edge.getFirstIndex()).add(normals.get(edge.getSecondIndex())).normalizeLocal());
-      newEdges.add(new Edge(edge.getFirstIndex(),newVertexIndex,0,false,vertices));
-      newEdges.add(new Edge(newVertexIndex,edge.getSecondIndex(),0,false,vertices));
-    }
- else {
-      Integer edgePoint=edgePoints.get(edge);
-      newEdges.add(new Edge(edge.getFirstIndex(),edgePoint,edge.getCrease(),true,vertices));
-      newEdges.add(new Edge(edgePoint,edge.getSecondIndex(),edge.getCrease(),true,vertices));
-      List<Face> facesContainingTheEdge=temporalMesh.getAdjacentFaces(edge);
-      for (      Face f : facesContainingTheEdge) {
-        newEdges.add(new Edge(facePoints.get(f),edgePoint,0,true,vertices));
-      }
+      newEdges.add(new Edge(edge.getFirstIndex(),newVertexIndex,0,false,temporalMesh));
+      newEdges.add(new Edge(newVertexIndex,edge.getSecondIndex(),0,false,temporalMesh));
     }
   }
   temporalMesh.getFaces().clear();
