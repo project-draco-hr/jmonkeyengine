@@ -6,7 +6,7 @@
   fsQuad.setWidth(1);
   fsQuad.setHeight(1);
   if (!renderer.getCaps().contains(Caps.PackedFloatTexture)) {
-    throw new RendererException("FilterPostProcessor requires the " + "video hardware to support packed float texture.");
+    fbFormat=Format.RGB8;
   }
   Camera cam=vp.getCamera();
   left=cam.getViewPortLeft();

@@ -24,7 +24,7 @@
   if (numSamples > 1 && caps.contains(Caps.FrameBufferMultisample)) {
     renderFrameBufferMS=new FrameBuffer(width,height,numSamples);
     if (caps.contains(Caps.OpenGL31)) {
-      Texture2D msColor=new Texture2D(width,height,numSamples,Format.RGB111110F);
+      Texture2D msColor=new Texture2D(width,height,numSamples,fbFormat);
       Texture2D msDepth=new Texture2D(width,height,numSamples,Format.Depth);
       renderFrameBufferMS.setDepthTexture(msDepth);
       renderFrameBufferMS.setColorTexture(msColor);
@@ -33,13 +33,13 @@
     }
  else {
       renderFrameBufferMS.setDepthBuffer(Format.Depth);
-      renderFrameBufferMS.setColorBuffer(Format.RGB111110F);
+      renderFrameBufferMS.setColorBuffer(fbFormat);
     }
   }
   if (numSamples <= 1 || !caps.contains(Caps.OpenGL31)) {
     renderFrameBuffer=new FrameBuffer(width,height,1);
     renderFrameBuffer.setDepthBuffer(Format.Depth);
-    filterTexture=new Texture2D(width,height,Format.RGB111110F);
+    filterTexture=new Texture2D(width,height,fbFormat);
     renderFrameBuffer.setColorTexture(filterTexture);
   }
   for (  Filter filter : filters.getArray()) {
