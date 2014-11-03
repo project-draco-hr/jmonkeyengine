@@ -17,7 +17,7 @@
   if (!NPOT && img.isNPOT()) {
     throw new RendererException("Non-power-of-2 textures " + "are not supported by the video hardware " + "and no scaling path available for image: "+ img);
   }
-  AndroidGLImageFormat imageFormat=getImageFormat(fmt);
+  AndroidGLImageFormat imageFormat=getImageFormat(fmt,false);
   if (data != null) {
     GLES20.glPixelStorei(GLES20.GL_UNPACK_ALIGNMENT,1);
   }

@@ -87,7 +87,7 @@ imageFormat.renderBufferStorageFormat=GLES20.GL_RGBA4;
 break;
 case Depth:
 case Depth16:
-if (!DEPTH_TEXTURE) {
+if (!DEPTH_TEXTURE && !forRenderBuffer) {
 unsupportedFormat(fmt);
 }
 imageFormat.format=GLES20.GL_DEPTH_COMPONENT;
