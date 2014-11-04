@@ -21,17 +21,16 @@
     versionStr=glGetString(GL_SHADING_LANGUAGE_VERSION);
   }
   if (versionStr == null || versionStr.equals("")) {
-    glslVer=-1;
     throw new UnsupportedOperationException("GLSL and OpenGL2 is " + "required for the LWJGL " + "renderer!");
   }
-  initialDrawBuf=glGetInteger(GL_DRAW_BUFFER);
-  initialReadBuf=glGetInteger(GL_READ_BUFFER);
+  context.initialDrawBuf=glGetInteger(GL_DRAW_BUFFER);
+  context.initialReadBuf=glGetInteger(GL_READ_BUFFER);
   int spaceIdx=versionStr.indexOf(" ");
   if (spaceIdx >= 1) {
     versionStr=versionStr.substring(0,spaceIdx);
   }
   float version=Float.parseFloat(versionStr);
-  glslVer=(int)(version * 100);
+  int glslVer=(int)(version * 100);
 switch (glslVer) {
 default :
     if (glslVer < 400) {
