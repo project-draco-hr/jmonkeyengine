@@ -1,0 +1,77 @@
+{
+  if (numLights == 0) {
+    return 0;
+  }
+  Uniform lightData=shader.getUniform("g_LightData");
+  lightData.setVector4Length(numLights * 3);
+  Uniform ambientColor=shader.getUniform("g_AmbientLightColor");
+  if (startIndex != 0) {
+    rm.getRenderer().applyRenderState(additiveLight);
+    ambientColor.setValue(VarType.Vector4,ColorRGBA.Black);
+  }
+ else {
+    ambientColor.setValue(VarType.Vector4,getAmbientColor(lightList,true));
+  }
+  int lightDataIndex=0;
+  TempVars vars=TempVars.get();
+  Vector4f tmpVec=vars.vect4f1;
+  int curIndex;
+  int endIndex=numLights + startIndex;
+  for (curIndex=startIndex; curIndex < endIndex && curIndex < lightList.size(); curIndex++) {
+    Light l=lightList.get(curIndex);
+    if (l.getType() == Light.Type.Ambient) {
+      endIndex++;
+      continue;
+    }
+    ColorRGBA color=l.getColor();
+    lightData.setVector4InArray(color.getRed(),color.getGreen(),color.getBlue(),l.getType().getId(),lightDataIndex);
+    lightDataIndex++;
+switch (l.getType()) {
+case Directional:
+      DirectionalLight dl=(DirectionalLight)l;
+    Vector3f dir=dl.getDirection();
+  tmpVec.set(dir.getX(),dir.getY(),dir.getZ(),0.0f);
+rm.getCurrentCamera().getViewMatrix().mult(tmpVec,tmpVec);
+lightData.setVector4InArray(tmpVec.getX(),tmpVec.getY(),tmpVec.getZ(),-1,lightDataIndex);
+lightDataIndex++;
+lightData.setVector4InArray(0,0,0,0,lightDataIndex);
+lightDataIndex++;
+break;
+case Point:
+PointLight pl=(PointLight)l;
+Vector3f pos=pl.getPosition();
+float invRadius=pl.getInvRadius();
+tmpVec.set(pos.getX(),pos.getY(),pos.getZ(),1.0f);
+rm.getCurrentCamera().getViewMatrix().mult(tmpVec,tmpVec);
+lightData.setVector4InArray(tmpVec.getX(),tmpVec.getY(),tmpVec.getZ(),invRadius,lightDataIndex);
+lightDataIndex++;
+lightData.setVector4InArray(0,0,0,0,lightDataIndex);
+lightDataIndex++;
+break;
+case Spot:
+SpotLight sl=(SpotLight)l;
+Vector3f pos2=sl.getPosition();
+Vector3f dir2=sl.getDirection();
+float invRange=sl.getInvSpotRange();
+float spotAngleCos=sl.getPackedAngleCos();
+tmpVec.set(pos2.getX(),pos2.getY(),pos2.getZ(),1.0f);
+rm.getCurrentCamera().getViewMatrix().mult(tmpVec,tmpVec);
+lightData.setVector4InArray(tmpVec.getX(),tmpVec.getY(),tmpVec.getZ(),invRange,lightDataIndex);
+lightDataIndex++;
+tmpVec.set(dir2.getX(),dir2.getY(),dir2.getZ(),0.0f);
+rm.getCurrentCamera().getViewMatrix().mult(tmpVec,tmpVec);
+tmpVec.normalizeLocal();
+lightData.setVector4InArray(tmpVec.getX(),tmpVec.getY(),tmpVec.getZ(),spotAngleCos,lightDataIndex);
+lightDataIndex++;
+break;
+default :
+throw new UnsupportedOperationException("Unknown type of light: " + l.getType());
+}
+}
+vars.release();
+while (lightDataIndex < numLights * 3) {
+lightData.setVector4InArray(0f,0f,0f,0f,lightDataIndex);
+lightDataIndex++;
+}
+return curIndex;
+}

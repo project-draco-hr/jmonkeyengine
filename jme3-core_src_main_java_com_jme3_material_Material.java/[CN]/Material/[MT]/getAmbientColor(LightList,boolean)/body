@@ -4,6 +4,9 @@
     Light l=lightList.get(j);
     if (l instanceof AmbientLight) {
       ambientLightColor.addLocal(l.getColor());
+      if (removeLights) {
+        lightList.remove(l);
+      }
     }
   }
   ambientLightColor.a=1.0f;
