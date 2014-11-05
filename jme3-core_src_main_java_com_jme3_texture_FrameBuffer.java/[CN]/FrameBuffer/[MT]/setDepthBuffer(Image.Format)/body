@@ -2,6 +2,6 @@
   if (id != -1)   throw new UnsupportedOperationException("FrameBuffer already initialized.");
   if (!format.isDepthFormat())   throw new IllegalArgumentException("Depth buffer format must be depth.");
   depthBuf=new RenderBuffer();
-  depthBuf.slot=-100;
+  depthBuf.slot=format.isDepthStencilFormat() ? SLOT_DEPTH_STENCIL : SLOT_DEPTH;
   depthBuf.format=format;
 }

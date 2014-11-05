@@ -1,6 +1,9 @@
 {
-  if (attachmentSlot == -100) {
+  if (attachmentSlot == FrameBuffer.SLOT_DEPTH) {
     return GL.GL_DEPTH_ATTACHMENT;
+  }
+ else   if (attachmentSlot == FrameBuffer.SLOT_DEPTH_STENCIL) {
+    return GL2ES3.GL_DEPTH_STENCIL_ATTACHMENT;
   }
  else   if (attachmentSlot < 0 || attachmentSlot >= 16) {
     throw new UnsupportedOperationException("Invalid FBO attachment slot: " + attachmentSlot);

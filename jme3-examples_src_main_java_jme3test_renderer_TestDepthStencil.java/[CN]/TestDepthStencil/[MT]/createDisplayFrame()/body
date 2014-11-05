@@ -1,0 +1,37 @@
+{
+  SwingUtilities.invokeLater(new Runnable(){
+    public void run(){
+      final JFrame frame=new JFrame("Render Display");
+      display=new ImageDisplay();
+      display.setPreferredSize(new Dimension(width,height));
+      frame.getContentPane().add(display);
+      frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      frame.addWindowListener(new WindowAdapter(){
+        public void windowClosed(        WindowEvent e){
+          stop();
+        }
+      }
+);
+      frame.addKeyListener(new KeyListener(){
+        public void keyTyped(        KeyEvent ke){
+        }
+        public void keyPressed(        KeyEvent ke){
+        }
+        public void keyReleased(        KeyEvent ke){
+          if (ke.getKeyCode() == KeyEvent.VK_SPACE) {
+            enableStencil=!enableStencil;
+          }
+ else           if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            frame.setVisible(false);
+          }
+        }
+      }
+);
+      frame.pack();
+      frame.setLocationRelativeTo(null);
+      frame.setResizable(false);
+      frame.setVisible(true);
+    }
+  }
+);
+}
