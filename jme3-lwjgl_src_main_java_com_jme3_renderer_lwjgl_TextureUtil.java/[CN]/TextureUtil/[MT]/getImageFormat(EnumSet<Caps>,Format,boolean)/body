@@ -4,12 +4,12 @@ case DXT1:
 case DXT1A:
 case DXT3:
 case DXT5:
-    if (!caps.GL_EXT_texture_compression_s3tc) {
+    if (!caps.contains(Caps.TextureCompressionS3TC)) {
       return null;
     }
   break;
 case Depth24Stencil8:
-if (!caps.OpenGL30 && !caps.GL_EXT_packed_depth_stencil) {
+if (!caps.contains(Caps.PackedDepthStencilBuffer)) {
   return null;
 }
 break;
@@ -20,30 +20,30 @@ case RGB16F:
 case RGB32F:
 case RGBA16F:
 case RGBA32F:
-if (!caps.OpenGL30 && !caps.GL_ARB_texture_float) {
+if (!caps.contains(Caps.FloatTexture)) {
 return null;
 }
 break;
 case Depth32F:
-if (!caps.OpenGL30 && !caps.GL_NV_depth_buffer_float) {
+if (!caps.contains(Caps.FloatDepthBuffer)) {
 return null;
 }
 break;
 case LATC:
 case LTC:
-if (!caps.GL_EXT_texture_compression_latc) {
+if (!caps.contains(Caps.TextureCompressionLATC)) {
 return null;
 }
 break;
 case RGB9E5:
 case RGB16F_to_RGB9E5:
-if (!caps.OpenGL30 && !caps.GL_EXT_texture_shared_exponent) {
+if (!caps.contains(Caps.SharedExponentTexture)) {
 return null;
 }
 break;
 case RGB111110F:
 case RGB16F_to_RGB111110F:
-if (!caps.OpenGL30 && !caps.GL_EXT_packed_float) {
+if (!caps.contains(Caps.PackedFloatTexture)) {
 return null;
 }
 break;
