@@ -2,6 +2,7 @@
   int total=0;
   if (children.size() > 4) {
     BoundingVolume bv=this.getWorldBound();
+    if (bv == null)     return 0;
     CollisionResults bvColRes=new CollisionResults();
     if (bv.collideWith(other,bvColRes) == 0) {
       System.out.println("Skipping collideWith " + getName());
