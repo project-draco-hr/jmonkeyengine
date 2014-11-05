@@ -2,7 +2,7 @@
   if (fb.getSamples() <= 1) {
     throw new IllegalArgumentException("Framebuffer must be multisampled");
   }
-  if (!ctxCaps.GL_ARB_texture_multisample) {
+  if (!caps.contains(Caps.TextureMultisample)) {
     throw new RendererException("Multisampled textures are not supported");
   }
   setFrameBuffer(fb);

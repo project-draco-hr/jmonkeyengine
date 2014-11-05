@@ -1,5 +1,5 @@
 {
-  if (samples > 1 && !ctxCaps.GL_ARB_texture_multisample) {
+  if (samples > 1 && !caps.contains(Caps.TextureMultisample)) {
     throw new RendererException("Multisample textures are not supported" + " by the video hardware.");
   }
 switch (type) {

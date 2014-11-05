@@ -1,12 +1,16 @@
 {
   Image image=tex.getImage();
   int target=convertTextureType(tex.getType(),image != null ? image.getMultiSamples() : 1,-1);
-  int minFilter=convertMinFilter(tex.getMinFilter());
+  boolean haveMips=true;
+  if (image != null) {
+    haveMips=image.isGeneratedMipmapsRequired() || image.hasMipmaps();
+  }
+  int minFilter=convertMinFilter(tex.getMinFilter(),haveMips);
   int magFilter=convertMagFilter(tex.getMagFilter());
   glTexParameteri(target,GL_TEXTURE_MIN_FILTER,minFilter);
   glTexParameteri(target,GL_TEXTURE_MAG_FILTER,magFilter);
   if (tex.getAnisotropicFilter() > 1) {
-    if (ctxCaps.GL_EXT_texture_filter_anisotropic) {
+    if (caps.contains(Caps.TextureFilterAnisotropic)) {
       glTexParameterf(target,GL_TEXTURE_MAX_ANISOTROPY_EXT,tex.getAnisotropicFilter());
     }
   }

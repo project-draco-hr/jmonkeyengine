@@ -3,8 +3,8 @@
   System.out.println("RB ID: " + rb.getId());
   System.out.println("Is proper? " + glIsRenderbufferEXT(rb.getId()));
   int attachment=convertAttachmentSlot(rb.getSlot());
-  int type=glGetFramebufferAttachmentParameterEXT(GL_DRAW_FRAMEBUFFER_EXT,attachment,GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE_EXT);
-  int rbName=glGetFramebufferAttachmentParameterEXT(GL_DRAW_FRAMEBUFFER_EXT,attachment,GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME_EXT);
+  int type=glGetFramebufferAttachmentParameteriEXT(GL_DRAW_FRAMEBUFFER_EXT,attachment,GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE_EXT);
+  int rbName=glGetFramebufferAttachmentParameteriEXT(GL_DRAW_FRAMEBUFFER_EXT,attachment,GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME_EXT);
 switch (type) {
 case GL_NONE:
     System.out.println("Type: None");

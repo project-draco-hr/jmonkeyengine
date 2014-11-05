@@ -30,8 +30,14 @@ case Disable:
     r.setLighting(null);
   break;
 case SinglePass:
-updateLightListUniforms(shader,geom,lights,4);
-break;
+int nbRenderedLights=0;
+resetUniformsNotSetByCurrent(shader);
+while (nbRenderedLights < lights.size()) {
+nbRenderedLights=updateLightListUniforms(shader,geom,lights,rm.getSinglePassLightBatchSize(),rm,nbRenderedLights);
+r.setShader(shader);
+renderMeshFromGeometry(r,geom);
+}
+return;
 case FixedPipeline:
 r.setLighting(lights);
 break;

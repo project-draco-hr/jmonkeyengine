@@ -12,7 +12,9 @@
         if (rendererCaps.containsAll(techDef.getRequiredCaps())) {
           tech=new Technique(this,techDef);
           techniques.put(name,tech);
-          break;
+          if (tech.getDef().getLightMode() == renderManager.getPreferredLightMode() || tech.getDef().getLightMode() == LightMode.Disable) {
+            break;
+          }
         }
         lastTech=techDef;
       }
@@ -36,6 +38,6 @@
     return;
   }
   technique=tech;
-  tech.makeCurrent(def.getAssetManager(),true,rendererCaps);
+  tech.makeCurrent(def.getAssetManager(),true,rendererCaps,renderManager);
   sortingId=-1;
 }

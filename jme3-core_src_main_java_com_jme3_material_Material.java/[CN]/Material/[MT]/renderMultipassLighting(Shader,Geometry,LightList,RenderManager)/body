@@ -12,7 +12,7 @@
       continue;
     }
     if (isFirstLight) {
-      ambientColor.setValue(VarType.Vector4,getAmbientColor(lightList));
+      ambientColor.setValue(VarType.Vector4,getAmbientColor(lightList,false));
       isFirstLight=false;
       isSecondLight=true;
     }
@@ -69,7 +69,7 @@ r.setShader(shader);
 renderMeshFromGeometry(r,g);
 }
 if (isFirstLight && lightList.size() > 0) {
-ambientColor.setValue(VarType.Vector4,getAmbientColor(lightList));
+ambientColor.setValue(VarType.Vector4,getAmbientColor(lightList,false));
 lightColor.setValue(VarType.Vector4,ColorRGBA.BlackNoAlpha);
 lightPos.setValue(VarType.Vector4,nullDirLight);
 r.setShader(shader);

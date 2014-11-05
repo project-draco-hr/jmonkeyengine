@@ -1,0 +1,20 @@
+{
+  if (!def.isUsingShaders()) {
+    return;
+  }
+  if (techniqueSwitched) {
+    if (defines.update(owner.getParamsMap(),def)) {
+      needReload=true;
+    }
+    if (getDef().getLightMode() == TechniqueDef.LightMode.SinglePass) {
+      defines.set("SINGLE_PASS_LIGHTING",VarType.Boolean,true);
+      defines.set("NB_LIGHTS",VarType.Int,rm.getSinglePassLightBatchSize() * 3);
+    }
+ else {
+      defines.set("SINGLE_PASS_LIGHTING",VarType.Boolean,null);
+    }
+  }
+  if (needReload) {
+    loadShader(assetManager,rendererCaps);
+  }
+}

@@ -1,0 +1,57 @@
+{
+switch (fmt) {
+case DXT1:
+case DXT1A:
+case DXT3:
+case DXT5:
+    if (!caps.contains(Caps.TextureCompressionS3TC)) {
+      return null;
+    }
+  break;
+case Depth24Stencil8:
+if (!caps.contains(Caps.PackedDepthStencilBuffer)) {
+  return null;
+}
+break;
+case Luminance16F:
+case Luminance16FAlpha16F:
+case Luminance32F:
+case RGB16F:
+case RGB32F:
+case RGBA16F:
+case RGBA32F:
+if (!caps.contains(Caps.FloatTexture)) {
+return null;
+}
+break;
+case Depth32F:
+if (!caps.contains(Caps.FloatDepthBuffer)) {
+return null;
+}
+break;
+case LATC:
+case LTC:
+if (!caps.contains(Caps.TextureCompressionLATC)) {
+return null;
+}
+break;
+case RGB9E5:
+case RGB16F_to_RGB9E5:
+if (!caps.contains(Caps.SharedExponentTexture)) {
+return null;
+}
+break;
+case RGB111110F:
+case RGB16F_to_RGB111110F:
+if (!caps.contains(Caps.PackedFloatTexture)) {
+return null;
+}
+break;
+}
+if (isSrgb) {
+return getSrgbFormat(fmt);
+}
+ else {
+return formatToGL[fmt.ordinal()];
+}
+}
