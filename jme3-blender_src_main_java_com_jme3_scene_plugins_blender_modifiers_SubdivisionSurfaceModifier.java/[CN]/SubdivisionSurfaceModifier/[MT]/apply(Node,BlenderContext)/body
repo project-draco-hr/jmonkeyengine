@@ -6,6 +6,7 @@
     TemporalMesh temporalMesh=this.getTemporalMesh(node);
     if (temporalMesh != null) {
       LOGGER.log(Level.FINE,"Applying subdivision surface modifier to: {0}",temporalMesh);
+      verticesOnOriginalEdges.clear();
       for (      Edge edge : temporalMesh.getEdges()) {
         verticesOnOriginalEdges.add(edge.getFirstIndex());
         verticesOnOriginalEdges.add(edge.getSecondIndex());

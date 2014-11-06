@@ -1,6 +1,6 @@
 {
   List<Face> result=new ArrayList<Face>(indexToFaceMapping.get(edge.getFirstIndex()));
-  List<Face> secondIndexAdjacentFaces=indexToFaceMapping.get(edge.getSecondIndex());
+  Set<Face> secondIndexAdjacentFaces=indexToFaceMapping.get(edge.getSecondIndex());
   if (secondIndexAdjacentFaces != null) {
     result.retainAll(indexToFaceMapping.get(edge.getSecondIndex()));
   }

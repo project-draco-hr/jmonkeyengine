@@ -1,8 +1,8 @@
 {
   Map<Edge,Integer> edgePoints=new HashMap<Edge,Integer>();
   Map<Face,Integer> facePoints=new HashMap<Face,Integer>();
-  List<Face> newFaces=new ArrayList<Face>();
-  List<Edge> newEdges=new ArrayList<Edge>(temporalMesh.getEdges().size() * 2);
+  Set<Face> newFaces=new LinkedHashSet<Face>();
+  Set<Edge> newEdges=new LinkedHashSet<Edge>(temporalMesh.getEdges().size() * 4);
   int originalFacesCount=temporalMesh.getFaces().size();
   List<Map<String,Float>> vertexGroups=temporalMesh.getVertexGroups();
   List<Vector3f> vertices=temporalMesh.getVertices();
@@ -36,7 +36,7 @@
       Vector3f v=temporalMesh.getVertices().get(vIndex);
       if (vPrevEdgeVertIndex < 0) {
         vPrevEdgeVertIndex=vertices.size() + originalFacesCount + edgeVertices.size();
-        verticesOnOriginalEdges.add(vNextEdgeVertIndex);
+        verticesOnOriginalEdges.add(vPrevEdgeVertIndex);
         edgeVertices.add(vertices.get(vPrevIndex).add(v).divideLocal(2));
         edgeNormals.add(normals.get(vPrevIndex).add(normals.get(vIndex)).normalizeLocal());
         edgePoints.put(prevEdge,vPrevEdgeVertIndex);
@@ -46,7 +46,7 @@
       }
       if (vNextEdgeVertIndex < 0) {
         vNextEdgeVertIndex=vertices.size() + originalFacesCount + edgeVertices.size();
-        verticesOnOriginalEdges.add(vPrevEdgeVertIndex);
+        verticesOnOriginalEdges.add(vNextEdgeVertIndex);
         edgeVertices.add(vertices.get(vNextIndex).add(v).divideLocal(2));
         edgeNormals.add(normals.get(vNextIndex).add(normals.get(vIndex)).normalizeLocal());
         edgePoints.put(nextEdge,vNextEdgeVertIndex);
@@ -97,8 +97,9 @@
       int newVertexIndex=vertices.size();
       vertices.add(vertices.get(edge.getFirstIndex()).add(vertices.get(edge.getSecondIndex())).divideLocal(2));
       normals.add(normals.get(edge.getFirstIndex()).add(normals.get(edge.getSecondIndex())).normalizeLocal());
-      newEdges.add(new Edge(edge.getFirstIndex(),newVertexIndex,0,false,temporalMesh));
-      newEdges.add(new Edge(newVertexIndex,edge.getSecondIndex(),0,false,temporalMesh));
+      newEdges.add(new Edge(edge.getFirstIndex(),newVertexIndex,edge.getCrease(),false,temporalMesh));
+      newEdges.add(new Edge(newVertexIndex,edge.getSecondIndex(),edge.getCrease(),false,temporalMesh));
+      verticesOnOriginalEdges.add(newVertexIndex);
     }
   }
   temporalMesh.getFaces().clear();

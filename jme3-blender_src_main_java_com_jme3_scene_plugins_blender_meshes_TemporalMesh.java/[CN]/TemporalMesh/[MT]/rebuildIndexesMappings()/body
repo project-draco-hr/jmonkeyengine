@@ -3,24 +3,24 @@
   indexToFaceMapping.clear();
   for (  Face face : faces) {
     for (    Integer index : face.getIndexes()) {
-      List<Face> faces=indexToFaceMapping.get(index);
+      Set<Face> faces=indexToFaceMapping.get(index);
       if (faces == null) {
-        faces=new ArrayList<Face>();
+        faces=new HashSet<Face>();
         indexToFaceMapping.put(index,faces);
       }
       faces.add(face);
     }
   }
   for (  Edge edge : edges) {
-    List<Edge> edges=indexToEdgeMapping.get(edge.getFirstIndex());
+    Set<Edge> edges=indexToEdgeMapping.get(edge.getFirstIndex());
     if (edges == null) {
-      edges=new ArrayList<Edge>();
+      edges=new HashSet<Edge>();
       indexToEdgeMapping.put(edge.getFirstIndex(),edges);
     }
     edges.add(edge);
     edges=indexToEdgeMapping.get(edge.getSecondIndex());
     if (edges == null) {
-      edges=new ArrayList<Edge>();
+      edges=new HashSet<Edge>();
       indexToEdgeMapping.put(edge.getSecondIndex(),edges);
     }
     edges.add(edge);

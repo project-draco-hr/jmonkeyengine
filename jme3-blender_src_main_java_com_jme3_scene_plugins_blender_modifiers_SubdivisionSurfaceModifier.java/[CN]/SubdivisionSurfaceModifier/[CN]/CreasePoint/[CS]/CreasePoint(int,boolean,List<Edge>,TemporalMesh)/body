@@ -1,4 +1,5 @@
 {
+  this.index=index;
   if (creaseEdges == null || creaseEdges.size() <= 1) {
     target=null;
   }
@@ -19,7 +20,7 @@
         target.set(temporalMesh.getVertices().get(index));
       }
  else {
-        target.divideLocal(creasedEdgesCount);
+        target.addLocal(temporalMesh.getVertices().get(index)).divideLocal(creasedEdgesCount + 1);
       }
     }
  else {
