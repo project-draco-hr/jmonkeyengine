@@ -3,7 +3,7 @@
   Image img=tex.getImage();
   checkSetTexture(tex,true);
   depthBuf=new RenderBuffer();
-  depthBuf.slot=-100;
+  depthBuf.slot=img.getFormat().isDepthStencilFormat() ? SLOT_DEPTH_STENCIL : SLOT_DEPTH;
   depthBuf.tex=tex;
   depthBuf.format=img.getFormat();
 }

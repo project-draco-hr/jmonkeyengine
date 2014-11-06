@@ -1,0 +1,8 @@
+{
+  cpuBuf.clear();
+  renderer.readFrameBuffer(offBuffer,cpuBuf);
+synchronized (image) {
+    Screenshots.convertScreenShot(cpuBuf,image);
+  }
+  if (display != null)   display.repaint();
+}
