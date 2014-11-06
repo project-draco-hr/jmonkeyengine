@@ -1,0 +1,9 @@
+{
+  Renderer r=rm.getRenderer();
+  r.setFrameBuffer(fb);
+  rm.setCamera(cam,false);
+  r.clearBuffers(true,true,true);
+  rm.renderScene(fbNode,viewPort);
+  rm.flushQueue(viewPort);
+  r.setFrameBuffer(null);
+}

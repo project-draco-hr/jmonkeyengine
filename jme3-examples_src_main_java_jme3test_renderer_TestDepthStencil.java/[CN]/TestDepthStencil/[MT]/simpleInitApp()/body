@@ -1,4 +1,46 @@
 {
-  setupOffscreenView();
-  createDisplayFrame();
+  int w=settings.getWidth();
+  int h=settings.getHeight();
+  fb=new FrameBuffer(w,h,1);
+  Texture2D fbTex=new Texture2D(w,h,Format.RGB8);
+  fb.setDepthBuffer(Format.Depth24Stencil8);
+  fb.setColorTexture(fbTex);
+  Sphere sphMesh=new Sphere(20,20,1);
+  Material solidColor=assetManager.loadMaterial("Common/Materials/RedColor.j3m");
+  final Geometry sphere=new Geometry("sphere",sphMesh);
+  sphere.setMaterial(solidColor);
+  fbNode.attachChild(sphere);
+  sphere.addControl(new AbstractControl(){
+    @Override protected void controlUpdate(    float tpf){
+      Material mat=sphere.getMaterial();
+      mat.getAdditionalRenderState().setStencil(enableStencil,RenderState.StencilOperation.Keep,RenderState.StencilOperation.Keep,RenderState.StencilOperation.Keep,RenderState.StencilOperation.Keep,RenderState.StencilOperation.Keep,RenderState.StencilOperation.Keep,RenderState.TestFunction.Never,RenderState.TestFunction.Never);
+    }
+    @Override protected void controlRender(    RenderManager rm,    ViewPort vp){
+    }
+  }
+);
+  Picture p=new Picture("Picture");
+  p.setPosition(0,0);
+  p.setWidth(w);
+  p.setHeight(h);
+  p.setTexture(assetManager,fbTex,false);
+  rootNode.attachChild(p);
+  inputManager.addMapping("toggle",new KeyTrigger(KeyInput.KEY_SPACE));
+  ActionListener acl=new ActionListener(){
+    public void onAction(    String name,    boolean keyPressed,    float tpf){
+      if (name.equals("toggle") && keyPressed) {
+        if (enableStencil) {
+          enableStencil=false;
+          System.out.println("Stencil Enabled (model should be hidden)");
+        }
+ else {
+          enableStencil=true;
+          System.out.println("Stencil Disabled (model should be visible)");
+        }
+      }
+    }
+  }
+;
+  inputManager.addListener(acl,"toggle");
+  System.out.println("Press space to toggle stencil");
 }
