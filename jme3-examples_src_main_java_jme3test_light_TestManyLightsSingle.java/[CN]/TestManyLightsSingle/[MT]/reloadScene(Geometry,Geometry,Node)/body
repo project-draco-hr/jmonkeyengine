@@ -1,0 +1,11 @@
+{
+  MaterialDebugAppState debug=stateManager.getState(MaterialDebugAppState.class);
+  Material m=debug.reloadMaterial(g.getMaterial());
+  if (m != null) {
+    g.setMaterial(m);
+  }
+  m=debug.reloadMaterial(boxGeo.getMaterial());
+  if (m != null) {
+    cubeNodes.setMaterial(m);
+  }
+}
