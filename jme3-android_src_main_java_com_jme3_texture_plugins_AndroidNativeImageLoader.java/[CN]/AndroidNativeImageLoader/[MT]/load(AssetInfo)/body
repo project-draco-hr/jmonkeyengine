@@ -3,11 +3,7 @@
   InputStream in=null;
   try {
     in=info.openStream();
-    Image img=load(in,flip);
-    if (img == null) {
-      throw new AssetLoadException("The given image cannot be loaded " + info.getKey());
-    }
-    return img;
+    return load(info.openStream(),flip,tmpArray);
   }
   finally {
     if (in != null) {
