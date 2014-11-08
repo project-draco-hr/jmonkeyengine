@@ -1,16 +1,21 @@
 {
 switch (fmt) {
+case ETC1:
+    if (!caps.contains(Caps.TextureCompressionETC1)) {
+      return null;
+    }
+  break;
 case DXT1:
 case DXT1A:
 case DXT3:
 case DXT5:
-    if (!caps.contains(Caps.TextureCompressionS3TC)) {
-      return null;
-    }
-  break;
+if (!caps.contains(Caps.TextureCompressionS3TC)) {
+  return null;
+}
+break;
 case Depth24Stencil8:
 if (!caps.contains(Caps.PackedDepthStencilBuffer)) {
-  return null;
+return null;
 }
 break;
 case Luminance16F:
