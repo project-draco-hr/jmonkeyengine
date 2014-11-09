@@ -1,7 +1,6 @@
 {
   String name;
   String defaultVal=null;
-  FixedFuncBinding ffBinding=null;
   ColorSpace colorSpace=null;
   String[] split=statement.split("-");
   if (split.length > 1) {
@@ -24,12 +23,6 @@
   if (startParen != -1) {
     int endParen=statement.indexOf(")",startParen);
     String bindingStr=statement.substring(startParen + 1,endParen).trim();
-    try {
-      ffBinding=FixedFuncBinding.valueOf(bindingStr);
-    }
- catch (    IllegalArgumentException ex) {
-      throw new IOException("FixedFuncBinding '" + split[1] + "' does not exist!");
-    }
     statement=statement.substring(0,startParen);
   }
   split=statement.split(whitespacePattern);
@@ -52,6 +45,6 @@
     materialDef.addMaterialParamTexture(type,name,colorSpace);
   }
  else {
-    materialDef.addMaterialParam(type,name,defaultValObj,ffBinding);
+    materialDef.addMaterialParam(type,name,defaultValObj);
   }
 }

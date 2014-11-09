@@ -1,2 +1,23 @@
 {
+  if (!GLContext.getCapabilities().OpenGL20) {
+    throw new RendererException("OpenGL 2.0 or higher is " + "required for jMonkeyEngine");
+  }
+  if (settings.getRenderer().equals(AppSettings.LWJGL_OPENGL2) || settings.getRenderer().equals(AppSettings.LWJGL_OPENGL3)) {
+    renderer=new LwjglRenderer();
+    ((LwjglRenderer)renderer).initialize();
+  }
+ else {
+    throw new UnsupportedOperationException("Unsupported renderer: " + settings.getRenderer());
+  }
+  renderer.setMainFrameBufferSrgb(settings.getGammaCorrection());
+  renderer.setLinearizeSrgbImages(settings.getGammaCorrection());
+  if (keyInput != null) {
+    keyInput.initialize();
+  }
+  if (mouseInput != null) {
+    mouseInput.initialize();
+  }
+  if (joyInput != null) {
+    joyInput.initialize();
+  }
 }

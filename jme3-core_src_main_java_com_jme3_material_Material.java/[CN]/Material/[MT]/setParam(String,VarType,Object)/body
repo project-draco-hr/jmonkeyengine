@@ -7,7 +7,7 @@
     MatParam val=getParam(name);
     if (val == null) {
       MatParam paramDef=def.getMaterialParam(name);
-      paramValues.put(name,new MatParam(type,name,value,paramDef.getFixedFuncBinding()));
+      paramValues.put(name,new MatParam(type,name,value));
     }
  else {
       val.setValue(value);
