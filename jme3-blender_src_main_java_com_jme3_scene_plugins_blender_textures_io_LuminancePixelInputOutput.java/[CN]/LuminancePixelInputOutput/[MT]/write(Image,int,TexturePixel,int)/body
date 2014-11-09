@@ -9,13 +9,6 @@ case Luminance8Alpha8:
 data.put(index,pixel.getInt());
 data.put(index + 1,pixel.getA8());
 break;
-case Luminance16:
-data.putShort(index,(short)(pixel.intensity * 65535.0f));
-break;
-case Luminance16Alpha16:
-data.putShort(index,(short)(pixel.intensity * 65535.0f));
-data.putShort(index + 2,(short)(pixel.alpha * 65535.0f));
-break;
 case Luminance16F:
 data.putShort(index,FastMath.convertFloatToHalf(pixel.intensity));
 break;

@@ -1,10 +1,12 @@
 {
   int dxgiFormat=in.readInt();
-  if (dxgiFormat != 83) {
-    throw new IOException("Only DXGI_FORMAT_BC5_UNORM " + "is supported for DirectX10 DDS! Got: " + dxgiFormat);
+  if (dxgiFormat == 0) {
+    pixelFormat=Format.ETC1;
+    bpp=4;
   }
-  pixelFormat=Format.LATC;
-  bpp=8;
+ else {
+    throw new IOException("Unsupported DX10 format: " + dxgiFormat);
+  }
   compressed=true;
   int resDim=in.readInt();
   if (resDim == DX10DIM_TEXTURE3D) {

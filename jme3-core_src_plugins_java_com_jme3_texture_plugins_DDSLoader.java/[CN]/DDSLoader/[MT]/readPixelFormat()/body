@@ -31,14 +31,6 @@ if (swizzle == SWIZZLE_xGxR) {
 normal=true;
 }
 break;
-case PF_ATI1:
-bpp=4;
-pixelFormat=Image.Format.LTC;
-break;
-case PF_ATI2:
-bpp=8;
-pixelFormat=Image.Format.LATC;
-break;
 case PF_DX10:
 compressed=false;
 directx10=true;
@@ -81,9 +73,6 @@ switch (bpp) {
 case 16:
 pixelFormat=Format.Luminance8Alpha8;
 break;
-case 32:
-pixelFormat=Format.Luminance16Alpha16;
-break;
 default :
 throw new IOException("Unsupported GrayscaleAlpha BPP: " + bpp);
 }
@@ -94,9 +83,6 @@ switch (bpp) {
 case 8:
 pixelFormat=Format.Luminance8;
 break;
-case 16:
-pixelFormat=Format.Luminance16;
-break;
 default :
 throw new IOException("Unsupported Grayscale BPP: " + bpp);
 }
@@ -106,9 +92,6 @@ grayscaleOrAlpha=true;
 switch (bpp) {
 case 8:
 pixelFormat=Format.Alpha8;
-break;
-case 16:
-pixelFormat=Format.Alpha16;
 break;
 default :
 throw new IOException("Unsupported Alpha BPP: " + bpp);

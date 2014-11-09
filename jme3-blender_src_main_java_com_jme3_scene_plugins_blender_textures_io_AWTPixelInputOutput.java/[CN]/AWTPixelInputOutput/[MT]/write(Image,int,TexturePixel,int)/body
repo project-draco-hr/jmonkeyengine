@@ -34,17 +34,6 @@ short b=(short)((argb8 & 0x000000F8) >> 2);
 short a=(short)((short)((argb8 & 0xFF000000) >> 24) > 0 ? 1 : 0);
 data.putShort(index,(short)(r | g | b| a));
 break;
-case RGB16:
-data.putShort(index,pixel.getR16());
-data.putShort(index + 2,pixel.getG16());
-data.putShort(index + 4,pixel.getB16());
-break;
-case RGBA16:
-data.putShort(index,pixel.getR16());
-data.putShort(index + 2,pixel.getG16());
-data.putShort(index + 4,pixel.getB16());
-data.putShort(index + 6,pixel.getA16());
-break;
 case RGB16F:
 case RGB16F_to_RGB111110F:
 case RGB16F_to_RGB9E5:
@@ -70,7 +59,6 @@ data.putInt(index + 2,Float.floatToIntBits(pixel.green));
 data.putInt(index + 4,Float.floatToIntBits(pixel.blue));
 data.putInt(index + 6,Float.floatToIntBits(pixel.alpha));
 break;
-case RGB10:
 case RGB9E5:
 throw new IllegalStateException("Not supported image type for IO operations: " + image.getFormat());
 default :
