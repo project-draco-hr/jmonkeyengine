@@ -27,58 +27,28 @@
     settings.setEmulateMouse(mouseEventsEnabled);
     settings.setEmulateMouseFlipAxis(mouseEventsInvertX,mouseEventsInvertY);
     settings.setUseJoysticks(joystickEventsEnabled);
-    if (eglConfigType == null) {
-      logger.log(Level.FINE,"using new appsettings for eglConfig");
-      settings.setBitsPerPixel(eglBitsPerPixel);
-      settings.setAlphaBits(eglAlphaBits);
-      settings.setDepthBits(eglDepthBits);
-      settings.setSamples(eglSamples);
-      settings.setStencilBits(eglStencilBits);
+    settings.setBitsPerPixel(eglBitsPerPixel);
+    settings.setAlphaBits(eglAlphaBits);
+    settings.setDepthBits(eglDepthBits);
+    settings.setSamples(eglSamples);
+    settings.setStencilBits(eglStencilBits);
+    settings.setResolution(disp.getWidth(),disp.getHeight());
+    settings.setAudioRenderer(audioRendererType);
+    try {
+      if (app == null) {
+        @SuppressWarnings("unchecked") Class<? extends Application> clazz=(Class<? extends Application>)Class.forName(appClass);
+        app=clazz.newInstance();
+      }
+      app.setSettings(settings);
+      app.start();
     }
- else {
-      logger.log(Level.FINE,"using old eglConfigType {0} for eglConfig",eglConfigType);
-switch (eglConfigType) {
-case BEST:
-        settings.setBitsPerPixel(24);
-      settings.setAlphaBits(0);
-    settings.setDepthBits(16);
-  settings.setStencilBits(0);
-break;
-case FASTEST:
-case LEGACY:
-settings.setBitsPerPixel(16);
-settings.setAlphaBits(0);
-settings.setDepthBits(16);
-settings.setStencilBits(0);
-break;
-case BEST_TRANSLUCENT:
-settings.setBitsPerPixel(24);
-settings.setAlphaBits(8);
-settings.setDepthBits(16);
-settings.setStencilBits(0);
-break;
-default :
-throw new IllegalArgumentException("Invalid eglConfigType");
-}
-settings.setSamples(antiAliasingSamples);
-}
-settings.setResolution(disp.getWidth(),disp.getHeight());
-settings.setAudioRenderer(audioRendererType);
-try {
-if (app == null) {
-@SuppressWarnings("unchecked") Class<? extends Application> clazz=(Class<? extends Application>)Class.forName(appClass);
-app=clazz.newInstance();
-}
-app.setSettings(settings);
-app.start();
-}
- catch (Exception ex) {
-handleError("Class " + appClass + " init failed",ex);
-setContentView(new TextView(this));
-}
-}
-ctx=(OGLESContext)app.getContext();
-view=ctx.createView();
-ctx.setSystemListener(this);
-layoutDisplay();
+ catch (    Exception ex) {
+      handleError("Class " + appClass + " init failed",ex);
+      setContentView(new TextView(this));
+    }
+  }
+  ctx=(OGLESContext)app.getContext();
+  view=ctx.createView();
+  ctx.setSystemListener(this);
+  layoutDisplay();
 }

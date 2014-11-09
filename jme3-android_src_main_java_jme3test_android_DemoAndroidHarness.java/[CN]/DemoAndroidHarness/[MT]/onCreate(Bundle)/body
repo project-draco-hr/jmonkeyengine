@@ -1,22 +1,6 @@
 {
   Bundle bundle=getIntent().getExtras();
   appClass=bundle.getString("APPCLASSNAME");
-  String eglConfig=bundle.getString("EGLCONFIG");
-  if (eglConfig.equals("Best")) {
-    eglConfigType=ConfigType.BEST;
-  }
- else   if (eglConfig.equals("Legacy")) {
-    eglConfigType=ConfigType.LEGACY;
-  }
- else {
-    eglConfigType=ConfigType.FASTEST;
-  }
-  if (bundle.getBoolean("VERBOSE")) {
-    eglConfigVerboseLogging=true;
-  }
- else {
-    eglConfigVerboseLogging=false;
-  }
   exitDialogTitle="Close Demo?";
   exitDialogMessage="Press Yes";
   screenOrientation=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
