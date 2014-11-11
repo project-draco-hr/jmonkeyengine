@@ -1,0 +1,8 @@
+{
+  try {
+    return androidManager.openFd(assetPath);
+  }
+ catch (  IOException ex) {
+    throw new AssetLoadException("Failed to open asset " + assetPath,ex);
+  }
+}
