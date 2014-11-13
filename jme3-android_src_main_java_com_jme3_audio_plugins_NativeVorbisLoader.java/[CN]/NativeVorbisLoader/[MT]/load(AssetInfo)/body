@@ -3,14 +3,10 @@
   if (!(assetInfo instanceof AndroidLocator.AndroidAssetInfo)) {
     throw new UnsupportedOperationException("Cannot load audio files from classpath." + "Place your audio files in " + "Android's assets directory");
   }
-  AndroidAssetInfo aai=(AndroidAssetInfo)assetInfo;
-  AssetFileDescriptor afd=aai.openFileDescriptor();
-  int fd=afd.getParcelFileDescriptor().getFd();
-  NativeVorbisFile file=new NativeVorbisFile(fd,afd.getStartOffset(),afd.getLength());
-  ByteBuffer data=BufferUtils.createByteBuffer(file.totalBytes);
-  file.readFully(data);
-  AudioBuffer ab=new AudioBuffer();
-  ab.setupFormat(file.channels,16,file.sampleRate);
-  ab.updateData(data);
-  return ab;
+  if (key.isStream()) {
+    throw new UnsupportedOperationException("Not supported yet. Come again.");
+  }
+ else {
+    return loadBuffer(assetInfo);
+  }
 }

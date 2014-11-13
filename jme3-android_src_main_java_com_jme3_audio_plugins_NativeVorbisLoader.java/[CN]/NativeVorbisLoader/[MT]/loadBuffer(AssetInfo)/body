@@ -1,0 +1,24 @@
+{
+  AndroidAssetInfo aai=(AndroidAssetInfo)assetInfo;
+  AssetFileDescriptor afd=null;
+  NativeVorbisFile file=null;
+  try {
+    afd=aai.openFileDescriptor();
+    int fd=afd.getParcelFileDescriptor().getFd();
+    file=new NativeVorbisFile(fd,afd.getStartOffset(),afd.getLength());
+    ByteBuffer data=BufferUtils.createByteBuffer(file.totalBytes);
+    file.readFully(data);
+    AudioBuffer ab=new AudioBuffer();
+    ab.setupFormat(file.channels,16,file.sampleRate);
+    ab.updateData(data);
+    return ab;
+  }
+  finally {
+    if (file != null) {
+      file.close();
+    }
+    if (afd != null) {
+      afd.close();
+    }
+  }
+}
