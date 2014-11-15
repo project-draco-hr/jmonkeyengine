@@ -1,0 +1,8 @@
+{
+  int id=filter.getId();
+  if (id != -1) {
+    ib.position(0).limit(1);
+    ib.put(id).flip();
+    efx.alDeleteFilters(1,ib);
+  }
+}

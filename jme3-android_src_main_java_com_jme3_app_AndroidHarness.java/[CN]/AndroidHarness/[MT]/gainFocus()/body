@@ -4,12 +4,9 @@
     view.onResume();
   }
   if (app != null) {
-    AudioRenderer result=app.getAudioRenderer();
-    if (result != null) {
-      if (result instanceof AndroidAudioRenderer) {
-        AndroidAudioRenderer renderer=(AndroidAudioRenderer)result;
-        renderer.resumeAll();
-      }
+    AudioRenderer audioRenderer=app.getAudioRenderer();
+    if (audioRenderer != null) {
+      audioRenderer.resumeAll();
     }
     if (app.getContext() != null) {
       JoyInput joyInput=app.getContext().getJoyInput();

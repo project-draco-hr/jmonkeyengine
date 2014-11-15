@@ -1,0 +1,64 @@
+{
+  try {
+    if (!alc.isCreated()) {
+      alc.createALC();
+    }
+  }
+ catch (  UnsatisfiedLinkError ex) {
+    logger.log(Level.SEVERE,"Failed to load audio library",ex);
+    audioDisabled=true;
+    return;
+  }
+  String deviceName=alc.alcGetString(ALC.ALC_DEVICE_SPECIFIER);
+  logger.log(Level.INFO,"Audio Device: {0}",deviceName);
+  logger.log(Level.INFO,"Audio Vendor: {0}",al.alGetString(AL_VENDOR));
+  logger.log(Level.INFO,"Audio Renderer: {0}",al.alGetString(AL_RENDERER));
+  logger.log(Level.INFO,"Audio Version: {0}",al.alGetString(AL_VERSION));
+  logger.log(Level.INFO,"ALC extensions: {0}",alc.alcGetString(ALC.ALC_EXTENSIONS));
+  logger.log(Level.INFO,"AL extensions: {0}",al.alGetString(AL_EXTENSIONS));
+  ArrayList<Integer> channelList=new ArrayList<Integer>();
+  for (int i=0; i < MAX_NUM_CHANNELS; i++) {
+    int chan=al.alGenSources();
+    if (al.alGetError() != 0) {
+      break;
+    }
+ else {
+      channelList.add(chan);
+    }
+  }
+  channels=new int[channelList.size()];
+  for (int i=0; i < channels.length; i++) {
+    channels[i]=channelList.get(i);
+  }
+  ib=BufferUtils.createIntBuffer(channels.length);
+  chanSrcs=new AudioSource[channels.length];
+  logger.log(Level.INFO,"AudioRenderer supports {0} channels",channels.length);
+  supportPauseDevice=alc.alcIsExtensionPresent("ALC_SOFT_pause_device");
+  if (!supportPauseDevice) {
+    logger.log(Level.WARNING,"Pausing audio device not supported.");
+  }
+  supportEfx=alc.alcIsExtensionPresent("ALC_EXT_EFX");
+  if (supportEfx) {
+    ib.position(0).limit(1);
+    alc.alcGetInteger(EFX.ALC_EFX_MAJOR_VERSION,ib,1);
+    int major=ib.get(0);
+    ib.position(0).limit(1);
+    alc.alcGetInteger(EFX.ALC_EFX_MINOR_VERSION,ib,1);
+    int minor=ib.get(0);
+    logger.log(Level.INFO,"Audio effect extension version: {0}.{1}",new Object[]{major,minor});
+    alc.alcGetInteger(EFX.ALC_MAX_AUXILIARY_SENDS,ib,1);
+    auxSends=ib.get(0);
+    logger.log(Level.INFO,"Audio max auxilary sends: {0}",auxSends);
+    ib.position(0).limit(1);
+    efx.alGenAuxiliaryEffectSlots(1,ib);
+    reverbFxSlot=ib.get(0);
+    ib.position(0).limit(1);
+    efx.alGenEffects(1,ib);
+    reverbFx=ib.get(0);
+    efx.alEffecti(reverbFx,EFX.AL_EFFECT_TYPE,EFX.AL_EFFECT_REVERB);
+    efx.alAuxiliaryEffectSloti(reverbFxSlot,EFX.AL_EFFECTSLOT_EFFECT,reverbFx);
+  }
+ else {
+    logger.log(Level.WARNING,"OpenAL EFX not available! Audio effects won't work.");
+  }
+}

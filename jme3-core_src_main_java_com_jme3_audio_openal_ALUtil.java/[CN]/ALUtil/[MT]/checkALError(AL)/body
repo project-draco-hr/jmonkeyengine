@@ -1,0 +1,6 @@
+{
+  int err=al.alGetError();
+  if (err != AL_NO_ERROR) {
+    throw new RuntimeException("OpenAL Error: " + getALErrorMessage(err));
+  }
+}

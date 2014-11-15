@@ -7,13 +7,9 @@
     view.onPause();
   }
   if (app != null) {
-    AudioRenderer result=app.getAudioRenderer();
-    if (result != null) {
-      logger.log(Level.FINE,"pause: {0}",result.getClass().getSimpleName());
-      if (result instanceof AndroidAudioRenderer) {
-        AndroidAudioRenderer renderer=(AndroidAudioRenderer)result;
-        renderer.pauseAll();
-      }
+    AudioRenderer audioRenderer=app.getAudioRenderer();
+    if (audioRenderer != null) {
+      audioRenderer.pauseAll();
     }
     if (app.getContext() != null) {
       JoyInput joyInput=app.getContext().getJoyInput();

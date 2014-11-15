@@ -1,0 +1,55 @@
+{
+  if (src.isPositional()) {
+    Vector3f pos=src.getPosition();
+    Vector3f vel=src.getVelocity();
+    al.alSource3f(id,AL_POSITION,pos.x,pos.y,pos.z);
+    al.alSource3f(id,AL_VELOCITY,vel.x,vel.y,vel.z);
+    al.alSourcef(id,AL_MAX_DISTANCE,src.getMaxDistance());
+    al.alSourcef(id,AL_REFERENCE_DISTANCE,src.getRefDistance());
+    al.alSourcei(id,AL_SOURCE_RELATIVE,AL_FALSE);
+    if (src.isReverbEnabled() && supportEfx) {
+      int filter=EFX.AL_FILTER_NULL;
+      if (src.getReverbFilter() != null) {
+        Filter f=src.getReverbFilter();
+        if (f.isUpdateNeeded()) {
+          updateFilter(f);
+        }
+        filter=f.getId();
+      }
+      al.alSource3i(id,EFX.AL_AUXILIARY_SEND_FILTER,reverbFxSlot,0,filter);
+    }
+  }
+ else {
+    al.alSourcei(id,AL_SOURCE_RELATIVE,AL_TRUE);
+    al.alSource3f(id,AL_POSITION,0,0,0);
+    al.alSource3f(id,AL_VELOCITY,0,0,0);
+  }
+  if (src.getDryFilter() != null && supportEfx) {
+    Filter f=src.getDryFilter();
+    if (f.isUpdateNeeded()) {
+      updateFilter(f);
+      al.alSourcei(id,EFX.AL_DIRECT_FILTER,f.getId());
+    }
+  }
+  if (forceNonLoop) {
+    al.alSourcei(id,AL_LOOPING,AL_FALSE);
+  }
+ else {
+    al.alSourcei(id,AL_LOOPING,src.isLooping() ? AL_TRUE : AL_FALSE);
+  }
+  al.alSourcef(id,AL_GAIN,src.getVolume());
+  al.alSourcef(id,AL_PITCH,src.getPitch());
+  al.alSourcef(id,AL_SEC_OFFSET,src.getTimeOffset());
+  if (src.isDirectional()) {
+    Vector3f dir=src.getDirection();
+    al.alSource3f(id,AL_DIRECTION,dir.x,dir.y,dir.z);
+    al.alSourcef(id,AL_CONE_INNER_ANGLE,src.getInnerAngle());
+    al.alSourcef(id,AL_CONE_OUTER_ANGLE,src.getOuterAngle());
+    al.alSourcef(id,AL_CONE_OUTER_GAIN,0);
+  }
+ else {
+    al.alSourcef(id,AL_CONE_INNER_ANGLE,360);
+    al.alSourcef(id,AL_CONE_OUTER_ANGLE,360);
+    al.alSourcef(id,AL_CONE_OUTER_GAIN,1f);
+  }
+}

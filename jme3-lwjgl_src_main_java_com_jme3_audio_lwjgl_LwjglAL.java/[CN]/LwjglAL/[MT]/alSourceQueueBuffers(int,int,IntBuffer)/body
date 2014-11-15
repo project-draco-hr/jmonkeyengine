@@ -1,0 +1,5 @@
+{
+  if (buffers.position() != 0)   throw new AssertionError();
+  if (buffers.limit() != numBuffers)   throw new AssertionError();
+  AL10.alSourceQueueBuffers(source,buffers);
+}

@@ -1,0 +1,26 @@
+{
+  if (chanSrcs[index] != null) {
+    AudioSource src=chanSrcs[index];
+    int sourceId=channels[index];
+    al.alSourceStop(sourceId);
+    if (src.getAudioData() instanceof AudioStream) {
+      AudioStream str=(AudioStream)src.getAudioData();
+      ib.position(0).limit(STREAMING_BUFFER_COUNT);
+      ib.put(str.getIds()).flip();
+      al.alSourceUnqueueBuffers(sourceId,STREAMING_BUFFER_COUNT,ib);
+    }
+ else     if (src.getAudioData() instanceof AudioBuffer) {
+      al.alSourcei(sourceId,AL_BUFFER,0);
+    }
+    if (src.getDryFilter() != null && supportEfx) {
+      al.alSourcei(sourceId,EFX.AL_DIRECT_FILTER,EFX.AL_FILTER_NULL);
+    }
+    if (src.isPositional()) {
+      AudioSource pas=(AudioSource)src;
+      if (pas.isReverbEnabled() && supportEfx) {
+        al.alSource3i(sourceId,EFX.AL_AUXILIARY_SEND_FILTER,0,0,EFX.AL_FILTER_NULL);
+      }
+    }
+    chanSrcs[index]=null;
+  }
+}

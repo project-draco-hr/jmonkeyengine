@@ -3,7 +3,7 @@
   Class<? extends AudioRenderer> clazz=null;
   try {
     if (settings.getAudioRenderer().startsWith("LWJGL")) {
-      clazz=(Class<? extends AudioRenderer>)Class.forName("com.jme3.audio.lwjgl.LwjglAudioRenderer");
+      return newAudioRendererLwjgl();
     }
  else     if (settings.getAudioRenderer().startsWith("JOAL")) {
       clazz=(Class<? extends AudioRenderer>)Class.forName("com.jme3.audio.joal.JoalAudioRenderer");
