@@ -1,0 +1,11 @@
+{
+  ALCcontext ctx=joalAlc.alcGetCurrentContext();
+  if (ctx == null) {
+    return null;
+  }
+  ALCdevice device=joalAlc.alcGetContextsDevice(ctx);
+  if (device == null) {
+    return null;
+  }
+  return device;
+}
