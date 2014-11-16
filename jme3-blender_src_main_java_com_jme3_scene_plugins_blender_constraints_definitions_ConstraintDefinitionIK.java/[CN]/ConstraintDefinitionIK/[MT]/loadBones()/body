@@ -1,6 +1,12 @@
 {
   List<BoneContext> bones=new ArrayList<BoneContext>();
   Bone bone=(Bone)this.getOwner();
+  if (bone == null) {
+    return bones;
+  }
+  if (!useTail) {
+    bone=bone.getParent();
+  }
   chainLength=0;
   while (bone != null) {
     BoneContext boneContext=blenderContext.getBoneContext(bone);
@@ -10,7 +16,15 @@
     if (bonesAffected != 0 && bones.size() >= bonesAffected) {
       break;
     }
+    Transform boneWorldTransform=constraintHelper.getTransform(boneContext.getArmatureObjectOMA(),boneContext.getBone().getName(),Space.CONSTRAINT_SPACE_WORLD);
+    Vector3f boneWorldTranslation=boneWorldTransform.getTranslation();
     bone=bone.getParent();
+    if (bone != null) {
+      boneContext=blenderContext.getBoneContext(bone);
+      Transform parentWorldTransform=constraintHelper.getTransform(boneContext.getArmatureObjectOMA(),boneContext.getBone().getName(),Space.CONSTRAINT_SPACE_WORLD);
+      Vector3f parentWorldTranslation=parentWorldTransform.getTranslation();
+      chainLength+=boneWorldTranslation.distance(parentWorldTranslation);
+    }
   }
   return bones;
 }
