@@ -1,0 +1,18 @@
+{
+  if (time != 0f) {
+    throw new UnsupportedOperationException("Seeking WAV files not supported");
+  }
+  InputStream newStream=info.openStream();
+  try {
+    newStream.skip(resetOffset);
+    this.in=new BufferedInputStream(newStream);
+  }
+ catch (  IOException ex) {
+    try {
+      newStream.close();
+    }
+ catch (    IOException ex2) {
+    }
+    throw new RuntimeException(ex);
+  }
+}

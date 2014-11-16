@@ -3,7 +3,7 @@
   InputStream inputStream=null;
   try {
     inputStream=info.openStream();
-    data=load(inputStream,((AudioKey)info.getKey()).isStream());
+    data=load(info,inputStream,((AudioKey)info.getKey()).isStream());
     if (data instanceof AudioStream) {
       inputStream=null;
     }
