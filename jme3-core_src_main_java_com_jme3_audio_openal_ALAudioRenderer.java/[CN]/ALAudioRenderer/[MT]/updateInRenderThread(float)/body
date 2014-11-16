@@ -1,0 +1,47 @@
+{
+  if (audioDisabled) {
+    return;
+  }
+  for (int i=0; i < channels.length; i++) {
+    AudioSource src=chanSrcs[i];
+    if (src == null) {
+      continue;
+    }
+    int sourceId=channels[i];
+    boolean boundSource=i == src.getChannel();
+    boolean reclaimChannel=false;
+    Status oalStatus=convertStatus(al.alGetSourcei(sourceId,AL_SOURCE_STATE));
+    Status jmeStatus=src.getStatus();
+    if (oalStatus != jmeStatus) {
+      if (oalStatus == Status.Stopped && jmeStatus == Status.Playing) {
+        if (src.getAudioData() instanceof AudioStream) {
+          AudioStream stream=(AudioStream)src.getAudioData();
+          if (stream.isEOF() && !src.isLooping()) {
+            reclaimChannel=true;
+          }
+ else {
+          }
+        }
+ else {
+          reclaimChannel=true;
+        }
+        if (reclaimChannel) {
+          if (boundSource) {
+            src.setStatus(Status.Stopped);
+            src.setChannel(-1);
+          }
+          clearChannel(i);
+          freeChannel(i);
+        }
+      }
+ else {
+        throw new AssertionError();
+      }
+    }
+ else {
+      if (oalStatus == Status.Stopped) {
+        throw new AssertionError();
+      }
+    }
+  }
+}

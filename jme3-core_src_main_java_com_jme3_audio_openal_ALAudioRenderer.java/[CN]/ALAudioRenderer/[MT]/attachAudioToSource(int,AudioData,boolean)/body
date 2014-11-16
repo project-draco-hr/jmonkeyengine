@@ -3,7 +3,7 @@
     return attachBufferToSource(sourceId,(AudioBuffer)data);
   }
  else   if (data instanceof AudioStream) {
-    return attachStreamToSource(sourceId,(AudioStream)data);
+    return attachStreamToSource(sourceId,(AudioStream)data,looping);
   }
   throw new UnsupportedOperationException();
 }

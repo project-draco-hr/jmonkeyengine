@@ -1,0 +1,13 @@
+{
+switch (oalStatus) {
+case AL_INITIAL:
+case AL_STOPPED:
+    return Status.Stopped;
+case AL_PAUSED:
+  return Status.Paused;
+case AL_PLAYING:
+return Status.Playing;
+default :
+throw new UnsupportedOperationException("Unrecognized OAL state: " + oalStatus);
+}
+}

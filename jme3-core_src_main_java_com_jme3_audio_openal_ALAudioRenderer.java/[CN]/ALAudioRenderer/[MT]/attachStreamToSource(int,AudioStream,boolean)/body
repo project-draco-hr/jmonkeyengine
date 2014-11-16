@@ -1,0 +1,23 @@
+{
+  boolean success=false;
+  if (stream.isEOF()) {
+    stream.setTime(0);
+  }
+  for (  int id : stream.getIds()) {
+    boolean active=fillBuffer(stream,id);
+    if (!active && !stream.isEOF()) {
+      throw new AssertionError();
+    }
+    if (!active && looping) {
+      stream.setTime(0);
+      active=fillBuffer(stream,id);
+    }
+    if (active) {
+      ib.position(0).limit(1);
+      ib.put(id).flip();
+      al.alSourceQueueBuffers(sourceId,1,ib);
+      success=true;
+    }
+  }
+  return success;
+}

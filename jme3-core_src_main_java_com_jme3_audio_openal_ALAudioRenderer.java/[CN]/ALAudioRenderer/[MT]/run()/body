@@ -1,5 +1,5 @@
 {
-  initInThread();
+  initInDecoderThread();
 synchronized (threadLock) {
     threadLock.set(true);
     threadLock.notifyAll();
@@ -11,7 +11,7 @@ synchronized (threadLock) {
       break;
     }
 synchronized (threadLock) {
-      updateInThread(UPDATE_RATE);
+      updateInDecoderThread(UPDATE_RATE);
     }
     long endTime=System.nanoTime();
     long diffTime=endTime - startTime;
@@ -28,6 +28,6 @@ synchronized (threadLock) {
     }
   }
 synchronized (threadLock) {
-    cleanupInThread();
+    cleanupInDecoderThread();
   }
 }

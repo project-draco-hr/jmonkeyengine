@@ -1,8 +1,8 @@
 {
-  if (!audioThread.isAlive()) {
-    audioThread.setDaemon(true);
-    audioThread.setPriority(Thread.NORM_PRIORITY + 1);
-    audioThread.start();
+  if (!decoderThread.isAlive()) {
+    decoderThread.setDaemon(true);
+    decoderThread.setPriority(Thread.NORM_PRIORITY + 1);
+    decoderThread.start();
   }
  else {
     throw new IllegalStateException("Initialize already called");

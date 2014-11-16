@@ -1,8 +1,8 @@
 {
-  if (audioThread.isAlive()) {
-    audioThread.interrupt();
+  if (decoderThread.isAlive()) {
+    decoderThread.interrupt();
     try {
-      audioThread.join();
+      decoderThread.join();
     }
  catch (    InterruptedException ex) {
     }

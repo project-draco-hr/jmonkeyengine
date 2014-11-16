@@ -1,9 +1,16 @@
 {
-  if (!open)   return -1;
+  if (!open || eof) {
+    return -1;
+  }
   try {
-    return in.read(buf,offset,length);
+    int totalRead=in.read(buf,offset,length);
+    if (totalRead < 0) {
+      eof=true;
+    }
+    return totalRead;
   }
  catch (  IOException ex) {
+    eof=true;
     return -1;
   }
 }

@@ -31,7 +31,7 @@
       al.alSourcei(id,EFX.AL_DIRECT_FILTER,f.getId());
     }
   }
-  if (forceNonLoop) {
+  if (forceNonLoop || src.getAudioData() instanceof AudioStream) {
     al.alSourcei(id,AL_LOOPING,AL_FALSE);
   }
  else {

@@ -12,7 +12,7 @@ synchronized (threadLock) {
       return;
     }
     if (src.getAudioData() instanceof AudioStream) {
-      throw new UnsupportedOperationException("Cannot play instances " + "of audio streams. Use playSource() instead.");
+      throw new UnsupportedOperationException("Cannot play instances " + "of audio streams. Use play() instead.");
     }
     if (src.getAudioData().isUpdateNeeded()) {
       updateAudioData(src.getAudioData());
@@ -24,7 +24,7 @@ synchronized (threadLock) {
     int sourceId=channels[index];
     clearChannel(index);
     setSourceParams(sourceId,src,true);
-    attachAudioToSource(sourceId,src.getAudioData());
+    attachAudioToSource(sourceId,src.getAudioData(),false);
     chanSrcs[index]=src;
     al.alSourcePlay(sourceId);
   }

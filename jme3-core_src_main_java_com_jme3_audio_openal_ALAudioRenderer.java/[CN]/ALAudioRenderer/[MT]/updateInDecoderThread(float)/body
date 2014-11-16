@@ -1,0 +1,25 @@
+{
+  if (audioDisabled) {
+    return;
+  }
+  for (int i=0; i < channels.length; i++) {
+    AudioSource src=chanSrcs[i];
+    if (src == null || !(src.getAudioData() instanceof AudioStream)) {
+      continue;
+    }
+    int sourceId=channels[i];
+    AudioStream stream=(AudioStream)src.getAudioData();
+    Status oalStatus=convertStatus(al.alGetSourcei(sourceId,AL_SOURCE_STATE));
+    Status jmeStatus=src.getStatus();
+    boolean buffersWereFilled=fillStreamingSource(sourceId,stream,src.isLooping());
+    if (buffersWereFilled) {
+      if (oalStatus == Status.Stopped && jmeStatus == Status.Playing) {
+        logger.log(Level.WARNING,"Buffer starvation " + "occurred while playing stream");
+        al.alSourcePlay(sourceId);
+      }
+ else {
+      }
+    }
+  }
+  objManager.deleteUnused(this);
+}

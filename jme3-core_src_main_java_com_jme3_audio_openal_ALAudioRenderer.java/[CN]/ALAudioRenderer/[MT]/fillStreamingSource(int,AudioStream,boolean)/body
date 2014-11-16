@@ -1,0 +1,28 @@
+{
+  boolean success=false;
+  int processed=al.alGetSourcei(sourceId,AL_BUFFERS_PROCESSED);
+  for (int i=0; i < processed; i++) {
+    int buffer;
+    ib.position(0).limit(1);
+    al.alSourceUnqueueBuffers(sourceId,1,ib);
+    buffer=ib.get(0);
+    boolean active=fillBuffer(stream,buffer);
+    if (!active && !stream.isEOF()) {
+      throw new AssertionError();
+    }
+    if (!active && looping) {
+      stream.setTime(0);
+      active=fillBuffer(stream,buffer);
+    }
+    if (active) {
+      ib.position(0).limit(1);
+      ib.put(0,buffer);
+      al.alSourceQueueBuffers(sourceId,1,ib);
+      success=true;
+    }
+ else {
+      break;
+    }
+  }
+  return success;
+}
