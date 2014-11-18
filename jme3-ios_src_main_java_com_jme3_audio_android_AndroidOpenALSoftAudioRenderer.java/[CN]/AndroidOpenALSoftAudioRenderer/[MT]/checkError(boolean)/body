@@ -1,8 +1,0 @@
-{
-  int errorCode=alGetError();
-  String errorText=AL.GetALErrorMsg(errorCode);
-  if (errorCode != AL.AL_NO_ERROR && stopOnError) {
-    throw new IllegalStateException("AL Error Detected.  Error Code: " + errorCode + ": "+ errorText);
-  }
-  return errorCode;
-}
