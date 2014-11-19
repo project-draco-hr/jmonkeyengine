@@ -34,6 +34,9 @@
       if (target == GL_TEXTURE_3D) {
         glCompressedTexImage3D(target,i,glFmt.internalFormat,mipWidth,mipHeight,mipDepth,border,data);
       }
+ else       if (target == GL_TEXTURE_2D_ARRAY_EXT) {
+        glCompressedTexSubImage3D(target,i,0,0,index,mipWidth,mipHeight,1,glFmt.internalFormat,data);
+      }
  else {
         glCompressedTexImage2D(target,i,glFmt.internalFormat,mipWidth,mipHeight,border,data);
       }
@@ -47,7 +50,7 @@
           glTexImage3D(target,i,glFmt.internalFormat,mipWidth,mipHeight,image.getData().size(),border,glFmt.format,glFmt.dataType,data);
         }
  else {
-          glTexSubImage3D(target,i,0,0,index,width,height,1,glFmt.format,glFmt.dataType,data);
+          glTexSubImage3D(target,i,0,0,index,mipWidth,mipHeight,1,glFmt.format,glFmt.dataType,data);
         }
       }
  else {
