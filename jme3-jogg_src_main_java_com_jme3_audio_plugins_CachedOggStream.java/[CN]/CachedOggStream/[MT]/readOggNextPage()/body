@@ -10,6 +10,7 @@
   }
   LogicalOggStreamImpl los=(LogicalOggStreamImpl)logicalStreams.get(op.getStreamSerialNumber());
   if (los == null) {
+    serialno=op.getStreamSerialNumber();
     los=new LogicalOggStreamImpl(this,op.getStreamSerialNumber());
     logicalStreams.put(op.getStreamSerialNumber(),los);
     los.checkFormat(op);

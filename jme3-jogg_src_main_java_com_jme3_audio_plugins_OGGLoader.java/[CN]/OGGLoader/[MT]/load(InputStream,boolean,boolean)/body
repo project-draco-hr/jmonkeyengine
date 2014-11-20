@@ -19,7 +19,7 @@
     AudioStream audioStream=new AudioStream();
     audioStream.setupFormat(streamHdr.getChannels(),16,streamHdr.getSampleRate());
     float streamDuration=computeStreamDuration();
-    audioStream.updateData(readToStream(oggStream.isSeekable(),streamDuration),streamDuration);
+    audioStream.updateData(readToStream(oggStream.isSeekable()),streamDuration);
     return audioStream;
   }
 }

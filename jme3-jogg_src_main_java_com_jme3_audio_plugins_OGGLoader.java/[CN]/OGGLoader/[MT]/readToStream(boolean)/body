@@ -1,0 +1,8 @@
+{
+  if (seekable) {
+    return new SeekableJOggInputStream(oggStream,loStream,vorbisStream);
+  }
+ else {
+    return new JOggInputStream(oggStream,loStream,vorbisStream);
+  }
+}

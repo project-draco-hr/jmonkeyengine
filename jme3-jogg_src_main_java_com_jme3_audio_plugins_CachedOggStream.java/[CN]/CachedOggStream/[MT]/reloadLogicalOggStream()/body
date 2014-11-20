@@ -1,0 +1,10 @@
+{
+  logicalStreams.clear();
+  LogicalOggStreamImpl los=new LogicalOggStreamImpl(this,serialno);
+  logicalStreams.put(serialno,los);
+  for (  IntMap.Entry<OggPage> entry : oggPages) {
+    los.addPageNumberMapping(entry.getKey());
+    los.addGranulePosition(entry.getValue().getAbsoluteGranulePosition());
+  }
+  return los;
+}

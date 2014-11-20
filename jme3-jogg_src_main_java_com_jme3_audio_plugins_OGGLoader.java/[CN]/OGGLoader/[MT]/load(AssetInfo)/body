@@ -8,11 +8,7 @@
   InputStream in=null;
   try {
     in=info.openStream();
-    AudioData data=load(in,readStream,streamCache);
-    if (data instanceof AudioStream) {
-      in=null;
-    }
-    return data;
+    return load(in,readStream,streamCache);
   }
   finally {
     if (in != null) {

@@ -1,14 +1,12 @@
 {
-  System.out.println("--setTime--)");
-  System.out.println("max granule : " + los.getMaximumGranulePosition());
-  System.out.println("current granule : " + los.getTime());
-  System.out.println("asked Time : " + time);
-  System.out.println("new granule : " + (time / duration * los.getMaximumGranulePosition()));
-  System.out.println("new granule2 : " + (time * vs.getIdentificationHeader().getSampleRate()));
+  if (time != 0.0) {
+    throw new UnsupportedOperationException("OGG/Vorbis seeking only supported for time = 0");
+  }
   try {
-    los.setTime((long)(time * vs.getIdentificationHeader().getSampleRate()));
+    ls=((CachedOggStream)ps).reloadLogicalOggStream();
+    vs=new VorbisStream(ls);
   }
  catch (  IOException ex) {
-    Logger.getLogger(OGGLoader.class.getName()).log(Level.SEVERE,null,ex);
+    ex.printStackTrace();
   }
 }
