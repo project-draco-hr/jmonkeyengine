@@ -2,14 +2,13 @@
   System.setProperty("org.xml.sax.driver","org.xmlpull.v1.sax2.Driver");
   registerLocator("",AndroidLocator.class);
   registerLocator("",ClasspathLocator.class);
-  registerLoader(AndroidBufferImageLoader.class,"jpg","bmp","jpeg");
-  registerLoader(AndroidBufferImageLoader.class,"gif","png");
+  registerLoader(AndroidNativeImageLoader.class,"jpg","jpeg","bmp","gif","png");
   if (JmeAndroidSystem.getAudioRendererType().equals(AppSettings.ANDROID_MEDIAPLAYER)) {
     registerLoader(AndroidAudioLoader.class,"ogg","mp3","wav");
   }
  else   if (JmeAndroidSystem.getAudioRendererType().equals(AppSettings.ANDROID_OPENAL_SOFT)) {
     registerLoader(WAVLoader.class,"wav");
-    registerLoaderSafe("com.jme3.audio.plugins.OGGLoader","ogg");
+    registerLoader(NativeVorbisLoader.class,"ogg");
   }
  else {
     throw new IllegalStateException("No Audio Renderer Type defined!");
