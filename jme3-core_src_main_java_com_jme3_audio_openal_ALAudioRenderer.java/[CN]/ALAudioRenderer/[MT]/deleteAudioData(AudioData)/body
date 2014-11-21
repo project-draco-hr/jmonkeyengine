@@ -1,12 +1,5 @@
 {
 synchronized (threadLock) {
-    while (!threadLock.get()) {
-      try {
-        threadLock.wait();
-      }
- catch (      InterruptedException ex) {
-      }
-    }
     if (audioDisabled) {
       return;
     }

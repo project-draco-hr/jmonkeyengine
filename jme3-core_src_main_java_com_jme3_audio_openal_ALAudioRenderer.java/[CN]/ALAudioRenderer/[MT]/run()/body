@@ -1,9 +1,4 @@
 {
-  initInDecoderThread();
-synchronized (threadLock) {
-    threadLock.set(true);
-    threadLock.notifyAll();
-  }
   long updateRateNanos=(long)(UPDATE_RATE * 1000000000);
   mainloop:   while (true) {
     long startTime=System.nanoTime();
@@ -26,8 +21,5 @@ synchronized (threadLock) {
         }
       }
     }
-  }
-synchronized (threadLock) {
-    cleanupInDecoderThread();
   }
 }

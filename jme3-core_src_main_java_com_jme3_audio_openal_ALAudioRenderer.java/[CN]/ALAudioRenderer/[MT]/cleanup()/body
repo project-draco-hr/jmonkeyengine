@@ -1,10 +1,12 @@
 {
-  if (decoderThread.isAlive()) {
-    decoderThread.interrupt();
-    try {
-      decoderThread.join();
-    }
- catch (    InterruptedException ex) {
-    }
+  if (!decoderThread.isAlive()) {
+    return;
   }
+  decoderThread.interrupt();
+  try {
+    decoderThread.join();
+  }
+ catch (  InterruptedException ex) {
+  }
+  destroyOpenAL();
 }
