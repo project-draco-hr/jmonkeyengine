@@ -10,7 +10,7 @@
     glslVer=-1;
     throw new UnsupportedOperationException("OpenGL ES 2.0+ is required for OGLESShaderRenderer!");
   }
-  glslVer=extractVersion("OpenGL ES GLSL ES ",GLES20.glGetString(GLES20.GL_SHADING_LANGUAGE_VERSION));
+  glslVer=extractVersion("OpenGL ES GLSL ",GLES20.glGetString(GLES20.GL_SHADING_LANGUAGE_VERSION));
 switch (glslVer) {
 default :
     caps.add(Caps.GLSL100);
