@@ -4,7 +4,7 @@
     throw new UnsupportedOperationException("Cannot load audio files from classpath." + "Place your audio files in " + "Android's assets directory");
   }
   if (key.isStream()) {
-    throw new UnsupportedOperationException("Not supported yet. Come again.");
+    return loadStream(assetInfo);
   }
  else {
     return loadBuffer(assetInfo);

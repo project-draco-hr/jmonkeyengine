@@ -1,0 +1,26 @@
+{
+  AndroidAssetInfo aai=(AndroidAssetInfo)assetInfo;
+  AssetFileDescriptor afd=null;
+  NativeVorbisFile file=null;
+  boolean success=false;
+  try {
+    afd=aai.openFileDescriptor();
+    int fd=afd.getParcelFileDescriptor().getFd();
+    file=new NativeVorbisFile(fd,afd.getStartOffset(),afd.getLength());
+    AudioStream stream=new AudioStream();
+    stream.setupFormat(file.channels,16,file.sampleRate);
+    stream.updateData(new VorbisInputStream(afd,file),file.duration);
+    success=true;
+    return stream;
+  }
+  finally {
+    if (!success) {
+      if (file != null) {
+        file.close();
+      }
+      if (afd != null) {
+        afd.close();
+      }
+    }
+  }
+}
