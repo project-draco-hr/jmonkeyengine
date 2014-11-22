@@ -51,12 +51,21 @@
     VertexBuffer positions=getBuffer(Type.Position);
     VertexBuffer normals=getBuffer(Type.Normal);
     VertexBuffer tangents=getBuffer(Type.Tangent);
+    VertexBuffer positionsBP=getBuffer(Type.BindPosePosition);
+    VertexBuffer normalsBP=getBuffer(Type.BindPoseNormal);
+    VertexBuffer tangentsBP=getBuffer(Type.BindPoseTangent);
     positions.setUsage(Usage.Static);
+    positionsBP.copyElements(0,positions,0,positionsBP.getNumElements());
+    positions.setUpdateNeeded();
     if (normals != null) {
       normals.setUsage(Usage.Static);
+      normalsBP.copyElements(0,normals,0,normalsBP.getNumElements());
+      normals.setUpdateNeeded();
     }
     if (tangents != null) {
       tangents.setUsage(Usage.Static);
+      tangentsBP.copyElements(0,tangents,0,tangentsBP.getNumElements());
+      tangents.setUpdateNeeded();
     }
   }
 }
