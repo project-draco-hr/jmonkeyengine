@@ -1,4 +1,7 @@
 {
+  if (influence == 0 || targetTransform == null) {
+    return;
+  }
   Transform ownerTransform=this.getOwnerTransform(ownerSpace);
   Vector3f ownerScale=ownerTransform.getScale();
   Vector3f targetScale=targetTransform.getScale();

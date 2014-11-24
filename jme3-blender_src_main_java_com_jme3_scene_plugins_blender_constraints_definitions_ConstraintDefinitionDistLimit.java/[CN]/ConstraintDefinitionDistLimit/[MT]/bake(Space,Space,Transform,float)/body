@@ -2,6 +2,9 @@
   if (this.getOwner() instanceof Bone && ((Bone)this.getOwner()).getParent() != null && blenderContext.getBoneContext(ownerOMA).is(BoneContext.CONNECTED_TO_PARENT)) {
     return;
   }
+  if (influence == 0 || targetTransform == null) {
+    return;
+  }
   Transform ownerTransform=this.getOwnerTransform(ownerSpace);
   Vector3f v=ownerTransform.getTranslation().subtract(targetTransform.getTranslation());
   float currentDistance=v.length();

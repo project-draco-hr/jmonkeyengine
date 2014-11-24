@@ -1,4 +1,7 @@
 {
+  if (influence == 0 || targetTransform == null) {
+    return;
+  }
   Transform ownerTransform=this.getOwnerTransform(ownerSpace);
   Quaternion ownerRotation=ownerTransform.getRotation();
   ownerAngles=ownerRotation.toAngles(ownerAngles);
