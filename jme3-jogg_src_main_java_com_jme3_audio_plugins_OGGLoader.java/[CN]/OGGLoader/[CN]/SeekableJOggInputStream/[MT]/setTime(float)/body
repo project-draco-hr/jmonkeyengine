@@ -5,6 +5,8 @@
   try {
     ls=((CachedOggStream)ps).reloadLogicalOggStream();
     vs=new VorbisStream(ls);
+    endOfStream=false;
+    current=0;
   }
  catch (  IOException ex) {
     ex.printStackTrace();

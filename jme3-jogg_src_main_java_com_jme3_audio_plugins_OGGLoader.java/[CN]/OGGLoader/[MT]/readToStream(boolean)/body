@@ -1,8 +1,9 @@
 {
   if (seekable) {
-    return new SeekableJOggInputStream(oggStream,loStream,vorbisStream);
+    int maximum=getOggTotalBytes(Integer.MAX_VALUE);
+    return new SeekableJOggInputStream(oggStream,loStream,vorbisStream,maximum);
   }
  else {
-    return new JOggInputStream(oggStream,loStream,vorbisStream);
+    return new JOggInputStream(oggStream,loStream,vorbisStream,-1);
   }
 }
