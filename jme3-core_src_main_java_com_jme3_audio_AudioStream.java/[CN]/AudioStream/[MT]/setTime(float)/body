@@ -4,6 +4,6 @@
     eof=false;
   }
  else {
-    logger.log(Level.WARNING,"Cannot use setTime on a stream that " + "is not seekable. You must load the file " + "with the streamCache option set to true");
+    throw new IllegalStateException("Cannot use setTime on a stream that " + "is not seekable. You must load the file " + "with the streamCache option set to true");
   }
 }
