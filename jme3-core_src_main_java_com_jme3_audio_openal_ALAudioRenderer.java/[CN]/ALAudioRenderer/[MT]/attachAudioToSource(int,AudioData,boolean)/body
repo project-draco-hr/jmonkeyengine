@@ -1,9 +1,11 @@
 {
   if (data instanceof AudioBuffer) {
-    return attachBufferToSource(sourceId,(AudioBuffer)data);
+    attachBufferToSource(sourceId,(AudioBuffer)data);
   }
  else   if (data instanceof AudioStream) {
-    return attachStreamToSource(sourceId,(AudioStream)data,looping);
+    attachStreamToSource(sourceId,(AudioStream)data,looping);
   }
-  throw new UnsupportedOperationException();
+ else {
+    throw new UnsupportedOperationException();
+  }
 }

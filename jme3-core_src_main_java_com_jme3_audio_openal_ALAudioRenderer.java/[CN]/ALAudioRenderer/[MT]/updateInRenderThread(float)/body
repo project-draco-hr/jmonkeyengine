@@ -11,6 +11,16 @@
     boolean boundSource=i == src.getChannel();
     boolean reclaimChannel=false;
     Status oalStatus=convertStatus(al.alGetSourcei(sourceId,AL_SOURCE_STATE));
+    if (!boundSource) {
+      if (oalStatus == Status.Stopped) {
+        clearChannel(i);
+        freeChannel(i);
+      }
+ else       if (oalStatus == Status.Paused) {
+        throw new AssertionError("Instanced audio cannot be paused");
+      }
+      continue;
+    }
     Status jmeStatus=src.getStatus();
     if (oalStatus != jmeStatus) {
       if (oalStatus == Status.Stopped && jmeStatus == Status.Playing) {
@@ -23,24 +33,27 @@
           }
         }
  else {
-          reclaimChannel=true;
+          if (src.isLooping()) {
+            throw new AssertionError("Unexpected state: " + "A looping sound has stopped playing");
+          }
+ else {
+            reclaimChannel=true;
+          }
         }
         if (reclaimChannel) {
-          if (boundSource) {
-            src.setStatus(Status.Stopped);
-            src.setChannel(-1);
-          }
+          src.setStatus(Status.Stopped);
+          src.setChannel(-1);
           clearChannel(i);
           freeChannel(i);
         }
       }
  else {
-        throw new AssertionError();
+        throw new AssertionError("Unexpected sound status. " + "OAL: " + oalStatus + ", JME: "+ jmeStatus);
       }
     }
  else {
       if (oalStatus == Status.Stopped) {
-        throw new AssertionError();
+        throw new AssertionError("Channel " + i + " was not reclaimed");
       }
     }
   }

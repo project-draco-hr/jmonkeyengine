@@ -11,6 +11,9 @@
     if (!active && looping) {
       stream.setTime(0);
       active=fillBuffer(stream,id);
+      if (!active) {
+        throw new IllegalStateException("Looping streaming source " + "was rewinded but could not be filled");
+      }
     }
     if (active) {
       ib.position(0).limit(1);
@@ -19,5 +22,7 @@
       success=true;
     }
   }
-  return success;
+  if (!success) {
+    throw new IllegalStateException("No valid data could be read from stream");
+  }
 }

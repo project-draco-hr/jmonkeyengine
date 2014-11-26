@@ -18,6 +18,11 @@
         al.alSourcePlay(sourceId);
       }
  else {
+        if (oalStatus == Status.Playing && jmeStatus == Status.Playing) {
+        }
+ else {
+          throw new AssertionError();
+        }
       }
     }
   }
