@@ -91,6 +91,9 @@
     glGetInteger(GL_MAX_COLOR_ATTACHMENTS_EXT,intBuf16);
     maxFBOAttachs=intBuf16.get(0);
     logger.log(Level.FINER,"FBO Max renderbuffers: {0}",maxFBOAttachs);
+    if (hasExtension("GL_EXT_framebuffer_blit")) {
+      caps.add(Caps.FrameBufferBlit);
+    }
     if (hasExtension("GL_EXT_framebuffer_multisample")) {
       caps.add(Caps.FrameBufferMultisample);
       glGetInteger(GL_MAX_SAMPLES_EXT,intBuf16);
