@@ -4,4 +4,12 @@
     if ((child.refreshFlags & RF_LIGHTLIST) != 0)     continue;
     child.setLightListRefresh();
   }
+  Spatial p=parent;
+  while (p != null) {
+    if (p.refreshFlags != 0) {
+      return;
+    }
+    p.refreshFlags|=RF_CHILD_LIGHTLIST;
+    p=p.parent;
+  }
 }
