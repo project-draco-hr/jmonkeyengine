@@ -3,8 +3,10 @@
     throw new RendererException("OpenGL 2.0 or higher is " + "required for jMonkeyEngine");
   }
   if (settings.getRenderer().equals(AppSettings.LWJGL_OPENGL2) || settings.getRenderer().equals(AppSettings.LWJGL_OPENGL3)) {
-    renderer=new LwjglRenderer();
-    ((LwjglRenderer)renderer).initialize();
+    LwjglGL gl=new LwjglGL();
+    LwjglGLExt glext=new LwjglGLExt();
+    renderer=new GLRenderer(gl,glext);
+    renderer.initialize();
   }
  else {
     throw new UnsupportedOperationException("Unsupported renderer: " + settings.getRenderer());
