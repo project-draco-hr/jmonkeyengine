@@ -1,0 +1,34 @@
+{
+  if (versionStr != null) {
+    int spaceIdx=versionStr.indexOf(" ",prefixStr.length());
+    if (spaceIdx >= 1) {
+      versionStr=versionStr.substring(prefixStr.length(),spaceIdx).trim();
+    }
+ else {
+      versionStr=versionStr.substring(prefixStr.length()).trim();
+    }
+    for (int i=0; i < versionStr.length(); i++) {
+      char c=versionStr.charAt(i);
+      if (c != '.' && (c < '0' || c > '9')) {
+        versionStr=versionStr.substring(0,i);
+        break;
+      }
+    }
+    int firstPoint=versionStr.indexOf(".");
+    int secondPoint=versionStr.indexOf(".",firstPoint + 1);
+    if (secondPoint != -1) {
+      versionStr=versionStr.substring(0,secondPoint);
+    }
+    String majorVerStr=versionStr.substring(0,firstPoint);
+    String minorVerStr=versionStr.substring(firstPoint + 1);
+    if (minorVerStr.endsWith("0") && minorVerStr.length() > 1) {
+      minorVerStr=minorVerStr.substring(0,minorVerStr.length() - 1);
+    }
+    int majorVer=Integer.parseInt(majorVerStr);
+    int minorVer=Integer.parseInt(minorVerStr);
+    return majorVer * 100 + minorVer * 10;
+  }
+ else {
+    return -1;
+  }
+}

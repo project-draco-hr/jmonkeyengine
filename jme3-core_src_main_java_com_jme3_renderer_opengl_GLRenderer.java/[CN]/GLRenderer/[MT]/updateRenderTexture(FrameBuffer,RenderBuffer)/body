@@ -1,0 +1,9 @@
+{
+  Texture tex=rb.getTexture();
+  Image image=tex.getImage();
+  if (image.isUpdateNeeded()) {
+    updateTexImageData(image,tex.getType(),0);
+    setupTextureParams(tex);
+  }
+  glfbo.glFramebufferTexture2DEXT(GLExt.GL_FRAMEBUFFER_EXT,convertAttachmentSlot(rb.getSlot()),convertTextureType(tex.getType(),image.getMultiSamples(),rb.getFace()),image.getId(),0);
+}

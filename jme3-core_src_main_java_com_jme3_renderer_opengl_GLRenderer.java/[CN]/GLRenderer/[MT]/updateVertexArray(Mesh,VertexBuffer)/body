@@ -1,0 +1,31 @@
+{
+  int id=mesh.getId();
+  if (id == -1) {
+    IntBuffer temp=intBuf1;
+    gl3.glGenVertexArrays(temp);
+    id=temp.get(0);
+    mesh.setId(id);
+  }
+  if (context.boundVertexArray != id) {
+    gl3.glBindVertexArray(id);
+    context.boundVertexArray=id;
+  }
+  VertexBuffer interleavedData=mesh.getBuffer(Type.InterleavedData);
+  if (interleavedData != null && interleavedData.isUpdateNeeded()) {
+    updateBufferData(interleavedData);
+  }
+  if (instanceData != null) {
+    setVertexAttrib(instanceData,null);
+  }
+  for (  VertexBuffer vb : mesh.getBufferList().getArray()) {
+    if (vb.getBufferType() == Type.InterleavedData || vb.getUsage() == Usage.CpuOnly || vb.getBufferType() == Type.Index) {
+      continue;
+    }
+    if (vb.getStride() == 0) {
+      setVertexAttrib(vb);
+    }
+ else {
+      setVertexAttrib(vb,interleavedData);
+    }
+  }
+}

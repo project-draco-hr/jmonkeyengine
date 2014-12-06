@@ -1,0 +1,26 @@
+{
+  int id=rb.getId();
+  if (id == -1) {
+    glfbo.glGenRenderbuffersEXT(intBuf1);
+    id=intBuf1.get(0);
+    rb.setId(id);
+  }
+  if (context.boundRB != id) {
+    glfbo.glBindRenderbufferEXT(GLExt.GL_RENDERBUFFER_EXT,id);
+    context.boundRB=id;
+  }
+  if (fb.getWidth() > maxRBSize || fb.getHeight() > maxRBSize) {
+    throw new RendererException("Resolution " + fb.getWidth() + ":"+ fb.getHeight()+ " is not supported.");
+  }
+  GLImageFormat glFmt=texUtil.getImageFormatWithError(rb.getFormat(),fb.isSrgb());
+  if (fb.getSamples() > 1 && caps.contains(Caps.FrameBufferMultisample)) {
+    int samples=fb.getSamples();
+    if (maxFBOSamples < samples) {
+      samples=maxFBOSamples;
+    }
+    glext.glRenderbufferStorageMultisampleEXT(GLExt.GL_RENDERBUFFER_EXT,samples,glFmt.internalFormat,fb.getWidth(),fb.getHeight());
+  }
+ else {
+    glfbo.glRenderbufferStorageEXT(GLExt.GL_RENDERBUFFER_EXT,glFmt.internalFormat,fb.getWidth(),fb.getHeight());
+  }
+}

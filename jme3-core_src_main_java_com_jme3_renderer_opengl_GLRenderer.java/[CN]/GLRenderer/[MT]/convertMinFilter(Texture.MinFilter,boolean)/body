@@ -1,0 +1,34 @@
+{
+  if (haveMips) {
+switch (filter) {
+case Trilinear:
+      return GL.GL_LINEAR_MIPMAP_LINEAR;
+case BilinearNearestMipMap:
+    return GL.GL_LINEAR_MIPMAP_NEAREST;
+case NearestLinearMipMap:
+  return GL.GL_NEAREST_MIPMAP_LINEAR;
+case NearestNearestMipMap:
+return GL.GL_NEAREST_MIPMAP_NEAREST;
+case BilinearNoMipMaps:
+return GL.GL_LINEAR;
+case NearestNoMipMaps:
+return GL.GL_NEAREST;
+default :
+throw new UnsupportedOperationException("Unknown min filter: " + filter);
+}
+}
+ else {
+switch (filter) {
+case Trilinear:
+case BilinearNearestMipMap:
+case BilinearNoMipMaps:
+return GL.GL_LINEAR;
+case NearestLinearMipMap:
+case NearestNearestMipMap:
+case NearestNoMipMaps:
+return GL.GL_NEAREST;
+default :
+throw new UnsupportedOperationException("Unknown min filter: " + filter);
+}
+}
+}

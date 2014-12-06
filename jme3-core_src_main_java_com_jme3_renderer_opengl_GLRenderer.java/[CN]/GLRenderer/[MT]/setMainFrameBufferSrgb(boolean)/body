@@ -1,0 +1,17 @@
+{
+  if (!caps.contains(Caps.Srgb)) {
+    logger.warning("sRGB framebuffer is not supported " + "by video hardware, but was requested.");
+    return;
+  }
+  setFrameBuffer(null);
+  if (enableSrgb) {
+    if (!getBoolean(GLExt.GL_FRAMEBUFFER_SRGB_CAPABLE_EXT)) {
+      logger.warning("Driver claims that default framebuffer " + "is not sRGB capable. Enabling anyway.");
+    }
+    gl.glEnable(GLExt.GL_FRAMEBUFFER_SRGB_EXT);
+    logger.log(Level.FINER,"SRGB FrameBuffer enabled (Gamma Correction)");
+  }
+ else {
+    gl.glDisable(GLExt.GL_FRAMEBUFFER_SRGB_EXT);
+  }
+}

@@ -1,0 +1,68 @@
+{
+  if (caps.contains(Caps.FrameBufferBlit)) {
+    int srcX0=0;
+    int srcY0=0;
+    int srcX1;
+    int srcY1;
+    int dstX0=0;
+    int dstY0=0;
+    int dstX1;
+    int dstY1;
+    int prevFBO=context.boundFBO;
+    if (mainFbOverride != null) {
+      if (src == null) {
+        src=mainFbOverride;
+      }
+      if (dst == null) {
+        dst=mainFbOverride;
+      }
+    }
+    if (src != null && src.isUpdateNeeded()) {
+      updateFrameBuffer(src);
+    }
+    if (dst != null && dst.isUpdateNeeded()) {
+      updateFrameBuffer(dst);
+    }
+    if (src == null) {
+      glfbo.glBindFramebufferEXT(GLExt.GL_READ_FRAMEBUFFER_EXT,0);
+      srcX0=vpX;
+      srcY0=vpY;
+      srcX1=vpX + vpW;
+      srcY1=vpY + vpH;
+    }
+ else {
+      glfbo.glBindFramebufferEXT(GLExt.GL_READ_FRAMEBUFFER_EXT,src.getId());
+      srcX1=src.getWidth();
+      srcY1=src.getHeight();
+    }
+    if (dst == null) {
+      glfbo.glBindFramebufferEXT(GLExt.GL_DRAW_FRAMEBUFFER_EXT,0);
+      dstX0=vpX;
+      dstY0=vpY;
+      dstX1=vpX + vpW;
+      dstY1=vpY + vpH;
+    }
+ else {
+      glfbo.glBindFramebufferEXT(GLExt.GL_DRAW_FRAMEBUFFER_EXT,dst.getId());
+      dstX1=dst.getWidth();
+      dstY1=dst.getHeight();
+    }
+    int mask=GL.GL_COLOR_BUFFER_BIT;
+    if (copyDepth) {
+      mask|=GL.GL_DEPTH_BUFFER_BIT;
+    }
+    glext.glBlitFramebufferEXT(srcX0,srcY0,srcX1,srcY1,dstX0,dstY0,dstX1,dstY1,mask,GL.GL_NEAREST);
+    glfbo.glBindFramebufferEXT(GLExt.GL_FRAMEBUFFER_EXT,prevFBO);
+    try {
+      checkFrameBufferError();
+    }
+ catch (    IllegalStateException ex) {
+      logger.log(Level.SEVERE,"Source FBO:\n{0}",src);
+      logger.log(Level.SEVERE,"Dest FBO:\n{0}",dst);
+      throw ex;
+    }
+  }
+ else {
+    throw new RendererException("EXT_framebuffer_blit required.");
+  }
+}

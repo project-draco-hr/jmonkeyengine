@@ -1,0 +1,89 @@
+{
+  Object result=method.invoke(obj,args);
+  String methodName=method.getName();
+  if (methodName.startsWith("gl")) {
+    System.out.print(methodName);
+    System.out.print("(");
+    if (args != null) {
+      Class<?>[] paramTypes=method.getParameterTypes();
+      for (int i=0; i < args.length; i++) {
+        if (paramTypes[i] == int.class) {
+          int val=(Integer)args[i];
+          System.out.print(translateInteger(methodName,val,i));
+        }
+ else         if (paramTypes[i] == String.class) {
+          System.out.print(translateString((String)args[i]));
+        }
+ else         if (paramTypes[i] == String[].class) {
+          String[] arr=(String[])args[i];
+          if (arr.length == 1) {
+            if (arr[0].length() > 150) {
+              System.out.print("\"" + arr[0].substring(0,150) + "...\"");
+            }
+ else {
+              System.out.print("\"" + arr[0] + "\"");
+            }
+          }
+ else {
+            System.out.print("String[" + arr.length + "]");
+          }
+        }
+ else         if (args[i] instanceof IntBuffer) {
+          IntBuffer buf=(IntBuffer)args[i];
+          if (buf.capacity() == 16) {
+            int val=buf.get(0);
+            System.out.print("out=" + translateInteger(methodName,val,i));
+          }
+ else           if (buf.capacity() == 1) {
+            System.out.print("out=" + buf.get(0));
+          }
+ else {
+            System.out.print(args[i]);
+          }
+        }
+ else         if (args[i] instanceof ByteBuffer) {
+          ByteBuffer bb=(ByteBuffer)args[i];
+          if (bb.capacity() == 250) {
+            if (bb.get(0) != 0) {
+              System.out.print("out=GL_TRUE");
+            }
+ else {
+              System.out.print("out=GL_FALSE");
+            }
+          }
+ else {
+            System.out.print(args[i]);
+          }
+        }
+ else {
+          System.out.print(args[i]);
+        }
+        if (i != args.length - 1) {
+          System.out.print(", ");
+        }
+      }
+    }
+    System.out.print(")");
+    if (method.getReturnType() != void.class) {
+      if (result instanceof String) {
+        System.out.println(" = " + translateString((String)result));
+      }
+ else       if (method.getReturnType() == int.class) {
+        int val=(Integer)result;
+        System.out.println(" = " + translateInteger(methodName,val,-1));
+      }
+ else       if (method.getReturnType() == boolean.class) {
+        boolean val=(Boolean)result;
+        if (val)         System.out.println(" = GL_TRUE");
+ else         System.out.println(" = GL_FALSE");
+      }
+ else {
+        System.out.println(" = ???");
+      }
+    }
+ else {
+      System.out.println();
+    }
+  }
+  return result;
+}

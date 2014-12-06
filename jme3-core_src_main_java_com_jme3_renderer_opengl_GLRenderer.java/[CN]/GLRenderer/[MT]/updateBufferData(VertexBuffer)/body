@@ -1,0 +1,58 @@
+{
+  int bufId=vb.getId();
+  boolean created=false;
+  if (bufId == -1) {
+    gl.glGenBuffers(intBuf1);
+    bufId=intBuf1.get(0);
+    vb.setId(bufId);
+    objManager.registerObject(vb);
+    created=true;
+  }
+  int target;
+  if (vb.getBufferType() == VertexBuffer.Type.Index) {
+    target=GL.GL_ELEMENT_ARRAY_BUFFER;
+    if (context.boundElementArrayVBO != bufId) {
+      gl.glBindBuffer(target,bufId);
+      context.boundElementArrayVBO=bufId;
+    }
+ else {
+    }
+  }
+ else {
+    target=GL.GL_ARRAY_BUFFER;
+    if (context.boundArrayVBO != bufId) {
+      gl.glBindBuffer(target,bufId);
+      context.boundArrayVBO=bufId;
+    }
+ else {
+    }
+  }
+  int usage=convertUsage(vb.getUsage());
+  vb.getData().rewind();
+switch (vb.getFormat()) {
+case Byte:
+case UnsignedByte:
+    gl.glBufferData(target,(ByteBuffer)vb.getData(),usage);
+  break;
+case Short:
+case UnsignedShort:
+gl.glBufferData(target,(ShortBuffer)vb.getData(),usage);
+break;
+case Int:
+case UnsignedInt:
+if (!caps.contains(Caps.IntegerIndexBuffer)) {
+throw new RendererException("32-bit index buffers are not supported by the video hardware");
+}
+glext.glBufferData(target,(IntBuffer)vb.getData(),usage);
+break;
+case Float:
+gl.glBufferData(target,(FloatBuffer)vb.getData(),usage);
+break;
+case Double:
+gl.glBufferData(target,(DoubleBuffer)vb.getData(),usage);
+break;
+default :
+throw new UnsupportedOperationException("Unknown buffer format.");
+}
+vb.clearUpdateNeeded();
+}

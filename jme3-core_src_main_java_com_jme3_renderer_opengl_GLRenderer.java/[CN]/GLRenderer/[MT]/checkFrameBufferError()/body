@@ -1,0 +1,25 @@
+{
+  int status=glfbo.glCheckFramebufferStatusEXT(GLFbo.GL_FRAMEBUFFER_EXT);
+switch (status) {
+case GLFbo.GL_FRAMEBUFFER_COMPLETE_EXT:
+    break;
+case GLFbo.GL_FRAMEBUFFER_UNSUPPORTED_EXT:
+  throw new IllegalStateException("Framebuffer object format is " + "unsupported by the video hardware.");
+case GLFbo.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT:
+throw new IllegalStateException("Framebuffer has erronous attachment.");
+case GLFbo.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT:
+throw new IllegalStateException("Framebuffer doesn't have any renderbuffers attached.");
+case GLFbo.GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
+throw new IllegalStateException("Framebuffer attachments must have same dimensions.");
+case GLFbo.GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT:
+throw new IllegalStateException("Framebuffer attachments must have same formats.");
+case GLFbo.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT:
+throw new IllegalStateException("Incomplete draw buffer.");
+case GLFbo.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT:
+throw new IllegalStateException("Incomplete read buffer.");
+case GLFbo.GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE_EXT:
+throw new IllegalStateException("Incomplete multisample buffer.");
+default :
+throw new IllegalStateException("Some video driver error " + "or programming error occured. " + "Framebuffer object status is invalid. ");
+}
+}

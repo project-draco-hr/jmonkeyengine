@@ -1,0 +1,19 @@
+{
+  IntMap<String> constMap=new IntMap<String>();
+  for (  Class<?> clazz : classes) {
+    for (    Field field : clazz.getFields()) {
+      if (field.getType() == int.class) {
+        try {
+          int val=field.getInt(null);
+          String name=field.getName();
+          constMap.put(val,name);
+        }
+ catch (        IllegalArgumentException ex) {
+        }
+catch (        IllegalAccessException ex) {
+        }
+      }
+    }
+  }
+  return constMap;
+}

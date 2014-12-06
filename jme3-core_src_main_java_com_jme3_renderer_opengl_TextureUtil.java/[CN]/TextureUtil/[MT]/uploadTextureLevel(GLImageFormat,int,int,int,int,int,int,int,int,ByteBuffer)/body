@@ -1,0 +1,34 @@
+{
+  if (format.compressed && data != null) {
+    if (target == GL2.GL_TEXTURE_3D) {
+      gl2.glCompressedTexImage3D(target,level,format.internalFormat,width,height,depth,0,data);
+    }
+ else     if (target == GLExt.GL_TEXTURE_2D_ARRAY_EXT) {
+      gl2.glCompressedTexSubImage3D(target,level,0,0,slice,width,height,1,format.internalFormat,data);
+    }
+ else {
+      gl2.glCompressedTexImage2D(target,level,format.internalFormat,width,height,0,data);
+    }
+  }
+ else {
+    if (target == GL2.GL_TEXTURE_3D) {
+      gl2.glTexImage3D(target,level,format.internalFormat,width,height,depth,0,format.format,format.dataType,data);
+    }
+ else     if (target == GLExt.GL_TEXTURE_2D_ARRAY_EXT) {
+      if (slice == -1) {
+        gl2.glTexImage3D(target,level,format.internalFormat,width,height,sliceCount,0,format.format,format.dataType,data);
+      }
+ else {
+        gl2.glTexSubImage3D(target,level,0,0,slice,width,height,1,format.format,format.dataType,data);
+      }
+    }
+ else {
+      if (samples > 1) {
+        glext.glTexImage2DMultisample(target,samples,format.internalFormat,width,height,true);
+      }
+ else {
+        gl.glTexImage2D(target,level,format.internalFormat,width,height,0,format.format,format.dataType,data);
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  IntMap<Void> argSlotMap=nonEnumArgMap.get(method);
+  if (argSlotMap != null && argSlotMap.containsKey(argIndex)) {
+    return Integer.toString(value);
+  }
+  String enumName=constMap.get(value);
+  if (enumName != null) {
+    return enumName;
+  }
+ else {
+    return "GL_ENUM_" + Integer.toHexString(value);
+  }
+}

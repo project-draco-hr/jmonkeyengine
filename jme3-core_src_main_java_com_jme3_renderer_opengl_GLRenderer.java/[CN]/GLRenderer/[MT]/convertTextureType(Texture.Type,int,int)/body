@@ -1,0 +1,41 @@
+{
+  if (samples > 1 && !caps.contains(Caps.TextureMultisample)) {
+    throw new RendererException("Multisample textures are not supported" + " by the video hardware.");
+  }
+  if (type == Texture.Type.ThreeDimensional && gl2 == null) {
+    throw new RendererException("3D textures are not supported" + " by the video hardware.");
+  }
+ else   if (type == Texture.Type.TwoDimensionalArray && !caps.contains(Caps.TextureArray)) {
+    throw new RendererException("Array textures are not supported" + " by the video hardware.");
+  }
+switch (type) {
+case TwoDimensional:
+    if (samples > 1) {
+      return GLExt.GL_TEXTURE_2D_MULTISAMPLE;
+    }
+ else {
+      return GL.GL_TEXTURE_2D;
+    }
+case TwoDimensionalArray:
+  if (samples > 1) {
+    return GLExt.GL_TEXTURE_2D_MULTISAMPLE_ARRAY;
+  }
+ else {
+    return GLExt.GL_TEXTURE_2D_ARRAY_EXT;
+  }
+case ThreeDimensional:
+return GL3.GL_TEXTURE_3D;
+case CubeMap:
+if (face < 0) {
+return GL.GL_TEXTURE_CUBE_MAP;
+}
+ else if (face < 6) {
+return GL.GL_TEXTURE_CUBE_MAP_POSITIVE_X + face;
+}
+ else {
+throw new UnsupportedOperationException("Invalid cube map face index: " + face);
+}
+default :
+throw new UnsupportedOperationException("Unknown texture type: " + type);
+}
+}

@@ -1,0 +1,17 @@
+{
+  if (fb.getSamples() <= 1) {
+    throw new IllegalArgumentException("Framebuffer must be multisampled");
+  }
+  if (!caps.contains(Caps.TextureMultisample)) {
+    throw new RendererException("Multisampled textures are not supported");
+  }
+  setFrameBuffer(fb);
+  Vector2f[] samplePositions=new Vector2f[fb.getSamples()];
+  FloatBuffer samplePos=BufferUtils.createFloatBuffer(2);
+  for (int i=0; i < samplePositions.length; i++) {
+    glext.glGetMultisample(GLExt.GL_SAMPLE_POSITION,i,samplePos);
+    samplePos.clear();
+    samplePositions[i]=new Vector2f(samplePos.get(0) - 0.5f,samplePos.get(1) - 0.5f);
+  }
+  return samplePositions;
+}

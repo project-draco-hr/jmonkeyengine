@@ -1,0 +1,11 @@
+{
+  GLImageFormat glFmt=getImageFormat(fmt,isSrgb);
+  if (glFmt == null && isSrgb) {
+    glFmt=getImageFormat(fmt,false);
+    logger.log(Level.WARNING,"No sRGB format available for ''{0}''. Failling back to linear.",fmt);
+  }
+  if (glFmt == null) {
+    throw new RendererException("Image format '" + fmt + "' is unsupported by the video hardware.");
+  }
+  return glFmt;
+}

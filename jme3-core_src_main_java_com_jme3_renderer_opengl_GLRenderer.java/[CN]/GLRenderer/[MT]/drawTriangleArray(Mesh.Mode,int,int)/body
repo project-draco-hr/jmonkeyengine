@@ -1,0 +1,9 @@
+{
+  boolean useInstancing=count > 1 && caps.contains(Caps.MeshInstancing);
+  if (useInstancing) {
+    glext.glDrawArraysInstancedARB(convertElementMode(mode),0,vertCount,count);
+  }
+ else {
+    gl.glDrawArrays(convertElementMode(mode),0,vertCount);
+  }
+}

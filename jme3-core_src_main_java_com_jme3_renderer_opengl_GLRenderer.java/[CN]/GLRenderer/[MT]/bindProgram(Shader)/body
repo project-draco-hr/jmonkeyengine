@@ -1,0 +1,12 @@
+{
+  int shaderId=shader.getId();
+  if (context.boundShaderProgram != shaderId) {
+    gl.glUseProgram(shaderId);
+    statistics.onShaderUse(shader,true);
+    context.boundShader=shader;
+    context.boundShaderProgram=shaderId;
+  }
+ else {
+    statistics.onShaderUse(shader,false);
+  }
+}

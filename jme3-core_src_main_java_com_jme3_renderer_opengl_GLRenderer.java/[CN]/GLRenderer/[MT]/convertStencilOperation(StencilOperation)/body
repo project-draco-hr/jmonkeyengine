@@ -1,0 +1,22 @@
+{
+switch (stencilOp) {
+case Keep:
+    return GL.GL_KEEP;
+case Zero:
+  return GL.GL_ZERO;
+case Replace:
+return GL.GL_REPLACE;
+case Increment:
+return GL.GL_INCR;
+case IncrementWrap:
+return GL.GL_INCR_WRAP;
+case Decrement:
+return GL.GL_DECR;
+case DecrementWrap:
+return GL.GL_DECR_WRAP;
+case Invert:
+return GL.GL_INVERT;
+default :
+throw new UnsupportedOperationException("Unrecognized stencil operation: " + stencilOp);
+}
+}

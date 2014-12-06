@@ -1,0 +1,42 @@
+{
+  boolean getSrgbFormat=image.getColorSpace() == ColorSpace.sRGB && linearizeSrgb;
+  Image.Format jmeFormat=image.getFormat();
+  GLImageFormat oglFormat=getImageFormatWithError(jmeFormat,getSrgbFormat);
+  ByteBuffer data;
+  int sliceCount=1;
+  if (index >= 0 && image.getData() != null && image.getData().size() > 0) {
+    data=image.getData(index);
+    sliceCount=image.getData().size();
+  }
+ else {
+    data=null;
+  }
+  int width=image.getWidth();
+  int height=image.getHeight();
+  int depth=image.getDepth();
+  if (data != null) {
+    gl.glPixelStorei(GL.GL_UNPACK_ALIGNMENT,1);
+  }
+  int[] mipSizes=image.getMipMapSizes();
+  int pos=0;
+  if (mipSizes == null) {
+    if (data != null) {
+      mipSizes=new int[]{data.capacity()};
+    }
+ else {
+      mipSizes=new int[]{width * height * jmeFormat.getBitsPerPixel() / 8};
+    }
+  }
+  int samples=image.getMultiSamples();
+  for (int i=0; i < mipSizes.length; i++) {
+    int mipWidth=Math.max(1,width >> i);
+    int mipHeight=Math.max(1,height >> i);
+    int mipDepth=Math.max(1,depth >> i);
+    if (data != null) {
+      data.position(pos);
+      data.limit(pos + mipSizes[i]);
+    }
+    uploadTextureLevel(oglFormat,target,i,index,sliceCount,mipWidth,mipHeight,mipDepth,samples,data);
+    pos+=mipSizes[i];
+  }
+}
