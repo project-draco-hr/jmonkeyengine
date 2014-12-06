@@ -13,12 +13,15 @@
           isCap=true;
         }
  else         if (!Character.isLetterOrDigit(chrCall) && chrCall != '_') {
-          if (isCap) {
-            caps.add(modifiedLine.substring(next_gl,scan_idx));
-          }
- else {
-            consts.add(modifiedLine.substring(next_gl,scan_idx));
-            modifiedLine=modifiedLine.substring(0,next_gl) + "GL." + modifiedLine.substring(next_gl);
+          if (!isCap) {
+            String constant=modifiedLine.substring(next_gl,scan_idx);
+            consts.add(constant);
+            ConstantInfo info=(ConstantInfo)constantMap.get(constant);
+            String className="GL";
+            if (!info.declaringClazz.getSimpleName().startsWith("GL")) {
+              className="EX";
+            }
+            modifiedLine=modifiedLine.substring(0,next_gl) + className + "."+ modifiedLine.substring(next_gl);
           }
           break;
         }

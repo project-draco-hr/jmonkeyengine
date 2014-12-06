@@ -11,13 +11,17 @@
   sb.append("/**\n");
   sb.append(" * Auto-generated interface\n");
   sb.append(" */\n");
-  sb.append("public interface GL {\n");
+  sb.append("public interface ").append(forExt ? "GLExt" : "GL").append(" {\n");
   sb.append("\n");
   sb.append("// -- begin constants\n");
   for (  String constant : usedConstants) {
     ConstantInfo info=constantMap.get(constant);
     if (info == null) {
       throw new IllegalStateException("Cannot find required constant: " + constant);
+    }
+    boolean isExtConst=!info.declaringClazz.getSimpleName().startsWith("GL");
+    if (forExt != isExtConst) {
+      continue;
     }
     String typeStr=info.constantType.toString();
     String valueStr=null;
@@ -38,6 +42,10 @@
       throw new IllegalStateException("Cannot find required method: " + method);
     }
     for (    MethodInfo info : infos) {
+      boolean isExtConst=!info.declaringClazz.getSimpleName().startsWith("GL");
+      if (forExt != isExtConst) {
+        continue;
+      }
       String retTypeStr=info.returnType.getSimpleName();
       sb.append("\tpublic ").append(retTypeStr).append(" ").append(method).append("(");
       for (int i=0; i < info.paramTypes.length; i++) {
@@ -50,9 +58,6 @@
     }
   }
   sb.append("// -- end methods\n");
-  sb.append("// -- begin custom methods\n");
-  sb.append("\tpublic GLCaps getGLCaps();\n");
-  sb.append("// -- end custom methods\n");
   sb.append("\n");
   sb.append("}\n");
   return sb.toString();

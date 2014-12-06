@@ -3,7 +3,6 @@
   FileReader reader=null;
   List<String> methods=new ArrayList<String>();
   List<String> consts=new ArrayList<String>();
-  List<String> caps=new ArrayList<String>();
   try {
     reader=new FileReader(path);
     BufferedReader br=new BufferedReader(reader);
@@ -13,12 +12,11 @@
         break;
       }
       line=scanMethods(line,methods);
-      line=scanConstants(line,consts,caps);
+      line=scanConstants(line,consts);
       sb.append(line).append("\n");
     }
     usedMethods.addAll(methods);
     usedConstants.addAll(consts);
-    usedCaps.addAll(caps);
     return sb.toString();
   }
  catch (  IOException ex) {
