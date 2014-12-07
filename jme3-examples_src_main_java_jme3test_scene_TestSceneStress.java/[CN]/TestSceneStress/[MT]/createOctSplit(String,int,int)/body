@@ -1,0 +1,30 @@
+{
+  if (depth == 0) {
+    Geometry geom=new Geometry(name,BOX);
+    totalGeometry++;
+    geom.setMaterial(mat);
+    if (random.nextFloat() < 0.01) {
+      RotatorControl control=new RotatorControl(random.nextFloat(),random.nextFloat(),random.nextFloat());
+      geom.addControl(control);
+      totalControls++;
+    }
+    return geom;
+  }
+  Node root=new Node(name);
+  totalNodes++;
+  int half=size / 2;
+  float quarter=half * 0.5f;
+  for (int i=0; i < 2; i++) {
+    float x=i * half - quarter;
+    for (int j=0; j < 2; j++) {
+      float y=j * half - quarter;
+      for (int k=0; k < 2; k++) {
+        float z=k * half - quarter;
+        Spatial child=createOctSplit(name + "(" + i+ ", "+ j+ ", "+ k+ ")",half,depth - 1);
+        child.setLocalTranslation(x,y,z);
+        root.attachChild(child);
+      }
+    }
+  }
+  return root;
+}

@@ -1,0 +1,10 @@
+{
+  stateManager.getState(FlyCamAppState.class).getCamera().setMoveSpeed(10);
+  mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  mat.setColor("Color",ColorRGBA.Blue);
+  Spatial oct=createOctSplit("root",500,5);
+  rootNode.attachChild(oct);
+  cam.setLocation(new Vector3f(400.8009f,370.16455f,-408.17984f));
+  cam.setRotation(new Quaternion(0.24906662f,-0.3756747f,0.105560325f,0.88639235f));
+  System.out.println("Total nodes:" + totalNodes + "  Total Geometry:"+ totalGeometry+ "  Total controls:"+ totalControls);
+}
