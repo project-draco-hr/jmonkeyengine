@@ -1,8 +1,14 @@
 {
+  boolean before=requiresUpdates();
   for (int i=0; i < controls.size(); i++) {
     if (controlType.isAssignableFrom(controls.get(i).getClass())) {
       Control control=controls.remove(i);
       control.setSpatial(null);
+      break;
     }
+  }
+  boolean after=requiresUpdates();
+  if (parent != null && before != after) {
+    parent.invalidateUpdateList();
   }
 }

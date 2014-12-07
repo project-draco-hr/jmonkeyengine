@@ -1,0 +1,14 @@
+{
+  if (updateListValid) {
+    return updateList;
+  }
+  if (updateList == null) {
+    updateList=new SafeArrayList<Spatial>(Spatial.class);
+  }
+ else {
+    updateList.clear();
+  }
+  addUpdateChildren(updateList);
+  updateListValid=true;
+  return updateList;
+}

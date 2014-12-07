@@ -1,4 +1,9 @@
 {
+  boolean before=requiresUpdates();
   controls.add(control);
   control.setSpatial(this);
+  boolean after=requiresUpdates();
+  if (parent != null && before != after) {
+    parent.invalidateUpdateList();
+  }
 }

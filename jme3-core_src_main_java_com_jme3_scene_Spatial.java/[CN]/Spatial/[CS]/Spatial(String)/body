@@ -1,4 +1,8 @@
 {
-  this();
   this.name=name;
+  localTransform=new Transform();
+  worldTransform=new Transform();
+  localLights=new LightList(this);
+  worldLights=new LightList(this);
+  refreshFlags|=RF_BOUND;
 }

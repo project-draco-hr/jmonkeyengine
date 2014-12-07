@@ -1,0 +1,10 @@
+{
+  for (  Spatial child : children.getArray()) {
+    if (child.requiresUpdates()) {
+      results.add(child);
+    }
+    if (child instanceof Node) {
+      ((Node)child).addUpdateChildren(results);
+    }
+  }
+}

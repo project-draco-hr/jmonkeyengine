@@ -1,16 +1,3 @@
 {
-  if (child == null)   throw new IllegalArgumentException("child cannot be null");
-  if (child.getParent() != this && child != this) {
-    if (child.getParent() != null) {
-      child.getParent().detachChild(child);
-    }
-    child.setParent(this);
-    children.add(child);
-    child.setTransformRefresh();
-    child.setLightListRefresh();
-    if (logger.isLoggable(Level.FINE)) {
-      logger.log(Level.FINE,"Child ({0}) attached to this node ({1})",new Object[]{child.getName(),getName()});
-    }
-  }
-  return children.size();
+  return attachChildAt(child,children.size());
 }

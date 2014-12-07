@@ -1,7 +1,12 @@
 {
+  boolean before=requiresUpdates();
   boolean result=controls.remove(control);
   if (result) {
     control.setSpatial(null);
+  }
+  boolean after=requiresUpdates();
+  if (parent != null && before != after) {
+    parent.invalidateUpdateList();
   }
   return result;
 }
