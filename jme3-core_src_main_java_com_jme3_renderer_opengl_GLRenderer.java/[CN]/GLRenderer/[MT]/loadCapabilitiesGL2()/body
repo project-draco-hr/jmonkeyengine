@@ -1,5 +1,5 @@
 {
-  int oglVer=extractVersion("",gl.glGetString(GL.GL_VERSION));
+  int oglVer=extractVersion(gl.glGetString(GL.GL_VERSION));
   if (oglVer >= 200) {
     caps.add(Caps.OpenGL20);
     if (oglVer >= 210) {
@@ -15,7 +15,7 @@
       }
     }
   }
-  int glslVer=extractVersion("",gl.glGetString(GL.GL_SHADING_LANGUAGE_VERSION));
+  int glslVer=extractVersion(gl.glGetString(GL.GL_SHADING_LANGUAGE_VERSION));
 switch (glslVer) {
 default :
     if (glslVer < 400) {
