@@ -1,5 +1,7 @@
 {
   this.dragToRotate=dragToRotate;
   this.canRotate=!dragToRotate;
-  inputManager.setCursorVisible(dragToRotate);
+  if (inputManager != null) {
+    inputManager.setCursorVisible(dragToRotate);
+  }
 }
