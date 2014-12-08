@@ -1,5 +1,5 @@
 {
-  int i=(y * width + x) * bpp;
+  int i=(y * width + x) * bpp + offset;
   buf.position(i);
   buf.get(tmp,0,bpp);
   if (alphaPos != -1) {

@@ -24,6 +24,6 @@ components[2]=Math.min((int)(color.g * codec.maxGreen + 0.5f),codec.maxGreen);
 components[3]=Math.min((int)(color.b * codec.maxBlue + 0.5f),codec.maxBlue);
 break;
 }
-codec.writeComponents(getBuffer(),x,y,width,components,temp);
+codec.writeComponents(getBuffer(),x,y,width,0,components,temp);
 image.setUpdateNeeded();
 }

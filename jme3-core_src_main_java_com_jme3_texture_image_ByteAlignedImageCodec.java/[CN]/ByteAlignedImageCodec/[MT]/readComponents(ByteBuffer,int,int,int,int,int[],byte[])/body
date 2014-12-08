@@ -1,5 +1,5 @@
 {
-  readPixelRaw(buf,(x + y * width) * bpp,bpp,tmp);
+  readPixelRaw(buf,(x + y * width + offset) * bpp + offset,bpp,tmp);
   components[0]=readComponent(tmp,ap,az);
   components[1]=readComponent(tmp,rp,rz);
   components[2]=readComponent(tmp,gp,gz);
