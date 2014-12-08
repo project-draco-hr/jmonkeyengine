@@ -1,0 +1,28 @@
+{
+  this.image=image;
+  this.slice=slice;
+  this.buffer=image.getData(slice);
+  this.codec=ImageCodec.lookup(image.getFormat());
+  if (image.hasMipmaps()) {
+    int nbMipMap=image.getMipMapSizes().length;
+    this.width=new int[nbMipMap];
+    this.height=new int[nbMipMap];
+    this.offsets=new int[nbMipMap];
+    for (int i=0; i < nbMipMap; i++) {
+      width[i]=Math.max(1,image.getWidth() >> i);
+      height[i]=Math.max(1,image.getHeight() >> i);
+      if (i > 0) {
+        offsets[i]=image.getMipMapSizes()[i - 1] + offsets[i - 1];
+      }
+    }
+  }
+ else {
+    throw new IllegalArgumentException("Image must have MipMapSizes initialized.");
+  }
+  if (codec instanceof ByteAlignedImageCodec || codec instanceof ByteOffsetImageCodec) {
+    this.temp=new byte[codec.bpp];
+  }
+ else {
+    this.temp=null;
+  }
+}
