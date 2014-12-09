@@ -7,7 +7,7 @@
     data.name=path.substring(0,path.indexOf(0));
     for (    FBXElement e : element.children) {
       if (e.id.equals("Type"))       data.type=(String)e.properties.get(0);
- else       if (e.id.equals("Filename"))       data.filename=(String)e.properties.get(0);
+ else       if (e.id.equals("FileName"))       data.filename=(String)e.properties.get(0);
  else       if (e.id.equals("RelativeFilename"))       data.relativeFilename=(String)e.properties.get(0);
  else       if (e.id.equals("Content")) {
         if (e.properties.size() > 0)         data.content=(byte[])e.properties.get(0);
