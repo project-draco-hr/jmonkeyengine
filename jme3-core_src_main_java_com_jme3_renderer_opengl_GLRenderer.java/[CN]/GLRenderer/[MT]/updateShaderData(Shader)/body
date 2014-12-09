@@ -29,11 +29,7 @@
     gl.glGetProgram(id,GL.GL_INFO_LOG_LENGTH,intBuf1);
     int length=intBuf1.get(0);
     if (length > 3) {
-      ByteBuffer logBuf=BufferUtils.createByteBuffer(length);
-      gl.glGetProgramInfoLog(id,null,logBuf);
-      byte[] logBytes=new byte[length];
-      logBuf.get(logBytes,0,length);
-      infoLog=new String(logBytes);
+      infoLog=gl.glGetProgramInfoLog(id,length);
     }
   }
   if (linkOK) {

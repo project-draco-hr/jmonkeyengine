@@ -3,6 +3,9 @@
   if (m.matches()) {
     int major=Integer.parseInt(m.group(1));
     int minor=Integer.parseInt(m.group(2));
+    if (minor >= 10 && minor % 10 == 0) {
+      minor/=10;
+    }
     return major * 100 + minor * 10;
   }
  else {
