@@ -5,12 +5,12 @@
   logger.log(Level.FINE,"Shading Language Version: {0}",GLES20.glGetString(GLES20.GL_SHADING_LANGUAGE_VERSION));
   powerVr=GLES20.glGetString(GLES20.GL_RENDERER).contains("PowerVR");
   caps.add(Caps.GLSL100);
-  int openGlVer=extractVersion("OpenGL ES ",GLES20.glGetString(GLES20.GL_VERSION));
+  int openGlVer=extractVersion(GLES20.glGetString(GLES20.GL_VERSION));
   if (openGlVer == -1) {
     glslVer=-1;
     throw new UnsupportedOperationException("OpenGL ES 2.0+ is required for OGLESShaderRenderer!");
   }
-  glslVer=extractVersion("OpenGL ES GLSL ",GLES20.glGetString(GLES20.GL_SHADING_LANGUAGE_VERSION));
+  glslVer=extractVersion(GLES20.glGetString(GLES20.GL_SHADING_LANGUAGE_VERSION));
 switch (glslVer) {
 default :
     caps.add(Caps.GLSL100);
