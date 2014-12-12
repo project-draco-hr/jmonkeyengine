@@ -19,14 +19,16 @@
     evt.setTime(event.getEventTime());
     androidInput.addEvent(evt);
   }
-  KeyInputEvent kie;
-  char unicodeChar=(char)event.getUnicodeChar();
-  int jmeKeyCode=AndroidKeyMapping.getJmeKey(keyCode);
-  boolean pressed=event.getAction() == KeyEvent.ACTION_DOWN;
-  boolean repeating=pressed && event.getRepeatCount() > 0;
-  kie=new KeyInputEvent(jmeKeyCode,unicodeChar,pressed,repeating);
-  kie.setTime(event.getEventTime());
-  androidInput.addEvent(kie);
+  if (androidInput.isSimulateKeyboard()) {
+    KeyInputEvent kie;
+    char unicodeChar=(char)event.getUnicodeChar();
+    int jmeKeyCode=AndroidKeyMapping.getJmeKey(keyCode);
+    boolean pressed=event.getAction() == KeyEvent.ACTION_DOWN;
+    boolean repeating=pressed && event.getRepeatCount() > 0;
+    kie=new KeyInputEvent(jmeKeyCode,unicodeChar,pressed,repeating);
+    kie.setTime(event.getEventTime());
+    androidInput.addEvent(kie);
+  }
   if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP) || (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) || (keyCode == KeyEvent.KEYCODE_MENU)) {
     return false;
   }
