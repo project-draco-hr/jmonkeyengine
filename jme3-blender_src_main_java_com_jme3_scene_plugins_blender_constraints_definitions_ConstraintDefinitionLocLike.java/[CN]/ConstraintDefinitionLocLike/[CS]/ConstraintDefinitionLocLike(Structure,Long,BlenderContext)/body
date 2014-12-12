@@ -10,5 +10,6 @@
     flag|=invY << 1;
     flag|=z >> 1;
     flag|=invZ >> 1;
+    trackToBeChanged=(flag & LOCLIKE_X) != 0 || (flag & LOCLIKE_Y) != 0 || (flag & LOCLIKE_Z) != 0;
   }
 }

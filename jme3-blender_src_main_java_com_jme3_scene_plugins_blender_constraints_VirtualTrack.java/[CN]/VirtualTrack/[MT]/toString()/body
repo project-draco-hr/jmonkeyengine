@@ -1,0 +1,14 @@
+{
+  StringBuilder result=new StringBuilder(2048);
+  result.append("TRACK: ").append(name).append('\n');
+  if (translations != null && translations.size() > 0) {
+    result.append("TRANSLATIONS: ").append(translations.toString()).append('\n');
+  }
+  if (rotations != null && rotations.size() > 0) {
+    result.append("ROTATIONS:    ").append(rotations.toString()).append('\n');
+  }
+  if (scales != null && scales.size() > 0) {
+    result.append("SCALES:       ").append(scales.toString()).append('\n');
+  }
+  return result.toString();
+}

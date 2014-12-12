@@ -4,9 +4,9 @@
   iterations=((Number)constraintData.getFieldValue("iterations")).intValue();
   useTail=(flag & FLAG_USE_TAIL) != 0;
   if ((flag & FLAG_POSITION) == 0) {
-    needToCompute=false;
+    trackToBeChanged=false;
   }
-  if (needToCompute) {
+  if (trackToBeChanged) {
     alteredOmas=new HashSet<Long>();
   }
 }

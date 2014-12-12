@@ -6,5 +6,6 @@
     flag&=SIZELIKE_X | LOCLIKE_OFFSET;
     flag|=y << 1;
     flag|=z >> 1;
+    trackToBeChanged=(flag & (SIZELIKE_X | SIZELIKE_Y | SIZELIKE_Z)) != 0;
   }
 }

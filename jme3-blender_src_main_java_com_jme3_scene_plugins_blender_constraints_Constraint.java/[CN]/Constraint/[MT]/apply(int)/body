@@ -1,4 +1,7 @@
 {
+  if (LOGGER.isLoggable(Level.FINEST)) {
+    LOGGER.log(Level.FINEST,"Applying constraint: {0} for frame {1}",new Object[]{name,frame});
+  }
   Transform targetTransform=targetOMA != null ? constraintHelper.getTransform(targetOMA,subtargetName,targetSpace) : null;
   constraintDefinition.bake(ownerSpace,targetSpace,targetTransform,(float)ipo.calculateValue(frame));
 }

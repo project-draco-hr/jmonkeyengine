@@ -4,6 +4,7 @@
     if (animations != null) {
       TempVars vars=TempVars.get();
       AnimChannel animChannel=animControl.createChannel();
+      List<Bone> bonesWithConstraints=this.collectBonesWithConstraints(skeleton);
       for (      Animation animation : animations) {
         float[] animationTimeBoundaries=this.computeAnimationTimeBoundaries(animation);
         int maxFrame=(int)animationTimeBoundaries[0];
@@ -16,16 +17,14 @@
             track.setTime(time,1,animControl,animChannel,vars);
             skeleton.updateWorldVectors();
           }
-          for (          Bone rootBone : skeleton.getRoots()) {
-            if (skeleton.getBoneIndex(rootBone) > 0) {
-              this.applyConstraints(rootBone,alteredOmas,frame);
-            }
+          for (          Bone rootBone : bonesWithConstraints) {
+            this.applyConstraints(rootBone,alteredOmas,frame);
           }
           for (          Long boneOMA : alteredOmas) {
             BoneContext boneContext=blenderContext.getBoneContext(boneOMA);
             int boneIndex=skeleton.getBoneIndex(boneContext.getBone());
             if (!tracks.containsKey(boneIndex)) {
-              tracks.put(boneIndex,new VirtualTrack(maxFrame,maxTime));
+              tracks.put(boneIndex,new VirtualTrack(boneContext.getBone().getName(),maxFrame,maxTime));
             }
           }
           alteredOmas.clear();

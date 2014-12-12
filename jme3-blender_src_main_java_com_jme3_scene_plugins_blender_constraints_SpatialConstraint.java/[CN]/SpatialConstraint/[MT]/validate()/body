@@ -2,5 +2,5 @@
   if (targetOMA != null) {
     return blenderContext.getLoadedFeature(targetOMA,LoadedDataType.FEATURE) != null;
   }
-  return true;
+  return constraintDefinition == null ? true : constraintDefinition.isTargetRequired();
 }
