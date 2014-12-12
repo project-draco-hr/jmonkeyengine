@@ -1,7 +1,8 @@
 {
-  this.activity=JmeAndroidSystem.getActivity();
-  sensorManager=(SensorManager)activity.getSystemService(Context.SENSOR_SERVICE);
-  vibrator=(Vibrator)activity.getSystemService(Context.VIBRATOR_SERVICE);
+  this.context=JmeAndroidSystem.getView().getContext();
+  windowManager=(WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+  sensorManager=(SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
+  vibrator=(Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
   if (vibrator == null) {
     logger.log(Level.FINE,"Vibrator Service not found.");
   }

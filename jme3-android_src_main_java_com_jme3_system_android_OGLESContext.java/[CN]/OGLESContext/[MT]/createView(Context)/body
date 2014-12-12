@@ -1,13 +1,12 @@
 {
-  Context appContext=JmeAndroidSystem.getActivity().getApplication();
   if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-    ActivityManager am=(ActivityManager)appContext.getSystemService(Context.ACTIVITY_SERVICE);
+    ActivityManager am=(ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
     ConfigurationInfo info=am.getDeviceConfigurationInfo();
     if (info.reqGlEsVersion < 0x20000) {
       throw new UnsupportedOperationException("OpenGL ES 2.0 is not supported on this device");
     }
   }
-  GLSurfaceView view=new GLSurfaceView(appContext);
+  GLSurfaceView view=new GLSurfaceView(context);
   if (androidInput == null) {
     androidInput=new AndroidInputHandler();
   }

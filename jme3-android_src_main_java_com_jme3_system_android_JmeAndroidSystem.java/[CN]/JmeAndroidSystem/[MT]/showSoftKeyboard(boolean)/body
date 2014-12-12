@@ -1,2 +1,14 @@
 {
+  view.getHandler().post(new Runnable(){
+    public void run(){
+      InputMethodManager manager=(InputMethodManager)view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+      if (show) {
+        manager.showSoftInput(view,0);
+      }
+ else {
+        manager.hideSoftInputFromWindow(view.getWindowToken(),0);
+      }
+    }
+  }
+);
 }

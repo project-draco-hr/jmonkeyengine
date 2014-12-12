@@ -2,7 +2,6 @@
   initializeLogHandler();
   logger.fine("onCreate");
   super.onCreate(savedInstanceState);
-  JmeAndroidSystem.setActivity(this);
   if (screenFullScreen) {
     requestWindowFeature(Window.FEATURE_NO_TITLE);
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -48,7 +47,8 @@
     }
   }
   ctx=(OGLESContext)app.getContext();
-  view=ctx.createView();
+  view=ctx.createView(this);
+  JmeAndroidSystem.setView(view);
   ctx.setSystemListener(this);
   layoutDisplay();
 }

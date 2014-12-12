@@ -4,7 +4,7 @@ switch (type) {
 case Internal:
     storageFolder=storageFolders.get(type);
   if (storageFolder == null) {
-    storageFolder=activity.getApplicationContext().getDir("",Context.MODE_PRIVATE);
+    storageFolder=view.getContext().getDir("",Context.MODE_PRIVATE);
     storageFolders.put(type,storageFolder);
   }
 break;
@@ -14,7 +14,7 @@ if (storageFolder == null) {
 String state=Environment.getExternalStorageState();
 logger.log(Level.FINE,"ExternalStorageState: {0}",state);
 if (state.equals(Environment.MEDIA_MOUNTED)) {
-storageFolder=activity.getApplicationContext().getExternalFilesDir(null);
+storageFolder=view.getContext().getExternalFilesDir(null);
 storageFolders.put(type,storageFolder);
 }
 }
