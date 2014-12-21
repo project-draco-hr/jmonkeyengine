@@ -1,0 +1,10 @@
+{
+  if (result == null) {
+    result=new Vector3d();
+  }
+  double resX=y * otherZ - z * otherY;
+  double resY=z * otherX - x * otherZ;
+  double resZ=x * otherY - y * otherX;
+  result.set(resX,resY,resZ);
+  return result;
+}

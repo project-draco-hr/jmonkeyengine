@@ -1,0 +1,12 @@
+{
+  try {
+    DTransform tq=(DTransform)super.clone();
+    tq.rotation=rotation.clone();
+    tq.scale=scale.clone();
+    tq.translation=translation.clone();
+    return tq;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
+}

@@ -1,0 +1,19 @@
+{
+  if (!(o instanceof Vector3d)) {
+    return false;
+  }
+  if (this == o) {
+    return true;
+  }
+  Vector3d comp=(Vector3d)o;
+  if (Double.compare(x,comp.x) != 0) {
+    return false;
+  }
+  if (Double.compare(y,comp.y) != 0) {
+    return false;
+  }
+  if (Double.compare(z,comp.z) != 0) {
+    return false;
+  }
+  return true;
+}

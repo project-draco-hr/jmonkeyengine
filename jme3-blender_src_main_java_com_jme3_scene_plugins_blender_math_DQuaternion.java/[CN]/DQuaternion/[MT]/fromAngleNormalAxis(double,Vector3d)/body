@@ -1,0 +1,14 @@
+{
+  if (axis.x == 0 && axis.y == 0 && axis.z == 0) {
+    this.loadIdentity();
+  }
+ else {
+    double halfAngle=0.5f * angle;
+    double sin=Math.sin(halfAngle);
+    w=Math.cos(halfAngle);
+    x=sin * axis.x;
+    y=sin * axis.y;
+    z=sin * axis.z;
+  }
+  return this;
+}

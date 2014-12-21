@@ -1,5 +1,7 @@
 {
+  List<Constraint> constraints=blenderContext.getConstraints(featureOMA);
   if (constraints != null && constraints.size() > 0) {
+    LOGGER.fine("Simulating spatial.");
     boolean applyStaticConstraints=true;
     if (animations != null) {
       for (      Animation animation : animations) {

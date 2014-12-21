@@ -3,11 +3,8 @@
   List<Constraint> constraints=blenderContext.getConstraints(ownerOMA);
   if (constraints != null) {
     for (    Constraint constraint : constraints) {
-      if (constraint.isImplemented() && constraint.validate()) {
+      if (constraint.isImplemented() && constraint.validate() && constraint.isTrackToBeChanged()) {
         result.add(constraint);
-      }
- else {
-        LOGGER.log(Level.WARNING,"Constraint named: ''{0}'' of type ''{1}'' is not implemented and will NOT be applied!",new Object[]{constraint.name,constraint.getConstraintTypeName()});
       }
     }
   }

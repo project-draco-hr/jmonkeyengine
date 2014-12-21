@@ -1,0 +1,26 @@
+{
+  BoneContext boneContext=blenderContext.getBoneContext(bone);
+  if (!applied.contains(boneContext.getBoneOma())) {
+    List<Constraint> constraints=this.findConstraints(boneContext.getBoneOma(),blenderContext);
+    if (constraints != null && constraints.size() > 0) {
+      for (      Constraint constraint : constraints) {
+        if (constraint.getTargetOMA() != null && constraint.getTargetOMA() > 0L) {
+          BoneContext targetBone=blenderContext.getBoneContext(constraint.getTargetOMA());
+          this.applyConstraints(targetBone.getBone(),alteredOmas,applied,frame);
+        }
+        constraint.apply(frame);
+        if (constraint.getAlteredOmas() != null) {
+          alteredOmas.addAll(constraint.getAlteredOmas());
+        }
+        alteredOmas.add(boneContext.getBoneOma());
+      }
+    }
+    applied.add(boneContext.getBoneOma());
+  }
+  List<Bone> children=bone.getChildren();
+  if (children != null && children.size() > 0) {
+    for (    Bone child : bone.getChildren()) {
+      this.applyConstraints(child,alteredOmas,applied,frame);
+    }
+  }
+}

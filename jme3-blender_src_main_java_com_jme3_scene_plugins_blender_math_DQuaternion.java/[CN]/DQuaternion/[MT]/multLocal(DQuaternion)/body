@@ -1,0 +1,10 @@
+{
+  double x1=x * q.w + y * q.z - z * q.y + w * q.x;
+  double y1=-x * q.z + y * q.w + z * q.x + w * q.y;
+  double z1=x * q.y - y * q.x + z * q.w + w * q.z;
+  w=-x * q.x - y * q.y - z * q.z + w * q.w;
+  x=x1;
+  y=y1;
+  z=z1;
+  return this;
+}
