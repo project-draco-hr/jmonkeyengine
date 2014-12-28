@@ -1,6 +1,6 @@
 {
   cpuBuf.clear();
-  renderer.readFrameBuffer(offBuffer,cpuBuf);
+  renderer.readFrameBufferWithFormat(offBuffer,cpuBuf,Image.Format.BGRA8);
 synchronized (image) {
     Screenshots.convertScreenShot(cpuBuf,image);
   }
