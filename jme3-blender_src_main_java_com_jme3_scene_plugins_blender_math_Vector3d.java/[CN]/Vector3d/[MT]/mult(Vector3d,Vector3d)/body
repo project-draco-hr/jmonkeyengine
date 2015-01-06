@@ -1,0 +1,10 @@
+{
+  if (null == vec) {
+    LOGGER.warning("Provided vector is null, null returned.");
+    return null;
+  }
+  if (store == null) {
+    store=new Vector3d();
+  }
+  return store.set(x * vec.x,y * vec.y,z * vec.z);
+}

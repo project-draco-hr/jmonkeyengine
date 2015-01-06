@@ -1,25 +1,3 @@
 {
-  if (texture == null) {
-    throw new IllegalArgumentException("texture cannot be null");
-  }
-  final Sphere sphereMesh=new Sphere(10,10,sphereRadius,false,true);
-  Geometry sky=new Geometry("Sky",sphereMesh);
-  sky.setQueueBucket(Bucket.Sky);
-  sky.setCullHint(Spatial.CullHint.Never);
-  sky.setModelBound(new BoundingSphere(Float.POSITIVE_INFINITY,Vector3f.ZERO));
-  Material skyMat=new Material(assetManager,"Common/MatDefs/Misc/Sky.j3md");
-  skyMat.setVector3("NormalScale",normalScale);
-  if (sphereMap) {
-    skyMat.setBoolean("SphereMap",sphereMap);
-  }
- else   if (!(texture instanceof TextureCubeMap)) {
-    Image img=texture.getImage();
-    texture=new TextureCubeMap();
-    texture.setImage(img);
-  }
-  texture.setMagFilter(Texture.MagFilter.Bilinear);
-  texture.setMinFilter(Texture.MinFilter.BilinearNoMipMaps);
-  skyMat.setTexture("Texture",texture);
-  sky.setMaterial(skyMat);
-  return sky;
+  return createSky(assetManager,texture,normalScale,sphereMap ? EnvMapType.SphereMap : EnvMapType.CubeMap,sphereRadius);
 }

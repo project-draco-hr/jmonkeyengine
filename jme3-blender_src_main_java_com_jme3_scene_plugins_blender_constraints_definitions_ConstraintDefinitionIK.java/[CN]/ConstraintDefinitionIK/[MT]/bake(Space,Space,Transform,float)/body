@@ -1,14 +1,14 @@
 {
-  if (influence == 0 || !needToCompute || targetTransform == null) {
+  if (influence == 0 || !trackToBeChanged || targetTransform == null) {
     return;
   }
-  Quaternion q=new Quaternion();
-  Vector3f t=targetTransform.getTranslation();
+  DQuaternion q=new DQuaternion();
+  Vector3d t=new Vector3d(targetTransform.getTranslation());
   List<BoneContext> bones=this.loadBones();
   if (bones.size() == 0) {
     return;
   }
-  float distanceFromTarget=Float.MAX_VALUE;
+  double distanceFromTarget=Double.MAX_VALUE;
   int iterations=this.iterations;
   if (bones.size() == 1) {
     iterations=1;
@@ -16,18 +16,18 @@
  else {
     BoneContext rootBone=bones.get(bones.size() - 1);
     Transform rootBoneTransform=constraintHelper.getTransform(rootBone.getArmatureObjectOMA(),rootBone.getBone().getName(),Space.CONSTRAINT_SPACE_WORLD);
-    if (t.distance(rootBoneTransform.getTranslation()) >= chainLength) {
+    if (t.distance(new Vector3d(rootBoneTransform.getTranslation())) >= chainLength) {
       Collections.reverse(bones);
       for (      BoneContext boneContext : bones) {
         Bone bone=boneContext.getBone();
-        Transform boneTransform=constraintHelper.getTransform(boneContext.getArmatureObjectOMA(),bone.getName(),Space.CONSTRAINT_SPACE_WORLD);
-        Vector3f e=boneTransform.getTranslation().add(boneTransform.getRotation().mult(Vector3f.UNIT_Y).multLocal(boneContext.getLength()));
-        Vector3f j=boneTransform.getTranslation();
-        Vector3f currentDir=e.subtractLocal(j).normalizeLocal();
-        Vector3f target=t.subtract(j).normalizeLocal();
-        float angle=currentDir.angleBetween(target);
+        DTransform boneTransform=new DTransform(constraintHelper.getTransform(boneContext.getArmatureObjectOMA(),bone.getName(),Space.CONSTRAINT_SPACE_WORLD));
+        Vector3d e=boneTransform.getTranslation().add(boneTransform.getRotation().mult(Vector3d.UNIT_Y).multLocal(boneContext.getLength()));
+        Vector3d j=boneTransform.getTranslation();
+        Vector3d currentDir=e.subtractLocal(j).normalizeLocal();
+        Vector3d target=t.subtract(j).normalizeLocal();
+        double angle=currentDir.angleBetween(target);
         if (angle != 0) {
-          Vector3f cross=currentDir.crossLocal(target).normalizeLocal();
+          Vector3d cross=currentDir.crossLocal(target).normalizeLocal();
           q.fromAngleAxis(angle,cross);
           if (boneContext.isLockX()) {
             q.set(0,q.getY(),q.getZ(),q.getW());
@@ -39,7 +39,7 @@
             q.set(q.getX(),q.getY(),0,q.getW());
           }
           boneTransform.getRotation().set(q.multLocal(boneTransform.getRotation()));
-          constraintHelper.applyTransform(boneContext.getArmatureObjectOMA(),bone.getName(),Space.CONSTRAINT_SPACE_WORLD,boneTransform);
+          constraintHelper.applyTransform(boneContext.getArmatureObjectOMA(),bone.getName(),Space.CONSTRAINT_SPACE_WORLD,boneTransform.toTransform());
         }
       }
       iterations=0;
@@ -49,15 +49,15 @@
   for (int i=0; i < iterations && distanceFromTarget > MIN_DISTANCE; ++i) {
     for (    BoneContext boneContext : bones) {
       Bone bone=boneContext.getBone();
-      Transform topBoneTransform=constraintHelper.getTransform(topBone.getArmatureObjectOMA(),topBone.getBone().getName(),Space.CONSTRAINT_SPACE_WORLD);
-      Transform boneWorldTransform=constraintHelper.getTransform(boneContext.getArmatureObjectOMA(),bone.getName(),Space.CONSTRAINT_SPACE_WORLD);
-      Vector3f e=topBoneTransform.getTranslation().addLocal(topBoneTransform.getRotation().mult(Vector3f.UNIT_Y).multLocal(topBone.getLength()));
-      Vector3f j=boneWorldTransform.getTranslation();
-      Vector3f currentDir=e.subtractLocal(j).normalizeLocal();
-      Vector3f target=t.subtract(j).normalizeLocal();
-      float angle=currentDir.angleBetween(target);
+      DTransform topBoneTransform=new DTransform(constraintHelper.getTransform(topBone.getArmatureObjectOMA(),topBone.getBone().getName(),Space.CONSTRAINT_SPACE_WORLD));
+      DTransform boneWorldTransform=new DTransform(constraintHelper.getTransform(boneContext.getArmatureObjectOMA(),bone.getName(),Space.CONSTRAINT_SPACE_WORLD));
+      Vector3d e=topBoneTransform.getTranslation().addLocal(topBoneTransform.getRotation().mult(Vector3d.UNIT_Y).multLocal(topBone.getLength()));
+      Vector3d j=boneWorldTransform.getTranslation();
+      Vector3d currentDir=e.subtractLocal(j).normalizeLocal();
+      Vector3d target=t.subtract(j).normalizeLocal();
+      double angle=currentDir.angleBetween(target);
       if (angle != 0) {
-        Vector3f cross=currentDir.crossLocal(target).normalizeLocal();
+        Vector3d cross=currentDir.crossLocal(target).normalizeLocal();
         q.fromAngleAxis(angle,cross);
         if (boneContext.isLockX()) {
           q.set(0,q.getY(),q.getZ(),q.getW());
@@ -69,11 +69,15 @@
           q.set(q.getX(),q.getY(),0,q.getW());
         }
         boneWorldTransform.getRotation().set(q.multLocal(boneWorldTransform.getRotation()));
-        constraintHelper.applyTransform(boneContext.getArmatureObjectOMA(),bone.getName(),Space.CONSTRAINT_SPACE_WORLD,boneWorldTransform);
+        constraintHelper.applyTransform(boneContext.getArmatureObjectOMA(),bone.getName(),Space.CONSTRAINT_SPACE_WORLD,boneWorldTransform.toTransform());
+      }
+ else {
+        iterations=0;
+        break;
       }
     }
-    Transform topBoneTransform=constraintHelper.getTransform(topBone.getArmatureObjectOMA(),topBone.getBone().getName(),Space.CONSTRAINT_SPACE_WORLD);
-    Vector3f e=topBoneTransform.getTranslation().addLocal(topBoneTransform.getRotation().mult(Vector3f.UNIT_Y).multLocal(topBone.getLength()));
+    DTransform topBoneTransform=new DTransform(constraintHelper.getTransform(topBone.getArmatureObjectOMA(),topBone.getBone().getName(),Space.CONSTRAINT_SPACE_WORLD));
+    Vector3d e=topBoneTransform.getTranslation().addLocal(topBoneTransform.getRotation().mult(Vector3d.UNIT_Y).multLocal(topBone.getLength()));
     distanceFromTarget=e.distance(t);
   }
 }

@@ -1,9 +1,3 @@
 {
-  TextureKey key=new TextureKey(textureName,true);
-  key.setGenerateMips(false);
-  if (!sphereMap) {
-    key.setTextureTypeHint(Texture.Type.CubeMap);
-  }
-  Texture tex=assetManager.loadTexture(key);
-  return createSky(assetManager,tex,sphereMap);
+  return createSky(assetManager,textureName,sphereMap ? EnvMapType.SphereMap : EnvMapType.CubeMap);
 }

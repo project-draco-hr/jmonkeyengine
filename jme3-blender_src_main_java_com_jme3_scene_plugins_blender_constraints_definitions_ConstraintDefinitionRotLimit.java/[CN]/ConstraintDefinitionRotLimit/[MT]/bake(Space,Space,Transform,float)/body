@@ -1,4 +1,7 @@
 {
+  if (influence == 0 || !trackToBeChanged) {
+    return;
+  }
   Transform ownerTransform=this.getOwnerTransform(ownerSpace);
   ownerTransform.getRotation().toAngles(angles);
   if ((flag & LIMIT_XROT) != 0) {

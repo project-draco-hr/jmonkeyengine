@@ -1,12 +1,14 @@
 {
+  List<Constraint> constraints=blenderContext.getConstraints(featureOMA);
   if (constraints != null && constraints.size() > 0) {
+    LOGGER.fine("Simulating spatial.");
     boolean applyStaticConstraints=true;
     if (animations != null) {
       for (      Animation animation : animations) {
         float[] animationTimeBoundaries=this.computeAnimationTimeBoundaries(animation);
         int maxFrame=(int)animationTimeBoundaries[0];
         float maxTime=animationTimeBoundaries[1];
-        VirtualTrack vTrack=new VirtualTrack(maxFrame,maxTime);
+        VirtualTrack vTrack=new VirtualTrack(spatial.getName(),maxFrame,maxTime);
         for (        Track track : animation.getTracks()) {
           for (int frame=0; frame < maxFrame; ++frame) {
             spatial.setLocalTranslation(((SpatialTrack)track).getTranslations()[frame]);

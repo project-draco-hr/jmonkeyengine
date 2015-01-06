@@ -1,4 +1,7 @@
 {
+  if (influence == 0 || !trackToBeChanged) {
+    return;
+  }
   Transform ownerTransform=this.getOwnerTransform(ownerSpace);
   Vector3f scale=ownerTransform.getScale();
   if ((flag & LIMIT_XMIN) != 0 && scale.x < limits[0][0]) {

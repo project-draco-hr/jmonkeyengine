@@ -1,0 +1,9 @@
+{
+  int result=0;
+  BoneContext boneContext=this;
+  while (boneContext.parent != null) {
+    boneContext=boneContext.parent;
+    ++result;
+  }
+  return result;
+}

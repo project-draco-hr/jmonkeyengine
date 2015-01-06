@@ -1,8 +1,5 @@
 {
-  if (this.getOwner() instanceof Bone && ((Bone)this.getOwner()).getParent() != null && blenderContext.getBoneContext(ownerOMA).is(BoneContext.CONNECTED_TO_PARENT)) {
-    return;
-  }
-  if (influence == 0 || targetTransform == null) {
+  if (influence == 0 || targetTransform == null || !this.isTrackToBeChanged()) {
     return;
   }
   Transform ownerTransform=this.getOwnerTransform(ownerSpace);

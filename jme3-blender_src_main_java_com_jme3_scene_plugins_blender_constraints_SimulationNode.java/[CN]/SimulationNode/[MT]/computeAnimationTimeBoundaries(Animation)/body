@@ -1,6 +1,6 @@
 {
   int maxFrame=Integer.MIN_VALUE;
-  float maxTime=Float.MIN_VALUE;
+  float maxTime=-Float.MAX_VALUE;
   for (  Track track : animation.getTracks()) {
     if (track instanceof BoneTrack) {
       maxFrame=Math.max(maxFrame,((BoneTrack)track).getTranslations().length);

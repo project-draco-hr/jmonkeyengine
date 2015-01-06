@@ -1,4 +1,5 @@
 {
   super(constraintData,ownerOMA,blenderContext);
   volume=(float)Math.sqrt(((Number)constraintData.getFieldValue("volume")).floatValue());
+  trackToBeChanged=volume != 1 && (flag & (FLAG_MASK_X | FLAG_MASK_Y | FLAG_MASK_Z)) != 0;
 }
