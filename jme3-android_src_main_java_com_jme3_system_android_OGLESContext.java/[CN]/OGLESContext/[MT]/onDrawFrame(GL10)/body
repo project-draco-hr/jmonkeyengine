@@ -14,18 +14,18 @@
     if (!created.get()) {
       throw new IllegalStateException("onDrawFrame without create");
     }
-    long milliStart=System.currentTimeMillis();
     listener.update();
     if (autoFlush) {
       renderer.onFrame();
     }
-    long milliDelta=System.currentTimeMillis() - milliStart;
-    if (milliDelta < minFrameDuration) {
+    long updateDelta=System.currentTimeMillis() - lastUpdateTime;
+    if (updateDelta < minFrameDuration) {
       try {
-        Thread.sleep(minFrameDuration - milliDelta);
+        Thread.sleep(minFrameDuration - updateDelta);
       }
  catch (      InterruptedException e) {
       }
     }
+    lastUpdateTime=System.currentTimeMillis();
   }
 }
