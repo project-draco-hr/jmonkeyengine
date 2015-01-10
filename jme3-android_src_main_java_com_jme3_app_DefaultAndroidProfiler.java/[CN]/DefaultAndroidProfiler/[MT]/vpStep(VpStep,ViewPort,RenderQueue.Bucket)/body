@@ -1,0 +1,28 @@
+{
+  if (androidApiLevel >= 18) {
+switch (vpStep) {
+case BeginRender:
+      android.os.Trace.beginSection("Render: " + vp.getName());
+    break;
+case RenderScene:
+  android.os.Trace.beginSection("RenderScene: " + vp.getName());
+break;
+case PostQueue:
+android.os.Trace.endSection();
+android.os.Trace.beginSection("PostQueue: " + vp.getName());
+break;
+case FlushQueue:
+android.os.Trace.endSection();
+android.os.Trace.beginSection("FlushQueue: " + vp.getName());
+break;
+case PostFrame:
+android.os.Trace.endSection();
+android.os.Trace.beginSection("PostFrame: " + vp.getName());
+break;
+case EndRender:
+android.os.Trace.endSection();
+android.os.Trace.endSection();
+break;
+}
+}
+}

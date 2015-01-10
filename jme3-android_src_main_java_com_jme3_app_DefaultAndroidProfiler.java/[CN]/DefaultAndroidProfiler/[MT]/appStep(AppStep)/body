@@ -1,0 +1,52 @@
+{
+  if (androidApiLevel >= 18) {
+switch (appStep) {
+case BeginFrame:
+      android.os.Trace.beginSection("Frame");
+    break;
+case QueuedTasks:
+  android.os.Trace.beginSection("QueuedTask");
+break;
+case ProcessInput:
+android.os.Trace.endSection();
+android.os.Trace.beginSection("ProcessInput");
+break;
+case ProcessAudio:
+android.os.Trace.endSection();
+android.os.Trace.beginSection("ProcessAudio");
+break;
+case StateManagerUpdate:
+android.os.Trace.endSection();
+android.os.Trace.beginSection("StateManagerUpdate");
+break;
+case SpatialUpdate:
+android.os.Trace.endSection();
+android.os.Trace.beginSection("SpatialUpdate");
+break;
+case StateManagerRender:
+android.os.Trace.endSection();
+android.os.Trace.beginSection("StateManagerRender");
+break;
+case RenderFrame:
+android.os.Trace.endSection();
+android.os.Trace.beginSection("RenderFrame");
+break;
+case RenderPreviewViewPorts:
+android.os.Trace.beginSection("RenderPreviewViewPorts");
+break;
+case RenderMainViewPorts:
+android.os.Trace.endSection();
+android.os.Trace.beginSection("RenderMainViewPorts");
+break;
+case RenderPostViewPorts:
+android.os.Trace.endSection();
+android.os.Trace.beginSection("RenderPostViewPorts");
+break;
+case EndFrame:
+android.os.Trace.endSection();
+android.os.Trace.endSection();
+android.os.Trace.endSection();
+break;
+}
+}
+}
