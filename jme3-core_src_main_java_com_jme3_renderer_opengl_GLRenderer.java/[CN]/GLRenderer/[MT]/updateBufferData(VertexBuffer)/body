@@ -40,9 +40,6 @@ gl.glBufferData(target,(ShortBuffer)vb.getData(),usage);
 break;
 case Int:
 case UnsignedInt:
-if (!caps.contains(Caps.IntegerIndexBuffer)) {
-throw new RendererException("32-bit index buffers are not supported by the video hardware");
-}
 glext.glBufferData(target,(IntBuffer)vb.getData(),usage);
 break;
 case Float:

@@ -10,7 +10,11 @@
  else {
     throw new RendererException("Cannot recompile shader source");
   }
+  boolean gles2=caps.contains(Caps.OpenGLES20);
   String language=source.getLanguage();
+  if (gles2 && !language.equals("GLSL100")) {
+    throw new RendererException("This shader cannot run in OpenGL ES 2. " + "Only GLSL 1.00 shaders are supported.");
+  }
   stringBuf.setLength(0);
   if (language.startsWith("GLSL")) {
     int version=Integer.parseInt(language.substring(4));
@@ -23,7 +27,14 @@
       stringBuf.append("\n");
     }
  else {
-      stringBuf.append("#version 110\n");
+      if (gles2) {
+        if (source.getType() == ShaderType.Fragment) {
+          stringBuf.append("precision mediump float;\n");
+        }
+      }
+ else {
+        stringBuf.append("#version 110\n");
+      }
     }
   }
   stringBuf.append(source.getDefines());

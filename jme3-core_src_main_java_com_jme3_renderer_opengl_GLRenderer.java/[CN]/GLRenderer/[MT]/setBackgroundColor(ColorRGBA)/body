@@ -1,3 +1,6 @@
 {
-  gl.glClearColor(color.r,color.g,color.b,color.a);
+  if (!context.clearColor.equals(color)) {
+    gl.glClearColor(color.r,color.g,color.b,color.a);
+    context.clearColor.set(color);
+  }
 }

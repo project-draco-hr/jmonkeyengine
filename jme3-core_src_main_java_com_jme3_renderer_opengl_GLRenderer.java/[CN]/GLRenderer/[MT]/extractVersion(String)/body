@@ -1,5 +1,5 @@
 {
-  Matcher m=VERSION.matcher(version);
+  Matcher m=GLVERSION_PATTERN.matcher(version);
   if (m.matches()) {
     int major=Integer.parseInt(m.group(1));
     int minor=Integer.parseInt(m.group(2));

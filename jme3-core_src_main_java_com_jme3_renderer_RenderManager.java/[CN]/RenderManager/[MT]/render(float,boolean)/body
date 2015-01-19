@@ -2,7 +2,6 @@
   if (renderer instanceof NullRenderer) {
     return;
   }
-  this.shader=renderer.getCaps().contains(Caps.GLSL100);
   uniformBindingManager.newFrame();
   if (prof != null)   prof.appStep(AppStep.RenderPreviewViewPorts);
   for (int i=0; i < preViewPorts.size(); i++) {

@@ -27,10 +27,9 @@
   Shader shader=technique.getShader();
 switch (techDef.getLightMode()) {
 case Disable:
-    r.setLighting(null);
-  break;
+    break;
 case SinglePass:
-int nbRenderedLights=0;
+  int nbRenderedLights=0;
 resetUniformsNotSetByCurrent(shader);
 while (nbRenderedLights < lights.size()) {
 nbRenderedLights=updateLightListUniforms(shader,geom,lights,rm.getSinglePassLightBatchSize(),rm,nbRenderedLights);
@@ -39,8 +38,7 @@ renderMeshFromGeometry(r,geom);
 }
 return;
 case FixedPipeline:
-r.setLighting(lights);
-break;
+throw new IllegalArgumentException("OpenGL1 is not supported");
 case MultiPass:
 resetUniformsNotSetByCurrent(shader);
 renderMultipassLighting(shader,geom,lights,rm);

@@ -18,7 +18,7 @@
     statistics.onTextureUse(img,true);
   }
   if (!img.hasMipmaps() && img.isGeneratedMipmapsRequired()) {
-    if (!caps.contains(Caps.OpenGL30)) {
+    if (!caps.contains(Caps.OpenGL30) && !caps.contains(Caps.OpenGLES20)) {
       glTexParameteri(target,GL_GENERATE_MIPMAP,GL_TRUE);
       img.setMipmapsGenerated(true);
     }
