@@ -1,5 +1,3 @@
 {
-  Surface result=new Surface(controlPoints,nurbKnots,uSegments,vSegments,basisUFunctionDegree,basisVFunctionDegree);
-  result.type=SplineType.Nurb;
-  return result;
+  return Surface.createNurbsSurface(controlPoints,nurbKnots,uSegments,vSegments,basisUFunctionDegree,basisVFunctionDegree,true);
 }

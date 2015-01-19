@@ -1,15 +1,15 @@
 {
   this.validateInputData(controlPoints,nurbKnots,uSegments,vSegments);
-  this.type=SplineType.Nurb;
+  type=SplineType.Nurb;
   this.uSegments=uSegments;
   this.vSegments=vSegments;
   this.controlPoints=controlPoints;
-  this.knots=nurbKnots;
+  knots=nurbKnots;
   this.basisUFunctionDegree=basisUFunctionDegree;
   CurveAndSurfaceMath.prepareNurbsKnots(nurbKnots[0],basisUFunctionDegree);
   if (nurbKnots[1] != null) {
     this.basisVFunctionDegree=basisVFunctionDegree;
     CurveAndSurfaceMath.prepareNurbsKnots(nurbKnots[1],basisVFunctionDegree);
   }
-  this.buildSurface();
+  this.buildSurface(smooth);
 }

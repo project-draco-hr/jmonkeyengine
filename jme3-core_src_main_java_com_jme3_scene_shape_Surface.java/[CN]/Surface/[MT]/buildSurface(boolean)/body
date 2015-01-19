@@ -1,0 +1,86 @@
+{
+  float minUKnot=this.getMinUNurbKnot();
+  float maxUKnot=this.getMaxUNurbKnot();
+  float deltaU=(maxUKnot - minUKnot) / uSegments;
+  float minVKnot=this.getMinVNurbKnot();
+  float maxVKnot=this.getMaxVNurbKnot();
+  float deltaV=(maxVKnot - minVKnot) / vSegments;
+  List<Vector3f> vertices=new ArrayList<Vector3f>((uSegments + 1) * (vSegments + 1));
+  float u=minUKnot, v=minVKnot;
+  for (int i=0; i <= vSegments; ++i) {
+    for (int j=0; j <= uSegments; ++j) {
+      Vector3f interpolationResult=new Vector3f();
+      CurveAndSurfaceMath.interpolate(u,v,controlPoints,knots,basisUFunctionDegree,basisVFunctionDegree,interpolationResult);
+      vertices.add(interpolationResult);
+      u+=deltaU;
+    }
+    u=minUKnot;
+    v+=deltaV;
+  }
+  if (!smooth) {
+    int uVerticesAmount=uSegments + 1;
+    int vVerticesAmount=vSegments + 1;
+    int newUVerticesAmount=2 + (uVerticesAmount - 2) * 2;
+    List<Vector3f> verticesWithUDuplicates=new ArrayList<Vector3f>(vVerticesAmount * newUVerticesAmount);
+    for (int i=0; i < vertices.size(); ++i) {
+      verticesWithUDuplicates.add(vertices.get(i));
+      if (i % uVerticesAmount != 0 && i % uVerticesAmount != uVerticesAmount - 1) {
+        verticesWithUDuplicates.add(vertices.get(i));
+      }
+    }
+    List<Vector3f> verticesWithVDuplicates=new ArrayList<Vector3f>(verticesWithUDuplicates.size() * vVerticesAmount);
+    verticesWithVDuplicates.addAll(verticesWithUDuplicates.subList(0,newUVerticesAmount));
+    for (int i=1; i < vSegments; ++i) {
+      verticesWithVDuplicates.addAll(verticesWithUDuplicates.subList(i * newUVerticesAmount,i * newUVerticesAmount + newUVerticesAmount));
+      verticesWithVDuplicates.addAll(verticesWithUDuplicates.subList(i * newUVerticesAmount,i * newUVerticesAmount + newUVerticesAmount));
+    }
+    verticesWithVDuplicates.addAll(verticesWithUDuplicates.subList(vSegments * newUVerticesAmount,vSegments * newUVerticesAmount + newUVerticesAmount));
+    vertices=verticesWithVDuplicates;
+  }
+  int[] indices=new int[uSegments * vSegments * 6];
+  int arrayIndex=0;
+  int uVerticesAmount=smooth ? uSegments + 1 : uSegments * 2;
+  if (smooth) {
+    for (int i=0; i < vSegments; ++i) {
+      for (int j=0; j < uSegments; ++j) {
+        indices[arrayIndex++]=j + i * uVerticesAmount + uVerticesAmount;
+        indices[arrayIndex++]=j + i * uVerticesAmount + 1;
+        indices[arrayIndex++]=j + i * uVerticesAmount;
+        indices[arrayIndex++]=j + i * uVerticesAmount + uVerticesAmount;
+        indices[arrayIndex++]=j + i * uVerticesAmount + uVerticesAmount + 1;
+        indices[arrayIndex++]=j + i * uVerticesAmount + 1;
+      }
+    }
+  }
+ else {
+    for (int i=0; i < vSegments; ++i) {
+      for (int j=0; j < uSegments; ++j) {
+        indices[arrayIndex++]=i * 2 * uVerticesAmount + uVerticesAmount + j * 2;
+        indices[arrayIndex++]=i * 2 * uVerticesAmount + j * 2 + 1;
+        indices[arrayIndex++]=i * 2 * uVerticesAmount + j * 2;
+        indices[arrayIndex++]=i * 2 * uVerticesAmount + uVerticesAmount + j * 2;
+        indices[arrayIndex++]=i * 2 * uVerticesAmount + uVerticesAmount + j * 2 + 1;
+        indices[arrayIndex++]=i * 2 * uVerticesAmount + j * 2 + 1;
+      }
+    }
+  }
+  Vector3f[] verticesArray=vertices.toArray(new Vector3f[vertices.size()]);
+  Map<Vector3f,Vector3f> normalMap=new HashMap<Vector3f,Vector3f>(verticesArray.length);
+  for (int i=0; i < indices.length; i+=3) {
+    Vector3f n=FastMath.computeNormal(verticesArray[indices[i]],verticesArray[indices[i + 1]],verticesArray[indices[i + 2]]);
+    this.addNormal(n,normalMap,smooth,verticesArray[indices[i]],verticesArray[indices[i + 1]],verticesArray[indices[i + 2]]);
+  }
+  float[] normals=new float[verticesArray.length * 3];
+  arrayIndex=0;
+  for (int i=0; i < verticesArray.length; ++i) {
+    Vector3f n=normalMap.get(verticesArray[i]);
+    normals[arrayIndex++]=n.x;
+    normals[arrayIndex++]=n.y;
+    normals[arrayIndex++]=n.z;
+  }
+  this.setBuffer(VertexBuffer.Type.Position,3,BufferUtils.createFloatBuffer(verticesArray));
+  this.setBuffer(VertexBuffer.Type.Index,3,indices);
+  this.setBuffer(VertexBuffer.Type.Normal,3,normals);
+  this.updateBound();
+  this.updateCounts();
+}
