@@ -2,16 +2,32 @@
   if (!init) {
     init();
   }
-  currentGeom.setMaterial(m);
-  try {
-    if (currentGeom.getMaterial() != null) {
-      PreviewRequest request=new PreviewRequest(this,currentGeom,label.getWidth(),label.getHeight());
-      request.getCameraRequest().setLocation(new Vector3f(0,0,7));
-      request.getCameraRequest().setLookAt(new Vector3f(0,0,0),Vector3f.UNIT_Y);
-      SceneApplication.getApplication().createPreview(request);
+  final DesktopAssetManager assetManager=(DesktopAssetManager)SceneApplication.getApplication().getAssetManager();
+  SceneApplication.getApplication().enqueue(new Callable<Material>(){
+    public Material call() throws Exception {
+      final Material mat=reloadMaterial(m,assetManager);
+      if (mat != null) {
+        java.awt.EventQueue.invokeLater(new Runnable(){
+          public void run(){
+            currentMaterial=mat;
+            currentGeom.setMaterial(mat);
+            try {
+              if (currentGeom.getMaterial() != null) {
+                PreviewRequest request=new PreviewRequest(MaterialPreviewRenderer.this,currentGeom,label.getWidth(),label.getHeight());
+                request.getCameraRequest().setLocation(new Vector3f(0,0,7));
+                request.getCameraRequest().setLookAt(new Vector3f(0,0,0),Vector3f.UNIT_Y);
+                SceneApplication.getApplication().createPreview(request);
+              }
+            }
+ catch (            Exception e) {
+              Logger.getLogger(MaterialPreviewRenderer.class.getName()).log(Level.SEVERE,"Error rendering material" + e.getMessage());
+            }
+          }
+        }
+);
+      }
+      return mat;
     }
   }
- catch (  Exception e) {
-    Logger.getLogger(MaterialPreviewRenderer.class.getName()).log(Level.SEVERE,"Error rendering material" + e.getMessage());
-  }
+);
 }

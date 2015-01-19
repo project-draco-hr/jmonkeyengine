@@ -2,15 +2,10 @@
   if (!init) {
     init();
   }
-  try {
-    MaterialKey key=new MaterialKey(assetManager.getRelativeAssetPath(materialFileName));
-    assetManager.deleteFromCache(key);
-    Material mat=(Material)assetManager.loadAsset(key);
-    if (mat != null) {
-      currentMaterial=mat;
-      showMaterial(mat);
-    }
-  }
- catch (  Exception e) {
+  MaterialKey key=new MaterialKey(assetManager.getRelativeAssetPath(materialFileName));
+  assetManager.deleteFromCache(key);
+  Material mat=(Material)assetManager.loadAsset(key);
+  if (mat != null) {
+    showMaterial(mat);
   }
 }
