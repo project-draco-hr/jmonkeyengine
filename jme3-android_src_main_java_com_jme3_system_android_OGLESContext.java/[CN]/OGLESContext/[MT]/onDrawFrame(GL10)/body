@@ -16,7 +16,7 @@
     }
     listener.update();
     if (autoFlush) {
-      renderer.onFrame();
+      renderer.postFrame();
     }
     long updateDelta=System.currentTimeMillis() - lastUpdateTime;
     if (updateDelta < minFrameDuration) {

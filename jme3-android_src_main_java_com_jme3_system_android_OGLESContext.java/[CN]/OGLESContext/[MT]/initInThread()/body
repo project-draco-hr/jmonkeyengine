@@ -9,7 +9,8 @@
   }
 );
   timer=new NanoTimer();
-  renderer=new OGLESShaderRenderer();
+  Object gl=new AndroidGL();
+  renderer=new GLRenderer((GL)gl,(GLExt)gl);
   renderer.initialize();
   JmeSystem.setSoftTextDialogInput(this);
   needClose.set(false);
