@@ -1,0 +1,18 @@
+{
+  assetManager.clearCache();
+  Material dummy=new Material(mat.getMaterialDef());
+  for (  MatParam matParam : mat.getParams()) {
+    dummy.setParam(matParam.getName(),matParam.getVarType(),matParam.getValue());
+  }
+  dummy.getAdditionalRenderState().set(mat.getAdditionalRenderState());
+  Geometry dummyGeom=new Geometry("dummyGeom",new Box(1f,1f,1f));
+  dummyGeom.setMaterial(dummy);
+  try {
+    SceneApplication.getApplication().getRenderManager().preloadScene(dummyGeom);
+  }
+ catch (  RendererException e) {
+    Logger.getLogger(MaterialDebugAppState.class.getName()).log(Level.SEVERE,e.getMessage());
+    return null;
+  }
+  return dummy;
+}
