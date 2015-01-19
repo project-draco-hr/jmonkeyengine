@@ -1,0 +1,6 @@
+{
+  int err=gl.glGetError();
+  if (err != 0) {
+    throw new RendererException("An OpenGL error occurred - " + decodeError(err));
+  }
+}

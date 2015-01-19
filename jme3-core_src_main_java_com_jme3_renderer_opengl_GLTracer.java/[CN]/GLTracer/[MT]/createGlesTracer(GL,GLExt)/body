@@ -1,0 +1,4 @@
+{
+  IntMap<String> constMap=generateConstantMap(GL.class,GLExt.class);
+  return (GL)Proxy.newProxyInstance(glext.getClass().getClassLoader(),new Class<?>[]{GL.class,GLExt.class},new GLTracer(gl,glext,constMap));
+}
