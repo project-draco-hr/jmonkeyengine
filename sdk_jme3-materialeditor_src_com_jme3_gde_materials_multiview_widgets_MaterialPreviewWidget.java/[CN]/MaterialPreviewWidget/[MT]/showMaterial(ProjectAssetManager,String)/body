@@ -2,15 +2,5 @@
   if (!init) {
     initWidget();
   }
-  try {
-    MaterialKey key=new MaterialKey(assetManager.getRelativeAssetPath(materialFileName));
-    assetManager.deleteFromCache(key);
-    Material mat=(Material)assetManager.loadAsset(key);
-    if (mat != null) {
-      currentMaterial=mat;
-      doShowMaterial(mat);
-    }
-  }
- catch (  Exception e) {
-  }
+  matRenderer.showMaterial(assetManager,materialFileName);
 }
