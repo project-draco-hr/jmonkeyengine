@@ -1,7 +1,0 @@
-{
-  int idx=i - baseWireHandle;
-  if (idx < 0 || idx >= seq)   throw new CorruptException("Invalid reference: " + i);
-  Object o=refs.get(idx);
-  if (o == null)   throw new CorruptException("Invalid reference: " + i);
-  return o;
-}

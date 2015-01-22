@@ -1,8 +1,0 @@
-{
-  File userdir=new File(System.getProperty("netbeans.user",""));
-  File netBeansDir=InstalledFileLocator.getDefault().locate("modules",null,false).getParentFile().getParentFile();
-  File importFile=new File(netBeansDir,"etc/jmonkeyplatform.import");
-  LOGGER.fine("Import file: " + importFile);
-  LOGGER.info("Importing from " + source + " to "+ userdir);
-  CopyFiles.copyDeep(source,userdir,importFile);
-}
