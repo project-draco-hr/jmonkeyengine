@@ -10,27 +10,20 @@
         overlayView.setClearFlags(false,true,false);
         guiViewPort.setClearFlags(false,false,false);
       }
-      getProgressHandle().progress("Setup Camera Controller",2);
       camController=new SceneCameraController(cam,inputManager);
-      getProgressHandle().progress("Setup Preview Scene",3);
       previewProcessor=new ScenePreviewProcessor();
       previewProcessor.setupPreviewView();
-      getProgressHandle().progress("Prepare Camera",4);
       camLight=new PointLight();
       camLight.setColor(ColorRGBA.White);
-      getProgressHandle().progress("Prepare Stats View",5);
       guiNode.setQueueBucket(Bucket.Gui);
       guiNode.setCullHint(CullHint.Never);
       loadFPSText();
       loadStatsView();
-      getProgressHandle().progress("Attach Scene to Viewport",6);
       viewPort.attachScene(rootNode);
       viewPort.attachScene(toolsNode);
       guiViewPort.attachScene(guiNode);
       cam.setLocation(new Vector3f(0,0,10));
-      getProgressHandle().progress("Create",6);
       wireProcessor=new WireProcessor(assetManager);
-      getProgressHandle().finish();
       inputManager.addMapping("MouseAxisX",new MouseAxisTrigger(MouseInput.AXIS_X,false));
       inputManager.addMapping("MouseAxisY",new MouseAxisTrigger(MouseInput.AXIS_Y,false));
       inputManager.addMapping("MouseAxisX-",new MouseAxisTrigger(MouseInput.AXIS_X,true));
@@ -50,7 +43,6 @@
       }
     }
  finally {
-      getProgressHandle().finish();
     }
   }
 }

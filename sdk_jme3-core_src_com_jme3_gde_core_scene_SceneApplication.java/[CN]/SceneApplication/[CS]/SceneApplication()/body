@@ -1,6 +1,5 @@
 {
   Logger.getLogger("com.jme3").addHandler(logHandler);
-  progressHandle.start(7);
   useCanvas="true".equals(NbPreferences.forModule(Installer.class).get("use_lwjgl_canvas","false"));
   try {
     AppSettings newSetting=new AppSettings(true);
@@ -17,7 +16,6 @@
     fakeApp=new FakeApplication(rootNode,guiNode,assetManager,cam);
     nodeSync=new NodeSyncAppState();
     stateManager.attach(nodeSync);
-    progressHandle.progress("initialize Base Application",1);
     if (!useCanvas) {
       start();
     }
@@ -29,6 +27,5 @@ catch (  Error e) {
     showStartupErrorMessage(e);
   }
  finally {
-    getProgressHandle().finish();
   }
 }
