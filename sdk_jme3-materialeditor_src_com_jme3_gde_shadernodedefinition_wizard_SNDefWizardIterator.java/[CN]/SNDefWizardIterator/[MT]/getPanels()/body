@@ -1,0 +1,28 @@
+{
+  if (panels == null) {
+    panels=new ArrayList<WizardDescriptor.Panel<WizardDescriptor>>();
+    Project p=Templates.getProject(wizard);
+    SourceGroup[] groups=ProjectUtils.getSources(p).getSourceGroups(Sources.TYPE_GENERIC);
+    WizardDescriptor.Panel<WizardDescriptor> advNewFilePanel=Templates.buildSimpleTargetChooser(p,groups).create();
+    panels.add(advNewFilePanel);
+    panels.add(new SNDefWizardPanel1());
+    panels.add(new SNDefWizardPanel2("Inputs"));
+    panels.add(new SNDefWizardPanel2("Outputs"));
+    String[] steps=createSteps();
+    for (int i=0; i < panels.size(); i++) {
+      Component c=panels.get(i).getComponent();
+      if (steps[i] == null) {
+        steps[i]=c.getName();
+      }
+      if (c instanceof JComponent) {
+        JComponent jc=(JComponent)c;
+        jc.putClientProperty(WizardDescriptor.PROP_CONTENT_SELECTED_INDEX,i);
+        jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DATA,steps);
+        jc.putClientProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE,true);
+        jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED,true);
+        jc.putClientProperty(WizardDescriptor.PROP_CONTENT_NUMBERED,true);
+      }
+    }
+  }
+  return panels;
+}

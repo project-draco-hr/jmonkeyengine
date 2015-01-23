@@ -1,0 +1,35 @@
+{
+  FileObject createdFile=null;
+  SNDefVisualPanel1 panel1=((SNDefWizardPanel1)panels.get(1)).getComponent();
+  SNDefVisualPanel2 panel2=((SNDefWizardPanel2)panels.get(2)).getComponent();
+  SNDefVisualPanel2 panel3=((SNDefWizardPanel2)panels.get(3)).getComponent();
+  Map args=new HashMap();
+  args.put("defName",panel1.getDefName());
+  args.put("defType",panel1.getDefType());
+  args.put("description",panel1.getDefDescription());
+  args.put("inputParams",panel2.getData());
+  args.put("outputParams",panel3.getData());
+  FileObject tplSnd=Templates.getTemplate(wizard);
+  FileObject tplShd=tplSnd.getParent().getChildren()[1];
+  DataObject templateSnd=DataObject.find(tplSnd);
+  DataObject templateShd=DataObject.find(tplShd);
+  FileObject dir=Templates.getTargetFolder(wizard);
+  DataFolder df=DataFolder.findFolder(dir);
+  ProjectAssetManager assetManager=new ProjectAssetManager(Templates.getProject(wizard),"assets");
+  String targetName=Templates.getTargetName(wizard);
+  String shaderName=targetName;
+  if (panel1.getDefType().equals("Fragment")) {
+    shaderName+=".frag";
+  }
+ else   if (panel1.getDefType().equals("Vertex")) {
+    shaderName+=".vert";
+  }
+ else {
+    shaderName+=".frag";
+  }
+  args.put("shaderSnippet",assetManager.getRelativeAssetPath(dir.getPath() + "/" + shaderName));
+  DataObject sobj=templateShd.createFromTemplate(df,shaderName,args);
+  DataObject dobj=templateSnd.createFromTemplate(df,targetName,args);
+  createdFile=dobj.getPrimaryFile();
+  return Collections.singleton(createdFile);
+}

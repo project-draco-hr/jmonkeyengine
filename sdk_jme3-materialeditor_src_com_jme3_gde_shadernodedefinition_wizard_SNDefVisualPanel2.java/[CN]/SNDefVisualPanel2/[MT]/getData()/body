@@ -1,0 +1,10 @@
+{
+  DefaultTableModel model=(DefaultTableModel)varTable.getModel();
+  String[][] data=new String[model.getRowCount()][3];
+  for (int i=0; i < model.getRowCount(); i++) {
+    data[i][0]=(String)model.getValueAt(i,0);
+    data[i][1]=(String)model.getValueAt(i,1);
+    data[i][2]=(String)model.getValueAt(i,2);
+  }
+  return data;
+}
