@@ -1,0 +1,26 @@
+{
+  logger.log(Level.INFO,"Attempt to download JRE from {0}",newUrl);
+  try {
+    HttpURLConnection connection=(HttpURLConnection)new URL(newUrl).openConnection();
+    connection.setRequestProperty("Cookie","gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie");
+    connection.setAllowUserInteraction(false);
+    connection.setInstanceFollowRedirects(true);
+    connection.connect();
+    int status=connection.getResponseCode();
+    if (status == HttpURLConnection.HTTP_OK) {
+      downloadFile(connection,dest);
+    }
+ else     if (status == HttpURLConnection.HTTP_MOVED_TEMP || status == HttpURLConnection.HTTP_MOVED_PERM || status == HttpURLConnection.HTTP_SEE_OTHER) {
+      handleRedirect(connection,dest);
+    }
+ else {
+      logger.log(Level.WARNING,"Download of JRE from {0} failed",newUrl);
+    }
+  }
+ catch (  MalformedURLException ex) {
+    logger.log(Level.SEVERE,"{0}",ex);
+  }
+catch (  IOException ex) {
+    logger.log(Level.SEVERE,"{0}",ex);
+  }
+}

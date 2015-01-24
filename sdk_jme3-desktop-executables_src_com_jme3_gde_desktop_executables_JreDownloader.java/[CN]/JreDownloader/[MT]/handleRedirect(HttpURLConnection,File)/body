@@ -1,0 +1,6 @@
+{
+  String newUrl=conn.getHeaderField("Location");
+  logger.log(Level.INFO,"JRE download redirected to {0}",newUrl);
+  conn.disconnect();
+  attemptDownload(newUrl,dest);
+}

@@ -1,0 +1,50 @@
+{
+  logger.log(Level.INFO,"Downloading JRE from {0}",connection.getURL());
+  Callable task=new Callable(){
+    public Object call() throws Exception {
+      long length=connection.getContentLengthLong();
+      ProgressHandle progress=ProgressHandleFactory.createHandle("Downloading JRE to " + dest.getName());
+      progress.start((int)length);
+      BufferedInputStream in=null;
+      BufferedOutputStream out=null;
+      try {
+        in=new BufferedInputStream(connection.getInputStream());
+        out=new BufferedOutputStream(new FileOutputStream(dest));
+        int input=in.read();
+        int i=0;
+        while (input != -1) {
+          out.write(input);
+          input=in.read();
+          progress.progress(i);
+          i++;
+        }
+      }
+ catch (      IOException ex) {
+        logger.log(Level.SEVERE,"{0}",ex);
+      }
+ finally {
+        try {
+          if (in != null) {
+            in.close();
+          }
+        }
+ catch (        IOException ex) {
+          logger.log(Level.SEVERE,"{0}",ex);
+        }
+        try {
+          if (out != null) {
+            out.close();
+          }
+        }
+ catch (        IOException ex) {
+          logger.log(Level.SEVERE,"{0}",ex);
+        }
+        connection.disconnect();
+        progress.finish();
+      }
+      return null;
+    }
+  }
+;
+  processor.submit(task);
+}

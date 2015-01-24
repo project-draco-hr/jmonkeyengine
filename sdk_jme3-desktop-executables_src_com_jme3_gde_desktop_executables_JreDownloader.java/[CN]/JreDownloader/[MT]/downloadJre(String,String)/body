@@ -1,0 +1,8 @@
+{
+  String property=System.getProperty("java.runtime.version");
+  Matcher m=Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)_(\\d+)\\-b(\\d+)").matcher(property);
+  if (m.matches()) {
+    String urlString="http://download.oracle.com/otn-pub/java/jdk/" + m.group(2) + "u"+ m.group(4)+ "-b"+ m.group(5)+ "/jre-"+ m.group(2)+ "u"+ m.group(4)+ "-"+ platform+ ".tar.gz";
+    attemptDownload(urlString,new File(location));
+  }
+}

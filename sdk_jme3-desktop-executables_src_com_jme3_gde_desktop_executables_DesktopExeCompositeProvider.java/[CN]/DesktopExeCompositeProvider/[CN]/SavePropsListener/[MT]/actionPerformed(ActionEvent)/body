@@ -1,24 +1,13 @@
 {
-  if ("true".equals(properties.getProperty("launch4j.exe.enabled"))) {
-    launch4j.loadTargets("nbres:/com/jme3/gde/desktop/executables/launch4j-targets.xml");
-    launch4j.checkExtension(project);
+  if ("true".equals(properties.getProperty("windows-x86.app.enabled")) || "true".equals(properties.getProperty("windows-x64.app.enabled")) || "true".equals(properties.getProperty("linux-x86.app.enabled"))|| "true".equals(properties.getProperty("linux-x64.app.enabled"))|| "true".equals(properties.getProperty("macosx-x64.app.enabled"))) {
+    desktopDeployment.loadTargets("nbres:/com/jme3/gde/desktop/executables/desktop-deployment-targets.xml");
+    desktopDeployment.checkExtension(project);
+    if ("true".equals(properties.getProperty("bundle.jre.enabled"))) {
+      checkJreDownloads();
+    }
   }
  else {
-    launch4j.removeExtension(project);
-  }
-  if ("true".equals(properties.getProperty("linux.launcher.enabled"))) {
-    linux.loadTargets("nbres:/com/jme3/gde/desktop/executables/linux-targets.xml");
-    linux.checkExtension(project);
-  }
- else {
-    linux.removeExtension(project);
-  }
-  if ("true".equals(properties.getProperty("mac.app.enabled"))) {
-    macapp.loadTargets("nbres:/com/jme3/gde/desktop/executables/macapp-targets.xml");
-    macapp.checkExtension(project);
-  }
- else {
-    macapp.removeExtension(project);
+    desktopDeployment.removeExtension(project);
   }
   try {
     properties.store();

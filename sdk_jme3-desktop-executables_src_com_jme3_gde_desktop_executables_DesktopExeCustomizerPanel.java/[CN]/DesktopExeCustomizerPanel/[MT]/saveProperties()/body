@@ -1,20 +1,38 @@
 {
   if (jCheckBox1.isSelected()) {
-    properties.setProperty("launch4j.exe.enabled","true");
+    properties.setProperty("windows-x86.app.enabled","true");
   }
  else {
-    properties.setProperty("launch4j.exe.enabled","");
+    properties.setProperty("windows-x86.app.enabled","");
   }
   if (jCheckBox2.isSelected()) {
-    properties.setProperty("mac.app.enabled","true");
+    properties.setProperty("windows-x64.app.enabled","true");
   }
  else {
-    properties.setProperty("mac.app.enabled","");
+    properties.setProperty("windows-x64.app.enabled","");
   }
   if (jCheckBox3.isSelected()) {
-    properties.setProperty("linux.launcher.enabled","true");
+    properties.setProperty("linux-x86.app.enabled","true");
   }
  else {
-    properties.setProperty("linux.launcher.enabled","");
+    properties.setProperty("linux-x86.app.enabled","");
+  }
+  if (jCheckBox4.isSelected()) {
+    properties.setProperty("linux-x64.app.enabled","true");
+  }
+ else {
+    properties.setProperty("linux-x64.app.enabled","");
+  }
+  if (jCheckBox5.isSelected()) {
+    properties.setProperty("macosx-x64.app.enabled","true");
+  }
+ else {
+    properties.setProperty("macosx-x64.app.enabled","");
+  }
+  if (jCheckBox6.isSelected()) {
+    properties.setProperty("bundle.jre.enabled","true");
+  }
+ else {
+    properties.setProperty("bundle.jre.enabled","");
   }
 }
