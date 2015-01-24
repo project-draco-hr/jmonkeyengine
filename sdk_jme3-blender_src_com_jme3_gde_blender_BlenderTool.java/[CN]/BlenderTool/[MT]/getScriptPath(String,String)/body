@@ -1,5 +1,5 @@
 {
-  String ret=System.getProperty("netbeans.user") + "/" + jmeScriptsFolderName+ "/"+ prefix+ "_"+ scriptName+ ".py";
+  String ret=Places.getUserDirectory().getAbsolutePath() + "/" + jmeScriptsFolderName+ "/"+ prefix+ "_"+ scriptName+ ".py";
   ret=ret.replace("/",File.separator);
   return ret;
 }

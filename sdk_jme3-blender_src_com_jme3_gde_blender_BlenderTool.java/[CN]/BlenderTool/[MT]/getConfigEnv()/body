@@ -1,5 +1,5 @@
 {
-  String ret=System.getProperty("netbeans.user") + "/" + configFolderName;
+  String ret=Places.getUserDirectory().getAbsolutePath() + "/" + configFolderName;
   ret=ret.replace("/",File.separator);
   return ret;
 }

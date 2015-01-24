@@ -1,5 +1,5 @@
 {
-  String jmpDir=System.getProperty("netbeans.user");
+  String jmpDir=Places.getUserDirectory().getAbsolutePath();
   FileObject fileObject=FileUtil.toFileObject(new File(jmpDir));
   if (fileObject != null) {
     FileObject configFileObject=fileObject.getFileObject(configFolderName);

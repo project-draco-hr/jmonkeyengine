@@ -1,5 +1,5 @@
 {
-  String ret=System.getProperty("netbeans.user") + "/" + userScriptsFolderName;
+  String ret=Places.getUserDirectory().getAbsolutePath() + "/" + userScriptsFolderName;
   ret=ret.replace("/",File.separator);
   return ret;
 }
