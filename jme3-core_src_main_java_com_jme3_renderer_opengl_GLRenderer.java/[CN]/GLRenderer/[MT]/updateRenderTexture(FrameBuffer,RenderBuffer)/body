@@ -2,6 +2,7 @@
   Texture tex=rb.getTexture();
   Image image=tex.getImage();
   if (image.isUpdateNeeded()) {
+    checkNonPowerOfTwo(tex);
     updateTexImageData(image,tex.getType(),0);
     setupTextureParams(tex);
   }

@@ -1,0 +1,29 @@
+{
+  if (!tex.getImage().isNPOT()) {
+    return;
+  }
+  if (caps.contains(Caps.NonPowerOfTwoTextures)) {
+    return;
+  }
+  if (!caps.contains(Caps.PartialNonPowerOfTwoTextures)) {
+    throw new RendererException("non-power-of-2 textures are not " + "supported by the video hardware");
+  }
+  if (tex.getMinFilter().usesMipMapLevels()) {
+    throw new RendererException("non-power-of-2 textures with mip-maps " + "are not supported by the video hardware");
+  }
+switch (tex.getType()) {
+case CubeMap:
+case ThreeDimensional:
+    if (tex.getWrap(WrapAxis.R) != Texture.WrapMode.EdgeClamp) {
+      throw new RendererException("repeating non-power-of-2 textures " + "are not supported by the video hardware");
+    }
+case TwoDimensionalArray:
+case TwoDimensional:
+  if (tex.getWrap(WrapAxis.S) != Texture.WrapMode.EdgeClamp || tex.getWrap(WrapAxis.T) != Texture.WrapMode.EdgeClamp) {
+    throw new RendererException("repeating non-power-of-2 textures " + "are not supported by the video hardware");
+  }
+break;
+default :
+throw new UnsupportedOperationException("unrecongized texture type");
+}
+}

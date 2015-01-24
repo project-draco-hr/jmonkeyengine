@@ -74,6 +74,9 @@
  else {
     logger.log(Level.WARNING,"Your graphics card does not " + "support non-power-of-2 textures. " + "Some features might not work.");
   }
+  if (caps.contains(Caps.OpenGLES20)) {
+    caps.add(Caps.PartialNonPowerOfTwoTextures);
+  }
   if (hasExtension("GL_EXT_texture_array") || caps.contains(Caps.OpenGL30)) {
     caps.add(Caps.TextureArray);
   }

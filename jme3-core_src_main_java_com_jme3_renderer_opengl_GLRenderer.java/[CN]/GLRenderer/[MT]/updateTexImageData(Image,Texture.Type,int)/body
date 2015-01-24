@@ -40,9 +40,6 @@
       img.setMultiSamples(Math.min(maxColorTexSamples,imageSamples));
     }
   }
-  if (!caps.contains(Caps.NonPowerOfTwoTextures) && img.isNPOT()) {
-    throw new RendererException("non-power-of-2 framebuffer textures are not supported by the video hardware");
-  }
   if (!caps.contains(Caps.TextureMultisample)) {
     if (img.getMultiSamples() > 1) {
       throw new RendererException("Multisample textures are not supported by the video hardware");
