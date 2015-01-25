@@ -1,7 +1,7 @@
 {
   if (currentPreviewRequest != null) {
     cpuBuf.clear();
-    SceneApplication.getApplication().getRenderer().readFrameBuffer(offBuffer,cpuBuf);
+    SceneApplication.getApplication().getRenderer().readFrameBufferWithFormat(offBuffer,cpuBuf,Format.BGRA8);
     cpuBuf.clear();
     cpuBuf.get(cpuArray);
     cpuBuf.clear();

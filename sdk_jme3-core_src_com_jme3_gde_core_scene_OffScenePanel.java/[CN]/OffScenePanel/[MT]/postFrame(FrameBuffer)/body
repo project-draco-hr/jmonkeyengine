@@ -1,5 +1,5 @@
 {
-  SceneApplication.getApplication().getRenderer().readFrameBuffer(offBuffer,cpuBuf);
+  SceneApplication.getApplication().getRenderer().readFrameBufferWithFormat(offBuffer,cpuBuf,Format.BGRA8);
 synchronized (imageLock) {
     Screenshots.convertScreenShot(cpuBuf,image);
   }
