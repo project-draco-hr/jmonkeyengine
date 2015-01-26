@@ -1,4 +1,6 @@
 {
+  MaterialKey key=new MaterialKey(mat.getMaterialDef().getAssetName());
+  assetManager.deleteFromCache(key);
   Material dummy=new Material(mat.getMaterialDef());
   for (  MatParam matParam : mat.getParams()) {
     dummy.setParam(matParam.getName(),matParam.getVarType(),matParam.getValue());
