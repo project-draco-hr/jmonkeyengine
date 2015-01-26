@@ -1,0 +1,33 @@
+{
+  NativeLibrary library=nativeLibraryMap.get(new NativeLibrary.Key(name,platform));
+  if (library == null) {
+    return null;
+  }
+  String pathInJar=library.getPathInNativesJar();
+  if (pathInJar == null) {
+    return null;
+  }
+  String fileNameInJar;
+  if (pathInJar.contains("/")) {
+    fileNameInJar=pathInJar.substring(pathInJar.lastIndexOf("/") + 1);
+  }
+ else {
+    fileNameInJar=pathInJar;
+  }
+  URL url=Thread.currentThread().getContextClassLoader().getResource(pathInJar);
+  if (url == null) {
+    url=Thread.currentThread().getContextClassLoader().getResource(fileNameInJar);
+  }
+  if (url == null) {
+    return null;
+  }
+  StringBuilder sb=new StringBuilder(url.toString());
+  if (sb.indexOf("jar:file:/") == 0) {
+    sb.delete(0,9);
+    sb.delete(sb.indexOf("!"),sb.length());
+    return new File(sb.toString());
+  }
+ else {
+    return null;
+  }
+}
