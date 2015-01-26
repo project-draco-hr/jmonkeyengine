@@ -25,7 +25,10 @@
     }
     @Override public void componentDeactivated(){
       super.componentDeactivated();
-      getEditorPane().removeKeyListener(listener);
+      JEditorPane editorPane=getEditorPane();
+      if (editorPane != null) {
+        getEditorPane().removeKeyListener(listener);
+      }
     }
     @Override public void componentClosed(){
       super.componentClosed();

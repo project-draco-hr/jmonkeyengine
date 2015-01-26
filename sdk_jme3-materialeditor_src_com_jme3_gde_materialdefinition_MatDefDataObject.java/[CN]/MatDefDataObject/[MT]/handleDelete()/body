@@ -1,5 +1,7 @@
 {
   MatDefMetaData metaData=lookup.lookup(MatDefMetaData.class);
-  metaData.cleanup();
+  if (metaData != null) {
+    metaData.cleanup();
+  }
   super.handleDelete();
 }
