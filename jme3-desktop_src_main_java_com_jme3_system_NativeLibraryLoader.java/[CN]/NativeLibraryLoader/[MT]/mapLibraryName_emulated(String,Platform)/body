@@ -1,0 +1,12 @@
+{
+switch (platform) {
+case MacOSX32:
+case MacOSX64:
+    return name + ".dylib";
+case Windows32:
+case Windows64:
+  return name + ".dll";
+default :
+return name + ".so";
+}
+}

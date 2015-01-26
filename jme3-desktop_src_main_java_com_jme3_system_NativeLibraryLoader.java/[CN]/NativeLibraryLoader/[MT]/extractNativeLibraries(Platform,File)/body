@@ -1,0 +1,10 @@
+{
+  for (  Map.Entry<NativeLibrary.Key,NativeLibrary> lib : nativeLibraryMap.entrySet()) {
+    if (lib.getValue().getPlatform() == platform) {
+      if (!targetDir.exists()) {
+        targetDir.mkdirs();
+      }
+      extractNativeLibrary(platform,lib.getValue().getName(),targetDir);
+    }
+  }
+}
