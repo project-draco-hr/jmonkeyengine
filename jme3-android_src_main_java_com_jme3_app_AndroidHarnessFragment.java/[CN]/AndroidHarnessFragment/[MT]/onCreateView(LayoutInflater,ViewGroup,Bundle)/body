@@ -3,5 +3,6 @@
   view=((OGLESContext)app.getContext()).createView(getActivity());
   JmeAndroidSystem.setView(view);
   createLayout();
+  view.addOnLayoutChangeListener(this);
   return frameLayout;
 }

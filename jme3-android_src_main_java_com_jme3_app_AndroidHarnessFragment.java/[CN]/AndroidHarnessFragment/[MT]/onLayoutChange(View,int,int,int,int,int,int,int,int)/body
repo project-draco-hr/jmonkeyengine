@@ -1,0 +1,31 @@
+{
+  if (v.equals(view)) {
+    if (v.equals(view) && maxResolutionDimension > 0) {
+      int newWidth=right - left;
+      int newHeight=bottom - top;
+      if (viewWidth != newWidth || viewHeight != newHeight) {
+        logger.log(Level.FINE,"SurfaceView layout changed: old width: {0}, old height: {1}, new width: {2}, new height: {3}",new Object[]{viewWidth,viewHeight,newWidth,newHeight});
+        viewWidth=newWidth;
+        viewHeight=newHeight;
+        int fixedSizeWidth=viewWidth;
+        int fixedSizeHeight=viewHeight;
+        if (viewWidth > viewHeight && viewWidth > maxResolutionDimension) {
+          fixedSizeWidth=maxResolutionDimension;
+          fixedSizeHeight=(int)(maxResolutionDimension * ((float)viewHeight / (float)viewWidth));
+        }
+ else         if (viewHeight > viewWidth && viewHeight > maxResolutionDimension) {
+          fixedSizeWidth=(int)(maxResolutionDimension * ((float)viewWidth / (float)viewHeight));
+          fixedSizeHeight=maxResolutionDimension;
+        }
+ else         if (viewWidth == viewHeight && viewWidth > maxResolutionDimension) {
+          fixedSizeWidth=maxResolutionDimension;
+          fixedSizeHeight=maxResolutionDimension;
+        }
+        if (fixedSizeWidth != viewWidth || fixedSizeHeight != viewHeight) {
+          logger.log(Level.FINE,"setting surfaceview resolution to width: {0}, height: {1}",new Object[]{fixedSizeWidth,fixedSizeHeight});
+          view.getHolder().setFixedSize(fixedSizeWidth,fixedSizeHeight);
+        }
+      }
+    }
+  }
+}

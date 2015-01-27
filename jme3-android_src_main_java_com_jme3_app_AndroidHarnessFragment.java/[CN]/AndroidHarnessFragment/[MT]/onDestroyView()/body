@@ -1,5 +1,17 @@
 {
   logger.fine("onDestroyView");
+  if (splashImageView != null) {
+    ((ViewGroup)splashImageView.getParent()).removeView(splashImageView);
+  }
+  if (view.getParent() != null) {
+    ((ViewGroup)view.getParent()).removeView(view);
+  }
+  if (frameLayout != null && frameLayout.getParent() != null) {
+    ((ViewGroup)frameLayout.getParent()).removeView(frameLayout);
+  }
+  view.removeOnLayoutChangeListener(this);
+  splashImageView=null;
+  frameLayout=null;
   view=null;
   JmeAndroidSystem.setView(null);
   super.onDestroyView();
