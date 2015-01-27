@@ -1,0 +1,73 @@
+{
+  List<Float>[] knots=new List[2];
+  Pointer[] pKnots=new Pointer[]{(Pointer)nurb.getFieldValue("knotsu"),(Pointer)nurb.getFieldValue("knotsv")};
+  for (int i=0; i < knots.length; ++i) {
+    if (pKnots[i].isNotNull()) {
+      FileBlockHeader fileBlockHeader=blenderContext.getFileBlock(pKnots[i].getOldMemoryAddress());
+      BlenderInputStream blenderInputStream=blenderContext.getInputStream();
+      blenderInputStream.setPosition(fileBlockHeader.getBlockPosition());
+      int knotsAmount=fileBlockHeader.getCount() * fileBlockHeader.getSize() / 4;
+      knots[i]=new ArrayList<Float>(knotsAmount);
+      for (int j=0; j < knotsAmount; ++j) {
+        knots[i].add(Float.valueOf(blenderInputStream.readFloat()));
+      }
+    }
+  }
+  int flag=((Number)nurb.getFieldValue("flag")).intValue();
+  boolean smooth=(flag & FLAG_SMOOTH) != 0;
+  int flagU=((Number)nurb.getFieldValue("flagu")).intValue();
+  int flagV=((Number)nurb.getFieldValue("flagv")).intValue();
+  int orderU=((Number)nurb.getFieldValue("orderu")).intValue();
+  int orderV=((Number)nurb.getFieldValue("orderv")).intValue();
+  int pntsU=((Number)nurb.getFieldValue("pntsu")).intValue();
+  int pntsV=((Number)nurb.getFieldValue("pntsv")).intValue();
+  List<Structure> bPoints=((Pointer)nurb.getFieldValue("bp")).fetchData();
+  List<List<Vector4f>> controlPoints=new ArrayList<List<Vector4f>>(pntsV);
+  for (int i=0; i < pntsV; ++i) {
+    List<Vector4f> uControlPoints=new ArrayList<Vector4f>(pntsU);
+    for (int j=0; j < pntsU; ++j) {
+      DynamicArray<Float> vec=(DynamicArray<Float>)bPoints.get(j + i * pntsU).getFieldValue("vec");
+      if (blenderContext.getBlenderKey().isFixUpAxis()) {
+        uControlPoints.add(new Vector4f(vec.get(0).floatValue(),vec.get(2).floatValue(),-vec.get(1).floatValue(),vec.get(3).floatValue()));
+      }
+ else {
+        uControlPoints.add(new Vector4f(vec.get(0).floatValue(),vec.get(1).floatValue(),vec.get(2).floatValue(),vec.get(3).floatValue()));
+      }
+    }
+    if ((flagU & 0x01) != 0) {
+      for (int k=0; k < orderU - 1; ++k) {
+        uControlPoints.add(uControlPoints.get(k));
+      }
+    }
+    controlPoints.add(uControlPoints);
+  }
+  if ((flagV & 0x01) != 0) {
+    for (int k=0; k < orderV - 1; ++k) {
+      controlPoints.add(controlPoints.get(k));
+    }
+  }
+  int originalVerticesAmount=vertices.size();
+  int resolu=((Number)nurb.getFieldValue("resolu")).intValue();
+  if (knots[1] == null) {
+    Curve curve=new Curve(new Spline(controlPoints.get(0),knots[0]),resolu);
+    FloatBuffer vertsBuffer=(FloatBuffer)curve.getBuffer(Type.Position).getData();
+    beziers.add(new BezierLine(BufferUtils.getVector3Array(vertsBuffer),materialIndex,smooth,false));
+  }
+ else {
+    int resolv=((Number)nurb.getFieldValue("resolv")).intValue();
+    int uSegments=resolu * controlPoints.get(0).size() - 1;
+    int vSegments=resolv * controlPoints.size() - 1;
+    Surface nurbSurface=Surface.createNurbsSurface(controlPoints,knots,uSegments,vSegments,orderU,orderV,smooth);
+    FloatBuffer vertsBuffer=(FloatBuffer)nurbSurface.getBuffer(Type.Position).getData();
+    vertices.addAll(Arrays.asList(BufferUtils.getVector3Array(vertsBuffer)));
+    FloatBuffer normalsBuffer=(FloatBuffer)nurbSurface.getBuffer(Type.Normal).getData();
+    normals.addAll(Arrays.asList(BufferUtils.getVector3Array(normalsBuffer)));
+    IndexBuffer indexBuffer=nurbSurface.getIndexBuffer();
+    for (int i=0; i < indexBuffer.size(); i+=3) {
+      int index1=indexBuffer.get(i) + originalVerticesAmount;
+      int index2=indexBuffer.get(i + 1) + originalVerticesAmount;
+      int index3=indexBuffer.get(i + 2) + originalVerticesAmount;
+      faces.add(new Face(new Integer[]{index1,index2,index3},smooth,materialIndex,null,null,this));
+    }
+  }
+}

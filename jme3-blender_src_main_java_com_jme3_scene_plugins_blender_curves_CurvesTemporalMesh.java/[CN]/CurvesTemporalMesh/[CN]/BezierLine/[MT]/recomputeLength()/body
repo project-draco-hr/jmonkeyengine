@@ -1,0 +1,9 @@
+{
+  length=0;
+  for (int i=1; i < vertices.length; ++i) {
+    length+=vertices[i - 1].distance(vertices[i]);
+  }
+  if (cyclic) {
+    length+=vertices[vertices.length - 1].distance(vertices[0]);
+  }
+}

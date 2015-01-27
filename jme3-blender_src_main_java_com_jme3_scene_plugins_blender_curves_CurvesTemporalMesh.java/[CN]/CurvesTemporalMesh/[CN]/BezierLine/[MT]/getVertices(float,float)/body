@@ -1,0 +1,48 @@
+{
+  if (startSlice == 0 && endSlice == 1) {
+    return vertices;
+  }
+  List<Vector3f> result=new ArrayList<Vector3f>();
+  float length=this.getLength(), temp=0;
+  float startSliceLength=length * startSlice;
+  float endSliceLength=length * endSlice;
+  int index=1;
+  if (startSlice > 0) {
+    while (temp < startSliceLength) {
+      Vector3f v1=vertices[index - 1];
+      Vector3f v2=vertices[index++];
+      float edgeLength=v1.distance(v2);
+      temp+=edgeLength;
+      if (temp == startSliceLength) {
+        result.add(v2);
+      }
+ else       if (temp > startSliceLength) {
+        result.add(v1.subtract(v2).normalizeLocal().multLocal(temp - startSliceLength).addLocal(v2));
+      }
+    }
+  }
+  if (endSlice < 1) {
+    if (index == vertices.length) {
+      Vector3f v1=vertices[vertices.length - 2];
+      Vector3f v2=vertices[vertices.length - 1];
+      result.add(v1.subtract(v2).normalizeLocal().multLocal(length - endSliceLength).addLocal(v2));
+    }
+ else {
+      for (int i=index; i < vertices.length && temp < endSliceLength; ++i) {
+        Vector3f v1=vertices[index - 1];
+        Vector3f v2=vertices[index++];
+        temp+=v1.distance(v2);
+        if (temp == endSliceLength) {
+          result.add(v2);
+        }
+ else         if (temp > endSliceLength) {
+          result.add(v1.subtract(v2).normalizeLocal().multLocal(temp - startSliceLength).addLocal(v2));
+        }
+      }
+    }
+  }
+ else {
+    result.addAll(Arrays.asList(Arrays.copyOfRange(vertices,index,vertices.length)));
+  }
+  return result.toArray(new Vector3f[result.size()]);
+}

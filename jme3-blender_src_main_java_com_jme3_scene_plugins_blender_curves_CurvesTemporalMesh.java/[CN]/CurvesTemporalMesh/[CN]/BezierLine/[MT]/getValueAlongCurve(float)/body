@@ -1,0 +1,18 @@
+{
+  alongRatio=FastMath.clamp(alongRatio,0,1);
+  Vector3f result=new Vector3f();
+  float probeLength=this.getLength() * alongRatio;
+  float length=0;
+  for (int i=1; i < vertices.length; ++i) {
+    float edgeLength=vertices[i].distance(vertices[i - 1]);
+    if (length + edgeLength > probeLength) {
+      float ratioAlongEdge=(probeLength - length) / edgeLength;
+      return FastMath.interpolateLinear(ratioAlongEdge,vertices[i - 1],vertices[i]);
+    }
+ else     if (length + edgeLength == probeLength) {
+      return vertices[i];
+    }
+    length+=edgeLength;
+  }
+  return result;
+}

@@ -1,0 +1,94 @@
+{
+  super(curveStructure,blenderContext,false);
+  name=curveStructure.getName();
+  curvesHelper=blenderContext.getHelper(CurvesHelper.class);
+  this.scale=scale;
+  int flag=((Number)curveStructure.getFieldValue("flag")).intValue();
+  is2D=(flag & FLAG_3D) == 0;
+  if (is2D) {
+    LOGGER.warning("2D flag not yet supported for curves!");
+  }
+  isFront=(flag & FLAG_FRONT) != 0;
+  isBack=(flag & FLAG_BACK) != 0;
+  fillCaps=(flag & FLAG_FILL_CAPS) != 0;
+  bevelStart=((Number)curveStructure.getFieldValue("bevfac1",0)).floatValue();
+  bevelEnd=((Number)curveStructure.getFieldValue("bevfac2",1)).floatValue();
+  if (bevelStart > bevelEnd) {
+    float temp=bevelStart;
+    bevelStart=bevelEnd;
+    bevelEnd=temp;
+  }
+  LOGGER.fine("Reading nurbs (and sorting them by material).");
+  Map<Number,List<Structure>> nurbs=new HashMap<Number,List<Structure>>();
+  List<Structure> nurbStructures=((Structure)curveStructure.getFieldValue("nurb")).evaluateListBase();
+  for (  Structure nurb : nurbStructures) {
+    Number matNumber=(Number)nurb.getFieldValue("mat_nr");
+    List<Structure> nurbList=nurbs.get(matNumber);
+    if (nurbList == null) {
+      nurbList=new ArrayList<Structure>();
+      nurbs.put(matNumber,nurbList);
+    }
+    nurbList.add(nurb);
+  }
+  LOGGER.fine("Getting materials.");
+  MaterialHelper materialHelper=blenderContext.getHelper(MaterialHelper.class);
+  materials=materialHelper.getMaterials(curveStructure,blenderContext);
+  if (materials != null) {
+    for (    MaterialContext materialContext : materials) {
+      materialContext.setFaceCullMode(FaceCullMode.Off);
+    }
+  }
+  LOGGER.fine("Getting or creating bevel object.");
+  bevelObject=loadBevelAndTaper ? this.loadBevelObject(curveStructure) : null;
+  LOGGER.fine("Getting taper object.");
+  Pointer pTaperObject=(Pointer)curveStructure.getFieldValue("taperobj");
+  if (bevelObject != null && pTaperObject.isNotNull()) {
+    Structure taperObjectStructure=pTaperObject.fetchData().get(0);
+    DynamicArray<Number> scaleArray=(DynamicArray<Number>)taperObjectStructure.getFieldValue("size");
+    scale=blenderContext.getBlenderKey().isFixUpAxis() ? new Vector3f(scaleArray.get(0).floatValue(),scaleArray.get(1).floatValue(),scaleArray.get(2).floatValue()) : new Vector3f(scaleArray.get(0).floatValue(),scaleArray.get(2).floatValue(),scaleArray.get(1).floatValue());
+    Pointer pTaperStructure=(Pointer)taperObjectStructure.getFieldValue("data");
+    Structure taperStructure=pTaperStructure.fetchData().get(0);
+    taperObject=new CurvesTemporalMesh(taperStructure,blenderContext);
+  }
+  LOGGER.fine("Creating the result curves.");
+  for (  Entry<Number,List<Structure>> nurbEntry : nurbs.entrySet()) {
+    for (    Structure nurb : nurbEntry.getValue()) {
+      int type=((Number)nurb.getFieldValue("type")).intValue();
+      if ((type & TYPE_BEZIER) != 0) {
+        this.loadBezierCurve(nurb,nurbEntry.getKey().intValue());
+      }
+ else       if ((type & TYPE_NURBS) != 0) {
+        this.loadNurbSurface(nurb,nurbEntry.getKey().intValue());
+      }
+ else {
+        throw new BlenderFileException("Unknown curve type: " + type);
+      }
+    }
+  }
+  if (bevelObject != null && beziers.size() > 0) {
+    this.append(this.applyBevelAndTaper(this,bevelObject,taperObject,blenderContext));
+  }
+ else {
+    int originalVerticesAmount=vertices.size();
+    for (    BezierLine bezierLine : beziers) {
+      vertices.add(bezierLine.vertices[0]);
+      Vector3f v=bezierLine.vertices[1].subtract(bezierLine.vertices[0]).normalizeLocal();
+      float temp=v.x;
+      v.x=-v.y;
+      v.y=temp;
+      v.z=0;
+      normals.add(v);
+      for (int i=1; i < bezierLine.vertices.length; ++i) {
+        vertices.add(bezierLine.vertices[i]);
+        edges.add(new Edge(originalVerticesAmount + i - 1,originalVerticesAmount + i,0,false,this));
+        v=bezierLine.vertices[i].subtract(bezierLine.vertices[i - 1]).normalizeLocal();
+        temp=v.x;
+        v.x=-v.y;
+        v.y=temp;
+        v.z=0;
+        normals.get(i - 1).addLocal(v).multLocal(0.5f).normalizeLocal();
+        normals.add(v);
+      }
+    }
+  }
+}

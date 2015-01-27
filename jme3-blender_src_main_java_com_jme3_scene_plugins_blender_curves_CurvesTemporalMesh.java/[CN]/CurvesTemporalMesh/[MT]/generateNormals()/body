@@ -1,0 +1,23 @@
+{
+  Map<Integer,Vector3f> normalMap=new TreeMap<Integer,Vector3f>();
+  for (  Face face : faces) {
+    int index1=face.getIndexes().get(0);
+    int index2=face.getIndexes().get(1);
+    int index3=face.getIndexes().get(2);
+    Vector3f n=FastMath.computeNormal(vertices.get(index1),vertices.get(index2),vertices.get(index3));
+    for (    int index : face.getIndexes()) {
+      Vector3f normal=normalMap.get(index);
+      if (normal == null) {
+        normalMap.put(index,n.clone());
+      }
+ else {
+        normal.addLocal(n).normalizeLocal();
+      }
+    }
+  }
+  normals.clear();
+  Collections.addAll(normals,new Vector3f[normalMap.size()]);
+  for (  Entry<Integer,Vector3f> entry : normalMap.entrySet()) {
+    normals.set(entry.getKey(),entry.getValue());
+  }
+}

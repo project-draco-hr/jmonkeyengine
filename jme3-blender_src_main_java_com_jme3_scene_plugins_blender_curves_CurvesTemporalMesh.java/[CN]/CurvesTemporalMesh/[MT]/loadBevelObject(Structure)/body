@@ -1,0 +1,124 @@
+{
+  CurvesTemporalMesh bevelObject=null;
+  Pointer pBevelObject=(Pointer)curveStructure.getFieldValue("bevobj");
+  boolean cyclic=false;
+  if (pBevelObject.isNotNull()) {
+    Structure bevelObjectStructure=pBevelObject.fetchData().get(0);
+    DynamicArray<Number> scaleArray=(DynamicArray<Number>)bevelObjectStructure.getFieldValue("size");
+    Vector3f scale=blenderContext.getBlenderKey().isFixUpAxis() ? new Vector3f(scaleArray.get(0).floatValue(),scaleArray.get(1).floatValue(),scaleArray.get(2).floatValue()) : new Vector3f(scaleArray.get(0).floatValue(),scaleArray.get(2).floatValue(),scaleArray.get(1).floatValue());
+    Pointer pBevelStructure=(Pointer)bevelObjectStructure.getFieldValue("data");
+    Structure bevelStructure=pBevelStructure.fetchData().get(0);
+    bevelObject=new CurvesTemporalMesh(bevelStructure,scale,false,blenderContext);
+    for (    BezierLine bl : bevelObject.beziers) {
+      for (      Vector3f v : bl.vertices) {
+        v.y=-v.z;
+        v.z=v.x;
+        v.x=0;
+      }
+      if (bl.isCyclic()) {
+        bl.removeLastVertex();
+      }
+    }
+  }
+ else {
+    fillCaps=false;
+    int bevResol=((Number)curveStructure.getFieldValue("bevresol")).intValue();
+    float extrude=((Number)curveStructure.getFieldValue("ext1")).floatValue();
+    float bevelDepth=((Number)curveStructure.getFieldValue("ext2")).floatValue();
+    float offset=((Number)curveStructure.getFieldValue("offset",0)).floatValue();
+    if (offset != 0) {
+      LOGGER.warning("Offset parameter not yet supported.");
+    }
+    Curve bevelCurve=null;
+    if (bevelDepth > 0.0f) {
+      float handlerLength=bevelDepth / 2.0f;
+      cyclic=!isFront && !isBack;
+      List<Vector3f> conrtolPoints=new ArrayList<Vector3f>();
+      if (cyclic || blenderContext.getBlenderVersion() < 253) {
+        conrtolPoints.add(new Vector3f(0,-extrude - bevelDepth,0));
+        conrtolPoints.add(new Vector3f(0,-extrude - bevelDepth,-handlerLength));
+        conrtolPoints.add(new Vector3f(0,-extrude - handlerLength,-bevelDepth));
+        conrtolPoints.add(new Vector3f(0,-extrude,-bevelDepth));
+        conrtolPoints.add(new Vector3f(0,-extrude + handlerLength,-bevelDepth));
+        if (extrude > 0) {
+          conrtolPoints.add(new Vector3f(0,extrude - handlerLength,-bevelDepth));
+          conrtolPoints.add(new Vector3f(0,extrude,-bevelDepth));
+          conrtolPoints.add(new Vector3f(0,extrude + handlerLength,-bevelDepth));
+        }
+        conrtolPoints.add(new Vector3f(0,extrude + bevelDepth,-handlerLength));
+        conrtolPoints.add(new Vector3f(0,extrude + bevelDepth,0));
+        if (cyclic) {
+          conrtolPoints.add(new Vector3f(0,extrude + bevelDepth,handlerLength));
+          conrtolPoints.add(new Vector3f(0,extrude + handlerLength,bevelDepth));
+          conrtolPoints.add(new Vector3f(0,extrude,bevelDepth));
+          conrtolPoints.add(new Vector3f(0,extrude - handlerLength,bevelDepth));
+          if (extrude > 0) {
+            conrtolPoints.add(new Vector3f(0,-extrude + handlerLength,bevelDepth));
+            conrtolPoints.add(new Vector3f(0,-extrude,bevelDepth));
+            conrtolPoints.add(new Vector3f(0,-extrude - handlerLength,bevelDepth));
+          }
+          conrtolPoints.add(new Vector3f(0,-extrude - bevelDepth,handlerLength));
+          conrtolPoints.add(new Vector3f(0,-extrude - bevelDepth,0));
+        }
+      }
+ else {
+        if (extrude > 0) {
+          if (isBack) {
+            conrtolPoints.add(new Vector3f(0,-extrude - bevelDepth,0));
+            conrtolPoints.add(new Vector3f(0,-extrude - bevelDepth,-handlerLength));
+            conrtolPoints.add(new Vector3f(0,-extrude - handlerLength,-bevelDepth));
+          }
+          conrtolPoints.add(new Vector3f(0,-extrude,-bevelDepth));
+          conrtolPoints.add(new Vector3f(0,-extrude + handlerLength,-bevelDepth));
+          conrtolPoints.add(new Vector3f(0,extrude - handlerLength,-bevelDepth));
+          conrtolPoints.add(new Vector3f(0,extrude,-bevelDepth));
+          if (isFront) {
+            conrtolPoints.add(new Vector3f(0,extrude + handlerLength,-bevelDepth));
+            conrtolPoints.add(new Vector3f(0,extrude + bevelDepth,-handlerLength));
+            conrtolPoints.add(new Vector3f(0,extrude + bevelDepth,0));
+          }
+        }
+ else {
+          if (isFront && isBack) {
+            conrtolPoints.add(new Vector3f(0,-bevelDepth,0));
+            conrtolPoints.add(new Vector3f(0,-bevelDepth,-handlerLength));
+            conrtolPoints.add(new Vector3f(0,-handlerLength,-bevelDepth));
+            conrtolPoints.add(new Vector3f(0,0,-bevelDepth));
+            conrtolPoints.add(new Vector3f(0,handlerLength,-bevelDepth));
+            conrtolPoints.add(new Vector3f(0,bevelDepth,-handlerLength));
+            conrtolPoints.add(new Vector3f(0,bevelDepth,0));
+          }
+ else {
+            if (isBack) {
+              conrtolPoints.add(new Vector3f(0,-bevelDepth,0));
+              conrtolPoints.add(new Vector3f(0,-bevelDepth,-handlerLength));
+              conrtolPoints.add(new Vector3f(0,-handlerLength,-bevelDepth));
+              conrtolPoints.add(new Vector3f(0,0,-bevelDepth));
+            }
+ else {
+              conrtolPoints.add(new Vector3f(0,0,-bevelDepth));
+              conrtolPoints.add(new Vector3f(0,handlerLength,-bevelDepth));
+              conrtolPoints.add(new Vector3f(0,bevelDepth,-handlerLength));
+              conrtolPoints.add(new Vector3f(0,bevelDepth,0));
+            }
+          }
+        }
+      }
+      bevelCurve=new Curve(new Spline(SplineType.Bezier,conrtolPoints,0,false),bevResol);
+    }
+ else     if (extrude > 0.0f) {
+      Spline bevelSpline=new Spline(SplineType.Linear,new Vector3f[]{new Vector3f(0,extrude,0),new Vector3f(0,-extrude,0)},1,false);
+      bevelCurve=new Curve(bevelSpline,bevResol);
+    }
+    if (bevelCurve != null) {
+      bevelObject=new CurvesTemporalMesh(blenderContext);
+      FloatBuffer vertsBuffer=(FloatBuffer)bevelCurve.getBuffer(Type.Position).getData();
+      Vector3f[] verts=BufferUtils.getVector3Array(vertsBuffer);
+      if (cyclic) {
+        verts=Arrays.copyOf(verts,verts.length - 1);
+      }
+      bevelObject.beziers.add(new BezierLine(verts,0,false,cyclic));
+    }
+  }
+  return bevelObject;
+}
