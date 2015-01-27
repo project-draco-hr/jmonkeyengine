@@ -1,0 +1,24 @@
+{
+  String stackTrace="";
+  String title="Error";
+  if (t != null) {
+    StringWriter sw=new StringWriter(100);
+    t.printStackTrace(new PrintWriter(sw));
+    stackTrace=sw.toString();
+    title=t.toString();
+  }
+  final String finalTitle=title;
+  final String finalMsg=(errorMsg != null ? errorMsg : "Uncaught Exception") + "\n" + stackTrace;
+  logger.log(Level.SEVERE,finalMsg);
+  getActivity().runOnUiThread(new Runnable(){
+    @Override public void run(){
+      AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
+      builder.setTitle(finalTitle);
+      builder.setPositiveButton("Kill",AndroidHarnessFragment.this);
+      builder.setMessage(finalMsg);
+      AlertDialog dialog=builder.create();
+      dialog.show();
+    }
+  }
+);
+}

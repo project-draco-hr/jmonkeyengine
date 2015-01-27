@@ -1,0 +1,24 @@
+{
+  logger.fine("gainFocus");
+  if (view != null) {
+    view.onResume();
+  }
+  if (app != null) {
+    AudioRenderer audioRenderer=app.getAudioRenderer();
+    if (audioRenderer != null) {
+      audioRenderer.resumeAll();
+    }
+    if (app.getContext() != null) {
+      JoyInput joyInput=app.getContext().getJoyInput();
+      if (joyInput != null) {
+        if (joyInput instanceof AndroidSensorJoyInput) {
+          AndroidSensorJoyInput androidJoyInput=(AndroidSensorJoyInput)joyInput;
+          androidJoyInput.resumeSensors();
+        }
+      }
+    }
+  }
+  if (app != null) {
+    app.gainFocus();
+  }
+}

@@ -1,0 +1,10 @@
+{
+  app.initialize();
+  if (handleExitHook) {
+    if (app.getInputManager().hasMapping(SimpleApplication.INPUT_MAPPING_EXIT)) {
+      app.getInputManager().deleteMapping(SimpleApplication.INPUT_MAPPING_EXIT);
+    }
+    app.getInputManager().addMapping(ESCAPE_EVENT,new TouchTrigger(TouchInput.KEYCODE_BACK));
+    app.getInputManager().addListener(this,new String[]{ESCAPE_EVENT});
+  }
+}

@@ -1,0 +1,32 @@
+{
+  initializeLogHandler();
+  logger.fine("onCreate");
+  super.onCreate(savedInstanceState);
+  logger.log(Level.FINE,"Creating settings");
+  AppSettings settings=new AppSettings(true);
+  settings.setEmulateMouse(mouseEventsEnabled);
+  settings.setEmulateMouseFlipAxis(mouseEventsInvertX,mouseEventsInvertY);
+  settings.setUseJoysticks(joystickEventsEnabled);
+  settings.setEmulateKeyboard(keyEventsEnabled);
+  settings.setBitsPerPixel(eglBitsPerPixel);
+  settings.setAlphaBits(eglAlphaBits);
+  settings.setDepthBits(eglDepthBits);
+  settings.setSamples(eglSamples);
+  settings.setStencilBits(eglStencilBits);
+  settings.setAudioRenderer(audioRendererType);
+  settings.setFrameRate(frameRate);
+  try {
+    if (app == null) {
+      @SuppressWarnings("unchecked") Class<? extends Application> clazz=(Class<? extends Application>)Class.forName(appClass);
+      app=clazz.newInstance();
+    }
+    app.setSettings(settings);
+    app.start();
+  }
+ catch (  Exception ex) {
+    handleError("Class " + appClass + " init failed",ex);
+  }
+  OGLESContext ctx=(OGLESContext)app.getContext();
+  ctx.setSystemListener(this);
+  setRetainInstance(true);
+}
