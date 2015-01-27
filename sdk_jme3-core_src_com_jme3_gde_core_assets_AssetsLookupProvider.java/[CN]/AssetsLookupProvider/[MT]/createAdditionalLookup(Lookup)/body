@@ -1,13 +1,7 @@
 {
   Project prj=lookup.lookup(Project.class);
   project=prj;
-  FileObject assetsProperties=prj.getProjectDirectory().getFileObject("nbproject/assets.properties");
-  if (assetsProperties == null) {
-    assetsProperties=prj.getProjectDirectory().getFileObject("nbproject/project.properties");
-  }
- else {
-    Logger.getLogger(AssetsLookupProvider.class.getName()).log(Level.WARNING,"Project is using old assets.properties file");
-  }
+  FileObject assetsProperties=prj.getProjectDirectory().getFileObject("nbproject/project.properties");
   if (assetsProperties != null && assetsProperties.isValid()) {
     FileLock lock=null;
     try {
