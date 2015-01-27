@@ -8,13 +8,6 @@
     ZipInputStream str=new ZipInputStream(in);
     ZipEntry entry;
     while ((entry=str.getNextEntry()) != null) {
-      FileObject old=projectRoot.getFileObject(entry.getName());
-      if (old != null && !old.equals(projectRoot)) {
-        logger.log(Level.FINE,"Deleting old file {0}",old.getNameExt());
-        if (entry.getSize() != -1 && entry.getSize() == old.getSize()) {
-          old.delete();
-        }
-      }
       String fileName=resourcesFolder + "/" + extensionName+ "/"+ entry.getName();
       FileObject obj=projectRoot.getFileObject(fileName);
       if (obj != null && !obj.equals(projectRoot) && !obj.isFolder()) {
