@@ -1,0 +1,14 @@
+{
+  alongRatio=FastMath.clamp(alongRatio,0,1);
+  Vector3f result=new Vector3f();
+  float probeLength=this.getLength() * alongRatio, length=0;
+  for (  BezierLine bezier : beziers) {
+    float edgeLength=bezier.getLength();
+    if (length + edgeLength >= probeLength) {
+      float ratioAlongEdge=(probeLength - length) / edgeLength;
+      return bezier.getValueAlongCurve(ratioAlongEdge);
+    }
+    length+=edgeLength;
+  }
+  return result;
+}

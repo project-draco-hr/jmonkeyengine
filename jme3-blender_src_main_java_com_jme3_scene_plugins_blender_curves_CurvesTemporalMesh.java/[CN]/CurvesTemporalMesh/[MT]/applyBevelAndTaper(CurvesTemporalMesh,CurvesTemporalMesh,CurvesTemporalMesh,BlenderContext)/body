@@ -1,0 +1,105 @@
+{
+  List<BezierLine> bevelBezierLines=bevelObject.getScaledBeziers();
+  List<BezierLine> curveLines=curve.beziers;
+  if (bevelBezierLines.size() == 0 || curveLines.size() == 0) {
+    return null;
+  }
+  CurvesTemporalMesh result=new CurvesTemporalMesh(blenderContext);
+  for (  BezierLine curveLine : curveLines) {
+    Vector3f[] curveLineVertices=curveLine.getVertices(bevelStart,bevelEnd);
+    for (    BezierLine bevelBezierLine : bevelBezierLines) {
+      CurvesTemporalMesh partResult=new CurvesTemporalMesh(blenderContext);
+      Vector3f[] bevelLineVertices=bevelBezierLine.getVertices();
+      List<Vector3f[]> bevels=new ArrayList<Vector3f[]>();
+      Vector3f[] bevelPoints=curvesHelper.transformToFirstLineOfBevelPoints(bevelLineVertices,curveLineVertices[0],curveLineVertices[1]);
+      bevels.add(bevelPoints);
+      for (int i=1; i < curveLineVertices.length - 1; ++i) {
+        bevelPoints=curvesHelper.transformBevel(bevelPoints,curveLineVertices[i - 1],curveLineVertices[i],curveLineVertices[i + 1]);
+        bevels.add(bevelPoints);
+      }
+      bevelPoints=curvesHelper.transformBevel(bevelPoints,curveLineVertices[curveLineVertices.length - 2],curveLineVertices[curveLineVertices.length - 1],null);
+      bevels.add(bevelPoints);
+      Vector3f subtractResult=new Vector3f();
+      if (bevels.size() > 2) {
+        int[][] pointIndexes=new int[][]{{0,1},{curveLineVertices.length - 1,curveLineVertices.length - 2}};
+        for (        int[] indexes : pointIndexes) {
+          float distance=curveLineVertices[indexes[1]].subtract(curveLineVertices[indexes[0]],subtractResult).length();
+          Vector3f[] bevel=bevels.get(indexes[0]);
+          Vector3f[] nextBevel=bevels.get(indexes[1]);
+          for (int i=0; i < bevel.length; ++i) {
+            float d=bevel[i].subtract(nextBevel[i],subtractResult).length();
+            subtractResult.normalizeLocal().multLocal(distance - d);
+            bevel[i].addLocal(subtractResult);
+          }
+        }
+      }
+      if (taperObject != null) {
+        float curveLength=curveLine.getLength(), lengthAlongCurve=bevelStart;
+        for (int i=0; i < curveLineVertices.length; ++i) {
+          if (i > 0) {
+            lengthAlongCurve+=curveLineVertices[i].subtract(curveLineVertices[i - 1],subtractResult).length();
+          }
+          float taperScale=-taperObject.getValueAlongCurve(lengthAlongCurve / curveLength).z * taperObject.scale.z;
+          if (taperScale != 1) {
+            this.applyScale(bevels.get(i),curveLineVertices[i],taperScale);
+          }
+        }
+      }
+      for (      Vector3f[] bevel : bevels) {
+        for (        Vector3f d : bevel) {
+          partResult.getVertices().add(d);
+        }
+      }
+      int bevelVertCount=bevelPoints.length;
+      for (int i=0; i < bevels.size() - 1; ++i) {
+        for (int j=0; j < bevelVertCount - 1; ++j) {
+          Integer[] indexes=new Integer[]{i * bevelVertCount + j + 1,(i + 1) * bevelVertCount + j + 1,(i + 1) * bevelVertCount + j,i * bevelVertCount + j};
+          partResult.getFaces().add(new Face(indexes,curveLine.isSmooth(),curveLine.getMaterialNumber(),null,null,partResult));
+          partResult.getEdges().add(new Edge(indexes[0],indexes[1],0,true,partResult));
+          partResult.getEdges().add(new Edge(indexes[1],indexes[2],0,true,partResult));
+          partResult.getEdges().add(new Edge(indexes[2],indexes[3],0,true,partResult));
+          partResult.getEdges().add(new Edge(indexes[3],indexes[0],0,true,partResult));
+        }
+        if (bevelBezierLine.isCyclic()) {
+          int j=bevelVertCount - 1;
+          Integer[] indexes=new Integer[]{i * bevelVertCount,(i + 1) * bevelVertCount,(i + 1) * bevelVertCount + j,i * bevelVertCount + j};
+          partResult.getFaces().add(new Face(indexes,curveLine.isSmooth(),curveLine.getMaterialNumber(),null,null,partResult));
+          partResult.getEdges().add(new Edge(indexes[0],indexes[1],0,true,partResult));
+          partResult.getEdges().add(new Edge(indexes[1],indexes[2],0,true,partResult));
+          partResult.getEdges().add(new Edge(indexes[2],indexes[3],0,true,partResult));
+          partResult.getEdges().add(new Edge(indexes[3],indexes[0],0,true,partResult));
+        }
+      }
+      partResult.generateNormals();
+      if (fillCaps) {
+        Vector3f[] cap=bevels.get(0);
+        List<Integer> capIndexes=new ArrayList<Integer>(cap.length);
+        Vector3f capNormal=curveLineVertices[0].subtract(curveLineVertices[1]).normalizeLocal();
+        for (int i=0; i < cap.length; ++i) {
+          capIndexes.add(partResult.getVertices().size());
+          partResult.getVertices().add(cap[i]);
+          partResult.getNormals().add(capNormal);
+        }
+        Collections.reverse(capIndexes);
+        partResult.getFaces().add(new Face(capIndexes.toArray(new Integer[capIndexes.size()]),false,curveLine.getMaterialNumber(),null,null,partResult));
+        for (int i=1; i < capIndexes.size(); ++i) {
+          partResult.getEdges().add(new Edge(capIndexes.get(i - 1),capIndexes.get(i),0,true,partResult));
+        }
+        cap=bevels.get(bevels.size() - 1);
+        capIndexes.clear();
+        capNormal=curveLineVertices[curveLineVertices.length - 1].subtract(curveLineVertices[curveLineVertices.length - 2]).normalizeLocal();
+        for (int i=0; i < cap.length; ++i) {
+          capIndexes.add(partResult.getVertices().size());
+          partResult.getVertices().add(cap[i]);
+          partResult.getNormals().add(capNormal);
+        }
+        partResult.getFaces().add(new Face(capIndexes.toArray(new Integer[capIndexes.size()]),false,curveLine.getMaterialNumber(),null,null,partResult));
+        for (int i=1; i < capIndexes.size(); ++i) {
+          partResult.getEdges().add(new Edge(capIndexes.get(i - 1),capIndexes.get(i),0,true,partResult));
+        }
+      }
+      result.append(partResult);
+    }
+  }
+  return result;
+}

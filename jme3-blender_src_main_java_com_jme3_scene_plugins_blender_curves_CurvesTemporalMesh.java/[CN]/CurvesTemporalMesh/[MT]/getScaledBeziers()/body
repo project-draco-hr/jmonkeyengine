@@ -1,0 +1,10 @@
+{
+  if (scale.equals(Vector3f.UNIT_XYZ)) {
+    return beziers;
+  }
+  List<BezierLine> result=new ArrayList<BezierLine>();
+  for (  BezierLine bezierLine : beziers) {
+    result.add(bezierLine.scale(scale));
+  }
+  return result;
+}

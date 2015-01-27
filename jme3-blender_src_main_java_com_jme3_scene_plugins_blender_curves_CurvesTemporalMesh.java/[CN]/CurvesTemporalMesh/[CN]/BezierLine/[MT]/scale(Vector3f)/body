@@ -1,0 +1,9 @@
+{
+  BezierLine result=new BezierLine(vertices,materialNumber,smooth,cyclic);
+  result.vertices=new Vector3f[vertices.length];
+  for (int i=0; i < vertices.length; ++i) {
+    result.vertices[i]=vertices[i].mult(scale);
+  }
+  result.recomputeLength();
+  return result;
+}

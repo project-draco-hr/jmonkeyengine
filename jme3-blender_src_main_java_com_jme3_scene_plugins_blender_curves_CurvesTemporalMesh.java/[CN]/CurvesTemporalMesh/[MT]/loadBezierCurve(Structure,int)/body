@@ -1,0 +1,20 @@
+{
+  Pointer pBezierTriple=(Pointer)nurbStructure.getFieldValue("bezt");
+  if (pBezierTriple.isNotNull()) {
+    int resolution=((Number)nurbStructure.getFieldValue("resolu")).intValue();
+    boolean cyclic=(((Number)nurbStructure.getFieldValue("flagu")).intValue() & 0x01) != 0;
+    boolean smooth=(((Number)nurbStructure.getFieldValue("flag")).intValue() & FLAG_SMOOTH) != 0;
+    BezierCurve bezierCurve=new BezierCurve(0,pBezierTriple.fetchData(),3,blenderContext.getBlenderKey().isFixUpAxis());
+    List<Vector3f> controlPoints=bezierCurve.getControlPoints();
+    if (cyclic) {
+      for (int i=0; i < 3; ++i) {
+        controlPoints.add(controlPoints.get(i));
+      }
+    }
+    controlPoints.remove(0);
+    controlPoints.remove(controlPoints.size() - 1);
+    Curve curve=new Curve(new Spline(SplineType.Bezier,controlPoints,0,false),resolution);
+    FloatBuffer vertsBuffer=(FloatBuffer)curve.getBuffer(Type.Position).getData();
+    beziers.add(new BezierLine(BufferUtils.getVector3Array(vertsBuffer),materialIndex,smooth,cyclic));
+  }
+}
