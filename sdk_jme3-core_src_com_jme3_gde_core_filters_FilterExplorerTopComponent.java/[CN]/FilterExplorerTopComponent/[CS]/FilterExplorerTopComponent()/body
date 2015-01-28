@@ -4,7 +4,7 @@
   setToolTipText(NbBundle.getMessage(FilterExplorerTopComponent.class,"HINT_FilterExplorerTopComponent"));
   ActionMap map=getActionMap();
   map.put("delete",ExplorerUtils.actionDelete(explorerManager,true));
-  map.put("moveup",new MoveUpAction());
-  map.put("movedown",new MoveDownAction());
+  map.put("moveup",SystemAction.get(MoveUpAction.class));
+  map.put("movedown",SystemAction.get(MoveDownAction.class));
   associateLookup(ExplorerUtils.createLookup(explorerManager,map));
 }
