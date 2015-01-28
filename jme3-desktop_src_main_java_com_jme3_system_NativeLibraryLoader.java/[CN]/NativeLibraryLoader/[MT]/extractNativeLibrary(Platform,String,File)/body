@@ -22,17 +22,8 @@
     return;
   }
   String loadedAsFileName;
-  if (library.isJNI()) {
-    String fileNameInJarWithoutExtension=fileNameInJar.substring(0,fileNameInJar.lastIndexOf("."));
-    String systemJniExtension;
-    String dummyLib=mapLibraryName_emulated("",platform);
-    if (dummyLib.contains(".")) {
-      systemJniExtension=dummyLib.substring(dummyLib.lastIndexOf("."));
-    }
- else {
-      systemJniExtension="";
-    }
-    loadedAsFileName=fileNameInJarWithoutExtension + systemJniExtension;
+  if (library.getExtractedAsName() != null) {
+    loadedAsFileName=library.getExtractedAsName();
   }
  else {
     loadedAsFileName=fileNameInJar;
