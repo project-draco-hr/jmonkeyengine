@@ -1,0 +1,11 @@
+{
+  StringBuilder sb=new StringBuilder(filename);
+  if (sb.indexOf("lib") == 0 && !filename.toLowerCase().endsWith(".dll")) {
+    sb.delete(0,3);
+  }
+  int dot=sb.lastIndexOf(".");
+  if (dot > 0) {
+    sb.delete(dot,sb.length());
+  }
+  return sb.toString();
+}

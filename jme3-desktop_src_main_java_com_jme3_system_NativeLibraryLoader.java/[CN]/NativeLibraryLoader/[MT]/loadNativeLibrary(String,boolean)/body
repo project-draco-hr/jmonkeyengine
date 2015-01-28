@@ -29,16 +29,19 @@
     url=Thread.currentThread().getContextClassLoader().getResource(fileNameInJar);
   }
   if (url == null) {
+    String unmappedName=unmapLibraryName(fileNameInJar);
     try {
-      System.loadLibrary(name);
-      logger.log(Level.FINE,"Loaded system installed " + "version of native library: {0}",name);
+      if (!name.equals("lwjgl") && !name.equals("jinput")) {
+        System.loadLibrary(unmappedName);
+        logger.log(Level.FINE,"Loaded system installed " + "version of native library: {0}",unmappedName);
+      }
     }
  catch (    UnsatisfiedLinkError e) {
       if (isRequired) {
-        throw new UnsatisfiedLinkError("The required native library '" + name + "'"+ " was not found in the classpath via '"+ pathInJar+ "'. Error message: "+ e.getMessage());
+        throw new UnsatisfiedLinkError("The required native library '" + unmappedName + "'"+ " was not found in the classpath via '"+ pathInJar+ "'. Error message: "+ e.getMessage());
       }
  else {
-        logger.log(Level.FINE,"The optional native library ''{0}''" + " was not found in the classpath via ''{1}''" + ". Error message: {2}",new Object[]{name,pathInJar,e.getMessage()});
+        logger.log(Level.FINE,"The optional native library ''{0}''" + " was not found in the classpath via ''{1}''" + ". Error message: {2}",new Object[]{unmappedName,pathInJar,e.getMessage()});
       }
     }
     return;
