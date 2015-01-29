@@ -2,10 +2,9 @@
   if (!init) {
     init();
   }
-  final DesktopAssetManager assetManager=(DesktopAssetManager)SceneApplication.getApplication().getAssetManager();
   SceneApplication.getApplication().enqueue(new Callable<Material>(){
     public Material call() throws Exception {
-      final Material mat=reloadMaterial(m,assetManager);
+      final Material mat=reloadMaterial(m);
       if (mat != null) {
         java.awt.EventQueue.invokeLater(new Runnable(){
           public void run(){
