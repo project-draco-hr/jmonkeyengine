@@ -19,6 +19,12 @@
               }
             }
  catch (            Exception e) {
+              java.awt.EventQueue.invokeLater(new Runnable(){
+                public void run(){
+                  label.setIcon(Icons.error);
+                }
+              }
+);
               Logger.getLogger(MaterialPreviewRenderer.class.getName()).log(Level.SEVERE,"Error rendering material{0}",e.getMessage());
             }
           }

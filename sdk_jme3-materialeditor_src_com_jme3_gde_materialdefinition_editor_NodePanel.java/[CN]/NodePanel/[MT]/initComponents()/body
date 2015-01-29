@@ -8,6 +8,14 @@
   header.addMouseMotionListener(labelMouseMotionListener);
   header.setHorizontalAlignment(SwingConstants.LEFT);
   header.setFont(new Font("Tahoma",Font.BOLD,11));
+  header.addMouseListener(new MouseAdapter(){
+    @Override public void mouseClicked(    MouseEvent e){
+      if (type == NodeType.Fragment || type == NodeType.Vertex) {
+        diagram.showEdit(NodePanel.this);
+      }
+    }
+  }
+);
   content=new JPanel();
   content.setOpaque(false);
   GroupLayout contentLayout=new GroupLayout(content);

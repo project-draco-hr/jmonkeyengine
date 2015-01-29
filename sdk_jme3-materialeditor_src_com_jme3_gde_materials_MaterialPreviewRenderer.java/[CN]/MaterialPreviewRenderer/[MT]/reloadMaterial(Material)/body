@@ -12,6 +12,12 @@
   }
  catch (  RendererException e) {
     Logger.getLogger(MaterialDebugAppState.class.getName()).log(Level.SEVERE,e.getMessage());
+    java.awt.EventQueue.invokeLater(new Runnable(){
+      public void run(){
+        label.setIcon(Icons.error);
+      }
+    }
+);
     return null;
   }
   return dummy;

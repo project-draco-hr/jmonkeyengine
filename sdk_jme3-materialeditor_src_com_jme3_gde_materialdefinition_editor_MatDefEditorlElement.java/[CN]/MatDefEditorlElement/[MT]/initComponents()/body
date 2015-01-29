@@ -1,14 +1,23 @@
 {
+  jSplitPane=new javax.swing.JSplitPane();
+  shaderEditPanel1=new com.jme3.gde.materialdefinition.editor.ShaderEditPanel();
   jScrollPane1=new javax.swing.JScrollPane();
   diagram1=new com.jme3.gde.materialdefinition.editor.Diagram();
+  jSplitPane.setDividerLocation(1);
+  jSplitPane.setDividerSize(6);
+  shaderEditPanel1.setMinimumSize(new java.awt.Dimension(0,0));
+  jSplitPane.setLeftComponent(shaderEditPanel1);
+  jScrollPane1.setMinimumSize(new java.awt.Dimension(0,0));
+  jScrollPane1.setName("");
   diagram1.setBackground(new java.awt.Color(153,153,153));
   javax.swing.GroupLayout diagram1Layout=new javax.swing.GroupLayout(diagram1);
   diagram1.setLayout(diagram1Layout);
-  diagram1Layout.setHorizontalGroup(diagram1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0,398,Short.MAX_VALUE));
-  diagram1Layout.setVerticalGroup(diagram1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0,298,Short.MAX_VALUE));
+  diagram1Layout.setHorizontalGroup(diagram1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0,1591,Short.MAX_VALUE));
+  diagram1Layout.setVerticalGroup(diagram1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0,782,Short.MAX_VALUE));
   jScrollPane1.setViewportView(diagram1);
+  jSplitPane.setRightComponent(jScrollPane1);
   javax.swing.GroupLayout layout=new javax.swing.GroupLayout(this);
   this.setLayout(layout);
-  layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1));
-  layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1));
+  layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jSplitPane,javax.swing.GroupLayout.DEFAULT_SIZE,470,Short.MAX_VALUE));
+  layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jSplitPane,javax.swing.GroupLayout.Alignment.TRAILING,javax.swing.GroupLayout.DEFAULT_SIZE,333,Short.MAX_VALUE));
 }

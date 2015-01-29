@@ -11,4 +11,7 @@
   this.addPropertyChangeListener(WeakListeners.propertyChange(node,this));
   refresh(node);
   addKeyListener(this);
+  this.filePaths.addAll(def.getShadersPath());
+  String defPath=((DefinitionBlock)node.getContents().get(0)).getPath();
+  this.filePaths.add(defPath);
 }

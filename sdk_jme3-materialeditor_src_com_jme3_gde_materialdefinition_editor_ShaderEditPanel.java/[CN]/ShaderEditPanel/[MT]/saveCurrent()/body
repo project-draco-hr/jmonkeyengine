@@ -1,0 +1,20 @@
+{
+  if (currentDataObject != null && currentDataObject.isModified()) {
+    try {
+      OutputStreamWriter out=new OutputStreamWriter(currentDataObject.getPrimaryFile().getOutputStream());
+      out.write(shaderEditorPane.getText(),0,shaderEditorPane.getText().length());
+      out.close();
+      currentDataObject.setModified(false);
+      if (currentDataObject.getPrimaryFile().getExt().equalsIgnoreCase("j3sn")) {
+        parent.reload();
+      }
+      parent.refresh();
+    }
+ catch (    DataObjectNotFoundException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
+}
