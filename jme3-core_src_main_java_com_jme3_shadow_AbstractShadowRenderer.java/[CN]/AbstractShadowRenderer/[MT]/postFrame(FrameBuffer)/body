@@ -7,7 +7,7 @@
   }
   lightReceivers=getReceivers(sceneReceivers,lightReceivers);
   if (lightReceivers.size() != 0) {
-    setMatParams();
+    setMatParams(lightReceivers);
     Camera cam=viewPort.getCamera();
     if (needsfallBackMaterial) {
       renderManager.setForcedMaterial(postshadowMat);

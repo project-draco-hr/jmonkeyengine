@@ -1,0 +1,7 @@
+{
+  if (rootScene != null && rootScene instanceof Node) {
+    int planeState=camera.getPlaneState();
+    addGeometriesInCamFrustumFromNode(camera,(Node)rootScene,mode,outputGeometryList);
+    camera.setPlaneState(planeState);
+  }
+}

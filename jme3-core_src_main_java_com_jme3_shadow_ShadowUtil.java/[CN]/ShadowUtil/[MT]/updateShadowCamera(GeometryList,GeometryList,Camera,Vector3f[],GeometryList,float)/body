@@ -21,35 +21,8 @@
       }
     }
   }
-  for (int i=0; i < occluders.size(); i++) {
-    Geometry occluder=occluders.get(i);
-    BoundingVolume bv=occluder.getWorldBound();
-    BoundingVolume occBox=bv.transform(viewProjMatrix,vars.bbox);
-    boolean intersects=splitBB.intersects(occBox);
-    if (!intersects && occBox instanceof BoundingBox) {
-      BoundingBox occBB=(BoundingBox)occBox;
-      occBB.setZExtent(occBB.getZExtent() + 50);
-      occBB.setCenter(occBB.getCenter().addLocal(0,0,25));
-      if (splitBB.intersects(occBB)) {
-        if (!Float.isNaN(occBox.getCenter().x) && !Float.isInfinite(occBox.getCenter().x)) {
-          occBB.setZExtent(occBB.getZExtent() - 50);
-          occBB.setCenter(occBB.getCenter().subtractLocal(0,0,25));
-          casterBB.mergeLocal(occBox);
-          casterCount++;
-        }
-        if (splitOccluders != null) {
-          splitOccluders.add(occluder);
-        }
-      }
-    }
- else     if (intersects) {
-      casterBB.mergeLocal(occBox);
-      casterCount++;
-      if (splitOccluders != null) {
-        splitOccluders.add(occluder);
-      }
-    }
-  }
+  OccludersExtractor occExt=new OccludersExtractor(viewProjMatrix,casterCount,splitBB,casterBB,splitOccluders,vars);
+  casterCount=occExt.addOccluders();
   if (casterCount != receiverCount) {
     casterBB.setXExtent(casterBB.getXExtent() + 2.0f);
     casterBB.setYExtent(casterBB.getYExtent() + 2.0f);

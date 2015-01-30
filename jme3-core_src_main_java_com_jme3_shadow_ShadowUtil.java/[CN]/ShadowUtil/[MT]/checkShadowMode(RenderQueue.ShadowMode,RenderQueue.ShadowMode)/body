@@ -1,0 +1,13 @@
+{
+  if (shadowMode != RenderQueue.ShadowMode.Off) {
+switch (desired) {
+case Cast:
+      return shadowMode == RenderQueue.ShadowMode.Cast || shadowMode == RenderQueue.ShadowMode.CastAndReceive;
+case Receive:
+    return shadowMode == RenderQueue.ShadowMode.Receive || shadowMode == RenderQueue.ShadowMode.CastAndReceive;
+case CastAndReceive:
+  return true;
+}
+}
+return false;
+}

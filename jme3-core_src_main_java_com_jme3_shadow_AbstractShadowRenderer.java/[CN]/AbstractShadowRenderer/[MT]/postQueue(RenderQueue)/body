@@ -1,8 +1,9 @@
 {
   GeometryList occluders=rq.getShadowQueueContent(ShadowMode.Cast);
   sceneReceivers=rq.getShadowQueueContent(ShadowMode.Receive);
+  lightReceivers.clear();
   skipPostPass=false;
-  if (sceneReceivers.size() == 0 || occluders.size() == 0 || !checkCulling(viewPort.getCamera())) {
+  if (!checkCulling(viewPort.getCamera())) {
     skipPostPass=true;
     return;
   }

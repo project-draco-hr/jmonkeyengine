@@ -1,3 +1,7 @@
 {
+  if (sceneReceivers.size() == 0) {
+    ShadowUtil.getGeometriesInCamFrustum(viewPort.getQueue().getRootScene(),viewPort.getCamera(),RenderQueue.ShadowMode.Receive,sceneReceivers);
+  }
+  lightReceivers=sceneReceivers;
   return sceneReceivers;
 }
