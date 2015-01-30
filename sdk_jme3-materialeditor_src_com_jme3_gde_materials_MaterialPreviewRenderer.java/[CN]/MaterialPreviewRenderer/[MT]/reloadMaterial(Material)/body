@@ -1,6 +1,5 @@
 {
-  MaterialKey key=new MaterialKey(mat.getMaterialDef().getAssetName());
-  assetManager.deleteFromCache(key);
+  ((ProjectAssetManager)mat.getMaterialDef().getAssetManager()).clearCache();
   Material dummy=new Material(mat.getMaterialDef());
   for (  MatParam matParam : mat.getParams()) {
     dummy.setParam(matParam.getName(),matParam.getVarType(),matParam.getValue());
@@ -13,6 +12,12 @@
   }
  catch (  RendererException e) {
     Logger.getLogger(MaterialDebugAppState.class.getName()).log(Level.SEVERE,e.getMessage());
+    java.awt.EventQueue.invokeLater(new Runnable(){
+      public void run(){
+        label.setIcon(Icons.error);
+      }
+    }
+);
     return null;
   }
   return dummy;

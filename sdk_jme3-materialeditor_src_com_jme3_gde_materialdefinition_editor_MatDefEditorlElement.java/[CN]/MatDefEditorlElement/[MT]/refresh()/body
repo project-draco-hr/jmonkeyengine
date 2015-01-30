@@ -1,0 +1,8 @@
+{
+  Lookup.Result<Material> resMat=obj.getLookup().lookupResult(Material.class);
+  Collection<? extends Material> col=(Collection<? extends Material>)resMat.allInstances();
+  if (!col.isEmpty()) {
+    Material material=col.iterator().next();
+    diagram1.refreshPreviews(material);
+  }
+}

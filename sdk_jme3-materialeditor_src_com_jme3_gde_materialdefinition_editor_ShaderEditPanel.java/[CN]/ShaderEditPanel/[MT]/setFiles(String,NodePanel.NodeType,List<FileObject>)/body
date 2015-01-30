@@ -1,0 +1,41 @@
+{
+  headerText.setText(title);
+  headerText.setIcon(Icons.getIconForShaderType(type));
+  boolean firstItem=true;
+  for (  Component component : buttonPanel.getComponents()) {
+    buttonGroup1.remove((JToggleButton)component);
+  }
+  buttonPanel.removeAll();
+  buttonPanel.repaint();
+  for (  FileObject fo : fos) {
+    final Tab b=new Tab();
+    b.setText(fo.getNameExt());
+    buttonGroup1.add(b);
+    try {
+      b.dataObject=DataObject.find(fo);
+      b.addActionListener(new ActionListener(){
+        public void actionPerformed(        ActionEvent e){
+          saveCurrent();
+          try {
+            shaderEditorPane.setText(b.dataObject.getPrimaryFile().asText());
+          }
+ catch (          IOException ex) {
+            Exceptions.printStackTrace(ex);
+          }
+          currentDataObject=b.dataObject;
+        }
+      }
+);
+      if (firstItem) {
+        shaderEditorPane.setText(fo.asText());
+        currentDataObject=b.dataObject;
+        b.setSelected(true);
+        firstItem=false;
+      }
+    }
+ catch (    IOException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+    buttonPanel.add(b);
+  }
+}

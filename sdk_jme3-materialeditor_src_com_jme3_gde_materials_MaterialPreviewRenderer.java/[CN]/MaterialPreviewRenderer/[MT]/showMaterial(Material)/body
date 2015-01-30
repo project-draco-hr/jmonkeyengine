@@ -2,10 +2,9 @@
   if (!init) {
     init();
   }
-  final DesktopAssetManager assetManager=(DesktopAssetManager)SceneApplication.getApplication().getAssetManager();
   SceneApplication.getApplication().enqueue(new Callable<Material>(){
     public Material call() throws Exception {
-      final Material mat=reloadMaterial(m,assetManager);
+      final Material mat=reloadMaterial(m);
       if (mat != null) {
         java.awt.EventQueue.invokeLater(new Runnable(){
           public void run(){
@@ -20,7 +19,13 @@
               }
             }
  catch (            Exception e) {
-              Logger.getLogger(MaterialPreviewRenderer.class.getName()).log(Level.SEVERE,"Error rendering material" + e.getMessage());
+              java.awt.EventQueue.invokeLater(new Runnable(){
+                public void run(){
+                  label.setIcon(Icons.error);
+                }
+              }
+);
+              Logger.getLogger(MaterialPreviewRenderer.class.getName()).log(Level.SEVERE,"Error rendering material{0}",e.getMessage());
             }
           }
         }

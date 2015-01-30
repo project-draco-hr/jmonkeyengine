@@ -1,0 +1,13 @@
+{
+  List<FileObject> fos=new ArrayList<FileObject>();
+  for (  String path : pathList) {
+    FileObject text=FileUtil.toFileObject(new File(getAssetManager().getAbsoluteAssetPath(path)));
+    fos.add(text);
+  }
+  shaderEditPanel1.setFiles(nodeName,type,fos);
+  shaderEditPanel1.revalidate();
+  if (!shaderEditPanel1.isVisible() || jSplitPane.getDividerLocation() == jSplitPane.getMinimumDividerLocation()) {
+    shaderEditPanel1.setVisible(true);
+    jSplitPane.setDividerLocation(650);
+  }
+}

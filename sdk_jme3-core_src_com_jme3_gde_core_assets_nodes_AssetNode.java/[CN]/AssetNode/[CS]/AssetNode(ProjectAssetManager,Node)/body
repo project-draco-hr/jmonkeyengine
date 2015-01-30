@@ -1,5 +1,5 @@
 {
-  super(node,new AssetChildren(manager,node),createLookupProxy(manager,node));
+  super(node,isFile(node) ? Children.LEAF : new AssetChildren(manager,node),createLookupProxy(manager,node));
   this.node=node;
   enableDelegation(DELEGATE_GET_ACTIONS);
   enableDelegation(DELEGATE_GET_CONTEXT_ACTIONS);
