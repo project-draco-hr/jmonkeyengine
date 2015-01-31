@@ -3,13 +3,24 @@
     throw new RendererException("OpenGL 2.0 or higher is " + "required for jMonkeyEngine");
   }
   if (settings.getRenderer().equals(AppSettings.LWJGL_OPENGL2) || settings.getRenderer().equals(AppSettings.LWJGL_OPENGL3)) {
-    LwjglGL gl=new LwjglGL();
-    LwjglGLExt glext=new LwjglGLExt();
-    renderer=new GLRenderer(gl,glext);
+    GL gl=new LwjglGL();
+    GLFbo glfbo=new LwjglGLExt();
+    if (settings.getBoolean("GraphicsDebug")) {
+      gl=new GLDebugGL2(gl,glfbo);
+      glfbo=(GLFbo)gl;
+    }
+    if (settings.getBoolean("GraphicsTrace")) {
+      gl=(GL)GLTracer.createDesktopGlTracer(gl,GL2.class);
+      glfbo=(GLFbo)GLTracer.createDesktopGlTracer(glfbo,GLExt.class);
+    }
+    renderer=new GLRenderer(gl,glfbo);
     renderer.initialize();
   }
  else {
     throw new UnsupportedOperationException("Unsupported renderer: " + settings.getRenderer());
+  }
+  if (GLContext.getCapabilities().GL_ARB_debug_output && settings.getBoolean("GraphicsDebug")) {
+    ARBDebugOutput.glDebugMessageCallbackARB(new ARBDebugOutputCallback());
   }
   renderer.setMainFrameBufferSrgb(settings.getGammaCorrection());
   renderer.setLinearizeSrgbImages(settings.getGammaCorrection());
