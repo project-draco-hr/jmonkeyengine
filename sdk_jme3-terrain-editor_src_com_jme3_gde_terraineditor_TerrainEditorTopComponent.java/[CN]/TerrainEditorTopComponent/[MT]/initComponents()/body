@@ -47,7 +47,7 @@
   jScrollPane1=new javax.swing.JScrollPane();
   hintTextArea=new javax.swing.JTextArea();
   textureFileChooser.setApproveButtonText(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.textureFileChooser.approveButtonText_1"));
-  textureFileChooser.setCurrentDirectory(new java.io.File("F:\\Assets\\Textures"));
+  textureFileChooser.setCurrentDirectory(new java.io.File("/Assets/Textures"));
   textureFileChooser.setDialogTitle(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.textureFileChooser.dialogTitle_1"));
   textureFileChooser.setFileFilter(new ImageFilter());
   levelBrushPanel.setBackground(new java.awt.Color(204,204,204));
@@ -159,15 +159,12 @@
   }
 );
   slopeBrushPanel.add(slopeLockCheckbox);
-  setBackground(java.awt.Color.gray);
-  jToolBar1.setBackground(new java.awt.Color(204,204,204));
   jToolBar1.setFloatable(false);
   jToolBar1.setRollover(true);
   jToolBar1.setOpaque(false);
   createTerrainButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jme3/gde/terraineditor/icon_terrain-new.png")));
   org.openide.awt.Mnemonics.setLocalizedText(createTerrainButton,org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.createTerrainButton.text"));
   createTerrainButton.setToolTipText(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.createTerrainButton.toolTipText"));
-  createTerrainButton.setOpaque(false);
   createTerrainButton.addActionListener(new java.awt.event.ActionListener(){
     public void actionPerformed(    java.awt.event.ActionEvent evt){
       createTerrainButtonActionPerformed(evt);
@@ -245,7 +242,6 @@
   org.openide.awt.Mnemonics.setLocalizedText(addTextureButton,org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.addTextureButton.text"));
   addTextureButton.setToolTipText(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.addTextureButton.toolTipText"));
   addTextureButton.setBorderPainted(false);
-  addTextureButton.setOpaque(false);
   addTextureButton.addActionListener(new java.awt.event.ActionListener(){
     public void actionPerformed(    java.awt.event.ActionEvent evt){
       addTextureButtonActionPerformed(evt);
@@ -257,7 +253,6 @@
   org.openide.awt.Mnemonics.setLocalizedText(removeTextureButton,org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.removeTextureButton.text"));
   removeTextureButton.setToolTipText(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.removeTextureButton.toolTipText"));
   removeTextureButton.setBorderPainted(false);
-  removeTextureButton.setOpaque(false);
   removeTextureButton.addActionListener(new java.awt.event.ActionListener(){
     public void actionPerformed(    java.awt.event.ActionEvent evt){
       removeTextureButtonActionPerformed(evt);
@@ -287,7 +282,6 @@
   radiusSlider.setPaintTicks(true);
   radiusSlider.setToolTipText(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.radiusSlider.toolTipText"));
   radiusSlider.setValue(5);
-  radiusSlider.setOpaque(false);
   radiusSlider.addChangeListener(new javax.swing.event.ChangeListener(){
     public void stateChanged(    javax.swing.event.ChangeEvent evt){
       radiusSliderStateChanged(evt);
@@ -300,7 +294,6 @@
   heightSlider.setMajorTickSpacing(20);
   heightSlider.setMaximum(200);
   heightSlider.setPaintTicks(true);
-  heightSlider.setOpaque(false);
   heightSlider.addChangeListener(new javax.swing.event.ChangeListener(){
     public void stateChanged(    javax.swing.event.ChangeEvent evt){
       heightSliderStateChanged(evt);
@@ -308,11 +301,9 @@
   }
 );
   jToolBar1.add(heightSlider);
-  toolSettingsPanel.setBackground(new java.awt.Color(204,204,204));
   toolSettingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.toolSettingsPanel.border.title")));
   toolSettingsPanel.setOpaque(false);
   toolSettingsPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER,0,0));
-  paintingPanel.setBackground(new java.awt.Color(204,204,204));
   paintingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.paintingPanel.border.title")));
   paintingPanel.setOpaque(false);
   textureTable.setModel(new TextureTableModel());
@@ -329,7 +320,6 @@
   paintingPanel.setLayout(paintingPanelLayout);
   paintingPanelLayout.setHorizontalGroup(paintingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(paintingPanelLayout.createSequentialGroup().addComponent(remainingTexTitleLabel).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(remainingTexturesLabel,javax.swing.GroupLayout.PREFERRED_SIZE,24,javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap()).addComponent(jScrollPane2,javax.swing.GroupLayout.DEFAULT_SIZE,281,Short.MAX_VALUE));
   paintingPanelLayout.setVerticalGroup(paintingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING,paintingPanelLayout.createSequentialGroup().addComponent(jScrollPane2,javax.swing.GroupLayout.DEFAULT_SIZE,85,Short.MAX_VALUE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(paintingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(remainingTexTitleLabel).addComponent(remainingTexturesLabel))));
-  jPanel2.setBackground(new java.awt.Color(204,204,204));
   jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.jPanel2.border.title")));
   jPanel2.setOpaque(false);
   shininessField.setText(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.shininessField.text"));
@@ -360,11 +350,10 @@
   jPanel2.setLayout(jPanel2Layout);
   jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel2Layout.createSequentialGroup().addComponent(shininessField,javax.swing.GroupLayout.PREFERRED_SIZE,41,javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jLabel1,javax.swing.GroupLayout.DEFAULT_SIZE,66,Short.MAX_VALUE)).addComponent(triPlanarCheckBox,javax.swing.GroupLayout.DEFAULT_SIZE,111,Short.MAX_VALUE));
   jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel2Layout.createSequentialGroup().addComponent(triPlanarCheckBox).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(shininessField,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jLabel1)).addContainerGap()));
-  hintPanel.setBackground(new java.awt.Color(204,204,204));
   hintPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(TerrainEditorTopComponent.class,"TerrainEditorTopComponent.hintPanel.border.title")));
   hintPanel.setOpaque(false);
-  hintTextArea.setColumns(20);
   hintTextArea.setEditable(false);
+  hintTextArea.setColumns(20);
   hintTextArea.setLineWrap(true);
   hintTextArea.setRows(2);
   hintTextArea.setTabSize(4);
