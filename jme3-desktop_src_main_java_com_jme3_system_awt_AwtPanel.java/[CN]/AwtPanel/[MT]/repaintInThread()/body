@@ -1,6 +1,6 @@
 {
   byteBuf.clear();
-  rm.getRenderer().readFrameBufferWithFormat(fb,byteBuf,Format.BGRA8);
+  rm.getRenderer().readFrameBuffer(fb,byteBuf);
 synchronized (lock) {
     Screenshots.convertScreenShot2(intBuf,img);
     repaint();

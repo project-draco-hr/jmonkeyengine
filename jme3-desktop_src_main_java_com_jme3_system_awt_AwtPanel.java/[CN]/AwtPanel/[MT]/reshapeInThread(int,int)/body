@@ -1,6 +1,10 @@
 {
   byteBuf=BufferUtils.ensureLargeEnough(byteBuf,width * height * 4);
   intBuf=byteBuf.asIntBuffer();
+  if (fb != null) {
+    fb.dispose();
+    fb=null;
+  }
   fb=new FrameBuffer(width,height,1);
   fb.setDepthBuffer(Format.Depth);
   fb.setColorBuffer(Format.RGB8);
@@ -8,7 +12,7 @@
     rm.getRenderer().setMainFrameBufferOverride(fb);
   }
 synchronized (lock) {
-    img=new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+    img=new BufferedImage(width,height,BufferedImage.TYPE_INT_BGR);
   }
   AffineTransform tx=AffineTransform.getScaleInstance(1,-1);
   tx.translate(0,-img.getHeight());
