@@ -1,0 +1,11 @@
+{
+  AffineTransform tx=AffineTransform.getScaleInstance(1,-1);
+  tx.translate(0,-original.getHeight());
+  AffineTransformOp transformOp=new AffineTransformOp(tx,AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+  BufferedImage awtImage=new BufferedImage(original.getWidth(),original.getHeight(),BufferedImage.TYPE_INT_BGR);
+  Graphics2D g2d=awtImage.createGraphics();
+  g2d.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_SPEED);
+  g2d.drawImage(original,transformOp,0,0);
+  g2d.dispose();
+  return awtImage;
+}

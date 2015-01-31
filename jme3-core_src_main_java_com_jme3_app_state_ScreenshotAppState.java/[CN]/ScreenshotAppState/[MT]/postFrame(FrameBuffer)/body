@@ -7,7 +7,7 @@
     int viewWidth=(int)((curCamera.getViewPortRight() - curCamera.getViewPortLeft()) * curCamera.getWidth());
     int viewHeight=(int)((curCamera.getViewPortTop() - curCamera.getViewPortBottom()) * curCamera.getHeight());
     renderer.setViewPort(0,0,width,height);
-    renderer.readFrameBufferWithFormat(out,outBuf,Image.Format.BGRA8);
+    renderer.readFrameBuffer(out,outBuf);
     renderer.setViewPort(viewX,viewY,viewWidth,viewHeight);
     File file;
     String filename;

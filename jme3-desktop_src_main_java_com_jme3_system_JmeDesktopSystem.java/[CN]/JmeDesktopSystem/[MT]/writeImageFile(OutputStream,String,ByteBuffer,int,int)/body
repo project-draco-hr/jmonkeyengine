@@ -1,5 +1,22 @@
 {
-  BufferedImage awtImage=new BufferedImage(width,height,BufferedImage.TYPE_4BYTE_ABGR);
-  Screenshots.convertScreenShot(imageData,awtImage);
-  ImageIO.write(awtImage,format,outStream);
+  BufferedImage awtImage=new BufferedImage(width,height,BufferedImage.TYPE_INT_BGR);
+  Screenshots.convertScreenShot2(imageData.asIntBuffer(),awtImage);
+  ImageWriter writer=ImageIO.getImageWritersByFormatName(format).next();
+  ImageWriteParam writeParam=writer.getDefaultWriteParam();
+  if (format.equals("jpg")) {
+    JPEGImageWriteParam jpegParam=(JPEGImageWriteParam)writeParam;
+    jpegParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+    jpegParam.setCompressionQuality(0.95f);
+  }
+  awtImage=verticalFlip(awtImage);
+  ImageOutputStream imgOut=new MemoryCacheImageOutputStream(outStream);
+  writer.setOutput(imgOut);
+  IIOImage outputImage=new IIOImage(awtImage,null,null);
+  try {
+    writer.write(null,outputImage,writeParam);
+  }
+  finally {
+    imgOut.close();
+    writer.dispose();
+  }
 }
