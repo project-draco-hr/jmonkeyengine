@@ -17,4 +17,7 @@
   String[] freqs=getFrequencies(resolution,modes);
   displayFreqCombo.setModel(new DefaultComboBoxModel(freqs));
   displayFreqCombo.setSelectedItem(displayFreq);
+  if (!displayFreqCombo.getSelectedItem().equals(displayFreq)) {
+    displayFreqCombo.setSelectedItem(getBestFrequency(resolution,modes));
+  }
 }
