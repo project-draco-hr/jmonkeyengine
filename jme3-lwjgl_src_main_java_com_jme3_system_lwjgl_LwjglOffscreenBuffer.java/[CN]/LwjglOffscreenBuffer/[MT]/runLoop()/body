@@ -16,6 +16,7 @@
   listener.update();
   checkGLError();
   renderer.postFrame();
+  GL11.glFlush();
   int frameRate=settings.getFrameRate();
   if (frameRate >= 1) {
     Display.sync(frameRate);
