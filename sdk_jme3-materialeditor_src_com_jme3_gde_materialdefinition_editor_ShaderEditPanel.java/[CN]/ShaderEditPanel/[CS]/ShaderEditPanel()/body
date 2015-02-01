@@ -6,14 +6,13 @@
   shaderEditorPane.setContentType(mime);
   shaderEditorPane.addKeyListener(new KeyListener(){
     public void keyTyped(    KeyEvent e){
-      currentDataObject.setModified(true);
     }
     public void keyPressed(    KeyEvent e){
-    }
-    public void keyReleased(    KeyEvent e){
       if ((e.getKeyCode() == KeyEvent.VK_S) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
         saveCurrent();
       }
+    }
+    public void keyReleased(    KeyEvent e){
     }
   }
 );

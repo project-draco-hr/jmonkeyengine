@@ -17,7 +17,7 @@
         public void actionPerformed(        ActionEvent e){
           saveCurrent();
           try {
-            shaderEditorPane.setText(b.dataObject.getPrimaryFile().asText());
+            shaderEditorPane.setDocument(b.dataObject.getLookup().lookup(EditorCookie.class).openDocument());
           }
  catch (          IOException ex) {
             Exceptions.printStackTrace(ex);
@@ -27,7 +27,7 @@
       }
 );
       if (firstItem) {
-        shaderEditorPane.setText(fo.asText());
+        shaderEditorPane.setDocument(b.dataObject.getLookup().lookup(EditorCookie.class).openDocument());
         currentDataObject=b.dataObject;
         b.setSelected(true);
         firstItem=false;

@@ -1,9 +1,8 @@
 {
   if (currentDataObject != null && currentDataObject.isModified()) {
+    FileLock lock=null;
     try {
-      OutputStreamWriter out=new OutputStreamWriter(currentDataObject.getPrimaryFile().getOutputStream());
-      out.write(shaderEditorPane.getText(),0,shaderEditorPane.getText().length());
-      out.close();
+      currentDataObject.getLookup().lookup(EditorCookie.class).saveDocument();
       currentDataObject.setModified(false);
       if (currentDataObject.getPrimaryFile().getExt().equalsIgnoreCase("j3sn")) {
         parent.reload();
@@ -15,6 +14,11 @@
     }
 catch (    IOException ex) {
       Exceptions.printStackTrace(ex);
+    }
+ finally {
+      if (lock != null) {
+        lock.releaseLock();
+      }
     }
   }
 }
