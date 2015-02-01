@@ -9,14 +9,8 @@
       r.setTexture(0,texParam.getTextureValue());
     }
  else {
-      if (!techDef.isUsingShaders()) {
-        continue;
-      }
       technique.updateUniformParam(param.getName(),param.getVarType(),param.getValue());
     }
   }
-  Shader shader=technique.getShader();
-  if (techDef.isUsingShaders()) {
-    r.setShader(shader);
-  }
+  r.setShader(technique.getShader());
 }

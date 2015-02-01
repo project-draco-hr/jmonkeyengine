@@ -16,10 +16,8 @@
       r.applyRenderState(RenderState.DEFAULT.copyMergedTo(additionalState,mergedRenderState));
     }
   }
-  if (techDef.isUsingShaders()) {
-    clearUniformsSetByCurrent(technique.getShader());
-    rm.updateUniformBindings(technique.getWorldBindUniforms());
-  }
+  clearUniformsSetByCurrent(technique.getShader());
+  rm.updateUniformBindings(technique.getWorldBindUniforms());
   for (int i=0; i < paramValues.size(); i++) {
     MatParam param=paramValues.getValue(i);
     param.apply(r,technique);
@@ -44,9 +42,7 @@ resetUniformsNotSetByCurrent(shader);
 renderMultipassLighting(shader,geom,lights,rm);
 return;
 }
-if (techDef.isUsingShaders()) {
 resetUniformsNotSetByCurrent(shader);
 r.setShader(shader);
-}
 renderMeshFromGeometry(r,geom);
 }

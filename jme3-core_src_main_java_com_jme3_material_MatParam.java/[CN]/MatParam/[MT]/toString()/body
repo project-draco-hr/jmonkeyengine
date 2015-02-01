@@ -1,3 +1,8 @@
 {
-  return type.name() + " " + name+ " : "+ getValueAsString();
+  if (value != null) {
+    return type.name() + " " + name+ " : "+ getValueAsString();
+  }
+ else {
+    return type.name() + " " + name;
+  }
 }
