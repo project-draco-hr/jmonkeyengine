@@ -11,10 +11,12 @@
   skyMat.setVector3("NormalScale",normalScale);
 switch (envMapType) {
 case CubeMap:
-    Image img=texture.getImage();
-  texture=new TextureCubeMap();
-texture.setImage(img);
-break;
+    if (!(texture instanceof TextureCubeMap)) {
+      Image img=texture.getImage();
+      texture=new TextureCubeMap();
+      texture.setImage(img);
+    }
+  break;
 case SphereMap:
 skyMat.setBoolean("SphereMap",true);
 break;
@@ -24,6 +26,8 @@ break;
 }
 texture.setMagFilter(Texture.MagFilter.Bilinear);
 texture.setMinFilter(Texture.MinFilter.BilinearNoMipMaps);
+texture.setAnisotropicFilter(0);
+texture.setWrap(Texture.WrapMode.EdgeClamp);
 skyMat.setTexture("Texture",texture);
 sky.setMaterial(skyMat);
 return sky;
