@@ -8,11 +8,11 @@
     statistics.onNewTexture();
   }
   int target=convertTextureType(type,img.getMultiSamples(),-1);
-  if (context.boundTextureUnit != unit) {
-    gl.glActiveTexture(GL.GL_TEXTURE0 + unit);
-    context.boundTextureUnit=unit;
-  }
   if (context.boundTextures[unit] != img) {
+    if (context.boundTextureUnit != unit) {
+      gl.glActiveTexture(GL.GL_TEXTURE0 + unit);
+      context.boundTextureUnit=unit;
+    }
     gl.glBindTexture(target,texId);
     context.boundTextures[unit]=img;
     statistics.onTextureUse(img,true);
@@ -34,10 +34,10 @@
   int imageSamples=img.getMultiSamples();
   if (imageSamples > 1) {
     if (img.getFormat().isDepthFormat()) {
-      img.setMultiSamples(Math.min(maxDepthTexSamples,imageSamples));
+      img.setMultiSamples(Math.min(limits.get(Limits.DepthTextureSamples),imageSamples));
     }
  else {
-      img.setMultiSamples(Math.min(maxColorTexSamples,imageSamples));
+      img.setMultiSamples(Math.min(limits.get(Limits.ColorTextureSamples),imageSamples));
     }
   }
   if (!caps.contains(Caps.TextureMultisample)) {
@@ -49,16 +49,18 @@
     throw new RendererException("Depth textures are not supported by the video hardware");
   }
   if (target == GL.GL_TEXTURE_CUBE_MAP) {
-    if (img.getWidth() > maxCubeTexSize || img.getHeight() > maxCubeTexSize) {
-      throw new RendererException("Cannot upload cubemap " + img + ". The maximum supported cubemap resolution is "+ maxCubeTexSize);
+    int cubeSize=limits.get(Limits.CubemapSize);
+    if (img.getWidth() > cubeSize || img.getHeight() > cubeSize) {
+      throw new RendererException("Cannot upload cubemap " + img + ". The maximum supported cubemap resolution is "+ cubeSize);
     }
     if (img.getWidth() != img.getHeight()) {
       throw new RendererException("Cubemaps must have square dimensions");
     }
   }
  else {
-    if (img.getWidth() > maxTexSize || img.getHeight() > maxTexSize) {
-      throw new RendererException("Cannot upload texture " + img + ". The maximum supported texture resolution is "+ maxTexSize);
+    int texSize=limits.get(Limits.TextureSize);
+    if (img.getWidth() > texSize || img.getHeight() > texSize) {
+      throw new RendererException("Cannot upload texture " + img + ". The maximum supported texture resolution is "+ texSize);
     }
   }
   if (target == GL.GL_TEXTURE_CUBE_MAP) {

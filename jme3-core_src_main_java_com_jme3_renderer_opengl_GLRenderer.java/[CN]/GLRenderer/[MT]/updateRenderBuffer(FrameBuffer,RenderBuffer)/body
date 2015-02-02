@@ -9,14 +9,16 @@
     glfbo.glBindRenderbufferEXT(GLExt.GL_RENDERBUFFER_EXT,id);
     context.boundRB=id;
   }
-  if (fb.getWidth() > maxRBSize || fb.getHeight() > maxRBSize) {
+  int rbSize=limits.get(Limits.RenderBufferSize);
+  if (fb.getWidth() > rbSize || fb.getHeight() > rbSize) {
     throw new RendererException("Resolution " + fb.getWidth() + ":"+ fb.getHeight()+ " is not supported.");
   }
   GLImageFormat glFmt=texUtil.getImageFormatWithError(rb.getFormat(),fb.isSrgb());
   if (fb.getSamples() > 1 && caps.contains(Caps.FrameBufferMultisample)) {
     int samples=fb.getSamples();
-    if (maxFBOSamples < samples) {
-      samples=maxFBOSamples;
+    int maxSamples=limits.get(Limits.FrameBufferSamples);
+    if (maxSamples < samples) {
+      samples=maxSamples;
     }
     glext.glRenderbufferStorageMultisampleEXT(GLExt.GL_RENDERBUFFER_EXT,samples,glFmt.internalFormat,fb.getWidth(),fb.getHeight());
   }

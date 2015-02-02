@@ -6,11 +6,11 @@
     GL gl=new LwjglGL();
     GLFbo glfbo=new LwjglGLExt();
     if (settings.getBoolean("GraphicsDebug")) {
-      gl=new GLDebugGL2(gl,glfbo);
+      gl=new GLDebugDesktop(gl,glfbo);
       glfbo=(GLFbo)gl;
     }
     if (settings.getBoolean("GraphicsTrace")) {
-      gl=(GL)GLTracer.createDesktopGlTracer(gl,GL2.class);
+      gl=(GL)GLTracer.createDesktopGlTracer(gl,GL.class,GL2.class,GL3.class);
       glfbo=(GLFbo)GLTracer.createDesktopGlTracer(glfbo,GLExt.class);
     }
     renderer=new GLRenderer(gl,glfbo);

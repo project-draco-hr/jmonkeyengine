@@ -22,25 +22,6 @@
     gl.glDepthFunc(convertTestFunction(state.getDepthFunc()));
     context.depthFunc=state.getDepthFunc();
   }
-  if (gl2 != null) {
-    if (state.isAlphaTest() && !context.alphaTestEnabled) {
-      gl2.glEnable(GL2.GL_ALPHA_TEST);
-      gl2.glAlphaFunc(convertTestFunction(context.alphaFunc),context.alphaTestFallOff);
-      context.alphaTestEnabled=true;
-    }
- else     if (!state.isAlphaTest() && context.alphaTestEnabled) {
-      gl2.glDisable(GL2.GL_ALPHA_TEST);
-      context.alphaTestEnabled=false;
-    }
-    if (state.getAlphaFallOff() != context.alphaTestFallOff) {
-      gl2.glAlphaFunc(convertTestFunction(context.alphaFunc),context.alphaTestFallOff);
-      context.alphaTestFallOff=state.getAlphaFallOff();
-    }
-    if (state.getAlphaFunc() != context.alphaFunc) {
-      gl2.glAlphaFunc(convertTestFunction(state.getAlphaFunc()),context.alphaTestFallOff);
-      context.alphaFunc=state.getAlphaFunc();
-    }
-  }
   if (state.isDepthWrite() && !context.depthWriteEnabled) {
     gl.glDepthMask(true);
     context.depthWriteEnabled=true;

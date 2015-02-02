@@ -17,7 +17,7 @@
   }
   if (caps.contains(Caps.OpenGL30) && gl3 != null) {
     gl3.glBindFragDataLocation(id,0,"outFragColor");
-    for (int i=0; i < maxMRTFBOAttachs; i++) {
+    for (int i=0; i < limits.get(Limits.FrameBufferMrtAttachments); i++) {
       gl3.glBindFragDataLocation(id,i,"outFragData[" + i + "]");
     }
   }
