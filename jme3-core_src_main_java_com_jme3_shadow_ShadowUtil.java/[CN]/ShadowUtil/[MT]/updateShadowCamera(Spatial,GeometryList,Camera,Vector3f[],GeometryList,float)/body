@@ -22,7 +22,7 @@
     }
   }
   OccludersExtractor occExt=new OccludersExtractor(viewProjMatrix,casterCount,splitBB,casterBB,splitOccluders,vars);
-  casterCount=occExt.addOccluders();
+  casterCount=occExt.addOccluders(rootScene);
   if (casterCount != receiverCount) {
     casterBB.setXExtent(casterBB.getXExtent() + 2.0f);
     casterBB.setYExtent(casterBB.getYExtent() + 2.0f);

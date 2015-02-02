@@ -14,9 +14,7 @@
   shadowCam.setLocation(frustaCenter);
   shadowCam.update();
   shadowCam.updateViewProjection();
-  ShadowUtil.rootScene=rq.getRootScene();
-  ShadowUtil.updateShadowCamera(null,lightReceivers,shadowCam,points,shadowOccluders,shadowMapSize);
-  ShadowUtil.rootScene=null;
+  ShadowUtil.updateShadowCamera(rq.getRootScene(),lightReceivers,shadowCam,points,shadowOccluders,shadowMapSize);
   if (shadowOccluders.size() == 0) {
     noOccluders=true;
     return;

@@ -1,5 +1,5 @@
 {
-  shadowMapOccluders=getOccludersToRender(shadowMapIndex,occluders,receivers,shadowMapOccluders);
+  shadowMapOccluders=getOccludersToRender(shadowMapIndex,shadowMapOccluders);
   Camera shadowCam=getShadowCam(shadowMapIndex);
   lightViewProjectionsMatrices[shadowMapIndex].set(shadowCam.getViewProjectionMatrix());
   renderManager.setCamera(shadowCam,false);

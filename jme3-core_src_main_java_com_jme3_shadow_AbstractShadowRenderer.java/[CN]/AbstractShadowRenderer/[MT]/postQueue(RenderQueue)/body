@@ -1,5 +1,4 @@
 {
-  GeometryList occluders=rq.getShadowQueueContent(ShadowMode.Cast);
   sceneReceivers=rq.getShadowQueueContent(ShadowMode.Receive);
   lightReceivers.clear();
   skipPostPass=false;
@@ -15,12 +14,9 @@
     if (debugfrustums) {
       doDisplayFrustumDebug(shadowMapIndex);
     }
-    renderShadowMap(shadowMapIndex,occluders,sceneReceivers);
+    renderShadowMap(shadowMapIndex);
   }
   debugfrustums=false;
-  if (flushQueues) {
-    occluders.clear();
-  }
   r.setFrameBuffer(viewPort.getOutputFrameBuffer());
   renderManager.setForcedMaterial(null);
   renderManager.setForcedTechnique(null);

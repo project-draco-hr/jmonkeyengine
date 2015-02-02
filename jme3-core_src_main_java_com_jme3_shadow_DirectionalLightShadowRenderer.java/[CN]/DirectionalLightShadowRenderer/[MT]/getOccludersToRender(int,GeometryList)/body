@@ -3,6 +3,6 @@
   if (sceneReceivers.size() == 0) {
     ShadowUtil.getGeometriesInCamFrustum(viewPort.getQueue().getRootScene(),viewPort.getCamera(),RenderQueue.ShadowMode.Receive,sceneReceivers);
   }
-  ShadowUtil.updateShadowCameraFromRoot(viewPort.getQueue().getRootScene(),sceneReceivers,shadowCam,points,shadowMapOccluders,stabilize ? shadowMapSize : 0);
+  ShadowUtil.updateShadowCamera(viewPort.getQueue().getRootScene(),sceneReceivers,shadowCam,points,shadowMapOccluders,stabilize ? shadowMapSize : 0);
   return shadowMapOccluders;
 }
