@@ -1,0 +1,8 @@
+{
+  if (backDrop.getParent() == null) {
+    add(backDrop);
+    ((JViewport)getParent()).addChangeListener(backDrop);
+  }
+  backDrop.setVisible(true);
+  backDrop.update(((JViewport)getParent()));
+}

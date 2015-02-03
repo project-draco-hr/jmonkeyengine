@@ -1,0 +1,10 @@
+{
+  Diagram diagram=((Diagram)getParent());
+  if (diagram.getComponentZOrder(this) > 0) {
+    diagram.setComponentZOrder(this,0);
+  }
+ else {
+    diagram.setComponentZOrder(this,((Diagram)getParent()).getComponentCount() - 1);
+  }
+  diagram.repaint();
+}

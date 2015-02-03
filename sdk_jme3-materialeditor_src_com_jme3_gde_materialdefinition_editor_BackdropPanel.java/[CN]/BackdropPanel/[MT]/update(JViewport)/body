@@ -1,0 +1,18 @@
+{
+  if (isVisible()) {
+    JScrollPane pane=(JScrollPane)viewPort.getParent();
+    int width=viewPort.getWidth();
+    int height=viewPort.getHeight();
+    int size=Math.min(width,height) - 25;
+    setSize(size,size);
+    setBounds(0,0,size,size);
+    setLocation(pane.getHorizontalScrollBar().getValue() + width / 2 - size / 2,pane.getVerticalScrollBar().getValue() + height / 2 - size / 2);
+    repaint();
+    if (recalculateTimer.isRunning()) {
+      recalculateTimer.restart();
+    }
+ else {
+      recalculateTimer.start();
+    }
+  }
+}

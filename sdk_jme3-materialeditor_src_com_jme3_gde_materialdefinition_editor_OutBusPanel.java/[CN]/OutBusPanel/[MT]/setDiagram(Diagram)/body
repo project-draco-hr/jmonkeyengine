@@ -2,4 +2,10 @@
   super.setDiagram(diagram);
   diagram.add(preview);
   preview.update(this);
+  preview.setExpandActionListener(new ActionListener(){
+    public void actionPerformed(    ActionEvent e){
+      diagram.displayBackdrop();
+    }
+  }
+);
 }

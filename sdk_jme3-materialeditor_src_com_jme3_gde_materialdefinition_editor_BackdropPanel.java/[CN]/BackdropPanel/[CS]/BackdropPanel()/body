@@ -1,0 +1,23 @@
+{
+  initComponents();
+  setLayout(null);
+  toolBar.setVisible(false);
+  addMouseListener(this);
+  renderer=new MaterialPreviewRenderer(previewLabel);
+  recalculateTimer.setRepeats(false);
+  addComponentListener(new ComponentAdapter(){
+    @Override public void componentResized(    ComponentEvent e){
+      updateComponents(e);
+    }
+    @Override public void componentShown(    ComponentEvent e){
+      updateComponents(e);
+    }
+    @Override public void componentMoved(    ComponentEvent e){
+      updateComponents(e);
+    }
+  }
+);
+  previewLabel.setBounds(0,0,120,120);
+  toolBar.setBounds(0,0,120,16);
+  repaint();
+}
