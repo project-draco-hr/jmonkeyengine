@@ -18,6 +18,8 @@
           saveCurrent();
           try {
             shaderEditorPane.setDocument(b.dataObject.getLookup().lookup(EditorCookie.class).openDocument());
+            undoRedoManager.discardAllEdits();
+            shaderEditorPane.getDocument().addUndoableEditListener(undoRedoManager);
           }
  catch (          IOException ex) {
             Exceptions.printStackTrace(ex);
@@ -28,6 +30,8 @@
 );
       if (firstItem) {
         shaderEditorPane.setDocument(b.dataObject.getLookup().lookup(EditorCookie.class).openDocument());
+        undoRedoManager.discardAllEdits();
+        shaderEditorPane.getDocument().addUndoableEditListener(undoRedoManager);
         currentDataObject=b.dataObject;
         b.setSelected(true);
         firstItem=false;
