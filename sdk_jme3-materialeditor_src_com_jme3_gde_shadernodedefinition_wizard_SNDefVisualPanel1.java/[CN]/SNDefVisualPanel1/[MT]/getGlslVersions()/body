@@ -1,0 +1,25 @@
+{
+  List<String> versions=new ArrayList<String>();
+  if (glsl100.isSelected()) {
+    versions.add("100");
+  }
+  if (glsl110.isSelected()) {
+    versions.add("110");
+  }
+  if (glsl120.isSelected()) {
+    versions.add("120");
+  }
+  if (glsl130.isSelected()) {
+    versions.add("130");
+  }
+  if (glsl140.isSelected()) {
+    versions.add("140");
+  }
+  if (glsl150.isSelected()) {
+    versions.add("150");
+  }
+  if (glslCustom.isSelected()) {
+    versions.add(customGlslVer.getText().replace(".","") + "0");
+  }
+  return versions;
+}

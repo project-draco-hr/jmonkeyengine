@@ -2,7 +2,9 @@
   initComponents();
   DefaultComboBoxModel<String> model=new DefaultComboBoxModel<String>();
   for (  Shader.ShaderType shaderType : Shader.ShaderType.values()) {
-    model.addElement(shaderType.name());
+    if (!shaderType.name().equalsIgnoreCase("geometry")) {
+      model.addElement(shaderType.name());
+    }
   }
   shaderTypeCB.setModel(model);
 }

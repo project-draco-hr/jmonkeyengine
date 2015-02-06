@@ -18,17 +18,16 @@
   ProjectAssetManager assetManager=new ProjectAssetManager(Templates.getProject(wizard),"assets");
   String targetName=Templates.getTargetName(wizard);
   String shaderName=targetName;
-  if (panel1.getDefType().equals("Fragment")) {
-    shaderName+=".frag";
+  String ext=".frag";
+  if (panel1.getDefType().equals("Vertex")) {
+    ext=".vert";
   }
- else   if (panel1.getDefType().equals("Vertex")) {
-    shaderName+=".vert";
-  }
- else {
-    shaderName+=".frag";
-  }
+  args.put("ext",ext);
+  args.put("glslVersions",panel1.getGlslVersions());
   args.put("shaderSnippet",assetManager.getRelativeAssetPath(dir.getPath() + "/" + shaderName));
-  DataObject sobj=templateShd.createFromTemplate(df,shaderName,args);
+  for (  String ver : panel1.getGlslVersions()) {
+    templateShd.createFromTemplate(df,shaderName + ver + ext,args);
+  }
   DataObject dobj=templateSnd.createFromTemplate(df,targetName,args);
   createdFile=dobj.getPrimaryFile();
   return Collections.singleton(createdFile);
