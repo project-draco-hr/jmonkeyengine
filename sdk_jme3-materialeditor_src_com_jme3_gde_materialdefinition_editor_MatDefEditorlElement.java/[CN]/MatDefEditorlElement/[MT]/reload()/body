@@ -1,3 +1,10 @@
 {
-  reload(obj.getEditableFile(),obj.getLookup());
+  try {
+    obj.getLookup().lookup(EditorCookie.class).saveDocument();
+    obj.getEditableFile().load(obj.getLookup());
+    reload(obj.getEditableFile(),obj.getLookup());
+  }
+ catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
 }

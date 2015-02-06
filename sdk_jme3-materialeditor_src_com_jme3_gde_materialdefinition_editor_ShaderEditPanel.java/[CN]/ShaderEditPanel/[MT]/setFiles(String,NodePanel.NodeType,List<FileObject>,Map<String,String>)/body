@@ -17,28 +17,40 @@
         public void actionPerformed(        ActionEvent e){
           saveCurrent();
           try {
-            shaderEditorPane.setDocument(b.dataObject.getLookup().lookup(EditorCookie.class).openDocument());
-            undoRedoManager.discardAllEdits();
-            shaderEditorPane.getDocument().addUndoableEditListener(undoRedoManager);
+            switchEditableDoc(b);
           }
  catch (          IOException ex) {
             Exceptions.printStackTrace(ex);
           }
-          currentDataObject=b.dataObject;
         }
       }
 );
       if (firstItem) {
-        shaderEditorPane.setDocument(b.dataObject.getLookup().lookup(EditorCookie.class).openDocument());
-        undoRedoManager.discardAllEdits();
-        shaderEditorPane.getDocument().addUndoableEditListener(undoRedoManager);
-        currentDataObject=b.dataObject;
+        switchEditableDoc(b);
         b.setSelected(true);
         firstItem=false;
       }
     }
  catch (    IOException ex) {
       Exceptions.printStackTrace(ex);
+    }
+    buttonPanel.add(b);
+  }
+  for (  String key : readOnlyFiles.keySet()) {
+    final Tab b=new Tab();
+    b.setText(key);
+    buttonGroup1.add(b);
+    final String theKey=key;
+    b.addActionListener(new ActionListener(){
+      public void actionPerformed(      ActionEvent e){
+        switchReadOnlyDoc(readOnlyFiles.get(theKey));
+      }
+    }
+);
+    if (firstItem) {
+      switchReadOnlyDoc(readOnlyFiles.get(key));
+      b.setSelected(true);
+      firstItem=false;
     }
     buttonPanel.add(b);
   }

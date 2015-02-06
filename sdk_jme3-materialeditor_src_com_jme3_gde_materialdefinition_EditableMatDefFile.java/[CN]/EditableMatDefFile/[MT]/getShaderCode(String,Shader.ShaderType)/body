@@ -10,8 +10,7 @@
       glsl150.initialize(material.getActiveTechnique());
       s=glsl150.generateShader();
     }
-    for (Iterator<Shader.ShaderSource> it=s.getSources().iterator(); it.hasNext(); ) {
-      Shader.ShaderSource source=it.next();
+    for (    Shader.ShaderSource source : s.getSources()) {
       if (source.getType() == type) {
         return source.getSource();
       }

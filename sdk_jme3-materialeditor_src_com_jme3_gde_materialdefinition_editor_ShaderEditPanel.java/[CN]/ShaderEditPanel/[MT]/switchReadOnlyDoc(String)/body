@@ -1,0 +1,9 @@
+{
+  if (currentDataObject != null) {
+    currentDataObject.getLookup().lookup(EditorCookie.class).close();
+  }
+  shaderEditorPane.setText(text);
+  undoRedoManager.discardAllEdits();
+  shaderEditorPane.setEditable(false);
+  currentDataObject=null;
+}

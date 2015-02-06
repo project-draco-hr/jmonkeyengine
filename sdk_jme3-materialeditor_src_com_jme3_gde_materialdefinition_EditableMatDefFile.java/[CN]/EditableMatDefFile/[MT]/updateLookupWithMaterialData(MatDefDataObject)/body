@@ -5,7 +5,12 @@
     material.selectTechnique("Default",SceneApplication.getApplication().getRenderManager());
     if (matToRemove != null) {
       for (      MatParam matParam : matToRemove.getParams()) {
-        material.setParam(matParam.getName(),matParam.getVarType(),matParam.getValue());
+        try {
+          material.setParam(matParam.getName(),matParam.getVarType(),matParam.getValue());
+        }
+ catch (        IllegalArgumentException ie) {
+          matToRemove.clearParam(matParam.getName());
+        }
       }
       obj.getLookupContents().remove(matToRemove);
       matToRemove=null;

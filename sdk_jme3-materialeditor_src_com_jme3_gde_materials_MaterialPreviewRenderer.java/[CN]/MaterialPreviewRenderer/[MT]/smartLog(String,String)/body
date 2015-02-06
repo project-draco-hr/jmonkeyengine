@@ -1,0 +1,7 @@
+{
+  int hash=message.hashCode();
+  if (hash != lastErrorHash) {
+    Logger.getLogger(MaterialPreviewRenderer.class.getName()).log(Level.SEVERE,expText,message);
+    lastErrorHash=hash;
+  }
+}

@@ -1,10 +1,29 @@
 {
   List<FileObject> fos=new ArrayList<FileObject>();
+  Map<String,String> readOnlyFiles=new HashMap<String,String>();
   for (  String path : pathList) {
-    FileObject text=FileUtil.toFileObject(new File(getAssetManager().getAbsoluteAssetPath(path)));
-    fos.add(text);
+    try {
+      FileObject text=FileUtil.toFileObject(new File(getAssetManager().getAbsoluteAssetPath(path)));
+      fos.add(text);
+    }
+ catch (    NullPointerException e) {
+      try {
+        InputStream is=getAssetManager().getResourceAsStream(path);
+        BufferedReader reader=new BufferedReader(new InputStreamReader(is));
+        StringBuilder out=new StringBuilder();
+        String line;
+        while ((line=reader.readLine()) != null) {
+          out.append(line).append("\n");
+        }
+        readOnlyFiles.put(path.substring(path.lastIndexOf("/") + 1),out.toString());
+        reader.close();
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
   }
-  shaderEditPanel1.setFiles(nodeName,type,fos);
+  shaderEditPanel1.setFiles(nodeName,type,fos,readOnlyFiles);
   shaderEditPanel1.revalidate();
   if (!shaderEditPanel1.isVisible() || jSplitPane.getDividerLocation() == jSplitPane.getMinimumDividerLocation()) {
     shaderEditPanel1.setVisible(true);
