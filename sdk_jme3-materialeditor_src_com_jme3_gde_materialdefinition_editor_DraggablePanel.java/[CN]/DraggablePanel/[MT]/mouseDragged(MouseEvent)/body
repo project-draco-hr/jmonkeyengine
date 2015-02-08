@@ -1,9 +1,11 @@
 {
-  int xoffset=0;
-  if (!vertical) {
-    xoffset=e.getLocationOnScreen().x - svdex;
+  if (!SwingUtilities.isMiddleMouseButton(e)) {
+    int xoffset=0;
+    if (!vertical) {
+      xoffset=e.getLocationOnScreen().x - svdex;
+    }
+    int yoffset=e.getLocationOnScreen().y - svdey;
+    setLocation(Math.max(0,svdx + xoffset),Math.max(0,svdy + yoffset));
+    e.consume();
   }
-  int yoffset=e.getLocationOnScreen().y - svdey;
-  setLocation(Math.max(0,svdx + xoffset),Math.max(0,svdy + yoffset));
-  e.consume();
 }

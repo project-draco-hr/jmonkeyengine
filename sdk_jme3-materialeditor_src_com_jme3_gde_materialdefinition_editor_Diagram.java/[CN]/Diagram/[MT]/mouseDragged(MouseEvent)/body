@@ -1,9 +1,18 @@
 {
-  if (draggedFrom == null) {
-    if (selectedItem instanceof OutBusPanel) {
-      OutBusPanel bus=(OutBusPanel)selectedItem;
-      MouseEvent me=SwingUtilities.convertMouseEvent(this,e,bus);
-      bus.dispatchEvent(me);
+  if (SwingUtilities.isLeftMouseButton(e)) {
+    if (draggedFrom == null) {
+      if (selectedItem instanceof OutBusPanel) {
+        OutBusPanel bus=(OutBusPanel)selectedItem;
+        MouseEvent me=SwingUtilities.convertMouseEvent(this,e,bus);
+        bus.dispatchEvent(me);
+      }
     }
+  }
+ else   if (SwingUtilities.isMiddleMouseButton(e)) {
+    JViewport vport=(JViewport)getParent();
+    Point cp=e.getPoint();
+    Point vp=vport.getViewPosition();
+    vp.translate(pp.x - cp.x,pp.y - cp.y);
+    scrollRectToVisible(new Rectangle(vp,vport.getSize()));
   }
 }

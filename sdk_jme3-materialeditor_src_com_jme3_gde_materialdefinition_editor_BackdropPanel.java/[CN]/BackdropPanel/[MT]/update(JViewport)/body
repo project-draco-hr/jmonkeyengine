@@ -6,7 +6,8 @@
     int size=Math.min(width,height) - 25;
     setSize(size,size);
     setBounds(0,0,size,size);
-    setLocation(pane.getHorizontalScrollBar().getValue() + width / 2 - size / 2,pane.getVerticalScrollBar().getValue() + height / 2 - size / 2);
+    Point pos=viewPort.getViewPosition();
+    setLocation(pos.x + width / 2 - size / 2,pos.y + height / 2 - size / 2);
     repaint();
     if (recalculateTimer.isRunning()) {
       recalculateTimer.restart();
