@@ -115,7 +115,9 @@ if (state.getBlendMode() == RenderState.BlendMode.Off) {
 gl.glDisable(GL.GL_BLEND);
 }
  else {
+if (context.blendMode == RenderState.BlendMode.Off) {
 gl.glEnable(GL.GL_BLEND);
+}
 switch (state.getBlendMode()) {
 case Off:
 break;
