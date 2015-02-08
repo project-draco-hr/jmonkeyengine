@@ -1,7 +1,7 @@
 {
   super();
   setImage(img);
-  if (img.getFormat().isDepthFormat()) {
+  if (img.getData(0) == null) {
     setMagFilter(MagFilter.Nearest);
     setMinFilter(MinFilter.NearestNoMipMaps);
   }
