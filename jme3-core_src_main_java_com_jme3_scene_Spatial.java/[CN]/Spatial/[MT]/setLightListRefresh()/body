@@ -1,3 +1,11 @@
 {
   refreshFlags|=RF_LIGHTLIST;
+  Spatial p=parent;
+  while (p != null) {
+    if ((p.refreshFlags & RF_CHILD_LIGHTLIST) != 0) {
+      return;
+    }
+    p.refreshFlags|=RF_CHILD_LIGHTLIST;
+    p=p.parent;
+  }
 }
