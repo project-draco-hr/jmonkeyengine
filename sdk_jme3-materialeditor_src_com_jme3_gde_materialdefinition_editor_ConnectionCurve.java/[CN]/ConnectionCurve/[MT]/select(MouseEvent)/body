@@ -1,0 +1,12 @@
+{
+  requestFocusInWindow(true);
+  int margin=MARGIN / 2;
+  boolean selected=false;
+  for (int i=0; i < nbCurve && !selected; i++) {
+    selected=curves[i].intersects(e.getX() - margin,e.getY() - margin,e.getX() + margin,e.getY() + margin);
+  }
+  if (selected) {
+    getDiagram().select(this);
+    e.consume();
+  }
+}
