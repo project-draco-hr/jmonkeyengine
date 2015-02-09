@@ -1,5 +1,10 @@
 {
   if (value instanceof ColorRGBA) {
-    color.set((ColorRGBA)value);
+    if (color == null) {
+      color=new ColorRGBA((ColorRGBA)value);
+    }
+ else {
+      color.set((ColorRGBA)value);
+    }
   }
 }
