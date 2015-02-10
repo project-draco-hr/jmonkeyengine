@@ -123,10 +123,14 @@
   if (hasExtension("GL_ARB_seamless_cube_map") || caps.contains(Caps.OpenGL32)) {
     caps.add(Caps.SeamlessCubemap);
   }
-  if (hasExtension("GL_ARB_get_program_binary")) {
-    int binaryFormats=getInteger(GLExt.GL_NUM_PROGRAM_BINARY_FORMATS);
-    System.out.println("Binary Formats: " + binaryFormats);
+  logger.log(Level.INFO,"OpenGL Renderer Information\n" + " * Vendor: {0}\n" + " * Renderer: {1}\n"+ " * OpenGL Version: {2}\n"+ " * GLSL Version: {3}",new Object[]{gl.glGetString(GL.GL_VENDOR),gl.glGetString(GL.GL_RENDERER),gl.glGetString(GL.GL_VERSION),gl.glGetString(GL.GL_SHADING_LANGUAGE_VERSION)});
+  if (logger.isLoggable(Level.FINE)) {
+    StringBuilder sb=new StringBuilder();
+    sb.append("Supported capabilities: \n");
+    for (    Caps cap : caps) {
+      sb.append("\t").append(cap.toString()).append("\n");
+    }
+    logger.log(Level.FINE,sb.toString());
   }
-  logger.log(Level.FINE,"Caps: {0}",caps);
   texUtil.initialize(caps);
 }
