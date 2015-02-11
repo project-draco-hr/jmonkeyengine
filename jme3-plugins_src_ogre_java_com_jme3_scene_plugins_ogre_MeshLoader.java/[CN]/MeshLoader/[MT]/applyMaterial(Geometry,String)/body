@@ -1,6 +1,9 @@
 {
   Material mat=null;
-  if (matName.endsWith(".j3m")) {
+  if (matName == null) {
+    mat=null;
+  }
+ else   if (matName.endsWith(".j3m")) {
     try {
       mat=assetManager.loadMaterial(matName);
     }
