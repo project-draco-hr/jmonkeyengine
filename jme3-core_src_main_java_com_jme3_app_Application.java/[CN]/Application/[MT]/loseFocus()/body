@@ -1,6 +1,8 @@
 {
-  if (pauseOnFocus) {
-    paused=true;
+  if (lostFocusBehavior != LostFocusBehavior.Disabled) {
+    if (lostFocusBehavior == LostFocusBehavior.PauseOnLostFocus) {
+      paused=true;
+    }
     context.setAutoFlushFrames(false);
   }
 }

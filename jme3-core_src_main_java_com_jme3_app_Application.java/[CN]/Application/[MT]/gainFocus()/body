@@ -1,6 +1,8 @@
 {
-  if (pauseOnFocus) {
-    paused=false;
+  if (lostFocusBehavior != LostFocusBehavior.Disabled) {
+    if (lostFocusBehavior == LostFocusBehavior.PauseOnLostFocus) {
+      paused=false;
+    }
     context.setAutoFlushFrames(true);
     if (inputManager != null) {
       inputManager.reset();
