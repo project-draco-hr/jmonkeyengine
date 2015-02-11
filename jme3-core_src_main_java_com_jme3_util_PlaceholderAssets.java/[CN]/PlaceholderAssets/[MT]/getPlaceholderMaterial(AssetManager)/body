@@ -1,5 +1,7 @@
 {
   Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
-  mat.setColor("Color",ColorRGBA.Red);
+  Texture tex=assetManager.loadTexture("Common/Textures/MissingMaterial.png");
+  tex.setWrap(Texture.WrapMode.Repeat);
+  mat.setTexture("ColorMap",tex);
   return mat;
 }

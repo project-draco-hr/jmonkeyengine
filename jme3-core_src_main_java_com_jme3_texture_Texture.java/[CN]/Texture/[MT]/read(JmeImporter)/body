@@ -9,7 +9,7 @@
     }
  catch (    AssetNotFoundException ex) {
       Logger.getLogger(Texture.class.getName()).log(Level.SEVERE,"Cannot locate texture {0}",key);
-      image=PlaceholderAssets.getPlaceholderImage();
+      image=PlaceholderAssets.getPlaceholderImage(e.getAssetManager());
     }
   }
  else {
