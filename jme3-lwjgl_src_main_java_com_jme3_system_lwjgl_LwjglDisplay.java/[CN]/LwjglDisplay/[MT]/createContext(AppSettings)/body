@@ -16,6 +16,7 @@
   int samples=getNumSamplesToUse();
   PixelFormat pf=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),samples,0,0,0,settings.useStereo3D());
   frameRate=settings.getFrameRate();
+  allowSwapBuffers=settings.isSwapBuffers();
   logger.log(Level.FINE,"Selected display mode: {0}",displayMode);
   boolean pixelFormatChanged=false;
   if (created.get() && (pixelFormat.getBitsPerPixel() != pf.getBitsPerPixel() || pixelFormat.getDepthBits() != pf.getDepthBits() || pixelFormat.getStencilBits() != pf.getStencilBits() || pixelFormat.getSamples() != pf.getSamples())) {
@@ -25,6 +26,7 @@
   }
   pixelFormat=pf;
   Display.setTitle(settings.getTitle());
+  Display.setResizable(settings.isResizable());
   if (displayMode != null) {
     if (settings.isFullscreen()) {
       Display.setDisplayModeAndFullscreen(displayMode);

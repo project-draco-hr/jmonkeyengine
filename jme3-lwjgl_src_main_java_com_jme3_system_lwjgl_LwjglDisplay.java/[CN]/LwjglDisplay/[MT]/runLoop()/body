@@ -9,5 +9,11 @@
     listener.reshape(settings.getWidth(),settings.getHeight());
     logger.fine("Display restarted.");
   }
+ else   if (Display.wasResized()) {
+    int newWidth=Display.getWidth();
+    int newHeight=Display.getHeight();
+    settings.setResolution(newWidth,newHeight);
+    listener.reshape(newWidth,newHeight);
+  }
   super.runLoop();
 }
