@@ -62,10 +62,20 @@ blueMask=in.readInt();
 alphaMask=in.readInt();
 if (is(pfFlags,DDPF_RGB)) {
 if (is(pfFlags,DDPF_ALPHAPIXELS)) {
+if (bpp == 16) {
+pixelFormat=Format.RGB5A1;
+}
+ else {
 pixelFormat=Format.RGBA8;
+}
+}
+ else {
+if (bpp == 16) {
+pixelFormat=Format.RGB565;
 }
  else {
 pixelFormat=Format.RGB8;
+}
 }
 }
  else if (is(pfFlags,DDPF_GRAYSCALE) && is(pfFlags,DDPF_ALPHAPIXELS)) {
