@@ -1,0 +1,10 @@
+{
+  String[] sourceLines=source.split("\n");
+  int nblines=0;
+  StringBuilder out=new StringBuilder();
+  for (  String string : sourceLines) {
+    nblines++;
+    out.append(nblines).append("\t").append(string).append("\n");
+  }
+  return out.toString();
+}
