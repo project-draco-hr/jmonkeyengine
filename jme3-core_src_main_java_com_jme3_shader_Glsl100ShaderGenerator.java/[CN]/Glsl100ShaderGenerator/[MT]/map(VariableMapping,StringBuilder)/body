@@ -9,6 +9,13 @@
   source.append("_");
   source.append(mapping.getLeftVariable().getName());
   if (mapping.getLeftSwizzling().length() > 0) {
+    source.append(" = ");
+    source.append(mapping.getLeftVariable().getType());
+    source.append("(0.0);\n");
+    appendIndent(source);
+    source.append(mapping.getLeftVariable().getNameSpace());
+    source.append("_");
+    source.append(mapping.getLeftVariable().getName());
     source.append(".");
     source.append(mapping.getLeftSwizzling());
   }
