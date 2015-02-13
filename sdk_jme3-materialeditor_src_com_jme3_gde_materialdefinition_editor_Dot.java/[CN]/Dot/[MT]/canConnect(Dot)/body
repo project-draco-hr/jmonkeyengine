@@ -1,5 +1,5 @@
 {
-  if (pair == null) {
+  if (pair == null || paramType == ParamType.Input || ((pair.getNode() instanceof OutBusPanel || node instanceof OutBusPanel) && shaderType != pair.shaderType)) {
     img=Icons.imgOrange;
     repaint();
     return false;
