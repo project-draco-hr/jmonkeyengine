@@ -3,6 +3,7 @@
   Collection<? extends Material> col=(Collection<? extends Material>)resMat.allInstances();
   if (!col.isEmpty()) {
     Material material=col.iterator().next();
+    material.selectTechnique(obj.getEditableFile().getCurrentTechnique().getName(),SceneApplication.getApplication().getRenderManager());
     diagram1.refreshPreviews(material);
   }
 }

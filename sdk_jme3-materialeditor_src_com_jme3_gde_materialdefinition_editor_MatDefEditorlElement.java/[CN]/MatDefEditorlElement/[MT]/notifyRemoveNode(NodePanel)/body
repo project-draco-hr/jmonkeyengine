@@ -1,7 +1,7 @@
 {
   MatDefBlock matDef=obj.getLookup().lookup(MatDefBlock.class);
   if (node.getType() == NodePanel.NodeType.Fragment || node.getType() == NodePanel.NodeType.Vertex) {
-    TechniqueBlock technique=getTechnique(matDef);
+    TechniqueBlock technique=getTechnique();
     for (    ShaderNodeBlock shaderNodeBlock : technique.getShaderNodes()) {
       if (shaderNodeBlock.getName().equals(node.getName())) {
         technique.removeShaderNode(shaderNodeBlock);
@@ -12,9 +12,9 @@
     matDef.removeMatParam(new MatParamBlock("",node.getKey().replaceAll("MatParam.",""),"",""));
   }
  else   if (node.getType() == NodePanel.NodeType.WorldParam) {
-    getTechnique(matDef).removeWorldParam(new WorldParamBlock(node.getKey().replaceAll("WorldParam.","")));
+    getTechnique().removeWorldParam(new WorldParamBlock(node.getKey().replaceAll("WorldParam.","")));
   }
  else   if (node.getType() == NodePanel.NodeType.Attribute) {
-    getTechnique(matDef).cleanupMappings("Attr",node.getKey().replaceAll("Attr.",""));
+    getTechnique().cleanupMappings("Attr",node.getKey().replaceAll("Attr.",""));
   }
 }

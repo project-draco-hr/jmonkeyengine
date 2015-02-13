@@ -4,6 +4,7 @@
   }
  else {
     Material vmat=mat.clone();
+    vmat.selectTechnique(mat.getActiveTechnique().getDef().getName(),SceneApplication.getApplication().getRenderManager());
     vmat.getAdditionalRenderState().setWireframe(true);
     preview.showMaterial(vmat);
   }

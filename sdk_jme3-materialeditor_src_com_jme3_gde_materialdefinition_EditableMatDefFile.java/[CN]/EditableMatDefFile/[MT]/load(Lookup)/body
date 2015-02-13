@@ -59,7 +59,9 @@
     }
   }
   if (materialDef != null && !matParseError) {
-    currentTechnique=matDefStructure.getTechniques().get(0);
+    if (currentTechnique == null) {
+      currentTechnique=matDefStructure.getTechniques().get(0);
+    }
     registerListener(matDefStructure);
     obj.getLookupContents().add(matDefStructure);
     updateLookupWithMaterialData(obj);

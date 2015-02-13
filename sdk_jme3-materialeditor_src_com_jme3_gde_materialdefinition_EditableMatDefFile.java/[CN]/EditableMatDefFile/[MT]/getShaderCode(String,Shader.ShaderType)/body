@@ -1,6 +1,6 @@
 {
   try {
-    material.selectTechnique("Default",SceneApplication.getApplication().getRenderManager());
+    material.selectTechnique(currentTechnique.getName(),SceneApplication.getApplication().getRenderManager());
     Shader s;
     if (version.equals(GLSL100)) {
       glsl100.initialize(material.getActiveTechnique());

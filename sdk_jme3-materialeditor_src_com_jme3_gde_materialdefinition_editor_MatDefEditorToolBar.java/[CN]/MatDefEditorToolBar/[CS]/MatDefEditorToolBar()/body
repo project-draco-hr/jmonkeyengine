@@ -1,0 +1,13 @@
+{
+  initComponents();
+  techniqueComboBox.setModel(comboModel);
+  final DefaultListCellRenderer renderer=new DefaultListCellRenderer();
+  techniqueComboBox.setRenderer(new ListCellRenderer<TechniqueBlock>(){
+    public Component getListCellRendererComponent(    JList list,    TechniqueBlock value,    int index,    boolean isSelected,    boolean cellHasFocus){
+      JLabel c=(JLabel)renderer.getListCellRendererComponent(list,value,index,isSelected,cellHasFocus);
+      c.setText(value.getName());
+      return c;
+    }
+  }
+);
+}
