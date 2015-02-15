@@ -1,0 +1,24 @@
+{
+  File userHomeFolder=new File(System.getProperty("user.home"));
+  File userCacheFolder=null;
+switch (JmeSystem.getPlatform()) {
+case Linux32:
+case Linux64:
+    userCacheFolder=new File(userHomeFolder,".cache");
+  break;
+case MacOSX32:
+case MacOSX64:
+case MacOSX_PPC32:
+case MacOSX_PPC64:
+userCacheFolder=new File(new File(userHomeFolder,"Library"),"Caches");
+break;
+case Windows32:
+case Windows64:
+userCacheFolder=new File(new File(userHomeFolder,"AppData"),"Local");
+break;
+}
+if (userCacheFolder == null || !userCacheFolder.exists()) {
+return new File(userHomeFolder,".jme3");
+}
+return new File(userCacheFolder,"jme3");
+}

@@ -1,0 +1,11 @@
+{
+  File extractFolderInHome=getJmeUserCacheFolder();
+  if (!extractFolderInHome.exists()) {
+    extractFolderInHome.mkdir();
+  }
+  extractionFolder=new File(extractFolderInHome,"natives_" + Integer.toHexString(computeNativesHash()));
+  if (!extractionFolder.exists()) {
+    extractionFolder.mkdir();
+  }
+  logger.log(Level.WARNING,"Working directory is not writable. " + "Natives will be extracted to:\n{0}",extractionFolder);
+}
