@@ -1,0 +1,30 @@
+{
+  if (target != GL.GL_TEXTURE_2D || image.getDepth() > 1) {
+    throw new UnsupportedOperationException("Updating non-2D texture is not supported");
+  }
+  if (image.getMipMapSizes() != null) {
+    throw new UnsupportedOperationException("Updating mip-mappped images is not supported");
+  }
+  if (image.getMultiSamples() > 1) {
+    throw new UnsupportedOperationException("Updating multisampled images is not supported");
+  }
+  Image.Format jmeFormat=image.getFormat();
+  if (jmeFormat.isCompressed()) {
+    throw new UnsupportedOperationException("Updating compressed images is not supported");
+  }
+ else   if (jmeFormat.isDepthFormat()) {
+    throw new UnsupportedOperationException("Updating depth images is not supported");
+  }
+  boolean getSrgbFormat=image.getColorSpace() == ColorSpace.sRGB && linearizeSrgb;
+  GLImageFormat oglFormat=getImageFormatWithError(jmeFormat,getSrgbFormat);
+  ByteBuffer data=null;
+  if (index >= 0) {
+    data=image.getData(index);
+  }
+  if (data == null) {
+    throw new IndexOutOfBoundsException("The image index " + index + " is not valid for the given image");
+  }
+  data.position(0);
+  data.limit(data.capacity());
+  gl.glTexSubImage2D(target,0,x,y,image.getWidth(),image.getHeight(),oglFormat.format,oglFormat.dataType,data);
+}
