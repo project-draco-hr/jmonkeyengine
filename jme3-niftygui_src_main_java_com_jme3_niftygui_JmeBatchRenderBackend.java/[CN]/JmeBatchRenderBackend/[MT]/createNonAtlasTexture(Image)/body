@@ -1,0 +1,7 @@
+{
+  ImageImpl imageImpl=(ImageImpl)image;
+  Texture2D texture=new Texture2D(imageImpl.image);
+  texture.setMinFilter(MinFilter.NearestNoMipMaps);
+  texture.setMagFilter(MagFilter.Nearest);
+  return addTexture(texture);
+}

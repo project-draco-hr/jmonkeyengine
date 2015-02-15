@@ -11,7 +11,7 @@
   tempMat.loadIdentity();
   renderManager.setWorldMatrix(tempMat);
   renderManager.setForcedRenderState(renderState);
-  material.setTexture("ColorMap",textureAtlas);
+  material.setTexture("ColorMap",texture);
   mesh.updateCounts();
   material.render(meshGeometry,renderManager);
   renderManager.setForcedRenderState(null);

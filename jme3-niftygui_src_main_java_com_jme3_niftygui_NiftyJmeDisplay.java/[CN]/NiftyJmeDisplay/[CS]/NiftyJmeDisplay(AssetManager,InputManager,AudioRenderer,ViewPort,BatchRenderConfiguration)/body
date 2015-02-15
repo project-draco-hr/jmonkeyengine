@@ -2,9 +2,6 @@
   initialize(assetManager,inputManager,audioRenderer,viewport);
   this.renderDev=null;
   this.batchRendererBackend=new JmeBatchRenderBackend(this);
-  BatchRenderConfiguration batchRenderConfiguration=new BatchRenderConfiguration();
-  batchRenderConfiguration.atlasWidth=atlasWidth;
-  batchRenderConfiguration.atlasHeight=atlasHeight;
   nifty=new Nifty(new BatchRenderDevice(batchRendererBackend,batchRenderConfiguration),soundDev,inputSys,new TimeProvider());
   inputSys.setNifty(nifty);
   resourceLocation=new ResourceLocationJme();
