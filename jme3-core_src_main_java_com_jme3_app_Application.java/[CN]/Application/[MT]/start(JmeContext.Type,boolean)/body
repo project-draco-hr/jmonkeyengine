@@ -1,0 +1,13 @@
+{
+  if (context != null && context.isCreated()) {
+    logger.warning("start() called when application already created!");
+    return;
+  }
+  if (settings == null) {
+    settings=new AppSettings(true);
+  }
+  logger.log(Level.FINE,"Starting application: {0}",getClass().getName());
+  context=JmeSystem.newContext(settings,contextType);
+  context.setSystemListener(this);
+  context.create(waitFor);
+}
