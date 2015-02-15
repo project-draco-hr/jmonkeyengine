@@ -1,0 +1,45 @@
+{
+  if (!init) {
+    init();
+  }
+  SceneApplication.getApplication().enqueue(new Callable<Material>(){
+    public Material call() throws Exception {
+      if (techniqueName != null) {
+        try {
+          m.selectTechnique(techniqueName,SceneApplication.getApplication().getRenderManager());
+        }
+ catch (        Exception e) {
+        }
+      }
+      final Material mat=reloadMaterial(m);
+      if (mat != null) {
+        java.awt.EventQueue.invokeLater(new Runnable(){
+          public void run(){
+            currentMaterial=mat;
+            currentGeom.setMaterial(mat);
+            try {
+              if (currentGeom.getMaterial() != null) {
+                PreviewRequest request=new PreviewRequest(MaterialPreviewRenderer.this,currentGeom,label.getWidth(),label.getHeight());
+                request.getCameraRequest().setLocation(new Vector3f(0,0,7));
+                request.getCameraRequest().setLookAt(new Vector3f(0,0,0),Vector3f.UNIT_Y);
+                SceneApplication.getApplication().createPreview(request);
+              }
+            }
+ catch (            Exception e) {
+              java.awt.EventQueue.invokeLater(new Runnable(){
+                public void run(){
+                  label.setIcon(Icons.error);
+                }
+              }
+);
+              smartLog("Error rendering material{0}",e.getMessage());
+            }
+          }
+        }
+);
+      }
+      return mat;
+    }
+  }
+);
+}

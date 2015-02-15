@@ -1,0 +1,10 @@
+{
+  String techName=JOptionPane.showInputDialog("Enter a name for the new technique");
+  if (techName != null) {
+    TechniqueBlock tech=new TechniqueBlock(techName);
+    parent.notifyAddTechnique(tech);
+    comboModel.addElement(tech);
+    comboModel.setSelectedItem(tech);
+    parent.autoLayout();
+  }
+}

@@ -1,0 +1,19 @@
+{
+  String path="Common/MatDefs/ShaderNodes/Common/Unshaded.j3sn";
+  ShaderNodeDefinitionKey key=new ShaderNodeDefinitionKey(path);
+  List<ShaderNodeDefinition> defs=getAssetManager().loadAsset(key);
+  ShaderNodeBlock node=new ShaderNodeBlock(defs.get(0),path);
+  tech.addFragmentShaderNode(node);
+  node.addOutputMapping(new OutputMappingBlock("color","color","","","Global","Unshaded",null));
+  path="Common/MatDefs/ShaderNodes/Common/CommonVert.j3sn";
+  key=new ShaderNodeDefinitionKey(path);
+  defs=getAssetManager().loadAsset(key);
+  node=new ShaderNodeBlock(defs.get(0),path);
+  tech.addVertexShaderNode(node);
+  node.addInputMapping(new InputMappingBlock("worldViewProjectionMatrix","WorldViewProjectionMatrix","","","CommonVert","WorldParam",null));
+  node.addInputMapping(new InputMappingBlock("modelPosition","position","","xyz","CommonVert","Global",null));
+  node.addOutputMapping(new OutputMappingBlock("position","projPosition","","","Global","CommonVert",null));
+  WorldParamBlock param=new WorldParamBlock("WorldViewProjectionMatrix");
+  tech.addWorldParam(param);
+  obj.getEditableFile().getMatDefStructure().addTechnique(tech);
+}

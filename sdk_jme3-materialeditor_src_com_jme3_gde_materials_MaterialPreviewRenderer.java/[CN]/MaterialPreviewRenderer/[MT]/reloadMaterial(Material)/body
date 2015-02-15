@@ -1,14 +1,14 @@
 {
   ((ProjectAssetManager)mat.getMaterialDef().getAssetManager()).clearCache();
   Material dummy=new Material(mat.getMaterialDef());
-  for (  MatParam matParam : mat.getParams()) {
-    dummy.setParam(matParam.getName(),matParam.getVarType(),matParam.getValue());
-  }
-  dummy.selectTechnique(mat.getActiveTechnique().getDef().getName(),SceneApplication.getApplication().getRenderManager());
-  dummy.getAdditionalRenderState().set(mat.getAdditionalRenderState());
-  Geometry dummyGeom=new Geometry("dummyGeom",new Box(1f,1f,1f));
-  dummyGeom.setMaterial(dummy);
   try {
+    for (    MatParam matParam : mat.getParams()) {
+      dummy.setParam(matParam.getName(),matParam.getVarType(),matParam.getValue());
+    }
+    dummy.selectTechnique(mat.getActiveTechnique().getDef().getName(),SceneApplication.getApplication().getRenderManager());
+    dummy.getAdditionalRenderState().set(mat.getAdditionalRenderState());
+    Geometry dummyGeom=new Geometry("dummyGeom",new Box(1f,1f,1f));
+    dummyGeom.setMaterial(dummy);
     SceneApplication.getApplication().getRenderManager().preloadScene(dummyGeom);
   }
  catch (  RendererException e) {
@@ -19,6 +19,9 @@
       }
     }
 );
+    return null;
+  }
+catch (  NullPointerException npe) {
     return null;
   }
   return dummy;

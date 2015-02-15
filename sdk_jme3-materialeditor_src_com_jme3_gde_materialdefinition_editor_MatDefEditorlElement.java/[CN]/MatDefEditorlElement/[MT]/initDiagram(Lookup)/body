@@ -83,16 +83,14 @@
   diagram1.setPreferredSize(new Dimension(jScrollPane1.getWidth() - 2,jScrollPane1.getHeight() - 2));
   diagram1.revalidate();
   jScrollPane1.addComponentListener(diagram1);
-  mat.selectTechnique(obj.getEditableFile().getCurrentTechnique().getName(),SceneApplication.getApplication().getRenderManager());
-  diagram1.refreshPreviews(mat);
+  diagram1.refreshPreviews(mat,obj.getEditableFile().getCurrentTechnique().getName());
   final Lookup.Result<Material> resMat=obj.getLookup().lookupResult(Material.class);
   resMat.addLookupListener(new LookupListener(){
     public void resultChanged(    LookupEvent ev){
       Collection<? extends Material> col=(Collection<? extends Material>)resMat.allInstances();
       if (!col.isEmpty()) {
         Material material=col.iterator().next();
-        material.selectTechnique(obj.getEditableFile().getCurrentTechnique().getName(),SceneApplication.getApplication().getRenderManager());
-        diagram1.refreshPreviews(material);
+        diagram1.refreshPreviews(material,obj.getEditableFile().getCurrentTechnique().getName());
       }
     }
   }

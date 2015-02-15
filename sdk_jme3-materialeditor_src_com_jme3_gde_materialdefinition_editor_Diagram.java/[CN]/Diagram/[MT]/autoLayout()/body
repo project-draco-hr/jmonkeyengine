@@ -1,0 +1,44 @@
+{
+  int offset=550;
+  for (  OutBusPanel outBus : outBuses) {
+    if (outBus.getKey().equalsIgnoreCase("position")) {
+      outBus.setLocation(0,100);
+    }
+ else {
+      outBus.setLocation(0,offset);
+      offset+=260;
+    }
+    getEditorParent().savePositionToMetaData(outBus.getKey(),outBus.getLocation().x,outBus.getLocation().y);
+  }
+  offset=0;
+  String keys="";
+  for (  NodePanel node : nodes) {
+    if (node.getType() == NodePanel.NodeType.Vertex || node.getType() == NodePanel.NodeType.Fragment) {
+      node.setLocation(offset + 200,getNodeTop(node));
+      getEditorParent().savePositionToMetaData(node.getKey(),node.getLocation().x,node.getLocation().y);
+      int pad=getNodeTop(node);
+      for (      Connection connection : connections) {
+        if (connection.getEnd().getNode() == node) {
+          if (connection.getStart().getNode() instanceof NodePanel) {
+            NodePanel startP=(NodePanel)connection.getStart().getNode();
+            if (startP.getType() != NodePanel.NodeType.Vertex && startP.getType() != NodePanel.NodeType.Fragment) {
+              startP.setLocation(offset + 30,pad);
+              getEditorParent().savePositionToMetaData(startP.getKey(),startP.getLocation().x,startP.getLocation().y);
+              keys+=startP.getKey() + "|";
+              pad+=50;
+            }
+          }
+        }
+      }
+    }
+    offset+=320;
+  }
+  offset=0;
+  for (  NodePanel node : nodes) {
+    if (node.getType() != NodePanel.NodeType.Vertex && node.getType() != NodePanel.NodeType.Fragment && !(keys.contains(node.getKey()))) {
+      node.setLocation(offset + 10,0);
+      getEditorParent().savePositionToMetaData(node.getKey(),node.getLocation().x,node.getLocation().y);
+      offset+=130;
+    }
+  }
+}
