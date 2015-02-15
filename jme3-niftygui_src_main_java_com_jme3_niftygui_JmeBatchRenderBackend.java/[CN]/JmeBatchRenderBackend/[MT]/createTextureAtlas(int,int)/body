@@ -1,0 +1,17 @@
+{
+  try {
+    int atlasId=addTexture(createAtlasTextureInternal(width,height));
+    initialData=BufferUtils.createByteBuffer(width * height * 4);
+    for (int i=0; i < width * height; i++) {
+      initialData.put((byte)0x00);
+      initialData.put((byte)0xff);
+      initialData.put((byte)0x00);
+      initialData.put((byte)0xff);
+    }
+    return atlasId;
+  }
+ catch (  Exception e) {
+    log.log(Level.WARNING,e.getMessage(),e);
+    return 0;
+  }
+}
