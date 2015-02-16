@@ -1,9 +1,11 @@
 {
   Logger.getLogger("com.jme3").addHandler(logHandler);
   useCanvas="true".equals(NbPreferences.forModule(Installer.class).get("use_lwjgl_canvas","false"));
+  Logger.getLogger("com.jme3.renderer.opengl.TextureUtil").setLevel(Level.SEVERE);
   try {
     AppSettings newSetting=new AppSettings(true);
     newSetting.setFrameRate(30);
+    newSetting.setGammaCorrection(true);
     if (!useCanvas) {
       newSetting.setCustomRenderer(AwtPanelsContext.class);
     }
