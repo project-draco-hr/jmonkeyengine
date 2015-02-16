@@ -8,6 +8,7 @@
   fb=new FrameBuffer(width,height,1);
   fb.setDepthBuffer(Format.Depth);
   fb.setColorBuffer(Format.RGB8);
+  fb.setSrgb(srgb);
   if (attachAsMain) {
     rm.getRenderer().setMainFrameBufferOverride(fb);
   }

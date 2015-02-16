@@ -1,0 +1,22 @@
+{
+  this.paintMode=paintMode;
+  this.srgb=srgb;
+  if (paintMode == PaintMode.Accelerated) {
+    setIgnoreRepaint(true);
+  }
+  addComponentListener(new ComponentAdapter(){
+    @Override public void componentResized(    ComponentEvent e){
+synchronized (lock) {
+        int newWidth2=Math.max(getWidth(),1);
+        int newHeight2=Math.max(getHeight(),1);
+        if (newWidth != newWidth2 || newHeight != newHeight2) {
+          newWidth=newWidth2;
+          newHeight=newHeight2;
+          reshapeNeeded.set(true);
+          System.out.println("EDT: componentResized " + newWidth + ", "+ newHeight);
+        }
+      }
+    }
+  }
+);
+}
