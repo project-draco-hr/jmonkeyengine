@@ -5,7 +5,9 @@
     for (    MatParam matParam : mat.getParams()) {
       dummy.setParam(matParam.getName(),matParam.getVarType(),matParam.getValue());
     }
-    dummy.selectTechnique(mat.getActiveTechnique().getDef().getName(),SceneApplication.getApplication().getRenderManager());
+    if (mat.getActiveTechnique() != null) {
+      dummy.selectTechnique(mat.getActiveTechnique().getDef().getName(),SceneApplication.getApplication().getRenderManager());
+    }
     dummy.getAdditionalRenderState().set(mat.getAdditionalRenderState());
     Geometry dummyGeom=new Geometry("dummyGeom",new Box(1f,1f,1f));
     dummyGeom.setMaterial(dummy);
@@ -22,6 +24,7 @@
     return null;
   }
 catch (  NullPointerException npe) {
+    npe.printStackTrace();
     return null;
   }
   return dummy;
