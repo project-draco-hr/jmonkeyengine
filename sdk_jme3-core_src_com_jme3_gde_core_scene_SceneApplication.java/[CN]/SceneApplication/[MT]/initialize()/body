@@ -10,6 +10,9 @@
         overlayView.setClearFlags(false,true,false);
         guiViewPort.setClearFlags(false,false,false);
       }
+      ColorRGBA color=new ColorRGBA();
+      color.setAsSrgb(0.25f,0.25f,0.25f,1.0f);
+      viewPort.setBackgroundColor(color);
       camController=new SceneCameraController(cam,inputManager);
       previewProcessor=new ScenePreviewProcessor();
       previewProcessor.setupPreviewView();
