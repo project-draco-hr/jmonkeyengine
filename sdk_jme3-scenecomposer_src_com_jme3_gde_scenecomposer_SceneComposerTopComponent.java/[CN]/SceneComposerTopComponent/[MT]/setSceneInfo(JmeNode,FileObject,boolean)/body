@@ -11,7 +11,7 @@
   if (!active) {
     result.removeLookupListener(inst);
     showSelectionToggleButton.setSelected(true);
-    showGridToggleButton.setSelected(false);
+    showGridToggleButton.setSelected(true);
     sceneInfoLabel1.setText("");
     sceneInfoLabel2.setText("");
     sceneInfoLabel1.setToolTipText("");
@@ -21,7 +21,7 @@
  else {
     result.addLookupListener(this);
     showSelectionToggleButton.setSelected(true);
-    showGridToggleButton.setSelected(false);
+    showGridToggleButton.setSelected(true);
     if (file != null) {
       sceneInfoLabel1.setText("Name: " + file.getNameExt());
       sceneInfoLabel2.setText("Size: " + file.getSize() / 1024 + " kB");

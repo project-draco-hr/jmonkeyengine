@@ -3,7 +3,7 @@
   if (!cam.isParallelProjection()) {
     cam.setParallelProjection(true);
     float h=cam.getFrustumTop();
-    float w=cam.getFrustumRight();
+    float w;
     float dist=cam.getLocation().distance(focus);
     float fovY=FastMath.atan(h) / (FastMath.DEG_TO_RAD * .5f);
     h=FastMath.tan(fovY * FastMath.DEG_TO_RAD * .5f) * dist;

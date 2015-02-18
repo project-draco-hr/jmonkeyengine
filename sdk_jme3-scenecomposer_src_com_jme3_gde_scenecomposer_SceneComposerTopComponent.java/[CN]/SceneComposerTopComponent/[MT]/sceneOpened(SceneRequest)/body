@@ -19,10 +19,11 @@
     camController.setToolController(toolController);
     camController.setMaster(this);
     camController.enable();
-    toolController.setCameraController(camController);
+    toolController.createOnTopToolNode();
     SelectTool tool=new SelectTool();
     toolController.showEditTool(tool);
     toolController.setShowSelection(true);
+    toolController.setShowGrid(true);
     editorController.setToolController(toolController);
     toolController.refreshNonSpatialMarkers();
     toolController.setCamController(camController);

@@ -18,6 +18,10 @@
         cam.setLocation(cc.cam.getLocation());
         focus.set(cc.focus);
       }
+ else {
+        cam.setLocation(new Vector3f(-10,5,10));
+        cam.lookAt(Vector3f.ZERO,Vector3f.UNIT_Y);
+      }
       inputManager.addRawInputListener(me);
       inputManager.addListener(me,"MouseAxisX","MouseAxisY","MouseAxisX-","MouseAxisY-","MouseWheel","MouseWheel-","MouseButtonLeft","MouseButtonMiddle","MouseButtonRight");
       return null;
