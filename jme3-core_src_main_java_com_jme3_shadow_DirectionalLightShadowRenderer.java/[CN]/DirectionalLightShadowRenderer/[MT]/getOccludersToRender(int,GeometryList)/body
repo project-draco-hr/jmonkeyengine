@@ -1,8 +1,10 @@
 {
   ShadowUtil.updateFrustumPoints(viewPort.getCamera(),splitsArray[shadowMapIndex],splitsArray[shadowMapIndex + 1],1.0f,points);
   if (sceneReceivers.size() == 0) {
-    ShadowUtil.getGeometriesInCamFrustum(viewPort.getQueue().getRootScene(),viewPort.getCamera(),RenderQueue.ShadowMode.Receive,sceneReceivers);
+    for (    Spatial scene : viewPort.getScenes()) {
+      ShadowUtil.getGeometriesInCamFrustum(scene,viewPort.getCamera(),RenderQueue.ShadowMode.Receive,sceneReceivers);
+    }
   }
-  ShadowUtil.updateShadowCamera(viewPort.getQueue().getRootScene(),sceneReceivers,shadowCam,points,shadowMapOccluders,stabilize ? shadowMapSize : 0);
+  ShadowUtil.updateShadowCamera(viewPort,sceneReceivers,shadowCam,points,shadowMapOccluders,stabilize ? shadowMapSize : 0);
   return shadowMapOccluders;
 }

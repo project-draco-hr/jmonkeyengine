@@ -1,5 +1,7 @@
 {
-  ShadowUtil.getGeometriesInCamFrustum(rq.getRootScene(),viewPort.getCamera(),ShadowMode.Receive,lightReceivers);
+  for (  Spatial scene : viewPort.getScenes()) {
+    ShadowUtil.getGeometriesInCamFrustum(scene,viewPort.getCamera(),ShadowMode.Receive,lightReceivers);
+  }
   Camera viewCam=viewPort.getCamera();
   ShadowUtil.updateFrustumPoints(viewCam,viewCam.getFrustumNear(),viewCam.getFrustumFar(),1.0f,points);
   Vector3f frustaCenter=new Vector3f();
@@ -14,7 +16,7 @@
   shadowCam.setLocation(frustaCenter);
   shadowCam.update();
   shadowCam.updateViewProjection();
-  ShadowUtil.updateShadowCamera(rq.getRootScene(),lightReceivers,shadowCam,points,shadowOccluders,shadowMapSize);
+  ShadowUtil.updateShadowCamera(viewPort,lightReceivers,shadowCam,points,shadowOccluders,shadowMapSize);
   if (shadowOccluders.size() == 0) {
     noOccluders=true;
     return;

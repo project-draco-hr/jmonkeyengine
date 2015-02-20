@@ -1,5 +1,7 @@
 {
   lightReceivers.clear();
-  ShadowUtil.getLitGeometriesInViewPort(viewPort.getQueue().getRootScene(),viewPort.getCamera(),shadowCams,RenderQueue.ShadowMode.Receive,lightReceivers);
+  for (  Spatial scene : viewPort.getScenes()) {
+    ShadowUtil.getLitGeometriesInViewPort(scene,viewPort.getCamera(),shadowCams,RenderQueue.ShadowMode.Receive,lightReceivers);
+  }
   return lightReceivers;
 }

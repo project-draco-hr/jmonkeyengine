@@ -1,4 +1,6 @@
 {
-  ShadowUtil.getGeometriesInCamFrustum(viewPort.getQueue().getRootScene(),shadowCams[shadowMapIndex],RenderQueue.ShadowMode.Cast,shadowMapOccluders);
+  for (  Spatial scene : viewPort.getScenes()) {
+    ShadowUtil.getGeometriesInCamFrustum(scene,shadowCams[shadowMapIndex],RenderQueue.ShadowMode.Cast,shadowMapOccluders);
+  }
   return shadowMapOccluders;
 }

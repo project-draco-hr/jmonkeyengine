@@ -14,12 +14,12 @@
     }
     renderManager.setForcedTechnique(postTechniqueName);
     viewPort.getQueue().renderShadowQueue(lightReceivers,renderManager,cam,false);
-    if (flushQueues) {
-      sceneReceivers.clear();
-    }
     renderManager.setForcedTechnique(null);
     renderManager.setForcedMaterial(null);
     renderManager.setCamera(cam,false);
     clearMatParams();
+  }
+  if (flushQueues) {
+    sceneReceivers.clear();
   }
 }

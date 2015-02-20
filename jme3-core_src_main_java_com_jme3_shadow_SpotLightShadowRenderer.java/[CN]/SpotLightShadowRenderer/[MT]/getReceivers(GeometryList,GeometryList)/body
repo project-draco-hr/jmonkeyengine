@@ -2,6 +2,8 @@
   lightReceivers.clear();
   Camera[] cameras=new Camera[1];
   cameras[0]=shadowCam;
-  ShadowUtil.getLitGeometriesInViewPort(viewPort.getQueue().getRootScene(),viewPort.getCamera(),cameras,RenderQueue.ShadowMode.Receive,lightReceivers);
+  for (  Spatial scene : viewPort.getScenes()) {
+    ShadowUtil.getLitGeometriesInViewPort(scene,viewPort.getCamera(),cameras,RenderQueue.ShadowMode.Receive,lightReceivers);
+  }
   return lightReceivers;
 }
