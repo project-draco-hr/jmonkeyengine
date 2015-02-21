@@ -34,6 +34,8 @@
     Texture loadedTexture=assetManager.loadTexture(texKey);
     textures[texUnit].setImage(loadedTexture.getImage());
     textures[texUnit].setMinFilter(loadedTexture.getMinFilter());
+    textures[texUnit].setMagFilter(loadedTexture.getMagFilter());
+    textures[texUnit].setAnisotropicFilter(loadedTexture.getAnisotropicFilter());
     textures[texUnit].setKey(loadedTexture.getKey());
     textures[texUnit].setWrap(WrapMode.Repeat);
     if (texName != null) {
