@@ -1,33 +1,15 @@
 {
-  Mesh sharedMesh=null;
   for (  Spatial child : node.getChildren()) {
     if (child instanceof Geometry) {
       Geometry geom=(Geometry)child;
-      Mesh childSharedMesh=geom.getUserData(UserData.JME_SHAREDMESH);
-      if (childSharedMesh != null) {
-        if (childSharedMesh.isAnimated()) {
-          if (sharedMesh == null) {
-            sharedMesh=childSharedMesh;
-          }
- else           if (sharedMesh != childSharedMesh) {
-            throw new IllegalStateException("Two conflicting shared meshes for " + node);
-          }
-          materials.add(geom.getMaterial());
-        }
-      }
- else {
-        Mesh mesh=geom.getMesh();
-        if (mesh.isAnimated()) {
-          targets.add(mesh);
-          materials.add(geom.getMaterial());
-        }
+      Mesh mesh=geom.getMesh();
+      if (mesh.isAnimated()) {
+        targets.add(mesh);
+        materials.add(geom.getMaterial());
       }
     }
  else     if (child instanceof Node) {
       findTargets((Node)child);
     }
-  }
-  if (sharedMesh != null) {
-    targets.add(sharedMesh);
   }
 }
