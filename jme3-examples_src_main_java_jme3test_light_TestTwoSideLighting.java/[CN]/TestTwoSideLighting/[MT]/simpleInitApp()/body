@@ -1,0 +1,33 @@
+{
+  renderManager.setPreferredLightMode(TechniqueDef.LightMode.SinglePass);
+  renderManager.setSinglePassLightBatchSize(4);
+  cam.setLocation(new Vector3f(5.936224f,3.3759952f,-3.3202777f));
+  cam.setRotation(new Quaternion(0.16265652f,-0.4811838f,0.09137692f,0.8565368f));
+  Geometry quadGeom=new Geometry("quad",new Quad(1,1));
+  quadGeom.move(1,0,0);
+  Material mat1=assetManager.loadMaterial("Textures/BumpMapTest/SimpleBump.j3m");
+  mat1.getAdditionalRenderState().setFaceCullMode(RenderState.FaceCullMode.Off);
+  quadGeom.setMaterial(mat1);
+  TangentBinormalGenerator.generate(quadGeom);
+  rootNode.attachChild(quadGeom);
+  Geometry teapot=(Geometry)assetManager.loadModel("Models/Teapot/Teapot.obj");
+  teapot.move(-1,0,0);
+  teapot.setLocalScale(2f);
+  Material mat2=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  mat2.setFloat("Shininess",25);
+  mat2.setBoolean("UseMaterialColors",true);
+  mat2.setColor("Ambient",ColorRGBA.Black);
+  mat2.setColor("Diffuse",ColorRGBA.Gray);
+  mat2.setColor("Specular",ColorRGBA.Gray);
+  mat2.getAdditionalRenderState().setFaceCullMode(RenderState.FaceCullMode.Front);
+  teapot.setMaterial(mat2);
+  rootNode.attachChild(teapot);
+  lightMdl=new Geometry("Light",new Sphere(10,10,0.1f));
+  lightMdl.setMaterial(assetManager.loadMaterial("Common/Materials/RedColor.j3m"));
+  lightMdl.getMesh().setStatic();
+  rootNode.attachChild(lightMdl);
+  pl=new PointLight();
+  pl.setColor(ColorRGBA.White);
+  pl.setRadius(4f);
+  rootNode.addLight(pl);
+}
