@@ -1,0 +1,24 @@
+{
+  if (scene.getCullHint() == Spatial.CullHint.Always)   return;
+  boolean inFrustum=false;
+  for (int j=0; j < cameras.length && inFrustum == false; j++) {
+    Camera camera=cameras[j];
+    int planeState=camera.getPlaneState();
+    camera.setPlaneState(0);
+    inFrustum=camera.contains(scene.getWorldBound()) != Camera.FrustumIntersect.Outside && scene.checkCulling(vpCamera);
+    camera.setPlaneState(planeState);
+  }
+  if (inFrustum) {
+    if (scene instanceof Node) {
+      Node node=(Node)scene;
+      for (      Spatial child : node.getChildren()) {
+        addGeometriesInCamFrustumAndViewPortFromNode(vpCamera,cameras,child,mode,outputGeometryList);
+      }
+    }
+ else     if (scene instanceof Geometry) {
+      if (checkShadowMode(scene.getShadowMode(),mode) && !((Geometry)scene).isGrouped()) {
+        outputGeometryList.add((Geometry)scene);
+      }
+    }
+  }
+}

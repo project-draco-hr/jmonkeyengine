@@ -1,8 +1,5 @@
 {
   if (!scene.checkCulling(vp.getCamera())) {
-    if ((scene.getShadowMode() != RenderQueue.ShadowMode.Off || scene instanceof Node) && scene.getCullHint() != Spatial.CullHint.Always) {
-      renderShadow(scene,vp.getQueue());
-    }
     return;
   }
   scene.runControlRender(this,vp);
@@ -21,9 +18,5 @@
       throw new IllegalStateException("No material is set for Geometry: " + gm.getName());
     }
     vp.getQueue().addToQueue(gm,scene.getQueueBucket());
-    RenderQueue.ShadowMode shadowMode=scene.getShadowMode();
-    if (shadowMode != RenderQueue.ShadowMode.Off) {
-      vp.getQueue().addToShadowQueue(gm,shadowMode);
-    }
   }
 }

@@ -1,5 +1,4 @@
 {
-  GeometryList l=lightReceivers;
   matCache.clear();
   for (int i=0; i < l.size(); i++) {
     Material mat=l.get(i).getMaterial();
@@ -13,27 +12,22 @@
     }
   }
   for (  Material mat : matCache) {
-    mat.setColor("Splits",splits);
     mat.setFloat("ShadowMapSize",shadowMapSize);
-    for (int j=0; j < nbSplits; j++) {
-      mat.setMatrix4("LightViewProjectionMatrix" + j,lightViewProjectionsMatrices[j]);
+    for (int j=0; j < nbShadowMaps; j++) {
+      mat.setMatrix4(lightViewStringCache[j],lightViewProjectionsMatrices[j]);
     }
-    for (int j=0; j < nbSplits; j++) {
-      mat.setTexture("ShadowMap" + j,shadowMaps[j]);
+    for (int j=0; j < nbShadowMaps; j++) {
+      mat.setTexture(shadowMapStringCache[j],shadowMaps[j]);
     }
-    mat.setBoolean("HardwareShadows",compareMode == CompareMode.Hardware);
-    mat.setInt("FilterMode",filterMode.ordinal());
+    mat.setBoolean("HardwareShadows",shadowCompareMode == CompareMode.Hardware);
+    mat.setInt("FilterMode",edgeFilteringMode.getMaterialParamValue());
     mat.setFloat("PCFEdge",edgesThickness);
     mat.setFloat("ShadowIntensity",shadowIntensity);
     if (fadeInfo != null) {
       mat.setVector2("FadeInfo",fadeInfo);
     }
+    setMaterialParameters(mat);
   }
-  applyHWShadows=false;
-  applyFilterMode=false;
-  applyPCFEdge=false;
-  applyShadowIntensity=false;
-  applyFadeInfo=false;
   if (needsfallBackMaterial) {
     setPostShadowParams();
   }
