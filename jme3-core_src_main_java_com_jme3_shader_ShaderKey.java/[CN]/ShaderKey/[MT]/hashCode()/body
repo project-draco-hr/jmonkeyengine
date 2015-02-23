@@ -2,7 +2,7 @@
   if (cachedHashedCode == 0) {
     int hash=7;
     hash=41 * hash + name.hashCode();
-    hash=41 * hash + fragName.hashCode();
+    hash=41 * hash + shaderName.get(Shader.ShaderType.Fragment).hashCode();
     hash=41 * hash + (defines != null ? defines.hashCode() : 0);
     cachedHashedCode=hash;
   }

@@ -1,7 +1,13 @@
 {
   super.write(ex);
   OutputCapsule oc=ex.getCapsule(this);
-  oc.write(fragName,"fragment_name",null);
-  oc.write(vertLanguage,"language",null);
-  oc.write(fragLanguage,"frag_language",null);
+  oc.write(shaderName.get(Shader.ShaderType.Fragment),"fragment_name",null);
+  oc.write(shaderName.get(Shader.ShaderType.Geometry),"geometry_name",null);
+  oc.write(shaderName.get(Shader.ShaderType.TesselationControl),"tessControl_name",null);
+  oc.write(shaderName.get(Shader.ShaderType.TesselationEvaluation),"tessEval_name",null);
+  oc.write(shaderLanguage.get(Shader.ShaderType.Vertex),"language",null);
+  oc.write(shaderLanguage.get(Shader.ShaderType.Fragment),"frag_language",null);
+  oc.write(shaderLanguage.get(Shader.ShaderType.Geometry),"geom_language",null);
+  oc.write(shaderLanguage.get(Shader.ShaderType.TesselationControl),"tsctrl_language",null);
+  oc.write(shaderLanguage.get(Shader.ShaderType.TesselationEvaluation),"tseval_language",null);
 }

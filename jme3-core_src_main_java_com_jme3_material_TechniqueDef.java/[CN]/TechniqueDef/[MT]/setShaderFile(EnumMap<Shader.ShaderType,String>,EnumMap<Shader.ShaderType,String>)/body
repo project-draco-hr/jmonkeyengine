@@ -1,0 +1,13 @@
+{
+  for (  Shader.ShaderType shaderType : shaderName.keySet()) {
+    this.shaderLanguage.put(shaderType,shaderLanguage.get(shaderType));
+    this.shaderName.put(shaderType,shaderName.get(shaderType));
+    if (shaderType.equals(Shader.ShaderType.Geometry)) {
+      requiredCaps.add(Caps.GeometryShader);
+    }
+ else     if (shaderType.equals(Shader.ShaderType.TesselationControl)) {
+      requiredCaps.add(Caps.TesselationShader);
+    }
+  }
+  usesShaders=true;
+}

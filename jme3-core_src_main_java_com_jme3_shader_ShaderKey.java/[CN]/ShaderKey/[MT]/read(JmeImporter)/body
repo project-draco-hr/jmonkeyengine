@@ -1,7 +1,14 @@
 {
   super.read(im);
   InputCapsule ic=im.getCapsule(this);
-  fragName=ic.readString("fragment_name",null);
-  vertLanguage=ic.readString("language",null);
-  fragLanguage=ic.readString("frag_language",null);
+  shaderName.put(Shader.ShaderType.Vertex,name);
+  shaderName.put(Shader.ShaderType.Fragment,ic.readString("fragment_name",null));
+  shaderName.put(Shader.ShaderType.Geometry,ic.readString("geometry_name",null));
+  shaderName.put(Shader.ShaderType.TesselationControl,ic.readString("tessControl_name",null));
+  shaderName.put(Shader.ShaderType.TesselationEvaluation,ic.readString("tessEval_name",null));
+  shaderLanguage.put(Shader.ShaderType.Vertex,ic.readString("language",null));
+  shaderLanguage.put(Shader.ShaderType.Fragment,ic.readString("frag_language",null));
+  shaderLanguage.put(Shader.ShaderType.Geometry,ic.readString("geom_language",null));
+  shaderLanguage.put(Shader.ShaderType.TesselationControl,ic.readString("tsctrl_language",null));
+  shaderLanguage.put(Shader.ShaderType.TesselationEvaluation,ic.readString("tseval_language",null));
 }

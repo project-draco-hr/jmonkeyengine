@@ -1,10 +1,16 @@
 {
   OutputCapsule oc=ex.getCapsule(this);
   oc.write(name,"name",null);
-  oc.write(vertName,"vertName",null);
-  oc.write(fragName,"fragName",null);
-  oc.write(vertLanguage,"vertLanguage",null);
-  oc.write(vertLanguage,"fragLanguage",null);
+  oc.write(shaderName.get(Shader.ShaderType.Vertex),"vertName",null);
+  oc.write(shaderName.get(Shader.ShaderType.Fragment),"fragName",null);
+  oc.write(shaderName.get(Shader.ShaderType.Geometry),"geomName",null);
+  oc.write(shaderName.get(Shader.ShaderType.TesselationControl),"tsctrlName",null);
+  oc.write(shaderName.get(Shader.ShaderType.TesselationEvaluation),"tsevalName",null);
+  oc.write(shaderLanguage.get(Shader.ShaderType.Vertex),"vertLanguage",null);
+  oc.write(shaderLanguage.get(Shader.ShaderType.Fragment),"fragLanguage",null);
+  oc.write(shaderLanguage.get(Shader.ShaderType.Geometry),"geomLanguage",null);
+  oc.write(shaderLanguage.get(Shader.ShaderType.TesselationControl),"tsctrlLanguage",null);
+  oc.write(shaderLanguage.get(Shader.ShaderType.TesselationEvaluation),"tsevalLanguage",null);
   oc.write(presetDefines,"presetDefines",null);
   oc.write(lightMode,"lightMode",LightMode.Disable);
   oc.write(shadowMode,"shadowMode",ShadowMode.Disable);

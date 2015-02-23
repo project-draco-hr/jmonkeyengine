@@ -1,6 +1,6 @@
 {
   if (!isUseNodes) {
-    isUseNodes=fragName == null && vertName == null;
+    isUseNodes=shaderName.get(Shader.ShaderType.Vertex) == null && shaderName.get(Shader.ShaderType.Fragment) == null;
     if (isUseNodes) {
       if (nodesLoaderDelegate == null) {
         nodesLoaderDelegate=new ShaderNodeLoaderDelegate();
