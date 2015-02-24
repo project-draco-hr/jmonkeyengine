@@ -1,5 +1,10 @@
 {
   int total=0;
+  if (children.size() > 4) {
+    BoundingVolume bv=this.getWorldBound();
+    if (bv == null)     return 0;
+    if (bv.collideWith(other) == 0)     return 0;
+  }
   for (  Spatial child : children.getArray()) {
     total+=child.collideWith(other,results);
   }
