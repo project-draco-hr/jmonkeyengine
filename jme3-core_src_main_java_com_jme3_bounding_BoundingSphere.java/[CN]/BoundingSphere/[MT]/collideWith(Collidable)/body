@@ -1,0 +1,12 @@
+{
+  if (other instanceof Ray) {
+    Ray ray=(Ray)other;
+    return collideWithRay(ray);
+  }
+ else   if (other instanceof Triangle) {
+    return super.collideWith(other);
+  }
+ else {
+    throw new UnsupportedCollisionException();
+  }
+}
