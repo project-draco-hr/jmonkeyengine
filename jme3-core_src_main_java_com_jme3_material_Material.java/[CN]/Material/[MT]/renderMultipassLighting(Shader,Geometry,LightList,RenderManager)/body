@@ -68,7 +68,7 @@ vars.release();
 r.setShader(shader);
 renderMeshFromGeometry(r,g);
 }
-if (isFirstLight && lightList.size() > 0) {
+if (isFirstLight) {
 ambientColor.setValue(VarType.Vector4,getAmbientColor(lightList,false));
 lightColor.setValue(VarType.Vector4,ColorRGBA.BlackNoAlpha);
 lightPos.setValue(VarType.Vector4,nullDirLight);
