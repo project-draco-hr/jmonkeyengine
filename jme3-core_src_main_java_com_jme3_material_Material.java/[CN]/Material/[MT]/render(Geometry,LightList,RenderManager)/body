@@ -2,9 +2,6 @@
   autoSelectTechnique(rm);
   Renderer r=rm.getRenderer();
   TechniqueDef techDef=technique.getDef();
-  if (techDef.getLightMode() == LightMode.MultiPass && lights.size() == 0) {
-    return;
-  }
   if (rm.getForcedRenderState() != null) {
     r.applyRenderState(rm.getForcedRenderState());
   }
@@ -29,10 +26,17 @@ case Disable:
 case SinglePass:
   int nbRenderedLights=0;
 resetUniformsNotSetByCurrent(shader);
-while (nbRenderedLights < lights.size()) {
-nbRenderedLights=updateLightListUniforms(shader,geom,lights,rm.getSinglePassLightBatchSize(),rm,nbRenderedLights);
+if (lights.size() == 0) {
+nbRenderedLights=updateLightListUniforms(shader,geom,lights,rm.getSinglePassLightBatchSize(),rm,0);
 r.setShader(shader);
 renderMeshFromGeometry(r,geom);
+}
+ else {
+while (nbRenderedLights < lights.size()) {
+  nbRenderedLights=updateLightListUniforms(shader,geom,lights,rm.getSinglePassLightBatchSize(),rm,nbRenderedLights);
+  r.setShader(shader);
+  renderMeshFromGeometry(r,geom);
+}
 }
 return;
 case FixedPipeline:

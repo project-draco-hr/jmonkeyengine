@@ -1,13 +1,7 @@
 {
-  GeometryList occluders=rq.getShadowQueueContent(ShadowMode.Cast);
-  if (occluders.size() == 0) {
-    noOccluders=true;
-    return;
+  for (  Spatial scene : viewPort.getScenes()) {
+    ShadowUtil.getGeometriesInCamFrustum(scene,viewPort.getCamera(),ShadowMode.Receive,lightReceivers);
   }
- else {
-    noOccluders=false;
-  }
-  GeometryList receivers=rq.getShadowQueueContent(ShadowMode.Receive);
   Camera viewCam=viewPort.getCamera();
   ShadowUtil.updateFrustumPoints(viewCam,viewCam.getFrustumNear(),viewCam.getFrustumFar(),1.0f,points);
   Vector3f frustaCenter=new Vector3f();
@@ -22,13 +16,20 @@
   shadowCam.setLocation(frustaCenter);
   shadowCam.update();
   shadowCam.updateViewProjection();
-  ShadowUtil.updateShadowCamera(occluders,receivers,shadowCam,points,shadowMapSize);
+  ShadowUtil.updateShadowCamera(viewPort,lightReceivers,shadowCam,points,shadowOccluders,shadowMapSize);
+  if (shadowOccluders.size() == 0) {
+    noOccluders=true;
+    return;
+  }
+ else {
+    noOccluders=false;
+  }
   Renderer r=renderManager.getRenderer();
   renderManager.setCamera(shadowCam,false);
   renderManager.setForcedMaterial(preshadowMat);
   r.setFrameBuffer(shadowFB);
   r.clearBuffers(false,true,false);
-  viewPort.getQueue().renderShadowQueue(ShadowMode.Cast,renderManager,shadowCam,true);
+  viewPort.getQueue().renderShadowQueue(shadowOccluders,renderManager,shadowCam,true);
   r.setFrameBuffer(viewPort.getOutputFrameBuffer());
   renderManager.setForcedMaterial(null);
   renderManager.setCamera(viewCam,false);

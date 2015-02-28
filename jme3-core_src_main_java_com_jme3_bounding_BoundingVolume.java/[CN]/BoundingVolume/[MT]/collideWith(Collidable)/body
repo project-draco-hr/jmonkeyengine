@@ -1,0 +1,8 @@
+{
+  TempVars tempVars=TempVars.get();
+  CollisionResults tempResults=tempVars.collisionResults;
+  tempResults.clear();
+  int retval=collideWith(other,tempResults);
+  tempVars.release();
+  return retval;
+}

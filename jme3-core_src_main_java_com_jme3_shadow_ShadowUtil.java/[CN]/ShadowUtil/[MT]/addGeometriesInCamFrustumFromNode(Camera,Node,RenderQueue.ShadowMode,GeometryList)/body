@@ -1,0 +1,15 @@
+{
+  if (scene.getCullHint() == Spatial.CullHint.Always)   return;
+  camera.setPlaneState(0);
+  if (camera.contains(scene.getWorldBound()) != Camera.FrustumIntersect.Outside) {
+    for (    Spatial child : scene.getChildren()) {
+      if (child instanceof Node)       addGeometriesInCamFrustumFromNode(camera,(Node)child,mode,outputGeometryList);
+ else       if (child instanceof Geometry && child.getCullHint() != Spatial.CullHint.Always) {
+        camera.setPlaneState(0);
+        if (checkShadowMode(child.getShadowMode(),mode) && !((Geometry)child).isGrouped() && camera.contains(child.getWorldBound()) != Camera.FrustumIntersect.Outside) {
+          outputGeometryList.add((Geometry)child);
+        }
+      }
+    }
+  }
+}

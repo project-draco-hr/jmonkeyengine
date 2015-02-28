@@ -1,6 +1,11 @@
 {
   logger.log(Level.FINE,"IGLESContext create");
-  renderer=new IGLESShaderRenderer();
+  GL gl=new IosGL();
+  GLExt glext=(GLExt)gl;
+  gl=new GLDebugES(gl,glext);
+  glext=(GLExt)gl;
+  renderer=new GLRenderer(gl,glext);
+  renderer.initialize();
   input=new IosInputHandler();
   timer=new NanoTimer();
   created.set(true);

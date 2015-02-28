@@ -1,11 +1,6 @@
 {
-  GeometryList occluders=rq.getShadowQueueContent(ShadowMode.Cast);
-  if (occluders.size() == 0) {
-    return;
-  }
-  GeometryList receivers=rq.getShadowQueueContent(ShadowMode.Receive);
-  if (receivers.size() == 0) {
-    return;
+  for (  Spatial scene : viewPort.getScenes()) {
+    ShadowUtil.getGeometriesInCamFrustum(scene,viewPort.getCamera(),ShadowMode.Receive,lightReceivers);
   }
   Camera viewCam=viewPort.getCamera();
   float zFar=zFarOverride;
@@ -35,7 +30,7 @@ renderManager.setForcedMaterial(preshadowMat);
 renderManager.setForcedTechnique("PreShadow");
 for (int i=0; i < nbSplits; i++) {
 ShadowUtil.updateFrustumPoints(viewCam,splitsArray[i],splitsArray[i + 1],1.0f,points);
-ShadowUtil.updateShadowCamera(occluders,receivers,shadowCam,points,splitOccluders,shadowMapSize);
+ShadowUtil.updateShadowCamera(viewPort,lightReceivers,shadowCam,points,splitOccluders,shadowMapSize);
 lightViewProjectionsMatrices[i].set(shadowCam.getViewProjectionMatrix());
 renderManager.setCamera(shadowCam,false);
 if (debugfrustums) {
@@ -48,9 +43,6 @@ r.clearBuffers(false,true,false);
 viewPort.getQueue().renderShadowQueue(splitOccluders,renderManager,shadowCam,true);
 }
 debugfrustums=false;
-if (flushQueues) {
-occluders.clear();
-}
 r.setFrameBuffer(viewPort.getOutputFrameBuffer());
 renderManager.setForcedMaterial(null);
 renderManager.setForcedTechnique(null);

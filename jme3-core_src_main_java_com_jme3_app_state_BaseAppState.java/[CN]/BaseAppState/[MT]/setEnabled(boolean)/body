@@ -3,11 +3,11 @@
   this.enabled=enabled;
   if (!isInitialized())   return;
   if (enabled) {
-    log.log(Level.FINEST,"enable():{0}",this);
-    enable();
+    log.log(Level.FINEST,"onEnable():{0}",this);
+    onEnable();
   }
  else {
-    log.log(Level.FINEST,"disable():{0}",this);
-    disable();
+    log.log(Level.FINEST,"onDisable():{0}",this);
+    onDisable();
   }
 }

@@ -18,11 +18,13 @@
     nodesLoaderDelegate.computeConditions();
     technique.setShaderFile(technique.hashCode() + "",technique.hashCode() + "","GLSL100","GLSL100");
   }
-  if (shaderName.containsKey(Shader.ShaderType.Vertex) && shaderName.containsKey(Shader.ShaderType.Fragment)) {
-    technique.setShaderFile(shaderName,shaderLanguage);
+  if (vertName != null && fragName != null) {
+    technique.setShaderFile(vertName,fragName,vertLanguage,fragLanguage);
   }
   materialDef.addTechniqueDef(technique);
   technique=null;
-  shaderLanguage.clear();
-  shaderName.clear();
+  vertName=null;
+  fragName=null;
+  vertLanguage=null;
+  fragLanguage=null;
 }

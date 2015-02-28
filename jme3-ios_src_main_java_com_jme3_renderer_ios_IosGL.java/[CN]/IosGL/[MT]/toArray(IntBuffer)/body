@@ -1,0 +1,10 @@
+{
+  int remain=buffer.remaining();
+  if (buffer.remaining() > 16) {
+    throw new ArrayIndexOutOfBoundsException();
+  }
+  int pos=buffer.position();
+  buffer.get(temp_array,0,remain);
+  buffer.position(pos);
+  return remain;
+}

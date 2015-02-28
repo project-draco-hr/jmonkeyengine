@@ -7,19 +7,19 @@
   }
   lightReceivers=getReceivers(sceneReceivers,lightReceivers);
   if (lightReceivers.size() != 0) {
-    setMatParams();
+    setMatParams(lightReceivers);
     Camera cam=viewPort.getCamera();
     if (needsfallBackMaterial) {
       renderManager.setForcedMaterial(postshadowMat);
     }
     renderManager.setForcedTechnique(postTechniqueName);
     viewPort.getQueue().renderShadowQueue(lightReceivers,renderManager,cam,false);
-    if (flushQueues) {
-      sceneReceivers.clear();
-    }
     renderManager.setForcedTechnique(null);
     renderManager.setForcedMaterial(null);
     renderManager.setCamera(cam,false);
     clearMatParams();
+  }
+  if (flushQueues) {
+    sceneReceivers.clear();
   }
 }
