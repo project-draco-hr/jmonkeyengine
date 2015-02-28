@@ -1,0 +1,11 @@
+{
+  if (key == null) {
+    throw new IllegalArgumentException("key cannot be null");
+  }
+  for (  AssetEventListener listener : eventListeners) {
+    listener.assetRequested(key);
+  }
+  AssetProcessor proc=handler.getProcessor(key.getProcessorType());
+  StreamAssetInfo info=new StreamAssetInfo(this,key,inputStream);
+  return loadLocatedAsset(key,info,proc,null);
+}
