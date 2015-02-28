@@ -1,9 +1,0 @@
-{
-  try {
-    Class<? extends AssetLoader> loader=(Class<? extends AssetLoader>)Class.forName(loaderClass);
-    registerLoader(loader,extensions);
-  }
- catch (  Exception e) {
-    logger.log(Level.WARNING,"Failed to load AssetLoader",e);
-  }
-}
