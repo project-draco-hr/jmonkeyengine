@@ -1,9 +1,0 @@
-{
-  FloatBuffer fb=(FloatBuffer)vb.getData();
-  ByteBuffer bb=BufferUtils.createByteBuffer(fb.capacity());
-  convertToUByte(fb,bb);
-  VertexBuffer newVb=new VertexBuffer(vb.getBufferType());
-  newVb.setupData(vb.getUsage(),vb.getNumComponents(),Format.UnsignedByte,bb);
-  newVb.setNormalized(true);
-  return newVb;
-}
