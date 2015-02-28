@@ -1,7 +1,10 @@
 {
   assetManager=info.getManager();
   InputStream in=info.openStream();
-  Savable obj=load(in);
-  in.close();
-  return obj;
+  try {
+    return load(in);
+  }
+  finally {
+    if (in != null)     in.close();
+  }
 }
