@@ -1,0 +1,60 @@
+{
+  InputStream in=configUrl.openStream();
+  try {
+    Scanner scan=new Scanner(in);
+    scan.useLocale(Locale.US);
+    while (scan.hasNext()) {
+      String cmd=scan.next();
+      if (cmd.equals("LOADER")) {
+        String loaderClass=scan.next();
+        String colon=scan.next();
+        if (!colon.equals(":")) {
+          throw new IOException("Expected ':', got '" + colon + "'");
+        }
+        String extensionsList=scan.nextLine();
+        String[] extensions=extensionsList.split(",");
+        for (int i=0; i < extensions.length; i++) {
+          extensions[i]=extensions[i].trim();
+        }
+        Class clazz=acquireClass(loaderClass);
+        if (clazz != null) {
+          assetManager.registerLoader(clazz,extensions);
+        }
+ else {
+          logger.log(Level.WARNING,"Cannot find loader {0}",loaderClass);
+        }
+      }
+ else       if (cmd.equals("LOCATOR")) {
+        String rootPath=scan.next();
+        String locatorClass=scan.nextLine().trim();
+        Class clazz=acquireClass(locatorClass);
+        if (clazz != null) {
+          assetManager.registerLocator(rootPath,clazz);
+        }
+ else {
+          logger.log(Level.WARNING,"Cannot find locator {0}",locatorClass);
+        }
+      }
+ else       if (cmd.equals("INCLUDE")) {
+        String includedCfg=scan.nextLine().trim();
+        URL includedCfgUrl=Thread.currentThread().getContextClassLoader().getResource(includedCfg);
+        if (includedCfgUrl != null) {
+          loadText(assetManager,includedCfgUrl);
+        }
+ else {
+          logger.log(Level.WARNING,"Cannot find config include {0}",includedCfg);
+        }
+      }
+ else       if (cmd.trim().startsWith("#")) {
+        scan.nextLine();
+        continue;
+      }
+ else {
+        throw new IOException("Expected command, got '" + cmd + "'");
+      }
+    }
+  }
+  finally {
+    if (in != null)     in.close();
+  }
+}

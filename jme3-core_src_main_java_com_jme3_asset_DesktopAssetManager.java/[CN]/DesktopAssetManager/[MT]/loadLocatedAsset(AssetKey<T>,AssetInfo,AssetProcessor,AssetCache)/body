@@ -1,0 +1,32 @@
+{
+  AssetLoader loader=handler.aquireLoader(key);
+  Object obj;
+  try {
+    handler.establishParentKey(key);
+    obj=loader.load(info);
+  }
+ catch (  IOException ex) {
+    throw new AssetLoadException("An exception has occured while loading asset: " + key,ex);
+  }
+ finally {
+    handler.releaseParentKey(key);
+  }
+  if (obj == null) {
+    throw new AssetLoadException("Error occured while loading asset \"" + key + "\" using "+ loader.getClass().getSimpleName());
+  }
+ else {
+    if (logger.isLoggable(Level.FINER)) {
+      logger.log(Level.FINER,"Loaded {0} with {1}",new Object[]{key,loader.getClass().getSimpleName()});
+    }
+    if (proc != null) {
+      obj=proc.postProcess(key,obj);
+    }
+    if (cache != null) {
+      cache.addToCache(key,(T)obj);
+    }
+    for (    AssetEventListener listener : eventListeners) {
+      listener.assetLoaded(key);
+    }
+    return (T)obj;
+  }
+}

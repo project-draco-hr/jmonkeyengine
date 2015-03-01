@@ -1,5 +1,7 @@
 {
-  for (  AssetCache cache : classToCacheMap.values()) {
-    cache.clearCache();
+synchronized (classToCacheMap) {
+    for (    AssetCache cache : classToCacheMap.values()) {
+      cache.clearCache();
+    }
   }
 }

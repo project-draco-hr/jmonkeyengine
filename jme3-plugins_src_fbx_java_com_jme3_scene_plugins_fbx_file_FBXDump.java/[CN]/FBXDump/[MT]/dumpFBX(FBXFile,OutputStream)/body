@@ -1,0 +1,7 @@
+{
+  Map<Long,FBXElement> uidToObjectMap=createUidToObjectMap(file);
+  PrintStream ps=new PrintStream(out);
+  for (  FBXElement rootElement : file.rootElements) {
+    dumpFBXElement(rootElement,ps,0,uidToObjectMap);
+  }
+}

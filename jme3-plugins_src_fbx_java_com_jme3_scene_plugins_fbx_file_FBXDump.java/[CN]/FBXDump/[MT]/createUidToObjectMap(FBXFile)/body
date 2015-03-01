@@ -1,0 +1,15 @@
+{
+  Map<Long,FBXElement> uidToObjectMap=new HashMap<Long,FBXElement>();
+  for (  FBXElement rootElement : file.rootElements) {
+    if (rootElement.id.equals("Objects")) {
+      for (      FBXElement fbxObj : rootElement.children) {
+        if (fbxObj.propertiesTypes[0] != 'L') {
+          continue;
+        }
+        Long uid=(Long)fbxObj.properties.get(0);
+        uidToObjectMap.put(uid,fbxObj);
+      }
+    }
+  }
+  return uidToObjectMap;
+}
