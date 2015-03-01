@@ -4,7 +4,7 @@
     SceneApplication.getApplication().enqueue(new Callable<Void>(){
       public Void call() throws Exception {
         SceneRequest request=SceneApplication.getApplication().getCurrentSceneRequest();
-        ((DesktopAssetManager)request.getManager()).deleteFromCache(new MaterialKey(text));
+        request.getManager().deleteFromCache(new MaterialKey(text));
         Material localMaterial=request.getManager().loadMaterial(text);
         if (localMaterial != null) {
           material=localMaterial;

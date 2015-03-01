@@ -11,7 +11,7 @@
       if (asset != null) {
         java.awt.EventQueue.invokeLater(new Runnable(){
           public void run(){
-            ((DesktopAssetManager)manager.getManager()).clearCache();
+            manager.getManager().clearCache();
             TerrainEditorTopComponent composer=TerrainEditorTopComponent.findInstance();
             composer.openScene(asset,context,manager);
           }
