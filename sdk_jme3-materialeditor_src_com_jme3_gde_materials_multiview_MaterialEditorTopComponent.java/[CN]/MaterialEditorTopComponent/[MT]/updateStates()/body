@@ -1,13 +1,11 @@
 {
-  for (int i=0; i < statesPanel.getComponents().length; i++) {
-    Component component=statesPanel.getComponents()[i];
+  for (  Component component : statesPanel.getComponents()) {
     if (component instanceof MaterialPropertyWidget) {
       ((MaterialPropertyWidget)component).registerChangeListener(null);
     }
   }
   statesPanel.removeAll();
-  for (Iterator<Entry<String,MaterialProperty>> it=materialFile.getStateMap().entrySet().iterator(); it.hasNext(); ) {
-    Entry<String,MaterialProperty> entry=it.next();
+  for (  Entry<String,MaterialProperty> entry : materialFile.getStateMap().entrySet()) {
     MaterialPropertyWidget widget=WidgetFactory.getWidget(entry.getValue(),manager);
     widget.registerChangeListener(this);
     statesPanel.add(widget);

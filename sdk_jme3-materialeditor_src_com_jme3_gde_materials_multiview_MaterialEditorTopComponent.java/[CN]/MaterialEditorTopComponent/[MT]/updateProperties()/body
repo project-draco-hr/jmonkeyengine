@@ -1,12 +1,10 @@
 {
-  for (int i=0; i < optionsPanel.getComponents().length; i++) {
-    Component component=optionsPanel.getComponents()[i];
+  for (  Component component : optionsPanel.getComponents()) {
     if (component instanceof MaterialPropertyWidget) {
       ((MaterialPropertyWidget)component).registerChangeListener(null);
     }
   }
-  for (int i=0; i < texturePanel.getComponents().length; i++) {
-    Component component=texturePanel.getComponents()[i];
+  for (  Component component : texturePanel.getComponents()) {
     if (component instanceof MaterialPropertyWidget) {
       ((MaterialPropertyWidget)component).registerChangeListener(null);
     }
@@ -18,14 +16,13 @@
   List<Component> valueList=new LinkedList<Component>();
   List<Component> textureList=new LinkedList<Component>();
   List<Component> otherList=new LinkedList<Component>();
-  for (Iterator<Entry<String,MaterialProperty>> it=materialFile.getParameterMap().entrySet().iterator(); it.hasNext(); ) {
-    Entry<String,MaterialProperty> entry=it.next();
+  for (  Entry<String,MaterialProperty> entry : materialFile.getParameterMap().entrySet()) {
     MaterialPropertyWidget widget=WidgetFactory.getWidget(entry.getValue(),manager);
     widget.registerChangeListener(this);
     if ("Boolean".equals(entry.getValue().getType())) {
       optionList.add(widget);
     }
- else     if (entry.getValue().getType().indexOf("Texture") >= 0) {
+ else     if (entry.getValue().getType().contains("Texture")) {
       textureList.add(widget);
     }
  else     if ("Color".equals(entry.getValue().getType())) {
@@ -41,24 +38,19 @@
       otherList.add(widget);
     }
   }
-  for (Iterator<Component> it=textureList.iterator(); it.hasNext(); ) {
-    Component component=it.next();
+  for (  Component component : textureList) {
     texturePanel.add(component);
   }
-  for (Iterator<Component> it=optionList.iterator(); it.hasNext(); ) {
-    Component component=it.next();
+  for (  Component component : optionList) {
     optionsPanel.add(component);
   }
-  for (Iterator<Component> it=colorList.iterator(); it.hasNext(); ) {
-    Component component=it.next();
+  for (  Component component : colorList) {
     texturePanel.add(component);
   }
-  for (Iterator<Component> it=valueList.iterator(); it.hasNext(); ) {
-    Component component=it.next();
+  for (  Component component : valueList) {
     optionsPanel.add(component);
   }
-  for (Iterator<Component> it=otherList.iterator(); it.hasNext(); ) {
-    Component component=it.next();
+  for (  Component component : otherList) {
     optionsPanel.add(component);
   }
   jScrollPane2.repaint();
