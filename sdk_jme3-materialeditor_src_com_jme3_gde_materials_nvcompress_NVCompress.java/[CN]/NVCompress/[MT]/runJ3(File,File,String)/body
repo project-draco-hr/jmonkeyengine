@@ -1,7 +1,7 @@
 {
   updateWork(statusStr,0);
   if (manager == null)   manager=JmeSystem.newAssetManager();
-  manager.registerLocator(input.getParent().toString(),FileLocator.class.getName());
+  manager.registerLocator(input.getParent().toString(),FileLocator.class);
   String format=(String)cmbCompressType.getSelectedItem();
   if (format.equals("PNG-RGBE")) {
     HDRLoader loader=new HDRLoader(true);
