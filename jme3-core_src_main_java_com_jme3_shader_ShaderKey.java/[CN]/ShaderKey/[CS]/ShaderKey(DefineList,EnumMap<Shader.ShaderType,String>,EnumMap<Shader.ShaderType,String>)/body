@@ -1,0 +1,10 @@
+{
+  super(shaderName.get(Shader.ShaderType.Vertex));
+  this.shaderLanguage=new EnumMap<Shader.ShaderType,String>(Shader.ShaderType.class);
+  this.shaderName=new EnumMap<Shader.ShaderType,String>(Shader.ShaderType.class);
+  this.defines=defines;
+  for (  Shader.ShaderType shaderType : shaderName.keySet()) {
+    this.shaderName.put(shaderType,shaderName.get(shaderType));
+    this.shaderLanguage.put(shaderType,shaderLanguage.get(shaderType));
+  }
+}

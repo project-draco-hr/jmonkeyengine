@@ -1,8 +1,8 @@
 {
-  this.vertName=vertexShader;
-  this.fragName=fragmentShader;
-  this.vertLanguage=vertLanguage;
-  this.fragLanguage=fragLanguage;
+  this.shaderLanguage.put(Shader.ShaderType.Vertex,shaderLanguage.get(vertLanguage));
+  this.shaderName.put(Shader.ShaderType.Vertex,shaderName.get(vertexShader));
+  this.shaderLanguage.put(Shader.ShaderType.Fragment,shaderLanguage.get(fragLanguage));
+  this.shaderName.put(Shader.ShaderType.Fragment,shaderName.get(fragmentShader));
   Caps vertCap=Caps.valueOf(vertLanguage);
   requiredCaps.add(vertCap);
   Caps fragCap=Caps.valueOf(fragLanguage);

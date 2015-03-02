@@ -1,21 +1,26 @@
 {
   InputCapsule ic=im.getCapsule(this);
   name=ic.readString("name",null);
-  vertName=ic.readString("vertName",null);
-  fragName=ic.readString("fragName",null);
+  shaderName.put(Shader.ShaderType.Vertex,ic.readString("vertName",null));
+  shaderName.put(Shader.ShaderType.Fragment,ic.readString("fragName",null));
+  shaderName.put(Shader.ShaderType.Geometry,ic.readString("geomName",null));
+  shaderName.put(Shader.ShaderType.TessellationControl,ic.readString("tsctrlName",null));
+  shaderName.put(Shader.ShaderType.TessellationEvaluation,ic.readString("tsevalName",null));
   presetDefines=(DefineList)ic.readSavable("presetDefines",null);
   lightMode=ic.readEnum("lightMode",LightMode.class,LightMode.Disable);
   shadowMode=ic.readEnum("shadowMode",ShadowMode.class,ShadowMode.Disable);
   renderState=(RenderState)ic.readSavable("renderState",null);
   usesShaders=ic.readBoolean("usesShaders",false);
   if (ic.getSavableVersion(TechniqueDef.class) == 0) {
-    vertLanguage=ic.readString("shaderLang",null);
-    fragLanguage=vertLanguage;
+    shaderLanguage.put(Shader.ShaderType.Vertex,ic.readString("shaderLang",null));
+    shaderLanguage.put(Shader.ShaderType.Fragment,shaderLanguage.get(Shader.ShaderType.Vertex));
   }
  else {
-    vertLanguage=ic.readString("vertLanguage",null);
-    fragLanguage=ic.readString("fragLanguage",null);
-    ;
+    shaderLanguage.put(Shader.ShaderType.Vertex,ic.readString("vertLanguage",null));
+    shaderLanguage.put(Shader.ShaderType.Fragment,ic.readString("fragLanguage",null));
+    shaderLanguage.put(Shader.ShaderType.Geometry,ic.readString("geomLanguage",null));
+    shaderLanguage.put(Shader.ShaderType.TessellationControl,ic.readString("tsctrlLanguage",null));
+    shaderLanguage.put(Shader.ShaderType.TessellationEvaluation,ic.readString("tsevalLanguage",null));
   }
   usesNodes=ic.readBoolean("usesNodes",false);
   shaderNodes=ic.readSavableArrayList("shaderNodes",null);

@@ -11,6 +11,14 @@
           if (oglVer >= 320) {
             caps.add(Caps.OpenGL32);
           }
+          if (oglVer >= 330) {
+            caps.add(Caps.OpenGL33);
+            caps.add(Caps.GeometryShader);
+          }
+          if (oglVer >= 400) {
+            caps.add(Caps.OpenGL40);
+            caps.add(Caps.TesselationShader);
+          }
         }
       }
     }
@@ -22,9 +30,11 @@ default :
       break;
     }
 case 400:
+  caps.add(Caps.GLSL400);
 case 330:
+caps.add(Caps.GLSL330);
 case 150:
-  caps.add(Caps.GLSL150);
+caps.add(Caps.GLSL150);
 case 140:
 caps.add(Caps.GLSL140);
 case 130:

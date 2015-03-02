@@ -25,6 +25,9 @@
     gl.glLineWidth(mesh.getLineWidth());
     context.lineWidth=mesh.getLineWidth();
   }
+  if (gl4 != null && mesh.getMode().equals(Mode.Patch)) {
+    gl4.glPatchParameter(mesh.getPatchVertexCount());
+  }
   statistics.onMeshDrawn(mesh,lod,count);
   renderMeshDefault(mesh,lod,count,instanceData);
 }
