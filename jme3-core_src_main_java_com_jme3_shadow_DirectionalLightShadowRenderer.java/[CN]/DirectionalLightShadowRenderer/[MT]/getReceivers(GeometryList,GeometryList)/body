@@ -1,9 +1,0 @@
-{
-  if (sceneReceivers.size() == 0) {
-    for (    Spatial scene : viewPort.getScenes()) {
-      ShadowUtil.getGeometriesInCamFrustum(scene,viewPort.getCamera(),RenderQueue.ShadowMode.Receive,sceneReceivers);
-    }
-  }
-  lightReceivers=sceneReceivers;
-  return sceneReceivers;
-}

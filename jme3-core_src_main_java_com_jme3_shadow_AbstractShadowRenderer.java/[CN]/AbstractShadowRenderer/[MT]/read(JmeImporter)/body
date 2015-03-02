@@ -6,7 +6,6 @@
   shadowIntensity=ic.readFloat("shadowIntensity",0.7f);
   edgeFilteringMode=ic.readEnum("edgeFilteringMode",EdgeFilteringMode.class,EdgeFilteringMode.Bilinear);
   shadowCompareMode=ic.readEnum("shadowCompareMode",CompareMode.class,CompareMode.Hardware);
-  flushQueues=ic.readBoolean("flushQueues",false);
   init(assetManager,nbShadowMaps,(int)shadowMapSize);
   edgesThickness=ic.readFloat("edgesThickness",1.0f);
   postshadowMat.setFloat("PCFEdge",edgesThickness);
