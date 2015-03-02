@@ -1,6 +1,6 @@
 {
   final ShaderKey other=(ShaderKey)obj;
-  if (name.equals(other.name) && shaderName.get(Shader.ShaderType.Fragment).equals(other.shaderName.get(Shader.ShaderType.Fragment))) {
+  if (name.equals(other.name) && getShaderName(Shader.ShaderType.Fragment).equals(other.getShaderName(Shader.ShaderType.Fragment))) {
     if (defines != null && other.defines != null) {
       return defines.equals(other.defines);
     }
