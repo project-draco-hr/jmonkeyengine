@@ -1,0 +1,30 @@
+{
+  for (int i=0; i < 10; i++) {
+{
+      Node root=new Node("Root");
+      for (int count=0; count < 10; count++) {
+        for (int samples=4; samples < 50; samples++) {
+          Geometry g=new Geometry();
+          g.setMesh(new Sphere(samples,samples,1.0f));
+          root.attachChild(g);
+        }
+      }
+      long start=System.currentTimeMillis();
+      TangentBinormalGenerator.generate(root);
+      System.out.println("Serial " + (System.currentTimeMillis() - start));
+    }
+{
+      Node root=new Node("Root");
+      for (int count=0; count < 10; count++) {
+        for (int samples=4; samples < 50; samples++) {
+          Geometry g=new Geometry();
+          g.setMesh(new Sphere(samples,samples,1.0f));
+          root.attachChild(g);
+        }
+      }
+      long start=System.currentTimeMillis();
+      TangentBinormalGenerator.generateParallel(root,executor);
+      System.out.println("Parallel " + (System.currentTimeMillis() - start));
+    }
+  }
+}
