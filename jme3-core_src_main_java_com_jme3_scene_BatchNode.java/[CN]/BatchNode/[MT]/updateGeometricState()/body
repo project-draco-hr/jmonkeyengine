@@ -1,2 +1,12 @@
 {
+  super.updateGeometricState();
+  if (!children.isEmpty()) {
+    for (    Batch batch : batches.getArray()) {
+      if (batch.needMeshUpdate) {
+        batch.geometry.updateModelBound();
+        batch.geometry.updateWorldBound();
+        batch.needMeshUpdate=false;
+      }
+    }
+  }
 }
