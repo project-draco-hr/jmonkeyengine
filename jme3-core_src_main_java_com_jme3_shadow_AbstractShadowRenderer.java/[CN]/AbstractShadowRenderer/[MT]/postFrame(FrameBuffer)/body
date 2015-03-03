@@ -5,7 +5,7 @@
   if (debug) {
     displayShadowMap(renderManager.getRenderer());
   }
-  lightReceivers=getReceivers(sceneReceivers,lightReceivers);
+  getReceivers(lightReceivers);
   if (lightReceivers.size() != 0) {
     setMatParams(lightReceivers);
     Camera cam=viewPort.getCamera();
@@ -18,8 +18,5 @@
     renderManager.setForcedMaterial(null);
     renderManager.setCamera(cam,false);
     clearMatParams();
-  }
-  if (flushQueues) {
-    sceneReceivers.clear();
   }
 }
