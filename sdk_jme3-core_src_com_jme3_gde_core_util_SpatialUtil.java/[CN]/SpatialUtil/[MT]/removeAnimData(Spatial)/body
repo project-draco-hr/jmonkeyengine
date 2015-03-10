@@ -1,0 +1,15 @@
+{
+  root.depthFirstTraversal(new SceneGraphVisitor(){
+    @Override public void visit(    Spatial spat){
+      AnimControl animControl=spat.getControl(AnimControl.class);
+      if (animControl != null) {
+        spat.removeControl(animControl);
+        SkeletonControl skeletonControl=spat.getControl(SkeletonControl.class);
+        if (skeletonControl != null) {
+          spat.removeControl(skeletonControl);
+        }
+      }
+    }
+  }
+);
+}
