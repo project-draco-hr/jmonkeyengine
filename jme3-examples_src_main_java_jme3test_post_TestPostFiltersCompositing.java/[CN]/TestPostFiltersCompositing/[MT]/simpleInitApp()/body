@@ -15,5 +15,6 @@
   guifpp.addFilter(new ColorOverlayFilter(ColorRGBA.Red));
   guifpp.addFilter(new ComposeFilter(mainVPTexture));
   guiViewPort.addProcessor(guifpp);
-  guiViewPort.setBackgroundColor(new ColorRGBA(0,0,0,0));
+  guiViewPort.setBackgroundColor(ColorRGBA.BlackNoAlpha);
+  guiViewPort.setClearColor(true);
 }
