@@ -13,7 +13,7 @@
  else     if (paramDef.getColorSpace() == null && value.getName() != null && value.getImage().getColorSpace() == ColorSpace.Linear) {
       logger.log(Level.WARNING,"The texture {0} has linear color space, but the material " + "parameter {2} specifies no color space requirement, this may " + "lead to unexpected behavior.\nCheck if the image "+ "was not set to another material parameter with a linear "+ "color space, or that you did not set the ColorSpace to "+ "Linear using texture.getImage.setColorSpace().",new Object[]{value.getName(),value.getImage().getColorSpace().name(),name});
     }
-    paramValues.put(name,new MatParamTexture(type,name,value,nextTexUnit++));
+    paramValues.put(name,new MatParamTexture(type,name,value,nextTexUnit++,null));
   }
  else {
     val.setTextureValue(value);
