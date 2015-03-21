@@ -1,3 +1,11 @@
 {
   this.lightMode=lightMode;
+  if (lightSpace == null) {
+    if (lightMode == LightMode.MultiPass) {
+      lightSpace=LightSpace.Legacy;
+    }
+ else     if (lightMode == LightMode.SinglePass) {
+      lightSpace=LightSpace.View;
+    }
+  }
 }
