@@ -75,7 +75,7 @@
     }
     dataArray.add(newData);
   }
-  Image result=dataArray.size() > 1 ? new Image(format,width,height,depth,dataArray) : new Image(format,width,height,dataArray.get(0));
+  Image result=dataArray.size() > 1 ? new Image(format,width,height,depth,dataArray,ColorSpace.Linear) : new Image(format,width,height,dataArray.get(0),ColorSpace.Linear);
   if (image.getMipMapSizes() != null) {
     result.setMipMapSizes(image.getMipMapSizes().clone());
   }

@@ -44,7 +44,7 @@
       resultUVS.set(entry.getKey().faceIndex * 3 + 1,uvs[1]);
       resultUVS.set(entry.getKey().faceIndex * 3 + 2,uvs[2]);
     }
-    Image resultImage=new Image(format,resultImageWidth,resultImageHeight,BufferUtils.createByteBuffer(resultImageWidth * resultImageHeight * (format.getBitsPerPixel() >> 3)));
+    Image resultImage=new Image(format,resultImageWidth,resultImageHeight,BufferUtils.createByteBuffer(resultImageWidth * resultImageHeight * (format.getBitsPerPixel() >> 3)),ColorSpace.Linear);
     resultTexture=new Texture2D(resultImage);
     for (    Entry<TriangleTextureElement,Integer[]> entry : imageLayoutData.entrySet()) {
       if (!duplicatedFaceIndexes.contains(entry.getKey().faceIndex)) {

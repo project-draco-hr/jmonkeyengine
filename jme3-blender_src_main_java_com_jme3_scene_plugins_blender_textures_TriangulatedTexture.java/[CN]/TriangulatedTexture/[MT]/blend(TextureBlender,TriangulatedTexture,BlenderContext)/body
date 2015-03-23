@@ -1,6 +1,6 @@
 {
   Format newFormat=null;
-  for (  TriangleTextureElement triangleTextureElement : this.faceTextures) {
+  for (  TriangleTextureElement triangleTextureElement : faceTextures) {
     Image baseImage=baseTexture == null ? null : baseTexture.getFaceTextureElement(triangleTextureElement.faceIndex).image;
     triangleTextureElement.image=textureBlender.blend(triangleTextureElement.image,baseImage,blenderContext);
     if (newFormat == null) {
@@ -10,5 +10,5 @@
       throw new IllegalArgumentException("Face texture element images MUST have the same image format!");
     }
   }
-  this.format=newFormat;
+  format=newFormat;
 }

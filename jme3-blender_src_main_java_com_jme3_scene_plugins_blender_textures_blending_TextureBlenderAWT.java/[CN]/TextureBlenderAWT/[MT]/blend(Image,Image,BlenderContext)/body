@@ -49,7 +49,7 @@
     }
     dataArray.add(newData);
   }
-  Image result=depth > 1 ? new Image(Format.RGBA8,width,height,depth,dataArray) : new Image(Format.RGBA8,width,height,dataArray.get(0));
+  Image result=depth > 1 ? new Image(Format.RGBA8,width,height,depth,dataArray,ColorSpace.Linear) : new Image(Format.RGBA8,width,height,dataArray.get(0),ColorSpace.Linear);
   if (image.getMipMapSizes() != null) {
     result.setMipMapSizes(image.getMipMapSizes().clone());
   }
