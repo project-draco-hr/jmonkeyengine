@@ -1,0 +1,36 @@
+{
+  LOGGER.log(Level.FINE,"Fetching texture with OMA = {0}",imageStructure.getOldMemoryAddress());
+  Texture result=null;
+  Image im=(Image)blenderContext.getLoadedFeature(imageStructure.getOldMemoryAddress(),LoadedDataType.FEATURE);
+  if (im == null) {
+    if ("ID".equals(imageStructure.getType())) {
+      LOGGER.fine("Loading texture from external blend file.");
+      result=(Texture)this.loadLibrary(imageStructure);
+    }
+ else {
+      String texturePath=imageStructure.getFieldValue("name").toString();
+      Pointer pPackedFile=(Pointer)imageStructure.getFieldValue("packedfile");
+      if (pPackedFile.isNull()) {
+        LOGGER.log(Level.FINE,"Reading texture from file: {0}",texturePath);
+        result=this.loadImageFromFile(texturePath,imaflag,blenderContext);
+      }
+ else {
+        LOGGER.fine("Packed texture. Reading directly from the blend file!");
+        Structure packedFile=pPackedFile.fetchData().get(0);
+        Pointer pData=(Pointer)packedFile.getFieldValue("data");
+        FileBlockHeader dataFileBlock=blenderContext.getFileBlock(pData.getOldMemoryAddress());
+        blenderContext.getInputStream().setPosition(dataFileBlock.getBlockPosition());
+        result=new Texture2D(new ImageLoader().loadImage(blenderContext.getInputStream(),dataFileBlock.getBlockPosition(),true));
+      }
+    }
+  }
+ else {
+    result=new Texture2D(im);
+  }
+  if (result != null) {
+    blenderContext.addLoadedFeatures(imageStructure.getOldMemoryAddress(),LoadedDataType.STRUCTURE,imageStructure);
+    blenderContext.addLoadedFeatures(imageStructure.getOldMemoryAddress(),LoadedDataType.FEATURE,result.getImage());
+    result.setName(imageStructure.getName());
+  }
+  return result;
+}

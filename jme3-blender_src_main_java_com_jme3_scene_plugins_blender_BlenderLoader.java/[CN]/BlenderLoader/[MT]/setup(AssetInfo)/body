@@ -33,7 +33,7 @@
     fileBlock=new FileBlockHeader(inputStream,blenderContext);
     if (!fileBlock.isDnaBlock()) {
       blocks.add(fileBlock);
-      if (fileBlock.getCode() == FileBlockHeader.BLOCK_SC00) {
+      if (fileBlock.getCode() == BlockCode.BLOCK_SC00) {
         sceneFileBlock=fileBlock;
       }
     }

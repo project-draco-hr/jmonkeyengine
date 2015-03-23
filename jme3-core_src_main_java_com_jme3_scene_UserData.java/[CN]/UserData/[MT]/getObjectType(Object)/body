@@ -1,18 +1,30 @@
 {
   if (type instanceof Integer) {
-    return 0;
+    return TYPE_INTEGER;
   }
  else   if (type instanceof Float) {
-    return 1;
+    return TYPE_FLOAT;
   }
  else   if (type instanceof Boolean) {
-    return 2;
+    return TYPE_BOOLEAN;
   }
  else   if (type instanceof String) {
-    return 3;
+    return TYPE_STRING;
   }
  else   if (type instanceof Long) {
-    return 4;
+    return TYPE_LONG;
+  }
+ else   if (type instanceof Savable) {
+    return TYPE_SAVABLE;
+  }
+ else   if (type instanceof List) {
+    return TYPE_LIST;
+  }
+ else   if (type instanceof Map) {
+    return TYPE_MAP;
+  }
+ else   if (type instanceof Object[]) {
+    return TYPE_ARRAY;
   }
  else {
     throw new IllegalArgumentException("Unsupported type: " + type.getClass().getName());

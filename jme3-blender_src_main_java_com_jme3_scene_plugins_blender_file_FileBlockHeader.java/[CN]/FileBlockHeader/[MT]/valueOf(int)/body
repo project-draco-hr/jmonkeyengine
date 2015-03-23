@@ -1,0 +1,10 @@
+{
+  for (  BlockCode blockCode : BlockCode.values()) {
+    if (blockCode.code == code) {
+      return blockCode;
+    }
+  }
+  byte[] codeBytes=new byte[]{(byte)(code >> 24 & 0xFF),(byte)(code >> 16 & 0xFF),(byte)(code >> 8 & 0xFF),(byte)(code & 0xFF)};
+  LOGGER.warning("Unknown block header: " + new String(codeBytes));
+  return BLOCK_UNKN;
+}

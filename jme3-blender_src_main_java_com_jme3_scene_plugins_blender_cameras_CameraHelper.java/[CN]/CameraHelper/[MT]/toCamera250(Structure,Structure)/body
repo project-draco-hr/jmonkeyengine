@@ -30,7 +30,7 @@
       sensor=((Number)structure.getFieldValue(sensorName)).floatValue();
     }
     float focalLength=((Number)structure.getFieldValue("lens")).floatValue();
-    float fov=2.0f * FastMath.atan((sensor / 2.0f) / focalLength);
+    float fov=2.0f * FastMath.atan(sensor / 2.0f / focalLength);
     if (sensorVertical) {
       fovY=fov * FastMath.RAD_TO_DEG;
     }
@@ -42,5 +42,6 @@
     fovY=((Number)structure.getFieldValue("ortho_scale")).floatValue();
   }
   camera.setFrustumPerspective(fovY,aspect,clipsta,clipend);
-  return new CameraNode(null,camera);
+  camera.setName(structure.getName());
+  return camera;
 }
