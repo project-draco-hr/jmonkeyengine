@@ -1,0 +1,10 @@
+{
+  int byteBuffersSize=0;
+  for (int mipLevel=0; mipLevel < numberOfMipmapLevels; mipLevel++) {
+    int width=Math.max(1,pixelWidth >> mipLevel);
+    int height=Math.max(1,pixelHeight >> mipLevel);
+    byteBuffersSize+=width * height * bytePerPixel;
+    log.log(Level.FINE,"mip level size : {0} : {1}",new Object[]{mipLevel,width * height * bytePerPixel});
+  }
+  return byteBuffersSize * pixelDepth;
+}

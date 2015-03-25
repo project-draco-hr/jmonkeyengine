@@ -1,0 +1,30 @@
+{
+  PixelReader pixelReader=null;
+  for (int i=0; i < bytesOfKeyValueData; ) {
+    int keyAndValueByteSize=in.readInt();
+    byte[] keyValue=new byte[keyAndValueByteSize];
+    in.readFully(keyValue);
+    String[] kv=new String(keyValue).split("\0");
+    for (int j=0; j < kv.length; j+=2) {
+      System.err.println("key : " + kv[j]);
+      System.err.println("value : " + kv[j + 1]);
+      if (kv[j].equalsIgnoreCase("KTXorientation")) {
+        if (kv[j + 1].startsWith("S=r,T=d")) {
+          pixelReader=new SrTdRiPixelReader();
+        }
+ else {
+          pixelReader=new SrTuRoPixelReader();
+        }
+        if (kv[j + 1].contains("R=i")) {
+          slicesInside=true;
+        }
+      }
+    }
+    int padding=3 - ((keyAndValueByteSize + 3) % 4);
+    if (padding > 0) {
+      in.skipBytes(padding);
+    }
+    i+=4 + keyAndValueByteSize + padding;
+  }
+  return pixelReader;
+}

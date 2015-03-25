@@ -1,0 +1,98 @@
+{
+  byte[] fileId=new byte[12];
+  DataInput in=new DataInputStream(stream);
+  try {
+    stream.read(fileId,0,12);
+    if (!checkFileIdentifier(fileId)) {
+      throw new IllegalArgumentException("Unrecognized ktx file identifier : " + new String(fileId) + " should be "+ new String(fileIdentifier));
+    }
+    int endianness=in.readInt();
+    if (endianness == 0x01020304) {
+      in=new LittleEndien(stream);
+    }
+    int glType=in.readInt();
+    int glTypeSize=in.readInt();
+    int glFormat=in.readInt();
+    int glInternalFormat=in.readInt();
+    int glBaseInternalFormat=in.readInt();
+    int pixelWidth=in.readInt();
+    int pixelHeight=in.readInt();
+    int pixelDepth=in.readInt();
+    int numberOfArrayElements=in.readInt();
+    int numberOfFaces=in.readInt();
+    int numberOfMipmapLevels=in.readInt();
+    int bytesOfKeyValueData=in.readInt();
+    log.log(Level.FINE,"glType = {0}",glType);
+    log.log(Level.FINE,"glTypeSize = {0}",glTypeSize);
+    log.log(Level.FINE,"glFormat = {0}",glFormat);
+    log.log(Level.FINE,"glInternalFormat = {0}",glInternalFormat);
+    log.log(Level.FINE,"glBaseInternalFormat = {0}",glBaseInternalFormat);
+    log.log(Level.FINE,"pixelWidth = {0}",pixelWidth);
+    log.log(Level.FINE,"pixelHeight = {0}",pixelHeight);
+    log.log(Level.FINE,"pixelDepth = {0}",pixelDepth);
+    log.log(Level.FINE,"numberOfArrayElements = {0}",numberOfArrayElements);
+    log.log(Level.FINE,"numberOfFaces = {0}",numberOfFaces);
+    log.log(Level.FINE,"numberOfMipmapLevels = {0}",numberOfMipmapLevels);
+    log.log(Level.FINE,"bytesOfKeyValueData = {0}",bytesOfKeyValueData);
+    if ((numberOfFaces > 1 && pixelDepth > 1) || (numberOfFaces > 1 && numberOfArrayElements > 1) || (pixelDepth > 1 && numberOfArrayElements > 1)) {
+      throw new UnsupportedOperationException("jME doesn't support cube maps of 3D textures or arrays of 3D texture or arrays of cube map of 3d textures");
+    }
+    PixelReader pixelReader=parseMetaData(bytesOfKeyValueData,in);
+    if (pixelReader == null) {
+      pixelReader=new SrTuRoPixelReader();
+    }
+    pixelDepth=Math.max(1,pixelDepth);
+    numberOfArrayElements=Math.max(1,numberOfArrayElements);
+    numberOfFaces=Math.max(1,numberOfFaces);
+    numberOfMipmapLevels=Math.max(1,numberOfMipmapLevels);
+    int nbSlices=Math.max(numberOfFaces,numberOfArrayElements);
+    Image.Format imgFormat=getImageFormat(glFormat,glInternalFormat,glType);
+    log.log(Level.FINE,"img format {0}",imgFormat.toString());
+    int bytePerPixel=imgFormat.getBitsPerPixel() / 8;
+    int byteBuffersSize=computeBuffersSize(numberOfMipmapLevels,pixelWidth,pixelHeight,bytePerPixel,pixelDepth);
+    log.log(Level.FINE,"data size {0}",byteBuffersSize);
+    int[] mipMapSizes=new int[numberOfMipmapLevels];
+    Image image=createImage(nbSlices,byteBuffersSize,imgFormat,pixelWidth,pixelHeight,pixelDepth);
+    byte[] pixelData=new byte[bytePerPixel];
+    int offset=0;
+    for (int mipLevel=0; mipLevel < numberOfMipmapLevels; mipLevel++) {
+      int fileImageSize=in.readInt();
+      int width=Math.max(1,pixelWidth >> mipLevel);
+      int height=Math.max(1,pixelHeight >> mipLevel);
+      int imageSize=width * height * bytePerPixel;
+      mipMapSizes[mipLevel]=imageSize;
+      log.log(Level.FINE,"current mip size {0}",imageSize);
+      if (fileImageSize != imageSize) {
+        log.log(Level.WARNING,"Mip map size is wrong in the file for mip level {0} size is {1} should be {2}",new Object[]{mipLevel,fileImageSize,imageSize});
+      }
+      for (int arrayElem=0; arrayElem < numberOfArrayElements; arrayElem++) {
+        for (int face=0; face < numberOfFaces; face++) {
+          int nbPixelRead=0;
+          for (int depth=0; depth < pixelDepth; depth++) {
+            ByteBuffer byteBuffer=image.getData(getSlice(face,arrayElem));
+            log.log(Level.FINE,"position {0}",byteBuffer.position());
+            byteBuffer.position(offset);
+            nbPixelRead=pixelReader.readPixels(width,height,pixelData,byteBuffer,in);
+          }
+          if (numberOfFaces == 6 && numberOfArrayElements == 0) {
+            in.skipBytes(3 - ((nbPixelRead + 3) % 4));
+          }
+        }
+      }
+      log.log(Level.FINE,"skipping {0}",(3 - ((imageSize + 3) % 4)));
+      in.skipBytes(3 - ((imageSize + 3) % 4));
+      offset+=imageSize;
+    }
+    if (numberOfMipmapLevels > 1) {
+      image.setMipMapSizes(mipMapSizes);
+    }
+    if (pixelDepth > 1 && slicesInside) {
+      Collections.reverse(image.getData());
+    }
+    return image;
+  }
+ catch (  IOException ex) {
+    Logger.getLogger(KTXLoader.class.getName()).log(Level.SEVERE,null,ex);
+  }
+  return null;
+}

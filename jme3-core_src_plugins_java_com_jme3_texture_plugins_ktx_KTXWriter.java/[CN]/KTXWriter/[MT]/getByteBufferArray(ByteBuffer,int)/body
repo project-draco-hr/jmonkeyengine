@@ -1,0 +1,11 @@
+{
+  byte[] b;
+  if (byteBuffer.hasArray()) {
+    b=byteBuffer.array();
+  }
+ else {
+    b=new byte[size];
+    byteBuffer.get(b,0,size);
+  }
+  return b;
+}

@@ -1,0 +1,17 @@
+{
+  EnumSet<Caps> caps=EnumSet.allOf(Caps.class);
+  GLImageFormat[][] formats=GLImageFormats.getFormatsForCaps(caps);
+  for (  GLImageFormat[] format : formats) {
+    for (int j=0; j < format.length; j++) {
+      GLImageFormat glImgFormat=format[j];
+      if (glImgFormat != null) {
+        if (glImgFormat.format == glFormat && glImgFormat.dataType == glType) {
+          if (glFormat == glInternalFormat || glImgFormat.internalFormat == glInternalFormat) {
+            return Image.Format.values()[j];
+          }
+        }
+      }
+    }
+  }
+  return null;
+}

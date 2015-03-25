@@ -1,0 +1,11 @@
+{
+  int pixelRead=0;
+  for (int row=0; row < pixelHeight; row++) {
+    for (int pixel=0; pixel < pixelWidth; pixel++) {
+      in.readFully(pixelData);
+      buffer.put(pixelData);
+      pixelRead+=pixelData.length;
+    }
+  }
+  return pixelRead;
+}
