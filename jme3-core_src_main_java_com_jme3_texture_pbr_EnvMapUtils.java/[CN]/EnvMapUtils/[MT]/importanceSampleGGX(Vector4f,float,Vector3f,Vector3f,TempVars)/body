@@ -1,0 +1,20 @@
+{
+  if (store == null) {
+    store=new Vector3f();
+  }
+  float cosTheta=sqrt((1f - xi.x) / (1f + (a2 - 1f) * xi.x));
+  float sinTheta=sqrt(1f - cosTheta * cosTheta);
+  float sinThetaCosPhi=sinTheta * xi.z;
+  float sinThetaSinPhi=sinTheta * xi.w;
+  Vector3f upVector=Vector3f.UNIT_X;
+  if (abs(normal.z) < 0.999) {
+    upVector=Vector3f.UNIT_Y;
+  }
+  Vector3f tangentX=vars.vect3.set(upVector).crossLocal(normal).normalizeLocal();
+  Vector3f tangentY=vars.vect4.set(normal).crossLocal(tangentX);
+  tangentX.multLocal(sinThetaCosPhi);
+  tangentY.multLocal(sinThetaSinPhi);
+  vars.vect5.set(normal).multLocal(cosTheta);
+  store.set(tangentX).addLocal(tangentY).addLocal(vars.vect5);
+  return store;
+}

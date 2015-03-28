@@ -1,0 +1,5 @@
+{
+  int face=EnvMapUtils.getCubemapFaceTexCoordFromVector(vector,sizes[0],uvs,EnvMapUtils.FixSeamsMethod.Stretch);
+  raster.setSlice(face);
+  raster.setPixel((int)uvs.x,(int)uvs.y,color);
+}

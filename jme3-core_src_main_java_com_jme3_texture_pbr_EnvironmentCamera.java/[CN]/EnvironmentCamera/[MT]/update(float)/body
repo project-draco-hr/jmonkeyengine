@@ -1,0 +1,19 @@
+{
+  if (generating) {
+    double progress=0;
+    progress+=irrMapGenerator.getProgress();
+    for (    PrefilteredEnvMapGenerator pemGenerator : pemGenerators) {
+      progress+=pemGenerator.getProgress();
+    }
+    progress/=7;
+    log.log(Level.INFO,"progress : {0}%",progress * 100);
+  }
+  if (pemGenerated && irrMapGenerated && generating) {
+    generating=false;
+    long time2=System.currentTimeMillis();
+    log.log(Level.INFO,"generated in {0} ms",(time2 - time));
+    if (generationCallback != null) {
+      generationCallback.run();
+    }
+  }
+}

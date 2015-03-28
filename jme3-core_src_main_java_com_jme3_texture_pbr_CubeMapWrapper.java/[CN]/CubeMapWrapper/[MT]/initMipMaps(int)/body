@@ -1,0 +1,19 @@
+{
+  int maxMipMap=(int)(Math.log(image.getWidth()) / Math.log(2) + 1);
+  if (nbMipMaps > maxMipMap) {
+    throw new IllegalArgumentException("Max mip map number for a " + image.getWidth() + "x"+ image.getHeight()+ " cube map is "+ maxMipMap);
+  }
+  sizes=new int[nbMipMaps];
+  int totalSize=0;
+  for (int i=0; i < nbMipMaps; i++) {
+    int size=(int)pow(2,maxMipMap - 1 - i);
+    sizes[i]=size * size * image.getFormat().getBitsPerPixel() / 8;
+    totalSize+=sizes[i];
+  }
+  image.setMipMapSizes(sizes);
+  image.getData().clear();
+  for (int i=0; i < 6; i++) {
+    image.addData(BufferUtils.createByteBuffer(totalSize));
+  }
+  mipMapRaster=new MipMapImageRaster(image,0);
+}

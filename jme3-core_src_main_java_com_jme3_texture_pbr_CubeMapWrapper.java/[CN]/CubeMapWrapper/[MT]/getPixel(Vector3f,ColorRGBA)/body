@@ -1,0 +1,8 @@
+{
+  if (store == null) {
+    store=new ColorRGBA();
+  }
+  int face=EnvMapUtils.getCubemapFaceTexCoordFromVector(vector,sizes[0],uvs,EnvMapUtils.FixSeamsMethod.Stretch);
+  raster.setSlice(face);
+  return raster.getPixel((int)uvs.x,(int)uvs.y,store);
+}

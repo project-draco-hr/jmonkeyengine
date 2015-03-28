@@ -1,0 +1,36 @@
+{
+  Vector3f[] shCoef=new Vector3f[NUM_SH_COEFFICIENT];
+  float[] shDir=new float[9];
+  float weightAccum=0.0f;
+  float weight;
+  if (cubeMap.getImage().getData(0) == null) {
+    throw new IllegalStateException("The cube map must contain Efficient data, if you rendered the cube map on the GPU plase use renderer.readFrameBuffer, to create a CPU image");
+  }
+  int width=cubeMap.getImage().getWidth();
+  int height=cubeMap.getImage().getHeight();
+  Vector3f texelVect=new Vector3f();
+  ColorRGBA color=new ColorRGBA();
+  CubeMapWrapper envMapReader=new CubeMapWrapper(cubeMap);
+  for (int face=0; face < 6; face++) {
+    for (int y=0; y < height; y++) {
+      for (int x=0; x < width; x++) {
+        weight=getSolidAngleAndVector(x,y,width,face,texelVect,fixSeamsMethod);
+        evalShBasis(texelVect,shDir);
+        envMapReader.getPixel(x,y,face,color);
+        for (int i=0; i < NUM_SH_COEFFICIENT; i++) {
+          if (shCoef[i] == null) {
+            shCoef[i]=new Vector3f();
+          }
+          shCoef[i].setX(shCoef[i].x + color.r * shDir[i] * weight);
+          shCoef[i].setY(shCoef[i].y + color.g * shDir[i] * weight);
+          shCoef[i].setZ(shCoef[i].z + color.b * shDir[i] * weight);
+        }
+        weightAccum+=weight;
+      }
+    }
+  }
+  for (int i=0; i < NUM_SH_COEFFICIENT; ++i) {
+    shCoef[i].multLocal(4.0f * PI / weightAccum);
+  }
+  return shCoef;
+}

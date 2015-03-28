@@ -1,0 +1,19 @@
+{
+  this.backGroundColor=app.getViewPort().getBackgroundColor();
+  Camera[] cameras=new Camera[6];
+  viewports=new ViewPort[6];
+  framebuffers=new FrameBuffer[6];
+  buffers=new ByteBuffer[6];
+  Texture2D[] textures=new Texture2D[6];
+  images=new Image[6];
+  for (int i=0; i < 6; i++) {
+    cameras[i]=createOffCamera(size,position,axisX[i],axisY[i],axisZ[i]);
+    viewports[i]=createOffViewPort("EnvView" + i,cameras[i]);
+    framebuffers[i]=createOffScreenFrameBuffer(size,viewports[i]);
+    textures[i]=new Texture2D(size,size,imageFormat);
+    framebuffers[i].setColorTexture(textures[i]);
+    buffers[i]=BufferUtils.createByteBuffer(size * size * imageFormat.getBitsPerPixel() / 8);
+  }
+  initIrradianceMap();
+  initPrefilteredEnvMap();
+}

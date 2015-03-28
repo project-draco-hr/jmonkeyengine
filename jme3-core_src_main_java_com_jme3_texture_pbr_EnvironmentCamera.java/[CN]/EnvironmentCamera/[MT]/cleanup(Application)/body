@@ -1,0 +1,10 @@
+{
+  this.backGroundColor=null;
+  for (  FrameBuffer frameBuffer : framebuffers) {
+    app.getRenderManager().getRenderer().deleteFrameBuffer(frameBuffer);
+  }
+  for (  Image image : images) {
+    app.getRenderManager().getRenderer().deleteImage(image);
+  }
+  executor.shutdownNow();
+}

@@ -1,0 +1,24 @@
+{
+  if (snapshotRequested) {
+    time=System.currentTimeMillis();
+    snapshotRequested=false;
+    for (int i=0; i < 6; i++) {
+      renderManager.renderViewPort(viewports[i],0.16f);
+      renderManager.getRenderer().readFrameBufferWithFormat(framebuffers[i],buffers[i],imageFormat);
+      images[i]=new Image(imageFormat,size,size,buffers[i],ColorSpace.Linear);
+    }
+    map=EnvMapUtils.makeCubeMap(images[0],images[1],images[2],images[3],images[4],images[5],imageFormat);
+    irrMapGenerator=new IrradianceMapGenerator(getApplication());
+    irrMapGenerator.setGenerationParam(EnvMapUtils.duplicateCubeMap(map),size,EnvMapUtils.FixSeamsMethod.Wrap,irradianceMap);
+    generating=true;
+    executor.execute(irrMapGenerator);
+    int nbMipMap=(int)(Math.log(size) / Math.log(2) - 1);
+    CubeMapWrapper targetWrapper=new CubeMapWrapper(prefilteredEnvMap);
+    targetWrapper.initMipMaps(nbMipMap);
+    for (int i=0; i < pemGenerators.length; i++) {
+      pemGenerators[i]=new PrefilteredEnvMapGenerator(getApplication(),i);
+      pemGenerators[i].setGenerationParam(EnvMapUtils.duplicateCubeMap(map),size,EnvMapUtils.FixSeamsMethod.Wrap,prefilteredEnvMap);
+      executor.execute(pemGenerators[i]);
+    }
+  }
+}

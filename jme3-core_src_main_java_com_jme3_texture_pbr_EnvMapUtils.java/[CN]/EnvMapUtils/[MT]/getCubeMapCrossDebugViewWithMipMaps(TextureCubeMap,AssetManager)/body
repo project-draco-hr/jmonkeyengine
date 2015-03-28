@@ -1,0 +1,50 @@
+{
+  Node n=new Node("CubeMapDebug" + cubeMap.getName());
+  int size=cubeMap.getImage().getWidth();
+  int nbMips=cubeMap.getImage().getMipMapSizes().length;
+  Picture[] pics=new Picture[6 * nbMips];
+  float ratio=1f;
+  int offset=0;
+  int guiOffset=0;
+  for (int mipLevel=0; mipLevel < nbMips; mipLevel++) {
+    size=Math.max(1,cubeMap.getImage().getWidth() >> mipLevel);
+    int dataSize=cubeMap.getImage().getMipMapSizes()[mipLevel];
+    byte[] dataArray=new byte[dataSize];
+    for (int i=0; i < 6; i++) {
+      ByteBuffer bb=cubeMap.getImage().getData(i);
+      bb.rewind();
+      bb.position(offset);
+      bb.get(dataArray,0,dataSize);
+      ByteBuffer data=BufferUtils.createByteBuffer(dataArray);
+      pics[i]=new Picture("bla");
+      Texture2D tex=new Texture2D(new Image(cubeMap.getImage().getFormat(),size,size,data,cubeMap.getImage().getColorSpace()));
+      pics[i].setTexture(assetManager,tex,true);
+      pics[i].setWidth(size);
+      pics[i].setHeight(size);
+      n.attachChild(pics[i]);
+    }
+    pics[0].setLocalTranslation(guiOffset + size,guiOffset + size * 2,1);
+    pics[0].setLocalRotation(new Quaternion().fromAngleAxis(PI,Vector3f.UNIT_Z));
+    pics[1].setLocalTranslation(guiOffset + size * 3,guiOffset + size * 2,1);
+    pics[1].setLocalRotation(new Quaternion().fromAngleAxis(PI,Vector3f.UNIT_Z));
+    pics[2].setLocalTranslation(guiOffset + size * 2,guiOffset + size * 3,1);
+    pics[2].setLocalRotation(new Quaternion().fromAngleAxis(PI,Vector3f.UNIT_Z));
+    pics[3].setLocalTranslation(guiOffset + size * 2,guiOffset + size,1);
+    pics[3].setLocalRotation(new Quaternion().fromAngleAxis(PI,Vector3f.UNIT_Z));
+    pics[4].setLocalTranslation(guiOffset + size * 2,guiOffset + size * 2,1);
+    pics[4].setLocalRotation(new Quaternion().fromAngleAxis(PI,Vector3f.UNIT_Z));
+    pics[5].setLocalTranslation(guiOffset + size * 4,guiOffset + size * 2,1);
+    pics[5].setLocalRotation(new Quaternion().fromAngleAxis(PI,Vector3f.UNIT_Z));
+    guiOffset+=size * 2 + 1;
+    offset+=dataSize;
+  }
+  Quad q=new Quad(cubeMap.getImage().getWidth() * 4 + nbMips,guiOffset + size);
+  Geometry g=new Geometry("bg",q);
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  mat.setColor("Color",ColorRGBA.Black);
+  g.setMaterial(mat);
+  g.setLocalTranslation(0,0,0);
+  n.attachChild(g);
+  n.setLocalScale(ratio);
+  return n;
+}

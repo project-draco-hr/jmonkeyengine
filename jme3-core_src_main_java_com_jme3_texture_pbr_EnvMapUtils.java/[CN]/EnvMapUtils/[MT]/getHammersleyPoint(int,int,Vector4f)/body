@@ -1,0 +1,19 @@
+{
+  if (store == null) {
+    store=new Vector4f();
+  }
+  float phi;
+  long ui=i;
+  store.setX((float)i / (float)nbrSample);
+  ui=(ui << 16) | (ui >> 16);
+  ui=((ui & 0x55555555) << 1) | ((ui & 0xAAAAAAAA) >>> 1);
+  ui=((ui & 0x33333333) << 2) | ((ui & 0xCCCCCCCC) >>> 2);
+  ui=((ui & 0x0F0F0F0F) << 4) | ((ui & 0xF0F0F0F0) >>> 4);
+  ui=((ui & 0x00FF00FF) << 8) | ((ui & 0xFF00FF00) >>> 8);
+  ui=ui & 0xffffffff;
+  store.setY(2.3283064365386963e-10f * (float)(ui));
+  phi=2.0f * PI * store.y;
+  store.setZ(cos(phi));
+  store.setW(sin(phi));
+  return store;
+}

@@ -1,0 +1,20 @@
+{
+  if (debugPfemCm == null) {
+    debugPfemCm=EnvMapUtils.getCubeMapCrossDebugViewWithMipMaps(prefilteredEnvMap,getApplication().getAssetManager());
+    debugPfemCm.setLocalTranslation(getApplication().getGuiViewPort().getCamera().getWidth() - 532,20,0);
+  }
+  if (debugIrrCm == null) {
+    debugIrrCm=EnvMapUtils.getCubeMapCrossDebugView(irradianceMap,getApplication().getAssetManager());
+    debugIrrCm.setLocalTranslation(getApplication().getGuiViewPort().getCamera().getWidth() - 532,20,0);
+  }
+  if (debugIrrCm.getParent() != null) {
+    debugIrrCm.removeFromParent();
+    ((Node)(getApplication().getGuiViewPort().getScenes().get(0))).attachChild(debugPfemCm);
+  }
+ else   if (debugPfemCm.getParent() != null) {
+    debugPfemCm.removeFromParent();
+  }
+ else {
+    ((Node)(getApplication().getGuiViewPort().getScenes().get(0))).attachChild(debugIrrCm);
+  }
+}

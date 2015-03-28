@@ -1,0 +1,10 @@
+{
+  store=generatePrefilteredEnvMap(sourceMap,targetMapSize,fixSeamsMethod,store);
+  app.enqueue(new Callable<Void>(){
+    @Override public Void call() throws Exception {
+      app.getStateManager().getState(EnvironmentCamera.class).donePemForFace(face);
+      return null;
+    }
+  }
+);
+}

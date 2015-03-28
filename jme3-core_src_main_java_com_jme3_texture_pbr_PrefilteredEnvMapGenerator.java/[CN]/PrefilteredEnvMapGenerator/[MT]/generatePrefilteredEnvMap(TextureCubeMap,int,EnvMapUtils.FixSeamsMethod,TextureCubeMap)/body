@@ -1,0 +1,29 @@
+{
+  TextureCubeMap pem=store;
+  int nbMipMap=(int)(Math.log(targetMapSize) / Math.log(2) - 1);
+  setEnd(nbMipMap);
+  log.log(Level.FINE,"face length {0}",targetMapSize * targetMapSize * nbMipMap);
+  CubeMapWrapper sourceWrapper=new CubeMapWrapper(sourceEnvMap);
+  CubeMapWrapper targetWrapper=new CubeMapWrapper(pem);
+  Vector3f texelVect=new Vector3f();
+  Vector3f color=new Vector3f();
+  ColorRGBA outColor=new ColorRGBA();
+  for (int mipLevel=0; mipLevel < nbMipMap; mipLevel++) {
+    float roughness=getRoughnessFromMip(mipLevel,nbMipMap);
+    int nbSamples=getSampleFromMip(mipLevel,nbMipMap);
+    int targetMipMapSize=(int)pow(2,nbMipMap + 1 - mipLevel);
+    for (int y=0; y < targetMipMapSize; y++) {
+      for (int x=0; x < targetMipMapSize; x++) {
+        color.set(0,0,0);
+        getVectorFromCubemapFaceTexCoord(x,y,targetMipMapSize,face,texelVect,EnvMapUtils.FixSeamsMethod.Wrap);
+        prefilterEnvMapTexel(sourceWrapper,roughness,texelVect,nbSamples,color);
+        outColor.set(color.x,color.y,color.z,1.0f);
+        log.log(Level.FINE,"coords {0},{1}",new Object[]{x,y});
+        targetWrapper.setPixel(x,y,face,mipLevel,outColor);
+      }
+    }
+    log.log(Level.FINE,"face {0} : {1}",new Object[]{face,getProgress()});
+    progress();
+  }
+  return pem;
+}

@@ -1,0 +1,11 @@
+{
+  if (mipMapRaster == null) {
+    throw new IllegalArgumentException("This cube map has no mip maps");
+  }
+  if (store == null) {
+    store=new ColorRGBA();
+  }
+  mipMapRaster.setSlice(face);
+  mipMapRaster.setMipLevel(mipLevel);
+  return mipMapRaster.getPixel((int)x,(int)y,store);
+}

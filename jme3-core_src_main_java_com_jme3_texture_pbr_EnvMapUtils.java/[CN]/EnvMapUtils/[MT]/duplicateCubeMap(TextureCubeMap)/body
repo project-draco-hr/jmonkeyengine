@@ -1,0 +1,18 @@
+{
+  Image srcImg=sourceMap.getImage();
+  Image cubeImage=new Image(srcImg.getFormat(),srcImg.getWidth(),srcImg.getHeight(),null,srcImg.getColorSpace());
+  for (  ByteBuffer d : srcImg.getData()) {
+    cubeImage.addData(d.duplicate());
+  }
+  if (srcImg.getEfficentData() != null) {
+    ArrayList<Object> efficientData=new ArrayList<Object>(6);
+    efficientData.add(srcImg.getEfficentData());
+    cubeImage.setEfficentData(efficientData);
+  }
+  TextureCubeMap cubeMap=new TextureCubeMap(cubeImage);
+  cubeMap.setAnisotropicFilter(sourceMap.getAnisotropicFilter());
+  cubeMap.setMagFilter(sourceMap.getMagFilter());
+  cubeMap.setMinFilter(sourceMap.getMinFilter());
+  cubeMap.setWrap(sourceMap.getWrap(Texture.WrapAxis.S));
+  return cubeMap;
+}

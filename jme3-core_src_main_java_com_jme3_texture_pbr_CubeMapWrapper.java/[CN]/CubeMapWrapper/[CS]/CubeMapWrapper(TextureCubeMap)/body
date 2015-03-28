@@ -1,0 +1,16 @@
+{
+  image=cubeMap.getImage();
+  if (image.hasMipmaps()) {
+    int nbMipMaps=image.getMipMapSizes().length;
+    sizes=new int[nbMipMaps];
+    mipMapRaster=new MipMapImageRaster(image,0);
+    for (int i=0; i < nbMipMaps; i++) {
+      sizes[i]=Math.max(1,image.getWidth() >> i);
+    }
+  }
+ else {
+    sizes=new int[1];
+    sizes[0]=image.getWidth();
+  }
+  raster=new DefaultImageRaster(image,0);
+}

@@ -1,0 +1,25 @@
+{
+  Image cubeImage=new Image(format,leftImg.getWidth(),leftImg.getHeight(),null,ColorSpace.Linear);
+  cubeImage.addData(rightImg.getData(0));
+  cubeImage.addData(leftImg.getData(0));
+  cubeImage.addData(upImg.getData(0));
+  cubeImage.addData(downImg.getData(0));
+  cubeImage.addData(backImg.getData(0));
+  cubeImage.addData(frontImg.getData(0));
+  if (leftImg.getEfficentData() != null) {
+    ArrayList<Object> efficientData=new ArrayList<Object>(6);
+    efficientData.add(rightImg.getEfficentData());
+    efficientData.add(leftImg.getEfficentData());
+    efficientData.add(upImg.getEfficentData());
+    efficientData.add(downImg.getEfficentData());
+    efficientData.add(backImg.getEfficentData());
+    efficientData.add(frontImg.getEfficentData());
+    cubeImage.setEfficentData(efficientData);
+  }
+  TextureCubeMap cubeMap=new TextureCubeMap(cubeImage);
+  cubeMap.setAnisotropicFilter(0);
+  cubeMap.setMagFilter(Texture.MagFilter.Bilinear);
+  cubeMap.setMinFilter(Texture.MinFilter.BilinearNoMipMaps);
+  cubeMap.setWrap(Texture.WrapMode.EdgeClamp);
+  return cubeMap;
+}

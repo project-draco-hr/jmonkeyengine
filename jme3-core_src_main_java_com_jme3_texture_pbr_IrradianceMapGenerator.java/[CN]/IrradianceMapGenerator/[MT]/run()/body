@@ -1,0 +1,11 @@
+{
+  Vector3f[] shCoeffs=EnvMapUtils.getSphericalHarmonicsCoefficents(sourceMap);
+  store=generateIrradianceMap(shCoeffs,targetMapSize,fixSeamsMethod,store);
+  app.enqueue(new Callable<Void>(){
+    @Override public Void call() throws Exception {
+      app.getStateManager().getState(EnvironmentCamera.class).doneIrradianceMap(store);
+      return null;
+    }
+  }
+);
+}

@@ -1,0 +1,11 @@
+{
+  snapshotRequested=true;
+  this.generationCallback=onDone;
+  this.scene=scene;
+  if (viewports != null) {
+    for (    ViewPort viewPort : viewports) {
+      viewPort.clearScenes();
+      viewPort.attachScene(scene);
+    }
+  }
+}

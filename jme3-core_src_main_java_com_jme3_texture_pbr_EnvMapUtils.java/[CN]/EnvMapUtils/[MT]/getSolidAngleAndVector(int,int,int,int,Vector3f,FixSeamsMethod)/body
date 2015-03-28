@@ -1,0 +1,15 @@
+{
+  if (store == null) {
+    throw new IllegalArgumentException("the store parameter ust not be null");
+  }
+  float u=(2.0f * ((float)x + 0.5f) / (float)mapSize) - 1.0f;
+  float v=(2.0f * ((float)y + 0.5f) / (float)mapSize) - 1.0f;
+  getVectorFromCubemapFaceTexCoord(x,y,mapSize,face,store,fixSeamsMethod);
+  float x0, y0, x1, y1;
+  float invRes=1.0f / (float)mapSize;
+  x0=u - invRes;
+  y0=v - invRes;
+  x1=u + invRes;
+  y1=v + invRes;
+  return areaElement(x0,y0) - areaElement(x0,y1) - areaElement(x1,y0) + areaElement(x1,y1);
+}

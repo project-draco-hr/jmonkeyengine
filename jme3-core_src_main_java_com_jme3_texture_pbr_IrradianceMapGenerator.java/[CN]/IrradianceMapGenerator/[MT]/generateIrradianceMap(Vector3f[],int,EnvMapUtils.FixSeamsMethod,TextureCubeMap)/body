@@ -1,0 +1,31 @@
+{
+  TextureCubeMap irrCubeMap=store;
+  setEnd(6 + targetMapSize * targetMapSize * 6);
+  for (int i=0; i < 6; i++) {
+    ByteBuffer buf=BufferUtils.createByteBuffer(targetMapSize * targetMapSize * store.getImage().getFormat().getBitsPerPixel() / 8);
+    irrCubeMap.getImage().setData(i,buf);
+    progress();
+  }
+  Vector3f texelVect=new Vector3f();
+  ColorRGBA color=new ColorRGBA(ColorRGBA.Black);
+  float[] shDir=new float[9];
+  CubeMapWrapper envMapWriter=new CubeMapWrapper(irrCubeMap);
+  for (int face=0; face < 6; face++) {
+    for (int y=0; y < targetMapSize; y++) {
+      for (int x=0; x < targetMapSize; x++) {
+        EnvMapUtils.getVectorFromCubemapFaceTexCoord(x,y,targetMapSize,face,texelVect,fixSeamsMethod);
+        EnvMapUtils.evalShBasis(texelVect,shDir);
+        color.set(0,0,0,0);
+        for (int i=0; i < EnvMapUtils.NUM_SH_COEFFICIENT; i++) {
+          color.set(color.r + shCoeffs[i].x * shDir[i] * shBandFactor[i],color.g + shCoeffs[i].y * shDir[i] * shBandFactor[i],color.b + shCoeffs[i].z * shDir[i] * shBandFactor[i],1.0f);
+        }
+        color.r=Math.max(0.0001f,color.r);
+        color.g=Math.max(0.0001f,color.g);
+        color.b=Math.max(0.0001f,color.b);
+        envMapWriter.setPixel(x,y,face,color);
+        progress();
+      }
+    }
+  }
+  return irrCubeMap;
+}
