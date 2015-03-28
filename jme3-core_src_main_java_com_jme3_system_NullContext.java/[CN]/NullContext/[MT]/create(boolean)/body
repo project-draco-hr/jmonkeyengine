@@ -3,6 +3,6 @@
     logger.warning("create() called when NullContext is already created!");
     return;
   }
-  new Thread(this,"Headless Application Thread").start();
+  new Thread(this,THREAD_NAME).start();
   if (waitFor)   waitFor(true);
 }

@@ -7,7 +7,7 @@
     logger.log(Level.FINE,"EDT: Creating OGL thread.");
     canvas.setFocusable(true);
     canvas.setIgnoreRepaint(true);
-    renderThread=new Thread(LwjglCanvas.this,"LWJGL Renderer Thread");
+    renderThread=new Thread(LwjglCanvas.this,THREAD_NAME);
     renderThread.start();
   }
  else   if (needClose.get()) {
