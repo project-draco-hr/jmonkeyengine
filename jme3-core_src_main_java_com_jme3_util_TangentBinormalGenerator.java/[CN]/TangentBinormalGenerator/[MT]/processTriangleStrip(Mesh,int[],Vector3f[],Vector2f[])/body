@@ -15,7 +15,7 @@
     BufferUtils.populateFromBuffer(t[2],textureBuffer,index[2]);
     boolean isDegenerate=isDegenerateTriangle(v[0],v[1],v[2]);
     TriangleData triData=processTriangle(index,v,t);
-    if (triData != null && !isDegenerate) {
+    if (!isDegenerate) {
       vertices.get(index[0]).triangles.add(triData);
       vertices.get(index[1]).triangles.add(triData);
       vertices.get(index[2]).triangles.add(triData);
