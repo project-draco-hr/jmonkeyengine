@@ -10,5 +10,5 @@
     initialData.put((byte)0xff);
   }
   initialData.rewind();
-  modifyTexture(getTextureAtlas(atlasTextureId),new com.jme3.texture.Image(Format.RGBA8,image.getWidth(),image.getHeight(),initialData),x,y);
+  modifyTexture(getTextureAtlas(atlasTextureId),new com.jme3.texture.Image(Format.RGBA8,image.getWidth(),image.getHeight(),initialData,ColorSpace.sRGB),x,y);
 }

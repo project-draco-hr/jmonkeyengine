@@ -4,7 +4,7 @@
     initialData.put((byte)0x00);
   }
   initialData.rewind();
-  Texture2D texture=new Texture2D(new com.jme3.texture.Image(Format.RGBA8,width,height,initialData));
+  Texture2D texture=new Texture2D(new com.jme3.texture.Image(Format.RGBA8,width,height,initialData,ColorSpace.sRGB));
   texture.setMinFilter(MinFilter.NearestNoMipMaps);
   texture.setMagFilter(MagFilter.Nearest);
   return texture;
