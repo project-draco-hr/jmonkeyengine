@@ -1,0 +1,57 @@
+{
+  FileObject layout=project.getProjectDirectory().getFileObject("mobile/res/layout/main.xml");
+  if (layout == null) {
+    Logger.getLogger(AndroidSdkTool.class.getName()).log(Level.WARNING,"Cannot find layout");
+    return;
+  }
+  InputStream in=null;
+  FileLock lock=null;
+  OutputStream out=null;
+  try {
+    in=layout.getInputStream();
+    Document configuration=XMLUtil.parse(new InputSource(in),false,false,null,null);
+    in.close();
+    in=null;
+    Element textViewElement=XmlHelper.findChildElement(configuration.getDocumentElement(),"TextView");
+    Element fragmentElement=configuration.createElement("fragment");
+    fragmentElement.setAttribute("android:name",packag + ".MainActivity$JmeFragment");
+    fragmentElement.setAttribute("android:id","@+id/jmeFragment");
+    fragmentElement.setAttribute("android:layout_width","match_parent");
+    fragmentElement.setAttribute("android:layout_height","match_parent");
+    if (textViewElement == null) {
+      configuration.getDocumentElement().appendChild(fragmentElement);
+    }
+ else {
+      configuration.getDocumentElement().replaceChild(fragmentElement,textViewElement);
+    }
+    lock=layout.lock();
+    out=layout.getOutputStream(lock);
+    XMLUtil.write(configuration,out,"UTF-8");
+    out.close();
+    out=null;
+    lock.releaseLock();
+    lock=null;
+  }
+ catch (  SAXException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+ finally {
+    if (lock != null) {
+      lock.releaseLock();
+    }
+    try {
+      if (in != null) {
+        in.close();
+      }
+      if (out != null) {
+        out.close();
+      }
+    }
+ catch (    IOException ex1) {
+      Exceptions.printStackTrace(ex1);
+    }
+  }
+}
