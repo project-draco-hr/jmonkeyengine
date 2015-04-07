@@ -1,12 +1,7 @@
 {
-  this.inputManager=inputManager;
-  initSensorManager();
   SensorData sensorData;
-  List<Joystick> list=new ArrayList<Joystick>();
-  AndroidJoystick joystick;
   AndroidJoystickAxis axis;
-  joystick=new AndroidJoystick(inputManager,this,list.size(),"AndroidSensorsJoystick");
-  list.add(joystick);
+  AndroidJoystick joystick=new AndroidJoystick(inputManager,joyHandler,joyId,"AndroidSensorsJoystick");
   List<Sensor> availSensors=sensorManager.getSensorList(Sensor.TYPE_ALL);
   for (  Sensor sensor : availSensors) {
     logger.log(Level.FINE,"{0} Sensor is available, Type: {1}, Vendor: {2}, Version: {3}",new Object[]{sensor.getName(),sensor.getType(),sensor.getVendor(),sensor.getVersion()});
@@ -32,7 +27,6 @@
     sensorData.lastValues=new float[3];
     sensors.put(Sensor.TYPE_ACCELEROMETER,sensorData);
   }
-  joysticks=list.toArray(new AndroidJoystick[list.size()]);
   loaded=true;
-  return joysticks;
+  return joystick;
 }

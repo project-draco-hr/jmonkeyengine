@@ -48,10 +48,8 @@ synchronized (sensorData.valuesLock) {
               sensorData.haveData=true;
             }
  else {
-synchronized (eventQueue) {
-                if (axis.isChanged()) {
-                  eventQueue.add(new JoyAxisEvent(axis,axis.getJoystickAxisValue()));
-                }
+              if (axis.isChanged()) {
+                joyHandler.addEvent(new JoyAxisEvent(axis,axis.getJoystickAxisValue()));
               }
             }
           }
