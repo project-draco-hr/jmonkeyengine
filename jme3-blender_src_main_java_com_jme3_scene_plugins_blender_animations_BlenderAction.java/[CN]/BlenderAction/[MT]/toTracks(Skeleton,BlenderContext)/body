@@ -1,0 +1,9 @@
+{
+  List<BoneTrack> tracks=new ArrayList<BoneTrack>(featuresTracks.size());
+  for (  Entry<String,Ipo> entry : featuresTracks.entrySet()) {
+    int boneIndex=skeleton.getBoneIndex(entry.getKey());
+    BoneContext boneContext=blenderContext.getBoneContext(skeleton.getBone(boneIndex));
+    tracks.add((BoneTrack)entry.getValue().calculateTrack(boneIndex,boneContext,boneContext.getBone().getBindPosition(),boneContext.getBone().getBindRotation(),boneContext.getBone().getBindScale(),1,stopFrame,fps,false));
+  }
+  return tracks.toArray(new BoneTrack[tracks.size()]);
+}

@@ -86,6 +86,13 @@ LOGGER.log(Level.WARNING,"Unknown ipo curve type: {0}.",bezierCurves[j].getType(
 }
 }
 translations[index]=localRotation.multLocal(new Vector3f(translation[0],translation[1],translation[2]));
+if (boneContext != null) {
+if (boneContext.getBone().getParent() == null && boneContext.is(BoneContext.NO_LOCAL_LOCATION)) {
+float temp=translations[index].z;
+translations[index].z=-translations[index].y;
+translations[index].y=temp;
+}
+}
 if (queternionRotationUsed) {
 rotations[index]=new Quaternion(quaternionRotation[0],quaternionRotation[1],quaternionRotation[2],quaternionRotation[3]);
 }
