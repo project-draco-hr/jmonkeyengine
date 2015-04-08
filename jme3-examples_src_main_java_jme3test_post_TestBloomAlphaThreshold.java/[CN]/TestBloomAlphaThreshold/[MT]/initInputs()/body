@@ -1,0 +1,19 @@
+{
+  inputManager.addMapping("toggle",new KeyTrigger(KeyInput.KEY_SPACE));
+  ActionListener acl=new ActionListener(){
+    @Override public void onAction(    String name,    boolean keyPressed,    float tpf){
+      if (name.equals("toggle") && keyPressed) {
+        if (active) {
+          active=false;
+          viewPort.removeProcessor(fpp);
+        }
+ else {
+          active=true;
+          viewPort.addProcessor(fpp);
+        }
+      }
+    }
+  }
+;
+  inputManager.addListener(acl,"toggle");
+}
