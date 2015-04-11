@@ -1,0 +1,14 @@
+{
+  pauseSensors();
+  if (sensorManager != null) {
+    sensorManager.unregisterListener(this);
+  }
+  if (view == null) {
+    windowManager=null;
+    sensorManager=null;
+  }
+ else {
+    windowManager=(WindowManager)view.getContext().getSystemService(Context.WINDOW_SERVICE);
+    sensorManager=(SensorManager)view.getContext().getSystemService(Context.SENSOR_SERVICE);
+  }
+}

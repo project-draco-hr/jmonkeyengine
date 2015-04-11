@@ -1,11 +1,11 @@
 {
   int bufferSize=width * height * (format.getBitsPerPixel() >> 3);
   if (depth < 2) {
-    return new Image(format,width,height,BufferUtils.createByteBuffer(bufferSize));
+    return new Image(format,width,height,BufferUtils.createByteBuffer(bufferSize),com.jme3.texture.image.ColorSpace.Linear);
   }
   ArrayList<ByteBuffer> data=new ArrayList<ByteBuffer>(depth);
   for (int i=0; i < depth; ++i) {
     data.add(BufferUtils.createByteBuffer(bufferSize));
   }
-  return new Image(Format.RGB8,width,height,depth,data);
+  return new Image(Format.RGB8,width,height,depth,data,com.jme3.texture.image.ColorSpace.Linear);
 }

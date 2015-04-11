@@ -2,16 +2,25 @@
   for (int i=0; i < bezierPoints.length - 1; ++i) {
     if (frame >= bezierPoints[i][1][0] && frame <= bezierPoints[i + 1][1][0]) {
       double t=(frame - bezierPoints[i][1][0]) / (bezierPoints[i + 1][1][0] - bezierPoints[i][1][0]);
-      double oneMinusT=1.0f - t;
+switch (interpolations[i]) {
+case IPO_BEZIER:
+        double oneMinusT=1.0f - t;
       double oneMinusT2=oneMinusT * oneMinusT;
-      double t2=t * t;
-      return bezierPoints[i][1][valuePart] * oneMinusT2 * oneMinusT + 3.0f * bezierPoints[i][2][valuePart] * t* oneMinusT2 + 3.0f * bezierPoints[i + 1][0][valuePart] * t2* oneMinusT + bezierPoints[i + 1][1][valuePart] * t2 * t;
-    }
-  }
-  if (frame < bezierPoints[0][1][0]) {
-    return bezierPoints[0][1][1];
-  }
+    double t2=t * t;
+  return bezierPoints[i][1][valuePart] * oneMinusT2 * oneMinusT + 3.0f * bezierPoints[i][2][valuePart] * t* oneMinusT2 + 3.0f * bezierPoints[i + 1][0][valuePart] * t2* oneMinusT + bezierPoints[i + 1][1][valuePart] * t2 * t;
+case IPO_LINEAR:
+return (1f - t) * bezierPoints[i][1][valuePart] + t * bezierPoints[i + 1][1][valuePart];
+case IPO_CONSTANT:
+return bezierPoints[i][1][valuePart];
+default :
+throw new IllegalStateException("Unknown interpolation type for curve: " + interpolations[i]);
+}
+}
+}
+if (frame < bezierPoints[0][1][0]) {
+return bezierPoints[0][1][1];
+}
  else {
-    return bezierPoints[bezierPoints.length - 1][1][1];
-  }
+return bezierPoints[bezierPoints.length - 1][1][1];
+}
 }

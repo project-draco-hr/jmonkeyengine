@@ -1,19 +1,23 @@
 {
-  Texture result=(Texture)blenderContext.getLoadedFeature(tex.getOldMemoryAddress(),LoadedDataType.FEATURE);
+  Texture result=(Texture)blenderContext.getLoadedFeature(textureStructure.getOldMemoryAddress(),LoadedDataType.FEATURE);
   if (result != null) {
     return result;
   }
-  int type=((Number)tex.getFieldValue("type")).intValue();
-  int imaflag=((Number)tex.getFieldValue("imaflag")).intValue();
+  if ("ID".equals(textureStructure.getType())) {
+    LOGGER.fine("Loading texture from external blend file.");
+    return (Texture)this.loadLibrary(textureStructure);
+  }
+  int type=((Number)textureStructure.getFieldValue("type")).intValue();
+  int imaflag=((Number)textureStructure.getFieldValue("imaflag")).intValue();
 switch (type) {
 case TEX_IMAGE:
-    Pointer pImage=(Pointer)tex.getFieldValue("ima");
+    Pointer pImage=(Pointer)textureStructure.getFieldValue("ima");
   if (pImage.isNotNull()) {
     Structure image=pImage.fetchData().get(0);
-    Texture loadedTexture=this.loadTexture(image,imaflag,blenderContext);
+    Texture loadedTexture=this.loadImageAsTexture(image,imaflag,blenderContext);
     if (loadedTexture != null) {
       result=loadedTexture;
-      this.applyColorbandAndColorFactors(tex,result.getImage(),blenderContext);
+      this.applyColorbandAndColorFactors(textureStructure,result.getImage(),blenderContext);
     }
   }
 break;
@@ -27,7 +31,7 @@ case TEX_NOISE:
 case TEX_MUSGRAVE:
 case TEX_VORONOI:
 case TEX_DISTNOISE:
-result=new GeneratedTexture(tex,mTex,textureGeneratorFactory.createTextureGenerator(type),blenderContext);
+result=new GeneratedTexture(textureStructure,mTex,textureGeneratorFactory.createTextureGenerator(type),blenderContext);
 break;
 case TEX_NONE:
 break;
@@ -36,13 +40,13 @@ case TEX_VOXELDATA:
 case TEX_PLUGIN:
 case TEX_ENVMAP:
 case TEX_OCEAN:
-LOGGER.log(Level.WARNING,"Unsupported texture type: {0} for texture: {1}",new Object[]{type,tex.getName()});
+LOGGER.log(Level.WARNING,"Unsupported texture type: {0} for texture: {1}",new Object[]{type,textureStructure.getName()});
 break;
 default :
-throw new BlenderFileException("Unknown texture type: " + type + " for texture: "+ tex.getName());
+throw new BlenderFileException("Unknown texture type: " + type + " for texture: "+ textureStructure.getName());
 }
 if (result != null) {
-result.setName(tex.getName());
+result.setName(textureStructure.getName());
 result.setWrap(WrapMode.Repeat);
 switch (blenderContext.getBlenderKey().getMipmapGenerationMethod()) {
 case ALWAYS_GENERATE:
@@ -59,13 +63,13 @@ default :
 throw new IllegalStateException("Unknown mipmap generation method: " + blenderContext.getBlenderKey().getMipmapGenerationMethod());
 }
 if (type != TEX_IMAGE) {
-result.setKey(new GeneratedTextureKey(tex.getName()));
+result.setKey(new GeneratedTextureKey(textureStructure.getName()));
 }
 if (LOGGER.isLoggable(Level.FINE)) {
-LOGGER.log(Level.FINE,"Adding texture {0} to the loaded features with OMA = {1}",new Object[]{result.getName(),tex.getOldMemoryAddress()});
+LOGGER.log(Level.FINE,"Adding texture {0} to the loaded features with OMA = {1}",new Object[]{result.getName(),textureStructure.getOldMemoryAddress()});
 }
-blenderContext.addLoadedFeatures(tex.getOldMemoryAddress(),LoadedDataType.STRUCTURE,tex);
-blenderContext.addLoadedFeatures(tex.getOldMemoryAddress(),LoadedDataType.FEATURE,result);
+blenderContext.addLoadedFeatures(textureStructure.getOldMemoryAddress(),LoadedDataType.STRUCTURE,textureStructure);
+blenderContext.addLoadedFeatures(textureStructure.getOldMemoryAddress(),LoadedDataType.FEATURE,result);
 }
 return result;
 }

@@ -53,14 +53,6 @@
     }
     glext.glBlitFramebufferEXT(srcX0,srcY0,srcX1,srcY1,dstX0,dstY0,dstX1,dstY1,mask,GL.GL_NEAREST);
     glfbo.glBindFramebufferEXT(GLExt.GL_FRAMEBUFFER_EXT,prevFBO);
-    try {
-      checkFrameBufferError();
-    }
- catch (    IllegalStateException ex) {
-      logger.log(Level.SEVERE,"Source FBO:\n{0}",src);
-      logger.log(Level.SEVERE,"Dest FBO:\n{0}",dst);
-      throw ex;
-    }
   }
  else {
     throw new RendererException("Framebuffer blitting not supported by the video hardware");

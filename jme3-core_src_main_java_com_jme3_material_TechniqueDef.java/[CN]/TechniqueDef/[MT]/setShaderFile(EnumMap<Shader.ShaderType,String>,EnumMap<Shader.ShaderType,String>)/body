@@ -1,7 +1,12 @@
 {
-  for (  Shader.ShaderType shaderType : shaderName.keySet()) {
-    this.shaderLanguage.put(shaderType,shaderLanguage.get(shaderType));
-    this.shaderName.put(shaderType,shaderName.get(shaderType));
+  requiredCaps.clear();
+  for (  Shader.ShaderType shaderType : shaderNames.keySet()) {
+    String language=shaderLanguages.get(shaderType);
+    String shaderFile=shaderNames.get(shaderType);
+    this.shaderLanguages.put(shaderType,language);
+    this.shaderNames.put(shaderType,shaderFile);
+    Caps vertCap=Caps.valueOf(language);
+    requiredCaps.add(vertCap);
     if (shaderType.equals(Shader.ShaderType.Geometry)) {
       requiredCaps.add(Caps.GeometryShader);
     }
@@ -9,5 +14,4 @@
       requiredCaps.add(Caps.TesselationShader);
     }
   }
-  usesShaders=true;
 }

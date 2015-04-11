@@ -19,7 +19,7 @@
         bb.put(iAlphaMask.getAlpha(x,y));
       }
     }
-    image=new Image(Format.RGBA8,w,h,bb);
+    image=new Image(Format.RGBA8,w,h,bb,ColorSpace.Linear);
     texture.setImage(image);
     result.setTextureParam("Texture",VarType.Texture2D,texture);
   }

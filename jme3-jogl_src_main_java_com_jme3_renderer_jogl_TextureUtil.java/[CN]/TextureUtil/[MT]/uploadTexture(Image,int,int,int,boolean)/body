@@ -46,7 +46,7 @@
       if (target == GL2ES2.GL_TEXTURE_3D) {
         gl.getGL2ES2().glTexImage3D(target,i,glFmt.internalFormat,mipWidth,mipHeight,mipDepth,border,glFmt.format,glFmt.dataType,data);
       }
- else       if (target == GL.GL_TEXTURE_2D_ARRAY) {
+ else       if (target == GL2ES3.GL_TEXTURE_2D_ARRAY) {
         if (index == -1) {
           gl.getGL2ES2().glTexImage3D(target,0,glFmt.internalFormat,mipWidth,mipHeight,image.getData().size(),border,glFmt.format,glFmt.dataType,data);
         }

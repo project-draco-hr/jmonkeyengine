@@ -1,8 +1,0 @@
-{
-  List<BoneTrack> tracks=new ArrayList<BoneTrack>(featuresTracks.size());
-  for (  Entry<String,Ipo> entry : featuresTracks.entrySet()) {
-    int boneIndex=skeleton.getBoneIndex(entry.getKey());
-    tracks.add((BoneTrack)entry.getValue().calculateTrack(boneIndex,Vector3f.ZERO,Quaternion.IDENTITY,Vector3f.UNIT_XYZ,1,stopFrame,fps,false));
-  }
-  return tracks.toArray(new BoneTrack[tracks.size()]);
-}

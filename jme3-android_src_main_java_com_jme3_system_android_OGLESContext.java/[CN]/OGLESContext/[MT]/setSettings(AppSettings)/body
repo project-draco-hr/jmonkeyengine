@@ -3,6 +3,9 @@
   if (androidInput != null) {
     androidInput.loadSettings(settings);
   }
+  if (androidJoyInput != null) {
+    androidJoyInput.loadSettings(settings);
+  }
   if (settings.getFrameRate() > 0) {
     minFrameDuration=(long)(1000d / (double)settings.getFrameRate());
     logger.log(Level.FINE,"Setting min tpf: {0}ms",minFrameDuration);

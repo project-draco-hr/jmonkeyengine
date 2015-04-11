@@ -15,6 +15,11 @@
   }
   androidInput.setView(view);
   androidInput.loadSettings(settings);
+  if (androidJoyInput == null) {
+    androidJoyInput=new AndroidJoyInputHandler();
+  }
+  androidJoyInput.setView(view);
+  androidJoyInput.loadSettings(settings);
   view.setEGLContextClientVersion(2);
   view.setFocusableInTouchMode(true);
   view.setFocusable(true);

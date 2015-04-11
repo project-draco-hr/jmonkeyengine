@@ -43,7 +43,7 @@
       data.put(pixel.getA8());
     }
   }
-  image=new Image(Format.RGBA8,width,height,data);
+  image=new Image(Format.RGBA8,width,height,data,ColorSpace.Linear);
   float heightUV=maxUVY - minUVY;
   float widthUV=maxUVX - minUVX;
   for (int i=0; i < uv.length; ++i) {

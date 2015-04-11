@@ -22,6 +22,16 @@
           changed=true;
         }
       }
+      if (sdkActivity != null) {
+        if (sdkActivity.hasAttribute("android:screenOrientation")) {
+          String attrScreenOrientation=sdkActivity.getAttribute("android:screenOrientation");
+        }
+ else {
+          Logger.getLogger(AndroidSdkTool.class.getName()).log(Level.INFO,"creating attrScreenOrientation");
+          sdkActivity.setAttribute("android:screenOrientation","landscape");
+          changed=true;
+        }
+      }
     }
     Element sdkElement=XmlHelper.findChildElement(configuration.getDocumentElement(),"uses-sdk");
     if (sdkElement == null) {
@@ -30,7 +40,7 @@
       changed=true;
     }
     if (!"8".equals(sdkElement.getAttribute("android:minSdkVersion"))) {
-      sdkElement.setAttribute("android:minSdkVersion","8");
+      sdkElement.setAttribute("android:minSdkVersion","9");
       changed=true;
     }
     Element screensElement=XmlHelper.findChildElement(configuration.getDocumentElement(),"supports-screens");
