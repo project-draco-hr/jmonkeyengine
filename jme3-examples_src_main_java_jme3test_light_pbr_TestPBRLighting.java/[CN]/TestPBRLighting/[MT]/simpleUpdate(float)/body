@@ -1,0 +1,15 @@
+{
+  frame++;
+  if (frame == 2) {
+    modelNode.removeFromParent();
+    stateManager.getState(EnvironmentCamera.class).snapshot(rootNode,new Runnable(){
+      @Override public void run(){
+        toggleIBL();
+      }
+    }
+);
+  }
+  if (frame > 2 && modelNode.getParent() == null) {
+    rootNode.attachChild(modelNode);
+  }
+}

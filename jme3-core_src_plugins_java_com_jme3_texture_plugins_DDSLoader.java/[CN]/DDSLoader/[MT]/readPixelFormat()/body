@@ -35,6 +35,11 @@ case PF_DX10:
 compressed=false;
 directx10=true;
 return;
+case 113:
+compressed=false;
+bpp=64;
+pixelFormat=Image.Format.RGBA16F;
+break;
 default :
 throw new IOException("Unknown fourcc: " + string(fourcc) + ", "+ Integer.toHexString(fourcc));
 }

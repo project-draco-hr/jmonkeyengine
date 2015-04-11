@@ -1,0 +1,7 @@
+{
+  ensurePbrMat();
+  pbrMat.setTexture("IrradianceMap",stateManager.getState(EnvironmentCamera.class).getIrradianceMap());
+  pbrMat.setTexture("PrefEnvMap",stateManager.getState(EnvironmentCamera.class).getPrefilteredEnvMap());
+  pbrMat.setTexture("IntegrateBRDF",assetManager.loadTexture("Common/Textures/integrateBRDF.ktx"));
+  indirectLighting=true;
+}

@@ -1,0 +1,13 @@
+{
+  Box box=new Box(220,.2f,220);
+  box.scaleTextureCoordinates(new Vector2f(10,10));
+  Geometry floor=new Geometry("the Floor",box);
+  floor.setLocalTranslation(200,-9,200);
+  Material matGroundL=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  Texture grass=assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
+  grass.setWrap(WrapMode.Repeat);
+  matGroundL.setTexture("DiffuseMap",grass);
+  floor.setMaterial(matGroundL);
+  floor.setShadowMode(ShadowMode.CastAndReceive);
+  return floor;
+}
