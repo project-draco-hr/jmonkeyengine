@@ -1,8 +1,9 @@
 {
   if (!pressed) {
     setDefaultAxisMarkerColors();
-    pickedPlane=null;
+    pickedMarker=null;
     lastScreenCoord=null;
+    constraintAxis=Vector3f.UNIT_XYZ;
     if (wasDragging) {
       actionPerformed(new ScaleUndo(toolController.getSelectedSpatial(),startScale,lastScale));
       wasDragging=false;
