@@ -1,18 +1,32 @@
 {
   if (!pressed) {
     setDefaultAxisMarkerColors();
-    pickedPlane=null;
+    pickedMarker=null;
     lastScreenCoord=null;
+    constraintAxis=Vector3f.UNIT_XYZ;
     if (wasDragging) {
       actionPerformed(new ScaleUndo(toolController.getSelectedSpatial(),startScale,lastScale));
       wasDragging=false;
     }
     return;
   }
-  if (toolController.getSelectedSpatial() == null)   return;
-  if (pickedPlane == null) {
-    pickedPlane=pickAxisMarker(camera,screenCoord,axisPickType);
-    if (pickedPlane == null)     return;
+  if (toolController.getSelectedSpatial() == null) {
+    return;
+  }
+  if (pickedMarker == null) {
+    pickedMarker=pickAxisMarker(camera,screenCoord,axisPickType);
+    if (pickedMarker == null) {
+      return;
+    }
+    if (pickedMarker.equals(ARROW_X)) {
+      constraintAxis=Vector3f.UNIT_X;
+    }
+ else     if (pickedMarker.equals(ARROW_Y)) {
+      constraintAxis=Vector3f.UNIT_Y;
+    }
+ else     if (pickedMarker.equals(ARROW_Z)) {
+      constraintAxis=Vector3f.UNIT_Z;
+    }
     startScale=toolController.getSelectedSpatial().getLocalScale().clone();
   }
   if (lastScreenCoord == null) {
@@ -22,7 +36,7 @@
     float diff=screenCoord.y - lastScreenCoord.y;
     diff*=0.1f;
     lastScreenCoord=screenCoord;
-    Vector3f scale=toolController.getSelectedSpatial().getLocalScale().add(diff,diff,diff);
+    Vector3f scale=toolController.getSelectedSpatial().getLocalScale().add(new Vector3f(diff,diff,diff).multLocal(constraintAxis));
     lastScale=scale;
     toolController.getSelectedSpatial().setLocalScale(scale);
     updateToolsTransformation();
