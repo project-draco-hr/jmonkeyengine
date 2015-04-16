@@ -1,3 +1,48 @@
 {
-  onPrimary(screenCoord,pressed);
+  if (!pressed) {
+    setDefaultAxisMarkerColors();
+    pickedMarker=null;
+    constraintAxis=Vector3f.UNIT_XYZ;
+    if (wasDragging) {
+      actionPerformed(moveManager.makeUndo());
+      wasDragging=false;
+    }
+    moveManager.reset();
+    return;
+  }
+  if (toolController.getSelectedSpatial() == null) {
+    return;
+  }
+  if (pickedMarker == null) {
+    pickedMarker=pickAxisMarker(camera,screenCoord,axisPickType);
+    if (pickedMarker == null) {
+      return;
+    }
+    if (pickedMarker.equals(QUAD_XY)) {
+      moveManager.initiateMove(toolController.getSelectedSpatial(),MoveManager.XY,true);
+    }
+ else     if (pickedMarker.equals(QUAD_XZ)) {
+      moveManager.initiateMove(toolController.getSelectedSpatial(),MoveManager.XZ,true);
+    }
+ else     if (pickedMarker.equals(QUAD_YZ)) {
+      moveManager.initiateMove(toolController.getSelectedSpatial(),MoveManager.YZ,true);
+    }
+ else     if (pickedMarker.equals(ARROW_X)) {
+      moveManager.initiateMove(toolController.getSelectedSpatial(),MoveManager.XY,true);
+      constraintAxis=Vector3f.UNIT_X;
+    }
+ else     if (pickedMarker.equals(ARROW_Y)) {
+      moveManager.initiateMove(toolController.getSelectedSpatial(),MoveManager.YZ,true);
+      constraintAxis=Vector3f.UNIT_Y;
+    }
+ else     if (pickedMarker.equals(ARROW_Z)) {
+      moveManager.initiateMove(toolController.getSelectedSpatial(),MoveManager.XZ,true);
+      constraintAxis=Vector3f.UNIT_Z;
+    }
+  }
+  if (!moveManager.move(camera,screenCoord,constraintAxis,false)) {
+    return;
+  }
+  updateToolsTransformation();
+  wasDragging=true;
 }
