@@ -1,11 +1,9 @@
 {
-  if (button == 0) {
-    if (isEditButtonEnabled() && !forceCameraControls) {
+  if (!forceCameraControls || !pressed) {
+    if (button == 0) {
       toolController.doEditToolActivatedPrimary(new Vector2f(mouseX,mouseY),pressed,cam);
     }
-  }
-  if (button == 1) {
-    if (isEditButtonEnabled() && !forceCameraControls) {
+    if (button == 1) {
       toolController.doEditToolActivatedSecondary(new Vector2f(mouseX,mouseY),pressed,cam);
     }
   }
