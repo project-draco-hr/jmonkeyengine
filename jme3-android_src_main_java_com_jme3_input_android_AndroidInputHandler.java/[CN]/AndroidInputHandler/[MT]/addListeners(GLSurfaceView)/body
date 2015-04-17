@@ -1,0 +1,7 @@
+{
+  view.setOnTouchListener(this);
+  view.setOnKeyListener(this);
+  AndroidGestureProcessor gestureHandler=new AndroidGestureProcessor(touchInput);
+  touchInput.setGestureDetector(new GestureDetector(view.getContext(),gestureHandler));
+  touchInput.setScaleDetector(new ScaleGestureDetector(view.getContext(),gestureHandler));
+}

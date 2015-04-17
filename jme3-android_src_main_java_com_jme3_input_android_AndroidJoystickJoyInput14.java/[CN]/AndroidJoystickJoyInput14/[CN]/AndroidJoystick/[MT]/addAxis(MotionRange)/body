@@ -1,0 +1,38 @@
+{
+  String name=MotionEvent.axisToString(motionRange.getAxis());
+  String logicalId=MotionEvent.axisToString(motionRange.getAxis());
+  if (motionRange.getAxis() == MotionEvent.AXIS_X) {
+    logicalId=JoystickAxis.X_AXIS;
+  }
+ else   if (motionRange.getAxis() == MotionEvent.AXIS_Y) {
+    logicalId=JoystickAxis.Y_AXIS;
+  }
+ else   if (motionRange.getAxis() == MotionEvent.AXIS_Z) {
+    logicalId=JoystickAxis.Z_AXIS;
+  }
+ else   if (motionRange.getAxis() == MotionEvent.AXIS_RZ) {
+    logicalId=JoystickAxis.Z_ROTATION;
+  }
+ else   if (motionRange.getAxis() == MotionEvent.AXIS_HAT_X) {
+    logicalId=JoystickAxis.POV_X;
+  }
+ else   if (motionRange.getAxis() == MotionEvent.AXIS_HAT_Y) {
+    logicalId=JoystickAxis.POV_Y;
+  }
+  JoystickAxis axis=new DefaultJoystickAxis(getInputManager(),this,getAxisCount(),name,logicalId,true,true,motionRange.getFlat());
+  if (motionRange.getAxis() == MotionEvent.AXIS_X) {
+    xAxis=axis;
+  }
+  if (motionRange.getAxis() == MotionEvent.AXIS_Y) {
+    yAxis=axis;
+  }
+  if (motionRange.getAxis() == MotionEvent.AXIS_HAT_X) {
+    povX=axis;
+  }
+  if (motionRange.getAxis() == MotionEvent.AXIS_HAT_Y) {
+    povY=axis;
+  }
+  addAxis(axis);
+  axisIndex.put(motionRange.getAxis(),axis);
+  return axis;
+}

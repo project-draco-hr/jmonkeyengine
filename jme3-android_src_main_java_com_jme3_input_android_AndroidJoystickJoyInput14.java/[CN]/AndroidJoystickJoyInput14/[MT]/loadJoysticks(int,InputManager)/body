@@ -1,0 +1,39 @@
+{
+  logger.log(Level.INFO,"loading Joystick devices");
+  ArrayList<Joystick> joysticks=new ArrayList<Joystick>();
+  joysticks.clear();
+  joystickIndex.clear();
+  ArrayList gameControllerDeviceIds=new ArrayList();
+  int[] deviceIds=InputDevice.getDeviceIds();
+  for (  int deviceId : deviceIds) {
+    InputDevice dev=InputDevice.getDevice(deviceId);
+    int sources=dev.getSources();
+    logger.log(Level.FINE,"deviceId[{0}] sources: {1}",new Object[]{deviceId,sources});
+    if (((sources & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD) || ((sources & InputDevice.SOURCE_JOYSTICK) == InputDevice.SOURCE_JOYSTICK)) {
+      if (!gameControllerDeviceIds.contains(deviceId)) {
+        gameControllerDeviceIds.add(deviceId);
+        logger.log(Level.FINE,"Attempting to create joystick for device: {0}",dev);
+        AndroidJoystick joystick=new AndroidJoystick(inputManager,joyInput,dev,joyId + joysticks.size(),dev.getName());
+        joystickIndex.put(deviceId,joystick);
+        joysticks.add(joystick);
+        List<MotionRange> motionRanges=dev.getMotionRanges();
+        for (        MotionRange motionRange : motionRanges) {
+          logger.log(Level.INFO,"motion range: {0}",motionRange.toString());
+          logger.log(Level.INFO,"axis: {0}",motionRange.getAxis());
+          JoystickAxis axis=joystick.addAxis(motionRange);
+          logger.log(Level.INFO,"added axis: {0}",axis);
+        }
+        for (        int keyCode : AndroidGamepadButtons) {
+          logger.log(Level.INFO,"button[{0}]: {1}",new Object[]{keyCode,KeyCharacterMap.deviceHasKey(keyCode)});
+          if (KeyCharacterMap.deviceHasKey(keyCode)) {
+            logger.log(Level.INFO,"button[{0}] exists somewhere",keyCode);
+            JoystickButton button=joystick.addButton(keyCode);
+            logger.log(Level.INFO,"added button: {0}",button);
+          }
+        }
+      }
+    }
+  }
+  loaded=true;
+  return joysticks;
+}

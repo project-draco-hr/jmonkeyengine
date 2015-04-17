@@ -1,0 +1,11 @@
+{
+  float jmeX=touchInput.getJmeX(startEvent.getX());
+  float jmeY=touchInput.invertY(touchInput.getJmeY(startEvent.getY()));
+  TouchEvent touchEvent=touchInput.getFreeTouchEvent();
+  touchEvent.set(TouchEvent.Type.FLING,jmeX,jmeY,velocityX,velocityY);
+  touchEvent.setPointerId(touchInput.getPointerId(endEvent));
+  touchEvent.setTime(endEvent.getEventTime());
+  touchEvent.setPressure(endEvent.getPressure());
+  touchInput.addEvent(touchEvent);
+  return true;
+}
