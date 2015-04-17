@@ -1,6 +1,6 @@
 {
   SensorData sensorData;
-  AndroidJoystickAxis axis;
+  AndroidSensorJoystickAxis axis;
   final float[] curInclinationMat=new float[16];
   final float[] curRotationMat=new float[16];
   final float[] rotatedRotationMat=new float[16];
@@ -49,7 +49,7 @@ synchronized (sensorData.valuesLock) {
             }
  else {
               if (axis.isChanged()) {
-                joyHandler.addEvent(new JoyAxisEvent(axis,axis.getJoystickAxisValue()));
+                joyInput.addEvent(new JoyAxisEvent(axis,axis.getJoystickAxisValue()));
               }
             }
           }

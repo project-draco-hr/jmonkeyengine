@@ -2,11 +2,9 @@
   if (!loaded) {
     return;
   }
-  logger.log(Level.FINE,"onSensorChanged for {0}: accuracy: {1}, values: {2}",new Object[]{se.sensor.getName(),se.accuracy,se.values});
   int sensorType=se.sensor.getType();
   SensorData sensorData=sensors.get(sensorType);
   if (sensorData != null) {
-    logger.log(Level.FINE,"sensorData name: {0}, enabled: {1}, unreliable: {2}",new Object[]{sensorData.sensor.getName(),sensorData.enabled,sensorData.sensorAccuracy == SensorManager.SENSOR_STATUS_UNRELIABLE});
   }
   if (sensorData != null && sensorData.sensor.equals(se.sensor) && sensorData.enabled) {
     if (sensorData.sensorAccuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
@@ -17,8 +15,8 @@ synchronized (sensorData.valuesLock) {
         sensorData.lastValues[i]=se.values[i];
       }
     }
-    if (sensorData != null && sensorData.axes.size() > 0) {
-      AndroidJoystickAxis axis;
+    if (sensorData.axes.size() > 0) {
+      AndroidSensorJoystickAxis axis;
       for (int i=0; i < se.values.length; i++) {
         axis=sensorData.axes.get(i);
         if (axis != null) {
@@ -29,8 +27,7 @@ synchronized (sensorData.valuesLock) {
  else {
             if (axis.isChanged()) {
               JoyAxisEvent event=new JoyAxisEvent(axis,axis.getJoystickAxisValue());
-              logger.log(Level.INFO,"adding JoyAxisEvent: {0}",event);
-              joyHandler.addEvent(event);
+              joyInput.addEvent(event);
             }
           }
         }

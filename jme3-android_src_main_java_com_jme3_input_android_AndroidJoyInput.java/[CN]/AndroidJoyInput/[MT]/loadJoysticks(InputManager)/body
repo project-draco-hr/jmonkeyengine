@@ -1,0 +1,5 @@
+{
+  logger.log(Level.INFO,"loading joysticks for {0}",this.getClass().getName());
+  joystickList.add(sensorJoyInput.loadJoystick(joystickList.size(),inputManager));
+  return joystickList.toArray(new Joystick[joystickList.size()]);
+}

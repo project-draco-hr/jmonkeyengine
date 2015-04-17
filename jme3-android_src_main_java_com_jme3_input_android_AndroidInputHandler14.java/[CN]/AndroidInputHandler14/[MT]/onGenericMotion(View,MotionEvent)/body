@@ -1,0 +1,12 @@
+{
+  if (view != getView()) {
+    return false;
+  }
+  boolean consumed=false;
+  int source=event.getSource();
+  boolean isJoystick=((source & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD) || ((source & InputDevice.SOURCE_JOYSTICK) == InputDevice.SOURCE_JOYSTICK);
+  if (isJoystick && joyInput != null) {
+    consumed=consumed || ((AndroidJoyInput14)joyInput).onGenericMotion(event);
+  }
+  return consumed;
+}
