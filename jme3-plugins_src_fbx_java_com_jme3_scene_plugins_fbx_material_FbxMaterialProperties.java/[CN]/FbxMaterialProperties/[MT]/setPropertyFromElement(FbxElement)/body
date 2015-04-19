@@ -1,0 +1,29 @@
+{
+  String name=(String)propertyElement.properties.get(0);
+  FBXMaterialProperty prop=propertyMetaMap.get(name);
+  if (prop == null) {
+    logger.log(Level.WARNING,"Unknown FBX material property ''{0}''",name);
+    return;
+  }
+  String realName=prop.name;
+switch (prop.type) {
+case Alpha:
+case Factor:
+case Texture2DOrFactor:
+case Texture2DOrAlpha:
+    double value=(Double)propertyElement.properties.get(4);
+  propertyValueMap.put(realName,(float)value);
+break;
+case Color:
+case Texture2DOrColor:
+double x=(Double)propertyElement.properties.get(4);
+double y=(Double)propertyElement.properties.get(5);
+double z=(Double)propertyElement.properties.get(6);
+ColorRGBA color=new ColorRGBA((float)x,(float)y,(float)z,1f);
+propertyValueMap.put(realName,color);
+break;
+default :
+logger.log(Level.WARNING,"FBX material property ''{0}'' requires a texture.",name);
+break;
+}
+}

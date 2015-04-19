@@ -1,0 +1,55 @@
+{
+  int timeMode=-1;
+  float customFrameRate=30.0f;
+  for (  FbxElement e2 : element.getFbxProperties()) {
+    String propName=(String)e2.properties.get(0);
+    if (propName.equals("UnitScaleFactor")) {
+      unitScaleFactor=((Double)e2.properties.get(4)).floatValue();
+      if (unitScaleFactor != 100.0f) {
+        logger.log(Level.WARNING,"FBX model isn't using meters for world units. Scale could be incorrect.");
+      }
+    }
+ else     if (propName.equals("TimeMode")) {
+      timeMode=(Integer)e2.properties.get(4);
+    }
+ else     if (propName.equals("CustomFrameRate")) {
+      float framerate=((Double)e2.properties.get(4)).floatValue();
+      if (framerate != -1) {
+        customFrameRate=framerate;
+      }
+    }
+ else     if (propName.equals("UpAxis")) {
+      Integer upAxis=(Integer)e2.properties.get(4);
+      if (upAxis != 1) {
+        logger.log(Level.WARNING,"FBX model isn't using Y as up axis. Orientation could be incorrect");
+      }
+    }
+ else     if (propName.equals("UpAxisSign")) {
+      Integer upAxisSign=(Integer)e2.properties.get(4);
+      if (upAxisSign != 1) {
+        logger.log(Level.WARNING,"FBX model isn't using correct up axis sign. Orientation could be incorrect");
+      }
+    }
+ else     if (propName.equals("FrontAxis")) {
+      Integer frontAxis=(Integer)e2.properties.get(4);
+      if (frontAxis != 2) {
+        logger.log(Level.WARNING,"FBX model isn't using Z as forward axis. Orientation could be incorrect");
+      }
+    }
+ else     if (propName.equals("FrontAxisSign")) {
+      Integer frontAxisSign=(Integer)e2.properties.get(4);
+      if (frontAxisSign != -1) {
+        logger.log(Level.WARNING,"FBX model isn't using correct forward axis sign. Orientation could be incorrect");
+      }
+    }
+  }
+  Float fps=timeModeToFps.get(timeMode);
+  if (fps != null) {
+    if (fps == -1f) {
+      frameRate=customFrameRate;
+    }
+ else {
+      frameRate=fps;
+    }
+  }
+}

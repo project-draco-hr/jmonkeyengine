@@ -1,0 +1,9 @@
+{
+  if (jmeObject == null) {
+    jmeObject=toJmeObject();
+    if (jmeObject == null) {
+      throw new UnsupportedOperationException("FBX object subclass " + "failed to resolve to a jME3 object");
+    }
+  }
+  return jmeObject;
+}

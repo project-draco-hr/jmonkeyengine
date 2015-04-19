@@ -1,0 +1,16 @@
+{
+  if (obj == null) {
+    return false;
+  }
+  if (getClass() != obj.getClass()) {
+    return false;
+  }
+  final IrBoneWeightIndex other=(IrBoneWeightIndex)obj;
+  if (this.boneIndex != other.boneIndex) {
+    return false;
+  }
+  if (Float.floatToIntBits(this.boneWeight) != Float.floatToIntBits(other.boneWeight)) {
+    return false;
+  }
+  return true;
+}

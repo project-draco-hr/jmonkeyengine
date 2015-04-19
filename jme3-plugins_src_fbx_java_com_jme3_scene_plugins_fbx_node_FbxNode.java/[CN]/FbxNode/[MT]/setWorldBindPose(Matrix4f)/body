@@ -1,0 +1,17 @@
+{
+  if (cachedWorldBindPose != null) {
+    if (!cachedWorldBindPose.equals(worldBindPose)) {
+      throw new UnsupportedOperationException("Bind poses don't match");
+    }
+  }
+  cachedWorldBindPose=worldBindPose;
+  this.jmeWorldBindPose=new Transform();
+  this.jmeWorldBindPose.setTranslation(worldBindPose.toTranslationVector());
+  this.jmeWorldBindPose.setRotation(worldBindPose.toRotationQuat());
+  this.jmeWorldBindPose.setScale(worldBindPose.toScaleVector());
+  System.out.println("\tBind Pose for " + getName());
+  System.out.println(jmeWorldBindPose);
+  float[] angles=new float[3];
+  jmeWorldBindPose.getRotation().toAngles(angles);
+  System.out.println("Angles: " + angles[0] * FastMath.RAD_TO_DEG + ", " + angles[1] * FastMath.RAD_TO_DEG + ", " + angles[2] * FastMath.RAD_TO_DEG);
+}

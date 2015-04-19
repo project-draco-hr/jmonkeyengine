@@ -1,0 +1,8 @@
+{
+  IrPolygon p=new IrPolygon();
+  p.vertices=new IrVertex[vertices.length];
+  for (int i=0; i < vertices.length; i++) {
+    p.vertices[i]=vertices[i].deepClone();
+  }
+  return p;
+}

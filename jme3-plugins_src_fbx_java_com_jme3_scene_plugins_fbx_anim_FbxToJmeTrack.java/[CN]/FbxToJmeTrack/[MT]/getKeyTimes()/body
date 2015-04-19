@@ -1,0 +1,17 @@
+{
+  Set<Long> keyFrameTimesSet=new HashSet<Long>();
+  for (  FbxAnimCurveNode curveNode : animCurves.values()) {
+    for (    FbxAnimCurve curve : curveNode.getCurves()) {
+      for (      long keyTime : curve.getKeyTimes()) {
+        keyFrameTimesSet.add(keyTime);
+      }
+    }
+  }
+  long[] keyFrameTimes=new long[keyFrameTimesSet.size()];
+  int i=0;
+  for (  Long keyFrameTime : keyFrameTimesSet) {
+    keyFrameTimes[i++]=keyFrameTime;
+  }
+  Arrays.sort(keyFrameTimes);
+  return keyFrameTimes;
+}

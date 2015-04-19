@@ -1,0 +1,46 @@
+{
+  Spatial spatial;
+  if (nodeAttribute instanceof FbxMesh) {
+    FbxMesh fbxMesh=(FbxMesh)nodeAttribute;
+    IntMap<Mesh> jmeMeshes=fbxMesh.getJmeObject();
+    if (jmeMeshes == null || jmeMeshes.size() == 0) {
+      logger.log(Level.WARNING,"No meshes could be loaded. Creating empty node.");
+      spatial=new Node(getName() + "-node");
+    }
+ else {
+      String nodeName;
+      if (children.isEmpty()) {
+        nodeName=getName() + "-mesh";
+      }
+ else {
+        nodeName=getName() + "-node";
+      }
+      Node node=new Node(nodeName);
+      boolean singleMesh=jmeMeshes.size() == 1;
+      for (      IntMap.Entry<Mesh> meshInfo : jmeMeshes) {
+        node.attachChild(tryCreateGeometry(meshInfo.getKey(),meshInfo.getValue(),singleMesh));
+      }
+      spatial=node;
+    }
+  }
+ else {
+    if (nodeAttribute != null) {
+      nodeAttribute.getJmeObject();
+    }
+    spatial=new Node(getName() + "-node");
+  }
+  if (!children.isEmpty()) {
+    Vector3f localScale=jmeLocalNodeTransform.getScale();
+    if (!FastMath.approximateEquals(localScale.x,localScale.y) || !FastMath.approximateEquals(localScale.x,localScale.z)) {
+      logger.log(Level.WARNING,"Non-uniform scale detected on parent node. " + "The model may appear distorted.");
+    }
+  }
+  spatial.setLocalTransform(jmeLocalNodeTransform);
+  if (visibility == 0.0) {
+    spatial.setCullHint(CullHint.Always);
+  }
+  for (  Map.Entry<String,Object> userDataEntry : userData.entrySet()) {
+    spatial.setUserData(userDataEntry.getKey(),userDataEntry.getValue());
+  }
+  return spatial;
+}

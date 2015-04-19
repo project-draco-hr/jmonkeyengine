@@ -1,0 +1,21 @@
+{
+  if (object instanceof FbxAnimCurveNode) {
+    FbxAnimCurveNode curveNode=(FbxAnimCurveNode)object;
+    if (property.equals("Lcl Translation") || property.equals("Lcl Rotation") || property.equals("Lcl Scaling")) {
+      List<FbxAnimCurveNode> curveNodes=propertyToAnimCurveMap.get(property);
+      if (curveNodes == null) {
+        curveNodes=new ArrayList<FbxAnimCurveNode>();
+        curveNodes.add(curveNode);
+        propertyToAnimCurveMap.put(property,curveNodes);
+      }
+      curveNodes.add(curveNode);
+      curveNode.addInfluencedNode(this,property);
+    }
+ else {
+      logger.log(Level.WARNING,"Animating the property ''{0}'' is not " + "supported. Ignoring.",property);
+    }
+  }
+ else {
+    unsupportedConnectObjectProperty(object,property);
+  }
+}

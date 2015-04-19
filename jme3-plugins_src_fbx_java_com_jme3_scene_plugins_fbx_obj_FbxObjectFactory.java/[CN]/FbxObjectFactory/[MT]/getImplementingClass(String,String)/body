@@ -1,0 +1,86 @@
+{
+  if (elementName.equals("NodeAttribute")) {
+    if (subclassName.equals("Root")) {
+      return FbxNullAttribute.class;
+    }
+ else     if (subclassName.equals("LimbNode")) {
+      return FbxNullAttribute.class;
+    }
+ else     if (subclassName.equals("Null")) {
+      return FbxNullAttribute.class;
+    }
+ else     if (subclassName.equals("IKEffector") || subclassName.equals("FKEffector")) {
+      return FbxNullAttribute.class;
+    }
+ else {
+      logger.log(Level.WARNING,"Unknown object subclass: {0}. Ignoring.",subclassName);
+      return FbxUnknownObject.class;
+    }
+  }
+ else   if (elementName.equals("Geometry") && subclassName.equals("Mesh")) {
+    return FbxMesh.class;
+  }
+ else   if (elementName.equals("Model")) {
+    if (subclassName.equals("LimbNode")) {
+      return FbxLimbNode.class;
+    }
+ else {
+      return FbxNode.class;
+    }
+  }
+ else   if (elementName.equals("Pose")) {
+    if (subclassName.equals("BindPose")) {
+      return FbxBindPose.class;
+    }
+ else {
+      logger.log(Level.WARNING,"Unknown object subclass: {0}. Ignoring.",subclassName);
+      return FbxUnknownObject.class;
+    }
+  }
+ else   if (elementName.equals("Material")) {
+    return FbxMaterial.class;
+  }
+ else   if (elementName.equals("Deformer")) {
+    if (subclassName.equals("Skin")) {
+      return FbxSkinDeformer.class;
+    }
+ else     if (subclassName.equals("Cluster")) {
+      return FbxCluster.class;
+    }
+ else {
+      logger.log(Level.WARNING,"Unknown deformer subclass: {0}. Ignoring.",subclassName);
+      return FbxUnknownObject.class;
+    }
+  }
+ else   if (elementName.equals("Video")) {
+    if (subclassName.equals("Clip")) {
+      return FbxImage.class;
+    }
+ else {
+      logger.log(Level.WARNING,"Unknown object subclass: {0}. Ignoring.",subclassName);
+      return FbxUnknownObject.class;
+    }
+  }
+ else   if (elementName.equals("Texture")) {
+    return FbxTexture.class;
+  }
+ else   if (elementName.equals("AnimationStack")) {
+    return FbxAnimStack.class;
+  }
+ else   if (elementName.equals("AnimationLayer")) {
+    return FbxAnimLayer.class;
+  }
+ else   if (elementName.equals("AnimationCurveNode")) {
+    return FbxAnimCurveNode.class;
+  }
+ else   if (elementName.equals("AnimationCurve")) {
+    return FbxAnimCurve.class;
+  }
+ else   if (elementName.equals("SceneInfo")) {
+    return FbxUnknownObject.class;
+  }
+ else {
+    logger.log(Level.WARNING,"Unknown object class: {0}. Ignoring.",elementName);
+    return FbxUnknownObject.class;
+  }
+}
