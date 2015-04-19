@@ -1,0 +1,68 @@
+{
+  long id=(Long)element.properties.get(0);
+  String type=(String)element.properties.get(2);
+  if (type.equals("Mesh")) {
+    MeshData data=new MeshData();
+    for (    FbxElement e : element.children) {
+      if (e.id.equals("Vertices"))       data.vertices=(double[])e.properties.get(0);
+ else       if (e.id.equals("PolygonVertexIndex"))       data.indices=(int[])e.properties.get(0);
+ else       if (e.id.equals("LayerElementNormal"))       for (      FbxElement e2 : e.children) {
+        if (e2.id.equals("MappingInformationType")) {
+          data.normalsMapping=(String)e2.properties.get(0);
+          if (!data.normalsMapping.equals("ByVertice") && !data.normalsMapping.equals("ByPolygonVertex"))           throw new AssetLoadException("Not supported LayerElementNormal.MappingInformationType = " + data.normalsMapping);
+        }
+ else         if (e2.id.equals("ReferenceInformationType")) {
+          data.normalsReference=(String)e2.properties.get(0);
+          if (!data.normalsReference.equals("Direct"))           throw new AssetLoadException("Not supported LayerElementNormal.ReferenceInformationType = " + data.normalsReference);
+        }
+ else         if (e2.id.equals("Normals"))         data.normals=(double[])e2.properties.get(0);
+      }
+ else       if (e.id.equals("LayerElementTangent"))       for (      FbxElement e2 : e.children) {
+        if (e2.id.equals("MappingInformationType")) {
+          data.tangentsMapping=(String)e2.properties.get(0);
+          if (!data.tangentsMapping.equals("ByVertice") && !data.tangentsMapping.equals("ByPolygonVertex"))           throw new AssetLoadException("Not supported LayerElementTangent.MappingInformationType = " + data.tangentsMapping);
+        }
+ else         if (e2.id.equals("ReferenceInformationType")) {
+          data.tangentsReference=(String)e2.properties.get(0);
+          if (!data.tangentsReference.equals("Direct"))           throw new AssetLoadException("Not supported LayerElementTangent.ReferenceInformationType = " + data.tangentsReference);
+        }
+ else         if (e2.id.equals("Tangents"))         data.tangents=(double[])e2.properties.get(0);
+      }
+ else       if (e.id.equals("LayerElementBinormal"))       for (      FbxElement e2 : e.children) {
+        if (e2.id.equals("MappingInformationType")) {
+          data.binormalsMapping=(String)e2.properties.get(0);
+          if (!data.binormalsMapping.equals("ByVertice") && !data.binormalsMapping.equals("ByPolygonVertex"))           throw new AssetLoadException("Not supported LayerElementBinormal.MappingInformationType = " + data.binormalsMapping);
+        }
+ else         if (e2.id.equals("ReferenceInformationType")) {
+          data.binormalsReference=(String)e2.properties.get(0);
+          if (!data.binormalsReference.equals("Direct"))           throw new AssetLoadException("Not supported LayerElementBinormal.ReferenceInformationType = " + data.binormalsReference);
+        }
+ else         if (e2.id.equals("Tangents"))         data.binormals=(double[])e2.properties.get(0);
+      }
+ else       if (e.id.equals("LayerElementUV"))       for (      FbxElement e2 : e.children) {
+        if (e2.id.equals("MappingInformationType")) {
+          data.uvMapping=(String)e2.properties.get(0);
+          if (!data.uvMapping.equals("ByPolygonVertex"))           throw new AssetLoadException("Not supported LayerElementUV.MappingInformationType = " + data.uvMapping);
+        }
+ else         if (e2.id.equals("ReferenceInformationType")) {
+          data.uvReference=(String)e2.properties.get(0);
+          if (!data.uvReference.equals("IndexToDirect"))           throw new AssetLoadException("Not supported LayerElementUV.ReferenceInformationType = " + data.uvReference);
+        }
+ else         if (e2.id.equals("UV"))         data.uv=(double[])e2.properties.get(0);
+ else         if (e2.id.equals("UVIndex"))         data.uvIndex=(int[])e2.properties.get(0);
+      }
+ else       if (e.id.equals("LayerElementMaterial"))       for (      FbxElement e2 : e.children) {
+        if (e2.id.equals("MappingInformationType")) {
+          data.materialsMapping=(String)e2.properties.get(0);
+          if (!data.materialsMapping.equals("AllSame"))           throw new AssetLoadException("Not supported LayerElementMaterial.MappingInformationType = " + data.materialsMapping);
+        }
+ else         if (e2.id.equals("ReferenceInformationType")) {
+          data.materialsReference=(String)e2.properties.get(0);
+          if (!data.materialsReference.equals("IndexToDirect"))           throw new AssetLoadException("Not supported LayerElementMaterial.ReferenceInformationType = " + data.materialsReference);
+        }
+ else         if (e2.id.equals("Materials"))         data.materials=(int[])e2.properties.get(0);
+      }
+    }
+    meshDataMap.put(id,data);
+  }
+}
