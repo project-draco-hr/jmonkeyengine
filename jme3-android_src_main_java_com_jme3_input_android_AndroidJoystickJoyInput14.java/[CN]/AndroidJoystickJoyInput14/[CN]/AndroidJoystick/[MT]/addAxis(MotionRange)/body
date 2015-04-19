@@ -1,23 +1,27 @@
 {
   String name=MotionEvent.axisToString(motionRange.getAxis());
-  String logicalId=MotionEvent.axisToString(motionRange.getAxis());
+  String original=MotionEvent.axisToString(motionRange.getAxis());
   if (motionRange.getAxis() == MotionEvent.AXIS_X) {
-    logicalId=JoystickAxis.X_AXIS;
+    original=JoystickAxis.X_AXIS;
   }
  else   if (motionRange.getAxis() == MotionEvent.AXIS_Y) {
-    logicalId=JoystickAxis.Y_AXIS;
+    original=JoystickAxis.Y_AXIS;
   }
  else   if (motionRange.getAxis() == MotionEvent.AXIS_Z) {
-    logicalId=JoystickAxis.Z_AXIS;
+    original=JoystickAxis.Z_AXIS;
   }
  else   if (motionRange.getAxis() == MotionEvent.AXIS_RZ) {
-    logicalId=JoystickAxis.Z_ROTATION;
+    original=JoystickAxis.Z_ROTATION;
   }
  else   if (motionRange.getAxis() == MotionEvent.AXIS_HAT_X) {
-    logicalId=JoystickAxis.POV_X;
+    original=JoystickAxis.POV_X;
   }
  else   if (motionRange.getAxis() == MotionEvent.AXIS_HAT_Y) {
-    logicalId=JoystickAxis.POV_Y;
+    original=JoystickAxis.POV_Y;
+  }
+  String logicalId=JoystickCompatibilityMappings.remapComponent(getName(),original);
+  if (logicalId == null ? original != null : !logicalId.equals(original)) {
+    logger.log(Level.FINE,"Remapped: {0} to: {1}",new Object[]{original,logicalId});
   }
   JoystickAxis axis=new DefaultJoystickAxis(getInputManager(),this,getAxisCount(),name,logicalId,true,true,motionRange.getFlat());
   if (motionRange.getAxis() == MotionEvent.AXIS_X) {
