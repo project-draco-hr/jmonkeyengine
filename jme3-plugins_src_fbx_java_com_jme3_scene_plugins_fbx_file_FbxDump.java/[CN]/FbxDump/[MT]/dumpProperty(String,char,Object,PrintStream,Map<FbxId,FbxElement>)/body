@@ -1,0 +1,75 @@
+{
+switch (propertyType) {
+case 'S':
+    String str=(String)property;
+  ps.print("\"" + convertFBXString(str) + "\"");
+break;
+case 'R':
+byte[] bytes=(byte[])property;
+int numToPrint=Math.min(10 * 1024,bytes.length);
+ps.print("(size = ");
+ps.print(bytes.length);
+ps.print(") [");
+for (int j=0; j < numToPrint; j++) {
+ps.print(String.format("%02X",bytes[j] & 0xff));
+if (j != bytes.length - 1) {
+ps.print(" ");
+}
+}
+if (numToPrint < bytes.length) {
+ps.print(" ...");
+}
+ps.print("]");
+break;
+case 'D':
+case 'F':
+if (property instanceof Double) {
+ps.print(DECIMAL_FORMAT.format((Double)property));
+}
+ else if (property instanceof Float) {
+ps.print(DECIMAL_FORMAT.format((Float)property));
+}
+ else {
+ps.print(property);
+}
+break;
+case 'I':
+case 'Y':
+ps.print(property);
+break;
+case 'C':
+ps.print((Boolean)property ? "1" : "0");
+break;
+case 'L':
+if (id.equals("C")) {
+Long uid=(Long)property;
+FbxElement element=uidToObjectMap.get(FbxId.create(uid));
+if (element != null) {
+String name=(String)element.properties.get(1);
+ps.print("\"" + convertFBXString(name) + "\"");
+}
+ else {
+ps.print(property);
+}
+}
+ else {
+ps.print(property);
+}
+break;
+case 'd':
+case 'i':
+case 'l':
+case 'f':
+int length=Array.getLength(property);
+for (int j=0; j < length; j++) {
+Object arrayEntry=Array.get(property,j);
+dumpProperty(id,Character.toUpperCase(propertyType),arrayEntry,ps,uidToObjectMap);
+if (j != length - 1) {
+ps.print(",");
+}
+}
+break;
+default :
+throw new UnsupportedOperationException("" + propertyType);
+}
+}
