@@ -6,7 +6,7 @@
     rb.setId(id);
   }
   if (context.boundRB != id) {
-    glfbo.glBindRenderbufferEXT(GLExt.GL_RENDERBUFFER_EXT,id);
+    glfbo.glBindRenderbufferEXT(GLFbo.GL_RENDERBUFFER_EXT,id);
     context.boundRB=id;
   }
   int rbSize=limits.get(Limits.RenderBufferSize);
@@ -20,9 +20,9 @@
     if (maxSamples < samples) {
       samples=maxSamples;
     }
-    glext.glRenderbufferStorageMultisampleEXT(GLExt.GL_RENDERBUFFER_EXT,samples,glFmt.internalFormat,fb.getWidth(),fb.getHeight());
+    glfbo.glRenderbufferStorageMultisampleEXT(GLFbo.GL_RENDERBUFFER_EXT,samples,glFmt.internalFormat,fb.getWidth(),fb.getHeight());
   }
  else {
-    glfbo.glRenderbufferStorageEXT(GLExt.GL_RENDERBUFFER_EXT,glFmt.internalFormat,fb.getWidth(),fb.getHeight());
+    glfbo.glRenderbufferStorageEXT(GLFbo.GL_RENDERBUFFER_EXT,glFmt.internalFormat,fb.getWidth(),fb.getHeight());
   }
 }
