@@ -1,0 +1,10 @@
+{
+  RpcCallMessage msg=new RpcCallMessage(sequenceNumber.getAndIncrement(),channel,objId,procId,args);
+  ResponseHolder holder=new ResponseHolder(msg);
+  responses.put(msg.getMessageId(),holder);
+  if (log.isLoggable(Level.FINEST)) {
+    log.log(Level.FINEST,"Sending:{0}  on channel:{1}",new Object[]{msg,channel});
+  }
+  connection.send(channel,msg);
+  return holder.getResponse();
+}

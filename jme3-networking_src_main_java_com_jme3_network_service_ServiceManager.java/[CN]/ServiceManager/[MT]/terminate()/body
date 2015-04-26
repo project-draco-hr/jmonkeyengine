@@ -1,0 +1,8 @@
+{
+  if (started) {
+    stop();
+  }
+  for (  Service<T> s : services) {
+    s.terminate(getParent());
+  }
+}

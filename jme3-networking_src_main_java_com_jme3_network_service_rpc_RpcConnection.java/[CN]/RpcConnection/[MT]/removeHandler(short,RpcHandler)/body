@@ -1,0 +1,7 @@
+{
+  RpcHandler removing=handlers.get(objId);
+  if (handler != removing) {
+    throw new IllegalArgumentException("Handler not registered for object ID:" + objId + ", handler:"+ handler);
+  }
+  handlers.remove(objId);
+}
