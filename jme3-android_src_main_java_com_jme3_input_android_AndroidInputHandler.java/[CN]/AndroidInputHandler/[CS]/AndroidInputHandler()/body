@@ -1,14 +1,4 @@
 {
-  int buildVersion=Build.VERSION.SDK_INT;
-  logger.log(Level.INFO,"Android Build Version: {0}",buildVersion);
-  if (buildVersion >= 14) {
-    gestureHandler=new AndroidGestureHandler(this);
-    touchHandler=new AndroidTouchHandler14(this,gestureHandler);
-    keyHandler=new AndroidKeyHandler(this);
-  }
- else   if (buildVersion >= 8) {
-    gestureHandler=new AndroidGestureHandler(this);
-    touchHandler=new AndroidTouchHandler(this,gestureHandler);
-    keyHandler=new AndroidKeyHandler(this);
-  }
+  touchInput=new AndroidTouchInput(this);
+  joyInput=new AndroidJoyInput(this);
 }

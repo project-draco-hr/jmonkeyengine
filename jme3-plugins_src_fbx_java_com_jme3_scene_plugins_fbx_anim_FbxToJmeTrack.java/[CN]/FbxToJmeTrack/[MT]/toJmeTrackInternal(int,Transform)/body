@@ -1,0 +1,58 @@
+{
+  float duration=animStack.getDuration();
+  FbxAnimCurveNode translationCurve=animCurves.get("Lcl Translation");
+  FbxAnimCurveNode rotationCurve=animCurves.get("Lcl Rotation");
+  FbxAnimCurveNode scalingCurve=animCurves.get("Lcl Scaling");
+  long[] fbxTimes=getKeyTimes();
+  float[] times=new float[fbxTimes.length];
+  Vector3f[] translations=new Vector3f[fbxTimes.length];
+  Quaternion[] rotations=new Quaternion[fbxTimes.length];
+  Vector3f[] scales=null;
+  if (scalingCurve != null) {
+    scales=new Vector3f[fbxTimes.length];
+  }
+  for (int i=0; i < fbxTimes.length; i++) {
+    long fbxTime=fbxTimes[i];
+    float time=(float)(fbxTime * FbxAnimUtil.SECONDS_PER_UNIT);
+    if (time > duration) {
+      duration=time;
+      System.out.println("actual duration: " + duration);
+    }
+    times[i]=time;
+    if (translationCurve != null) {
+      translations[i]=translationCurve.getVector3Value(fbxTime);
+    }
+ else {
+      translations[i]=new Vector3f();
+    }
+    if (rotationCurve != null) {
+      rotations[i]=rotationCurve.getQuaternionValue(fbxTime);
+      if (i > 0) {
+        if (rotations[i - 1].dot(rotations[i]) < 0) {
+          System.out.println("rotation will go the long way, oh noes");
+          rotations[i - 1].negate();
+        }
+      }
+    }
+ else {
+      rotations[i]=new Quaternion();
+    }
+    if (scalingCurve != null) {
+      scales[i]=scalingCurve.getVector3Value(fbxTime);
+    }
+    if (inverseBindPose != null) {
+      applyInverse(translations[i],rotations[i],scales != null ? scales[i] : null,inverseBindPose);
+    }
+  }
+  if (boneIndex == -1) {
+    return new SpatialTrack(times,translations,rotations,scales);
+  }
+ else {
+    if (scales != null) {
+      return new BoneTrack(boneIndex,times,translations,rotations,scales);
+    }
+ else {
+      return new BoneTrack(boneIndex,times,translations,rotations);
+    }
+  }
+}

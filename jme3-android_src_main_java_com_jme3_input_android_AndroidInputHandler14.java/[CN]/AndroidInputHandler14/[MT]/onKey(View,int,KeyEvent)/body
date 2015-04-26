@@ -1,0 +1,16 @@
+{
+  if (view != getView()) {
+    return false;
+  }
+  boolean consumed=false;
+  int source=event.getSource();
+  boolean isTouch=((source & InputDevice.SOURCE_TOUCHSCREEN) == InputDevice.SOURCE_TOUCHSCREEN) || ((source & InputDevice.SOURCE_KEYBOARD) == InputDevice.SOURCE_KEYBOARD);
+  boolean isJoystick=((source & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD) || ((source & InputDevice.SOURCE_JOYSTICK) == InputDevice.SOURCE_JOYSTICK);
+  if (isTouch && touchInput != null) {
+    consumed=touchInput.onKey(event);
+  }
+  if (isJoystick && joyInput != null) {
+    consumed=consumed | ((AndroidJoyInput14)joyInput).onKey(event);
+  }
+  return consumed;
+}

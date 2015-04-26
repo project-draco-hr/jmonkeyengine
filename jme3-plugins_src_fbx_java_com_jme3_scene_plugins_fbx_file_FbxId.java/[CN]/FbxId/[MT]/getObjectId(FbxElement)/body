@@ -1,0 +1,11 @@
+{
+  if (el.propertiesTypes.length == 2 && el.propertiesTypes[0] == 'S' && el.propertiesTypes[1] == 'S') {
+    return new StringFbxId((String)el.properties.get(0));
+  }
+ else   if (el.propertiesTypes.length == 3 && el.propertiesTypes[0] == 'L' && el.propertiesTypes[1] == 'S' && el.propertiesTypes[2] == 'S') {
+    return new LongFbxId((Long)el.properties.get(0));
+  }
+ else {
+    return null;
+  }
+}

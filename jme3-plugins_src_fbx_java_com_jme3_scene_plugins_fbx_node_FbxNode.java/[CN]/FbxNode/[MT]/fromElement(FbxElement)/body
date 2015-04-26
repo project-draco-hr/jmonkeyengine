@@ -1,0 +1,75 @@
+{
+  super.fromElement(element);
+  Vector3f localTranslation=new Vector3f();
+  Quaternion localRotation=new Quaternion();
+  Vector3f localScale=new Vector3f(Vector3f.UNIT_XYZ);
+  Quaternion preRotation=new Quaternion();
+  for (  FbxElement e2 : element.getFbxProperties()) {
+    String propName=(String)e2.properties.get(0);
+    String type=(String)e2.properties.get(3);
+    if (propName.equals("Lcl Translation")) {
+      double x=(Double)e2.properties.get(4);
+      double y=(Double)e2.properties.get(5);
+      double z=(Double)e2.properties.get(6);
+      localTranslation.set((float)x,(float)y,(float)z);
+    }
+ else     if (propName.equals("Lcl Rotation")) {
+      double x=(Double)e2.properties.get(4);
+      double y=(Double)e2.properties.get(5);
+      double z=(Double)e2.properties.get(6);
+      localRotation.fromAngles((float)x * FastMath.DEG_TO_RAD,(float)y * FastMath.DEG_TO_RAD,(float)z * FastMath.DEG_TO_RAD);
+    }
+ else     if (propName.equals("Lcl Scaling")) {
+      double x=(Double)e2.properties.get(4);
+      double y=(Double)e2.properties.get(5);
+      double z=(Double)e2.properties.get(6);
+      localScale.set((float)x,(float)y,(float)z);
+    }
+ else     if (propName.equals("PreRotation")) {
+      double x=(Double)e2.properties.get(4);
+      double y=(Double)e2.properties.get(5);
+      double z=(Double)e2.properties.get(6);
+      preRotation.set(FbxNodeUtil.quatFromBoneAngles((float)x * FastMath.DEG_TO_RAD,(float)y * FastMath.DEG_TO_RAD,(float)z * FastMath.DEG_TO_RAD));
+    }
+ else     if (propName.equals("InheritType")) {
+      int inheritType=(Integer)e2.properties.get(4);
+      inheritMode=InheritMode.values()[inheritType];
+    }
+ else     if (propName.equals("Visibility")) {
+      visibility=(Double)e2.properties.get(4);
+    }
+ else     if (type.contains("U")) {
+      String userDataKey=(String)e2.properties.get(0);
+      String userDataType=(String)e2.properties.get(1);
+      Object userDataValue;
+      if (userDataType.equals("KString")) {
+        userDataValue=(String)e2.properties.get(4);
+      }
+ else       if (userDataType.equals("int")) {
+        userDataValue=(Integer)e2.properties.get(4);
+      }
+ else       if (userDataType.equals("double")) {
+        userDataValue=((Double)e2.properties.get(4)).floatValue();
+      }
+ else       if (userDataType.equals("Vector")) {
+        float x=((Double)e2.properties.get(4)).floatValue();
+        float y=((Double)e2.properties.get(5)).floatValue();
+        float z=((Double)e2.properties.get(6)).floatValue();
+        userDataValue=new Vector3f(x,y,z);
+      }
+ else {
+        logger.log(Level.WARNING,"Unsupported user data type: {0}. Ignoring.",userDataType);
+        continue;
+      }
+      userData.put(userDataKey,userDataValue);
+    }
+  }
+  jmeLocalNodeTransform.setTranslation(localTranslation);
+  jmeLocalNodeTransform.setRotation(localRotation);
+  jmeLocalNodeTransform.setScale(localScale);
+  if (element.getChildById("Vertices") != null) {
+    FbxMesh mesh=new FbxMesh(assetManager,sceneFolderName);
+    mesh.fromElement(element);
+    connectObject(mesh);
+  }
+}

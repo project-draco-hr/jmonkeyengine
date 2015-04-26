@@ -1,0 +1,24 @@
+{
+  try {
+    Class type=Class.forName(className);
+    Serializer serializer;
+    if (serializerClassName == null) {
+      serializer=fieldSerializer;
+    }
+ else {
+      Class serializerType=Class.forName(serializerClassName);
+      serializer=(Serializer)serializerType.newInstance();
+    }
+    SerializerRegistration result=Serializer.registerClassForId(id,type,serializer);
+    log.log(Level.FINE,"   result:{0}",result);
+  }
+ catch (  ClassNotFoundException e) {
+    throw new RuntimeException("Class not found attempting to register:" + this,e);
+  }
+catch (  InstantiationException e) {
+    throw new RuntimeException("Error instantiating serializer registering:" + this,e);
+  }
+catch (  IllegalAccessException e) {
+    throw new RuntimeException("Error instantiating serializer registering:" + this,e);
+  }
+}

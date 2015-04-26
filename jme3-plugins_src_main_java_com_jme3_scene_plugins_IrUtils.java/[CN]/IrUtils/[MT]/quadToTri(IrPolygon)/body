@@ -1,0 +1,31 @@
+{
+  if (quad.vertices.length == 3) {
+    throw new IllegalStateException("Already a triangle");
+  }
+  IrPolygon[] t=new IrPolygon[]{new IrPolygon(),new IrPolygon()};
+  t[0].vertices=new IrVertex[3];
+  t[1].vertices=new IrVertex[3];
+  IrVertex v0=quad.vertices[0];
+  IrVertex v1=quad.vertices[1];
+  IrVertex v2=quad.vertices[2];
+  IrVertex v3=quad.vertices[3];
+  float d1=v0.pos.distanceSquared(v2.pos);
+  float d2=v1.pos.distanceSquared(v3.pos);
+  if (d1 < d2) {
+    t[0].vertices[0]=v0;
+    t[0].vertices[1]=v1;
+    t[0].vertices[2]=v3;
+    t[1].vertices[0]=v1;
+    t[1].vertices[1]=v2;
+    t[1].vertices[2]=v3;
+  }
+ else {
+    t[0].vertices[0]=v0;
+    t[0].vertices[1]=v1;
+    t[0].vertices[2]=v2;
+    t[1].vertices[0]=v0;
+    t[1].vertices[1]=v2;
+    t[1].vertices[2]=v3;
+  }
+  return t;
+}

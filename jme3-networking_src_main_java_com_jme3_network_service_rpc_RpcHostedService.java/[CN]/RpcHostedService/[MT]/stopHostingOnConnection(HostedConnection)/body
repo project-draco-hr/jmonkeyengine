@@ -1,0 +1,11 @@
+{
+  RpcConnection rpc=hc.getAttribute(ATTRIBUTE_NAME);
+  if (rpc == null) {
+    return;
+  }
+  if (log.isLoggable(Level.FINEST)) {
+    log.log(Level.FINEST,"stopHostingOnConnection:{0}",hc);
+  }
+  hc.setAttribute(ATTRIBUTE_NAME,null);
+  rpc.close();
+}

@@ -1,0 +1,10 @@
+{
+  if (log.isLoggable(Level.FINEST)) {
+    log.log(Level.FINEST,"handleMessage({0})",msg);
+  }
+  ResponseHolder holder=responses.remove(msg.getMessageId());
+  if (holder == null) {
+    return;
+  }
+  holder.setResponse(msg);
+}

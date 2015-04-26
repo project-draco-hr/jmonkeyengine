@@ -1,0 +1,26 @@
+{
+  Image image=null;
+  TextureKey key=null;
+  if (media != null) {
+    image=(Image)media.getJmeObject();
+    key=media.getTextureKey();
+  }
+  if (image == null) {
+    image=PlaceholderAssets.getPlaceholderImage(assetManager);
+  }
+  Texture2D tex=new Texture2D(image);
+  if (key != null) {
+    tex.setKey(key);
+    tex.setName(key.getName());
+    tex.setAnisotropicFilter(key.getAnisotropy());
+  }
+  tex.setMinFilter(MinFilter.Trilinear);
+  tex.setMagFilter(MagFilter.Bilinear);
+  if (wrapModeU == 0) {
+    tex.setWrap(WrapAxis.S,WrapMode.Repeat);
+  }
+  if (wrapModeV == 0) {
+    tex.setWrap(WrapAxis.T,WrapMode.Repeat);
+  }
+  return tex;
+}

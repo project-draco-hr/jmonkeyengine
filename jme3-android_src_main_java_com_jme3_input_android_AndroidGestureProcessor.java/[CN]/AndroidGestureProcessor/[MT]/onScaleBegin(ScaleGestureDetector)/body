@@ -1,0 +1,14 @@
+{
+  scaleStartX=gestureDownX;
+  scaleStartY=gestureDownY;
+  TouchEvent touchEvent=touchInput.getFreeTouchEvent();
+  touchEvent.set(TouchEvent.Type.SCALE_START,scaleStartX,scaleStartY,0f,0f);
+  touchEvent.setPointerId(0);
+  touchEvent.setTime(scaleGestureDetector.getEventTime());
+  touchEvent.setScaleSpan(scaleGestureDetector.getCurrentSpan());
+  touchEvent.setDeltaScaleSpan(0f);
+  touchEvent.setScaleFactor(scaleGestureDetector.getScaleFactor());
+  touchEvent.setScaleSpanInProgress(touchInput.getScaleDetector().isInProgress());
+  touchInput.addEvent(touchEvent);
+  return true;
+}

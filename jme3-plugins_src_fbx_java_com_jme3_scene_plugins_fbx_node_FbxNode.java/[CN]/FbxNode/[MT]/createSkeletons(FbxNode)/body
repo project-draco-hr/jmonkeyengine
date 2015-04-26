@@ -1,0 +1,18 @@
+{
+  boolean createSkeleton=false;
+  for (  FbxNode fbxChild : fbxNode.children) {
+    if (fbxChild instanceof FbxLimbNode) {
+      createSkeleton=true;
+    }
+ else {
+      createSkeletons(fbxChild);
+    }
+  }
+  if (createSkeleton) {
+    if (fbxNode.skeleton != null) {
+      throw new UnsupportedOperationException();
+    }
+    fbxNode.skeleton=FbxLimbNode.createSkeleton(fbxNode);
+    System.out.println("created skeleton: " + fbxNode.skeleton);
+  }
+}

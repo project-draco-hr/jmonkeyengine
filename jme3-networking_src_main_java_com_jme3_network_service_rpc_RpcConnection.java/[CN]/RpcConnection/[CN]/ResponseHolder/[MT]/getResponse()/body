@@ -1,0 +1,14 @@
+{
+  try {
+    while (!received) {
+      wait();
+    }
+  }
+ catch (  InterruptedException e) {
+    throw new RuntimeException("Interrupted waiting for respone to:" + msg,e);
+  }
+  if (error != null) {
+    throw new RuntimeException("Error calling remote procedure:" + msg + "\n"+ error);
+  }
+  return response;
+}

@@ -1,0 +1,18 @@
+{
+  long id=(Long)element.properties.get(0);
+  String path=(String)element.properties.get(1);
+  String type=(String)element.properties.get(2);
+  if (type.equals("Clip")) {
+    ImageData data=new ImageData();
+    data.name=path.substring(0,path.indexOf(0));
+    for (    FbxElement e : element.children) {
+      if (e.id.equals("Type"))       data.type=(String)e.properties.get(0);
+ else       if (e.id.equals("FileName"))       data.filename=(String)e.properties.get(0);
+ else       if (e.id.equals("RelativeFilename"))       data.relativeFilename=(String)e.properties.get(0);
+ else       if (e.id.equals("Content")) {
+        if (e.properties.size() > 0)         data.content=(byte[])e.properties.get(0);
+      }
+    }
+    imgDataMap.put(id,data);
+  }
+}

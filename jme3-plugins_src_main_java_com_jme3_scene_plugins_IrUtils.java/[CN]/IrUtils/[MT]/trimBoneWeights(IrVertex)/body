@@ -1,0 +1,24 @@
+{
+  if (vertex.boneWeightsIndices == null) {
+    return;
+  }
+  IrBoneWeightIndex[] boneWeightsIndices=vertex.boneWeightsIndices;
+  if (boneWeightsIndices.length <= 4) {
+    return;
+  }
+  boneWeightsIndices=Arrays.copyOf(boneWeightsIndices,boneWeightsIndices.length);
+  Arrays.sort(boneWeightsIndices);
+  boneWeightsIndices=Arrays.copyOf(boneWeightsIndices,4);
+  float sum=0;
+  for (int i=0; i < boneWeightsIndices.length; i++) {
+    sum+=boneWeightsIndices[i].boneWeight;
+  }
+  if (sum != 1f) {
+    float sumToB=sum == 0 ? 0 : 1f / sum;
+    for (int i=0; i < boneWeightsIndices.length; i++) {
+      IrBoneWeightIndex original=boneWeightsIndices[i];
+      boneWeightsIndices[i]=new IrBoneWeightIndex(original.boneIndex,original.boneWeight * sumToB);
+    }
+  }
+  vertex.boneWeightsIndices=boneWeightsIndices;
+}

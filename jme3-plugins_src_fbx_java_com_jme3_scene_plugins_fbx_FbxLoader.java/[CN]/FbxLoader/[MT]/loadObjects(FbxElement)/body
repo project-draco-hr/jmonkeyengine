@@ -1,0 +1,26 @@
+{
+  objectMap.put(FbxId.ROOT,new FbxRootNode(assetManager,sceneFolderName));
+  for (  FbxElement e : element.children) {
+    if (e.id.equals("GlobalSettings")) {
+      globalSettings.fromElement(e);
+    }
+ else {
+      FbxObject object=FbxObjectFactory.createObject(e,assetManager,sceneFolderName);
+      if (object != null) {
+        if (objectMap.containsKey(object.getId())) {
+          logger.log(Level.WARNING,"An object with ID \"{0}\" has " + "already been defined. " + "Ignoring.",object.getId());
+        }
+        objectMap.put(object.getId(),object);
+        if (object instanceof FbxAnimStack) {
+          animStacks.add((FbxAnimStack)object);
+        }
+ else         if (object instanceof FbxBindPose) {
+          bindPoses.add((FbxBindPose)object);
+        }
+      }
+ else {
+        throw new UnsupportedOperationException("Failed to create FBX object of type: " + e.id);
+      }
+    }
+  }
+}

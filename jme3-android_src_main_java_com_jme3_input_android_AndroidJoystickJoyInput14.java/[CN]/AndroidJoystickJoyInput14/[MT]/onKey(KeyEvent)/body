@@ -1,0 +1,22 @@
+{
+  boolean consumed=false;
+  event.getDeviceId();
+  event.getSource();
+  AndroidJoystick joystick=joystickIndex.get(event.getDeviceId());
+  if (joystick != null) {
+    JoystickButton button=joystick.getButton(event.getKeyCode());
+    boolean pressed=event.getAction() == KeyEvent.ACTION_DOWN;
+    if (button != null) {
+      JoyButtonEvent buttonEvent=new JoyButtonEvent(button,pressed);
+      joyInput.addEvent(buttonEvent);
+      consumed=true;
+    }
+ else {
+      JoystickButton newButton=joystick.addButton(event.getKeyCode());
+      JoyButtonEvent buttonEvent=new JoyButtonEvent(newButton,pressed);
+      joyInput.addEvent(buttonEvent);
+      consumed=true;
+    }
+  }
+  return consumed;
+}

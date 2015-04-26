@@ -1,0 +1,44 @@
+{
+  IrMesh newMesh=new IrMesh();
+  newMesh.polygons=new IrPolygon[polygons.length];
+  int polygonVertexIndex=0;
+  int positionIndex=0;
+  FbxLayer layer0=layers[0];
+  FbxLayer layer1=layers.length > 1 ? layers[1] : null;
+  for (int i=0; i < polygons.length; i++) {
+    FbxPolygon polygon=polygons[i];
+    IrPolygon irPolygon=new IrPolygon();
+    irPolygon.vertices=new IrVertex[polygon.indices.length];
+    for (int j=0; j < polygon.indices.length; j++) {
+      positionIndex=polygon.indices[j];
+      IrVertex irVertex=new IrVertex();
+      irVertex.pos=positions[positionIndex];
+      if (layer0 != null) {
+        irVertex.norm=(Vector3f)layer0.getVertexData(FbxLayerElement.Type.Normal,i,polygonVertexIndex,positionIndex,0);
+        irVertex.tang=(Vector3f)layer0.getVertexData(FbxLayerElement.Type.Tangent,i,polygonVertexIndex,positionIndex,0);
+        irVertex.bitang=(Vector3f)layer0.getVertexData(FbxLayerElement.Type.Binormal,i,polygonVertexIndex,positionIndex,0);
+        irVertex.uv0=(Vector2f)layer0.getVertexData(FbxLayerElement.Type.UV,i,polygonVertexIndex,positionIndex,0);
+        irVertex.color=(ColorRGBA)layer0.getVertexData(FbxLayerElement.Type.Color,i,polygonVertexIndex,positionIndex,0);
+        irVertex.material=(Integer)layer0.getVertexData(FbxLayerElement.Type.Material,i,polygonVertexIndex,positionIndex,0);
+        irVertex.smoothing=(Integer)layer0.getVertexData(FbxLayerElement.Type.Smoothing,i,polygonVertexIndex,positionIndex,0);
+      }
+      if (layer1 != null) {
+        irVertex.uv1=(Vector2f)layer1.getVertexData(FbxLayerElement.Type.UV,i,polygonVertexIndex,positionIndex,0);
+      }
+      if (boneIndices != null) {
+        ArrayList<Integer> boneIndicesForVertex=boneIndices[positionIndex];
+        ArrayList<Float> boneWeightsForVertex=boneWeights[positionIndex];
+        if (boneIndicesForVertex != null) {
+          irVertex.boneWeightsIndices=toBoneWeightIndices(boneIndicesForVertex,boneWeightsForVertex);
+        }
+      }
+      irPolygon.vertices[j]=irVertex;
+      polygonVertexIndex++;
+    }
+    newMesh.polygons[i]=irPolygon;
+  }
+  if (boneIndices != null && newMesh.polygons[0].vertices[0] == null) {
+    newMesh.polygons[0].vertices[0].boneWeightsIndices=new IrBoneWeightIndex[0];
+  }
+  return newMesh;
+}

@@ -1,6 +1,6 @@
 {
   super.setUpdateNeeded();
-  if (!isGeneratedMipmapsRequired() && !hasMipmaps()) {
-    setNeedGeneratedMipmaps();
+  if (isGeneratedMipmapsRequired() && !hasMipmaps()) {
+    setMipmapsGenerated(false);
   }
 }

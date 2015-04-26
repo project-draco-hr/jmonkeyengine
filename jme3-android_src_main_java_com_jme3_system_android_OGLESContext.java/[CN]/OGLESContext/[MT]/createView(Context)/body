@@ -10,16 +10,17 @@
     throw new UnsupportedOperationException("jME3 requires Android 2.3 or later");
   }
   GLSurfaceView view=new GLSurfaceView(context);
+  logger.log(Level.INFO,"Android Build Version: {0}",Build.VERSION.SDK_INT);
   if (androidInput == null) {
-    androidInput=new AndroidInputHandler();
+    if (Build.VERSION.SDK_INT >= 14) {
+      androidInput=new AndroidInputHandler14();
+    }
+ else     if (Build.VERSION.SDK_INT >= 9) {
+      androidInput=new AndroidInputHandler();
+    }
   }
   androidInput.setView(view);
   androidInput.loadSettings(settings);
-  if (androidJoyInput == null) {
-    androidJoyInput=new AndroidJoyInputHandler();
-  }
-  androidJoyInput.setView(view);
-  androidJoyInput.loadSettings(settings);
   view.setEGLContextClientVersion(2);
   view.setFocusableInTouchMode(true);
   view.setFocusable(true);
