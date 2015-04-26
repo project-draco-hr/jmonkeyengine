@@ -2,6 +2,8 @@
   if (reliable == null)   throw new IllegalArgumentException("Default server reqiures a reliable kernel instance.");
   this.gameName=gameName;
   this.version=version;
+  this.services=new HostedServiceManager(this);
+  addStandardServices();
   reliableAdapter=new KernelAdapter(this,reliable,dispatcher,true);
   channels.add(reliableAdapter);
   if (fast != null) {

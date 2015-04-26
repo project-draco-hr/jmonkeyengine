@@ -7,7 +7,7 @@
     setFrameBuffer(fb);
     if (gl2 != null) {
       if (context.boundReadBuf != rb.getSlot()) {
-        gl2.glReadBuffer(GLExt.GL_COLOR_ATTACHMENT0_EXT + rb.getSlot());
+        gl2.glReadBuffer(GLFbo.GL_COLOR_ATTACHMENT0_EXT + rb.getSlot());
         context.boundReadBuf=rb.getSlot();
       }
     }

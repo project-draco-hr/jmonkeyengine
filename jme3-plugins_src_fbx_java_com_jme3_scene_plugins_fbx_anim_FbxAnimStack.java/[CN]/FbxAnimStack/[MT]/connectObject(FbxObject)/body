@@ -1,0 +1,10 @@
+{
+  if (!(object instanceof FbxAnimLayer)) {
+    unsupportedConnectObject(object);
+  }
+  if (layer0 != null) {
+    logger.log(Level.WARNING,"jME3 does not support layered animation. " + "Only first layer has been loaded.");
+    return;
+  }
+  layer0=(FbxAnimLayer)object;
+}

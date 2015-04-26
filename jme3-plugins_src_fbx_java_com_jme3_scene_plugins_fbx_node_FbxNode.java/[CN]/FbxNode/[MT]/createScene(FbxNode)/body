@@ -1,0 +1,34 @@
+{
+  Spatial jmeSpatial=fbxNode.getJmeObject();
+  if (jmeSpatial instanceof Node) {
+    Node jmeNode=(Node)jmeSpatial;
+    for (    FbxNode fbxChild : fbxNode.children) {
+      if (!(fbxChild instanceof FbxLimbNode)) {
+        createScene(fbxChild);
+        FbxNode preferredParent=fbxChild.getPreferredParent();
+        Spatial jmeChild=fbxChild.getJmeObject();
+        if (preferredParent != null) {
+          System.out.println("Preferred parent for " + fbxChild + " is "+ preferredParent);
+          Node jmePreferredParent=(Node)preferredParent.getJmeObject();
+          relocateSpatial(jmeChild,fbxChild.jmeWorldNodeTransform,preferredParent.jmeWorldNodeTransform);
+          jmePreferredParent.attachChild(jmeChild);
+        }
+ else {
+          jmeNode.attachChild(jmeChild);
+        }
+      }
+    }
+  }
+  if (fbxNode.skeleton != null) {
+    jmeSpatial.addControl(new AnimControl(fbxNode.skeleton));
+    jmeSpatial.addControl(new SkeletonControl(fbxNode.skeleton));
+    SkeletonDebugger sd=new SkeletonDebugger("debug",fbxNode.skeleton);
+    Material mat=new Material(fbxNode.assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+    mat.getAdditionalRenderState().setWireframe(true);
+    mat.getAdditionalRenderState().setDepthTest(false);
+    mat.setColor("Color",ColorRGBA.Green);
+    sd.setMaterial(mat);
+    ((Node)jmeSpatial).attachChild(sd);
+  }
+  return jmeSpatial;
+}

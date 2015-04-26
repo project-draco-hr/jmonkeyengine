@@ -1,7 +1,8 @@
 {
   if (!pressed) {
     setDefaultAxisMarkerColors();
-    pickedPlane=null;
+    pickedMarker=null;
+    constraintAxis=Vector3f.UNIT_XYZ;
     if (wasDragging) {
       actionPerformed(moveManager.makeUndo());
       wasDragging=false;

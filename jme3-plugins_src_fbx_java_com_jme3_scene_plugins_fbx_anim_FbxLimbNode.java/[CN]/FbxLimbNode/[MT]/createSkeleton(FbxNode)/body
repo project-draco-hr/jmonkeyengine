@@ -1,0 +1,12 @@
+{
+  if (skeletonHolderNode instanceof FbxLimbNode) {
+    throw new UnsupportedOperationException("Limb nodes cannot be skeleton holders");
+  }
+  List<Bone> bones=new ArrayList<Bone>();
+  for (  FbxNode child : skeletonHolderNode.getChildren()) {
+    if (child instanceof FbxLimbNode) {
+      createBones(skeletonHolderNode,(FbxLimbNode)child,bones);
+    }
+  }
+  return new Skeleton(bones.toArray(new Bone[0]));
+}

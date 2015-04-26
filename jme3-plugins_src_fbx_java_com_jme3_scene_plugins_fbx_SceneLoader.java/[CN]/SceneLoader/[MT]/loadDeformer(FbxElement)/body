@@ -1,0 +1,21 @@
+{
+  long id=(Long)element.properties.get(0);
+  String type=(String)element.properties.get(2);
+  if (type.equals("Skin")) {
+    SkinData skinData=new SkinData();
+    for (    FbxElement e : element.children) {
+      if (e.id.equals("SkinningType"))       skinData.type=(String)e.properties.get(0);
+    }
+    skinMap.put(id,skinData);
+  }
+ else   if (type.equals("Cluster")) {
+    ClusterData clusterData=new ClusterData();
+    for (    FbxElement e : element.children) {
+      if (e.id.equals("Indexes"))       clusterData.indexes=(int[])e.properties.get(0);
+ else       if (e.id.equals("Weights"))       clusterData.weights=(double[])e.properties.get(0);
+ else       if (e.id.equals("Transform"))       clusterData.transform=(double[])e.properties.get(0);
+ else       if (e.id.equals("TransformLink"))       clusterData.transformLink=(double[])e.properties.get(0);
+    }
+    clusterMap.put(id,clusterData);
+  }
+}

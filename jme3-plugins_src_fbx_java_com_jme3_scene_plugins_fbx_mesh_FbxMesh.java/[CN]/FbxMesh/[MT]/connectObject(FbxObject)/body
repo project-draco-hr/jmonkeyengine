@@ -1,0 +1,12 @@
+{
+  if (object instanceof FbxSkinDeformer) {
+    if (skinDeformer != null) {
+      logger.log(Level.WARNING,"This mesh already has a skin deformer attached. Ignoring.");
+      return;
+    }
+    skinDeformer=(FbxSkinDeformer)object;
+  }
+ else {
+    unsupportedConnectObject(object);
+  }
+}

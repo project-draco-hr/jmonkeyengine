@@ -1,0 +1,11 @@
+{
+  if (obj instanceof Long) {
+    return new LongFbxId((Long)obj);
+  }
+ else   if (obj instanceof String) {
+    return new StringFbxId((String)obj);
+  }
+ else {
+    throw new UnsupportedOperationException("Unsupported ID object type: " + obj.getClass());
+  }
+}

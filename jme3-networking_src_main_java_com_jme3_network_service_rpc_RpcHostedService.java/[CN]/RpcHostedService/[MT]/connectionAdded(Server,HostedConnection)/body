@@ -1,0 +1,8 @@
+{
+  if (log.isLoggable(Level.FINEST)) {
+    log.log(Level.FINEST,"connectionAdded({0}, {1})",new Object[]{server,hc});
+  }
+  if (autoHost) {
+    startHostingOnConnection(hc);
+  }
+}

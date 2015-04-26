@@ -5,9 +5,9 @@
  else {
     log.log(Level.FINE,"Connection closed:{0}.",p);
   }
-  Connection removed=null;
+  Connection removed;
 synchronized (this) {
-    connecting.values().remove(p);
+    removeConnecting(p);
     removed=(Connection)endpointConnections.remove(p);
     if (removed != null) {
       connections.remove(removed.getId());

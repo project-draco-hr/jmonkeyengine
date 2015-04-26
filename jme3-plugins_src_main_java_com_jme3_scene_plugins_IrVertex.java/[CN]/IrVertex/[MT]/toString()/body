@@ -1,0 +1,33 @@
+{
+  StringBuilder sb=new StringBuilder();
+  sb.append("Vertex { ");
+  if (pos != null) {
+    sb.append("pos=").append(pos).append(", ");
+  }
+  if (norm != null) {
+    sb.append("norm=").append(pos).append(", ");
+  }
+  if (tang != null) {
+    sb.append("tang=").append(pos).append(", ");
+  }
+  if (uv0 != null) {
+    sb.append("uv0=").append(pos).append(", ");
+  }
+  if (uv1 != null) {
+    sb.append("uv1=").append(pos).append(", ");
+  }
+  if (color != null) {
+    sb.append("color=").append(pos).append(", ");
+  }
+  if (material != null) {
+    sb.append("material=").append(pos).append(", ");
+  }
+  if (smoothing != null) {
+    sb.append("smoothing=").append(pos).append(", ");
+  }
+  if (sb.toString().endsWith(", ")) {
+    sb.delete(sb.length() - 2,sb.length());
+  }
+  sb.append(" }");
+  return sb.toString();
+}

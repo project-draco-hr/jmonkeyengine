@@ -1,0 +1,5 @@
+{
+  Serializer.registerClass(SerializerRegistrationsMessage.class);
+  Serializer.registerClass(SerializerRegistrationsMessage.Registration.class);
+  serviceManager.getClient().addMessageListener(this,SerializerRegistrationsMessage.class);
+}

@@ -1,0 +1,18 @@
+{
+  FbxFile fbxFile=new FbxFile();
+  ByteBuffer byteBuffer=readToByteBuffer(stream);
+  try {
+    stream.close();
+  }
+ catch (  IOException e) {
+  }
+  byte[] majic=getBytes(byteBuffer,HEAD_MAGIC.length);
+  if (!Arrays.equals(HEAD_MAGIC,majic))   throw new IOException("Either ASCII FBX or corrupt file. " + "Only binary FBX files are supported");
+  fbxFile.version=getUInt(byteBuffer);
+  while (true) {
+    FbxElement e=readFBXElement(byteBuffer);
+    if (e == null)     break;
+    fbxFile.rootElements.add(e);
+  }
+  return fbxFile;
+}

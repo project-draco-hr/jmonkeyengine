@@ -1,0 +1,8 @@
+{
+  for (  FbxLayerElement layerElement : layerElements) {
+    FbxLayerElementRef reference=references.get(layerElement.type);
+    if (reference != null && reference.layerElementIndex == layerElement.index) {
+      reference.layerElement=layerElement;
+    }
+  }
+}

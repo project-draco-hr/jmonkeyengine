@@ -1,0 +1,12 @@
+{
+  limb.skeletonHolder=skeletonHolderNode;
+  Bone parentBone=limb.getJmeBone();
+  bones.add(parentBone);
+  for (  FbxNode child : limb.children) {
+    if (child instanceof FbxLimbNode) {
+      FbxLimbNode childLimb=(FbxLimbNode)child;
+      createBones(skeletonHolderNode,childLimb,bones);
+      parentBone.addChild(childLimb.getJmeBone());
+    }
+  }
+}

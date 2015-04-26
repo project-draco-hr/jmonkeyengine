@@ -1,0 +1,26 @@
+{
+  if (log.isLoggable(Level.FINEST)) {
+    log.log(Level.FINEST,"map({0})",constraints);
+  }
+  for (  Method m : delegateType.getDeclaredMethods()) {
+    if (log.isLoggable(Level.FINEST)) {
+      log.log(Level.FINEST,"Checking method:{0}",m);
+    }
+    if (constraints == null && !allowName(m.getName())) {
+      log.finest("Name is not allowed.");
+      continue;
+    }
+    if (constraints != null && !constraints.contains(m.getName())) {
+      log.finest("Name is not in constraints set.");
+      continue;
+    }
+    if (isValidMethod(m,null)) {
+      if (log.isLoggable(Level.FINEST)) {
+        log.log(Level.FINEST,"Adding method mapping:{0} = {1}",new Object[]{getMessageType(m),m});
+      }
+      m.setAccessible(true);
+      methods.put(getMessageType(m),m);
+    }
+  }
+  messageTypes=null;
+}

@@ -1,0 +1,24 @@
+{
+  super.fromElement(element);
+  if (getSubclassName().equals("")) {
+    for (    FbxElement e : element.children) {
+      if (e.id.equals("Type")) {
+        type=(String)e.properties.get(0);
+      }
+    }
+    for (    FbxElement prop : element.getFbxProperties()) {
+      String propName=(String)prop.properties.get(0);
+      if (propName.equals("AlphaSource")) {
+      }
+ else       if (propName.equals("UVSet")) {
+        uvSet=(String)prop.properties.get(4);
+      }
+ else       if (propName.equals("WrapModeU")) {
+        wrapModeU=(Integer)prop.properties.get(4);
+      }
+ else       if (propName.equals("WrapModeV")) {
+        wrapModeV=(Integer)prop.properties.get(4);
+      }
+    }
+  }
+}

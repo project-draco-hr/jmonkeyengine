@@ -1,0 +1,8 @@
+{
+  for (  Map.Entry<Long,Connection> e : connecting.entrySet()) {
+    if (e.getValue().hasEndpoint(p)) {
+      connecting.remove(e.getKey());
+      return;
+    }
+  }
+}

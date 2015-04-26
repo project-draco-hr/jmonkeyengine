@@ -1,0 +1,29 @@
+{
+  if (log.isLoggable(Level.FINEST)) {
+    log.log(Level.FINEST,"isValidMethod({0}, {1})",new Object[]{m,messageType});
+  }
+  Class<?>[] parms=m.getParameterTypes();
+  if (parms.length != 2 && parms.length != 1) {
+    log.finest("Parameter count is not 1 or 2");
+    return false;
+  }
+  int messageIndex=0;
+  if (parms.length > 1) {
+    if (MessageConnection.class.isAssignableFrom(parms[0])) {
+      messageIndex++;
+    }
+ else {
+      log.finest("First paramter is not a MessageConnection or subclass.");
+      return false;
+    }
+  }
+  if (messageType == null && !Message.class.isAssignableFrom(parms[messageIndex])) {
+    log.finest("Second paramter is not a Message or subclass.");
+    return false;
+  }
+  if (messageType != null && !parms[messageIndex].isAssignableFrom(messageType)) {
+    log.log(Level.FINEST,"Second paramter is not a {0}",messageType);
+    return false;
+  }
+  return true;
+}

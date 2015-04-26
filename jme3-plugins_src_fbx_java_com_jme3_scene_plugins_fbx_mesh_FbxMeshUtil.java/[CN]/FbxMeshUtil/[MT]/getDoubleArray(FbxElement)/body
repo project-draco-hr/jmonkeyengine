@@ -1,0 +1,15 @@
+{
+  if (el.propertiesTypes[0] == 'd') {
+    return (double[])el.properties.get(0);
+  }
+ else   if (el.propertiesTypes[0] == 'D') {
+    double[] doubles=new double[el.propertiesTypes.length];
+    for (int i=0; i < doubles.length; i++) {
+      doubles[i]=(Double)el.properties.get(i);
+    }
+    return doubles;
+  }
+ else {
+    return null;
+  }
+}

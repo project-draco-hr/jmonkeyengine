@@ -1,0 +1,17 @@
+{
+  List<Registration> list=new ArrayList<Registration>();
+  for (  SerializerRegistration reg : Serializer.getSerializerRegistrations()) {
+    Class type=reg.getType();
+    if (ignore.contains(type))     continue;
+    if (type.isPrimitive())     continue;
+    list.add(new Registration(reg));
+  }
+  if (log.isLoggable(Level.FINE)) {
+    log.log(Level.FINE,"Number of registered classes:{0}",list.size());
+    for (    Registration reg : list) {
+      log.log(Level.FINE,"    {0}",reg);
+    }
+  }
+  compiled=list.toArray(new Registration[list.size()]);
+  INSTANCE=new SerializerRegistrationsMessage(compiled);
+}

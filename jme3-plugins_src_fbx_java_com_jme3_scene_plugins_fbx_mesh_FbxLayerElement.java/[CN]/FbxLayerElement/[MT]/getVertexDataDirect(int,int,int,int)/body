@@ -1,0 +1,16 @@
+{
+switch (mapInfoType) {
+case AllSame:
+    return data[0];
+case ByPolygon:
+  return data[polygonIndex];
+case ByPolygonVertex:
+return data[polygonVertexIndex];
+case ByVertex:
+return data[positionIndex];
+case ByEdge:
+return data[edgeIndex];
+default :
+throw new UnsupportedOperationException();
+}
+}

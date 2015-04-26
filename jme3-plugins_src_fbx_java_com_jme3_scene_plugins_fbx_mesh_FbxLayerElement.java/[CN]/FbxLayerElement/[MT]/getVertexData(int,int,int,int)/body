@@ -1,0 +1,10 @@
+{
+switch (refInfoType) {
+case Direct:
+    return getVertexDataDirect(polygonIndex,polygonVertexIndex,positionIndex,edgeIndex);
+case IndexToDirect:
+  return getVertexDataIndexToDirect(polygonIndex,polygonVertexIndex,positionIndex,edgeIndex);
+default :
+return null;
+}
+}
