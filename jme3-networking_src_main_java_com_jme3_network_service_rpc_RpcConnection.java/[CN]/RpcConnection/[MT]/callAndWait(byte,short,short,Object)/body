@@ -5,6 +5,11 @@
   if (log.isLoggable(Level.FINEST)) {
     log.log(Level.FINEST,"Sending:{0}  on channel:{1}",new Object[]{msg,channel});
   }
-  connection.send(channel,msg);
+  if (channel >= 0) {
+    connection.send(channel,msg);
+  }
+ else {
+    connection.send(msg);
+  }
   return holder.getResponse();
 }
