@@ -1,14 +1,15 @@
 {
-  InputStream in=info.openStream();
+  boolean flip=((TextureKey)info.getKey()).isFlipY();
   Image img=null;
+  InputStream in=null;
   try {
-    img=loadImageData(Image.Format.RGBA8,in);
+    in=info.openStream();
+    img=loadImageData(Format.RGBA8,flip,in);
   }
- catch (  Exception e) {
-    e.printStackTrace();
-  }
- finally {
-    in.close();
+  finally {
+    if (in != null) {
+      in.close();
+    }
   }
   return img;
 }
