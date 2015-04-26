@@ -1,0 +1,12 @@
+{
+  Method m=findDelegate(methodName,messageType);
+  if (m == null) {
+    throw new RuntimeException("Method:" + methodName + " not found matching signature (MessageConnection, "+ messageType.getName()+ ")");
+  }
+  if (log.isLoggable(Level.FINEST)) {
+    log.log(Level.FINEST,"Adding method mapping:{0} = {1}",new Object[]{messageType,m});
+  }
+  methods.put(messageType,m);
+  messageTypes=null;
+  return this;
+}
