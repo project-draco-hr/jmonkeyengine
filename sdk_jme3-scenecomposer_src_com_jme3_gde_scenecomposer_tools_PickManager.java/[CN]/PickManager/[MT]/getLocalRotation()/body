@@ -1,0 +1,9 @@
+{
+  Vector3f v1, v2;
+  Quaternion rot=origineRotation.inverse();
+  v1=rot.mult(startPickLoc.subtract(startSpatialLocation).normalize());
+  v2=rot.mult(finalPickLoc.subtract(startSpatialLocation).normalize());
+  Vector3f axis=v1.cross(v2);
+  float angle=v1.angleBetween(v2);
+  return new Quaternion().fromAngleAxis(angle,axis);
+}

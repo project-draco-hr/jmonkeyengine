@@ -1,7 +1,7 @@
 {
   if (!pressed) {
     setDefaultAxisMarkerColors();
-    pickedPlane=null;
+    pickedMarker=null;
     lastScreenCoord=null;
     if (wasDragging) {
       actionPerformed(new ScaleUndo(toolController.getSelectedSpatial(),startRotate,lastRotate));
@@ -12,39 +12,30 @@
   if (toolController.getSelectedSpatial() == null) {
     return;
   }
-  if (pickedPlane == null) {
-    pickedPlane=pickAxisMarker(camera,screenCoord,axisPickType);
-    if (pickedPlane == null) {
+  if (pickedMarker == null) {
+    pickedMarker=pickAxisMarker(camera,screenCoord,axisPickType);
+    if (pickedMarker == null) {
       return;
+    }
+    if (pickedMarker.equals(QUAD_XY)) {
+      pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_XY,PickManager.TransformationType.local,camera,screenCoord);
+    }
+ else     if (pickedMarker.equals(QUAD_XZ)) {
+      pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_XZ,PickManager.TransformationType.local,camera,screenCoord);
+    }
+ else     if (pickedMarker.equals(QUAD_YZ)) {
+      pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_YZ,PickManager.TransformationType.local,camera,screenCoord);
     }
     startRotate=toolController.getSelectedSpatial().getLocalRotation().clone();
   }
-  if (lastScreenCoord == null) {
-    lastScreenCoord=screenCoord;
+  if (!pickManager.updatePick(camera,screenCoord)) {
+    return;
   }
- else {
-    Quaternion rotate=new Quaternion();
-    float diff;
-    if (pickedPlane.equals(QUAD_XY)) {
-      diff=-(screenCoord.x - lastScreenCoord.x);
-      diff*=0.03f;
-      rotate=rotate.fromAngleAxis(diff,Vector3f.UNIT_Z);
-    }
- else     if (pickedPlane.equals(QUAD_YZ)) {
-      diff=-(screenCoord.y - lastScreenCoord.y);
-      diff*=0.03f;
-      rotate=rotate.fromAngleAxis(diff,Vector3f.UNIT_X);
-    }
- else     if (pickedPlane.equals(QUAD_XZ)) {
-      diff=screenCoord.x - lastScreenCoord.x;
-      diff*=0.03f;
-      rotate=rotate.fromAngleAxis(diff,Vector3f.UNIT_Y);
-    }
-    lastScreenCoord=screenCoord;
-    Quaternion rotation=toolController.getSelectedSpatial().getLocalRotation().mult(rotate);
-    lastRotate=rotation;
+  if (pickedMarker.equals(QUAD_XY) || pickedMarker.equals(QUAD_XZ) || pickedMarker.equals(QUAD_YZ)) {
+    Quaternion rotation=startRotate.mult(pickManager.getLocalRotation());
     toolController.getSelectedSpatial().setLocalRotation(rotation);
-    updateToolsTransformation();
+    lastRotate=rotation;
   }
+  updateToolsTransformation();
   wasDragging=true;
 }

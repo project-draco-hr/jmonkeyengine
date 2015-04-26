@@ -1,0 +1,5 @@
+{
+  Vector3f localConstrainte=(origineRotation.mult(axisConstrainte)).normalize();
+  Vector3f constrainedTranslation=localConstrainte.mult(getTranslation().dot(localConstrainte));
+  return constrainedTranslation;
+}

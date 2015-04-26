@@ -1,0 +1,7 @@
+{
+  spatial=selectedSpatial;
+  startSpatialLocation=selectedSpatial.getWorldTranslation().clone();
+  setTransformation(planeRotation,type);
+  plane.setLocalTranslation(startSpatialLocation);
+  startPickLoc=SceneEditTool.pickWorldLocation(camera,screenCoord,plane,null);
+}

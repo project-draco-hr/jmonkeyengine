@@ -2,12 +2,12 @@
   if (!pressed) {
     setDefaultAxisMarkerColors();
     pickedMarker=null;
-    lastScreenCoord=null;
     constraintAxis=Vector3f.UNIT_XYZ;
     if (wasDragging) {
       actionPerformed(new ScaleUndo(toolController.getSelectedSpatial(),startScale,lastScale));
       wasDragging=false;
     }
+    pickManager.reset();
     return;
   }
   if (toolController.getSelectedSpatial() == null) {
@@ -18,28 +18,41 @@
     if (pickedMarker == null) {
       return;
     }
-    if (pickedMarker.equals(ARROW_X)) {
+    if (pickedMarker.equals(QUAD_XY) || pickedMarker.equals(QUAD_XZ) || pickedMarker.equals(QUAD_YZ)) {
+      pickManager.initiatePick(toolController.getSelectedSpatial(),camera.getRotation(),PickManager.TransformationType.camera,camera,screenCoord);
+    }
+ else     if (pickedMarker.equals(ARROW_X)) {
+      pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_XY,PickManager.TransformationType.global,camera,screenCoord);
       constraintAxis=Vector3f.UNIT_X;
     }
  else     if (pickedMarker.equals(ARROW_Y)) {
+      pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_YZ,PickManager.TransformationType.global,camera,screenCoord);
       constraintAxis=Vector3f.UNIT_Y;
     }
  else     if (pickedMarker.equals(ARROW_Z)) {
+      pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_XZ,PickManager.TransformationType.global,camera,screenCoord);
       constraintAxis=Vector3f.UNIT_Z;
     }
     startScale=toolController.getSelectedSpatial().getLocalScale().clone();
   }
-  if (lastScreenCoord == null) {
-    lastScreenCoord=screenCoord;
+  if (!pickManager.updatePick(camera,screenCoord)) {
+    return;
   }
- else {
-    float diff=screenCoord.y - lastScreenCoord.y;
-    diff*=0.1f;
-    lastScreenCoord=screenCoord;
-    Vector3f scale=toolController.getSelectedSpatial().getLocalScale().add(new Vector3f(diff,diff,diff).multLocal(constraintAxis));
+  if (pickedMarker.equals(QUAD_XY) || pickedMarker.equals(QUAD_XZ) || pickedMarker.equals(QUAD_YZ)) {
+    constraintAxis=pickManager.getStartOffset().normalize();
+    float diff=pickManager.getTranslation(constraintAxis).dot(constraintAxis);
+    diff*=0.5f;
+    Vector3f scale=startScale.add(new Vector3f(diff,diff,diff));
     lastScale=scale;
     toolController.getSelectedSpatial().setLocalScale(scale);
-    updateToolsTransformation();
   }
+ else   if (pickedMarker.equals(ARROW_X) || pickedMarker.equals(ARROW_Y) || pickedMarker.equals(ARROW_Z)) {
+    Vector3f diff=pickManager.getLocalTranslation(constraintAxis);
+    diff.multLocal(0.5f);
+    Vector3f scale=startScale.add(diff);
+    lastScale=scale;
+    toolController.getSelectedSpatial().setLocalScale(scale);
+  }
+  updateToolsTransformation();
   wasDragging=true;
 }

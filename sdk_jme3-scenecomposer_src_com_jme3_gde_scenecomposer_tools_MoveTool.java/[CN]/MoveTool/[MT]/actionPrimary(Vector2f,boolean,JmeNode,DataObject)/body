@@ -4,9 +4,9 @@
     pickedMarker=null;
     constraintAxis=Vector3f.UNIT_XYZ;
     if (wasDragging) {
-      actionPerformed(moveManager.makeUndo());
+      actionPerformed(new MoveUndo(toolController.getSelectedSpatial(),startPosition,lastPosition));
       wasDragging=false;
     }
-    moveManager.reset();
+    pickManager.reset();
   }
 }
