@@ -35,7 +35,7 @@
     throw new UnsupportedOperationException("Unsupported renderer: " + settings.getRenderer());
   }
   if (GLContext.getCapabilities().GL_ARB_debug_output && settings.getBoolean("GraphicsDebug")) {
-    ARBDebugOutput.glDebugMessageCallbackARB(new ARBDebugOutputCallback());
+    ARBDebugOutput.glDebugMessageCallbackARB(new ARBDebugOutputCallback(new LwjglGLDebugOutputHandler()));
   }
   renderer.setMainFrameBufferSrgb(settings.getGammaCorrection());
   renderer.setLinearizeSrgbImages(settings.getGammaCorrection());
