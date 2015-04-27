@@ -1,11 +1,23 @@
 {
   if (toolController.getSelectedSpatial() != null) {
     axisMarker.setLocalTranslation(toolController.getSelectedSpatial().getWorldTranslation());
-    axisMarker.setLocalRotation(toolController.getSelectedSpatial().getLocalRotation());
-    setAxisMarkerScale(toolController.getSelectedSpatial());
-  }
+switch (transformType) {
+case local:
+      axisMarker.setLocalRotation(toolController.getSelectedSpatial().getLocalRotation());
+    break;
+case global:
+  axisMarker.setLocalRotation(Quaternion.IDENTITY);
+break;
+case camera:
+if (camera != null) {
+axisMarker.setLocalRotation(camera.getRotation());
+}
+break;
+}
+setAxisMarkerScale(toolController.getSelectedSpatial());
+}
  else {
-    axisMarker.setLocalTranslation(Vector3f.ZERO);
-    axisMarker.setLocalRotation(Quaternion.IDENTITY);
-  }
+axisMarker.setLocalTranslation(Vector3f.ZERO);
+axisMarker.setLocalRotation(Quaternion.IDENTITY);
+}
 }

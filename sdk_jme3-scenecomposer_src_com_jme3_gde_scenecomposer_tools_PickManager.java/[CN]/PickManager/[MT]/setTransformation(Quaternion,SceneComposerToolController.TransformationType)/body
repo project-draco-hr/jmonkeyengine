@@ -1,15 +1,15 @@
 {
   Quaternion rot=new Quaternion();
-  if (type == TransformationType.local) {
+  if (type == SceneComposerToolController.TransformationType.local) {
     rot.set(spatial.getWorldRotation());
     rot.multLocal(planeRotation);
     origineRotation=spatial.getWorldRotation().clone();
   }
- else   if (type == TransformationType.global) {
+ else   if (type == SceneComposerToolController.TransformationType.global) {
     rot.set(planeRotation);
     origineRotation=new Quaternion(Quaternion.IDENTITY);
   }
- else   if (type == TransformationType.camera) {
+ else   if (type == SceneComposerToolController.TransformationType.camera) {
     rot.set(planeRotation);
     origineRotation=planeRotation.clone();
   }
