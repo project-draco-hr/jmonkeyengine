@@ -1,0 +1,17 @@
+{
+  Quaternion rot=new Quaternion();
+  if (type == TransformationType.local) {
+    rot.set(spatial.getWorldRotation());
+    rot.multLocal(planeRotation);
+    origineRotation=spatial.getWorldRotation().clone();
+  }
+ else   if (type == TransformationType.global) {
+    rot.set(planeRotation);
+    origineRotation=new Quaternion(Quaternion.IDENTITY);
+  }
+ else   if (type == TransformationType.camera) {
+    rot.set(planeRotation);
+    origineRotation=planeRotation.clone();
+  }
+  plane.setLocalRotation(rot);
+}
