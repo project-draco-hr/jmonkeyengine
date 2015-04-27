@@ -1,15 +1,2 @@
 {
-  HashSet<String> extensionSet=new HashSet<String>(64);
-  if (gl3 != null) {
-    gl3.glGetInteger(GL3.GL_NUM_EXTENSIONS,intBuf16);
-    int extensionCount=intBuf16.get(0);
-    for (int i=0; i < extensionCount; i++) {
-      String extension=gl3.glGetString(GL.GL_EXTENSIONS,i);
-      extensionSet.add(extension);
-    }
-  }
- else {
-    extensionSet.addAll(Arrays.asList(gl.glGetString(GL.GL_EXTENSIONS).split(" ")));
-  }
-  return extensionSet;
 }
