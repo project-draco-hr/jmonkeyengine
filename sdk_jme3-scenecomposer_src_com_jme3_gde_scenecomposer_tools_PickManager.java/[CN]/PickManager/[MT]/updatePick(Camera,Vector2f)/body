@@ -1,4 +1,8 @@
 {
+  if (transformationType == SceneComposerToolController.TransformationType.camera) {
+    origineRotation=camera.getRotation();
+    plane.setLocalRotation(camera.getRotation());
+  }
   finalPickLoc=SceneEditTool.pickWorldLocation(camera,screenCoord,plane,null);
   return finalPickLoc != null;
 }
