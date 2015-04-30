@@ -8,52 +8,27 @@
       wasDragging=false;
     }
     pickManager.reset();
-    return;
   }
-  if (toolController.getSelectedSpatial() == null) {
-    return;
-  }
-  if (pickedMarker == null) {
-    pickedMarker=pickAxisMarker(camera,screenCoord,axisPickType);
-    if (pickedMarker == null) {
+ else   if (wasDragging) {
+    if (!pickManager.updatePick(camera,screenCoord)) {
       return;
     }
     if (pickedMarker.equals(QUAD_XY) || pickedMarker.equals(QUAD_XZ) || pickedMarker.equals(QUAD_YZ)) {
-      pickManager.initiatePick(toolController.getSelectedSpatial(),camera.getRotation(),SceneComposerToolController.TransformationType.camera,camera,screenCoord);
+      constraintAxis=pickManager.getStartOffset().normalize();
+      float diff=pickManager.getTranslation(constraintAxis).dot(constraintAxis);
+      diff*=0.5f;
+      Vector3f scale=startScale.add(new Vector3f(diff,diff,diff));
+      lastScale=scale;
+      toolController.getSelectedSpatial().setLocalScale(scale);
     }
- else     if (pickedMarker.equals(ARROW_X)) {
-      pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_XY,getTransformType(),camera,screenCoord);
-      constraintAxis=Vector3f.UNIT_X;
+ else     if (pickedMarker.equals(ARROW_X) || pickedMarker.equals(ARROW_Y) || pickedMarker.equals(ARROW_Z)) {
+      Quaternion worldToSpatial=toolController.getSelectedSpatial().getWorldRotation().inverse();
+      Vector3f diff=pickManager.getTranslation(worldToSpatial.mult(constraintAxis));
+      diff.multLocal(0.5f);
+      Vector3f scale=startScale.add(diff);
+      lastScale=scale;
+      toolController.getSelectedSpatial().setLocalScale(scale);
     }
- else     if (pickedMarker.equals(ARROW_Y)) {
-      pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_YZ,getTransformType(),camera,screenCoord);
-      constraintAxis=Vector3f.UNIT_Y;
-    }
- else     if (pickedMarker.equals(ARROW_Z)) {
-      pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_XZ,getTransformType(),camera,screenCoord);
-      constraintAxis=Vector3f.UNIT_Z;
-    }
-    startScale=toolController.getSelectedSpatial().getLocalScale().clone();
+    updateToolsTransformation();
   }
-  if (!pickManager.updatePick(camera,screenCoord)) {
-    return;
-  }
-  if (pickedMarker.equals(QUAD_XY) || pickedMarker.equals(QUAD_XZ) || pickedMarker.equals(QUAD_YZ)) {
-    constraintAxis=pickManager.getStartOffset().normalize();
-    float diff=pickManager.getTranslation(constraintAxis).dot(constraintAxis);
-    diff*=0.5f;
-    Vector3f scale=startScale.add(new Vector3f(diff,diff,diff));
-    lastScale=scale;
-    toolController.getSelectedSpatial().setLocalScale(scale);
-  }
- else   if (pickedMarker.equals(ARROW_X) || pickedMarker.equals(ARROW_Y) || pickedMarker.equals(ARROW_Z)) {
-    Quaternion worldToSpatial=toolController.getSelectedSpatial().getWorldRotation().inverse();
-    Vector3f diff=pickManager.getTranslation(worldToSpatial.mult(constraintAxis));
-    diff.multLocal(0.5f);
-    Vector3f scale=startScale.add(diff);
-    lastScale=scale;
-    toolController.getSelectedSpatial().setLocalScale(scale);
-  }
-  updateToolsTransformation();
-  wasDragging=true;
 }
