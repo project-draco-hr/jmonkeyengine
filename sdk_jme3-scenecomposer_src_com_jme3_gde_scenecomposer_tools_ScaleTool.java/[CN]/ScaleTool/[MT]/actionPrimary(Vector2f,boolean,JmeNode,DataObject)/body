@@ -9,4 +9,32 @@
     }
     pickManager.reset();
   }
+ else {
+    if (toolController.getSelectedSpatial() == null) {
+      return;
+    }
+    if (pickedMarker == null) {
+      pickedMarker=pickAxisMarker(camera,screenCoord,axisPickType);
+      if (pickedMarker == null) {
+        return;
+      }
+      if (pickedMarker.equals(QUAD_XY) || pickedMarker.equals(QUAD_XZ) || pickedMarker.equals(QUAD_YZ)) {
+        pickManager.initiatePick(toolController.getSelectedSpatial(),camera.getRotation(),SceneComposerToolController.TransformationType.camera,camera,screenCoord);
+      }
+ else       if (pickedMarker.equals(ARROW_X)) {
+        pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_XY,getTransformType(),camera,screenCoord);
+        constraintAxis=Vector3f.UNIT_X;
+      }
+ else       if (pickedMarker.equals(ARROW_Y)) {
+        pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_YZ,getTransformType(),camera,screenCoord);
+        constraintAxis=Vector3f.UNIT_Y;
+      }
+ else       if (pickedMarker.equals(ARROW_Z)) {
+        pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_XZ,getTransformType(),camera,screenCoord);
+        constraintAxis=Vector3f.UNIT_Z;
+      }
+      startScale=toolController.getSelectedSpatial().getLocalScale().clone();
+      wasDragging=true;
+    }
+  }
 }

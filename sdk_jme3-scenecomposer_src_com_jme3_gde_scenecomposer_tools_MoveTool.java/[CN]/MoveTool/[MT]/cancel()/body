@@ -1,0 +1,10 @@
+{
+  if (wasDragging) {
+    wasDragging=false;
+    toolController.getSelectedSpatial().setLocalTranslation(startPosition);
+    setDefaultAxisMarkerColors();
+    pickedMarker=null;
+    constraintAxis=Vector3f.UNIT_XYZ;
+    pickManager.reset();
+  }
+}
