@@ -1,11 +1,13 @@
 {
   boolean success=false;
   int processed=al.alGetSourcei(sourceId,AL_BUFFERS_PROCESSED);
+  int unqueuedBufferBytes=0;
   for (int i=0; i < processed; i++) {
     int buffer;
     ib.position(0).limit(1);
     al.alSourceUnqueueBuffers(sourceId,1,ib);
     buffer=ib.get(0);
+    unqueuedBufferBytes+=BUFFER_SIZE;
     boolean active=fillBuffer(stream,buffer);
     if (!active && !stream.isEOF()) {
       throw new AssertionError();
@@ -27,5 +29,6 @@
       break;
     }
   }
+  stream.setUnqueuedBufferBytes(stream.getUnqueuedBufferBytes() + unqueuedBufferBytes);
   return success;
 }
