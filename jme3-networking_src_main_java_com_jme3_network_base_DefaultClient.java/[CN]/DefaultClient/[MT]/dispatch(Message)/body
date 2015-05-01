@@ -1,9 +1,15 @@
 {
   if (m instanceof ClientRegistrationMessage) {
-    this.id=(int)((ClientRegistrationMessage)m).getId();
-    log.log(Level.FINE,"Connection established, id:{0}.",this.id);
-    connecting.countDown();
-    fireConnected();
+    ClientRegistrationMessage crm=(ClientRegistrationMessage)m;
+    if (crm.getId() >= 0) {
+      this.id=(int)crm.getId();
+      log.log(Level.FINE,"Connection established, id:{0}.",this.id);
+      connecting.countDown();
+      fireConnected();
+    }
+ else {
+      startServices();
+    }
     return;
   }
  else   if (m instanceof ChannelInfoMessage) {
