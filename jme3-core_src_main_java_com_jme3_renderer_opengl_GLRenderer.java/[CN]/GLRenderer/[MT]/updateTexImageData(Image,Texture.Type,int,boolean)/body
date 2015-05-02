@@ -63,28 +63,35 @@
       throw new RendererException("Cannot upload texture " + img + ". The maximum supported texture resolution is "+ texSize);
     }
   }
+  Image imageForUpload;
+  if (scaleToPot) {
+    imageForUpload=MipMapGenerator.resizeToPowerOf2(img);
+  }
+ else {
+    imageForUpload=img;
+  }
   if (target == GL.GL_TEXTURE_CUBE_MAP) {
-    List<ByteBuffer> data=img.getData();
+    List<ByteBuffer> data=imageForUpload.getData();
     if (data.size() != 6) {
       logger.log(Level.WARNING,"Invalid texture: {0}\n" + "Cubemap textures must contain 6 data units.",img);
       return;
     }
     for (int i=0; i < 6; i++) {
-      texUtil.uploadTexture(img,GL.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,i,linearizeSrgbImages);
+      texUtil.uploadTexture(imageForUpload,GL.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,i,linearizeSrgbImages);
     }
   }
  else   if (target == GLExt.GL_TEXTURE_2D_ARRAY_EXT) {
     if (!caps.contains(Caps.TextureArray)) {
       throw new RendererException("Texture arrays not supported by graphics hardware");
     }
-    List<ByteBuffer> data=img.getData();
-    texUtil.uploadTexture(img,target,-1,linearizeSrgbImages);
+    List<ByteBuffer> data=imageForUpload.getData();
+    texUtil.uploadTexture(imageForUpload,target,-1,linearizeSrgbImages);
     for (int i=0; i < data.size(); i++) {
-      texUtil.uploadTexture(img,target,i,linearizeSrgbImages);
+      texUtil.uploadTexture(imageForUpload,target,i,linearizeSrgbImages);
     }
   }
  else {
-    texUtil.uploadTexture(img,target,0,linearizeSrgbImages);
+    texUtil.uploadTexture(imageForUpload,target,0,linearizeSrgbImages);
   }
   if (img.getMultiSamples() != imageSamples) {
     img.setMultiSamples(imageSamples);
