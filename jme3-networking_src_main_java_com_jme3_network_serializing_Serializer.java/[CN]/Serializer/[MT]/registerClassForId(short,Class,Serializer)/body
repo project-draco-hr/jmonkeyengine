@@ -1,4 +1,7 @@
 {
+  if (locked) {
+    throw new RuntimeException("Serializer registry locked trying to register class:" + cls);
+  }
   SerializerRegistration reg=new SerializerRegistration(serializer,cls,id);
   idRegistrations.put(id,reg);
   classRegistrations.put(cls,reg);
