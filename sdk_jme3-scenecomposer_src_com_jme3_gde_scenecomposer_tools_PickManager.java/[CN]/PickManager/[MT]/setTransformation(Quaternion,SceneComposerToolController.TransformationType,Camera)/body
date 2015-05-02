@@ -11,8 +11,8 @@
     origineRotation=new Quaternion(Quaternion.IDENTITY);
   }
  else   if (transformationType == SceneComposerToolController.TransformationType.camera) {
-    rot.set(planeRotation);
-    origineRotation=planeRotation.clone();
+    rot.set(camera.getRotation());
+    origineRotation=camera.getRotation().clone();
   }
   plane.setLocalRotation(rot);
 }
