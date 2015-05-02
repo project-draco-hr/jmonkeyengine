@@ -1,0 +1,32 @@
+{
+  int[] mipMapSizes=image.getMipMapSizes();
+  int availableMips=mipMapSizes != null ? mipMapSizes.length : 1;
+  if (mipMapLevel >= availableMips) {
+    throw new IllegalStateException("Cannot create image raster for mipmap level #" + mipMapLevel + ". "+ "Image only has "+ availableMips+ " mipmap levels.");
+  }
+  if (image.hasMipmaps()) {
+    this.width=Math.max(1,image.getWidth() >> mipMapLevel);
+    this.height=Math.max(1,image.getHeight() >> mipMapLevel);
+    int mipOffset=0;
+    for (int i=0; i < mipMapLevel; i++) {
+      mipOffset+=mipMapSizes[i];
+    }
+    this.offset=mipOffset;
+  }
+ else {
+    this.width=image.getWidth();
+    this.height=image.getHeight();
+    this.offset=0;
+  }
+  this.image=image;
+  this.slice=slice;
+  this.convertToLinear=convertToLinear && image.getColorSpace() == ColorSpace.sRGB;
+  this.buffer=image.getData(slice);
+  this.codec=ImageCodec.lookup(image.getFormat());
+  if (codec instanceof ByteAlignedImageCodec || codec instanceof ByteOffsetImageCodec) {
+    this.temp=new byte[codec.bpp];
+  }
+ else {
+    this.temp=null;
+  }
+}
