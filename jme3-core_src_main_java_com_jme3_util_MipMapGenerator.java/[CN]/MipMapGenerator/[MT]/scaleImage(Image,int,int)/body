@@ -2,8 +2,8 @@
   int size=outputWidth * outputHeight * inputImage.getFormat().getBitsPerPixel() / 8;
   ByteBuffer buffer=BufferUtils.createByteBuffer(size);
   Image outputImage=new Image(inputImage.getFormat(),outputWidth,outputHeight,buffer,inputImage.getColorSpace());
-  ImageRaster input=ImageRaster.create(inputImage,0,0,true);
-  ImageRaster output=ImageRaster.create(outputImage,0,0,true);
+  ImageRaster input=ImageRaster.create(inputImage,0,0,false);
+  ImageRaster output=ImageRaster.create(outputImage,0,0,false);
   float xRatio=((float)(input.getWidth() - 1)) / output.getWidth();
   float yRatio=((float)(input.getHeight() - 1)) / output.getHeight();
   ColorRGBA outputColor=new ColorRGBA();
