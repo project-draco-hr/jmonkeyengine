@@ -1,0 +1,18 @@
+{
+  FbxFile scene=FbxReader.readFBX(stream);
+  FbxDump.dumpFile(scene);
+  for (  FbxElement e : scene.rootElements) {
+    if (e.id.equals("FBXHeaderExtension")) {
+      loadHeader(e);
+    }
+ else     if (e.id.equals("GlobalSettings")) {
+      loadGlobalSettings(e);
+    }
+ else     if (e.id.equals("Objects")) {
+      loadObjects(e);
+    }
+ else     if (e.id.equals("Connections")) {
+      connectObjects(e);
+    }
+  }
+}

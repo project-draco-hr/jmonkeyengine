@@ -1,0 +1,16 @@
+{
+  for (  FbxBindPose bindPose : bindPoses) {
+    Map<FbxId,Matrix4f> bindPoseData=bindPose.getJmeObject();
+    logger.log(Level.INFO,"Applying {0} bind poses",bindPoseData.size());
+    for (    Map.Entry<FbxId,Matrix4f> entry : bindPoseData.entrySet()) {
+      FbxObject obj=objectMap.get(entry.getKey());
+      if (obj instanceof FbxNode) {
+        FbxNode node=(FbxNode)obj;
+        node.setWorldBindPose(entry.getValue());
+      }
+ else {
+        logger.log(Level.WARNING,"Bind pose can only be applied to FBX nodes. Ignoring.");
+      }
+    }
+  }
+}

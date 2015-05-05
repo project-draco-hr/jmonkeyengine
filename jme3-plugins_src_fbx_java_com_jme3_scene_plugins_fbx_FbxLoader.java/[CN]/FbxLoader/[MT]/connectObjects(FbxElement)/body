@@ -1,0 +1,45 @@
+{
+  if (objectMap.isEmpty()) {
+    logger.log(Level.WARNING,"FBX file is missing object information");
+    return;
+  }
+ else   if (objectMap.size() == 1) {
+    logger.log(Level.WARNING,"FBX file has no objects");
+    return;
+  }
+  for (  FbxElement el : element.children) {
+    if (!el.id.equals("C") && !el.id.equals("Connect")) {
+      continue;
+    }
+    String type=(String)el.properties.get(0);
+    FbxId childId;
+    FbxId parentId;
+    if (type.equals("OO")) {
+      childId=FbxId.create(el.properties.get(1));
+      parentId=FbxId.create(el.properties.get(2));
+      FbxObject child=objectMap.get(childId);
+      FbxObject parent;
+      if (parentId.isNull()) {
+        parent=objectMap.get(FbxId.ROOT);
+      }
+ else {
+        parent=objectMap.get(parentId);
+      }
+      if (parent == null) {
+        throw new UnsupportedOperationException("Cannot find parent object ID \"" + parentId + "\"");
+      }
+      parent.connectObject(child);
+    }
+ else     if (type.equals("OP")) {
+      childId=FbxId.create(el.properties.get(1));
+      parentId=FbxId.create(el.properties.get(2));
+      String propName=(String)el.properties.get(3);
+      FbxObject child=objectMap.get(childId);
+      FbxObject parent=objectMap.get(parentId);
+      parent.connectObjectProperty(child,propName);
+    }
+ else {
+      logger.log(Level.WARNING,"Unknown connection type: {0}. Ignoring.",type);
+    }
+  }
+}

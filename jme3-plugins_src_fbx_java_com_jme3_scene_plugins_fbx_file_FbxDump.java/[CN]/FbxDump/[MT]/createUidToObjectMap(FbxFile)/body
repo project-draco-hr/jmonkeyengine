@@ -1,0 +1,17 @@
+{
+  Map<FbxId,FbxElement> uidToObjectMap=new HashMap<FbxId,FbxElement>();
+  for (  FbxElement rootElement : file.rootElements) {
+    if (rootElement.id.equals("Objects")) {
+      for (      FbxElement fbxObj : rootElement.children) {
+        FbxId uid=FbxId.getObjectId(fbxObj);
+        if (uid != null) {
+          uidToObjectMap.put(uid,fbxObj);
+        }
+ else {
+          logger.log(Level.WARNING,"Cannot determine ID for object: {0}",fbxObj);
+        }
+      }
+    }
+  }
+  return uidToObjectMap;
+}

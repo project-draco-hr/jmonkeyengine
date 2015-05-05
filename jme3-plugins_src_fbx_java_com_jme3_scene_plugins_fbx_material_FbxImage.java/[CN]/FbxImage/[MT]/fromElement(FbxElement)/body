@@ -1,0 +1,30 @@
+{
+  super.fromElement(element);
+  if (element.propertiesTypes.length == 3) {
+    type=(String)element.properties.get(2);
+  }
+ else {
+    type=(String)element.properties.get(1);
+  }
+  if (type.equals("Clip")) {
+    for (    FbxElement e : element.children) {
+      if (e.id.equals("Type")) {
+        type=(String)e.properties.get(0);
+      }
+ else       if (e.id.equals("FileName")) {
+        filePath=(String)e.properties.get(0);
+      }
+ else       if (e.id.equals("RelativeFilename")) {
+        relativeFilePath=(String)e.properties.get(0);
+      }
+ else       if (e.id.equals("Content")) {
+        if (e.properties.size() > 0) {
+          byte[] storedContent=(byte[])e.properties.get(0);
+          if (storedContent.length > 0) {
+            this.content=storedContent;
+          }
+        }
+      }
+    }
+  }
+}

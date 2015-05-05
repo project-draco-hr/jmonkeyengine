@@ -1,0 +1,54 @@
+{
+  FbxLayerElement layerElement=new FbxLayerElement();
+  if (!element.id.startsWith("LayerElement")) {
+    throw new IllegalArgumentException("Not a layer element");
+  }
+  layerElement.index=(Integer)element.properties.get(0);
+  String elementType=element.id.substring("LayerElement".length());
+  try {
+    layerElement.type=Type.valueOf(elementType);
+  }
+ catch (  IllegalArgumentException ex) {
+    logger.log(Level.WARNING,"Unsupported layer element: {0}. Ignoring.",elementType);
+  }
+  for (  FbxElement child : element.children) {
+    if (child.id.equals("MappingInformationType")) {
+      String mapInfoTypeVal=(String)child.properties.get(0);
+      if (mapInfoTypeVal.equals("ByVertice")) {
+        mapInfoTypeVal="ByVertex";
+      }
+      layerElement.mapInfoType=MappingInformationType.valueOf(mapInfoTypeVal);
+    }
+ else     if (child.id.equals("ReferenceInformationType")) {
+      String refInfoTypeVal=(String)child.properties.get(0);
+      if (refInfoTypeVal.equals("Index")) {
+        refInfoTypeVal="IndexToDirect";
+      }
+      layerElement.refInfoType=ReferenceInformationType.valueOf(refInfoTypeVal);
+    }
+ else     if (child.id.equals("Normals") || child.id.equals("Tangents") || child.id.equals("Binormals")) {
+      layerElement.data=toVector3(FbxMeshUtil.getDoubleArray(child));
+    }
+ else     if (child.id.equals("Colors")) {
+      layerElement.data=toColorRGBA(FbxMeshUtil.getDoubleArray(child));
+    }
+ else     if (child.id.equals("UV")) {
+      layerElement.data=toVector2(FbxMeshUtil.getDoubleArray(child));
+    }
+ else     if (indexTypes.contains(child.id)) {
+      layerElement.dataIndices=FbxMeshUtil.getIntArray(child);
+    }
+ else     if (child.id.equals("Name")) {
+      layerElement.name=(String)child.properties.get(0);
+    }
+  }
+  if (layerElement.data == null) {
+    layerElement.refInfoType=ReferenceInformationType.Direct;
+    layerElement.data=new Integer[layerElement.dataIndices.length];
+    for (int i=0; i < layerElement.data.length; i++) {
+      layerElement.data[i]=layerElement.dataIndices[i];
+    }
+    layerElement.dataIndices=null;
+  }
+  return layerElement;
+}

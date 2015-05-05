@@ -1,35 +1,28 @@
 {
   if (!pressed) {
     setDefaultAxisMarkerColors();
-    pickedPlane=null;
+    pickedMarker=null;
+    constraintAxis=Vector3f.UNIT_XYZ;
     if (wasDragging) {
-      actionPerformed(moveManager.makeUndo());
+      actionPerformed(new MoveUndo(toolController.getSelectedSpatial(),startPosition,lastPosition));
       wasDragging=false;
     }
-    moveManager.reset();
-    return;
+    pickManager.reset();
   }
-  if (toolController.getSelectedSpatial() == null) {
-    return;
-  }
-  if (pickedPlane == null) {
-    pickedPlane=pickAxisMarker(camera,screenCoord,axisPickType);
-    if (pickedPlane == null) {
+ else   if (wasDragging == true) {
+    if (!pickManager.updatePick(camera,screenCoord)) {
       return;
     }
-    if (pickedPlane.equals(new Vector3f(1,1,0))) {
-      moveManager.initiateMove(toolController.getSelectedSpatial(),MoveManager.XY,true);
+    Vector3f diff=Vector3f.ZERO;
+    if (pickedMarker.equals(QUAD_XY) || pickedMarker.equals(QUAD_XZ) || pickedMarker.equals(QUAD_YZ)) {
+      diff=pickManager.getTranslation();
     }
- else     if (pickedPlane.equals(new Vector3f(1,0,1))) {
-      moveManager.initiateMove(toolController.getSelectedSpatial(),MoveManager.XZ,true);
+ else     if (pickedMarker.equals(ARROW_X) || pickedMarker.equals(ARROW_Y) || pickedMarker.equals(ARROW_Z)) {
+      diff=pickManager.getTranslation(constraintAxis);
     }
- else     if (pickedPlane.equals(new Vector3f(0,1,1))) {
-      moveManager.initiateMove(toolController.getSelectedSpatial(),MoveManager.YZ,true);
-    }
+    Vector3f position=startPosition.add(diff);
+    lastPosition=position;
+    toolController.getSelectedSpatial().setLocalTranslation(position);
+    updateToolsTransformation();
   }
-  if (!moveManager.move(camera,screenCoord)) {
-    return;
-  }
-  updateToolsTransformation();
-  wasDragging=true;
 }

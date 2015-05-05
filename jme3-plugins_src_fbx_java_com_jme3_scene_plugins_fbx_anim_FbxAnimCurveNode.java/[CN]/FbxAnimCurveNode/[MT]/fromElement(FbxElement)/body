@@ -1,0 +1,11 @@
+{
+  super.fromElement(element);
+  for (  FbxElement prop : element.getFbxProperties()) {
+    String propName=(String)prop.properties.get(0);
+    String propType=(String)prop.properties.get(1);
+    if (propType.equals("Number")) {
+      float propValue=((Double)prop.properties.get(4)).floatValue();
+      propertyToDefaultMap.put(propName,propValue);
+    }
+  }
+}

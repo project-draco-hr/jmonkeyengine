@@ -1,0 +1,20 @@
+{
+  IrVertex v=new IrVertex();
+  v.pos=pos != null ? pos.clone() : null;
+  v.norm=norm != null ? norm.clone() : null;
+  v.tang4d=tang4d != null ? tang4d.clone() : null;
+  v.tang=tang != null ? tang.clone() : null;
+  v.bitang=bitang != null ? bitang.clone() : null;
+  v.uv0=uv0 != null ? uv0.clone() : null;
+  v.uv1=uv1 != null ? uv1.clone() : null;
+  v.color=color != null ? color.clone() : null;
+  v.material=material;
+  v.smoothing=smoothing;
+  if (boneWeightsIndices != null) {
+    v.boneWeightsIndices=new IrBoneWeightIndex[boneWeightsIndices.length];
+    for (int i=0; i < boneWeightsIndices.length; i++) {
+      v.boneWeightsIndices[i]=(IrBoneWeightIndex)boneWeightsIndices[i].clone();
+    }
+  }
+  return v;
+}

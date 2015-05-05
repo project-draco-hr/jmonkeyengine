@@ -1,0 +1,15 @@
+{
+  if (el.propertiesTypes[0] == 'i') {
+    return (int[])el.properties.get(0);
+  }
+ else   if (el.propertiesTypes[0] == 'I') {
+    int[] ints=new int[el.propertiesTypes.length];
+    for (int i=0; i < ints.length; i++) {
+      ints[i]=(Integer)el.properties.get(i);
+    }
+    return ints;
+  }
+ else {
+    return null;
+  }
+}

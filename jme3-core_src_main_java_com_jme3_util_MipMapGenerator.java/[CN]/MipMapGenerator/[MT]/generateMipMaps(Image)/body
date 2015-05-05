@@ -1,0 +1,28 @@
+{
+  int width=image.getWidth();
+  int height=image.getHeight();
+  Image current=image;
+  ArrayList<ByteBuffer> output=new ArrayList<ByteBuffer>();
+  int totalSize=0;
+  while (height >= 1 || width >= 1) {
+    output.add(current.getData(0));
+    totalSize+=current.getData(0).capacity();
+    if (height == 1 || width == 1) {
+      break;
+    }
+    height/=2;
+    width/=2;
+    current=scaleImage(current,width,height);
+  }
+  ByteBuffer combinedData=BufferUtils.createByteBuffer(totalSize);
+  int[] mipSizes=new int[output.size()];
+  for (int i=0; i < output.size(); i++) {
+    ByteBuffer data=output.get(i);
+    data.clear();
+    combinedData.put(data);
+    mipSizes[i]=data.capacity();
+  }
+  combinedData.flip();
+  image.setData(0,combinedData);
+  image.setMipMapSizes(mipSizes);
+}

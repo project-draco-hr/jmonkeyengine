@@ -1,0 +1,35 @@
+{
+  IntMap<List<IrPolygon>> materialToPolyList=new IntMap<List<IrPolygon>>();
+  for (  IrPolygon polygon : mesh.polygons) {
+    int materialIndex=-1;
+    for (    IrVertex vertex : polygon.vertices) {
+      if (vertex.material == null) {
+        continue;
+      }
+      if (materialIndex == -1) {
+        materialIndex=vertex.material;
+      }
+ else       if (materialIndex != vertex.material) {
+        throw new UnsupportedOperationException("Multiple materials " + "assigned to the same polygon");
+      }
+    }
+    List<IrPolygon> polyList=materialToPolyList.get(materialIndex);
+    if (polyList == null) {
+      polyList=new ArrayList<IrPolygon>();
+      materialToPolyList.put(materialIndex,polyList);
+    }
+    polyList.add(polygon);
+  }
+  IntMap<IrMesh> materialToMesh=new IntMap<IrMesh>();
+  for (  IntMap.Entry<List<IrPolygon>> entry : materialToPolyList) {
+    int key=entry.getKey();
+    List<IrPolygon> polygons=entry.getValue();
+    if (polygons.size() > 0) {
+      IrMesh newMesh=new IrMesh();
+      newMesh.polygons=new IrPolygon[polygons.size()];
+      polygons.toArray(newMesh.polygons);
+      materialToMesh.put(key,newMesh);
+    }
+  }
+  return materialToMesh;
+}

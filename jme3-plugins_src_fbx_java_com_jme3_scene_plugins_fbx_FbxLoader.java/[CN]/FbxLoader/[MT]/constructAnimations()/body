@@ -1,0 +1,58 @@
+{
+  Map<FbxToJmeTrack,FbxToJmeTrack> pairs=new HashMap<FbxToJmeTrack,FbxToJmeTrack>();
+  for (  FbxAnimStack stack : animStacks) {
+    for (    FbxAnimLayer layer : stack.getLayers()) {
+      for (      FbxAnimCurveNode curveNode : layer.getAnimationCurveNodes()) {
+        for (        Map.Entry<FbxNode,String> nodePropertyEntry : curveNode.getInfluencedNodeProperties().entrySet()) {
+          FbxToJmeTrack lookupPair=new FbxToJmeTrack();
+          lookupPair.animStack=stack;
+          lookupPair.animLayer=layer;
+          lookupPair.node=nodePropertyEntry.getKey();
+          FbxToJmeTrack storedPair=pairs.get(lookupPair);
+          if (storedPair == null) {
+            storedPair=lookupPair;
+            pairs.put(storedPair,storedPair);
+          }
+          String property=nodePropertyEntry.getValue();
+          storedPair.animCurves.put(property,curveNode);
+        }
+      }
+    }
+  }
+  for (  FbxToJmeTrack pair : pairs.values()) {
+    String animName=pair.animStack.getName();
+    float duration=pair.animStack.getDuration();
+    System.out.println("ANIMATION: " + animName + ", duration = "+ duration);
+    System.out.println("NODE: " + pair.node.getName());
+    duration=pair.getDuration();
+    if (pair.node instanceof FbxLimbNode) {
+      FbxLimbNode limbNode=(FbxLimbNode)pair.node;
+      Bone bone=limbNode.getJmeBone();
+      Spatial jmeSpatial=limbNode.getSkeletonHolder().getJmeObject();
+      Skeleton skeleton=limbNode.getSkeletonHolder().getJmeSkeleton();
+      AnimControl animControl=jmeSpatial.getControl(AnimControl.class);
+      if (animControl.getSkeleton() != skeleton) {
+        throw new UnsupportedOperationException();
+      }
+      Animation anim=animControl.getAnim(animName);
+      if (anim == null) {
+        anim=new Animation(animName,duration);
+        animControl.addAnim(anim);
+      }
+      int boneIndex=skeleton.getBoneIndex(bone);
+      BoneTrack bt=pair.toJmeBoneTrack(boneIndex,bone.getBindInverseTransform());
+      anim.addTrack(bt);
+    }
+ else {
+      Animation anim=new Animation(animName,duration);
+      anim.setTracks(new Track[]{pair.toJmeSpatialTrack()});
+      Spatial jmeSpatial=pair.node.getJmeObject();
+      AnimControl animControl=jmeSpatial.getControl(AnimControl.class);
+      if (animControl == null) {
+        animControl=new AnimControl(null);
+        jmeSpatial.addControl(animControl);
+      }
+      animControl.addAnim(anim);
+    }
+  }
+}

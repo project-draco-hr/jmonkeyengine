@@ -1,0 +1,18 @@
+{
+  super.fromElement(element);
+  if (!getSubclassName().equals("")) {
+    return;
+  }
+  FbxElement shadingModelEl=element.getChildById("ShadingModel");
+  if (shadingModelEl != null) {
+    shadingModel=(String)shadingModelEl.properties.get(0);
+    if (!shadingModel.equals("")) {
+      if (!shadingModel.equalsIgnoreCase("phong") && !shadingModel.equalsIgnoreCase("lambert")) {
+        logger.log(Level.WARNING,"FBX material uses unknown shading model: {0}. " + "Material may display incorrectly.",shadingModel);
+      }
+    }
+  }
+  for (  FbxElement child : element.getFbxProperties()) {
+    properties.setPropertyFromElement(child);
+  }
+}

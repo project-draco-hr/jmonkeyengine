@@ -1,50 +1,23 @@
 {
   if (!pressed) {
     setDefaultAxisMarkerColors();
-    pickedPlane=null;
+    pickedMarker=null;
     lastScreenCoord=null;
     if (wasDragging) {
       actionPerformed(new ScaleUndo(toolController.getSelectedSpatial(),startRotate,lastRotate));
       wasDragging=false;
     }
-    return;
+    pickManager.reset();
   }
-  if (toolController.getSelectedSpatial() == null) {
-    return;
-  }
-  if (pickedPlane == null) {
-    pickedPlane=pickAxisMarker(camera,screenCoord,axisPickType);
-    if (pickedPlane == null) {
+ else   if (wasDragging) {
+    if (!pickManager.updatePick(camera,screenCoord)) {
       return;
     }
-    startRotate=toolController.getSelectedSpatial().getLocalRotation().clone();
-  }
-  if (lastScreenCoord == null) {
-    lastScreenCoord=screenCoord;
-  }
- else {
-    Quaternion rotate=new Quaternion();
-    float diff;
-    if (pickedPlane.equals(QUAD_XY)) {
-      diff=-(screenCoord.x - lastScreenCoord.x);
-      diff*=0.03f;
-      rotate=rotate.fromAngleAxis(diff,Vector3f.UNIT_Z);
+    if (pickedMarker.equals(QUAD_XY) || pickedMarker.equals(QUAD_XZ) || pickedMarker.equals(QUAD_YZ)) {
+      Quaternion rotation=startRotate.mult(pickManager.getRotation(startRotate.inverse()));
+      toolController.getSelectedSpatial().setLocalRotation(rotation);
+      lastRotate=rotation;
     }
- else     if (pickedPlane.equals(QUAD_YZ)) {
-      diff=-(screenCoord.y - lastScreenCoord.y);
-      diff*=0.03f;
-      rotate=rotate.fromAngleAxis(diff,Vector3f.UNIT_X);
-    }
- else     if (pickedPlane.equals(QUAD_XZ)) {
-      diff=screenCoord.x - lastScreenCoord.x;
-      diff*=0.03f;
-      rotate=rotate.fromAngleAxis(diff,Vector3f.UNIT_Y);
-    }
-    lastScreenCoord=screenCoord;
-    Quaternion rotation=toolController.getSelectedSpatial().getLocalRotation().mult(rotate);
-    lastRotate=rotation;
-    toolController.getSelectedSpatial().setLocalRotation(rotation);
     updateToolsTransformation();
   }
-  wasDragging=true;
 }

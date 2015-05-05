@@ -1,0 +1,27 @@
+{
+  if (object instanceof FbxNode) {
+    FbxNode childNode=(FbxNode)object;
+    if (childNode.parent != null) {
+      throw new IllegalStateException("Cannot attach " + childNode + " to "+ this+ ". It is already "+ "attached to "+ childNode.parent);
+    }
+    childNode.parent=this;
+    children.add(childNode);
+  }
+ else   if (object instanceof FbxNodeAttribute) {
+    if (nodeAttribute != null) {
+      throw new IllegalStateException("An FBXNodeAttribute (" + nodeAttribute + ")"+ " is already attached to "+ this+ ". "+ "Only one attribute allowed per node.");
+    }
+    nodeAttribute=(FbxNodeAttribute)object;
+    if (nodeAttribute instanceof FbxNullAttribute) {
+      nodeAttribute.getJmeObject();
+    }
+  }
+ else   if (object instanceof FbxMaterial) {
+    materials.add((FbxMaterial)object);
+  }
+ else   if (object instanceof FbxImage || object instanceof FbxTexture) {
+  }
+ else {
+    unsupportedConnectObject(object);
+  }
+}

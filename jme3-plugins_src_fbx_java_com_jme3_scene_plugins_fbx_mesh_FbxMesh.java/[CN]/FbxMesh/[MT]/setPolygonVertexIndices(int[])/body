@@ -1,0 +1,20 @@
+{
+  List<FbxPolygon> polygonList=new ArrayList<FbxPolygon>();
+  boolean finishPolygon=false;
+  List<Integer> vertexIndices=new ArrayList<Integer>();
+  for (int i=0; i < polygonVertexIndices.length; i++) {
+    int vertexIndex=polygonVertexIndices[i];
+    if (vertexIndex < 0) {
+      vertexIndex^=-1;
+      finishPolygon=true;
+    }
+    vertexIndices.add(vertexIndex);
+    if (finishPolygon) {
+      finishPolygon=false;
+      polygonList.add(FbxPolygon.fromIndices(vertexIndices));
+      vertexIndices.clear();
+    }
+  }
+  polygons=new FbxPolygon[polygonList.size()];
+  polygonList.toArray(polygons);
+}

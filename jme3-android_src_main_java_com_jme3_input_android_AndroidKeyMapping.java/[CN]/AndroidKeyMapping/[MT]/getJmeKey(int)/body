@@ -1,3 +1,8 @@
 {
-  return ANDROID_TO_JME[androidKey];
+  if (androidKey > ANDROID_TO_JME.length) {
+    return androidKey;
+  }
+ else {
+    return ANDROID_TO_JME[androidKey];
+  }
 }

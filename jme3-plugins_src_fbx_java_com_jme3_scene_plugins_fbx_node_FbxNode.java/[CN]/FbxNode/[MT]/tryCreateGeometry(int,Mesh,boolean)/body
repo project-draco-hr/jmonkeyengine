@@ -1,0 +1,31 @@
+{
+  if (materialIndex == -1) {
+    materialIndex=0;
+  }
+  Material jmeMat;
+  if (materialIndex >= materials.size()) {
+    jmeMat=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+    jmeMat.setReceivesShadows(true);
+  }
+ else {
+    FbxMaterial fbxMat=materials.get(materialIndex);
+    jmeMat=fbxMat.getJmeObject();
+  }
+  String geomName=getName();
+  if (single) {
+    geomName+="-submesh";
+  }
+ else {
+    geomName+="-mat-" + materialIndex + "-submesh";
+  }
+  Spatial spatial=new Geometry(geomName,jmeMesh);
+  spatial.setMaterial(jmeMat);
+  if (jmeMat.isTransparent()) {
+    spatial.setQueueBucket(Bucket.Transparent);
+  }
+  if (jmeMat.isReceivesShadows()) {
+    spatial.setShadowMode(ShadowMode.Receive);
+  }
+  spatial.updateModelBound();
+  return spatial;
+}

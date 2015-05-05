@@ -1,0 +1,14 @@
+{
+  if (view == null) {
+    vibrator=null;
+  }
+ else {
+    vibrator=(Vibrator)view.getContext().getSystemService(Context.VIBRATOR_SERVICE);
+    if (vibrator == null) {
+      logger.log(Level.FINE,"Vibrator Service not found.");
+    }
+  }
+  if (sensorJoyInput != null) {
+    sensorJoyInput.setView(view);
+  }
+}

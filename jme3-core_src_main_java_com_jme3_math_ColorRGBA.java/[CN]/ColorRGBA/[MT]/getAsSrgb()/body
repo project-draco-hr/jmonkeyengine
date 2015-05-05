@@ -1,9 +1,9 @@
 {
-  Vector4f srgb=new Vector4f();
+  ColorRGBA srgb=new ColorRGBA();
   float invGama=1f / GAMMA;
-  srgb.x=(float)Math.pow(r,invGama);
-  srgb.y=(float)Math.pow(g,invGama);
-  srgb.z=(float)Math.pow(b,invGama);
-  srgb.w=a;
+  srgb.r=(float)Math.pow(r,invGama);
+  srgb.g=(float)Math.pow(g,invGama);
+  srgb.b=(float)Math.pow(b,invGama);
+  srgb.a=a;
   return srgb;
 }

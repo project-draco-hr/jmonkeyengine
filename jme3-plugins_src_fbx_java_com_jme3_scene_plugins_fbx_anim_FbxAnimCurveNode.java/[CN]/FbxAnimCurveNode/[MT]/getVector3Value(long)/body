@@ -1,0 +1,13 @@
+{
+  Vector3f value=new Vector3f();
+  FbxAnimCurve xCurve=propertyToCurveMap.get(FbxAnimUtil.CURVE_NODE_PROPERTY_X);
+  FbxAnimCurve yCurve=propertyToCurveMap.get(FbxAnimUtil.CURVE_NODE_PROPERTY_Y);
+  FbxAnimCurve zCurve=propertyToCurveMap.get(FbxAnimUtil.CURVE_NODE_PROPERTY_Z);
+  Float xDefault=propertyToDefaultMap.get(FbxAnimUtil.CURVE_NODE_PROPERTY_X);
+  Float yDefault=propertyToDefaultMap.get(FbxAnimUtil.CURVE_NODE_PROPERTY_Y);
+  Float zDefault=propertyToDefaultMap.get(FbxAnimUtil.CURVE_NODE_PROPERTY_Z);
+  value.x=xCurve != null ? xCurve.getValueAtTime(time) : xDefault;
+  value.y=yCurve != null ? yCurve.getValueAtTime(time) : yDefault;
+  value.z=zCurve != null ? zCurve.getValueAtTime(time) : zDefault;
+  return value;
+}

@@ -1,0 +1,14 @@
+{
+  for (  FbxElement e : element.children) {
+    if (e.id.equals("Geometry"))     loadGeometry(e);
+ else     if (e.id.equals("Material"))     loadMaterial(e);
+ else     if (e.id.equals("Model"))     loadModel(e);
+ else     if (e.id.equals("Pose"))     loadPose(e);
+ else     if (e.id.equals("Texture"))     loadTexture(e);
+ else     if (e.id.equals("Video"))     loadImage(e);
+ else     if (e.id.equals("Deformer"))     loadDeformer(e);
+ else     if (e.id.equals("AnimationLayer"))     loadAnimLayer(e);
+ else     if (e.id.equals("AnimationCurve"))     loadAnimCurve(e);
+ else     if (e.id.equals("AnimationCurveNode"))     loadAnimNode(e);
+  }
+}

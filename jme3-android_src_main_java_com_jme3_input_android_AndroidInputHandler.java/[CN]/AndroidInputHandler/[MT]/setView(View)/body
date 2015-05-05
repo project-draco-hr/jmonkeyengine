@@ -1,12 +1,13 @@
 {
-  if (touchHandler != null) {
-    touchHandler.setView(view);
+  if (this.view != null && view != null && this.view.equals(view)) {
+    return;
   }
-  if (keyHandler != null) {
-    keyHandler.setView(view);
-  }
-  if (gestureHandler != null) {
-    gestureHandler.setView(view);
+  if (this.view != null) {
+    removeListeners(this.view);
   }
   this.view=(GLSurfaceView)view;
+  if (this.view != null) {
+    addListeners(this.view);
+  }
+  joyInput.setView((GLSurfaceView)view);
 }

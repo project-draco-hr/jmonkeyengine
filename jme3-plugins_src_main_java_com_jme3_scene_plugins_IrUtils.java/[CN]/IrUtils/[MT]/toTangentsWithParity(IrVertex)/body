@@ -1,0 +1,8 @@
+{
+  if (vertex.tang != null && vertex.bitang != null) {
+    float wCoord=vertex.norm.cross(vertex.tang).dot(vertex.bitang) < 0f ? -1f : 1f;
+    vertex.tang4d=new Vector4f(vertex.tang.x,vertex.tang.y,vertex.tang.z,wCoord);
+    vertex.tang=null;
+    vertex.bitang=null;
+  }
+}

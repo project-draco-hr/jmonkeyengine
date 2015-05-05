@@ -1,0 +1,52 @@
+{
+  long id=(Long)element.properties.get(0);
+  String path=(String)element.properties.get(1);
+  String type=(String)element.properties.get(2);
+  if (type.equals("")) {
+    MaterialData data=new MaterialData();
+    data.name=path.substring(0,path.indexOf(0));
+    for (    FbxElement e : element.children) {
+      if (e.id.equals("ShadingModel")) {
+        data.shadingModel=(String)e.properties.get(0);
+      }
+ else       if (e.id.equals("Properties70")) {
+        for (        FbxElement e2 : e.children) {
+          if (e2.id.equals("P")) {
+            String propName=(String)e2.properties.get(0);
+            if (propName.equals("AmbientColor")) {
+              double x=(Double)e2.properties.get(4);
+              double y=(Double)e2.properties.get(5);
+              double z=(Double)e2.properties.get(6);
+              data.ambientColor.set((float)x,(float)y,(float)z);
+            }
+ else             if (propName.equals("AmbientFactor")) {
+              double x=(Double)e2.properties.get(4);
+              data.ambientFactor=(float)x;
+            }
+ else             if (propName.equals("DiffuseColor")) {
+              double x=(Double)e2.properties.get(4);
+              double y=(Double)e2.properties.get(5);
+              double z=(Double)e2.properties.get(6);
+              data.diffuseColor.set((float)x,(float)y,(float)z);
+            }
+ else             if (propName.equals("DiffuseFactor")) {
+              double x=(Double)e2.properties.get(4);
+              data.diffuseFactor=(float)x;
+            }
+ else             if (propName.equals("SpecularColor")) {
+              double x=(Double)e2.properties.get(4);
+              double y=(Double)e2.properties.get(5);
+              double z=(Double)e2.properties.get(6);
+              data.specularColor.set((float)x,(float)y,(float)z);
+            }
+ else             if (propName.equals("Shininess") || propName.equals("ShininessExponent")) {
+              double x=(Double)e2.properties.get(4);
+              data.shininessExponent=(float)x;
+            }
+          }
+        }
+      }
+    }
+    matDataMap.put(id,data);
+  }
+}

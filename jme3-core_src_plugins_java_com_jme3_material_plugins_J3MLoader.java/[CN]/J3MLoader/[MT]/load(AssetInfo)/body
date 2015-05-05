@@ -3,6 +3,12 @@
   InputStream in=info.openStream();
   try {
     key=info.getKey();
+    if (key.getExtension().equals("j3m") && !(key instanceof MaterialKey)) {
+      throw new IOException("Material instances must be loaded via MaterialKey");
+    }
+ else     if (key.getExtension().equals("j3md") && key instanceof MaterialKey) {
+      throw new IOException("Material definitions must be loaded via AssetKey");
+    }
     loadFromRoot(BlockLanguageParser.parse(in));
   }
   finally {
@@ -11,9 +17,6 @@
     }
   }
   if (material != null) {
-    if (!(info.getKey() instanceof MaterialKey)) {
-      throw new IOException("Material instances must be loaded via MaterialKey");
-    }
     return material;
   }
  else {

@@ -1,0 +1,14 @@
+{
+  int hash=5;
+  hash=73 * hash + (this.pos != null ? this.pos.hashCode() : 0);
+  hash=73 * hash + (this.norm != null ? this.norm.hashCode() : 0);
+  hash=73 * hash + (this.tang4d != null ? this.tang4d.hashCode() : 0);
+  hash=73 * hash + (this.tang != null ? this.tang.hashCode() : 0);
+  hash=73 * hash + (this.uv0 != null ? this.uv0.hashCode() : 0);
+  hash=73 * hash + (this.uv1 != null ? this.uv1.hashCode() : 0);
+  hash=73 * hash + (this.color != null ? this.color.hashCode() : 0);
+  hash=73 * hash + (this.material != null ? this.material.hashCode() : 0);
+  hash=73 * hash + (this.smoothing != null ? this.smoothing.hashCode() : 0);
+  hash=73 * hash + Arrays.deepHashCode(this.boneWeightsIndices);
+  return hash;
+}

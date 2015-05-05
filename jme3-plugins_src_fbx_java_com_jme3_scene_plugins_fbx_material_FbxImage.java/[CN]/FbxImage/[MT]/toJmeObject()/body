@@ -1,0 +1,39 @@
+{
+  Image image=null;
+  String fileName=null;
+  String relativeFilePathJme;
+  if (filePath != null) {
+    fileName=getFileName(filePath);
+  }
+ else   if (relativeFilePath != null) {
+    fileName=getFileName(relativeFilePath);
+  }
+  if (fileName != null) {
+    try {
+      key=new TextureKey(sceneFolderName + fileName);
+      key.setGenerateMips(true);
+      image=loadImageSafe(assetManager,key);
+      if (image == null && relativeFilePath != null) {
+        relativeFilePathJme=relativeFilePath.replace('\\','/');
+        key=new TextureKey(sceneFolderName + relativeFilePathJme);
+        key.setGenerateMips(true);
+        image=loadImageSafe(assetManager,key);
+      }
+      if (image == null && content != null && content.length > 0) {
+        key=new TextureKey(fileName);
+        key.setGenerateMips(true);
+        InputStream is=new ByteArrayInputStream(content);
+        image=assetManager.loadAssetFromStream(key,is).getImage();
+        key=null;
+      }
+    }
+ catch (    AssetLoadException ex) {
+      logger.log(Level.WARNING,"Error while attempting to load texture {0}:\n{1}",new Object[]{name,ex.toString()});
+    }
+  }
+  if (image == null) {
+    logger.log(Level.WARNING,"Cannot locate {0} for texture {1}",new Object[]{fileName,name});
+    image=PlaceholderAssets.getPlaceholderImage(assetManager);
+  }
+  return image;
+}

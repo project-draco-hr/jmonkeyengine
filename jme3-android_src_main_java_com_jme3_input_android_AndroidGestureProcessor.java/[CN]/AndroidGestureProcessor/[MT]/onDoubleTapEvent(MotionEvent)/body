@@ -1,0 +1,11 @@
+{
+  if (touchInput.getAction(event) == MotionEvent.ACTION_UP) {
+    TouchEvent touchEvent=touchInput.getFreeTouchEvent();
+    touchEvent.set(TouchEvent.Type.DOUBLETAP,event.getX(),touchInput.invertY(event.getY()),0,0);
+    touchEvent.setPointerId(touchInput.getPointerId(event));
+    touchEvent.setTime(event.getEventTime());
+    touchEvent.setPressure(event.getPressure());
+    touchInput.addEvent(touchEvent);
+  }
+  return true;
+}

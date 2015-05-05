@@ -1,0 +1,11 @@
+{
+  super.fromElement(element);
+  for (  FbxElement e : element.children) {
+    if (e.id.equals("Indexes")) {
+      indexes=(int[])e.properties.get(0);
+    }
+ else     if (e.id.equals("Weights")) {
+      weights=(double[])e.properties.get(0);
+    }
+  }
+}

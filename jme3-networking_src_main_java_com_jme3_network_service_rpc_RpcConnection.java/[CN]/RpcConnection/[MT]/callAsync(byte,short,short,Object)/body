@@ -1,0 +1,7 @@
+{
+  RpcCallMessage msg=new RpcCallMessage(-1,channel,objId,procId,args);
+  if (log.isLoggable(Level.FINEST)) {
+    log.log(Level.FINEST,"Sending:{0}  on channel:{1}",new Object[]{msg,channel});
+  }
+  connection.send(channel,msg);
+}

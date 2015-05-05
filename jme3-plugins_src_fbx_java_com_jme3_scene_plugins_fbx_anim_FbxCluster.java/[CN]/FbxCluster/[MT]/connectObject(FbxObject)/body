@@ -1,0 +1,12 @@
+{
+  if (object instanceof FbxLimbNode) {
+    if (limb != null) {
+      logger.log(Level.WARNING,"This cluster already has a limb attached. Ignoring.");
+      return;
+    }
+    limb=(FbxLimbNode)object;
+  }
+ else {
+    unsupportedConnectObject(object);
+  }
+}

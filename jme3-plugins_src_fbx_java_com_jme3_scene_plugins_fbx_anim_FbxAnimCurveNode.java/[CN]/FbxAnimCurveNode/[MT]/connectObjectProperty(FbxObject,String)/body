@@ -1,0 +1,13 @@
+{
+  if (!(object instanceof FbxAnimCurve)) {
+    unsupportedConnectObjectProperty(object,property);
+  }
+  if (!property.equals(FbxAnimUtil.CURVE_NODE_PROPERTY_X) && !property.equals(FbxAnimUtil.CURVE_NODE_PROPERTY_Y) && !property.equals(FbxAnimUtil.CURVE_NODE_PROPERTY_Z)&& !property.equals(FbxAnimUtil.CURVE_NODE_PROPERTY_VISIBILITY)) {
+    logger.log(Level.WARNING,"Animating the dimension ''{0}'' is not " + "supported yet. Ignoring.",property);
+    return;
+  }
+  if (propertyToCurveMap.containsKey(property)) {
+    throw new UnsupportedOperationException("!");
+  }
+  propertyToCurveMap.put(property,(FbxAnimCurve)object);
+}

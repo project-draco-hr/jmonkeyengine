@@ -1,0 +1,9 @@
+{
+  FbxLayerElementRef reference=references.get(type);
+  if (reference == null) {
+    return null;
+  }
+ else {
+    return reference.layerElement.getVertexData(polygonIndex,polygonVertexIndex,positionIndex,edgeIndex);
+  }
+}
