@@ -5,6 +5,11 @@
     }
   }
   byte[] codeBytes=new byte[]{(byte)(code >> 24 & 0xFF),(byte)(code >> 16 & 0xFF),(byte)(code >> 8 & 0xFF),(byte)(code & 0xFF)};
-  LOGGER.warning("Unknown block header: " + new String(codeBytes));
+  for (int i=0; i < codeBytes.length; ++i) {
+    if (codeBytes[i] == 0) {
+      codeBytes[i]='0';
+    }
+  }
+  LOGGER.log(Level.WARNING,"Unknown block header: {0}",new String(codeBytes));
   return BLOCK_UNKN;
 }
