@@ -1,0 +1,14 @@
+{
+  super.activate(manager,toolNode,onTopToolNode,selectedSpatial,toolController);
+  hideMarker();
+  numberBuilder=new StringBuilder();
+  if (selectedSpatial == null) {
+    terminate();
+  }
+ else {
+    spatial=selectedSpatial;
+    initalLocation=spatial.getLocalTranslation();
+    currentAxis=new Vector3f().set(Vector3f.UNIT_XYZ);
+    pickManager=Lookup.getDefault().lookup(PickManager.class);
+  }
+}

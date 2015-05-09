@@ -1,0 +1,21 @@
+{
+  if (kie.isPressed()) {
+    Lookup.getDefault().lookup(ShortcutManager.class).activateShortcut(kie);
+    boolean axisChanged=ShortcutManager.checkAxisKey(kie,currentAxis);
+    boolean numberChanged=ShortcutManager.checkNumberKey(kie,numberBuilder);
+    boolean enterHit=ShortcutManager.checkEnterHit(kie);
+    boolean escHit=ShortcutManager.checkEscHit(kie);
+    if (escHit) {
+      cancel();
+    }
+ else     if (enterHit) {
+      apply();
+    }
+ else     if (axisChanged || numberChanged) {
+      float number=ShortcutManager.getNumberkey(numberBuilder);
+      Vector3f translation=currentAxis.mult(number);
+      finalLocation=initalLocation.add(translation);
+      spatial.setLocalTranslation(finalLocation);
+    }
+  }
+}

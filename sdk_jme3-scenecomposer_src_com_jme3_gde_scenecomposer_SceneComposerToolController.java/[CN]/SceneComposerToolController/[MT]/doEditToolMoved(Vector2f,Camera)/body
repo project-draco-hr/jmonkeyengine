@@ -1,5 +1,9 @@
 {
-  if (editTool != null) {
+  ShortcutManager scm=Lookup.getDefault().lookup(ShortcutManager.class);
+  if (scm.isActive()) {
+    scm.getActiveShortcut().mouseMoved(mouseLoc,rootNode,editorController.getCurrentDataObject(),selectedSpatial);
+  }
+ else   if (editTool != null) {
     editTool.setCamera(camera);
     editTool.mouseMoved(mouseLoc,rootNode,editorController.getCurrentDataObject(),selectedSpatial);
   }

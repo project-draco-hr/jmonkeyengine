@@ -1,0 +1,10 @@
+{
+  for (  ShortcutTool s : shortcutList) {
+    if (s != currentShortcut) {
+      if (s.isActivableBy(kie)) {
+        return s;
+      }
+    }
+  }
+  return null;
+}
