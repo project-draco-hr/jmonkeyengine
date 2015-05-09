@@ -1,0 +1,13 @@
+{
+  if (!touchInput.getScaleDetector().isInProgress()) {
+    float jmeX=touchInput.getJmeX(endEvent.getX());
+    float jmeY=touchInput.invertY(touchInput.getJmeY(endEvent.getY()));
+    TouchEvent touchEvent=touchInput.getFreeTouchEvent();
+    touchEvent.set(TouchEvent.Type.SCROLL,jmeX,jmeY,touchInput.getJmeX(-distX),touchInput.getJmeY(distY));
+    touchEvent.setPointerId(touchInput.getPointerId(endEvent));
+    touchEvent.setTime(endEvent.getEventTime());
+    touchEvent.setPressure(endEvent.getPressure());
+    touchInput.addEvent(touchEvent);
+  }
+  return true;
+}

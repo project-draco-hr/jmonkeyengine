@@ -1,0 +1,8 @@
+{
+  for (  FbxObject object : new ArrayList<FbxObject>(objectMap.values())) {
+    if (!object.isJmeObjectCreated()) {
+      logger.log(Level.WARNING,"Purging orphan FBX object: {0}",object);
+      objectMap.remove(object.getId());
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  FbxLayer layer=new FbxLayer();
+  layer.layer=(Integer)element.properties.get(0);
+  next_element:   for (  FbxElement child : element.children) {
+    if (!child.id.equals("LayerElement")) {
+      continue;
+    }
+    FbxLayerElementRef ref=new FbxLayerElementRef();
+    for (    FbxElement child2 : child.children) {
+      if (child2.id.equals("Type")) {
+        String layerElementTypeStr=(String)child2.properties.get(0);
+        layerElementTypeStr=layerElementTypeStr.substring("LayerElement".length());
+        try {
+          ref.layerElementType=FbxLayerElement.Type.valueOf(layerElementTypeStr);
+        }
+ catch (        IllegalArgumentException ex) {
+          logger.log(Level.WARNING,"Unsupported layer type: {0}. Ignoring.",layerElementTypeStr);
+          continue next_element;
+        }
+      }
+ else       if (child2.id.equals("TypedIndex")) {
+        ref.layerElementIndex=(Integer)child2.properties.get(0);
+      }
+    }
+    layer.references.put(ref.layerElementType,ref);
+  }
+  return layer;
+}

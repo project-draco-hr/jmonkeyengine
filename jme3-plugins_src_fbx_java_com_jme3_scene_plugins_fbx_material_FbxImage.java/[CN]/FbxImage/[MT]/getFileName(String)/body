@@ -1,0 +1,11 @@
+{
+  int fwdSlashIdx=filePath.lastIndexOf("\\");
+  int bkSlashIdx=filePath.lastIndexOf("/");
+  if (fwdSlashIdx != -1) {
+    filePath=filePath.substring(fwdSlashIdx + 1);
+  }
+ else   if (bkSlashIdx != -1) {
+    filePath=filePath.substring(bkSlashIdx + 1);
+  }
+  return filePath;
+}

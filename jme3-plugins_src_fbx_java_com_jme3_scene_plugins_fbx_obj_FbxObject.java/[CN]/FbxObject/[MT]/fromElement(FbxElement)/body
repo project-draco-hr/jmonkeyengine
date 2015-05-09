@@ -1,0 +1,24 @@
+{
+  id=FbxId.getObjectId(element);
+  String nameAndClass;
+  if (element.propertiesTypes.length == 3) {
+    nameAndClass=(String)element.properties.get(1);
+    subclassName=(String)element.properties.get(2);
+  }
+ else   if (element.propertiesTypes.length == 2) {
+    nameAndClass=(String)element.properties.get(0);
+    subclassName=(String)element.properties.get(1);
+  }
+ else {
+    throw new UnsupportedOperationException("This is not an FBX object: " + element.id);
+  }
+  int splitter=nameAndClass.indexOf("\u0000\u0001");
+  if (splitter != -1) {
+    name=nameAndClass.substring(0,splitter);
+    className=nameAndClass.substring(splitter + 2);
+  }
+ else {
+    name=nameAndClass;
+    className=null;
+  }
+}

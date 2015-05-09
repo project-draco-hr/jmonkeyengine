@@ -1,11 +1,3 @@
 {
-  keyboardEventsEnabled=settings.isEmulateKeyboard();
-  mouseEventsEnabled=settings.isEmulateMouse();
-  mouseEventsInvertX=settings.isEmulateMouseFlipX();
-  mouseEventsInvertY=settings.isEmulateMouseFlipY();
-  if (view.getWidth() != 0 && view.getHeight() != 0) {
-    scaleX=(float)settings.getWidth() / (float)view.getWidth();
-    scaleY=(float)settings.getHeight() / (float)view.getHeight();
-  }
-  logger.log(Level.FINE,"Setting input scaling, scaleX: {0}, scaleY: {1}",new Object[]{scaleX,scaleY});
+  touchInput.loadSettings(settings);
 }

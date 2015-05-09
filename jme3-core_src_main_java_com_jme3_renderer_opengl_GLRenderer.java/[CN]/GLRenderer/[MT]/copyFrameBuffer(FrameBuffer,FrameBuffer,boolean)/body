@@ -24,26 +24,26 @@
       updateFrameBuffer(dst);
     }
     if (src == null) {
-      glfbo.glBindFramebufferEXT(GLExt.GL_READ_FRAMEBUFFER_EXT,0);
+      glfbo.glBindFramebufferEXT(GLFbo.GL_READ_FRAMEBUFFER_EXT,0);
       srcX0=vpX;
       srcY0=vpY;
       srcX1=vpX + vpW;
       srcY1=vpY + vpH;
     }
  else {
-      glfbo.glBindFramebufferEXT(GLExt.GL_READ_FRAMEBUFFER_EXT,src.getId());
+      glfbo.glBindFramebufferEXT(GLFbo.GL_READ_FRAMEBUFFER_EXT,src.getId());
       srcX1=src.getWidth();
       srcY1=src.getHeight();
     }
     if (dst == null) {
-      glfbo.glBindFramebufferEXT(GLExt.GL_DRAW_FRAMEBUFFER_EXT,0);
+      glfbo.glBindFramebufferEXT(GLFbo.GL_DRAW_FRAMEBUFFER_EXT,0);
       dstX0=vpX;
       dstY0=vpY;
       dstX1=vpX + vpW;
       dstY1=vpY + vpH;
     }
  else {
-      glfbo.glBindFramebufferEXT(GLExt.GL_DRAW_FRAMEBUFFER_EXT,dst.getId());
+      glfbo.glBindFramebufferEXT(GLFbo.GL_DRAW_FRAMEBUFFER_EXT,dst.getId());
       dstX1=dst.getWidth();
       dstY1=dst.getHeight();
     }
@@ -51,8 +51,8 @@
     if (copyDepth) {
       mask|=GL.GL_DEPTH_BUFFER_BIT;
     }
-    glext.glBlitFramebufferEXT(srcX0,srcY0,srcX1,srcY1,dstX0,dstY0,dstX1,dstY1,mask,GL.GL_NEAREST);
-    glfbo.glBindFramebufferEXT(GLExt.GL_FRAMEBUFFER_EXT,prevFBO);
+    glfbo.glBlitFramebufferEXT(srcX0,srcY0,srcX1,srcY1,dstX0,dstY0,dstX1,dstY1,mask,GL.GL_NEAREST);
+    glfbo.glBindFramebufferEXT(GLFbo.GL_FRAMEBUFFER_EXT,prevFBO);
   }
  else {
     throw new RendererException("Framebuffer blitting not supported by the video hardware");

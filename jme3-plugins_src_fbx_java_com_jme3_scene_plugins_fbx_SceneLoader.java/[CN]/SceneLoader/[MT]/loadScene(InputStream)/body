@@ -1,8 +1,8 @@
 {
   logger.log(Level.FINE,"Loading scene {0}",sceneFilename);
   long startTime=System.currentTimeMillis();
-  FBXFile scene=FBXReader.readFBX(stream);
-  for (  FBXElement e : scene.rootElements) {
+  FbxFile scene=FbxReader.readFBX(stream);
+  for (  FbxElement e : scene.rootElements) {
     if (e.id.equals("GlobalSettings"))     loadGlobalSettings(e);
  else     if (e.id.equals("Objects"))     loadObjects(e);
  else     if (e.id.equals("Connections"))     loadConnections(e);

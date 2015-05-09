@@ -1,0 +1,40 @@
+{
+  if (obj == null) {
+    return false;
+  }
+  if (getClass() != obj.getClass()) {
+    return false;
+  }
+  final IrVertex other=(IrVertex)obj;
+  if (this.pos != other.pos && (this.pos == null || !this.pos.equals(other.pos))) {
+    return false;
+  }
+  if (this.norm != other.norm && (this.norm == null || !this.norm.equals(other.norm))) {
+    return false;
+  }
+  if (this.tang4d != other.tang4d && (this.tang4d == null || !this.tang4d.equals(other.tang4d))) {
+    return false;
+  }
+  if (this.tang != other.tang && (this.tang == null || !this.tang.equals(other.tang))) {
+    return false;
+  }
+  if (this.uv0 != other.uv0 && (this.uv0 == null || !this.uv0.equals(other.uv0))) {
+    return false;
+  }
+  if (this.uv1 != other.uv1 && (this.uv1 == null || !this.uv1.equals(other.uv1))) {
+    return false;
+  }
+  if (this.color != other.color && (this.color == null || !this.color.equals(other.color))) {
+    return false;
+  }
+  if (this.material != other.material && (this.material == null || !this.material.equals(other.material))) {
+    return false;
+  }
+  if (this.smoothing != other.smoothing && (this.smoothing == null || !this.smoothing.equals(other.smoothing))) {
+    return false;
+  }
+  if (!Arrays.deepEquals(this.boneWeightsIndices,other.boneWeightsIndices)) {
+    return false;
+  }
+  return true;
+}

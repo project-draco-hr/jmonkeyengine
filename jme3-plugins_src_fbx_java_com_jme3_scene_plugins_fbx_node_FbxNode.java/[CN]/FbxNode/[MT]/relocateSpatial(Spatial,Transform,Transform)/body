@@ -1,0 +1,6 @@
+{
+  Transform localTransform=new Transform();
+  localTransform.set(originalWorldTransform);
+  localTransform.combineWithParent(newWorldTransform.invert());
+  spatial.setLocalTransform(localTransform);
+}

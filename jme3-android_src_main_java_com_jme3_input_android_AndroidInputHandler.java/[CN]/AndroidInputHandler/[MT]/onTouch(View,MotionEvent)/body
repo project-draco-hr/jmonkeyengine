@@ -1,0 +1,12 @@
+{
+  if (view != getView()) {
+    return false;
+  }
+  boolean consumed=false;
+  int source=event.getSource();
+  boolean isTouch=((source & InputDevice.SOURCE_TOUCHSCREEN) == InputDevice.SOURCE_TOUCHSCREEN);
+  if (isTouch && touchInput != null) {
+    consumed=touchInput.onTouch(event);
+  }
+  return consumed;
+}

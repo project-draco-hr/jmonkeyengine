@@ -1,4 +1,4 @@
 {
-  IntMap<String> constMap=generateConstantMap(GL2.class,GLExt.class);
+  IntMap<String> constMap=generateConstantMap(GL2.class,GL3.class,GL4.class,GLFbo.class,GLExt.class);
   return Proxy.newProxyInstance(glInterface.getClass().getClassLoader(),glInterfaceClasses,new GLTracer(glInterface,constMap));
 }

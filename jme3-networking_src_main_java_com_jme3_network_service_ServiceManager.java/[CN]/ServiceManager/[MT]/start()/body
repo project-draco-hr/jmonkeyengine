@@ -1,0 +1,9 @@
+{
+  if (started) {
+    return;
+  }
+  for (  Service<T> s : services) {
+    s.start();
+  }
+  started=true;
+}

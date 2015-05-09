@@ -1,0 +1,10 @@
+{
+  super.fromElement(element);
+  for (  FbxElement child : element.getFbxProperties()) {
+    String propName=(String)child.properties.get(0);
+    if (propName.equals("LocalStop")) {
+      long durationLong=(Long)child.properties.get(4);
+      duration=(float)(durationLong * FbxAnimUtil.SECONDS_PER_UNIT);
+    }
+  }
+}

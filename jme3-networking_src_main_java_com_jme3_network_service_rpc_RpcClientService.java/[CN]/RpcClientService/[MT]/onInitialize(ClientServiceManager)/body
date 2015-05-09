@@ -1,0 +1,6 @@
+{
+  Client client=serviceManager.getClient();
+  this.rpc=new RpcConnection(client);
+  delegator=new ObjectMessageDelegator(rpc,true);
+  client.addMessageListener(delegator,delegator.getMessageTypes());
+}

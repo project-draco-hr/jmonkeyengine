@@ -1,0 +1,10 @@
+{
+  for (  FbxElement e : element.children) {
+    if (e.id.equals("FBXVersion")) {
+      Integer version=(Integer)e.properties.get(0);
+      if (version < 7100) {
+        logger.log(Level.WARNING,"FBX file version is older than 7.1. " + "Some features may not work.");
+      }
+    }
+  }
+}

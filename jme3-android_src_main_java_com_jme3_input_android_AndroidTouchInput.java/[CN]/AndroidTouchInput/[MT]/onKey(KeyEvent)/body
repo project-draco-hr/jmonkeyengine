@@ -1,0 +1,38 @@
+{
+  if (!isInitialized()) {
+    return false;
+  }
+  TouchEvent evt;
+  if (event.getAction() == KeyEvent.ACTION_DOWN) {
+    evt=new TouchEvent();
+    evt.set(TouchEvent.Type.KEY_DOWN);
+    evt.setKeyCode(event.getKeyCode());
+    evt.setCharacters(event.getCharacters());
+    evt.setTime(event.getEventTime());
+    addEvent(evt);
+  }
+ else   if (event.getAction() == KeyEvent.ACTION_UP) {
+    evt=new TouchEvent();
+    evt.set(TouchEvent.Type.KEY_UP);
+    evt.setKeyCode(event.getKeyCode());
+    evt.setCharacters(event.getCharacters());
+    evt.setTime(event.getEventTime());
+    addEvent(evt);
+  }
+  if (isSimulateKeyboard()) {
+    KeyInputEvent kie;
+    char unicodeChar=(char)event.getUnicodeChar();
+    int jmeKeyCode=AndroidKeyMapping.getJmeKey(event.getKeyCode());
+    boolean pressed=event.getAction() == KeyEvent.ACTION_DOWN;
+    boolean repeating=pressed && event.getRepeatCount() > 0;
+    kie=new KeyInputEvent(jmeKeyCode,unicodeChar,pressed,repeating);
+    kie.setTime(event.getEventTime());
+    addEvent(kie);
+  }
+  if ((event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP) || (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN) || (event.getKeyCode() == KeyEvent.KEYCODE_MENU)) {
+    return false;
+  }
+ else {
+    return true;
+  }
+}

@@ -1,0 +1,24 @@
+{
+  if (skinDeformer != null) {
+    for (    FbxCluster cluster : skinDeformer.getJmeObject()) {
+      applyCluster(cluster);
+    }
+  }
+  IrMesh irMesh=toIRMesh();
+  IrUtils.trimBoneWeights(irMesh);
+  IrUtils.toTangentsWithParity(irMesh);
+  IrUtils.triangulate(irMesh);
+  IntMap<IrMesh> irMeshes=IrUtils.splitByMaterial(irMesh);
+  IntMap<Mesh> jmeMeshes=new IntMap<Mesh>();
+  for (  IntMap.Entry<IrMesh> irMeshEntry : irMeshes) {
+    Mesh jmeMesh=IrUtils.convertIrMeshToJmeMesh(irMeshEntry.getValue());
+    jmeMeshes.put(irMeshEntry.getKey(),jmeMesh);
+  }
+  if (jmeMeshes.size() == 0) {
+    logger.log(Level.WARNING,"Empty FBX mesh found (unusual).");
+  }
+  if (jmeMeshes.containsKey(-1) && jmeMeshes.size() > 1) {
+    logger.log(Level.WARNING,"Mesh has polygons with no material " + "indices (unusual) - they will use material index 0.");
+  }
+  return jmeMeshes;
+}

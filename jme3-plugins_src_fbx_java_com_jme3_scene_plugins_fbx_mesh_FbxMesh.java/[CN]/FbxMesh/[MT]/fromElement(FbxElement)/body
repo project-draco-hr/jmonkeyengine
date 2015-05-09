@@ -1,0 +1,29 @@
+{
+  super.fromElement(element);
+  List<FbxLayerElement> layerElementsList=new ArrayList<FbxLayerElement>();
+  List<FbxLayer> layersList=new ArrayList<FbxLayer>();
+  for (  FbxElement e : element.children) {
+    if (e.id.equals("Vertices")) {
+      setPositions(FbxMeshUtil.getDoubleArray(e));
+    }
+ else     if (e.id.equals("PolygonVertexIndex")) {
+      setPolygonVertexIndices(FbxMeshUtil.getIntArray(e));
+    }
+ else     if (e.id.equals("Edges")) {
+      setEdges(FbxMeshUtil.getIntArray(e));
+    }
+ else     if (e.id.startsWith("LayerElement")) {
+      layerElementsList.add(FbxLayerElement.fromElement(e));
+    }
+ else     if (e.id.equals("Layer")) {
+      layersList.add(FbxLayer.fromElement(e));
+    }
+  }
+  for (  FbxLayer layer : layersList) {
+    layer.setLayerElements(layerElementsList);
+  }
+  layerElements=new FbxLayerElement[layerElementsList.size()];
+  layerElementsList.toArray(layerElements);
+  layers=new FbxLayer[layersList.size()];
+  layersList.toArray(layers);
+}

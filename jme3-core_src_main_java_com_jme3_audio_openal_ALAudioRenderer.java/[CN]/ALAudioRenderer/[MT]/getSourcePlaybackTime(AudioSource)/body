@@ -1,0 +1,23 @@
+{
+  checkDead();
+synchronized (threadLock) {
+    if (audioDisabled) {
+      return 0;
+    }
+    if (src.getChannel() < 0) {
+      return 0;
+    }
+    int id=channels[src.getChannel()];
+    AudioData data=src.getAudioData();
+    int playbackOffsetBytes=0;
+    if (data instanceof AudioStream) {
+      AudioStream stream=(AudioStream)data;
+      int unqueuedBytes=stream.getUnqueuedBufferBytes();
+      int unqueuedBytesExtra=al.alGetSourcei(id,AL_BUFFERS_PROCESSED) * BUFFER_SIZE;
+      playbackOffsetBytes=unqueuedBytes;
+    }
+    playbackOffsetBytes+=al.alGetSourcei(id,AL_BYTE_OFFSET);
+    int bytesPerSecond=(data.getSampleRate() * data.getChannels() * data.getBitsPerSample() / 8);
+    return (float)playbackOffsetBytes / bytesPerSecond;
+  }
+}

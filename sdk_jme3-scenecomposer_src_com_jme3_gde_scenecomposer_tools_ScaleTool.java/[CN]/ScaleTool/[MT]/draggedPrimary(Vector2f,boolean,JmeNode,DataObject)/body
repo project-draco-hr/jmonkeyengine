@@ -1,31 +1,34 @@
 {
   if (!pressed) {
     setDefaultAxisMarkerColors();
-    pickedPlane=null;
-    lastScreenCoord=null;
+    pickedMarker=null;
+    constraintAxis=Vector3f.UNIT_XYZ;
     if (wasDragging) {
       actionPerformed(new ScaleUndo(toolController.getSelectedSpatial(),startScale,lastScale));
       wasDragging=false;
     }
-    return;
+    pickManager.reset();
   }
-  if (toolController.getSelectedSpatial() == null)   return;
-  if (pickedPlane == null) {
-    pickedPlane=pickAxisMarker(camera,screenCoord,axisPickType);
-    if (pickedPlane == null)     return;
-    startScale=toolController.getSelectedSpatial().getLocalScale().clone();
-  }
-  if (lastScreenCoord == null) {
-    lastScreenCoord=screenCoord;
-  }
- else {
-    float diff=screenCoord.y - lastScreenCoord.y;
-    diff*=0.1f;
-    lastScreenCoord=screenCoord;
-    Vector3f scale=toolController.getSelectedSpatial().getLocalScale().add(diff,diff,diff);
-    lastScale=scale;
-    toolController.getSelectedSpatial().setLocalScale(scale);
+ else   if (wasDragging) {
+    if (!pickManager.updatePick(camera,screenCoord)) {
+      return;
+    }
+    if (pickedMarker.equals(QUAD_XY) || pickedMarker.equals(QUAD_XZ) || pickedMarker.equals(QUAD_YZ)) {
+      constraintAxis=pickManager.getStartOffset().normalize();
+      float diff=pickManager.getTranslation(constraintAxis).dot(constraintAxis);
+      diff*=0.5f;
+      Vector3f scale=startScale.add(new Vector3f(diff,diff,diff));
+      lastScale=scale;
+      toolController.getSelectedSpatial().setLocalScale(scale);
+    }
+ else     if (pickedMarker.equals(ARROW_X) || pickedMarker.equals(ARROW_Y) || pickedMarker.equals(ARROW_Z)) {
+      Quaternion worldToSpatial=toolController.getSelectedSpatial().getWorldRotation().inverse();
+      Vector3f diff=pickManager.getTranslation(worldToSpatial.mult(constraintAxis));
+      diff.multLocal(0.5f);
+      Vector3f scale=startScale.add(diff);
+      lastScale=scale;
+      toolController.getSelectedSpatial().setLocalScale(scale);
+    }
     updateToolsTransformation();
   }
-  wasDragging=true;
 }

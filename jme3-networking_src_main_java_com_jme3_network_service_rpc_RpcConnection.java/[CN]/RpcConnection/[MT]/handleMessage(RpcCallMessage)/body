@@ -1,0 +1,23 @@
+{
+  if (log.isLoggable(Level.FINEST)) {
+    log.log(Level.FINEST,"handleMessage({0})",msg);
+  }
+  RpcHandler handler=handlers.get(msg.getObjectId());
+  try {
+    if (handler == null) {
+      throw new RuntimeException("Handler not found for objectID:" + msg.getObjectId());
+    }
+    Object result=handler.call(this,msg.getObjectId(),msg.getProcedureId(),msg.getArguments());
+    if (!msg.isAsync()) {
+      send(msg.getChannel(),new RpcResponseMessage(msg.getMessageId(),result));
+    }
+  }
+ catch (  Exception e) {
+    if (!msg.isAsync()) {
+      send(msg.getChannel(),new RpcResponseMessage(msg.getMessageId(),e));
+    }
+ else {
+      log.log(Level.SEVERE,"Error invoking async call for:" + msg,e);
+    }
+  }
+}

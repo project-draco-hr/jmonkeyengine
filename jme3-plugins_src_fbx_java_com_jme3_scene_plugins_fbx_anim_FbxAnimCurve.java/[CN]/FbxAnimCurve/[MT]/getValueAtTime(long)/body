@@ -1,0 +1,29 @@
+{
+  if (keyTimes.length == 0) {
+    return 0;
+  }
+  if (time <= keyTimes[0]) {
+    return keyValues[0];
+  }
+ else   if (time >= keyTimes[keyTimes.length - 1]) {
+    return keyValues[keyValues.length - 1];
+  }
+  int startFrame=0;
+  int endFrame=1;
+  int lastFrame=keyTimes.length - 1;
+  for (int i=0; i < lastFrame && keyTimes[i] < time; ++i) {
+    startFrame=i;
+    endFrame=i + 1;
+  }
+  long keyTime1=keyTimes[startFrame];
+  float keyValue1=keyValues[startFrame];
+  long keyTime2=keyTimes[endFrame];
+  float keyValue2=keyValues[endFrame];
+  if (keyTime2 == time) {
+    return keyValue2;
+  }
+  long prevToNextDelta=keyTime2 - keyTime1;
+  long prevToCurrentDelta=time - keyTime1;
+  float lerpAmount=(float)prevToCurrentDelta / prevToNextDelta;
+  return FastMath.interpolateLinear(lerpAmount,keyValue1,keyValue2);
+}

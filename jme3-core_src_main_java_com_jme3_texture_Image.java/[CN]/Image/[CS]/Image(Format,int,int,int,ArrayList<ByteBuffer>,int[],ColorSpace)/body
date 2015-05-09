@@ -1,11 +1,13 @@
 {
   this();
-  if (mipMapSizes != null && mipMapSizes.length <= 1) {
-    mipMapSizes=null;
-  }
+  if (mipMapSizes != null) {
+    if (mipMapSizes.length <= 1) {
+      mipMapSizes=null;
+    }
  else {
-    needGeneratedMips=false;
-    mipsWereGenerated=true;
+      needGeneratedMips=false;
+      mipsWereGenerated=true;
+    }
   }
   setFormat(format);
   this.width=width;

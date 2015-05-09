@@ -1,0 +1,42 @@
+{
+  String elementName=element.id;
+  String subclassName;
+  if (element.propertiesTypes.length == 3) {
+    subclassName=(String)element.properties.get(2);
+  }
+ else   if (element.propertiesTypes.length == 2) {
+    subclassName=(String)element.properties.get(1);
+  }
+ else {
+    return null;
+  }
+  Class<? extends FbxObject> javaFbxClass=getImplementingClass(elementName,subclassName);
+  if (javaFbxClass != null) {
+    try {
+      Constructor<? extends FbxObject> ctor=javaFbxClass.getConstructor(AssetManager.class,String.class);
+      FbxObject obj=ctor.newInstance(assetManager,sceneFolderName);
+      obj.fromElement(element);
+      String subClassName=elementName + ", " + subclassName;
+      if (obj.assetManager == null) {
+        throw new IllegalStateException("FBXObject subclass (" + subClassName + ") forgot to call super() in their constructor");
+      }
+ else       if (obj.className == null) {
+        throw new IllegalStateException("FBXObject subclass (" + subClassName + ") forgot to call super.fromElement() in their fromElement() implementation");
+      }
+      return obj;
+    }
+ catch (    InvocationTargetException ex) {
+      throw new IllegalStateException(ex);
+    }
+catch (    NoSuchMethodException ex) {
+      throw new IllegalStateException(ex);
+    }
+catch (    InstantiationException ex) {
+      throw new IllegalStateException(ex);
+    }
+catch (    IllegalAccessException ex) {
+      throw new IllegalStateException(ex);
+    }
+  }
+  return null;
+}

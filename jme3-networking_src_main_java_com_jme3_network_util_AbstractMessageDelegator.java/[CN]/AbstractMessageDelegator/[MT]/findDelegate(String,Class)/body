@@ -1,0 +1,11 @@
+{
+  for (  Method m : delegateType.getDeclaredMethods()) {
+    if (!m.getName().equals(name)) {
+      continue;
+    }
+    if (isValidMethod(m,messageType)) {
+      return m;
+    }
+  }
+  return null;
+}

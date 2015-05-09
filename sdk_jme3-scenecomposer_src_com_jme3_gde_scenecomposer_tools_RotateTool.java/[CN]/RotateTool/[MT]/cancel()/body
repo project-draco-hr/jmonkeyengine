@@ -1,0 +1,9 @@
+{
+  if (wasDragging) {
+    wasDragging=false;
+    toolController.getSelectedSpatial().setLocalRotation(startRotate);
+    setDefaultAxisMarkerColors();
+    pickedMarker=null;
+    pickManager.reset();
+  }
+}

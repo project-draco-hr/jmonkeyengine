@@ -1,7 +1,7 @@
 {
   SensorData sensorData;
-  AndroidJoystickAxis axis;
-  AndroidJoystick joystick=new AndroidJoystick(inputManager,joyHandler,joyId,"AndroidSensorsJoystick");
+  AndroidSensorJoystickAxis axis;
+  AndroidSensorJoystick joystick=new AndroidSensorJoystick(inputManager,joyInput,joyId,"AndroidSensorsJoystick");
   List<Sensor> availSensors=sensorManager.getSensorList(Sensor.TYPE_ALL);
   for (  Sensor sensor : availSensors) {
     logger.log(Level.FINE,"{0} Sensor is available, Type: {1}, Vendor: {2}, Version: {3}",new Object[]{sensor.getName(),sensor.getType(),sensor.getVendor(),sensor.getVersion()});

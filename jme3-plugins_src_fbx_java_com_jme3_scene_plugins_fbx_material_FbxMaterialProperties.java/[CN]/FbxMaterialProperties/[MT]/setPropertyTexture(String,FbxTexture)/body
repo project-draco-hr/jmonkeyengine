@@ -1,0 +1,11 @@
+{
+  FBXMaterialProperty prop=propertyMetaMap.get(name);
+  if (prop == null) {
+    logger.log(Level.WARNING,"Unknown FBX material property '{0}'",name);
+    return;
+  }
+  if (propertyValueMap.get(name) instanceof FbxTexture) {
+    name=name + "2";
+  }
+  propertyValueMap.put(name,texture);
+}

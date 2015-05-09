@@ -1,0 +1,138 @@
+{
+  Map<IrVertex,Integer> vertexToVertexIndex=new HashMap<IrVertex,Integer>();
+  List<IrVertex> vertices=new ArrayList<IrVertex>();
+  List<Integer> indexes=new ArrayList<Integer>();
+  int vertexIndex=0;
+  for (  IrPolygon polygon : mesh.polygons) {
+    if (polygon.vertices.length != 3) {
+      throw new UnsupportedOperationException("IrMesh must be triangulated first");
+    }
+    for (    IrVertex vertex : polygon.vertices) {
+      Integer existingIndex=vertexToVertexIndex.get(vertex);
+      if (existingIndex == null) {
+        indexes.add(vertexIndex);
+        vertexToVertexIndex.put(vertex,vertexIndex);
+        vertices.add(vertex);
+        vertexIndex++;
+      }
+ else {
+        indexes.add(existingIndex);
+      }
+    }
+  }
+  Mesh jmeMesh=new Mesh();
+  jmeMesh.setMode(Mesh.Mode.Triangles);
+  FloatBuffer posBuf=null;
+  FloatBuffer normBuf=null;
+  FloatBuffer tangBuf=null;
+  FloatBuffer uv0Buf=null;
+  FloatBuffer uv1Buf=null;
+  ByteBuffer colorBuf=null;
+  ByteBuffer boneIndices=null;
+  FloatBuffer boneWeights=null;
+  IndexBuffer indexBuf=null;
+  IrVertex inspectionVertex=vertices.get(0);
+  if (inspectionVertex.pos != null) {
+    posBuf=BufferUtils.createVector3Buffer(vertices.size());
+    jmeMesh.setBuffer(VertexBuffer.Type.Position,3,posBuf);
+  }
+  if (inspectionVertex.norm != null) {
+    normBuf=BufferUtils.createVector3Buffer(vertices.size());
+    jmeMesh.setBuffer(VertexBuffer.Type.Normal,3,normBuf);
+  }
+  if (inspectionVertex.tang4d != null) {
+    tangBuf=BufferUtils.createFloatBuffer(vertices.size() * 4);
+    jmeMesh.setBuffer(VertexBuffer.Type.Tangent,4,tangBuf);
+  }
+  if (inspectionVertex.tang != null || inspectionVertex.bitang != null) {
+    throw new IllegalStateException("Mesh is using 3D tangents, must be converted to 4D tangents first.");
+  }
+  if (inspectionVertex.uv0 != null) {
+    uv0Buf=BufferUtils.createVector2Buffer(vertices.size());
+    jmeMesh.setBuffer(VertexBuffer.Type.TexCoord,2,uv0Buf);
+  }
+  if (inspectionVertex.uv1 != null) {
+    uv1Buf=BufferUtils.createVector2Buffer(vertices.size());
+    jmeMesh.setBuffer(VertexBuffer.Type.TexCoord2,2,uv1Buf);
+  }
+  if (inspectionVertex.color != null) {
+    colorBuf=BufferUtils.createByteBuffer(vertices.size() * 4);
+    jmeMesh.setBuffer(VertexBuffer.Type.Color,4,colorBuf);
+    jmeMesh.getBuffer(VertexBuffer.Type.Color).setNormalized(true);
+  }
+  if (inspectionVertex.boneWeightsIndices != null) {
+    boneIndices=BufferUtils.createByteBuffer(vertices.size() * 4);
+    boneWeights=BufferUtils.createFloatBuffer(vertices.size() * 4);
+    jmeMesh.setBuffer(VertexBuffer.Type.BoneIndex,4,boneIndices);
+    jmeMesh.setBuffer(VertexBuffer.Type.BoneWeight,4,boneWeights);
+    VertexBuffer weightsHW=new VertexBuffer(VertexBuffer.Type.HWBoneWeight);
+    VertexBuffer indicesHW=new VertexBuffer(VertexBuffer.Type.HWBoneIndex);
+    indicesHW.setUsage(VertexBuffer.Usage.CpuOnly);
+    weightsHW.setUsage(VertexBuffer.Usage.CpuOnly);
+    jmeMesh.setBuffer(weightsHW);
+    jmeMesh.setBuffer(indicesHW);
+  }
+  if (vertices.size() >= 65536) {
+    IntBuffer ib=BufferUtils.createIntBuffer(indexes.size());
+    jmeMesh.setBuffer(VertexBuffer.Type.Index,3,ib);
+    indexBuf=new IndexIntBuffer(ib);
+  }
+ else {
+    ShortBuffer sb=BufferUtils.createShortBuffer(indexes.size());
+    jmeMesh.setBuffer(VertexBuffer.Type.Index,3,sb);
+    indexBuf=new IndexShortBuffer(sb);
+  }
+  jmeMesh.setStatic();
+  int maxBonesPerVertex=-1;
+  for (  IrVertex vertex : vertices) {
+    if (posBuf != null) {
+      posBuf.put(vertex.pos.x).put(vertex.pos.y).put(vertex.pos.z);
+    }
+    if (normBuf != null) {
+      normBuf.put(vertex.norm.x).put(vertex.norm.y).put(vertex.norm.z);
+    }
+    if (tangBuf != null) {
+      tangBuf.put(vertex.tang4d.x).put(vertex.tang4d.y).put(vertex.tang4d.z).put(vertex.tang4d.w);
+    }
+    if (uv0Buf != null) {
+      uv0Buf.put(vertex.uv0.x).put(vertex.uv0.y);
+    }
+    if (uv1Buf != null) {
+      uv1Buf.put(vertex.uv1.x).put(vertex.uv1.y);
+    }
+    if (colorBuf != null) {
+      colorBuf.putInt(vertex.color.asIntABGR());
+    }
+    if (boneIndices != null) {
+      if (vertex.boneWeightsIndices != null) {
+        if (vertex.boneWeightsIndices.length > 4) {
+          throw new UnsupportedOperationException("Mesh uses more than 4 weights per bone. " + "Call trimBoneWeights() to allieviate this");
+        }
+        for (int i=0; i < vertex.boneWeightsIndices.length; i++) {
+          boneIndices.put((byte)(vertex.boneWeightsIndices[i].boneIndex & 0xFF));
+          boneWeights.put(vertex.boneWeightsIndices[i].boneWeight);
+        }
+        for (int i=0; i < 4 - vertex.boneWeightsIndices.length; i++) {
+          boneIndices.put((byte)0);
+          boneWeights.put(0f);
+        }
+      }
+ else {
+        boneIndices.putInt(0);
+        boneWeights.put(0f).put(0f).put(0f).put(0f);
+      }
+      maxBonesPerVertex=Math.max(maxBonesPerVertex,vertex.boneWeightsIndices.length);
+    }
+  }
+  for (int i=0; i < indexes.size(); i++) {
+    indexBuf.put(i,indexes.get(i));
+  }
+  jmeMesh.updateCounts();
+  jmeMesh.updateBound();
+  if (boneIndices != null) {
+    jmeMesh.setMaxNumWeights(maxBonesPerVertex);
+    jmeMesh.prepareForAnim(true);
+    jmeMesh.generateBindPose(true);
+  }
+  return jmeMesh;
+}

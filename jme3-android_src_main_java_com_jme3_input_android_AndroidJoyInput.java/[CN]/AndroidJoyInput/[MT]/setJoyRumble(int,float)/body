@@ -1,0 +1,16 @@
+{
+  if (vibrator != null) {
+    final long rumbleOnDur=(long)(amount * maxRumbleTime);
+    final long rumbleOffDur=maxRumbleTime - rumbleOnDur;
+    final long[] rumblePattern={0,rumbleOnDur,rumbleOffDur};
+    final int rumbleRepeatFrom=0;
+    if (rumbleOnDur > 0) {
+      vibrator.vibrate(rumblePattern,rumbleRepeatFrom);
+      vibratorActive=true;
+    }
+ else {
+      vibrator.cancel();
+      vibratorActive=false;
+    }
+  }
+}

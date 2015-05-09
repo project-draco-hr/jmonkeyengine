@@ -1,0 +1,27 @@
+{
+  if (msg == null) {
+    return;
+  }
+  Object delegate=getSourceDelegate(source);
+  if (delegate == null) {
+    return;
+  }
+  Method m=getMethod(msg.getClass());
+  if (m == null) {
+    throw new RuntimeException("Delegate method not found for message class:" + msg.getClass());
+  }
+  try {
+    if (m.getParameterTypes().length > 1) {
+      m.invoke(delegate,source,msg);
+    }
+ else {
+      m.invoke(delegate,msg);
+    }
+  }
+ catch (  IllegalAccessException e) {
+    throw new RuntimeException("Error executing:" + m,e);
+  }
+catch (  InvocationTargetException e) {
+    throw new RuntimeException("Error executing:" + m,e.getCause());
+  }
+}

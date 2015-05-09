@@ -1,3 +1,9 @@
 {
-  return save(object,new FileOutputStream(f));
+  FileOutputStream fos=new FileOutputStream(f);
+  try {
+    save(object,fos);
+  }
+  finally {
+    fos.close();
+  }
 }
