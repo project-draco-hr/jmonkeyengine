@@ -6,9 +6,6 @@
     terminate();
   }
  else {
-    spatial=selectedSpatial;
-    initalLocation=spatial.getLocalTranslation();
-    currentAxis=new Vector3f().set(Vector3f.UNIT_XYZ);
-    pickManager=Lookup.getDefault().lookup(PickManager.class);
+    init(selectedSpatial);
   }
 }

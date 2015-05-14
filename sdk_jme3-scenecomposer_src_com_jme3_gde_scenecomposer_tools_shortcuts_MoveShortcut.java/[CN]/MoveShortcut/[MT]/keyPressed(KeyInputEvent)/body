@@ -1,7 +1,13 @@
 {
   if (kie.isPressed()) {
+    System.out.println(kie);
     Lookup.getDefault().lookup(ShortcutManager.class).activateShortcut(kie);
-    boolean axisChanged=ShortcutManager.checkAxisKey(kie,currentAxis);
+    Vector3f axis=new Vector3f();
+    boolean axisChanged=ShortcutManager.checkAxisKey(kie,axis);
+    if (axisChanged) {
+      currentAxis=axis;
+      System.out.println("AXIS : " + currentAxis);
+    }
     boolean numberChanged=ShortcutManager.checkNumberKey(kie,numberBuilder);
     boolean enterHit=ShortcutManager.checkEnterHit(kie);
     boolean escHit=ShortcutManager.checkEscHit(kie);
@@ -11,10 +17,24 @@
  else     if (enterHit) {
       apply();
     }
+ else     if (axisChanged && pickEnabled) {
+      if (currentAxis.equals(Vector3f.UNIT_X)) {
+        System.out.println("setTransformation X");
+        pickManager.setTransformation(PickManager.PLANE_XY,getTransformType(),camera);
+      }
+ else       if (currentAxis.equals(Vector3f.UNIT_Y)) {
+        System.out.println("setTransformation Y");
+        pickManager.setTransformation(PickManager.PLANE_YZ,getTransformType(),camera);
+      }
+ else       if (currentAxis.equals(Vector3f.UNIT_Z)) {
+        System.out.println("setTransformation Z");
+        pickManager.setTransformation(PickManager.PLANE_XZ,getTransformType(),camera);
+      }
+    }
  else     if (axisChanged || numberChanged) {
       float number=ShortcutManager.getNumberkey(numberBuilder);
       Vector3f translation=currentAxis.mult(number);
-      finalLocation=initalLocation.add(translation);
+      finalLocation=startPosition.add(translation);
       spatial.setLocalTranslation(finalLocation);
     }
   }
