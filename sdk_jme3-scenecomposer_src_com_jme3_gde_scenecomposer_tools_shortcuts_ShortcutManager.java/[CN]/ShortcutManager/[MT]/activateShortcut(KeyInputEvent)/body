@@ -1,4 +1,7 @@
 {
-  currentShortcut=getActivableShortcut(kie);
-  return isActive();
+  ShortcutTool newShortcut=getActivableShortcut(kie);
+  if (newShortcut != null) {
+    currentShortcut=newShortcut;
+  }
+  return newShortcut != null;
 }
