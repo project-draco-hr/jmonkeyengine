@@ -1,0 +1,41 @@
+{
+  if (!pickEnabled) {
+    if (currentAxis.equals(Vector3f.UNIT_XYZ)) {
+      pickManager.initiatePick(toolController.getSelectedSpatial(),camera.getRotation(),SceneComposerToolController.TransformationType.camera,camera,screenCoord);
+      pickEnabled=true;
+    }
+ else     if (currentAxis.equals(Vector3f.UNIT_X)) {
+      pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_XY,getTransformType(),camera,screenCoord);
+      pickEnabled=true;
+    }
+ else     if (currentAxis.equals(Vector3f.UNIT_Y)) {
+      pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_YZ,getTransformType(),camera,screenCoord);
+      pickEnabled=true;
+    }
+ else     if (currentAxis.equals(Vector3f.UNIT_Z)) {
+      pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_XZ,getTransformType(),camera,screenCoord);
+      pickEnabled=true;
+    }
+ else {
+      return;
+    }
+  }
+  if (pickManager.updatePick(camera,screenCoord)) {
+    Vector3f scale=startScale;
+    if (currentAxis.equals(Vector3f.UNIT_XYZ)) {
+      Vector3f constraintAxis=pickManager.getStartOffset().normalize();
+      float diff=pickManager.getTranslation(constraintAxis).dot(constraintAxis);
+      diff*=0.5f;
+      scale=startScale.add(new Vector3f(diff,diff,diff));
+    }
+ else {
+      Quaternion worldToSpatial=toolController.getSelectedSpatial().getWorldRotation().inverse();
+      Vector3f diff=pickManager.getTranslation(worldToSpatial.mult(currentAxis));
+      diff.multLocal(0.5f);
+      scale=startScale.add(diff);
+    }
+    finalScale=scale;
+    toolController.getSelectedSpatial().setLocalScale(scale);
+    updateToolsTransformation();
+  }
+}
