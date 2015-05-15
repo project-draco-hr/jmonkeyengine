@@ -34,8 +34,8 @@
  else     if (axisChanged || numberChanged) {
       float number=ShortcutManager.getNumberkey(numberBuilder);
       Vector3f translation=currentAxis.mult(number);
-      finalLocation=startPosition.add(translation);
-      spatial.setLocalTranslation(finalLocation);
+      finalPosition=startPosition.add(translation);
+      spatial.setLocalTranslation(finalPosition);
     }
   }
 }
