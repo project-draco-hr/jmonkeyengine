@@ -5,7 +5,8 @@
   capsule.write(getGravity(),"gravity",Vector3f.ZERO);
   capsule.write(getFriction(),"friction",0.5f);
   capsule.write(getRestitution(),"restitution",0);
-  capsule.write(getAngularFactor(),"angularFactor",1);
+  capsule.write(getAngularFactor(),"angularFactor",Vector3f.UNIT_XYZ);
+  capsule.write(getLinearFactor(),"linearFactor",Vector3f.UNIT_XYZ);
   capsule.write(kinematic,"kinematic",false);
   capsule.write(getLinearDamping(),"linearDamping",0);
   capsule.write(getAngularDamping(),"angularDamping",0);
