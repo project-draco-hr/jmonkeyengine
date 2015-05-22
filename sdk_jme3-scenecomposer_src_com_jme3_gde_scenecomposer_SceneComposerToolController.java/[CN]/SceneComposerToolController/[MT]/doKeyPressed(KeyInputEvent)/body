@@ -1,5 +1,16 @@
 {
-  if (editTool != null) {
-    editTool.keyPressed(kie);
+  ShortcutManager scm=Lookup.getDefault().lookup(ShortcutManager.class);
+  if (scm.isActive()) {
+    scm.doKeyPressed(kie);
+  }
+ else {
+    if (scm.activateShortcut(kie)) {
+      scm.getActiveShortcut().activate(manager,toolsNode,onTopToolsNode,selected,this);
+    }
+ else {
+      if (editTool != null) {
+        editTool.keyPressed(kie);
+      }
+    }
   }
 }
