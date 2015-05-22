@@ -1,0 +1,24 @@
+{
+  if (kie.isPressed()) {
+    Lookup.getDefault().lookup(ShortcutManager.class).activateShortcut(kie);
+    Vector3f axis=new Vector3f();
+    boolean axisChanged=ShortcutManager.checkAxisKey(kie,axis);
+    if (axisChanged) {
+      currentAxis=axis;
+    }
+    boolean numberChanged=ShortcutManager.checkNumberKey(kie,numberBuilder);
+    boolean enterHit=ShortcutManager.checkEnterHit(kie);
+    boolean escHit=ShortcutManager.checkEscHit(kie);
+    if (escHit) {
+      cancel();
+    }
+ else     if (enterHit) {
+      apply();
+    }
+ else     if (axisChanged && pickEnabled) {
+      pickEnabled=false;
+    }
+ else     if (axisChanged || numberChanged) {
+    }
+  }
+}

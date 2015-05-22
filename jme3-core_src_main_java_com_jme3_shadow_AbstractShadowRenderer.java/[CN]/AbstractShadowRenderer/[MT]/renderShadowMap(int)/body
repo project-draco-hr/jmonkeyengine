@@ -4,6 +4,6 @@
   lightViewProjectionsMatrices[shadowMapIndex].set(shadowCam.getViewProjectionMatrix());
   renderManager.setCamera(shadowCam,false);
   renderManager.getRenderer().setFrameBuffer(shadowFB[shadowMapIndex]);
-  renderManager.getRenderer().clearBuffers(false,true,false);
+  renderManager.getRenderer().clearBuffers(true,true,true);
   viewPort.getQueue().renderShadowQueue(shadowMapOccluders,renderManager,shadowCam,true);
 }
