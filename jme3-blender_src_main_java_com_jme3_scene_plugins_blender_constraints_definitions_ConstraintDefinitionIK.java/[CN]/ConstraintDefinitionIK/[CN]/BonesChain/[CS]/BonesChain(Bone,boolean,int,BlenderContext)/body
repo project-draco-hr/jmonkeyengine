@@ -1,0 +1,18 @@
+{
+  if (bone != null) {
+    ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.class);
+    if (!useTail) {
+      bone=bone.getParent();
+    }
+    while (bone != null && this.size() < bonesAffected) {
+      BoneContext boneContext=blenderContext.getBoneContext(bone);
+      this.add(boneContext);
+      alteredOmas.add(boneContext.getBoneOma());
+      Space space=this.size() < bonesAffected ? Space.CONSTRAINT_SPACE_LOCAL : Space.CONSTRAINT_SPACE_WORLD;
+      Transform transform=constraintHelper.getTransform(boneContext.getArmatureObjectOMA(),boneContext.getBone().getName(),space);
+      originalBonesMatrices.add(new DTransform(transform).toMatrix());
+      bone=bone.getParent();
+    }
+    this.reset();
+  }
+}
