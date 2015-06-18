@@ -1,5 +1,6 @@
 {
   String name=key.getName();
+  if (name.startsWith("/"))   name=name.substring(1);
   ZipEntry entry=zipfile.getEntry(name);
   if (entry == null)   return null;
   return new JarAssetInfo(manager,key,entry);
