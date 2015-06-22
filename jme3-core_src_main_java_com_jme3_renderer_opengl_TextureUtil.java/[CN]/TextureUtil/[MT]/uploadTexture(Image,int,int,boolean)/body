@@ -24,6 +24,9 @@
     }
   }
   int samples=image.getMultiSamples();
+  if (oglFormat.swizzleRequired) {
+    setupTextureSwizzle(target,jmeFormat);
+  }
   for (int i=0; i < mipSizes.length; i++) {
     int mipWidth=Math.max(1,width >> i);
     int mipHeight=Math.max(1,height >> i);

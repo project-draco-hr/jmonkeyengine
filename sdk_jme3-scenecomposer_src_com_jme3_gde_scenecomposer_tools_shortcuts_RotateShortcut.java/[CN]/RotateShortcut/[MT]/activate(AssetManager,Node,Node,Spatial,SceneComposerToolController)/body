@@ -1,0 +1,11 @@
+{
+  super.activate(manager,toolNode,onTopToolNode,selectedSpatial,toolController);
+  hideMarker();
+  numberBuilder=new StringBuilder();
+  if (selectedSpatial == null) {
+    terminate();
+  }
+ else {
+    init(selectedSpatial);
+  }
+}

@@ -1,0 +1,8 @@
+{
+  if (kie.getKeyCode() == KeyInput.KEY_D && kie.isPressed()) {
+    if (Lookup.getDefault().lookup(ShortcutManager.class).isShiftDown()) {
+      return true;
+    }
+  }
+  return false;
+}

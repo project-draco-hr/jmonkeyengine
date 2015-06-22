@@ -1,6 +1,6 @@
 {
   if (trackToBeChanged) {
-    List<BoneContext> bones=this.loadBones();
+    bones=new BonesChain((Bone)this.getOwner(),useTail,bonesAffected,blenderContext);
     trackToBeChanged=bones.size() > 0;
   }
   return trackToBeChanged;

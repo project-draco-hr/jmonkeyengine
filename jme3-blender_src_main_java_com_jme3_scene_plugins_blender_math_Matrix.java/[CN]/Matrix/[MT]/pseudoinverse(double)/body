@@ -1,0 +1,25 @@
+{
+  SimpleSVD<SimpleMatrix> simpleSVD=this.svd();
+  SimpleMatrix U=simpleSVD.getU();
+  SimpleMatrix S=simpleSVD.getW();
+  SimpleMatrix V=simpleSVD.getV();
+  int N=Math.min(this.numRows(),this.numCols());
+  double maxSingular=0;
+  for (int i=0; i < N; i++) {
+    if (S.get(i,i) > maxSingular) {
+      maxSingular=S.get(i,i);
+    }
+  }
+  double tolerance=FastMath.DBL_EPSILON * Math.max(this.numRows(),this.numCols()) * maxSingular;
+  for (int i=0; i < Math.min(S.numRows(),S.numCols()); ++i) {
+    double a=S.get(i,i);
+    if (a <= tolerance) {
+      a=0;
+    }
+ else {
+      a=a / (a * a + lambda * lambda);
+    }
+    S.set(i,i,a);
+  }
+  return new Matrix(V.mult(S.transpose()).mult(U.transpose()));
+}
