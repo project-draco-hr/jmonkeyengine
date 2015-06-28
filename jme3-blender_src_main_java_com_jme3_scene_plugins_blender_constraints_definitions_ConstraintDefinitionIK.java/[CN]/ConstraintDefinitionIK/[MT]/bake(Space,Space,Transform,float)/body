@@ -39,6 +39,9 @@
     }
     Matrix J_1=J.pseudoinverse();
     SimpleMatrix deltaThetas=J_1.mult(deltaP);
+    if (deltaThetas.elementMaxAbs() < MIN_ANGLE_CHANGE) {
+      break;
+    }
     for (int j=0; j < deltaThetas.numRows(); ++j) {
       double angle=deltaThetas.get(j,0);
       Vector3d rotationVector=rotationVectors[j];
