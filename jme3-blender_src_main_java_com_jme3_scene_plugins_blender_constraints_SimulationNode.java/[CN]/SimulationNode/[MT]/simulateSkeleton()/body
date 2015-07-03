@@ -19,7 +19,7 @@
         Set<Long> applied=new HashSet<Long>();
         for (        Bone rootBone : skeleton.getRoots()) {
           if (skeleton.getBoneIndex(rootBone) > 0) {
-            this.applyConstraints(rootBone,alteredOmas,applied,frame);
+            this.applyConstraints(rootBone,alteredOmas,applied,frame,new Stack<Bone>());
           }
         }
         for (        Long boneOMA : alteredOmas) {

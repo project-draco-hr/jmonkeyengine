@@ -1,0 +1,17 @@
+{
+  Vector3d vect1=new Vector3d(this.get(0,0),this.get(1,0),this.get(2,0));
+  vect1.normalizeLocal().multLocal(x);
+  this.set(0,0,vect1.x);
+  this.set(1,0,vect1.y);
+  this.set(2,0,vect1.z);
+  vect1.set(this.get(0,1),this.get(1,1),this.get(2,1));
+  vect1.normalizeLocal().multLocal(y);
+  this.set(0,1,vect1.x);
+  this.set(1,1,vect1.y);
+  this.set(2,1,vect1.z);
+  vect1.set(this.get(0,2),this.get(1,2),this.get(2,2));
+  vect1.normalizeLocal().multLocal(z);
+  this.set(0,2,vect1.x);
+  this.set(1,2,vect1.y);
+  this.set(2,2,vect1.z);
+}
