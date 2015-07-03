@@ -10,6 +10,7 @@
   lightMode=ic.readEnum("lightMode",LightMode.class,LightMode.Disable);
   shadowMode=ic.readEnum("shadowMode",ShadowMode.class,ShadowMode.Disable);
   renderState=(RenderState)ic.readSavable("renderState",null);
+  noRender=ic.readBoolean("noRender",false);
   if (ic.getSavableVersion(TechniqueDef.class) == 0) {
     shaderLanguages.put(Shader.ShaderType.Vertex,ic.readString("shaderLang",null));
     shaderLanguages.put(Shader.ShaderType.Fragment,shaderLanguages.get(Shader.ShaderType.Vertex));
