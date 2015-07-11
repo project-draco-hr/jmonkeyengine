@@ -41,7 +41,7 @@
     }
     tangent.cross(binormal,normal);
     normal.normalizeLocal();
-    return new TriangleData(tangent,binormal,normal);
+    return new TriangleData(tangent.clone(),binormal.clone(),normal.clone());
   }
   finally {
     tmp.release();
