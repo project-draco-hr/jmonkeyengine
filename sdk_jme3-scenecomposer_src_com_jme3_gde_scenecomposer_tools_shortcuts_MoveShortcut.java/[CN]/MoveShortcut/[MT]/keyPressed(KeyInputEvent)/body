@@ -1,0 +1,36 @@
+{
+  if (kie.isPressed()) {
+    Lookup.getDefault().lookup(ShortcutManager.class).activateShortcut(kie);
+    Vector3f axis=new Vector3f();
+    boolean axisChanged=ShortcutManager.checkAxisKey(kie,axis);
+    if (axisChanged) {
+      currentAxis=axis;
+    }
+    boolean numberChanged=ShortcutManager.checkNumberKey(kie,numberBuilder);
+    boolean enterHit=ShortcutManager.checkEnterHit(kie);
+    boolean escHit=ShortcutManager.checkEscHit(kie);
+    if (escHit) {
+      cancel();
+    }
+ else     if (enterHit) {
+      apply();
+    }
+ else     if (axisChanged && pickEnabled) {
+      if (currentAxis.equals(Vector3f.UNIT_X)) {
+        pickManager.setTransformation(PickManager.PLANE_XY,getTransformType(),camera);
+      }
+ else       if (currentAxis.equals(Vector3f.UNIT_Y)) {
+        pickManager.setTransformation(PickManager.PLANE_YZ,getTransformType(),camera);
+      }
+ else       if (currentAxis.equals(Vector3f.UNIT_Z)) {
+        pickManager.setTransformation(PickManager.PLANE_XZ,getTransformType(),camera);
+      }
+    }
+ else     if (axisChanged || numberChanged) {
+      float number=ShortcutManager.getNumberKey(numberBuilder);
+      Vector3f translation=currentAxis.mult(number);
+      finalPosition=startPosition.add(translation);
+      spatial.setLocalTranslation(finalPosition);
+    }
+  }
+}

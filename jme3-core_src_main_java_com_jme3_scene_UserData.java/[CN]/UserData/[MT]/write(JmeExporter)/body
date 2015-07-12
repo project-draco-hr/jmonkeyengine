@@ -2,27 +2,42 @@
   OutputCapsule oc=ex.getCapsule(this);
   oc.write(type,"type",(byte)0);
 switch (type) {
-case 0:
+case TYPE_INTEGER:
     int i=(Integer)value;
   oc.write(i,"intVal",0);
 break;
-case 1:
+case TYPE_FLOAT:
 float f=(Float)value;
 oc.write(f,"floatVal",0f);
 break;
-case 2:
+case TYPE_BOOLEAN:
 boolean b=(Boolean)value;
 oc.write(b,"boolVal",false);
 break;
-case 3:
+case TYPE_STRING:
 String s=(String)value;
 oc.write(s,"strVal",null);
 break;
-case 4:
+case TYPE_LONG:
 Long l=(Long)value;
 oc.write(l,"longVal",0l);
 break;
+case TYPE_SAVABLE:
+Savable sav=(Savable)value;
+oc.write(sav,"savableVal",null);
+break;
+case TYPE_LIST:
+this.writeList(oc,(List<?>)value,"0");
+break;
+case TYPE_MAP:
+Map<?,?> map=(Map<?,?>)value;
+this.writeList(oc,map.keySet(),"0");
+this.writeList(oc,map.values(),"1");
+break;
+case TYPE_ARRAY:
+this.writeList(oc,Arrays.asList((Object[])value),"0");
+break;
 default :
-throw new UnsupportedOperationException();
+throw new UnsupportedOperationException("Unsupported value type: " + value.getClass());
 }
 }

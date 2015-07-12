@@ -4,11 +4,17 @@ switch (image.getFormat()) {
 case RGBA8:
     pixel.fromARGB8(data.get(index + 3),data.get(index),data.get(index + 1),data.get(index + 2));
   break;
+case ARGB8:
+pixel.fromARGB8(data.get(index),data.get(index + 1),data.get(index + 2),data.get(index + 3));
+break;
 case ABGR8:
 pixel.fromARGB8(data.get(index),data.get(index + 3),data.get(index + 2),data.get(index + 1));
 break;
 case BGR8:
 pixel.fromARGB8((byte)0xFF,data.get(index + 2),data.get(index + 1),data.get(index));
+break;
+case BGRA8:
+pixel.fromARGB8(data.get(index + 3),data.get(index + 2),data.get(index + 1),data.get(index));
 break;
 case RGB8:
 pixel.fromARGB8((byte)0xFF,data.get(index),data.get(index + 1),data.get(index + 2));

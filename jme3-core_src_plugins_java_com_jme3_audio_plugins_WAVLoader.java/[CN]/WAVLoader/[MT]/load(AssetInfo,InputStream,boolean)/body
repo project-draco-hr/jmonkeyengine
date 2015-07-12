@@ -25,7 +25,7 @@ case i_fmt:
     inOffset+=len;
   break;
 case i_data:
-duration=len / bytesPerSec;
+duration=(float)(len / bytesPerSec);
 if (readStream) {
 readDataChunkForStream(inOffset,len);
 }

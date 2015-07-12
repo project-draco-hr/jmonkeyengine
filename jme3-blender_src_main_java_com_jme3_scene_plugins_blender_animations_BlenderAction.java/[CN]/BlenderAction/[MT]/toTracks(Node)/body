@@ -1,7 +1,0 @@
-{
-  List<SpatialTrack> tracks=new ArrayList<SpatialTrack>(featuresTracks.size());
-  for (  Entry<String,Ipo> entry : featuresTracks.entrySet()) {
-    tracks.add((SpatialTrack)entry.getValue().calculateTrack(0,node.getLocalTranslation(),node.getLocalRotation(),node.getLocalScale(),1,stopFrame,fps,true));
-  }
-  return tracks.toArray(new SpatialTrack[tracks.size()]);
-}

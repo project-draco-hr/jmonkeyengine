@@ -17,11 +17,9 @@
       triData.setIndex(index);
       triData.triangleOffset=i * 3;
     }
-    if (triData != null) {
-      vertices.get(index[0]).triangles.add(triData);
-      vertices.get(index[1]).triangles.add(triData);
-      vertices.get(index[2]).triangles.add(triData);
-    }
+    vertices.get(index[0]).triangles.add(triData);
+    vertices.get(index[1]).triangles.add(triData);
+    vertices.get(index[2]).triangles.add(triData);
   }
   return vertices;
 }

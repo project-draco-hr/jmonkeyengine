@@ -1,0 +1,45 @@
+{
+  int size=ic.readInt(listName + "size",0);
+  List<Object> list=new ArrayList<Object>(size);
+  for (int i=0; i < size; ++i) {
+    int type=ic.readInt(listName + "t" + i,0);
+switch (type) {
+case TYPE_INTEGER:
+      list.add(ic.readInt(listName + "v" + i,0));
+    break;
+case TYPE_FLOAT:
+  list.add(ic.readFloat(listName + "v" + i,0));
+break;
+case TYPE_BOOLEAN:
+list.add(ic.readBoolean(listName + "v" + i,false));
+break;
+case TYPE_STRING:
+list.add(ic.readString(listName + "v" + i,null));
+break;
+case TYPE_LONG:
+list.add(ic.readLong(listName + "v" + i,0L));
+break;
+case TYPE_SAVABLE:
+list.add(ic.readSavable(listName + "v" + i,null));
+break;
+case TYPE_ARRAY:
+list.add(this.readList(ic,listName + "v" + i).toArray());
+break;
+case TYPE_LIST:
+list.add(this.readList(ic,listName + "v" + i));
+break;
+case TYPE_MAP:
+Map<Object,Object> map=new HashMap<Object,Object>();
+List<?> keys=this.readList(ic,listName + "v(keys)" + i);
+List<?> values=this.readList(ic,listName + "v(vals)" + i);
+for (int j=0; j < keys.size(); ++j) {
+map.put(keys.get(j),values.get(j));
+}
+list.add(map);
+break;
+default :
+throw new UnsupportedOperationException("Unknown type of stored data in a list: " + type);
+}
+}
+return list;
+}

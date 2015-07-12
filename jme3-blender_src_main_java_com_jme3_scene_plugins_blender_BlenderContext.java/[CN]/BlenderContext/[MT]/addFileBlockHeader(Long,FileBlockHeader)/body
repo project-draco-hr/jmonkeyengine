@@ -1,9 +1,9 @@
 {
   fileBlockHeadersByOma.put(oldMemoryAddress,fileBlockHeader);
-  List<FileBlockHeader> headers=fileBlockHeadersByCode.get(Integer.valueOf(fileBlockHeader.getCode()));
+  List<FileBlockHeader> headers=fileBlockHeadersByCode.get(fileBlockHeader.getCode());
   if (headers == null) {
     headers=new ArrayList<FileBlockHeader>();
-    fileBlockHeadersByCode.put(Integer.valueOf(fileBlockHeader.getCode()),headers);
+    fileBlockHeadersByCode.put(fileBlockHeader.getCode(),headers);
   }
   headers.add(fileBlockHeader);
 }

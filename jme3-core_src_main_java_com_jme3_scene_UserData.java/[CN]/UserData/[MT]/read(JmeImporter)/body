@@ -2,22 +2,40 @@
   InputCapsule ic=im.getCapsule(this);
   type=ic.readByte("type",(byte)0);
 switch (type) {
-case 0:
+case TYPE_INTEGER:
     value=ic.readInt("intVal",0);
   break;
-case 1:
+case TYPE_FLOAT:
 value=ic.readFloat("floatVal",0f);
 break;
-case 2:
+case TYPE_BOOLEAN:
 value=ic.readBoolean("boolVal",false);
 break;
-case 3:
+case TYPE_STRING:
 value=ic.readString("strVal",null);
 break;
-case 4:
+case TYPE_LONG:
 value=ic.readLong("longVal",0l);
 break;
+case TYPE_SAVABLE:
+value=ic.readSavable("savableVal",null);
+break;
+case TYPE_LIST:
+value=this.readList(ic,"0");
+break;
+case TYPE_MAP:
+Map<Object,Object> map=new HashMap<Object,Object>();
+List<?> keys=this.readList(ic,"0");
+List<?> values=this.readList(ic,"1");
+for (int i=0; i < keys.size(); ++i) {
+map.put(keys.get(i),values.get(i));
+}
+value=map;
+break;
+case TYPE_ARRAY:
+value=this.readList(ic,"0").toArray();
+break;
 default :
-throw new UnsupportedOperationException();
+throw new UnsupportedOperationException("Unknown type of stored data: " + type);
 }
 }

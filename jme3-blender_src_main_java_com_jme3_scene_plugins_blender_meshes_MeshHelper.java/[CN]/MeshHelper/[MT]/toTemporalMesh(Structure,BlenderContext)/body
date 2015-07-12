@@ -5,16 +5,16 @@
     LOGGER.fine("The mesh is already loaded. Returning its clone.");
     return temporalMesh.clone();
   }
+  if ("ID".equals(meshStructure.getType())) {
+    LOGGER.fine("Loading mesh from external blend file.");
+    return (TemporalMesh)this.loadLibrary(meshStructure);
+  }
   String name=meshStructure.getName();
   LOGGER.log(Level.FINE,"Reading mesh: {0}.",name);
   temporalMesh=new TemporalMesh(meshStructure,blenderContext);
   LOGGER.fine("Loading materials.");
   MaterialHelper materialHelper=blenderContext.getHelper(MaterialHelper.class);
-  MaterialContext[] materials=null;
-  if ((blenderContext.getBlenderKey().getFeaturesToLoad() & FeaturesToLoad.MATERIALS) != 0) {
-    materials=materialHelper.getMaterials(meshStructure,blenderContext);
-  }
-  temporalMesh.setMaterials(materials);
+  temporalMesh.setMaterials(materialHelper.getMaterials(meshStructure,blenderContext));
   LOGGER.fine("Reading custom properties.");
   Properties properties=this.loadProperties(meshStructure,blenderContext);
   temporalMesh.setProperties(properties);

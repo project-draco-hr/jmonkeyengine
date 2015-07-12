@@ -1,0 +1,12 @@
+{
+  if (feature != null) {
+    Map<String,Object> linkedFeatures=this.linkedFeatures.get(blenderFilePath);
+    if (linkedFeatures == null) {
+      linkedFeatures=new HashMap<String,Object>();
+      this.linkedFeatures.put(blenderFilePath,linkedFeatures);
+    }
+    if (!linkedFeatures.containsKey(featureName)) {
+      linkedFeatures.put(featureName,feature);
+    }
+  }
+}

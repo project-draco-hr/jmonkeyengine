@@ -1,0 +1,20 @@
+{
+  if (!(nodeAttribute instanceof FbxMesh)) {
+    return null;
+  }
+  FbxMesh fbxMesh=(FbxMesh)nodeAttribute;
+  FbxSkinDeformer deformer=fbxMesh.getSkinDeformer();
+  FbxNode preferredParent=null;
+  if (deformer != null) {
+    for (    FbxCluster cluster : deformer.getJmeObject()) {
+      FbxLimbNode limb=cluster.getLimb();
+      if (preferredParent == null) {
+        preferredParent=limb.getSkeletonHolder();
+      }
+ else       if (preferredParent != limb.getSkeletonHolder()) {
+        logger.log(Level.WARNING,"A mesh is being deformed by multiple skeletons. " + "Only one skeleton will work, ignoring other skeletons.");
+      }
+    }
+  }
+  return preferredParent;
+}

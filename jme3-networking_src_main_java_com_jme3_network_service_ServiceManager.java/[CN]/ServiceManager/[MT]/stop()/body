@@ -1,0 +1,9 @@
+{
+  if (!started) {
+    throw new IllegalStateException(getClass().getSimpleName() + " not started.");
+  }
+  for (  Service<T> s : services) {
+    s.stop();
+  }
+  started=false;
+}

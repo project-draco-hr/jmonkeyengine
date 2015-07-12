@@ -3,8 +3,8 @@
   Image image=tex.getImage();
   if (image.isUpdateNeeded()) {
     checkNonPowerOfTwo(tex);
-    updateTexImageData(image,tex.getType(),0);
+    updateTexImageData(image,tex.getType(),0,false);
     setupTextureParams(tex);
   }
-  glfbo.glFramebufferTexture2DEXT(GLExt.GL_FRAMEBUFFER_EXT,convertAttachmentSlot(rb.getSlot()),convertTextureType(tex.getType(),image.getMultiSamples(),rb.getFace()),image.getId(),0);
+  glfbo.glFramebufferTexture2DEXT(GLFbo.GL_FRAMEBUFFER_EXT,convertAttachmentSlot(rb.getSlot()),convertTextureType(tex.getType(),image.getMultiSamples(),rb.getFace()),image.getId(),0);
 }

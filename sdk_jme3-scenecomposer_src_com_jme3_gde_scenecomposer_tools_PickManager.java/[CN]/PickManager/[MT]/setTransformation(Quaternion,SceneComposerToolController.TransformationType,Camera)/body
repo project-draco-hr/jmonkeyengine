@@ -1,0 +1,18 @@
+{
+  Quaternion rot=new Quaternion();
+  transformationType=type;
+  if (transformationType == SceneComposerToolController.TransformationType.local) {
+    rot.set(spatial.getWorldRotation());
+    rot.multLocal(planeRotation);
+    origineRotation=spatial.getWorldRotation().clone();
+  }
+ else   if (transformationType == SceneComposerToolController.TransformationType.global) {
+    rot.set(planeRotation);
+    origineRotation=new Quaternion(Quaternion.IDENTITY);
+  }
+ else   if (transformationType == SceneComposerToolController.TransformationType.camera) {
+    rot.set(camera.getRotation());
+    origineRotation=camera.getRotation();
+  }
+  plane.setLocalRotation(rot);
+}

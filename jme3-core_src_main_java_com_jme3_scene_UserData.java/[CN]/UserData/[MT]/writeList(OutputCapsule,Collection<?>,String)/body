@@ -1,0 +1,53 @@
+{
+  if (list != null) {
+    oc.write(list.size(),listName + "size",0);
+    int counter=0;
+    for (    Object o : list) {
+      if (o instanceof Integer) {
+        oc.write(TYPE_INTEGER,listName + "t" + counter,0);
+        oc.write((Integer)o,listName + "v" + counter,0);
+      }
+ else       if (o instanceof Float) {
+        oc.write(TYPE_FLOAT,listName + "t" + counter,0);
+        oc.write((Float)o,listName + "v" + counter,0f);
+      }
+ else       if (o instanceof Boolean) {
+        oc.write(TYPE_BOOLEAN,listName + "t" + counter,0);
+        oc.write((Boolean)o,listName + "v" + counter,false);
+      }
+ else       if (o instanceof String || o == null) {
+        oc.write(TYPE_STRING,listName + "t" + counter,0);
+        oc.write((String)o,listName + "v" + counter,null);
+      }
+ else       if (o instanceof Long) {
+        oc.write(TYPE_LONG,listName + "t" + counter,0);
+        oc.write((Long)o,listName + "v" + counter,0L);
+      }
+ else       if (o instanceof Savable) {
+        oc.write(TYPE_SAVABLE,listName + "t" + counter,0);
+        oc.write((Savable)o,listName + "v" + counter,null);
+      }
+ else       if (o instanceof Object[]) {
+        oc.write(TYPE_ARRAY,listName + "t" + counter,0);
+        this.writeList(oc,Arrays.asList((Object[])o),listName + "v" + counter);
+      }
+ else       if (o instanceof List) {
+        oc.write(TYPE_LIST,listName + "t" + counter,0);
+        this.writeList(oc,(List<?>)o,listName + "v" + counter);
+      }
+ else       if (o instanceof Map) {
+        oc.write(TYPE_MAP,listName + "t" + counter,0);
+        Map<?,?> map=(Map<?,?>)o;
+        this.writeList(oc,map.keySet(),listName + "v(keys)" + counter);
+        this.writeList(oc,map.values(),listName + "v(vals)" + counter);
+      }
+ else {
+        throw new UnsupportedOperationException("Unsupported type stored in the list: " + o.getClass());
+      }
+      ++counter;
+    }
+  }
+ else {
+    oc.write(0,"size",0);
+  }
+}

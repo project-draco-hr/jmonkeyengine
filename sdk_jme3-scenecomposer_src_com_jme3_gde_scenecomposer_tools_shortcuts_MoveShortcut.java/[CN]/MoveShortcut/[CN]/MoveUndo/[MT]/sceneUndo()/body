@@ -1,0 +1,11 @@
+{
+  spatial.setLocalTranslation(before);
+  RigidBodyControl control=spatial.getControl(RigidBodyControl.class);
+  if (control != null) {
+    control.setPhysicsLocation(spatial.getWorldTranslation());
+  }
+  CharacterControl character=spatial.getControl(CharacterControl.class);
+  if (character != null) {
+    character.setPhysicsLocation(spatial.getWorldTranslation());
+  }
+}

@@ -1,0 +1,16 @@
+{
+  if (sensorJoyInput != null) {
+    sensorJoyInput.update();
+  }
+  if (listener != null) {
+    InputEvent inputEvent;
+    while ((inputEvent=eventQueue.poll()) != null) {
+      if (inputEvent instanceof JoyAxisEvent) {
+        listener.onJoyAxisEvent((JoyAxisEvent)inputEvent);
+      }
+ else       if (inputEvent instanceof JoyButtonEvent) {
+        listener.onJoyButtonEvent((JoyButtonEvent)inputEvent);
+      }
+    }
+  }
+}

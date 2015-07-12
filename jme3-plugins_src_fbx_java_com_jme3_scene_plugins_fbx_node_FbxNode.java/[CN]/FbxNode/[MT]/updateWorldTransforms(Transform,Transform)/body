@@ -1,0 +1,47 @@
+{
+  Transform fbxLocalTransform=computeFbxLocalTransform();
+  jmeLocalNodeTransform.set(fbxLocalTransform);
+  if (jmeParentNodeTransform != null) {
+    jmeParentNodeTransform=jmeParentNodeTransform.clone();
+switch (inheritMode) {
+case NoParentScale:
+case ScaleAfterChildRotation:
+case ScaleBeforeChildRotation:
+      jmeWorldNodeTransform.set(jmeLocalNodeTransform);
+    jmeWorldNodeTransform.combineWithParent(jmeParentNodeTransform);
+  break;
+}
+}
+ else {
+jmeWorldNodeTransform.set(jmeLocalNodeTransform);
+}
+if (jmeWorldBindPose != null) {
+jmeLocalBindPose=new Transform();
+jmeLocalBindPose.set(jmeWorldBindPose);
+jmeLocalBindPose.combineWithParent(parentBindPose.invert());
+System.out.println("Bind Pose for: " + getName());
+if (!jmeLocalBindPose.equals(jmeLocalNodeTransform)) {
+System.out.println("Local Bind: " + jmeLocalBindPose);
+System.out.println("Local Trans: " + jmeLocalNodeTransform);
+}
+if (!jmeWorldBindPose.equals(jmeWorldNodeTransform)) {
+System.out.println("World Bind: " + jmeWorldBindPose);
+System.out.println("World Trans: " + jmeWorldNodeTransform);
+}
+}
+ else {
+jmeLocalBindPose=new Transform();
+jmeWorldBindPose=new Transform();
+jmeLocalBindPose.set(jmeLocalNodeTransform);
+if (parentBindPose != null) {
+jmeWorldBindPose.set(jmeLocalNodeTransform);
+jmeWorldBindPose.combineWithParent(parentBindPose);
+}
+ else {
+jmeWorldBindPose.set(jmeWorldNodeTransform);
+}
+}
+for (FbxNode child : children) {
+child.updateWorldTransforms(jmeWorldNodeTransform,jmeWorldBindPose);
+}
+}

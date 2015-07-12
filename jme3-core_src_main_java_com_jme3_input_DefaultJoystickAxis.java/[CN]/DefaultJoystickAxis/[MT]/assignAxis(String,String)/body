@@ -1,4 +1,6 @@
 {
-  inputManager.addMapping(positiveMapping,new JoyAxisTrigger(parent.getJoyId(),axisIndex,false));
-  inputManager.addMapping(negativeMapping,new JoyAxisTrigger(parent.getJoyId(),axisIndex,true));
+  if (axisIndex != -1) {
+    inputManager.addMapping(positiveMapping,new JoyAxisTrigger(parent.getJoyId(),axisIndex,false));
+    inputManager.addMapping(negativeMapping,new JoyAxisTrigger(parent.getJoyId(),axisIndex,true));
+  }
 }

@@ -1,0 +1,26 @@
+{
+  long id=(Long)element.properties.get(0);
+  String path=(String)element.properties.get(1);
+  String type=(String)element.properties.get(2);
+  if (type.equals("")) {
+    Double x=null, y=null, z=null;
+    for (    FbxElement e : element.children) {
+      if (e.id.equals("Properties70")) {
+        for (        FbxElement e2 : e.children) {
+          if (e2.id.equals("P")) {
+            String propName=(String)e2.properties.get(0);
+            if (propName.equals("d|X"))             x=(Double)e2.properties.get(4);
+ else             if (propName.equals("d|Y"))             y=(Double)e2.properties.get(4);
+ else             if (propName.equals("d|Z"))             z=(Double)e2.properties.get(4);
+          }
+        }
+      }
+    }
+    if (x != null && y != null && z != null) {
+      AnimNode node=new AnimNode();
+      node.value=new Vector3f(x.floatValue(),y.floatValue(),z.floatValue());
+      node.name=path.substring(0,path.indexOf(0));
+      anodeMap.put(id,node);
+    }
+  }
+}

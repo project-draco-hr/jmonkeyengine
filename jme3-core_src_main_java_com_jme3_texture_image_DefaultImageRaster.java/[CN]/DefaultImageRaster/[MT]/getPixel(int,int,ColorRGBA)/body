@@ -1,6 +1,6 @@
 {
   rangeCheck(x,y);
-  codec.readComponents(getBuffer(),x,y,width,0,components,temp);
+  codec.readComponents(getBuffer(),x,y,width,offset,components,temp);
   if (store == null) {
     store=new ColorRGBA();
   }
@@ -31,6 +31,9 @@ store.b=1;
 if (codec.maxAlpha == 0) {
 store.a=1;
 }
+}
+if (convertToLinear) {
+store.setAsSrgb(store.r,store.g,store.b,store.a);
 }
 return store;
 }

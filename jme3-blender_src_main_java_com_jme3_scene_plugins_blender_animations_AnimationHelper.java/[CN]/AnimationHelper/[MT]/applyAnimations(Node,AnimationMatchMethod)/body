@@ -3,7 +3,7 @@
   if (actions.size() > 0) {
     List<Animation> animations=new ArrayList<Animation>();
     for (    BlenderAction action : actions) {
-      SpatialTrack[] tracks=action.toTracks(node);
+      SpatialTrack[] tracks=action.toTracks(node,blenderContext);
       if (tracks != null && tracks.length > 0) {
         Animation spatialAnimation=new Animation(action.getName(),action.getAnimationTime());
         spatialAnimation.setTracks(tracks);

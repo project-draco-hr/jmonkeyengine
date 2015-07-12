@@ -1,8 +1,8 @@
 {
   Spatial signpost=assetManager.loadModel("Models/Sign Post/Sign Post.mesh.xml");
-  Material mat=assetManager.loadMaterial("Models/Sign Post/Sign Post.j3m");
+  Material matSp=assetManager.loadMaterial("Models/Sign Post/Sign Post.j3m");
   TangentBinormalGenerator.generate(signpost);
-  signpost.setMaterial(mat);
+  signpost.setMaterial(matSp);
   signpost.rotate(0,FastMath.HALF_PI,0);
   signpost.setLocalTranslation(12,23.5f,30);
   signpost.setLocalScale(4);

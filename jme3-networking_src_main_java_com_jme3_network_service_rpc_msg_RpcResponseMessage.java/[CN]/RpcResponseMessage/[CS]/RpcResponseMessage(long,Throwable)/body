@@ -1,0 +1,8 @@
+{
+  this.msgId=msgId;
+  StringWriter sOut=new StringWriter();
+  PrintWriter out=new PrintWriter(sOut);
+  t.printStackTrace(out);
+  out.close();
+  this.error=sOut.toString();
+}

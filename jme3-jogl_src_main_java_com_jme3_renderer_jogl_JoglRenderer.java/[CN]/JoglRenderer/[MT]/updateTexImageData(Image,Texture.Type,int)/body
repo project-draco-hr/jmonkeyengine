@@ -68,7 +68,7 @@
       TextureUtil.uploadTexture(img,GL.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,i,0,linearizeSrgbImages);
     }
   }
- else   if (target == GL.GL_TEXTURE_2D_ARRAY) {
+ else   if (target == GL2ES3.GL_TEXTURE_2D_ARRAY) {
     if (!caps.contains(Caps.TextureArray)) {
       throw new RendererException("Texture arrays not supported by graphics hardware");
     }

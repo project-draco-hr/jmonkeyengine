@@ -1,0 +1,8 @@
+{
+  Server server=serviceManager.getServer();
+  this.delegator=new SessionDataDelegator(RpcConnection.class,ATTRIBUTE_NAME,true);
+  server.addMessageListener(delegator,delegator.getMessageTypes());
+  if (log.isLoggable(Level.FINEST)) {
+    log.log(Level.FINEST,"Registered delegator for message types:{0}",Arrays.asList(delegator.getMessageTypes()));
+  }
+}

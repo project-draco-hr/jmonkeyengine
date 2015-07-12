@@ -3,6 +3,6 @@
     logger.warning("create() called when display is already created!");
     return;
   }
-  new Thread(this,"LWJGL Renderer Thread").start();
+  new Thread(this,THREAD_NAME).start();
   if (waitFor)   waitFor(true);
 }

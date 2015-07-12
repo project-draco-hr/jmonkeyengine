@@ -1,5 +1,6 @@
 {
   if (!isRunning)   return;
+  services.stop();
   for (  ConnectorAdapter ca : channels) {
     if (ca == null)     continue;
     ca.close();
@@ -7,4 +8,5 @@
   connecting.countDown();
   fireDisconnected(info);
   isRunning=false;
+  services.terminate();
 }

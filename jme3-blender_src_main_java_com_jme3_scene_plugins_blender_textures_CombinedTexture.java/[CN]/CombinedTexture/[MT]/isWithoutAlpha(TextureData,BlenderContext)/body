@@ -28,6 +28,7 @@ case RGB565:
 case RGB8:
         return true;
 case ABGR8:
+case DXT1A:
 case DXT3:
 case DXT5:
 case Luminance16FAlpha16F:
@@ -35,6 +36,9 @@ case Luminance8Alpha8:
 case RGBA16F:
 case RGBA32F:
 case RGBA8:
+case ARGB8:
+case BGRA8:
+case RGB5A1:
       PixelInputOutput pixelInputOutput=PixelIOFactory.getPixelIO(image.getFormat());
     TexturePixel pixel=new TexturePixel();
   int depth=image.getDepth() == 0 ? 1 : image.getDepth();
@@ -49,6 +53,8 @@ for (int layerIndex=0; layerIndex < depth; ++layerIndex) {
   }
 }
 return true;
+default :
+throw new IllegalStateException("Unknown image format: " + image.getFormat());
 }
 }
 }

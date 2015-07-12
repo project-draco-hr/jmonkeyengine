@@ -1,0 +1,26 @@
+{
+  boolean consumed=false;
+  event.getDeviceId();
+  event.getSource();
+  AndroidJoystick joystick=joystickIndex.get(event.getDeviceId());
+  if (joystick != null) {
+    for (    int androidAxis : joystick.getAndroidAxes()) {
+      String axisName=MotionEvent.axisToString(androidAxis);
+      float value=event.getAxisValue(androidAxis);
+      int action=event.getAction();
+      if (action == MotionEvent.ACTION_MOVE) {
+        JoystickAxis axis=joystick.getAxis(androidAxis);
+        if (axis != null) {
+          JoyAxisEvent axisEvent=new JoyAxisEvent(axis,value);
+          joyInput.addEvent(axisEvent);
+          consumed=true;
+        }
+ else {
+        }
+      }
+ else {
+      }
+    }
+  }
+  return consumed;
+}

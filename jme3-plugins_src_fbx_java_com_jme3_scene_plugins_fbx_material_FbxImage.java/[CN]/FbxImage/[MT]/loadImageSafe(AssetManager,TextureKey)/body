@@ -1,0 +1,12 @@
+{
+  try {
+    return assetManager.loadTexture(texKey).getImage();
+  }
+ catch (  AssetNotFoundException ex) {
+    return null;
+  }
+catch (  AssetLoadException ex) {
+    logger.log(Level.WARNING,"Error when loading image: " + texKey,ex);
+    return null;
+  }
+}

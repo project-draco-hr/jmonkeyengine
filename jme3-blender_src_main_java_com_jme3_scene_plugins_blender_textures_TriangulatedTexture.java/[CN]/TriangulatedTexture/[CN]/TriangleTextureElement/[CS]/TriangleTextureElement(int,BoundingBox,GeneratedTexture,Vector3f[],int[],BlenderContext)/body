@@ -18,7 +18,7 @@
     imageHeight=1;
   }
   ByteBuffer data=BufferUtils.createByteBuffer(imageWidth * imageHeight * (imageFormat.getBitsPerPixel() >> 3));
-  image=new Image(texture.getImage().getFormat(),imageWidth,imageHeight,data);
+  image=new Image(texture.getImage().getFormat(),imageWidth,imageHeight,data,ColorSpace.Linear);
   PixelInputOutput pixelWriter=PixelIOFactory.getPixelIO(imageFormat);
   TexturePixel pixel=new TexturePixel();
   float[] uvs=new float[3];

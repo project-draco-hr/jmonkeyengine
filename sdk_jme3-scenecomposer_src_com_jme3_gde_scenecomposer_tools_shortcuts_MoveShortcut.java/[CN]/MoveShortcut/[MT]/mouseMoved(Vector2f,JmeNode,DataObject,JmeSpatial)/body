@@ -1,0 +1,36 @@
+{
+  if (!pickEnabled) {
+    if (currentAxis.equals(Vector3f.UNIT_XYZ)) {
+      pickManager.initiatePick(toolController.getSelectedSpatial(),camera.getRotation(),SceneComposerToolController.TransformationType.camera,camera,screenCoord);
+      pickEnabled=true;
+    }
+ else     if (currentAxis.equals(Vector3f.UNIT_X)) {
+      pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_XY,getTransformType(),camera,screenCoord);
+      pickEnabled=true;
+    }
+ else     if (currentAxis.equals(Vector3f.UNIT_Y)) {
+      pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_YZ,getTransformType(),camera,screenCoord);
+      pickEnabled=true;
+    }
+ else     if (currentAxis.equals(Vector3f.UNIT_Z)) {
+      pickManager.initiatePick(toolController.getSelectedSpatial(),PickManager.PLANE_XZ,getTransformType(),camera,screenCoord);
+      pickEnabled=true;
+    }
+ else {
+      return;
+    }
+  }
+  if (pickManager.updatePick(camera,screenCoord)) {
+    Vector3f diff;
+    if (currentAxis.equals(Vector3f.UNIT_XYZ)) {
+      diff=pickManager.getTranslation();
+    }
+ else {
+      diff=pickManager.getTranslation(currentAxis);
+    }
+    Vector3f position=startPosition.add(diff);
+    finalPosition=position;
+    toolController.getSelectedSpatial().setLocalTranslation(position);
+    updateToolsTransformation();
+  }
+}

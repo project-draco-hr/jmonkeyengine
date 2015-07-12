@@ -16,5 +16,6 @@
     aspect=((Number)structure.getFieldValue("ortho_scale")).floatValue();
   }
   camera.setFrustumPerspective(aspect,camera.getWidth() / camera.getHeight(),clipsta,clipend);
-  return new CameraNode(null,camera);
+  camera.setName(structure.getName());
+  return camera;
 }

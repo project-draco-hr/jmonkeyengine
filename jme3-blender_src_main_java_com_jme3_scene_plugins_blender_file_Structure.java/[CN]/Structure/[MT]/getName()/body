@@ -4,5 +4,6 @@
     Structure id=(Structure)fieldValue;
     return id == null ? null : id.getFieldValue("name").toString().substring(2);
   }
-  return null;
+  Object name=this.getFieldValue("name",null);
+  return name == null ? null : name.toString().substring(2);
 }

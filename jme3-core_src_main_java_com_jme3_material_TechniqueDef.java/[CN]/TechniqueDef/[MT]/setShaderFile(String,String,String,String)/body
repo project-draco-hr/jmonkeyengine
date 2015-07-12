@@ -1,11 +1,11 @@
 {
-  this.shaderLanguage.put(Shader.ShaderType.Vertex,vertLanguage);
-  this.shaderName.put(Shader.ShaderType.Vertex,vertexShader);
-  this.shaderLanguage.put(Shader.ShaderType.Fragment,fragLanguage);
-  this.shaderName.put(Shader.ShaderType.Fragment,fragmentShader);
+  this.shaderLanguages.put(Shader.ShaderType.Vertex,vertLanguage);
+  this.shaderNames.put(Shader.ShaderType.Vertex,vertexShader);
+  this.shaderLanguages.put(Shader.ShaderType.Fragment,fragLanguage);
+  this.shaderNames.put(Shader.ShaderType.Fragment,fragmentShader);
+  requiredCaps.clear();
   Caps vertCap=Caps.valueOf(vertLanguage);
   requiredCaps.add(vertCap);
   Caps fragCap=Caps.valueOf(fragLanguage);
   requiredCaps.add(fragCap);
-  usesShaders=true;
 }
