@@ -5,8 +5,12 @@
     throw new IllegalArgumentException();
   }
   bihSwapTmp=new float[9];
-  FloatBuffer vb=(FloatBuffer)mesh.getBuffer(Type.Position).getData();
+  VertexBuffer vBuffer=mesh.getBuffer(Type.Position);
+  if (vBuffer == null) {
+    throw new IllegalArgumentException("A mesh should at least contain a Position buffer");
+  }
   IndexBuffer ib=mesh.getIndexBuffer();
+  FloatBuffer vb=(FloatBuffer)vBuffer.getData();
   if (ib == null) {
     ib=new VirtualIndexBuffer(mesh.getVertexCount(),mesh.getMode());
   }
