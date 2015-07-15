@@ -1,11 +1,11 @@
 {
   Graphics2D g=(Graphics2D)g1;
   Color boderColor=Color.BLACK;
-  if (diagram.selectedItem == this) {
+  if (getDiagram().getSelectedItems().contains(this)) {
     boderColor=Color.WHITE;
   }
   g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-  if (diagram.selectedItem == this) {
+  if (getDiagram().getSelectedItems().contains(this)) {
     Color[] colors=new Color[]{new Color(0.6f,0.6f,1.0f,0.8f),new Color(0.6f,0.6f,1.0f,0.5f)};
     float[] factors={0f,1f};
     g.setPaint(new RadialGradientPaint(getWidth() / 2,getHeight() / 2,getWidth() / 2,factors,colors));

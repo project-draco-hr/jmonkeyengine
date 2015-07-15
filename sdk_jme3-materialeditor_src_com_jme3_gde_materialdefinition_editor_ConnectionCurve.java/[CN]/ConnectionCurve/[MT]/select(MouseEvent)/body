@@ -6,7 +6,7 @@
     selected=curves[i].intersects(e.getX() - margin,e.getY() - margin,e.getX() + margin,e.getY() + margin);
   }
   if (selected) {
-    getDiagram().select(this);
+    getDiagram().select(this,e.isShiftDown() || e.isControlDown());
     e.consume();
   }
 }
