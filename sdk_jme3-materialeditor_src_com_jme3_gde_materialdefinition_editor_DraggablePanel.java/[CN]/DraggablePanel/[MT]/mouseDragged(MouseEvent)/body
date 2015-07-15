@@ -5,7 +5,8 @@
       xoffset=e.getLocationOnScreen().x - svdex;
     }
     int yoffset=e.getLocationOnScreen().y - svdey;
-    setLocation(Math.max(0,svdx + xoffset),Math.max(0,svdy + yoffset));
+    movePanel(xoffset,yoffset);
+    diagram.multiMove(this,xoffset,yoffset);
     e.consume();
   }
 }
