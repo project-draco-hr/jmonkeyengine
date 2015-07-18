@@ -1,5 +1,8 @@
 {
   MatDefNavigatorPanel nav=obj.getLookup().lookup(MatDefNavigatorPanel.class);
+  if (nav == null) {
+    return;
+  }
   try {
     Node n=findNode(nav.getExplorerManager().getRootContext(),selectable.getKey());
     if (n == null) {
