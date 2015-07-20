@@ -1,0 +1,7 @@
+{
+  when(assetKey.getExtension()).thenReturn(".j3m");
+  when(assetInfo.getManager()).thenReturn(assetManager);
+  when(assetInfo.getKey()).thenReturn(assetKey);
+  when(assetManager.loadAsset(any(AssetKey.class))).thenReturn(materialDef);
+  j3MLoader=new J3MLoader();
+}

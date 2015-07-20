@@ -2,18 +2,16 @@
   final List<String> textureValues=tokenizeTextureValue(value);
   final List<TextureOptionValue> textureOptionValues=parseTextureOptions(textureValues);
   TextureKey textureKey=null;
-  boolean repeat=false;
   if (textureValues.size() == 1) {
-    textureKey=new TextureKey(textureValues.get(0));
+    textureKey=new TextureKey(textureValues.get(0),false);
   }
  else {
     String texturePath=value.trim();
-    boolean flipY=false;
     if (isTexturePathDeclaredTheTraditionalWay(textureValues.size(),textureOptionValues.size(),texturePath)) {
+      boolean flipY=false;
       if (texturePath.startsWith("Flip Repeat ") || texturePath.startsWith("Repeat Flip ")) {
         texturePath=texturePath.substring(12).trim();
         flipY=true;
-        repeat=true;
       }
  else       if (texturePath.startsWith("Flip ")) {
         texturePath=texturePath.substring(5).trim();
@@ -21,7 +19,6 @@
       }
  else       if (texturePath.startsWith("Repeat ")) {
         texturePath=texturePath.substring(7).trim();
-        repeat=true;
       }
       if (texturePath.startsWith("\"") || texturePath.startsWith("'")) {
         texturePath=texturePath.substring(1);
@@ -32,7 +29,7 @@
       textureKey=new TextureKey(texturePath,flipY);
     }
     if (textureKey == null) {
-      textureKey=new TextureKey(textureValues.get(textureValues.size() - 1));
+      textureKey=new TextureKey(textureValues.get(textureValues.size() - 1),false);
     }
     if (!textureOptionValues.isEmpty()) {
       for (      final TextureOptionValue textureOptionValue : textureOptionValues) {
@@ -64,9 +61,6 @@ if (texture == null) {
 texture=new Texture2D(PlaceholderAssets.getPlaceholderImage(assetManager));
 texture.setKey(textureKey);
 texture.setName(textureKey.getName());
-}
-if (repeat) {
-texture.setWrap(Texture.WrapMode.Repeat);
 }
 if (!textureOptionValues.isEmpty()) {
 for (final TextureOptionValue textureOptionValue : textureOptionValues) {

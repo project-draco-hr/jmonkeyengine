@@ -1,0 +1,12 @@
+{
+  when(assetInfo.openStream()).thenReturn(J3MLoader.class.getResourceAsStream("/texture-parameters-oldstyle.j3m"));
+  final Texture textureOldStyle=Mockito.mock(Texture.class);
+  final Texture textureOldStyleUsingQuotes=Mockito.mock(Texture.class);
+  final TextureKey textureKeyUsingQuotes=setupMockForTexture("OldStyleUsingQuotes","old style using quotes/texture.png",true,textureOldStyleUsingQuotes);
+  final TextureKey textureKeyOldStyle=setupMockForTexture("OldStyle","old style/texture.png",true,textureOldStyle);
+  j3MLoader.load(assetInfo);
+  verify(assetManager).loadTexture(textureKeyUsingQuotes);
+  verify(assetManager).loadTexture(textureKeyOldStyle);
+  verify(textureOldStyle).setWrap(Texture.WrapMode.Repeat);
+  verify(textureOldStyleUsingQuotes).setWrap(Texture.WrapMode.Repeat);
+}

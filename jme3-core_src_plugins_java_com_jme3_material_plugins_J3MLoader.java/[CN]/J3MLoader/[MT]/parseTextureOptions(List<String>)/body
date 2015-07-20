@@ -6,7 +6,7 @@
   for (int i=0; i < values.size() - 1; i++) {
     final String value=values.get(i);
     final TextureOption textureOption=TextureOption.getTextureOption(value);
-    if (textureOption == null && !value.contains("\\") && !value.contains("/")) {
+    if (textureOption == null && !value.contains("\\") && !value.contains("/") && !values.get(0).equals("Flip") && !values.get(0).equals("Repeat")) {
       logger.log(Level.WARNING,"Unknown texture option \"{0}\" encountered for \"{1}\" in material \"{2}\"",new Object[]{value,key,material.getKey().getName()});
     }
  else     if (textureOption != null) {
