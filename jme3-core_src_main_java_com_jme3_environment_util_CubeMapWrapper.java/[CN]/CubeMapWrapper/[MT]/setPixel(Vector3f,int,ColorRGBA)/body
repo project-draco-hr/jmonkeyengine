@@ -1,0 +1,9 @@
+{
+  if (mipMapRaster == null) {
+    throw new IllegalArgumentException("This cube map has no mip maps");
+  }
+  int face=EnvMapUtils.getCubemapFaceTexCoordFromVector(vector,sizes[mipLevel],uvs,EnvMapUtils.FixSeamsMethod.Stretch);
+  mipMapRaster.setSlice(face);
+  mipMapRaster.setMipLevel(mipLevel);
+  mipMapRaster.setPixel((int)uvs.x,(int)uvs.y,color);
+}

@@ -1,0 +1,35 @@
+{
+  TextureCubeMap pem=store;
+  if (pem == null) {
+    pem=new TextureCubeMap(targetMapSize,targetMapSize,Image.Format.RGB16F);
+    pem.setMagFilter(Texture.MagFilter.Bilinear);
+    pem.setMinFilter(Texture.MinFilter.Trilinear);
+    pem.getImage().setColorSpace(ColorSpace.Linear);
+  }
+  int nbMipMap=(int)(Math.log(targetMapSize) / Math.log(2) - 1);
+  CubeMapWrapper sourceWrapper=new CubeMapWrapper(sourceEnvMap);
+  CubeMapWrapper targetWrapper=new CubeMapWrapper(pem);
+  targetWrapper.initMipMaps(nbMipMap);
+  Vector3f texelVect=new Vector3f();
+  Vector3f color=new Vector3f();
+  ColorRGBA outColor=new ColorRGBA();
+  for (int mipLevel=0; mipLevel < nbMipMap; mipLevel++) {
+    System.err.println("mip level " + mipLevel);
+    float roughness=getRoughnessFromMip(mipLevel,nbMipMap);
+    int nbSamples=getSampleFromMip(mipLevel,nbMipMap);
+    int targetMipMapSize=(int)pow(2,nbMipMap + 1 - mipLevel);
+    for (int face=0; face < 6; face++) {
+      System.err.println("face " + face);
+      for (int y=0; y < targetMipMapSize; y++) {
+        for (int x=0; x < targetMipMapSize; x++) {
+          color.set(0,0,0);
+          getVectorFromCubemapFaceTexCoord(x,y,targetMipMapSize,face,texelVect,FixSeamsMethod.Wrap);
+          prefilterEnvMapTexel(sourceWrapper,roughness,texelVect,nbSamples,color);
+          outColor.set(color.x,color.y,color.z,1.0f);
+          targetWrapper.setPixel(x,y,face,mipLevel,outColor);
+        }
+      }
+    }
+  }
+  return pem;
+}

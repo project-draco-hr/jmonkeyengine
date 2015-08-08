@@ -1,0 +1,17 @@
+{
+  app.enqueue(new Callable<Void>(){
+    @Override public Void call() throws Exception {
+      listener.start();
+      return null;
+    }
+  }
+);
+  store=generatePrefilteredEnvMap(sourceMap,targetMapSize,fixSeamsMethod,store);
+  app.enqueue(new Callable<Void>(){
+    @Override public Void call() throws Exception {
+      listener.done(face);
+      return null;
+    }
+  }
+);
+}

@@ -1,0 +1,5 @@
+{
+  float mipScale=1.2f;
+  float Lod=(float)(Math.log(roughness) / Math.log(2)) * mipScale + miptot - 1.0f;
+  return (float)Math.max(0.0,Lod);
+}

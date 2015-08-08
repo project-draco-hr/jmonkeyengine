@@ -1,0 +1,10 @@
+{
+  getApplication().enqueue(new Callable<Void>(){
+    public Void call() throws Exception {
+      SnapshotJob job=new SnapshotJob(done,scene);
+      jobs.add(job);
+      return null;
+    }
+  }
+);
+}

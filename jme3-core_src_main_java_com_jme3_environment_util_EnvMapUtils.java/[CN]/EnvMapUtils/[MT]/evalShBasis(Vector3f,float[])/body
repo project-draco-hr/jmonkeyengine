@@ -1,0 +1,22 @@
+{
+  float xV=texelVect.x;
+  float yV=texelVect.y;
+  float zV=texelVect.z;
+  float pi=PI;
+  float sqrtPi=sqrt(pi);
+  float sqrt3Pi=sqrt(3f / pi);
+  float sqrt5Pi=sqrt(5f / pi);
+  float sqrt15Pi=sqrt(15f / pi);
+  float x2=xV * xV;
+  float y2=yV * yV;
+  float z2=zV * zV;
+  shDir[0]=(1f / (2f * sqrtPi));
+  shDir[1]=-(sqrt3Pi * yV) / 2f;
+  shDir[2]=(sqrt3Pi * zV) / 2f;
+  shDir[3]=-(sqrt3Pi * xV) / 2f;
+  shDir[4]=(sqrt15Pi * xV * yV) / 2f;
+  shDir[5]=-(sqrt15Pi * yV * zV) / 2f;
+  shDir[6]=(sqrt5Pi * (-1f + 3f * z2)) / 4f;
+  shDir[7]=-(sqrt15Pi * xV * zV) / 2f;
+  shDir[8]=sqrt15Pi * (x2 - y2) / 4f;
+}

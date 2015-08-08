@@ -1,0 +1,35 @@
+{
+  Node n=new Node("CubeMapDebug" + cubeMap.getName());
+  int size=cubeMap.getImage().getWidth();
+  Picture[] pics=new Picture[6];
+  float ratio=128f / (float)size;
+  for (int i=0; i < 6; i++) {
+    pics[i]=new Picture("bla");
+    Texture2D tex=new Texture2D(new Image(cubeMap.getImage().getFormat(),size,size,cubeMap.getImage().getData(i),cubeMap.getImage().getColorSpace()));
+    pics[i].setTexture(assetManager,tex,true);
+    pics[i].setWidth(size);
+    pics[i].setHeight(size);
+    n.attachChild(pics[i]);
+  }
+  pics[0].setLocalTranslation(size,size * 2,1);
+  pics[0].setLocalRotation(new Quaternion().fromAngleAxis(PI,Vector3f.UNIT_Z));
+  pics[1].setLocalTranslation(size * 3,size * 2,1);
+  pics[1].setLocalRotation(new Quaternion().fromAngleAxis(PI,Vector3f.UNIT_Z));
+  pics[2].setLocalTranslation(size * 2,size * 3,1);
+  pics[2].setLocalRotation(new Quaternion().fromAngleAxis(PI,Vector3f.UNIT_Z));
+  pics[3].setLocalTranslation(size * 2,size,1);
+  pics[3].setLocalRotation(new Quaternion().fromAngleAxis(PI,Vector3f.UNIT_Z));
+  pics[4].setLocalTranslation(size * 2,size * 2,1);
+  pics[4].setLocalRotation(new Quaternion().fromAngleAxis(PI,Vector3f.UNIT_Z));
+  pics[5].setLocalTranslation(size * 4,size * 2,1);
+  pics[5].setLocalRotation(new Quaternion().fromAngleAxis(PI,Vector3f.UNIT_Z));
+  Quad q=new Quad(size * 4,size * 3);
+  Geometry g=new Geometry("bg",q);
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  mat.setColor("Color",ColorRGBA.Black);
+  g.setMaterial(mat);
+  g.setLocalTranslation(0,0,0);
+  n.attachChild(g);
+  n.setLocalScale(ratio);
+  return n;
+}
