@@ -1,0 +1,19 @@
+{
+  if (!initialized) {
+    fixFLyCamInputs();
+    initialized=true;
+  }
+  float val=tpf * s;
+  if (up) {
+    camGeom.move(0,0,val);
+  }
+  if (down) {
+    camGeom.move(0,0,-val);
+  }
+  if (right) {
+    camGeom.move(-val,0,0);
+  }
+  if (left) {
+    camGeom.move(val,0,0);
+  }
+}

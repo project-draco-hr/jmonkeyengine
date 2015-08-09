@@ -1,0 +1,14 @@
+{
+  IrradianceMapGenerator irrMapGenerator;
+  PrefilteredEnvMapFaceGenerator[] pemGenerators=new PrefilteredEnvMapFaceGenerator[6];
+  final JobState jobState=new JobState(new ScheduledThreadPoolExecutor(7));
+  irrMapGenerator=new IrradianceMapGenerator(app,new JobListener(listener,jobState,probe,6));
+  int size=envMap.getImage().getWidth();
+  irrMapGenerator.setGenerationParam(EnvMapUtils.duplicateCubeMap(envMap),size,EnvMapUtils.FixSeamsMethod.Wrap,probe.getIrradianceMap());
+  jobState.executor.execute(irrMapGenerator);
+  for (int i=0; i < pemGenerators.length; i++) {
+    pemGenerators[i]=new PrefilteredEnvMapFaceGenerator(app,i,new JobListener(listener,jobState,probe,i));
+    pemGenerators[i].setGenerationParam(EnvMapUtils.duplicateCubeMap(envMap),size,EnvMapUtils.FixSeamsMethod.Wrap,probe.getPrefilteredEnvMap());
+    jobState.executor.execute(pemGenerators[i]);
+  }
+}

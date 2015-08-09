@@ -1,0 +1,11 @@
+{
+  debugNode=new Node("Environment debug Node");
+  Sphere s=new Sphere(16,16,1);
+  debugGeom=new Geometry("debugEnvProbe",s);
+  debugMaterial=new Material(app.getAssetManager(),"Common/MatDefs/Misc/reflect.j3md");
+  debugGeom.setMaterial(debugMaterial);
+  debugBounds=BoundingSphereDebug.createDebugSphere(app.getAssetManager());
+  if (scene == null) {
+    scene=app.getViewPort().getScenes().get(0);
+  }
+}

@@ -1,0 +1,33 @@
+{
+  assetManager.registerLoader(KTXLoader.class,"ktx");
+  cam.setLocation(new Vector3f(-52.433647f,68.69636f,-118.60924f));
+  cam.setRotation(new Quaternion(0.10294232f,0.25269797f,-0.027049713f,0.96167296f));
+  flyCam.setMoveSpeed(100);
+  loadScene();
+  dlsr=new DirectionalLightShadowRenderer(assetManager,SHADOWMAP_SIZE,4);
+  dlsr.setLight(l);
+  dlsr.setShadowIntensity(0.5f);
+  dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCFPOISSON);
+  FilterPostProcessor fpp=new FilterPostProcessor(assetManager);
+  fpp.addFilter(new ToneMapFilter(Vector3f.UNIT_XYZ.mult(6.0f)));
+  SSAOFilter ssao=new SSAOFilter();
+  ssao.setIntensity(5);
+  fpp.addFilter(ssao);
+  BloomFilter bloomFilter=new BloomFilter();
+  fpp.addFilter(bloomFilter);
+  fpp.addFilter(new FXAAFilter());
+  initInputs();
+  envCam=new EnvironmentCamera();
+  getStateManager().attach(envCam);
+  debugState=new LightsDebugState();
+  debugState.setProbeScale(5);
+  getStateManager().attach(debugState);
+  camGeom=new Geometry("camGeom",new Sphere(16,16,2));
+  Material m=assetManager.loadMaterial("jme3test/light/pbr/pbrMat3.j3m");
+  camGeom.setMaterial(m);
+  camGeom.setLocalTranslation(0,20,0);
+  camGeom.setLocalScale(5);
+  rootNode.attachChild(camGeom);
+  flyCam.setDragToRotate(true);
+  setPauseOnLostFocus(false);
+}

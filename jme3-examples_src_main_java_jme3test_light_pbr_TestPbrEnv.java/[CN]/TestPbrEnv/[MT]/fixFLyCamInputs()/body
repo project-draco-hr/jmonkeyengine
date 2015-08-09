@@ -1,0 +1,11 @@
+{
+  inputManager.deleteMapping(CameraInput.FLYCAM_LEFT);
+  inputManager.deleteMapping(CameraInput.FLYCAM_RIGHT);
+  inputManager.deleteMapping(CameraInput.FLYCAM_UP);
+  inputManager.deleteMapping(CameraInput.FLYCAM_DOWN);
+  inputManager.addMapping(CameraInput.FLYCAM_LEFT,new MouseAxisTrigger(MouseInput.AXIS_X,true));
+  inputManager.addMapping(CameraInput.FLYCAM_RIGHT,new MouseAxisTrigger(MouseInput.AXIS_X,false));
+  inputManager.addMapping(CameraInput.FLYCAM_UP,new MouseAxisTrigger(MouseInput.AXIS_Y,false));
+  inputManager.addMapping(CameraInput.FLYCAM_DOWN,new MouseAxisTrigger(MouseInput.AXIS_Y,true));
+  inputManager.addListener(flyCam,CameraInput.FLYCAM_LEFT,CameraInput.FLYCAM_RIGHT,CameraInput.FLYCAM_UP,CameraInput.FLYCAM_DOWN);
+}

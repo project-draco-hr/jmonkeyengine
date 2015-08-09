@@ -1,0 +1,14 @@
+{
+  if (!ready) {
+    throw new UnsupportedOperationException("This EnvProbeis not ready yet, try to test isReady()");
+  }
+  if (debugNode == null) {
+    debugNode=new Node("debug gui probe");
+    Node debugPfemCm=EnvMapUtils.getCubeMapCrossDebugViewWithMipMaps(getPrefilteredEnvMap(),manager);
+    Node debugIrrCm=EnvMapUtils.getCubeMapCrossDebugView(getIrradianceMap(),manager);
+    debugNode.attachChild(debugIrrCm);
+    debugNode.attachChild(debugPfemCm);
+    debugPfemCm.setLocalTranslation(520,0,0);
+  }
+  return debugNode;
+}

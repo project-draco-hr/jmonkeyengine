@@ -1,0 +1,13 @@
+{
+  final LightProbe probe=new LightProbe();
+  probe.setPosition(envCam.getPosition());
+  probe.setIrradianceMap(EnvMapUtils.createIrradianceMap(envCam.getSize(),envCam.getImageFormat()));
+  probe.setPrefilteredMap(EnvMapUtils.createPrefilteredEnvMap(envCam.getSize(),envCam.getImageFormat()));
+  envCam.snapshot(scene,new JobProgressAdapter<TextureCubeMap>(){
+    @Override public void done(    TextureCubeMap map){
+      generatePbrMaps(map,probe,envCam.getApplication(),listener);
+    }
+  }
+);
+  return probe;
+}

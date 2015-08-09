@@ -1,0 +1,18 @@
+{
+  if (globalListener != null) {
+    if (result < 6) {
+      globalListener.step("Prefiltered env map face " + result + " generated");
+    }
+ else {
+      globalListener.step("Irradiance map generated");
+    }
+  }
+  jobState.done[index]=true;
+  if (jobState.isDone()) {
+    probe.setReady(true);
+    if (globalListener != null) {
+      globalListener.done(probe);
+    }
+    jobState.executor.shutdownNow();
+  }
+}

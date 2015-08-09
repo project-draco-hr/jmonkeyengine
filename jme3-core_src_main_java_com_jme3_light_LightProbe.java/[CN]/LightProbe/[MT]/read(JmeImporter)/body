@@ -1,0 +1,8 @@
+{
+  super.read(im);
+  InputCapsule ic=im.getCapsule(this);
+  irradianceMap=(TextureCubeMap)ic.readSavable("irradianceMap",null);
+  prefilteredEnvMap=(TextureCubeMap)ic.readSavable("prefilteredEnvMap",null);
+  position=(Vector3f)ic.readSavable("position",this);
+  bounds=(BoundingVolume)ic.readSavable("bounds",bounds);
+}

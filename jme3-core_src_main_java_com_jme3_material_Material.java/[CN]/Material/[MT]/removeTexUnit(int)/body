@@ -1,0 +1,12 @@
+{
+  nextTexUnit--;
+  for (  MatParam param : paramValues.values()) {
+    if (param instanceof MatParamTexture) {
+      MatParamTexture texParam=(MatParamTexture)param;
+      if (texParam.getUnit() > texUnit) {
+        texParam.setUnit(texParam.getUnit() - 1);
+      }
+    }
+  }
+  sortingId=-1;
+}

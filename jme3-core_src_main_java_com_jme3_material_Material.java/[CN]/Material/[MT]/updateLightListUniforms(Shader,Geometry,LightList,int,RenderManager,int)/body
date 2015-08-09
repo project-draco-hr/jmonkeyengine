@@ -5,6 +5,9 @@
   Uniform lightData=shader.getUniform("g_LightData");
   lightData.setVector4Length(numLights * 3);
   Uniform ambientColor=shader.getUniform("g_AmbientLightColor");
+  Uniform lightProbeData=shader.getUniform("g_LightProbeData");
+  Uniform lightProbeIrrMap=shader.getUniform("g_IrradianceMap");
+  Uniform lightProbePemMap=shader.getUniform("g_PrefEnvMap");
   if (startIndex != 0) {
     rm.getRenderer().applyRenderState(additiveLight);
     ambientColor.setValue(VarType.Vector4,ColorRGBA.Black);
@@ -62,6 +65,29 @@ tmpVec.set(dir2.getX(),dir2.getY(),dir2.getZ(),0.0f);
 transposeLightDataToSpace(technique.getDef().getLightSpace(),rm,tmpVec);
 lightData.setVector4InArray(tmpVec.getX(),tmpVec.getY(),tmpVec.getZ(),spotAngleCos,lightDataIndex);
 lightDataIndex++;
+break;
+case Probe:
+if (irrUnit != -1) {
+lightProbeIrrMap.clearValue();
+lightProbePemMap.clearValue();
+removeTexUnit(irrUnit);
+removeTexUnit(pemUnit);
+irrUnit=-1;
+pemUnit=-1;
+}
+endIndex++;
+LightProbe probe=(LightProbe)l;
+BoundingSphere s=(BoundingSphere)probe.getBounds();
+tmpVec.set(probe.getPosition().x,probe.getPosition().y,probe.getPosition().z,1f / s.getRadius());
+lightProbeData.setValue(VarType.Vector4,tmpVec);
+if (irrUnit == -1) {
+irrUnit=nextTexUnit++;
+pemUnit=nextTexUnit++;
+}
+rm.getRenderer().setTexture(irrUnit,probe.getIrradianceMap());
+lightProbeIrrMap.setValue(VarType.Int,irrUnit);
+rm.getRenderer().setTexture(pemUnit,probe.getPrefilteredEnvMap());
+lightProbePemMap.setValue(VarType.Int,pemUnit);
 break;
 default :
 throw new UnsupportedOperationException("Unknown type of light: " + l.getType());

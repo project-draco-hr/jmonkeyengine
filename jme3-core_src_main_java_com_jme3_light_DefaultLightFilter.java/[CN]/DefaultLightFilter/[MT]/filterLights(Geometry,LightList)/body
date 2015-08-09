@@ -2,6 +2,7 @@
   TempVars vars=TempVars.get();
   try {
     LightList worldLights=geometry.getWorldLightList();
+    boolean probeAdded=false;
     for (int i=0; i < worldLights.size(); i++) {
       Light light=worldLights.get(i);
       if (light.frustumCheckNeeded) {
@@ -23,7 +24,15 @@
           throw new UnsupportedOperationException("Only AABB supported for now");
         }
       }
-      filteredLightList.add(light);
+      if (light.getType() == Light.Type.Probe) {
+        if (!probeAdded && ((LightProbe)light).isReady()) {
+          probeAdded=true;
+          filteredLightList.add(light);
+        }
+      }
+ else {
+        filteredLightList.add(light);
+      }
     }
   }
   finally {

@@ -1,0 +1,36 @@
+{
+  for (  Light light : scene.getWorldLightList()) {
+switch (light.getType()) {
+case Probe:
+      LightProbe probe=(LightProbe)light;
+    probes.add(probe);
+  Node n=probeMapping.get(probe);
+if (n == null) {
+  n=new Node("DebugProbe");
+  n.attachChild(debugGeom.clone(true));
+  n.attachChild(debugBounds.clone(false));
+  debugNode.attachChild(n);
+  probeMapping.put(probe,n);
+}
+Geometry probeGeom=((Geometry)n.getChild(0));
+Material m=probeGeom.getMaterial();
+probeGeom.setLocalScale(probeScale);
+if (probe.isReady()) {
+if (debugMode == DebugMode.IrradianceMap) {
+m.setTexture("CubeMap",probe.getIrradianceMap());
+}
+ else {
+m.setTexture("CubeMap",probe.getPrefilteredEnvMap());
+}
+}
+n.setLocalTranslation(probe.getPosition());
+n.getChild(1).setLocalScale(((BoundingSphere)probe.getBounds()).getRadius());
+break;
+default :
+break;
+}
+}
+debugNode.updateLogicalState(tpf);
+debugNode.updateGeometricState();
+cleanProbes();
+}
