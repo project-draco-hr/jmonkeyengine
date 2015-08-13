@@ -67,14 +67,6 @@ lightData.setVector4InArray(tmpVec.getX(),tmpVec.getY(),tmpVec.getZ(),spotAngleC
 lightDataIndex++;
 break;
 case Probe:
-if (irrUnit != -1) {
-lightProbeIrrMap.clearValue();
-lightProbePemMap.clearValue();
-removeTexUnit(irrUnit);
-removeTexUnit(pemUnit);
-irrUnit=-1;
-pemUnit=-1;
-}
 endIndex++;
 LightProbe probe=(LightProbe)l;
 BoundingSphere s=(BoundingSphere)probe.getBounds();
