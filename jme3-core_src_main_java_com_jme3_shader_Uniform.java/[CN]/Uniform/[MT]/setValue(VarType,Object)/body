@@ -11,20 +11,38 @@
   setByCurrentMaterial=true;
 switch (type) {
 case Matrix3:
-    Matrix3f m3=(Matrix3f)value;
-  if (multiData == null) {
-    multiData=BufferUtils.createFloatBuffer(9);
-  }
+    if (value.equals(this.value)) {
+      return;
+    }
+  Matrix3f m3=(Matrix3f)value;
+if (multiData == null) {
+  multiData=BufferUtils.createFloatBuffer(9);
+}
 m3.fillFloatBuffer(multiData,true);
 multiData.clear();
+if (this.value == null) {
+this.value=new Matrix3f(m3);
+}
+ else {
+((Matrix3f)this.value).set(m3);
+}
 break;
 case Matrix4:
+if (value.equals(this.value)) {
+return;
+}
 Matrix4f m4=(Matrix4f)value;
 if (multiData == null) {
 multiData=BufferUtils.createFloatBuffer(16);
 }
 m4.fillFloatBuffer(multiData,true);
 multiData.clear();
+if (this.value == null) {
+this.value=new Matrix4f(m4);
+}
+ else {
+((Matrix4f)this.value).copy(m4);
+}
 break;
 case IntArray:
 int[] ia=(int[])value;
@@ -112,10 +130,33 @@ m4a[i].fillFloatBuffer(multiData,true);
 }
 multiData.clear();
 break;
+case Vector4:
+if (value.equals(this.value)) {
+return;
+}
+if (value instanceof ColorRGBA) {
+if (this.value == null) {
+this.value=new ColorRGBA();
+}
+((ColorRGBA)this.value).set((ColorRGBA)value);
+}
+ else if (value instanceof Vector4f) {
+if (this.value == null) {
+this.value=new Vector4f();
+}
+((Vector4f)this.value).set((Vector4f)value);
+}
+ else {
+if (this.value == null) {
+this.value=new Quaternion();
+}
+((Quaternion)this.value).set((Quaternion)value);
+}
+break;
 case Int:
 case Float:
 case Boolean:
-if (this.value != null && this.value.equals(value)) {
+if (value.equals(this.value)) {
 return;
 }
 this.value=value;
@@ -123,9 +164,6 @@ break;
 default :
 this.value=value;
 break;
-}
-if (multiData != null) {
-this.value=multiData;
 }
 varType=type;
 updateNeeded=true;
