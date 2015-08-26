@@ -1,0 +1,10 @@
+{
+  BufferedImage bi=null;
+  try {
+    bi=ImageIO.read(refObj.getClass().getResourceAsStream(fileName));
+  }
+ catch (  IOException e) {
+    e.printStackTrace();
+  }
+  return bi;
+}
