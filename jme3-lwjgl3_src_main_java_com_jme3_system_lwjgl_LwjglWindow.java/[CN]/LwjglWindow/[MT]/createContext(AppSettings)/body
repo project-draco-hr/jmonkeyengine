@@ -1,0 +1,86 @@
+{
+  glfwSetErrorCallback(errorCallback=new GLFWErrorCallback(){
+    @Override public void invoke(    int error,    long description){
+      final String message=Callbacks.errorCallbackDescriptionString(description);
+      listener.handleError(message,new Exception(message));
+    }
+  }
+);
+  if (glfwInit() != GL_TRUE) {
+    throw new IllegalStateException("Unable to initialize GLFW");
+  }
+  glfwDefaultWindowHints();
+  glfwWindowHint(GLFW_VISIBLE,GL_FALSE);
+  long monitor=NULL;
+  if (settings.isFullscreen()) {
+    monitor=glfwGetPrimaryMonitor();
+  }
+  final ByteBuffer videoMode=glfwGetVideoMode(glfwGetPrimaryMonitor());
+  if (settings.getWidth() <= 0 || settings.getHeight() <= 0) {
+    settings.setResolution(GLFWvidmode.width(videoMode),GLFWvidmode.height(videoMode));
+  }
+  window=glfwCreateWindow(settings.getWidth(),settings.getHeight(),settings.getTitle(),monitor,NULL);
+  if (window == NULL) {
+    throw new RuntimeException("Failed to create the GLFW window");
+  }
+  glfwWindowHint(GLFW_RESIZABLE,settings.isResizable() ? GL_TRUE : GL_FALSE);
+  glfwWindowHint(GLFW_DEPTH_BITS,settings.getDepthBits());
+  glfwWindowHint(GLFW_STENCIL_BITS,settings.getStencilBits());
+  glfwWindowHint(GLFW_SAMPLES,settings.getSamples());
+  glfwWindowHint(GLFW_STEREO,settings.useStereo3D() ? GL_TRUE : GL_FALSE);
+  int frameRateCap=settings.getFrameRate();
+  if (!autoFlush) {
+    frameRateCap=20;
+  }
+  if (frameRateCap > 0) {
+    glfwWindowHint(GLFW_REFRESH_RATE,frameRateCap);
+  }
+  if (settings.getBitsPerPixel() == 24) {
+    glfwWindowHint(GLFW_RED_BITS,8);
+    glfwWindowHint(GLFW_GREEN_BITS,8);
+    glfwWindowHint(GLFW_BLUE_BITS,8);
+  }
+ else   if (settings.getBitsPerPixel() == 16) {
+    glfwWindowHint(GLFW_RED_BITS,5);
+    glfwWindowHint(GLFW_GREEN_BITS,6);
+    glfwWindowHint(GLFW_BLUE_BITS,5);
+  }
+  glfwWindowHint(GLFW_ALPHA_BITS,settings.getAlphaBits());
+  glfwSetWindowFocusCallback(window,windowFocusCallback=new GLFWWindowFocusCallback(){
+    @Override public void invoke(    final long window,    final int focused){
+      final boolean focus=(focused == 1);
+      if (wasActive != focus) {
+        if (!wasActive) {
+          listener.gainFocus();
+          timer.reset();
+        }
+ else {
+          listener.loseFocus();
+        }
+        wasActive=!wasActive;
+      }
+    }
+  }
+);
+  if (!settings.isFullscreen() && Type.Display.equals(type)) {
+    glfwSetWindowPos(window,(GLFWvidmode.width(videoMode) - settings.getWidth()) / 2,(GLFWvidmode.height(videoMode) - settings.getHeight()) / 2);
+  }
+  glfwMakeContextCurrent(window);
+  if (settings.isVSync()) {
+    glfwSwapInterval(1);
+  }
+ else {
+    glfwSwapInterval(0);
+  }
+  if (Type.Display.equals(type)) {
+    glfwShowWindow(window);
+  }
+  glfwSetWindowSizeCallback(window,windowSizeCallback=new GLFWWindowSizeCallback(){
+    @Override public void invoke(    final long window,    final int width,    final int height){
+      settings.setResolution(width,height);
+      listener.reshape(width,height);
+    }
+  }
+);
+  allowSwapBuffers=settings.isSwapBuffers();
+}

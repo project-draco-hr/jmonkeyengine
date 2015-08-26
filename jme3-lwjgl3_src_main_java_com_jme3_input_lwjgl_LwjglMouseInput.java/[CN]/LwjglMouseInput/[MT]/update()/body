@@ -1,0 +1,8 @@
+{
+  while (!mouseMotionEvents.isEmpty()) {
+    listener.onMouseMotionEvent(mouseMotionEvents.poll());
+  }
+  while (!mouseButtonEvents.isEmpty()) {
+    listener.onMouseButtonEvent(mouseButtonEvents.poll());
+  }
+}

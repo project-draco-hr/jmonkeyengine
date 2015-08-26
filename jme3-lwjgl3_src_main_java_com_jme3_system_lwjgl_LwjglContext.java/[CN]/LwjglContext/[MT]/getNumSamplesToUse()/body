@@ -1,0 +1,12 @@
+{
+  int samples=0;
+  if (settings.getSamples() > 1) {
+    samples=settings.getSamples();
+    final int supportedSamples=determineMaxSamples();
+    if (supportedSamples < samples) {
+      logger.log(Level.WARNING,"Couldn't satisfy antialiasing samples requirement: x{0}. " + "Video hardware only supports: x{1}",new Object[]{samples,supportedSamples});
+      samples=supportedSamples;
+    }
+  }
+  return samples;
+}

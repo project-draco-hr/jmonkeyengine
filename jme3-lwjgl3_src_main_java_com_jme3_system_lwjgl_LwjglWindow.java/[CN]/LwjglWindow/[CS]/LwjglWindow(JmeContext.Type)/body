@@ -1,0 +1,6 @@
+{
+  if (!JmeContext.Type.Display.equals(type) && !JmeContext.Type.OffscreenSurface.equals(type) && !JmeContext.Type.Canvas.equals(type)) {
+    throw new IllegalArgumentException("Unsupported type '" + type.name() + "' provided");
+  }
+  this.type=type;
+}

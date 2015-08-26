@@ -1,0 +1,31 @@
+{
+  if (needRestart.getAndSet(false)) {
+    try {
+      createContext(settings);
+    }
+ catch (    Exception ex) {
+      LOGGER.log(Level.SEVERE,"Failed to set display settings!",ex);
+    }
+    LOGGER.fine("Display restarted.");
+  }
+  if (!created.get()) {
+    throw new IllegalStateException();
+  }
+  listener.update();
+  if (renderable.get()) {
+    try {
+      if (allowSwapBuffers && autoFlush) {
+        glfwSwapBuffers(window);
+      }
+    }
+ catch (    Throwable ex) {
+      listener.handleError("Error while swapping buffers",ex);
+    }
+  }
+  if (glfwGetWindowAttrib(window,GLFW_FOCUSED) == GL_TRUE) {
+    glfwPollEvents();
+  }
+  if (renderer != null) {
+    renderer.postFrame();
+  }
+}

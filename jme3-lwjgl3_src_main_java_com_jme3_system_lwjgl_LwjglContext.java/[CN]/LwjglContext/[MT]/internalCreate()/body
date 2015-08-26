@@ -1,0 +1,7 @@
+{
+synchronized (createdLock) {
+    created.set(true);
+    createdLock.notifyAll();
+  }
+  initContextFirstTime();
+}

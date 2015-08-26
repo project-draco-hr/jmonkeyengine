@@ -1,0 +1,11 @@
+{
+  if (buffer == null) {
+    return;
+  }
+  if (buffer.limit() == 0) {
+    throw new RendererException("Attempting to upload empty buffer (limit = 0), that's an error");
+  }
+  if (buffer.remaining() == 0) {
+    throw new RendererException("Attempting to upload empty buffer (remaining = 0), that's an error");
+  }
+}
