@@ -33,6 +33,9 @@
               glad.setGL(new DebugGLES2(gl.getGLES2()));
             }
  else {
+              if (gl.isGLES3()) {
+                glad.setGL(new DebugGLES3(gl.getGLES3()));
+              }
             }
           }
         }
