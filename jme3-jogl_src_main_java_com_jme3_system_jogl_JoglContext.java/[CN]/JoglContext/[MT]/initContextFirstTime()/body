@@ -1,0 +1,46 @@
+{
+  if (GLContext.getCurrent().getGLVersionNumber().getMajor() < 2) {
+    throw new RendererException("OpenGL 2.0 or higher is " + "required for jMonkeyEngine");
+  }
+  if (settings.getRenderer().equals("JOGL")) {
+    com.jme3.renderer.opengl.GL gl=new JoglGL();
+    GLExt glext=new JoglGLExt();
+    GLFbo glfbo=new JoglGLFbo();
+    if (settings.getBoolean("GraphicsDebug")) {
+      gl=new GLDebugDesktop(gl,glext,glfbo);
+      glext=(GLExt)gl;
+      glfbo=(GLFbo)gl;
+    }
+    if (settings.getBoolean("GraphicsTiming")) {
+      GLTimingState timingState=new GLTimingState();
+      gl=(com.jme3.renderer.opengl.GL)GLTiming.createGLTiming(gl,timingState,GL.class,GL2.class,GL3.class,GL4.class);
+      glext=(GLExt)GLTiming.createGLTiming(glext,timingState,GLExt.class);
+      glfbo=(GLFbo)GLTiming.createGLTiming(glfbo,timingState,GLFbo.class);
+    }
+    if (settings.getBoolean("GraphicsTrace")) {
+      gl=(com.jme3.renderer.opengl.GL)GLTracer.createDesktopGlTracer(gl,GL.class,GL2.class,GL3.class,GL4.class);
+      glext=(GLExt)GLTracer.createDesktopGlTracer(glext,GLExt.class);
+      glfbo=(GLFbo)GLTracer.createDesktopGlTracer(glfbo,GLFbo.class);
+    }
+    renderer=new GLRenderer(gl,glext,glfbo);
+    renderer.initialize();
+  }
+ else {
+    throw new UnsupportedOperationException("Unsupported renderer: " + settings.getRenderer());
+  }
+  if (GLContext.getCurrentGL().isExtensionAvailable("GL_ARB_debug_output") && settings.getBoolean("GraphicsDebug")) {
+    GLContext.getCurrent().enableGLDebugMessage(true);
+    GLContext.getCurrent().addGLDebugListener(new JoglGLDebugOutputHandler());
+  }
+  renderer.setMainFrameBufferSrgb(settings.getGammaCorrection());
+  renderer.setLinearizeSrgbImages(settings.getGammaCorrection());
+  if (keyInput != null) {
+    keyInput.initialize();
+  }
+  if (mouseInput != null) {
+    mouseInput.initialize();
+  }
+  if (joyInput != null) {
+    joyInput.initialize();
+  }
+}

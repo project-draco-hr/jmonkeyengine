@@ -1,0 +1,12 @@
+{
+  ByteBuffer buffer=ByteBuffer.allocateDirect(maxSize);
+  buffer.order(ByteOrder.nativeOrder());
+  ByteBuffer tmp=ByteBuffer.allocateDirect(4);
+  tmp.order(ByteOrder.nativeOrder());
+  IntBuffer intBuffer=tmp.asIntBuffer();
+  GLContext.getCurrentGL().getGL2ES2().glGetProgramInfoLog(program,maxSize,intBuffer,buffer);
+  int numBytes=intBuffer.get(0);
+  byte[] bytes=new byte[numBytes];
+  buffer.get(bytes);
+  return new String(bytes);
+}
