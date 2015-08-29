@@ -1,0 +1,32 @@
+{
+  InputStream in=null;
+  try {
+    in=JmeKeyStoreProvider.class.getResourceAsStream("trustedcerts.jks");
+    KeyStore store=KeyStore.getInstance("JKS");
+    store.load(in,"trustedcerts".toCharArray());
+    return store;
+  }
+ catch (  KeyStoreException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  IOException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  NoSuchAlgorithmException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  CertificateException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+ finally {
+    if (in != null) {
+      try {
+        in.close();
+      }
+ catch (      IOException ex) {
+        Exceptions.printStackTrace(ex);
+      }
+    }
+  }
+  return null;
+}

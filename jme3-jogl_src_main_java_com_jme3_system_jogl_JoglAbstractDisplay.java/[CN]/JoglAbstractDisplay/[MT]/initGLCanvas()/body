@@ -46,6 +46,9 @@
               glad.setGL(new DebugGLES2(gl.getGLES2()));
             }
  else {
+              if (gl.isGLES3()) {
+                glad.setGL(new DebugGLES3(gl.getGLES3()));
+              }
             }
           }
         }
@@ -80,5 +83,11 @@
 );
   }
   renderer=new JoglRenderer();
-  renderer.setMainFrameBufferSrgb(settings.getGammaCorrection());
+  canvas.invoke(false,new GLRunnable(){
+    public boolean run(    GLAutoDrawable glad){
+      renderer.setMainFrameBufferSrgb(settings.getGammaCorrection());
+      return true;
+    }
+  }
+);
 }
