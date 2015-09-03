@@ -22,9 +22,7 @@
       listener.handleError("Error while swapping buffers",ex);
     }
   }
-  if (glfwGetWindowAttrib(window,GLFW_FOCUSED) == GL_TRUE) {
-    glfwPollEvents();
-  }
+  glfwPollEvents();
   if (renderer != null) {
     renderer.postFrame();
   }

@@ -48,7 +48,7 @@
   glfwWindowHint(GLFW_ALPHA_BITS,settings.getAlphaBits());
   glfwSetWindowFocusCallback(window,windowFocusCallback=new GLFWWindowFocusCallback(){
     @Override public void invoke(    final long window,    final int focused){
-      final boolean focus=(focused == 1);
+      final boolean focus=(focused == GL_TRUE);
       if (wasActive != focus) {
         if (!wasActive) {
           listener.gainFocus();
