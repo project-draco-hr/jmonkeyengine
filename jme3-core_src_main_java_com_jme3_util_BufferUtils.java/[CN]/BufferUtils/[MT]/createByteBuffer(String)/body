@@ -1,7 +1,12 @@
 {
-  byte[] bytes=data.getBytes();
-  ByteBuffer bb=createByteBuffer(bytes.length);
-  bb.put(bytes);
-  bb.flip();
-  return bb;
+  try {
+    byte[] bytes=data.getBytes("UTF-8");
+    ByteBuffer bb=createByteBuffer(bytes.length);
+    bb.put(bytes);
+    bb.flip();
+    return bb;
+  }
+ catch (  UnsupportedEncodingException ex) {
+    throw new UnsupportedOperationException(ex);
+  }
 }

@@ -1,0 +1,10 @@
+{
+  if (obj == null) {
+    return false;
+  }
+  if (getClass() != obj.getClass()) {
+    return false;
+  }
+  final Transform other=(Transform)obj;
+  return this.translation.equals(other.translation) && this.scale.equals(other.scale) && this.rot.equals(other.rot);
+}

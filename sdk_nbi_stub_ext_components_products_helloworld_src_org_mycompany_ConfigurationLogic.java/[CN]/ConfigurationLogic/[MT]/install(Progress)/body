@@ -87,15 +87,14 @@
  catch (    IOException e) {
       throw new InstallationException("Cannot copy JDK",e);
     }
-    File binDir=new File(target,"bin");
-    for (    File file : binDir.listFiles()) {
-      try {
-        file.setExecutable(true);
-      }
- catch (      Exception ex) {
-        ex.printStackTrace();
-      }
-    }
+    LogManager.log("Setting JDK files as executable");
+    setExecutableContents(target,"bin");
+    setExecutableContents(target,"db/bin");
+    setExecutableContents(target,"jre/bin");
+    setExecutableFile(target,"lib/jexec");
+    setExecutableFile(target,"lib/amd64/libjawt.so");
+    setExecutableFile(target,"lib/amd64/jli/libjli.so");
+    setExecutableFile(target,"lib/visualvm/platform/lib/nbexec");
     SystemUtils.getNativeUtils().addUninstallerJVM(new LauncherResource(false,target));
   }
 }

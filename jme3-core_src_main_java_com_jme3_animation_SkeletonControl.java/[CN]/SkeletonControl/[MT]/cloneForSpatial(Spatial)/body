@@ -1,8 +1,17 @@
 {
   Node clonedNode=(Node)spatial;
-  AnimControl ctrl=spatial.getControl(AnimControl.class);
   SkeletonControl clone=new SkeletonControl();
-  clone.skeleton=ctrl.getSkeleton();
+  AnimControl ctrl=spatial.getControl(AnimControl.class);
+  if (ctrl != null) {
+    clone.skeleton=ctrl.getSkeleton();
+  }
+ else {
+    clone.skeleton=new Skeleton(skeleton);
+  }
+  clone.hwSkinningDesired=this.hwSkinningDesired;
+  clone.hwSkinningEnabled=this.hwSkinningEnabled;
+  clone.hwSkinningSupported=this.hwSkinningSupported;
+  clone.hwSkinningTested=this.hwSkinningTested;
   clone.setSpatial(clonedNode);
   for (int i=0; i < clonedNode.getQuantity(); i++) {
     Spatial child=clonedNode.getChild(i);

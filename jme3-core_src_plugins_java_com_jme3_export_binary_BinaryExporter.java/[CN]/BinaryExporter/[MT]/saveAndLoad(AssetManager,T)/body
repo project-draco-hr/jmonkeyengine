@@ -1,0 +1,13 @@
+{
+  ByteArrayOutputStream baos=new ByteArrayOutputStream();
+  try {
+    BinaryExporter exporter=new BinaryExporter();
+    exporter.save(object,baos);
+    BinaryImporter importer=new BinaryImporter();
+    importer.setAssetManager(assetManager);
+    return (T)importer.load(baos.toByteArray());
+  }
+ catch (  IOException ex) {
+    throw new AssertionError(ex);
+  }
+}

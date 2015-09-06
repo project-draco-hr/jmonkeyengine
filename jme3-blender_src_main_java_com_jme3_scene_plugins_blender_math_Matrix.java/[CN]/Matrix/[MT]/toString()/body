@@ -1,0 +1,12 @@
+{
+  DecimalFormat df=new DecimalFormat("#.0000");
+  StringBuilder buf=new StringBuilder();
+  for (int r=0; r < this.numRows(); ++r) {
+    buf.append("\n| ");
+    for (int c=0; c < this.numCols(); ++c) {
+      buf.append(df.format(this.get(r,c))).append(' ');
+    }
+    buf.append('|');
+  }
+  return buf.toString();
+}

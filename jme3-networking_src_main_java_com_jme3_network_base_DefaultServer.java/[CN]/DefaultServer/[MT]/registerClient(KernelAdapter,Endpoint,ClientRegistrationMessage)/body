@@ -44,5 +44,9 @@ synchronized (this) {
     m.setReliable(true);
     addedConnection.send(m);
     fireConnectionAdded(addedConnection);
+    m=new ClientRegistrationMessage();
+    m.setId(-1);
+    m.setReliable(true);
+    addedConnection.send(m);
   }
 }

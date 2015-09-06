@@ -1,0 +1,38 @@
+{
+  if (constraintStructure == null) {
+    return new ConstraintDefinitionNull(null,ownerOMA,blenderContext);
+  }
+  String constraintClassName=constraintStructure.getType();
+  Class<? extends ConstraintDefinition> constraintDefinitionClass=CONSTRAINT_CLASSES.get(constraintClassName);
+  if (constraintDefinitionClass != null) {
+    try {
+      ConstraintDefinition def=(ConstraintDefinition)constraintDefinitionClass.getDeclaredConstructors()[0].newInstance(constraintStructure,ownerOMA,blenderContext);
+      def.setConstraintName(constraintName);
+      return def;
+    }
+ catch (    IllegalArgumentException e) {
+      throw new BlenderFileException(e.getLocalizedMessage(),e);
+    }
+catch (    SecurityException e) {
+      throw new BlenderFileException(e.getLocalizedMessage(),e);
+    }
+catch (    InstantiationException e) {
+      throw new BlenderFileException(e.getLocalizedMessage(),e);
+    }
+catch (    IllegalAccessException e) {
+      throw new BlenderFileException(e.getLocalizedMessage(),e);
+    }
+catch (    InvocationTargetException e) {
+      throw new BlenderFileException(e.getLocalizedMessage(),e);
+    }
+  }
+ else {
+    String unsupportedConstraintClassName=UNSUPPORTED_CONSTRAINTS.get(constraintClassName);
+    if (unsupportedConstraintClassName != null) {
+      return new UnsupportedConstraintDefinition(unsupportedConstraintClassName);
+    }
+ else {
+      throw new BlenderFileException("Unknown constraint type: " + constraintClassName);
+    }
+  }
+}

@@ -3,5 +3,5 @@
     return;
   }
   super.mousePressed(e);
-  diagram.select(this);
+  diagram.select(this,e.isShiftDown() || e.isControlDown());
 }

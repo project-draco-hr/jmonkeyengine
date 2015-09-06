@@ -5,7 +5,14 @@
   capsule.write(getGravity(),"gravity",Vector3f.ZERO);
   capsule.write(getFriction(),"friction",0.5f);
   capsule.write(getRestitution(),"restitution",0);
-  capsule.write(getAngularFactor(),"angularFactor",1);
+  Vector3f angularFactor=getAngularFactor(null);
+  if (angularFactor.x == angularFactor.y && angularFactor.y == angularFactor.z) {
+    capsule.write(getAngularFactor(),"angularFactor",1);
+  }
+ else {
+    capsule.write(getAngularFactor(null),"angularFactor",Vector3f.UNIT_XYZ);
+    capsule.write(getLinearFactor(),"linearFactor",Vector3f.UNIT_XYZ);
+  }
   capsule.write(kinematic,"kinematic",false);
   capsule.write(getLinearDamping(),"linearDamping",0);
   capsule.write(getAngularDamping(),"angularDamping",0);

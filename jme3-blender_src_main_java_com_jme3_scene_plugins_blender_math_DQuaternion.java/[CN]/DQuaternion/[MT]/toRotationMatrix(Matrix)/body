@@ -1,0 +1,30 @@
+{
+  Vector3d originalScale=new Vector3d();
+  result.toScaleVector(originalScale);
+  result.setScale(1,1,1);
+  double norm=this.norm();
+  double s=norm == 1f ? 2f : norm > 0f ? 2f / norm : 0;
+  double xs=x * s;
+  double ys=y * s;
+  double zs=z * s;
+  double xx=x * xs;
+  double xy=x * ys;
+  double xz=x * zs;
+  double xw=w * xs;
+  double yy=y * ys;
+  double yz=y * zs;
+  double yw=w * ys;
+  double zz=z * zs;
+  double zw=w * zs;
+  result.set(0,0,1 - (yy + zz));
+  result.set(0,1,xy - zw);
+  result.set(0,2,xz + yw);
+  result.set(1,0,xy + zw);
+  result.set(1,1,1 - (xx + zz));
+  result.set(1,2,yz - xw);
+  result.set(2,0,xz - yw);
+  result.set(2,1,yz + xw);
+  result.set(2,2,1 - (xx + yy));
+  result.setScale(originalScale);
+  return result;
+}

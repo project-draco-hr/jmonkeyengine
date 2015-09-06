@@ -1,0 +1,12 @@
+{
+  File binDir=new File(parent,path);
+  File[] fileList=binDir.listFiles();
+  for (  File file : fileList) {
+    try {
+      file.setExecutable(true,false);
+    }
+ catch (    Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  List<Geometry> geoms=new ArrayList<Geometry>();
+  gatherGeoms(n,geoms);
+  Map<VertexBuffer.Type,VertexBuffer> types=new EnumMap<VertexBuffer.Type,VertexBuffer>(VertexBuffer.Type.class);
+  Map<VertexBuffer.Type,Integer> typesCount=new EnumMap<VertexBuffer.Type,Integer>(VertexBuffer.Type.class);
+  for (  Geometry geom : geoms) {
+    for (    VertexBuffer buffer : geom.getMesh().getBufferList()) {
+      if (types.get(buffer.getBufferType()) == null) {
+        types.put(buffer.getBufferType(),buffer);
+        logger.log(Level.FINE,buffer.getBufferType().toString());
+      }
+      Integer count=typesCount.get(buffer.getBufferType());
+      if (count == null) {
+        count=0;
+      }
+      count++;
+      typesCount.put(buffer.getBufferType(),count);
+    }
+  }
+switch (option) {
+case RemoveUnalignedBuffers:
+    for (    Geometry geom : geoms) {
+      for (      VertexBuffer buffer : geom.getMesh().getBufferList()) {
+        Integer count=typesCount.get(buffer.getBufferType());
+        if (count != null && count < geoms.size()) {
+          geom.getMesh().clearBuffer(buffer.getBufferType());
+          logger.log(Level.FINE,"removing {0} from {1}",new Object[]{buffer.getBufferType(),geom.getName()});
+        }
+      }
+    }
+  break;
+case CreateMissingBuffers:
+for (Geometry geom : geoms) {
+  for (  VertexBuffer.Type type : types.keySet()) {
+    if (geom.getMesh().getBuffer(type) == null) {
+      VertexBuffer vb=new VertexBuffer(type);
+      Buffer b;
+switch (type) {
+case Index:
+case BoneIndex:
+case HWBoneIndex:
+        b=BufferUtils.createIntBuffer(geom.getMesh().getVertexCount() * types.get(type).getNumComponents());
+      break;
+case InterleavedData:
+    b=BufferUtils.createByteBuffer(geom.getMesh().getVertexCount() * types.get(type).getNumComponents());
+  break;
+default :
+b=BufferUtils.createFloatBuffer(geom.getMesh().getVertexCount() * types.get(type).getNumComponents());
+}
+vb.setupData(types.get(type).getUsage(),types.get(type).getNumComponents(),types.get(type).getFormat(),b);
+geom.getMesh().setBuffer(vb);
+logger.log(Level.FINE,"geom {0} misses buffer {1}. Creating",new Object[]{geom.getName(),type});
+}
+}
+}
+break;
+}
+}

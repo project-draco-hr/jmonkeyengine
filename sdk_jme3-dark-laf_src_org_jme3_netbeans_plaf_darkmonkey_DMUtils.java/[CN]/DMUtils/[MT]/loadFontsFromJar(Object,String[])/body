@@ -1,0 +1,20 @@
+{
+  GraphicsEnvironment ge=GraphicsEnvironment.getLocalGraphicsEnvironment();
+  Font[] fontsListing=ge.getAllFonts();
+  InputStream inStream;
+  Font checkFont;
+  try {
+    toNextFileName:     for (    String fileName : fileNames) {
+      checkFont=Font.createFont(Font.TRUETYPE_FONT,refObj.getClass().getResourceAsStream(fileName));
+      for (      Font fontInListing : fontsListing) {
+        if (fontInListing.getFontName().equals(checkFont.getFontName())) {
+          continue toNextFileName;
+        }
+      }
+      ge.registerFont(checkFont);
+    }
+  }
+ catch (  FontFormatException|IOException e) {
+    e.printStackTrace();
+  }
+}

@@ -39,6 +39,9 @@
       nodesLoaderDelegate.readFragmentShaderNodes(statement.getContents());
     }
   }
+ else   if (split[0].equals("NoRender")) {
+    technique.setNoRender(true);
+  }
  else {
     throw new MatParseException(null,split[0],statement);
   }
