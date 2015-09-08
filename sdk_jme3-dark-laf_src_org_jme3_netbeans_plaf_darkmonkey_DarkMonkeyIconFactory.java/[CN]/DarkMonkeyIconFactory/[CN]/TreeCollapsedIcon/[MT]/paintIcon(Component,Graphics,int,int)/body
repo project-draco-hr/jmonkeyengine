@@ -1,0 +1,14 @@
+{
+  if (preProcessed != null) {
+    preProcessed.paintIcon(c,g,x,y);
+    return;
+  }
+  BufferedImage bi=DMUtils.loadImagefromJar(this,"icons/nehonC2.png");
+  Color[] normColorSet={null,DarkMonkeyLookAndFeel.getWhite(),null,DarkMonkeyLookAndFeel.getPrimaryControl()};
+  bi=DMUtils.paletteSwapARGB8(normColorSet,bi);
+  ImageIcon ii=new ImageIcon(bi);
+  Image scaled=ii.getImage();
+  ImageIcon preProcess=new ImageIcon(scaled.getScaledInstance(w,h,Image.SCALE_SMOOTH));
+  preProcess.paintIcon(c,g,x,y);
+  preProcessed=preProcess;
+}

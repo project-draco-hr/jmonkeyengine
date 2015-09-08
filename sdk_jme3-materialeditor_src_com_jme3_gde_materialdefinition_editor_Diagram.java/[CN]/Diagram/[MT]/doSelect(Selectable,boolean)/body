@@ -1,0 +1,13 @@
+{
+  if (!multi && !selectedItems.contains(selectable)) {
+    selectedItems.clear();
+  }
+  if (selectable != null) {
+    selectedItems.add(selectable);
+  }
+  if (selectable instanceof Component) {
+    ((Component)selectable).requestFocusInWindow();
+  }
+  repaint();
+  return selectable;
+}

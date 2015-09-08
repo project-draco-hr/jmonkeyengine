@@ -1,10 +1,12 @@
 {
   if (SwingUtilities.isLeftMouseButton(e)) {
     if (draggedFrom == null) {
-      if (selectedItem instanceof OutBusPanel) {
-        OutBusPanel bus=(OutBusPanel)selectedItem;
-        MouseEvent me=SwingUtilities.convertMouseEvent(this,e,bus);
-        bus.dispatchEvent(me);
+      for (      Selectable selectedItem : selectedItems) {
+        if (selectedItem instanceof OutBusPanel) {
+          OutBusPanel bus=(OutBusPanel)selectedItem;
+          MouseEvent me=SwingUtilities.convertMouseEvent(this,e,bus);
+          bus.dispatchEvent(me);
+        }
       }
     }
   }

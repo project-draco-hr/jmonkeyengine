@@ -1,6 +1,7 @@
 {
   if (kie.getKeyCode() == KeyInput.KEY_X && kie.isPressed()) {
-    if (Lookup.getDefault().lookup(ShortcutManager.class).isShiftDown()) {
+    ShortcutManager scm=Lookup.getDefault().lookup(ShortcutManager.class);
+    if (!scm.isActive() && scm.isShiftDown()) {
       return true;
     }
   }
