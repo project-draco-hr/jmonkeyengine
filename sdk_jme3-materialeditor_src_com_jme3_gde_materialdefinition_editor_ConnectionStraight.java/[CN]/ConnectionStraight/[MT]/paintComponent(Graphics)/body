@@ -20,7 +20,7 @@
     translate(points[i],p1);
     translate(points[i + 1],p2);
     g.drawLine(p1.x,p1.y,p2.x,p2.y);
-    if (getDiagram().selectedItem == this) {
+    if (getDiagram().getSelectedItems().contains(this)) {
       g.setColor(Color.CYAN);
     }
  else {

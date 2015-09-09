@@ -39,7 +39,7 @@ ShadowUtil.updateFrustumPoints2(shadowCam,points);
 ((Node)viewPort.getScenes().get(0)).attachChild(createFrustum(points,i));
 }
 r.setFrameBuffer(shadowFB[i]);
-r.clearBuffers(false,true,false);
+r.clearBuffers(true,true,true);
 viewPort.getQueue().renderShadowQueue(splitOccluders,renderManager,shadowCam,true);
 }
 debugfrustums=false;

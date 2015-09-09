@@ -5,6 +5,12 @@
     caps.add(Caps.VertexTextureFetch);
   }
   limits.put(Limits.FragmentTextureUnits,getInteger(GL.GL_MAX_TEXTURE_IMAGE_UNITS));
+  if (caps.contains(Caps.OpenGLES20)) {
+    limits.put(Limits.VertexUniformVectors,getInteger(GL.GL_MAX_VERTEX_UNIFORM_VECTORS));
+  }
+ else {
+    limits.put(Limits.VertexUniformVectors,getInteger(GL.GL_MAX_VERTEX_UNIFORM_COMPONENTS) / 4);
+  }
   limits.put(Limits.VertexAttributes,getInteger(GL.GL_MAX_VERTEX_ATTRIBS));
   limits.put(Limits.TextureSize,getInteger(GL.GL_MAX_TEXTURE_SIZE));
   limits.put(Limits.CubemapSize,getInteger(GL.GL_MAX_CUBE_MAP_TEXTURE_SIZE));
@@ -63,7 +69,7 @@
   if (hasExtension("GL_ARB_vertex_array_object") || caps.contains(Caps.OpenGL30)) {
     caps.add(Caps.VertexBufferArray);
   }
-  if (hasExtension("GL_ARB_texture_non_power_of_two") || hasExtension("GL_OES_texture_npot") || hasExtension("GL_APPLE_texture_2D_limited_npot")|| caps.contains(Caps.OpenGL30)) {
+  if (hasExtension("GL_ARB_texture_non_power_of_two") || hasExtension("GL_OES_texture_npot") || caps.contains(Caps.OpenGL30)) {
     caps.add(Caps.NonPowerOfTwoTextures);
   }
  else {
@@ -78,7 +84,7 @@
   if (hasExtension("GL_EXT_texture_filter_anisotropic")) {
     caps.add(Caps.TextureFilterAnisotropic);
   }
-  if (hasExtension("GL_EXT_framebuffer_object") || gl3 != null) {
+  if (hasExtension("GL_EXT_framebuffer_object") || gl3 != null || caps.contains(Caps.OpenGLES20)) {
     caps.add(Caps.FrameBuffer);
     limits.put(Limits.RenderBufferSize,getInteger(GLFbo.GL_MAX_RENDERBUFFER_SIZE_EXT));
     limits.put(Limits.FrameBufferAttachments,getInteger(GLFbo.GL_MAX_COLOR_ATTACHMENTS_EXT));
@@ -97,7 +103,7 @@
         limits.put(Limits.FrameBufferSamples,limits.get(Limits.ColorTextureSamples));
       }
     }
-    if (hasExtension("GL_ARB_draw_buffers")) {
+    if (hasExtension("GL_ARB_draw_buffers") || gl3 != null) {
       limits.put(Limits.FrameBufferMrtAttachments,getInteger(GLExt.GL_MAX_DRAW_BUFFERS_ARB));
       if (limits.get(Limits.FrameBufferMrtAttachments) > 1) {
         caps.add(Caps.FrameBufferMRT);

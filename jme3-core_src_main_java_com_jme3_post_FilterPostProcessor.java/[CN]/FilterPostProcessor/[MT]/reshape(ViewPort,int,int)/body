@@ -23,7 +23,7 @@
   Collection<Caps> caps=renderer.getCaps();
   if (numSamples > 1 && caps.contains(Caps.FrameBufferMultisample)) {
     renderFrameBufferMS=new FrameBuffer(width,height,numSamples);
-    if (caps.contains(Caps.OpenGL31)) {
+    if (caps.contains(Caps.OpenGL32)) {
       Texture2D msColor=new Texture2D(width,height,numSamples,fbFormat);
       Texture2D msDepth=new Texture2D(width,height,numSamples,Format.Depth);
       renderFrameBufferMS.setDepthTexture(msDepth);
@@ -36,7 +36,7 @@
       renderFrameBufferMS.setColorBuffer(fbFormat);
     }
   }
-  if (numSamples <= 1 || !caps.contains(Caps.OpenGL31)) {
+  if (numSamples <= 1 || !caps.contains(Caps.OpenGL32)) {
     renderFrameBuffer=new FrameBuffer(width,height,1);
     renderFrameBuffer.setDepthBuffer(Format.Depth);
     filterTexture=new Texture2D(width,height,fbFormat);

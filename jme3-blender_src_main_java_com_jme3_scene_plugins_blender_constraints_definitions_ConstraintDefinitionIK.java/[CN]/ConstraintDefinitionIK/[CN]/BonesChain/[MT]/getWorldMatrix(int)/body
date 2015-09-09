@@ -1,0 +1,8 @@
+{
+  if (index == this.size() - 1) {
+    return new Matrix(bonesMatrices.get(this.size() - 1));
+  }
+  SimpleMatrix result=this.getWorldMatrix(index + 1);
+  result=result.mult(bonesMatrices.get(index));
+  return new Matrix(result);
+}

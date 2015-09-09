@@ -1,0 +1,10 @@
+{
+  int index=this.indexOf(bone);
+  Matrix boneMatrix=transform.toMatrix();
+  if (index < this.size() - 1) {
+    Matrix parentWorldMatrix=this.getWorldMatrix(index + 1);
+    SimpleMatrix m=parentWorldMatrix.invert().mult(boneMatrix);
+    boneMatrix=new Matrix(m);
+  }
+  bonesMatrices.set(index,boneMatrix);
+}

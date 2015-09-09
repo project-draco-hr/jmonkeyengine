@@ -1,4 +1,5 @@
 {
+  isSrgb=isSrgb && fmt != Format.Depth && fmt != Format.Depth16 && fmt != Format.Depth24 && fmt != Format.Depth24Stencil8 && fmt != Format.Depth32 && fmt != Format.Depth32F;
   GLImageFormat glFmt=getImageFormat(fmt,isSrgb);
   if (glFmt == null && isSrgb) {
     glFmt=getImageFormat(fmt,false);

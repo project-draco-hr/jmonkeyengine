@@ -18,7 +18,7 @@
     }
   }
   if (selected) {
-    getDiagram().select(this);
+    getDiagram().select(this,e.isShiftDown() || e.isControlDown());
     e.consume();
   }
 }

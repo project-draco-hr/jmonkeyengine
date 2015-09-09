@@ -1,13 +1,15 @@
 {
   super.dispose();
-  Object o=cinematic.getEventData(MODEL_CHANNELS,model);
-  if (o != null) {
-    ArrayList<AnimChannel> list=(ArrayList<AnimChannel>)o;
-    list.remove(channel);
-    if (list.isEmpty()) {
-      cinematic.removeEventData(MODEL_CHANNELS,model);
+  if (cinematic != null) {
+    Object o=cinematic.getEventData(MODEL_CHANNELS,model);
+    if (o != null) {
+      Collection<AnimChannel> values=((HashMap<Integer,AnimChannel>)o).values();
+      while (values.remove(channel))       ;
+      if (values.isEmpty()) {
+        cinematic.removeEventData(MODEL_CHANNELS,model);
+      }
     }
+    cinematic=null;
+    channel=null;
   }
-  cinematic=null;
-  channel=null;
 }

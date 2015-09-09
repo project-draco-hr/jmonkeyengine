@@ -7,13 +7,13 @@
   setupFloor();
   setupSignpost();
   inputManager.addListener(new AnalogListener(){
-    public void onAnalog(    String name,    float value,    float tpf){
+    @Override public void onAnalog(    String name,    float value,    float tpf){
       if ("heightUP".equals(name)) {
-        parallaxHeigh+=0.0001;
+        parallaxHeigh+=0.01;
         mat.setFloat("ParallaxHeight",parallaxHeigh);
       }
       if ("heightDown".equals(name)) {
-        parallaxHeigh-=0.0001;
+        parallaxHeigh-=0.01;
         parallaxHeigh=Math.max(parallaxHeigh,0);
         mat.setFloat("ParallaxHeight",parallaxHeigh);
       }
@@ -23,7 +23,7 @@
   inputManager.addMapping("heightUP",new KeyTrigger(KeyInput.KEY_I));
   inputManager.addMapping("heightDown",new KeyTrigger(KeyInput.KEY_K));
   inputManager.addListener(new ActionListener(){
-    public void onAction(    String name,    boolean isPressed,    float tpf){
+    @Override public void onAction(    String name,    boolean isPressed,    float tpf){
       if (isPressed && "toggleSteep".equals(name)) {
         steep=!steep;
         mat.setBoolean("SteepParallax",steep);
