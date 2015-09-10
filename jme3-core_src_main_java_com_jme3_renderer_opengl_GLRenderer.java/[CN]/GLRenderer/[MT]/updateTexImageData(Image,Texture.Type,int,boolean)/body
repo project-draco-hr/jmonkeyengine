@@ -8,15 +8,7 @@
     statistics.onNewTexture();
   }
   int target=convertTextureType(type,img.getMultiSamples(),-1);
-  if (context.boundTextures[unit] != img) {
-    if (context.boundTextureUnit != unit) {
-      gl.glActiveTexture(GL.GL_TEXTURE0 + unit);
-      context.boundTextureUnit=unit;
-    }
-    gl.glBindTexture(target,texId);
-    context.boundTextures[unit]=img;
-    statistics.onTextureUse(img,true);
-  }
+  bindTextureAndUnit(target,img,unit);
   if (!img.hasMipmaps() && img.isGeneratedMipmapsRequired()) {
     if (!caps.contains(Caps.FrameBuffer) && gl2 != null) {
       gl2.glTexParameteri(target,GL2.GL_GENERATE_MIPMAP,GL.GL_TRUE);
