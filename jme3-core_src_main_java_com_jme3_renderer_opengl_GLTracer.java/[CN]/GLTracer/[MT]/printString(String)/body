@@ -1,0 +1,22 @@
+{
+  if (value.length() > 150) {
+    value=value.substring(0,150) + "...";
+  }
+  StringBuilder sb=new StringBuilder();
+  sb.append(ANSI_YELLOW);
+  sb.append("\"");
+  sb.append(ANSI_RESET);
+  for (  String line : value.split("\n")) {
+    sb.append(ANSI_YELLOW);
+    sb.append(line.replaceAll("\0","\\\\0"));
+    sb.append(ANSI_RESET);
+    sb.append("\n");
+  }
+  if (sb.length() > 1 && sb.charAt(sb.length() - 1) == '\n') {
+    sb.setLength(sb.length() - 1);
+  }
+  sb.append(ANSI_YELLOW);
+  sb.append("\"");
+  sb.append(ANSI_RESET);
+  print(sb.toString());
+}

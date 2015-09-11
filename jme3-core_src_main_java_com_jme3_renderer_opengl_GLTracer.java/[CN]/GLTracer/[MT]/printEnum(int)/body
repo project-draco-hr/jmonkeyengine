@@ -1,0 +1,15 @@
+{
+  String enumName=constMap.get(value);
+  if (enumName != null) {
+    if (enumName.startsWith("GL_")) {
+      enumName=enumName.substring(3);
+    }
+    if (enumName.endsWith("_EXT") || enumName.endsWith("_ARB")) {
+      enumName=enumName.substring(0,enumName.length() - 4);
+    }
+    printStyle(ANSI_GREEN,enumName);
+  }
+ else {
+    printStyle(ANSI_GREEN,"ENUM_" + Integer.toHexString(value));
+  }
+}

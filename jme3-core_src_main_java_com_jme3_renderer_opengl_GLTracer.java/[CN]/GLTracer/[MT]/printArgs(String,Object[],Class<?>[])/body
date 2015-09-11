@@ -1,0 +1,74 @@
+{
+  if (methodName.equals("glClear")) {
+    printArgsClear((Integer)args[0]);
+    return;
+  }
+ else   if (methodName.equals("glTexParameteri")) {
+    printArgsTexParameter(args);
+    return;
+  }
+  if (args == null) {
+    print("()");
+    return;
+  }
+  print("(");
+  for (int i=0; i < args.length; i++) {
+    if (paramTypes[i] == int.class) {
+      int val=(Integer)args[i];
+      printIntOrEnum(methodName,val,i);
+    }
+ else     if (paramTypes[i] == boolean.class) {
+      printBoolean((Boolean)args[i]);
+    }
+ else     if (paramTypes[i] == String.class) {
+      printString((String)args[i]);
+    }
+ else     if (paramTypes[i] == String[].class) {
+      String[] arr=(String[])args[i];
+      if (arr.length == 1) {
+        printString(arr[0]);
+      }
+ else {
+        print("string[" + arr.length + "]");
+      }
+    }
+ else     if (args[i] instanceof IntBuffer) {
+      IntBuffer buf=(IntBuffer)args[i];
+      if (buf.capacity() == 16) {
+        int val=buf.get(0);
+        printOut();
+        printIntOrEnum(methodName,val,i);
+      }
+ else       if (buf.capacity() == 1) {
+        printOut();
+        print(Integer.toString(buf.get(0)));
+      }
+ else {
+        printBuffer(buf);
+      }
+    }
+ else     if (args[i] instanceof ByteBuffer) {
+      ByteBuffer bb=(ByteBuffer)args[i];
+      if (bb.capacity() == 250) {
+        printOut();
+        printBoolean(bb.get(0) != 0);
+      }
+ else {
+        printBuffer(bb);
+      }
+    }
+ else     if (args[i] instanceof Buffer) {
+      printBuffer((Buffer)args[i]);
+    }
+ else     if (args[i] != null) {
+      print(args[i].toString());
+    }
+ else {
+      printNull();
+    }
+    if (i != args.length - 1) {
+      System.out.print(", ");
+    }
+  }
+  print(")");
+}

@@ -1,0 +1,17 @@
+{
+  if (methodName.startsWith("gl")) {
+    methodName=methodName.substring(2);
+    if (methodName.equals("Clear") || methodName.equals("DrawRangeElements")) {
+      print(methodName);
+    }
+ else {
+      if (methodName.endsWith("EXT")) {
+        methodName=methodName.substring(0,methodName.length() - 3);
+      }
+      printStyle(ANSI_BRIGHT,methodName);
+    }
+  }
+ else   if (methodName.equals("resetStats")) {
+    printStyle(ANSI_RED,"-- frame boundary --");
+  }
+}

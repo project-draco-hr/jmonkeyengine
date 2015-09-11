@@ -1,0 +1,17 @@
+{
+  print("(");
+  int target=(Integer)args[0];
+  int param=(Integer)args[1];
+  int value=(Integer)args[2];
+  printEnum(target);
+  print(", ");
+  printEnum(param);
+  print(", ");
+  if (param == GL.GL_TEXTURE_BASE_LEVEL || param == GL.GL_TEXTURE_MAX_LEVEL) {
+    printInt(value);
+  }
+ else {
+    printEnum(value);
+  }
+  print(")");
+}
