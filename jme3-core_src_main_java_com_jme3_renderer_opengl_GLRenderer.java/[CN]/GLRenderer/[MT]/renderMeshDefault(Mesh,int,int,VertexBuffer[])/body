@@ -27,11 +27,11 @@
       setVertexAttrib(vb,interleavedData);
     }
   }
+  clearVertexAttribs();
   if (indices != null) {
     drawTriangleList(indices,mesh,count);
   }
  else {
     drawTriangleArray(mesh.getMode(),count,mesh.getVertexCount());
   }
-  clearVertexAttribs();
 }
