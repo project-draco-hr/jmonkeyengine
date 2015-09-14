@@ -1,4 +1,7 @@
 {
+  if (spotRange == 0) {
+    return true;
+  }
   Vector3f farPoint=vars.vect1.set(position).addLocal(vars.vect2.set(direction).multLocal(spotRange));
   for (int i=5; i >= 0; i--) {
     Plane plane=cam.getWorldPlane(i);
