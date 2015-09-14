@@ -10,4 +10,8 @@
   checkCollision(box,geom,2);
   box.setCenter(new Vector3f(0,0,-1f - FastMath.ZERO_TOLERANCE));
   checkCollision(box,geom,0);
+  box.setCenter(new Vector3f(-1f,1.5f,0f));
+  checkCollision(box,geom,1);
+  box.setCenter(new Vector3f(1.5f,-1f,0f));
+  checkCollision(box,geom,1);
 }

@@ -1,0 +1,17 @@
+{
+  BoundingSphere sphere=new BoundingSphere(1,Vector3f.ZERO);
+  Geometry geom=new Geometry("geom",new Quad(1,1));
+  checkCollision(sphere,geom,2);
+  sphere.setCenter(new Vector3f(-1f + FastMath.ZERO_TOLERANCE,0,0));
+  checkCollision(sphere,geom,2);
+  sphere.setCenter(new Vector3f(-1f - FastMath.ZERO_TOLERANCE,0,0));
+  checkCollision(sphere,geom,0);
+  sphere.setCenter(new Vector3f(0,0,-1f));
+  checkCollision(sphere,geom,2);
+  sphere.setCenter(new Vector3f(0,0,-1f - FastMath.ZERO_TOLERANCE));
+  checkCollision(sphere,geom,0);
+  sphere.setCenter(new Vector3f(-0.9f,1.2f,0f));
+  checkCollision(sphere,geom,1);
+  sphere.setCenter(new Vector3f(1.2f,-0.9f,0f));
+  checkCollision(sphere,geom,1);
+}
