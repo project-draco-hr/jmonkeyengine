@@ -1,0 +1,9 @@
+{
+  BoundingSphere sphere1=new BoundingSphere(1,Vector3f.ZERO);
+  BoundingSphere sphere2=new BoundingSphere(1,Vector3f.ZERO);
+  checkCollision(sphere1,sphere2,1);
+  sphere2.setCenter(new Vector3f(2f,0f,0f));
+  checkCollision(sphere1,sphere2,1);
+  sphere2.setCenter(new Vector3f(2f + FastMath.ZERO_TOLERANCE,0,0));
+  checkCollision(sphere1,sphere2,0);
+}

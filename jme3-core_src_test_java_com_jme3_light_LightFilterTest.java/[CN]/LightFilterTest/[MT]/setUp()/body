@@ -1,0 +1,13 @@
+{
+  filter=new DefaultLightFilter();
+  cam=new Camera(512,512);
+  cam.setFrustumPerspective(45,1,1,1000);
+  cam.setLocation(Vector3f.ZERO);
+  cam.lookAtDirection(Vector3f.UNIT_Z,Vector3f.UNIT_Y);
+  filter.setCamera(cam);
+  Box box=new Box(1,1,1);
+  geom=new Geometry("geom",box);
+  geom.setLocalTranslation(0,0,10);
+  geom.updateGeometricState();
+  list=new LightList(geom);
+}

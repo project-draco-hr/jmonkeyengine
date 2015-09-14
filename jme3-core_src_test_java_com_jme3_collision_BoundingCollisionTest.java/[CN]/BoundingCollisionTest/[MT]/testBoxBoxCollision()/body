@@ -1,0 +1,13 @@
+{
+  BoundingBox box1=new BoundingBox(Vector3f.ZERO,1,1,1);
+  BoundingBox box2=new BoundingBox(Vector3f.ZERO,1,1,1);
+  checkCollision(box1,box2,1);
+  box2.setCenter(new Vector3f(2f,0f,0f));
+  checkCollision(box1,box2,1);
+  box2.setCenter(new Vector3f(2f + FastMath.ZERO_TOLERANCE,0,0));
+  checkCollision(box1,box2,0);
+  box2.setCenter(new Vector3f(2f,2f,2f));
+  checkCollision(box1,box2,1);
+  box2.setCenter(new Vector3f(2f,2f,2f + FastMath.ZERO_TOLERANCE));
+  checkCollision(box1,box2,0);
+}

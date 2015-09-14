@@ -1,0 +1,21 @@
+{
+  PointLight pl=new PointLight(Vector3f.ZERO);
+  geom.addLight(pl);
+  checkFilteredLights(1);
+  pl.setRadius(1);
+  checkFilteredLights(0);
+  pl.setPosition(new Vector3f(0,0,8f));
+  checkFilteredLights(0);
+  pl.setPosition(new Vector3f(0,0,8f + FastMath.ZERO_TOLERANCE));
+  checkFilteredLights(1);
+  geom.move(0,0,FastMath.ZERO_TOLERANCE);
+  checkFilteredLights(0);
+  float sqrt3=FastMath.sqrt(3);
+  pl.setPosition(new Vector3f(2,2,8));
+  pl.setRadius(sqrt3);
+  checkFilteredLights(0);
+  pl.setRadius(sqrt3 + FastMath.ZERO_TOLERANCE);
+  checkFilteredLights(1);
+  cam.lookAtDirection(Vector3f.UNIT_Y,Vector3f.UNIT_Y);
+  checkFilteredLights(0);
+}

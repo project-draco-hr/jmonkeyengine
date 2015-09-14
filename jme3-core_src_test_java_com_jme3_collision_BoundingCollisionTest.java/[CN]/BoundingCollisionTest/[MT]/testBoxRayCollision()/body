@@ -1,0 +1,15 @@
+{
+  BoundingBox box=new BoundingBox(Vector3f.ZERO,1,1,1);
+  Ray ray=new Ray(Vector3f.ZERO,Vector3f.UNIT_Z);
+  checkCollision(box,ray,2);
+  ray.setOrigin(new Vector3f(0,0,-5));
+  checkCollision(box,ray,2);
+  ray.setOrigin(new Vector3f(0,0,2f));
+  checkCollision(box,ray,0);
+  ray.setOrigin(new Vector3f(0,0,-2f));
+  checkCollision(box,ray,2);
+  ray.setOrigin(new Vector3f(0,1f,-2f));
+  checkCollision(box,ray,2);
+  ray.setOrigin(new Vector3f(0,1f + FastMath.ZERO_TOLERANCE,-2f));
+  checkCollision(box,ray,0);
+}
