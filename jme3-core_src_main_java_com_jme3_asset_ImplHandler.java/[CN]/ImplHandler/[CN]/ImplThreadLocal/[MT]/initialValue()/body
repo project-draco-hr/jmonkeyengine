@@ -1,6 +1,10 @@
 {
   try {
-    return type.newInstance();
+    T obj=type.newInstance();
+    if (path != null) {
+      ((AssetLocator)obj).setRootPath(path);
+    }
+    return obj;
   }
  catch (  InstantiationException ex) {
     logger.log(Level.SEVERE,"Cannot create locator of type {0}, does" + " the class have an empty and publically accessible" + " constructor?",type.getName());

@@ -3,13 +3,11 @@
     logger.warning("There are no locators currently" + " registered. Use AssetManager." + "registerLocator() to register a"+ " locator.");
     return null;
   }
-  for (  ImplThreadLocal local : locatorsList) {
-    AssetLocator locator=(AssetLocator)local.get();
-    if (local.getPath() != null) {
-      locator.setRootPath((String)local.getPath());
+  for (  ImplThreadLocal<AssetLocator> local : locatorsList) {
+    AssetInfo info=local.get().locate(assetManager,key);
+    if (info != null) {
+      return info;
     }
-    AssetInfo info=locator.locate(assetManager,key);
-    if (info != null)     return info;
   }
   return null;
 }
