@@ -3,10 +3,10 @@
     return;
   }
   if ("LWJGL".equals(settings.getAudioRenderer())) {
-    NativeLibraryLoader.loadNativeLibrary("openal",true);
+    NativeLibraryLoader.loadNativeLibrary("openal-lwjgl3",true);
   }
   if (NativeLibraryLoader.isUsingNativeBullet()) {
     NativeLibraryLoader.loadNativeLibrary("bulletjme",true);
   }
-  NativeLibraryLoader.loadNativeLibrary("lwjgl",true);
+  NativeLibraryLoader.loadNativeLibrary("lwjgl3",true);
 }

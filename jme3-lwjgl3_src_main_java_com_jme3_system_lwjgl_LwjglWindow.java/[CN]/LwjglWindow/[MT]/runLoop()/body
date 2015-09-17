@@ -26,4 +26,24 @@
   if (renderer != null) {
     renderer.postFrame();
   }
+  if (autoFlush) {
+    if (frameRateLimit != getSettings().getFrameRate()) {
+      setFrameRateLimit(getSettings().getFrameRate());
+    }
+  }
+ else   if (frameRateLimit != 20) {
+    setFrameRateLimit(20);
+  }
+  if (frameRateLimit > 0) {
+    final double sleep=frameSleepTime - (timer.getTimePerFrame() / 1000.0);
+    final long sleepMillis=(long)sleep;
+    final int additionalNanos=(int)((sleep - sleepMillis) * 1000000.0);
+    if (sleepMillis >= 0 && additionalNanos >= 0) {
+      try {
+        Thread.sleep(sleepMillis,additionalNanos);
+      }
+ catch (      InterruptedException ignored) {
+      }
+    }
+  }
 }

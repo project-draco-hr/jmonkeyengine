@@ -28,13 +28,7 @@
   glfwWindowHint(GLFW_STENCIL_BITS,settings.getStencilBits());
   glfwWindowHint(GLFW_SAMPLES,settings.getSamples());
   glfwWindowHint(GLFW_STEREO,settings.useStereo3D() ? GL_TRUE : GL_FALSE);
-  int frameRateCap=settings.getFrameRate();
-  if (!autoFlush) {
-    frameRateCap=20;
-  }
-  if (frameRateCap > 0) {
-    glfwWindowHint(GLFW_REFRESH_RATE,frameRateCap);
-  }
+  glfwWindowHint(GLFW_REFRESH_RATE,settings.getFrequency());
   if (settings.getBitsPerPixel() == 24) {
     glfwWindowHint(GLFW_RED_BITS,8);
     glfwWindowHint(GLFW_GREEN_BITS,8);
