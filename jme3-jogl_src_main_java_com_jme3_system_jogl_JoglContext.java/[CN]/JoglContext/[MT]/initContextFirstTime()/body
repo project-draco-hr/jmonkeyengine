@@ -22,7 +22,7 @@
       glext=(GLExt)GLTracer.createDesktopGlTracer(glext,GLExt.class);
       glfbo=(GLFbo)GLTracer.createDesktopGlTracer(glfbo,GLFbo.class);
     }
-    renderer=new JoglRenderer();
+    renderer=new GLRenderer(gl,glext,glfbo);
     renderer.initialize();
   }
  else {
