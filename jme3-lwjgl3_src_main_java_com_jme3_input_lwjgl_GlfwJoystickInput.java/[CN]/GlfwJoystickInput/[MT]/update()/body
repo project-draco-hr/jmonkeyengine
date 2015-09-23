@@ -1,0 +1,14 @@
+{
+  for (  final Map.Entry<Integer,GlfwJoystick> entry : joysticks.entrySet()) {
+    final FloatBuffer axisValues=glfwGetJoystickAxes(entry.getKey());
+    for (    final JoystickAxis axis : entry.getValue().getAxes()) {
+      final float value=axisValues.get(axis.getAxisId());
+      listener.onJoyAxisEvent(new JoyAxisEvent(axis,value));
+    }
+    final ByteBuffer byteBuffer=glfwGetJoystickButtons(entry.getKey());
+    for (    final JoystickButton button : entry.getValue().getButtons()) {
+      final boolean pressed=byteBuffer.get(button.getButtonId()) == GLFW_PRESS;
+      listener.onJoyButtonEvent(new JoyButtonEvent(button,pressed));
+    }
+  }
+}

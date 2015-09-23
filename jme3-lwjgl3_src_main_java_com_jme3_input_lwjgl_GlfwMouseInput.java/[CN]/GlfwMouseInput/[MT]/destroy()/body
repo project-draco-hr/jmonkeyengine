@@ -1,0 +1,9 @@
+{
+  if (!context.isRenderable()) {
+    return;
+  }
+  cursorPosCallback.release();
+  scrollCallback.release();
+  mouseButtonCallback.release();
+  logger.fine("Mouse destroyed.");
+}

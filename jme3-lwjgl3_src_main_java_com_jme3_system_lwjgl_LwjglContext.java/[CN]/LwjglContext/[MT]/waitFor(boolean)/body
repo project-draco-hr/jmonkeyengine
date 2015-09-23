@@ -1,0 +1,11 @@
+{
+synchronized (createdLock) {
+    while (created.get() != createdVal) {
+      try {
+        createdLock.wait();
+      }
+ catch (      InterruptedException ex) {
+      }
+    }
+  }
+}

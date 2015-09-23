@@ -1,0 +1,16 @@
+{
+  if (!context.isRenderable()) {
+    return;
+  }
+  glfwSetKeyCallback(context.getWindowHandle(),keyCallback=new GLFWKeyCallback(){
+    @Override public void invoke(    long window,    int key,    int scancode,    int action,    int mods){
+      final KeyInputEvent evt=new KeyInputEvent(scancode,(char)key,GLFW_PRESS == action,GLFW_REPEAT == action);
+      evt.setTime(getInputTimeNanos());
+      keyInputEvents.add(evt);
+    }
+  }
+);
+  glfwSetInputMode(context.getWindowHandle(),GLFW_STICKY_KEYS,1);
+  initialized=true;
+  logger.fine("Keyboard created.");
+}

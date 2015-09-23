@@ -1,0 +1,34 @@
+{
+  try {
+    if (!JmeSystem.isLowPermissions()) {
+      Thread.currentThread().setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler(){
+        public void uncaughtException(        Thread thread,        Throwable thrown){
+          listener.handleError("Uncaught exception thrown in " + thread.toString(),thrown);
+          if (needClose.get()) {
+            deinitInThread();
+          }
+        }
+      }
+);
+    }
+    timer=new NanoTimer();
+    createContext(settings);
+    printContextInitInfo();
+    created.set(true);
+    super.internalCreate();
+  }
+ catch (  Exception ex) {
+    try {
+      if (window != -1) {
+        glfwDestroyWindow(window);
+      }
+    }
+ catch (    Exception ex2) {
+      LOGGER.log(Level.WARNING,null,ex2);
+    }
+    listener.handleError("Failed to create display",ex);
+    return false;
+  }
+  listener.initialize();
+  return true;
+}
