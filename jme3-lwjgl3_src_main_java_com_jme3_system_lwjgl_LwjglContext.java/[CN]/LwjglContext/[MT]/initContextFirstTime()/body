@@ -1,4 +1,5 @@
 {
+  GLContext.createFromCurrent();
   final ContextCapabilities capabilities=createCapabilities(settings.getRenderer().equals(AppSettings.LWJGL_OPENGL3));
   if (!capabilities.OpenGL20) {
     throw new RendererException("OpenGL 2.0 or higher is required for jMonkeyEngine");
