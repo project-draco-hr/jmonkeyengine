@@ -1,0 +1,8 @@
+{
+  if (this.radius == 0) {
+    return true;
+  }
+ else {
+    return sphere.getCenter().subtract(position).lengthSquared() < FastMath.sqr(radius + sphere.getRadius());
+  }
+}
