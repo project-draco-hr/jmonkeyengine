@@ -2,21 +2,26 @@
   if (!"".equals(textureName)) {
     exec.execute(new Runnable(){
       public void run(){
-        Texture tex=manager.loadTexture(textureName);
-        if (textureName.toLowerCase().endsWith(".dds")) {
-          if (ddsPreview == null) {
-            ddsPreview=new DDSPreview(manager);
-          }
-          ddsPreview.requestPreview(textureName,"",80,80,texturePreview,null);
-        }
- else {
-          final Icon newicon=ImageUtilities.image2Icon(resizeImage(ImageToAwt.convert(tex.getImage(),false,true,0)));
-          SwingUtilities.invokeLater(new Runnable(){
-            public void run(){
-              texturePreview.setIcon(newicon);
+        try {
+          Texture tex=manager.loadTexture(textureName);
+          if (textureName.toLowerCase().endsWith(".dds")) {
+            if (ddsPreview == null) {
+              ddsPreview=new DDSPreview(manager);
             }
+            ddsPreview.requestPreview(textureName,"",80,80,texturePreview,null);
           }
+ else {
+            final Icon newicon=ImageUtilities.image2Icon(resizeImage(ImageToAwt.convert(tex.getImage(),false,true,0)));
+            SwingUtilities.invokeLater(new Runnable(){
+              public void run(){
+                texturePreview.setIcon(newicon);
+              }
+            }
 );
+          }
+        }
+ catch (        AssetNotFoundException a) {
+          Logger.getLogger(MaterialEditorTopComponent.class.getName()).log(Level.WARNING,"Could not load texture {0}",textureName);
         }
       }
     }
