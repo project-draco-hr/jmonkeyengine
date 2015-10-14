@@ -1,4 +1,6 @@
 {
   geom.addLight(new AmbientLight());
   checkFilteredLights(1);
+  geom.setModelBound(new BoundingSphere(0.5f,Vector3f.ZERO));
+  checkFilteredLights(1);
 }
