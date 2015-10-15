@@ -1,6 +1,6 @@
 {
   if (this.spotRange > 0f) {
-    if (sphere.getCenter().subtract(position).lengthSquared() >= FastMath.sqr(spotRange + sphere.getRadius())) {
+    if (!Intersection.intersect(sphere,position,spotRange)) {
       return false;
     }
   }

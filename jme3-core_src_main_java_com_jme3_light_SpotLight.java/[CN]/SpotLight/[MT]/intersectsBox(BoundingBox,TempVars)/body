@@ -1,6 +1,6 @@
 {
   if (this.spotRange > 0f) {
-    if (FastMath.abs(box.getCenter().x - position.x) >= spotRange + box.getXExtent() || FastMath.abs(box.getCenter().y - position.y) >= spotRange + box.getYExtent() || FastMath.abs(box.getCenter().z - position.z) >= spotRange + box.getZExtent()) {
+    if (!Intersection.intersect(box,position,spotRange)) {
       return false;
     }
   }
