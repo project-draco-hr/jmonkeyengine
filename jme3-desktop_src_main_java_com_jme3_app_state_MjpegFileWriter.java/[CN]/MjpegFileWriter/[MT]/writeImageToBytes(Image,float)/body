@@ -17,6 +17,5 @@
   jpgWrtPrm.setCompressionQuality(quality);
   imgWrtr.write(null,new IIOImage(bi,null,null),jpgWrtPrm);
   imgOutStrm.close();
-  baos.close();
   return baos.toByteArray();
 }
