@@ -13,11 +13,11 @@
       return;
     }
   }
-  String pathInJar=library.getPathInNativesJar();
+  final String pathInJar=library.getPathInNativesJar();
   if (pathInJar == null) {
     return;
   }
-  String fileNameInJar;
+  final String fileNameInJar;
   if (pathInJar.contains("/")) {
     fileNameInJar=pathInJar.substring(pathInJar.lastIndexOf("/") + 1);
   }
