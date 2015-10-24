@@ -18,4 +18,21 @@
   checkFilteredLights(1);
   cam.lookAtDirection(Vector3f.UNIT_Y,Vector3f.UNIT_Y);
   checkFilteredLights(0);
+  geom.setModelBound(new BoundingSphere(1f,Vector3f.ZERO));
+  geom.setLocalTranslation(0,0,2);
+  pl.setPosition(new Vector3f(0,0,2f));
+  pl.setRadius(0);
+  checkFilteredLights(1);
+  pl.setRadius(1f);
+  pl.setPosition(new Vector3f(0,0,0));
+  checkFilteredLights(0);
+  pl.setPosition(new Vector3f(0,0,0f + FastMath.ZERO_TOLERANCE));
+  checkFilteredLights(1);
+  geom.setLocalTranslation(0,0,0);
+  pl.setPosition(new Vector3f(0f,1.4142135f,1.4142135f).multLocal(1 + FastMath.ZERO_TOLERANCE));
+  checkFilteredLights(0);
+  pl.setPosition(new Vector3f(0f,1.4142135f,1.4142135f).multLocal(1 - FastMath.ZERO_TOLERANCE));
+  checkFilteredLights(1);
+  pl.setPosition(new Vector3f(0f,-1.4142135f,-1.4142135f).multLocal(1 - FastMath.ZERO_TOLERANCE));
+  checkFilteredLights(0);
 }

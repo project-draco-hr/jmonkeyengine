@@ -1,21 +1,18 @@
 {
   if (this.spotRange > 0f) {
-    if (!Intersection.intersect(box,position,spotRange)) {
+    if (!Intersection.intersect(sphere,position,spotRange)) {
       return false;
     }
   }
-  Vector3f otherCenter=box.getCenter();
-  Vector3f radVect=vars.vect4;
-  radVect.set(box.getXExtent(),box.getYExtent(),box.getZExtent());
-  float otherRadiusSquared=radVect.lengthSquared();
-  float otherRadius=FastMath.sqrt(otherRadiusSquared);
+  float otherRadiusSquared=FastMath.sqr(sphere.getRadius());
+  float otherRadius=sphere.getRadius();
   Vector3f E=direction.mult(otherRadius * outerAngleSinRcp,vars.vect1);
   Vector3f U=position.subtract(E,vars.vect2);
-  Vector3f D=otherCenter.subtract(U,vars.vect3);
+  Vector3f D=sphere.getCenter().subtract(U,vars.vect3);
   float dsqr=D.dot(D);
   float e=direction.dot(D);
   if (e > 0f && e * e >= dsqr * outerAngleCosSqr) {
-    D=otherCenter.subtract(position,vars.vect3);
+    D=sphere.getCenter().subtract(position,vars.vect3);
     dsqr=D.dot(D);
     e=-direction.dot(D);
     if (e > 0f && e * e >= dsqr * outerAngleSinSqr) {
