@@ -6,12 +6,11 @@
   }
  else {
     blenderKey=new BlenderKey(modelKey.getName());
-    blenderKey.setAssetRootPath(modelKey.getFolder());
   }
   BlenderInputStream inputStream=new BlenderInputStream(assetInfo.openStream());
-  blocks=new ArrayList<FileBlockHeader>();
+  List<FileBlockHeader> blocks=new ArrayList<FileBlockHeader>();
   FileBlockHeader fileBlock;
-  blenderContext=new BlenderContext();
+  BlenderContext blenderContext=new BlenderContext();
   blenderContext.setBlenderVersion(inputStream.getVersionNumber());
   blenderContext.setAssetManager(assetInfo.getManager());
   blenderContext.setInputStream(inputStream);
@@ -42,4 +41,6 @@
   if (sceneFileBlock != null) {
     blenderContext.setSceneStructure(sceneFileBlock.getStructure(blenderContext));
   }
+  assetInfo.getManager().registerLocator(assetInfo.getKey().getName(),LinkedContentLocator.class);
+  return blenderContext;
 }
