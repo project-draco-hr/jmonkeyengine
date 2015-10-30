@@ -2,7 +2,7 @@
   if (GLContext.getCurrent().getGLVersionNumber().getMajor() < 2) {
     throw new RendererException("OpenGL 2.0 or higher is " + "required for jMonkeyEngine");
   }
-  if (settings.getRenderer().equals("JOGL")) {
+  if (settings.getRenderer().startsWith("JOGL")) {
     com.jme3.renderer.opengl.GL gl=new JoglGL();
     GLExt glext=new JoglGLExt();
     GLFbo glfbo=new JoglGLFbo();

@@ -1,7 +1,13 @@
 {
   loadNatives();
   device=GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-  GLCapabilities caps=new GLCapabilities(GLProfile.getMaxFixedFunc(true));
+  GLCapabilities caps;
+  if (settings.getRenderer().equals(AppSettings.JOGL_OPENGL_FORWARD_COMPATIBLE)) {
+    caps=new GLCapabilities(GLProfile.getMaxProgrammable(true));
+  }
+ else {
+    caps=new GLCapabilities(GLProfile.getMaxFixedFunc(true));
+  }
   caps.setHardwareAccelerated(true);
   caps.setDoubleBuffered(true);
   caps.setStencilBits(settings.getStencilBits());
