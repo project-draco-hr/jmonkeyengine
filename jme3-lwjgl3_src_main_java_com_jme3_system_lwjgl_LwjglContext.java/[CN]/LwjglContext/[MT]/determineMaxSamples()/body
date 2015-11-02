@@ -1,0 +1,9 @@
+{
+  if (GLFW.glfwExtensionSupported("GL_ARB_framebuffer_object") == GL_TRUE) {
+    return glGetInteger(ARBFramebufferObject.GL_MAX_SAMPLES);
+  }
+ else   if (GLFW.glfwExtensionSupported("GL_EXT_framebuffer_multisample") == GL_TRUE) {
+    return glGetInteger(EXTFramebufferMultisample.GL_MAX_SAMPLES_EXT);
+  }
+  return Integer.MAX_VALUE;
+}

@@ -9,13 +9,6 @@
     audioDisabled=true;
     return;
   }
-  String deviceName=alc.alcGetString(ALC.ALC_DEVICE_SPECIFIER);
-  logger.log(Level.INFO,"Audio Device: {0}",deviceName);
-  logger.log(Level.INFO,"Audio Vendor: {0}",al.alGetString(AL_VENDOR));
-  logger.log(Level.INFO,"Audio Renderer: {0}",al.alGetString(AL_RENDERER));
-  logger.log(Level.INFO,"Audio Version: {0}",al.alGetString(AL_VERSION));
-  logger.log(Level.INFO,"ALC extensions: {0}",alc.alcGetString(ALC.ALC_EXTENSIONS));
-  logger.log(Level.INFO,"AL extensions: {0}",al.alGetString(AL_EXTENSIONS));
   ArrayList<Integer> channelList=new ArrayList<Integer>();
   for (int i=0; i < MAX_NUM_CHANNELS; i++) {
     int chan=al.alGenSources();
@@ -32,7 +25,8 @@
   }
   ib=BufferUtils.createIntBuffer(channels.length);
   chanSrcs=new AudioSource[channels.length];
-  logger.log(Level.INFO,"AudioRenderer supports {0} channels",channels.length);
+  final String deviceName=alc.alcGetString(ALC.ALC_DEVICE_SPECIFIER);
+  logger.log(Level.INFO,"Audio Renderer Information\n" + " * Device: {0}\n" + " * Vendor: {1}\n"+ " * Renderer: {2}\n"+ " * Version: {3}\n"+ " * Supported channels: {4}\n"+ " * ALC extensions: {5}\n"+ " * AL extensions: {6}",new Object[]{deviceName,al.alGetString(AL_VENDOR),al.alGetString(AL_RENDERER),al.alGetString(AL_VERSION),channels.length,alc.alcGetString(ALC.ALC_EXTENSIONS),al.alGetString(AL_EXTENSIONS)});
   supportPauseDevice=alc.alcIsExtensionPresent("ALC_SOFT_pause_device");
   if (!supportPauseDevice) {
     logger.log(Level.WARNING,"Pausing audio device not supported.");
@@ -48,7 +42,7 @@
     logger.log(Level.INFO,"Audio effect extension version: {0}.{1}",new Object[]{major,minor});
     alc.alcGetInteger(EFX.ALC_MAX_AUXILIARY_SENDS,ib,1);
     auxSends=ib.get(0);
-    logger.log(Level.INFO,"Audio max auxilary sends: {0}",auxSends);
+    logger.log(Level.INFO,"Audio max auxiliary sends: {0}",auxSends);
     ib.position(0).limit(1);
     efx.alGenAuxiliaryEffectSlots(1,ib);
     reverbFxSlot=ib.get(0);

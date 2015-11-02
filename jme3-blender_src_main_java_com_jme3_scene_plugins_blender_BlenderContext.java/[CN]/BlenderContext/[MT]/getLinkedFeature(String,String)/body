@@ -1,4 +1,108 @@
 {
   Map<String,Object> linkedFeatures=this.linkedFeatures.get(blenderFilePath);
-  return linkedFeatures != null ? linkedFeatures.get(featureName) : null;
+  if (linkedFeatures != null) {
+    String namePrefix=(featureName.charAt(0) + "" + featureName.charAt(1)).toUpperCase();
+    featureName=featureName.substring(2);
+    if ("SC".equals(namePrefix)) {
+      List<Node> scenes=(List<Node>)linkedFeatures.get("scenes");
+      if (scenes != null) {
+        for (        Node scene : scenes) {
+          if (featureName.equals(scene.getName())) {
+            return scene;
+          }
+        }
+      }
+    }
+ else     if ("OB".equals(namePrefix)) {
+      List<Node> features=(List<Node>)linkedFeatures.get("objects");
+      if (features != null) {
+        for (        Node feature : features) {
+          if (featureName.equals(feature.getName())) {
+            return feature;
+          }
+        }
+      }
+    }
+ else     if ("ME".equals(namePrefix)) {
+      List<Node> features=(List<Node>)linkedFeatures.get("meshes");
+      if (features != null) {
+        for (        Node feature : features) {
+          if (featureName.equals(feature.getName())) {
+            return feature;
+          }
+        }
+      }
+    }
+ else     if ("MA".equals(namePrefix)) {
+      List<MaterialContext> features=(List<MaterialContext>)linkedFeatures.get("materials");
+      if (features != null) {
+        for (        MaterialContext feature : features) {
+          if (featureName.equals(feature.getName())) {
+            return feature;
+          }
+        }
+      }
+    }
+ else     if ("TX".equals(namePrefix)) {
+      List<Texture> features=(List<Texture>)linkedFeatures.get("textures");
+      if (features != null) {
+        for (        Texture feature : features) {
+          if (featureName.equals(feature.getName())) {
+            return feature;
+          }
+        }
+      }
+    }
+ else     if ("IM".equals(namePrefix)) {
+      List<Texture> features=(List<Texture>)linkedFeatures.get("images");
+      if (features != null) {
+        for (        Texture feature : features) {
+          if (featureName.equals(feature.getName())) {
+            return feature;
+          }
+        }
+      }
+    }
+ else     if ("AC".equals(namePrefix)) {
+      List<Animation> features=(List<Animation>)linkedFeatures.get("animations");
+      if (features != null) {
+        for (        Animation feature : features) {
+          if (featureName.equals(feature.getName())) {
+            return feature;
+          }
+        }
+      }
+    }
+ else     if ("CA".equals(namePrefix)) {
+      List<Camera> features=(List<Camera>)linkedFeatures.get("cameras");
+      if (features != null) {
+        for (        Camera feature : features) {
+          if (featureName.equals(feature.getName())) {
+            return feature;
+          }
+        }
+      }
+    }
+ else     if ("LA".equals(namePrefix)) {
+      List<Light> features=(List<Light>)linkedFeatures.get("lights");
+      if (features != null) {
+        for (        Light feature : features) {
+          if (featureName.equals(feature.getName())) {
+            return feature;
+          }
+        }
+      }
+    }
+ else     if ("FI".equals(featureName)) {
+      List<Filter> features=(List<Filter>)linkedFeatures.get("lights");
+      if (features != null) {
+        for (        Filter feature : features) {
+          if (featureName.equals(feature.getName())) {
+            return feature;
+          }
+        }
+      }
+    }
+  }
+  return null;
 }

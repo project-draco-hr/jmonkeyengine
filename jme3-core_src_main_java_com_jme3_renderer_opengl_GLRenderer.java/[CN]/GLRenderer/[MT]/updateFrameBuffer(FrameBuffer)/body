@@ -1,4 +1,7 @@
 {
+  if (fb.getNumColorBuffers() == 0 && fb.getDepthBuffer() == null) {
+    throw new IllegalArgumentException("The framebuffer: " + fb + "\nDoesn't have any color/depth buffers");
+  }
   int id=fb.getId();
   if (id == -1) {
     glfbo.glGenFramebuffersEXT(intBuf1);
@@ -7,11 +10,7 @@
     objManager.registerObject(fb);
     statistics.onNewFrameBuffer();
   }
-  if (context.boundFBO != id) {
-    glfbo.glBindFramebufferEXT(GLFbo.GL_FRAMEBUFFER_EXT,id);
-    context.boundDrawBuf=0;
-    context.boundFBO=id;
-  }
+  bindFrameBuffer(fb);
   FrameBuffer.RenderBuffer depthBuf=fb.getDepthBuffer();
   if (depthBuf != null) {
     updateFrameBufferAttachment(fb,depthBuf);
@@ -20,6 +19,7 @@
     FrameBuffer.RenderBuffer colorBuf=fb.getColorBuffer(i);
     updateFrameBufferAttachment(fb,colorBuf);
   }
+  setReadDrawBuffers(fb);
   checkFrameBufferError();
   fb.clearUpdateNeeded();
 }

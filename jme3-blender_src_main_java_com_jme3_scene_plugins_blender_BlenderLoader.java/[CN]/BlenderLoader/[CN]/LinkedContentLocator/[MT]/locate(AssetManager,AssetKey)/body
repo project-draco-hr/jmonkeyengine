@@ -1,0 +1,32 @@
+{
+  if (key instanceof BlenderKey) {
+    File linkedAbsoluteFile=new File(key.getName());
+    if (linkedAbsoluteFile.exists() && linkedAbsoluteFile.isFile()) {
+      try {
+        return new StreamAssetInfo(manager,key,new FileInputStream(linkedAbsoluteFile));
+      }
+ catch (      FileNotFoundException e) {
+        return null;
+      }
+    }
+    File linkedFileInCurrentAssetFolder=new File(rootFolder,linkedAbsoluteFile.getName());
+    if (linkedFileInCurrentAssetFolder.exists() && linkedFileInCurrentAssetFolder.isFile()) {
+      try {
+        return new StreamAssetInfo(manager,key,new FileInputStream(linkedFileInCurrentAssetFolder));
+      }
+ catch (      FileNotFoundException e) {
+        return null;
+      }
+    }
+    File linkedFileInCurrentFolder=new File(".",linkedAbsoluteFile.getName());
+    if (linkedFileInCurrentFolder.exists() && linkedFileInCurrentFolder.isFile()) {
+      try {
+        return new StreamAssetInfo(manager,key,new FileInputStream(linkedFileInCurrentFolder));
+      }
+ catch (      FileNotFoundException e) {
+        return null;
+      }
+    }
+  }
+  return null;
+}

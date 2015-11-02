@@ -1,0 +1,12 @@
+{
+  cursorVisible=visible;
+  if (!context.isRenderable()) {
+    return;
+  }
+  if (cursorVisible) {
+    glfwSetInputMode(context.getWindowHandle(),GLFW_CURSOR,GLFW_CURSOR_NORMAL);
+  }
+ else {
+    glfwSetInputMode(context.getWindowHandle(),GLFW_CURSOR,GLFW_CURSOR_DISABLED);
+  }
+}

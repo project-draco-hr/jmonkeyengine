@@ -13,11 +13,11 @@
       return;
     }
   }
-  String pathInJar=library.getPathInNativesJar();
+  final String pathInJar=library.getPathInNativesJar();
   if (pathInJar == null) {
     return;
   }
-  String fileNameInJar;
+  final String fileNameInJar;
   if (pathInJar.contains("/")) {
     fileNameInJar=pathInJar.substring(pathInJar.lastIndexOf("/") + 1);
   }
@@ -94,7 +94,7 @@
     }
   }
  finally {
-    if (name.equals("lwjgl")) {
+    if (name.equals("lwjgl") || name.equals("lwjgl3")) {
       System.setProperty("org.lwjgl.librarypath",extactionDirectory.getAbsolutePath());
     }
  else     if (name.equals("jinput")) {

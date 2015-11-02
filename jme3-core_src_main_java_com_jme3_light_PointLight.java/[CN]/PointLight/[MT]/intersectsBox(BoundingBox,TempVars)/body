@@ -3,6 +3,6 @@
     return true;
   }
  else {
-    return FastMath.abs(box.getCenter().x - position.x) < radius + box.getXExtent() && FastMath.abs(box.getCenter().y - position.y) < radius + box.getYExtent() && FastMath.abs(box.getCenter().z - position.z) < radius + box.getZExtent();
+    return Intersection.intersect(box,position,radius);
   }
 }

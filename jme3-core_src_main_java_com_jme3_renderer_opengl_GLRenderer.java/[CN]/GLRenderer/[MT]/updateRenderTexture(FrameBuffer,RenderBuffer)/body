@@ -4,7 +4,7 @@
   if (image.isUpdateNeeded()) {
     checkNonPowerOfTwo(tex);
     updateTexImageData(image,tex.getType(),0,false);
-    setupTextureParams(tex);
+    setupTextureParams(0,tex);
   }
   glfbo.glFramebufferTexture2DEXT(GLFbo.GL_FRAMEBUFFER_EXT,convertAttachmentSlot(rb.getSlot()),convertTextureType(tex.getType(),image.getMultiSamples(),rb.getFace()),image.getId(),0);
 }

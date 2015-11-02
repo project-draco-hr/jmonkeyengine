@@ -1,6 +1,6 @@
 {
   if (pressed) {
-    Spatial selected=toolController.getSelectedSpatial();
+    Spatial selected;
     if (!wasDraggingR && !wasDownR) {
       Spatial s=pickWorldSpatial(camera,screenCoord,rootNode);
       if (!toolController.selectTerrain() && isTerrain(s)) {
