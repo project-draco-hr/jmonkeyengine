@@ -27,8 +27,10 @@
       continue;
     }
     ColorRGBA color=l.getColor();
-    lightData.setVector4InArray(color.getRed(),color.getGreen(),color.getBlue(),l.getType().getId(),lightDataIndex);
-    lightDataIndex++;
+    if (l.getType() != Light.Type.Probe) {
+      lightData.setVector4InArray(color.getRed(),color.getGreen(),color.getBlue(),l.getType().getId(),lightDataIndex);
+      lightDataIndex++;
+    }
 switch (l.getType()) {
 case Directional:
       DirectionalLight dl=(DirectionalLight)l;
