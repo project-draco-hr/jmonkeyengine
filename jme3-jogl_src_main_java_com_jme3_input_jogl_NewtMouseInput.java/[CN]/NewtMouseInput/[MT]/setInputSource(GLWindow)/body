@@ -15,4 +15,14 @@
   }
   component=comp;
   component.addMouseListener(this);
+  component.addWindowListener(new WindowAdapter(){
+    @Override public void windowGainedFocus(    WindowEvent e){
+      setCursorVisible(visible);
+    }
+    @Override public void windowLostFocus(    WindowEvent e){
+      component.setPointerVisible(true);
+      component.confinePointer(false);
+    }
+  }
+);
 }
