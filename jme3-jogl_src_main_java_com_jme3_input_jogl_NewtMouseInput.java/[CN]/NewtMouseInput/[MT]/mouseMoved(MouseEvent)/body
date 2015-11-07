@@ -11,9 +11,7 @@
     int dy=awtEvt.getY() - lastKnownLocation.getY();
     location.setX(location.getX() + dx);
     location.setY(location.getY() + dy);
-    if (!visible) {
-      recenterMouse(component);
-    }
+    hack_confinePointer();
     lastKnownLocation.setX(awtEvt.getX());
     lastKnownLocation.setY(awtEvt.getY());
     cursorMoved=true;
