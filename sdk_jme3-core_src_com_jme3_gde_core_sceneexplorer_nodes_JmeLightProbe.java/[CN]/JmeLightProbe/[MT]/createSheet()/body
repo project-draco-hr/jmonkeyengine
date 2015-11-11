@@ -1,0 +1,13 @@
+{
+  Sheet sheet=super.createSheet();
+  Sheet.Set set=Sheet.createPropertiesSet();
+  set.setDisplayName("LightProbe");
+  set.setName(LightProbe.class.getName());
+  LightProbe obj=lightProbe;
+  if (obj == null) {
+    return sheet;
+  }
+  set.put(makeProperty(obj,Vector3f.class,"getPosition","setPosition","Position"));
+  sheet.put(set);
+  return sheet;
+}
