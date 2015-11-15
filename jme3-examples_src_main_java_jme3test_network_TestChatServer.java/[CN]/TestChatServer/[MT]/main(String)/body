@@ -2,7 +2,9 @@
   TestChatServer chatServer=new TestChatServer();
   chatServer.start();
   System.out.println("Waiting for connections on port:" + PORT);
-synchronized (NAME) {
-    NAME.wait();
+  while (chatServer.isRunning) {
+synchronized (chatServer) {
+      chatServer.wait();
+    }
   }
 }

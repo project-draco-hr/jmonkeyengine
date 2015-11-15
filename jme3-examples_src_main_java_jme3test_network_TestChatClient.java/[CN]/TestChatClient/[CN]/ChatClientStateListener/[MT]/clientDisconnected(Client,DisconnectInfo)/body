@@ -1,3 +1,7 @@
 {
-  System.out.println("clientDisconnected(" + c + ")");
+  System.out.println("clientDisconnected(" + c + "):"+ info);
+  if (info != null) {
+    JOptionPane.showMessageDialog(rootPane,info.reason,"Connection Closed",JOptionPane.INFORMATION_MESSAGE);
+    dispose();
+  }
 }
