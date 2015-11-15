@@ -1,5 +1,10 @@
 {
-  Serializer.registerClass(SerializerRegistrationsMessage.class);
-  Serializer.registerClass(SerializerRegistrationsMessage.Registration.class);
+  if (Serializer.getSerializer(SerializerRegistrationsMessage.class,false) == null) {
+    Serializer.registerClass(SerializerRegistrationsMessage.class);
+    Serializer.registerClass(SerializerRegistrationsMessage.Registration.class);
+  }
+ else {
+    log.log(Level.INFO,"Skipping registration of SerializerRegistrationsMessage.");
+  }
   serviceManager.getClient().addMessageListener(this,SerializerRegistrationsMessage.class);
 }
