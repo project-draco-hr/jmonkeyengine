@@ -1,4 +1,10 @@
 {
+  if (Serializer.isReadOnly()) {
+    if (compiled != null) {
+      log.log(Level.INFO,"Skipping registration as registry is locked, presumably by a local server process.");
+      return;
+    }
+  }
   for (  Registration reg : registrations) {
     log.log(Level.INFO,"Registering:{0}",reg);
     reg.register();
