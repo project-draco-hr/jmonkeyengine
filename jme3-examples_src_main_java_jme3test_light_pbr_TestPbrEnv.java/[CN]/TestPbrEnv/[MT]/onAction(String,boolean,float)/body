@@ -13,6 +13,12 @@
     ((BoundingSphere)lastProbe.getBounds()).setRadius(200);
     rootNode.addLight(lastProbe);
   }
+  if (name.equals("delete") && keyPressed) {
+    System.err.println(rootNode.getWorldLightList().size());
+    rootNode.removeLight(lastProbe);
+    System.err.println("deleted");
+    System.err.println(rootNode.getWorldLightList().size());
+  }
   if (name.equals("fc") && keyPressed) {
     flyCam.setEnabled(true);
   }

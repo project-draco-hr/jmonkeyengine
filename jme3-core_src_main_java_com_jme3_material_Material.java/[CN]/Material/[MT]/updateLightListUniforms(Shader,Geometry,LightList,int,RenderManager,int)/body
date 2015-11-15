@@ -20,6 +20,7 @@
   Vector4f tmpVec=vars.vect4f1;
   int curIndex;
   int endIndex=numLights + startIndex;
+  boolean useIBL=false;
   for (curIndex=startIndex; curIndex < endIndex && curIndex < lightList.size(); curIndex++) {
     Light l=lightList.get(curIndex);
     if (l.getType() == Light.Type.Ambient) {
@@ -69,6 +70,8 @@ lightData.setVector4InArray(tmpVec.getX(),tmpVec.getY(),tmpVec.getZ(),spotAngleC
 lightDataIndex++;
 break;
 case Probe:
+useIBL=true;
+technique.setUseIndirectLighting(true);
 endIndex++;
 LightProbe probe=(LightProbe)l;
 BoundingSphere s=(BoundingSphere)probe.getBounds();
@@ -88,6 +91,9 @@ throw new UnsupportedOperationException("Unknown type of light: " + l.getType())
 }
 }
 vars.release();
+if (!useIBL) {
+technique.setUseIndirectLighting(false);
+}
 while (lightDataIndex < numLights * 3) {
 lightData.setVector4InArray(0f,0f,0f,0f,lightDataIndex);
 lightDataIndex++;

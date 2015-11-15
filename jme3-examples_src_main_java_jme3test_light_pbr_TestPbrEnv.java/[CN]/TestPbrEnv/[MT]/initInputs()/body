@@ -8,5 +8,6 @@
   inputManager.addMapping("down",new KeyTrigger(KeyInput.KEY_DOWN));
   inputManager.addMapping("right",new KeyTrigger(KeyInput.KEY_RIGHT));
   inputManager.addMapping("left",new KeyTrigger(KeyInput.KEY_LEFT));
-  inputManager.addListener(this,"switchGroundMat","snapshot","debugTex","debugProbe","fc","up","down","left","right");
+  inputManager.addMapping("delete",new KeyTrigger(KeyInput.KEY_DELETE));
+  inputManager.addListener(this,"delete","switchGroundMat","snapshot","debugTex","debugProbe","fc","up","down","left","right");
 }
