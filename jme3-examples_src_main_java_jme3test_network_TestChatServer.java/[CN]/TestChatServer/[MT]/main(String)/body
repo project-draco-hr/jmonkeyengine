@@ -1,9 +1,7 @@
 {
-  initializeClasses();
-  Server server=Network.createServer(NAME,VERSION,PORT,UDP_PORT);
-  server.start();
-  ChatHandler handler=new ChatHandler();
-  server.addMessageListener(handler,ChatMessage.class);
+  TestChatServer chatServer=new TestChatServer();
+  chatServer.start();
+  System.out.println("Waiting for connections on port:" + PORT);
 synchronized (NAME) {
     NAME.wait();
   }
