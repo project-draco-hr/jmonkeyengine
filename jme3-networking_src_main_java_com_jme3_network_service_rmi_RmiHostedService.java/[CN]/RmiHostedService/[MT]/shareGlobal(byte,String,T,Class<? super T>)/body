@@ -1,0 +1,13 @@
+{
+  GlobalShare share=new GlobalShare(channel,object,type);
+  GlobalShare existing=globalShares.put(name,share);
+  if (existing != null) {
+  }
+  for (  HostedConnection conn : getServer().getConnections()) {
+    RmiRegistry child=getRmiRegistry(conn);
+    if (child == null) {
+      continue;
+    }
+    child.share(channel,name,object,type);
+  }
+}

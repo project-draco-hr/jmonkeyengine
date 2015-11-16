@@ -1,0 +1,17 @@
+{
+  SharedObject share=local.byId.get(objectId);
+  local.lock.readLock().lock();
+  try {
+    share=local.byId.get(objectId);
+  }
+  finally {
+    local.lock.readLock().unlock();
+  }
+  try {
+    RmiContext.setRmiConnection(context);
+    return share.invoke(procId,args);
+  }
+  finally {
+    RmiContext.setRmiConnection(null);
+  }
+}

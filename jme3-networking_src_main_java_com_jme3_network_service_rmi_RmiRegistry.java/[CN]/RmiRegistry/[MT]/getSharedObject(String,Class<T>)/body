@@ -1,0 +1,9 @@
+{
+  local.lock.readLock().lock();
+  try {
+    return type.cast(local.byName.get(name));
+  }
+  finally {
+    local.lock.readLock().unlock();
+  }
+}

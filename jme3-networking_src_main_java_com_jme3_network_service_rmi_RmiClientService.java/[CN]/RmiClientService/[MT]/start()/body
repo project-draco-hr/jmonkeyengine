@@ -1,0 +1,10 @@
+{
+  super.start();
+synchronized (pending) {
+    for (    ObjectInfo info : pending) {
+      rmi.share(info.channel,info.name,info.object,info.type);
+    }
+    pending.clear();
+    isStarted=true;
+  }
+}

@@ -1,0 +1,23 @@
+{
+  if (log.isLoggable(Level.FINEST)) {
+    log.finest("invokeRemote(" + channel + ", "+ objectId+ ", "+ procId+ ", "+ callType+ ", "+ (args == null ? "null" : Arrays.asList(args))+ ")");
+  }
+switch (callType) {
+case Asynchronous:
+    log.finest("Sending reliable asynchronous.");
+  rpc.callAsync(channel,objectId,procId,args);
+return null;
+case Unreliable:
+log.finest("Sending unreliable asynchronous.");
+rpc.callAsync((byte)MessageConnection.CHANNEL_DEFAULT_UNRELIABLE,objectId,procId,args);
+return null;
+default :
+case Synchronous:
+log.finest("Sending synchronous.");
+Object result=rpc.callAndWait(channel,objectId,procId,args);
+if (log.isLoggable(Level.FINEST)) {
+log.finest("->got:" + result);
+}
+return result;
+}
+}

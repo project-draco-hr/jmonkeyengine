@@ -1,0 +1,23 @@
+{
+  ClassInfo typeInfo=classCache.getClassInfo(type);
+  local.lock.writeLock().lock();
+  try {
+    if (local.classes.put(typeInfo.getId(),typeInfo) == null) {
+      rpc.callAsync(defaultChannel,rmiId,NEW_CLASS,typeInfo);
+    }
+    SharedObject existing=local.byName.remove(name);
+    if (existing != null) {
+      local.byId.remove(existing.objectId);
+      rpc.removeHandler(existing.objectId,rmiHandler);
+      rpc.callAsync(defaultChannel,rmiId,REMOVE_OBJECT,existing.objectId);
+    }
+    SharedObject newShare=new SharedObject(name,object,type,typeInfo);
+    local.byName.put(name,newShare);
+    local.byId.put(newShare.objectId,newShare);
+    rpc.registerHandler(newShare.objectId,rmiHandler);
+    rpc.callAsync(defaultChannel,rmiId,ADD_OBJECT,channel,newShare.objectId,name,typeInfo.getId());
+  }
+  finally {
+    local.lock.writeLock().unlock();
+  }
+}

@@ -1,0 +1,8 @@
+{
+  List<MethodInfo> result=new ArrayList<MethodInfo>();
+  short methodId=0;
+  for (  Method m : methods) {
+    result.add(new MethodInfo(methodId++,m));
+  }
+  return result.toArray(new MethodInfo[result.size()]);
+}
