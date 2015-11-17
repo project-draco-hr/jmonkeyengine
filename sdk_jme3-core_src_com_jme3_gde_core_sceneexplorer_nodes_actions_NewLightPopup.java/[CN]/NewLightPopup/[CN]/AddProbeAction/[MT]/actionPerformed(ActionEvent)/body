@@ -24,11 +24,11 @@
         }
         @Override public void done(        LightProbe t){
           handle.finish();
-          ((BoundingSphere)t.getBounds()).setRadius(200);
         }
       }
 );
       node.addLight(lightProbe);
+      ((BoundingSphere)lightProbe.getBounds()).setRadius(10);
       addLightUndo(node,lightProbe);
       setModified();
       return null;
