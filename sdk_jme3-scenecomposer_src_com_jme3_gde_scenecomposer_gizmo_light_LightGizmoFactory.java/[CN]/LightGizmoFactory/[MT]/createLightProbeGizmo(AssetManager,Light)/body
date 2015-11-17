@@ -4,7 +4,7 @@
   Geometry debugGeom=new Geometry(light.getName(),s);
   Material debugMaterial=new Material(assetManager,"Common/MatDefs/Misc/reflect.j3md");
   debugGeom.setMaterial(debugMaterial);
-  Spatial debugBounds=BoundingSphereDebug.createDebugSphere(assetManager);
+  Spatial debugBounds=ProbeRadiusShape.createShape(assetManager);
   debugNode.attachChild(debugGeom);
   debugNode.attachChild(debugBounds);
   debugNode.addControl(new LightProbeGizmoControl((LightProbe)light));

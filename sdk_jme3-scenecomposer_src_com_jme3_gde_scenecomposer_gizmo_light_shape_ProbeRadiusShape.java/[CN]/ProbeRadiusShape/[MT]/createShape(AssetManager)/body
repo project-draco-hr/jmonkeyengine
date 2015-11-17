@@ -1,0 +1,10 @@
+{
+  ProbeRadiusShape b=new ProbeRadiusShape();
+  Geometry geom=new Geometry("BoundingDebug",b);
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  mat.setBoolean("VertexColor",true);
+  mat.getAdditionalRenderState().setWireframe(true);
+  geom.addControl(new BillboardControl());
+  geom.setMaterial(mat);
+  return geom;
+}
