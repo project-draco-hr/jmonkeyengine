@@ -8,6 +8,7 @@
     return sheet;
   }
   set.put(makeProperty(obj,Vector3f.class,"getPosition","setPosition","Position"));
+  set.put(makeEmbedProperty(obj.getBounds(),obj.getBounds().getClass(),float.class,"getRadius","setRadius","Radius"));
   sheet.put(set);
   return sheet;
 }
