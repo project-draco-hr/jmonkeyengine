@@ -1,0 +1,19 @@
+{
+  if (log.isLoggable(Level.FINEST)) {
+    log.finest("addRemoveObject(" + objectId + ", "+ name+ ", "+ typeInfo+ ")");
+  }
+  remote.lock.writeLock().lock();
+  try {
+    Object existing=remote.byName.get(name);
+    if (existing != null) {
+      throw new RuntimeException("Object already registered for:" + name);
+    }
+    RemoteObjectHandler remoteHandler=new RemoteObjectHandler(this,channel,objectId,typeInfo);
+    Object remoteObject=Proxy.newProxyInstance(getClass().getClassLoader(),new Class[]{typeInfo.getType()},remoteHandler);
+    remote.byName.put(name,remoteObject);
+    remote.byId.put(objectId,remoteObject);
+  }
+  finally {
+    remote.lock.writeLock().unlock();
+  }
+}

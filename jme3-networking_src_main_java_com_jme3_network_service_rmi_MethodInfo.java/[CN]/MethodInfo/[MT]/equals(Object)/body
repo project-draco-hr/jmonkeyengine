@@ -1,0 +1,10 @@
+{
+  if (o == this) {
+    return true;
+  }
+  if (o == null || o.getClass() != getClass()) {
+    return false;
+  }
+  MethodInfo other=(MethodInfo)o;
+  return representation.equals(other.representation);
+}

@@ -1,0 +1,7 @@
+{
+  rpc=getService(RpcClientService.class);
+  if (rpc == null) {
+    throw new RuntimeException("RmiClientService requires RpcClientService");
+  }
+  rmi=new RmiRegistry(rpc.getRpcConnection(),rmiObjectId,defaultChannel);
+}

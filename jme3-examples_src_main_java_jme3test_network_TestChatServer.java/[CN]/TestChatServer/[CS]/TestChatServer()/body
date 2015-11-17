@@ -1,0 +1,7 @@
+{
+  initializeClasses();
+  this.server=Network.createServer(NAME,VERSION,PORT,UDP_PORT);
+  ChatHandler handler=new ChatHandler();
+  server.addMessageListener(handler,ChatMessage.class);
+  server.addConnectionListener(new ChatConnectionListener());
+}

@@ -1,0 +1,11 @@
+{
+  if (!isStarted) {
+synchronized (pending) {
+      if (!isStarted) {
+        pending.add(new ObjectInfo(channel,name,object,type));
+        return;
+      }
+    }
+  }
+  rmi.share(channel,name,object,type);
+}

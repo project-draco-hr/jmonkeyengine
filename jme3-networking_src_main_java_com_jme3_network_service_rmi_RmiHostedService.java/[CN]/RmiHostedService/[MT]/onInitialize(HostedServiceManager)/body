@@ -1,0 +1,6 @@
+{
+  this.rpcService=getService(RpcHostedService.class);
+  if (rpcService == null) {
+    throw new RuntimeException("RmiHostedService requires RpcHostedService");
+  }
+}

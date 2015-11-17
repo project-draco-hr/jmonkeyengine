@@ -1,0 +1,7 @@
+{
+  MethodInfo mi=getMethodInfo(method);
+  if (mi == null) {
+    return method.invoke(this,os);
+  }
+  return rmi.invokeRemote(channel,objectId,mi.getId(),mi.getCallType(),os);
+}

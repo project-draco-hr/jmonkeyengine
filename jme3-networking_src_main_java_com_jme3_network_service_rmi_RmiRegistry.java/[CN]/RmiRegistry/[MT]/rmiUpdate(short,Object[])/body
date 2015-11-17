@@ -1,0 +1,17 @@
+{
+  if (log.isLoggable(Level.FINEST)) {
+    log.finest("rmiUpdate(" + procId + ", "+ Arrays.asList(args)+ ")");
+  }
+switch (procId) {
+case NEW_CLASS:
+    addRemoteClass((ClassInfo)args[0]);
+  break;
+case REMOVE_OBJECT:
+removeRemoteObject((Short)args[0]);
+break;
+case ADD_OBJECT:
+ClassInfo info=remote.classes.get((Short)args[3]);
+addRemoteObject((Byte)args[0],(Short)args[1],(String)args[2],info);
+break;
+}
+}

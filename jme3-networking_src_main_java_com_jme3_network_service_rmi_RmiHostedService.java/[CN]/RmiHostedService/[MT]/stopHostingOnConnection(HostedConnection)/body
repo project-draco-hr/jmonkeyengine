@@ -1,0 +1,10 @@
+{
+  RmiRegistry rmi=hc.getAttribute(ATTRIBUTE_NAME);
+  if (rmi == null) {
+    return;
+  }
+  if (log.isLoggable(Level.FINEST)) {
+    log.log(Level.FINEST,"stopHostingOnConnection:{0}",hc);
+  }
+  hc.setAttribute(ATTRIBUTE_NAME,null);
+}

@@ -1,0 +1,7 @@
+{
+  if (m.getReturnType() != Void.TYPE)   return CallType.Synchronous;
+  if (m.getAnnotation(Oneway.class) != null)   return CallType.Asynchronous;
+  if (m.getAnnotation(Asynchronous.class) == null)   return CallType.Synchronous;
+  Asynchronous async=m.getAnnotation(Asynchronous.class);
+  return async.reliable() ? CallType.Asynchronous : CallType.Unreliable;
+}

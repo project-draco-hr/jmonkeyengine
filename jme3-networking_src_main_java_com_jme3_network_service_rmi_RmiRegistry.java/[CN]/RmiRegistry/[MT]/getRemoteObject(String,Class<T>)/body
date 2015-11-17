@@ -1,0 +1,9 @@
+{
+  remote.lock.readLock().lock();
+  try {
+    return type.cast(remote.byName.get(name));
+  }
+  finally {
+    remote.lock.readLock().unlock();
+  }
+}

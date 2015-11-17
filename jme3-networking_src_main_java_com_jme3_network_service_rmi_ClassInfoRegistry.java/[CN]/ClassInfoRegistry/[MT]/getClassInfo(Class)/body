@@ -1,0 +1,23 @@
+{
+  lock.readLock().lock();
+  try {
+    ClassInfo result=cache.get(type);
+    if (result != null) {
+      return result;
+    }
+    lock.readLock().unlock();
+    lock.writeLock().lock();
+    try {
+      result=new ClassInfo((short)nextClassId.getAndIncrement(),type);
+      cache.put(type,result);
+      lock.readLock().lock();
+      return result;
+    }
+  finally {
+      lock.writeLock().unlock();
+    }
+  }
+  finally {
+    lock.readLock().unlock();
+  }
+}

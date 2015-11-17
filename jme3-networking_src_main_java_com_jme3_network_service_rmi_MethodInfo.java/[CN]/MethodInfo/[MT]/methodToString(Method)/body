@@ -1,0 +1,8 @@
+{
+  StringBuilder sb=new StringBuilder();
+  for (  Class t : m.getParameterTypes()) {
+    if (sb.length() > 0)     sb.append(", ");
+    sb.append(t.getName());
+  }
+  return m.getReturnType().getName() + " " + m.getName()+ "("+ sb+ ")";
+}

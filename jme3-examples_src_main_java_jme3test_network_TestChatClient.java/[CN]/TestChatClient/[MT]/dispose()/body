@@ -1,0 +1,7 @@
+{
+  System.out.println("Chat window closing.");
+  super.dispose();
+  if (client.isConnected()) {
+    client.close();
+  }
+}

@@ -1,0 +1,17 @@
+{
+  if (!isRunning) {
+    return;
+  }
+  for (  HostedConnection conn : server.getConnections()) {
+    conn.close("Server is shutting down.");
+  }
+  try {
+    Thread.sleep(1000);
+  }
+ catch (  InterruptedException e) {
+    e.printStackTrace();
+  }
+  server.close();
+  isRunning=false;
+  notifyAll();
+}
