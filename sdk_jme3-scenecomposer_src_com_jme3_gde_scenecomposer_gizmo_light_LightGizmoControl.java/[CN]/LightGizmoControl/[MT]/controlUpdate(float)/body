@@ -1,0 +1,9 @@
+{
+  super.controlUpdate(f);
+  if (!lightPos.equals(lastPos)) {
+    if (getSpatial() != null) {
+      lastPos.set(lightPos);
+      getSpatial().setLocalTranslation(lastPos);
+    }
+  }
+}

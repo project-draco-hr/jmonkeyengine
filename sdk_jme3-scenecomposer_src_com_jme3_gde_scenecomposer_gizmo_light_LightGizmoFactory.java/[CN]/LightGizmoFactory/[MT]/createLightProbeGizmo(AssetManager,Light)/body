@@ -1,0 +1,12 @@
+{
+  Node debugNode=new Node("Environment debug Node");
+  Sphere s=new Sphere(16,16,0.5f);
+  Geometry debugGeom=new Geometry(light.getName(),s);
+  Material debugMaterial=new Material(assetManager,"Common/MatDefs/Misc/reflect.j3md");
+  debugGeom.setMaterial(debugMaterial);
+  Spatial debugBounds=BoundingSphereDebug.createDebugSphere(assetManager);
+  debugNode.attachChild(debugGeom);
+  debugNode.attachChild(debugBounds);
+  debugNode.addControl(new LightProbeGizmoControl((LightProbe)light));
+  return debugNode;
+}

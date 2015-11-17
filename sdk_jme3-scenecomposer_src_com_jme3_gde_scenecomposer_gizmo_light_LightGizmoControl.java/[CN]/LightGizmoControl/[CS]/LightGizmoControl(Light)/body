@@ -1,0 +1,21 @@
+{
+  super();
+  try {
+    Method getPosition=light.getClass().getMethod("getPosition");
+    lightPos=(Vector3f)getPosition.invoke(light);
+  }
+ catch (  NoSuchMethodException ex) {
+  }
+catch (  SecurityException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  IllegalAccessException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  IllegalArgumentException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+catch (  InvocationTargetException ex) {
+    Exceptions.printStackTrace(ex);
+  }
+}
