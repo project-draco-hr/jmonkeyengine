@@ -1,0 +1,18 @@
+{
+  return new PropertySupport.ReadWrite<Object>("update",Object.class,"Refresh maps","Click here to refresh environment maps "){
+    JmeLightProbeButtonProperty pe;
+    @Override public Object getValue() throws IllegalAccessException, InvocationTargetException {
+      return "";
+    }
+    @Override public PropertyEditor getPropertyEditor(){
+      if (pe == null) {
+        pe=new JmeLightProbeButtonProperty(JmeLightProbe.this,(Node)getSpatial());
+        pe.attachEnv(pe.env);
+      }
+      return pe;
+    }
+    @Override public void setValue(    Object t) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    }
+  }
+;
+}

@@ -1,0 +1,27 @@
+{
+  if (ed == null) {
+    ed=new ButtonInplaceEditor("Refresh");
+    ed.addActionListener(new ActionListener(){
+      @Override public void actionPerformed(      ActionEvent e){
+        SceneApplication.getApplication().enqueue(new Callable<Object>(){
+          @Override public Object call() throws Exception {
+            EnvironmentCamera envCam=SceneApplication.getApplication().getStateManager().getState(EnvironmentCamera.class);
+            SceneToolController toolController=SceneApplication.getApplication().getStateManager().getState(SceneToolController.class);
+            if (toolController != null) {
+              envCam.setPosition(toolController.getCursorLocation());
+            }
+ else {
+              envCam.setPosition(new Vector3f(0,0,0));
+            }
+            LightProbeFactory.updateProbe(probe.getLightProbe(),envCam,node,new JmeLightProbeProgressHandler());
+            probe.setModified();
+            return null;
+          }
+        }
+);
+      }
+    }
+);
+  }
+  return ed;
+}
