@@ -6,6 +6,7 @@
   lightData.setVector4Length(numLights * 3);
   Uniform ambientColor=shader.getUniform("g_AmbientLightColor");
   Uniform lightProbeData=shader.getUniform("g_LightProbeData");
+  lightProbeData.setVector4Length(1);
   Uniform lightProbeIrrMap=shader.getUniform("g_IrradianceMap");
   Uniform lightProbePemMap=shader.getUniform("g_PrefEnvMap");
   if (startIndex != 0) {
@@ -71,12 +72,10 @@ lightDataIndex++;
 break;
 case Probe:
 useIBL=true;
-technique.setUseIndirectLighting(true);
 endIndex++;
 LightProbe probe=(LightProbe)l;
 BoundingSphere s=(BoundingSphere)probe.getBounds();
-tmpVec.set(probe.getPosition().x,probe.getPosition().y,probe.getPosition().z,1f / s.getRadius());
-lightProbeData.setValue(VarType.Vector4,tmpVec);
+lightProbeData.setVector4InArray(probe.getPosition().x,probe.getPosition().y,probe.getPosition().z,1f / s.getRadius(),0);
 if (irrUnit == -1) {
 irrUnit=nextTexUnit++;
 pemUnit=nextTexUnit++;
@@ -92,7 +91,7 @@ throw new UnsupportedOperationException("Unknown type of light: " + l.getType())
 }
 vars.release();
 if (!useIBL) {
-technique.setUseIndirectLighting(false);
+lightProbeData.setVector4InArray(0,0,0,-1,0);
 }
 while (lightDataIndex < numLights * 3) {
 lightData.setVector4InArray(0f,0f,0f,0f,lightDataIndex);
