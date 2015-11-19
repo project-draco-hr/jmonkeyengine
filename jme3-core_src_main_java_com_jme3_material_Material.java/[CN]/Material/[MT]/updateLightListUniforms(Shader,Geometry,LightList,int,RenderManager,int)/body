@@ -9,12 +9,29 @@
   lightProbeData.setVector4Length(1);
   Uniform lightProbeIrrMap=shader.getUniform("g_IrradianceMap");
   Uniform lightProbePemMap=shader.getUniform("g_PrefEnvMap");
+  LightProbe lightProbe=null;
   if (startIndex != 0) {
     rm.getRenderer().applyRenderState(additiveLight);
     ambientColor.setValue(VarType.Vector4,ColorRGBA.Black);
   }
  else {
-    ambientColor.setValue(VarType.Vector4,getAmbientColor(lightList,true));
+    lightProbe=extractIndirectLights(lightList,true);
+    ambientColor.setValue(VarType.Vector4,ambientLightColor);
+  }
+  if (lightProbe != null) {
+    BoundingSphere s=(BoundingSphere)lightProbe.getBounds();
+    lightProbeData.setVector4InArray(lightProbe.getPosition().x,lightProbe.getPosition().y,lightProbe.getPosition().z,1f / s.getRadius(),0);
+    if (irrUnit == -1) {
+      irrUnit=nextTexUnit++;
+      pemUnit=nextTexUnit++;
+    }
+    rm.getRenderer().setTexture(irrUnit,lightProbe.getIrradianceMap());
+    lightProbeIrrMap.setValue(VarType.Int,irrUnit);
+    rm.getRenderer().setTexture(pemUnit,lightProbe.getPrefilteredEnvMap());
+    lightProbePemMap.setValue(VarType.Int,pemUnit);
+  }
+ else {
+    lightProbeData.setVector4InArray(0,0,0,-1,0);
   }
   int lightDataIndex=0;
   TempVars vars=TempVars.get();
@@ -70,29 +87,11 @@ transposeLightDataToSpace(technique.getDef().getLightSpace(),rm,tmpVec);
 lightData.setVector4InArray(tmpVec.getX(),tmpVec.getY(),tmpVec.getZ(),spotAngleCos,lightDataIndex);
 lightDataIndex++;
 break;
-case Probe:
-useIBL=true;
-endIndex++;
-LightProbe probe=(LightProbe)l;
-BoundingSphere s=(BoundingSphere)probe.getBounds();
-lightProbeData.setVector4InArray(probe.getPosition().x,probe.getPosition().y,probe.getPosition().z,1f / s.getRadius(),0);
-if (irrUnit == -1) {
-irrUnit=nextTexUnit++;
-pemUnit=nextTexUnit++;
-}
-rm.getRenderer().setTexture(irrUnit,probe.getIrradianceMap());
-lightProbeIrrMap.setValue(VarType.Int,irrUnit);
-rm.getRenderer().setTexture(pemUnit,probe.getPrefilteredEnvMap());
-lightProbePemMap.setValue(VarType.Int,pemUnit);
-break;
 default :
 throw new UnsupportedOperationException("Unknown type of light: " + l.getType());
 }
 }
 vars.release();
-if (!useIBL) {
-lightProbeData.setVector4InArray(0,0,0,-1,0);
-}
 while (lightDataIndex < numLights * 3) {
 lightData.setVector4InArray(0f,0f,0f,0f,lightDataIndex);
 lightDataIndex++;

@@ -1,5 +1,6 @@
 {
   ambientLightColor.set(0,0,0,1);
+  LightProbe probe=null;
   for (int j=0; j < lightList.size(); j++) {
     Light l=lightList.get(j);
     if (l instanceof AmbientLight) {
@@ -8,7 +9,13 @@
         lightList.remove(l);
       }
     }
+    if (l instanceof LightProbe) {
+      probe=(LightProbe)l;
+      if (removeLights) {
+        lightList.remove(l);
+      }
+    }
   }
   ambientLightColor.a=1.0f;
-  return ambientLightColor;
+  return probe;
 }
