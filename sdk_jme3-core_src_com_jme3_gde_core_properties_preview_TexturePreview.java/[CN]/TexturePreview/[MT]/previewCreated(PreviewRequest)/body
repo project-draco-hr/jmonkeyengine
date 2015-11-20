@@ -1,0 +1,16 @@
+{
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    @Override public void run(){
+      if (request.getRequester() == TexturePreview.this) {
+        final ImageIcon icon=new ImageIcon(request.getImage());
+        if (picPreview instanceof JLabel) {
+          ((JLabel)picPreview).setIcon(icon);
+        }
+        if (picPreview instanceof JButton) {
+          ((JButton)picPreview).setIcon(icon);
+        }
+      }
+    }
+  }
+);
+}

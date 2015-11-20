@@ -5,7 +5,7 @@
     int newY=location.getY();
     int newWheel=wheelPos;
     int actualX=lastKnownLocation.getX();
-    int actualY=component.getHeight() - lastKnownLocation.getY();
+    int actualY=component.getSurfaceHeight() - lastKnownLocation.getY();
     MouseMotionEvent evt=new MouseMotionEvent(actualX,actualY,newX - lastEventX,lastEventY - newY,wheelPos,lastEventWheel - wheelPos);
     listener.onMouseMotionEvent(evt);
     lastEventX=newX;
