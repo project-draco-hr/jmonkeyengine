@@ -1,24 +1,12 @@
 {
   if (!"".equals(textureName)) {
     exec.execute(new Runnable(){
-      public void run(){
+      @Override public void run(){
         try {
-          Texture tex=manager.loadTexture(textureName);
-          if (textureName.toLowerCase().endsWith(".dds")) {
-            if (ddsPreview == null) {
-              ddsPreview=new DDSPreview(manager);
-            }
-            ddsPreview.requestPreview(textureName,"",80,80,texturePreview,null);
+          if (texPreview == null) {
+            texPreview=new TexturePreview(manager);
           }
- else {
-            final Icon newicon=ImageUtilities.image2Icon(resizeImage(ImageToAwt.convert(tex.getImage(),false,true,0)));
-            SwingUtilities.invokeLater(new Runnable(){
-              public void run(){
-                texturePreview.setIcon(newicon);
-              }
-            }
-);
-          }
+          texPreview.requestPreview(textureName,"",80,25,texturePreview,null);
         }
  catch (        AssetNotFoundException a) {
           Logger.getLogger(MaterialEditorTopComponent.class.getName()).log(Level.WARNING,"Could not load texture {0}",textureName);
