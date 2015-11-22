@@ -1,10 +1,14 @@
 {
-  autoSelectTechnique(rm);
-  Renderer r=rm.getRenderer();
-  TechniqueDef techDef=technique.getDef();
-  Collection<MatParam> params=paramValues.values();
-  for (  MatParam param : params) {
-    param.apply(r,technique);
+  if (technique == null) {
+    selectTechnique("Default",renderManager);
   }
-  r.setShader(technique.getShader());
+  TechniqueDef techniqueDef=technique.getDef();
+  Renderer renderer=renderManager.getRenderer();
+  EnumSet<Caps> rendererCaps=renderer.getCaps();
+  if (techniqueDef.isNoRender()) {
+    return;
+  }
+  Shader shader=technique.makeCurrent(renderManager,rendererCaps);
+  updateShaderMaterialParameters(renderer,shader);
+  renderManager.getRenderer().setShader(shader);
 }

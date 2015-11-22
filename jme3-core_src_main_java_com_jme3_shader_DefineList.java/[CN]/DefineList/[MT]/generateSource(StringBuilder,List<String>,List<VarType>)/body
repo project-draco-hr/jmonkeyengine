@@ -1,0 +1,22 @@
+{
+  for (int i=0; i < vals.length; i++) {
+    if (vals[i] != 0) {
+      String defineName=defineNames.get(i);
+      sb.append("#define ");
+      sb.append(defineName);
+      sb.append(" ");
+      if (defineTypes != null && defineTypes.get(i) == VarType.Float) {
+        float val=Float.intBitsToFloat(vals[i]);
+        if (!Float.isFinite(val)) {
+          throw new IllegalArgumentException("GLSL does not support NaN " + "or Infinite float literals");
+        }
+        sb.append(val);
+      }
+ else {
+        sb.append(vals[i]);
+      }
+      sb.append("\n");
+    }
+  }
+  System.out.println(sb.toString());
+}

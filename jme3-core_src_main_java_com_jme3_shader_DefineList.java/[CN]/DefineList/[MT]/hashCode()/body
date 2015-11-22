@@ -1,6 +1,3 @@
 {
-  if (cachedHashCode == 0) {
-    cachedHashCode=defines.hashCode();
-  }
-  return cachedHashCode;
+  return (int)((hash >> 32) ^ hash);
 }

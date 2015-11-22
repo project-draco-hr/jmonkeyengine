@@ -1,11 +1,24 @@
 {
-  String defineName=def.getShaderParamDefine(paramName);
-  if (defineName != null) {
-    if (value == null) {
-      needReload=defines.remove(defineName) || needReload;
-    }
- else {
-      needReload=defines.set(defineName,type,value) || needReload;
-    }
+  Integer defineId=def.getShaderParamDefineId(paramName);
+  if (defineId == null) {
+    return;
   }
+  if (value == null) {
+    dynamicDefines.set(defineId,0);
+    return;
+  }
+switch (type) {
+case Int:
+    dynamicDefines.set(defineId,(Integer)value);
+  break;
+case Float:
+dynamicDefines.set(defineId,(Float)value);
+break;
+case Boolean:
+dynamicDefines.set(defineId,((Boolean)value));
+break;
+default :
+dynamicDefines.set(defineId,1);
+break;
+}
 }

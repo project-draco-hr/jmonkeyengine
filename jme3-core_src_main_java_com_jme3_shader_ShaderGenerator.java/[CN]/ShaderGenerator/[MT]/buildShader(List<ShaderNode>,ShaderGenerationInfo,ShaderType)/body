@@ -1,4 +1,7 @@
 {
+  if (type == ShaderType.TessellationControl || type == ShaderType.TessellationEvaluation || type == ShaderType.Geometry) {
+    return null;
+  }
   indent=0;
   StringBuilder sourceDeclaration=new StringBuilder();
   StringBuilder source=new StringBuilder();

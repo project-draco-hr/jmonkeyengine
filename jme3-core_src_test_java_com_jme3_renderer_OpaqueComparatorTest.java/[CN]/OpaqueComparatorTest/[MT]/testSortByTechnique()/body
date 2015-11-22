@@ -1,0 +1,21 @@
+{
+  Material lightingMatDefault=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  Material lightingPreShadow=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  Material lightingPostShadow=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  Material lightingMatPreNormalPass=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  Material lightingMatGBuf=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  Material lightingMatGlow=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  lightingMatDefault.setName("TechDefault");
+  lightingMatDefault.selectTechnique("Default",renderManager);
+  lightingPostShadow.setName("TechPostShad");
+  lightingPostShadow.selectTechnique("PostShadow",renderManager);
+  lightingPreShadow.setName("TechPreShad");
+  lightingPreShadow.selectTechnique("PreShadow",renderManager);
+  lightingMatPreNormalPass.setName("TechNorm");
+  lightingMatPreNormalPass.selectTechnique("PreNormalPass",renderManager);
+  lightingMatGBuf.setName("TechGBuf");
+  lightingMatGBuf.selectTechnique("GBuf",renderManager);
+  lightingMatGlow.setName("TechGlow");
+  lightingMatGlow.selectTechnique("Glow",renderManager);
+  testSort(lightingMatGlow,lightingPreShadow,lightingMatPreNormalPass,lightingMatDefault,lightingPostShadow,lightingMatGBuf);
+}

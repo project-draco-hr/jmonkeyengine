@@ -1,0 +1,8 @@
+{
+  Shader shader=definesToShaderMap.get(defines);
+  if (shader == null) {
+    shader=loadShader(assetManager,rendererCaps,defines);
+    definesToShaderMap.put(defines.deepClone(),shader);
+  }
+  return shader;
+}
