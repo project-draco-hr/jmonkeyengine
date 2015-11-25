@@ -7,7 +7,7 @@
       sb.append(" ");
       if (defineTypes != null && defineTypes.get(i) == VarType.Float) {
         float val=Float.intBitsToFloat(vals[i]);
-        if (!Float.isFinite(val)) {
+        if (Float.isInfinite(val) || Float.isNaN(val)) {
           throw new IllegalArgumentException("GLSL does not support NaN " + "or Infinite float literals");
         }
         sb.append(val);
@@ -18,5 +18,4 @@
       sb.append("\n");
     }
   }
-  System.out.println(sb.toString());
 }

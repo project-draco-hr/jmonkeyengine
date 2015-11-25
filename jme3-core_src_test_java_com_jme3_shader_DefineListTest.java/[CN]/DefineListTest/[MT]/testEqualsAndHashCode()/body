@@ -1,0 +1,19 @@
+{
+  DefineList dl1=new DefineList(NUM_DEFINES);
+  DefineList dl2=new DefineList(NUM_DEFINES);
+  assertTrue(dl1.hashCode() == 0);
+  assertEquals(dl1,dl2);
+  dl1.set(BOOL_VAR,true);
+  assertTrue(dl1.hashCode() == 1);
+  assertNotSame(dl1,dl2);
+  dl2.set(BOOL_VAR,true);
+  assertEquals(dl1,dl2);
+  dl1.set(INT_VAR,2);
+  assertTrue(dl1.hashCode() == (1 | 2));
+  assertNotSame(dl1,dl2);
+  dl2.set(INT_VAR,2);
+  assertEquals(dl1,dl2);
+  dl1.set(BOOL_VAR,false);
+  assertTrue(dl1.hashCode() == 2);
+  assertNotSame(dl1,dl2);
+}
