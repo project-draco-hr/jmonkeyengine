@@ -1,6 +1,8 @@
 {
   if (!isRunning)   return;
-  services.stop();
+  if (services.isStarted()) {
+    services.stop();
+  }
   for (  ConnectorAdapter ca : channels) {
     if (ca == null)     continue;
     ca.close();

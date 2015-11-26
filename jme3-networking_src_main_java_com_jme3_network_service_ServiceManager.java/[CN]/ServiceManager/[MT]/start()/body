@@ -3,6 +3,9 @@
     return;
   }
   for (  Service<T> s : services) {
+    if (log.isLoggable(Level.FINE)) {
+      log.log(Level.FINE,"Starting service:{0}",s);
+    }
     s.start();
   }
   started=true;

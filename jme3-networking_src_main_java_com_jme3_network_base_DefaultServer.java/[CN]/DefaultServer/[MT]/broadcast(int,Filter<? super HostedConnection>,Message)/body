@@ -1,4 +1,7 @@
 {
+  if (log.isLoggable(Level.FINER)) {
+    log.log(Level.FINER,"broadcast({0}, {1}. {2})",new Object[]{channel,filter,message});
+  }
   if (connections.isEmpty())   return;
   checkChannel(channel);
   ByteBuffer buffer=MessageProtocol.messageToBuffer(message,null);

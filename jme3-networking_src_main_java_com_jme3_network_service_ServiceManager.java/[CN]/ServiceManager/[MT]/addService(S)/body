@@ -1,7 +1,16 @@
 {
+  if (log.isLoggable(Level.FINE)) {
+    log.log(Level.FINE,"addService({0})",s);
+  }
   services.add(s);
+  if (log.isLoggable(Level.FINE)) {
+    log.log(Level.FINE,"Initializing service:{0}",s);
+  }
   s.initialize(getParent());
   if (started) {
+    if (log.isLoggable(Level.FINE)) {
+      log.log(Level.FINE,"Starting service:{0}",s);
+    }
     s.start();
   }
 }

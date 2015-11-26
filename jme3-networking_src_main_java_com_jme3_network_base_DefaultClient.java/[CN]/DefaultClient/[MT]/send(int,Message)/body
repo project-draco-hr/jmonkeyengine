@@ -1,4 +1,7 @@
 {
+  if (log.isLoggable(Level.FINER)) {
+    log.log(Level.FINER,"send({0}, {1})",new Object[]{channel,message});
+  }
   if (channel >= 0) {
     waitForConnected();
   }
