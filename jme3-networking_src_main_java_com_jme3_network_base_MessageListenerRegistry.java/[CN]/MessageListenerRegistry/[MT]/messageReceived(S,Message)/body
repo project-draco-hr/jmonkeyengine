@@ -1,10 +1,17 @@
 {
   boolean delivered=false;
+  boolean trace=log.isLoggable(Level.FINER);
   for (  MessageListener<? super S> l : listeners) {
+    if (trace) {
+      log.log(Level.FINER,"Delivering {0} to:{1}",new Object[]{m,l});
+    }
     l.messageReceived(source,m);
     delivered=true;
   }
   for (  MessageListener<? super S> l : getListeners(m.getClass(),false)) {
+    if (trace) {
+      log.log(Level.FINER,"Delivering {0} to:{1}",new Object[]{m,l});
+    }
     l.messageReceived(source,m);
     delivered=true;
   }
