@@ -8,10 +8,10 @@
     int hash2=JoyAxisTrigger.joyAxisHash(joyId,axis,false);
     Float val1=axisValues.get(hash1);
     Float val2=axisValues.get(hash2);
-    if (val1 != null && val1.floatValue() > effectiveDeadZone) {
+    if (val1 != null && val1 > effectiveDeadZone) {
       invokeActions(hash1,false);
     }
-    if (val2 != null && val2.floatValue() > effectiveDeadZone) {
+    if (val2 != null && val2 > effectiveDeadZone) {
       invokeActions(hash2,false);
     }
     axisValues.remove(hash1);
@@ -21,7 +21,7 @@
     int hash=JoyAxisTrigger.joyAxisHash(joyId,axis,true);
     int otherHash=JoyAxisTrigger.joyAxisHash(joyId,axis,false);
     Float otherVal=axisValues.get(otherHash);
-    if (otherVal != null && otherVal.floatValue() > effectiveDeadZone) {
+    if (otherVal != null && otherVal > effectiveDeadZone) {
       invokeActions(otherHash,false);
     }
     invokeAnalogsAndActions(hash,-value,effectiveDeadZone,true);
@@ -32,7 +32,7 @@
     int hash=JoyAxisTrigger.joyAxisHash(joyId,axis,false);
     int otherHash=JoyAxisTrigger.joyAxisHash(joyId,axis,true);
     Float otherVal=axisValues.get(otherHash);
-    if (otherVal != null && otherVal.floatValue() > effectiveDeadZone) {
+    if (otherVal != null && otherVal > effectiveDeadZone) {
       invokeActions(otherHash,false);
     }
     invokeAnalogsAndActions(hash,value,effectiveDeadZone,true);
