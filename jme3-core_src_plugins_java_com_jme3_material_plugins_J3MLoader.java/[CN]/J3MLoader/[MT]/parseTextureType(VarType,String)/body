@@ -1,0 +1,71 @@
+{
+  final List<String> textureValues=tokenizeTextureValue(value);
+  final List<TextureOptionValue> textureOptionValues=parseTextureOptions(textureValues);
+  TextureKey textureKey=null;
+  if (textureValues.size() == 1) {
+    textureKey=new TextureKey(textureValues.get(0),false);
+  }
+ else {
+    String texturePath=value.trim();
+    if (isTexturePathDeclaredTheTraditionalWay(textureValues.size(),textureOptionValues.size(),texturePath)) {
+      boolean flipY=false;
+      if (texturePath.startsWith("Flip Repeat ") || texturePath.startsWith("Repeat Flip ")) {
+        texturePath=texturePath.substring(12).trim();
+        flipY=true;
+      }
+ else       if (texturePath.startsWith("Flip ")) {
+        texturePath=texturePath.substring(5).trim();
+        flipY=true;
+      }
+ else       if (texturePath.startsWith("Repeat ")) {
+        texturePath=texturePath.substring(7).trim();
+      }
+      if (texturePath.startsWith("\"") || texturePath.startsWith("'")) {
+        texturePath=texturePath.substring(1);
+      }
+      if (texturePath.endsWith("\"") || texturePath.endsWith("'")) {
+        texturePath=texturePath.substring(0,texturePath.length() - 1);
+      }
+      textureKey=new TextureKey(texturePath,flipY);
+    }
+    if (textureKey == null) {
+      textureKey=new TextureKey(textureValues.get(textureValues.size() - 1),false);
+    }
+    if (!textureOptionValues.isEmpty()) {
+      for (      final TextureOptionValue textureOptionValue : textureOptionValues) {
+        textureOptionValue.applyToTextureKey(textureKey);
+      }
+    }
+  }
+switch (type) {
+case Texture3D:
+    textureKey.setTextureTypeHint(Texture.Type.ThreeDimensional);
+  break;
+case TextureArray:
+textureKey.setTextureTypeHint(Texture.Type.TwoDimensionalArray);
+break;
+case TextureCubeMap:
+textureKey.setTextureTypeHint(Texture.Type.CubeMap);
+break;
+}
+textureKey.setGenerateMips(true);
+Texture texture;
+try {
+texture=assetManager.loadTexture(textureKey);
+}
+ catch (AssetNotFoundException ex) {
+logger.log(Level.WARNING,"Cannot locate {0} for material {1}",new Object[]{textureKey,key});
+texture=null;
+}
+if (texture == null) {
+texture=new Texture2D(PlaceholderAssets.getPlaceholderImage(assetManager));
+texture.setKey(textureKey);
+texture.setName(textureKey.getName());
+}
+if (!textureOptionValues.isEmpty()) {
+for (final TextureOptionValue textureOptionValue : textureOptionValues) {
+textureOptionValue.applyToTexture(texture);
+}
+}
+return texture;
+}

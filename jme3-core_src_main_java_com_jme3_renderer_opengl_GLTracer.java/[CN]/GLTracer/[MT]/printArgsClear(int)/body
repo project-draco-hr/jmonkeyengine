@@ -1,0 +1,21 @@
+{
+  boolean needAPipe=false;
+  print("(");
+  if ((mask & GL.GL_COLOR_BUFFER_BIT) != 0) {
+    printStyle(ANSI_GREEN,"COLOR_BUFFER_BIT");
+    needAPipe=true;
+  }
+  if ((mask & GL.GL_DEPTH_BUFFER_BIT) != 0) {
+    if (needAPipe) {
+      print(" | ");
+    }
+    printStyle(ANSI_GREEN,"DEPTH_BUFFER_BIT");
+  }
+  if ((mask & GL.GL_STENCIL_BUFFER_BIT) != 0) {
+    if (needAPipe) {
+      print(" | ");
+    }
+    printStyle(ANSI_GREEN,"STENCIL_BUFFER_BIT");
+  }
+  print(")");
+}

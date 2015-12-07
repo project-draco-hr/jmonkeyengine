@@ -1,0 +1,16 @@
+{
+  try {
+    if (renderer != null) {
+      renderer.cleanup();
+    }
+    errorCallback.release();
+    windowSizeCallback.release();
+    windowFocusCallback.release();
+    if (window != 0) {
+      glfwDestroyWindow(window);
+    }
+  }
+ catch (  Exception ex) {
+    listener.handleError("Failed to destroy context",ex);
+  }
+}

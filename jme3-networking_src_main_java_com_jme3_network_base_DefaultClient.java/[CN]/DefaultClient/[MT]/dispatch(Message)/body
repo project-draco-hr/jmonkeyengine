@@ -1,4 +1,7 @@
 {
+  if (log.isLoggable(Level.FINER)) {
+    log.log(Level.FINER,"{0} received:{1}",new Object[]{this,m});
+  }
   if (m instanceof ClientRegistrationMessage) {
     ClientRegistrationMessage crm=(ClientRegistrationMessage)m;
     if (crm.getId() >= 0) {

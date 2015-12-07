@@ -5,6 +5,12 @@
   dl.setDirection(Vector3f.UNIT_XYZ.negate());
   rootNode.addLight(dl);
   Box box=new Box(1,1,1);
+  VertexBuffer weightsHW=new VertexBuffer(Type.HWBoneWeight);
+  VertexBuffer indicesHW=new VertexBuffer(Type.HWBoneIndex);
+  indicesHW.setUsage(Usage.CpuOnly);
+  weightsHW.setUsage(Usage.CpuOnly);
+  box.setBuffer(weightsHW);
+  box.setBuffer(indicesHW);
   FloatBuffer weights=FloatBuffer.allocate(box.getVertexCount() * 4);
   VertexBuffer weightsBuf=new VertexBuffer(Type.BoneWeight);
   weightsBuf.setupData(Usage.CpuOnly,4,Format.Float,weights);

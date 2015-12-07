@@ -1,0 +1,46 @@
+{
+  glfwSetCursorPosCallback(context.getWindowHandle(),cursorPosCallback=new GLFWCursorPosCallback(){
+    @Override public void invoke(    long window,    double xpos,    double ypos){
+      int xDelta;
+      int yDelta;
+      int x=(int)Math.round(xpos);
+      int y=context.getSettings().getHeight() - (int)Math.round(ypos);
+      if (mouseX == 0) {
+        mouseX=x;
+      }
+      if (mouseY == 0) {
+        mouseY=y;
+      }
+      xDelta=x - mouseX;
+      yDelta=y - mouseY;
+      mouseX=x;
+      mouseY=y;
+      if (xDelta != 0 || yDelta != 0) {
+        final MouseMotionEvent mouseMotionEvent=new MouseMotionEvent(x,y,xDelta,yDelta,mouseWheel,0);
+        mouseMotionEvent.setTime(getInputTimeNanos());
+        mouseMotionEvents.add(mouseMotionEvent);
+      }
+    }
+  }
+);
+  glfwSetScrollCallback(context.getWindowHandle(),scrollCallback=new GLFWScrollCallback(){
+    @Override public void invoke(    final long window,    final double xOffset,    final double yOffset){
+      mouseWheel+=yOffset;
+      final MouseMotionEvent mouseMotionEvent=new MouseMotionEvent(mouseX,mouseY,0,0,mouseWheel,(int)Math.round(yOffset));
+      mouseMotionEvent.setTime(getInputTimeNanos());
+      mouseMotionEvents.add(mouseMotionEvent);
+    }
+  }
+);
+  glfwSetMouseButtonCallback(context.getWindowHandle(),mouseButtonCallback=new GLFWMouseButtonCallback(){
+    @Override public void invoke(    final long window,    final int button,    final int action,    final int mods){
+      final MouseButtonEvent mouseButtonEvent=new MouseButtonEvent(convertButton(button),action == GLFW_PRESS,mouseX,mouseY);
+      mouseButtonEvent.setTime(getInputTimeNanos());
+      mouseButtonEvents.add(mouseButtonEvent);
+    }
+  }
+);
+  setCursorVisible(cursorVisible);
+  logger.fine("Mouse created.");
+  initialized=true;
+}

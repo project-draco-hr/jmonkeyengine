@@ -1,0 +1,11 @@
+{
+  if (log.isLoggable(Level.FINEST)) {
+    log.log(Level.FINEST,"startHostingOnConnection:{0}",hc);
+  }
+  RmiRegistry rmi=new RmiRegistry(hc,rpcService.getRpcConnection(hc),rmiId,defaultChannel);
+  hc.setAttribute(ATTRIBUTE_NAME,rmi);
+  for (  Map.Entry<String,GlobalShare> e : globalShares.entrySet()) {
+    GlobalShare share=e.getValue();
+    rmi.share(share.channel,e.getKey(),share.object,share.type);
+  }
+}

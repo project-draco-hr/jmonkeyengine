@@ -1,7 +1,16 @@
 {
+  if (log.isLoggable(Level.FINE)) {
+    log.log(Level.FINE,"removeService({0})",s);
+  }
   if (started) {
+    if (log.isLoggable(Level.FINE)) {
+      log.log(Level.FINE,"Stopping service:{0}",s);
+    }
     s.stop();
   }
   services.remove(s);
+  if (log.isLoggable(Level.FINE)) {
+    log.log(Level.FINE,"Terminating service:{0}",s);
+  }
   s.terminate(getParent());
 }

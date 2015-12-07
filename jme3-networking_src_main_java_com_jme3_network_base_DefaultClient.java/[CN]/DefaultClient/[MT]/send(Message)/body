@@ -1,4 +1,7 @@
 {
+  if (log.isLoggable(Level.FINER)) {
+    log.log(Level.FINER,"send({0})",message);
+  }
   if (message.isReliable() || channels.get(CH_UNRELIABLE) == null) {
     send(CH_RELIABLE,message,true);
   }

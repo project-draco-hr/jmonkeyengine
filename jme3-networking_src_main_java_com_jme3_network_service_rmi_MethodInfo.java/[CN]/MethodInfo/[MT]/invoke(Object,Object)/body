@@ -1,0 +1,14 @@
+{
+  try {
+    return method.invoke(target,parms);
+  }
+ catch (  IllegalAccessException e) {
+    throw new RuntimeException("Error invoking:" + method + " on:"+ target,e);
+  }
+catch (  IllegalArgumentException e) {
+    throw new RuntimeException("Error invoking:" + method + " on:"+ target,e);
+  }
+catch (  InvocationTargetException e) {
+    throw new RuntimeException("Error invoking:" + method + " on:"+ target,e);
+  }
+}

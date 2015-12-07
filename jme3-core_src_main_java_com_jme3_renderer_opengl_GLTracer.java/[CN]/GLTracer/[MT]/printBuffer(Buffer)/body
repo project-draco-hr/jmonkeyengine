@@ -1,0 +1,40 @@
+{
+  StringBuilder sb=new StringBuilder();
+  sb.append(ANSI_MAGENTA);
+  if (buffer instanceof ByteBuffer) {
+    sb.append("byte");
+  }
+ else   if (buffer instanceof ShortBuffer) {
+    sb.append("short");
+  }
+ else   if (buffer instanceof CharBuffer) {
+    sb.append("char");
+  }
+ else   if (buffer instanceof FloatBuffer) {
+    sb.append("float");
+  }
+ else   if (buffer instanceof IntBuffer) {
+    sb.append("int");
+  }
+ else   if (buffer instanceof LongBuffer) {
+    sb.append("long");
+  }
+ else   if (buffer instanceof DoubleBuffer) {
+    sb.append("double");
+  }
+ else {
+    throw new UnsupportedOperationException();
+  }
+  sb.append(ANSI_RESET);
+  sb.append("[");
+  if (buffer.position() == 0 && buffer.limit() == buffer.capacity()) {
+    sb.append(buffer.capacity());
+  }
+ else {
+    sb.append("pos=").append(buffer.position());
+    sb.append(" lim=").append(buffer.limit());
+    sb.append(" cap=").append(buffer.capacity());
+  }
+  sb.append("]");
+  print(sb.toString());
+}

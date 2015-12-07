@@ -1,8 +1,13 @@
 {
   if (m instanceof ChatMessage) {
-    source.setAttribute("name",((ChatMessage)m).getName());
+    ChatMessage cm=(ChatMessage)m;
+    source.setAttribute("name",cm.getName());
+    if (cm.message.startsWith("/")) {
+      runCommand(source,cm.name,cm.message);
+      return;
+    }
     System.out.println("Broadcasting:" + m + "  reliable:"+ m.isReliable());
-    source.getServer().broadcast(m);
+    source.getServer().broadcast(cm);
   }
  else {
     System.err.println("Received odd message:" + m);

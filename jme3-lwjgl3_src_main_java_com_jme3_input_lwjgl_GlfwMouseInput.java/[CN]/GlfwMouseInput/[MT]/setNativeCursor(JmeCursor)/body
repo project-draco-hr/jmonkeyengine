@@ -1,0 +1,8 @@
+{
+  if (jmeCursor != null) {
+    final ByteBuffer byteBuffer=org.lwjgl.BufferUtils.createByteBuffer(jmeCursor.getImagesData().capacity());
+    byteBuffer.asIntBuffer().put(jmeCursor.getImagesData().array());
+    final long cursor=glfwCreateCursor(byteBuffer,jmeCursor.getXHotSpot(),jmeCursor.getYHotSpot());
+    glfwSetCursor(context.getWindowHandle(),cursor);
+  }
+}

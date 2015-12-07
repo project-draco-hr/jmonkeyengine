@@ -3,6 +3,9 @@
     throw new IllegalStateException(getClass().getSimpleName() + " not started.");
   }
   for (  Service<T> s : services) {
+    if (log.isLoggable(Level.FINE)) {
+      log.log(Level.FINE,"Stopping service:{0}",s);
+    }
     s.stop();
   }
   started=false;

@@ -1,0 +1,10 @@
+{
+  Cinematic sut=new Cinematic();
+  Node model=new Node("model");
+  AnimControl ac=new AnimControl();
+  ac.addAnim(new Animation("animName",1.0f));
+  model.addControl(ac);
+  sut.enqueueCinematicEvent(new AnimationEvent(model,"animName"));
+  sut.initialize(null,null);
+  sut.clear();
+}

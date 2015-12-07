@@ -28,6 +28,7 @@
     }
  else {
       if (gles2) {
+        stringBuf.append("#version 100\n");
         if (source.getType() == ShaderType.Fragment) {
           stringBuf.append("precision mediump float;\n");
         }
@@ -40,6 +41,7 @@
   if (linearizeSrgbImages) {
     stringBuf.append("#define SRGB 1\n");
   }
+  stringBuf.append("#define ").append(source.getType().name().toUpperCase()).append("_SHADER 1\n");
   stringBuf.append(source.getDefines());
   stringBuf.append(source.getSource());
   intBuf1.clear();

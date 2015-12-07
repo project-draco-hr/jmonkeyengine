@@ -8,7 +8,14 @@
   setFriction(capsule.readFloat("friction",0.5f));
   setKinematic(capsule.readBoolean("kinematic",false));
   setRestitution(capsule.readFloat("restitution",0));
-  setAngularFactor(capsule.readFloat("angularFactor",1));
+  Vector3f angularFactor=(Vector3f)capsule.readSavable("angularFactor",null);
+  if (angularFactor == null) {
+    setAngularFactor(capsule.readFloat("angularFactor",1));
+  }
+ else {
+    setAngularFactor(angularFactor);
+    setLinearFactor((Vector3f)capsule.readSavable("linearFactor",Vector3f.UNIT_XYZ.clone()));
+  }
   setDamping(capsule.readFloat("linearDamping",0),capsule.readFloat("angularDamping",0));
   setSleepingThresholds(capsule.readFloat("linearSleepingThreshold",0.8f),capsule.readFloat("angularSleepingThreshold",1.0f));
   setCcdMotionThreshold(capsule.readFloat("ccdMotionThreshold",0));

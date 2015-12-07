@@ -1,6 +1,6 @@
 {
   FrameBuffer sceneBuffer=renderFrameBuffer;
-  if (renderFrameBufferMS != null && !renderer.getCaps().contains(Caps.OpenGL31)) {
+  if (renderFrameBufferMS != null && !renderer.getCaps().contains(Caps.OpenGL32)) {
     renderer.copyFrameBuffer(renderFrameBufferMS,renderFrameBuffer,true);
   }
  else   if (renderFrameBufferMS != null) {

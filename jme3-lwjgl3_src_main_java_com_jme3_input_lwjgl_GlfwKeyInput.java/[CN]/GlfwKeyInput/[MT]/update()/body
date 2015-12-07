@@ -1,0 +1,8 @@
+{
+  if (!context.isRenderable()) {
+    return;
+  }
+  while (!keyInputEvents.isEmpty()) {
+    listener.onKeyEvent(keyInputEvents.poll());
+  }
+}

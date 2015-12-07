@@ -3,8 +3,6 @@
   if (node != null && node.isLeaf()) {
     String selected=TreeUtil.getPath(node.getUserObjectPath());
     selected=selected.substring(0,selected.lastIndexOf("/"));
-    Texture tex=assetManager.loadTexture(selected);
-    editor.setValue(tex);
     editor.setAsText(selected);
     return true;
   }

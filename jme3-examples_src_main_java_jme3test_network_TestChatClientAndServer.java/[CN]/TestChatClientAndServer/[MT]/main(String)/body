@@ -1,0 +1,19 @@
+{
+  System.out.println("Starting chat server...");
+  TestChatServer chatServer=new TestChatServer();
+  chatServer.start();
+  System.out.println("Waiting for connections on port:" + TestChatServer.PORT);
+  TestChatClient test=new TestChatClient("localhost");
+  test.setVisible(true);
+  Runtime.getRuntime().addShutdownHook(new Thread(){
+    @Override public void run(){
+      System.out.println("Client and server test is terminating.");
+    }
+  }
+);
+  while (chatServer.isRunning()) {
+synchronized (chatServer) {
+      chatServer.wait();
+    }
+  }
+}

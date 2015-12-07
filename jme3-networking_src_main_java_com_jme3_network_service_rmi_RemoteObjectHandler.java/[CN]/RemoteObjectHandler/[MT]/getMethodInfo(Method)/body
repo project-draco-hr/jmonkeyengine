@@ -1,0 +1,11 @@
+{
+  MethodInfo mi=methodIndex.get(method);
+  if (mi == null) {
+    mi=typeInfo.getMethod(method);
+    if (mi == null) {
+      mi=MethodInfo.NULL_INFO;
+    }
+    methodIndex.put(method,mi);
+  }
+  return mi == MethodInfo.NULL_INFO ? null : mi;
+}

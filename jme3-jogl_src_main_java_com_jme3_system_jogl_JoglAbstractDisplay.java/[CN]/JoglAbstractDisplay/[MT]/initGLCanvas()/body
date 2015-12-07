@@ -1,7 +1,13 @@
 {
   loadNatives();
   device=GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-  GLCapabilities caps=new GLCapabilities(GLProfile.getMaxFixedFunc(true));
+  GLCapabilities caps;
+  if (settings.getRenderer().equals(AppSettings.JOGL_OPENGL_FORWARD_COMPATIBLE)) {
+    caps=new GLCapabilities(GLProfile.getMaxProgrammable(true));
+  }
+ else {
+    caps=new GLCapabilities(GLProfile.getMaxFixedFunc(true));
+  }
   caps.setHardwareAccelerated(true);
   caps.setDoubleBuffered(true);
   caps.setStencilBits(settings.getStencilBits());
@@ -33,52 +39,5 @@
   canvas.setSize(settings.getWidth(),settings.getHeight());
   canvas.setIgnoreRepaint(true);
   canvas.addGLEventListener(this);
-  if (settings.getBoolean("GraphicsDebug")) {
-    canvas.invoke(false,new GLRunnable(){
-      public boolean run(      GLAutoDrawable glad){
-        GL gl=glad.getGL();
-        if (gl.isGLES()) {
-          if (gl.isGLES1()) {
-            glad.setGL(new DebugGLES1(gl.getGLES1()));
-          }
- else {
-            if (gl.isGLES2()) {
-              glad.setGL(new DebugGLES2(gl.getGLES2()));
-            }
- else {
-            }
-          }
-        }
- else {
-          if (gl.isGL4bc()) {
-            glad.setGL(new DebugGL4bc(gl.getGL4bc()));
-          }
- else {
-            if (gl.isGL4()) {
-              glad.setGL(new DebugGL4(gl.getGL4()));
-            }
- else {
-              if (gl.isGL3bc()) {
-                glad.setGL(new DebugGL3bc(gl.getGL3bc()));
-              }
- else {
-                if (gl.isGL3()) {
-                  glad.setGL(new DebugGL3(gl.getGL3()));
-                }
- else {
-                  if (gl.isGL2()) {
-                    glad.setGL(new DebugGL2(gl.getGL2()));
-                  }
-                }
-              }
-            }
-          }
-        }
-        return true;
-      }
-    }
-);
-  }
-  renderer=new JoglRenderer();
-  renderer.setMainFrameBufferSrgb(settings.getGammaCorrection());
+  renderable.set(true);
 }

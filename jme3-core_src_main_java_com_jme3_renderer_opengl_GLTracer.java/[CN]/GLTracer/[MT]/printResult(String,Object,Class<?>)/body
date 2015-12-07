@@ -1,0 +1,18 @@
+{
+  if (returnType != void.class) {
+    print(" = ");
+    if (result instanceof String) {
+      printString((String)result);
+    }
+ else     if (returnType == int.class) {
+      int val=(Integer)result;
+      printIntOrEnum(methodName,val,-1);
+    }
+ else     if (returnType == boolean.class) {
+      printBoolean((Boolean)result);
+    }
+ else {
+      print(" = ???");
+    }
+  }
+}

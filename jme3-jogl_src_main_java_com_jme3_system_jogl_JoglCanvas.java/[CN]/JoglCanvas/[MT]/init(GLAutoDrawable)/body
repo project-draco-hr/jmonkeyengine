@@ -2,6 +2,9 @@
   canvas.requestFocus();
   super.internalCreate();
   logger.fine("Display created.");
-  renderer.initialize();
+  if (runningFirstTime) {
+    initContextFirstTime();
+    runningFirstTime=false;
+  }
   listener.initialize();
 }

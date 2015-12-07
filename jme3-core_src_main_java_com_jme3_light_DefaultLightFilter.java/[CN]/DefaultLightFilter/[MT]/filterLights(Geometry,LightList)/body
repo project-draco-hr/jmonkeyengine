@@ -20,7 +20,9 @@
       }
  else       if (bv instanceof BoundingSphere) {
         if (!Float.isInfinite(((BoundingSphere)bv).getRadius())) {
-          throw new UnsupportedOperationException("Only AABB supported for now");
+          if (!light.intersectsSphere((BoundingSphere)bv,vars)) {
+            continue;
+          }
         }
       }
       filteredLightList.add(light);

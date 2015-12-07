@@ -1,0 +1,13 @@
+{
+  if ("/shutdown".equals(command)) {
+    server.broadcast(new ChatMessage("server","Server is shutting down."));
+    close();
+  }
+ else   if ("/help".equals(command)) {
+    StringBuilder sb=new StringBuilder();
+    sb.append("Chat commands:\n");
+    sb.append("/help - prints this message.\n");
+    sb.append("/shutdown - shuts down the server.");
+    server.broadcast(new ChatMessage("server",sb.toString()));
+  }
+}

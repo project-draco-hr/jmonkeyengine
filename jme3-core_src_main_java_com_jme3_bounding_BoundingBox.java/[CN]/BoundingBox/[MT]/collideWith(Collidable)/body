@@ -10,6 +10,9 @@
     }
     return 0;
   }
+ else   if (other instanceof BoundingVolume) {
+    return intersects((BoundingVolume)other) ? 1 : 0;
+  }
  else {
     throw new UnsupportedCollisionException("With: " + other.getClass().getSimpleName());
   }

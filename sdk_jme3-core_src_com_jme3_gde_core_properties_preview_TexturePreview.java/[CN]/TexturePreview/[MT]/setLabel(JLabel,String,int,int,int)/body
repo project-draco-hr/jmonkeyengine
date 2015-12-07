@@ -1,0 +1,14 @@
+{
+  java.awt.EventQueue.invokeLater(new Runnable(){
+    @Override public void run(){
+      if (label != null) {
+        String labText=" " + text + "    w : "+ width+ "    h : "+ height;
+        if (depth > 0) {
+          labText+="    d : " + depth;
+        }
+        label.setText(labText);
+      }
+    }
+  }
+);
+}

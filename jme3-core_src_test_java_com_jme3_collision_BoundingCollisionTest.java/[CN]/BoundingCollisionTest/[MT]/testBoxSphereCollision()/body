@@ -1,0 +1,15 @@
+{
+  BoundingBox box1=new BoundingBox(Vector3f.ZERO,1,1,1);
+  BoundingSphere sphere2=new BoundingSphere(1,Vector3f.ZERO);
+  checkCollision(box1,sphere2,1);
+  sphere2.setCenter(new Vector3f(2f,0f,0f));
+  checkCollision(box1,sphere2,0);
+  sphere2.setCenter(new Vector3f(2f - FastMath.ZERO_TOLERANCE,0,0));
+  checkCollision(box1,sphere2,1);
+  float sqrt3=FastMath.sqrt(3);
+  sphere2.setCenter(Vector3f.UNIT_XYZ.mult(2));
+  sphere2.setRadius(sqrt3);
+  checkCollision(box1,sphere2,0);
+  sphere2.setRadius(sqrt3 + FastMath.ZERO_TOLERANCE);
+  checkCollision(box1,sphere2,1);
+}

@@ -1,0 +1,9 @@
+{
+  if (objectId == rmiId) {
+    rmiUpdate(procId,args);
+    return null;
+  }
+ else {
+    return invokeLocal(objectId,procId,args);
+  }
+}

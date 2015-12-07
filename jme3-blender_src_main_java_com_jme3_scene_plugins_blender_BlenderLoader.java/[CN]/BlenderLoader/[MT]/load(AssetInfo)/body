@@ -1,11 +1,11 @@
 {
   try {
-    this.setup(assetInfo);
+    BlenderContext blenderContext=this.setup(assetInfo);
     AnimationHelper animationHelper=blenderContext.getHelper(AnimationHelper.class);
     animationHelper.loadAnimations();
     BlenderKey blenderKey=blenderContext.getBlenderKey();
     LoadedFeatures loadedFeatures=new LoadedFeatures();
-    for (    FileBlockHeader block : blocks) {
+    for (    FileBlockHeader block : blenderContext.getBlocks()) {
 switch (block.getCode()) {
 case BLOCK_OB00:
         ObjectHelper objectHelper=blenderContext.getHelper(ObjectHelper.class);
@@ -87,7 +87,7 @@ ConstraintHelper constraintHelper=blenderContext.getHelper(ConstraintHelper.clas
 constraintHelper.bakeConstraints(blenderContext);
 LOGGER.fine("Loading scenes and attaching them to the root object.");
 for (FileBlockHeader sceneBlock : loadedFeatures.sceneBlocks) {
-loadedFeatures.scenes.add(this.toScene(sceneBlock.getStructure(blenderContext)));
+loadedFeatures.scenes.add(this.toScene(sceneBlock.getStructure(blenderContext),blenderContext));
 }
 LOGGER.fine("Creating the root node of the model and applying loaded nodes of the scene and loaded features to it.");
 Node modelRoot=new Node(blenderKey.getName());
@@ -123,6 +123,6 @@ catch (Exception e) {
 throw new IOException("Unexpected importer exception occured: " + e.getLocalizedMessage(),e);
 }
  finally {
-this.clear();
+this.clear(assetInfo);
 }
 }

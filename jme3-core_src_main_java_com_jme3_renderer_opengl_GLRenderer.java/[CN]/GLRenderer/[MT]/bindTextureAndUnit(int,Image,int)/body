@@ -1,0 +1,14 @@
+{
+  if (context.boundTextureUnit != unit) {
+    gl.glActiveTexture(GL.GL_TEXTURE0 + unit);
+    context.boundTextureUnit=unit;
+  }
+  if (context.boundTextures[unit] != img) {
+    gl.glBindTexture(target,img.getId());
+    context.boundTextures[unit]=img;
+    statistics.onTextureUse(img,true);
+  }
+ else {
+    statistics.onTextureUse(img,false);
+  }
+}
