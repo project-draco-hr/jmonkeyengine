@@ -1,8 +1,13 @@
 {
   this.msgId=msgId;
-  StringWriter sOut=new StringWriter();
-  PrintWriter out=new PrintWriter(sOut);
-  t.printStackTrace(out);
-  out.close();
-  this.error=sOut.toString();
+  if (isSerializable(t)) {
+    this.exception=t;
+  }
+ else {
+    StringWriter sOut=new StringWriter();
+    PrintWriter out=new PrintWriter(sOut);
+    t.printStackTrace(out);
+    out.close();
+    this.error=sOut.toString();
+  }
 }

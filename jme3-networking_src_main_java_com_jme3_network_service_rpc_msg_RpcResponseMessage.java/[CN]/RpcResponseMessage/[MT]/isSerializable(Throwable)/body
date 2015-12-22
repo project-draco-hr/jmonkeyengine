@@ -1,0 +1,11 @@
+{
+  if (error == null) {
+    return false;
+  }
+  for (Throwable t=error; t != null; t=t.getCause()) {
+    if (Serializer.getExactSerializerRegistration(t.getClass()) == null) {
+      return false;
+    }
+  }
+  return true;
+}
