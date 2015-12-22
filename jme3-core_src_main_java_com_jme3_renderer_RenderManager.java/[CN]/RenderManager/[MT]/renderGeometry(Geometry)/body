@@ -11,6 +11,7 @@
     lightFilter.filterLights(g,filteredLightList);
     lightList=filteredLightList;
   }
+  renderer.getStatistics().onLights(lightList.size());
   if (forcedTechnique != null) {
     if (g.getMaterial().getMaterialDef().getTechniqueDef(forcedTechnique) != null) {
       tmpTech=g.getMaterial().getActiveTechnique() != null ? g.getMaterial().getActiveTechnique().getDef().getName() : "Default";
