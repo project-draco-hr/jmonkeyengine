@@ -1,8 +1,17 @@
 {
   try {
-    clazz.getConstructor();
+    savedCtors.put(clazz,clazz.getConstructor());
+    return;
   }
  catch (  NoSuchMethodException e) {
-    throw new RuntimeException("Registration error: no-argument constructor not found on:" + clazz);
   }
+  try {
+    Constructor ctor=clazz.getDeclaredConstructor();
+    ctor.setAccessible(true);
+    savedCtors.put(clazz,ctor);
+    return;
+  }
+ catch (  NoSuchMethodException e) {
+  }
+  throw new RuntimeException("Registration error: no-argument constructor not found on:" + clazz);
 }

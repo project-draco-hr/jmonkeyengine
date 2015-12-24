@@ -3,7 +3,8 @@
   SavedField[] fields=savedFields.get(c);
   T object;
   try {
-    object=c.newInstance();
+    Constructor<T> ctor=(Constructor<T>)savedCtors.get(c);
+    object=ctor.newInstance();
   }
  catch (  Exception e) {
     throw new SerializerException("Error creating object of type:" + c,e);
