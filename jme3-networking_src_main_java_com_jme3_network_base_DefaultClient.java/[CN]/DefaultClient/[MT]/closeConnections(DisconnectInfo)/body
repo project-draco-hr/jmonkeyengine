@@ -1,14 +1,16 @@
 {
-  if (!isRunning)   return;
-  if (services.isStarted()) {
-    services.stop();
+synchronized (this) {
+    if (!isRunning)     return;
+    if (services.isStarted()) {
+      services.stop();
+    }
+    for (    ConnectorAdapter ca : channels) {
+      if (ca == null)       continue;
+      ca.close();
+    }
+    connecting.countDown();
+    isRunning=false;
+    services.terminate();
   }
-  for (  ConnectorAdapter ca : channels) {
-    if (ca == null)     continue;
-    ca.close();
-  }
-  connecting.countDown();
   fireDisconnected(info);
-  isRunning=false;
-  services.terminate();
 }
