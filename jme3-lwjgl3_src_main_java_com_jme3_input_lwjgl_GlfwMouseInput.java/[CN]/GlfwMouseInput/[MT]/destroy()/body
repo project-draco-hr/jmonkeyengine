@@ -5,5 +5,8 @@
   cursorPosCallback.release();
   scrollCallback.release();
   mouseButtonCallback.release();
+  for (  long glfwCursor : jmeToGlfwCursorMap.values()) {
+    glfwDestroyCursor(glfwCursor);
+  }
   logger.fine("Mouse destroyed.");
 }

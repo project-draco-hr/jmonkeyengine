@@ -3,11 +3,21 @@
     if (renderer != null) {
       renderer.cleanup();
     }
-    errorCallback.release();
-    windowSizeCallback.release();
-    windowFocusCallback.release();
-    if (window != 0) {
+    if (errorCallback != null) {
+      errorCallback.release();
+      errorCallback=null;
+    }
+    if (windowSizeCallback != null) {
+      windowSizeCallback.release();
+      windowSizeCallback=null;
+    }
+    if (windowFocusCallback != null) {
+      windowFocusCallback.release();
+      windowFocusCallback=null;
+    }
+    if (window != NULL) {
       glfwDestroyWindow(window);
+      window=NULL;
     }
   }
  catch (  Exception ex) {

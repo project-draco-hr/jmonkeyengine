@@ -3,18 +3,18 @@
     throw new IllegalStateException("SystemListener is not set on context!" + "Must set with JmeContext.setSystemListener().");
   }
   loadNatives();
-  LOGGER.log(Level.FINE,"Using LWJGL {0}",Sys.getVersion());
+  LOGGER.log(Level.FINE,"Using LWJGL {0}",Version.getVersion());
   if (!initInThread()) {
     LOGGER.log(Level.SEVERE,"Display initialization failed. Cannot continue.");
     return;
   }
   while (true) {
-    if (glfwWindowShouldClose(window) == GL_TRUE) {
-      listener.requestClose(false);
-    }
     runLoop();
     if (needClose.get()) {
       break;
+    }
+    if (glfwWindowShouldClose(window) == GL_TRUE) {
+      listener.requestClose(false);
     }
   }
   deinitInThread();

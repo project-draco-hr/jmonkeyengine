@@ -2,15 +2,18 @@
   if (JmeSystem.isLowPermissions()) {
     return;
   }
+  String extractPath=NativeLibraryLoader.getExtractionFolder().getAbsolutePath();
   if ("LWJGL".equals(settings.getAudioRenderer())) {
     NativeLibraryLoader.loadNativeLibrary("openal",true);
   }
   if (settings.useJoysticks()) {
-    NativeLibraryLoader.loadNativeLibrary("jinput",true);
-    NativeLibraryLoader.loadNativeLibrary("jinput-dx8",true);
+    System.setProperty("net.java.games.input.librarypath",extractPath);
+    NativeLibraryLoader.loadNativeLibrary("jinput",true,false);
+    NativeLibraryLoader.loadNativeLibrary("jinput-dx8",true,false);
   }
   if (NativeLibraryLoader.isUsingNativeBullet()) {
     NativeLibraryLoader.loadNativeLibrary("bulletjme",true);
   }
-  NativeLibraryLoader.loadNativeLibrary("lwjgl",true);
+  System.setProperty("org.lwjgl.librarypath",extractPath);
+  NativeLibraryLoader.loadNativeLibrary("lwjgl",true,false);
 }

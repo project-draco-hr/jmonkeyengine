@@ -1,7 +1,9 @@
 {
-  if (buffer.position() != 0)   throw new AssertionError();
-  if (buffer.limit() != size)   throw new AssertionError();
-  final long context=alcGetCurrentContext();
-  final long device=alcGetContextsDevice(context);
-  final int value=ALC10.alcGetInteger(device,param);
+  if (buffer.position() != 0) {
+    throw new AssertionError();
+  }
+  if (buffer.limit() != size) {
+    throw new AssertionError();
+  }
+  ALC10.alcGetIntegerv(deviceId,param,buffer);
 }

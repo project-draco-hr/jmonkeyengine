@@ -1,4 +1,7 @@
 {
   device=ALDevice.create();
   context=ALContext.create(device);
+  context.makeCurrent();
+  contextId=ALC10.alcGetCurrentContext();
+  deviceId=ALC10.alcGetContextsDevice(contextId);
 }
