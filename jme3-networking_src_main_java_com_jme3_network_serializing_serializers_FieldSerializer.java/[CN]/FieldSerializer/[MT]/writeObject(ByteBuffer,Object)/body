@@ -11,9 +11,12 @@
       val=savedField.field.get(object);
     }
  catch (    IllegalAccessException e) {
-      e.printStackTrace();
+      throw new SerializerException("Unable to access field:" + savedField.field + " on:"+ object,e);
     }
     Serializer serializer=savedField.serializer;
+    if (log.isLoggable(Level.FINER)) {
+      log.log(Level.FINER,"Writing field:{0} using serializer:{1}",new Object[]{savedField.field,serializer});
+    }
     try {
       if (serializer != null) {
         serializer.writeObject(buffer,val);
