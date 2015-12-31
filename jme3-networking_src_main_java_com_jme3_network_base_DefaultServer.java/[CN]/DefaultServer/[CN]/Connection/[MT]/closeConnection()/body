@@ -2,7 +2,7 @@
   if (closed)   return;
   closed=true;
   for (  Endpoint p : channels) {
-    if (p == null)     continue;
+    if (p == null || !p.isConnected())     continue;
     p.close();
   }
   fireConnectionRemoved(this);
