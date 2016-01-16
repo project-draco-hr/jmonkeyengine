@@ -1,5 +1,6 @@
 {
   log.log(Level.SEVERE,"Unhandled error, endpoint:" + p + ", context:"+ context,e);
-  System.out.println("Is p connected:" + p.isConnected());
-  p.close();
+  if (p.isConnected()) {
+    p.close();
+  }
 }
