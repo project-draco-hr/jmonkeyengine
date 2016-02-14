@@ -1,0 +1,9 @@
+{
+  Geometry geom=new Geometry("Box",new Box(1,1,1));
+  Material material=new Material(getAssetManager(),"/Common/MatDefs/Misc/Unshaded.j3md");
+  material.setColor("Color",ColorRGBA.Blue);
+  geom.setMaterial(material);
+  getRootNode().attachChild(geom);
+  exampleAsyncTask=new ExampleAsyncTask(material);
+  exampleAsyncTask.getThread().start();
+}
