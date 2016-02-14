@@ -1,0 +1,15 @@
+{
+  while (running) {
+    enqueue(new Runnable(){
+      public void run(){
+        material.setColor("Color",ColorRGBA.randomColor());
+      }
+    }
+);
+    try {
+      Thread.sleep(1000);
+    }
+ catch (    InterruptedException e) {
+    }
+  }
+}
