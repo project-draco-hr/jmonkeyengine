@@ -4,4 +4,10 @@
   }
   data=audioData;
   this.audioKey=audioKey;
+  if (audioKey.isStream()) {
+    type=Type.Streaming;
+  }
+ else {
+    type=Type.Buffered;
+  }
 }

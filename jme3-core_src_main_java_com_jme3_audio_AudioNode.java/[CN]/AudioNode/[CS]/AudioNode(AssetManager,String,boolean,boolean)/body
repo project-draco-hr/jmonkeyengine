@@ -1,4 +1,10 @@
 {
   this.audioKey=new AudioKey(name,stream,streamCache);
   this.data=(AudioData)assetManager.loadAsset(audioKey);
+  if (stream) {
+    type=Type.Streaming;
+  }
+ else {
+    type=Type.Buffered;
+  }
 }
