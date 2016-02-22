@@ -9,7 +9,7 @@
     return;
   }
   updateRenderState(renderManager,renderer,techniqueDef);
-  Shader shader=technique.makeCurrent(renderManager,rendererCaps);
+  Shader shader=technique.makeCurrent(renderManager,lights,rendererCaps);
   clearUniformsSetByCurrent(shader);
   renderManager.updateUniformBindings(shader);
   updateShaderMaterialParameters(renderer,shader);

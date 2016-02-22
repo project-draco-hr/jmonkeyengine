@@ -8,7 +8,7 @@
   if (techniqueDef.isNoRender()) {
     return;
   }
-  Shader shader=technique.makeCurrent(renderManager,rendererCaps);
+  Shader shader=technique.makeCurrent(renderManager,null,rendererCaps);
   updateShaderMaterialParameters(renderer,shader);
   renderManager.getRenderer().setShader(shader);
 }
