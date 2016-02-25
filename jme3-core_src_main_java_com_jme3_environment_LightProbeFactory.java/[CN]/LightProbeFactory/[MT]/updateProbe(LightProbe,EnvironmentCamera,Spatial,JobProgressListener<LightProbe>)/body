@@ -1,7 +1,7 @@
 {
   envCam.setPosition(probe.getPosition());
   probe.setReady(false);
-  if (probe.getIrradianceMap() == null) {
+  if (probe.getIrradianceMap() != null) {
     probe.getIrradianceMap().getImage().dispose();
     probe.getPrefilteredEnvMap().getImage().dispose();
   }
