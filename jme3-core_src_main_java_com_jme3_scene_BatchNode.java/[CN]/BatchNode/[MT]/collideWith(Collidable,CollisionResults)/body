@@ -1,0 +1,9 @@
+{
+  int total=0;
+  for (  Spatial child : children.getArray()) {
+    if (!isBatch(child)) {
+      total+=child.collideWith(other,results);
+    }
+  }
+  return total;
+}
