@@ -8,10 +8,17 @@
       BoneContext boneContext=blenderContext.getBoneContext(bone);
       this.add(boneContext);
       alteredOmas.add(boneContext.getBoneOma());
-      Space space=this.size() < bonesAffected ? Space.CONSTRAINT_SPACE_LOCAL : Space.CONSTRAINT_SPACE_WORLD;
-      Transform transform=constraintHelper.getTransform(boneContext.getArmatureObjectOMA(),boneContext.getBone().getName(),space);
-      bonesMatrices.add(new DTransform(transform).toMatrix());
+      Transform transform=constraintHelper.getTransform(boneContext.getArmatureObjectOMA(),boneContext.getBone().getName(),Space.CONSTRAINT_SPACE_WORLD);
+      localBonesMatrices.add(new DTransform(transform).toMatrix());
       bone=bone.getParent();
+    }
+    if (localBonesMatrices.size() > 0) {
+      Matrix parentWorldMatrix=localBonesMatrices.get(localBonesMatrices.size() - 1);
+      for (int i=localBonesMatrices.size() - 2; i >= 0; --i) {
+        SimpleMatrix m=parentWorldMatrix.invert().mult(localBonesMatrices.get(i));
+        parentWorldMatrix=localBonesMatrices.get(i);
+        localBonesMatrices.set(i,new Matrix(m));
+      }
     }
   }
 }

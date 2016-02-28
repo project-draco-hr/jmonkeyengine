@@ -1,4 +1,7 @@
 {
+  if (log.isLoggable(Level.FINER)) {
+    log.log(Level.FINER,"{0} received:{1}",new Object[]{source,m});
+  }
   if (source == null) {
     messageListeners.messageReceived(source,m);
   }

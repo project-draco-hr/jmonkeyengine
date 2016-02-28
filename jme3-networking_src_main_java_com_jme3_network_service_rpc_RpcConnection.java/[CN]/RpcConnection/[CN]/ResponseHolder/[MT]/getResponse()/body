@@ -10,5 +10,8 @@
   if (error != null) {
     throw new RuntimeException("Error calling remote procedure:" + msg + "\n"+ error);
   }
+  if (exception != null) {
+    throw new RuntimeException("Error calling remote procedure:" + msg,exception);
+  }
   return response;
 }

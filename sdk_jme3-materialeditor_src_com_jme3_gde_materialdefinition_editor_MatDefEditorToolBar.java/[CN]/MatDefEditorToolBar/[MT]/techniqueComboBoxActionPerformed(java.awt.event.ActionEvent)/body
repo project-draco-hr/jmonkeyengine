@@ -1,3 +1,15 @@
 {
+  if (techniqueComboBox.getSelectedItem() == null) {
+    if (techniqueComboBox.getItemCount() > 0) {
+      if (techniqueComboBox.getItemCount() > 1) {
+        logger.log(Level.WARNING,"No Technique selected, taking the first one!");
+      }
+      techniqueComboBox.setSelectedIndex(0);
+    }
+ else {
+      logger.log(Level.WARNING,"No Techniques known for this MaterialDef. Please add one using the button to the right!");
+      return;
+    }
+  }
   parent.switchTechnique((TechniqueBlock)techniqueComboBox.getSelectedItem());
 }

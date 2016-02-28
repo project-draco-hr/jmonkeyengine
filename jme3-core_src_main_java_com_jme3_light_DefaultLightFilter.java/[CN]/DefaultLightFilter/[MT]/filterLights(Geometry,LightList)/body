@@ -4,6 +4,9 @@
     LightList worldLights=geometry.getWorldLightList();
     for (int i=0; i < worldLights.size(); i++) {
       Light light=worldLights.get(i);
+      if (!light.isEnabled()) {
+        continue;
+      }
       if (light.frustumCheckNeeded) {
         processedLights.add(light);
         light.frustumCheckNeeded=false;

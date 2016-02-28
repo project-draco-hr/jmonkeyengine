@@ -14,7 +14,7 @@
     SceneApplication.getApplication().getRenderManager().preloadScene(dummyGeom);
   }
  catch (  RendererException e) {
-    Logger.getLogger(MaterialDebugAppState.class.getName()).log(Level.SEVERE,e.getMessage());
+    smartLog("{0}",e.getMessage());
     java.awt.EventQueue.invokeLater(new Runnable(){
       public void run(){
         label.setIcon(Icons.error);

@@ -6,6 +6,7 @@
     ducked=false;
   }
   TempVars vars=TempVars.get();
+  Vector3f currentVelocity=vars.vect2.set(velocity);
   float existingLeftVelocity=velocity.dot(localLeft);
   float existingForwardVelocity=velocity.dot(localForward);
   Vector3f counter=vars.vect1;
@@ -23,7 +24,7 @@
     localWalkDirection.multLocal(finalVelocity);
     velocity.addLocal(localWalkDirection);
   }
-  rigidBody.setLinearVelocity(velocity);
+  if (currentVelocity.distance(velocity) > FastMath.ZERO_TOLERANCE)   rigidBody.setLinearVelocity(velocity);
   if (jump) {
     Vector3f rotatedJumpForce=vars.vect1;
     rotatedJumpForce.set(jumpForce);

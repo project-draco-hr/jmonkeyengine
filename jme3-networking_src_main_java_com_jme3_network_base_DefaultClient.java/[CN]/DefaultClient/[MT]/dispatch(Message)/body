@@ -1,14 +1,17 @@
 {
+  if (log.isLoggable(Level.FINER)) {
+    log.log(Level.FINER,"{0} received:{1}",new Object[]{this,m});
+  }
   if (m instanceof ClientRegistrationMessage) {
     ClientRegistrationMessage crm=(ClientRegistrationMessage)m;
     if (crm.getId() >= 0) {
       this.id=(int)crm.getId();
       log.log(Level.FINE,"Connection established, id:{0}.",this.id);
       connecting.countDown();
-      fireConnected();
     }
  else {
       startServices();
+      fireConnected();
     }
     return;
   }

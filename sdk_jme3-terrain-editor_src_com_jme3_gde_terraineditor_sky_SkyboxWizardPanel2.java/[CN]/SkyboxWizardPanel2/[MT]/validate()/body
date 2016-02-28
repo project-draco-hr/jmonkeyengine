@@ -1,0 +1,77 @@
+{
+  SkyboxVisualPanel2 sky=(SkyboxVisualPanel2)component;
+  if (multipleTextures) {
+    if (sky.getEditorNorth().getAsText() == null) {
+      throw new WizardValidationException(null," Texture North: Missing texture!",null);
+    }
+    if (sky.getEditorSouth().getAsText() == null) {
+      throw new WizardValidationException(null," Texture South: Missing texture!",null);
+    }
+    if (sky.getEditorWest().getAsText() == null) {
+      throw new WizardValidationException(null," Texture West: Missing texture!",null);
+    }
+    if (sky.getEditorEast().getAsText() == null) {
+      throw new WizardValidationException(null," Texture East: Missing texture!",null);
+    }
+    if (sky.getEditorTop().getAsText() == null) {
+      throw new WizardValidationException(null," Texture Top: Missing texture!",null);
+    }
+    if (sky.getEditorBottom().getAsText() == null) {
+      throw new WizardValidationException(null," Texture Bottom: Missing texture!",null);
+    }
+    if (sky.getEditorNorth().getValue() == null || ((Texture)sky.getEditorNorth().getValue()).getImage() == null) {
+      throw new WizardValidationException(null," Texture North: Cannot load texture!",null);
+    }
+    if (sky.getEditorSouth().getValue() == null || ((Texture)sky.getEditorSouth().getValue()).getImage() == null) {
+      throw new WizardValidationException(null," Texture South: Cannot load texture!",null);
+    }
+    if (sky.getEditorWest().getValue() == null || ((Texture)sky.getEditorWest().getValue()).getImage() == null) {
+      throw new WizardValidationException(null," Texture West: Cannot load texture!",null);
+    }
+    if (sky.getEditorEast().getValue() == null || ((Texture)sky.getEditorEast().getValue()).getImage() == null) {
+      throw new WizardValidationException(null," Texture East: Cannot load texture!",null);
+    }
+    if (sky.getEditorTop().getValue() == null || ((Texture)sky.getEditorTop().getValue()).getImage() == null) {
+      throw new WizardValidationException(null," Texture Top: Cannot load texture!",null);
+    }
+    if (sky.getEditorBottom().getValue() == null || ((Texture)sky.getEditorBottom().getValue()).getImage() == null) {
+      throw new WizardValidationException(null," Texture Bottom: Cannot load texture!",null);
+    }
+    Image I=((Texture)sky.getEditorNorth().getValue()).getImage();
+    if (I.getWidth() != I.getHeight()) {
+      throw new WizardValidationException(null," Texture North: Image has to be a square (width == height)!",null);
+    }
+    I=((Texture)sky.getEditorSouth().getValue()).getImage();
+    if (I.getWidth() != I.getHeight()) {
+      throw new WizardValidationException(null," Texture South: Image has to be a square (width == height)!",null);
+    }
+    I=((Texture)sky.getEditorWest().getValue()).getImage();
+    if (I.getWidth() != I.getHeight()) {
+      throw new WizardValidationException(null," Texture West: Image has to be a square (width == height)!",null);
+    }
+    I=((Texture)sky.getEditorEast().getValue()).getImage();
+    if (I.getWidth() != I.getHeight()) {
+      throw new WizardValidationException(null," Texture East: Image has to be a square (width == height)!",null);
+    }
+    I=((Texture)sky.getEditorTop().getValue()).getImage();
+    if (I.getWidth() != I.getHeight()) {
+      throw new WizardValidationException(null," Texture Top: Image has to be a square (width == height)!",null);
+    }
+    I=((Texture)sky.getEditorBottom().getValue()).getImage();
+    if (I.getWidth() != I.getHeight()) {
+      throw new WizardValidationException(null," Texture Bottom: Image has to be a square (width == height)!",null);
+    }
+  }
+ else {
+    if (sky.getEditorSingle().getAsText() == null) {
+      throw new WizardValidationException(null," Single Texture: Missing texture!",null);
+    }
+    if (sky.getEditorSingle().getValue() == null || ((Texture)sky.getEditorSingle().getValue()).getImage() == null) {
+      throw new WizardValidationException(null," Single Texture: Cannot load texture!",null);
+    }
+    Image I=((Texture)sky.getEditorSingle().getValue()).getImage();
+    if (I.getWidth() != I.getHeight()) {
+      throw new WizardValidationException(null," Single Texture: Image has to be a square (width == height)!",null);
+    }
+  }
+}
