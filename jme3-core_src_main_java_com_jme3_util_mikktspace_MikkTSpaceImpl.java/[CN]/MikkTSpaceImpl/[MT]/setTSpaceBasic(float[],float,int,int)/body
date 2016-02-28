@@ -1,0 +1,10 @@
+{
+  int vertIndex=getIndex(face,vert);
+  VertexBuffer tangentBuffer=mesh.getBuffer(VertexBuffer.Type.Tangent);
+  FloatBuffer tan=(FloatBuffer)tangentBuffer.getData();
+  tan.position(vertIndex * 4);
+  tan.put(tangent);
+  tan.put(sign);
+  tan.rewind();
+  tangentBuffer.setUpdateNeeded();
+}

@@ -1,0 +1,37 @@
+{
+  int iNumUniqueVerts=0;
+  for (int t=0; t < iNrTrianglesIn; t++) {
+    for (int i=0; i < 3; i++) {
+      final int offs=t * 3 + i;
+      final int index=piTriList_in_and_out[offs];
+      final Vector3f vP=getPosition(mikkTSpace,index);
+      final Vector3f vN=getNormal(mikkTSpace,index);
+      final Vector3f vT=getTexCoord(mikkTSpace,index);
+      boolean bFound=false;
+      int t2=0, index2rec=-1;
+      while (!bFound && t2 <= t) {
+        int j=0;
+        while (!bFound && j < 3) {
+          final int index2=piTriList_in_and_out[t2 * 3 + j];
+          final Vector3f vP2=getPosition(mikkTSpace,index2);
+          final Vector3f vN2=getNormal(mikkTSpace,index2);
+          final Vector3f vT2=getTexCoord(mikkTSpace,index2);
+          if (vP.equals(vP2) && vN.equals(vN2) && vT.equals(vT2)) {
+            bFound=true;
+          }
+ else {
+            ++j;
+          }
+        }
+        if (!bFound) {
+          ++t2;
+        }
+      }
+      assert(bFound);
+      if (index2rec == index) {
+        ++iNumUniqueVerts;
+      }
+      piTriList_in_and_out[offs]=index2rec;
+    }
+  }
+}

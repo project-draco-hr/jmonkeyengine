@@ -1,0 +1,11 @@
+{
+  final Vector3f t1=getTexCoord(mikkTSpace,indices[0]);
+  final Vector3f t2=getTexCoord(mikkTSpace,indices[1]);
+  final Vector3f t3=getTexCoord(mikkTSpace,indices[2]);
+  final float t21x=t2.x - t1.x;
+  final float t21y=t2.y - t1.y;
+  final float t31x=t3.x - t1.x;
+  final float t31y=t3.y - t1.y;
+  final float fSignedAreaSTx2=t21x * t31y - t21y * t31x;
+  return fSignedAreaSTx2 < 0 ? (-fSignedAreaSTx2) : fSignedAreaSTx2;
+}
