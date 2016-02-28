@@ -1,0 +1,8 @@
+{
+  int vertIndex=getIndex(face,vert);
+  VertexBuffer texCoord=mesh.getBuffer(VertexBuffer.Type.TexCoord);
+  FloatBuffer tex=(FloatBuffer)texCoord.getData();
+  tex.position(vertIndex * 2);
+  texOut[0]=tex.get();
+  texOut[1]=tex.get();
+}

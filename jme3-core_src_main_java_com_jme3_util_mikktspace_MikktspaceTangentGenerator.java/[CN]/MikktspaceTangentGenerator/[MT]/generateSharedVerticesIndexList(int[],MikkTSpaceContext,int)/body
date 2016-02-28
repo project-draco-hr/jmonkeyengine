@@ -1,0 +1,99 @@
+{
+  TmpVert[] pTmpVert;
+  Vector3f vMin=getPosition(mikkTSpace,0);
+  Vector3f vMax=vMin.clone();
+  Vector3f vDim;
+  float fMin, fMax;
+  for (int i=1; i < (iNrTrianglesIn * 3); i++) {
+    final int index=piTriList_in_and_out[i];
+    final Vector3f vP=getPosition(mikkTSpace,index);
+    if (vMin.x > vP.x) {
+      vMin.x=vP.x;
+    }
+ else     if (vMax.x < vP.x) {
+      vMax.x=vP.x;
+    }
+    if (vMin.y > vP.y) {
+      vMin.y=vP.y;
+    }
+ else     if (vMax.y < vP.y) {
+      vMax.y=vP.y;
+    }
+    if (vMin.z > vP.z) {
+      vMin.z=vP.z;
+    }
+ else     if (vMax.z < vP.z) {
+      vMax.z=vP.z;
+    }
+  }
+  vDim=vMax.subtract(vMin);
+  int iChannel=0;
+  fMin=vMin.x;
+  fMax=vMax.x;
+  if (vDim.y > vDim.x && vDim.y > vDim.z) {
+    iChannel=1;
+    fMin=vMin.y;
+    fMax=vMax.y;
+  }
+ else   if (vDim.z > vDim.x) {
+    iChannel=2;
+    fMin=vMin.z;
+    fMax=vMax.z;
+  }
+  int[] piHashTable=new int[iNrTrianglesIn * 3];
+  int[] piHashCount=new int[CELLS];
+  int[] piHashOffsets=new int[CELLS];
+  int[] piHashCount2=new int[CELLS];
+  for (int i=0; i < (iNrTrianglesIn * 3); i++) {
+    final int index=piTriList_in_and_out[i];
+    final Vector3f vP=getPosition(mikkTSpace,index);
+    final float fVal=iChannel == 0 ? vP.x : (iChannel == 1 ? vP.y : vP.z);
+    final int iCell=findGridCell(fMin,fMax,fVal);
+    ++piHashCount[iCell];
+  }
+  piHashOffsets[0]=0;
+  for (int k=1; k < CELLS; k++) {
+    piHashOffsets[k]=piHashOffsets[k - 1] + piHashCount[k - 1];
+  }
+  for (int i=0; i < (iNrTrianglesIn * 3); i++) {
+    final int index=piTriList_in_and_out[i];
+    final Vector3f vP=getPosition(mikkTSpace,index);
+    final float fVal=iChannel == 0 ? vP.x : (iChannel == 1 ? vP.y : vP.z);
+    final int iCell=findGridCell(fMin,fMax,fVal);
+    assert(piHashCount2[iCell] < piHashCount[iCell]);
+    piHashTable[piHashOffsets[iCell] + piHashCount2[iCell]]=i;
+    ++piHashCount2[iCell];
+  }
+  for (int k=0; k < CELLS; k++) {
+    assert(piHashCount2[k] == piHashCount[k]);
+  }
+  int iMaxCount=piHashCount[0];
+  for (int k=1; k < CELLS; k++) {
+    if (iMaxCount < piHashCount[k]) {
+      iMaxCount=piHashCount[k];
+    }
+  }
+  pTmpVert=new TmpVert[iMaxCount];
+  for (int k=0; k < CELLS; k++) {
+    final int iEntries=piHashCount[k];
+    if (iEntries < 2) {
+      continue;
+    }
+    if (pTmpVert != null) {
+      for (int e=0; e < iEntries; e++) {
+        int j=piHashTable[piHashOffsets[k] + e];
+        final Vector3f vP=getPosition(mikkTSpace,piTriList_in_and_out[j]);
+        pTmpVert[e]=new TmpVert();
+        pTmpVert[e].vert[0]=vP.x;
+        pTmpVert[e].vert[1]=vP.y;
+        pTmpVert[e].vert[2]=vP.z;
+        pTmpVert[e].index=j;
+      }
+      MergeVertsFast(piTriList_in_and_out,pTmpVert,mikkTSpace,0,iEntries - 1);
+    }
+ else {
+      int[] pTable=Arrays.copyOfRange(piHashTable,piHashOffsets[k],piHashOffsets[k] + iEntries);
+      MergeVertsSlow(piTriList_in_and_out,mikkTSpace,pTable,iEntries);
+    }
+  }
+}

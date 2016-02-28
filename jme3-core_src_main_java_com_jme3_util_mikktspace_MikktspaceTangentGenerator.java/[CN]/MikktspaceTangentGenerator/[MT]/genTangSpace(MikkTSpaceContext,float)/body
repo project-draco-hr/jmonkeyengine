@@ -1,0 +1,76 @@
+{
+  int[] piTriListIn;
+  int[] piGroupTrianglesBuffer;
+  TriInfo[] pTriInfos;
+  Group[] pGroups;
+  TSpace[] psTspace;
+  int iNrTrianglesIn=0;
+  int iNrTSPaces, iTotTris, iDegenTriangles, iNrMaxGroups;
+  int iNrActiveGroups, index;
+  final int iNrFaces=mikkTSpace.getNumFaces();
+  final float fThresCos=(float)FastMath.cos((angularThreshold * (float)FastMath.PI) / 180.0f);
+  for (int f=0; f < iNrFaces; f++) {
+    final int verts=mikkTSpace.getNumVerticesOfFace(f);
+    if (verts == 3) {
+      ++iNrTrianglesIn;
+    }
+ else     if (verts == 4) {
+      iNrTrianglesIn+=2;
+    }
+  }
+  if (iNrTrianglesIn <= 0) {
+    return false;
+  }
+  piTriListIn=new int[3 * iNrTrianglesIn];
+  pTriInfos=new TriInfo[iNrTrianglesIn];
+  iNrTSPaces=generateInitialVerticesIndexList(pTriInfos,piTriListIn,mikkTSpace,iNrTrianglesIn);
+  generateSharedVerticesIndexList(piTriListIn,mikkTSpace,iNrTrianglesIn);
+  iTotTris=iNrTrianglesIn;
+  iDegenTriangles=0;
+  for (int t=0; t < iTotTris; t++) {
+    final int i0=piTriListIn[t * 3 + 0];
+    final int i1=piTriListIn[t * 3 + 1];
+    final int i2=piTriListIn[t * 3 + 2];
+    final Vector3f p0=getPosition(mikkTSpace,i0);
+    final Vector3f p1=getPosition(mikkTSpace,i1);
+    final Vector3f p2=getPosition(mikkTSpace,i2);
+    if (p0.equals(p1) || p0.equals(p2) || p1.equals(p2)) {
+      pTriInfos[t].flag|=MARK_DEGENERATE;
+      ++iDegenTriangles;
+    }
+  }
+  iNrTrianglesIn=iTotTris - iDegenTriangles;
+  degenPrologue(pTriInfos,piTriListIn,iNrTrianglesIn,iTotTris);
+  initTriInfo(pTriInfos,piTriListIn,mikkTSpace,iNrTrianglesIn);
+  iNrMaxGroups=iNrTrianglesIn * 3;
+  pGroups=new Group[iNrMaxGroups];
+  piGroupTrianglesBuffer=new int[iNrTrianglesIn * 3];
+  iNrActiveGroups=build4RuleGroups(pTriInfos,pGroups,piGroupTrianglesBuffer,piTriListIn,iNrTrianglesIn);
+  psTspace=new TSpace[iNrTSPaces];
+  for (int t=0; t < iNrTSPaces; t++) {
+    TSpace tSpace=new TSpace();
+    tSpace.os.set(1.0f,0.0f,0.0f);
+    tSpace.magS=1.0f;
+    tSpace.ot.set(0.0f,1.0f,0.0f);
+    tSpace.magT=1.0f;
+    psTspace[t]=tSpace;
+  }
+  generateTSpaces(psTspace,pTriInfos,pGroups,iNrActiveGroups,piTriListIn,fThresCos,mikkTSpace);
+  DegenEpilogue(psTspace,pTriInfos,piTriListIn,mikkTSpace,iNrTrianglesIn,iTotTris);
+  index=0;
+  for (int f=0; f < iNrFaces; f++) {
+    final int verts=mikkTSpace.getNumVerticesOfFace(f);
+    if (verts != 3 && verts != 4) {
+      continue;
+    }
+    for (int i=0; i < verts; i++) {
+      final TSpace pTSpace=psTspace[index];
+      float tang[]={pTSpace.os.x,pTSpace.os.y,pTSpace.os.z};
+      float bitang[]={pTSpace.ot.x,pTSpace.ot.y,pTSpace.ot.z};
+      mikkTSpace.setTSpace(tang,bitang,pTSpace.magS,pTSpace.magT,pTSpace.orient,f,i);
+      mikkTSpace.setTSpaceBasic(tang,pTSpace.orient == true ? 1.0f : (-1.0f),f,i);
+      ++index;
+    }
+  }
+  return true;
+}

@@ -1,0 +1,8 @@
+{
+  this.mesh=mesh;
+  VertexBuffer tangentBuffer=mesh.getBuffer(VertexBuffer.Type.Tangent);
+  if (tangentBuffer == null) {
+    FloatBuffer fb=BufferUtils.createFloatBuffer(mesh.getVertexCount() * 4);
+    mesh.setBuffer(VertexBuffer.Type.Tangent,4,fb);
+  }
+}
