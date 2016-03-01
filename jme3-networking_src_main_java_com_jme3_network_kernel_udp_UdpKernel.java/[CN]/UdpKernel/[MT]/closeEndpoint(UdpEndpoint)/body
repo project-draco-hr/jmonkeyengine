@@ -3,7 +3,5 @@
   log.log(Level.FINE,"Closing endpoint:{0}.",p);
   log.log(Level.FINE,"Socket endpoints size:{0}",socketEndpoints.size());
   addEvent(EndpointEvent.createRemove(this,p));
-  if (!hasEnvelopes()) {
-    addEnvelope(EVENTS_PENDING);
-  }
+  wakeupReader();
 }

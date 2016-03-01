@@ -4,6 +4,7 @@
     thread.close();
     writer.shutdown();
     thread=null;
+    wakeupReader();
   }
  catch (  IOException e) {
     throw new KernelException("Error closing host connection:" + address,e);

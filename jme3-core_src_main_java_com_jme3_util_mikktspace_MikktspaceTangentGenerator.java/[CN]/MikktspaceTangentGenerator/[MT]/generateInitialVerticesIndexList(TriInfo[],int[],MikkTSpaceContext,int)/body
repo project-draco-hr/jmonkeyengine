@@ -1,0 +1,107 @@
+{
+  int iTSpacesOffs=0;
+  int iDstTriIndex=0;
+  for (int f=0; f < mikkTSpace.getNumFaces(); f++) {
+    final int verts=mikkTSpace.getNumVerticesOfFace(f);
+    if (verts != 3 && verts != 4) {
+      continue;
+    }
+    pTriInfos[iDstTriIndex]=new TriInfo();
+    pTriInfos[iDstTriIndex].orgFaceNumber=f;
+    pTriInfos[iDstTriIndex].tSpacesOffs=iTSpacesOffs;
+    if (verts == 3) {
+      byte[] pVerts=pTriInfos[iDstTriIndex].vertNum;
+      pVerts[0]=0;
+      pVerts[1]=1;
+      pVerts[2]=2;
+      piTriList_out[iDstTriIndex * 3 + 0]=makeIndex(f,0);
+      piTriList_out[iDstTriIndex * 3 + 1]=makeIndex(f,1);
+      piTriList_out[iDstTriIndex * 3 + 2]=makeIndex(f,2);
+      ++iDstTriIndex;
+    }
+ else {
+{
+        pTriInfos[iDstTriIndex + 1].orgFaceNumber=f;
+        pTriInfos[iDstTriIndex + 1].tSpacesOffs=iTSpacesOffs;
+      }
+{
+        final int i0=makeIndex(f,0);
+        final int i1=makeIndex(f,1);
+        final int i2=makeIndex(f,2);
+        final int i3=makeIndex(f,3);
+        final Vector3f T0=getTexCoord(mikkTSpace,i0);
+        final Vector3f T1=getTexCoord(mikkTSpace,i1);
+        final Vector3f T2=getTexCoord(mikkTSpace,i2);
+        final Vector3f T3=getTexCoord(mikkTSpace,i3);
+        final float distSQ_02=T2.subtract(T0).lengthSquared();
+        final float distSQ_13=T3.subtract(T1).lengthSquared();
+        boolean bQuadDiagIs_02;
+        if (distSQ_02 < distSQ_13) {
+          bQuadDiagIs_02=true;
+        }
+ else         if (distSQ_13 < distSQ_02) {
+          bQuadDiagIs_02=false;
+        }
+ else {
+          final Vector3f P0=getPosition(mikkTSpace,i0);
+          final Vector3f P1=getPosition(mikkTSpace,i1);
+          final Vector3f P2=getPosition(mikkTSpace,i2);
+          final Vector3f P3=getPosition(mikkTSpace,i3);
+          final float distSQ_022=P2.subtract(P0).lengthSquared();
+          final float distSQ_132=P3.subtract(P1).lengthSquared();
+          bQuadDiagIs_02=distSQ_132 >= distSQ_022;
+        }
+        if (bQuadDiagIs_02) {
+{
+            byte[] pVerts_A=pTriInfos[iDstTriIndex].vertNum;
+            pVerts_A[0]=0;
+            pVerts_A[1]=1;
+            pVerts_A[2]=2;
+          }
+          piTriList_out[iDstTriIndex * 3 + 0]=i0;
+          piTriList_out[iDstTriIndex * 3 + 1]=i1;
+          piTriList_out[iDstTriIndex * 3 + 2]=i2;
+          ++iDstTriIndex;
+{
+            byte[] pVerts_B=pTriInfos[iDstTriIndex].vertNum;
+            pVerts_B[0]=0;
+            pVerts_B[1]=2;
+            pVerts_B[2]=3;
+          }
+          piTriList_out[iDstTriIndex * 3 + 0]=i0;
+          piTriList_out[iDstTriIndex * 3 + 1]=i2;
+          piTriList_out[iDstTriIndex * 3 + 2]=i3;
+          ++iDstTriIndex;
+        }
+ else {
+{
+            byte[] pVerts_A=pTriInfos[iDstTriIndex].vertNum;
+            pVerts_A[0]=0;
+            pVerts_A[1]=1;
+            pVerts_A[2]=3;
+          }
+          piTriList_out[iDstTriIndex * 3 + 0]=i0;
+          piTriList_out[iDstTriIndex * 3 + 1]=i1;
+          piTriList_out[iDstTriIndex * 3 + 2]=i3;
+          ++iDstTriIndex;
+{
+            byte[] pVerts_B=pTriInfos[iDstTriIndex].vertNum;
+            pVerts_B[0]=1;
+            pVerts_B[1]=2;
+            pVerts_B[2]=3;
+          }
+          piTriList_out[iDstTriIndex * 3 + 0]=i1;
+          piTriList_out[iDstTriIndex * 3 + 1]=i2;
+          piTriList_out[iDstTriIndex * 3 + 2]=i3;
+          ++iDstTriIndex;
+        }
+      }
+    }
+    iTSpacesOffs+=verts;
+    assert(iDstTriIndex <= iNrTrianglesIn);
+  }
+  for (int t=0; t < iNrTrianglesIn; t++) {
+    pTriInfos[t].flag=0;
+  }
+  return iTSpacesOffs;
+}

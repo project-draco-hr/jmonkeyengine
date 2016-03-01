@@ -1,3 +1,8 @@
 {
-  return getWorldParameters().getWorldParams();
+  WorldParametersBlock block=getWorldParameters();
+  if (block != null)   return getWorldParameters().getWorldParams();
+ else {
+    logger.log(Level.WARNING,"Unable to build ShaderNodes: Could not find any WorldParameters. Most likely the technique {0} is broken.",line);
+    return new ArrayList<WorldParamBlock>();
+  }
 }

@@ -1,0 +1,47 @@
+{
+  Edge sTmp;
+  final int iElems=iRight - iLeft + 1;
+  if (iElems < 2) {
+    return;
+  }
+ else   if (iElems == 2) {
+    if (pSortBuffer[iLeft].array[channel] > pSortBuffer[iRight].array[channel]) {
+      sTmp=pSortBuffer[iLeft];
+      pSortBuffer[iLeft]=pSortBuffer[iRight];
+      pSortBuffer[iRight]=sTmp;
+    }
+    return;
+  }
+  long t=uSeed & 31;
+  t=(uSeed << t) | (uSeed >> (32 - t));
+  uSeed=uSeed + t + 3;
+  uSeed=uSeed & 0xffffffffL;
+  int iL=iLeft;
+  int iR=iRight;
+  int n=(iR - iL) + 1;
+  assert(n >= 0);
+  int index=(int)(uSeed % n);
+  int iMid=pSortBuffer[index + iL].array[channel];
+  do {
+    while (pSortBuffer[iL].array[channel] < iMid) {
+      ++iL;
+    }
+    while (pSortBuffer[iR].array[channel] > iMid) {
+      --iR;
+    }
+    if (iL <= iR) {
+      sTmp=pSortBuffer[iL];
+      pSortBuffer[iL]=pSortBuffer[iR];
+      pSortBuffer[iR]=sTmp;
+      ++iL;
+      --iR;
+    }
+  }
+ while (iL <= iR);
+  if (iLeft < iR) {
+    quickSortEdges(pSortBuffer,iLeft,iR,channel,uSeed);
+  }
+  if (iL < iRight) {
+    quickSortEdges(pSortBuffer,iL,iRight,channel,uSeed);
+  }
+}

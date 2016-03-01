@@ -1,33 +1,38 @@
 {
   glfwSetErrorCallback(errorCallback=new GLFWErrorCallback(){
     @Override public void invoke(    int error,    long description){
-      final String message=Callbacks.errorCallbackDescriptionString(description);
+      final String message=GLFWErrorCallback.getDescription(description);
       listener.handleError(message,new Exception(message));
     }
   }
 );
-  if (glfwInit() != GL_TRUE) {
+  if (glfwInit() != GLFW_TRUE) {
     throw new IllegalStateException("Unable to initialize GLFW");
   }
   glfwDefaultWindowHints();
+  if (settings.getRenderer().equals(AppSettings.LWJGL_OPENGL3)) {
+    glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT,GLFW_TRUE);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,2);
+  }
+ else {
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,0);
+  }
+  if (settings.getBoolean("RendererDebug")) {
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT,GLFW_TRUE);
+  }
+  if (settings.isGammaCorrection()) {
+    glfwWindowHint(GLFW_SRGB_CAPABLE,GLFW_TRUE);
+  }
   glfwWindowHint(GLFW_VISIBLE,GL_FALSE);
-  long monitor=NULL;
-  if (settings.isFullscreen()) {
-    monitor=glfwGetPrimaryMonitor();
-  }
-  final ByteBuffer videoMode=glfwGetVideoMode(glfwGetPrimaryMonitor());
-  if (settings.getWidth() <= 0 || settings.getHeight() <= 0) {
-    settings.setResolution(GLFWvidmode.width(videoMode),GLFWvidmode.height(videoMode));
-  }
-  window=glfwCreateWindow(settings.getWidth(),settings.getHeight(),settings.getTitle(),monitor,NULL);
-  if (window == NULL) {
-    throw new RuntimeException("Failed to create the GLFW window");
-  }
-  glfwWindowHint(GLFW_RESIZABLE,settings.isResizable() ? GL_TRUE : GL_FALSE);
+  glfwWindowHint(GLFW_RESIZABLE,settings.isResizable() ? GLFW_TRUE : GLFW_FALSE);
+  glfwWindowHint(GLFW_DOUBLE_BUFFER,GLFW_TRUE);
   glfwWindowHint(GLFW_DEPTH_BITS,settings.getDepthBits());
   glfwWindowHint(GLFW_STENCIL_BITS,settings.getStencilBits());
   glfwWindowHint(GLFW_SAMPLES,settings.getSamples());
-  glfwWindowHint(GLFW_STEREO,settings.useStereo3D() ? GL_TRUE : GL_FALSE);
+  glfwWindowHint(GLFW_STEREO,settings.useStereo3D() ? GLFW_TRUE : GLFW_FALSE);
   glfwWindowHint(GLFW_REFRESH_RATE,settings.getFrequency());
   if (settings.getBitsPerPixel() == 24) {
     glfwWindowHint(GLFW_RED_BITS,8);
@@ -40,6 +45,25 @@
     glfwWindowHint(GLFW_BLUE_BITS,5);
   }
   glfwWindowHint(GLFW_ALPHA_BITS,settings.getAlphaBits());
+  long monitor=NULL;
+  if (settings.isFullscreen()) {
+    monitor=glfwGetPrimaryMonitor();
+  }
+  final GLFWVidMode videoMode=glfwGetVideoMode(glfwGetPrimaryMonitor());
+  if (settings.getWidth() <= 0 || settings.getHeight() <= 0) {
+    settings.setResolution(videoMode.width(),videoMode.height());
+  }
+  window=glfwCreateWindow(settings.getWidth(),settings.getHeight(),settings.getTitle(),monitor,NULL);
+  if (window == NULL) {
+    throw new RuntimeException("Failed to create the GLFW window");
+  }
+  glfwSetWindowSizeCallback(window,windowSizeCallback=new GLFWWindowSizeCallback(){
+    @Override public void invoke(    final long window,    final int width,    final int height){
+      settings.setResolution(width,height);
+      listener.reshape(width,height);
+    }
+  }
+);
   glfwSetWindowFocusCallback(window,windowFocusCallback=new GLFWWindowFocusCallback(){
     @Override public void invoke(    final long window,    final int focused){
       final boolean focus=(focused == GL_TRUE);
@@ -56,8 +80,8 @@
     }
   }
 );
-  if (!settings.isFullscreen() && Type.Display.equals(type)) {
-    glfwSetWindowPos(window,(GLFWvidmode.width(videoMode) - settings.getWidth()) / 2,(GLFWvidmode.height(videoMode) - settings.getHeight()) / 2);
+  if (!settings.isFullscreen()) {
+    glfwSetWindowPos(window,(videoMode.width() - settings.getWidth()) / 2,(videoMode.height() - settings.getHeight()) / 2);
   }
   glfwMakeContextCurrent(window);
   if (settings.isVSync()) {
@@ -69,12 +93,6 @@
   if (Type.Display.equals(type)) {
     glfwShowWindow(window);
   }
-  glfwSetWindowSizeCallback(window,windowSizeCallback=new GLFWWindowSizeCallback(){
-    @Override public void invoke(    final long window,    final int width,    final int height){
-      settings.setResolution(width,height);
-      listener.reshape(width,height);
-    }
-  }
-);
+  glfwShowWindow(window);
   allowSwapBuffers=settings.isSwapBuffers();
 }

@@ -1,7 +1,7 @@
 {
   Map<Material,List<Geometry>> matMap=new HashMap<Material,List<Geometry>>();
   int nbGeoms=0;
-  gatherGeomerties(matMap,this,needsFullRebatch);
+  gatherGeometries(matMap,this,needsFullRebatch);
   if (needsFullRebatch) {
     for (    Batch batch : batches.getArray()) {
       batch.geometry.removeFromParent();

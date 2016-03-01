@@ -1,0 +1,103 @@
+{
+  float[] fvMin=new float[3];
+  float[] fvMax=new float[3];
+  for (int c=0; c < 3; c++) {
+    fvMin[c]=pTmpVert[iL_in].vert[c];
+    fvMax[c]=fvMin[c];
+  }
+  for (int l=(iL_in + 1); l <= iR_in; l++) {
+    for (int c=0; c < 3; c++) {
+      if (fvMin[c] > pTmpVert[l].vert[c]) {
+        fvMin[c]=pTmpVert[l].vert[c];
+      }
+ else       if (fvMax[c] < pTmpVert[l].vert[c]) {
+        fvMax[c]=pTmpVert[l].vert[c];
+      }
+    }
+  }
+  float dx=fvMax[0] - fvMin[0];
+  float dy=fvMax[1] - fvMin[1];
+  float dz=fvMax[2] - fvMin[2];
+  int channel=0;
+  if (dy > dx && dy > dz) {
+    channel=1;
+  }
+ else   if (dz > dx) {
+    channel=2;
+  }
+  float fSep=0.5f * (fvMax[channel] + fvMin[channel]);
+  if (fSep >= fvMax[channel] || fSep <= fvMin[channel]) {
+    for (int l=iL_in; l <= iR_in; l++) {
+      int i=pTmpVert[l].index;
+      final int index=piTriList_in_and_out[i];
+      final Vector3f vP=getPosition(mikkTSpace,index);
+      final Vector3f vN=getNormal(mikkTSpace,index);
+      final Vector3f vT=getTexCoord(mikkTSpace,index);
+      boolean bNotFound=true;
+      int l2=iL_in, i2rec=-1;
+      while (l2 < l && bNotFound) {
+        final int i2=pTmpVert[l2].index;
+        final int index2=piTriList_in_and_out[i2];
+        final Vector3f vP2=getPosition(mikkTSpace,index2);
+        final Vector3f vN2=getNormal(mikkTSpace,index2);
+        final Vector3f vT2=getTexCoord(mikkTSpace,index2);
+        i2rec=i2;
+        if (vP.x == vP2.x && vP.y == vP2.y && vP.z == vP2.z && vN.x == vN2.x && vN.y == vN2.y && vN.z == vN2.z && vT.x == vT2.x && vT.y == vT2.y && vT.z == vT2.z) {
+          bNotFound=false;
+        }
+ else {
+          ++l2;
+        }
+      }
+      if (!bNotFound) {
+        piTriList_in_and_out[i]=piTriList_in_and_out[i2rec];
+      }
+    }
+  }
+ else {
+    int iL=iL_in, iR=iR_in;
+    assert((iR_in - iL_in) > 0);
+    while (iL < iR) {
+      boolean bReadyLeftSwap=false, bReadyRightSwap=false;
+      while ((!bReadyLeftSwap) && iL < iR) {
+        assert(iL >= iL_in && iL <= iR_in);
+        bReadyLeftSwap=!(pTmpVert[iL].vert[channel] < fSep);
+        if (!bReadyLeftSwap) {
+          ++iL;
+        }
+      }
+      while ((!bReadyRightSwap) && iL < iR) {
+        assert(iR >= iL_in && iR <= iR_in);
+        bReadyRightSwap=pTmpVert[iR].vert[channel] < fSep;
+        if (!bReadyRightSwap) {
+          --iR;
+        }
+      }
+      assert((iL < iR) || !(bReadyLeftSwap && bReadyRightSwap));
+      if (bReadyLeftSwap && bReadyRightSwap) {
+        final TmpVert sTmp=pTmpVert[iL];
+        assert(iL < iR);
+        pTmpVert[iL]=pTmpVert[iR];
+        pTmpVert[iR]=sTmp;
+        ++iL;
+        --iR;
+      }
+    }
+    assert(iL == (iR + 1) || (iL == iR));
+    if (iL == iR) {
+      final boolean bReadyRightSwap=pTmpVert[iR].vert[channel] < fSep;
+      if (bReadyRightSwap) {
+        ++iL;
+      }
+ else {
+        --iR;
+      }
+    }
+    if (iL_in < iR) {
+      MergeVertsFast(piTriList_in_and_out,pTmpVert,mikkTSpace,iL_in,iR);
+    }
+    if (iL < iR_in) {
+      MergeVertsFast(piTriList_in_and_out,pTmpVert,mikkTSpace,iL,iR_in);
+    }
+  }
+}

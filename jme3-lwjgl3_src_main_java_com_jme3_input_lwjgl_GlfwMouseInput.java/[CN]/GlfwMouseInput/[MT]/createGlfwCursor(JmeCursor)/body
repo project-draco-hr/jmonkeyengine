@@ -1,0 +1,8 @@
+{
+  GLFWImage glfwImage=new GLFWImage(BufferUtils.createByteBuffer(GLFWImage.SIZEOF));
+  IntBuffer imageData=jmeCursor.getImagesData();
+  ByteBuffer buf=BufferUtils.createByteBuffer(imageData.capacity());
+  buf.asIntBuffer().put(imageData);
+  glfwImage.set(jmeCursor.getWidth(),jmeCursor.getHeight(),buf);
+  return glfwCreateCursor(glfwImage,jmeCursor.getXHotSpot(),jmeCursor.getYHotSpot());
+}

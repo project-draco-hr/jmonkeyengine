@@ -1,0 +1,47 @@
+{
+  TriInfo pMyTriInfo=psTriInfos[iMyTriIndex];
+  final int iVertRep=pGroup.vertexRepresentitive;
+  int index=3 * iMyTriIndex;
+  int i=-1;
+  if (piTriListIn[index] == iVertRep) {
+    i=0;
+  }
+ else   if (piTriListIn[index + 1] == iVertRep) {
+    i=1;
+  }
+ else   if (piTriListIn[index + 2] == iVertRep) {
+    i=2;
+  }
+  assert(i >= 0 && i < 3);
+  if (pMyTriInfo.assignedGroup[i] == pGroup) {
+    return true;
+  }
+ else   if (pMyTriInfo.assignedGroup[i] != null) {
+    return false;
+  }
+  if ((pMyTriInfo.flag & GROUP_WITH_ANY) != 0) {
+    if (pMyTriInfo.assignedGroup[0] == null && pMyTriInfo.assignedGroup[1] == null && pMyTriInfo.assignedGroup[2] == null) {
+      pMyTriInfo.flag&=(~ORIENT_PRESERVING);
+      pMyTriInfo.flag|=(pGroup.orientPreservering ? ORIENT_PRESERVING : 0);
+    }
+  }
+{
+    final boolean bOrient=(pMyTriInfo.flag & ORIENT_PRESERVING) != 0;
+    if (bOrient != pGroup.orientPreservering) {
+      return false;
+    }
+  }
+  addTriToGroup(pGroup,iMyTriIndex);
+  pMyTriInfo.assignedGroup[i]=pGroup;
+{
+    final int neigh_indexL=pMyTriInfo.faceNeighbors[i];
+    final int neigh_indexR=pMyTriInfo.faceNeighbors[i > 0 ? (i - 1) : 2];
+    if (neigh_indexL >= 0) {
+      assignRecur(piTriListIn,psTriInfos,neigh_indexL,pGroup);
+    }
+    if (neigh_indexR >= 0) {
+      assignRecur(piTriListIn,psTriInfos,neigh_indexR,pGroup);
+    }
+  }
+  return true;
+}

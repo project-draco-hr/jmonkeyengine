@@ -1,0 +1,44 @@
+{
+  final int iNrMaxGroups=iNrTrianglesIn * 3;
+  int iNrActiveGroups=0;
+  int iOffset=0;
+  for (int f=0; f < iNrTrianglesIn; f++) {
+    for (int i=0; i < 3; i++) {
+      if ((pTriInfos[f].flag & GROUP_WITH_ANY) == 0 && pTriInfos[f].assignedGroup[i] == null) {
+        boolean bOrPre;
+        final int vert_index=piTriListIn[f * 3 + i];
+        assert(iNrActiveGroups < iNrMaxGroups);
+        pTriInfos[f].assignedGroup[i]=new Group();
+        pGroups[iNrActiveGroups]=pTriInfos[f].assignedGroup[i];
+        pTriInfos[f].assignedGroup[i].vertexRepresentitive=vert_index;
+        pTriInfos[f].assignedGroup[i].orientPreservering=(pTriInfos[f].flag & ORIENT_PRESERVING) != 0;
+        pTriInfos[f].assignedGroup[i].nrFaces=0;
+        ++iNrActiveGroups;
+        addTriToGroup(pTriInfos[f].assignedGroup[i],f);
+        bOrPre=(pTriInfos[f].flag & ORIENT_PRESERVING) != 0;
+        int neigh_indexL=pTriInfos[f].faceNeighbors[i];
+        int neigh_indexR=pTriInfos[f].faceNeighbors[i > 0 ? (i - 1) : 2];
+        if (neigh_indexL >= 0) {
+          final boolean bAnswer=assignRecur(piTriListIn,pTriInfos,neigh_indexL,pTriInfos[f].assignedGroup[i]);
+          final boolean bOrPre2=(pTriInfos[neigh_indexL].flag & ORIENT_PRESERVING) != 0;
+          final boolean bDiff=bOrPre != bOrPre2;
+          assert(bAnswer || bDiff);
+        }
+        if (neigh_indexR >= 0) {
+          final boolean bAnswer=assignRecur(piTriListIn,pTriInfos,neigh_indexR,pTriInfos[f].assignedGroup[i]);
+          final boolean bOrPre2=(pTriInfos[neigh_indexR].flag & ORIENT_PRESERVING) != 0;
+          final boolean bDiff=bOrPre != bOrPre2;
+          assert(bAnswer || bDiff);
+        }
+        int[] faceIndices=new int[pTriInfos[f].assignedGroup[i].nrFaces];
+        for (int j=0; j < faceIndices.length; j++) {
+          faceIndices[j]=pTriInfos[f].assignedGroup[i].faceIndices.get(j);
+        }
+        System.arraycopy(faceIndices,0,piGroupTrianglesBuffer,iOffset,pTriInfos[f].assignedGroup[i].nrFaces);
+        iOffset+=pTriInfos[f].assignedGroup[i].nrFaces;
+        assert(iOffset <= iNrMaxGroups);
+      }
+    }
+  }
+  return iNrActiveGroups;
+}

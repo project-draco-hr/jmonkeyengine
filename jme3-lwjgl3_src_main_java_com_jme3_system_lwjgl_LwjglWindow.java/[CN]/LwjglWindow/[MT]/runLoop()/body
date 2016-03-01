@@ -1,6 +1,7 @@
 {
   if (needRestart.getAndSet(false)) {
     try {
+      destroyContext();
       createContext(settings);
     }
  catch (    Exception ex) {
@@ -22,7 +23,6 @@
       listener.handleError("Error while swapping buffers",ex);
     }
   }
-  glfwPollEvents();
   if (renderer != null) {
     renderer.postFrame();
   }
@@ -46,4 +46,5 @@
       }
     }
   }
+  glfwPollEvents();
 }

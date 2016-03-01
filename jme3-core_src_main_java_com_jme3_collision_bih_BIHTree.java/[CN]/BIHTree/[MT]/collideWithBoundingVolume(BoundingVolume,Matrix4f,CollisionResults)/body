@@ -8,7 +8,7 @@
     bbox=new BoundingBox((BoundingBox)bv);
   }
  else {
-    throw new UnsupportedCollisionException();
+    throw new UnsupportedCollisionException("BoundingVolume:" + bv);
   }
   bbox.transform(worldMatrix.invert(),bbox);
   return root.intersectWhere(bv,bbox,worldMatrix,this,results);

@@ -3,6 +3,7 @@
   try {
     thread.close();
     thread=null;
+    wakeupReader();
   }
  catch (  IOException e) {
     throw new KernelException("Error closing host connection:" + address,e);

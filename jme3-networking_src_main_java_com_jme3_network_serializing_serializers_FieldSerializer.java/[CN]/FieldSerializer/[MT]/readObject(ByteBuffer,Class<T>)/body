@@ -3,7 +3,8 @@
   SavedField[] fields=savedFields.get(c);
   T object;
   try {
-    object=c.newInstance();
+    Constructor<T> ctor=(Constructor<T>)savedCtors.get(c);
+    object=ctor.newInstance();
   }
  catch (  Exception e) {
     throw new SerializerException("Error creating object of type:" + c,e);
@@ -11,6 +12,9 @@
   for (  SavedField savedField : fields) {
     Field field=savedField.field;
     Serializer serializer=savedField.serializer;
+    if (log.isLoggable(Level.FINER)) {
+      log.log(Level.FINER,"Reading field:{0} using serializer:{1}",new Object[]{field,serializer});
+    }
     Object value;
     if (serializer != null) {
       value=serializer.readObject(data,field.getType());

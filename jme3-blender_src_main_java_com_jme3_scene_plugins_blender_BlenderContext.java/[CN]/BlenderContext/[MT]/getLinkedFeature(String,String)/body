@@ -24,11 +24,11 @@
       }
     }
  else     if ("ME".equals(namePrefix)) {
-      List<Node> features=(List<Node>)linkedFeatures.get("meshes");
-      if (features != null) {
-        for (        Node feature : features) {
-          if (featureName.equals(feature.getName())) {
-            return feature;
+      List<TemporalMesh> temporalMeshes=(List<TemporalMesh>)linkedFeatures.get("meshes");
+      if (temporalMeshes != null) {
+        for (        TemporalMesh temporalMesh : temporalMeshes) {
+          if (featureName.equals(temporalMesh.getName())) {
+            return temporalMesh;
           }
         }
       }

@@ -1,0 +1,5 @@
+{
+  final float fIndex=CELLS * ((val - min) / (max - min));
+  final int iIndex=(int)fIndex;
+  return iIndex < CELLS ? (iIndex >= 0 ? iIndex : 0) : (CELLS - 1);
+}

@@ -1,0 +1,21 @@
+{
+  int xDelta;
+  int yDelta;
+  int x=(int)Math.round(xpos);
+  int y=context.getSettings().getHeight() - (int)Math.round(ypos);
+  if (mouseX == 0) {
+    mouseX=x;
+  }
+  if (mouseY == 0) {
+    mouseY=y;
+  }
+  xDelta=x - mouseX;
+  yDelta=y - mouseY;
+  mouseX=x;
+  mouseY=y;
+  if (xDelta != 0 || yDelta != 0) {
+    final MouseMotionEvent mouseMotionEvent=new MouseMotionEvent(x,y,xDelta,yDelta,mouseWheel,0);
+    mouseMotionEvent.setTime(getInputTimeNanos());
+    mouseMotionEvents.add(mouseMotionEvent);
+  }
+}

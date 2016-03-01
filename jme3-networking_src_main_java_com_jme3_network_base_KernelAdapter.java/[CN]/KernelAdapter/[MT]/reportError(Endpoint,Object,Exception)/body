@@ -1,4 +1,6 @@
 {
   log.log(Level.SEVERE,"Unhandled error, endpoint:" + p + ", context:"+ context,e);
-  p.close();
+  if (p.isConnected()) {
+    p.close();
+  }
 }

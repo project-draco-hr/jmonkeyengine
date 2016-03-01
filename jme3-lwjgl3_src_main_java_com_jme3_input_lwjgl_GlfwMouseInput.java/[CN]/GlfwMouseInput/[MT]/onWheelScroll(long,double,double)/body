@@ -1,0 +1,6 @@
+{
+  mouseWheel+=yOffset;
+  final MouseMotionEvent mouseMotionEvent=new MouseMotionEvent(mouseX,mouseY,0,0,mouseWheel,(int)Math.round(yOffset));
+  mouseMotionEvent.setTime(getInputTimeNanos());
+  mouseMotionEvents.add(mouseMotionEvent);
+}

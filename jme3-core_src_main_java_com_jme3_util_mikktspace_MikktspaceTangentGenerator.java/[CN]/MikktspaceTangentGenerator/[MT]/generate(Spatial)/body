@@ -1,0 +1,15 @@
+{
+  if (s instanceof Node) {
+    Node n=(Node)s;
+    for (    Spatial child : n.getChildren()) {
+      generate(child);
+    }
+  }
+ else   if (s instanceof Geometry) {
+    Geometry g=(Geometry)s;
+    MikkTSpaceImpl context=new MikkTSpaceImpl(g.getMesh());
+    if (!genTangSpaceDefault(context)) {
+      Logger.getLogger(MikktspaceTangentGenerator.class.getName()).log(Level.SEVERE,"Failed to generate tangents for geometry " + g.getName());
+    }
+  }
+}

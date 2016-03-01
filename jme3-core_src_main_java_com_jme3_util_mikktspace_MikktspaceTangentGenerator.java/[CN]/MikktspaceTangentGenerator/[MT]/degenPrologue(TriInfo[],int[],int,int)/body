@@ -1,0 +1,66 @@
+{
+  int t=0;
+  while (t < (iTotTris - 1)) {
+    final int iFO_a=pTriInfos[t].orgFaceNumber;
+    final int iFO_b=pTriInfos[t + 1].orgFaceNumber;
+    if (iFO_a == iFO_b) {
+      final boolean bIsDeg_a=(pTriInfos[t].flag & MARK_DEGENERATE) != 0;
+      final boolean bIsDeg_b=(pTriInfos[t + 1].flag & MARK_DEGENERATE) != 0;
+      if ((bIsDeg_a ^ bIsDeg_b) != false) {
+        pTriInfos[t].flag|=QUAD_ONE_DEGEN_TRI;
+        pTriInfos[t + 1].flag|=QUAD_ONE_DEGEN_TRI;
+      }
+      t+=2;
+    }
+ else {
+      ++t;
+    }
+  }
+  int iNextGoodTriangleSearchIndex=1;
+  t=0;
+  boolean bStillFindingGoodOnes=true;
+  while (t < iNrTrianglesIn && bStillFindingGoodOnes) {
+    final boolean bIsGood=(pTriInfos[t].flag & MARK_DEGENERATE) == 0;
+    if (bIsGood) {
+      if (iNextGoodTriangleSearchIndex < (t + 2)) {
+        iNextGoodTriangleSearchIndex=t + 2;
+      }
+    }
+ else {
+      boolean bJustADegenerate=true;
+      while (bJustADegenerate && iNextGoodTriangleSearchIndex < iTotTris) {
+        final boolean bIsGood2=(pTriInfos[iNextGoodTriangleSearchIndex].flag & MARK_DEGENERATE) == 0;
+        if (bIsGood2) {
+          bJustADegenerate=false;
+        }
+ else {
+          ++iNextGoodTriangleSearchIndex;
+        }
+      }
+      int t0=t;
+      int t1=iNextGoodTriangleSearchIndex;
+      ++iNextGoodTriangleSearchIndex;
+      assert(iNextGoodTriangleSearchIndex > (t + 1));
+      if (!bJustADegenerate) {
+        for (int i=0; i < 3; i++) {
+          final int index=piTriList_out[t0 * 3 + i];
+          piTriList_out[t0 * 3 + i]=piTriList_out[t1 * 3 + i];
+          piTriList_out[t1 * 3 + i]=index;
+        }
+{
+          final TriInfo tri_info=pTriInfos[t0];
+          pTriInfos[t0]=pTriInfos[t1];
+          pTriInfos[t1]=tri_info;
+        }
+      }
+ else {
+        bStillFindingGoodOnes=false;
+      }
+    }
+    if (bStillFindingGoodOnes) {
+      ++t;
+    }
+  }
+  assert(bStillFindingGoodOnes);
+  assert(iNrTrianglesIn == t);
+}
