@@ -1,5 +1,8 @@
 {
   needClose.set(true);
+  if (mainThread == Thread.currentThread()) {
+    return;
+  }
   if (waitFor) {
     waitFor(false);
   }
