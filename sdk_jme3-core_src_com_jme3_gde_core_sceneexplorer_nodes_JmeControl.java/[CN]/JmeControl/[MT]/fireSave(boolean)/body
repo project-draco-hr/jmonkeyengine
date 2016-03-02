@@ -1,0 +1,8 @@
+{
+  super.fireSave(true);
+  Node parent=getParentNode();
+  if (parent instanceof AbstractSceneExplorerNode) {
+    AbstractSceneExplorerNode par=(AbstractSceneExplorerNode)parent;
+    par.fireSave(modified);
+  }
+}
