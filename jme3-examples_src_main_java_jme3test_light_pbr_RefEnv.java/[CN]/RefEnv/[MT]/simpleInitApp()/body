@@ -1,0 +1,29 @@
+{
+  cam.setLocation(new Vector3f(-3.0286736f,2.8702848f,5.153083f));
+  cam.setRotation(new Quaternion(0.06595449f,0.9340066f,-0.24384351f,0.2526304f));
+  Spatial sc=assetManager.loadModel("Scenes/PBR/spheres.j3o");
+  rootNode.attachChild(sc);
+  rootNode.getChild("Scene").setCullHint(Spatial.CullHint.Always);
+  stateManager.attach(new EnvironmentCamera());
+  inputManager.addMapping("tex",new KeyTrigger(KeyInput.KEY_SPACE));
+  inputManager.addMapping("switch",new KeyTrigger(KeyInput.KEY_RETURN));
+  inputManager.addListener(new ActionListener(){
+    @Override public void onAction(    String name,    boolean isPressed,    float tpf){
+      if (name.equals("tex") && isPressed) {
+        if (tex == null) {
+          return;
+        }
+        if (tex.getParent() == null) {
+          guiNode.attachChild(tex);
+        }
+ else {
+          tex.removeFromParent();
+        }
+      }
+      if (name.equals("switch") && isPressed) {
+        switchMat(rootNode.getChild("Scene"));
+      }
+    }
+  }
+,"tex","switch");
+}

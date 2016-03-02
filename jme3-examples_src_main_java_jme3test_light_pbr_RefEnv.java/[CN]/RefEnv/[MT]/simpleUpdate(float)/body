@@ -1,0 +1,15 @@
+{
+  frame++;
+  if (frame == 2) {
+    final LightProbe probe=LightProbeFactory.makeProbe(stateManager.getState(EnvironmentCamera.class),rootNode,new JobProgressAdapter<LightProbe>(){
+      @Override public void done(      LightProbe result){
+        System.err.println("Done rendering env maps");
+        tex=EnvMapUtils.getCubeMapCrossDebugViewWithMipMaps(result.getPrefilteredEnvMap(),assetManager);
+        rootNode.getChild("Scene").setCullHint(Spatial.CullHint.Dynamic);
+      }
+    }
+);
+    ((BoundingSphere)probe.getBounds()).setRadius(100);
+    rootNode.addLight(probe);
+  }
+}
