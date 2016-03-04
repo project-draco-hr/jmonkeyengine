@@ -1,0 +1,13 @@
+{
+  TechniqueDefLogic logic=def.getLogic();
+  AssetManager assetManager=owner.getMaterialDef().getAssetManager();
+  DefineList combinedDefines=def.createDefineList();
+  combinedDefines.setAll(dynamicDefines);
+  for (  MatParamOverride override : overrides) {
+    Integer defineId=def.getShaderParamDefineId(override.name);
+    if (defineId != null) {
+      combinedDefines.set(defineId,override.type,override.value);
+    }
+  }
+  return logic.makeCurrent(assetManager,renderManager,rendererCaps,lights,combinedDefines);
+}

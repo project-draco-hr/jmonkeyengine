@@ -3,22 +3,5 @@
   if (defineId == null) {
     return;
   }
-  if (value == null) {
-    dynamicDefines.set(defineId,0);
-    return;
-  }
-switch (type) {
-case Int:
-    dynamicDefines.set(defineId,(Integer)value);
-  break;
-case Float:
-dynamicDefines.set(defineId,(Float)value);
-break;
-case Boolean:
-dynamicDefines.set(defineId,((Boolean)value));
-break;
-default :
-dynamicDefines.set(defineId,1);
-break;
-}
+  dynamicDefines.set(defineId,type,value);
 }

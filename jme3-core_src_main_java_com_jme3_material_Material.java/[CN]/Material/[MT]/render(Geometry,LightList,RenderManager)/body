@@ -9,7 +9,8 @@
     return;
   }
   updateRenderState(renderManager,renderer,techniqueDef);
-  Shader shader=technique.makeCurrent(renderManager,lights,rendererCaps);
+  ArrayList<MatParamOverride> overrides=geometry.getWorldOverrides();
+  Shader shader=technique.makeCurrent(renderManager,overrides,lights,rendererCaps);
   clearUniformsSetByCurrent(shader);
   renderManager.updateUniformBindings(shader);
   updateShaderMaterialParameters(renderer,shader);
