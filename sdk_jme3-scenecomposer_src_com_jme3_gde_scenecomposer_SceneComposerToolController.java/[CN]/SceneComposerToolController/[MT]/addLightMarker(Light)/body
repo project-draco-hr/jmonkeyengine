@@ -1,8 +1,0 @@
-{
-  if (!(light instanceof PointLight) && !(light instanceof SpotLight) && !(light instanceof LightProbe))   return;
-  Spatial s=nonSpatialMarkersNode.getChild(light.getName());
-  if (s != null) {
-    return;
-  }
-  nonSpatialMarkersNode.attachChild(LightGizmoFactory.createGizmo(manager,light));
-}

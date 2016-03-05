@@ -1,9 +1,0 @@
-{
-  logger.log(Level.FINE,"New materail provider registered for: {0}",provider.getKey());
-  materialChangeProviders.put(provider.getKey(),provider);
-  List<MaterialChangeListener> listeners=materialChangeListeners.get(provider.getKey());
-  if (listeners == null) {
-    return;
-  }
-  provider.addAllMaterialChangeListener(listeners);
-}

@@ -3,8 +3,6 @@
     LOGGER.warning("create() called when display is already created!");
     return;
   }
-  new Thread(this,THREAD_NAME).start();
-  if (waitFor) {
-    waitFor(true);
-  }
+  mainThread=Thread.currentThread();
+  run();
 }
