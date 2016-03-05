@@ -1,9 +1,0 @@
-{
-  if (!(light instanceof PointLight) && !(light instanceof SpotLight))   return;
-  Spatial s=nonSpatialMarkersNode.getChild(light.getName());
-  if (s != null) {
-    return;
-  }
-  LightMarker lm=new LightMarker(light);
-  nonSpatialMarkersNode.attachChild(lm);
-}

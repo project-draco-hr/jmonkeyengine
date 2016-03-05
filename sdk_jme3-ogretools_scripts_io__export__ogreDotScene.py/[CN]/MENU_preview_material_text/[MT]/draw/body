@@ -1,9 +1,0 @@
-def draw(self, context):
-    layout = self.layout
-    mat = context.active_object.active_material
-    if mat:
-        preview = generate_material(mat)
-        for line in preview.splitlines():
-            if line.strip():
-                for ww in wordwrap(line):
-                    layout.label(text=ww)

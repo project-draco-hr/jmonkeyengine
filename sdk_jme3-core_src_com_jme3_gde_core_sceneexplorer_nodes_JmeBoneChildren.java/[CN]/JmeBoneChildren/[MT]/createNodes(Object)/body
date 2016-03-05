@@ -1,9 +1,0 @@
-{
-  if (key instanceof Bone) {
-    JmeBoneChildren children=new JmeBoneChildren(jmeSkeletonControl,(Bone)key);
-    children.setReadOnly(readOnly);
-    children.setDataObject(dataObject);
-    return new Node[]{new JmeBone(jmeSkeletonControl,(Bone)key,children).setReadOnly(readOnly)};
-  }
-  return new Node[]{Node.EMPTY};
-}

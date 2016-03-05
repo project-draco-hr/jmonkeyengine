@@ -1,8 +1,0 @@
-def get_materials_using_image(img):
-    mats = []
-    for mat in bpy.data.materials:
-        for slot in get_image_textures(mat):
-            if (slot.texture.image == img):
-                if (mat not in mats):
-                    mats.append(mat)
-    return mats

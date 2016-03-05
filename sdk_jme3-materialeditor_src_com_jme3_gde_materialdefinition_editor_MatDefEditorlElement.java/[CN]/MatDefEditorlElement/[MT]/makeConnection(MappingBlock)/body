@@ -1,7 +1,0 @@
-{
-  Dot leftDot=findConnectPoint(mapping.getLeftNameSpace(),mapping.getLeftVar(),true);
-  Dot rightDot=findConnectPoint(mapping.getRightNameSpace(),mapping.getRightVar(),false);
-  Connection conn=diagram1.connect(leftDot,rightDot);
-  mapping.addPropertyChangeListener(WeakListeners.propertyChange(conn,mapping));
-  conn.makeKey(mapping,diagram1.getCurrentTechniqueName());
-}
