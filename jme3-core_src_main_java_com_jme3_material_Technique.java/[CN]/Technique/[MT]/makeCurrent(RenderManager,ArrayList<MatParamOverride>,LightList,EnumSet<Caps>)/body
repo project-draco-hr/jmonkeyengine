@@ -1,13 +1,15 @@
 {
   TechniqueDefLogic logic=def.getLogic();
   AssetManager assetManager=owner.getMaterialDef().getAssetManager();
-  DefineList combinedDefines=def.createDefineList();
-  combinedDefines.setAll(dynamicDefines);
+  dynamicDefines.clear();
+  dynamicDefines.setAll(paramDefines);
   for (  MatParamOverride override : overrides) {
     Integer defineId=def.getShaderParamDefineId(override.name);
     if (defineId != null) {
-      combinedDefines.set(defineId,override.type,override.value);
+      if (def.getDefineIdType(defineId) == override.type) {
+        dynamicDefines.set(defineId,override.type,override.value);
+      }
     }
   }
-  return logic.makeCurrent(assetManager,renderManager,rendererCaps,lights,combinedDefines);
+  return logic.makeCurrent(assetManager,renderManager,rendererCaps,lights,dynamicDefines);
 }

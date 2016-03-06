@@ -13,7 +13,7 @@
   Shader shader=technique.makeCurrent(renderManager,overrides,lights,rendererCaps);
   clearUniformsSetByCurrent(shader);
   renderManager.updateUniformBindings(shader);
-  updateShaderMaterialParameters(renderer,shader);
+  updateShaderMaterialParameters(renderer,shader,geometry.getWorldOverrides());
   resetUniformsNotSetByCurrent(shader);
   technique.render(renderManager,shader,geometry,lights);
 }

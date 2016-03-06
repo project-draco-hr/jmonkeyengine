@@ -1,0 +1,13 @@
+{
+  HashSet<Uniform> actualUniforms=new HashSet<Uniform>();
+  for (  Uniform uniform : usedShader.getUniformMap().values()) {
+    if (uniform.getName().startsWith("m_") && !IGNORED_UNIFORMS.contains(uniform.getName())) {
+      actualUniforms.add(uniform);
+    }
+  }
+  HashSet<Uniform> expectedUniforms=new HashSet<Uniform>(Arrays.asList(uniforms));
+  if (!expectedUniforms.equals(actualUniforms)) {
+    System.out.println(expectedUniforms + " != " + actualUniforms);
+    Assert.fail("Uniform lists must match");
+  }
+}

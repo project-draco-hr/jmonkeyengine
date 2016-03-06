@@ -1,0 +1,27 @@
+{
+  material("Common/MatDefs/Light/Lighting.j3md");
+  reset();
+  inputMp(mpoInt("NumberOfBones",1234));
+  outDefines(def("NUM_BONES",VarType.Int,1234));
+  outUniforms(uniform("NumberOfBones",VarType.Int,1234));
+  reset();
+  inputMpo(mpoInt("NumberOfBones",4321));
+  outDefines(def("NUM_BONES",VarType.Int,4321));
+  outUniforms(uniform("NumberOfBones",VarType.Int,4321));
+  reset();
+  geometry.clearMatParamOverrides();
+  outDefines(def("NUM_BONES",VarType.Int,1234));
+  outUniforms(uniform("NumberOfBones",VarType.Int,1234));
+  reset();
+  geometry.getMaterial().clearParam("NumberOfBones");
+  outDefines();
+  outUniforms();
+  reset();
+  inputMpo(mpoInt("NumberOfBones",4321));
+  outDefines(def("NUM_BONES",VarType.Int,4321));
+  outUniforms(uniform("NumberOfBones",VarType.Int,4321));
+  reset();
+  inputMp(mpoInt("NumberOfBones",1234));
+  outDefines(def("NUM_BONES",VarType.Int,4321));
+  outUniforms(uniform("NumberOfBones",VarType.Int,4321));
+}
