@@ -1,0 +1,24 @@
+{
+  MatParamOverride override=mpoBool("Test",true);
+  Node n=new Node("Node");
+  n.clearMatParamOverrides();
+  assertTrue(n.getLocalOverrides().isEmpty());
+  assertTrue(n.getWorldOverrides().isEmpty());
+  n.addMatParamOverride(override);
+  n.clearMatParamOverrides();
+  assertTrue(n.getLocalOverrides().isEmpty());
+  assertTrue(n.getWorldOverrides().isEmpty());
+  n.addMatParamOverride(override);
+  n.updateGeometricState();
+  n.clearMatParamOverrides();
+  assertTrue(n.getLocalOverrides().isEmpty());
+  assertSame(n.getWorldOverrides().get(0),override);
+  n.updateGeometricState();
+  assertTrue(n.getLocalOverrides().isEmpty());
+  assertTrue(n.getWorldOverrides().isEmpty());
+  n.addMatParamOverride(override);
+  n.clearMatParamOverrides();
+  n.updateGeometricState();
+  assertTrue(n.getLocalOverrides().isEmpty());
+  assertTrue(n.getWorldOverrides().isEmpty());
+}

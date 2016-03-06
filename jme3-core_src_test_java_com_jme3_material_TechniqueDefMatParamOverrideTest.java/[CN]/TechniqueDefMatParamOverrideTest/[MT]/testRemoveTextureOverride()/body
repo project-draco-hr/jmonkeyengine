@@ -14,6 +14,7 @@
   outTextures(tex2);
   reset();
   geometry.clearMatParamOverrides();
+  geometry.updateGeometricState();
   outDefines(def("DIFFUSEMAP",VarType.Texture2D,tex1));
   outUniforms(uniform("DiffuseMap",VarType.Int,0));
   outTextures(tex1);
