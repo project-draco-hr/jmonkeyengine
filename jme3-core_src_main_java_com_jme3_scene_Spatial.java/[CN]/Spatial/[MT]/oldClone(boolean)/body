@@ -8,6 +8,8 @@
     clone.localLights=localLights.clone();
     clone.localLights.setOwner(clone);
     clone.worldLights.setOwner(clone);
+    clone.worldOverrides=new ArrayList<MatParamOverride>(worldOverrides);
+    clone.localOverrides=new ArrayList<MatParamOverride>(localOverrides);
     clone.worldTransform=worldTransform.clone();
     clone.localTransform=localTransform.clone();
     if (clone instanceof Node) {

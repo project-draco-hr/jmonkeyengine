@@ -9,6 +9,11 @@
   localTransform=(Transform)ic.readSavable("transform",Transform.IDENTITY);
   localLights=(LightList)ic.readSavable("lights",null);
   localLights.setOwner(this);
+  localOverrides=ic.readSavableArrayList("overrides",null);
+  if (localOverrides == null) {
+    localOverrides=new ArrayList<MatParamOverride>();
+  }
+  worldOverrides=new ArrayList<MatParamOverride>();
   controls.addAll(0,ic.readSavableArrayList("controlsList",null));
   userData=(HashMap<String,Savable>)ic.readStringSavableMap("user_data",null);
 }

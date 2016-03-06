@@ -1,0 +1,11 @@
+{
+  Node scene=createDummyScene();
+  scene.updateGeometricState();
+  Node root=new Node("Root Node");
+  root.updateGeometricState();
+  scene.getChild("A").addMatParamOverride(mpoInt("val",5));
+  root.attachChild(scene);
+  validateScene(root);
+  scene.getChild("A").clearMatParamOverrides();
+  validateScene(root);
+}

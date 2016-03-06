@@ -1,0 +1,13 @@
+{
+  MatParamOverride override=mpoInt("val",5);
+  Node scene=createDummyScene();
+  scene.getChild("A").addMatParamOverride(override);
+  AssetManager assetManager=TestUtil.createAssetManager();
+  Node loadedScene=BinaryExporter.saveAndLoad(assetManager,scene);
+  Node root=new Node("Root Node");
+  root.attachChild(loadedScene);
+  validateScene(root);
+  validateScene(scene);
+  assertNotSame(override,loadedScene.getChild("A").getLocalOverrides().get(0));
+  assertEquals(override,loadedScene.getChild("A").getLocalOverrides().get(0));
+}
