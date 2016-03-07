@@ -1,0 +1,16 @@
+{
+  final boolean startsWithOldStyle=texturePath.startsWith("Flip Repeat ") || texturePath.startsWith("Flip ") || texturePath.startsWith("Repeat ")|| texturePath.startsWith("Repeat Flip ");
+  if (!startsWithOldStyle) {
+    return false;
+  }
+  if (optionValues.size() == 1 && (optionValues.get(0).textureOption == TextureOption.Flip || optionValues.get(0).textureOption == TextureOption.Repeat)) {
+    return true;
+  }
+ else   if (optionValues.size() == 2 && optionValues.get(0).textureOption == TextureOption.Flip && optionValues.get(1).textureOption == TextureOption.Repeat) {
+    return true;
+  }
+ else   if (optionValues.size() == 2 && optionValues.get(0).textureOption == TextureOption.Repeat && optionValues.get(1).textureOption == TextureOption.Flip) {
+    return true;
+  }
+  return false;
+}

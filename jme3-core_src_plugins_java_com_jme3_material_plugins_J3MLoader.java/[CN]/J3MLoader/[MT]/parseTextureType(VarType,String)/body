@@ -7,7 +7,7 @@
   }
  else {
     String texturePath=value.trim();
-    if (isTexturePathDeclaredTheTraditionalWay(textureValues.size(),textureOptionValues.size(),texturePath)) {
+    if (isTexturePathDeclaredTheTraditionalWay(textureOptionValues,texturePath)) {
       boolean flipY=false;
       if (texturePath.startsWith("Flip Repeat ") || texturePath.startsWith("Repeat Flip ")) {
         texturePath=texturePath.substring(12).trim();
