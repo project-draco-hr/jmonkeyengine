@@ -23,12 +23,16 @@
     }
   }
   float interval=1f / particlesPerSec;
+  float originalTpf=tpf;
   tpf+=timeDifference;
   while (tpf > interval) {
     tpf-=interval;
     Particle p=emitParticle(min,max);
     if (p != null) {
       p.life-=tpf;
+      if (lastPos != null && isInWorldSpace()) {
+        p.position.interpolateLocal(lastPos,1 - tpf / originalTpf);
+      }
       if (p.life <= 0) {
         freeParticle(lastUsed);
       }
@@ -38,6 +42,10 @@
     }
   }
   timeDifference=tpf;
+  if (lastPos == null) {
+    lastPos=new Vector3f();
+  }
+  lastPos.set(getWorldTranslation());
   BoundingBox bbox=(BoundingBox)this.getMesh().getBound();
   bbox.setMinMax(min,max);
   this.setBoundRefresh();

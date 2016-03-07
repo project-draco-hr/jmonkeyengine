@@ -1,0 +1,20 @@
+{
+  edgenum_out[0]=-1;
+  if (indices[0] == i0_in || indices[0] == i1_in) {
+    if (indices[1] == i0_in || indices[1] == i1_in) {
+      edgenum_out[0]=0;
+      i0_out[0]=indices[0];
+      i1_out[0]=indices[1];
+    }
+ else {
+      edgenum_out[0]=2;
+      i0_out[0]=indices[2];
+      i1_out[0]=indices[0];
+    }
+  }
+ else {
+    edgenum_out[0]=1;
+    i0_out[0]=indices[1];
+    i1_out[0]=indices[2];
+  }
+}

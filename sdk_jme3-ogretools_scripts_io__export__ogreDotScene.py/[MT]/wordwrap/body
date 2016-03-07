@@ -1,8 +1,0 @@
-def wordwrap(txt):
-    r = ['']
-    for word in txt.split(' '):
-        word = word.replace('\t', (' ' * 3))
-        r[(-1)] += (word + ' ')
-        if (len(r[(-1)]) > 90):
-            r.append('')
-    return r

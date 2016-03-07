@@ -8,10 +8,10 @@
       this.id=(int)crm.getId();
       log.log(Level.FINE,"Connection established, id:{0}.",this.id);
       connecting.countDown();
-      fireConnected();
     }
  else {
       startServices();
+      fireConnected();
     }
     return;
   }

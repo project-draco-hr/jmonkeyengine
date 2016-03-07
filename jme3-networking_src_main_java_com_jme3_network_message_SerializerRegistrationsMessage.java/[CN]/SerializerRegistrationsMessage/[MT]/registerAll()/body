@@ -5,8 +5,10 @@
       return;
     }
   }
+  log.log(Level.FINE,"Registering {0} classes...",registrations.length);
   for (  Registration reg : registrations) {
     log.log(Level.INFO,"Registering:{0}",reg);
     reg.register();
   }
+  log.log(Level.FINE,"Done registering serializable classes.");
 }

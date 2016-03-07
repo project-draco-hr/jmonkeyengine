@@ -1,7 +1,0 @@
-def get_subcollision_meshes():
-    ' returns all collision meshes found in the scene '
-    r = []
-    for ob in bpy.context.scene.objects:
-        if ((ob.type == 'MESH') and ob.subcollision):
-            r.append(ob)
-    return r

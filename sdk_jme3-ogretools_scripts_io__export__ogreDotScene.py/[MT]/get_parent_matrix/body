@@ -1,7 +1,0 @@
-def get_parent_matrix(ob, objects):
-    if (not ob.parent):
-        return mathutils.Matrix(((1, 0, 0, 0), (0, 1, 0, 0), (0, 0, 1, 0), (0, 0, 0, 1)))
-    elif (ob.parent in objects):
-        return ob.parent.matrix_world.copy()
-    else:
-        return get_parent_matrix(ob.parent, objects)

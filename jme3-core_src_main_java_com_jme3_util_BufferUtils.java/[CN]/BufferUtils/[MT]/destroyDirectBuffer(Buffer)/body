@@ -2,7 +2,6 @@
   if (!isDirect(toBeDestroyed)) {
     return;
   }
-  BufferUtils.loadCleanerMethods();
   try {
     if (freeMethod != null) {
       freeMethod.invoke(toBeDestroyed);

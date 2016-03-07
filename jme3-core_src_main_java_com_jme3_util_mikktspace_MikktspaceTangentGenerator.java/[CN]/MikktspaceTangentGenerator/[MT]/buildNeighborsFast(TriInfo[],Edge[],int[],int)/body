@@ -1,0 +1,71 @@
+{
+  long uSeed=INTERNAL_RND_SORT_SEED;
+  for (int f=0; f < iNrTrianglesIn; f++) {
+    for (int i=0; i < 3; i++) {
+      final int i0=piTriListIn[f * 3 + i];
+      final int i1=piTriListIn[f * 3 + (i < 2 ? (i + 1) : 0)];
+      pEdges[f * 3 + i]=new Edge();
+      pEdges[f * 3 + i].setI0(i0 < i1 ? i0 : i1);
+      pEdges[f * 3 + i].setI1(!(i0 < i1) ? i0 : i1);
+      pEdges[f * 3 + i].setF(f);
+    }
+  }
+  quickSortEdges(pEdges,0,iNrTrianglesIn * 3 - 1,0,uSeed);
+  int iEntries=iNrTrianglesIn * 3;
+  int iCurStartIndex=0;
+  for (int i=1; i < iEntries; i++) {
+    if (pEdges[iCurStartIndex].getI0() != pEdges[i].getI0()) {
+      final int iL=iCurStartIndex;
+      final int iR=i - 1;
+      iCurStartIndex=i;
+      quickSortEdges(pEdges,iL,iR,1,uSeed);
+    }
+  }
+  iCurStartIndex=0;
+  for (int i=1; i < iEntries; i++) {
+    if (pEdges[iCurStartIndex].getI0() != pEdges[i].getI0() || pEdges[iCurStartIndex].getI1() != pEdges[i].getI1()) {
+      final int iL=iCurStartIndex;
+      final int iR=i - 1;
+      iCurStartIndex=i;
+      quickSortEdges(pEdges,iL,iR,2,uSeed);
+    }
+  }
+  for (int i=0; i < iEntries; i++) {
+    final int i0=pEdges[i].getI0();
+    final int i1=pEdges[i].getI1();
+    final int g=pEdges[i].getF();
+    boolean bUnassigned_A;
+    int[] i0_A=new int[1];
+    int[] i1_A=new int[1];
+    int[] edgenum_A=new int[1];
+    int[] edgenum_B=new int[1];
+    int[] triList=new int[3];
+    System.arraycopy(piTriListIn,g * 3,triList,0,3);
+    getEdge(i0_A,i1_A,edgenum_A,triList,i0,i1);
+    bUnassigned_A=pTriInfos[g].faceNeighbors[edgenum_A[0]] == -1;
+    if (bUnassigned_A) {
+      int j=i + 1, t;
+      boolean bNotFound=true;
+      while (j < iEntries && i0 == pEdges[j].getI0() && i1 == pEdges[j].getI1() && bNotFound) {
+        boolean bUnassigned_B;
+        int[] i0_B=new int[1];
+        int[] i1_B=new int[1];
+        t=pEdges[j].getF();
+        System.arraycopy(piTriListIn,t * 3,triList,0,3);
+        getEdge(i1_B,i0_B,edgenum_B,triList,pEdges[j].getI0(),pEdges[j].getI1());
+        bUnassigned_B=pTriInfos[t].faceNeighbors[edgenum_B[0]] == -1;
+        if (i0_A[0] == i0_B[0] && i1_A[0] == i1_B[0] && bUnassigned_B) {
+          bNotFound=false;
+        }
+ else {
+          ++j;
+        }
+      }
+      if (!bNotFound) {
+        int t2=pEdges[j].getF();
+        pTriInfos[g].faceNeighbors[edgenum_A[0]]=t2;
+        pTriInfos[t2].faceNeighbors[edgenum_B[0]]=g;
+      }
+    }
+  }
+}

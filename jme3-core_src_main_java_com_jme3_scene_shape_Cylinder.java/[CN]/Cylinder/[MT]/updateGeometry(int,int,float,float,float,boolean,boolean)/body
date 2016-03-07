@@ -1,11 +1,12 @@
 {
-  this.axisSamples=axisSamples + (closed ? 2 : 0);
+  this.axisSamples=axisSamples;
   this.radialSamples=radialSamples;
   this.radius=radius;
   this.radius2=radius2;
   this.height=height;
   this.closed=closed;
   this.inverted=inverted;
+  axisSamples+=(closed ? 2 : 0);
   int vertCount=axisSamples * (radialSamples + 1) + (closed ? 2 : 0);
   setBuffer(Type.Position,3,createVector3Buffer(getFloatBuffer(Type.Position),vertCount));
   setBuffer(Type.Normal,3,createVector3Buffer(getFloatBuffer(Type.Normal),vertCount));

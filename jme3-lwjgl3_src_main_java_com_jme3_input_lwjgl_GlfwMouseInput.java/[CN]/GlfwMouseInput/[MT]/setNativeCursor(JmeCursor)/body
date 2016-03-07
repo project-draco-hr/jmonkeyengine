@@ -1,8 +1,13 @@
 {
   if (jmeCursor != null) {
-    final ByteBuffer byteBuffer=org.lwjgl.BufferUtils.createByteBuffer(jmeCursor.getImagesData().capacity());
-    byteBuffer.asIntBuffer().put(jmeCursor.getImagesData().array());
-    final long cursor=glfwCreateCursor(byteBuffer,jmeCursor.getXHotSpot(),jmeCursor.getYHotSpot());
-    glfwSetCursor(context.getWindowHandle(),cursor);
+    Long glfwCursor=jmeToGlfwCursorMap.get(jmeCursor);
+    if (glfwCursor == null) {
+      glfwCursor=createGlfwCursor(jmeCursor);
+      jmeToGlfwCursorMap.put(jmeCursor,glfwCursor);
+    }
+    glfwSetCursor(context.getWindowHandle(),glfwCursor);
+  }
+ else {
+    glfwSetCursor(context.getWindowHandle(),MemoryUtil.NULL);
   }
 }

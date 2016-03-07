@@ -1,9 +1,0 @@
-{
-  if (binaryFile) {
-    return sourceFile;
-  }
- else {
-    FileObject fobj=FileUtil.toFileObject(new File(sourceFile));
-    return fobj.getParent().getPath() + "/" + fobj.getName();
-  }
-}

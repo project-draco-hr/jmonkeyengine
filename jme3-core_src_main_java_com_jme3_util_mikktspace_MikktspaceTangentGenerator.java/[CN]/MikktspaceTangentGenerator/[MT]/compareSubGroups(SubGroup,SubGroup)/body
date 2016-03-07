@@ -1,0 +1,14 @@
+{
+  if (pg2 == null || (pg1.nrFaces != pg2.nrFaces)) {
+    return false;
+  }
+  boolean stillSame=true;
+  int i=0;
+  while (i < pg1.nrFaces && stillSame) {
+    stillSame=pg1.triMembers[i] == pg2.triMembers[i];
+    if (stillSame) {
+      ++i;
+    }
+  }
+  return stillSame;
+}

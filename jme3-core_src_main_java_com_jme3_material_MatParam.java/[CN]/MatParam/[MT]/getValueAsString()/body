@@ -40,10 +40,20 @@ String ret="";
 if (texKey.isFlipY()) {
 ret+="Flip ";
 }
-if (texVal.getWrap(Texture.WrapAxis.S) == WrapMode.Repeat) {
-ret+="Repeat ";
+ret+=getWrapMode(texVal,Texture.WrapAxis.S);
+ret+=getWrapMode(texVal,Texture.WrapAxis.T);
+ret+=getWrapMode(texVal,Texture.WrapAxis.R);
+Texture.MinFilter def=Texture.MinFilter.BilinearNoMipMaps;
+if (texVal.getImage().hasMipmaps() || texKey.isGenerateMips()) {
+def=Texture.MinFilter.Trilinear;
 }
-return ret + texKey.getName();
+if (texVal.getMinFilter() != def) {
+ret+="Min" + texVal.getMinFilter().name() + " ";
+}
+if (texVal.getMagFilter() != Texture.MagFilter.Bilinear) {
+ret+="Mag" + texVal.getMagFilter().name() + " ";
+}
+return ret + "\"" + texKey.getName()+ "\"";
 default :
 return null;
 }

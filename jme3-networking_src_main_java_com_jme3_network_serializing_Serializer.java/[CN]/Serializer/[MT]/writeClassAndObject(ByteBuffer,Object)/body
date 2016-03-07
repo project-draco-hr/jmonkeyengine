@@ -4,5 +4,8 @@
     return;
   }
   SerializerRegistration reg=writeClass(buffer,object.getClass());
+  if (reg.getType() != object.getClass()) {
+    throw new IllegalArgumentException("Class has not been registered:" + object.getClass() + " but resolved to generic serializer for:"+ reg.getType());
+  }
   reg.getSerializer().writeObject(buffer,object);
 }
