@@ -3,7 +3,7 @@
   for (  MatParamOverride override : overrides) {
     VarType type=override.getVarType();
     MatParam paramDef=def.getMaterialParam(override.getName());
-    if (paramDef == null || paramDef.getVarType() != type) {
+    if (paramDef == null || paramDef.getVarType() != type || !override.isEnabled()) {
       continue;
     }
     Uniform uniform=shader.getUniform(override.getPrefixedName());
