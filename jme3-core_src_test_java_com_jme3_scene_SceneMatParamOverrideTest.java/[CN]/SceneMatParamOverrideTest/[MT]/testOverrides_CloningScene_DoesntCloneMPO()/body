@@ -6,8 +6,8 @@
   Node clonedScene=originalScene.clone(false);
   validateScene(clonedScene);
   validateScene(originalScene);
-  ArrayList<MatParamOverride> clonedOverrides=clonedScene.getChild("A").getLocalOverrides();
-  ArrayList<MatParamOverride> originalOverrides=originalScene.getChild("A").getLocalOverrides();
+  List<MatParamOverride> clonedOverrides=clonedScene.getChild("A").getLocalMatParamOverrides();
+  List<MatParamOverride> originalOverrides=originalScene.getChild("A").getLocalMatParamOverrides();
   assertNotSame(clonedOverrides,originalOverrides);
   assertEquals(clonedOverrides,originalOverrides);
   for (int i=0; i < clonedOverrides.size(); i++) {
