@@ -6,7 +6,7 @@
     throw new IllegalArgumentException("Expected a " + varType.name() + " value!");
   }
   if (value == null) {
-    throw new NullPointerException();
+    throw new IllegalArgumentException("for uniform " + name + ": value cannot be null");
   }
   setByCurrentMaterial=true;
 switch (type) {

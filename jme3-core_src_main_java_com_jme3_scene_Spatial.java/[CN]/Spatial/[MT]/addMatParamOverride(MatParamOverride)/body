@@ -1,4 +1,7 @@
 {
+  if (override == null) {
+    throw new IllegalArgumentException("override cannot be null");
+  }
   localOverrides.add(override);
   setMatParamOverrideRefresh();
 }
