@@ -17,6 +17,11 @@
   if (object.getClass().isArray()) {
     clone=arrayClone(object);
   }
+ else   if (object instanceof JmeCloneable) {
+    clone=((JmeCloneable)object).jmeClone();
+    index.put(object,clone);
+    ((JmeCloneable)clone).cloneFields(this,object);
+  }
  else   if (object instanceof Cloneable) {
     try {
       clone=javaClone(object);
@@ -28,9 +33,6 @@
   }
  else {
     throw new IllegalArgumentException("Object is not cloneable, type:" + type);
-  }
-  if (clone instanceof JmeCloneable) {
-    ((JmeCloneable)clone).cloneFields(this,object);
   }
   return type.cast(clone);
 }
