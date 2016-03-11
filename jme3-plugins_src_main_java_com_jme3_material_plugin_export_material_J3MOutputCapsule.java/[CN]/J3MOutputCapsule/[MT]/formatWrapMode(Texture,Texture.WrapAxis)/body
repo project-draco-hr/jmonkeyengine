@@ -1,0 +1,13 @@
+{
+  WrapMode mode;
+  try {
+    mode=texVal.getWrap(axis);
+  }
+ catch (  IllegalArgumentException e) {
+    return "";
+  }
+  if (mode != WrapMode.EdgeClamp) {
+    return "Wrap" + mode.name() + "_"+ axis.name()+ " ";
+  }
+  return "";
+}

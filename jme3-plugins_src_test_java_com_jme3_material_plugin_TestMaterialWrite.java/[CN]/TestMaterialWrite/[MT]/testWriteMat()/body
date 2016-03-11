@@ -1,0 +1,13 @@
+{
+  assertNotNull(mat);
+  ByteArrayOutputStream stream=new ByteArrayOutputStream();
+  J3MExporter exporter=new J3MExporter();
+  try {
+    exporter.save(mat,stream);
+  }
+ catch (  IOException e) {
+    e.printStackTrace();
+  }
+  String reference=convertStreamToString(TestMaterialWrite.class.getResourceAsStream("/testMat.j3m"));
+  assertEquals(reference.replaceAll("\\s",""),stream.toString().replaceAll("\\s",""));
+}

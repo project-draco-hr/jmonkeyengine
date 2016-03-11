@@ -1,0 +1,26 @@
+{
+  StringBuilder ret=new StringBuilder();
+  Texture tex=(Texture)param.getValue();
+  TextureKey key;
+  if (tex != null) {
+    key=(TextureKey)tex.getKey();
+    if (key != null && key.isFlipY()) {
+      ret.append("Flip ");
+    }
+    ret.append(formatWrapMode(tex,Texture.WrapAxis.S));
+    ret.append(formatWrapMode(tex,Texture.WrapAxis.T));
+    ret.append(formatWrapMode(tex,Texture.WrapAxis.R));
+    Texture.MinFilter def=Texture.MinFilter.BilinearNoMipMaps;
+    if (tex.getImage().hasMipmaps() || (key != null && key.isGenerateMips())) {
+      def=Texture.MinFilter.Trilinear;
+    }
+    if (tex.getMinFilter() != def) {
+      ret.append("Min").append(tex.getMinFilter().name()).append(" ");
+    }
+    if (tex.getMagFilter() != Texture.MagFilter.Bilinear) {
+      ret.append("Mag").append(tex.getMagFilter().name()).append(" ");
+    }
+    ret.append("\"").append(key.getName()).append("\"");
+  }
+  return ret.toString();
+}
