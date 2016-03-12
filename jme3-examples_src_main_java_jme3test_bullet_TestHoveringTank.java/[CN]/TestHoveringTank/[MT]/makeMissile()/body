@@ -4,7 +4,7 @@
   Vector3f dir=rot.getRotationColumn(2);
   Spatial missile=assetManager.loadModel("Models/SpaceCraft/Rocket.mesh.xml");
   missile.scale(0.5f);
-  missile.rotate(0,FastMath.PI,0);
+  missile.rotate(FastMath.PI,FastMath.PI,0);
   missile.updateGeometricState();
   BoundingBox box=(BoundingBox)missile.getWorldBound();
   final Vector3f extent=box.getExtent(null);
