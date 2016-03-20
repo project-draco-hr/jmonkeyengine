@@ -1,0 +1,9 @@
+{
+  if (spatial instanceof Terrain) {
+    TerrainLodControl cloned=new TerrainLodControl((Terrain)spatial,cameras);
+    cloned.setLodCalculator(lodCalculator.clone());
+    cloned.spatial=spatial;
+    return cloned;
+  }
+  return null;
+}

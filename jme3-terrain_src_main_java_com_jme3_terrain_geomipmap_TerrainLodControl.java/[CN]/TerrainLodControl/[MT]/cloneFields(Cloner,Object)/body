@@ -1,0 +1,9 @@
+{
+  this.lodCalculator=cloner.clone(lodCalculator);
+  try {
+    this.cameras=cloner.javaClone(cameras);
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new RuntimeException("Error cloning",e);
+  }
+}

@@ -1,0 +1,12 @@
+{
+  SafeArrayList<Track> newTracks=new SafeArrayList<>(Track.class);
+  for (  Track track : tracks) {
+    if (track instanceof ClonableTrack) {
+      newTracks.add(cloner.clone(track));
+    }
+ else {
+      newTracks.add(track);
+    }
+  }
+  this.tracks=newTracks;
+}
