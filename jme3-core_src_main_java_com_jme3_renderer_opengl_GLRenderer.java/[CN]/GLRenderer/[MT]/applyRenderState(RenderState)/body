@@ -147,4 +147,8 @@ gl.glStencilFuncSeparate(GL.GL_BACK,convertTestFunction(state.getBackStencilFunc
 gl.glDisable(GL.GL_STENCIL_TEST);
 }
 }
+if (context.lineWidth != state.getLineWidth()) {
+gl.glLineWidth(state.getLineWidth());
+context.lineWidth=state.getLineWidth();
+}
 }

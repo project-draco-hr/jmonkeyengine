@@ -2,7 +2,7 @@
   if (mesh.getVertexCount() == 0) {
     return;
   }
-  if (context.lineWidth != mesh.getLineWidth()) {
+  if (mesh.getLineWidth() != -1 && context.lineWidth != mesh.getLineWidth()) {
     gl.glLineWidth(mesh.getLineWidth());
     context.lineWidth=mesh.getLineWidth();
   }

@@ -13,6 +13,7 @@
   mat.setTexture("DiffuseMap",tex);
   mat.getAdditionalRenderState().setDepthWrite(false);
   mat.getAdditionalRenderState().setDepthTest(false);
+  mat.getAdditionalRenderState().setLineWidth(5);
   mat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
   final ByteArrayOutputStream stream=new ByteArrayOutputStream();
   J3MExporter exporter=new J3MExporter();
