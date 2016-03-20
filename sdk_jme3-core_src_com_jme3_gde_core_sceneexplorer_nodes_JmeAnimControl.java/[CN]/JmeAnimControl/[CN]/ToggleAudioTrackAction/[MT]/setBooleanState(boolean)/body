@@ -1,8 +1,0 @@
-{
-  super.setBooleanState(value);
-  displayAudioTracks=value;
-  for (  Object node : getChildren().getNodes()) {
-    JmeAnimation anim=(JmeAnimation)node;
-    ((JmeTrackChildren)anim.getChildren()).refreshChildren(true);
-  }
-}

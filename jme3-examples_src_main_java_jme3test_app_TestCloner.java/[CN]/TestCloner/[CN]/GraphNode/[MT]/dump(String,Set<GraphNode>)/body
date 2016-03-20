@@ -1,0 +1,12 @@
+{
+  if (visited.contains(this)) {
+    System.out.println(indent + this + " ** circular.");
+    return;
+  }
+  System.out.println(indent + this);
+  visited.add(this);
+  for (  GraphNode n : links) {
+    n.dump(indent + "    ",visited);
+  }
+  visited.remove(this);
+}

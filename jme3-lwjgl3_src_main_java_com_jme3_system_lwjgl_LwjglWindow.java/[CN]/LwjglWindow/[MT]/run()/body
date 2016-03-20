@@ -2,7 +2,6 @@
   if (listener == null) {
     throw new IllegalStateException("SystemListener is not set on context!" + "Must set with JmeContext.setSystemListener().");
   }
-  loadNatives();
   LOGGER.log(Level.FINE,"Using LWJGL {0}",Version.getVersion());
   if (!initInThread()) {
     LOGGER.log(Level.SEVERE,"Display initialization failed. Cannot continue.");

@@ -19,8 +19,15 @@
     dlsf.setLambda(dlsr.getLambda() - 0.01f);
     System.out.println("Lambda : " + dlsr.getLambda());
   }
+  if ((name.equals("ShadowUp") || name.equals("ShadowDown")) && keyPressed) {
+    al.setColor(ColorRGBA.White.mult((1 - dlsr.getShadowIntensity()) * 0.2f));
+  }
   if (name.equals("debug") && keyPressed) {
     dlsr.displayFrustum();
+  }
+  if (name.equals("backShadows") && keyPressed) {
+    dlsr.setRenderBackFacesShadows(!dlsr.isRenderBackFacesShadows());
+    dlsf.setRenderBackFacesShadows(!dlsf.isRenderBackFacesShadows());
   }
   if (name.equals("stabilize") && keyPressed) {
     dlsr.setEnabledStabilization(!dlsr.isEnabledStabilization());

@@ -1,9 +1,0 @@
-def get_subcollisions(self, ob, create=True):
-    r = get_subcollisions(ob)
-    if ((not r) and create):
-        method = getattr(self, ('create_%s' % ob.collision_mode))
-        p = method(ob)
-        p.name = ('%s.%s' % (ob.collision_mode, ob.name))
-        p.subcollision = True
-        r.append(p)
-    return r

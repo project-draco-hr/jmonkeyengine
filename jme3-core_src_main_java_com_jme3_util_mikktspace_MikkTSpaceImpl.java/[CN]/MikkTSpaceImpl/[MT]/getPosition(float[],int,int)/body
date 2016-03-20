@@ -1,0 +1,9 @@
+{
+  int vertIndex=getIndex(face,vert);
+  VertexBuffer position=mesh.getBuffer(VertexBuffer.Type.Position);
+  FloatBuffer pos=(FloatBuffer)position.getData();
+  pos.position(vertIndex * 3);
+  posOut[0]=pos.get();
+  posOut[1]=pos.get();
+  posOut[2]=pos.get();
+}

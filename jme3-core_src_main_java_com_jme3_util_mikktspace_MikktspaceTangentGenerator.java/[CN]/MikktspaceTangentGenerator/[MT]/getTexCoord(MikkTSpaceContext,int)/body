@@ -1,0 +1,8 @@
+{
+  int[] iF=new int[1];
+  int[] iI=new int[1];
+  float[] texc=new float[2];
+  indexToData(iF,iI,index);
+  mikkTSpace.getTexCoord(texc,iF[0],iI[0]);
+  return new Vector3f(texc[0],texc[1],1.0f);
+}

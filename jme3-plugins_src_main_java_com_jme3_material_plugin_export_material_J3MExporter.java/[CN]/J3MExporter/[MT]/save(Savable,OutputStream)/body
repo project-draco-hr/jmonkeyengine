@@ -1,0 +1,10 @@
+{
+  if (!(object instanceof Material)) {
+    throw new IllegalArgumentException("J3MExporter can only save com.jme3.material.Material class");
+  }
+  OutputStreamWriter out=new OutputStreamWriter(f,Charset.forName("UTF-8"));
+  rootCapsule.clear();
+  object.write(this);
+  rootCapsule.writeToStream(out);
+  out.flush();
+}

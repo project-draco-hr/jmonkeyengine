@@ -1,0 +1,9 @@
+{
+  try {
+    T clone=cloner.javaClone(object);
+    return clone;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new IllegalArgumentException("Clone not supported for type:" + object.getClass(),e);
+  }
+}

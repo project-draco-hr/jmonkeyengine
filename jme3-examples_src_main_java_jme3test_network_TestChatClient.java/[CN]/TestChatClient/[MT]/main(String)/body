@@ -1,4 +1,11 @@
 {
+  System.out.println("Setting logging to max");
+  Logger networkLog=Logger.getLogger("com.jme3.network");
+  networkLog.setLevel(Level.FINEST);
+  Logger rootLog=Logger.getLogger("");
+  if (rootLog.getHandlers().length > 0) {
+    rootLog.getHandlers()[0].setLevel(Level.FINEST);
+  }
   String s=getString(null,"Host Info","Enter chat host:","localhost");
   if (s == null) {
     System.out.println("User cancelled.");

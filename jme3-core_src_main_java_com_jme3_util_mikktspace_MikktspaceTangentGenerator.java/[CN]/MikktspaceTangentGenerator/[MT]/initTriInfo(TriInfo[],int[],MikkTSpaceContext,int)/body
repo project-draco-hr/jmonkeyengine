@@ -1,0 +1,88 @@
+{
+  for (int f=0; f < iNrTrianglesIn; f++) {
+    for (int i=0; i < 3; i++) {
+      pTriInfos[f].faceNeighbors[i]=-1;
+      pTriInfos[f].assignedGroup[i]=null;
+      pTriInfos[f].os.x=0.0f;
+      pTriInfos[f].os.y=0.0f;
+      pTriInfos[f].os.z=0.0f;
+      pTriInfos[f].ot.x=0.0f;
+      pTriInfos[f].ot.y=0.0f;
+      pTriInfos[f].ot.z=0.0f;
+      pTriInfos[f].magS=0;
+      pTriInfos[f].magT=0;
+      pTriInfos[f].flag|=GROUP_WITH_ANY;
+    }
+  }
+  for (int f=0; f < iNrTrianglesIn; f++) {
+    final Vector3f v1=getPosition(mikkTSpace,piTriListIn[f * 3 + 0]);
+    final Vector3f v2=getPosition(mikkTSpace,piTriListIn[f * 3 + 1]);
+    final Vector3f v3=getPosition(mikkTSpace,piTriListIn[f * 3 + 2]);
+    final Vector3f t1=getTexCoord(mikkTSpace,piTriListIn[f * 3 + 0]);
+    final Vector3f t2=getTexCoord(mikkTSpace,piTriListIn[f * 3 + 1]);
+    final Vector3f t3=getTexCoord(mikkTSpace,piTriListIn[f * 3 + 2]);
+    final float t21x=t2.x - t1.x;
+    final float t21y=t2.y - t1.y;
+    final float t31x=t3.x - t1.x;
+    final float t31y=t3.y - t1.y;
+    final Vector3f d1=v2.subtract(v1);
+    final Vector3f d2=v3.subtract(v1);
+    final float fSignedAreaSTx2=t21x * t31y - t21y * t31x;
+    Vector3f vOs=d1.mult(t31y).subtract(d2.mult(t21y));
+    Vector3f vOt=d1.mult(-t31x).add(d2.mult(t21x));
+    pTriInfos[f].flag|=(fSignedAreaSTx2 > 0 ? ORIENT_PRESERVING : 0);
+    if (isNotZero(fSignedAreaSTx2)) {
+      final float fAbsArea=Math.abs(fSignedAreaSTx2);
+      final float fLenOs=vOs.length();
+      final float fLenOt=vOt.length();
+      final float fS=(pTriInfos[f].flag & ORIENT_PRESERVING) == 0 ? (-1.0f) : 1.0f;
+      if (isNotZero(fLenOs)) {
+        pTriInfos[f].os=vOs.multLocal(fS / fLenOs);
+      }
+      if (isNotZero(fLenOt)) {
+        pTriInfos[f].ot=vOt.multLocal(fS / fLenOt);
+      }
+      pTriInfos[f].magS=fLenOs / fAbsArea;
+      pTriInfos[f].magT=fLenOt / fAbsArea;
+      if (isNotZero(pTriInfos[f].magS) && isNotZero(pTriInfos[f].magT)) {
+        pTriInfos[f].flag&=(~GROUP_WITH_ANY);
+      }
+    }
+  }
+  int t=0;
+  while (t < (iNrTrianglesIn - 1)) {
+    final int iFO_a=pTriInfos[t].orgFaceNumber;
+    final int iFO_b=pTriInfos[t + 1].orgFaceNumber;
+    if (iFO_a == iFO_b) {
+      final boolean bIsDeg_a=(pTriInfos[t].flag & MARK_DEGENERATE) != 0;
+      final boolean bIsDeg_b=(pTriInfos[t + 1].flag & MARK_DEGENERATE) != 0;
+      if ((bIsDeg_a || bIsDeg_b) == false) {
+        final boolean bOrientA=(pTriInfos[t].flag & ORIENT_PRESERVING) != 0;
+        final boolean bOrientB=(pTriInfos[t + 1].flag & ORIENT_PRESERVING) != 0;
+        if (bOrientA != bOrientB) {
+          boolean bChooseOrientFirstTri=false;
+          if ((pTriInfos[t + 1].flag & GROUP_WITH_ANY) != 0) {
+            bChooseOrientFirstTri=true;
+          }
+ else           if (calcTexArea(mikkTSpace,Arrays.copyOfRange(piTriListIn,t * 3 + 0,t * 3 + 3)) >= calcTexArea(mikkTSpace,Arrays.copyOfRange(piTriListIn,(t + 1) * 3 + 0,(t + 1) * 3 + 3))) {
+            bChooseOrientFirstTri=true;
+          }
+{
+            final int t0=bChooseOrientFirstTri ? t : (t + 1);
+            final int t1=bChooseOrientFirstTri ? (t + 1) : t;
+            pTriInfos[t1].flag&=(~ORIENT_PRESERVING);
+            pTriInfos[t1].flag|=(pTriInfos[t0].flag & ORIENT_PRESERVING);
+          }
+        }
+      }
+      t+=2;
+    }
+ else {
+      ++t;
+    }
+  }
+{
+    Edge[] pEdges=new Edge[iNrTrianglesIn * 3];
+    buildNeighborsFast(pTriInfos,pEdges,piTriListIn,iNrTrianglesIn);
+  }
+}

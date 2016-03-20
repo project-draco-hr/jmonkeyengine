@@ -1,7 +1,0 @@
-def get_subcollisions(ob):
-    prefix = ('%s.' % ob.collision_mode)
-    r = []
-    for child in ob.children:
-        if (child.subcollision and child.name.startswith(prefix)):
-            r.append(child)
-    return r

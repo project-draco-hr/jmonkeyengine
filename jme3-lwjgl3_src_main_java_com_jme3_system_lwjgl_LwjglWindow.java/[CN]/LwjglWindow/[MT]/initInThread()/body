@@ -2,7 +2,7 @@
   try {
     if (!JmeSystem.isLowPermissions()) {
       Thread.currentThread().setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler(){
-        public void uncaughtException(        Thread thread,        Throwable thrown){
+        @Override public void uncaughtException(        Thread thread,        Throwable thrown){
           listener.handleError("Uncaught exception thrown in " + thread.toString(),thrown);
           if (needClose.get()) {
             deinitInThread();
@@ -11,6 +11,7 @@
       }
 );
     }
+    loadNatives();
     timer=new NanoTimer();
     createContext(settings);
     printContextInitInfo();

@@ -1,0 +1,35 @@
+{
+  int iL, iR, n, index, iMid, iTmp;
+  long t=uSeed & 31;
+  t=(uSeed << t) | (uSeed >> (32 - t));
+  uSeed=uSeed + t + 3;
+  uSeed=uSeed & 0xffffffffL;
+  iL=iLeft;
+  iR=iRight;
+  n=(iR - iL) + 1;
+  assert(n >= 0);
+  index=(int)((uSeed & 0xffffffffL) % n);
+  iMid=pSortBuffer[index + iL];
+  do {
+    while (pSortBuffer[iL] < iMid) {
+      ++iL;
+    }
+    while (pSortBuffer[iR] > iMid) {
+      --iR;
+    }
+    if (iL <= iR) {
+      iTmp=pSortBuffer[iL];
+      pSortBuffer[iL]=pSortBuffer[iR];
+      pSortBuffer[iR]=iTmp;
+      ++iL;
+      --iR;
+    }
+  }
+ while (iL <= iR);
+  if (iLeft < iR) {
+    quickSort(pSortBuffer,iLeft,iR,uSeed);
+  }
+  if (iL < iRight) {
+    quickSort(pSortBuffer,iL,iRight,uSeed);
+  }
+}

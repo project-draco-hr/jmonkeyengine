@@ -1,0 +1,16 @@
+{
+  TSpace tsRes=new TSpace();
+  if (tS0.magS == tS1.magS && tS0.magT == tS1.magT && tS0.os.equals(tS1.os) && tS0.ot.equals(tS1.ot)) {
+    tsRes.magS=tS0.magS;
+    tsRes.magT=tS0.magT;
+    tsRes.os.set(tS0.os);
+    tsRes.ot.set(tS0.ot);
+  }
+ else {
+    tsRes.magS=0.5f * (tS0.magS + tS1.magS);
+    tsRes.magT=0.5f * (tS0.magT + tS1.magT);
+    tsRes.os.set(tS0.os).addLocal(tS1.os).normalizeLocal();
+    tsRes.ot.set(tS0.ot).addLocal(tS1.ot).normalizeLocal();
+  }
+  return tsRes;
+}

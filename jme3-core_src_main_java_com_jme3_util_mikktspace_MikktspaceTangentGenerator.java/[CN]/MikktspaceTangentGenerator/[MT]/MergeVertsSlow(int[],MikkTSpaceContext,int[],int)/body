@@ -1,0 +1,28 @@
+{
+  for (int e=0; e < iEntries; e++) {
+    int i=pTable[e];
+    final int index=piTriList_in_and_out[i];
+    final Vector3f vP=getPosition(mikkTSpace,index);
+    final Vector3f vN=getNormal(mikkTSpace,index);
+    final Vector3f vT=getTexCoord(mikkTSpace,index);
+    boolean bNotFound=true;
+    int e2=0, i2rec=-1;
+    while (e2 < e && bNotFound) {
+      final int i2=pTable[e2];
+      final int index2=piTriList_in_and_out[i2];
+      final Vector3f vP2=getPosition(mikkTSpace,index2);
+      final Vector3f vN2=getNormal(mikkTSpace,index2);
+      final Vector3f vT2=getTexCoord(mikkTSpace,index2);
+      i2rec=i2;
+      if (vP.equals(vP2) && vN.equals(vN2) && vT.equals(vT2)) {
+        bNotFound=false;
+      }
+ else {
+        ++e2;
+      }
+    }
+    if (!bNotFound) {
+      piTriList_in_and_out[i]=piTriList_in_and_out[i2rec];
+    }
+  }
+}

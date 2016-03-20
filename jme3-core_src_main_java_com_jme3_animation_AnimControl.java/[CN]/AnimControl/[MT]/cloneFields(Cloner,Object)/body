@@ -1,0 +1,9 @@
+{
+  super.cloneFields(cloner,original);
+  this.skeleton=cloner.clone(skeleton);
+  HashMap<String,Animation> newMap=new HashMap<>();
+  for (  Map.Entry<String,Animation> e : animationMap.entrySet()) {
+    newMap.put(e.getKey(),cloner.clone(e.getValue()));
+  }
+  this.animationMap=newMap;
+}
