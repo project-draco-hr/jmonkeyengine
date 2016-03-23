@@ -1,0 +1,13 @@
+{
+  PhysicsCollisionGroupListener listener=collisionGroupListeners.get(node.getCollisionGroup());
+  PhysicsCollisionGroupListener listener1=collisionGroupListeners.get(node1.getCollisionGroup());
+  if (listener != null) {
+    if (!listener.collide(node,node1)) {
+      return false;
+    }
+  }
+  if (listener1 != null && node.getCollisionGroup() != node1.getCollisionGroup()) {
+    return listener1.collide(node,node1);
+  }
+  return true;
+}
