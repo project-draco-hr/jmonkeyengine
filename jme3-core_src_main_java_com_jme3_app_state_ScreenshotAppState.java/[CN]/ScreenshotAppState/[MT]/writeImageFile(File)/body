@@ -1,0 +1,9 @@
+{
+  OutputStream outStream=new FileOutputStream(file);
+  try {
+    JmeSystem.writeImageFile(outStream,"png",outBuf,width,height);
+  }
+  finally {
+    outStream.close();
+  }
+}

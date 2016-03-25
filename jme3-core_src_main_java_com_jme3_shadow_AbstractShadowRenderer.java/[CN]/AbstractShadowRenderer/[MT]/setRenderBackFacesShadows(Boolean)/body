@@ -1,0 +1,11 @@
+{
+  this.renderBackFacesShadows=renderBackFacesShadows;
+  if (renderBackFacesShadows) {
+    getPreShadowForcedRenderState().setPolyOffset(5,3);
+    getPreShadowForcedRenderState().setFaceCullMode(RenderState.FaceCullMode.Back);
+  }
+ else {
+    getPreShadowForcedRenderState().setPolyOffset(0,0);
+    getPreShadowForcedRenderState().setFaceCullMode(RenderState.FaceCullMode.Front);
+  }
+}

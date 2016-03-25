@@ -1,0 +1,9 @@
+{
+  if (value instanceof MatParamTexture) {
+    return formatMatParamTexture((MatParamTexture)value);
+  }
+  if (value instanceof MatParam) {
+    return formatMatParam((MatParam)value);
+  }
+  throw new UnsupportedOperationException(value.getClass() + ": Not supported yet.");
+}

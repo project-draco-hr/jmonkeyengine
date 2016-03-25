@@ -1,0 +1,10 @@
+{
+  super.cloneFields(cloner,original);
+  this.skeleton=cloner.clone(skeleton);
+  this.targets=cloner.clone(targets);
+  Set<Material> newMaterials=new HashSet<Material>();
+  for (  Material m : this.materials) {
+    newMaterials.add(cloner.clone(m));
+  }
+  this.materials=newMaterials;
+}

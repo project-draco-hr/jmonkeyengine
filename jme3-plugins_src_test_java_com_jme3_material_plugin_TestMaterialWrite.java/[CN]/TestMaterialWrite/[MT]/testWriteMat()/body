@@ -1,0 +1,36 @@
+{
+  Material mat=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  mat.setBoolean("UseMaterialColors",true);
+  mat.setColor("Diffuse",ColorRGBA.White);
+  mat.setColor("Ambient",ColorRGBA.DarkGray);
+  mat.setFloat("AlphaDiscardThreshold",0.5f);
+  mat.setFloat("Shininess",2.5f);
+  Texture tex=assetManager.loadTexture("Common/Textures/MissingTexture.png");
+  tex.setMagFilter(Texture.MagFilter.Nearest);
+  tex.setMinFilter(Texture.MinFilter.BilinearNoMipMaps);
+  tex.setWrap(Texture.WrapAxis.S,Texture.WrapMode.Repeat);
+  tex.setWrap(Texture.WrapAxis.T,Texture.WrapMode.MirroredRepeat);
+  mat.setTexture("DiffuseMap",tex);
+  mat.getAdditionalRenderState().setDepthWrite(false);
+  mat.getAdditionalRenderState().setDepthTest(false);
+  mat.getAdditionalRenderState().setLineWidth(5);
+  mat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
+  final ByteArrayOutputStream stream=new ByteArrayOutputStream();
+  J3MExporter exporter=new J3MExporter();
+  try {
+    exporter.save(mat,stream);
+  }
+ catch (  IOException e) {
+    e.printStackTrace();
+  }
+  System.err.println(stream.toString());
+  J3MLoader loader=new J3MLoader();
+  AssetInfo info=new AssetInfo(assetManager,new AssetKey("test")){
+    @Override public InputStream openStream(){
+      return new ByteArrayInputStream(stream.toByteArray());
+    }
+  }
+;
+  Material mat2=(Material)loader.load(info);
+  assertTrue(mat.contentEquals(mat2));
+}

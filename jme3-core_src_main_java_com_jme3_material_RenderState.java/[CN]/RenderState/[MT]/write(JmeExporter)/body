@@ -21,6 +21,9 @@
   oc.write(backStencilDepthPassOperation,"backStencilDepthPassOperation",StencilOperation.Keep);
   oc.write(frontStencilFunction,"frontStencilFunction",TestFunction.Always);
   oc.write(backStencilFunction,"backStencilFunction",TestFunction.Always);
+  oc.write(depthFunc,"depthFunc",TestFunction.LessOrEqual);
+  oc.write(alphaFunc,"alphaFunc",TestFunction.Greater);
+  oc.write(lineWidth,"lineWidth",1);
   oc.write(applyPointSprite,"applyPointSprite",true);
   oc.write(applyWireFrame,"applyWireFrame",true);
   oc.write(applyCullMode,"applyCullMode",true);
@@ -33,6 +36,5 @@
   oc.write(applyPolyOffset,"applyPolyOffset",true);
   oc.write(applyDepthFunc,"applyDepthFunc",true);
   oc.write(applyAlphaFunc,"applyAlphaFunc",false);
-  oc.write(depthFunc,"depthFunc",TestFunction.LessOrEqual);
-  oc.write(alphaFunc,"alphaFunc",TestFunction.Greater);
+  oc.write(applyLineWidth,"applyLineWidth",true);
 }

@@ -1,0 +1,11 @@
+{
+  out.write("Material " + name + " : "+ materialDefinition+ " {\n\n");
+  if (isTransparent != null)   out.write("    Transparent " + ((isTransparent) ? "On" : "Off") + "\n\n");
+  out.write("    MaterialParameters {\n");
+  super.writeToStream(out);
+  out.write("    }\n\n");
+  for (  J3MOutputCapsule c : outCapsules.values()) {
+    c.writeToStream(out);
+  }
+  out.write("}\n");
+}

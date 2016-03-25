@@ -4,7 +4,7 @@
   mat[0]=assetManager.loadMaterial("Common/Materials/RedColor.j3m");
   mat[1]=assetManager.loadMaterial("Textures/Terrain/Pond/Pond.j3m");
   mat[1].setBoolean("UseMaterialColors",true);
-  mat[1].setColor("Ambient",ColorRGBA.White.mult(0.5f));
+  mat[1].setColor("Ambient",ColorRGBA.White);
   mat[1].setColor("Diffuse",ColorRGBA.White.clone());
   obj[0]=new Geometry("sphere",new Sphere(30,30,2));
   obj[0].setShadowMode(ShadowMode.CastAndReceive);
@@ -12,8 +12,13 @@
   obj[1].setShadowMode(ShadowMode.CastAndReceive);
   TangentBinormalGenerator.generate(obj[1]);
   TangentBinormalGenerator.generate(obj[0]);
+  Spatial t=obj[0].clone(false);
+  t.setLocalScale(10f);
+  t.setMaterial(mat[1]);
+  rootNode.attachChild(t);
+  t.setLocalTranslation(0,25,0);
   for (int i=0; i < 60; i++) {
-    Spatial t=obj[FastMath.nextRandomInt(0,obj.length - 1)].clone(false);
+    t=obj[FastMath.nextRandomInt(0,obj.length - 1)].clone(false);
     t.setLocalScale(FastMath.nextRandomFloat() * 10f);
     t.setMaterial(mat[FastMath.nextRandomInt(0,mat.length - 1)]);
     rootNode.attachChild(t);
@@ -34,8 +39,8 @@
   l=new DirectionalLight();
   l.setDirection(new Vector3f(-1,-1,-1));
   rootNode.addLight(l);
-  AmbientLight al=new AmbientLight();
-  al.setColor(ColorRGBA.White.mult(0.5f));
+  al=new AmbientLight();
+  al.setColor(ColorRGBA.White.mult(0.02f));
   rootNode.addLight(al);
   Spatial sky=SkyFactory.createSky(assetManager,"Scenes/Beach/FullskiesSunset0068.dds",false);
   sky.setLocalScale(350);

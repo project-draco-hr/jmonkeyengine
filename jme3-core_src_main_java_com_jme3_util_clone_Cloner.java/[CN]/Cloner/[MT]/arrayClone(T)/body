@@ -1,0 +1,17 @@
+{
+  Class<T> type=objectClass(object);
+  Class elementType=type.getComponentType();
+  int size=Array.getLength(object);
+  Object clone=Array.newInstance(elementType,size);
+  index.put(object,clone);
+  if (elementType.isPrimitive()) {
+    System.arraycopy(object,0,clone,0,size);
+  }
+ else {
+    for (int i=0; i < size; i++) {
+      Object element=clone(Array.get(object,i));
+      Array.set(clone,i,element);
+    }
+  }
+  return type.cast(clone);
+}

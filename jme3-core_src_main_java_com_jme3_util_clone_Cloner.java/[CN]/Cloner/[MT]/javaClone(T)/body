@@ -1,0 +1,19 @@
+{
+  Method m=methodCache.get(object.getClass());
+  if (m == null) {
+    try {
+      m=object.getClass().getMethod("clone");
+    }
+ catch (    NoSuchMethodException e) {
+      throw new CloneNotSupportedException("No public clone method found for:" + object.getClass());
+    }
+    methodCache.put(object.getClass(),m);
+  }
+  try {
+    Class<? extends T> type=objectClass(object);
+    return type.cast(m.invoke(object));
+  }
+ catch (  IllegalAccessException|InvocationTargetException e) {
+    throw new RuntimeException("Error cloning object of type:" + object.getClass(),e);
+  }
+}

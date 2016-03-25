@@ -1,0 +1,38 @@
+{
+  if (object == null) {
+    return null;
+  }
+  Class<T> type=objectClass(object);
+  Object clone=index.get(object);
+  if (clone != null) {
+    return type.cast(clone);
+  }
+  CloneFunction<T> f=getCloneFunction(type);
+  if (f != null) {
+    T result=f.cloneObject(this,object);
+    index.put(object,result);
+    f.cloneFields(this,result,object);
+    return result;
+  }
+  if (object.getClass().isArray()) {
+    clone=arrayClone(object);
+  }
+ else   if (object instanceof JmeCloneable) {
+    clone=((JmeCloneable)object).jmeClone();
+    index.put(object,clone);
+    ((JmeCloneable)clone).cloneFields(this,object);
+  }
+ else   if (object instanceof Cloneable) {
+    try {
+      clone=javaClone(object);
+    }
+ catch (    CloneNotSupportedException e) {
+      throw new IllegalArgumentException("Object is not cloneable, type:" + type,e);
+    }
+    index.put(object,clone);
+  }
+ else {
+    throw new IllegalArgumentException("Object is not cloneable, type:" + type);
+  }
+  return type.cast(clone);
+}

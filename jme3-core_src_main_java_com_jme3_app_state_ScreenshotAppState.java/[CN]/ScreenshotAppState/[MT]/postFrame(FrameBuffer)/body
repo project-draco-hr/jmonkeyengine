@@ -25,23 +25,11 @@
       file=new File(filePath + filename + ".png").getAbsoluteFile();
     }
     logger.log(Level.FINE,"Saving ScreenShot to: {0}",file.getAbsolutePath());
-    OutputStream outStream=null;
     try {
-      outStream=new FileOutputStream(file);
-      JmeSystem.writeImageFile(outStream,"png",outBuf,width,height);
+      writeImageFile(file);
     }
  catch (    IOException ex) {
       logger.log(Level.SEVERE,"Error while saving screenshot",ex);
-    }
- finally {
-      if (outStream != null) {
-        try {
-          outStream.close();
-        }
- catch (        IOException ex) {
-          logger.log(Level.SEVERE,"Error while saving screenshot",ex);
-        }
-      }
     }
   }
 }

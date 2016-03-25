@@ -1,0 +1,7 @@
+{
+  this.spatial=cloner.clone(spatial);
+  for (  VehicleWheel wheel : wheels) {
+    Spatial spatial=cloner.clone(wheel.getWheelSpatial());
+    wheel.setWheelSpatial(spatial);
+  }
+}

@@ -1,19 +1,19 @@
 {
-  cam.setLocation(new Vector3f(65.25412f,44.38738f,9.087874f));
-  cam.setRotation(new Quaternion(0.078139365f,0.050241485f,-0.003942559f,0.9956679f));
+  cam.setLocation(new Vector3f(3.3720117f,42.838284f,-83.43792f));
+  cam.setRotation(new Quaternion(0.13833192f,-0.08969371f,0.012581267f,0.9862358f));
   flyCam.setMoveSpeed(100);
   loadScene();
   dlsr=new DirectionalLightShadowRenderer(assetManager,SHADOWMAP_SIZE,3);
   dlsr.setLight(l);
   dlsr.setLambda(0.55f);
-  dlsr.setShadowIntensity(0.6f);
+  dlsr.setShadowIntensity(0.8f);
   dlsr.setEdgeFilteringMode(EdgeFilteringMode.Nearest);
   dlsr.displayDebug();
   viewPort.addProcessor(dlsr);
   dlsf=new DirectionalLightShadowFilter(assetManager,SHADOWMAP_SIZE,3);
   dlsf.setLight(l);
   dlsf.setLambda(0.55f);
-  dlsf.setShadowIntensity(0.6f);
+  dlsf.setShadowIntensity(0.8f);
   dlsf.setEdgeFilteringMode(EdgeFilteringMode.Nearest);
   dlsf.setEnabled(false);
   FilterPostProcessor fpp=new FilterPostProcessor(assetManager);

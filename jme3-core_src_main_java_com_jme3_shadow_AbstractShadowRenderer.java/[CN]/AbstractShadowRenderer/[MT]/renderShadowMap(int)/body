@@ -5,5 +5,7 @@
   renderManager.setCamera(shadowCam,false);
   renderManager.getRenderer().setFrameBuffer(shadowFB[shadowMapIndex]);
   renderManager.getRenderer().clearBuffers(true,true,true);
+  renderManager.setForcedRenderState(forcedRenderState);
   viewPort.getQueue().renderShadowQueue(shadowMapOccluders,renderManager,shadowCam,true);
+  renderManager.setForcedRenderState(null);
 }
