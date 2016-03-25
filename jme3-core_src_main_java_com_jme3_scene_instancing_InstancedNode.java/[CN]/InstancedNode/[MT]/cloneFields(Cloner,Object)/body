@@ -1,0 +1,14 @@
+{
+  this.control=cloner.clone(control);
+  this.lookUp=cloner.clone(lookUp);
+  HashMap<Geometry,InstancedGeometry> newIgByGeom=new HashMap<Geometry,InstancedGeometry>();
+  for (  Map.Entry<Geometry,InstancedGeometry> e : igByGeom.entrySet()) {
+    newIgByGeom.put(cloner.clone(e.getKey()),cloner.clone(e.getValue()));
+  }
+  this.igByGeom=newIgByGeom;
+  HashMap<InstanceTypeKey,InstancedGeometry> newInstancesMap=new HashMap<InstanceTypeKey,InstancedGeometry>();
+  for (  Map.Entry<InstanceTypeKey,InstancedGeometry> e : instancesMap.entrySet()) {
+    newInstancesMap.put(cloner.clone(e.getKey()),cloner.clone(e.getValue()));
+  }
+  this.instancesMap=newInstancesMap;
+}
