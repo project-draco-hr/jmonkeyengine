@@ -11,10 +11,14 @@
     if (((Float)mat.getParam("Metallic").getValue()) == 1f) {
       mat.setFloat("Metallic",0);
       mat.setColor("BaseColor",ColorRGBA.Black);
+      ref.attachChild(refDE);
+      refM.removeFromParent();
     }
  else {
       mat.setFloat("Metallic",1);
       mat.setColor("BaseColor",ColorRGBA.White);
+      ref.attachChild(refM);
+      refDE.removeFromParent();
     }
   }
 }
