@@ -6,11 +6,13 @@
   this.worldTransform=cloner.clone(worldTransform);
   this.localTransform=cloner.clone(localTransform);
   this.controls=cloner.clone(controls);
-  userData=(HashMap<String,Savable>)userData.clone();
-  for (  Map.Entry<String,Savable> e : userData.entrySet()) {
-    Savable value=e.getValue();
-    if (value instanceof Cloneable) {
-      e.setValue(cloner.clone(value));
+  if (userData != null) {
+    userData=(HashMap<String,Savable>)userData.clone();
+    for (    Map.Entry<String,Savable> e : userData.entrySet()) {
+      Savable value=e.getValue();
+      if (value instanceof Cloneable) {
+        e.setValue(cloner.clone(value));
+      }
     }
   }
 }

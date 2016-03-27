@@ -1,6 +1,8 @@
 {
   try {
-    return (Mesh)super.clone();
+    Mesh clone=(Mesh)super.clone();
+    clone.vertexArrayID=-1;
+    return clone;
   }
  catch (  CloneNotSupportedException ex) {
     throw new AssertionError();

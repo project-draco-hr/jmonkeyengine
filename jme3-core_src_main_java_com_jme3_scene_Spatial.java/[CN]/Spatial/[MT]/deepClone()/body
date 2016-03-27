@@ -1,0 +1,8 @@
+{
+  Cloner cloner=new Cloner();
+  cloner.setClonedValue(parent,null);
+  Spatial clone=cloner.clone(this);
+  clone.setTransformRefresh();
+  clone.setLightListRefresh();
+  return clone;
+}
