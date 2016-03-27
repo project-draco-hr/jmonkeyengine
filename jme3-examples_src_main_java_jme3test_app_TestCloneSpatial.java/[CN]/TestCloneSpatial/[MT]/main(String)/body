@@ -1,0 +1,29 @@
+{
+  Node root=new Node("rootNode");
+  DirectionalLight rootLight=new DirectionalLight();
+  root.addLight(rootLight);
+  Box sharedBox=new Box(1,1,1);
+  Geometry geom1=new Geometry("box1",sharedBox);
+  Material sharedMaterial=new Material();
+  geom1.setMaterial(sharedMaterial);
+  Geometry geom2=new Geometry("box2",sharedBox);
+  geom2.setMaterial(sharedMaterial);
+  root.attachChild(geom1);
+  root.attachChild(geom2);
+  geom1.addControl(new BillboardControl());
+  geom2.addControl(new BillboardControl());
+  PointLight childLight=new PointLight();
+  geom1.addLight(childLight);
+  geom2.addLight(childLight);
+  geom1.addControl(new LightControl(childLight));
+  Vector3f sharedUserData=new Vector3f(1,2,3);
+  geom1.setUserData("shared",sharedUserData);
+  geom2.setUserData("shared",sharedUserData);
+  dump("",root);
+  System.out.println("-------- cloning spatial --------------");
+  Node clone=root.clone(true);
+  dump("",clone);
+  System.out.println("-------- cloning spatial without cloning material --------------");
+  clone=root.clone(false);
+  dump("",clone);
+}
