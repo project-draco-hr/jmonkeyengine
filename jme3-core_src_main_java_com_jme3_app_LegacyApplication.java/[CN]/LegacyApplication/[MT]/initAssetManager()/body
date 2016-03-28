@@ -9,7 +9,7 @@
  catch (      MalformedURLException ex) {
       }
       if (assetCfgUrl == null) {
-        assetCfgUrl=Application.class.getClassLoader().getResource(assetCfg);
+        assetCfgUrl=LegacyApplication.class.getClassLoader().getResource(assetCfg);
         if (assetCfgUrl == null) {
           logger.log(Level.SEVERE,"Unable to access AssetConfigURL in asset config:{0}",assetCfg);
           return;
