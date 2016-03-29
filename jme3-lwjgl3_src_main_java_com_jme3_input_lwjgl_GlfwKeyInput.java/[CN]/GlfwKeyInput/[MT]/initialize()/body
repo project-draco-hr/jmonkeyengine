@@ -4,14 +4,28 @@
   }
   glfwSetKeyCallback(context.getWindowHandle(),keyCallback=new GLFWKeyCallback(){
     @Override public void invoke(    long window,    int key,    int scancode,    int action,    int mods){
+      if (key < 0 || key > GLFW_KEY_LAST) {
+        return;
+      }
       int jmeKey=GlfwKeyMap.toJmeKeyCode(key);
-      final KeyInputEvent evt=new KeyInputEvent(jmeKey,(char)key,GLFW_PRESS == action,GLFW_REPEAT == action);
-      evt.setTime(getInputTimeNanos());
-      keyInputEvents.add(evt);
+      final KeyInputEvent event=new KeyInputEvent(jmeKey,'\0',GLFW_PRESS == action,GLFW_REPEAT == action);
+      event.setTime(getInputTimeNanos());
+      keyInputEvents.add(event);
     }
   }
 );
-  glfwSetInputMode(context.getWindowHandle(),GLFW_STICKY_KEYS,1);
+  glfwSetCharCallback(context.getWindowHandle(),charCallback=new GLFWCharCallback(){
+    @Override public void invoke(    long window,    int codepoint){
+      final char keyChar=(char)codepoint;
+      final KeyInputEvent pressed=new KeyInputEvent(KeyInput.KEY_UNKNOWN,keyChar,true,false);
+      pressed.setTime(getInputTimeNanos());
+      keyInputEvents.add(pressed);
+      final KeyInputEvent released=new KeyInputEvent(KeyInput.KEY_UNKNOWN,keyChar,false,false);
+      released.setTime(getInputTimeNanos());
+      keyInputEvents.add(released);
+    }
+  }
+);
   initialized=true;
   logger.fine("Keyboard created.");
 }
