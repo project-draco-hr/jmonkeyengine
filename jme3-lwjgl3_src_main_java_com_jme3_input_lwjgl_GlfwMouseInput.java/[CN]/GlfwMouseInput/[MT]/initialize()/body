@@ -7,7 +7,7 @@
 );
   glfwSetScrollCallback(context.getWindowHandle(),scrollCallback=new GLFWScrollCallback(){
     @Override public void invoke(    final long window,    final double xOffset,    final double yOffset){
-      onWheelScroll(window,xOffset,yOffset * 120);
+      onWheelScroll(window,xOffset,yOffset * WHEEL_SCALE);
     }
   }
 );
