@@ -21,7 +21,7 @@
     }
   }
   for (  ShaderNodeVariable var : shaderNode.getDefinition().getOutputs()) {
-    ShaderNodeVariable v=new ShaderNodeVariable(var.getType(),shaderNode.getName(),var.getName());
+    ShaderNodeVariable v=new ShaderNodeVariable(var.getType(),shaderNode.getName(),var.getName(),var.getMultiplicity());
     if (!declaredInputs.contains(shaderNode.getName() + "_" + var.getName())) {
       if (!isVarying(info,v)) {
         declareVariable(source,v);
