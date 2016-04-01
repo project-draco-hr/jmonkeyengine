@@ -16,12 +16,11 @@
           PhysicsCollisionGroupListener listener=collisionGroupListeners.get(collisionObject.getCollisionGroup());
           PhysicsCollisionGroupListener listener1=collisionGroupListeners.get(collisionObject1.getCollisionGroup());
           if (listener != null) {
-            return listener.collide(collisionObject,collisionObject1);
+            collides=listener.collide(collisionObject,collisionObject1);
           }
- else           if (listener1 != null) {
-            return listener1.collide(collisionObject,collisionObject1);
+          if (listener1 != null && collisionObject.getCollisionGroup() != collisionObject1.getCollisionGroup()) {
+            collides=listener1.collide(collisionObject,collisionObject1) && collides;
           }
-          return true;
         }
  else {
           return false;
