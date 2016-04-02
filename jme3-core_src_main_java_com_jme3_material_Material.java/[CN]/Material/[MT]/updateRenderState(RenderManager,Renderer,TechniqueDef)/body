@@ -1,0 +1,13 @@
+{
+  if (renderManager.getForcedRenderState() != null) {
+    renderer.applyRenderState(renderManager.getForcedRenderState());
+  }
+ else {
+    if (techniqueDef.getRenderState() != null) {
+      renderer.applyRenderState(techniqueDef.getRenderState().copyMergedTo(additionalState,mergedRenderState));
+    }
+ else {
+      renderer.applyRenderState(RenderState.DEFAULT.copyMergedTo(additionalState,mergedRenderState));
+    }
+  }
+}

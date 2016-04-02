@@ -8,6 +8,7 @@
   capsule.write(shadowMode,"shadow_mode",ShadowMode.Inherit);
   capsule.write(localTransform,"transform",Transform.IDENTITY);
   capsule.write(localLights,"lights",null);
+  capsule.writeSavableArrayList(localOverrides,"overrides",null);
   capsule.writeSavableArrayList(new ArrayList(controls),"controlsList",null);
   capsule.writeStringSavableMap(userData,"user_data",null);
 }

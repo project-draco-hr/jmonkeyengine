@@ -1,0 +1,12 @@
+{
+  DefineList dl=new DefineList(NUM_DEFINES);
+  assertEquals("",generateSource(dl));
+  dl.set(BOOL_VAR,true);
+  assertEquals("#define BOOL_VAR 1\n",generateSource(dl));
+  dl.set(INT_VAR,123);
+  assertEquals("#define BOOL_VAR 1\n" + "#define INT_VAR 123\n",generateSource(dl));
+  dl.set(BOOL_VAR,false);
+  assertEquals("#define INT_VAR 123\n",generateSource(dl));
+  dl.set(BOOL_VAR,true);
+  assertEquals("#define BOOL_VAR 1\n" + "#define INT_VAR 123\n",generateSource(dl));
+}

@@ -1,0 +1,51 @@
+{
+  StringBuilder sb=new StringBuilder();
+  sb.append(indent);
+  if (last) {
+    if (!indent.isEmpty()) {
+      sb.append("??????");
+    }
+ else {
+      sb.append("  ");
+    }
+    indent+="  ";
+  }
+ else {
+    sb.append("??????");
+    indent+="??? ";
+  }
+  sb.append(scene.getName());
+  int rf=getRefreshFlags(scene) & refreshFlagsMask;
+  if (rf != 0) {
+    sb.append("(");
+    if ((rf & 0x1) != 0) {
+      sb.append("T");
+    }
+    if ((rf & 0x2) != 0) {
+      sb.append("B");
+    }
+    if ((rf & 0x4) != 0) {
+      sb.append("L");
+    }
+    if ((rf & 0x8) != 0) {
+      sb.append("l");
+    }
+    if ((rf & 0x10) != 0) {
+      sb.append("O");
+    }
+    sb.append(")");
+  }
+  if (!scene.getLocalMatParamOverrides().isEmpty()) {
+    sb.append(" [MPO]");
+  }
+  System.out.println(sb);
+  if (scene instanceof Node) {
+    Node node=(Node)scene;
+    int childIndex=0;
+    for (    Spatial child : node.getChildren()) {
+      boolean childLast=childIndex == node.getQuantity() - 1;
+      dumpSceneRF(child,indent,childLast,refreshFlagsMask);
+      childIndex++;
+    }
+  }
+}

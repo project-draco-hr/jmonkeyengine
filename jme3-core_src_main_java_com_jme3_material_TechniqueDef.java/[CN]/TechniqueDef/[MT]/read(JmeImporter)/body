@@ -6,7 +6,7 @@
   shaderNames.put(Shader.ShaderType.Geometry,ic.readString("geomName",null));
   shaderNames.put(Shader.ShaderType.TessellationControl,ic.readString("tsctrlName",null));
   shaderNames.put(Shader.ShaderType.TessellationEvaluation,ic.readString("tsevalName",null));
-  presetDefines=(DefineList)ic.readSavable("presetDefines",null);
+  shaderPrologue=ic.readString("shaderPrologue",null);
   lightMode=ic.readEnum("lightMode",LightMode.class,LightMode.Disable);
   shadowMode=ic.readEnum("shadowMode",ShadowMode.class,ShadowMode.Disable);
   renderState=(RenderState)ic.readSavable("renderState",null);

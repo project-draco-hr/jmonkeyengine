@@ -1,0 +1,9 @@
+{
+  int defineId=defineNames.size();
+  if (defineId >= DefineList.MAX_DEFINES) {
+    throw new IllegalStateException("Cannot have more than " + DefineList.MAX_DEFINES + " defines on a technique.");
+  }
+  paramToDefineId.put(paramName,defineId);
+  defineNames.add(defineName);
+  defineTypes.add(paramType);
+}

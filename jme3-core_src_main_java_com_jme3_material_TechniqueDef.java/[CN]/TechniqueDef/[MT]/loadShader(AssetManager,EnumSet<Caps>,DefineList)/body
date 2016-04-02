@@ -1,0 +1,33 @@
+{
+  StringBuilder sb=new StringBuilder();
+  sb.append(shaderPrologue);
+  defines.generateSource(sb,defineNames,defineTypes);
+  String definesSourceCode=sb.toString();
+  Shader shader;
+  if (isUsingShaderNodes()) {
+    ShaderGenerator shaderGenerator=assetManager.getShaderGenerator(rendererCaps);
+    if (shaderGenerator == null) {
+      throw new UnsupportedOperationException("ShaderGenerator was not initialized, " + "make sure assetManager.getGenerator(caps) has been called");
+    }
+    shaderGenerator.initialize(this);
+    shader=shaderGenerator.generateShader(definesSourceCode);
+  }
+ else {
+    shader=new Shader();
+    for (    ShaderType type : ShaderType.values()) {
+      String language=shaderLanguages.get(type);
+      String shaderSourceAssetName=shaderNames.get(type);
+      if (language == null || shaderSourceAssetName == null) {
+        continue;
+      }
+      String shaderSourceCode=(String)assetManager.loadAsset(shaderSourceAssetName);
+      shader.addSource(type,shaderSourceAssetName,shaderSourceCode,definesSourceCode,language);
+    }
+  }
+  if (getWorldBindings() != null) {
+    for (    UniformBinding binding : getWorldBindings()) {
+      shader.addUniformBinding(binding);
+    }
+  }
+  return shader;
+}
