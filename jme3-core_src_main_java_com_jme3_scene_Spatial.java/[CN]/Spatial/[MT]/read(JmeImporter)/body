@@ -11,9 +11,9 @@
   localLights.setOwner(this);
   localOverrides=ic.readSavableArrayList("overrides",null);
   if (localOverrides == null) {
-    localOverrides=new ArrayList<MatParamOverride>();
+    localOverrides=new ArrayList<>();
   }
-  worldOverrides=new ArrayList<MatParamOverride>();
+  worldOverrides=new ArrayList<>();
   controls.addAll(0,ic.readSavableArrayList("controlsList",null));
   userData=(HashMap<String,Savable>)ic.readStringSavableMap("user_data",null);
 }
