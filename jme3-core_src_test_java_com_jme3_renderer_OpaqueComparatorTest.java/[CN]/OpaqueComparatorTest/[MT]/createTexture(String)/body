@@ -1,0 +1,7 @@
+{
+  ByteBuffer bb=BufferUtils.createByteBuffer(3);
+  Image image=new Image(Format.RGB8,1,1,bb,ColorSpace.sRGB);
+  Texture2D texture=new Texture2D(image);
+  texture.setName(name);
+  return texture;
+}

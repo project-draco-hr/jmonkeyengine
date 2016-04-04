@@ -1,20 +1,27 @@
 {
-  Technique t=getActiveTechnique();
-  if (sortingId == -1 && t != null && t.getShader() != null) {
-    int texId=-1;
+  if (sortingId == -1 && technique != null) {
+    sortingId=technique.getSortId() << 16;
+    int texturesSortId=17;
     for (int i=0; i < paramValues.size(); i++) {
       MatParam param=paramValues.getValue(i);
-      if (param instanceof MatParamTexture) {
-        MatParamTexture tex=(MatParamTexture)param;
-        if (tex.getTextureValue() != null && tex.getTextureValue().getImage() != null) {
-          if (texId == -1) {
-            texId=0;
-          }
-          texId+=tex.getTextureValue().getImage().getId() % 0xff;
-        }
+      if (!param.getVarType().isTextureType()) {
+        continue;
       }
+      Texture texture=(Texture)param.getValue();
+      if (texture == null) {
+        continue;
+      }
+      Image image=texture.getImage();
+      if (image == null) {
+        continue;
+      }
+      int textureId=image.getId();
+      if (textureId == -1) {
+        textureId=0;
+      }
+      texturesSortId=texturesSortId * 23 + textureId;
     }
-    sortingId=texId + t.getShader().getId() * 1000;
+    sortingId|=texturesSortId & 0xFFFF;
   }
   return sortingId;
 }

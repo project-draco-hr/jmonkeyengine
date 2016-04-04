@@ -1,0 +1,17 @@
+{
+  DefineList dl1=new DefineList(NUM_DEFINES);
+  DefineList dl2=dl1.deepClone();
+  assertFalse(dl1 == dl2);
+  assertTrue(dl1.equals(dl2));
+  assertTrue(dl1.hashCode() == dl2.hashCode());
+  dl1.set(BOOL_VAR,true);
+  dl2=dl1.deepClone();
+  assertTrue(dl1.equals(dl2));
+  assertTrue(dl1.hashCode() == dl2.hashCode());
+  dl1.set(INT_VAR,123);
+  assertFalse(dl1.equals(dl2));
+  assertFalse(dl1.hashCode() == dl2.hashCode());
+  dl2=dl1.deepClone();
+  assertTrue(dl1.equals(dl2));
+  assertTrue(dl1.hashCode() == dl2.hashCode());
+}

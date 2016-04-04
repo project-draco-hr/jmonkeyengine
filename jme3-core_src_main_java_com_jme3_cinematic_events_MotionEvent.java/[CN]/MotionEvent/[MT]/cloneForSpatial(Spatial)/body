@@ -1,12 +1,13 @@
 {
-  MotionEvent control=new MotionEvent(spatial,path);
+  MotionEvent control=new MotionEvent();
+  control.setPath(path);
   control.playState=playState;
   control.currentWayPoint=currentWayPoint;
   control.currentValue=currentValue;
   control.direction=direction.clone();
-  control.lookAt=lookAt.clone();
+  control.lookAt=lookAt;
   control.upVector=upVector.clone();
-  control.rotation=rotation.clone();
+  control.rotation=rotation;
   control.initialDuration=initialDuration;
   control.speed=speed;
   control.loopMode=loopMode;

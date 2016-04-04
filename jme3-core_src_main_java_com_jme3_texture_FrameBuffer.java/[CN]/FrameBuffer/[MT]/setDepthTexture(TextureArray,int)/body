@@ -1,0 +1,10 @@
+{
+  if (id != -1)   throw new UnsupportedOperationException("FrameBuffer already initialized.");
+  Image img=tex.getImage();
+  checkSetTexture(tex,true);
+  depthBuf=new RenderBuffer();
+  depthBuf.slot=img.getFormat().isDepthStencilFormat() ? SLOT_DEPTH_STENCIL : SLOT_DEPTH;
+  depthBuf.tex=tex;
+  depthBuf.format=img.getFormat();
+  depthBuf.layer=layer;
+}

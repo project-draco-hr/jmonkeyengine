@@ -1,0 +1,13 @@
+{
+  super.cloneFields(cloner,original);
+  this.stepScale=cloner.clone(stepScale);
+  this.offset=cloner.clone(offset);
+  this.leftNeighbour=null;
+  this.topNeighbour=null;
+  this.rightNeighbour=null;
+  this.bottomNeighbour=null;
+  this.geomap=new LODGeomap(size,geomap.getHeightArray());
+  Mesh m=geomap.createMesh(stepScale,Vector2f.UNIT_XY,offset,offsetAmount,totalSize,false);
+  this.setMesh(m);
+  this.material=material.clone();
+}

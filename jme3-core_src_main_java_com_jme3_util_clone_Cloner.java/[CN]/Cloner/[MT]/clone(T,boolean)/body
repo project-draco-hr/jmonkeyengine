@@ -2,9 +2,15 @@
   if (object == null) {
     return null;
   }
+  if (log.isLoggable(Level.FINER)) {
+    log.finer("cloning:" + object.getClass() + "@"+ System.identityHashCode(object));
+  }
   Class<T> type=objectClass(object);
   Object clone=index.get(object);
   if (clone != null) {
+    if (log.isLoggable(Level.FINER)) {
+      log.finer("cloned:" + object.getClass() + "@"+ System.identityHashCode(object)+ " as cached:"+ clone.getClass()+ "@"+ System.identityHashCode(clone));
+    }
     return type.cast(clone);
   }
   CloneFunction<T> f=getCloneFunction(type);
@@ -12,6 +18,14 @@
     T result=f.cloneObject(this,object);
     index.put(object,result);
     f.cloneFields(this,result,object);
+    if (log.isLoggable(Level.FINER)) {
+      if (result == null) {
+        log.finer("cloned:" + object.getClass() + "@"+ System.identityHashCode(object)+ " as transformed:null");
+      }
+ else {
+        log.finer("clone:" + object.getClass() + "@"+ System.identityHashCode(object)+ " as transformed:"+ result.getClass()+ "@"+ System.identityHashCode(result));
+      }
+    }
     return result;
   }
   if (object.getClass().isArray()) {
@@ -33,6 +47,9 @@
   }
  else {
     throw new IllegalArgumentException("Object is not cloneable, type:" + type);
+  }
+  if (log.isLoggable(Level.FINER)) {
+    log.finer("cloned:" + object.getClass() + "@"+ System.identityHashCode(object)+ " as "+ clone.getClass()+ "@"+ System.identityHashCode(clone));
   }
   return type.cast(clone);
 }

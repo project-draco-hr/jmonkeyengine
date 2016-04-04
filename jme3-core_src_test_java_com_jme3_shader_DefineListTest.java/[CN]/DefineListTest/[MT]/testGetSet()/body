@@ -1,0 +1,12 @@
+{
+  DefineList dl=new DefineList(NUM_DEFINES);
+  assertFalse(dl.getBoolean(BOOL_VAR));
+  assertEquals(dl.getInt(INT_VAR),0);
+  assertEquals(dl.getFloat(FLOAT_VAR),0f,0f);
+  dl.set(BOOL_VAR,true);
+  dl.set(INT_VAR,-1);
+  dl.set(FLOAT_VAR,Float.NaN);
+  assertTrue(dl.getBoolean(BOOL_VAR));
+  assertEquals(dl.getInt(INT_VAR),-1);
+  assertTrue(Float.isNaN(dl.getFloat(FLOAT_VAR)));
+}

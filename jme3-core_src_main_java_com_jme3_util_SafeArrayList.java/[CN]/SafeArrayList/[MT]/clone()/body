@@ -1,0 +1,15 @@
+{
+  try {
+    SafeArrayList<E> clone=(SafeArrayList<E>)super.clone();
+    if (backingArray != null) {
+      clone.backingArray=backingArray.clone();
+    }
+    if (buffer != null) {
+      clone.buffer=(List<E>)((ArrayList<E>)buffer).clone();
+    }
+    return clone;
+  }
+ catch (  CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
+}

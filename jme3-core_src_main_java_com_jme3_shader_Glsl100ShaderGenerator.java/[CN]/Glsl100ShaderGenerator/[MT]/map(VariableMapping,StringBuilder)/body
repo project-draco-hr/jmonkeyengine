@@ -8,6 +8,11 @@
   source.append(mapping.getLeftVariable().getNameSpace());
   source.append("_");
   source.append(mapping.getLeftVariable().getName());
+  if (mapping.getLeftVariable().getMultiplicity() != null) {
+    source.append("[");
+    source.append(mapping.getLeftVariable().getMultiplicity());
+    source.append("]");
+  }
   if (mapping.getLeftSwizzling().length() > 0) {
     source.append(" = ");
     source.append(mapping.getLeftVariable().getType());

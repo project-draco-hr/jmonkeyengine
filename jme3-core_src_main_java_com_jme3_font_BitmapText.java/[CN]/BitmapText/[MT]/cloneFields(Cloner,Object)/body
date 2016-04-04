@@ -1,0 +1,8 @@
+{
+  super.cloneFields(cloner,original);
+  for (int i=0; i < textPages.length; i++) {
+    textPages[i]=cloner.clone(textPages[i]);
+  }
+  this.block=cloner.clone(block);
+  this.letters=new Letters(font,block,letters.getQuad().isRightToLeft());
+}

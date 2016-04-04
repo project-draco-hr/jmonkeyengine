@@ -1,0 +1,21 @@
+{
+  super.cloneFields(cloner,original);
+  if (groupNode != null) {
+    if (cloner.isCloned(groupNode)) {
+      this.groupNode=cloner.clone(groupNode);
+    }
+ else {
+      this.groupNode=null;
+      this.startIndex=-1;
+    }
+  }
+  this.cachedWorldMat=cloner.clone(cachedWorldMat);
+  boolean shallowClone=(cloner.getCloneFunction(Mesh.class) instanceof IdentityCloneFunction);
+  if (shallowClone && mesh != null && mesh.getBuffer(Type.BindPosePosition) != null) {
+    this.mesh=mesh.cloneForAnim();
+  }
+ else {
+    this.mesh=cloner.clone(mesh);
+  }
+  this.material=cloner.clone(material);
+}

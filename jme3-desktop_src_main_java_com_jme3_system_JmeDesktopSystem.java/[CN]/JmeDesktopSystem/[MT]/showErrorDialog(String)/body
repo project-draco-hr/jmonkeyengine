@@ -1,9 +1,14 @@
 {
-  final String msg=message;
-  EventQueue.invokeLater(new Runnable(){
-    public void run(){
-      ErrorDialog.showDialog(msg);
+  if (!GraphicsEnvironment.isHeadless()) {
+    final String msg=message;
+    EventQueue.invokeLater(new Runnable(){
+      public void run(){
+        ErrorDialog.showDialog(msg);
+      }
     }
-  }
 );
+  }
+ else {
+    System.err.println("[JME ERROR] " + message);
+  }
 }

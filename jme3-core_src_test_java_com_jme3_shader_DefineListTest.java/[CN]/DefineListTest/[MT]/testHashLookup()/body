@@ -1,0 +1,24 @@
+{
+  String STR_EMPTY="This is an empty define list";
+  String STR_INT="This define list has an int value";
+  String STR_BOOL="This define list just has boolean value set";
+  String STR_BOOL_INT="This define list has both a boolean and int value";
+  String STR_BOOL_INT_FLOAT="This define list has a boolean, int, and float value";
+  HashMap<DefineList,String> map=new HashMap<DefineList,String>();
+  DefineList lookup=new DefineList(NUM_DEFINES);
+  map.put(lookup.deepClone(),STR_EMPTY);
+  lookup.set(BOOL_VAR,true);
+  map.put(lookup.deepClone(),STR_BOOL);
+  lookup.set(BOOL_VAR,false);
+  lookup.set(INT_VAR,123);
+  map.put(lookup.deepClone(),STR_INT);
+  lookup.set(BOOL_VAR,true);
+  map.put(lookup.deepClone(),STR_BOOL_INT);
+  lookup.set(FLOAT_VAR,FastMath.PI);
+  map.put(lookup.deepClone(),STR_BOOL_INT_FLOAT);
+  assertEquals(doLookup(map,false,0,0f),STR_EMPTY);
+  assertEquals(doLookup(map,false,123,0f),STR_INT);
+  assertEquals(doLookup(map,true,0,0f),STR_BOOL);
+  assertEquals(doLookup(map,true,123,0f),STR_BOOL_INT);
+  assertEquals(doLookup(map,true,123,FastMath.PI),STR_BOOL_INT_FLOAT);
+}

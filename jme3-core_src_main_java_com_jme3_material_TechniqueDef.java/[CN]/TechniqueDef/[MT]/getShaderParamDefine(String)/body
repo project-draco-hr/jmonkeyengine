@@ -1,6 +1,9 @@
 {
-  if (defineParams == null) {
+  Integer defineId=paramToDefineId.get(paramName);
+  if (defineId != null) {
+    return defineNames.get(defineId);
+  }
+ else {
     return null;
   }
-  return defineParams.get(paramName);
 }

@@ -146,6 +146,14 @@
     for (    Caps cap : caps) {
       sb.append("\t").append(cap.toString()).append("\n");
     }
+    sb.append("\nHardware limits: \n");
+    for (    Limits limit : Limits.values()) {
+      Integer value=limits.get(limit);
+      if (value == null) {
+        value=0;
+      }
+      sb.append("\t").append(limit.name()).append(" = ").append(value).append("\n");
+    }
     logger.log(Level.FINE,sb.toString());
   }
   texUtil.initialize(caps);

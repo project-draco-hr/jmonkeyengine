@@ -1,3 +1,15 @@
 {
-  return (CloneFunction<T>)functions.get(type);
+  CloneFunction<T> result=(CloneFunction<T>)functions.get(type);
+  if (result == null) {
+    for (    Map.Entry<Class,CloneFunction> e : functions.entrySet()) {
+      if (e.getKey().isAssignableFrom(type)) {
+        result=e.getValue();
+        break;
+      }
+    }
+    if (result != null) {
+      functions.put(type,result);
+    }
+  }
+  return result;
 }

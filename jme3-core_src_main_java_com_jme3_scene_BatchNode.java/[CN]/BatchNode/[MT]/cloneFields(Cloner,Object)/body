@@ -1,0 +1,12 @@
+{
+  super.cloneFields(cloner,original);
+  this.batches=cloner.clone(batches);
+  this.tmpFloat=cloner.clone(tmpFloat);
+  this.tmpFloatN=cloner.clone(tmpFloatN);
+  this.tmpFloatT=cloner.clone(tmpFloatT);
+  HashMap<Geometry,Batch> newBatchesByGeom=new HashMap<Geometry,Batch>();
+  for (  Map.Entry<Geometry,Batch> e : batchesByGeom.entrySet()) {
+    newBatchesByGeom.put(cloner.clone(e.getKey()),cloner.clone(e.getValue()));
+  }
+  this.batchesByGeom=newBatchesByGeom;
+}

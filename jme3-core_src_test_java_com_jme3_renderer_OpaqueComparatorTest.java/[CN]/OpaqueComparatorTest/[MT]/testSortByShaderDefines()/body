@@ -1,0 +1,23 @@
+{
+  Material lightingMat=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  Material lightingMatVColor=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  Material lightingMatVLight=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  Material lightingMatTC=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  Material lightingMatVColorLight=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  Material lightingMatTCVColorLight=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  lightingMat.setName("DefNone");
+  lightingMatVColor.setName("DefVC");
+  lightingMatVColor.setBoolean("UseVertexColor",true);
+  lightingMatVLight.setName("DefVL");
+  lightingMatVLight.setBoolean("VertexLighting",true);
+  lightingMatTC.setName("DefTC");
+  lightingMatTC.setBoolean("SeparateTexCoord",true);
+  lightingMatVColorLight.setName("DefVCVL");
+  lightingMatVColorLight.setBoolean("UseVertexColor",true);
+  lightingMatVColorLight.setBoolean("VertexLighting",true);
+  lightingMatTCVColorLight.setName("DefVCVLTC");
+  lightingMatTCVColorLight.setBoolean("UseVertexColor",true);
+  lightingMatTCVColorLight.setBoolean("VertexLighting",true);
+  lightingMatTCVColorLight.setBoolean("SeparateTexCoord",true);
+  testSort(lightingMat,lightingMatVColor,lightingMatVLight,lightingMatVColorLight,lightingMatTC,lightingMatTCVColorLight);
+}

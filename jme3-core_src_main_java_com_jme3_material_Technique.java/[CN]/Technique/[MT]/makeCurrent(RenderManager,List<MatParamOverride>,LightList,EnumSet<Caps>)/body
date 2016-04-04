@@ -1,0 +1,20 @@
+{
+  TechniqueDefLogic logic=def.getLogic();
+  AssetManager assetManager=owner.getMaterialDef().getAssetManager();
+  dynamicDefines.clear();
+  dynamicDefines.setAll(paramDefines);
+  if (overrides != null) {
+    for (    MatParamOverride override : overrides) {
+      if (!override.isEnabled()) {
+        continue;
+      }
+      Integer defineId=def.getShaderParamDefineId(override.name);
+      if (defineId != null) {
+        if (def.getDefineIdType(defineId) == override.type) {
+          dynamicDefines.set(defineId,override.type,override.value);
+        }
+      }
+    }
+  }
+  return logic.makeCurrent(assetManager,renderManager,rendererCaps,lights,dynamicDefines);
+}

@@ -1,0 +1,10 @@
+{
+  try {
+    LightList clone=(LightList)super.clone();
+    clone.tlist=null;
+    return clone;
+  }
+ catch (  CloneNotSupportedException ex) {
+    throw new AssertionError();
+  }
+}

@@ -1,0 +1,13 @@
+{
+  if (this == obj) {
+    return true;
+  }
+  if (obj == null) {
+    return false;
+  }
+  final Uniform other=(Uniform)obj;
+  if (this.value != other.value && (this.value == null || !this.value.equals(other.value))) {
+    return false;
+  }
+  return this.binding == other.binding && this.varType == other.varType;
+}

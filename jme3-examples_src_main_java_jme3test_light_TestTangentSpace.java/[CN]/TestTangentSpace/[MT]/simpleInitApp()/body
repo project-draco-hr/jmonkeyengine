@@ -1,0 +1,35 @@
+{
+  renderManager.setSinglePassLightBatchSize(2);
+  renderManager.setPreferredLightMode(TechniqueDef.LightMode.SinglePass);
+  initView();
+  Spatial s=assetManager.loadModel("Models/Test/BasicCubeLow.obj");
+  rootNode.attachChild(s);
+  Material m=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  m.setTexture("NormalMap",assetManager.loadTexture("Models/Test/Normal_pixel.png"));
+  Geometry g=(Geometry)s;
+  Geometry g2=(Geometry)g.deepClone();
+  g2.move(5,0,0);
+  g.getParent().attachChild(g2);
+  g.setMaterial(m);
+  g2.setMaterial(m);
+  TangentBinormalGenerator.generate(g2.getMesh(),true);
+  MikktspaceTangentGenerator.generate(g);
+  createDebugTangents(g2);
+  createDebugTangents(g);
+  inputManager.addListener(new ActionListener(){
+    @Override public void onAction(    String name,    boolean isPressed,    float tpf){
+      if (name.equals("toggleDebug") && isPressed) {
+        if (debugNode.getParent() == null) {
+          rootNode.attachChild(debugNode);
+        }
+ else {
+          debugNode.removeFromParent();
+        }
+      }
+    }
+  }
+,"toggleDebug");
+  inputManager.addMapping("toggleDebug",new KeyTrigger(KeyInput.KEY_SPACE));
+  DirectionalLight dl=new DirectionalLight(new Vector3f(-1,-1,-1).normalizeLocal());
+  rootNode.addLight(dl);
+}

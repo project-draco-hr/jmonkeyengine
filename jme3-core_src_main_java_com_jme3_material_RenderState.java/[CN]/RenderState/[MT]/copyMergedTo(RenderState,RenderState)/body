@@ -100,6 +100,12 @@
     state.frontStencilFunction=frontStencilFunction;
     state.backStencilFunction=backStencilFunction;
   }
+  if (additionalState.applyLineWidth) {
+    state.lineWidth=additionalState.lineWidth;
+  }
+ else {
+    state.lineWidth=lineWidth;
+  }
   state.cachedHashCode=-1;
   return state;
 }
