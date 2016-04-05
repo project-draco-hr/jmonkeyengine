@@ -1,5 +1,8 @@
 {
   List results=new LinkedList();
   rayTest(from,to,results);
+  if (results.getFirst().getHitFraction() > results.getLast().getHitFraction()) {
+    Collections.reverse(results);
+  }
   return (List<PhysicsRayTestResult>)results;
 }
