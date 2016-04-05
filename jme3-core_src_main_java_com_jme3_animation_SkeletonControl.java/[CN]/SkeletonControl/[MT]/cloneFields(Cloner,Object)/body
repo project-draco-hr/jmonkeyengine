@@ -4,7 +4,14 @@
   this.targets=cloner.clone(targets);
   Set<Material> newMaterials=new HashSet<Material>();
   for (  Material m : this.materials) {
-    newMaterials.add(cloner.clone(m));
+    Material mClone=cloner.clone(m);
+    newMaterials.add(mClone);
+    if (mClone != m) {
+      MatParam boneMatrices=mClone.getParam("BoneMatrices");
+      if (boneMatrices != null) {
+        mClone.clearParam("BoneMatrices");
+      }
+    }
   }
   this.materials=newMaterials;
 }
