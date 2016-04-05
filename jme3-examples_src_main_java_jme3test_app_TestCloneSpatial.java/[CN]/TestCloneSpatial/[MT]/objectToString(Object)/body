@@ -1,0 +1,8 @@
+{
+  if (o == null) {
+    return null;
+  }
+  String s=o + "@" + System.identityHashCode(o);
+  s=s.replaceAll("\\r?\\n","");
+  return s;
+}

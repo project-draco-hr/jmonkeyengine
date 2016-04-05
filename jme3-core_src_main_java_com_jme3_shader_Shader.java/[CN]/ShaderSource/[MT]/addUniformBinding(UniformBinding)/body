@@ -1,0 +1,11 @@
+{
+  String uniformName="g_" + binding.name();
+  Uniform uniform=uniforms.get(uniformName);
+  if (uniform == null) {
+    uniform=new Uniform();
+    uniform.name=uniformName;
+    uniform.binding=binding;
+    uniforms.put(uniformName,uniform);
+    boundUniforms.add(uniform);
+  }
+}

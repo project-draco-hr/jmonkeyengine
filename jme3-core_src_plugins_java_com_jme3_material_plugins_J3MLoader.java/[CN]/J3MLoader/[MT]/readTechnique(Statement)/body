@@ -2,11 +2,13 @@
   isUseNodes=false;
   String[] split=techStat.getLine().split(whitespacePattern);
   if (split.length == 1) {
-    technique=new TechniqueDef(null);
+    String techniqueUniqueName=materialDef.getAssetName() + "@Default";
+    technique=new TechniqueDef(null,techniqueUniqueName.hashCode());
   }
  else   if (split.length == 2) {
     String techName=split[1];
-    technique=new TechniqueDef(techName);
+    String techniqueUniqueName=materialDef.getAssetName() + "@" + techName;
+    technique=new TechniqueDef(techName,techniqueUniqueName.hashCode());
   }
  else {
     throw new IOException("Technique statement syntax incorrect");
@@ -21,8 +23,26 @@
   if (shaderName.containsKey(Shader.ShaderType.Vertex) && shaderName.containsKey(Shader.ShaderType.Fragment)) {
     technique.setShaderFile(shaderName,shaderLanguage);
   }
-  materialDef.addTechniqueDef(technique);
-  technique=null;
-  shaderLanguage.clear();
-  shaderName.clear();
+  technique.setShaderPrologue(createShaderPrologue(presetDefines));
+switch (technique.getLightMode()) {
+case Disable:
+    technique.setLogic(new DefaultTechniqueDefLogic(technique));
+  break;
+case MultiPass:
+technique.setLogic(new MultiPassLightingLogic(technique));
+break;
+case SinglePass:
+technique.setLogic(new SinglePassLightingLogic(technique));
+break;
+case SinglePassAndImageBased:
+technique.setLogic(new SinglePassAndImageBasedLightingLogic(technique));
+break;
+default :
+throw new UnsupportedOperationException();
+}
+materialDef.addTechniqueDef(technique);
+technique=null;
+shaderLanguage.clear();
+shaderName.clear();
+presetDefines.clear();
 }

@@ -1,0 +1,22 @@
+{
+  tempDirLights.clear();
+  tempPointLights.clear();
+  tempSpotLights.clear();
+  for (  Light light : lights) {
+switch (light.getType()) {
+case Directional:
+      tempDirLights.add((DirectionalLight)light);
+    break;
+case Point:
+  tempPointLights.add((PointLight)light);
+break;
+case Spot:
+tempSpotLights.add((SpotLight)light);
+break;
+}
+}
+defines.set(numDirLightsDefineId,tempDirLights.size());
+defines.set(numPointLightsDefineId,tempPointLights.size());
+defines.set(numSpotLightsDefineId,tempSpotLights.size());
+return techniqueDef.getShader(assetManager,rendererCaps,defines);
+}

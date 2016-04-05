@@ -1,5 +1,5 @@
 {
-  Material mat=new Material(app.assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  Material mat=new Material(app.getAssetManager(),"Common/MatDefs/Misc/Unshaded.j3md");
   mat.setColor("Color",new ColorRGBA(0,0,0,0.5f));
   mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
   darkenFps=new Geometry("StatsDarken",new Quad(200,fpsText.getLineHeight()));

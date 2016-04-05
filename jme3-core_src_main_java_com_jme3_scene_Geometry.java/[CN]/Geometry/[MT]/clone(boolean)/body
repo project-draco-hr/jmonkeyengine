@@ -1,20 +1,3 @@
 {
-  Geometry geomClone=(Geometry)super.clone(cloneMaterial);
-  if (geomClone.isGrouped()) {
-    geomClone.groupNode=null;
-    geomClone.startIndex=-1;
-  }
-  geomClone.cachedWorldMat=cachedWorldMat.clone();
-  if (material != null) {
-    if (cloneMaterial) {
-      geomClone.material=material.clone();
-    }
- else {
-      geomClone.material=material;
-    }
-  }
-  if (mesh != null && mesh.getBuffer(Type.BindPosePosition) != null) {
-    geomClone.mesh=mesh.cloneForAnim();
-  }
-  return geomClone;
+  return (Geometry)super.clone(cloneMaterial);
 }

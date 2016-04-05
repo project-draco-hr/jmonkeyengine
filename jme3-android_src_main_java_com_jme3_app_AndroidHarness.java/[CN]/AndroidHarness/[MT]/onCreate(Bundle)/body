@@ -36,7 +36,7 @@
     settings.setFrameRate(frameRate);
     try {
       if (app == null) {
-        @SuppressWarnings("unchecked") Class<? extends Application> clazz=(Class<? extends Application>)Class.forName(appClass);
+        @SuppressWarnings("unchecked") Class<? extends LegacyApplication> clazz=(Class<? extends LegacyApplication>)Class.forName(appClass);
         app=clazz.newInstance();
       }
       app.setSettings(settings);

@@ -1,10 +1,19 @@
 {
   String[] split=statement.split(":");
   if (split.length == 1) {
-    technique.addShaderPresetDefine(split[0].trim(),VarType.Boolean,true);
+    String defineName=split[0].trim();
+    presetDefines.add(defineName);
   }
  else   if (split.length == 2) {
-    technique.addShaderParamDefine(split[1].trim(),split[0].trim());
+    String defineName=split[0].trim();
+    String paramName=split[1].trim();
+    MatParam param=materialDef.getMaterialParam(paramName);
+    if (param == null) {
+      logger.log(Level.WARNING,"In technique ''{0}'':\n" + "Define ''{1}'' mapped to non-existent" + " material parameter ''{2}'', ignoring.",new Object[]{technique.getName(),defineName,paramName});
+      return;
+    }
+    VarType paramType=param.getVarType();
+    technique.addShaderParamDefine(paramName,paramType,defineName);
   }
  else {
     throw new IOException("Define syntax incorrect");

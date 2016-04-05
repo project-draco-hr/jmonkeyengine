@@ -3,12 +3,10 @@
     return;
   }
   initialized=true;
-  try {
-    if (!lowPermissions) {
+  logger.log(Level.INFO,getBuildInfo());
+  if (!lowPermissions) {
+    if (NativeLibraryLoader.isUsingNativeBullet()) {
+      NativeLibraryLoader.loadNativeLibrary("bulletjme",true);
     }
   }
- catch (  SecurityException ex) {
-    logger.log(Level.SEVERE,"Security error in creating log file",ex);
-  }
-  logger.log(Level.INFO,getBuildInfo());
 }

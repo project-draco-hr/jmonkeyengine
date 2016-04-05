@@ -1,0 +1,26 @@
+{
+  URL assetCfgUrl=null;
+  if (settings != null) {
+    String assetCfg=settings.getString("AssetConfigURL");
+    if (assetCfg != null) {
+      try {
+        assetCfgUrl=new URL(assetCfg);
+      }
+ catch (      MalformedURLException ex) {
+      }
+      if (assetCfgUrl == null) {
+        assetCfgUrl=LegacyApplication.class.getClassLoader().getResource(assetCfg);
+        if (assetCfgUrl == null) {
+          logger.log(Level.SEVERE,"Unable to access AssetConfigURL in asset config:{0}",assetCfg);
+          return;
+        }
+      }
+    }
+  }
+  if (assetCfgUrl == null) {
+    assetCfgUrl=JmeSystem.getPlatformAssetConfigURL();
+  }
+  if (assetManager == null) {
+    assetManager=JmeSystem.newAssetManager(assetCfgUrl);
+  }
+}

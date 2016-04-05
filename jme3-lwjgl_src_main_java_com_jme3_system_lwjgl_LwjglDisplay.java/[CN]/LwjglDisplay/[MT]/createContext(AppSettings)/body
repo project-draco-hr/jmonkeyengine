@@ -14,12 +14,12 @@
     displayMode=new DisplayMode(settings.getWidth(),settings.getHeight());
   }
   int samples=getNumSamplesToUse();
-  PixelFormat pf=new PixelFormat(settings.getBitsPerPixel(),0,settings.getDepthBits(),settings.getStencilBits(),samples,0,0,0,settings.useStereo3D());
+  PixelFormat pf=new PixelFormat(settings.getBitsPerPixel(),settings.getAlphaBits(),settings.getDepthBits(),settings.getStencilBits(),samples,0,0,0,settings.useStereo3D());
   frameRate=settings.getFrameRate();
   allowSwapBuffers=settings.isSwapBuffers();
   logger.log(Level.FINE,"Selected display mode: {0}",displayMode);
   boolean pixelFormatChanged=false;
-  if (created.get() && (pixelFormat.getBitsPerPixel() != pf.getBitsPerPixel() || pixelFormat.getDepthBits() != pf.getDepthBits() || pixelFormat.getStencilBits() != pf.getStencilBits() || pixelFormat.getSamples() != pf.getSamples())) {
+  if (created.get() && (pixelFormat.getBitsPerPixel() != pf.getBitsPerPixel() || pixelFormat.getAlphaBits() != pf.getAlphaBits() || pixelFormat.getDepthBits() != pf.getDepthBits() || pixelFormat.getStencilBits() != pf.getStencilBits() || pixelFormat.getSamples() != pf.getSamples())) {
     renderer.resetGLObjects();
     Display.destroy();
     pixelFormatChanged=true;

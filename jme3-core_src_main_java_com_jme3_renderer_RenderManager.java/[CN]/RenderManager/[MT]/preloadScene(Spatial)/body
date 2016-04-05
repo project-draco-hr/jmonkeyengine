@@ -13,7 +13,7 @@
     }
     gm.getMaterial().preload(this);
     Mesh mesh=gm.getMesh();
-    if (mesh != null) {
+    if (mesh != null && mesh.getVertexCount() != 0 && mesh.getTriangleCount() != 0) {
       for (      VertexBuffer vb : mesh.getBufferList().getArray()) {
         if (vb.getData() != null && vb.getUsage() != VertexBuffer.Usage.CpuOnly) {
           renderer.updateBufferData(vb);

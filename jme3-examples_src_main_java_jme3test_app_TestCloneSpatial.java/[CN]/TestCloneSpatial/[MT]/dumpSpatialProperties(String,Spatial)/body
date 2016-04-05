@@ -1,0 +1,23 @@
+{
+  dumpProperties(indent,s,"children");
+  if (!s.getUserDataKeys().isEmpty()) {
+    System.out.println(indent + "userData:");
+    for (    String key : s.getUserDataKeys()) {
+      System.out.println(indent + "  " + key+ ":"+ objectToString(s.getUserData(key)));
+    }
+  }
+  if (s.getNumControls() > 0) {
+    System.out.println(indent + "controls:");
+    for (int i=0; i < s.getNumControls(); i++) {
+      Control ctl=s.getControl(i);
+      dumpObject(indent + "  ",ctl);
+    }
+  }
+  LightList lights=s.getLocalLightList();
+  if (lights.size() > 0) {
+    System.out.println(indent + "lights:");
+    for (    Light l : lights) {
+      dumpObject(indent + "  ",l);
+    }
+  }
+}

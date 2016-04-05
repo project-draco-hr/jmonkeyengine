@@ -11,6 +11,7 @@
       Map.Entry<String,MatParam> entry=paramValues.getEntry(i);
       mat.paramValues.put(entry.getKey(),entry.getValue().clone());
     }
+    mat.sortingId=-1;
     return mat;
   }
  catch (  CloneNotSupportedException ex) {

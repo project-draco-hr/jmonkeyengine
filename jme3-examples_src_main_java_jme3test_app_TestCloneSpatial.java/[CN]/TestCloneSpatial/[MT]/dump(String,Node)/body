@@ -1,0 +1,10 @@
+{
+  System.out.println(indent + objectToString(n));
+  dumpSpatialProperties(indent + "  ",n);
+  if (!n.getChildren().isEmpty()) {
+    System.out.println(indent + "  children:");
+    for (    Spatial s : n.getChildren()) {
+      dump(indent + "    ",s);
+    }
+  }
+}

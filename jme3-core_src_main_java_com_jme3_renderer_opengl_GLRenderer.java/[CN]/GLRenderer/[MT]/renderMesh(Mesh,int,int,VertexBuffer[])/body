@@ -1,8 +1,11 @@
 {
-  if (mesh.getVertexCount() == 0) {
+  if (mesh.getVertexCount() == 0 || mesh.getTriangleCount() == 0 || count == 0) {
     return;
   }
-  if (mesh.getLineWidth() != -1 && context.lineWidth != mesh.getLineWidth()) {
+  if (count > 1 && !caps.contains(Caps.MeshInstancing)) {
+    throw new RendererException("Mesh instancing is not supported by the video hardware");
+  }
+  if (mesh.getLineWidth() != 1f && context.lineWidth != mesh.getLineWidth()) {
     gl.glLineWidth(mesh.getLineWidth());
     context.lineWidth=mesh.getLineWidth();
   }
