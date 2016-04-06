@@ -62,6 +62,8 @@ renderManager.getCurrentCamera().getViewMatrix().mult(tmpVec,tmpVec);
 tmpLightDirection.set(tmpVec.getX(),tmpVec.getY(),tmpVec.getZ(),spotAngleCos);
 lightDir.setValue(VarType.Vector4,tmpLightDirection);
 break;
+case Probe:
+break;
 default :
 throw new UnsupportedOperationException("Unknown type of light: " + l.getType());
 }
