@@ -21,6 +21,8 @@
   oc.write(backStencilDepthPassOperation,"backStencilDepthPassOperation",StencilOperation.Keep);
   oc.write(frontStencilFunction,"frontStencilFunction",TestFunction.Always);
   oc.write(backStencilFunction,"backStencilFunction",TestFunction.Always);
+  oc.write(blendEquation,"blendEquation",BlendEquation.Add);
+  oc.write(blendEquationAlpha,"blendEquationAlpha",BlendEquationAlpha.InheritColor);
   oc.write(depthFunc,"depthFunc",TestFunction.LessOrEqual);
   oc.write(alphaFunc,"alphaFunc",TestFunction.Greater);
   oc.write(lineWidth,"lineWidth",1);
@@ -30,6 +32,8 @@
   oc.write(applyDepthWrite,"applyDepthWrite",true);
   oc.write(applyDepthTest,"applyDepthTest",true);
   oc.write(applyColorWrite,"applyColorWrite",true);
+  oc.write(applyBlendEquation,"applyBlendEquation",true);
+  oc.write(applyBlendEquationAlpha,"applyBlendEquationAlpha",true);
   oc.write(applyBlendMode,"applyBlendMode",true);
   oc.write(applyAlphaTest,"applyAlphaTest",true);
   oc.write(applyAlphaFallOff,"applyAlphaFallOff",true);

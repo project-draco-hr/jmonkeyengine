@@ -44,6 +44,18 @@
  else {
     state.colorWrite=colorWrite;
   }
+  if (additionalState.applyBlendEquation) {
+    state.blendEquation=additionalState.blendEquation;
+  }
+ else {
+    state.blendEquation=blendEquation;
+  }
+  if (additionalState.applyBlendEquationAlpha) {
+    state.blendEquationAlpha=additionalState.blendEquationAlpha;
+  }
+ else {
+    state.blendEquation=blendEquation;
+  }
   if (additionalState.applyBlendMode) {
     state.blendMode=additionalState.blendMode;
   }

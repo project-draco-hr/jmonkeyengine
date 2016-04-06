@@ -21,6 +21,8 @@
   backStencilDepthPassOperation=ic.readEnum("backStencilDepthPassOperation",StencilOperation.class,StencilOperation.Keep);
   frontStencilFunction=ic.readEnum("frontStencilFunction",TestFunction.class,TestFunction.Always);
   backStencilFunction=ic.readEnum("backStencilFunction",TestFunction.class,TestFunction.Always);
+  blendEquation=ic.readEnum("blendEquation",BlendEquation.class,BlendEquation.Add);
+  blendEquationAlpha=ic.readEnum("blendEquationAlpha",BlendEquationAlpha.class,BlendEquationAlpha.InheritColor);
   depthFunc=ic.readEnum("depthFunc",TestFunction.class,TestFunction.LessOrEqual);
   alphaFunc=ic.readEnum("alphaFunc",TestFunction.class,TestFunction.Greater);
   lineWidth=ic.readFloat("lineWidth",1);
@@ -30,6 +32,8 @@
   applyDepthWrite=ic.readBoolean("applyDepthWrite",true);
   applyDepthTest=ic.readBoolean("applyDepthTest",true);
   applyColorWrite=ic.readBoolean("applyColorWrite",true);
+  applyBlendEquation=ic.readBoolean("applyBlendEquation",true);
+  applyBlendEquationAlpha=ic.readBoolean("applyBlendEquationAlpha",true);
   applyBlendMode=ic.readBoolean("applyBlendMode",true);
   applyAlphaTest=ic.readBoolean("applyAlphaTest",true);
   applyAlphaFallOff=ic.readBoolean("applyAlphaFallOff",true);
