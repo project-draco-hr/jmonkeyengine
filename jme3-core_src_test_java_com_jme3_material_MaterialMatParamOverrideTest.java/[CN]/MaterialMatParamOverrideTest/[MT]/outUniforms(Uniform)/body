@@ -1,4 +1,7 @@
 {
+  if (!evaluated) {
+    evaluateTechniqueDef();
+  }
   HashSet<Uniform> actualUniforms=new HashSet<>();
   for (  Uniform uniform : usedShader.getUniformMap().values()) {
     if (uniform.getName().startsWith("m_") && !IGNORED_UNIFORMS.contains(uniform.getName())) {
