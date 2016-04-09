@@ -1,8 +1,8 @@
 {
-  if (technique.getName().equals("Default")) {
-    defaultTechs.add(technique);
+  List<TechniqueDef> list=techniques.get(technique.getName());
+  if (list == null) {
+    list=new ArrayList<>();
+    techniques.put(technique.getName(),list);
   }
- else {
-    techniques.put(technique.getName(),technique);
-  }
+  list.add(technique);
 }

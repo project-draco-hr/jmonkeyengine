@@ -12,7 +12,8 @@
     lightList=filteredLightList;
   }
   if (forcedTechnique != null) {
-    if (g.getMaterial().getMaterialDef().getTechniqueDef(forcedTechnique) != null) {
+    MaterialDef matDef=g.getMaterial().getMaterialDef();
+    if (matDef.getTechniqueDefs(forcedTechnique) != null) {
       tmpTech=g.getMaterial().getActiveTechnique() != null ? g.getMaterial().getActiveTechnique().getDef().getName() : "Default";
       g.getMaterial().selectTechnique(forcedTechnique,this);
       RenderState tmpRs=forcedRenderState;
