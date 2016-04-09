@@ -7,9 +7,9 @@
   }
   Class<T> type=objectClass(object);
   Object clone=index.get(object);
-  if (clone != null) {
+  if (clone != null || index.containsKey(object)) {
     if (log.isLoggable(Level.FINER)) {
-      log.finer("cloned:" + object.getClass() + "@"+ System.identityHashCode(object)+ " as cached:"+ clone.getClass()+ "@"+ System.identityHashCode(clone));
+      log.finer("cloned:" + object.getClass() + "@"+ System.identityHashCode(object)+ " as cached:"+ (clone == null ? "null" : (clone.getClass() + "@" + System.identityHashCode(clone))));
     }
     return type.cast(clone);
   }

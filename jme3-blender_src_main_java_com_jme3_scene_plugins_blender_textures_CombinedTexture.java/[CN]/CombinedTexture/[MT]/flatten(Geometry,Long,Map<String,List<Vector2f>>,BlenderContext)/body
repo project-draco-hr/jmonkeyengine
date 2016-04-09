@@ -89,8 +89,10 @@
     }
     resultUVS=((TriangulatedTexture)resultTexture).getResultUVS();
     resultTexture=((TriangulatedTexture)resultTexture).getResultTexture();
+    masterUserUVSetName=null;
   }
   resultTexture.setWrap(WrapMode.Repeat);
   resultTexture.setMagFilter(MagFilter.Nearest);
   resultTexture.setMinFilter(MinFilter.NearestNoMipMaps);
+  return masterUserUVSetName;
 }
