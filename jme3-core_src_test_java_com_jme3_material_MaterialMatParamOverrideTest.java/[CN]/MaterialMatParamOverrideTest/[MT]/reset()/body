@@ -2,4 +2,7 @@
   evaluated=false;
   usedShader=null;
   Arrays.fill(usedTextures,null);
+  for (  MatParamOverride override : new ArrayList<>(renderManager.getForcedMatParams())) {
+    renderManager.removeForcedMatParam(override);
+  }
 }

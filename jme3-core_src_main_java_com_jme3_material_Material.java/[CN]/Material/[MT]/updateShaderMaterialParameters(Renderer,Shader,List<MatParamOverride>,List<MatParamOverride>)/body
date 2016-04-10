@@ -1,0 +1,26 @@
+{
+  int unit=0;
+  if (worldOverrides != null) {
+    unit=applyOverrides(renderer,shader,worldOverrides,unit);
+  }
+  if (forcedOverrides != null) {
+    unit=applyOverrides(renderer,shader,forcedOverrides,unit);
+  }
+  for (int i=0; i < paramValues.size(); i++) {
+    MatParam param=paramValues.getValue(i);
+    VarType type=param.getVarType();
+    Uniform uniform=shader.getUniform(param.getPrefixedName());
+    if (uniform.isSetByCurrentMaterial()) {
+      continue;
+    }
+    if (type.isTextureType()) {
+      renderer.setTexture(unit,(Texture)param.getValue());
+      uniform.setValue(VarType.Int,unit);
+      unit++;
+    }
+ else {
+      uniform.setValue(type,param.getValue());
+    }
+  }
+  return unit;
+}

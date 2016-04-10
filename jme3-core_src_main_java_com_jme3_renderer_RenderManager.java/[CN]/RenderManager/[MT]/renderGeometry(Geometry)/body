@@ -12,8 +12,9 @@
     lightList=filteredLightList;
   }
   if (forcedTechnique != null) {
-    if (g.getMaterial().getMaterialDef().getTechniqueDef(forcedTechnique) != null) {
-      tmpTech=g.getMaterial().getActiveTechnique() != null ? g.getMaterial().getActiveTechnique().getDef().getName() : "Default";
+    MaterialDef matDef=g.getMaterial().getMaterialDef();
+    if (matDef.getTechniqueDefs(forcedTechnique) != null) {
+      tmpTech=g.getMaterial().getActiveTechnique() != null ? g.getMaterial().getActiveTechnique().getDef().getName() : TechniqueDef.DEFAULT_TECHNIQUE_NAME;
       g.getMaterial().selectTechnique(forcedTechnique,this);
       RenderState tmpRs=forcedRenderState;
       if (g.getMaterial().getActiveTechnique().getDef().getForcedRenderState() != null) {

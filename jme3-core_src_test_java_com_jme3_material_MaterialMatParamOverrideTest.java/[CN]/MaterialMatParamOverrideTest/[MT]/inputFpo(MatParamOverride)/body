@@ -3,7 +3,6 @@
     throw new IllegalStateException();
   }
   for (  MatParamOverride override : overrides) {
-    geometry.addMatParamOverride(override);
+    renderManager.addForcedMatParam(override);
   }
-  root.updateGeometricState();
 }
