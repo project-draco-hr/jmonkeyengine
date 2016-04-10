@@ -1,11 +1,11 @@
 {
   timer=new NanoTimer();
   batch=new BatchNode("theBatchNode");
-  Box boxshape4=new Box(Vector3f.ZERO,1f,1f,1f);
+  Box boxshape4=new Box(1f,1f,1f);
   cube=new Geometry("cube1",boxshape4);
   Material mat=assetManager.loadMaterial("Textures/Terrain/Pond/Pond.j3m");
   cube.setMaterial(mat);
-  Box box=new Box(Vector3f.ZERO,1f,1f,1f);
+  Box box=new Box(1f,1f,1f);
   cube2=new Geometry("cube2",box);
   cube2.setMaterial(mat);
   TangentBinormalGenerator.generate(cube);

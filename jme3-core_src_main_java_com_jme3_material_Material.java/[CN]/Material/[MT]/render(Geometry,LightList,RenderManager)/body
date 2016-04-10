@@ -1,6 +1,6 @@
 {
   if (technique == null) {
-    selectTechnique("Default",renderManager);
+    selectTechnique(TechniqueDef.DEFAULT_TECHNIQUE_NAME,renderManager);
   }
   TechniqueDef techniqueDef=technique.getDef();
   Renderer renderer=renderManager.getRenderer();
@@ -10,10 +10,10 @@
   }
   updateRenderState(renderManager,renderer,techniqueDef);
   List<MatParamOverride> overrides=geometry.getWorldMatParamOverrides();
-  Shader shader=technique.makeCurrent(renderManager,overrides,lights,rendererCaps);
+  Shader shader=technique.makeCurrent(renderManager,overrides,renderManager.getForcedMatParams(),lights,rendererCaps);
   clearUniformsSetByCurrent(shader);
   renderManager.updateUniformBindings(shader);
-  updateShaderMaterialParameters(renderer,shader,geometry.getWorldMatParamOverrides());
+  updateShaderMaterialParameters(renderer,shader,overrides,renderManager.getForcedMatParams());
   resetUniformsNotSetByCurrent(shader);
   technique.render(renderManager,shader,geometry,lights);
 }

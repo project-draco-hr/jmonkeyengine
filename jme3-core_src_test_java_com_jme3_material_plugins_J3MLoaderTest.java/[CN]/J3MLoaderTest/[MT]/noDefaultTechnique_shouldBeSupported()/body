@@ -1,0 +1,5 @@
+{
+  when(assetInfo.openStream()).thenReturn(J3MLoader.class.getResourceAsStream("/no-default-technique.j3md"));
+  MaterialDef def=(MaterialDef)j3MLoader.load(assetInfo);
+  assertEquals(1,def.getTechniqueDefs("Test").size());
+}

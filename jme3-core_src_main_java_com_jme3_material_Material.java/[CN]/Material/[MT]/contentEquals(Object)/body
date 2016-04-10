@@ -13,8 +13,8 @@
     return false;
   }
   if (this.technique != null || other.technique != null) {
-    String thisDefName=this.technique != null ? this.technique.getDef().getName() : "Default";
-    String otherDefName=other.technique != null ? other.technique.getDef().getName() : "Default";
+    String thisDefName=this.technique != null ? this.technique.getDef().getName() : TechniqueDef.DEFAULT_TECHNIQUE_NAME;
+    String otherDefName=other.technique != null ? other.technique.getDef().getName() : TechniqueDef.DEFAULT_TECHNIQUE_NAME;
     if (!thisDefName.equals(otherDefName)) {
       return false;
     }

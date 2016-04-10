@@ -1,14 +1,12 @@
 {
   OutputCapsule oc=ex.getCapsule(this);
-  oc.write(pointSprite,"pointSprite",false);
+  oc.write(true,"pointSprite",false);
   oc.write(wireframe,"wireframe",false);
   oc.write(cullMode,"cullMode",FaceCullMode.Back);
   oc.write(depthWrite,"depthWrite",true);
   oc.write(depthTest,"depthTest",true);
   oc.write(colorWrite,"colorWrite",true);
   oc.write(blendMode,"blendMode",BlendMode.Off);
-  oc.write(alphaTest,"alphaTest",false);
-  oc.write(alphaFallOff,"alphaFallOff",0);
   oc.write(offsetEnabled,"offsetEnabled",false);
   oc.write(offsetFactor,"offsetFactor",0);
   oc.write(offsetUnits,"offsetUnits",0);
@@ -21,24 +19,15 @@
   oc.write(backStencilDepthPassOperation,"backStencilDepthPassOperation",StencilOperation.Keep);
   oc.write(frontStencilFunction,"frontStencilFunction",TestFunction.Always);
   oc.write(backStencilFunction,"backStencilFunction",TestFunction.Always);
-  oc.write(blendEquation,"blendEquation",BlendEquation.Add);
-  oc.write(blendEquationAlpha,"blendEquationAlpha",BlendEquationAlpha.InheritColor);
   oc.write(depthFunc,"depthFunc",TestFunction.LessOrEqual);
-  oc.write(alphaFunc,"alphaFunc",TestFunction.Greater);
   oc.write(lineWidth,"lineWidth",1);
-  oc.write(applyPointSprite,"applyPointSprite",true);
   oc.write(applyWireFrame,"applyWireFrame",true);
   oc.write(applyCullMode,"applyCullMode",true);
   oc.write(applyDepthWrite,"applyDepthWrite",true);
   oc.write(applyDepthTest,"applyDepthTest",true);
   oc.write(applyColorWrite,"applyColorWrite",true);
-  oc.write(applyBlendEquation,"applyBlendEquation",true);
-  oc.write(applyBlendEquationAlpha,"applyBlendEquationAlpha",true);
   oc.write(applyBlendMode,"applyBlendMode",true);
-  oc.write(applyAlphaTest,"applyAlphaTest",true);
-  oc.write(applyAlphaFallOff,"applyAlphaFallOff",true);
   oc.write(applyPolyOffset,"applyPolyOffset",true);
   oc.write(applyDepthFunc,"applyDepthFunc",true);
-  oc.write(applyAlphaFunc,"applyAlphaFunc",false);
   oc.write(applyLineWidth,"applyLineWidth",true);
 }

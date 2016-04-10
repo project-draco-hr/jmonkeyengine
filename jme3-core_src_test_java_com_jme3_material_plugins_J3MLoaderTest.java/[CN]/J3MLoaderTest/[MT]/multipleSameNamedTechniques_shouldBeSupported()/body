@@ -1,0 +1,7 @@
+{
+  when(assetInfo.openStream()).thenReturn(J3MLoader.class.getResourceAsStream("/same-name-technique.j3md"));
+  MaterialDef def=(MaterialDef)j3MLoader.load(assetInfo);
+  assertEquals(2,def.getTechniqueDefs("Test").size());
+  assertEquals(EnumSet.of(Caps.GLSL150),def.getTechniqueDefs("Test").get(0).getRequiredCaps());
+  assertEquals(EnumSet.of(Caps.GLSL100),def.getTechniqueDefs("Test").get(1).getRequiredCaps());
+}

@@ -2,12 +2,6 @@
   if (additionalState == null) {
     return this;
   }
-  if (additionalState.applyPointSprite) {
-    state.pointSprite=additionalState.pointSprite;
-  }
- else {
-    state.pointSprite=pointSprite;
-  }
   if (additionalState.applyWireFrame) {
     state.wireframe=additionalState.wireframe;
   }
@@ -61,24 +55,6 @@
   }
  else {
     state.blendMode=blendMode;
-  }
-  if (additionalState.applyAlphaTest) {
-    state.alphaTest=additionalState.alphaTest;
-  }
- else {
-    state.alphaTest=alphaTest;
-  }
-  if (additionalState.applyAlphaFunc) {
-    state.alphaFunc=additionalState.alphaFunc;
-  }
- else {
-    state.alphaFunc=alphaFunc;
-  }
-  if (additionalState.applyAlphaFallOff) {
-    state.alphaFallOff=additionalState.alphaFallOff;
-  }
- else {
-    state.alphaFallOff=alphaFallOff;
   }
   if (additionalState.applyPolyOffset) {
     state.offsetEnabled=additionalState.offsetEnabled;
