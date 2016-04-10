@@ -1,7 +1,6 @@
 {
   if (cachedHashCode == -1) {
     int hash=7;
-    hash=79 * hash + (this.pointSprite ? 1 : 0);
     hash=79 * hash + (this.wireframe ? 1 : 0);
     hash=79 * hash + (this.cullMode != null ? this.cullMode.hashCode() : 0);
     hash=79 * hash + (this.depthWrite ? 1 : 0);
@@ -9,9 +8,6 @@
     hash=79 * hash + (this.depthFunc != null ? this.depthFunc.hashCode() : 0);
     hash=79 * hash + (this.colorWrite ? 1 : 0);
     hash=79 * hash + (this.blendMode != null ? this.blendMode.hashCode() : 0);
-    hash=79 * hash + (this.alphaTest ? 1 : 0);
-    hash=79 * hash + (this.alphaFunc != null ? this.alphaFunc.hashCode() : 0);
-    hash=79 * hash + Float.floatToIntBits(this.alphaFallOff);
     hash=79 * hash + Float.floatToIntBits(this.offsetFactor);
     hash=79 * hash + Float.floatToIntBits(this.offsetUnits);
     hash=79 * hash + (this.offsetEnabled ? 1 : 0);
