@@ -5,13 +5,7 @@
       final Vector3f quadCell=location.add(quadIndex[quadIdx]);
       TerrainQuad q=cache.get(quadCell);
       if (q == null) {
-        if (heightMapGrid != null) {
-          HeightMap heightMapAt=heightMapGrid.getHeightMapAt(quadCell);
-          q=new TerrainQuad(getName() + "Quad" + quadCell,patchSize,quadSize,heightMapAt == null ? null : heightMapAt.getHeightMap());
-          q.setMaterial(material.clone());
-          log.log(Level.FINE,"Loaded TerrainQuad {0} from HeightMapGrid",q.getName());
-        }
- else         if (gridTileLoader != null) {
+        if (gridTileLoader != null) {
           q=gridTileLoader.getTerrainQuadAt(quadCell);
           if (q.getMaterial() == null)           q.setMaterial(material.clone());
           log.log(Level.FINE,"Loaded TerrainQuad {0} from TerrainQuadGrid",q.getName());
