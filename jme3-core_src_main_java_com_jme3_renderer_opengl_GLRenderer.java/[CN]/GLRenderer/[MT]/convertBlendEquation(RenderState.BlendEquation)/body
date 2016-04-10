@@ -1,0 +1,16 @@
+{
+switch (blendEquation) {
+case Add:
+    return GL2.GL_FUNC_ADD;
+case Subtract:
+  return GL2.GL_FUNC_SUBTRACT;
+case ReverseSubtract:
+return GL2.GL_FUNC_REVERSE_SUBTRACT;
+case Min:
+return GL2.GL_MIN;
+case Max:
+return GL2.GL_MAX;
+default :
+throw new UnsupportedOperationException("Unrecognized blend operation: " + blendEquation);
+}
+}
