@@ -4,8 +4,5 @@
     throw new IOException("LightMode statement syntax incorrect");
   }
   LightMode lm=LightMode.valueOf(split[1]);
-  if (lm == LightMode.FixedPipeline) {
-    throw new UnsupportedOperationException("OpenGL1 is not supported");
-  }
   technique.setLightMode(lm);
 }

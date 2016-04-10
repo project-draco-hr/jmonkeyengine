@@ -18,7 +18,7 @@
       lastTech=techDef;
     }
     if (tech == null) {
-      throw new UnsupportedOperationException("No default technique on material '" + def.getName() + "'\n"+ " is supported by the video hardware. The caps "+ lastTech.getRequiredCaps()+ " are required.");
+      throw new UnsupportedOperationException(String.format("No technique '%s' on material " + "'%s' is supported by the video hardware. " + "The capabilities %s are required.",name,def.getName(),lastTech.getRequiredCaps()));
     }
   }
  else   if (technique == tech) {

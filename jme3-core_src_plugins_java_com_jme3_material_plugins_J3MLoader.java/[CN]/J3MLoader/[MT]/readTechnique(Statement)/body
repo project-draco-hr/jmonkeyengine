@@ -20,8 +20,8 @@
     nodesLoaderDelegate.computeConditions();
     technique.setShaderFile(technique.hashCode() + "",technique.hashCode() + "","GLSL100","GLSL100");
   }
-  if (shaderName.containsKey(Shader.ShaderType.Vertex) && shaderName.containsKey(Shader.ShaderType.Fragment)) {
-    technique.setShaderFile(shaderName,shaderLanguage);
+  if (shaderNames.containsKey(Shader.ShaderType.Vertex) && shaderNames.containsKey(Shader.ShaderType.Fragment)) {
+    technique.setShaderFile(shaderNames,shaderLanguages);
   }
   technique.setShaderPrologue(createShaderPrologue(presetDefines));
 switch (technique.getLightMode()) {
@@ -39,7 +39,7 @@ throw new UnsupportedOperationException();
 }
 materialDef.addTechniqueDef(technique);
 technique=null;
-shaderLanguage.clear();
-shaderName.clear();
+shaderLanguages.clear();
+shaderNames.clear();
 presetDefines.clear();
 }

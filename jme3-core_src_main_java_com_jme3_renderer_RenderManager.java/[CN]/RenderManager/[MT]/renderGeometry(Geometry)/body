@@ -1,37 +1,39 @@
 {
-  if (g.isIgnoreTransform()) {
+  if (geom.isIgnoreTransform()) {
     setWorldMatrix(Matrix4f.IDENTITY);
   }
  else {
-    setWorldMatrix(g.getWorldMatrix());
+    setWorldMatrix(geom.getWorldMatrix());
   }
-  LightList lightList=g.getWorldLightList();
+  LightList lightList=geom.getWorldLightList();
   if (lightFilter != null) {
     filteredLightList.clear();
-    lightFilter.filterLights(g,filteredLightList);
+    lightFilter.filterLights(geom,filteredLightList);
     lightList=filteredLightList;
   }
+  Material material=geom.getMaterial();
   if (forcedTechnique != null) {
-    MaterialDef matDef=g.getMaterial().getMaterialDef();
+    MaterialDef matDef=material.getMaterialDef();
     if (matDef.getTechniqueDefs(forcedTechnique) != null) {
-      tmpTech=g.getMaterial().getActiveTechnique() != null ? g.getMaterial().getActiveTechnique().getDef().getName() : TechniqueDef.DEFAULT_TECHNIQUE_NAME;
-      g.getMaterial().selectTechnique(forcedTechnique,this);
+      Technique activeTechnique=material.getActiveTechnique();
+      String previousTechniqueName=activeTechnique != null ? activeTechnique.getDef().getName() : TechniqueDef.DEFAULT_TECHNIQUE_NAME;
+      geom.getMaterial().selectTechnique(forcedTechnique,this);
       RenderState tmpRs=forcedRenderState;
-      if (g.getMaterial().getActiveTechnique().getDef().getForcedRenderState() != null) {
-        forcedRenderState=g.getMaterial().getActiveTechnique().getDef().getForcedRenderState();
+      if (geom.getMaterial().getActiveTechnique().getDef().getForcedRenderState() != null) {
+        forcedRenderState=geom.getMaterial().getActiveTechnique().getDef().getForcedRenderState();
       }
-      g.getMaterial().render(g,lightList,this);
-      g.getMaterial().selectTechnique(tmpTech,this);
+      material.render(geom,lightList,this);
+      material.selectTechnique(previousTechniqueName,this);
       forcedRenderState=tmpRs;
     }
  else     if (forcedMaterial != null) {
-      forcedMaterial.render(g,lightList,this);
+      forcedMaterial.render(geom,lightList,this);
     }
   }
  else   if (forcedMaterial != null) {
-    forcedMaterial.render(g,lightList,this);
+    forcedMaterial.render(geom,lightList,this);
   }
  else {
-    g.getMaterial().render(g,lightList,this);
+    material.render(geom,lightList,this);
   }
 }
