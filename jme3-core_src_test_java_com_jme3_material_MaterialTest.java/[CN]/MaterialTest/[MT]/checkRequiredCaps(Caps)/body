@@ -1,0 +1,6 @@
+{
+  EnumSet<Caps> expected=EnumSet.noneOf(Caps.class);
+  expected.addAll(Arrays.asList(caps));
+  Technique tech=material.getActiveTechnique();
+  assertEquals(expected,tech.getDef().getRequiredCaps());
+}
