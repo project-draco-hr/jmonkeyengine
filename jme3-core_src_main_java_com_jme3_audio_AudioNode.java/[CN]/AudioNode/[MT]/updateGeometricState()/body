@@ -1,8 +1,16 @@
 {
-  boolean updatePos=false;
-  if ((refreshFlags & RF_TRANSFORM) != 0) {
-    updatePos=true;
-  }
   super.updateGeometricState();
-  if (updatePos && channel >= 0)   getRenderer().updateSourceParam(this,AudioParam.Position);
+  if (channel < 0) {
+    return;
+  }
+  Vector3f currentWorldTranslation=worldTransform.getTranslation();
+  if (Float.isNaN(previousWorldTranslation.x) || !previousWorldTranslation.equals(currentWorldTranslation)) {
+    getRenderer().updateSourceParam(this,AudioParam.Position);
+    if (velocityFromTranslation) {
+      velocity.set(currentWorldTranslation).subtractLocal(previousWorldTranslation);
+      velocity.multLocal(1f / lastTpf);
+      getRenderer().updateSourceParam(this,AudioParam.Velocity);
+    }
+    previousWorldTranslation.set(currentWorldTranslation);
+  }
 }

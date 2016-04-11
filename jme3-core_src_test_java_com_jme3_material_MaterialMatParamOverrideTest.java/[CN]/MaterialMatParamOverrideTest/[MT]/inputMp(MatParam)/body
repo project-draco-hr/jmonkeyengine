@@ -1,0 +1,9 @@
+{
+  if (evaluated) {
+    throw new IllegalStateException();
+  }
+  Material mat=geometry.getMaterial();
+  for (  MatParam param : params) {
+    mat.setParam(param.getName(),param.getVarType(),param.getValue());
+  }
+}

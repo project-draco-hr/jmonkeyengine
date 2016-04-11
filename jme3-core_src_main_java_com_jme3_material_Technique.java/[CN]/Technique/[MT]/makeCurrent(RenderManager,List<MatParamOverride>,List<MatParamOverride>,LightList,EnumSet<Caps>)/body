@@ -1,0 +1,13 @@
+{
+  TechniqueDefLogic logic=def.getLogic();
+  AssetManager assetManager=owner.getMaterialDef().getAssetManager();
+  dynamicDefines.clear();
+  dynamicDefines.setAll(paramDefines);
+  if (worldOverrides != null) {
+    applyOverrides(dynamicDefines,worldOverrides);
+  }
+  if (forcedOverrides != null) {
+    applyOverrides(dynamicDefines,forcedOverrides);
+  }
+  return logic.makeCurrent(assetManager,renderManager,rendererCaps,lights,dynamicDefines);
+}

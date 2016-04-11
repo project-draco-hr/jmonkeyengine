@@ -1,9 +1,12 @@
 {
   initInThread();
-  while (!needClose.get()) {
+  do {
     listener.update();
-    if (frameRate > 0)     sync(frameRate);
+    if (frameRate > 0) {
+      sync(frameRate);
+    }
   }
+ while (!needClose.get());
   deinitInThread();
   logger.fine("NullContext destroyed.");
 }

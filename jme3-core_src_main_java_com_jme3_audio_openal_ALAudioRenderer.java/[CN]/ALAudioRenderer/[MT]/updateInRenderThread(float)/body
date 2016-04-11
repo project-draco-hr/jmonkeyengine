@@ -34,11 +34,9 @@
         }
  else {
           if (src.isLooping()) {
-            throw new AssertionError("Unexpected state: " + "A looping sound has stopped playing");
+            logger.warning("A looping sound has stopped playing");
           }
- else {
-            reclaimChannel=true;
-          }
+          reclaimChannel=true;
         }
         if (reclaimChannel) {
           src.setStatus(Status.Stopped);

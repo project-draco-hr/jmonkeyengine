@@ -17,7 +17,7 @@
   node2.getControl(RigidBodyControl.class).setCollideWithGroups(PhysicsCollisionObject.COLLISION_GROUP_02);
   rootNode.attachChild(node2);
   getPhysicsSpace().add(node2);
-  Node node3=PhysicsTestHelper.createPhysicsTestNode(assetManager,new MeshCollisionShape(new Box(Vector3f.ZERO,100f,0.2f,100f)),0);
+  Node node3=PhysicsTestHelper.createPhysicsTestNode(assetManager,new MeshCollisionShape(new Box(100f,0.2f,100f)),0);
   node3.getControl(RigidBodyControl.class).setPhysicsLocation(new Vector3f(0f,-6,0f));
   rootNode.attachChild(node3);
   getPhysicsSpace().add(node3);

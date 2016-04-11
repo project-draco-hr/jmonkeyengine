@@ -1,0 +1,11 @@
+{
+  refreshFlags|=RF_MATPARAM_OVERRIDE;
+  Spatial p=parent;
+  while (p != null) {
+    if ((p.refreshFlags & RF_MATPARAM_OVERRIDE) != 0) {
+      return;
+    }
+    p.refreshFlags|=RF_MATPARAM_OVERRIDE;
+    p=p.parent;
+  }
+}

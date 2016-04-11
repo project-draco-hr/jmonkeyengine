@@ -1,0 +1,23 @@
+{
+  if (isPressed) {
+    return;
+  }
+switch (name) {
+case "higher":
+    globalAniso++;
+  if (globalAniso > 32) {
+    globalAniso=32;
+  }
+renderer.setDefaultAnisotropicFilter(globalAniso);
+System.out.format("Global Aniso: %d / %d\r\n",globalAniso,maxAniso);
+break;
+case "lower":
+globalAniso--;
+if (globalAniso < 1) {
+globalAniso=1;
+}
+renderer.setDefaultAnisotropicFilter(globalAniso);
+System.out.format("Global Aniso: %d / %d\r\n",globalAniso,maxAniso);
+break;
+}
+}

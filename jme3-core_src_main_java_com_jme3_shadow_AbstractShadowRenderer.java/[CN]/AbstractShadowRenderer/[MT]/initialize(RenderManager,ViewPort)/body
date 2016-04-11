@@ -1,12 +1,7 @@
 {
   renderManager=rm;
   viewPort=vp;
-  if (renderManager.getRenderer().getCaps().contains(Caps.GLSL150)) {
-    postTechniqueName="PostShadow15";
-  }
- else {
-    postTechniqueName="PostShadow";
-  }
+  postTechniqueName="PostShadow";
   if (zFarOverride > 0 && frustumCam == null) {
     initFrustumCam();
   }

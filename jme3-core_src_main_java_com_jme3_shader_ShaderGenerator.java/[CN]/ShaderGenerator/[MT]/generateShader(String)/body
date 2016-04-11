@@ -1,0 +1,19 @@
+{
+  if (techniqueDef == null) {
+    throw new UnsupportedOperationException("The shaderGenerator was not " + "properly initialized, call " + "initialize(TechniqueDef) before any generation");
+  }
+  String techniqueName=techniqueDef.getName();
+  ShaderGenerationInfo info=techniqueDef.getShaderGenerationInfo();
+  Shader shader=new Shader();
+  for (  ShaderType type : ShaderType.values()) {
+    String extension=type.getExtension();
+    String language=getLanguageAndVersion(type);
+    String shaderSourceCode=buildShader(techniqueDef.getShaderNodes(),info,type);
+    if (shaderSourceCode != null) {
+      String shaderSourceAssetName=techniqueName + "." + extension;
+      shader.addSource(type,shaderSourceAssetName,shaderSourceCode,definesSourceCode,language);
+    }
+  }
+  techniqueDef=null;
+  return shader;
+}

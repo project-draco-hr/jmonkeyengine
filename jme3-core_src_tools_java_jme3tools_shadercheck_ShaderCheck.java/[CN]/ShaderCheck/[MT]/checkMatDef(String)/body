@@ -1,10 +1,10 @@
 {
   MaterialDef def=(MaterialDef)assetManager.loadAsset(matdefName);
-  for (  TechniqueDef techDef : def.getDefaultTechniques()) {
-    DefineList dl=new DefineList();
-    dl.addFrom(techDef.getShaderPresetDefines());
-    ShaderKey shaderKey=new ShaderKey(dl,techDef.getShaderProgramLanguages(),techDef.getShaderProgramNames());
-    Shader shader=assetManager.loadShader(shaderKey);
+  EnumSet<Caps> rendererCaps=EnumSet.noneOf(Caps.class);
+  rendererCaps.add(Caps.GLSL100);
+  for (  TechniqueDef techDef : def.getTechniqueDefs(TechniqueDef.DEFAULT_TECHNIQUE_NAME)) {
+    DefineList defines=techDef.createDefineList();
+    Shader shader=techDef.getShader(assetManager,rendererCaps,defines);
     for (    Validator validator : validators) {
       StringBuilder sb=new StringBuilder();
       validator.validate(shader,sb);
@@ -12,4 +12,5 @@
       System.out.println(sb.toString());
     }
   }
+  throw new UnsupportedOperationException();
 }

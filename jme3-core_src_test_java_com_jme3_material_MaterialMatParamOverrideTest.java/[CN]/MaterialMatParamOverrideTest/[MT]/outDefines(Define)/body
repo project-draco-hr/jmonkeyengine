@@ -1,0 +1,61 @@
+{
+  Map<String,Define> nameToDefineMap=new HashMap<String,Define>();
+  for (  Define define : expectedDefinesArray) {
+    nameToDefineMap.put(define.name,define);
+  }
+  if (!evaluated) {
+    evaluateTechniqueDef();
+  }
+  Material mat=geometry.getMaterial();
+  Technique tech=mat.getActiveTechnique();
+  TechniqueDef def=tech.getDef();
+  DefineList actualDefines=tech.getDynamicDefines();
+  String[] defineNames=def.getDefineNames();
+  VarType[] defineTypes=def.getDefineTypes();
+  Assert.assertEquals(defineNames.length,defineTypes.length);
+  for (int index=0; index < defineNames.length; index++) {
+    String name=defineNames[index];
+    VarType type=defineTypes[index];
+    Define expectedDefine=nameToDefineMap.remove(name);
+    Object expectedValue=null;
+    if (expectedDefine != null) {
+      Assert.assertEquals(expectedDefine.type,type);
+      expectedValue=expectedDefine.value;
+    }
+switch (type) {
+case Boolean:
+      if (expectedValue != null) {
+        Assert.assertEquals((boolean)(Boolean)expectedValue,actualDefines.getBoolean(index));
+      }
+ else {
+        Assert.assertEquals(false,actualDefines.getBoolean(index));
+      }
+    break;
+case Int:
+  if (expectedValue != null) {
+    Assert.assertEquals((int)(Integer)expectedValue,actualDefines.getInt(index));
+  }
+ else {
+    Assert.assertEquals(0,actualDefines.getInt(index));
+  }
+break;
+case Float:
+if (expectedValue != null) {
+Assert.assertEquals((float)(Float)expectedValue,actualDefines.getFloat(index),0f);
+}
+ else {
+Assert.assertEquals(0f,actualDefines.getFloat(index),0f);
+}
+break;
+default :
+if (expectedValue != null) {
+Assert.assertEquals(1,actualDefines.getInt(index));
+}
+ else {
+Assert.assertEquals(0,actualDefines.getInt(index));
+}
+break;
+}
+}
+Assert.assertTrue(nameToDefineMap.isEmpty());
+}

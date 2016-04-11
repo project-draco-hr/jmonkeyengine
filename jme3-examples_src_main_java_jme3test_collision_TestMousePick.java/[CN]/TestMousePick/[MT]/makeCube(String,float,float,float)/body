@@ -1,6 +1,7 @@
 {
-  Box box=new Box(new Vector3f(x,y,z),1,1,1);
+  Box box=new Box(1,1,1);
   Geometry cube=new Geometry(name,box);
+  cube.setLocalTranslation(x,y,z);
   Material mat1=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
   mat1.setColor("Color",ColorRGBA.randomColor());
   cube.setMaterial(mat1);

@@ -1,0 +1,21 @@
+{
+  inputManager.setCursorVisible(true);
+  createBox(-3,ColorRGBA.Red);
+  createBox(0,ColorRGBA.Green);
+  createBox(3,ColorRGBA.Blue);
+  inputManager.addMapping("override",new KeyTrigger(KeyInput.KEY_SPACE));
+  inputManager.addListener(new ActionListener(){
+    @Override public void onAction(    String name,    boolean isPressed,    float tpf){
+      if (name.equals("override") && isPressed) {
+        if (!rootNode.getLocalMatParamOverrides().isEmpty()) {
+          rootNode.clearMatParamOverrides();
+        }
+ else {
+          rootNode.addMatParamOverride(override);
+        }
+        System.out.println(rootNode.getLocalMatParamOverrides());
+      }
+    }
+  }
+,"override");
+}

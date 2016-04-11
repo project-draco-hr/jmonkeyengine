@@ -1,0 +1,7 @@
+{
+  Matrix4f[] matrices=new Matrix4f[]{new Matrix4f()};
+  material("Common/MatDefs/Light/Lighting.j3md");
+  inputMpo(mpoMatrix4Array("BoneMatrices",matrices));
+  outDefines();
+  outUniforms(uniform("BoneMatrices",VarType.Matrix4Array,matrices));
+}

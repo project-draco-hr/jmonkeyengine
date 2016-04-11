@@ -1,0 +1,9 @@
+{
+  super.setMatParamOverrideRefresh();
+  for (  Spatial child : children.getArray()) {
+    if ((child.refreshFlags & RF_MATPARAM_OVERRIDE) != 0) {
+      continue;
+    }
+    child.setMatParamOverrideRefresh();
+  }
+}

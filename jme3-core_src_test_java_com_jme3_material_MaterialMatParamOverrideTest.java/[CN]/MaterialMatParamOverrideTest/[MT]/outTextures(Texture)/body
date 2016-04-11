@@ -1,0 +1,10 @@
+{
+  for (int i=0; i < usedTextures.length; i++) {
+    if (i < textures.length) {
+      Assert.assertSame(textures[i],usedTextures[i]);
+    }
+ else {
+      Assert.assertNull(usedTextures[i]);
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  Image image=new Image(Format.RGBA8,1024,1024,BufferUtils.createByteBuffer(1024 * 1024 * 4),ColorSpace.sRGB);
+  ImageRaster raster=ImageRaster.create(image);
+  for (int y=0; y < 1024; y++) {
+    for (int x=0; x < 1024; x++) {
+      if (y < 512) {
+        if (x < 512) {
+          raster.setPixel(x,y,ColorRGBA.Black);
+        }
+ else {
+          raster.setPixel(x,y,ColorRGBA.White);
+        }
+      }
+ else {
+        if (x < 512) {
+          raster.setPixel(x,y,ColorRGBA.White);
+        }
+ else {
+          raster.setPixel(x,y,ColorRGBA.Black);
+        }
+      }
+    }
+  }
+  return new Texture2D(image);
+}

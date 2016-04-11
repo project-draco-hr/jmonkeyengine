@@ -1,0 +1,18 @@
+{
+  Material texture1Mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  Material texture2Mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  Material texture3Mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  Texture tex1=createTexture("A");
+  tex1.getImage().setId(1);
+  Texture tex2=createTexture("B");
+  tex2.getImage().setId(2);
+  Texture tex3=createTexture("C");
+  tex3.getImage().setId(3);
+  texture1Mat.setName("TexA");
+  texture1Mat.setTexture("ColorMap",tex1);
+  texture2Mat.setName("TexB");
+  texture2Mat.setTexture("ColorMap",tex2);
+  texture3Mat.setName("TexC");
+  texture3Mat.setTexture("ColorMap",tex3);
+  testSort(texture1Mat,texture2Mat,texture3Mat);
+}

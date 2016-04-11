@@ -2,6 +2,9 @@
   if (SwingUtilities.isEventDispatchThread()) {
     throw new IllegalStateException("Cannot run from EDT");
   }
+  if (GraphicsEnvironment.isHeadless()) {
+    throw new IllegalStateException("Cannot show dialog in headless environment");
+  }
   final AppSettings settings=new AppSettings(false);
   settings.copyFrom(sourceSettings);
   String iconPath=sourceSettings.getSettingsDialogImage();

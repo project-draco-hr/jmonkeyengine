@@ -6,9 +6,11 @@
   }
   limits.put(Limits.FragmentTextureUnits,getInteger(GL.GL_MAX_TEXTURE_IMAGE_UNITS));
   if (caps.contains(Caps.OpenGLES20)) {
+    limits.put(Limits.FragmentUniformVectors,getInteger(GL.GL_MAX_FRAGMENT_UNIFORM_VECTORS));
     limits.put(Limits.VertexUniformVectors,getInteger(GL.GL_MAX_VERTEX_UNIFORM_VECTORS));
   }
  else {
+    limits.put(Limits.FragmentUniformVectors,getInteger(GL.GL_MAX_FRAGMENT_UNIFORM_COMPONENTS) / 4);
     limits.put(Limits.VertexUniformVectors,getInteger(GL.GL_MAX_VERTEX_UNIFORM_COMPONENTS) / 4);
   }
   limits.put(Limits.VertexAttributes,getInteger(GL.GL_MAX_VERTEX_ATTRIBS));
@@ -145,6 +147,14 @@
     sb.append("Supported capabilities: \n");
     for (    Caps cap : caps) {
       sb.append("\t").append(cap.toString()).append("\n");
+    }
+    sb.append("\nHardware limits: \n");
+    for (    Limits limit : Limits.values()) {
+      Integer value=limits.get(limit);
+      if (value == null) {
+        value=0;
+      }
+      sb.append("\t").append(limit.name()).append(" = ").append(value).append("\n");
     }
     logger.log(Level.FINE,sb.toString());
   }

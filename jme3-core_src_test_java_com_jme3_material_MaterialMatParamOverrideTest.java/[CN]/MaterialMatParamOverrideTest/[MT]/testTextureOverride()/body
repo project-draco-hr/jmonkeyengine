@@ -1,0 +1,10 @@
+{
+  material("Common/MatDefs/Light/Lighting.j3md");
+  Texture2D tex1=new Texture2D(128,128,Format.RGBA8);
+  Texture2D tex2=new Texture2D(128,128,Format.RGBA8);
+  inputMp(mpoTexture2D("DiffuseMap",tex1));
+  inputMpo(mpoTexture2D("DiffuseMap",tex2));
+  outDefines(def("DIFFUSEMAP",VarType.Texture2D,tex2));
+  outUniforms(uniform("DiffuseMap",VarType.Int,0));
+  outTextures(tex2);
+}

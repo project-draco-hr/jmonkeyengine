@@ -1,0 +1,37 @@
+{
+  Uniform ambientColor=shader.getUniform("g_AmbientLightColor");
+  ambientColor.setValue(VarType.Vector4,getAmbientColor(lights,true,ambientLightColor));
+  Uniform lightData=shader.getUniform("g_LightData");
+  int totalSize=tempDirLights.size() * 2 + tempPointLights.size() * 2 + tempSpotLights.size() * 3;
+  lightData.setVector4Length(totalSize);
+  int index=0;
+  for (  DirectionalLight light : tempDirLights) {
+    ColorRGBA color=light.getColor();
+    tempDirection.set(light.getDirection());
+    transformDirection(viewMatrix,tempDirection);
+    lightData.setVector4InArray(color.r,color.g,color.b,1f,index++);
+    lightData.setVector4InArray(tempDirection.x,tempDirection.y,tempDirection.z,1f,index++);
+  }
+  for (  PointLight light : tempPointLights) {
+    ColorRGBA color=light.getColor();
+    tempPosition.set(light.getPosition());
+    float invRadius=light.getInvRadius();
+    transformPosition(viewMatrix,tempPosition);
+    lightData.setVector4InArray(color.r,color.g,color.b,1f,index++);
+    lightData.setVector4InArray(tempPosition.x,tempPosition.y,tempPosition.z,invRadius,index++);
+  }
+  for (  SpotLight light : tempSpotLights) {
+    ColorRGBA color=light.getColor();
+    Vector3f pos=light.getPosition();
+    Vector3f dir=light.getDirection();
+    tempPosition.set(light.getPosition());
+    tempDirection.set(light.getDirection());
+    transformPosition(viewMatrix,tempPosition);
+    transformDirection(viewMatrix,tempDirection);
+    float invRange=light.getInvSpotRange();
+    float spotAngleCos=light.getPackedAngleCos();
+    lightData.setVector4InArray(color.r,color.g,color.b,1f,index++);
+    lightData.setVector4InArray(tempPosition.x,tempPosition.y,tempPosition.z,invRange,index++);
+    lightData.setVector4InArray(tempDirection.x,tempDirection.y,tempDirection.z,spotAngleCos,index++);
+  }
+}

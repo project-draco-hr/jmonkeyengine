@@ -1,0 +1,15 @@
+{
+  material("Common/MatDefs/Light/Lighting.j3md");
+  Texture2D tex=new Texture2D(128,128,Format.RGBA8);
+  reset();
+  inputMpo(mpoTexture2D("DiffuseMap",tex));
+  outDefines(def("DIFFUSEMAP",VarType.Texture2D,tex));
+  outUniforms(uniform("DiffuseMap",VarType.Int,0));
+  outTextures(tex);
+  reset();
+  geometry.clearMatParamOverrides();
+  root.updateGeometricState();
+  outDefines();
+  outUniforms();
+  outTextures();
+}

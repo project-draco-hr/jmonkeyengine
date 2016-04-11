@@ -12,6 +12,12 @@
  else     if (subclassName.equals("IKEffector") || subclassName.equals("FKEffector")) {
       return FbxNullAttribute.class;
     }
+ else     if (subclassName.equals("Light")) {
+      return FbxNullAttribute.class;
+    }
+ else     if (subclassName.equals("Camera")) {
+      return FbxNullAttribute.class;
+    }
  else {
       logger.log(Level.WARNING,"Unknown object subclass: {0}. Ignoring.",subclassName);
       return FbxUnknownObject.class;
