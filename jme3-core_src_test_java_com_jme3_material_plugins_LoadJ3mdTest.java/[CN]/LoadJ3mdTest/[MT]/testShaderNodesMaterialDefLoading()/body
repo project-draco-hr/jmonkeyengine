@@ -1,0 +1,8 @@
+{
+  supportGlsl(100);
+  material("testMatDef.j3md");
+  material.selectTechnique("Default",renderManager);
+  assertEquals(material.getActiveTechnique().getDef().getShaderNodes().size(),2);
+  Shader s=material.getActiveTechnique().getDef().getShader(TestUtil.createAssetManager(),myCaps,material.getActiveTechnique().getDynamicDefines());
+  assertEquals(s.getSources().size(),2);
+}
