@@ -1,0 +1,9 @@
+{
+  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  Texture tex=createCheckerBoardTexture();
+  tex.setMagFilter(Texture.MagFilter.Bilinear);
+  tex.setMinFilter(Texture.MinFilter.Trilinear);
+  tex.setWrap(Texture.WrapMode.Repeat);
+  mat.setTexture("ColorMap",tex);
+  return mat;
+}
