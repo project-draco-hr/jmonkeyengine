@@ -1,12 +1,3 @@
 {
-  final int separatorPosition=option.indexOf("_");
-  if (separatorPosition >= option.length() - 2) {
-    final String axis=option.substring(separatorPosition + 1);
-    final String mode=option.substring(0,separatorPosition);
-    final Texture.WrapAxis wrapAxis=Texture.WrapAxis.valueOf(axis);
-    texture.setWrap(wrapAxis,Texture.WrapMode.valueOf(mode));
-  }
- else {
-    texture.setWrap(Texture.WrapMode.valueOf(option));
-  }
+  Wrap.applyToTexture("Repeat",texture);
 }
