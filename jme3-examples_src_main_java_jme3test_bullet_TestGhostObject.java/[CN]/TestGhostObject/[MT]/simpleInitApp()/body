@@ -2,7 +2,7 @@
   bulletAppState=new BulletAppState();
   stateManager.attach(bulletAppState);
   bulletAppState.setDebugEnabled(true);
-  Box boxGeom=new Box(Vector3f.ZERO,1f,1f,1f);
+  Box boxGeom=new Box(1f,1f,1f);
   CollisionShape shape=new BoxCollisionShape(new Vector3f(1,1,1));
   Node physicsBox=PhysicsTestHelper.createPhysicsTestNode(assetManager,shape,1);
   physicsBox.setName("box0");

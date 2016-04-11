@@ -124,6 +124,19 @@ break;
 default :
 throw new UnsupportedOperationException("Unrecognized blend mode: " + state.getBlendMode());
 }
+if (state.getBlendEquation() != context.blendEquation || state.getBlendEquationAlpha() != context.blendEquationAlpha) {
+int colorMode=convertBlendEquation(state.getBlendEquation());
+int alphaMode;
+if (state.getBlendEquationAlpha() == RenderState.BlendEquationAlpha.InheritColor) {
+alphaMode=colorMode;
+}
+ else {
+alphaMode=convertBlendEquationAlpha(state.getBlendEquationAlpha());
+}
+gl.glBlendEquationSeparate(colorMode,alphaMode);
+context.blendEquation=state.getBlendEquation();
+context.blendEquationAlpha=state.getBlendEquationAlpha();
+}
 }
 context.blendMode=state.getBlendMode();
 }

@@ -6,9 +6,6 @@
     return false;
   }
   RenderState rs=(RenderState)o;
-  if (pointSprite != rs.pointSprite) {
-    return false;
-  }
   if (wireframe != rs.wireframe) {
     return false;
   }
@@ -29,18 +26,13 @@
   if (colorWrite != rs.colorWrite) {
     return false;
   }
+  if (blendEquation != rs.blendEquation) {
+    return false;
+  }
+  if (blendEquationAlpha != rs.blendEquationAlpha) {
+    return false;
+  }
   if (blendMode != rs.blendMode) {
-    return false;
-  }
-  if (alphaTest != rs.alphaTest) {
-    return false;
-  }
-  if (alphaTest) {
-    if (alphaFunc != rs.alphaFunc) {
-      return false;
-    }
-  }
-  if (alphaFallOff != rs.alphaFallOff) {
     return false;
   }
   if (offsetEnabled != rs.offsetEnabled) {

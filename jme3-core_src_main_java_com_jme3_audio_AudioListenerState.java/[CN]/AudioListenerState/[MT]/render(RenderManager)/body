@@ -1,0 +1,22 @@
+{
+  if (!isEnabled()) {
+    return;
+  }
+  Vector3f lastLocation=listener.getLocation();
+  Vector3f currentLocation=camera.getLocation();
+  Vector3f velocity=listener.getVelocity();
+  if (!lastLocation.equals(currentLocation)) {
+    velocity.set(currentLocation).subtractLocal(lastLocation);
+    velocity.multLocal(1f / lastTpf);
+    listener.setLocation(currentLocation);
+    listener.setVelocity(velocity);
+  }
+ else   if (!velocity.equals(Vector3f.ZERO)) {
+    listener.setVelocity(Vector3f.ZERO);
+  }
+  Quaternion lastRotation=listener.getRotation();
+  Quaternion currentRotation=camera.getRotation();
+  if (!lastRotation.equals(currentRotation)) {
+    listener.setRotation(currentRotation);
+  }
+}
