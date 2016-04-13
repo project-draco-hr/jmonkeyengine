@@ -43,6 +43,9 @@ break;
 case SinglePass:
 technique.setLogic(new SinglePassLightingLogic(technique));
 break;
+case StaticPass:
+technique.setLogic(new StaticPassLightingLogic(technique));
+break;
 default :
 throw new UnsupportedOperationException();
 }
