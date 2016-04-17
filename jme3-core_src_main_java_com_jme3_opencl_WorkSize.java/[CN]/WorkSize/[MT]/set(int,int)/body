@@ -1,0 +1,10 @@
+{
+  if (sizes == null || sizes.length != 3) {
+    throw new IllegalArgumentException("sizes must be an array of length 3");
+  }
+  if (dimension <= 0 || dimension > 3) {
+    throw new IllegalArgumentException("dimension must be between 1 and 3");
+  }
+  this.dimension=dimension;
+  this.sizes=sizes;
+}

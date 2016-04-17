@@ -1,0 +1,16 @@
+{
+  if (obj == null) {
+    return false;
+  }
+  if (getClass() != obj.getClass()) {
+    return false;
+  }
+  final WorkSize other=(WorkSize)obj;
+  if (this.dimension != other.dimension) {
+    return false;
+  }
+  if (!Arrays.equals(this.sizes,other.sizes)) {
+    return false;
+  }
+  return true;
+}
