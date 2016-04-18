@@ -61,4 +61,7 @@
       GL11.glEnable(ARBMultisample.GL_MULTISAMPLE_ARB);
     }
   }
+  if (settings.isOpenCLSupport()) {
+    initOpenCL();
+  }
 }

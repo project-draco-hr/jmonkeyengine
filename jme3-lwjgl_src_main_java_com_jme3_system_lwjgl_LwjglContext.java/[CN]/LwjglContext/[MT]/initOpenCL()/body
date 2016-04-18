@@ -1,0 +1,34 @@
+{
+  logger.info("Initialize OpenCL wiht LWJGL2");
+  try {
+    CL.create();
+  }
+ catch (  LWJGLException ex) {
+    logger.log(Level.SEVERE,"Unable to initialize OpenCL",ex);
+    return;
+  }
+  List<CLPlatform> platforms=CLPlatform.getPlatforms();
+  StringBuilder platformInfos=new StringBuilder();
+  platformInfos.append("Available OpenCL platforms:\n");
+  ArrayList<Integer> possiblePlatforms=new ArrayList<Integer>();
+  for (int i=0; i < platforms.size(); ++i) {
+    CLPlatform platform=platforms.get(i);
+    platformInfos.append(" * Platform ").append(i + 1).append("\n");
+    platformInfos.append(" *   Name: ").append(platform.getInfoString(CL10.CL_PLATFORM_NAME)).append("\n");
+    platformInfos.append(" *   Vendor: ").append(platform.getInfoString(CL10.CL_PLATFORM_VENDOR)).append("\n");
+    platformInfos.append(" *   Version: ").append(platform.getInfoString(CL10.CL_PLATFORM_VERSION)).append("\n");
+    platformInfos.append(" *   Profile: ").append(platform.getInfoString(CL10.CL_PLATFORM_PROFILE)).append("\n");
+    boolean supportsInterop=platform.getInfoString(CL10.CL_PLATFORM_EXTENSIONS).contains("cl_khr_gl_sharing");
+    platformInfos.append(" *   Supports Interop: ").append(supportsInterop).append("\n");
+    if (supportsInterop) {
+      possiblePlatforms.add(i);
+    }
+  }
+  logger.info(platformInfos.toString().trim());
+  if (possiblePlatforms.isEmpty()) {
+    logger.warning("No OpenCL platform with the extension 'cl_khr_gl_sharing' found!");
+    return;
+  }
+  int platformIndex=possiblePlatforms.get(0);
+  logger.info("Choose platform with index " + (platformIndex + 1));
+}

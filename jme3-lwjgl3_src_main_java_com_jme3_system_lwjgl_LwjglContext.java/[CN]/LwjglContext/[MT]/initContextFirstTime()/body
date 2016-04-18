@@ -50,4 +50,7 @@
     joyInput.initialize();
   }
   renderable.set(true);
+  if (settings.isOpenCLSupport()) {
+    initOpenCL();
+  }
 }
