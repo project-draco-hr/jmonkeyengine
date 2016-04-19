@@ -1,0 +1,39 @@
+{
+  ArrayList<Device> result=new ArrayList<Device>();
+  for (  Platform p : platforms) {
+    if (!p.hasOpenGLInterop()) {
+      continue;
+    }
+    for (    Device d : p.getDevices()) {
+      if (d.hasOpenGLInterop() && d.getDeviceType() == Device.DeviceType.GPU) {
+        result.add(d);
+      }
+    }
+    if (!result.isEmpty()) {
+      return result;
+    }
+  }
+  for (  Platform p : platforms) {
+    if (!p.hasOpenGLInterop()) {
+      continue;
+    }
+    for (    Device d : p.getDevices()) {
+      if (d.hasOpenGLInterop()) {
+        result.add(d);
+      }
+    }
+    if (!result.isEmpty()) {
+      return result;
+    }
+  }
+  LOG.warning("No device with OpenCL-OpenGL-interop found, try without");
+  for (  Platform p : platforms) {
+    for (    Device d : p.getDevices()) {
+      result.add(d);
+    }
+    if (!result.isEmpty()) {
+      return result;
+    }
+  }
+  return result;
+}
