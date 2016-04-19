@@ -31,4 +31,37 @@
   }
   int platformIndex=possiblePlatforms.get(0);
   logger.info("Choose platform with index " + (platformIndex + 1));
+  clPlatform=platforms.get(platformIndex);
+  List<CLDevice> devices=clPlatform.getDevices(CL10.CL_DEVICE_TYPE_GPU);
+  StringBuilder deviceInfos=new StringBuilder();
+  deviceInfos.append("Available OpenCL devices:\n");
+  ArrayList<CLDevice> possibleDevices=new ArrayList<CLDevice>();
+  for (int i=0; i < devices.size(); ++i) {
+    CLDevice device=devices.get(i);
+    deviceInfos.append(" * Device ").append(i + 1).append("\n");
+    deviceInfos.append(" *   Name: ").append(device.getInfoString(CL10.CL_DEVICE_NAME)).append("\n");
+    deviceInfos.append(" *   Vendor: ").append(device.getInfoString(CL10.CL_DEVICE_VENDOR)).append("\n");
+    deviceInfos.append(" *   Version: ").append(device.getInfoString(CL10.CL_DEVICE_VERSION)).append("\n");
+    deviceInfos.append(" *   Profile: ").append(device.getInfoString(CL10.CL_DEVICE_PROFILE)).append("\n");
+    deviceInfos.append(" *   Global memory: ").append(device.getInfoLong(CL10.CL_DEVICE_GLOBAL_MEM_SIZE)).append("\n");
+    deviceInfos.append(" *   Compute units: ").append(device.getInfoInt(CL10.CL_DEVICE_MAX_COMPUTE_UNITS)).append("\n");
+    deviceInfos.append(" *   Work group size: ").append(device.getInfoSize(CL10.CL_DEVICE_MAX_WORK_GROUP_SIZE)).append("\n");
+    boolean supportsInterop=device.getInfoString(CL10.CL_DEVICE_EXTENSIONS).contains("cl_khr_gl_sharing");
+    platformInfos.append(" *   Supports Interop: ").append(supportsInterop).append("\n");
+    if (supportsInterop) {
+      possibleDevices.add(device);
+    }
+  }
+  CLContext context;
+  try {
+    context=CLContext.create(clPlatform,possibleDevices,null,Display.getDrawable(),null);
+  }
+ catch (  LWJGLException ex) {
+    logger.log(Level.SEVERE,"Unable to create OpenCL context",ex);
+    return;
+  }
+  clContext=new Context(context.getPointer());
+  clImpl=new LwjglCL();
+  clContext.setCl(clImpl);
+  logger.info("OpenCL context created");
 }
