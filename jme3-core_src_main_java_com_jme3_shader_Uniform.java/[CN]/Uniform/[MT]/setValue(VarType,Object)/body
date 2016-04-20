@@ -130,6 +130,28 @@ m4a[i].fillFloatBuffer(multiData,true);
 }
 multiData.clear();
 break;
+case Vector2:
+if (value.equals(this.value)) {
+return;
+}
+if (this.value == null) {
+this.value=new Vector2f((Vector2f)value);
+}
+ else {
+((Vector2f)this.value).set((Vector2f)value);
+}
+break;
+case Vector3:
+if (value.equals(this.value)) {
+return;
+}
+if (this.value == null) {
+this.value=new Vector3f((Vector3f)value);
+}
+ else {
+((Vector3f)this.value).set((Vector3f)value);
+}
+break;
 case Vector4:
 if (value.equals(this.value)) {
 return;

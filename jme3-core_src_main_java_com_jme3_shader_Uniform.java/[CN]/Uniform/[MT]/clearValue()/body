@@ -24,13 +24,27 @@ case Float:
 this.value=ZERO_FLT;
 break;
 case Vector2:
-this.value=Vector2f.ZERO;
+if (this.value != null) {
+((Vector2f)this.value).set(Vector2f.ZERO);
+}
 break;
 case Vector3:
-this.value=Vector3f.ZERO;
+if (this.value != null) {
+((Vector3f)this.value).set(Vector3f.ZERO);
+}
 break;
 case Vector4:
-this.value=Vector4f.ZERO;
+if (this.value != null) {
+if (this.value instanceof ColorRGBA) {
+((ColorRGBA)this.value).set(ColorRGBA.BlackNoAlpha);
+}
+ else if (this.value instanceof Vector4f) {
+((Vector4f)this.value).set(Vector4f.ZERO);
+}
+ else {
+((Quaternion)this.value).set(Quaternion.ZERO);
+}
+}
 break;
 default :
 }
