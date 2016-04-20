@@ -1,8 +1,20 @@
 {
-  Box b=new Box(1,1,1);
-  Geometry geom=new Geometry("Box",b);
-  Material mat=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
-  mat.setColor("Color",ColorRGBA.Blue);
-  geom.setMaterial(mat);
-  rootNode.attachChild(geom);
+  BitmapFont fnt=assetManager.loadFont("Interface/Fonts/Default.fnt");
+  Context clContext=context.getOpenCLContext();
+  if (clContext == null) {
+    BitmapText txt=new BitmapText(fnt);
+    txt.setText("No OpenCL Context created!\nSee output log for details.");
+    txt.setLocalTranslation(5,settings.getHeight() - 5,0);
+    guiNode.attachChild(txt);
+    return;
+  }
+  CommandQueue clQueue=clContext.createQueue();
+  StringBuilder str=new StringBuilder();
+  str.append("OpenCL Context created:\n  Platform: ").append(clContext.getDevices().get(0).getPlatform().getName()).append("\n  Devices: ").append(clContext.getDevices());
+  str.append("\nTests:");
+  str.append("\n  Buffers: ").append(testBuffer(clContext,clQueue));
+  BitmapText txt1=new BitmapText(fnt);
+  txt1.setText(str.toString());
+  txt1.setLocalTranslation(5,settings.getHeight() - 5,0);
+  guiNode.attachChild(txt1);
 }

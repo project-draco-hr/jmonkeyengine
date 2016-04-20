@@ -1,0 +1,43 @@
+{
+  try {
+    ByteBuffer h1=BufferUtils.createByteBuffer(256);
+    Buffer b1=clContext.createBuffer(256);
+    ByteBuffer h2=BufferUtils.createByteBuffer(256);
+    Buffer b2=clContext.createBuffer(256);
+    h2.rewind();
+    for (int i=0; i < 256; ++i) {
+      h2.put((byte)i);
+    }
+    h2.rewind();
+    b2.write(clQueue,h2);
+    b2.copyTo(clQueue,b1);
+    h1.rewind();
+    b1.read(clQueue,h1);
+    h1.rewind();
+    for (int i=0; i < 256; ++i) {
+      byte b=h1.get();
+      if (b != (byte)i) {
+        System.err.println("Wrong byte read: expected=" + i + ", actual="+ b);
+        return false;
+      }
+    }
+    int low=26;
+    int high=184;
+    h1.position(5);
+    Event event=b1.readAsync(clQueue,h1,high - low,low);
+    event.waitForFinished();
+    h1.position(5);
+    for (int i=0; i < high - low; ++i) {
+      byte b=h1.get();
+      if (b != (byte)(i + low)) {
+        System.err.println("Wrong byte read: expected=" + (i + low) + ", actual="+ b);
+        return false;
+      }
+    }
+  }
+ catch (  Exception ex) {
+    LOG.log(Level.SEVERE,"Buffer test failed with:",ex);
+    return false;
+  }
+  return true;
+}

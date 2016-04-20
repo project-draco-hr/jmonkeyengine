@@ -1,0 +1,6 @@
+{
+  src.limit(src.position() + size);
+  CLCommandQueue q=((LwjglCommandQueue)queue).getQueue();
+  int ret=CL10.clEnqueueWriteBuffer(q,buffer,CL10.CL_TRUE,offset,src,null,null);
+  Utils.checkError(ret,"clEnqueueWriteBuffer");
+}

@@ -82,7 +82,8 @@
   logger.log(Level.INFO,"chosen platform: {0}",platform.getName());
   logger.log(Level.INFO,"chosen devices: {0}",choosenDevices);
   try {
-    clContext=new com.jme3.opencl.lwjgl.LwjglContext(CLContext.create(platform.getPlatform(),devices,null,Display.getDrawable(),null));
+    CLContext c=CLContext.create(platform.getPlatform(),devices,null,Display.getDrawable(),null);
+    clContext=new com.jme3.opencl.lwjgl.LwjglContext(c,(List<LwjglDevice>)choosenDevices);
   }
  catch (  LWJGLException ex) {
     logger.log(Level.SEVERE,"Unable to create OpenCL context",ex);
