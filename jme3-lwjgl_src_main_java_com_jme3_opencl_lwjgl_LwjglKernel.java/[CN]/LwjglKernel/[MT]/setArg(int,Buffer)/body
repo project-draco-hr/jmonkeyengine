@@ -1,3 +1,4 @@
 {
-  throw new UnsupportedOperationException("Not supported yet.");
+  int ret=CL10.clSetKernelArg(kernel,index,((LwjglBuffer)t).getBuffer());
+  Utils.checkError(ret,"clSetKernelArg");
 }

@@ -1,3 +1,8 @@
 {
-  throw new UnsupportedOperationException("Not supported yet.");
+  FloatBuffer buf=Utils.tempBuffers[0].b16f;
+  buf.position(0);
+  buf.limit(1);
+  buf.put(0,f);
+  int ret=CL10.clSetKernelArg(kernel,index,buf);
+  Utils.checkError(ret,"clSetKernelArg");
 }
