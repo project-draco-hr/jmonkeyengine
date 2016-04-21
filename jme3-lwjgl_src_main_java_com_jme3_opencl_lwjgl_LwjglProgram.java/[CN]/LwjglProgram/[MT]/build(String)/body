@@ -1,0 +1,16 @@
+{
+  int ret=CL10.clBuildProgram(program,(PointerBuffer)null,args,null);
+  if (ret != CL10.CL_SUCCESS) {
+    String log=Log();
+    LOG.log(Level.WARNING,"Unable to compile program:\n{0}",log);
+    if (ret == CL10.CL_BUILD_PROGRAM_FAILURE) {
+      throw new KernelCompilationException("Failed to build program",ret,log);
+    }
+ else {
+      Utils.checkError(ret,"clBuildProgram");
+    }
+  }
+ else {
+    LOG.log(Level.INFO,"Program compiled:\n{0}",Log());
+  }
+}

@@ -1,0 +1,8 @@
+{
+  CLKernel[] kernels=program.createKernelsInProgram();
+  Kernel[] kx=new Kernel[kernels.length];
+  for (int i=0; i < kernels.length; ++i) {
+    kx[i]=new LwjglKernel(kernels[i]);
+  }
+  return kx;
+}

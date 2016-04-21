@@ -1,0 +1,12 @@
+{
+  String include="#define TYPE float\n";
+  Program program=clContext.createProgramFromSourceFilesWithInclude(assetManager,include,"jme3test/opencl/Blas.cl");
+  program.build();
+  Kernel[] kernels=program.createAllKernels();
+  for (  Kernel k : kernels) {
+    System.out.println("available kernel: " + k.getName());
+  }
+  Kernel kernel=program.createKernel("Fill");
+  System.out.println("number of args: " + kernel.getArgCount());
+  return true;
+}

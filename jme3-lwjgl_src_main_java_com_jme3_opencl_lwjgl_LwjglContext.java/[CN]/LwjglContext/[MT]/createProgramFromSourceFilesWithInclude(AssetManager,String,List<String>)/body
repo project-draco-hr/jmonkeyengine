@@ -1,0 +1,24 @@
+{
+  StringBuilder str=new StringBuilder();
+  str.append(include);
+  for (  String res : resources) {
+    AssetInfo info=assetManager.locateAsset(new AssetKey<String>(res));
+    if (info == null) {
+      LOG.log(Level.WARNING,"unable to load source file ''{0}''",res);
+      continue;
+    }
+    try (BufferedReader reader=new BufferedReader(new InputStreamReader(info.openStream()))){
+      while (true) {
+        String line=reader.readLine();
+        if (line == null) {
+          break;
+        }
+        str.append(line).append('\n');
+      }
+    }
+ catch (    IOException ex) {
+      LOG.log(Level.WARNING,"unable to load source file '" + res + "'",ex);
+    }
+  }
+  return createProgramFromSourceCode(str.toString());
+}
