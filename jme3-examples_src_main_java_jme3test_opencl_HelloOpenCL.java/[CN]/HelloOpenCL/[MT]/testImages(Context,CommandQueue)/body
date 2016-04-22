@@ -1,0 +1,26 @@
+{
+  try {
+    for (    MemoryAccess ma : MemoryAccess.values()) {
+      for (      Image.ImageType type : Image.ImageType.values()) {
+        System.out.println("Formats for " + ma + " and "+ type+ ": "+ Arrays.toString(clContext.querySupportedFormats(ma,type)));
+      }
+    }
+    Image.ImageFormat format=new Image.ImageFormat(Image.ImageChannelOrder.RGBA,Image.ImageChannelType.FLOAT);
+    Image.ImageDescriptor descr=new Image.ImageDescriptor(Image.ImageType.IMAGE_2D,1920,1080,0,0,0,0);
+    Image image=clContext.createImage(MemoryAccess.READ_WRITE,format,descr,null);
+    System.out.println("image created");
+    assertEquals(descr.type,image.getImageType(),"Wrong image type");
+    assertEquals(format,image.getImageFormat(),"Wrong image format");
+    assertEquals(descr.width,image.getWidth(),"Wrong width");
+    assertEquals(descr.height,image.getHeight(),"Wrong height");
+  }
+ catch (  AssertionError ex) {
+    LOG.log(Level.SEVERE,"image test failed with an assertion error");
+    return false;
+  }
+catch (  Exception ex) {
+    LOG.log(Level.SEVERE,"image test failed with:",ex);
+    return false;
+  }
+  return true;
+}

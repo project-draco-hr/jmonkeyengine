@@ -14,6 +14,7 @@
   str.append("\nTests:");
   str.append("\n  Buffers: ").append(testBuffer(clContext,clQueue));
   str.append("\n  Kernel: ").append(testKernel(clContext,clQueue));
+  str.append("\n  Images: ").append(testImages(clContext,clQueue));
   BitmapText txt1=new BitmapText(fnt);
   txt1.setText(str.toString());
   txt1.setLocalTranslation(5,settings.getHeight() - 5,0);

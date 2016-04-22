@@ -16,10 +16,7 @@
     h1.rewind();
     for (int i=0; i < 256; ++i) {
       byte b=h1.get();
-      if (b != (byte)i) {
-        System.err.println("Wrong byte read: expected=" + i + ", actual="+ b);
-        return false;
-      }
+      assertEquals((byte)i,b,"Wrong byte read");
     }
     int low=26;
     int high=184;
@@ -29,13 +26,14 @@
     h1.position(5);
     for (int i=0; i < high - low; ++i) {
       byte b=h1.get();
-      if (b != (byte)(i + low)) {
-        System.err.println("Wrong byte read: expected=" + (i + low) + ", actual="+ b);
-        return false;
-      }
+      assertEquals((byte)(i + low),b,"Wrong byte read");
     }
   }
- catch (  Exception ex) {
+ catch (  AssertionError ex) {
+    LOG.log(Level.SEVERE,"Buffer test failed with an assertion error");
+    return false;
+  }
+catch (  Exception ex) {
     LOG.log(Level.SEVERE,"Buffer test failed with:",ex);
     return false;
   }
