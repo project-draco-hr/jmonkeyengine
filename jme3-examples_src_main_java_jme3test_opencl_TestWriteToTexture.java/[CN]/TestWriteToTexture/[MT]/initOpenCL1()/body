@@ -1,0 +1,8 @@
+{
+  clContext=context.getOpenCLContext();
+  clQueue=clContext.createQueue();
+  Program program=clContext.createProgramFromSourceFiles(assetManager,"jme3test/opencl/JuliaSet.cl");
+  program.build();
+  kernel=program.createKernel("JuliaSet");
+  C=new Vector2f(0.12f,-0.2f);
+}

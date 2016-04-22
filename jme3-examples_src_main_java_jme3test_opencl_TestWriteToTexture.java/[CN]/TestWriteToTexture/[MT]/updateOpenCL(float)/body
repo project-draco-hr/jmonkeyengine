@@ -1,0 +1,5 @@
+{
+  texCL.acquireImageForSharingAsync(clQueue);
+  kernel.Run1(clQueue,new WorkSize(settings.getWidth(),settings.getHeight()),texCL,C,16);
+  texCL.releaseImageForSharingAsync(clQueue);
+}

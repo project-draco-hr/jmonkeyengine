@@ -1,5 +1,5 @@
 {
-  LOG.log(Level.INFO,"Create program from source:\n{0}",sourceCode);
+  LOG.log(Level.FINE,"Create program from source:\n{0}",sourceCode);
   Utils.errorBuffer.rewind();
   CLProgram p=CL10.clCreateProgramWithSource(context,sourceCode,Utils.errorBuffer);
   Utils.checkError(Utils.errorBuffer,"clCreateProgramWithSource");
