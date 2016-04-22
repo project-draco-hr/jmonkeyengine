@@ -1,3 +1,18 @@
 {
-  throw new UnsupportedOperationException("Not supported yet.");
+  if (srcOrigin.length != 3 || destOrigin.length != 3 || region.length != 3) {
+    throw new IllegalArgumentException("origin and region must both be arrays of length 3");
+  }
+  Utils.pointerBuffers[0].rewind();
+  Utils.pointerBuffers[1].rewind();
+  Utils.pointerBuffers[2].rewind();
+  Utils.pointerBuffers[3].rewind();
+  Utils.pointerBuffers[1].put(srcOrigin).position(0);
+  Utils.pointerBuffers[2].put(destOrigin).position(0);
+  Utils.pointerBuffers[3].put(region).position(0);
+  CLCommandQueue q=((LwjglCommandQueue)queue).getQueue();
+  int ret=CL10.clEnqueueCopyImage(q,image,((LwjglImage)dest).getImage(),Utils.pointerBuffers[1],Utils.pointerBuffers[2],Utils.pointerBuffers[3],null,Utils.pointerBuffers[0]);
+  Utils.checkError(ret,"clEnqueueCopyImage");
+  long event=Utils.pointerBuffers[0].get(0);
+  ret=CL10.clWaitForEvents(q.getCLEvent(event));
+  Utils.checkError(ret,"clWaitForEvents");
 }
