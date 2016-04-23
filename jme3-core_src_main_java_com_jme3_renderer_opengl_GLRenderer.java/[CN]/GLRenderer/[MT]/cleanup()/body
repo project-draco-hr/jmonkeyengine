@@ -1,6 +1,7 @@
 {
   logger.log(Level.FINE,"Deleting objects and invalidating state");
   objManager.deleteAllObjects(this);
+  OpenCLObjectManager.getInstance().deleteAllObjects();
   statistics.clearMemory();
   invalidateState();
 }

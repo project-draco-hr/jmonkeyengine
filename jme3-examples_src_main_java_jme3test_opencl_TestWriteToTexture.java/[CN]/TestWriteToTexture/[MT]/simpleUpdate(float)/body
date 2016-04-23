@@ -11,4 +11,9 @@
  else {
     updateOpenCL(tpf);
   }
+  gcCounter++;
+  if (gcCounter > 10) {
+    Runtime.getRuntime().gc();
+    gcCounter=0;
+  }
 }

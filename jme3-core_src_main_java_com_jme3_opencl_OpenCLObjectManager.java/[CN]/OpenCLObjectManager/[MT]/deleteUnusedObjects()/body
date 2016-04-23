@@ -1,0 +1,19 @@
+{
+  gcCounter++;
+  if (gcCounter >= GC_FREQUENCY) {
+    gcCounter=0;
+    Runtime.getRuntime().gc();
+  }
+  int removed=0;
+  while (true) {
+    OpenCLObjectRef ref=(OpenCLObjectRef)refQueue.poll();
+    if (ref == null) {
+      break;
+    }
+    deleteObject(ref);
+    removed++;
+  }
+  if (removed >= 1) {
+    LOG.log(LOG_LEVEL2,"NativeObjectManager: {0} native objects were removed from native",removed);
+  }
+}
