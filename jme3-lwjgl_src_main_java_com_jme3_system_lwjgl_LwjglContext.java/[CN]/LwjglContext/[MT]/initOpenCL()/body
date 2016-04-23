@@ -54,7 +54,7 @@
     }
   }
   if (chooser == null) {
-    chooser=new PlatformChooserImpl();
+    chooser=new DefaultPlatformChooser();
   }
   List<? extends Device> choosenDevices=chooser.chooseDevices(platforms);
   List<CLDevice> devices=new ArrayList<>(choosenDevices.size());

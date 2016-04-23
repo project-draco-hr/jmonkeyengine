@@ -1,4 +1,7 @@
 {
+  if (activeObjects.isEmpty()) {
+    return;
+  }
   gcCounter++;
   if (gcCounter >= GC_FREQUENCY) {
     gcCounter=0;
