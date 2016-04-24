@@ -1,9 +1,0 @@
-{
-  dest.limit(dest.position() + size);
-  Utils.pointerBuffers[0].rewind();
-  CLCommandQueue q=((LwjglCommandQueue)queue).getQueue();
-  int ret=CL10.clEnqueueReadBuffer(q,buffer,CL10.CL_FALSE,offset,dest,null,Utils.pointerBuffers[0]);
-  Utils.checkError(ret,"clEnqueueReadBuffer");
-  long event=Utils.pointerBuffers[0].get(0);
-  return new LwjglEvent(q.getCLEvent(event));
-}

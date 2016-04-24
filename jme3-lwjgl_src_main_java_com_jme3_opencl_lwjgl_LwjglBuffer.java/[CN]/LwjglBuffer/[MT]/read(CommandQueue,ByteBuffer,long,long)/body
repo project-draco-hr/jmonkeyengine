@@ -1,0 +1,5 @@
+{
+  dest.limit((int)(dest.position() + size));
+  int ret=CL10.clEnqueueReadBuffer(((LwjglCommandQueue)queue).getQueue(),buffer,CL10.CL_TRUE,offset,dest,null,null);
+  Utils.checkError(ret,"clEnqueueReadBuffer");
+}
