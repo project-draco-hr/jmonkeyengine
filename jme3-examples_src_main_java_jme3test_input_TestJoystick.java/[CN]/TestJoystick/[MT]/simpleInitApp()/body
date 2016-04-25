@@ -1,4 +1,5 @@
 {
+  getFlyByCamera().setEnabled(false);
   Joystick[] joysticks=inputManager.getJoysticks();
   if (joysticks == null)   throw new IllegalStateException("Cannot find any joysticks!");
   try {
@@ -19,4 +20,13 @@
   joystickInfo.setLocalTranslation(0,cam.getHeight(),0);
   guiNode.attachChild(joystickInfo);
   inputManager.addRawInputListener(new JoystickEventListener());
+  inputManager.addMapping("mouseClick",new MouseButtonTrigger(mouseInput.BUTTON_LEFT));
+  inputManager.addListener(new ActionListener(){
+    @Override public void onAction(    String name,    boolean isPressed,    float tpf){
+      if (isPressed) {
+        pickGamePad(getInputManager().getCursorPosition());
+      }
+    }
+  }
+,"mouseClick");
 }

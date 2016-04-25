@@ -1,0 +1,11 @@
+{
+  CollisionResults results=new CollisionResults();
+  Ray ray=new Ray();
+  Vector3f pos=new Vector3f(mouseLoc.x,mouseLoc.y,-1);
+  Vector3f dir=new Vector3f(mouseLoc.x,mouseLoc.y,1);
+  dir.subtractLocal(pos).normalizeLocal();
+  ray.setOrigin(pos);
+  ray.setDirection(dir);
+  node.collideWith(ray,results);
+  return results;
+}
