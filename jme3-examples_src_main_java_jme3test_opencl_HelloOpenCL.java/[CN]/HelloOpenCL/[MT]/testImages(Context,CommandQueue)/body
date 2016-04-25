@@ -6,8 +6,8 @@
       }
     }
     Image.ImageFormat format=new Image.ImageFormat(Image.ImageChannelOrder.RGBA,Image.ImageChannelType.FLOAT);
-    Image.ImageDescriptor descr=new Image.ImageDescriptor(Image.ImageType.IMAGE_2D,1920,1080,0,0,0,0);
-    Image image=clContext.createImage(MemoryAccess.READ_WRITE,format,descr,null);
+    Image.ImageDescriptor descr=new Image.ImageDescriptor(Image.ImageType.IMAGE_2D,1920,1080,0,0);
+    Image image=clContext.createImage(MemoryAccess.READ_WRITE,format,descr);
     System.out.println("image created");
     assertEquals(descr.type,image.getImageType(),"Wrong image type");
     assertEquals(format,image.getImageFormat(),"Wrong image format");
@@ -38,8 +38,8 @@
     }
     buffer.unmap(clQueue,map1);
     format=new Image.ImageFormat(Image.ImageChannelOrder.RGBA,Image.ImageChannelType.FLOAT);
-    descr=new Image.ImageDescriptor(Image.ImageType.IMAGE_2D,512,512,0,0,0,0);
-    Image image2=clContext.createImage(MemoryAccess.READ_WRITE,format,descr,null);
+    descr=new Image.ImageDescriptor(Image.ImageType.IMAGE_2D,512,512,0,0);
+    Image image2=clContext.createImage(MemoryAccess.READ_WRITE,format,descr);
     image.copyTo(clQueue,image2,new long[]{1000,20,0},new long[]{0,0,0},new long[]{512,512,1});
     Image.ImageMapping map2=image2.map(clQueue,new long[]{0,0,0},new long[]{512,512,1},MappingAccess.MAP_READ_WRITE);
     FloatBuffer map2F=map2.buffer.asFloatBuffer();

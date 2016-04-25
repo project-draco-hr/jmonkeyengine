@@ -7,7 +7,7 @@
   Utils.b80l.rewind();
   Utils.b80l.put(LwjglImage.decodeImageType(descr.type)).put(descr.width).put(descr.height).put(descr.depth).put(descr.arraySize).put(descr.rowPitch).put(descr.slicePitch).put(0).put(0).put(0);
   Utils.b80.rewind();
-  CLMem mem=CL12.clCreateImage(context,memFlags,Utils.tempBuffers[0].b16,Utils.b80,hostPtr,Utils.errorBuffer);
+  CLMem mem=CL12.clCreateImage(context,memFlags,Utils.tempBuffers[0].b16,Utils.b80,descr.hostPtr,Utils.errorBuffer);
   Utils.checkError(Utils.errorBuffer,"clCreateImage");
   return new LwjglImage(mem);
 }
