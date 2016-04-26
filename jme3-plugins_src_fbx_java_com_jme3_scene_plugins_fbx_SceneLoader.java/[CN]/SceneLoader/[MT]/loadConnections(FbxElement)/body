@@ -3,27 +3,29 @@
     if (e.id.equals("C")) {
       String type=(String)e.properties.get(0);
       long objId, refId;
-      if (type.equals("OO")) {
+      FbxObject obj, ref;
+switch (type) {
+case "OO":
         objId=(Long)e.properties.get(1);
-        refId=(Long)e.properties.get(2);
-        List<Long> links=refMap.get(objId);
-        if (links == null) {
-          links=new ArrayList<Long>();
-          refMap.put(objId,links);
-        }
-        links.add(refId);
-      }
- else       if (type.equals("OP")) {
-        objId=(Long)e.properties.get(1);
-        refId=(Long)e.properties.get(2);
-        String propName=(String)e.properties.get(3);
-        List<PropertyLink> props=propMap.get(objId);
-        if (props == null) {
-          props=new ArrayList<PropertyLink>();
-          propMap.put(objId,props);
-        }
-        props.add(new PropertyLink(refId,propName));
-      }
-    }
-  }
+      refId=(Long)e.properties.get(2);
+    obj=allObjects.get(objId);
+  ref=allObjects.get(refId);
+if (ref != null) {
+  ref.link(obj);
+}
+ else if (refId == 0) {
+  obj.linkToZero();
+}
+break;
+case "OP":
+objId=(Long)e.properties.get(1);
+refId=(Long)e.properties.get(2);
+String propName=(String)e.properties.get(3);
+obj=allObjects.get(objId);
+ref=allObjects.get(refId);
+if (ref != null) ref.link(obj,propName);
+break;
+}
+}
+}
 }

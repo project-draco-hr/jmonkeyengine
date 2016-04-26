@@ -1,16 +1,23 @@
 {
-  for (  FbxElement e : element.children) {
-    if (e.id.equals("Properties70")) {
-      for (      FbxElement e2 : e.children) {
-        if (e2.id.equals("P")) {
-          String propName=(String)e2.properties.get(0);
-          if (propName.equals("UnitScaleFactor"))           this.unitSize=((Double)e2.properties.get(4)).floatValue();
- else           if (propName.equals("CustomFrameRate")) {
-            float framerate=((Double)e2.properties.get(4)).floatValue();
-            if (framerate != -1)             this.animFrameRate=framerate;
-          }
-        }
-      }
-    }
-  }
+  for (  FbxElement e2 : element.getFbxProperties()) {
+    String propName=(String)e2.properties.get(0);
+switch (propName) {
+case "UnitScaleFactor":
+      this.unitSize=((Double)e2.properties.get(4)).floatValue();
+    break;
+case "CustomFrameRate":
+  float framerate=((Double)e2.properties.get(4)).floatValue();
+if (framerate != -1) this.animFrameRate=framerate;
+break;
+case "UpAxisSign":
+this.yAxis=((Integer)e2.properties.get(4)).intValue();
+break;
+case "FrontAxisSign":
+this.zAxis=((Integer)e2.properties.get(4)).intValue();
+break;
+case "CoordAxisSign":
+this.xAxis=((Integer)e2.properties.get(4)).intValue();
+break;
+}
+}
 }

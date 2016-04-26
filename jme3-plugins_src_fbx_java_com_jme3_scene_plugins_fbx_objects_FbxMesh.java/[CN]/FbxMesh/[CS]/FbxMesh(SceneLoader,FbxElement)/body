@@ -1,0 +1,136 @@
+{
+  super(scene,element);
+  if (type.equals("Mesh")) {
+    data:     for (    FbxElement e : element.children) {
+switch (e.id) {
+case "Vertices":
+        vertices=(double[])e.properties.get(0);
+      break;
+case "PolygonVertexIndex":
+    indices=(int[])e.properties.get(0);
+  break;
+case "LayerElementNormal":
+for (FbxElement e2 : e.children) {
+switch (e2.id) {
+case "MappingInformationType":
+    normalsMapping=(String)e2.properties.get(0);
+  if (!normalsMapping.equals("ByVertice") && !normalsMapping.equals("ByPolygonVertex")) {
+    if (SceneLoader.WARN_IGNORED_ATTRIBUTES)     scene.warning("Ignored LayerElementNormal.MappingInformationType attribute (" + normalsReference + ")");
+    continue data;
+  }
+break;
+case "ReferenceInformationType":
+normalsReference=(String)e2.properties.get(0);
+if (!normalsReference.equals("Direct")) {
+if (SceneLoader.WARN_IGNORED_ATTRIBUTES) scene.warning("Ignored LayerElementNormal.ReferenceInformationType attribute (" + normalsReference + ")");
+continue data;
+}
+break;
+case "Normals":
+normals=(double[])e2.properties.get(0);
+break;
+}
+}
+break;
+case "LayerElementTangent":
+for (FbxElement e2 : e.children) {
+switch (e2.id) {
+case "MappingInformationType":
+tangentsMapping=(String)e2.properties.get(0);
+if (!tangentsMapping.equals("ByVertice") && !tangentsMapping.equals("ByPolygonVertex")) {
+if (SceneLoader.WARN_IGNORED_ATTRIBUTES) scene.warning("Ignored LayerElementTangent.MappingInformationType attribute (" + tangentsMapping + ")");
+continue data;
+}
+break;
+case "ReferenceInformationType":
+tangentsReference=(String)e2.properties.get(0);
+if (!tangentsReference.equals("Direct")) {
+if (SceneLoader.WARN_IGNORED_ATTRIBUTES) scene.warning("Ignored LayerElementTangent.ReferenceInformationType attribute (" + tangentsReference + ")");
+continue data;
+}
+break;
+case "Tangents":
+tangents=(double[])e2.properties.get(0);
+break;
+}
+}
+break;
+case "LayerElementBinormal":
+for (FbxElement e2 : e.children) {
+switch (e2.id) {
+case "MappingInformationType":
+binormalsMapping=(String)e2.properties.get(0);
+if (!binormalsMapping.equals("ByVertice") && !binormalsMapping.equals("ByPolygonVertex")) {
+if (SceneLoader.WARN_IGNORED_ATTRIBUTES) scene.warning("Ignored LayerElementBinormal.MappingInformationType attribute (" + binormalsMapping + ")");
+continue data;
+}
+break;
+case "ReferenceInformationType":
+binormalsReference=(String)e2.properties.get(0);
+if (!binormalsReference.equals("Direct")) {
+if (SceneLoader.WARN_IGNORED_ATTRIBUTES) scene.warning("Ignored LayerElementBinormal.ReferenceInformationType attribute (" + binormalsReference + ")");
+continue data;
+}
+break;
+case "Tangents":
+binormals=(double[])e2.properties.get(0);
+break;
+}
+}
+break;
+case "LayerElementUV":
+for (FbxElement e2 : e.children) {
+switch (e2.id) {
+case "MappingInformationType":
+uvMapping=(String)e2.properties.get(0);
+if (!uvMapping.equals("ByPolygonVertex")) {
+if (SceneLoader.WARN_IGNORED_ATTRIBUTES) scene.warning("Ignored LayerElementUV.MappingInformationType attribute (" + uvMapping + ")");
+continue data;
+}
+break;
+case "ReferenceInformationType":
+uvReference=(String)e2.properties.get(0);
+if (!uvReference.equals("IndexToDirect")) {
+if (SceneLoader.WARN_IGNORED_ATTRIBUTES) scene.warning("Ignored LayerElementUV.ReferenceInformationType attribute (" + uvReference + ")");
+continue data;
+}
+break;
+case "UV":
+uv=(double[])e2.properties.get(0);
+uvs.add(uv);
+break;
+case "UVIndex":
+uvIndex=(int[])e2.properties.get(0);
+uvIndexes.add(uvIndex);
+break;
+}
+}
+break;
+case "LayerElementMaterial":
+for (FbxElement e2 : e.children) {
+switch (e2.id) {
+case "MappingInformationType":
+materialsMapping=(String)e2.properties.get(0);
+if (!materialsMapping.equals("AllSame") && !materialsMapping.equals("ByPolygon")) {
+if (SceneLoader.WARN_IGNORED_ATTRIBUTES) scene.warning("Ignored LayerElementMaterial.MappingInformationType attribute (" + materialsMapping + ")");
+continue data;
+}
+break;
+case "ReferenceInformationType":
+materialsReference=(String)e2.properties.get(0);
+if (!materialsReference.equals("IndexToDirect")) {
+if (SceneLoader.WARN_IGNORED_ATTRIBUTES) scene.warning("Ignored LayerElementMaterial.ReferenceInformationType attribute (" + materialsReference + ")");
+continue data;
+}
+break;
+case "Materials":
+materials=(int[])e2.properties.get(0);
+break;
+}
+}
+break;
+}
+}
+geometries=createGeometries();
+}
+}

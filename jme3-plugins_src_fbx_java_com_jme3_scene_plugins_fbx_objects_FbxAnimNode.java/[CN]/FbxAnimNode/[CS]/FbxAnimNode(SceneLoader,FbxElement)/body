@@ -1,0 +1,21 @@
+{
+  super(scene,element);
+  if (type.equals("")) {
+    Double x=null, y=null, z=null;
+    for (    FbxElement e2 : element.getFbxProperties()) {
+      String propName=(String)e2.properties.get(0);
+switch (propName) {
+case "d|X":
+        x=(Double)e2.properties.get(4);
+      break;
+case "d|Y":
+    y=(Double)e2.properties.get(4);
+  break;
+case "d|Z":
+z=(Double)e2.properties.get(4);
+break;
+}
+}
+if (x != null && y != null && z != null) value=new Vector3f(x.floatValue(),y.floatValue(),z.floatValue());
+}
+}

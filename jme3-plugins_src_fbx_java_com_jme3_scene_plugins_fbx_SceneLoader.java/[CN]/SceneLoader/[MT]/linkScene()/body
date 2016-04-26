@@ -1,12 +1,10 @@
 {
   logger.log(Level.FINE,"Linking scene objects");
   long startTime=System.currentTimeMillis();
-  Node sceneNode=linkSceneNodes();
-  linkMaterials();
-  linkMeshes(sceneNode);
-  linkSkins(sceneNode);
-  linkAnimations();
+  applySkinning();
+  buildAnimations();
+  for (  FbxMesh mesh : geomMap.values())   mesh.clearMaterials();
+  for (  FbxNode limb : limbMap.values())   limb.node.removeFromParent();
   long estimatedTime=System.currentTimeMillis() - startTime;
   logger.log(Level.FINE,"Linking done in {0} ms",estimatedTime);
-  return sceneNode;
 }

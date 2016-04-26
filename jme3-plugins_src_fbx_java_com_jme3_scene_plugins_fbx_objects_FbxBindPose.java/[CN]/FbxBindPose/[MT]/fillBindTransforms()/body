@@ -1,0 +1,6 @@
+{
+  for (  long nodeId : nodeTransforms.keySet()) {
+    FbxNode node=scene.modelMap.get(nodeId);
+    node.bindTransform=nodeTransforms.get(nodeId).clone();
+  }
+}
