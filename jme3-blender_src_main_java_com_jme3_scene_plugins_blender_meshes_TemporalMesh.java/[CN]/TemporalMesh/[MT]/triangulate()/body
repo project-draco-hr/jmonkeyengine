@@ -1,6 +1,18 @@
 {
+  Set<TriangulationWarning> warnings=new HashSet<>(TriangulationWarning.values().length - 1);
   LOGGER.fine("Triangulating temporal mesh.");
   for (  Face face : faces) {
-    face.triangulate();
+    TriangulationWarning warning=face.triangulate();
+    if (warning != TriangulationWarning.NONE) {
+      warnings.add(warning);
+    }
+  }
+  if (warnings.size() > 0 && LOGGER.isLoggable(Level.WARNING)) {
+    StringBuilder sb=new StringBuilder(512);
+    sb.append("There were problems with triangulating the faces of a mesh: ").append(name);
+    for (    TriangulationWarning w : warnings) {
+      sb.append("\n\t").append(w);
+    }
+    LOGGER.warning(sb.toString());
   }
 }
