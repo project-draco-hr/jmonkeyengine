@@ -13,7 +13,7 @@
     if (sceneFolderName != null && sceneFolderName.length() > 0)     sceneName=sceneName.substring(sceneFolderName.length());
     loadScene(stream);
     linkScene();
-    if (warnings.size() > 0)     logger.log(Level.WARNING,"Model load finished with warnings:\n" + String.join("\n",warnings));
+    if (warnings.size() > 0)     logger.log(Level.WARNING,"Model load finished with warnings:\n" + join(warnings,"\n"));
   }
   finally {
     releaseObjects();
