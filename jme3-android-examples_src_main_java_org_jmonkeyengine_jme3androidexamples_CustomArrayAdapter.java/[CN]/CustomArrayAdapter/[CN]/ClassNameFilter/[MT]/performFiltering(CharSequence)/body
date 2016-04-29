@@ -1,0 +1,26 @@
+{
+  FilterResults results=new FilterResults();
+  String prefix=constraint.toString().toLowerCase();
+  Log.i(TAG,"performFiltering: entries size: " + entries.size());
+  if (prefix == null || prefix.length() == 0) {
+    ArrayList<String> list=new ArrayList<String>(entries);
+    results.values=list;
+    results.count=list.size();
+    Log.i(TAG,"clearing filter with size: " + list.size());
+  }
+ else {
+    final ArrayList<String> list=new ArrayList<String>(entries);
+    final ArrayList<String> nlist=new ArrayList<String>();
+    int count=list.size();
+    for (int i=0; i < count; i++) {
+      if (list.get(i).toLowerCase().contains(prefix)) {
+        nlist.add(list.get(i));
+      }
+      results.values=nlist;
+      results.count=nlist.size();
+    }
+    Log.i(TAG,"filtered list size: " + nlist.size() + ", entries size: "+ entries.size());
+  }
+  Log.i(TAG,"Returning filter count: " + results.count);
+  return results;
+}

@@ -1,0 +1,11 @@
+{
+  filteredEntries=(ArrayList<String>)results.values;
+  notifyDataSetChanged();
+  clear();
+  int count=filteredEntries.size();
+  for (int i=0; i < count; i++) {
+    add(filteredEntries.get(i));
+    notifyDataSetInvalidated();
+  }
+  Log.i(TAG,"publishing results with size: " + count);
+}

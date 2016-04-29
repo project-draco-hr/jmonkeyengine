@@ -1,0 +1,19 @@
+{
+switch (item.getItemId()) {
+case R.id.optionMouseEvents:
+    enableMouseEvents=!enableMouseEvents;
+  Log.i(TAG,"enableMouseEvents set to: " + enableMouseEvents);
+break;
+case R.id.optionJoystickEvents:
+enableJoystickEvents=!enableJoystickEvents;
+Log.i(TAG,"enableJoystickEvents set to: " + enableJoystickEvents);
+break;
+case R.id.optionKeyEvents:
+enableKeyEvents=!enableKeyEvents;
+Log.i(TAG,"enableKeyEvents set to: " + enableKeyEvents);
+break;
+default :
+return super.onOptionsItemSelected(item);
+}
+return true;
+}

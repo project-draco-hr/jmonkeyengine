@@ -1,0 +1,18 @@
+{
+  boolean include=true;
+  try {
+    Class<?> clazz=(Class<?>)Class.forName(className);
+    if (Application.class.isAssignableFrom(clazz)) {
+      Log.i(TAG,"Class " + className + " is a jME Application");
+    }
+ else {
+      include=false;
+      Log.i(TAG,"Skipping Class " + className + ". Not a jME Application");
+    }
+  }
+ catch (  ClassNotFoundException cnfe) {
+    include=false;
+    Log.i(TAG,"Skipping Class " + className + ". Class not found.");
+  }
+  return include;
+}

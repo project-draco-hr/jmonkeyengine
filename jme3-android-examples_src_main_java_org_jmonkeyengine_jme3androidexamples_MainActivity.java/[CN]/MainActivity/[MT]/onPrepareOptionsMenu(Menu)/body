@@ -1,0 +1,34 @@
+{
+  MenuItem item;
+  item=menu.findItem(R.id.optionMouseEvents);
+  if (item != null) {
+    Log.i(TAG,"Found EnableMouseEvents menu item");
+    if (enableMouseEvents) {
+      item.setTitle(R.string.strOptionDisableMouseEventsTitle);
+    }
+ else {
+      item.setTitle(R.string.strOptionEnableMouseEventsTitle);
+    }
+  }
+  item=menu.findItem(R.id.optionJoystickEvents);
+  if (item != null) {
+    Log.i(TAG,"Found EnableJoystickEvents menu item");
+    if (enableJoystickEvents) {
+      item.setTitle(R.string.strOptionDisableJoystickEventsTitle);
+    }
+ else {
+      item.setTitle(R.string.strOptionEnableJoystickEventsTitle);
+    }
+  }
+  item=menu.findItem(R.id.optionKeyEvents);
+  if (item != null) {
+    Log.i(TAG,"Found EnableKeyEvents menu item");
+    if (enableKeyEvents) {
+      item.setTitle(R.string.strOptionDisableKeyEventsTitle);
+    }
+ else {
+      item.setTitle(R.string.strOptionEnableKeyEventsTitle);
+    }
+  }
+  return true;
+}
