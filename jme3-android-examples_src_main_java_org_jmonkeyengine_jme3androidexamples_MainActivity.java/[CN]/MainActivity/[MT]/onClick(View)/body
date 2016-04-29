@@ -2,9 +2,12 @@
   if (view.equals(btnOK)) {
     Log.i(TAG,"User selected OK for class: " + currentSelection);
     Intent intent=new Intent(this,TestActivity.class);
-    intent.putExtra(SELECTED_APP_CLASS,currentSelection);
-    intent.putExtra(ENABLE_MOUSE_EVENTS,enableMouseEvents);
-    intent.putExtra(ENABLE_JOYSTICK_EVENTS,enableJoystickEvents);
+    Bundle args=new Bundle();
+    args.putString(MainActivity.SELECTED_APP_CLASS,currentSelection);
+    args.putBoolean(MainActivity.ENABLE_MOUSE_EVENTS,enableMouseEvents);
+    args.putBoolean(MainActivity.ENABLE_JOYSTICK_EVENTS,enableJoystickEvents);
+    args.putBoolean(MainActivity.ENABLE_KEY_EVENTS,enableKeyEvents);
+    intent.putExtras(args);
     startActivity(intent);
   }
  else   if (view.equals(btnCancel)) {
