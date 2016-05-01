@@ -1,0 +1,15 @@
+{
+  if (origin.length != 3 || region.length != 3) {
+    throw new IllegalArgumentException("origin and region must both be arrays of length 3");
+  }
+  Utils.pointers[0].rewind();
+  Utils.pointers[1].rewind();
+  Utils.pointers[2].rewind();
+  Utils.pointers[1].put(origin,0,3).position(0);
+  Utils.pointers[2].put(region,0,3).position(0);
+  long q=((JoclCommandQueue)queue).id;
+  int ret=cl.clEnqueueReadImage(q,id,CL.CL_FALSE,Utils.pointers[1],Utils.pointers[2],rowPitch,slicePitch,dest,0,null,Utils.pointers[0]);
+  Utils.checkError(ret,"clEnqueueReadImage");
+  long event=Utils.pointers[0].get(0);
+  return new JoclEvent(event);
+}

@@ -1,0 +1,6 @@
+{
+  Utils.pointers[0].rewind();
+  int ret=cl.clGetMemObjectInfo(id,CL.CL_MEM_SIZE,Utils.pointers[0].elementSize(),Utils.pointers[0].getBuffer(),null);
+  Utils.checkError(ret,"clGetMemObjectInfo");
+  return Utils.pointers[0].get();
+}

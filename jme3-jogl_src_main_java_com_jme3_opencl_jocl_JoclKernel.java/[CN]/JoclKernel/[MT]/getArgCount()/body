@@ -1,0 +1,6 @@
+{
+  Utils.tempBuffers[0].b16i.rewind();
+  int ret=cl.clGetKernelInfo(kernel,CL.CL_KERNEL_NUM_ARGS,4,Utils.tempBuffers[0].b16i,null);
+  Utils.checkError(ret,"clGetKernelInfo");
+  return Utils.tempBuffers[0].b16i.get(0);
+}

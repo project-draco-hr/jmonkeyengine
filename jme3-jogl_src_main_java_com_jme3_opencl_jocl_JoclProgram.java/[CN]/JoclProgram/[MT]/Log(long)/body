@@ -1,0 +1,10 @@
+{
+  Utils.pointers[0].rewind();
+  int ret=cl.clGetProgramBuildInfo(program,device,CL.CL_PROGRAM_BUILD_LOG,0,null,Utils.pointers[0]);
+  Utils.checkError(ret,"clGetProgramBuildInfo");
+  int count=(int)Utils.pointers[0].get(0);
+  final ByteBuffer buffer=newDirectByteBuffer(count);
+  ret=cl.clGetProgramBuildInfo(program,device,CL.CL_PROGRAM_BUILD_LOG,buffer.capacity(),buffer,null);
+  Utils.checkError(ret,"clGetProgramBuildInfo");
+  return CLUtil.clString2JavaString(buffer,count);
+}

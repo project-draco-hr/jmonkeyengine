@@ -1,0 +1,16 @@
+{
+  Utils.tempBuffers[0].b16.rewind();
+  int err=cl.clGetEventInfo(id,CL.CL_EVENT_COMMAND_EXECUTION_STATUS,4,Utils.tempBuffers[0].b16,null);
+  Utils.checkError(err,"clGetEventInfo");
+  int status=Utils.tempBuffers[0].b16i.get(0);
+  if (status == CL.CL_SUCCESS) {
+    return true;
+  }
+ else   if (status < 0) {
+    Utils.checkError(status,"EventStatus");
+    return false;
+  }
+ else {
+    return false;
+  }
+}

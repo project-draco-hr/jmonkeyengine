@@ -1,0 +1,12 @@
+{
+  Utils.pointers[0].rewind();
+  int ret=cl.clGetKernelInfo(kernel,CL.CL_KERNEL_FUNCTION_NAME,0,null,Utils.pointers[0]);
+  Utils.checkError(ret,"clGetKernelInfo");
+  int count=(int)Utils.pointers[0].get(0);
+  ByteBuffer buf=ByteBuffer.allocateDirect(count);
+  ret=cl.clGetKernelInfo(kernel,CL.CL_KERNEL_FUNCTION_NAME,count,buf,null);
+  Utils.checkError(ret,"clGetKernelInfo");
+  byte[] data=new byte[count];
+  buf.get(data);
+  return new String(data,Charset.forName("ASCII"));
+}

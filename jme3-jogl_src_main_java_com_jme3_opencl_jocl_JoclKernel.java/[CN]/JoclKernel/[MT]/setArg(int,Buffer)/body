@@ -1,0 +1,6 @@
+{
+  Utils.tempBuffers[0].b16l.rewind();
+  Utils.tempBuffers[0].b16l.put(0,((JoclBuffer)t).id);
+  int ret=cl.clSetKernelArg(kernel,index,is32Bit() ? 4 : 8,Utils.tempBuffers[0].b16l);
+  Utils.checkError(ret,"clSetKernelArg");
+}

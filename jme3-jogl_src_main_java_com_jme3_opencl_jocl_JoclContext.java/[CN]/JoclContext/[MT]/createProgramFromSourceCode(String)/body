@@ -1,0 +1,9 @@
+{
+  LOG.log(Level.FINE,"Create program from source:\n{0}",sourceCode);
+  Utils.errorBuffer.rewind();
+  Utils.pointers[0].rewind();
+  Utils.pointers[0].put(0,sourceCode.length());
+  long p=cl.clCreateProgramWithSource(id,1,new String[]{sourceCode},Utils.pointers[0],Utils.errorBuffer);
+  Utils.checkError(Utils.errorBuffer,"clCreateProgramWithSource");
+  return new JoclProgram(p,this);
+}

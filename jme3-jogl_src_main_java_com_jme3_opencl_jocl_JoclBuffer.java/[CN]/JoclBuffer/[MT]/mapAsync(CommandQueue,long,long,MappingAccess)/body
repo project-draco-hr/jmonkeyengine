@@ -1,0 +1,10 @@
+{
+  long q=((JoclCommandQueue)queue).id;
+  Utils.pointers[0].rewind();
+  Utils.errorBuffer.rewind();
+  long flags=Utils.getMappingAccessFlags(access);
+  ByteBuffer b=cl.clEnqueueMapBuffer(q,id,CL.CL_FALSE,flags,offset,size,0,null,Utils.pointers[0],Utils.errorBuffer);
+  Utils.checkError(Utils.errorBuffer,"clEnqueueMapBuffer");
+  long event=Utils.pointers[0].get(0);
+  return new com.jme3.opencl.Buffer.AsyncMapping(new JoclEvent(event),b);
+}

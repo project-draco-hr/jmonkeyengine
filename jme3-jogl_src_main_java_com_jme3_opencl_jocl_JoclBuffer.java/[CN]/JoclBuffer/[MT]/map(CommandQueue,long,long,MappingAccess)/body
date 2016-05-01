@@ -1,0 +1,8 @@
+{
+  long q=((JoclCommandQueue)queue).id;
+  Utils.errorBuffer.rewind();
+  long flags=Utils.getMappingAccessFlags(access);
+  ByteBuffer b=cl.clEnqueueMapBuffer(q,id,CL.CL_TRUE,flags,offset,size,0,null,null,Utils.errorBuffer);
+  Utils.checkError(Utils.errorBuffer,"clEnqueueMapBuffer");
+  return b;
+}

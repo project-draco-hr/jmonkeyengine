@@ -1,0 +1,9 @@
+{
+  if (devices == null) {
+    devices=new ArrayList<>();
+    for (    CLDevice d : platform.listCLDevices()) {
+      devices.add(new JoclDevice(d,this));
+    }
+  }
+  return devices;
+}

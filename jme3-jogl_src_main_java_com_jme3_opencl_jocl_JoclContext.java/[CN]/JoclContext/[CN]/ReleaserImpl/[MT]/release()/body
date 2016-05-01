@@ -1,0 +1,8 @@
+{
+  if (id != 0) {
+    int ret=CLPlatform.getLowLevelCLInterface().clReleaseContext(id);
+    id=0;
+    devices.clear();
+    Utils.reportError(ret,"clReleaseContext");
+  }
+}

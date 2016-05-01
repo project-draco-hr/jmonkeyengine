@@ -1,0 +1,12 @@
+{
+  if ((flag & CL.CL_MEM_READ_WRITE) > 0) {
+    return MemoryAccess.READ_WRITE;
+  }
+  if ((flag & CL.CL_MEM_READ_ONLY) > 0) {
+    return MemoryAccess.READ_ONLY;
+  }
+  if ((flag & CL.CL_MEM_WRITE_ONLY) > 0) {
+    return MemoryAccess.WRITE_ONLY;
+  }
+  throw new OpenCLException("Unknown memory access flag: " + flag);
+}

@@ -1,0 +1,14 @@
+{
+switch (ma) {
+case MAP_READ_ONLY:
+    return CL.CL_MAP_READ;
+case MAP_READ_WRITE:
+  return CL.CL_MAP_READ | CL.CL_MAP_WRITE;
+case MAP_WRITE_ONLY:
+return CL.CL_MAP_WRITE;
+case MAP_WRITE_INVALIDATE:
+return CL.CL_MAP_WRITE;
+default :
+throw new IllegalArgumentException("Unknown mapping access: " + ma);
+}
+}

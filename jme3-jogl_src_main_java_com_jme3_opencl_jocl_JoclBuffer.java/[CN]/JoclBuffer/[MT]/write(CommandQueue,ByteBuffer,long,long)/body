@@ -1,0 +1,5 @@
+{
+  long q=((JoclCommandQueue)queue).id;
+  int ret=cl.clEnqueueWriteBuffer(q,id,CL.CL_TRUE,offset,size,src,0,null,null);
+  Utils.checkError(ret,"clEnqueueWriteBuffer");
+}

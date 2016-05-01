@@ -1,0 +1,6 @@
+{
+  Utils.pointers[0].rewind();
+  Utils.pointers[0].put(0,id);
+  int ret=cl.clWaitForEvents(1,Utils.pointers[0]);
+  Utils.checkError(ret,"clWaitForEvents");
+}

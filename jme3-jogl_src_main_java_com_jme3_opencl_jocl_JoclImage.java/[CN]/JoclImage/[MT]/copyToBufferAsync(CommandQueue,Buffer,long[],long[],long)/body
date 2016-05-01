@@ -1,0 +1,15 @@
+{
+  if (srcOrigin.length != 3 || srcRegion.length != 3) {
+    throw new IllegalArgumentException("origin and region must both be arrays of length 3");
+  }
+  Utils.pointers[0].rewind();
+  Utils.pointers[1].rewind();
+  Utils.pointers[2].rewind();
+  Utils.pointers[1].put(srcOrigin,0,3).position(0);
+  Utils.pointers[2].put(srcRegion,0,3).position(0);
+  long q=((JoclCommandQueue)queue).id;
+  int ret=cl.clEnqueueCopyImageToBuffer(q,id,((JoclBuffer)dest).id,Utils.pointers[1],Utils.pointers[2],destOffset,0,null,Utils.pointers[0]);
+  Utils.checkError(ret,"clEnqueueCopyImageToBuffer");
+  long event=Utils.pointers[0].get(0);
+  return new JoclEvent(event);
+}

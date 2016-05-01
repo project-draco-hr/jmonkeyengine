@@ -1,0 +1,11 @@
+{
+  FloatBuffer buf=Utils.tempBuffers[0].b16f;
+  buf.position(0);
+  buf.limit(4);
+  buf.put(0,v.x);
+  buf.put(1,v.y);
+  buf.put(2,v.z);
+  buf.put(3,v.w);
+  int ret=cl.clSetKernelArg(kernel,index,16,buf);
+  Utils.checkError(ret,"clSetKernelArg");
+}

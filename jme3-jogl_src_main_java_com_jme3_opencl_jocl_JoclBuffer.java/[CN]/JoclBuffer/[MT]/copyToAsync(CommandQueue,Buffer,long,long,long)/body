@@ -1,0 +1,9 @@
+{
+  Utils.pointers[0].rewind();
+  long q=((JoclCommandQueue)queue).id;
+  long did=((JoclBuffer)dest).id;
+  int ret=cl.clEnqueueCopyBuffer(q,id,did,srcOffset,destOffset,size,0,null,Utils.pointers[0]);
+  Utils.checkError(ret,"clEnqueueCopyBuffer");
+  long event=Utils.pointers[0].get(0);
+  return new JoclEvent(event);
+}

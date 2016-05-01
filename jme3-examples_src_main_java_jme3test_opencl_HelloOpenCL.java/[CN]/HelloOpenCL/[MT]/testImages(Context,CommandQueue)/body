@@ -2,7 +2,12 @@
   try {
     for (    MemoryAccess ma : MemoryAccess.values()) {
       for (      Image.ImageType type : Image.ImageType.values()) {
-        System.out.println("Formats for " + ma + " and "+ type+ ": "+ Arrays.toString(clContext.querySupportedFormats(ma,type)));
+        try {
+          System.out.println("Formats for " + ma + " and "+ type+ ": "+ Arrays.toString(clContext.querySupportedFormats(ma,type)));
+        }
+ catch (        UnsupportedOperationException e) {
+          LOG.warning(e.getLocalizedMessage());
+        }
       }
     }
     Image.ImageFormat format=new Image.ImageFormat(Image.ImageChannelOrder.RGBA,Image.ImageChannelType.FLOAT);

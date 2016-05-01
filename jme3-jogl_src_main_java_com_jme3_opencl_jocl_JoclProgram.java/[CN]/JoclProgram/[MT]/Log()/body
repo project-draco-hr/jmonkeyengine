@@ -1,0 +1,10 @@
+{
+  StringBuilder str=new StringBuilder();
+  for (  JoclDevice device : context.getDevices()) {
+    long d=device.id;
+    str.append(device.getName()).append(":\n");
+    str.append(Log(d));
+    str.append('\n');
+  }
+  return str.toString();
+}

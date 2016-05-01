@@ -1,0 +1,8 @@
+{
+  Utils.tempBuffers[0].b16i.rewind();
+  int ret=cl.clGetImageInfo(id,CL.CL_IMAGE_FORMAT,8,Utils.tempBuffers[0].b16i,null);
+  Utils.checkError(ret,"clGetImageInfo");
+  int channelOrder=Utils.tempBuffers[0].b16i.get(0);
+  int channelType=Utils.tempBuffers[0].b16i.get(1);
+  return new ImageFormat(encodeImageChannelOrder(channelOrder),encodeImageChannelType(channelType));
+}

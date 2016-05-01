@@ -1,0 +1,6 @@
+{
+  Utils.tempBuffers[0].b16i.rewind();
+  int ret=cl.clGetMemObjectInfo(id,CL.CL_IMAGE_FORMAT,5,Utils.tempBuffers[0].b16i,null);
+  int type=Utils.tempBuffers[0].b16i.get(0);
+  return encodeImageType(type);
+}

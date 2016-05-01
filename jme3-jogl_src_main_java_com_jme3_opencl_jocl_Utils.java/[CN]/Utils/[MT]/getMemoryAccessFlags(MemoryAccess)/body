@@ -1,0 +1,12 @@
+{
+switch (ma) {
+case READ_ONLY:
+    return CL.CL_MEM_READ_ONLY;
+case WRITE_ONLY:
+  return CL.CL_MEM_WRITE_ONLY;
+case READ_WRITE:
+return CL.CL_MEM_READ_WRITE;
+default :
+throw new IllegalArgumentException("Unknown memory access: " + ma);
+}
+}

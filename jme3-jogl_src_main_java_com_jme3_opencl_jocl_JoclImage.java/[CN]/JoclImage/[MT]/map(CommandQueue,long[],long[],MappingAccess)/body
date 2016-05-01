@@ -1,0 +1,17 @@
+{
+  if (origin.length != 3 || region.length != 3) {
+    throw new IllegalArgumentException("origin and region must both be arrays of length 3");
+  }
+  Utils.errorBuffer.rewind();
+  Utils.pointers[1].rewind();
+  Utils.pointers[2].rewind();
+  Utils.pointers[3].rewind();
+  Utils.pointers[4].rewind();
+  Utils.pointers[1].put(origin,0,3).position(0);
+  Utils.pointers[2].put(region,0,3).position(0);
+  long q=((JoclCommandQueue)queue).id;
+  long flags=Utils.getMappingAccessFlags(access);
+  ByteBuffer buf=cl.clEnqueueMapImage(q,id,CL.CL_TRUE,flags,Utils.pointers[1],Utils.pointers[2],Utils.pointers[3],Utils.pointers[4],0,null,null,Utils.errorBuffer);
+  Utils.checkError(Utils.errorBuffer,"clEnqueueMapBuffer");
+  return new ImageMapping(buf,Utils.pointers[3].get(0),Utils.pointers[4].get(0));
+}
