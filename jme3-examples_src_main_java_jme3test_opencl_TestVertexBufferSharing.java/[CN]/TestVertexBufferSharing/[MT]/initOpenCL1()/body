@@ -1,10 +1,38 @@
 {
   clContext=context.getOpenCLContext();
-  clQueue=clContext.createQueue();
+  Device device=clContext.getDevices().get(0);
+  clQueue=clContext.createQueue(device);
   clQueue.register();
-  String source="" + "__kernel void ScaleKernel(__global float* vb, float scale)\n" + "{\n"+ "  int idx = get_global_id(0);\n"+ "  float3 pos = vload3(idx, vb);\n"+ "  pos *= scale;\n"+ "  vstore3(pos, idx, vb);\n"+ "}\n";
-  Program program=clContext.createProgramFromSourceCode(source);
-  program.build();
+  Program program=null;
+  File tmpFolder=JmeSystem.getStorageFolder();
+  File binaryFile=new File(tmpFolder,getClass().getSimpleName() + ".clc");
+  try {
+    byte[] bytes=Files.readAllBytes(binaryFile.toPath());
+    ByteBuffer bb=BufferUtils.createByteBuffer(bytes);
+    program=clContext.createProgramFromBinary(bb,device);
+    program.build();
+    LOG.info("reuse program from cached binaries");
+  }
+ catch (  java.nio.file.NoSuchFileException ex) {
+  }
+catch (  Exception ex) {
+    LOG.log(Level.INFO,"Unable to use cached program binaries",ex);
+  }
+  if (program == null) {
+    String source="" + "__kernel void ScaleKernel(__global float* vb, float scale)\n" + "{\n"+ "  int idx = get_global_id(0);\n"+ "  float3 pos = vload3(idx, vb);\n"+ "  pos *= scale;\n"+ "  vstore3(pos, idx, vb);\n"+ "}\n";
+    program=clContext.createProgramFromSourceCode(source);
+    program.build();
+    ByteBuffer bb=program.getBinary(device);
+    byte[] bytes=new byte[bb.remaining()];
+    bb.get(bytes);
+    try {
+      Files.write(binaryFile.toPath(),bytes);
+    }
+ catch (    IOException ex) {
+      LOG.log(Level.SEVERE,"Unable to save program binaries",ex);
+    }
+    LOG.info("create new program from sources");
+  }
   program.register();
   kernel=program.createKernel("ScaleKernel");
   kernel.register();

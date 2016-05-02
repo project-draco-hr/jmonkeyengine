@@ -1,5 +1,14 @@
 {
-  int ret=CL10.clBuildProgram(program,(PointerBuffer)null,args,null);
+  PointerBuffer deviceList=null;
+  if (devices != null) {
+    deviceList=PointerBuffer.allocateDirect(devices.length);
+    deviceList.rewind();
+    for (    Device d : devices) {
+      deviceList.put(((LwjglDevice)d).device.getPointer());
+    }
+    deviceList.flip();
+  }
+  int ret=CL10.clBuildProgram(program,deviceList,args,null);
   if (ret != CL10.CL_SUCCESS) {
     String log=Log();
     LOG.log(Level.WARNING,"Unable to compile program:\n{0}",log);
