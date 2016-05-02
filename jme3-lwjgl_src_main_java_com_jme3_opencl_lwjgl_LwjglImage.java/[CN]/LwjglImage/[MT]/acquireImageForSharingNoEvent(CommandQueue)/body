@@ -1,0 +1,5 @@
+{
+  CLCommandQueue q=((LwjglCommandQueue)queue).getQueue();
+  int ret=CL10GL.clEnqueueAcquireGLObjects(q,image,null,null);
+  Utils.checkError(ret,"clEnqueueAcquireGLObjects");
+}

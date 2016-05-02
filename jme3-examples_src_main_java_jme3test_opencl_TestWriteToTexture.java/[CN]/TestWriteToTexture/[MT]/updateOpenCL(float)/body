@@ -1,5 +1,6 @@
 {
-  texCL.acquireImageForSharingAsync(clQueue).release();
-  kernel.Run1(clQueue,new com.jme3.opencl.Kernel.WorkSize(settings.getWidth(),settings.getHeight()),texCL,C,16).release();
-  texCL.releaseImageForSharingAsync(clQueue).release();
+  texCL.acquireImageForSharingNoEvent(clQueue);
+  Kernel.WorkSize ws=new Kernel.WorkSize(settings.getWidth(),settings.getHeight());
+  kernel.Run1NoEvent(clQueue,ws,texCL,C,16);
+  texCL.releaseImageForSharingNoEvent(clQueue);
 }
