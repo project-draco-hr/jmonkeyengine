@@ -1,5 +1,6 @@
 {
   VertexBuffer vb=geom.getMesh().getBuffer(VertexBuffer.Type.Position);
   buffer=clContext.bindVertexBuffer(vb,MemoryAccess.READ_WRITE);
+  buffer.register();
   ws=new com.jme3.opencl.Kernel.WorkSize(geom.getMesh().getVertexCount());
 }

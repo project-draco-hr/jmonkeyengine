@@ -1,0 +1,16 @@
+{
+  if (obj == null) {
+    return false;
+  }
+  if (getClass() != obj.getClass()) {
+    return false;
+  }
+  final ImageFormat other=(ImageFormat)obj;
+  if (this.channelOrder != other.channelOrder) {
+    return false;
+  }
+  if (this.channelType != other.channelType) {
+    return false;
+  }
+  return true;
+}

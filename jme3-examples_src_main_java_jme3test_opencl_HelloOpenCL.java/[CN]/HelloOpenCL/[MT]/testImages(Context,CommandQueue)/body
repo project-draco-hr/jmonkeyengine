@@ -25,7 +25,8 @@
     e1.waitForFinished();
     e2.waitForFinished();
     Buffer buffer=clContext.createBuffer(4 * 4 * 500* 1024);
-    image.copyToBufferAsync(clQueue,buffer,new long[]{10,10,0},new long[]{500,1024,1},0);
+    Event e3=image.copyToBufferAsync(clQueue,buffer,new long[]{10,10,0},new long[]{500,1024,1},0);
+    e3.release();
     ByteBuffer map1=buffer.map(clQueue,MappingAccess.MAP_READ_ONLY);
     FloatBuffer map1F=map1.asFloatBuffer();
     map1F.rewind();
@@ -63,6 +64,9 @@
       }
     }
     image2.unmap(clQueue,map2);
+    image.release();
+    image2.release();
+    buffer.release();
   }
  catch (  AssertionError ex) {
     LOG.log(Level.SEVERE,"image test failed with an assertion error");

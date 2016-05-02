@@ -1,8 +1,11 @@
 {
   clContext=context.getOpenCLContext();
   clQueue=clContext.createQueue();
+  clQueue.register();
   String source="" + "__kernel void ScaleKernel(__global float* vb, float scale)\n" + "{\n"+ "  int idx = get_global_id(0);\n"+ "  float3 pos = vload3(idx, vb);\n"+ "  pos *= scale;\n"+ "  vstore3(pos, idx, vb);\n"+ "}\n";
   Program program=clContext.createProgramFromSourceCode(source);
   program.build();
+  program.register();
   kernel=program.createKernel("ScaleKernel");
+  kernel.register();
 }

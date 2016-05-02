@@ -1,5 +1,6 @@
 {
   if (activeObjects.isEmpty()) {
+    LOG.log(LOG_LEVEL2,"no active natives");
     return;
   }
   gcCounter++;
@@ -17,6 +18,6 @@
     removed++;
   }
   if (removed >= 1) {
-    LOG.log(LOG_LEVEL2,"NativeObjectManager: {0} native objects were removed from native",removed);
+    LOG.log(LOG_LEVEL2,"{0} native objects were removed from native",removed);
   }
 }

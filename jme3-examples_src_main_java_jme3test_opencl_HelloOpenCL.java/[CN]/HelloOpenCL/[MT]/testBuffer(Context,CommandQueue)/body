@@ -28,6 +28,8 @@
       byte b=h1.get();
       assertEquals((byte)(i + low),b,"Wrong byte read");
     }
+    b1.release();
+    b2.release();
   }
  catch (  AssertionError ex) {
     LOG.log(Level.SEVERE,"Buffer test failed with an assertion error");

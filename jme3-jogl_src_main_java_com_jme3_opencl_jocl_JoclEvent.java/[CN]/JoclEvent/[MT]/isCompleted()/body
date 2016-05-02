@@ -4,6 +4,7 @@
   Utils.checkError(err,"clGetEventInfo");
   int status=Utils.tempBuffers[0].b16i.get(0);
   if (status == CL.CL_SUCCESS) {
+    release();
     return true;
   }
  else   if (status < 0) {

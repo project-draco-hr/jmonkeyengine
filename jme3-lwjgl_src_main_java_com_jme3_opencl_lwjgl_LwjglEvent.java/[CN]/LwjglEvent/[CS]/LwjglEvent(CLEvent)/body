@@ -1,9 +1,10 @@
 {
+  super(new ReleaserImpl(event));
   this.event=event;
   if (event == null) {
     LOG.warning("event is null!");
   }
  else {
-    OpenCLObjectManager.getInstance().registerObject(this);
+    this.releaser=new ReleaserImpl(event);
   }
 }
