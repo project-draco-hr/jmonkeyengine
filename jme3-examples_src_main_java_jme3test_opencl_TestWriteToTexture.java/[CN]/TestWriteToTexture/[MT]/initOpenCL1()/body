@@ -2,8 +2,15 @@
   clContext=context.getOpenCLContext();
   clQueue=clContext.createQueue();
   clQueue.register();
-  Program program=clContext.createProgramFromSourceFiles(assetManager,"jme3test/opencl/JuliaSet.cl");
-  program.build();
+  programCache=new ProgramCache(clContext);
+  String cacheID=getClass().getName() + ".Julia";
+  Program program=programCache.loadFromCache(cacheID);
+  if (program == null) {
+    LOG.info("Program not loaded from cache, create from sources instead");
+    program=clContext.createProgramFromSourceFiles(assetManager,"jme3test/opencl/JuliaSet.cl");
+    program.build();
+    programCache.saveToCache(cacheID,program);
+  }
   program.register();
   kernel=program.createKernel("JuliaSet");
   kernel.register();
