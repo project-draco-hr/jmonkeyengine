@@ -4,5 +4,12 @@
   joystickEventsEnabled=bundle.getBoolean(ENABLE_JOYSTICK_EVENTS);
   keyEventsEnabled=bundle.getBoolean(ENABLE_KEY_EVENTS);
   mouseEventsEnabled=bundle.getBoolean(ENABLE_MOUSE_EVENTS);
+  boolean verboseLogging=bundle.getBoolean(VERBOSE_LOGGING);
+  if (verboseLogging) {
+    LogManager.getLogManager().getLogger("").setLevel(Level.ALL);
+  }
+ else {
+    LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
+  }
   super.onCreate(savedInstanceState);
 }

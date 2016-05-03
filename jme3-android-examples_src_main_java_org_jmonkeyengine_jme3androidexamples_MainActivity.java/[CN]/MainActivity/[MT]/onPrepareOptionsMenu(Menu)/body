@@ -30,5 +30,15 @@
       item.setTitle(R.string.strOptionEnableKeyEventsTitle);
     }
   }
+  item=menu.findItem(R.id.optionVerboseLogging);
+  if (item != null) {
+    Log.i(TAG,"Found EnableVerboseLogging menu item");
+    if (verboseLogging) {
+      item.setTitle(R.string.strOptionDisableVerboseLoggingTitle);
+    }
+ else {
+      item.setTitle(R.string.strOptionEnableVerboseLoggingTitle);
+    }
+  }
   return true;
 }

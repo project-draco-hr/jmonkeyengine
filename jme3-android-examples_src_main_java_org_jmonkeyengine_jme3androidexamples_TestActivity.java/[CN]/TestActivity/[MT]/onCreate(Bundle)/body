@@ -15,6 +15,8 @@
   args.putBoolean(MainActivity.ENABLE_JOYSTICK_EVENTS,joystickEnabled);
   boolean keyEnabled=bundle.getBoolean(MainActivity.ENABLE_KEY_EVENTS,true);
   args.putBoolean(MainActivity.ENABLE_KEY_EVENTS,keyEnabled);
+  boolean verboseLogging=bundle.getBoolean(MainActivity.VERBOSE_LOGGING,true);
+  args.putBoolean(MainActivity.VERBOSE_LOGGING,verboseLogging);
   fragment.setArguments(args);
   FragmentTransaction transaction=getFragmentManager().beginTransaction();
   transaction.add(R.id.fragmentContainer,fragment);

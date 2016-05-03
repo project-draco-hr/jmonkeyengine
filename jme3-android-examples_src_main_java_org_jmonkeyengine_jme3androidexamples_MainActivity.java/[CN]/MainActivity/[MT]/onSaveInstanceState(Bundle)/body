@@ -1,8 +1,10 @@
 {
   super.onSaveInstanceState(savedInstanceState);
-  Log.i(TAG,"Saving selections in onSaveInstanceState: " + "position: " + currentPosition + ", "+ "class: "+ currentSelection+ ", "+ "mouseEvents: "+ enableMouseEvents+ ", "+ "joystickEvents: "+ enableJoystickEvents+ ", ");
+  Log.i(TAG,"Saving selections in onSaveInstanceState: " + "position: " + currentPosition + ", "+ "class: "+ currentSelection+ ", "+ "mouseEvents: "+ enableMouseEvents+ ", "+ "joystickEvents: "+ enableJoystickEvents+ ", "+ "keyEvents: "+ enableKeyEvents+ ", "+ "VerboseLogging: "+ verboseLogging+ ", ");
   savedInstanceState.putString(SELECTED_APP_CLASS,currentSelection);
   savedInstanceState.putInt(SELECTED_LIST_POSITION,currentPosition);
   savedInstanceState.putBoolean(ENABLE_MOUSE_EVENTS,enableMouseEvents);
   savedInstanceState.putBoolean(ENABLE_JOYSTICK_EVENTS,enableJoystickEvents);
+  savedInstanceState.putBoolean(ENABLE_KEY_EVENTS,enableKeyEvents);
+  savedInstanceState.putBoolean(VERBOSE_LOGGING,verboseLogging);
 }
