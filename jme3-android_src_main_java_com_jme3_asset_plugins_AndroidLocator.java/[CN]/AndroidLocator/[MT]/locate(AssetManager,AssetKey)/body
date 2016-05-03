@@ -1,0 +1,35 @@
+{
+  String assetPath=rootPath + key.getName();
+  if (assetPath.startsWith("/")) {
+    assetPath=assetPath.substring(1);
+  }
+  assetPath=assetPath.replace("//","/");
+  android.content.res.Resources androidResources=JmeAndroidSystem.getView().getContext().getResources();
+  String androidPackageName=JmeAndroidSystem.getView().getContext().getPackageName();
+  try {
+    InputStream in=androidResources.getAssets().open(assetPath);
+    if (in != null) {
+      return new AndroidAssetInfo(manager,key,assetPath,in,0);
+    }
+  }
+ catch (  IOException ex) {
+  }
+  String resourceName=getResourceName(assetPath);
+  int resourceId=androidResources.getIdentifier(resourceName,"drawable",androidPackageName);
+  if (resourceId == 0) {
+    resourceId=androidResources.getIdentifier(resourceName,"mipmap",androidPackageName);
+  }
+  if (resourceId == 0) {
+    return null;
+  }
+  try {
+    InputStream in=androidResources.openRawResource(resourceId);
+    if (in != null) {
+      return new AndroidAssetInfo(manager,key,assetPath,in,resourceId);
+    }
+  }
+ catch (  Resources.NotFoundException ex) {
+    return null;
+  }
+  return null;
+}

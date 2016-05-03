@@ -5,11 +5,22 @@
     return in2;
   }
  else {
-    try {
-      return androidManager.open(assetPath);
+    android.content.res.Resources androidResources=JmeAndroidSystem.getView().getContext().getResources();
+    if (resourceId == 0) {
+      try {
+        return androidResources.getAssets().open(assetPath);
+      }
+ catch (      IOException ex) {
+        throw new AssetLoadException("Failed to open asset " + assetPath,ex);
+      }
     }
- catch (    IOException ex) {
-      throw new AssetLoadException("Failed to open asset " + assetPath,ex);
+ else {
+      try {
+        return androidResources.openRawResource(resourceId);
+      }
+ catch (      Resources.NotFoundException ex) {
+        throw new AssetLoadException("Failed to open asset " + assetPath,ex);
+      }
     }
   }
 }

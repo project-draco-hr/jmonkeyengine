@@ -1,8 +1,19 @@
 {
-  try {
-    return androidManager.openFd(assetPath);
+  android.content.res.Resources androidResources=JmeAndroidSystem.getView().getContext().getResources();
+  if (resourceId == 0) {
+    try {
+      return androidResources.getAssets().openFd(assetPath);
+    }
+ catch (    IOException ex) {
+      throw new AssetLoadException("Failed to open asset " + assetPath,ex);
+    }
   }
- catch (  IOException ex) {
-    throw new AssetLoadException("Failed to open asset " + assetPath,ex);
+ else {
+    try {
+      return androidResources.openRawResourceFd(resourceId);
+    }
+ catch (    Resources.NotFoundException ex) {
+      throw new AssetLoadException("Failed to open asset " + assetPath,ex);
+    }
   }
 }
