@@ -10,7 +10,11 @@
       Log.i(TAG,"Skipping Class " + className + ". Not a jME Application");
     }
   }
- catch (  ClassNotFoundException cnfe) {
+ catch (  NoClassDefFoundError ncdf) {
+    include=false;
+    Log.i(TAG,"Skipping Class " + className + ". No Class Def found.");
+  }
+catch (  ClassNotFoundException cnfe) {
     include=false;
     Log.i(TAG,"Skipping Class " + className + ". Class not found.");
   }
