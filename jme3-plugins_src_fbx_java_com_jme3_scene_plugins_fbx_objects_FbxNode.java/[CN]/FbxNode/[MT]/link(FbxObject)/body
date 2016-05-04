@@ -1,0 +1,32 @@
+{
+  if (otherObject instanceof FbxMaterial) {
+    FbxMaterial m=(FbxMaterial)otherObject;
+    Material mat=m.material;
+    if (cullMode != FaceCullMode.Back)     mat.getAdditionalRenderState().setFaceCullMode(cullMode);
+    for (    Geometry g : mesh.geometries) {
+      if (g.getUserData("FBXMaterial") != null) {
+        if ((Integer)g.getUserData("FBXMaterial") == mesh.lastMaterialId)         g.setMaterial(mat);
+      }
+ else {
+        g.setMaterial(mat);
+      }
+    }
+    mesh.lastMaterialId++;
+  }
+ else   if (otherObject instanceof FbxNode) {
+    FbxNode n=(FbxNode)otherObject;
+    node.attachChild(n.node);
+    n.parentFbxNode=this;
+    if (isLimb() && n.isLimb()) {
+      if (bone == null)       bone=new Bone(name);
+      if (n.bone == null)       n.bone=new Bone(n.name);
+      bone.addChild(n.bone);
+    }
+  }
+ else   if (otherObject instanceof FbxMesh) {
+    FbxMesh m=(FbxMesh)otherObject;
+    m.setParent(node);
+    m.parent=this;
+    mesh=m;
+  }
+}

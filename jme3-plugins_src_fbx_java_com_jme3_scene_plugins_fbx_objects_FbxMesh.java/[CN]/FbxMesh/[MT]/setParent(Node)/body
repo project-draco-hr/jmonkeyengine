@@ -1,0 +1,8 @@
+{
+  for (int i=0; i < geometries.size(); ++i) {
+    Geometry geom=geometries.get(i);
+    geom.setName(node.getName() + (i > 0 ? "-" + i : ""));
+    geom.updateModelBound();
+    node.attachChild(geom);
+  }
+}

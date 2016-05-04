@@ -1,0 +1,19 @@
+{
+  if (otherObject instanceof FbxTexture) {
+    FbxTexture tex=(FbxTexture)otherObject;
+    if (tex.texture == null || material == null)     return;
+switch (propertyName) {
+case "DiffuseColor":
+      material.setTexture("DiffuseMap",tex.texture);
+    material.setColor("Diffuse",ColorRGBA.White);
+  break;
+case "SpecularColor":
+material.setTexture("SpecularMap",tex.texture);
+material.setColor("Specular",ColorRGBA.White);
+break;
+case "NormalMap":
+material.setTexture("NormalMap",tex.texture);
+break;
+}
+}
+}

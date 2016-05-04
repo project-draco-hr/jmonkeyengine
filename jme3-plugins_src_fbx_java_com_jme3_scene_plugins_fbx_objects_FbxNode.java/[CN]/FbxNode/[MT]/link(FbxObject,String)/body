@@ -1,0 +1,19 @@
+{
+  if (child instanceof FbxAnimNode) {
+    FbxAnimNode anim=(FbxAnimNode)child;
+switch (propertyName) {
+case "Lcl Translation":
+      animTranslations.put(anim.layerId,anim);
+    lastAnimTranslation=anim;
+  break;
+case "Lcl Rotation":
+animRotations.put(anim.layerId,anim);
+lastAnimRotation=anim;
+break;
+case "Lcl Scaling":
+animScales.put(anim.layerId,anim);
+lastAnimScale=anim;
+break;
+}
+}
+}

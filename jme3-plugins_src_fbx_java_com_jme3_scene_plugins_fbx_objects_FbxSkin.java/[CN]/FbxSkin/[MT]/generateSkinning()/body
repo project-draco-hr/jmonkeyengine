@@ -1,0 +1,18 @@
+{
+  for (  FbxMesh fbxMesh : toSkin) {
+    if (fbxMesh.geometries == null)     continue;
+    Mesh firstMesh=fbxMesh.geometries.get(0).getMesh();
+    int maxWeightsPerVert=generateBoneData(firstMesh,fbxMesh);
+    for (int i=0; i < fbxMesh.geometries.size(); ++i) {
+      Mesh mesh=fbxMesh.geometries.get(i).getMesh();
+      if (mesh != firstMesh) {
+        mesh.setBuffer(firstMesh.getBuffer(VertexBuffer.Type.BoneWeight));
+        mesh.setBuffer(firstMesh.getBuffer(VertexBuffer.Type.BoneIndex));
+        mesh.setBuffer(firstMesh.getBuffer(VertexBuffer.Type.HWBoneWeight));
+        mesh.setBuffer(firstMesh.getBuffer(VertexBuffer.Type.HWBoneIndex));
+      }
+      mesh.setMaxNumWeights(maxWeightsPerVert);
+      mesh.generateBindPose(true);
+    }
+  }
+}

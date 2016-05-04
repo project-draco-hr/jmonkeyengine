@@ -1,0 +1,19 @@
+{
+  for (  FbxBindPose pose : bindMap.values())   pose.fillBindTransforms();
+  if (limbMap == null)   return;
+  List<Bone> bones=new ArrayList<>();
+  for (  FbxNode limb : limbMap.values()) {
+    if (limb.bone != null) {
+      bones.add(limb.bone);
+      limb.buildBindPoseBoneTransform();
+    }
+  }
+  skeleton=new Skeleton(bones.toArray(new Bone[bones.size()]));
+  skeleton.setBindingPose();
+  for (  FbxNode limb : limbMap.values())   limb.setSkeleton(skeleton);
+  for (  FbxSkin skin : skinMap.values())   skin.generateSkinning();
+  animControl=new AnimControl(skeleton);
+  sceneNode.addControl(animControl);
+  SkeletonControl control=new SkeletonControl(skeleton);
+  sceneNode.addControl(control);
+}

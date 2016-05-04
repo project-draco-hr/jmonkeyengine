@@ -1,0 +1,14 @@
+{
+  if (bone != null) {
+    Matrix4f t=bindTransform;
+    if (t != null) {
+      Matrix4f parentMatrix=parentFbxNode != null ? parentFbxNode.bindTransform : Matrix4f.IDENTITY;
+      if (parentMatrix == null)       parentMatrix=node.getLocalToWorldMatrix(null);
+      t=parentMatrix.invert().multLocal(t);
+      bone.setBindTransforms(t.toTranslationVector(),t.toRotationQuat(),t.toScaleVector());
+    }
+ else {
+      bone.setBindTransforms(node.getLocalTranslation(),node.getLocalRotation(),node.getLocalScale());
+    }
+  }
+}

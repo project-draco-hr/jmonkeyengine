@@ -1,14 +1,49 @@
 {
+  FbxObject obj=null;
   for (  FbxElement e : element.children) {
-    if (e.id.equals("Geometry"))     loadGeometry(e);
- else     if (e.id.equals("Material"))     loadMaterial(e);
- else     if (e.id.equals("Model"))     loadModel(e);
- else     if (e.id.equals("Pose"))     loadPose(e);
- else     if (e.id.equals("Texture"))     loadTexture(e);
- else     if (e.id.equals("Video"))     loadImage(e);
- else     if (e.id.equals("Deformer"))     loadDeformer(e);
- else     if (e.id.equals("AnimationLayer"))     loadAnimLayer(e);
- else     if (e.id.equals("AnimationCurve"))     loadAnimCurve(e);
- else     if (e.id.equals("AnimationCurveNode"))     loadAnimNode(e);
-  }
+switch (e.id) {
+case "Geometry":
+      FbxMesh mesh=new FbxMesh(this,e);
+    obj=mesh;
+  if (mesh.geometries != null)   geomMap.put(mesh.id,mesh);
+break;
+case "Material":
+obj=new FbxMaterial(this,e);
+break;
+case "Model":
+FbxNode node=new FbxNode(this,e);
+obj=node;
+modelMap.put(node.id,node);
+if (node.isLimb()) limbMap.put(node.id,node);
+break;
+case "Pose":
+FbxBindPose pose=new FbxBindPose(this,e);
+obj=pose;
+bindMap.put(pose.id,pose);
+break;
+case "Texture":
+obj=new FbxTexture(this,e);
+break;
+case "Video":
+obj=new FbxImage(this,e);
+break;
+case "Deformer":
+obj=loadDeformer(e);
+break;
+case "AnimationLayer":
+FbxObject layer=new FbxObject(this,e);
+obj=layer;
+alayerMap.put(layer.id,layer);
+break;
+case "AnimationCurve":
+obj=new FbxAnimCurve(this,e);
+break;
+case "AnimationCurveNode":
+obj=new FbxAnimNode(this,e);
+break;
+default :
+obj=null;
+}
+if (obj != null) allObjects.put(obj.id,obj);
+}
 }

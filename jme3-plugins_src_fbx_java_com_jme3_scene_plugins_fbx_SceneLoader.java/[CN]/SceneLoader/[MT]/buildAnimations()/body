@@ -1,0 +1,108 @@
+{
+  if (skeleton == null)   return;
+  if (animList == null || animList.list.size() == 0) {
+    animList=new AnimationList();
+    for (    long layerId : alayerMap.keySet()) {
+      FbxObject layer=alayerMap.get(layerId);
+      animList.add(layer.name,layer.name,0,-1);
+    }
+  }
+  HashMap<String,Animation> anims=new HashMap<String,Animation>();
+  for (  AnimInverval animInfo : animList.list) {
+    float realLength=0;
+    float length=(animInfo.lastFrame - animInfo.firstFrame) / this.animFrameRate;
+    float animStart=animInfo.firstFrame / this.animFrameRate;
+    float animStop=animInfo.lastFrame / this.animFrameRate;
+    Animation anim=new Animation(animInfo.name,length);
+    long sourceLayerId=0L;
+    for (    long layerId : alayerMap.keySet()) {
+      FbxObject layer=alayerMap.get(layerId);
+      if (layer.name.equals(animInfo.layerName)) {
+        sourceLayerId=layerId;
+        break;
+      }
+    }
+    for (    FbxNode limb : limbMap.values()) {
+      Set<Long> stamps=new TreeSet<Long>();
+      FbxAnimNode animTranslation=limb.animTranslation(sourceLayerId);
+      FbxAnimNode animRotation=limb.animRotation(sourceLayerId);
+      FbxAnimNode animScale=limb.animScale(sourceLayerId);
+      boolean haveTranslation=haveAnyChannel(animTranslation);
+      boolean haveRotation=haveAnyChannel(animRotation);
+      boolean haveScale=haveAnyChannel(animScale);
+      if (haveTranslation)       animTranslation.exportTimes(stamps);
+      if (haveRotation)       animRotation.exportTimes(stamps);
+      if (haveScale)       animScale.exportTimes(stamps);
+      if (stamps.isEmpty())       continue;
+      long[] keyTimes=new long[stamps.size()];
+      int cnt=0;
+      for (      long t : stamps)       keyTimes[cnt++]=t;
+      int firstKeyIndex=0;
+      int lastKeyIndex=keyTimes.length - 1;
+      for (int i=0; i < keyTimes.length; ++i) {
+        float time=(float)(((double)keyTimes[i]) * secondsPerUnit);
+        if (time <= animStart)         firstKeyIndex=i;
+        if (time >= animStop && animStop >= 0) {
+          lastKeyIndex=i;
+          break;
+        }
+      }
+      int keysCount=lastKeyIndex - firstKeyIndex + 1;
+      if (keysCount <= 0)       continue;
+      float[] times=new float[keysCount];
+      Vector3f[] translations=new Vector3f[keysCount];
+      Quaternion[] rotations=new Quaternion[keysCount];
+      Vector3f[] scales=null;
+      for (int i=0; i < keysCount; ++i) {
+        int keyIndex=firstKeyIndex + i;
+        float time=(float)(((double)keyTimes[keyIndex]) * secondsPerUnit);
+        times[i]=time - animStart;
+        realLength=Math.max(realLength,times[i]);
+      }
+      if (haveTranslation) {
+        for (int i=0; i < keysCount; ++i) {
+          int keyIndex=firstKeyIndex + i;
+          FbxAnimNode n=animTranslation;
+          Vector3f tvec=n.getValue(keyTimes[keyIndex],n.value).subtractLocal(n.value);
+          translations[i]=tvec.divideLocal(unitSize);
+        }
+      }
+ else {
+        for (int i=0; i < keysCount; ++i)         translations[i]=Vector3f.ZERO;
+      }
+      RotationOrder ro=RotationOrder.EULER_XYZ;
+      if (haveRotation) {
+        for (int i=0; i < keysCount; ++i) {
+          int keyIndex=firstKeyIndex + i;
+          FbxAnimNode n=animRotation;
+          Vector3f tvec=n.getValue(keyTimes[keyIndex],n.value);
+          rotations[i]=ro.rotate(tvec);
+        }
+      }
+ else {
+        for (int i=0; i < keysCount; ++i)         rotations[i]=Quaternion.IDENTITY;
+      }
+      if (haveScale) {
+        scales=new Vector3f[keysCount];
+        for (int i=0; i < keysCount; ++i) {
+          int keyIndex=firstKeyIndex + i;
+          FbxAnimNode n=animScale;
+          Vector3f tvec=n.getValue(keyTimes[keyIndex],n.value);
+          scales[i]=tvec;
+        }
+      }
+      BoneTrack track=null;
+      if (haveScale)       track=new BoneTrack(limb.boneIndex,times,translations,rotations,scales);
+ else       track=new BoneTrack(limb.boneIndex,times,translations,rotations);
+      anim.addTrack(track);
+    }
+    if (realLength != length && animInfo.lastFrame == -1) {
+      Track[] tracks=anim.getTracks();
+      if (tracks == null || tracks.length == 0)       continue;
+      anim=new Animation(animInfo.name,realLength);
+      for (      Track track : tracks)       anim.addTrack(track);
+    }
+    anims.put(anim.getName(),anim);
+  }
+  animControl.setAnimations(anims);
+}

@@ -1,0 +1,10 @@
+{
+  super(scene,element);
+  for (  FbxElement e : element.children) {
+switch (e.id) {
+case "SkinningType":
+      skinningType=(String)e.properties.get(0);
+    break;
+}
+}
+}

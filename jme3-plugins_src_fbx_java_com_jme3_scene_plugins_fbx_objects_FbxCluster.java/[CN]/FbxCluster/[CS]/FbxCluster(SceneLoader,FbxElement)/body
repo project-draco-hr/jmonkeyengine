@@ -1,0 +1,19 @@
+{
+  super(scene,element);
+  for (  FbxElement e : element.children) {
+switch (e.id) {
+case "Indexes":
+      indexes=(int[])e.properties.get(0);
+    break;
+case "Weights":
+  weights=(double[])e.properties.get(0);
+break;
+case "Transform":
+transform=(double[])e.properties.get(0);
+break;
+case "TransformLink":
+transformLink=(double[])e.properties.get(0);
+break;
+}
+}
+}

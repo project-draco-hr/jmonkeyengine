@@ -1,0 +1,98 @@
+{
+  super(scene,element);
+  node=new Node(name);
+  Vector3f translationLocalRaw=new Vector3f();
+  Vector3f rotationOffsetRaw=new Vector3f();
+  Vector3f rotationPivotRaw=new Vector3f();
+  Vector3f rotationPreRaw=new Vector3f();
+  Vector3f rotationLocalRaw=new Vector3f();
+  Vector3f rotationPostRaw=new Vector3f();
+  Vector3f scaleOffsetRaw=new Vector3f();
+  Vector3f scalePivotRaw=new Vector3f();
+  Vector3f scaleLocalRaw=new Vector3f(1,1,1);
+  for (  FbxElement prop : element.getFbxProperties()) {
+    double x, y, z;
+    String propName=(String)prop.properties.get(0);
+switch (propName) {
+case "RotationOrder":
+      rotationOrder=RotationOrder.values[(Integer)prop.properties.get(4)];
+    break;
+case "Lcl Translation":
+  readVectorFromProp(translationLocalRaw,prop);
+break;
+case "Lcl Rotation":
+readVectorFromProp(rotationLocalRaw,prop);
+break;
+case "Lcl Scaling":
+readVectorFromProp(scaleLocalRaw,prop);
+break;
+case "PreRotation":
+readVectorFromProp(rotationPreRaw,prop);
+break;
+case "RotationActive":
+rotationActive=((Number)prop.properties.get(4)).intValue() == 1;
+break;
+case "RotationPivot":
+readVectorFromProp(rotationPivotRaw,prop);
+break;
+case "PostRotation":
+readVectorFromProp(rotationPostRaw,prop);
+break;
+case "ScaleOffset":
+readVectorFromProp(scaleOffsetRaw,prop);
+break;
+case "ScalePivot":
+readVectorFromProp(scalePivotRaw,prop);
+break;
+case "U":
+String userDataKey=(String)prop.properties.get(0);
+String userDataType=(String)prop.properties.get(1);
+Object userDataValue;
+if (userDataType.equals("KString")) {
+userDataValue=(String)prop.properties.get(4);
+}
+ else if (userDataType.equals("int")) {
+userDataValue=(Integer)prop.properties.get(4);
+}
+ else if (userDataType.equals("double")) {
+userDataValue=((Double)prop.properties.get(4)).floatValue();
+}
+ else if (userDataType.equals("Vector")) {
+x=(Double)prop.properties.get(4);
+y=(Double)prop.properties.get(5);
+z=(Double)prop.properties.get(6);
+userDataValue=new Vector3f((float)x,(float)y,(float)z);
+}
+ else {
+scene.warning("Unsupported user data type: " + userDataType + ". Ignoring.");
+continue;
+}
+node.setUserData(userDataKey,userDataValue);
+break;
+}
+}
+FbxElement cullingElement=element.getChildById("Culling");
+if (cullingElement != null && cullingElement.properties.get(0).equals("CullingOff")) cullMode=FaceCullMode.Off;
+RotationOrder rotOrder=rotationActive ? rotationOrder : RotationOrder.EULER_XYZ;
+Matrix4f transformMatrix=new Matrix4f();
+transformMatrix.setTranslation(translationLocalRaw.x + rotationOffsetRaw.x + rotationPivotRaw.x,translationLocalRaw.y + rotationOffsetRaw.y + rotationPivotRaw.y,translationLocalRaw.z + rotationOffsetRaw.z + rotationPivotRaw.z);
+if (rotationActive) {
+Quaternion postRotation=rotOrder.rotate(rotationPostRaw.x,rotationPostRaw.y,rotationPostRaw.z);
+Quaternion localRotation=rotOrder.rotate(rotationLocalRaw.x,rotationLocalRaw.y,rotationLocalRaw.z);
+Quaternion preRotation=rotOrder.rotate(rotationPreRaw.x,rotationPreRaw.y,rotationPreRaw.z);
+postRotation.multLocal(localRotation).multLocal(preRotation);
+transformMatrix.multLocal(postRotation);
+}
+ else {
+transformMatrix.multLocal(rotOrder.rotate(rotationLocalRaw.x,rotationLocalRaw.y,rotationLocalRaw.z));
+}
+Matrix4f mat=new Matrix4f();
+mat.setTranslation(scaleOffsetRaw.x + scalePivotRaw.x - rotationPivotRaw.x,scaleOffsetRaw.y + scalePivotRaw.y - rotationPivotRaw.y,scaleOffsetRaw.z + scalePivotRaw.z - rotationPivotRaw.z);
+transformMatrix.multLocal(mat);
+transformMatrix.scale(scaleLocalRaw);
+transformMatrix.scale(new Vector3f(scene.unitSize,scene.unitSize,scene.unitSize));
+mat.setTranslation(scalePivotRaw.negate());
+transformMatrix.multLocal(mat);
+localTransform=new Transform(transformMatrix.toTranslationVector(),transformMatrix.toRotationQuat(),transformMatrix.toScaleVector());
+node.setLocalTransform(localTransform);
+}
