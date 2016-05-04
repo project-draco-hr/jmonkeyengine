@@ -1,0 +1,24 @@
+{
+  if (!initialCalibrationComplete) {
+    for (    IntMap.Entry<Joystick> entry : joystickMap) {
+      for (      JoystickAxis axis : entry.getValue().getAxes()) {
+        if (axis instanceof SensorJoystickAxis) {
+          logger.log(Level.INFO,"Calibrating Axis: {0}",axis.toString());
+          ((SensorJoystickAxis)axis).calibrateCenter();
+        }
+      }
+    }
+    initialCalibrationComplete=true;
+  }
+  if (enableGeometryRotation) {
+    rotationQuat.fromAngles(anglesCurrent);
+    rotationQuat.normalizeLocal();
+    if (useAbsolute) {
+      geomZero.setLocalRotation(rotationQuat);
+    }
+ else {
+      geomZero.rotate(rotationQuat);
+    }
+    anglesCurrent[0]=anglesCurrent[1]=anglesCurrent[2]=0f;
+  }
+}

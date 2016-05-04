@@ -1,0 +1,22 @@
+{
+  if (string.equalsIgnoreCase("MouseClick") && pressed) {
+    for (    IntMap.Entry<Joystick> entry : joystickMap) {
+      for (      JoystickAxis axis : entry.getValue().getAxes()) {
+        if (axis instanceof SensorJoystickAxis) {
+          logger.log(Level.INFO,"Calibrating Axis: {0}",axis.toString());
+          ((SensorJoystickAxis)axis).calibrateCenter();
+        }
+      }
+    }
+    if (enableRumble) {
+      for (      IntMap.Entry<Joystick> entry : joystickMap) {
+        rumbleAmount+=0.1f;
+        if (rumbleAmount > 1f + FastMath.ZERO_TOLERANCE) {
+          rumbleAmount=0f;
+        }
+        logger.log(Level.INFO,"rumbling with amount: {0}",rumbleAmount);
+        entry.getValue().rumble(rumbleAmount);
+      }
+    }
+  }
+}

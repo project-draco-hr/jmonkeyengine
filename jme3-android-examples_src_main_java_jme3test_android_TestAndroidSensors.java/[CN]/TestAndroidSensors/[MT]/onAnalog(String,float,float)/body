@@ -1,0 +1,36 @@
+{
+  logger.log(Level.INFO,"onAnalog for {0}, value: {1}, tpf: {2}",new Object[]{string,value,tpf});
+  float scaledValue=value;
+  if (string.equalsIgnoreCase(ORIENTATION_X_PLUS)) {
+    if (useAbsolute) {
+      anglesCurrent[0]=(scaledValue / tpf * FastMath.HALF_PI);
+    }
+ else {
+      anglesCurrent[0]+=scaledValue * rotationSpeedX;
+    }
+  }
+  if (string.equalsIgnoreCase(ORIENTATION_X_MINUS)) {
+    if (useAbsolute) {
+      anglesCurrent[0]=(-scaledValue / tpf * FastMath.HALF_PI);
+    }
+ else {
+      anglesCurrent[0]-=scaledValue * rotationSpeedX;
+    }
+  }
+  if (string.equalsIgnoreCase(ORIENTATION_Y_PLUS)) {
+    if (useAbsolute) {
+      anglesCurrent[1]=(scaledValue / tpf * FastMath.HALF_PI);
+    }
+ else {
+      anglesCurrent[1]+=scaledValue * rotationSpeedY;
+    }
+  }
+  if (string.equalsIgnoreCase(ORIENTATION_Y_MINUS)) {
+    if (useAbsolute) {
+      anglesCurrent[1]=(-scaledValue / tpf * FastMath.HALF_PI);
+    }
+ else {
+      anglesCurrent[1]-=scaledValue * rotationSpeedY;
+    }
+  }
+}
