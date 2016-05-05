@@ -3,20 +3,20 @@
   try {
     Class<?> clazz=(Class<?>)Class.forName(className);
     if (Application.class.isAssignableFrom(clazz)) {
-      Log.i(TAG,"Class " + className + " is a jME Application");
+      Log.d(TAG,"Class " + className + " is a jME Application");
     }
  else {
       include=false;
-      Log.i(TAG,"Skipping Class " + className + ". Not a jME Application");
+      Log.d(TAG,"Skipping Class " + className + ". Not a jME Application");
     }
   }
  catch (  NoClassDefFoundError ncdf) {
     include=false;
-    Log.i(TAG,"Skipping Class " + className + ". No Class Def found.");
+    Log.d(TAG,"Skipping Class " + className + ". No Class Def found.");
   }
 catch (  ClassNotFoundException cnfe) {
     include=false;
-    Log.i(TAG,"Skipping Class " + className + ". Class not found.");
+    Log.d(TAG,"Skipping Class " + className + ". Class not found.");
   }
   return include;
 }

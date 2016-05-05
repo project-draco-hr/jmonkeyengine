@@ -1,7 +1,7 @@
 {
   super.onCreate(savedInstanceState);
   if (savedInstanceState != null) {
-    Log.i(TAG,"Restoring selections in onCreate: " + "position: " + savedInstanceState.getInt(SELECTED_LIST_POSITION,0) + "class: "+ savedInstanceState.getString(SELECTED_APP_CLASS));
+    Log.d(TAG,"Restoring selections in onCreate: " + "position: " + savedInstanceState.getInt(SELECTED_LIST_POSITION,0) + "class: "+ savedInstanceState.getString(SELECTED_APP_CLASS));
     currentPosition=savedInstanceState.getInt(SELECTED_LIST_POSITION,0);
     currentSelection=savedInstanceState.getString(SELECTED_APP_CLASS);
     enableMouseEvents=savedInstanceState.getBoolean(ENABLE_MOUSE_EVENTS,true);
@@ -18,7 +18,7 @@
   exclusions.add("$");
   exclusions.add("TestChooser");
   exclusions.add("awt");
-  Log.i(TAG,"Composing Test list...");
+  Log.d(TAG,"Composing Test list...");
   ApplicationInfo ai=this.getApplicationInfo();
   String classPath=ai.sourceDir;
   DexFile dex=null;
@@ -45,10 +45,10 @@
     }
   }
   arrayAdapter=new CustomArrayAdapter(this,R.layout.test_chooser_row,classNames);
-  Log.i(TAG,"Setting Adapter Background Resource IDs");
+  Log.d(TAG,"Setting Adapter Background Resource IDs");
   arrayAdapter.setSelectedBackgroundResource(R.drawable.selected);
   arrayAdapter.setNonSelectedBackgroundResource(R.drawable.nonselected);
-  Log.i(TAG,"Setting ListView Adapter");
+  Log.d(TAG,"Setting ListView Adapter");
   listClasses.setAdapter(arrayAdapter);
   setSelection(currentPosition);
   listClasses.setOnItemClickListener(this);

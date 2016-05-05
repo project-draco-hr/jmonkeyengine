@@ -1,6 +1,6 @@
 {
   if (view.equals(btnOK)) {
-    Log.i(TAG,"User selected OK for class: " + currentSelection);
+    Log.d(TAG,"User selected OK for class: " + currentSelection);
     Intent intent=new Intent(this,TestActivity.class);
     Bundle args=new Bundle();
     args.putString(MainActivity.SELECTED_APP_CLASS,currentSelection);
@@ -12,7 +12,7 @@
     startActivity(intent);
   }
  else   if (view.equals(btnCancel)) {
-    Log.i(TAG,"User selected Cancel");
+    Log.d(TAG,"User selected Cancel");
     finish();
   }
 }
