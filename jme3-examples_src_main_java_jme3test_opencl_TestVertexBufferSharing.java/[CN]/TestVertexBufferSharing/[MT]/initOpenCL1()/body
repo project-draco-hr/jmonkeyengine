@@ -22,13 +22,13 @@ catch (  Exception ex) {
     String source="" + "__kernel void ScaleKernel(__global float* vb, float scale)\n" + "{\n"+ "  int idx = get_global_id(0);\n"+ "  float3 pos = vload3(idx, vb);\n"+ "  pos *= scale;\n"+ "  vstore3(pos, idx, vb);\n"+ "}\n";
     program=clContext.createProgramFromSourceCode(source);
     program.build();
-    ByteBuffer bb=program.getBinary(device);
-    byte[] bytes=new byte[bb.remaining()];
-    bb.get(bytes);
     try {
+      ByteBuffer bb=program.getBinary(device);
+      byte[] bytes=new byte[bb.remaining()];
+      bb.get(bytes);
       Files.write(binaryFile.toPath(),bytes);
     }
- catch (    IOException ex) {
+ catch (    UnsupportedOperationException|OpenCLException|IOException ex) {
       LOG.log(Level.SEVERE,"Unable to save program binaries",ex);
     }
     LOG.info("create new program from sources");

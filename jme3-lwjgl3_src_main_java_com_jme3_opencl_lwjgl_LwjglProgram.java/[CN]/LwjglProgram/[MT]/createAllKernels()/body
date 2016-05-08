@@ -1,0 +1,14 @@
+{
+  Utils.tempBuffers[0].b16i.rewind();
+  int ret=CL10.clCreateKernelsInProgram(program,null,Utils.tempBuffers[0].b16i);
+  Utils.checkError(ret,"clCreateKernelsInProgram");
+  int count=Utils.tempBuffers[0].b16i.get(0);
+  PointerBuffer buf=PointerBuffer.allocateDirect(count);
+  ret=CL10.clCreateKernelsInProgram(program,buf,null);
+  Utils.checkError(ret,"clCreateKernelsInProgram");
+  Kernel[] kx=new Kernel[count];
+  for (int i=0; i < count; ++i) {
+    kx[i]=new LwjglKernel(buf.get());
+  }
+  return kx;
+}

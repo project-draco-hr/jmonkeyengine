@@ -1,0 +1,37 @@
+{
+switch (type) {
+case CL10.CL_FLOAT:
+    return ImageChannelType.FLOAT;
+case CL10.CL_HALF_FLOAT:
+  return ImageChannelType.HALF_FLOAT;
+case CL10.CL_SIGNED_INT16:
+return ImageChannelType.SIGNED_INT16;
+case CL10.CL_SIGNED_INT32:
+return ImageChannelType.SIGNED_INT32;
+case CL10.CL_SIGNED_INT8:
+return ImageChannelType.SIGNED_INT8;
+case CL10.CL_SNORM_INT16:
+return ImageChannelType.SNORM_INT16;
+case CL10.CL_SNORM_INT8:
+return ImageChannelType.SNORM_INT8;
+case CL10.CL_UNORM_INT8:
+return ImageChannelType.UNORM_INT8;
+case CL10.CL_UNORM_INT16:
+return ImageChannelType.UNORM_INT16;
+case CL10.CL_UNORM_INT_101010:
+return ImageChannelType.UNORM_INT_101010;
+case CL10.CL_UNORM_SHORT_555:
+return ImageChannelType.UNORM_SHORT_555;
+case CL10.CL_UNORM_SHORT_565:
+return ImageChannelType.UNORM_SHORT_565;
+case CL10.CL_UNSIGNED_INT16:
+return ImageChannelType.UNSIGNED_INT16;
+case CL10.CL_UNSIGNED_INT32:
+return ImageChannelType.UNSIGNED_INT32;
+case CL10.CL_UNSIGNED_INT8:
+return ImageChannelType.UNSIGNED_INT8;
+default :
+LOG.log(Level.WARNING,"Unknown image channel type id: {0}",type);
+return null;
+}
+}

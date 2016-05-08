@@ -1,0 +1,14 @@
+{
+switch (textureType) {
+case TwoDimensional:
+    return GL11.GL_TEXTURE_2D;
+case TwoDimensionalArray:
+  return GL30.GL_TEXTURE_2D_ARRAY;
+case ThreeDimensional:
+return GL12.GL_TEXTURE_3D;
+case CubeMap:
+return GL13.GL_TEXTURE_CUBE_MAP;
+default :
+throw new IllegalArgumentException("unknown texture type " + textureType);
+}
+}

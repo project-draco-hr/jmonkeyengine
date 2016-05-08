@@ -1,0 +1,8 @@
+{
+  if (context != 0) {
+    int ret=CL10.clReleaseContext(context);
+    context=0;
+    devices.clear();
+    Utils.reportError(ret,"clReleaseMemObject");
+  }
+}

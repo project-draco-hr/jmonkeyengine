@@ -1,0 +1,9 @@
+{
+  if (error != CL10.CL_SUCCESS) {
+    String errname=getErrorName(error);
+    if (errname == null) {
+      errname="UNKNOWN";
+    }
+    LOG.log(Level.WARNING,"OpenCL error in {0}: {1} (0x{2})",new Object[]{callName,errname,Integer.toHexString(error)});
+  }
+}

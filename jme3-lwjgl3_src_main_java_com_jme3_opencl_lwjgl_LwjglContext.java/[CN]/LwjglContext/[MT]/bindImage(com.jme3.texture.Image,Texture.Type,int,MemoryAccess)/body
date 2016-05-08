@@ -1,0 +1,12 @@
+{
+  int imageID=image.getId();
+  if (imageID == -1) {
+    throw new IllegalArgumentException("image was not yet uploaded to the GPU");
+  }
+  long memFlags=Utils.getMemoryAccessFlags(access);
+  int textureTarget=convertTextureType(textureType);
+  Utils.errorBuffer.rewind();
+  long mem=CL12GL.clCreateFromGLTexture(context,memFlags,textureTarget,miplevel,imageID,Utils.errorBuffer);
+  Utils.checkError(Utils.errorBuffer,"clCreateFromGLTexture");
+  return new LwjglImage(mem);
+}

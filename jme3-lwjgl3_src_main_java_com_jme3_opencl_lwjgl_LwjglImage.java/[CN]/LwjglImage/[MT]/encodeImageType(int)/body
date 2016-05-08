@@ -1,0 +1,18 @@
+{
+switch (type) {
+case CL12.CL_MEM_OBJECT_IMAGE1D:
+    return ImageType.IMAGE_1D;
+case CL12.CL_MEM_OBJECT_IMAGE1D_ARRAY:
+  return ImageType.IMAGE_1D_ARRAY;
+case CL12.CL_MEM_OBJECT_IMAGE1D_BUFFER:
+return ImageType.IMAGE_1D_BUFFER;
+case CL10.CL_MEM_OBJECT_IMAGE2D:
+return ImageType.IMAGE_2D;
+case CL12.CL_MEM_OBJECT_IMAGE2D_ARRAY:
+return ImageType.IMAGE_2D_ARRAY;
+case CL10.CL_MEM_OBJECT_IMAGE3D:
+return ImageType.IMAGE_3D;
+default :
+throw new com.jme3.opencl.OpenCLException("Unknown image type id: " + type);
+}
+}
