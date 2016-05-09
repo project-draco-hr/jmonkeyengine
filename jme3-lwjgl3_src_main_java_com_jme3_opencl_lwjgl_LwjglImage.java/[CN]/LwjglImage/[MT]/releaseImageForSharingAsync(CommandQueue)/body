@@ -1,4 +1,5 @@
 {
+  Utils.assertSharingPossible();
   Utils.pointerBuffers[0].rewind();
   long q=((LwjglCommandQueue)queue).getQueue();
   int ret=CL10GL.clEnqueueReleaseGLObjects(q,image,null,Utils.pointerBuffers[0]);
