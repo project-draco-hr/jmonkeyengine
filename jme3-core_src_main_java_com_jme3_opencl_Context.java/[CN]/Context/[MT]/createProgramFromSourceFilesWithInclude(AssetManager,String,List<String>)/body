@@ -4,8 +4,7 @@
   for (  String res : resources) {
     AssetInfo info=assetManager.locateAsset(new AssetKey<String>(res));
     if (info == null) {
-      LOG.log(Level.WARNING,"unable to load source file ''{0}''",res);
-      continue;
+      throw new AssetNotFoundException("Unable to load source file \"" + res + "\"");
     }
     try (BufferedReader reader=new BufferedReader(new InputStreamReader(info.openStream()))){
       while (true) {
@@ -20,5 +19,5 @@
       LOG.log(Level.WARNING,"unable to load source file '" + res + "'",ex);
     }
   }
-  return createProgramFromSourceCode(str.toString());
+  return createProgramFromSourceCodeWithDependencies(str.toString(),assetManager);
 }

@@ -1,0 +1,26 @@
+{
+  String ln;
+  while ((ln=reader.readLine()) != null) {
+    if (ln.trim().startsWith("#import ")) {
+      ln=ln.trim().substring(8).trim();
+      if (ln.startsWith("\"")) {
+        ln=ln.substring(1);
+      }
+      if (ln.endsWith("\"")) {
+        ln=ln.substring(0,ln.length() - 1);
+      }
+      AssetInfo info=assetManager.locateAsset(new AssetKey<String>(ln));
+      if (info == null) {
+        throw new AssetNotFoundException("Unable to load source file \"" + ln + "\"");
+      }
+      try (BufferedReader r=new BufferedReader(new InputStreamReader(info.openStream()))){
+        builder.append("//-- begin import ").append(ln).append(" --\n");
+        buildSourcesRec(r,builder,assetManager);
+        builder.append("//-- end import ").append(ln).append(" --\n");
+      }
+     }
+ else {
+      builder.append(ln).append('\n');
+    }
+  }
+}
