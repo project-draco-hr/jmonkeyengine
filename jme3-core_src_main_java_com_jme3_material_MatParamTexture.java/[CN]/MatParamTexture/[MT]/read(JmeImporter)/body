@@ -2,4 +2,5 @@
   super.read(im);
   InputCapsule ic=im.getCapsule(this);
   texture=(Texture)value;
+  colorSpace=(ColorSpace)ic.readEnum("colorSpace",ColorSpace.class,null);
 }
