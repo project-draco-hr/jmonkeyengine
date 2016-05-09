@@ -1,0 +1,11 @@
+{
+  if (name.equals("texture_unit")) {
+    return;
+  }
+  if (name.equals("value_int")) {
+    this.value=Integer.toString(value);
+  }
+ else {
+    throw new UnsupportedOperationException(name + " string material parameter not supported yet");
+  }
+}

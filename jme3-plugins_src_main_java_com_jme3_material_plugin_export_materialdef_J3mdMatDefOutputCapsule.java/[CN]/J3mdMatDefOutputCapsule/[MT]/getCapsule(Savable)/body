@@ -1,0 +1,15 @@
+{
+  if (object instanceof MatParam) {
+    if (object instanceof MatParamTexture && textureParam) {
+      textureParam=false;
+      return matParams.get(matParams.size() - 1);
+    }
+    if (object instanceof MatParamTexture) {
+      textureParam=true;
+    }
+    J3mdMatParamOutputCapsule matParamCapsule=new J3mdMatParamOutputCapsule(exporter);
+    matParams.add(matParamCapsule);
+    return matParamCapsule;
+  }
+  throw new IllegalArgumentException("Unsupported type : " + object.getClass().getName());
+}

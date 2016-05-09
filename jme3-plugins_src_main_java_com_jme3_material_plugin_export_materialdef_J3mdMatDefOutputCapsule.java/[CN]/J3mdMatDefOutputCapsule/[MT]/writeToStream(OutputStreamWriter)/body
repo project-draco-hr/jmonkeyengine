@@ -1,0 +1,9 @@
+{
+  out.write("MaterialDef " + name + " {\n");
+  out.write("    MaterialParameters {\n");
+  for (  J3mdOutputCapsuleAdapter matParam : matParams) {
+    matParam.writeToStream(out);
+  }
+  out.write("    }\n\n");
+  out.write("}\n");
+}

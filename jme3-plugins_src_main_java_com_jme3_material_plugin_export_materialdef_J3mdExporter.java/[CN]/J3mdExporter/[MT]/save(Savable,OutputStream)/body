@@ -1,0 +1,10 @@
+{
+  if (!(object instanceof MaterialDef)) {
+    throw new IllegalArgumentException("J3mdExporter can only save com.jme3.material.MaterialDef class");
+  }
+  OutputStreamWriter out=new OutputStreamWriter(f);
+  rootCapsule.clear();
+  object.write(this);
+  rootCapsule.writeToStream(out);
+  out.flush();
+}

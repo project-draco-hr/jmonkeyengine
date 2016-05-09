@@ -1,0 +1,29 @@
+{
+  if (name.equals("texture")) {
+    return;
+  }
+  if (name.equals("value_savable")) {
+    if (object instanceof Vector2f) {
+      Vector2f v=(Vector2f)object;
+      this.value=v.getX() + " " + v.getY();
+    }
+ else     if (object instanceof Vector3f) {
+      Vector3f v=(Vector3f)object;
+      this.value=v.getX() + " " + v.getY()+ " "+ v.getZ();
+    }
+ else     if (object instanceof Vector4f) {
+      Vector4f v=(Vector4f)object;
+      this.value=v.getX() + " " + v.getY()+ " "+ v.getZ()+ " "+ v.getW();
+    }
+ else     if (object instanceof ColorRGBA) {
+      ColorRGBA v=(ColorRGBA)object;
+      this.value=v.getRed() + " " + v.getGreen()+ " "+ v.getBlue()+ " "+ v.getAlpha();
+    }
+ else {
+      throw new UnsupportedOperationException(object.getClass() + " Unsupported type");
+    }
+  }
+ else {
+    throw new UnsupportedOperationException(name + " string material parameter not supported yet");
+  }
+}
