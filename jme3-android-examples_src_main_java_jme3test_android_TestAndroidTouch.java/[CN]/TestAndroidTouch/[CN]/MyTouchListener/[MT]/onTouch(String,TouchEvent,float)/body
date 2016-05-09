@@ -1,0 +1,13 @@
+{
+  String touchEvent=event.toString();
+  logger.log(Level.INFO,"TouchListenerEvent: {0}",touchEvent);
+switch (event.getType()) {
+case DOWN:
+case UP:
+case MOVE:
+case SCROLL:
+    textPhoneLocation.setText(String.valueOf(locationFormat.format(event.getX())) + ", " + String.valueOf(locationFormat.format(event.getY())));
+  break;
+default :
+}
+}

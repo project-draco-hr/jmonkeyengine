@@ -1,0 +1,15 @@
+{
+  logger.log(Level.INFO,"AnalogListenerEvent[name:{0}, value: {1}, tpf: {2}",new Object[]{name,value,tpf});
+  if (name.equalsIgnoreCase(mappingMouseXPos)) {
+    setValueX(value);
+  }
+ else   if (name.equalsIgnoreCase(mappingMouseXNeg)) {
+    setValueX(-value);
+  }
+ else   if (name.equalsIgnoreCase(mappingMouseYPos)) {
+    setValueY(value);
+  }
+ else   if (name.equalsIgnoreCase(mappingMouseYNeg)) {
+    setValueY(-value);
+  }
+}

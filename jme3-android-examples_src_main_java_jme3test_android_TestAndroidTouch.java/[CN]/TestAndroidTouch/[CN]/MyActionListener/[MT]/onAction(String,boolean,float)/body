@@ -1,0 +1,20 @@
+{
+  logger.log(Level.INFO,"ActionListenerEvent[name:{0}, pressed: {1}, tpf: {2}",new Object[]{name,isPressed,tpf});
+  if (name.equalsIgnoreCase(mappingMouseLeft)) {
+    if (isPressed) {
+      guiNode.attachChild(picMouseLeftButton);
+    }
+ else {
+      picMouseLeftButton.removeFromParent();
+    }
+    textCursorLocation.setText(String.valueOf(locationFormat.format(inputManager.getCursorPosition().getX())) + ", " + String.valueOf(locationFormat.format(inputManager.getCursorPosition().getY())));
+  }
+ else   if (name.startsWith(mappingKeyPrefix)) {
+    logger.log(Level.INFO,"key event name: {0}, pressed: {1}",new Object[]{name,isPressed});
+    if (isPressed) {
+      textKeyPressed.setText("Last Key Pressed: " + name.substring(mappingKeyPrefix.length(),name.length()));
+    }
+ else {
+    }
+  }
+}
