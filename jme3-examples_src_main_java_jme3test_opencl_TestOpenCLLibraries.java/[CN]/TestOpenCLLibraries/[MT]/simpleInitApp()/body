@@ -13,6 +13,7 @@
   str.append("OpenCL Context created:\n  Platform: ").append(clContext.getDevices().get(0).getPlatform().getName()).append("\n  Devices: ").append(clContext.getDevices());
   str.append("\nTests:");
   str.append("\n  Random numbers: ").append(testRandom(clContext,clQueue));
+  str.append("\n  Matrix3f: ").append(testMatrix3f(clContext,clQueue));
   clQueue.release();
   BitmapText txt1=new BitmapText(fnt);
   txt1.setText(str.toString());

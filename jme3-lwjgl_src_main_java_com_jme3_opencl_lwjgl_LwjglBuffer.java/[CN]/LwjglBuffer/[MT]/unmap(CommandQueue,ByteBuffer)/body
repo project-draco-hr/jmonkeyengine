@@ -1,4 +1,5 @@
 {
+  ptr.position(0);
   CLCommandQueue q=((LwjglCommandQueue)queue).getQueue();
   Utils.pointerBuffers[0].rewind();
   int ret=CL10.clEnqueueUnmapMemObject(q,buffer,ptr,null,Utils.pointerBuffers[0]);
