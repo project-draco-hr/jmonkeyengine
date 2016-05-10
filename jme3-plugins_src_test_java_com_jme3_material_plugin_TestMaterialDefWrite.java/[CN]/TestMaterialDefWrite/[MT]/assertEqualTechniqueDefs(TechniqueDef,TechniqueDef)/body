@@ -10,5 +10,20 @@
   assertEquals(def1.getDefineNames().length,def2.getDefineNames().length);
   assertEquals(def1.getRenderState(),def2.getRenderState());
   assertEquals(def1.getForcedRenderState(),def2.getForcedRenderState());
+  assertEquals(def1.isUsingShaderNodes(),def2.isUsingShaderNodes());
+  if (def1.isUsingShaderNodes()) {
+    for (int i=0; i < def1.getShaderNodes().size(); i++) {
+      ShaderNode sh1=def1.getShaderNodes().get(i);
+      ShaderNode sh2=def2.getShaderNodes().get(i);
+      assertEquals(sh1.getName(),sh2.getName());
+      assertEquals(sh1.getCondition(),sh2.getCondition());
+      assertEquals(sh1.getDefinition().getName(),sh2.getDefinition().getName());
+      for (int i1=0; i1 < sh1.getInputMapping().size(); i1++) {
+        VariableMapping im1=sh1.getInputMapping().get(i);
+        VariableMapping im2=sh2.getInputMapping().get(i);
+        assertEqualsVariableMapping(im1,im2);
+      }
+    }
+  }
   assertEquals(def1.isNoRender(),def2.isNoRender());
 }
