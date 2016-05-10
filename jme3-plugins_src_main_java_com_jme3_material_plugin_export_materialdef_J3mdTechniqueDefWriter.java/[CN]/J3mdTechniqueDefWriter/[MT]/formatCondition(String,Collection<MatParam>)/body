@@ -1,0 +1,15 @@
+{
+  String res=condition;
+  Pattern pattern=Pattern.compile("defined\\(([A-Z0-9]*)\\)");
+  Matcher m=pattern.matcher(condition);
+  while (m.find()) {
+    String match=m.group(0);
+    String defineName=m.group(1).toLowerCase();
+    for (    MatParam matParam : matParams) {
+      if (matParam.getName().toLowerCase().equals(defineName)) {
+        res=res.replace(match,matParam.getName());
+      }
+    }
+  }
+  return res;
+}

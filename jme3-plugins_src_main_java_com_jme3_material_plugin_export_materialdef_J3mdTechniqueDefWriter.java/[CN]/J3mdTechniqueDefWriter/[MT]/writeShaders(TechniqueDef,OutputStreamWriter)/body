@@ -1,0 +1,14 @@
+{
+  if (techniqueDef.getShaderProgramNames().size() > 0) {
+    for (    Shader.ShaderType shaderType : techniqueDef.getShaderProgramNames().keySet()) {
+      out.write("        ");
+      out.write(shaderType.name());
+      out.write("Shader ");
+      out.write(techniqueDef.getShaderProgramLanguage(shaderType));
+      out.write(": ");
+      out.write(techniqueDef.getShaderProgramNames().get(shaderType));
+      out.write("\n");
+    }
+    out.write("\n");
+  }
+}

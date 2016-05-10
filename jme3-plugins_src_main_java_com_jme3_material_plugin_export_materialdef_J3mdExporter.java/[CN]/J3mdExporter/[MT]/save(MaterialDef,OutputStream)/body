@@ -1,0 +1,19 @@
+{
+  OutputStreamWriter out=new OutputStreamWriter(f);
+  J3mdMatParamWriter paramWriter=new J3mdMatParamWriter();
+  J3mdTechniqueDefWriter techniqueWriter=new J3mdTechniqueDefWriter();
+  out.write("MaterialDef " + matDef.getName() + " {\n");
+  out.write("    MaterialParameters {\n");
+  for (  MatParam matParam : matDef.getMaterialParams()) {
+    paramWriter.write(matParam,out);
+  }
+  out.write("    }\n\n");
+  for (  String key : matDef.getTechniqueDefsNames()) {
+    List<TechniqueDef> defs=matDef.getTechniqueDefs(key);
+    for (    TechniqueDef def : defs) {
+      techniqueWriter.write(def,matDef.getMaterialParams(),out);
+    }
+  }
+  out.write("}\n");
+  out.flush();
+}

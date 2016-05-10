@@ -1,0 +1,48 @@
+{
+  out.write("    Technique");
+  if (!techniqueDef.getName().equals("Default")) {
+    out.write(" ");
+    out.write(techniqueDef.getName());
+  }
+  out.write(" {\n");
+  if (techniqueDef.getLightMode() != TechniqueDef.LightMode.Disable) {
+    out.write("        LightMode ");
+    out.write(techniqueDef.getLightMode().name());
+    out.write("\n\n");
+  }
+  if (techniqueDef.getShadowMode() != TechniqueDef.ShadowMode.Disable) {
+    out.write("        ShadowMode ");
+    out.write(techniqueDef.getShadowMode().name());
+    out.write("\n\n");
+  }
+  if (!techniqueDef.isUsingShaderNodes()) {
+    writeShaders(techniqueDef,out);
+  }
+  if (!techniqueDef.getWorldBindings().isEmpty()) {
+    writeWorldParams(techniqueDef,out);
+  }
+  if (techniqueDef.isUsingShaderNodes()) {
+    writeShaderNodes(techniqueDef,matParams,out);
+  }
+ else {
+    if (techniqueDef.getDefineNames().length != 0) {
+      writeDefines(techniqueDef,matParams,out);
+    }
+  }
+  RenderState rs=techniqueDef.getRenderState();
+  if (rs != null) {
+    out.write("        RenderState {\n");
+    writeRenderState(rs,out);
+    out.write("        }\n\n");
+  }
+  rs=techniqueDef.getForcedRenderState();
+  if (rs != null) {
+    out.write("        ForcedRenderState {\n");
+    writeRenderState(rs,out);
+    out.write("        }\n\n");
+  }
+  if (techniqueDef.isNoRender()) {
+    out.write("        NoRender\n\n");
+  }
+  out.write("    }\n");
+}

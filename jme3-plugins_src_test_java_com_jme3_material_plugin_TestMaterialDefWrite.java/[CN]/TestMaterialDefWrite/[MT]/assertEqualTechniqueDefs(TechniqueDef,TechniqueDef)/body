@@ -1,0 +1,14 @@
+{
+  assertEquals(def1.getName(),def2.getName());
+  assertEquals(def1.getLightMode(),def2.getLightMode());
+  assertEquals(def1.getShadowMode(),def2.getShadowMode());
+  assertEquals(def1.getShaderProgramNames().size(),def2.getShaderProgramNames().size());
+  assertEquals(def1.getWorldBindings().size(),def2.getWorldBindings().size());
+  for (  UniformBinding uniformBinding : def1.getWorldBindings()) {
+    assertTrue(def2.getWorldBindings().contains(uniformBinding));
+  }
+  assertEquals(def1.getDefineNames().length,def2.getDefineNames().length);
+  assertEquals(def1.getRenderState(),def2.getRenderState());
+  assertEquals(def1.getForcedRenderState(),def2.getForcedRenderState());
+  assertEquals(def1.isNoRender(),def2.isNoRender());
+}

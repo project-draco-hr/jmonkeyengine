@@ -1,0 +1,36 @@
+{
+  RenderState defRs=RenderState.DEFAULT;
+  if (rs.getBlendMode() != defRs.getBlendMode()) {
+    writeRenderStateAttribute(out,"Blend",rs.getBlendMode().name());
+  }
+  if (rs.isWireframe() != defRs.isWireframe()) {
+    writeRenderStateAttribute(out,"Wireframe",rs.isWireframe() ? "On" : "Off");
+  }
+  if (rs.getFaceCullMode() != defRs.getFaceCullMode()) {
+    writeRenderStateAttribute(out,"FaceCull",rs.getFaceCullMode().name());
+  }
+  if (rs.isDepthWrite() != defRs.isDepthWrite()) {
+    writeRenderStateAttribute(out,"DepthWrite",rs.isDepthWrite() ? "On" : "Off");
+  }
+  if (rs.isDepthTest() != defRs.isDepthTest()) {
+    writeRenderStateAttribute(out,"DepthTest",rs.isDepthTest() ? "On" : "Off");
+  }
+  if (rs.getBlendEquation() != defRs.getBlendEquation()) {
+    writeRenderStateAttribute(out,"BlendEquation",rs.getBlendEquation().name());
+  }
+  if (rs.getBlendEquationAlpha() != defRs.getBlendEquationAlpha()) {
+    writeRenderStateAttribute(out,"BlendEquationAlpha",rs.getBlendEquationAlpha().name());
+  }
+  if (rs.getPolyOffsetFactor() != defRs.getPolyOffsetFactor() || rs.getPolyOffsetUnits() != defRs.getPolyOffsetUnits()) {
+    writeRenderStateAttribute(out,"PolyOffset",rs.getPolyOffsetFactor() + " " + rs.getPolyOffsetUnits());
+  }
+  if (rs.isColorWrite() != defRs.isColorWrite()) {
+    writeRenderStateAttribute(out,"ColorWrite",rs.isColorWrite() ? "On" : "Off");
+  }
+  if (rs.getDepthFunc() != defRs.getDepthFunc()) {
+    writeRenderStateAttribute(out,"DepthFunc",rs.getDepthFunc().name());
+  }
+  if (rs.getLineWidth() != defRs.getLineWidth()) {
+    writeRenderStateAttribute(out,"LineWidth",Float.toString(rs.getLineWidth()));
+  }
+}

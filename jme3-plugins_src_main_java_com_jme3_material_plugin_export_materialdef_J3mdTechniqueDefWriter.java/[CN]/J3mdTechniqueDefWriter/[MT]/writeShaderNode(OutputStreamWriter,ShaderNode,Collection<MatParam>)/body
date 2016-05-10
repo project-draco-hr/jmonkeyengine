@@ -1,0 +1,26 @@
+{
+  out.write("            ShaderNode ");
+  out.write(shaderNode.getName());
+  out.write(" {\n");
+  if (shaderNode.getCondition() != null) {
+    out.write("                Condition: ");
+    out.write(formatCondition(shaderNode.getCondition(),matParams));
+    out.write("\n");
+  }
+  out.write("                Definition: ");
+  out.write(shaderNode.getDefinition().getName());
+  out.write(": ");
+  out.write(shaderNode.getDefinition().getPath());
+  out.write("\n");
+  out.write("                InputMappings{\n");
+  for (  VariableMapping mapping : shaderNode.getInputMapping()) {
+    writeVariableMapping(out,shaderNode,mapping,matParams);
+  }
+  out.write("                }\n");
+  out.write("                OutputMappings{\n");
+  for (  VariableMapping mapping : shaderNode.getOutputMapping()) {
+    writeVariableMapping(out,shaderNode,mapping,matParams);
+  }
+  out.write("                }\n");
+  out.write("            }\n");
+}

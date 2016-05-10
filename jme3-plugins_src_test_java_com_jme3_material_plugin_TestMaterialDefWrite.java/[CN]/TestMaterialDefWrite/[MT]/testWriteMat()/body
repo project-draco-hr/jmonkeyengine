@@ -1,5 +1,5 @@
 {
-  Material mat=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  Material mat=new Material(assetManager,"example.j3md");
   final ByteArrayOutputStream stream=new ByteArrayOutputStream();
   J3mdExporter exporter=new J3mdExporter();
   try {
@@ -8,6 +8,7 @@
  catch (  IOException e) {
     e.printStackTrace();
   }
+  System.err.println(stream.toString());
   J3MLoader loader=new J3MLoader();
   AssetInfo info=new AssetInfo(assetManager,new AssetKey("test")){
     @Override public InputStream openStream(){
@@ -17,9 +18,18 @@
 ;
   MaterialDef matDef=(MaterialDef)loader.load(info);
   MaterialDef ref=mat.getMaterialDef();
-  for (  MatParam matParam : matDef.getMaterialParams()) {
-    MatParam refParam=ref.getMaterialParam(matParam.getName());
+  for (  MatParam refParam : ref.getMaterialParams()) {
+    MatParam matParam=matDef.getMaterialParam(refParam.getName());
     assertTrue(refParam != null);
-    assertTrue(refParam.equals(matParam));
+    assertEquals(refParam,matParam);
+  }
+  for (  String key : ref.getTechniqueDefsNames()) {
+    List<TechniqueDef> refDefs=ref.getTechniqueDefs(key);
+    List<TechniqueDef> defs=matDef.getTechniqueDefs(key);
+    assertNotNull(defs);
+    assertTrue(refDefs.size() == defs.size());
+    for (int i=0; i < refDefs.size(); i++) {
+      assertEqualTechniqueDefs(refDefs.get(i),defs.get(i));
+    }
   }
 }

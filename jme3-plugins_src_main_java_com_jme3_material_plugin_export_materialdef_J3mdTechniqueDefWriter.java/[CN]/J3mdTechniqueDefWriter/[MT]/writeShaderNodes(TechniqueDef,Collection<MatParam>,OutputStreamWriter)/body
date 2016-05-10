@@ -1,0 +1,16 @@
+{
+  out.write("        VertexShaderNodes {\n");
+  for (  ShaderNode shaderNode : techniqueDef.getShaderNodes()) {
+    if (shaderNode.getDefinition().getType() == Shader.ShaderType.Vertex) {
+      writeShaderNode(out,shaderNode,matParams);
+    }
+  }
+  out.write("        }\n\n");
+  out.write("        FragmentShaderNodes {\n");
+  for (  ShaderNode shaderNode : techniqueDef.getShaderNodes()) {
+    if (shaderNode.getDefinition().getType() == Shader.ShaderType.Fragment) {
+      writeShaderNode(out,shaderNode,matParams);
+    }
+  }
+  out.write("        }\n\n");
+}

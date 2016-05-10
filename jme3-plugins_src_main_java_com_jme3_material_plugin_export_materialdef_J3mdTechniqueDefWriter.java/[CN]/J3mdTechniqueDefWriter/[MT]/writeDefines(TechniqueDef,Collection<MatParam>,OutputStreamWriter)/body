@@ -1,0 +1,15 @@
+{
+  out.write("        Defines {\n");
+  for (int i=0; i < techniqueDef.getDefineNames().length; i++) {
+    String matParamName=getMatParamNameForDefineId(techniqueDef,matParams,i);
+    if (matParamName != null) {
+      String defineName=techniqueDef.getDefineNames()[i];
+      out.write("            ");
+      out.write(defineName);
+      out.write(": ");
+      out.write(matParamName);
+      out.write("\n");
+    }
+  }
+  out.write("        }\n\n");
+}

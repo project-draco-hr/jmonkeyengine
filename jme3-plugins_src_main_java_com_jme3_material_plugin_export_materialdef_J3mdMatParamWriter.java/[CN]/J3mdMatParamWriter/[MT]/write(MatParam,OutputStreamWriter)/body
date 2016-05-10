@@ -1,0 +1,20 @@
+{
+  out.write("        ");
+  out.write(param.getVarType().name());
+  out.write(" ");
+  out.write(param.getName());
+  if (param instanceof MatParamTexture) {
+    MatParamTexture paramTex=(MatParamTexture)param;
+    String space=paramTex.getColorSpace() == ColorSpace.Linear ? "-LINEAR" : null;
+    if (space != null) {
+      out.write(" ");
+      out.write(space);
+    }
+  }
+  String value=formatValue(param);
+  if (value != null) {
+    out.write(" : ");
+    out.write(value);
+  }
+  out.write("\n");
+}

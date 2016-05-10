@@ -1,0 +1,9 @@
+{
+  out.write("        WorldParameters {\n");
+  for (  UniformBinding uniformBinding : techniqueDef.getWorldBindings()) {
+    out.write("            ");
+    out.write(uniformBinding.toString());
+    out.write("\n");
+  }
+  out.write("        }\n\n");
+}

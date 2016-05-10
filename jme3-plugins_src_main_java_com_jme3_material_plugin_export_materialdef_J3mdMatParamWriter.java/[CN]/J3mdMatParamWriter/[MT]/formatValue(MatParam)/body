@@ -1,0 +1,25 @@
+{
+  Object value=param.getValue();
+  if (value == null) {
+    return null;
+  }
+switch (param.getVarType()) {
+case Vector2:
+    Vector2f v2=(Vector2f)value;
+  return v2.getX() + " " + v2.getY();
+case Vector3:
+Vector3f v3=(Vector3f)value;
+return v3.getX() + " " + v3.getY()+ " "+ v3.getZ();
+case Vector4:
+if (value instanceof ColorRGBA) {
+ColorRGBA c=(ColorRGBA)value;
+return c.getRed() + " " + c.getGreen()+ " "+ c.getBlue()+ " "+ c.getAlpha();
+}
+ else {
+Vector4f v4=(Vector4f)value;
+return v4.getX() + " " + v4.getY()+ " "+ v4.getZ()+ " "+ v4.getW();
+}
+default :
+return value.toString();
+}
+}
