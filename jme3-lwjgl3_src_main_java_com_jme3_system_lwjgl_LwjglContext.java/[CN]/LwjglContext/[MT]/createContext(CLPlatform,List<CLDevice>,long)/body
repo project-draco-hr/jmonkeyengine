@@ -3,23 +3,17 @@
   final PointerBuffer properties=PointerBuffer.allocateDirect(propertyCount + devices.size());
 switch (org.lwjgl.system.Platform.get()) {
 case WINDOWS:
-    long wglContext=org.lwjgl.opengl.WGL.wglGetCurrentContext();
-  long wglDC=org.lwjgl.opengl.WGL.wglGetCurrentDC();
-properties.put(KHRGLSharing.CL_GL_CONTEXT_KHR).put(wglContext);
-properties.put(KHRGLSharing.CL_WGL_HDC_KHR).put(wglDC);
-break;
+    properties.put(KHRGLSharing.CL_GL_CONTEXT_KHR).put(org.lwjgl.glfw.GLFWNativeWGL.glfwGetWGLContext(window)).put(KHRGLSharing.CL_WGL_HDC_KHR).put(org.lwjgl.opengl.WGL.wglGetCurrentDC());
+  break;
 case LINUX:
-properties.put(KHRGLSharing.CL_GL_CONTEXT_KHR).put(org.lwjgl.opengl.GLX.glXGetCurrentContext());
-properties.put(KHRGLSharing.CL_GLX_DISPLAY_KHR).put(org.lwjgl.opengl.GLX.glXGetCurrentDrawable());
+properties.put(KHRGLSharing.CL_GL_CONTEXT_KHR).put(org.lwjgl.glfw.GLFWNativeGLX.glfwGetGLXContext(window)).put(KHRGLSharing.CL_GLX_DISPLAY_KHR).put(org.lwjgl.glfw.GLFWNativeX11.glfwGetX11Display());
 break;
 case MACOSX:
 properties.put(APPLEGLSharing.CL_CONTEXT_PROPERTY_USE_CGL_SHAREGROUP_APPLE).put(org.lwjgl.opengl.CGL.CGLGetShareGroup(org.lwjgl.opengl.CGL.CGLGetCurrentContext()));
-break;
-default :
-throw new UnsupportedOperationException("CL/GL context sharing is not supported on this platform.");
 }
 properties.put(CL_CONTEXT_PLATFORM).put(platform);
 properties.put(0);
+properties.flip();
 Utils.errorBuffer.rewind();
 PointerBuffer deviceBuffer=PointerBuffer.allocateDirect(devices.size());
 for (CLDevice d : devices) {

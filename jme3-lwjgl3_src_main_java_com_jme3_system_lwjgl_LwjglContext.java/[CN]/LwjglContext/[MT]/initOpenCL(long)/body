@@ -74,7 +74,7 @@
   logger.log(Level.INFO,"chosen platform: {0}",platform.getName());
   logger.log(Level.INFO,"chosen devices: {0}",choosenDevices);
   try {
-    long c=createContext(platform.getPlatform(),devices);
+    long c=createContext(platform.getPlatform(),devices,window);
     clContext=new com.jme3.opencl.lwjgl.LwjglContext(c,(List<LwjglDevice>)choosenDevices);
   }
  catch (  Exception ex) {
