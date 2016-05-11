@@ -3,7 +3,7 @@
     String code="" + "#import \"Common/OpenCL/Matrix3f.clh\"\n" + "\n"+ "__kernel void TestMatrix3f_1(__global char* result)\n"+ "{\n"+ "  mat3 id = mat3Identity();\n"+ "  mat3 m1 = mat3FromRows( (float3)(23,-3,10.4f), (float3)(5,-8,2.22f), (float3)(-1,0,34) );\n"+ "  mat3 m1Inv = mat3Invert(m1);\n"+ "  mat3 m1Res = mat3Mult(m1, m1Inv);\n"+ "  result[0] = mat3Equals(id, m1Res, 0.0001f) ? 1 : 0;\n"+ "}\n"+ "\n"+ "__kernel void TestMatrix3f_2(mat3 m1, float a, mat3 m2, mat3 mRes, __global char* result)\n"+ "{\n"+ "  mat3 m = mat3Transpose(m1);\n"+ "  m = mat3Add(mat3Scale(m, a), m2);\n"+ "  result[0] = mat3Equals(mRes, m, 0.01f) ? 1 : 0;\n"+ "}\n";
     Program program=clContext.createProgramFromSourceCodeWithDependencies(code,assetManager);
     program.build();
-    com.jme3.opencl.Buffer buffer=clContext.createBuffer(4 * 1);
+    com.jme3.opencl.Buffer buffer=clContext.createBuffer(1);
     Kernel testMatrix3fKernel1=program.createKernel("TestMatrix3f_1");
     testMatrix3fKernel1.Run1NoEvent(clQueue,new Kernel.WorkSize(1),buffer);
     ByteBuffer bb=buffer.map(clQueue,MappingAccess.MAP_READ_ONLY);
