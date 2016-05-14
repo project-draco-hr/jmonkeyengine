@@ -1,4 +1,9 @@
 {
-  int hash=5;
+  int hash=7;
+  hash=29 * hash + (name != null ? name.hashCode() : 0);
+  hash=29 * hash + (type != null ? type.hashCode() : 0);
+  hash=29 * hash + (nameSpace != null ? nameSpace.hashCode() : 0);
+  hash=29 * hash + (condition != null ? condition.hashCode() : 0);
+  hash=29 * hash + (multiplicity != null ? multiplicity.hashCode() : 0);
   return hash;
 }
