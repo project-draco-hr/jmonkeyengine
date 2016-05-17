@@ -27,15 +27,21 @@
   }
   TextureHelper textureHelper=blenderContext.getHelper(TextureHelper.class);
   loadedTextures=textureHelper.readTextureData(structure,new float[]{diffuseColor.r,diffuseColor.g,diffuseColor.b,diffuseColor.a},false);
-  boolean transparent=false;
-  if (diffuseColor != null) {
-    transparent=diffuseColor.a < 1.0f;
-    if (loadedTextures.size() > 0) {
-      diffuseColor.set(1,1,1,1);
+  long flag=((Number)structure.getFieldValue("flag")).longValue();
+  if ((flag & FLAG_TRANSPARENT) != 0) {
+    boolean transparent=false;
+    if (diffuseColor != null) {
+      transparent=diffuseColor.a < 1.0f;
+      if (loadedTextures.size() > 0) {
+        diffuseColor.set(1,1,1,1);
+      }
     }
+    if (specularColor != null) {
+      transparent=transparent || specularColor.a < 1.0f;
+    }
+    this.transparent=transparent;
   }
-  if (specularColor != null) {
-    transparent=transparent || specularColor.a < 1.0f;
+ else {
+    transparent=false;
   }
-  this.transparent=transparent;
 }
