@@ -1,0 +1,9 @@
+{
+  AssetKey key=info.getKey();
+  Spatial output=cache.get(key);
+  if (output == null) {
+    output=(Spatial)super.load(info);
+    cache.put(key,output);
+  }
+  return output.clone(false);
+}
