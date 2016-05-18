@@ -1,0 +1,9 @@
+{
+  offscreenDrawable.getContext().makeCurrent();
+  try {
+    super.initContextFirstTime();
+  }
+  finally {
+    offscreenDrawable.getContext().release();
+  }
+}

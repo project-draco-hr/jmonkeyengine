@@ -1,11 +1,13 @@
 {
-  GL gl=GLContext.getCurrentGL();
-  if (!gl.hasFullFBOSupport()) {
-    logger.severe("Offscreen surfaces are not supported.");
-    return;
+  final GLProfile profile;
+  if (settings.getRenderer().equals(AppSettings.JOGL_OPENGL_FORWARD_COMPATIBLE)) {
+    profile=GLProfile.getMaxProgrammable(true);
   }
+ else {
+    profile=GLProfile.getMaxFixedFunc(true);
+  }
+  caps=new GLCapabilities(profile);
   int samples=getNumSamplesToUse();
-  caps=new GLCapabilities(GLProfile.getMaxFixedFunc(true));
   caps.setHardwareAccelerated(true);
   caps.setDoubleBuffered(true);
   caps.setStencilBits(settings.getStencilBits());
@@ -13,7 +15,7 @@
   caps.setOnscreen(false);
   caps.setSampleBuffers(true);
   caps.setNumSamples(samples);
-  offscreenDrawable=GLDrawableFactory.getFactory(GLProfile.getMaxFixedFunc(true)).createOffscreenAutoDrawable(null,caps,null,width,height);
+  offscreenDrawable=GLDrawableFactory.getFactory(profile).createOffscreenAutoDrawable(null,caps,null,width,height);
   offscreenDrawable.display();
   renderable.set(true);
   logger.fine("Offscreen buffer created.");
