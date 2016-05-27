@@ -1,0 +1,9 @@
+{
+  clContext=null;
+  NiftyJmeDisplay niftyDisplay=NiftyJmeDisplay.newNiftyJmeDisplay(assetManager,inputManager,audioRenderer,guiViewPort);
+  nifty=niftyDisplay.getNifty();
+  nifty.fromXml("jme3test/opencl/ContextSwitchingScreen.xml","Screen",this);
+  guiViewPort.addProcessor(niftyDisplay);
+  inputManager.setCursorVisible(true);
+  flyCam.setEnabled(false);
+}
