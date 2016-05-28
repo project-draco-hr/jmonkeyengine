@@ -1,0 +1,8 @@
+{
+  ByteBuffer buf=Utils.tempBuffers[0].b16;
+  buf.position(0);
+  buf.limit(1);
+  buf.put(0,b);
+  int ret=CL10.clSetKernelArg(kernel,index,buf);
+  Utils.checkError(ret,"clSetKernelArg");
+}

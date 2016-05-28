@@ -1,0 +1,99 @@
+{
+  try {
+    boolean supportsDoubles=clContext.getDevices().get(0).hasDouble();
+    String code="" + "#import \"Common/OpenCL/Random.clh\"\n" + "__kernel void TestBool(__global ulong* seeds, __global uchar* results) {\n"+ "  results[get_global_id(0)] = randBool(seeds + get_global_id(0)) ? 1 : 0;\n"+ "}\n"+ "__kernel void TestInt(__global ulong* seeds, __global int* results) {\n"+ "  results[get_global_id(0)] = randInt(seeds + get_global_id(0));\n"+ "}\n"+ "__kernel void TestIntN(__global ulong* seeds, int n, __global int* results) {\n"+ "  results[get_global_id(0)] = randIntN(n, seeds + get_global_id(0));\n"+ "}\n"+ "__kernel void TestLong(__global ulong* seeds, __global long* results) {\n"+ "  results[get_global_id(0)] = randLong(seeds + get_global_id(0));\n"+ "}\n"+ "__kernel void TestFloat(__global ulong* seeds, __global float* results) {\n"+ "  results[get_global_id(0)] = randFloat(seeds + get_global_id(0));\n"+ "}\n"+ "#ifdef RANDOM_DOUBLES\n"+ "__kernel void TestDouble(__global ulong* seeds, __global double* results) {\n"+ "  results[get_global_id(0)] = randDouble(seeds + get_global_id(0));\n"+ "}\n"+ "#endif\n";
+    if (supportsDoubles) {
+      code="#define RANDOM_DOUBLES\n" + code;
+    }
+    Program program=clContext.createProgramFromSourceCodeWithDependencies(code,assetManager);
+    program.build();
+    int count=256;
+    Kernel.WorkSize ws=new Kernel.WorkSize(count);
+    Random initRandom=new Random();
+    long[] seeds=new long[count];
+    Random[] randoms=new Random[count];
+    for (int i=0; i < count; ++i) {
+      seeds[i]=initRandom.nextLong();
+      randoms[i]=new Random(seeds[i]);
+      seeds[i]=(seeds[i] ^ 0x5DEECE66DL) & ((1L << 48) - 1);
+    }
+    com.jme3.opencl.Buffer seedsBuffer=clContext.createBuffer(8 * count);
+    ByteBuffer tmpByteBuffer=BufferUtils.createByteBuffer(8 * count);
+    tmpByteBuffer.asLongBuffer().put(seeds);
+    seedsBuffer.write(clQueue,tmpByteBuffer);
+    ByteBuffer resultByteBuffer=BufferUtils.createByteBuffer(8 * count);
+    IntBuffer resultIntBuffer=resultByteBuffer.asIntBuffer();
+    LongBuffer resultLongBuffer=resultByteBuffer.asLongBuffer();
+    FloatBuffer resultFloatBuffer=resultByteBuffer.asFloatBuffer();
+    DoubleBuffer resultDoubleBuffer=resultByteBuffer.asDoubleBuffer();
+    com.jme3.opencl.Buffer resultBuffer=clContext.createBuffer(8 * count);
+    Kernel testBoolKernel=program.createKernel("TestBool");
+    testBoolKernel.Run1NoEvent(clQueue,ws,seedsBuffer,resultBuffer);
+    resultByteBuffer.rewind();
+    resultBuffer.read(clQueue,resultByteBuffer);
+    for (int i=0; i < count; ++i) {
+      assertEquals(randoms[i].nextBoolean() ? 1 : 0,resultByteBuffer.get(i),"randBool at i=" + i);
+    }
+    testBoolKernel.release();
+    Kernel testIntKernel=program.createKernel("TestInt");
+    testIntKernel.Run1NoEvent(clQueue,ws,seedsBuffer,resultBuffer);
+    resultByteBuffer.rewind();
+    resultBuffer.read(clQueue,resultByteBuffer);
+    for (int i=0; i < count; ++i) {
+      assertEquals(randoms[i].nextInt(),resultIntBuffer.get(i),"randInt at i=" + i);
+    }
+    testIntKernel.release();
+    Kernel testIntNKernel=program.createKernel("TestIntN");
+    testIntNKernel.Run1NoEvent(clQueue,ws,seedsBuffer,186,resultBuffer);
+    resultByteBuffer.rewind();
+    resultBuffer.read(clQueue,resultByteBuffer);
+    for (int i=0; i < count; ++i) {
+      assertEquals(randoms[i].nextInt(186),resultIntBuffer.get(i),"randInt at i=" + i + " with n="+ 186);
+    }
+    testIntNKernel.Run1NoEvent(clQueue,ws,seedsBuffer,97357,resultBuffer);
+    resultByteBuffer.rewind();
+    resultBuffer.read(clQueue,resultByteBuffer);
+    for (int i=0; i < count; ++i) {
+      assertEquals(randoms[i].nextInt(97357),resultIntBuffer.get(i),"randInt at i=" + i + " with n="+ 97357);
+    }
+    testIntNKernel.release();
+    Kernel testLongKernel=program.createKernel("TestLong");
+    testLongKernel.Run1NoEvent(clQueue,ws,seedsBuffer,resultBuffer);
+    resultByteBuffer.rewind();
+    resultBuffer.read(clQueue,resultByteBuffer);
+    for (int i=0; i < count; ++i) {
+      assertEquals(randoms[i].nextLong(),resultLongBuffer.get(i),"randLong at i=" + i);
+    }
+    testLongKernel.release();
+    Kernel testFloatKernel=program.createKernel("TestFloat");
+    testFloatKernel.Run1NoEvent(clQueue,ws,seedsBuffer,resultBuffer);
+    resultByteBuffer.rewind();
+    resultBuffer.read(clQueue,resultByteBuffer);
+    for (int i=0; i < count; ++i) {
+      assertEquals(randoms[i].nextFloat(),resultFloatBuffer.get(i),"randFloat at i=" + i);
+    }
+    testFloatKernel.release();
+    if (supportsDoubles) {
+      Kernel testDoubleKernel=program.createKernel("TestDouble");
+      testDoubleKernel.Run1NoEvent(clQueue,ws,seedsBuffer,resultBuffer);
+      resultByteBuffer.rewind();
+      resultBuffer.read(clQueue,resultByteBuffer);
+      for (int i=0; i < count; ++i) {
+        assertEquals(randoms[i].nextDouble(),resultDoubleBuffer.get(i),"randLong at i=" + i);
+      }
+      testDoubleKernel.release();
+    }
+    seedsBuffer.release();
+    resultBuffer.release();
+    program.release();
+  }
+ catch (  AssertionError ex) {
+    LOG.log(Level.SEVERE,"random test failed with an assertion error");
+    return false;
+  }
+catch (  Exception ex) {
+    LOG.log(Level.SEVERE,"random test failed with:",ex);
+    return false;
+  }
+  return true;
+}

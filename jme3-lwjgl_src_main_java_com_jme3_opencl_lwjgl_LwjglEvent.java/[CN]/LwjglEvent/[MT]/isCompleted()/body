@@ -1,0 +1,17 @@
+{
+  if (event == null) {
+    return true;
+  }
+  int status=event.getInfoInt(CL10.CL_EVENT_COMMAND_EXECUTION_STATUS);
+  if (status == CL10.CL_SUCCESS) {
+    release();
+    return true;
+  }
+ else   if (status < 0) {
+    Utils.checkError(status,"EventStatus");
+    return false;
+  }
+ else {
+    return false;
+  }
+}

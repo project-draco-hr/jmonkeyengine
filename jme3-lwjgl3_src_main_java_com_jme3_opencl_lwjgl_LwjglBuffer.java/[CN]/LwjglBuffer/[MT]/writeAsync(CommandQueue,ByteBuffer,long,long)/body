@@ -1,0 +1,9 @@
+{
+  src.limit((int)(src.position() + size));
+  Utils.pointerBuffers[0].rewind();
+  long q=((LwjglCommandQueue)queue).getQueue();
+  int ret=CL10.clEnqueueWriteBuffer(q,buffer,CL10.CL_FALSE,offset,src,null,Utils.pointerBuffers[0]);
+  Utils.checkError(ret,"clEnqueueWriteBuffer");
+  long event=Utils.pointerBuffers[0].get(0);
+  return new LwjglEvent(event);
+}

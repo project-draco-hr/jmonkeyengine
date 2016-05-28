@@ -1,0 +1,8 @@
+{
+  assert(devices.contains(device));
+  long d=((JoclDevice)device).id;
+  long properties=0;
+  long q=cl.clCreateCommandQueue(id,d,properties,Utils.errorBuffer);
+  Utils.checkError(Utils.errorBuffer,"clCreateCommandQueue");
+  return new JoclCommandQueue(q);
+}

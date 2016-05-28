@@ -16,6 +16,9 @@
     printContextInitInfo();
     created.set(true);
     super.internalCreate();
+    if (settings.isOpenCLSupport()) {
+      initOpenCL(window);
+    }
   }
  catch (  Exception ex) {
     try {

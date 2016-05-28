@@ -1,0 +1,11 @@
+{
+  int vbId=vb.getId();
+  if (vbId == -1) {
+    throw new IllegalArgumentException("vertex buffer was not yet uploaded to the GPU or is CPU only");
+  }
+  long flags=Utils.getMemoryAccessFlags(access);
+  Utils.errorBuffer.rewind();
+  long mem=((CLGL)cl).clCreateFromGLBuffer(id,flags,vbId,Utils.errorBuffer);
+  Utils.checkError(Utils.errorBuffer,"clCreateFromGLBuffer");
+  return new JoclBuffer(mem);
+}

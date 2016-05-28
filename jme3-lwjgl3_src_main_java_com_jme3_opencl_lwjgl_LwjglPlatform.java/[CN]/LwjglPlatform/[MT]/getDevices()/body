@@ -1,0 +1,9 @@
+{
+  if (devices == null) {
+    devices=new ArrayList<>();
+    for (    CLDevice d : platform.getDevices(CL10.CL_DEVICE_TYPE_ALL)) {
+      devices.add(new LwjglDevice(d,this));
+    }
+  }
+  return devices;
+}

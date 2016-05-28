@@ -1,0 +1,7 @@
+{
+  if (queue != null) {
+    int ret=CL10.clReleaseCommandQueue(queue);
+    queue=null;
+    Utils.reportError(ret,"clReleaseCommandQueue");
+  }
+}

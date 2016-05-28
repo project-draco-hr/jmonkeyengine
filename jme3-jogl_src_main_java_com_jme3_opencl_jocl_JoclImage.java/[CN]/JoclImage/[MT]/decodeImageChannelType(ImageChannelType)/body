@@ -1,0 +1,36 @@
+{
+switch (type) {
+case FLOAT:
+    return CL.CL_FLOAT;
+case HALF_FLOAT:
+  return CL.CL_HALF_FLOAT;
+case SIGNED_INT16:
+return CL.CL_SIGNED_INT16;
+case SIGNED_INT32:
+return CL.CL_SIGNED_INT32;
+case SIGNED_INT8:
+return CL.CL_SIGNED_INT8;
+case SNORM_INT16:
+return CL.CL_SNORM_INT16;
+case SNORM_INT8:
+return CL.CL_SNORM_INT8;
+case UNORM_INT8:
+return CL.CL_UNORM_INT8;
+case UNORM_INT_101010:
+return CL.CL_UNORM_INT_101010;
+case UNORM_INT16:
+return CL.CL_UNORM_INT16;
+case UNORM_SHORT_565:
+return CL.CL_UNORM_SHORT_565;
+case UNORM_SHORT_555:
+return CL.CL_UNORM_SHORT_555;
+case UNSIGNED_INT16:
+return CL.CL_UNSIGNED_INT16;
+case UNSIGNED_INT32:
+return CL.CL_UNSIGNED_INT32;
+case UNSIGNED_INT8:
+return CL.CL_UNSIGNED_INT8;
+default :
+throw new IllegalArgumentException("Unknown image channel type: " + type);
+}
+}

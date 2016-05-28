@@ -1,0 +1,11 @@
+{
+  StringBuilder builder=new StringBuilder(sourceCode.length());
+  BufferedReader reader=new BufferedReader(new StringReader(sourceCode));
+  try {
+    buildSourcesRec(reader,builder,assetManager);
+  }
+ catch (  IOException ex) {
+    throw new AssetNotFoundException("Unable to read a dependency file",ex);
+  }
+  return createProgramFromSourceCode(builder.toString());
+}

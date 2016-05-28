@@ -1,0 +1,20 @@
+{
+  if (descr.type != Image.ImageType.IMAGE_2D && descr.type != Image.ImageType.IMAGE_3D) {
+    throw new UnsupportedOperationException("Jocl only supports 2D and 3D images");
+  }
+  long memFlags=Utils.getMemoryAccessFlags(access);
+  Utils.errorBuffer.rewind();
+  CLImageFormatImpl f=CLImageFormatImpl.create();
+  f.setImageChannelOrder(JoclImage.decodeImageChannelOrder(format.channelOrder));
+  f.setImageChannelDataType(JoclImage.decodeImageChannelType(format.channelType));
+  long mem;
+  if (descr.type == Image.ImageType.IMAGE_2D) {
+    mem=cl.clCreateImage2D(id,memFlags,f,descr.width,descr.height,descr.hostPtr == null ? 0 : descr.rowPitch,descr.hostPtr,Utils.errorBuffer);
+    Utils.checkError(Utils.errorBuffer,"clCreateImage2D");
+  }
+ else {
+    mem=cl.clCreateImage3D(id,memFlags,f,descr.width,descr.height,descr.depth,descr.hostPtr == null ? 0 : descr.rowPitch,descr.hostPtr == null ? 0 : descr.slicePitch,descr.hostPtr,Utils.errorBuffer);
+    Utils.checkError(Utils.errorBuffer,"clCreateImage3D");
+  }
+  return new JoclImage(mem);
+}

@@ -1,0 +1,8 @@
+{
+  if (event != 0) {
+    int ret=CL10.clReleaseEvent(event);
+    event=0;
+    Utils.reportError(ret,"clReleaseEvent");
+    LOG.finer("Event deleted");
+  }
+}

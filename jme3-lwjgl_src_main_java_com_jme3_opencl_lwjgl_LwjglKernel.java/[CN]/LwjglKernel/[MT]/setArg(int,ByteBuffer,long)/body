@@ -1,0 +1,5 @@
+{
+  buffer.limit((int)(buffer.position() + size));
+  int ret=CL10.clSetKernelArg(kernel,index,buffer);
+  Utils.checkError(ret,"clSetKernelArg");
+}

@@ -1,0 +1,6 @@
+{
+  Utils.errorBuffer.rewind();
+  long kernel=cl.clCreateKernel(program,name,Utils.errorBuffer);
+  Utils.checkError(Utils.errorBuffer,"clCreateKernel");
+  return new JoclKernel(kernel);
+}

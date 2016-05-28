@@ -1,0 +1,4 @@
+{
+  int ret=cl.clSetKernelArg(kernel,index,t.getSize() * workGroupSize.getSizes()[0] * workGroupSize.getSizes()[1]* workGroupSize.getSizes()[2],null);
+  Utils.checkError(ret,"clSetKernelArg");
+}

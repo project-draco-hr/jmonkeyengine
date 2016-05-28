@@ -1,0 +1,32 @@
+{
+switch (order) {
+case A:
+    return CL.CL_A;
+case ARGB:
+  return CL.CL_ARGB;
+case BGRA:
+return CL.CL_BGRA;
+case INTENSITY:
+return CL.CL_INTENSITY;
+case LUMINANCE:
+return CL.CL_LUMINANCE;
+case R:
+return CL.CL_R;
+case RA:
+return CL.CL_RA;
+case RG:
+return CL.CL_RG;
+case RGB:
+return CL.CL_RGB;
+case RGBA:
+return CL.CL_RGBA;
+case RGBx:
+return CL.CL_RGBx;
+case RGx:
+return CL.CL_RGx;
+case Rx:
+return CL.CL_Rx;
+default :
+throw new IllegalArgumentException("unknown image channel order: " + order);
+}
+}

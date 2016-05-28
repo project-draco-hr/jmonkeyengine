@@ -1,0 +1,5 @@
+{
+  CLCommandQueue q=((LwjglCommandQueue)queue).getQueue();
+  int ret=CL10GL.clEnqueueReleaseGLObjects(q,buffer,null,null);
+  Utils.checkError(ret,"clEnqueueReleaseGLObjects");
+}

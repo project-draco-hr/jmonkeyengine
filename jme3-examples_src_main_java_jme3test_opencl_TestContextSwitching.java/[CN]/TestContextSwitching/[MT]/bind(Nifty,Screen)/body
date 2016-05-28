@@ -1,0 +1,13 @@
+{
+  applyButton=screen.findNiftyControl("ApplyButton",Button.class);
+  platformListBox=screen.findNiftyControl("PlatformListBox",ListBox.class);
+  deviceListBox=screen.findNiftyControl("DeviceListBox",ListBox.class);
+  infoLabel=screen.findNiftyControl("InfoLabel",Label.class);
+  updateInfos();
+  platformListBox.clear();
+  for (  Platform p : availabePlatforms) {
+    platformListBox.addItem(p.getName());
+  }
+  platformListBox.selectItem(selectedPlatform);
+  changePlatform(selectedPlatform);
+}

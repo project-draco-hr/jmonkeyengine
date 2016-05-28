@@ -1,0 +1,10 @@
+{
+  StringBuilder str=new StringBuilder();
+  for (  LwjglDevice device : context.getDevices()) {
+    CLDevice d=device.getDevice();
+    str.append(device.getName()).append(":\n");
+    str.append(program.getBuildInfoString(d,CL10.CL_PROGRAM_BUILD_LOG));
+    str.append('\n');
+  }
+  return str.toString();
+}

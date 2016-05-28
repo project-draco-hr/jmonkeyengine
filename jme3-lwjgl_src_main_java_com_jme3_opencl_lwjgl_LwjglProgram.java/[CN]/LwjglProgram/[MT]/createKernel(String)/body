@@ -1,0 +1,5 @@
+{
+  CLKernel kernel=CL10.clCreateKernel(program,name,Utils.errorBuffer);
+  Utils.checkError(Utils.errorBuffer,"clCreateKernel");
+  return new LwjglKernel(kernel);
+}

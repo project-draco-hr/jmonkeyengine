@@ -1,0 +1,7 @@
+{
+  if (mem != 0) {
+    int ret=CL10.clReleaseMemObject(mem);
+    mem=0;
+    Utils.reportError(ret,"clReleaseMemObject");
+  }
+}

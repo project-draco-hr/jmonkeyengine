@@ -1,0 +1,8 @@
+{
+  if (buffer.getTexture() == null) {
+    return bindPureRenderBuffer(buffer,access);
+  }
+ else {
+    return bindImage(buffer.getTexture(),access);
+  }
+}

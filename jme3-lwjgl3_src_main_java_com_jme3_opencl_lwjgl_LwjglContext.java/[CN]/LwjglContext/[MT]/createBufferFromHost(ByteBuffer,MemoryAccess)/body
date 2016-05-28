@@ -1,0 +1,7 @@
+{
+  long flags=Utils.getMemoryAccessFlags(access);
+  flags|=CL10.CL_MEM_USE_HOST_PTR;
+  long mem=CL10.clCreateBuffer(context,flags,data,Utils.errorBuffer);
+  Utils.checkError(Utils.errorBuffer,"clCreateBuffer");
+  return new LwjglBuffer(mem);
+}

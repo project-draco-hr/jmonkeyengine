@@ -1,0 +1,16 @@
+{
+synchronized (sync) {
+    if (currentDeviceIndex == -1) {
+      return Collections.emptyList();
+    }
+    Platform platform=platforms.get(0);
+    availableDevices=platform.getDevices();
+    selectedPlatform=platform;
+    Device device=platform.getDevices().get(currentDeviceIndex);
+    currentDeviceIndex++;
+    if (currentDeviceIndex >= availableDevices.size()) {
+      currentDeviceIndex=-1;
+    }
+    return Collections.singletonList(device);
+  }
+}

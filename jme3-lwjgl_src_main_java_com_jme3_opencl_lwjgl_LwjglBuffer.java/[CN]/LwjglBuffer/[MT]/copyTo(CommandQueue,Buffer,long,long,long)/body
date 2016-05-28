@@ -1,0 +1,9 @@
+{
+  CLCommandQueue q=((LwjglCommandQueue)queue).getQueue();
+  Utils.pointerBuffers[0].rewind();
+  int ret=CL10.clEnqueueCopyBuffer(q,buffer,((LwjglBuffer)dest).buffer,srcOffset,destOffset,size,null,Utils.pointerBuffers[0]);
+  Utils.checkError(ret,"clEnqueueCopyBuffer");
+  long event=Utils.pointerBuffers[0].get(0);
+  ret=CL10.clWaitForEvents(q.getCLEvent(event));
+  Utils.checkError(ret,"clWaitForEvents");
+}

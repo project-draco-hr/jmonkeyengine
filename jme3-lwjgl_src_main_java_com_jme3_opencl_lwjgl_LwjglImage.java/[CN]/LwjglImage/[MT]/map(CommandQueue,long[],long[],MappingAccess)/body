@@ -1,0 +1,17 @@
+{
+  if (origin.length != 3 || region.length != 3) {
+    throw new IllegalArgumentException("origin and region must both be arrays of length 3");
+  }
+  Utils.pointerBuffers[1].rewind();
+  Utils.pointerBuffers[2].rewind();
+  Utils.pointerBuffers[3].rewind();
+  Utils.pointerBuffers[4].rewind();
+  Utils.pointerBuffers[1].put(origin).position(0);
+  Utils.pointerBuffers[2].put(region).position(0);
+  CLCommandQueue q=((LwjglCommandQueue)queue).getQueue();
+  long flags=Utils.getMappingAccessFlags(access);
+  Utils.errorBuffer.rewind();
+  ByteBuffer buf=CL10.clEnqueueMapImage(q,image,CL10.CL_TRUE,flags,Utils.pointerBuffers[1],Utils.pointerBuffers[2],Utils.pointerBuffers[3],Utils.pointerBuffers[4],null,null,Utils.errorBuffer);
+  Utils.checkError(Utils.errorBuffer,"clEnqueueMapBuffer");
+  return new ImageMapping(buf,Utils.pointerBuffers[3].get(0),Utils.pointerBuffers[4].get(0));
+}

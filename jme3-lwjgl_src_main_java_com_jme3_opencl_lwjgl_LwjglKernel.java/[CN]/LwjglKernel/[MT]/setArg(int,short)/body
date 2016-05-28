@@ -1,0 +1,8 @@
+{
+  ShortBuffer buf=Utils.tempBuffers[0].b16s;
+  buf.position(0);
+  buf.limit(1);
+  buf.put(0,s);
+  int ret=CL10.clSetKernelArg(kernel,index,buf);
+  Utils.checkError(ret,"clSetKernelArg");
+}

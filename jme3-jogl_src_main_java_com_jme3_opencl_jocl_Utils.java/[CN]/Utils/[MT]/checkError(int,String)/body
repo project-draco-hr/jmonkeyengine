@@ -1,0 +1,9 @@
+{
+  if (error != CL.CL_SUCCESS) {
+    String errname=getErrorName(error);
+    if (errname == null) {
+      errname="UNKNOWN";
+    }
+    throw new OpenCLException("OpenCL error in " + callName + ": "+ errname+ " (0x"+ Integer.toHexString(error)+ ")",error);
+  }
+}

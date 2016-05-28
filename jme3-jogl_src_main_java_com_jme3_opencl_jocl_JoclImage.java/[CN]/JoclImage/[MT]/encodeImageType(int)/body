@@ -1,0 +1,11 @@
+{
+switch (type) {
+case CL.CL_MEM_OBJECT_IMAGE2D:
+    return ImageType.IMAGE_2D;
+case CL.CL_MEM_OBJECT_IMAGE3D:
+  return ImageType.IMAGE_3D;
+default :
+LOG.log(Level.WARNING,"Unknown or unsupported image type with id: {0}",type);
+return null;
+}
+}

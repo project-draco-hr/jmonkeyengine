@@ -1,0 +1,34 @@
+{
+  availabePlatforms=platforms;
+  Platform platform=null;
+  for (  Platform p : platforms) {
+    if (p.getName().equals(selectedPlatform)) {
+      platform=p;
+      break;
+    }
+  }
+  if (platform == null) {
+    platform=platforms.get(0);
+  }
+  selectedPlatform=platform.getName();
+  Device device=null;
+  for (  Device d : platform.getDevices()) {
+    if (d.getName().equals(selectedDevice)) {
+      device=d;
+      break;
+    }
+  }
+  if (device == null) {
+    for (    Device d : platform.getDevices()) {
+      if (d.getDeviceType() == Device.DeviceType.GPU) {
+        device=d;
+        break;
+      }
+    }
+  }
+  if (device == null) {
+    device=platform.getDevices().get(0);
+  }
+  selectedDevice=device.getName();
+  return Collections.singletonList(device);
+}

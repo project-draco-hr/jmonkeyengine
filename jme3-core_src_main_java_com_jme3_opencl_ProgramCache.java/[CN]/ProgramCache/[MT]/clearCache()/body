@@ -1,0 +1,10 @@
+{
+  if (tmpFolder == null) {
+    return;
+  }
+  for (  File file : tmpFolder.listFiles()) {
+    if (file.isFile() && file.getName().endsWith(FILE_EXTENSION)) {
+      file.delete();
+    }
+  }
+}

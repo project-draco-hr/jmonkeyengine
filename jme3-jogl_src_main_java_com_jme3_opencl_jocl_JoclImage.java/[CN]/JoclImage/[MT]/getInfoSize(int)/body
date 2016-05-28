@@ -1,0 +1,6 @@
+{
+  Utils.tempBuffers[0].b16l.rewind();
+  int ret=cl.clGetImageInfo(id,param,8,Utils.tempBuffers[0].b16l,null);
+  Utils.checkError(ret,"clGetImageInfo");
+  return Utils.tempBuffers[0].b16l.get(0);
+}

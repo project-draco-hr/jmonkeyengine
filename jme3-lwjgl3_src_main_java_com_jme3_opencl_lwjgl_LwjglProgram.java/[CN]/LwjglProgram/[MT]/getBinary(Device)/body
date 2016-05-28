@@ -1,0 +1,30 @@
+{
+  LwjglDevice device=(LwjglDevice)d;
+  int numDevices=Info.clGetProgramInfoInt(program,CL10.CL_PROGRAM_NUM_DEVICES);
+  PointerBuffer devices=PointerBuffer.allocateDirect(numDevices);
+  int ret=CL10.clGetProgramInfo(program,CL10.CL_PROGRAM_DEVICES,devices,null);
+  Utils.checkError(ret,"clGetProgramInfo: CL_PROGRAM_DEVICES");
+  int index=-1;
+  for (int i=0; i < numDevices; ++i) {
+    if (devices.get(i) == device.getDevice()) {
+      index=i;
+    }
+  }
+  if (index == -1) {
+    throw new com.jme3.opencl.OpenCLException("Program was not built against the specified device " + device);
+  }
+  PointerBuffer sizes=PointerBuffer.allocateDirect(numDevices);
+  ret=CL10.clGetProgramInfo(program,CL10.CL_PROGRAM_BINARY_SIZES,sizes,null);
+  Utils.checkError(ret,"clGetProgramInfo: CL_PROGRAM_BINARY_SIZES");
+  int size=(int)sizes.get(index);
+  PointerBuffer binaryPointers=PointerBuffer.allocateDirect(numDevices);
+  for (int i=0; i < binaryPointers.capacity(); ++i) {
+    binaryPointers.put(0L);
+  }
+  binaryPointers.rewind();
+  ByteBuffer binaries=ByteBuffer.allocateDirect(size);
+  binaryPointers.put(index,binaries);
+  ret=CL10.clGetProgramInfo(program,CL10.CL_PROGRAM_BINARIES,binaryPointers,null);
+  Utils.checkError(ret,"clGetProgramInfo: CL_PROGRAM_BINARIES");
+  return binaries;
+}

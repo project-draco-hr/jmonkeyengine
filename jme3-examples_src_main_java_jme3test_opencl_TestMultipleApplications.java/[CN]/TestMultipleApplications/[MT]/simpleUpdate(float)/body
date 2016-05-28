@@ -1,0 +1,12 @@
+{
+  if (!failed) {
+    try {
+      kernel.Run1NoEvent(clQueue,new Kernel.WorkSize(1),buffer,1.0f);
+    }
+ catch (    OpenCLException ex) {
+      LOG.log(Level.SEVERE,"Kernel call not working anymore",ex);
+      failed=true;
+      statusText.setText("Failed");
+    }
+  }
+}

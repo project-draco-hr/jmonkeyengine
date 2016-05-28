@@ -1,0 +1,7 @@
+{
+  if (kernel != 0) {
+    int ret=CLPlatform.getLowLevelCLInterface().clReleaseKernel(kernel);
+    kernel=0;
+    Utils.reportError(ret,"clReleaseKernel");
+  }
+}

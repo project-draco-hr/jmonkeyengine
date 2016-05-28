@@ -1,0 +1,37 @@
+{
+  if (tmpFolder == null) {
+    return null;
+  }
+  File file=new File(tmpFolder,getCleanFileName(id));
+  if (!file.exists()) {
+    if (LOG.isLoggable(Level.FINE)) {
+      LOG.log(Level.FINE,"Cache file {0} does not exist",file.getAbsolutePath());
+    }
+    return null;
+  }
+  ByteBuffer bb;
+  try {
+    byte[] bytes=Files.readAllBytes(file.toPath());
+    bb=BufferUtils.createByteBuffer(bytes);
+  }
+ catch (  IOException ex) {
+    LOG.log(Level.FINE,"Unable to read cache file",ex);
+    return null;
+  }
+  Program program;
+  try {
+    program=context.createProgramFromBinary(bb,device);
+  }
+ catch (  OpenCLException ex) {
+    LOG.log(Level.FINE,"Unable to create program from binary",ex);
+    return null;
+  }
+  try {
+    program.build(buildArgs,device);
+  }
+ catch (  OpenCLException ex) {
+    LOG.log(Level.FINE,"Unable to build program",ex);
+    return null;
+  }
+  return program;
+}

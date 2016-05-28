@@ -1,0 +1,11 @@
+{
+  ByteBuffer[] binaries=program.getInfoBinaries((ByteBuffer[])null);
+  CLDevice[] devices=program.getInfoDevices();
+  assert(binaries.length == devices.length);
+  for (int i=0; i < devices.length; ++i) {
+    if (((LwjglDevice)device).device == devices[i]) {
+      return binaries[i];
+    }
+  }
+  throw new com.jme3.opencl.OpenCLException("Program was not built against the specified device " + device);
+}

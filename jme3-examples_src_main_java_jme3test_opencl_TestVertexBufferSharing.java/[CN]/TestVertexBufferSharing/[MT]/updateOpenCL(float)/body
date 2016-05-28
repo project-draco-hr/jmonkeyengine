@@ -1,0 +1,7 @@
+{
+  time+=tpf;
+  buffer.acquireBufferForSharingNoEvent(clQueue);
+  float scale=(float)Math.pow(1.1,(1.0 - time % 2) / 16.0);
+  kernel.Run1NoEvent(clQueue,ws,buffer,scale);
+  buffer.releaseBufferForSharingNoEvent(clQueue);
+}

@@ -1,0 +1,7 @@
+{
+  LOG.log(Level.FINE,"Create program from source:\n{0}",sourceCode);
+  Utils.errorBuffer.rewind();
+  long p=CL10.clCreateProgramWithSource(context,sourceCode,Utils.errorBuffer);
+  Utils.checkError(Utils.errorBuffer,"clCreateProgramWithSource");
+  return new LwjglProgram(p,this);
+}

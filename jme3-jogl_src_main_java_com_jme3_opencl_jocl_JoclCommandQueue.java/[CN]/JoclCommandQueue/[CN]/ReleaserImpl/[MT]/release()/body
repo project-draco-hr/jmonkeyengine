@@ -1,0 +1,7 @@
+{
+  if (id != 0) {
+    int ret=CLPlatform.getLowLevelCLInterface().clReleaseCommandQueue(id);
+    id=0;
+    Utils.reportError(ret,"clReleaseCommandQueue");
+  }
+}

@@ -1,0 +1,10 @@
+{
+switch (type) {
+case IMAGE_2D:
+    return CL.CL_MEM_OBJECT_IMAGE2D;
+case IMAGE_3D:
+  return CL.CL_MEM_OBJECT_IMAGE3D;
+default :
+throw new IllegalArgumentException("Unknown or unsupported image type: " + type);
+}
+}

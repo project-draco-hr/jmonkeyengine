@@ -1,0 +1,7 @@
+{
+  long d=((JoclDevice)device).id;
+  Utils.tempBuffers[0].b16l.rewind();
+  int ret=cl.clGetKernelWorkGroupInfo(kernel,d,CL.CL_KERNEL_WORK_GROUP_SIZE,8,Utils.tempBuffers[0].b16l,null);
+  Utils.checkError(ret,"clGetKernelWorkGroupInfo");
+  return Utils.tempBuffers[0].b16l.get(0);
+}

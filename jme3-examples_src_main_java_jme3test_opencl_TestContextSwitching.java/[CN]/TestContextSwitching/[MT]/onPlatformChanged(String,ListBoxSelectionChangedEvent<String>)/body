@@ -1,0 +1,6 @@
+{
+  String p=event.getSelection().isEmpty() ? null : event.getSelection().get(0);
+  LOG.log(Level.INFO,"Selected platform changed to {0}",p);
+  selectedPlatform=p;
+  changePlatform(p);
+}

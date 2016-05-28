@@ -1,0 +1,21 @@
+{
+  int imageID=image.getId();
+  if (imageID == -1) {
+    throw new IllegalArgumentException("image was not yet uploaded to the GPU");
+  }
+  long memFlags=Utils.getMemoryAccessFlags(access);
+  int textureTarget=convertTextureType(textureType);
+  Utils.errorBuffer.rewind();
+  long mem;
+  if (textureType == Texture.Type.TwoDimensional) {
+    mem=((CLGL)cl).clCreateFromGLTexture2D(id,memFlags,textureTarget,miplevel,imageID,Utils.errorBuffer);
+  }
+ else   if (textureType == Texture.Type.ThreeDimensional) {
+    mem=((CLGL)cl).clCreateFromGLTexture3D(id,memFlags,textureTarget,miplevel,imageID,Utils.errorBuffer);
+  }
+ else {
+    throw new UnsupportedOperationException("Jocl only supports 2D and 3D images");
+  }
+  Utils.checkError(Utils.errorBuffer,"clCreateFromGLTexture");
+  return new JoclImage(mem);
+}

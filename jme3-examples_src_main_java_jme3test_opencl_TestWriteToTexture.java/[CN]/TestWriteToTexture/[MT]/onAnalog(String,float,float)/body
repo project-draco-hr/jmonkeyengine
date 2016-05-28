@@ -1,0 +1,17 @@
+{
+  if (!dragging) {
+    return;
+  }
+  if ("left".equals(name)) {
+    C.x-=tpf * MOUSE_SPEED;
+  }
+ else   if ("right".equals(name)) {
+    C.x+=tpf * MOUSE_SPEED;
+  }
+ else   if ("up".equals(name)) {
+    C.y-=tpf * MOUSE_SPEED;
+  }
+ else   if ("down".equals(name)) {
+    C.y+=tpf * MOUSE_SPEED;
+  }
+}

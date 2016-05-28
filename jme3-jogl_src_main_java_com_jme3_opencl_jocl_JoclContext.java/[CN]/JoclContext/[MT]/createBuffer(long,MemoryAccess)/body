@@ -1,0 +1,6 @@
+{
+  long flags=Utils.getMemoryAccessFlags(access);
+  long mem=cl.clCreateBuffer(id,flags,size,null,Utils.errorBuffer);
+  Utils.checkError(Utils.errorBuffer,"clCreateBuffer");
+  return new JoclBuffer(mem);
+}

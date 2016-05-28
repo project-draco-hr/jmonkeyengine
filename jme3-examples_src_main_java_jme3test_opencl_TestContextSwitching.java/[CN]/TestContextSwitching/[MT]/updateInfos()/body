@@ -1,0 +1,29 @@
+{
+  if (testBuffer == null && clContext != null && !bufferCreated) {
+    try {
+      testBuffer=clContext.createBuffer(1024);
+      testBuffer.register();
+      LOG.info("Test buffer created");
+    }
+ catch (    OpenCLException ex) {
+      LOG.log(Level.SEVERE,"Unable to create buffer",ex);
+    }
+    bufferCreated=true;
+  }
+  Context c=context.getOpenCLContext();
+  if (c == clContext) {
+    return;
+  }
+  clContext=c;
+  LOG.info("context changed");
+  testBuffer=null;
+  bufferCreated=false;
+  StringBuilder text=new StringBuilder();
+  text.append("Current context:\n");
+  text.append("  Platform: ").append(clContext.getDevices().get(0).getPlatform().getName()).append("\n");
+  text.append("  Device: ").append(clContext.getDevices().get(0).getName()).append("\n");
+  text.append("  Profile: ").append(clContext.getDevices().get(0).getProfile()).append("\n");
+  text.append("  Memory: ").append(clContext.getDevices().get(0).getGlobalMemorySize()).append(" B\n");
+  text.append("  Compute Units: ").append(clContext.getDevices().get(0).getComputeUnits()).append("\n");
+  infoLabel.setText(text.toString());
+}

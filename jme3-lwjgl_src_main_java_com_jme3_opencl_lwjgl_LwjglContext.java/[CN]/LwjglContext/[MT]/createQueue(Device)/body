@@ -1,0 +1,8 @@
+{
+  assert(devices.contains(device));
+  CLDevice d=((LwjglDevice)device).getDevice();
+  long properties=0;
+  CLCommandQueue q=CL10.clCreateCommandQueue(context,d,properties,Utils.errorBuffer);
+  Utils.checkError(Utils.errorBuffer,"clCreateCommandQueue");
+  return new LwjglCommandQueue(q);
+}

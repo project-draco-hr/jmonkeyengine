@@ -1,0 +1,12 @@
+{
+  Utils.assertSharingPossible();
+  int id=vb.getId();
+  if (id == -1) {
+    throw new IllegalArgumentException("vertex buffer was not yet uploaded to the GPU or is CPU only");
+  }
+  long flags=Utils.getMemoryAccessFlags(access);
+  Utils.errorBuffer.rewind();
+  long mem=CL10GL.clCreateFromGLBuffer(context,flags,id,Utils.errorBuffer);
+  Utils.checkError(Utils.errorBuffer,"clCreateFromGLBuffer");
+  return new LwjglBuffer(mem);
+}

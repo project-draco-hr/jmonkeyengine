@@ -1,0 +1,22 @@
+{
+  if (tmpFolder == null) {
+    return;
+  }
+  File file=new File(tmpFolder,getCleanFileName(id));
+  ByteBuffer bb;
+  try {
+    bb=program.getBinary(device);
+  }
+ catch (  UnsupportedOperationException|OpenCLException ex) {
+    LOG.log(Level.WARNING,"Unable to retrieve the program binaries",ex);
+    return;
+  }
+  byte[] bytes=new byte[bb.remaining()];
+  bb.get(bytes);
+  try {
+    Files.write(file.toPath(),bytes);
+  }
+ catch (  IOException ex) {
+    LOG.log(Level.WARNING,"Unable to save program binaries to the cache",ex);
+  }
+}

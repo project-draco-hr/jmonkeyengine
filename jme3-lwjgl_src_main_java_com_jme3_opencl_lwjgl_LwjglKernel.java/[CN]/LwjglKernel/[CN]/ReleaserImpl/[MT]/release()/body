@@ -1,0 +1,7 @@
+{
+  if (kernel != null) {
+    int ret=CL10.clReleaseKernel(kernel);
+    kernel=null;
+    Utils.reportError(ret,"clReleaseKernel");
+  }
+}

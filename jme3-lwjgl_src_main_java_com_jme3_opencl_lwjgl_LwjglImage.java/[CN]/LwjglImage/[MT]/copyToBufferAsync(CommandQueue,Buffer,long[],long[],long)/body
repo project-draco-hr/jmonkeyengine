@@ -1,0 +1,15 @@
+{
+  if (srcOrigin.length != 3 || srcRegion.length != 3) {
+    throw new IllegalArgumentException("origin and region must both be arrays of length 3");
+  }
+  Utils.pointerBuffers[0].rewind();
+  Utils.pointerBuffers[1].rewind();
+  Utils.pointerBuffers[2].rewind();
+  Utils.pointerBuffers[1].put(srcOrigin).position(0);
+  Utils.pointerBuffers[2].put(srcRegion).position(0);
+  CLCommandQueue q=((LwjglCommandQueue)queue).getQueue();
+  int ret=CL10.clEnqueueCopyImageToBuffer(q,image,((LwjglBuffer)dest).getBuffer(),Utils.pointerBuffers[1],Utils.pointerBuffers[2],destOffset,null,Utils.pointerBuffers[0]);
+  Utils.checkError(ret,"clEnqueueCopyImageToBuffer");
+  long event=Utils.pointerBuffers[0].get(0);
+  return new LwjglEvent(q.getCLEvent(event));
+}

@@ -1,0 +1,14 @@
+{
+  super.simpleUpdate(tpf);
+  if (initCounter < 2) {
+    initCounter++;
+  }
+ else   if (initCounter == 2) {
+    initOpenCL2();
+    updateOpenCL(tpf);
+    initCounter=3;
+  }
+ else {
+    updateOpenCL(tpf);
+  }
+}

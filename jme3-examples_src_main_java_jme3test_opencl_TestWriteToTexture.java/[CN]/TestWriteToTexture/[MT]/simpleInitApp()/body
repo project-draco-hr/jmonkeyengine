@@ -1,0 +1,20 @@
+{
+  initOpenCL1();
+  tex=new Texture2D(settings.getWidth(),settings.getHeight(),1,com.jme3.texture.Image.Format.RGBA8);
+  Picture pic=new Picture("julia");
+  pic.setTexture(assetManager,tex,true);
+  pic.setPosition(0,0);
+  pic.setWidth(settings.getWidth());
+  pic.setHeight(settings.getHeight());
+  guiNode.attachChild(pic);
+  initCounter=0;
+  flyCam.setEnabled(false);
+  inputManager.setCursorVisible(true);
+  inputManager.addMapping("right",new MouseAxisTrigger(MouseInput.AXIS_X,false));
+  inputManager.addMapping("left",new MouseAxisTrigger(MouseInput.AXIS_X,true));
+  inputManager.addMapping("up",new MouseAxisTrigger(MouseInput.AXIS_Y,false));
+  inputManager.addMapping("down",new MouseAxisTrigger(MouseInput.AXIS_Y,true));
+  inputManager.addMapping("drag",new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+  inputManager.addListener(this,"right","left","up","down","drag");
+  dragging=false;
+}

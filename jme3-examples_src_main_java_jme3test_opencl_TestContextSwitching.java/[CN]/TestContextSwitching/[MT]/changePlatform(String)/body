@@ -1,0 +1,18 @@
+{
+  selectedPlatform=platform;
+  Platform p=null;
+  for (  Platform p2 : availabePlatforms) {
+    if (p2.getName().equals(selectedPlatform)) {
+      p=p2;
+      break;
+    }
+  }
+  deviceListBox.clear();
+  if (p == null) {
+    return;
+  }
+  for (  Device d : p.getDevices()) {
+    deviceListBox.addItem(d.getName());
+  }
+  deviceListBox.selectItem(selectedDevice);
+}

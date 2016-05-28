@@ -1,0 +1,10 @@
+{
+  Utils.pointerBuffers[0].rewind();
+  int ret=CL10.clGetProgramBuildInfo(program,device,CL10.CL_PROGRAM_BUILD_LOG,(ByteBuffer)null,Utils.pointerBuffers[0]);
+  Utils.checkError(ret,"clGetProgramBuildInfo");
+  int count=(int)Utils.pointerBuffers[0].get(0);
+  final ByteBuffer buffer=BufferUtils.createByteBuffer(count);
+  ret=CL10.clGetProgramBuildInfo(program,device,CL10.CL_PROGRAM_BUILD_LOG,buffer,null);
+  Utils.checkError(ret,"clGetProgramBuildInfo");
+  return MemoryUtil.memDecodeASCII(buffer);
+}

@@ -1,0 +1,33 @@
+{
+switch (order) {
+case CL10.CL_A:
+    return ImageChannelOrder.A;
+case CL10.CL_ARGB:
+  return ImageChannelOrder.ARGB;
+case CL10.CL_BGRA:
+return ImageChannelOrder.BGRA;
+case CL10.CL_INTENSITY:
+return ImageChannelOrder.INTENSITY;
+case CL10.CL_LUMINANCE:
+return ImageChannelOrder.LUMINANCE;
+case CL10.CL_R:
+return ImageChannelOrder.R;
+case CL10.CL_RA:
+return ImageChannelOrder.RA;
+case CL10.CL_RG:
+return ImageChannelOrder.RG;
+case CL10.CL_RGB:
+return ImageChannelOrder.RGB;
+case CL10.CL_RGBA:
+return ImageChannelOrder.RGBA;
+case CL11.CL_RGBx:
+return ImageChannelOrder.RGBx;
+case CL11.CL_RGx:
+return ImageChannelOrder.RGx;
+case CL11.CL_Rx:
+return ImageChannelOrder.Rx;
+default :
+LOG.log(Level.WARNING,"Unknown image channel order id: {0}",order);
+return null;
+}
+}

@@ -1,0 +1,10 @@
+{
+switch (textureType) {
+case TwoDimensional:
+    return GL.GL_TEXTURE_2D;
+case CubeMap:
+  return GL.GL_TEXTURE_CUBE_MAP;
+default :
+throw new IllegalArgumentException("unknown or unsupported texture type " + textureType);
+}
+}

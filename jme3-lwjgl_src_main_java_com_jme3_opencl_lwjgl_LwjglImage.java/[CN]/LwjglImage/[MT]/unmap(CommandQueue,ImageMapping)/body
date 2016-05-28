@@ -1,0 +1,10 @@
+{
+  mapping.buffer.position(0);
+  CLCommandQueue q=((LwjglCommandQueue)queue).getQueue();
+  Utils.pointerBuffers[0].rewind();
+  int ret=CL10.clEnqueueUnmapMemObject(q,image,mapping.buffer,null,Utils.pointerBuffers[0]);
+  Utils.checkError(ret,"clEnqueueUnmapMemObject");
+  long event=Utils.pointerBuffers[0].get(0);
+  ret=CL10.clWaitForEvents(q.getCLEvent(event));
+  Utils.checkError(ret,"clWaitForEvents");
+}

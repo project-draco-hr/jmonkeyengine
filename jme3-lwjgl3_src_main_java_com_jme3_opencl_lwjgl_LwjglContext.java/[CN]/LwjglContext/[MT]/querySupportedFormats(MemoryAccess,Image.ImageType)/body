@@ -1,0 +1,22 @@
+{
+  long memFlags=Utils.getMemoryAccessFlags(access);
+  int typeFlag=LwjglImage.decodeImageType(type);
+  Utils.tempBuffers[0].b16i.rewind();
+  int ret=CL10.clGetSupportedImageFormats(context,memFlags,typeFlag,null,Utils.tempBuffers[0].b16i);
+  Utils.checkError(ret,"clGetSupportedImageFormats");
+  int count=Utils.tempBuffers[0].b16i.get(0);
+  if (count == 0) {
+    return new ImageFormat[0];
+  }
+  CLImageFormat.Buffer formatsB=new CLImageFormat.Buffer(BufferUtils.createByteBuffer(count * CLImageFormat.SIZEOF));
+  ret=CL10.clGetSupportedImageFormats(context,memFlags,typeFlag,formatsB,null);
+  Utils.checkError(ret,"clGetSupportedImageFormats");
+  ImageFormat[] formats=new ImageFormat[count];
+  for (int i=0; i < count; ++i) {
+    CLImageFormat f=formatsB.get();
+    Image.ImageChannelOrder channelOrder=LwjglImage.encodeImageChannelOrder(f.image_channel_order());
+    Image.ImageChannelType channelType=LwjglImage.encodeImageChannelType(f.image_channel_data_type());
+    formats[i]=new ImageFormat(channelOrder,channelType);
+  }
+  return formats;
+}

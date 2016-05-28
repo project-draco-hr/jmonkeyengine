@@ -1,0 +1,8 @@
+{
+  CLCommandQueue q=((LwjglCommandQueue)queue).getQueue();
+  long flags=Utils.getMappingAccessFlags(access);
+  Utils.errorBuffer.rewind();
+  ByteBuffer b=CL10.clEnqueueMapBuffer(q,buffer,CL10.CL_TRUE,flags,offset,size,null,null,Utils.errorBuffer);
+  Utils.checkError(Utils.errorBuffer,"clEnqueueMapBuffer");
+  return b;
+}

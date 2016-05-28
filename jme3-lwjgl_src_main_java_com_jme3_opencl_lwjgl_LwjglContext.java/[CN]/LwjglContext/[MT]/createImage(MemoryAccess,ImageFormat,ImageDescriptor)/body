@@ -1,0 +1,13 @@
+{
+  long memFlags=Utils.getMemoryAccessFlags(access);
+  Utils.errorBuffer.rewind();
+  Utils.tempBuffers[0].b16i.rewind();
+  Utils.tempBuffers[0].b16i.put(LwjglImage.decodeImageChannelOrder(format.channelOrder)).put(LwjglImage.decodeImageChannelType(format.channelType));
+  Utils.tempBuffers[0].b16.rewind();
+  Utils.b80l.rewind();
+  Utils.b80l.put(LwjglImage.decodeImageType(descr.type)).put(descr.width).put(descr.height).put(descr.depth).put(descr.arraySize).put(descr.rowPitch).put(descr.slicePitch).put(0).put(0).put(0);
+  Utils.b80.rewind();
+  CLMem mem=CL12.clCreateImage(context,memFlags,Utils.tempBuffers[0].b16,Utils.b80,descr.hostPtr,Utils.errorBuffer);
+  Utils.checkError(Utils.errorBuffer,"clCreateImage");
+  return new LwjglImage(mem);
+}

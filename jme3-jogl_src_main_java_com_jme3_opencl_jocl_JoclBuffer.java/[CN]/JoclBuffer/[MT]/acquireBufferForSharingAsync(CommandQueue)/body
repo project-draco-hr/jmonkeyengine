@@ -1,0 +1,9 @@
+{
+  Utils.pointers[0].rewind();
+  Utils.pointers[1].rewind();
+  Utils.pointers[1].put(0,id);
+  long q=((JoclCommandQueue)queue).id;
+  ((CLGL)cl).clEnqueueAcquireGLObjects(q,1,Utils.pointers[1],0,null,Utils.pointers[0]);
+  long event=Utils.pointers[0].get(0);
+  return new JoclEvent(event);
+}

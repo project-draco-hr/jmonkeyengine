@@ -1,0 +1,6 @@
+{
+  super(new ReleaserImpl(kernel));
+  this.kernel=kernel;
+  this.cl=CLPlatform.getLowLevelCLInterface();
+  OpenCLObjectManager.getInstance().registerObject(this);
+}

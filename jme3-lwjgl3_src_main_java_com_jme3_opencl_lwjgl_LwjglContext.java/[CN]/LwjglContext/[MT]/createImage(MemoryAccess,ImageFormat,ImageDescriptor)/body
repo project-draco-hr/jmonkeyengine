@@ -1,0 +1,30 @@
+{
+  long memFlags=Utils.getMemoryAccessFlags(access);
+  Utils.errorBuffer.rewind();
+  CLImageFormat f=null;
+  CLImageDesc d=null;
+  try {
+    f=CLImageFormat.malloc();
+    d=CLImageDesc.calloc();
+    f.image_channel_data_type(LwjglImage.decodeImageChannelType(format.channelType));
+    f.image_channel_order(LwjglImage.decodeImageChannelOrder(format.channelOrder));
+    d.image_type(LwjglImage.decodeImageType(descr.type));
+    d.image_width(descr.width);
+    d.image_height(descr.height);
+    d.image_depth(descr.depth);
+    d.image_array_size(descr.arraySize);
+    d.image_row_pitch(descr.rowPitch);
+    d.image_slice_pitch(descr.slicePitch);
+    long mem=CL12.clCreateImage(context,memFlags,f,d,descr.hostPtr,Utils.errorBuffer);
+    Utils.checkError(Utils.errorBuffer,"clCreateImage");
+    return new LwjglImage(mem);
+  }
+  finally {
+    if (f != null) {
+      f.free();
+    }
+    if (d != null) {
+      d.free();
+    }
+  }
+}
