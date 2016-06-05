@@ -1,0 +1,14 @@
+{
+  if (mode == DFSMode.POST_ORDER) {
+    for (    Spatial child : children.getArray()) {
+      child.depthFirstTraversal(visitor);
+    }
+    visitor.visit(this);
+  }
+ else {
+    visitor.visit(this);
+    for (    Spatial child : children.getArray()) {
+      child.depthFirstTraversal(visitor);
+    }
+  }
+}
