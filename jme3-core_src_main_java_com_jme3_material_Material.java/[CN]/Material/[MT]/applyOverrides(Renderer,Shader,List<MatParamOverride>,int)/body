@@ -1,7 +1,9 @@
 {
   MatParamOverride override;
+  boolean isArrayList=overrides instanceof ArrayList;
+  Iterator<MatParamOverride> iterator=isArrayList ? null : overrides.iterator();
   for (int i=0, listSize=overrides.size(); i < listSize; i++) {
-    override=overrides.get(i);
+    override=isArrayList ? overrides.get(i) : iterator.next();
     VarType type=override.getVarType();
     MatParam paramDef=def.getMaterialParam(override.getName());
     if (paramDef == null || paramDef.getVarType() != type || !override.isEnabled()) {
