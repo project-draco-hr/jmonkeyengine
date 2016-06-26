@@ -4,7 +4,7 @@
   worldTransform=new Transform();
   localLights=new LightList(this);
   worldLights=new LightList(this);
-  localOverrides=new ArrayList<>();
-  worldOverrides=new ArrayList<>();
+  localOverrides=new SafeArrayList<>(MatParamOverride.class);
+  worldOverrides=new SafeArrayList<>(MatParamOverride.class);
   refreshFlags|=RF_BOUND;
 }
