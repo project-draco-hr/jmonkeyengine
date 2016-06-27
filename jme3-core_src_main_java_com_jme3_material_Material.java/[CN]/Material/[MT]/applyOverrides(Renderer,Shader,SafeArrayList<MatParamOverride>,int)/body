@@ -1,5 +1,5 @@
 {
-  for (  MatParamOverride override : overrides) {
+  for (  MatParamOverride override : overrides.getArray()) {
     VarType type=override.getVarType();
     MatParam paramDef=def.getMaterialParam(override.getName());
     if (paramDef == null || paramDef.getVarType() != type || !override.isEnabled()) {

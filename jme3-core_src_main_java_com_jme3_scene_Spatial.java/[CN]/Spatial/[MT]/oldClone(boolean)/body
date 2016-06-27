@@ -8,8 +8,8 @@
     clone.localLights=localLights.clone();
     clone.localLights.setOwner(clone);
     clone.worldLights.setOwner(clone);
-    clone.worldOverrides=new ArrayList<MatParamOverride>();
-    clone.localOverrides=new ArrayList<MatParamOverride>();
+    clone.worldOverrides=new SafeArrayList<>(MatParamOverride.class);
+    clone.localOverrides=new SafeArrayList<>(MatParamOverride.class);
     for (    MatParamOverride override : localOverrides) {
       clone.localOverrides.add((MatParamOverride)override.clone());
     }
