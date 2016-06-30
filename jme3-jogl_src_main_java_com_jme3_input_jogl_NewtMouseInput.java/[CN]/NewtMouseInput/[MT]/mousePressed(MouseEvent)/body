@@ -1,5 +1,7 @@
 {
-  MouseButtonEvent evt=new MouseButtonEvent(getJMEButtonIndex(newtEvt),true,newtEvt.getX(),component.getSurfaceHeight() - newtEvt.getY());
+  mousePressedX=newtEvt.getX();
+  mousePressedY=component.getSurfaceHeight() - newtEvt.getY();
+  MouseButtonEvent evt=new MouseButtonEvent(getJMEButtonIndex(newtEvt),true,mousePressedX,mousePressedY);
   evt.setTime(newtEvt.getWhen());
 synchronized (eventQueue) {
     eventQueue.add(evt);
