@@ -1,6 +1,6 @@
 {
   if (isRecentering) {
-    if ((centerLocation.getX() == awtEvt.getX() && centerLocation.getY() == awtEvt.getY()) || eventsSinceRecenter++ == 5) {
+    if ((lockPosition.getX() == awtEvt.getX() && lockPosition.getY() == awtEvt.getY()) || eventsSinceRecenter++ == 5) {
       lastKnownLocation.setX(awtEvt.getX());
       lastKnownLocation.setY(awtEvt.getY());
       isRecentering=false;
