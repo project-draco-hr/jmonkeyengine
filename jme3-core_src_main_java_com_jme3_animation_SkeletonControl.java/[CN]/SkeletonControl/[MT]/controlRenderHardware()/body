@@ -4,7 +4,7 @@
     MatParam currentParam=m.getParam("BoneMatrices");
     if (currentParam != null) {
       if (currentParam.getValue() != offsetMatrices) {
-        throw new UnsupportedOperationException("Material instances cannot be shared when hardware skinning is used. " + "Ensure all models use unique material instances.");
+        Logger.getLogger(SkeletonControl.class.getName()).log(Level.SEVERE,"Material instances cannot be shared when hardware skinning is used. " + "Ensure all models use unique material instances.");
       }
     }
     m.setParam("BoneMatrices",VarType.Matrix4Array,offsetMatrices);
