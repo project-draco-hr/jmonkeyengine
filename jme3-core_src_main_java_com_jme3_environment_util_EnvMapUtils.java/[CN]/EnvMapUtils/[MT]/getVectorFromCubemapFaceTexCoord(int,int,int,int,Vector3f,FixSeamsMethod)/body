@@ -1,0 +1,41 @@
+{
+  if (store == null) {
+    store=new Vector3f();
+  }
+  float u;
+  float v;
+  if (fixSeamsMethod == FixSeamsMethod.Stretch) {
+    u=(2.0f * (float)x / ((float)mapSize - 1.0f)) - 1.0f;
+    v=(2.0f * (float)y / ((float)mapSize - 1.0f)) - 1.0f;
+  }
+ else {
+    u=(2.0f * ((float)x + 0.5f) / (float)(mapSize)) - 1.0f;
+    v=(2.0f * ((float)y + 0.5f) / (float)(mapSize)) - 1.0f;
+  }
+  if (fixSeamsMethod == FixSeamsMethod.Wrap) {
+    float a=pow((float)mapSize,2.0f) / pow(((float)mapSize - 1f),3.0f);
+    u=a * pow(u,3f) + u;
+    v=a * pow(v,3f) + v;
+  }
+switch (face) {
+case 0:
+    store.set(1f,-v,-u);
+  break;
+case 1:
+store.set(-1f,-v,u);
+break;
+case 2:
+store.set(u,1f,v);
+break;
+case 3:
+store.set(u,-1f,-v);
+break;
+case 4:
+store.set(u,-v,1f);
+break;
+case 5:
+store.set(-u,-v,-1.0f);
+break;
+}
+return store.normalizeLocal();
+}

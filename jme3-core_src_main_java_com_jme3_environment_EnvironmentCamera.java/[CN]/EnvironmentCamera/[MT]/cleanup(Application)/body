@@ -1,0 +1,11 @@
+{
+  this.backGroundColor=null;
+  for (  final FrameBuffer frameBuffer : framebuffers) {
+    frameBuffer.dispose();
+  }
+  for (  final Image image : images) {
+    if (image != null) {
+      image.dispose();
+    }
+  }
+}

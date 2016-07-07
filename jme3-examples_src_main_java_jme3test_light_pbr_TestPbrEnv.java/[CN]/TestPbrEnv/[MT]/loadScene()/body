@@ -1,0 +1,41 @@
+{
+  renderManager.setPreferredLightMode(TechniqueDef.LightMode.SinglePass);
+  renderManager.setSinglePassLightBatchSize(3);
+  obj=new Spatial[2];
+  mat=new Material[2];
+  mat[0]=assetManager.loadMaterial("jme3test/light/pbr/pbrMat.j3m");
+  mat[1]=assetManager.loadMaterial("jme3test/light/pbr/pbrMat2.j3m");
+  obj[0]=new Geometry("sphere",new Sphere(30,30,2));
+  obj[0].setShadowMode(ShadowMode.CastAndReceive);
+  obj[1]=new Geometry("cube",new Box(1.0f,1.0f,1.0f));
+  obj[1].setShadowMode(ShadowMode.CastAndReceive);
+  TangentBinormalGenerator.generate(obj[1]);
+  TangentBinormalGenerator.generate(obj[0]);
+  for (int i=0; i < 2; i++) {
+    Spatial t=obj[0].clone(false);
+    t.setName("Cube" + i);
+    t.setLocalScale(10f);
+    t.setMaterial(mat[1].clone());
+    rootNode.attachChild(t);
+    t.setLocalTranslation(i * 200f + 100f,50,800f * (i));
+  }
+  Box b=new Box(1000,2,1000);
+  b.scaleTextureCoordinates(new Vector2f(20,20));
+  ground=new Geometry("soil",b);
+  TangentBinormalGenerator.generate(ground);
+  ground.setLocalTranslation(0,10,550);
+  matGroundU=new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+  matGroundU.setColor("Color",ColorRGBA.Green);
+  matGroundL=assetManager.loadMaterial("jme3test/light/pbr/pbrMat4.j3m");
+  ground.setMaterial(matGroundL);
+  rootNode.attachChild(ground);
+  l=new DirectionalLight();
+  l.setColor(ColorRGBA.White);
+  l.setDirection(new Vector3f(-0.2823181f,-0.41889593f,0.863031f).normalizeLocal());
+  rootNode.addLight(l);
+  AmbientLight al=new AmbientLight();
+  al.setColor(ColorRGBA.White.mult(0.5f));
+  Spatial sky=SkyFactory.createSky(assetManager,"Textures/Sky/Path.hdr",SkyFactory.EnvMapType.EquirectMap);
+  sky.setLocalScale(350);
+  rootNode.attachChild(sky);
+}

@@ -1,0 +1,18 @@
+{
+  if (jobs.isEmpty()) {
+    return;
+  }
+  final SnapshotJob job=jobs.get(0);
+  for (int i=0; i < 6; i++) {
+    viewports[i].clearScenes();
+    viewports[i].attachScene(job.scene);
+    renderManager.renderViewPort(viewports[i],0.16f);
+    buffers[i]=BufferUtils.createByteBuffer(size * size * imageFormat.getBitsPerPixel() / 8);
+    renderManager.getRenderer().readFrameBufferWithFormat(framebuffers[i],buffers[i],imageFormat);
+    images[i]=new Image(imageFormat,size,size,buffers[i],ColorSpace.Linear);
+  }
+  final TextureCubeMap map=EnvMapUtils.makeCubeMap(images[0],images[1],images[2],images[3],images[4],images[5],imageFormat);
+  job.callback.done(map);
+  map.getImage().dispose();
+  jobs.remove(0);
+}

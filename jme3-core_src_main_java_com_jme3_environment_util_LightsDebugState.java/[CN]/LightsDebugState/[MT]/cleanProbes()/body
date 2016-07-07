@@ -1,0 +1,14 @@
+{
+  if (probes.size() != probeMapping.size()) {
+    for (    LightProbe probe : probeMapping.keySet()) {
+      if (!probes.contains(probe)) {
+        garbage.add(probe);
+      }
+    }
+    for (    LightProbe probe : garbage) {
+      probeMapping.remove(probe);
+    }
+    garbage.clear();
+    probes.clear();
+  }
+}

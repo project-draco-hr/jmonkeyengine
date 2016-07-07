@@ -1,0 +1,26 @@
+{
+  setMode(Mode.Lines);
+  FloatBuffer posBuf=BufferUtils.createVector3Buffer((radialSamples + 1));
+  FloatBuffer colBuf=BufferUtils.createFloatBuffer((radialSamples + 1) * 4);
+  FloatBuffer texBuf=BufferUtils.createVector2Buffer(radialSamples + 1);
+  setBuffer(Type.Position,3,posBuf);
+  setBuffer(Type.Color,4,colBuf);
+  setBuffer(Type.TexCoord,2,texBuf);
+  float fInvRS=1.0f / radialSamples;
+  float[] afSin=new float[(radialSamples + 1)];
+  float[] afCos=new float[(radialSamples + 1)];
+  for (int iR=0; iR < radialSamples; iR++) {
+    float fAngle=FastMath.TWO_PI * fInvRS * iR;
+    afCos[iR]=FastMath.cos(fAngle);
+    afSin[iR]=FastMath.sin(fAngle);
+  }
+  afSin[radialSamples]=afSin[0];
+  afCos[radialSamples]=afCos[0];
+  for (int iR=0; iR <= radialSamples; iR++) {
+    posBuf.put(afCos[iR]).put(afSin[iR]).put(0);
+    colBuf.put(ColorRGBA.Orange.r).put(ColorRGBA.Orange.g).put(ColorRGBA.Orange.b).put(ColorRGBA.Orange.a);
+    texBuf.put(iR % 2f).put(iR % 2f);
+  }
+  updateBound();
+  setStatic();
+}

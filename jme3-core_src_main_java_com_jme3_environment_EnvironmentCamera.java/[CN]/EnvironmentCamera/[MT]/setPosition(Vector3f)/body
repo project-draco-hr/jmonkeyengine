@@ -1,0 +1,9 @@
+{
+  this.position.set(position);
+  if (viewports == null) {
+    return;
+  }
+  for (  final ViewPort viewPort : viewports) {
+    viewPort.getCamera().setLocation(position);
+  }
+}

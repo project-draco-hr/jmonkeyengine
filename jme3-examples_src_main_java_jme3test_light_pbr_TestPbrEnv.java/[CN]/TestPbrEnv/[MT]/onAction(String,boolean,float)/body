@@ -1,0 +1,65 @@
+{
+  if (name.equals("switchGroundMat") && keyPressed) {
+    if (ground.getMaterial() == matGroundL) {
+      ground.setMaterial(matGroundU);
+    }
+ else {
+      ground.setMaterial(matGroundL);
+    }
+  }
+  if (name.equals("snapshot") && keyPressed) {
+    envCam.setPosition(camGeom.getWorldTranslation());
+    lastProbe=LightProbeFactory.makeProbe(envCam,rootNode,new ConsoleProgressReporter());
+    ((BoundingSphere)lastProbe.getBounds()).setRadius(200);
+    rootNode.addLight(lastProbe);
+  }
+  if (name.equals("delete") && keyPressed) {
+    System.err.println(rootNode.getWorldLightList().size());
+    rootNode.removeLight(lastProbe);
+    System.err.println("deleted");
+    System.err.println(rootNode.getWorldLightList().size());
+  }
+  if (name.equals("fc") && keyPressed) {
+    flyCam.setEnabled(true);
+  }
+  if (name.equals("debugProbe") && keyPressed) {
+    if (!debugState.isEnabled()) {
+      debugState.setEnabled(true);
+      debugState.setDebugMode(LightsDebugState.DebugMode.IrradianceMap);
+    }
+ else     if (debugState.getDebugMode() == LightsDebugState.DebugMode.IrradianceMap) {
+      debugState.setDebugMode(LightsDebugState.DebugMode.PrefilteredEnvMap);
+    }
+ else     if (debugState.getDebugMode() == LightsDebugState.DebugMode.PrefilteredEnvMap) {
+      debugState.setEnabled(false);
+    }
+  }
+  if (name.equals("debugTex") && keyPressed) {
+    if (debugGui == null || debugGui.getParent() == null) {
+      debugGui=lastProbe.getDebugGui(assetManager);
+      debugGui.setLocalTranslation(10,200,0);
+      guiNode.attachChild(debugGui);
+    }
+ else     if (debugGui != null) {
+      debugGui.removeFromParent();
+    }
+  }
+  if (name.equals("up")) {
+    up=keyPressed;
+  }
+  if (name.equals("down")) {
+    down=keyPressed;
+  }
+  if (name.equals("right")) {
+    right=keyPressed;
+  }
+  if (name.equals("left")) {
+    left=keyPressed;
+  }
+  if (name.equals("fwd")) {
+    fwd=keyPressed;
+  }
+  if (name.equals("back")) {
+    back=keyPressed;
+  }
+}

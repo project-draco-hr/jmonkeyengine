@@ -1,0 +1,23 @@
+{
+  app.enqueue(new Callable<Void>(){
+    @Override public Void call() throws Exception {
+      listener.start();
+      return null;
+    }
+  }
+);
+  try {
+    Vector3f[] shCoeffs=EnvMapUtils.getSphericalHarmonicsCoefficents(sourceMap);
+    store=generateIrradianceMap(shCoeffs,targetMapSize,fixSeamsMethod,store);
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  app.enqueue(new Callable<Void>(){
+    @Override public Void call() throws Exception {
+      listener.done(6);
+      return null;
+    }
+  }
+);
+}

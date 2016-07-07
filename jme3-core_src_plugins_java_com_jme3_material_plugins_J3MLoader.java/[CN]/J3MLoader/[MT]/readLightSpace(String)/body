@@ -1,0 +1,8 @@
+{
+  String[] split=statement.split(whitespacePattern);
+  if (split.length != 2) {
+    throw new IOException("LightSpace statement syntax incorrect");
+  }
+  TechniqueDef.LightSpace ls=TechniqueDef.LightSpace.valueOf(split[1]);
+  technique.setLightSpace(ls);
+}

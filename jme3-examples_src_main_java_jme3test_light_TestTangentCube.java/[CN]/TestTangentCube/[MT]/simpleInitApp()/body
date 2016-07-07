@@ -1,0 +1,22 @@
+{
+  Box aBox=new Box(1,1,1);
+  Geometry aGeometry=new Geometry("Box",aBox);
+  TangentBinormalGenerator.generate(aBox);
+  Material aMaterial=new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");
+  aMaterial.setTexture("DiffuseMap",assetManager.loadTexture("Textures/Terrain/BrickWall/BrickWall.jpg"));
+  aMaterial.setTexture("NormalMap",assetManager.loadTexture("Textures/Terrain/BrickWall/BrickWall_normal.jpg"));
+  aMaterial.setBoolean("UseMaterialColors",false);
+  aMaterial.setColor("Diffuse",ColorRGBA.White);
+  aMaterial.setColor("Specular",ColorRGBA.White);
+  aMaterial.setFloat("Shininess",64f);
+  aGeometry.setMaterial(aMaterial);
+  aGeometry.rotate(FastMath.QUARTER_PI,FastMath.QUARTER_PI,0.0f);
+  rootNode.attachChild(aGeometry);
+  PointLight aLight=new PointLight();
+  aLight.setPosition(new Vector3f(0,3,3));
+  aLight.setColor(ColorRGBA.Red);
+  rootNode.addLight(aLight);
+  ChaseCameraAppState chaser=new ChaseCameraAppState();
+  chaser.setTarget(aGeometry);
+  getStateManager().attach(chaser);
+}

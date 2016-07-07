@@ -1,0 +1,17 @@
+{
+  frame++;
+  if (frame == 2) {
+    modelNode.removeFromParent();
+    final LightProbe probe=LightProbeFactory.makeProbe(stateManager.getState(EnvironmentCamera.class),rootNode,new JobProgressAdapter<LightProbe>(){
+      @Override public void done(      LightProbe result){
+        System.err.println("Done rendering env maps");
+      }
+    }
+);
+    ((BoundingSphere)probe.getBounds()).setRadius(100);
+    rootNode.addLight(probe);
+  }
+  if (frame > 10 && modelNode.getParent() == null) {
+    rootNode.attachChild(modelNode);
+  }
+}

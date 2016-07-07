@@ -13,7 +13,7 @@
   Shader shader=technique.makeCurrent(renderManager,overrides,renderManager.getForcedMatParams(),lights,rendererCaps);
   clearUniformsSetByCurrent(shader);
   renderManager.updateUniformBindings(shader);
-  updateShaderMaterialParameters(renderer,shader,overrides,renderManager.getForcedMatParams());
+  int unit=updateShaderMaterialParameters(renderer,shader,overrides,renderManager.getForcedMatParams());
   resetUniformsNotSetByCurrent(shader);
-  technique.render(renderManager,shader,geometry,lights);
+  technique.render(renderManager,shader,geometry,lights,unit);
 }

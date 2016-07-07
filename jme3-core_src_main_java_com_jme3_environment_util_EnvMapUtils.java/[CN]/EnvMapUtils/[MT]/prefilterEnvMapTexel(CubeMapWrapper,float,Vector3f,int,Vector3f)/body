@@ -1,0 +1,30 @@
+{
+  Vector3f prefilteredColor=store;
+  float totalWeight=0.0f;
+  TempVars vars=TempVars.get();
+  Vector4f Xi=vars.vect4f1;
+  Vector3f H=vars.vect1;
+  Vector3f tmp=vars.vect2;
+  ColorRGBA c=vars.color;
+  float a2=roughness * roughness;
+  a2*=a2;
+  a2*=10;
+  for (int i=0; i < numSamples; i++) {
+    Xi=getHammersleyPoint(i,numSamples,Xi);
+    H=importanceSampleGGX(Xi,a2,N,H,vars);
+    H.normalizeLocal();
+    tmp.set(H);
+    float NoH=N.dot(tmp);
+    Vector3f L=tmp.multLocal(NoH * 2).subtractLocal(N);
+    float NoL=clamp(N.dot(L),0.0f,1.0f);
+    if (NoL > 0) {
+      envMapReader.getPixel(L,c);
+      prefilteredColor.setX(prefilteredColor.x + c.r * NoL);
+      prefilteredColor.setY(prefilteredColor.y + c.g * NoL);
+      prefilteredColor.setZ(prefilteredColor.z + c.b * NoL);
+      totalWeight+=NoL;
+    }
+  }
+  vars.release();
+  return prefilteredColor.divideLocal(totalWeight);
+}

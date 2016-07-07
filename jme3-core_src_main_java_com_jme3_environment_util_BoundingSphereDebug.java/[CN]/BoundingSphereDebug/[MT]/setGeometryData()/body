@@ -1,0 +1,31 @@
+{
+  setMode(Mode.Lines);
+  FloatBuffer posBuf=BufferUtils.createVector3Buffer((radialSamples + 1) * 3);
+  FloatBuffer colBuf=BufferUtils.createVector3Buffer((radialSamples + 1) * 4);
+  setBuffer(Type.Position,3,posBuf);
+  setBuffer(Type.Color,4,colBuf);
+  float fInvRS=1.0f / radialSamples;
+  float[] afSin=new float[(radialSamples + 1)];
+  float[] afCos=new float[(radialSamples + 1)];
+  for (int iR=0; iR < radialSamples; iR++) {
+    float fAngle=FastMath.TWO_PI * fInvRS * iR;
+    afCos[iR]=FastMath.cos(fAngle);
+    afSin[iR]=FastMath.sin(fAngle);
+  }
+  afSin[radialSamples]=afSin[0];
+  afCos[radialSamples]=afCos[0];
+  for (int iR=0; iR <= radialSamples; iR++) {
+    posBuf.put(afCos[iR]).put(afSin[iR]).put(0);
+    colBuf.put(ColorRGBA.Blue.r).put(ColorRGBA.Blue.g).put(ColorRGBA.Blue.b).put(ColorRGBA.Blue.a);
+  }
+  for (int iR=0; iR <= radialSamples; iR++) {
+    posBuf.put(afCos[iR]).put(0).put(afSin[iR]);
+    colBuf.put(ColorRGBA.Green.r).put(ColorRGBA.Green.g).put(ColorRGBA.Green.b).put(ColorRGBA.Green.a);
+  }
+  for (int iR=0; iR <= radialSamples; iR++) {
+    posBuf.put(0).put(afCos[iR]).put(afSin[iR]);
+    colBuf.put(ColorRGBA.Yellow.r).put(ColorRGBA.Yellow.g).put(ColorRGBA.Yellow.b).put(ColorRGBA.Yellow.a);
+  }
+  updateBound();
+  setStatic();
+}

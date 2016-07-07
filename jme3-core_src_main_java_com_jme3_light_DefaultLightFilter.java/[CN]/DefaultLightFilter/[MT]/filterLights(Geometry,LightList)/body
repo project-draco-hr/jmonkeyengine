@@ -28,8 +28,14 @@
           }
         }
       }
-      filteredLightList.add(light);
+      if (light.getType() == Light.Type.Probe) {
+        probeBlendStrat.registerProbe((LightProbe)light);
+      }
+ else {
+        filteredLightList.add(light);
+      }
     }
+    probeBlendStrat.populateProbes(geometry,filteredLightList);
   }
   finally {
     vars.release();

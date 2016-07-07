@@ -1,0 +1,18 @@
+{
+  int nbRenderedLights=0;
+  Renderer renderer=renderManager.getRenderer();
+  int batchSize=renderManager.getSinglePassLightBatchSize();
+  if (lights.size() == 0) {
+    updateLightListUniforms(shader,geometry,lights,batchSize,renderManager,0,lastTexUnit);
+    renderer.setShader(shader);
+    renderMeshFromGeometry(renderer,geometry);
+  }
+ else {
+    while (nbRenderedLights < lights.size()) {
+      nbRenderedLights=updateLightListUniforms(shader,geometry,lights,batchSize,renderManager,nbRenderedLights,lastTexUnit);
+      renderer.setShader(shader);
+      renderMeshFromGeometry(renderer,geometry);
+    }
+  }
+  return;
+}

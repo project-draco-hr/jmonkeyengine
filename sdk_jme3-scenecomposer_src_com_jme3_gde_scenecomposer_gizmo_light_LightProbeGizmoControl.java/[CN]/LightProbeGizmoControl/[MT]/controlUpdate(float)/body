@@ -1,0 +1,15 @@
+{
+  if (!lightProbe.getPosition().equals(lastPos)) {
+    if (getSpatial() != null) {
+      lastPos.set(lightProbe.getPosition());
+      getSpatial().setLocalTranslation(lastPos);
+    }
+  }
+  Geometry probeGeom=(Geometry)((Node)getSpatial()).getChild(0);
+  Material m=probeGeom.getMaterial();
+  if (lightProbe.isReady()) {
+    m.setTexture("CubeMap",lightProbe.getPrefilteredEnvMap());
+  }
+  Geometry probeRadius=(Geometry)((Node)getSpatial()).getChild(1);
+  probeRadius.setLocalScale(((BoundingSphere)lightProbe.getBounds()).getRadius());
+}

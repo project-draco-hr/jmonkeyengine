@@ -1,0 +1,10 @@
+{
+  TextureCubeMap pem=new TextureCubeMap(size,size,imageFormat);
+  pem.setMagFilter(Texture.MagFilter.Bilinear);
+  pem.setMinFilter(Texture.MinFilter.Trilinear);
+  pem.getImage().setColorSpace(ColorSpace.Linear);
+  int nbMipMap=(int)(Math.log(size) / Math.log(2) - 1);
+  CubeMapWrapper targetWrapper=new CubeMapWrapper(pem);
+  targetWrapper.initMipMaps(nbMipMap);
+  return pem;
+}

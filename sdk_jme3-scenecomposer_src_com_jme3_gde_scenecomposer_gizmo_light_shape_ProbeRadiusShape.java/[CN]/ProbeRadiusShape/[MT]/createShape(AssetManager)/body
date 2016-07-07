@@ -1,0 +1,14 @@
+{
+  ProbeRadiusShape b=new ProbeRadiusShape();
+  Geometry geom=new Geometry("BoundingDebug",b);
+  Material mat=new Material(assetManager,"com/jme3/gde/scenecomposer/gizmo/light/mat/dashed/dashed.j3md");
+  mat.getAdditionalRenderState().setWireframe(true);
+  mat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
+  mat.getAdditionalRenderState().setDepthWrite(false);
+  mat.getAdditionalRenderState().setDepthTest(false);
+  mat.setFloat("DashSize",0.5f);
+  geom.setQueueBucket(RenderQueue.Bucket.Transparent);
+  geom.addControl(new BillboardControl());
+  geom.setMaterial(mat);
+  return geom;
+}

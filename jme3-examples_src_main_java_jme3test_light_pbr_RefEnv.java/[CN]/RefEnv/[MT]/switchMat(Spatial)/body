@@ -1,0 +1,24 @@
+{
+  if (s instanceof Node) {
+    Node n=(Node)s;
+    for (    Spatial children : n.getChildren()) {
+      switchMat(children);
+    }
+  }
+ else   if (s instanceof Geometry) {
+    Geometry g=(Geometry)s;
+    Material mat=g.getMaterial();
+    if (((Float)mat.getParam("Metallic").getValue()) == 1f) {
+      mat.setFloat("Metallic",0);
+      mat.setColor("BaseColor",ColorRGBA.Black);
+      ref.attachChild(refDE);
+      refM.removeFromParent();
+    }
+ else {
+      mat.setFloat("Metallic",1);
+      mat.setColor("BaseColor",ColorRGBA.White);
+      ref.attachChild(refM);
+      refDE.removeFromParent();
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  List<BlendFactor> blendFactors=new ArrayList<BlendFactor>();
+  float sumBlendFactors=computeBlendFactors(blendFactors);
+  Collections.sort(blendFactors);
+  float normalizer=1f / sumBlendFactors;
+  for (  BlendFactor blendFactor : blendFactors) {
+    blendFactor.ndf*=normalizer;
+  }
+  if (!blendFactors.isEmpty()) {
+    probe=blendFactors.get(0).lightProbe;
+  }
+ else {
+    probe=null;
+  }
+}

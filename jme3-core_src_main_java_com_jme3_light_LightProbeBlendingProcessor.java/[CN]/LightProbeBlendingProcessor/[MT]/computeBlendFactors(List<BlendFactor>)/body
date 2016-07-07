@@ -1,0 +1,29 @@
+{
+  float sumBlendFactors=0;
+  for (  Spatial scene : viewPort.getScenes()) {
+    for (    Light light : scene.getWorldLightList()) {
+      if (light.getType() == Light.Type.Probe) {
+        LightProbe p=(LightProbe)light;
+        TempVars vars=TempVars.get();
+        boolean intersect=p.intersectsFrustum(viewPort.getCamera(),vars);
+        vars.release();
+        if (intersect) {
+          if (poi.getWorldBound().intersects(p.getBounds())) {
+            float outerRadius=((BoundingSphere)p.getBounds()).getRadius();
+            float innerRadius=outerRadius * 0.5f;
+            float distance=p.getBounds().getCenter().distance(poi.getWorldTranslation());
+            if (distance < innerRadius) {
+              blendFactors.clear();
+              blendFactors.add(new BlendFactor(p,1.0f));
+              return 1.0f;
+            }
+            float ndf=(distance - innerRadius) / (outerRadius - innerRadius);
+            sumBlendFactors+=ndf;
+            blendFactors.add(new BlendFactor(p,ndf));
+          }
+        }
+      }
+    }
+  }
+  return sumBlendFactors;
+}

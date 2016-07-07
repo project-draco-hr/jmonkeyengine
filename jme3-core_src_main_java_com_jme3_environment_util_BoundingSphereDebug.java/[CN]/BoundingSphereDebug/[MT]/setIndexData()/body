@@ -1,0 +1,16 @@
+{
+  int nbSegments=(radialSamples) * 3;
+  ShortBuffer idxBuf=BufferUtils.createShortBuffer(2 * nbSegments);
+  setBuffer(Type.Index,2,idxBuf);
+  int idx=0;
+  int segDone=0;
+  while (segDone < nbSegments) {
+    idxBuf.put((short)idx);
+    idxBuf.put((short)(idx + 1));
+    idx++;
+    segDone++;
+    if (segDone == radialSamples || segDone == radialSamples * 2) {
+      idx++;
+    }
+  }
+}
