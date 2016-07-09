@@ -1,3 +1,6 @@
 {
+  if (used) {
+    throw new IllegalStateException("An Buffer was already allocated, since it is quite likely that other dispose methods will create native dangling pointers or other fun things, this is forbidden to be changed at runtime");
+  }
   BufferUtils.allocator=allocator;
 }
