@@ -1,5 +1,5 @@
 {
-  ByteBuffer buf=ByteBuffer.allocateDirect(size).order(ByteOrder.nativeOrder());
+  ByteBuffer buf=allocator.allocate(size).order(ByteOrder.nativeOrder());
   buf.clear();
   onBufferAllocated(buf);
   return buf;
