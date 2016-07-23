@@ -1,0 +1,19 @@
+{
+  StringBuilder str=new StringBuilder();
+  str.append("Image (");
+  ImageType t=getImageType();
+  str.append(t);
+  str.append(", w=").append(getWidth());
+  if (t == ImageType.IMAGE_2D || t == ImageType.IMAGE_3D) {
+    str.append(", h=").append(getHeight());
+  }
+  if (t == ImageType.IMAGE_3D) {
+    str.append(", d=").append(getDepth());
+  }
+  if (t == ImageType.IMAGE_1D_ARRAY || t == ImageType.IMAGE_2D_ARRAY) {
+    str.append(", arrays=").append(getArraySize());
+  }
+  str.append(", ").append(getImageFormat());
+  str.append(')');
+  return str.toString();
+}

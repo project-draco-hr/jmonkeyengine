@@ -1,8 +1,7 @@
 {
   clContext=context.getOpenCLContext();
   Device device=clContext.getDevices().get(0);
-  clQueue=clContext.createQueue(device);
-  clQueue.register();
+  clQueue=clContext.createQueue(device).register();
   Program program=null;
   File tmpFolder=JmeSystem.getStorageFolder();
   File binaryFile=new File(tmpFolder,getClass().getSimpleName() + ".clc");
@@ -34,6 +33,5 @@ catch (  Exception ex) {
     LOG.info("create new program from sources");
   }
   program.register();
-  kernel=program.createKernel("ScaleKernel");
-  kernel.register();
+  kernel=program.createKernel("ScaleKernel").register();
 }
