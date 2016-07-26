@@ -1,5 +1,5 @@
 {
-  ShortBuffer buf=ByteBuffer.allocateDirect(2 * size).order(ByteOrder.nativeOrder()).asShortBuffer();
+  ShortBuffer buf=allocator.allocate(2 * size).order(ByteOrder.nativeOrder()).asShortBuffer();
   buf.clear();
   onBufferAllocated(buf);
   return buf;
