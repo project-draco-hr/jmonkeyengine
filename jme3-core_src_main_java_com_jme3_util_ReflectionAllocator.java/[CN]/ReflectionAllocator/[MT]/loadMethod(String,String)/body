@@ -13,4 +13,12 @@ catch (  SecurityException ex) {
 catch (  ClassNotFoundException ex) {
     return null;
   }
+catch (  Throwable t) {
+    if (t.getClass().getName().equals("java.lang.reflect.InaccessibleObjectException")) {
+      return null;
+    }
+ else {
+      throw t;
+    }
+  }
 }

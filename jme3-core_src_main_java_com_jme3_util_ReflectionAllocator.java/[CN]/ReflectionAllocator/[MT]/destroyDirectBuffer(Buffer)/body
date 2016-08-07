@@ -4,17 +4,58 @@
       freeMethod.invoke(toBeDestroyed);
     }
  else {
-      Object cleaner=cleanerMethod.invoke(toBeDestroyed);
-      if (cleaner != null) {
-        cleanMethod.invoke(cleaner);
+      Method localCleanerMethod;
+      if (cleanerMethod == null) {
+        localCleanerMethod=loadMethod(toBeDestroyed.getClass().getName(),"cleaner");
       }
  else {
-        Object viewedBuffer=viewedBufferMethod.invoke(toBeDestroyed);
-        if (viewedBuffer != null) {
-          destroyDirectBuffer((Buffer)viewedBuffer);
+        localCleanerMethod=cleanerMethod;
+      }
+      if (localCleanerMethod == null) {
+        Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"Buffer cannot be destroyed: {0}",toBeDestroyed);
+      }
+ else {
+        Object cleaner=localCleanerMethod.invoke(toBeDestroyed);
+        if (cleaner != null) {
+          Method localCleanMethod;
+          if (cleanMethod == null) {
+            if (cleaner instanceof Runnable) {
+              localCleanMethod=loadMethod(Runnable.class.getName(),"run");
+            }
+ else {
+              localCleanMethod=loadMethod(cleaner.getClass().getName(),"clean");
+            }
+          }
+ else {
+            localCleanMethod=cleanMethod;
+          }
+          if (localCleanMethod == null) {
+            Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"Buffer cannot be destroyed: {0}",toBeDestroyed);
+          }
+ else {
+            localCleanMethod.invoke(cleaner);
+          }
         }
  else {
-          Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"Buffer cannot be destroyed: {0}",toBeDestroyed);
+          Method localViewedBufferMethod;
+          if (viewedBufferMethod == null) {
+            localViewedBufferMethod=loadMethod(toBeDestroyed.getClass().getName(),"viewedBuffer");
+          }
+ else {
+            localViewedBufferMethod=viewedBufferMethod;
+          }
+          if (localViewedBufferMethod == null) {
+            Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"Buffer cannot be destroyed: {0}",toBeDestroyed);
+          }
+ else {
+            Object viewedBuffer=localViewedBufferMethod.invoke(toBeDestroyed);
+            if (viewedBuffer != null) {
+              destroyDirectBuffer((Buffer)viewedBuffer);
+            }
+ else {
+              Logger.getLogger(BufferUtils.class.getName()).log(Level.SEVERE,"Buffer cannot be destroyed: {0}",toBeDestroyed);
+            }
+          }
         }
       }
     }
