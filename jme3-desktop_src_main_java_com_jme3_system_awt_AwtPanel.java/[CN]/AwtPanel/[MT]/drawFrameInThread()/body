@@ -11,13 +11,12 @@ synchronized (lock) {
         ex.printStackTrace();
       }
       strategy=getBufferStrategy();
-      System.out.println("OGL: Visible. Create strategy.");
     }
     do {
       do {
         Graphics2D g2d=(Graphics2D)strategy.getDrawGraphics();
         if (g2d == null) {
-          System.out.println("OGL: DrawGraphics was null.");
+          Logger.getLogger(AwtPanel.class.getName()).log(Level.WARNING,"OGL: DrawGraphics was null.");
           return;
         }
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_SPEED);
