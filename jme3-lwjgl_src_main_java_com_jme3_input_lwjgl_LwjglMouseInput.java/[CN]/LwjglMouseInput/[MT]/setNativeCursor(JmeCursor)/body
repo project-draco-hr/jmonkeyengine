@@ -2,7 +2,11 @@
   try {
     Cursor newCursor=null;
     if (jmeCursor != null) {
-      newCursor=new Cursor(jmeCursor.getWidth(),jmeCursor.getHeight(),jmeCursor.getXHotSpot(),jmeCursor.getYHotSpot(),jmeCursor.getNumImages(),jmeCursor.getImagesData(),jmeCursor.getImagesDelay());
+      newCursor=cursorMap.get(jmeCursor);
+      if (newCursor == null) {
+        newCursor=new Cursor(jmeCursor.getWidth(),jmeCursor.getHeight(),jmeCursor.getXHotSpot(),jmeCursor.getYHotSpot(),jmeCursor.getNumImages(),jmeCursor.getImagesData(),jmeCursor.getImagesDelay());
+        cursorMap.put(jmeCursor,newCursor);
+      }
     }
     Mouse.setNativeCursor(newCursor);
   }
