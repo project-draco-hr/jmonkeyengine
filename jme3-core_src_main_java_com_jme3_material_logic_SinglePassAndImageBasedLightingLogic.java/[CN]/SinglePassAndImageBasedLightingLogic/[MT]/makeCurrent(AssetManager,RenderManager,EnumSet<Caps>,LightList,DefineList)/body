@@ -1,12 +1,14 @@
 {
   defines.set(nbLightsDefineId,renderManager.getSinglePassLightBatchSize() * 3);
   defines.set(singlePassLightingDefineId,true);
-  lightProbe=extractIndirectLights(lights,false);
-  if (lightProbe == null) {
-    defines.set(indirectLightingDefineId,false);
-  }
+  if (lights != null) {
+    lightProbe=extractIndirectLights(lights,false);
+    if (lightProbe == null) {
+      defines.set(indirectLightingDefineId,false);
+    }
  else {
-    defines.set(indirectLightingDefineId,true);
+      defines.set(indirectLightingDefineId,true);
+    }
   }
   return super.makeCurrent(assetManager,renderManager,rendererCaps,lights,defines);
 }
