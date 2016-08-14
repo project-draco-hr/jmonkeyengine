@@ -9,7 +9,7 @@
   lightProbeData.setVector4Length(1);
   Uniform lightProbeIrrMap=shader.getUniform("g_IrradianceMap");
   Uniform lightProbePemMap=shader.getUniform("g_PrefEnvMap");
-  LightProbe lightProbe=null;
+  lightProbe=null;
   if (startIndex != 0) {
     rm.getRenderer().applyRenderState(ADDITIVE_LIGHT);
     ambientColor.setValue(VarType.Vector4,ColorRGBA.Black);
@@ -36,7 +36,6 @@
   Vector4f tmpVec=vars.vect4f1;
   int curIndex;
   int endIndex=numLights + startIndex;
-  boolean useIBL=false;
   for (curIndex=startIndex; curIndex < endIndex && curIndex < lightList.size(); curIndex++) {
     Light l=lightList.get(curIndex);
     if (l.getType() == Light.Type.Ambient) {
