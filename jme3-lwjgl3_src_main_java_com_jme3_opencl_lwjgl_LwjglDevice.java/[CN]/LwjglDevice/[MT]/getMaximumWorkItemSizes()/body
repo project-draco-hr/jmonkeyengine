@@ -1,7 +1,7 @@
 {
   int dim=(int)getMaximumWorkItemDimensions();
   PointerBuffer sizes=PointerBuffer.allocateDirect(dim);
-  Info.clGetDeviceInfoPointers(device.address(),CL10.CL_DEVICE_MAX_WORK_ITEM_SIZES,sizes);
+  Info.clGetDeviceInfoPointers(device,CL10.CL_DEVICE_MAX_WORK_ITEM_SIZES,sizes);
   long[] sx=new long[dim];
   sizes.get(sx);
   return sx;

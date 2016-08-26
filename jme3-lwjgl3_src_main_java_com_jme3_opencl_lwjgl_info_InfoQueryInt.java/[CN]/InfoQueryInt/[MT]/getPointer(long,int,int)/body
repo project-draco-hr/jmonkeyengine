@@ -1,0 +1,6 @@
+{
+  APIBuffer __buffer=apiBuffer();
+  int errcode=get(object,arg,param_name,POINTER_SIZE,__buffer.address(),NULL);
+  if (DEBUG)   checkCLError(errcode);
+  return __buffer.pointerValue(0);
+}

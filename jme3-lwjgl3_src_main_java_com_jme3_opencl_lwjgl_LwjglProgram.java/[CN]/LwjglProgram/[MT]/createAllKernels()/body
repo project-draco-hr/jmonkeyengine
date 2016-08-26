@@ -4,7 +4,7 @@
   Utils.checkError(ret,"clCreateKernelsInProgram");
   int count=Utils.tempBuffers[0].b16i.get(0);
   PointerBuffer buf=PointerBuffer.allocateDirect(count);
-  ret=CL10.clCreateKernelsInProgram(program,buf,null);
+  ret=CL10.clCreateKernelsInProgram(program,buf,(IntBuffer)null);
   Utils.checkError(ret,"clCreateKernelsInProgram");
   Kernel[] kx=new Kernel[count];
   for (int i=0; i < count; ++i) {

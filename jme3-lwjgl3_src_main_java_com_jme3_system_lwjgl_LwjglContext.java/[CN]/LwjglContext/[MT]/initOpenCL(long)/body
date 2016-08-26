@@ -2,7 +2,7 @@
   logger.info("Initialize OpenCL with LWJGL3");
   StringBuilder platformInfos=new StringBuilder();
   ArrayList<LwjglPlatform> platforms=new ArrayList<>();
-  for (  CLPlatform p : CLPlatform.getPlatforms()) {
+  for (  long p : getPlatforms()) {
     platforms.add(new LwjglPlatform(p));
   }
   platformInfos.append("Available OpenCL platforms:");
@@ -50,7 +50,7 @@
     chooser=new DefaultPlatformChooser();
   }
   List<? extends Device> choosenDevices=chooser.chooseDevices(platforms);
-  List<CLDevice> devices=new ArrayList<>(choosenDevices.size());
+  List<Long> devices=new ArrayList<>(choosenDevices.size());
   LwjglPlatform platform=null;
   for (  Device d : choosenDevices) {
     if (!(d instanceof LwjglDevice)) {
@@ -65,7 +65,7 @@
       logger.severe("attempt to use devices from different platforms");
       return;
     }
-    devices.add(ld.getCLDevice());
+    devices.add(ld.getDevice());
   }
   if (devices.isEmpty()) {
     logger.warning("no devices specified, no OpenCL context created");
