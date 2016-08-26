@@ -12,6 +12,12 @@
       event.setTime(getInputTimeNanos());
       keyInputEvents.add(event);
     }
+    @Override public void close(){
+      super.close();
+    }
+    @Override public void callback(    long args){
+      throw new UnsupportedOperationException("Not supported yet.");
+    }
   }
 );
   glfwSetCharCallback(context.getWindowHandle(),charCallback=new GLFWCharCallback(){
@@ -23,6 +29,12 @@
       final KeyInputEvent released=new KeyInputEvent(KeyInput.KEY_UNKNOWN,keyChar,false,false);
       released.setTime(getInputTimeNanos());
       keyInputEvents.add(released);
+    }
+    @Override public void close(){
+      super.close();
+    }
+    @Override public void callback(    long args){
+      throw new UnsupportedOperationException("Not supported yet.");
     }
   }
 );

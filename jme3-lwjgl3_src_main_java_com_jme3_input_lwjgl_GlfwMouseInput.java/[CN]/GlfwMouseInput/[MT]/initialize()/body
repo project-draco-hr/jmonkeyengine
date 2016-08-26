@@ -3,17 +3,35 @@
     @Override public void invoke(    long window,    double xpos,    double ypos){
       onCursorPos(window,xpos,ypos);
     }
+    @Override public void close(){
+      super.close();
+    }
+    @Override public void callback(    long args){
+      super.callback(args);
+    }
   }
 );
   glfwSetScrollCallback(context.getWindowHandle(),scrollCallback=new GLFWScrollCallback(){
     @Override public void invoke(    final long window,    final double xOffset,    final double yOffset){
       onWheelScroll(window,xOffset,yOffset * WHEEL_SCALE);
     }
+    @Override public void close(){
+      super.close();
+    }
+    @Override public void callback(    long args){
+      super.callback(args);
+    }
   }
 );
   glfwSetMouseButtonCallback(context.getWindowHandle(),mouseButtonCallback=new GLFWMouseButtonCallback(){
     @Override public void invoke(    final long window,    final int button,    final int action,    final int mods){
       onMouseButton(window,button,action,mods);
+    }
+    @Override public void close(){
+      super.close();
+    }
+    @Override public void callback(    long args){
+      super.callback(args);
     }
   }
 );
