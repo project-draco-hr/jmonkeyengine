@@ -1,6 +1,8 @@
 {
   int buffersAddress=pointerArrayParam(buffers);
   int buffersLengths=bufferParam(buffers.length << POINTER_SHIFT);
-  for (int i=0; i < buffers.length; i++)   pointerParam(buffersLengths,i,buffers[i].remaining());
+  for (int i=0; i < buffers.length; i++) {
+    pointerParam(buffersLengths,i,buffers[i].remaining());
+  }
   return buffersAddress;
 }

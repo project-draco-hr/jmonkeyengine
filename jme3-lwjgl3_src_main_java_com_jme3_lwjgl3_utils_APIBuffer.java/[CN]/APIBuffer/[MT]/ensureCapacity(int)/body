@@ -1,5 +1,7 @@
 {
-  if (capacity <= buffer.capacity())   return;
+  if (capacity <= buffer.capacity()) {
+    return;
+  }
   ByteBuffer resized=BufferUtils.createByteBuffer(mathRoundPoT(capacity));
   resized.put(buffer);
   resized.clear();

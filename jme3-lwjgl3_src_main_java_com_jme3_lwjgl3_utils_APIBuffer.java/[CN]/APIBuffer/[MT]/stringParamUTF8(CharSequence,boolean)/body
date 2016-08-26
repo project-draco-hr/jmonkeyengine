@@ -1,5 +1,7 @@
 {
-  if (value == null)   return -1;
+  if (value == null) {
+    return -1;
+  }
   int encodedLen=MemoryUtil.memLengthUTF8(value,nullTerminated);
   int offset=bufferParam(encodedLen);
   MemoryUtil.memUTF8(value,nullTerminated,buffer,offset);

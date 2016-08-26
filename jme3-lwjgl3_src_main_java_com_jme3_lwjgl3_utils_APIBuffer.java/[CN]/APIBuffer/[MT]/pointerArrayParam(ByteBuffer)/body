@@ -1,5 +1,7 @@
 {
   int buffersAddress=bufferParam(buffers.length << POINTER_SHIFT);
-  for (int i=0; i < buffers.length; i++)   pointerParam(buffersAddress,i,memAddress(buffers[i]));
+  for (int i=0; i < buffers.length; i++) {
+    pointerParam(buffersAddress,i,memAddress(buffers[i]));
+  }
   return buffersAddress;
 }

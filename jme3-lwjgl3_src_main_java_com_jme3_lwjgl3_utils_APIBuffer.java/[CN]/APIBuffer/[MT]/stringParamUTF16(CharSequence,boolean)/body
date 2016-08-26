@@ -1,5 +1,7 @@
 {
-  if (value == null)   return -1;
+  if (value == null) {
+    return -1;
+  }
   int offset=bufferParam((value.length() + (nullTerminated ? 1 : 0)) << 1);
   MemoryUtil.memUTF16(value,nullTerminated,buffer,offset);
   return offset;
