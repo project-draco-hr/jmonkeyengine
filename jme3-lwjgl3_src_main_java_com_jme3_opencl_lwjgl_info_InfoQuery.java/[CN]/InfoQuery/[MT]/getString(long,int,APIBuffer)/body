@@ -1,9 +1,13 @@
 {
   int errcode=get(object,param_name,0,NULL,__buffer.address());
-  if (DEBUG)   checkCLError(errcode);
+  if (DEBUG) {
+    checkCLError(errcode);
+  }
   int bytes=(int)__buffer.pointerValue(0);
   __buffer.bufferParam(bytes);
   errcode=get(object,param_name,bytes,__buffer.address(),NULL);
-  if (DEBUG)   checkCLError(errcode);
+  if (DEBUG) {
+    checkCLError(errcode);
+  }
   return bytes - 1;
 }
