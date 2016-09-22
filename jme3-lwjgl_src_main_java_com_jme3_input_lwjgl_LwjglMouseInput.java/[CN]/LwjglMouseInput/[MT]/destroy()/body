@@ -1,5 +1,9 @@
 {
   if (!context.isRenderable())   return;
   Mouse.destroy();
+  for (  Cursor cursor : cursorMap.values()) {
+    cursor.destroy();
+  }
+  cursorMap.clear();
   logger.fine("Mouse destroyed.");
 }
