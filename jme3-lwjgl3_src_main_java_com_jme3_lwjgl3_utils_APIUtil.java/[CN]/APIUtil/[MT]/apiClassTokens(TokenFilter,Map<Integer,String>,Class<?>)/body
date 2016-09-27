@@ -1,0 +1,26 @@
+{
+  if (target == null) {
+    target=new HashMap<Integer,String>(64);
+  }
+  int TOKEN_MODIFIERS=Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL;
+  for (  Class<?> tokenClass : tokenClasses) {
+    if (tokenClass == null) {
+      continue;
+    }
+    for (    Field field : tokenClass.getDeclaredFields()) {
+      if ((field.getModifiers() & TOKEN_MODIFIERS) == TOKEN_MODIFIERS && field.getType() == int.class) {
+        try {
+          int value=field.getInt(null);
+          if (filter != null && !filter.accept(field,value)) {
+            continue;
+          }
+          String name=target.get(value);
+          target.put(value,name == null ? field.getName() : name + "|" + field.getName());
+        }
+ catch (        IllegalAccessException e) {
+        }
+      }
+    }
+  }
+  return target;
+}

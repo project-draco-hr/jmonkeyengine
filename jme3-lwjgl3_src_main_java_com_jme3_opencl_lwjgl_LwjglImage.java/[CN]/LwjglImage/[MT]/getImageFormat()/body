@@ -1,7 +1,10 @@
 {
   Utils.b80.rewind();
   CLImageFormat format=new CLImageFormat(Utils.b80);
-  int ret=CL10.clGetImageInfo(image,CL10.CL_IMAGE_FORMAT,format.sizeof(),Utils.b80,null);
+  int limit=Utils.b80.limit();
+  Utils.b80.limit(format.sizeof());
+  int ret=CL10.clGetImageInfo(image,CL10.CL_IMAGE_FORMAT,Utils.b80,null);
+  Utils.b80.limit(limit);
   Utils.checkError(ret,"clGetImageInfo");
   return new ImageFormat(encodeImageChannelOrder(format.image_channel_order()),encodeImageChannelType(format.image_channel_data_type()));
 }

@@ -4,15 +4,15 @@
       renderer.cleanup();
     }
     if (errorCallback != null) {
-      errorCallback.release();
+      errorCallback.close();
       errorCallback=null;
     }
     if (windowSizeCallback != null) {
-      windowSizeCallback.release();
+      windowSizeCallback.close();
       windowSizeCallback=null;
     }
     if (windowFocusCallback != null) {
-      windowFocusCallback.release();
+      windowFocusCallback.close();
       windowFocusCallback=null;
     }
     if (window != NULL) {

@@ -1,0 +1,8 @@
+{
+  int buffersAddress=bufferParam(strings.length << POINTER_SHIFT);
+  for (int i=0; i < strings.length; i++) {
+    ByteBuffer buffer=MemoryUtil.memASCII(strings[i]);
+    pointerParam(buffersAddress,i,memAddress(buffer));
+  }
+  return buffersAddress;
+}

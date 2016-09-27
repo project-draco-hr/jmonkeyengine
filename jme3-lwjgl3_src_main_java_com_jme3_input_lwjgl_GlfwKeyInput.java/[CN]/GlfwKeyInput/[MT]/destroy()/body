@@ -2,7 +2,7 @@
   if (!context.isRenderable()) {
     return;
   }
-  keyCallback.release();
-  charCallback.release();
+  keyCallback.close();
+  charCallback.close();
   logger.fine("Keyboard destroyed.");
 }

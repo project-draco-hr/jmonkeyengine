@@ -2,9 +2,9 @@
   if (!context.isRenderable()) {
     return;
   }
-  cursorPosCallback.release();
-  scrollCallback.release();
-  mouseButtonCallback.release();
+  cursorPosCallback.close();
+  scrollCallback.close();
+  mouseButtonCallback.close();
   for (  long glfwCursor : jmeToGlfwCursorMap.values()) {
     glfwDestroyCursor(glfwCursor);
   }

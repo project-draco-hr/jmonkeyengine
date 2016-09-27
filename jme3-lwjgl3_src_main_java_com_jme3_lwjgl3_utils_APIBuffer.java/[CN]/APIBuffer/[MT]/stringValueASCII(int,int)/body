@@ -1,0 +1,10 @@
+{
+  buffer.position(offset);
+  buffer.limit(limit);
+  try {
+    return MemoryUtil.memASCII(buffer);
+  }
+  finally {
+    buffer.clear();
+  }
+}

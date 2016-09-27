@@ -6,5 +6,5 @@
   final ByteBuffer buffer=BufferUtils.createByteBuffer(count);
   ret=CL10.clGetProgramBuildInfo(program,device,CL10.CL_PROGRAM_BUILD_LOG,buffer,null);
   Utils.checkError(ret,"clGetProgramBuildInfo");
-  return MemoryUtil.memDecodeASCII(buffer);
+  return MemoryUtil.memASCII(buffer);
 }

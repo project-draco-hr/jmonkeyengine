@@ -1,0 +1,21 @@
+{
+  int[] count=new int[1];
+  int errcode=CL10.clGetDeviceIDs(platform,device_type,null,count);
+  if (errcode == CL10.CL_DEVICE_NOT_FOUND) {
+    return new long[0];
+  }
+  Utils.checkError(errcode,"clGetDeviceIDs");
+  int num_devices=count[0];
+  if (num_devices == 0) {
+    return new long[0];
+  }
+  PointerBuffer devices=PointerBuffer.allocateDirect(num_devices);
+  errcode=CL10.clGetDeviceIDs(platform,device_type,devices,(IntBuffer)null);
+  Utils.checkError(errcode,"clGetDeviceIDs");
+  long[] deviceIDs=new long[num_devices];
+  devices.rewind();
+  for (int i=0; i < num_devices; i++) {
+    deviceIDs[i]=devices.get();
+  }
+  return deviceIDs;
+}

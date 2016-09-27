@@ -1,0 +1,10 @@
+{
+  if (capacity <= buffer.capacity()) {
+    return;
+  }
+  ByteBuffer resized=BufferUtils.createByteBuffer(mathRoundPoT(capacity));
+  resized.put(buffer);
+  resized.clear();
+  buffer=resized;
+  address=memAddress(resized);
+}

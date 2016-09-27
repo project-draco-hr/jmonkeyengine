@@ -1,0 +1,8 @@
+{
+  APIBuffer __buffer=apiBuffer();
+  int errcode=get(object,arg,param_name,target.remaining() * POINTER_SIZE,memAddress(target),__buffer.address());
+  if (DEBUG) {
+    checkCLError(errcode);
+  }
+  return (int)(__buffer.pointerValue(0) >> POINTER_SHIFT);
+}

@@ -9,7 +9,7 @@
     return new ImageFormat[0];
   }
   CLImageFormat.Buffer formatsB=new CLImageFormat.Buffer(BufferUtils.createByteBuffer(count * CLImageFormat.SIZEOF));
-  ret=CL10.clGetSupportedImageFormats(context,memFlags,typeFlag,formatsB,null);
+  ret=CL10.clGetSupportedImageFormats(context,memFlags,typeFlag,formatsB,(IntBuffer)null);
   Utils.checkError(ret,"clGetSupportedImageFormats");
   ImageFormat[] formats=new ImageFormat[count];
   for (int i=0; i < count; ++i) {

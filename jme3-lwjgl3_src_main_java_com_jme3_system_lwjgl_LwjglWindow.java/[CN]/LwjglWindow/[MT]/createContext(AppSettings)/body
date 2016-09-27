@@ -4,9 +4,15 @@
       final String message=GLFWErrorCallback.getDescription(description);
       listener.handleError(message,new Exception(message));
     }
+    @Override public void close(){
+      super.close();
+    }
+    @Override public void callback(    long args){
+      super.callback(args);
+    }
   }
 );
-  if (glfwInit() != GLFW_TRUE) {
+  if (!glfwInit()) {
     throw new IllegalStateException("Unable to initialize GLFW");
   }
   glfwDefaultWindowHints();
@@ -28,7 +34,6 @@
   }
   glfwWindowHint(GLFW_VISIBLE,GL_FALSE);
   glfwWindowHint(GLFW_RESIZABLE,settings.isResizable() ? GLFW_TRUE : GLFW_FALSE);
-  glfwWindowHint(GLFW_DOUBLE_BUFFER,GLFW_TRUE);
   glfwWindowHint(GLFW_DEPTH_BITS,settings.getDepthBits());
   glfwWindowHint(GLFW_STENCIL_BITS,settings.getStencilBits());
   glfwWindowHint(GLFW_SAMPLES,settings.getSamples());
@@ -62,11 +67,16 @@
       settings.setResolution(width,height);
       listener.reshape(width,height);
     }
+    @Override public void close(){
+      super.close();
+    }
+    @Override public void callback(    long args){
+      super.callback(args);
+    }
   }
 );
   glfwSetWindowFocusCallback(window,windowFocusCallback=new GLFWWindowFocusCallback(){
-    @Override public void invoke(    final long window,    final int focused){
-      final boolean focus=(focused == GL_TRUE);
+    @Override public void invoke(    final long window,    final boolean focus){
       if (wasActive != focus) {
         if (!wasActive) {
           listener.gainFocus();
@@ -77,6 +87,12 @@
         }
         wasActive=!wasActive;
       }
+    }
+    @Override public void close(){
+      super.close();
+    }
+    @Override public void callback(    long args){
+      super.callback(args);
     }
   }
 );
