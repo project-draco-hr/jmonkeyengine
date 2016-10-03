@@ -11,5 +11,6 @@
     if (!genTangSpaceDefault(context)) {
       Logger.getLogger(MikktspaceTangentGenerator.class.getName()).log(Level.SEVERE,"Failed to generate tangents for geometry " + g.getName());
     }
+    TangentUtils.generateBindPoseTangentsIfNecessary(g.getMesh());
   }
 }
